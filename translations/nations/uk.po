@@ -108,7 +108,7 @@ msgstr "Верховна Вождиня %s"
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
 #, c-format
 msgid "Elder %s"
-msgstr "Старійшина"
+msgstr "Старійшина %s"
 
 #: data/nation/aborigines.ruleset:28 data/nation/estonian.ruleset:22
 #: data/nation/maori.ruleset:26 data/nation/pelasgian.ruleset:26
@@ -118,7 +118,7 @@ msgstr "Старійшина"
 #: data/nation/tswana.ruleset:29 data/nation/veletian.ruleset:30
 #, c-format
 msgid "?female:Elder %s"
-msgstr "Старійшина"
+msgstr "Старійшина %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
 #: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:27
@@ -660,7 +660,7 @@ msgstr "Ярл %s"
 #: data/nation/scanian.ruleset:26
 #, c-format
 msgid "?female:Earl %s"
-msgstr "Ярл"
+msgstr "Ярл %s"
 
 #: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
 #, c-format
@@ -817,13 +817,13 @@ msgstr ""
 #: data/nation/santomean.ruleset:33
 #, c-format
 msgid "Secretary General %s"
-msgstr "Генеральний секретар"
+msgstr "Генеральний секретар %s"
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
 #: data/nation/santomean.ruleset:33
 #, c-format
 msgid "?female:Secretary General %s"
-msgstr "Генеральна секретарка"
+msgstr "Генеральна секретарка %s"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -1320,7 +1320,7 @@ msgstr "Віцекороль %s"
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Vicereine %s"
-msgstr "Віцекоролева"
+msgstr "Віцекоролева %s"
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -1401,7 +1401,7 @@ msgstr "Ашанті -були древнім королівством в рег
 #: data/nation/un.ruleset:23 data/nation/uruguayan.ruleset:22
 #, c-format
 msgid "Councillor %s"
-msgstr "Канцлер"
+msgstr "Канцлер %s"
 
 #: data/nation/ashanti.ruleset:35 data/nation/benin.ruleset:29
 #: data/nation/hansa.ruleset:26 data/nation/novgorodian.ruleset:39
@@ -1409,7 +1409,7 @@ msgstr "Канцлер"
 #: data/nation/un.ruleset:23 data/nation/uruguayan.ruleset:22
 #, c-format
 msgid "?female:Councillor %s"
-msgstr "Канцлер"
+msgstr "Канцлер %s"
 
 #: data/nation/ashanti.ruleset:36
 #, c-format
@@ -1692,11 +1692,11 @@ msgstr ""
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
-msgstr "Бахейнці"
+msgstr "Бахрейнці"
 
 #: data/nation/bahraini.ruleset:4
 msgid "?plural:Bahrainis"
-msgstr "Бахейнці"
+msgstr "Бахрейнці"
 
 #: data/nation/bahraini.ruleset:6
 msgid ""
@@ -1857,12 +1857,12 @@ msgstr "Лідер %s"
 #: data/nation/basque.ruleset:33
 #, c-format
 msgid "Lehendakari %s"
-msgstr "Легендакарі"
+msgstr "Легендакарі %s"
 
 #: data/nation/basque.ruleset:33
 #, c-format
 msgid "?female:Lehendakari %s"
-msgstr "Легендакарі"
+msgstr "Легендакарі %s"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -1974,17 +1974,17 @@ msgstr "Прем`єр-міністр %s"
 #: data/nation/flemish.ruleset:32 data/nation/frisian.ruleset:37
 #: data/nation/luxembourgish.ruleset:31 data/nation/tyrolian.ruleset:25
 #: data/nation/walloon.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholder %s"
-msgstr "Стелс бомбардувальник"
+msgstr "Стадтгольдер %s"
 
 #: data/nation/belgian.ruleset:26 data/nation/burgundian.ruleset:31
 #: data/nation/flemish.ruleset:32 data/nation/frisian.ruleset:37
 #: data/nation/luxembourgish.ruleset:31 data/nation/tyrolian.ruleset:25
 #: data/nation/walloon.ruleset:28
-#, fuzzy, c-format
+#, c-format
 msgid "Stadtholdress %s"
-msgstr "Диктатор"
+msgstr "Стадтгольдер %s"
 
 #: data/nation/belgic.ruleset:3
 msgid "Belgic"
@@ -2084,12 +2084,11 @@ msgstr "Спікер %s"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
-msgstr ""
+msgstr "Белізці"
 
 #: data/nation/belizean.ruleset:4
-#, fuzzy
 msgid "?plural:Belizeans"
-msgstr "Бельгійці"
+msgstr "Белізці"
 
 #: data/nation/belizean.ruleset:6
 msgid ""
@@ -2102,14 +2101,14 @@ msgid ""
 msgstr ""
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Superintendent %s"
-msgstr "Сержант %s"
+msgstr "Суперінтендант %s"
 
 #: data/nation/belizean.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Superintendent %s"
-msgstr "Сержант %s"
+msgstr "Суперінтендант %s"
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -2120,7 +2119,6 @@ msgid "?plural:Bengalis"
 msgstr "Бенгальці"
 
 #: data/nation/bengali.ruleset:6
-#, fuzzy
 msgid ""
 "Bengal is a region in the easternmost part of the Indian subcontinent. The "
 "first recorded independent king of the Bengali is Shashanka who reigned "
@@ -2134,12 +2132,10 @@ msgstr ""
 "як західну частину займає індійський штат Західний Бенгал."
 
 #: data/nation/beninese.ruleset:3
-#, fuzzy
 msgid "Beninese"
-msgstr "Бенінський"
+msgstr "Бенінці"
 
 #: data/nation/beninese.ruleset:4
-#, fuzzy
 msgid "?plural:Beninese"
 msgstr "Бенінці"
 
@@ -2153,11 +2149,11 @@ msgstr ""
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
-msgstr "Бенінський"
+msgstr "Бенін"
 
 #: data/nation/benin.ruleset:4
 msgid "?plural:Benin"
-msgstr "Бенінці"
+msgstr "Бенін"
 
 #: data/nation/benin.ruleset:6
 msgid ""
@@ -2172,7 +2168,7 @@ msgstr ""
 
 #: data/nation/bhutanese.ruleset:3
 msgid "Bhutanese"
-msgstr "Бутанський"
+msgstr "Бутанці"
 
 #: data/nation/bhutanese.ruleset:4
 msgid "?plural:Bhutanese"
@@ -2211,12 +2207,11 @@ msgstr "Королева Дракон %s"
 
 #: data/nation/biafran.ruleset:3
 msgid "Biafran"
-msgstr ""
+msgstr "Біафри"
 
 #: data/nation/biafran.ruleset:4
-#, fuzzy
 msgid "?plural:Biafrans"
-msgstr "Баварці"
+msgstr "Біафри"
 
 #: data/nation/biafran.ruleset:6
 msgid ""
@@ -2241,12 +2236,11 @@ msgstr "Полковник %s"
 
 #: data/nation/bissauguinean.ruleset:3
 msgid "Bissau-Guinean"
-msgstr ""
+msgstr "Біссау-Гвінейці"
 
 #: data/nation/bissauguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Bissau-Guineans"
-msgstr "Баварці"
+msgstr "Біссау-Гвінейці"
 
 #: data/nation/bissauguinean.ruleset:6
 msgid ""
@@ -2255,25 +2249,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "Captain-Major %s"
-msgstr "Капітан %s"
+msgstr "Капітан-Майор %s"
 
 #: data/nation/bissauguinean.ruleset:22
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Captain-Major %s"
-msgstr "Капітан %s"
+msgstr "Капітан-Майор %s"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Боер"
+msgstr "Бури"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "Боер"
+msgstr "Бури"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were descendants of Dutch colonists who settled in South Africa "
 "after 1650 CE. After migrating into the hinterland after the British "
@@ -2335,23 +2328,22 @@ msgid "?female:Reverend %s"
 msgstr "?female:Преподобна"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "State President %s"
-msgstr "Президент %s"
+msgstr "Президент Держави %s"
 
 #: data/nation/boer.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:State President %s"
-msgstr "Президент %s"
+msgstr "Президент Держави %s"
 
 #: data/nation/boian.ruleset:3
 msgid "Boian"
-msgstr ""
+msgstr "Бойї"
 
 #: data/nation/boian.ruleset:4
-#, fuzzy
 msgid "?plural:Boii"
-msgstr "Болівійці"
+msgstr "Бойї"
 
 #: data/nation/boian.ruleset:6
 msgid ""
@@ -2362,7 +2354,7 @@ msgstr ""
 
 #: data/nation/bolivian.ruleset:3
 msgid "Bolivian"
-msgstr "Болівійський"
+msgstr "Болівійці"
 
 #: data/nation/bolivian.ruleset:4
 msgid "?plural:Bolivians"
@@ -2403,11 +2395,11 @@ msgstr "Архієпископ %s"
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
-msgstr "Боснійці"
+msgstr "Боснійці-Герцоговинці"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr "Босняки"
+msgstr "Боснійці"
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -2420,25 +2412,23 @@ msgstr ""
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:32
 #: data/nation/slovenian.ruleset:18
-#, fuzzy, c-format
+#, c-format
 msgid "Ban %s"
-msgstr "у %s"
+msgstr "Бан %s"
 
 #: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:32
 #: data/nation/slovenian.ruleset:18
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Ban %s"
-msgstr "Бані"
+msgstr "Бані %s"
 
 #: data/nation/bosporan.ruleset:3
-#, fuzzy
 msgid "Bosporan"
-msgstr "Господар"
+msgstr "Боспорці"
 
 #: data/nation/bosporan.ruleset:4
-#, fuzzy
 msgid "?plural:Bosporans"
-msgstr "Босняки"
+msgstr "Боспорці"
 
 #: data/nation/bosporan.ruleset:6
 msgid ""
@@ -2484,7 +2474,7 @@ msgstr "Консул %s"
 
 #: data/nation/botswanan.ruleset:3
 msgid "Botswanan"
-msgstr "Ботсванський"
+msgstr "Ботсванці"
 
 #: data/nation/botswanan.ruleset:4
 msgid "?plural:Botswanans"
@@ -2498,14 +2488,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/brandenburgian.ruleset:3
-#, fuzzy
 msgid "Brandenburgian"
-msgstr "Дикун"
+msgstr "Брандербужці"
 
 #: data/nation/brandenburgian.ruleset:4
-#, fuzzy
 msgid "?plural:Brandenburgians"
-msgstr "Баварці"
+msgstr "Брандербужці"
 
 #: data/nation/brandenburgian.ruleset:6
 msgid ""
@@ -2519,15 +2507,15 @@ msgstr ""
 
 #: data/nation/brandenburgian.ruleset:29 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Elector %s"
-msgstr "Виборщик"
+msgstr "Виборщик %s"
 
 #: data/nation/brandenburgian.ruleset:29 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
-#, fuzzy, c-format
+#, c-format
 msgid "Electress %s"
-msgstr "Виборщик"
+msgstr "Вибрана %s"
 
 #: data/nation/breton.ruleset:3
 msgid "Breton"
@@ -2538,7 +2526,6 @@ msgid "?plural:Bretons"
 msgstr "Бретонці"
 
 #: data/nation/breton.ruleset:6
-#, fuzzy
 msgid ""
 "Known to the Romans as Armorica, Brittany had been Celtic speaking for many "
 "centuries before Britons arrived in the peninsula as mercenaries, colonists "
@@ -2548,7 +2535,7 @@ msgid ""
 "people speaking French instead. The Dukedom of Brittany itself was formally "
 "annexed to France in 1491."
 msgstr ""
-"Відома римлянам як Арморика, Бретань була кельтською на протязі багатьох "
+"Відома римлянам як Арморика, Бретань була кельтською протягом багатьох "
 "століть до того, як Брити прибули на цей півострів у якості найманців, "
 "колоністів та біженців внаслідок хаосу в Галії та вторгнення германських "
 "племен у Британію в 5 столітті до н.е. Протягом століть, бретонська мова "
@@ -2557,11 +2544,11 @@ msgstr ""
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "Британський"
+msgstr "Британці"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:British"
-msgstr "Брити"
+msgstr "Британці"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -2618,7 +2605,7 @@ msgstr "Леді Захисниця %s"
 
 #: data/nation/briton.ruleset:3
 msgid "Briton"
-msgstr "Бритський"
+msgstr "Брити"
 
 #: data/nation/briton.ruleset:4
 msgid "?plural:Britons"
@@ -2636,18 +2623,18 @@ msgstr ""
 #: data/nation/helvetian.ruleset:28 data/nation/irish.ruleset:40
 #: data/nation/scottish.ruleset:24 data/nation/vistulan.ruleset:25
 #: data/nation/welsh.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "Chieftain %s"
-msgstr "Вождь"
+msgstr "Вождь %s"
 
 #: data/nation/briton.ruleset:21 data/nation/cornish.ruleset:20
 #: data/nation/frankish.ruleset:41 data/nation/gallic.ruleset:29
 #: data/nation/helvetian.ruleset:28 data/nation/irish.ruleset:40
 #: data/nation/scottish.ruleset:24 data/nation/vistulan.ruleset:25
 #: data/nation/welsh.ruleset:20
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Chieftain %s"
-msgstr "Вождь"
+msgstr "Вождь %s"
 
 #: data/nation/briton.ruleset:22 data/nation/gaelic.ruleset:27
 #: data/nation/gallic.ruleset:30 data/nation/pictish.ruleset:25
@@ -2665,12 +2652,11 @@ msgstr "Друідка %s"
 
 #: data/nation/bruneian.ruleset:3
 msgid "Bruneian"
-msgstr ""
+msgstr "Брунейці"
 
 #: data/nation/bruneian.ruleset:4
-#, fuzzy
 msgid "?plural:Bruneians"
-msgstr "Бурундійці"
+msgstr "Брунейці"
 
 #: data/nation/bruneian.ruleset:6
 msgid ""
@@ -2708,11 +2694,11 @@ msgstr "Велика Муфтія %s"
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "Булгари"
+msgstr "Болгари"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr "Булгари"
+msgstr "Болгари"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -2720,7 +2706,7 @@ msgid ""
 "founded Bulgaria in 681. This was the first Slavic nation-state in history."
 msgstr ""
 "Булгарський лідер хан Аспарух привів свій народ до північних Балкан, та "
-"заснував Болграію у 681 році. Це було перше славянська держава у істрорії."
+"заснував Болграію у 681 році. Це була перша славянська держава у істрорії."
 
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
@@ -2731,7 +2717,6 @@ msgid "?plural:Burgundians"
 msgstr "Бургундці"
 
 #: data/nation/burgundian.ruleset:6
-#, fuzzy
 msgid ""
 "After the fall of the Western Roman Empire, a Germanic people known as the "
 "Burgundians settled in the river valleys of eastern Gaul, lending their name "
@@ -2769,14 +2754,12 @@ msgid "?female:Chancellor %s"
 msgstr "Канцлер %s"
 
 #: data/nation/burgundic.ruleset:3
-#, fuzzy
 msgid "Burgundic"
-msgstr "Бурунді"
+msgstr "Бургунди"
 
 #: data/nation/burgundic.ruleset:4
-#, fuzzy
 msgid "?plural:Burgunds"
-msgstr "Бургундці"
+msgstr "Бургунди"
 
 #: data/nation/burgundic.ruleset:6
 msgid ""
@@ -2795,14 +2778,12 @@ msgstr ""
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
 #: data/nation/burkinabe.ruleset:6
-#, fuzzy
 msgid "Burkinabe"
-msgstr "Підкупити"
+msgstr "Буркінаби"
 
 #: data/nation/burkinabe.ruleset:7
-#, fuzzy
 msgid "?plural:Burkinabes"
-msgstr "Баварці"
+msgstr "Буркінаби"
 
 #: data/nation/burkinabe.ruleset:9
 msgid ""
@@ -2812,7 +2793,7 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "Бурманці"
+msgstr "Бірманці"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
@@ -2828,7 +2809,7 @@ msgstr ""
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundian"
-msgstr "Бурундійський"
+msgstr "Бурундійці"
 
 #: data/nation/burundi.ruleset:4
 msgid "?plural:Burundians"
@@ -2848,12 +2829,11 @@ msgstr ""
 
 #: data/nation/buryat.ruleset:3
 msgid "Buryat"
-msgstr ""
+msgstr "Буряти"
 
 #: data/nation/buryat.ruleset:4
-#, fuzzy
 msgid "?plural:Buryats"
-msgstr "Араби"
+msgstr "Буряти"
 
 #: data/nation/buryat.ruleset:6
 msgid ""
@@ -2952,14 +2932,12 @@ msgstr ""
 #. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
 #. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
 #: data/nation/canari.ruleset:6
-#, fuzzy
 msgid "Canari"
-msgstr "Канадці"
+msgstr "Канарці"
 
 #: data/nation/canari.ruleset:7
-#, fuzzy
 msgid "?plural:Canaris"
-msgstr "Канадці"
+msgstr "Канарці"
 
 #: data/nation/canari.ruleset:9
 msgid ""
@@ -2976,14 +2954,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cantonese.ruleset:3
-#, fuzzy
 msgid "Cantonese"
-msgstr "Гаянський"
+msgstr "Кантонці"
 
 #: data/nation/cantonese.ruleset:4
-#, fuzzy
 msgid "?plural:Cantonese"
-msgstr "Гаянці"
+msgstr "Кантонці"
 
 #: data/nation/cantonese.ruleset:6
 msgid ""
@@ -3000,12 +2976,11 @@ msgstr ""
 
 #: data/nation/capeverdean.ruleset:3
 msgid "Cape Verdean"
-msgstr ""
+msgstr "КапеВерде"
 
 #: data/nation/capeverdean.ruleset:4
-#, fuzzy
 msgid "?plural:Cape Verdean"
-msgstr "Канадці"
+msgstr "КапеВерде"
 
 #: data/nation/capeverdean.ruleset:6
 msgid ""
@@ -3017,24 +2992,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "Admiral %s"
-msgstr "Еміра %s"
+msgstr "Адмірал %s"
 
 #: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Admiral %s"
-msgstr "Мурза %s"
+msgstr "Адмірал %s"
 
 #: data/nation/carantanian.ruleset:3
-#, fuzzy
 msgid "Carantanian"
-msgstr "Карфагеняни"
+msgstr "Карантанці"
 
 #: data/nation/carantanian.ruleset:4
-#, fuzzy
 msgid "?plural:Carantanians"
-msgstr "Карфагеняни"
+msgstr "Хорутани"
 
 #: data/nation/carantanian.ruleset:6
 msgid ""
@@ -3051,7 +3024,7 @@ msgstr ""
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
-msgstr "Кастильський"
+msgstr "Кастильці"
 
 #: data/nation/castilian.ruleset:4
 msgid "?plural:Castilians"
@@ -3095,14 +3068,12 @@ msgstr ""
 "Каталонці зазнали поразки і втратили свої національні права."
 
 #: data/nation/celtiberian.ruleset:3
-#, fuzzy
 msgid "Celtiberian"
-msgstr "Нігерійці"
+msgstr "Кельтібери"
 
 #: data/nation/celtiberian.ruleset:4
-#, fuzzy
 msgid "?plural:Celtiberians"
-msgstr "Серби"
+msgstr "Кельтібери"
 
 #: data/nation/celtiberian.ruleset:6
 msgid ""
@@ -3113,7 +3084,7 @@ msgstr ""
 
 #: data/nation/centralafrican.ruleset:3
 msgid "Central African"
-msgstr "Центральноафриканський"
+msgstr "Центральноафриканці"
 
 #: data/nation/centralafrican.ruleset:4
 msgid "?plural:Central Africans"
@@ -3129,7 +3100,7 @@ msgstr ""
 
 #: data/nation/centralamerican.ruleset:3
 msgid "Central American"
-msgstr "Центральноамериканський"
+msgstr "Центральноамериканці"
 
 #: data/nation/centralamerican.ruleset:4
 msgid "?plural:Central Americans"
@@ -3158,14 +3129,12 @@ msgid "Supreme Directrice %s"
 msgstr "Верховна Директриса %s"
 
 #: data/nation/centrallithuanian.ruleset:3
-#, fuzzy
 msgid "Central Lithuanian"
-msgstr "Литовці"
+msgstr "Центральні Литовці"
 
 #: data/nation/centrallithuanian.ruleset:4
-#, fuzzy
 msgid "?plural:Central Lithuanians"
-msgstr "Литовці"
+msgstr "Центральні Литовці"
 
 #. TRANS: The second and seventh letter in "Wladyslaw" should be
 #. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
@@ -3194,25 +3163,23 @@ msgstr ""
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "People's Commissar %s"
-msgstr "Комісар %s"
+msgstr "Народний Комісар %s"
 
 #: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
-#, fuzzy, c-format
+#, c-format
 msgid "?female:People's Commissar %s"
-msgstr "Папеса %s"
+msgstr "Народний Комісар %s"
 
 #: data/nation/chadian.ruleset:3
-#, fuzzy
 msgid "Chadian"
-msgstr "Канадці"
+msgstr "Чадяни"
 
 #: data/nation/chadian.ruleset:4
-#, fuzzy
 msgid "?plural:Chadians"
-msgstr "Канадці"
+msgstr "Чадяни"
 
 #. TRANS: The last letter in "Habre" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3227,12 +3194,11 @@ msgstr ""
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
-msgstr ""
+msgstr "Чамці"
 
 #: data/nation/cham.ruleset:4
-#, fuzzy
 msgid "?plural:Chams"
-msgstr "Чоласці"
+msgstr "Чамці"
 
 #: data/nation/cham.ruleset:6
 msgid ""
@@ -3246,14 +3212,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:3
-#, fuzzy
 msgid "Chananean"
-msgstr "Канадці"
+msgstr "Ханааняни"
 
 #: data/nation/chananean.ruleset:4
-#, fuzzy
 msgid "?plural:Chananeans"
-msgstr "Канадці"
+msgstr "Ханааняни"
 
 #: data/nation/chananean.ruleset:6
 msgid ""
@@ -3268,22 +3232,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "%s Alpha"
-msgstr "Алфавіт"
+msgstr "Альфа %s"
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
-#, fuzzy, c-format
+#, c-format
 msgid "?female:%s Alpha"
-msgstr "Майор"
+msgstr "Альфа %s"
 
 #: data/nation/chechen.ruleset:3
 msgid "Chechen"
-msgstr ""
+msgstr "Чеченці"
 
 #: data/nation/chechen.ruleset:4
 msgid "?plural:Chechens"
-msgstr "Чечени"
+msgstr "Чеченці"
 
 #: data/nation/chechen.ruleset:7
 msgid ""
@@ -3300,9 +3264,8 @@ msgid "Chiapanec"
 msgstr ""
 
 #: data/nation/chiapanec.ruleset:4
-#, fuzzy
 msgid "?plural:Chiapanecs"
-msgstr "Китайці"
+msgstr ""
 
 #: data/nation/chiapanec.ruleset:6
 msgid ""
@@ -3320,9 +3283,8 @@ msgid "Chickasaw"
 msgstr ""
 
 #: data/nation/chickasaw.ruleset:4
-#, fuzzy
 msgid "?plural:Chickasaws"
-msgstr "Чоласці"
+msgstr ""
 
 #: data/nation/chickasaw.ruleset:6
 msgid ""
@@ -3382,12 +3344,11 @@ msgstr ""
 
 #: data/nation/chinook.ruleset:3
 msgid "Chinook"
-msgstr ""
+msgstr "Чінуки"
 
 #: data/nation/chinook.ruleset:4
-#, fuzzy
 msgid "?plural:Chinooks"
-msgstr "Китайці"
+msgstr "Чінуки"
 
 #: data/nation/chinook.ruleset:6
 msgid ""
@@ -3405,9 +3366,8 @@ msgid "Choctaw"
 msgstr ""
 
 #: data/nation/choctaw.ruleset:4
-#, fuzzy
 msgid "?plural:Choctaws"
-msgstr "Чоласці"
+msgstr ""
 
 #: data/nation/choctaw.ruleset:6
 msgid ""
@@ -3442,14 +3402,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/chrobatian.ruleset:3
-#, fuzzy
 msgid "Chrobatian"
-msgstr "Хорвати"
+msgstr "Білі Хорвати"
 
 #: data/nation/chrobatian.ruleset:4
-#, fuzzy
 msgid "?plural:Chrobatians"
-msgstr "Хорвати"
+msgstr "Великі Хорвати"
 
 #: data/nation/chrobatian.ruleset:6
 msgid ""
@@ -3530,12 +3488,11 @@ msgstr ""
 
 #: data/nation/chuvash.ruleset:3
 msgid "Chuvash"
-msgstr ""
+msgstr "Чуваші"
 
 #: data/nation/chuvash.ruleset:4
-#, fuzzy
 msgid "?plural:Chuvashes"
-msgstr "Чумаші"
+msgstr "Чуваші"
 
 #: data/nation/chuvash.ruleset:6
 msgid ""
@@ -3546,14 +3503,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/circassian.ruleset:3
-#, fuzzy
 msgid "Circassian"
-msgstr "Прусаки"
+msgstr "Черкеси"
 
 #: data/nation/circassian.ruleset:4
-#, fuzzy
 msgid "?plural:Circassians"
-msgstr "Прусаки"
+msgstr "Черкеси"
 
 #: data/nation/circassian.ruleset:7
 #, no-c-format
@@ -3606,7 +3561,7 @@ msgstr ""
 
 #: data/nation/comanche.ruleset:3
 msgid "Comanche"
-msgstr "Команчський"
+msgstr "Команчі"
 
 #: data/nation/comanche.ruleset:4
 msgid "?plural:Comanches"
@@ -3621,14 +3576,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/comorian.ruleset:3
-#, fuzzy
 msgid "Comorian"
-msgstr "Іранці"
+msgstr "Коморці"
 
 #: data/nation/comorian.ruleset:4
-#, fuzzy
 msgid "?plural:Comorians"
-msgstr "Корсиканці"
+msgstr "Коморці"
 
 #: data/nation/comorian.ruleset:6
 msgid ""
@@ -3647,9 +3600,9 @@ msgstr ""
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Chairman %s"
-msgstr "Голова"
+msgstr "Голова %s"
 
 #: data/nation/comorian.ruleset:24 data/nation/congolesebrazzaville.ruleset:27
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
@@ -3659,9 +3612,9 @@ msgstr "Голова"
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Chairwoman %s"
-msgstr "Голова"
+msgstr "Голова %s"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
@@ -3688,14 +3641,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:3
-#, fuzzy
 msgid "Brazzaville-Congolese"
-msgstr "Монголи"
+msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:4
-#, fuzzy
 msgid "?plural:Brazzaville-Congolese"
-msgstr "Монголи"
+msgstr ""
 
 #: data/nation/congolesebrazzaville.ruleset:6
 msgid ""
@@ -3752,7 +3703,7 @@ msgstr ""
 
 #: data/nation/corsican.ruleset:3
 msgid "Corsican"
-msgstr "Корсиканський"
+msgstr "Корсиканці"
 
 #: data/nation/corsican.ruleset:4
 msgid "?plural:Corsicans"
@@ -3773,7 +3724,7 @@ msgstr ""
 #: data/nation/corsican.ruleset:32
 #, fuzzy, c-format
 msgid "General-in-Chief %s"
-msgstr "Індустріальні"
+msgstr "Генерал-Вождь"
 
 #: data/nation/corsican.ruleset:32
 #, fuzzy, c-format
@@ -3782,7 +3733,7 @@ msgstr "Генерал"
 
 #: data/nation/cossack.ruleset:3
 msgid "Cossack"
-msgstr "Козацький"
+msgstr "Козаки"
 
 #: data/nation/cossack.ruleset:4
 msgid "?plural:Cossacks"
@@ -3808,14 +3759,12 @@ msgid "?female:Hetman %s"
 msgstr "Гетьманка %s"
 
 #: data/nation/costarican.ruleset:3
-#, fuzzy
 msgid "Costa Rican"
-msgstr "Хорвати"
+msgstr "Коста-Ріканці"
 
 #: data/nation/costarican.ruleset:4
-#, fuzzy
 msgid "?plural:Costa Ricans"
-msgstr "Хорвати"
+msgstr "Коста-Ріканці"
 
 #: data/nation/costarican.ruleset:6
 msgid ""
@@ -3841,14 +3790,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cretan.ruleset:3
-#, fuzzy
 msgid "Cretan"
-msgstr "Тібетці"
+msgstr "Крітяни"
 
 #: data/nation/cretan.ruleset:4
-#, fuzzy
 msgid "?plural:Cretans"
-msgstr "Хорвати"
+msgstr "Крітяни"
 
 #: data/nation/cretan.ruleset:6
 msgid ""
@@ -3863,7 +3810,7 @@ msgstr ""
 
 #: data/nation/crimeantatar.ruleset:3
 msgid "Crimean Tatar"
-msgstr "Кримськотатарський"
+msgstr "Кримські Татари"
 
 #: data/nation/crimeantatar.ruleset:4
 msgid "?plural:Crimean Tatars"
@@ -3896,14 +3843,12 @@ msgstr ""
 "часу 20 сторіччя була частиною Югославської Федерації."
 
 #: data/nation/crusader.ruleset:3
-#, fuzzy
 msgid "Crusader"
 msgstr "Хрестоносці"
 
 #: data/nation/crusader.ruleset:4
-#, fuzzy
 msgid "?plural:Crusaders"
-msgstr "Кубинці"
+msgstr "Хрестоносці"
 
 #: data/nation/crusader.ruleset:6
 msgid ""
@@ -3956,14 +3901,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cuyavian.ruleset:3
-#, fuzzy
 msgid "Cuyavian"
-msgstr "Латиші"
+msgstr "Куяви"
 
 #: data/nation/cuyavian.ruleset:4
-#, fuzzy
 msgid "?plural:Cuyavians"
-msgstr "Канадці"
+msgstr "Куяви"
 
 #: data/nation/cuyavian.ruleset:6
 msgid ""
@@ -3973,7 +3916,7 @@ msgstr ""
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
-msgstr "Кіпрський"
+msgstr "Кіпріоти"
 
 #: data/nation/cypriot.ruleset:4
 msgid "?plural:Cypriots"
@@ -3987,14 +3930,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/cyrenaican.ruleset:3
-#, fuzzy
 msgid "Cyrenaican"
-msgstr "Гренадський"
+msgstr "Кіренайці"
 
 #: data/nation/cyrenaican.ruleset:4
-#, fuzzy
 msgid "?plural:Cyrenaicans"
-msgstr "Гренадці"
+msgstr "Кіренайці"
 
 #: data/nation/cyrenaican.ruleset:6
 msgid ""
@@ -4009,14 +3950,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/czechoslovak.ruleset:3
-#, fuzzy
 msgid "Czechoslovakian"
-msgstr "Словаки"
+msgstr "ЧехоСловаки"
 
 #: data/nation/czechoslovak.ruleset:4
-#, fuzzy
 msgid "?plural:Czechoslovakians"
-msgstr "Словаки"
+msgstr "ЧехоСловаки"
 
 #: data/nation/czechoslovak.ruleset:6
 msgid ""
@@ -4043,9 +3982,9 @@ msgstr ""
 "частиною Австро-Угорської імперії до 1918."
 
 #: data/nation/czech.ruleset:34 data/nation/xhosa.ruleset:27
-#, fuzzy, c-format
+#, c-format
 msgid "Prophet %s"
-msgstr "Пророчиця  %s"
+msgstr "Пророк  %s"
 
 #: data/nation/czech.ruleset:34 data/nation/moravian.ruleset:35
 #: data/nation/xhosa.ruleset:27
@@ -4054,14 +3993,12 @@ msgid "Prophetess %s"
 msgstr "Пророчиця  %s"
 
 #: data/nation/dacian.ruleset:3
-#, fuzzy
 msgid "Dacian"
-msgstr "Фракійці"
+msgstr "Даки"
 
 #: data/nation/dacian.ruleset:4
-#, fuzzy
 msgid "?plural:Dacians"
-msgstr "Фракійці"
+msgstr "Даки"
 
 #: data/nation/dacian.ruleset:6
 msgid ""
@@ -4076,7 +4013,7 @@ msgstr ""
 
 #: data/nation/dahomean.ruleset:3
 msgid "Dahomean"
-msgstr "Дагомейський"
+msgstr "Дагомейці"
 
 #: data/nation/dahomean.ruleset:4
 msgid "?plural:Dahomeans"
@@ -4098,9 +4035,8 @@ msgid "Darfuri"
 msgstr ""
 
 #: data/nation/darfuri.ruleset:4
-#, fuzzy
 msgid "?plural:Darfuris"
-msgstr "Дикуни"
+msgstr ""
 
 #: data/nation/darfuri.ruleset:7
 msgid ""
@@ -4116,12 +4052,11 @@ msgstr ""
 
 #: data/nation/djiboutian.ruleset:3
 msgid "Djiboutian"
-msgstr ""
+msgstr "Джибуті"
 
 #: data/nation/djiboutian.ruleset:4
-#, fuzzy
 msgid "?plural:Djiboutians"
-msgstr "Гаїтійці"
+msgstr "Джибуті"
 
 #: data/nation/djiboutian.ruleset:6
 msgid ""
@@ -4132,12 +4067,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/dominicano.ruleset:3
-#, fuzzy
 msgid "Dominicano"
 msgstr "Домініканці"
 
 #: data/nation/dominicano.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicanos"
 msgstr "Домініканці"
 
@@ -4151,11 +4084,11 @@ msgstr ""
 
 #: data/nation/dominican.ruleset:3
 msgid "Dominican"
-msgstr "Домініканці"
+msgstr "Домініка"
 
 #: data/nation/dominican.ruleset:4
 msgid "?plural:Dominicans"
-msgstr "Домініканці"
+msgstr "Домініка"
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -4171,14 +4104,12 @@ msgstr ""
 "карибською нацією - Домініканською Республікою."
 
 #: data/nation/dryad.ruleset:3
-#, fuzzy
 msgid "Dryad"
-msgstr ", Помер"
+msgstr "Дріди"
 
 #: data/nation/dryad.ruleset:4
-#, fuzzy
 msgid "?plural:Dryads"
-msgstr "Араби"
+msgstr "Дріади"
 
 #: data/nation/dryad.ruleset:6
 msgid ""
@@ -4188,14 +4119,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/eastgerman.ruleset:3
-#, fuzzy
 msgid "East German"
-msgstr "Німці"
+msgstr "Східні Німці"
 
 #: data/nation/eastgerman.ruleset:4
-#, fuzzy
 msgid "?plural:East Germans"
-msgstr "Німці"
+msgstr "Східні Німці"
 
 #: data/nation/eastgerman.ruleset:6
 msgid ""
@@ -4221,24 +4150,23 @@ msgstr "Прем`єр-міністр"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "Commissar %s"
 msgstr "Комісар %s"
 
 #: data/nation/eastgerman.ruleset:29 data/nation/northkorean.ruleset:24
 #: data/nation/soviet.ruleset:29 data/nation/transnistrian.ruleset:24
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Commissar %s"
 msgstr "Комісар %s"
 
 #: data/nation/easttimorese.ruleset:3
 msgid "East Timorese"
-msgstr ""
+msgstr "Східні Тиморці"
 
 #: data/nation/easttimorese.ruleset:4
-#, fuzzy
 msgid "?plural:East Timorese"
-msgstr "Німці"
+msgstr "Східні Тиморці"
 
 #: data/nation/easttimorese.ruleset:6
 msgid ""
@@ -4250,7 +4178,7 @@ msgstr ""
 
 #: data/nation/ecuadorian.ruleset:3
 msgid "Ecuadorian"
-msgstr "Еквадорський"
+msgstr "Еквадор"
 
 #: data/nation/ecuadorian.ruleset:4
 msgid "?plural:Ecuadorians"
@@ -4272,14 +4200,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/egyptianarab.ruleset:3
-#, fuzzy
 msgid "Egyptian Arab"
-msgstr "Єгиптяни"
+msgstr "Єгипетські Араби"
 
 #: data/nation/egyptianarab.ruleset:4
-#, fuzzy
 msgid "?plural:Egyptian Arabs"
-msgstr "Єгиптяни"
+msgstr "Єгипетські Араби"
 
 #: data/nation/egyptianarab.ruleset:6
 msgid ""
@@ -4289,14 +4215,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/elamite.ruleset:3
-#, fuzzy
 msgid "Elamite"
-msgstr "Видалити"
+msgstr "Еламіти"
 
 #: data/nation/elamite.ruleset:4
-#, fuzzy
 msgid "?plural:Elamites"
-msgstr "Англійці"
+msgstr "Еламіти"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
@@ -4328,12 +4252,11 @@ msgstr ""
 
 #: data/nation/epirote.ruleset:3
 msgid "Epirote"
-msgstr ""
+msgstr "Епіроти"
 
 #: data/nation/epirote.ruleset:4
-#, fuzzy
 msgid "?plural:Epirotes"
-msgstr "Пірати"
+msgstr "Епіроти"
 
 #: data/nation/epirote.ruleset:6
 msgid ""
@@ -4343,23 +4266,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/epirote.ruleset:30 data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyrant %s"
-msgstr "Ланца"
+msgstr "Тиран %s"
 
 #: data/nation/epirote.ruleset:30
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Tyrant %s"
-msgstr "Tarkhan %s"
+msgstr "Тиран %s"
 
 #: data/nation/equatoguinean.ruleset:3
 msgid "Equatoguinean"
 msgstr ""
 
 #: data/nation/equatoguinean.ruleset:4
-#, fuzzy
 msgid "?plural:Equatoguineans"
-msgstr "Еквадорці"
+msgstr ""
 
 #: data/nation/equatoguinean.ruleset:6
 msgid ""
@@ -4371,7 +4293,7 @@ msgstr ""
 
 #: data/nation/eritrean.ruleset:3
 msgid "Eritrean"
-msgstr "Еритрейський"
+msgstr "Еритрейці"
 
 #: data/nation/eritrean.ruleset:4
 msgid "?plural:Eritreans"
@@ -4427,7 +4349,7 @@ msgstr "Протекторка %s"
 
 #: data/nation/etruscan.ruleset:3
 msgid "Etruscan"
-msgstr ""
+msgstr "Етруски"
 
 #: data/nation/etruscan.ruleset:4
 msgid "?plural:Etruscans"
@@ -4493,14 +4415,12 @@ msgid "?female:Commissioner %s"
 msgstr "Комісар %s"
 
 #: data/nation/evenki.ruleset:3
-#, fuzzy
 msgid "Evenki"
-msgstr "Подія"
+msgstr "Евенки"
 
 #: data/nation/evenki.ruleset:4
-#, fuzzy
 msgid "?plural:Evenks"
-msgstr "Англійці"
+msgstr "Евенки"
 
 #: data/nation/evenki.ruleset:7
 msgid ""
@@ -4513,12 +4433,11 @@ msgstr ""
 
 #: data/nation/faroese.ruleset:3
 msgid "Faroese"
-msgstr ""
+msgstr "Фарозці"
 
 #: data/nation/faroese.ruleset:4
-#, fuzzy
 msgid "?plural:Faroese"
-msgstr "Крі"
+msgstr "Фарозці"
 
 #: data/nation/faroese.ruleset:6
 msgid ""
@@ -4531,7 +4450,7 @@ msgstr ""
 
 #: data/nation/fijian.ruleset:3
 msgid "Fijian"
-msgstr ""
+msgstr "Фіджійці"
 
 #: data/nation/fijian.ruleset:4
 msgid "?plural:Fijians"
@@ -4556,7 +4475,7 @@ msgstr ""
 #: data/nation/xhosa.ruleset:28
 #, fuzzy, c-format
 msgid "Paramount Chief %s"
-msgstr "Великій вождь"
+msgstr "Великий Вождь"
 
 #: data/nation/fijian.ruleset:24 data/nation/maasai.ruleset:21
 #: data/nation/maori.ruleset:23 data/nation/marshallese.ruleset:24
@@ -4571,11 +4490,11 @@ msgstr "?female:Велика Вождь"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Філіпінци"
+msgstr "Філіпінці"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "Філіпінци"
+msgstr "Філіпінці"
 
 #: data/nation/filipino.ruleset:7
 msgid ""
@@ -4628,14 +4547,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/florentine.ruleset:3
-#, fuzzy
 msgid "Florentine"
-msgstr "Аргентинці"
+msgstr "Флорентійці"
 
 #: data/nation/florentine.ruleset:4
-#, fuzzy
 msgid "?plural:Florentines"
-msgstr "Аргентинці"
+msgstr "Флорентійці"
 
 #: data/nation/florentine.ruleset:6
 msgid ""
@@ -4704,7 +4621,7 @@ msgstr ""
 
 #: data/nation/franconian.ruleset:3
 msgid "Franconian"
-msgstr "Франконський"
+msgstr "Франконійці"
 
 #: data/nation/franconian.ruleset:4
 msgid "?plural:Franconians"
@@ -4729,14 +4646,12 @@ msgid "Prince-Bishop %s"
 msgstr "Принц-єпископ %s"
 
 #: data/nation/frankish.ruleset:3
-#, fuzzy
 msgid "Frankish"
-msgstr "Турки"
+msgstr "Франки"
 
 #: data/nation/frankish.ruleset:4
-#, fuzzy
 msgid "?plural:Franks"
-msgstr "Фризи"
+msgstr "Франки"
 
 #: data/nation/frankish.ruleset:6
 msgid ""
@@ -4766,7 +4681,7 @@ msgstr "Прем`єр-міністр"
 
 #: data/nation/frisian.ruleset:3
 msgid "Frisian"
-msgstr "Фризький"
+msgstr "Фризи"
 
 #: data/nation/frisian.ruleset:4
 msgid "?plural:Frisians"
@@ -4825,14 +4740,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gabonese.ruleset:3
-#, fuzzy
 msgid "Gabonese"
-msgstr "Гаянський"
+msgstr "Габонці"
 
 #: data/nation/gabonese.ruleset:4
-#, fuzzy
 msgid "?plural:Gabonese"
-msgstr "Гаянці"
+msgstr "Габонці"
 
 #: data/nation/gabonese.ruleset:6
 msgid ""
@@ -4845,7 +4758,7 @@ msgstr ""
 
 #: data/nation/gaelic.ruleset:3
 msgid "Gaelic"
-msgstr "Ґельський"
+msgstr "Ґели"
 
 #: data/nation/gaelic.ruleset:4
 msgid "?plural:Gaels"
@@ -4882,7 +4795,7 @@ msgstr "Ґалісійці"
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
 msgstr ""
-"Галиція є північнозахідним регіоном Іспанії, розташованим поруч із "
+"Ґаліція є північнозахідним регіоном Іспанії, розташованим поруч з "
 "Португалією."
 
 #: data/nation/gallic.ruleset:3
@@ -4906,14 +4819,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gambian.ruleset:3
-#, fuzzy
 msgid "Gambian"
-msgstr "Намібійський"
+msgstr "Гамбійці"
 
 #: data/nation/gambian.ruleset:4
-#, fuzzy
 msgid "?plural:Gambians"
-msgstr "Намібійці"
+msgstr "Гамбійці"
 
 #: data/nation/gambian.ruleset:6
 msgid ""
@@ -4935,12 +4846,11 @@ msgstr "Манса %s"
 
 #: data/nation/genoese.ruleset:3
 msgid "Genoese"
-msgstr ""
+msgstr "Ґенуезці"
 
 #: data/nation/genoese.ruleset:4
-#, fuzzy
 msgid "?plural:Genoese"
-msgstr "Леонці"
+msgstr "Ґенуезці"
 
 #: data/nation/genoese.ruleset:6
 msgid ""
@@ -4973,22 +4883,19 @@ msgid "?plural:Georgians"
 msgstr "Грузини"
 
 #: data/nation/georgian.ruleset:6
-#, fuzzy
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s CE."
 msgstr ""
-"Грузини були однією із перших націй, що сприйняла християнство у 300 році н."
-"е."
+"Грузини були однією із перших націй, що сприйняла християнство у 300 році н.е."
 
 #: data/nation/gepid.ruleset:3
 msgid "Gepid"
-msgstr ""
+msgstr "Гепіди"
 
 #: data/nation/gepid.ruleset:4
-#, fuzzy
 msgid "?plural:Gepids"
-msgstr "Непальці"
+msgstr "Гепіди"
 
 #: data/nation/gepid.ruleset:6
 msgid ""
@@ -5022,24 +4929,22 @@ msgid "?female:Presbyter %s"
 msgstr "Пресвітерка %s"
 
 #: data/nation/gepid.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "Great Warrior %s"
-msgstr "Великий Фараон %s"
+msgstr "Великий Воїн %s"
 
 #: data/nation/gepid.ruleset:42
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Great Warrior %s"
-msgstr "Велика Фараон %s"
+msgstr "Велика Воїтелька %s"
 
 #: data/nation/germanbelgian.ruleset:3
-#, fuzzy
 msgid "German Belgian"
-msgstr "Бельгійці"
+msgstr "Германські Бельгійці"
 
 #: data/nation/germanbelgian.ruleset:4
-#, fuzzy
 msgid "?plural:German Belgians"
-msgstr "Бельгійці"
+msgstr "Німецькі Бельгійці"
 
 #: data/nation/germanbelgian.ruleset:6
 msgid ""
@@ -5055,14 +4960,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/germanic.ruleset:3
-#, fuzzy
 msgid "Germanic"
-msgstr "Німці"
+msgstr "Германці"
 
 #: data/nation/germanic.ruleset:4
-#, fuzzy
 msgid "?plural:Germanics"
-msgstr "Німці"
+msgstr "Германці"
 
 #: data/nation/germanic.ruleset:6
 msgid ""
@@ -5081,7 +4984,7 @@ msgstr ""
 
 #: data/nation/ghanaian.ruleset:3
 msgid "Ghanaian"
-msgstr "Ґанський"
+msgstr "Ґана"
 
 #: data/nation/ghanaian.ruleset:4
 msgid "?plural:Ghanaian"
@@ -5096,14 +4999,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ghana.ruleset:3
-#, fuzzy
 msgid "Ghana"
-msgstr "Ґанський"
+msgstr "Ганці"
 
 #: data/nation/ghana.ruleset:4
-#, fuzzy
 msgid "?plural:Ghana"
-msgstr "Ґанці"
+msgstr "Гана"
 
 #: data/nation/ghana.ruleset:6
 msgid ""
@@ -5143,7 +5044,7 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Gokturk"
-msgstr ""
+msgstr "Гоктюрки"
 
 #: data/nation/gokturk.ruleset:4
 msgid "?plural:Gokturks"
@@ -5165,14 +5066,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/goldenhorde.ruleset:3
-#, fuzzy
 msgid "Golden Horde"
-msgstr "Грошей: %d"
+msgstr "Золотоординці"
 
 #: data/nation/goldenhorde.ruleset:4
-#, fuzzy
 msgid "?plural:Golden Horde"
-msgstr "Мордорці"
+msgstr "Золотоординці"
 
 #: data/nation/goldenhorde.ruleset:6
 msgid ""
@@ -5187,14 +5086,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/gothic.ruleset:3
-#, fuzzy
 msgid "Gothic"
-msgstr "Вестготський"
+msgstr "Готи"
 
 #: data/nation/gothic.ruleset:4
-#, fuzzy
 msgid "?plural:Goths"
-msgstr "Шотландці"
+msgstr "Готи"
 
 #: data/nation/gothic.ruleset:6
 msgid ""
@@ -5206,14 +5103,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/greaterpolish.ruleset:3
-#, fuzzy
 msgid "Greater Polish"
-msgstr "Великий Фараон"
+msgstr "Великополяки"
 
 #: data/nation/greaterpolish.ruleset:4
-#, fuzzy
 msgid "?plural:Greater Poles"
-msgstr "Ляхи"
+msgstr "Великополяки"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
@@ -5223,7 +5118,7 @@ msgstr ""
 
 #: data/nation/greenlander.ruleset:3
 msgid "Greenlander"
-msgstr "Гренландський"
+msgstr "Гренландці"
 
 #: data/nation/greenlander.ruleset:4
 msgid "?plural:Greenlanders"
@@ -5240,7 +5135,7 @@ msgstr ""
 
 #: data/nation/grenadian.ruleset:3
 msgid "Grenadian"
-msgstr "Гренадський"
+msgstr "Гренадці"
 
 #: data/nation/grenadian.ruleset:4
 msgid "?plural:Grenadians"
@@ -5255,7 +5150,7 @@ msgstr ""
 
 #: data/nation/guanche.ruleset:3
 msgid "Guanche"
-msgstr "Гуанчійський"
+msgstr "Гуанчі"
 
 #: data/nation/guanche.ruleset:4
 msgid "?plural:Guanches"
@@ -5286,7 +5181,7 @@ msgstr ""
 
 #: data/nation/guatemalan.ruleset:3
 msgid "Guatemalan"
-msgstr "Гватемальський"
+msgstr "Гватемальці"
 
 #: data/nation/guatemalan.ruleset:4
 msgid "?plural:Guatemalans"
@@ -5304,12 +5199,11 @@ msgstr ""
 
 #: data/nation/guinean.ruleset:3
 msgid "Guinean"
-msgstr ""
+msgstr "Гвінейці"
 
 #: data/nation/guinean.ruleset:4
-#, fuzzy
 msgid "?plural:Guinean"
-msgstr "Дунедайнці"
+msgstr "Гвінейці"
 
 #. TRANS: The second letter in "Sekou" and last in "Toure" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -5340,7 +5234,7 @@ msgstr ""
 
 #: data/nation/guyanese.ruleset:3
 msgid "Guyanese"
-msgstr "Гаянський"
+msgstr "Гаянці"
 
 #: data/nation/guyanese.ruleset:4
 msgid "?plural:Guyanese"
@@ -5398,7 +5292,7 @@ msgstr "1337 %s"
 
 #: data/nation/haitian.ruleset:3
 msgid "Haitian"
-msgstr "Гаїтійський"
+msgstr "Гаїтійці"
 
 #: data/nation/haitian.ruleset:4
 msgid "?plural:Haitians"
@@ -5423,7 +5317,7 @@ msgstr "Довічна Президент %s"
 
 #: data/nation/hanoverian.ruleset:3
 msgid "Hanoverian"
-msgstr "Ганноверський"
+msgstr "Ганноверці"
 
 #: data/nation/hanoverian.ruleset:4
 msgid "?plural:Hanoverians"
@@ -5445,14 +5339,12 @@ msgid "Princess-Bishop %s"
 msgstr "Принцеса-єпископ %s"
 
 #: data/nation/han.ruleset:3
-#, fuzzy
 msgid "Han"
-msgstr "Людина"
+msgstr "Хань"
 
 #: data/nation/han.ruleset:4
-#, fuzzy
 msgid "?plural:Han"
-msgstr "Таірона"
+msgstr "Хань"
 
 #: data/nation/han.ruleset:6
 msgid ""
@@ -5469,7 +5361,7 @@ msgstr "Вдова Імператора"
 
 #: data/nation/hansa.ruleset:3
 msgid "Hanseatic"
-msgstr "Ганзейський"
+msgstr "Ганзейці"
 
 #: data/nation/hansa.ruleset:4
 msgid "?plural:Hanseatic League"
@@ -5523,11 +5415,11 @@ msgstr ""
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "Елліни"
+msgstr "Сучасні Греки"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr "Елліни"
+msgstr "Сучасні Греки"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -5538,14 +5430,12 @@ msgstr ""
 "народ отримав незалежність від Отоманьскої Імперії у 1832 році."
 
 #: data/nation/helvetian.ruleset:3
-#, fuzzy
 msgid "Helvetian"
-msgstr "Венеціанський"
+msgstr "Гельвети"
 
 #: data/nation/helvetian.ruleset:4
-#, fuzzy
 msgid "?plural:Helvetians"
-msgstr "Венеціанці"
+msgstr "Гельвети"
 
 #: data/nation/helvetian.ruleset:6
 msgid ""
@@ -5560,14 +5450,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/hephthalite.ruleset:3
-#, fuzzy
 msgid "Hephthalite"
-msgstr "елітний"
+msgstr "Ефталіти"
 
 #: data/nation/hephthalite.ruleset:4
-#, fuzzy
 msgid "?plural:Hephthalites"
-msgstr "Непальці"
+msgstr "Ефталіти"
 
 #: data/nation/hephthalite.ruleset:6
 msgid ""
@@ -5583,7 +5471,7 @@ msgstr ""
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
-msgstr "Гессенський"
+msgstr "Гессенці"
 
 #: data/nation/hessian.ruleset:4
 msgid "?plural:Hessians"
@@ -5632,14 +5520,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/holyroman.ruleset:3
-#, fuzzy
 msgid "Holy Roman"
-msgstr "Румуни"
+msgstr "Священний Рим"
 
 #: data/nation/holyroman.ruleset:4
-#, fuzzy
 msgid "?plural:Holy Romans"
-msgstr "Румуни"
+msgstr "Священноримляни"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -5653,14 +5539,13 @@ msgid ""
 msgstr ""
 
 #: data/nation/holysee.ruleset:3
-#, fuzzy
 msgid "Papal"
-msgstr "Папуаси"
+msgstr "Папці"
 
 #: data/nation/holysee.ruleset:4
 #, fuzzy
 msgid "?plural:Papal States"
-msgstr "Датчани"
+msgstr "Папці"
 
 #: data/nation/holysee.ruleset:6
 msgid ""
@@ -5695,7 +5580,7 @@ msgstr "Велика Магістр"
 
 #: data/nation/honduran.ruleset:3
 msgid "Honduran"
-msgstr ""
+msgstr "Гондурасці"
 
 #: data/nation/honduran.ruleset:4
 msgid "?plural:Hondurans"
@@ -5728,7 +5613,7 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "Угорці"
+msgstr "Угри"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
@@ -5740,7 +5625,7 @@ msgstr "Згідно з легендою Угорщину било заснов�
 
 #: data/nation/iberian.ruleset:3
 msgid "Iberian"
-msgstr "Іберійський"
+msgstr "Ібери"
 
 #: data/nation/iberian.ruleset:4
 msgid "?plural:Iberians"
@@ -5775,14 +5660,13 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr "Ілірійський"
+msgstr "Ілірійці"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
 msgstr "Ілірійці"
 
 #: data/nation/illyrian.ruleset:6
-#, fuzzy
 msgid ""
 "Illyrians were Indo-European tribes who appeared in the western part of the "
 "Balkan Peninsula before 1000 BCE, including Corcyra island and Ambracia bay "
@@ -5798,14 +5682,12 @@ msgstr ""
 "століть, поки їх не завоювала Римська Республіка."
 
 #: data/nation/indoeuropean.ruleset:3
-#, fuzzy
 msgid "Indo-European"
-msgstr "Європейці"
+msgstr "ІндоЄвропейці"
 
 #: data/nation/indoeuropean.ruleset:4
-#, fuzzy
 msgid "?plural:Indo-Europeans"
-msgstr "Європейці"
+msgstr "ІндоЄвропейці"
 
 #: data/nation/indoeuropean.ruleset:6
 msgid ""
@@ -5821,7 +5703,7 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "Ескімоси"
+msgstr "Інуіти"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
@@ -5904,27 +5786,26 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "Ізрал'єтяни"
+msgstr "Ізраїльтяни"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "Ізрал'єтяни"
+msgstr "Ізраїльтяни"
 
 #: data/nation/israeli.ruleset:6
-#, fuzzy
 msgid ""
 "The nation of Israel was founded in 1948 as a scattered collection of "
 "cantons in British Palestine, and has gradually expanded through winning "
 "wars in 1948, 1967 and 1973."
 msgstr ""
-"Державу Ізрал'єтян було засновано у 1948 як об'єднання провінцій у "
-"Британській Палестині, та суттєво розширено після перемог у декількох війнах "
-"що були проти Ізраіля у 1948, 1967 та 1973."
+"Державу Ізраїль було засновано у 1948 як об'єднання розкиданих кантонів у "
+"Британській Палестині, та суттєво розширено після перемог у декількох війнах, "
+"що велись проти Ізраїлю у 1948, 1967 та 1973."
 
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "Kibbutznik %s"
-msgstr ""
+msgstr "Кібуцник %s"
 
 #: data/nation/israeli.ruleset:22
 #, fuzzy, c-format
@@ -5942,14 +5823,12 @@ msgid "?female:Rabbi %s"
 msgstr "Раввин %s"
 
 #: data/nation/israelite.ruleset:3
-#, fuzzy
 msgid "Israelite"
-msgstr "Ізрал'єтяни"
+msgstr "Ізраеліти"
 
 #: data/nation/israelite.ruleset:4
-#, fuzzy
 msgid "?plural:Israelites"
-msgstr "Ізрал'єтяни"
+msgstr "Ізраеліти"
 
 #: data/nation/israelite.ruleset:6
 msgid ""
@@ -5973,14 +5852,12 @@ msgid "?female:Judge %s"
 msgstr "Дуче %s"
 
 #: data/nation/italiangreek.ruleset:3
-#, fuzzy
 msgid "Italian Greek"
-msgstr "Італійці"
+msgstr "Італійські Греки"
 
 #: data/nation/italiangreek.ruleset:4
-#, fuzzy
 msgid "?plural:Italian Greeks"
-msgstr "Італійці"
+msgstr "Італійські Греки"
 
 #: data/nation/italiangreek.ruleset:6
 msgid ""
@@ -5997,19 +5874,17 @@ msgid ""
 msgstr ""
 
 #: data/nation/italiangreek.ruleset:48
-#, fuzzy, c-format
+#, c-format
 msgid "Tyranne %s"
-msgstr "Ланца"
+msgstr "Тиран %s"
 
 #: data/nation/ivoirian.ruleset:3
-#, fuzzy
 msgid "Ivoirian"
-msgstr "Іранці"
+msgstr "Кот’д’Івуарці"
 
 #: data/nation/ivoirian.ruleset:4
-#, fuzzy
 msgid "?plural:Ivoirian"
-msgstr "Іранці"
+msgstr "Кот’д’Івуарці"
 
 #. TRANS: The second letter in "Cote" should be
 #. TRANS: U+00F4 LATIN SMALL LETTER O WITH CIRCUMFLEX if available in
@@ -6039,10 +5914,9 @@ msgstr ""
 
 #: data/nation/jamaican.ruleset:3
 msgid "Jamaican"
-msgstr "Ямайський"
+msgstr "Ямайці"
 
 #: data/nation/jamaican.ruleset:4
-#, fuzzy
 msgid "?plural:Jamaicans"
 msgstr "Ямайці"
 
@@ -6057,19 +5931,18 @@ msgid ""
 msgstr ""
 
 #: data/nation/jamaican.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "Rasta %s"
-msgstr " у %s"
+msgstr "Раста %s"
 
 #: data/nation/jamaican.ruleset:25
-#, fuzzy, c-format
+#, c-format
 msgid "?female:Rasta %s"
-msgstr "Манса"
+msgstr "Раста %s"
 
 #: data/nation/jolof.ruleset:3
-#, fuzzy
 msgid "Jolof"
-msgstr "Йо-о"
+msgstr "Йолоф"
 
 #: data/nation/jolof.ruleset:4
 #, fuzzy
@@ -6091,14 +5964,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/jordanian.ruleset:3
-#, fuzzy
 msgid "Jordanian"
-msgstr "Іранці"
+msgstr "Йорданці"
 
 #: data/nation/jordanian.ruleset:4
-#, fuzzy
 msgid "?plural:Jordanian"
-msgstr "Іранці"
+msgstr "Іорданці"
 
 #: data/nation/jordanian.ruleset:6
 msgid ""
@@ -6114,7 +5985,7 @@ msgstr ""
 
 #: data/nation/kalmyk.ruleset:3
 msgid "Kalmyk"
-msgstr "Калмицький"
+msgstr "Калмики"
 
 #: data/nation/kalmyk.ruleset:4
 msgid "?plural:Kalmyks"
@@ -6147,12 +6018,11 @@ msgstr ""
 
 #: data/nation/karabakhi.ruleset:3
 msgid "Karabakhi"
-msgstr ""
+msgstr "Карабахи"
 
 #: data/nation/karabakhi.ruleset:4
-#, fuzzy
 msgid "?plural:Karabakhis"
-msgstr "Казахи"
+msgstr "Карабахи"
 
 #: data/nation/karabakhi.ruleset:6
 msgid ""
@@ -6169,7 +6039,7 @@ msgstr ""
 
 #: data/nation/karelian.ruleset:3
 msgid "Karelian"
-msgstr "Карельський"
+msgstr "Карели"
 
 #: data/nation/karelian.ruleset:4
 msgid "?plural:Karelians"
@@ -6183,14 +6053,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/karen.ruleset:3
-#, fuzzy
 msgid "Karen"
-msgstr "Карельський"
+msgstr "Карени"
 
 #: data/nation/karen.ruleset:4
-#, fuzzy
 msgid "?plural:Karens"
-msgstr "Карели"
+msgstr "Карени"
 
 #: data/nation/karen.ruleset:7
 msgid ""
@@ -6204,7 +6072,7 @@ msgstr ""
 
 #: data/nation/kashmiri.ruleset:3
 msgid "Kashmiri"
-msgstr "Кашмірський"
+msgstr "Кашмірці"
 
 #: data/nation/kashmiri.ruleset:4
 msgid "?plural:Kashmiris"
@@ -6218,14 +6086,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kashubian.ruleset:3
-#, fuzzy
 msgid "Kashubian"
-msgstr "Нубійці"
+msgstr "Кашуби"
 
 #: data/nation/kashubian.ruleset:4
-#, fuzzy
 msgid "?plural:Kashubians"
-msgstr "Нубійці"
+msgstr "Кашуби"
 
 #: data/nation/kashubian.ruleset:6
 msgid ""
@@ -6268,7 +6134,6 @@ msgid "?plural:Kazakhs"
 msgstr "Казахи"
 
 #: data/nation/kazakh.ruleset:6
-#, fuzzy
 msgid ""
 "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by "
 "Russia in the 18th century, Kazakhstan became independent in 1991 with the "
@@ -6289,12 +6154,11 @@ msgstr "Кенійці"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr "Кенія отримала незалеждність від Британію у грудні 1963."
+msgstr "Кенія здобула незалежність від Британії у грудні 1963."
 
 #: data/nation/khazar.ruleset:3
-#, fuzzy
 msgid "Khazar"
-msgstr "Хозарський"
+msgstr "Хозари"
 
 #: data/nation/khazar.ruleset:4
 msgid "?plural:Khazars"
@@ -6339,11 +6203,11 @@ msgstr ""
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
-msgstr "Хорезмці"
+msgstr "Хорезмійці"
 
 #: data/nation/khwarezmian.ruleset:4
 msgid "?plural:Khwarezmians"
-msgstr "Хорезмці"
+msgstr "Хорезмійці"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -6374,9 +6238,8 @@ msgid "Kiribati"
 msgstr ""
 
 #: data/nation/kiribati.ruleset:4
-#, fuzzy
 msgid "?plural:I-Kiribati"
-msgstr "Іранці"
+msgstr ""
 
 #: data/nation/kiribati.ruleset:6
 msgid ""
@@ -6408,12 +6271,11 @@ msgstr ""
 
 #: data/nation/komi.ruleset:3
 msgid "Komi"
-msgstr ""
+msgstr "Комі"
 
 #: data/nation/komi.ruleset:4
-#, fuzzy
 msgid "?plural:Komi"
-msgstr "Саами"
+msgstr "Комі"
 
 #: data/nation/komi.ruleset:6
 msgid ""
@@ -6442,7 +6304,7 @@ msgstr ""
 
 #: data/nation/kosovar.ruleset:3
 msgid "Kosovar"
-msgstr "Косовський"
+msgstr "Косовари"
 
 #: data/nation/kosovar.ruleset:4
 msgid "?plural:Kosovars"
@@ -6477,7 +6339,7 @@ msgstr ""
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
-msgstr "Курдський"
+msgstr "Курди"
 
 #: data/nation/kurd.ruleset:4
 msgid "?plural:Kurds"
@@ -6498,12 +6360,11 @@ msgstr ""
 
 #: data/nation/kushan.ruleset:3
 msgid "Kushan"
-msgstr ""
+msgstr "Кушан"
 
 #: data/nation/kushan.ruleset:4
-#, fuzzy
 msgid "?plural:Kushans"
-msgstr "Кенійці"
+msgstr "Кушанці"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -6530,14 +6391,12 @@ msgid "?female:Guru %s"
 msgstr "Гуру %s"
 
 #: data/nation/kuwaiti.ruleset:3
-#, fuzzy
 msgid "Kuwaiti"
-msgstr "очікує"
+msgstr "Кевейтці"
 
 #: data/nation/kuwaiti.ruleset:4
-#, fuzzy
 msgid "?plural:Kuwaitis"
-msgstr "Гаїтійці"
+msgstr "Кувейт"
 
 #: data/nation/kuwaiti.ruleset:6
 msgid ""
@@ -6568,12 +6427,11 @@ msgstr ""
 
 #: data/nation/langobardic.ruleset:3
 msgid "Langobardic"
-msgstr ""
+msgstr "Лангобарди"
 
 #: data/nation/langobardic.ruleset:4
-#, fuzzy
 msgid "?plural:Langobards"
-msgstr "Італійці"
+msgstr "Лангобарди"
 
 #: data/nation/langobardic.ruleset:6
 msgid ""
@@ -6638,14 +6496,12 @@ msgstr ""
 "лібералізація та повільне повернення до приватної властності."
 
 #: data/nation/latin.ruleset:3
-#, fuzzy
 msgid "Latin"
-msgstr "Рейтинг"
+msgstr "Латиняни"
 
 #: data/nation/latin.ruleset:4
-#, fuzzy
 msgid "?plural:Latins"
-msgstr "Латиші"
+msgstr "Латиняни"
 
 #: data/nation/latin.ruleset:6
 msgid ""
@@ -6677,7 +6533,7 @@ msgstr ""
 
 #: data/nation/lebanese.ruleset:3
 msgid "Lebanese"
-msgstr "Ліванський"
+msgstr "Ліванці"
 
 #: data/nation/lebanese.ruleset:4
 msgid "?plural:Lebanese"
@@ -6693,14 +6549,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/lendian.ruleset:3
-#, fuzzy
 msgid "Lendian"
-msgstr "Індуси"
+msgstr "Ляхи"
 
 #: data/nation/lendian.ruleset:4
-#, fuzzy
 msgid "?plural:Lendians"
-msgstr "Індуси"
+msgstr "Ляхи"
 
 #: data/nation/lendian.ruleset:6
 msgid ""
@@ -6729,12 +6583,11 @@ msgstr ""
 
 #: data/nation/lesothoan.ruleset:3
 msgid "Lesothoan"
-msgstr ""
+msgstr "Лесото"
 
 #: data/nation/lesothoan.ruleset:4
-#, fuzzy
 msgid "?plural:Lesothoans"
-msgstr "Австралійці"
+msgstr "Лесото"
 
 #: data/nation/lesothoan.ruleset:6
 msgid ""
@@ -6747,14 +6600,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liberian.ruleset:3
-#, fuzzy
 msgid "Liberian"
-msgstr "Сибірський"
+msgstr "Ліберійці"
 
 #: data/nation/liberian.ruleset:4
-#, fuzzy
 msgid "?plural:Liberians"
-msgstr "Сибіряки"
+msgstr "Ліберійці"
 
 #: data/nation/liberian.ruleset:6
 msgid ""
@@ -6770,14 +6621,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/liburnian.ruleset:3
-#, fuzzy
 msgid "Liburnian"
-msgstr "Литовці"
+msgstr "Лібурни"
 
 #: data/nation/liburnian.ruleset:4
-#, fuzzy
 msgid "?plural:Liburnians"
-msgstr "Литовці"
+msgstr "Лібурни"
 
 #: data/nation/liburnian.ruleset:6
 msgid ""
@@ -6809,7 +6658,7 @@ msgstr ""
 
 #: data/nation/liechtensteiner.ruleset:3
 msgid "Liechtensteiner"
-msgstr ""
+msgstr "Ліхтенштейнці"
 
 #: data/nation/liechtensteiner.ruleset:4
 msgid "?plural:Liechtensteiners"
@@ -6824,14 +6673,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ligurian.ruleset:3
-#, fuzzy
 msgid "Ligurian"
-msgstr "Сибірський"
+msgstr "Лігури"
 
 #: data/nation/ligurian.ruleset:4
-#, fuzzy
 msgid "?plural:Ligurians"
-msgstr "Литовці"
+msgstr "Лігури"
 
 #: data/nation/ligurian.ruleset:6
 msgid ""
@@ -6901,8 +6748,8 @@ msgid ""
 "European languages."
 msgstr ""
 "Литва - це невелика країна на південному узбережжі Балтійського Моря, "
-"північніше Польщі. Литовська це найбільш архаічна та комплексна з північних "
-"Індо-Європейськіх мов"
+"північніше Польщі. Литовська є найбільш архаїчною та складною з північних "
+"Індо-Європейських мов"
 
 #: data/nation/lojbanistani.ruleset:3
 msgid "Lojbanistani"
@@ -6946,12 +6793,11 @@ msgstr ""
 
 #: data/nation/luwian.ruleset:3
 msgid "Luwian"
-msgstr ""
+msgstr "Лувійці"
 
 #: data/nation/luwian.ruleset:4
-#, fuzzy
 msgid "?plural:Luwians"
-msgstr "Лівійці"
+msgstr "Лувійці"
 
 #: data/nation/luwian.ruleset:6
 msgid ""
@@ -6963,7 +6809,7 @@ msgstr ""
 
 #: data/nation/luxembourgish.ruleset:3
 msgid "Luxembourgish"
-msgstr "Люксембургзький"
+msgstr "Люксембуржці"
 
 #: data/nation/luxembourgish.ruleset:4
 msgid "?plural:Luxembourgians"
@@ -6995,7 +6841,7 @@ msgstr ""
 
 #: data/nation/maasai.ruleset:3
 msgid "Maasai"
-msgstr "Масайський"
+msgstr "Масаї"
 
 #: data/nation/maasai.ruleset:4
 msgid "?plural:Maasais"
@@ -7011,11 +6857,11 @@ msgstr ""
 
 #: data/nation/macedonian.ruleset:3
 msgid "Macedonian"
-msgstr "Македонійський"
+msgstr "Македонці"
 
 #: data/nation/macedonian.ruleset:4
 msgid "?plural:Macedonians"
-msgstr "Македонійці"
+msgstr "Македонці"
 
 #: data/nation/macedonian.ruleset:6
 msgid ""
@@ -7027,14 +6873,13 @@ msgstr ""
 
 #: data/nation/macedon.ruleset:3
 msgid "Macedon"
-msgstr "Македонський"
+msgstr "Давні Македонці"
 
 #: data/nation/macedon.ruleset:4
 msgid "?plural:Macedons"
 msgstr "Македонці"
 
 #: data/nation/macedon.ruleset:6
-#, fuzzy
 msgid ""
 "The Kingdom of Macedonia was located in the southern Balkans. Under "
 "Alexander the Great it became one of the most powerful states in the world "
@@ -7120,7 +6965,7 @@ msgstr ""
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr "Малайзійський"
+msgstr "Малайці"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
@@ -7135,14 +6980,12 @@ msgstr ""
 "го сторіччя."
 
 #: data/nation/maldivian.ruleset:3
-#, fuzzy
 msgid "Maldivian"
-msgstr "Болівійський"
+msgstr "Мальдівці"
 
 #: data/nation/maldivian.ruleset:4
-#, fuzzy
 msgid "?plural:Maldivians"
-msgstr "Малійці"
+msgstr "Мальдівці"
 
 #: data/nation/maldivian.ruleset:6
 msgid ""
@@ -7170,7 +7013,7 @@ msgstr ""
 
 #: data/nation/maltese.ruleset:3
 msgid "Maltese"
-msgstr "Мальтійський"
+msgstr "Мальтійці"
 
 #: data/nation/maltese.ruleset:4
 msgid "?plural:Maltese"
@@ -7198,12 +7041,11 @@ msgstr "Велика Магістр"
 
 #: data/nation/mamluk.ruleset:3
 msgid "Mamluk"
-msgstr ""
+msgstr "Мамелюки"
 
 #: data/nation/mamluk.ruleset:4
-#, fuzzy
 msgid "?plural:Mamluks"
-msgstr "Малійці"
+msgstr "Мамелюки"
 
 #: data/nation/mamluk.ruleset:6
 msgid ""
