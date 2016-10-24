@@ -2211,17 +2211,17 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
+  if (game.control.num_tech_classes > 0) {
+    if (vap->tclass == NULL) {
+      cat_snprintf(buf, bufsz, _("Belongs to the default tech class.\n\n"));
+    } else {
+      cat_snprintf(buf, bufsz, _("Belongs to tech class %s.\n\n"),
+                   tech_class_name_translation(vap->tclass));
+    }
+  }
+
   if (NULL != pplayer) {
     const struct research *presearch = research_get(pplayer);
-
-    if (game.control.num_tech_classes > 0) {
-      if (vap->tclass == NULL) {
-        cat_snprintf(buf, bufsz, _("Belongs to the default tech class.\n\n"));
-      } else {
-        cat_snprintf(buf, bufsz, _("Belongs to tech class %s.\n\n"),
-                     tech_class_name_translation(vap->tclass));
-      }
-    }
 
     if (research_invention_state(presearch, i) != TECH_KNOWN) {
       if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
