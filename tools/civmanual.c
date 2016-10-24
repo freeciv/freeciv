@@ -79,6 +79,7 @@ enum manuals {
   MANUAL_WONDERS,
   MANUAL_GOVS,
   MANUAL_UNITS,
+  MANUAL_TECHS,
   MANUAL_COUNT
 };
 
@@ -615,6 +616,29 @@ static bool manual_command(void)
         fprintf(doc, SUBITEM_END);
         fprintf(doc, ITEM_END);
       } unit_type_iterate_end;
+      break;
+
+    case MANUAL_TECHS:
+      /* FIXME: this doesn't resemble the wiki manual at all. */
+      /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
+      fprintf(doc, _("%sFreeciv %s tech help (%s)%s\n\n"),
+              TITLE_BEGIN, VERSION_STRING, game.control.name, TITLE_END);
+      advance_iterate(A_FIRST, ptech) {
+        if (valid_advance(ptech)) {
+          char buf[64000];
+
+          fprintf(doc, ITEM_BEGIN, "tech", ptech->item_number);
+          fprintf(doc, "%s%s%s\n\n", SECTION_TITLE_BEGIN,
+                  advance_name_translation(ptech), SECTION_TITLE_END);
+
+          fprintf(doc, SUBITEM_BEGIN, "helptext");
+          helptext_advance(buf, sizeof(buf), NULL, "", ptech->item_number);
+          fprintf(doc, "%s", buf);
+          fprintf(doc, SUBITEM_END);
+
+          fprintf(doc, ITEM_END);
+        }
+      } advance_iterate_end;
       break;
 
     case MANUAL_COUNT:
