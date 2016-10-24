@@ -335,9 +335,9 @@ static bool do_capture_units(struct player *pplayer,
                   victim_link, capturer_nation);
 
     /* May cause an incident */
-    action_consequence_success(ACTION_CAPTURE_UNITS, pplayer,
-                               unit_owner(to_capture),
-                               pdesttile, victim_link);
+    action_id_consequence_success(ACTION_CAPTURE_UNITS, pplayer,
+                                  unit_owner(to_capture),
+                                  pdesttile, victim_link);
 
     if (NULL != pcity) {
       /* The captured unit is in a city. Bounce it. */
@@ -436,8 +436,8 @@ static bool do_expel_unit(struct player *pplayer,
   }
 
   /* This may cause a diplomatic incident */
-  action_consequence_success(ACTION_EXPEL_UNIT, pplayer, uplayer,
-                             target_tile, target_link);
+  action_id_consequence_success(ACTION_EXPEL_UNIT, pplayer, uplayer,
+                                target_tile, target_link);
 
   /* Mission accomplished. */
   return TRUE;
@@ -490,8 +490,8 @@ static bool do_heal_unit(struct player *act_player,
   send_unit_info(NULL, act_unit);
 
   /* This may have diplomatic consequences. */
-  action_consequence_success(ACTION_HEAL_UNIT, act_player, tgt_player,
-                             tgt_tile, unit_link(tgt_unit));
+  action_id_consequence_success(ACTION_HEAL_UNIT, act_player, tgt_player,
+                                tgt_tile, unit_link(tgt_unit));
 
   return TRUE;
 }
@@ -2853,8 +2853,9 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                   city_link(pcity));;
   }
 
-  action_consequence_success(ACTION_JOIN_CITY, pplayer, city_owner(pcity),
-                             city_tile(pcity), city_link(pcity));
+  action_id_consequence_success(ACTION_JOIN_CITY, pplayer,
+                                city_owner(pcity), city_tile(pcity),
+                                city_link(pcity));
   wipe_unit(punit, ULR_USED, NULL);
 
   sanity_check_city(pcity);
@@ -2910,8 +2911,8 @@ static bool city_build(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the city founder. A rule
    * like that would make sense in a story where deep ecology is on the
    * table. (See also Voluntary Human Extinction Movement) */
-  action_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
-                             ptile, tile_link(ptile));
+  action_id_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
+                                ptile, tile_link(ptile));
 
   return TRUE;
 }
@@ -3214,10 +3215,10 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       send_unit_info(NULL, pdefender);
 
       /* May cause an incident */
-      action_consequence_success(ACTION_BOMBARD, unit_owner(punit),
-                                 unit_owner(pdefender),
-                                 unit_tile(pdefender),
-                                 unit_link(pdefender));
+      action_id_consequence_success(ACTION_BOMBARD, unit_owner(punit),
+                                    unit_owner(pdefender),
+                                    unit_tile(pdefender),
+                                    unit_link(pdefender));
     }
 
   } unit_list_iterate_safe_end;
@@ -3276,9 +3277,9 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
                     " your SDI defense."), city_link(pcity));
 
     /* Trying to nuke something this close can be... unpopular. */
-    action_consequence_caught(ACTION_NUKE, pplayer,
-                              city_owner(pcity),
-                              def_tile, unit_tile_link(punit));
+    action_id_consequence_caught(ACTION_NUKE, pplayer,
+                                 city_owner(pcity),
+                                 def_tile, unit_tile_link(punit));
 
     /* Remove the destroyed nuke. */
     wipe_unit(punit, ULR_SDI, city_owner(pcity));
@@ -3295,10 +3296,10 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the tile nuker. A rule
    * like that would make sense in a story where detonating any nuke at all
    * could be forbidden. */
-  action_consequence_success(ACTION_NUKE, pplayer,
-                             tile_owner(def_tile),
-                             def_tile,
-                             tile_link(def_tile));
+  action_id_consequence_success(ACTION_NUKE, pplayer,
+                                tile_owner(def_tile),
+                                def_tile,
+                                tile_link(def_tile));
 
   return TRUE;
 }
@@ -3366,9 +3367,9 @@ static bool unit_do_destroy_city(struct player *act_player,
   }
 
   /* May cause an incident */
-  action_consequence_success(ACTION_DESTROY_CITY, act_player,
-                             tgt_player, city_tile(tgt_city),
-                             city_link(tgt_city));
+  action_id_consequence_success(ACTION_DESTROY_CITY, act_player,
+                                tgt_player, city_tile(tgt_city),
+                                city_link(tgt_city));
 
   /* Run post city destruction Lua script. */
   script_server_signal_emit("city_destroyed", 3,
@@ -3876,9 +3877,10 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                 work);
 
   /* May cause an incident */
-  action_consequence_success(ACTION_HELP_WONDER, pplayer,
-                             city_owner(pcity_dest),
-                             city_tile(pcity_dest), city_link(pcity_dest));
+  action_id_consequence_success(ACTION_HELP_WONDER, pplayer,
+                                city_owner(pcity_dest),
+                                city_tile(pcity_dest),
+                                city_link(pcity_dest));
 
   if (city_owner(pcity_dest) != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
@@ -4241,12 +4243,12 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   /* May cause an incident */
-  action_consequence_success(est_if_able ?
-                               ACTION_TRADE_ROUTE :
-                               ACTION_MARKETPLACE,
-                             pplayer, city_owner(pcity_dest),
-                             city_tile(pcity_dest),
-                             city_link(pcity_dest));
+  action_id_consequence_success(est_if_able ?
+                                  ACTION_TRADE_ROUTE :
+                                  ACTION_MARKETPLACE,
+                                pplayer, city_owner(pcity_dest),
+                                city_tile(pcity_dest),
+                                city_link(pcity_dest));
 
   conn_list_do_unbuffer(pplayer->connections);
 

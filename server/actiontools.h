@@ -20,17 +20,27 @@
 #include "tile.h"
 #include "unit.h"
 
-void action_consequence_caught(const int action_id,
+void action_consequence_caught(const struct action *paction,
                                struct player *offender,
                                struct player *victim_player,
                                const struct tile *victim_tile,
                                const char *victim_link);
+#define action_id_consequence_caught(action_id, offender,                 \
+                                     victim_player, victim_tile,          \
+                                     victim_link)                         \
+action_consequence_caught(action_by_number(action_id), offender,          \
+                          victim_player, victim_tile, victim_link)
 
-void action_consequence_success(const int action_id,
+void action_consequence_success(const struct action *paction,
                                 struct player *offender,
                                 struct player *victim_player,
                                 const struct tile *victim_tile,
                                 const char *victim_link);
+#define action_id_consequence_success(action_id, offender,                \
+                                     victim_player, victim_tile,          \
+                                     victim_link)                         \
+action_consequence_success(action_by_number(action_id), offender,         \
+                           victim_player, victim_tile, victim_link)
 
 struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
                              bool accept_all_actions);

@@ -152,8 +152,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
-                             ctile, clink);
+  action_id_consequence_success(action_id, pplayer, cplayer, ctile, clink);
 
   /* Now lets see if the spy survives. */
   diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
@@ -241,8 +240,8 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
-                             city_tile(pcity), city_link(pcity));
+  action_id_consequence_success(action_id, pplayer, cplayer,
+                                city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
@@ -338,8 +337,8 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
-                             city_tile(pcity), city_link(pcity));
+  action_id_consequence_success(action_id, pplayer, cplayer,
+                                city_tile(pcity), city_link(pcity));
 
   /* Spies always survive. Diplomats never do. */
   if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
@@ -431,8 +430,8 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, uplayer,
-                             unit_tile(pvictim), victim_link);
+  action_id_consequence_success(action_id, pplayer, uplayer,
+                                unit_tile(pvictim), victim_link);
 
   /* Now lets see if the spy survives. */
   diplomat_escape(pplayer, pdiplomat, NULL);
@@ -554,8 +553,8 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= bribe_cost;
 
   /* This may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, uplayer,
-                             victim_tile, victim_link);
+  action_id_consequence_success(action_id, pplayer, uplayer,
+                                victim_tile, victim_link);
 
   if (!unit_is_alive(diplomat_id)) {
     return TRUE;
@@ -734,8 +733,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
     /* this may cause a diplomatic incident */
-    action_consequence_caught(action_id, pplayer, cplayer,
-                              city_tile(pcity), city_link(pcity));
+    action_id_consequence_caught(action_id, pplayer, cplayer,
+                                 city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return FALSE;
   }
@@ -759,8 +758,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   (pcity->server.steal)++;
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
-                             city_tile(pcity), city_link(pcity));
+  action_id_consequence_success(action_id, pplayer, cplayer,
+                                city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape(pplayer, pdiplomat, pcity);
@@ -851,8 +850,8 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   clink);
 
     /* This may cause a diplomatic incident */
-    action_consequence_caught(action_id, pplayer,
-                              cplayer, ctile, clink);
+    action_id_consequence_caught(action_id, pplayer,
+                                 cplayer, ctile, clink);
 
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return FALSE;
@@ -886,8 +885,8 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   steal_a_tech(pplayer, cplayer, A_UNSET);
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id,
-                             pplayer, cplayer, ctile, clink);
+  action_id_consequence_success(action_id,
+                                pplayer, cplayer, ctile, clink);
 
   /* Transfer city and units supported by this city (that
      are within one square of the city) to the new owner. */
@@ -976,8 +975,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                   city_link(pcity));
 
     /* This may cause a diplomatic incident */
-    action_consequence_caught(action_id, pplayer, cplayer,
-                              city_tile(pcity), city_link(pcity));
+    action_id_consequence_caught(action_id, pplayer, cplayer,
+                                 city_tile(pcity), city_link(pcity));
 
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return FALSE;
@@ -1142,8 +1141,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                     city_link(pcity));
 
       /* This may cause a diplomatic incident */
-      action_consequence_caught(action_id, pplayer, cplayer,
-                                city_tile(pcity), city_link(pcity));
+      action_id_consequence_caught(action_id, pplayer, cplayer,
+                                   city_tile(pcity), city_link(pcity));
 
       wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
       log_debug("sabotage: caught in capital or on city walls");
@@ -1175,8 +1174,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   send_city_info(NULL, pcity);
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
-                             city_tile(pcity), city_link(pcity));
+  action_id_consequence_success(action_id, pplayer, cplayer,
+                                city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */
   diplomat_escape(pplayer, pdiplomat, pcity);
@@ -1260,8 +1259,8 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident */
-    action_consequence_caught(action_id, act_player,
-                              tgt_player, tgt_tile, tgt_city_link);
+    action_id_consequence_caught(action_id, act_player,
+                                 tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught thief. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
@@ -1309,8 +1308,8 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                 gold_take, tgt_city_link);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(action_id, act_player,
-                             tgt_player, tgt_tile, tgt_city_link);
+  action_id_consequence_success(action_id, act_player,
+                                tgt_player, tgt_tile, tgt_city_link);
 
   /* Try to escape. */
   diplomat_escape_full(act_player, act_unit, TRUE,
@@ -1391,8 +1390,8 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident. */
-    action_consequence_caught(action_id, act_player,
-                              tgt_player, tgt_tile, tgt_city_link);
+    action_id_consequence_caught(action_id, act_player,
+                                 tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught thief. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
@@ -1418,8 +1417,8 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                 tgt_city_link);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(action_id, act_player,
-                             tgt_player, tgt_tile, tgt_city_link);
+  action_id_consequence_success(action_id, act_player,
+                                tgt_player, tgt_tile, tgt_city_link);
 
   /* Try to escape. */
   diplomat_escape_full(act_player, act_unit, TRUE,
@@ -1488,8 +1487,8 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                   tgt_city_link);
 
     /* This may cause a diplomatic incident. */
-    action_consequence_caught(action_id, act_player,
-                              tgt_player, tgt_tile, tgt_city_link);
+    action_id_consequence_caught(action_id, act_player,
+                                 tgt_player, tgt_tile, tgt_city_link);
 
     /* Execute the caught terrorist. */
     wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
@@ -1522,8 +1521,8 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   do_nuclear_explosion(act_player, tgt_tile);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(action_id, act_player,
-                             tgt_player, tgt_tile, tgt_city_link);
+  action_id_consequence_success(action_id, act_player,
+                                tgt_player, tgt_tile, tgt_city_link);
 
   return TRUE;
 }
@@ -1825,8 +1824,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 
         fc_assert(victim_link != NULL);
 
-        action_consequence_caught(action_id, pplayer, cplayer,
-                                  ptile, victim_link);
+        action_id_consequence_caught(action_id, pplayer, cplayer,
+                                     ptile, victim_link);
 
         wipe_unit(pdiplomat, ULR_ELIMINATED, uplayer);
         return FALSE;
