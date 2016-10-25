@@ -1243,7 +1243,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QHeaderView *header;
   QLabel *lab2, *label, *ql, *some_label;
   QPushButton *qpush2;
-  QScrollArea *scroll, *scroll2, *scroll3;
+  QScrollArea *scroll, *scroll2, *scroll3, *scroll_info, *scroll_unit;
   QSizePolicy size_expanding_policy(QSizePolicy::Expanding,
                                     QSizePolicy::Expanding);
   QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -1258,11 +1258,11 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   happines_shown = false;
   central_splitter = new QSplitter;
-  central_splitter->setOpaqueResize(true);
+  central_splitter->setOpaqueResize(false);
   central_left_splitter = new QSplitter;
-  central_left_splitter->setOpaqueResize(true);
+  central_left_splitter->setOpaqueResize(false);
   prod_unit_splitter = new QSplitter;
-  prod_unit_splitter->setOpaqueResize(true);
+  prod_unit_splitter->setOpaqueResize(false);
 
   setParent(parent);
   setMouseTracking(true);
@@ -1693,19 +1693,24 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   split_widget2->setLayout(units_layout);
   prod_unit_splitter->addWidget(split_widget1);
   prod_unit_splitter->addWidget(split_widget2);
-  prod_unit_splitter->setStretchFactor(0, 1);
-  prod_unit_splitter->setStretchFactor(1, 5);
+  prod_unit_splitter->setStretchFactor(0, 40);
+  prod_unit_splitter->setStretchFactor(1, 60);
   prod_unit_splitter->setOrientation(Qt::Horizontal);
   leftbot_layout->addWidget(prod_unit_splitter);
   top_widget = new QWidget;
   top_widget->setLayout(lefttop_layout);
-
+  scroll_info = new QScrollArea();
+  scroll_unit = new QScrollArea();
+  scroll_info->setWidget(top_widget);
+  scroll_info->setWidgetResizable(true);
   prod_happ_widget = new QWidget;
   prod_happ_widget->setLayout(leftbot_layout);
-  central_left_splitter->addWidget(top_widget);
-  central_left_splitter->addWidget(prod_happ_widget);
-  central_left_splitter->setStretchFactor(0, 1);
-  central_left_splitter->setStretchFactor(1, 100);
+  scroll_unit->setWidget(prod_happ_widget);
+  scroll_unit->setWidgetResizable(true);
+  central_left_splitter->addWidget(scroll_info);
+  central_left_splitter->addWidget(scroll_unit);
+  central_left_splitter->setStretchFactor(0, 60);
+  central_left_splitter->setStretchFactor(1, 60);
   central_left_splitter->setOrientation(Qt::Vertical);
   left_layout->addWidget(central_left_splitter);
 
@@ -1715,8 +1720,8 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   split_widget2->setLayout(right_layout);
   central_splitter->addWidget(split_widget1);
   central_splitter->addWidget(split_widget2);
-  central_splitter->setStretchFactor(0, 100);
-  central_splitter->setStretchFactor(1, 1);
+  central_splitter->setStretchFactor(0, 80);
+  central_splitter->setStretchFactor(1, 20);
   central_splitter->setOrientation(Qt::Horizontal);
   single_page_layout->addWidget(central_splitter);
   setSizeGripEnabled(true);
@@ -1872,6 +1877,9 @@ void city_dialog::showEvent(QShowEvent *event)
     prod_unit_splitter->restoreState(gui()->qt_settings.city_splitter1);
     central_left_splitter->restoreState(gui()->qt_settings.city_splitter2);
     central_splitter->restoreState(gui()->qt_settings.city_splitter3);
+  } else {
+    QRect rect = QApplication::desktop()->screenGeometry();
+    resize((rect.width() * 4) / 5, (rect.height() * 5) / 6);
   }
 }
 
