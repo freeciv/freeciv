@@ -6409,9 +6409,12 @@ void tileset_use_preferred_theme(const struct tileset *t)
     default_theme_name_sz = sizeof(gui_options.gui_gtk2_default_theme_name);
     break;
   case GUI_GTK3:
-  case GUI_GTK3_22:
     default_theme_name = gui_options.gui_gtk3_default_theme_name;
     default_theme_name_sz = sizeof(gui_options.gui_gtk3_default_theme_name);
+    break;
+  case GUI_GTK3_22:
+    default_theme_name = gui_options.gui_gtk3_22_default_theme_name;
+    default_theme_name_sz = sizeof(gui_options.gui_gtk3_22_default_theme_name);
     break;
   case GUI_GTK3x:
     default_theme_name = gui_options.gui_gtk4_default_theme_name;
