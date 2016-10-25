@@ -529,6 +529,10 @@ QComboBox:hover {
   color: #3399FF;
 }
 
+city_dialog QScrollArea QWidget {
+  background: #414a57;
+}
+
 city_dialog QScrollArea QFrame {
   background: #414a57;
 }

@@ -462,6 +462,10 @@ notify_dialog {
   background-color: rgba(0, 0, 0,175);
 }
 
+city_dialog QScrollArea QWidget {
+  background: #c5c5c5;
+}
+
 city_dialog QScrollArea QFrame {
   background: #c5c5c5;
 }

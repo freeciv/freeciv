@@ -433,6 +433,10 @@ QComboBox:hover {
   color: black;
 }
 
+city_dialog QScrollArea QWidget {
+ background: #e1cea1;
+}
+
 city_dialog QScrollArea QFrame {
  background: #e1cea1;
 }
