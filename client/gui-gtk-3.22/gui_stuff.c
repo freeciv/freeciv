@@ -1028,7 +1028,7 @@ void gui_update_font(const char *font_name, const char *font_value)
   }
 
   if (pango_font_description_get_weight(desc) >= 700) {
-    weight = "\n font-style: bold;";
+    weight = "\n font-weight: bold;";
   } else {
     weight = "";
   }
