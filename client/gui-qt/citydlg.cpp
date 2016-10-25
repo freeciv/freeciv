@@ -1719,7 +1719,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   central_splitter->setStretchFactor(1, 1);
   central_splitter->setOrientation(Qt::Horizontal);
   single_page_layout->addWidget(central_splitter);
-
+  setSizeGripEnabled(true);
   setLayout(single_page_layout);
 
   ::city_dlg_created = true;
