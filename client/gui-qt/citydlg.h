@@ -422,6 +422,7 @@ class city_dialog: public QDialog
   QPushButton *work_add_but;
   QPushButton *work_rem_but;
   QPushButton *but_menu_worklist;
+  QPushButton *happiness_button;
   QPixmap *citizen_pixmap;
   unit_info *current_units;
   unit_info *supported_units;
@@ -452,6 +453,7 @@ private:
   void update_disabled();
   void update_sliders();
   void update_prod_buttons();
+  void update_happiness_button();
 
 private slots:
   void next_city();
