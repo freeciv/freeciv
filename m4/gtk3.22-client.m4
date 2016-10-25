@@ -8,7 +8,7 @@ AC_DEFUN([FC_GTK3_22_CLIENT],
   # Add check "x$client" = "xauto"  when this becomes supported client
   if test "x$gui_gtk3_22" = "xyes" ||
      test "x$client" = "xall" ; then
-    PKG_CHECK_MODULES([GTK3_22], [gtk+-3.0 >= 3.10.0],
+    PKG_CHECK_MODULES([GTK3_22], [gtk+-3.0 >= 3.22.0],
       [
         GTK3_22_CFLAGS="$GTK3_22_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_10"
         GTK3_22_CFLAGS="$GTK3_22_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_44"
