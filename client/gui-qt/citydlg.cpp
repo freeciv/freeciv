@@ -1242,7 +1242,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
               *v_layout, *work_but_layout;
   QHeaderView *header;
   QLabel *lab2, *label, *ql, *some_label;
-  QPushButton *button2, *qpush2;
+  QPushButton *qpush2;
   QScrollArea *scroll, *scroll2, *scroll3;
   QSizePolicy size_expanding_policy(QSizePolicy::Expanding,
                                     QSizePolicy::Expanding);
@@ -1415,32 +1415,36 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   button = new QPushButton;
   button->setIcon(fc_icons::instance()->get_icon("city-close"));
   button->setIconSize(QSize(56, 56));
+  button->setToolTip(_("Close city dialog"));
   connect(button, SIGNAL(clicked()), SLOT(hide()));
 
   next_city_but = new QPushButton();
   next_city_but->setIcon(fc_icons::instance()->get_icon("city-right"));
   next_city_but->setIconSize(QSize(56, 56));
+  next_city_but->setToolTip(_("Show next city"));
   connect(next_city_but, SIGNAL(clicked()), SLOT(next_city()));
 
   prev_city_but = new QPushButton();
   connect(prev_city_but, SIGNAL(clicked()), SLOT(prev_city()));
   prev_city_but->setIcon(fc_icons::instance()->get_icon("city-left"));
   prev_city_but->setIconSize(QSize(56, 56));
+  prev_city_but->setToolTip(_("Show previous city"));
 
-  button2 = new QPushButton();
-  button2->setIcon(fc_icons::instance()->get_icon("city-switch"));
-  button2->setIconSize(QSize(56, 28));
-  connect(button2, SIGNAL(clicked()), SLOT(show_happiness()));
+  happiness_button = new QPushButton();
+  happiness_button->setIcon(fc_icons::instance()->get_icon("city-switch"));
+  happiness_button->setIconSize(QSize(56, 28));
+  connect(happiness_button, SIGNAL(clicked()), SLOT(show_happiness()));
+  update_happiness_button();
 
   button->setFixedSize(64, 64);
   prev_city_but->setFixedSize(64, 64);
   next_city_but->setFixedSize(64, 64);
-  button2->setFixedSize(64, 32);
+  happiness_button->setFixedSize(64, 32);
   vbox_layout = new QVBoxLayout;
   vbox_layout->addWidget(prev_city_but);
   vbox_layout->addWidget(next_city_but);
   vbox_layout->addWidget(button);
-  vbox_layout->addWidget(button2, Qt::AlignHCenter);
+  vbox_layout->addWidget(happiness_button, Qt::AlignHCenter);
   hbox_layout = new QHBoxLayout;
 
   hbox_layout->addLayout(vbox_layout, Qt::AlignLeft);
@@ -1722,6 +1726,18 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 }
 
 /****************************************************************************
+  Sets tooltip for happiness/pruction button switcher
+****************************************************************************/
+void city_dialog::update_happiness_button()
+{
+  if (happines_shown == false) {
+    happiness_button->setToolTip(_("Show happiness information"));
+  } else {
+    happiness_button->setToolTip(_("Show city production"));
+  }
+}
+
+/****************************************************************************
   Shows happiness tab
 ****************************************************************************/
 void city_dialog::show_happiness()
@@ -1747,6 +1763,7 @@ void city_dialog::show_happiness()
   setUpdatesEnabled(true);
   update();
   happines_shown = !happines_shown;
+  update_happiness_button();
 }
 
 
