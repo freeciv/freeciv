@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 05-Aug-16.
+Last minor update was 24-Oct-16.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -14,7 +14,7 @@ This document contains sections and subsections as follows:
      1. Prerequisites for the clients:
           1a. Prerequisites for the Gtk2 client:
           1b. Prerequisites for the Gtk3 client:
-          1c. Prerequisites for the Gtk3x client:
+          1c. Prerequisites for the Gtk3.22 client:
           1d. Prerequisites for the SDL2 client:
           1e. Prerequisites for the Qt client:
      2. Generating Makefiles
@@ -111,7 +111,7 @@ contains the generated files.
 The Freeciv client comes in the following forms:
 * Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
-* Gtk+ 3.0 widget library, current versions ("Gtk+ 3.x")
+* Gtk+ 3.0 widget library, version 3.22 ("Gtk+ 3.22")
 * SDL2
 * Qt
 
@@ -260,7 +260,7 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
 If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
-1c. Prerequisites for the Gtk+ 3.x client:
+1c. Prerequisites for the Gtk+ 3.22 client:
 ==========================================
 
  - "pkg-config".
@@ -268,7 +268,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.tar.gz
+      http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.1.tar.gz
 
  - The "Glib" utility library.
 
@@ -280,7 +280,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/glib/2.48/glib-2.48.2.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
 
  - The "Atk" accessibility library.
 
@@ -288,21 +288,21 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/atk/2.18/atk-2.18.0.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/atk/2.22/atk-2.22.0.tar.xz
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     http://ftp.gnome.org/pub/gnome/sources/pango/1.38/pango-1.38.1.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/pango/1.40/pango-1.40.3.tar.xz
 
  - The "Gdk-Pixbuf" image loading/saving library
 
    "Gdk-Pixbuf" used to be part of "Gtk+" itself, but is now separate
    project. It may be obtained from:
 
-     http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.3.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.0.tar.xz
 
  - The "Gtk+" widget library.
 
@@ -320,7 +320,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.20/gtk+-3.20.9.tar.xz
+     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/gtk+-3.22.1.tar.xz
 
    "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
 
