@@ -495,6 +495,21 @@ void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p)
 }
 
 /**************************************************************************
+  Fill image with unit gfx
+**************************************************************************/
+void put_unit_image(struct unit *punit, GtkImage *p)
+{
+  GdkPixbuf *pixbuf;
+  struct sprite *spr;
+
+  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing, FALSE);
+  pixbuf = sprite_get_pixbuf(spr);
+
+  gtk_image_set_from_pixbuf(p, pixbuf);
+  g_object_unref(pixbuf);
+}
+
+/**************************************************************************
   FIXME:
   For now only two food, two gold one shield and two masks can be drawn per
   unit, the proper way to do this is probably something like what Civ II does.

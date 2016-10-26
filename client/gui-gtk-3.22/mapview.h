@@ -39,6 +39,8 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
 
+void put_unit_image(struct unit *punit, GtkImage *p);
+
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
                                     int *upkeep_cost, int happy_cost);
 

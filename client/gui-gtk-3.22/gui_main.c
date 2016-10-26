@@ -166,11 +166,11 @@ const char *const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 static GtkWidget *main_menubar;
-static GtkWidget *unit_pixmap_table;
-static GtkWidget *unit_pixmap;
-static GtkWidget *unit_pixmap_button;
-static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
-static GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
+static GtkWidget *unit_image_table;
+static GtkWidget *unit_image;
+static GtkWidget *unit_image_button;
+static GtkWidget *unit_below_image[MAX_NUM_UNITS_BELOW];
+static GtkWidget *unit_below_image_button[MAX_NUM_UNITS_BELOW];
 static GtkWidget *more_arrow_pixmap;
 static GtkWidget *more_arrow_pixmap_button;
 static GtkWidget *more_arrow_pixmap_container;
@@ -211,8 +211,8 @@ static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *tearbox);
 
-static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
-                                            gpointer data);
+static gboolean select_unit_image_callback(GtkWidget *w, GdkEvent *ev,
+                                           gpointer data);
 static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
                                                   gpointer data);
 static gboolean quit_dialog_callback(void);
@@ -902,10 +902,10 @@ static GtkWidget *detached_widget_fill(GtkWidget *tearbox)
 
   It may be called again if the tileset changes.
 **************************************************************************/
-static void populate_unit_pixmap_table(void)
+static void populate_unit_image_table(void)
 {
   int i, width;
-  GtkWidget *table = unit_pixmap_table;
+  GtkWidget *table = unit_image_table;
   GdkPixbuf *pix;
 
   /* get width of the overview window */
@@ -925,39 +925,36 @@ static void populate_unit_pixmap_table(void)
   /* Top row: the active unit. */
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
-  unit_pixmap = gtk_pixcomm_new(tileset_unit_width(tileset), tileset_unit_height(tileset));
-  gtk_widget_add_events(unit_pixmap, GDK_BUTTON_PRESS_MASK);
-  g_object_ref(unit_pixmap);
-  gtk_pixcomm_clear(GTK_PIXCOMM(unit_pixmap));
-  unit_pixmap_button = gtk_event_box_new();
-  gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_pixmap_button), FALSE);
-  g_object_ref(unit_pixmap_button);
-  gtk_container_add(GTK_CONTAINER(unit_pixmap_button), unit_pixmap);
-  gtk_grid_attach(GTK_GRID(table), unit_pixmap_button, 0, 0, 1, 1);
-  g_signal_connect(unit_pixmap_button, "button_press_event",
-		   G_CALLBACK(select_unit_pixmap_callback), 
-		   GINT_TO_POINTER(-1));
+  unit_image = gtk_image_new();
+  gtk_widget_add_events(unit_image, GDK_BUTTON_PRESS_MASK);
+  g_object_ref(unit_image);
+  unit_image_button = gtk_event_box_new();
+  gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_image_button), FALSE);
+  g_object_ref(unit_image_button);
+  gtk_container_add(GTK_CONTAINER(unit_image_button), unit_image);
+  gtk_grid_attach(GTK_GRID(table), unit_image_button, 0, 0, 1, 1);
+  g_signal_connect(unit_image_button, "button_press_event",
+                   G_CALLBACK(select_unit_image_callback), 
+                   GINT_TO_POINTER(-1));
 
   if (!GUI_GTK_OPTION(small_display_layout)) {
     /* Bottom row: other units in the same tile. */
     for (i = 0; i < num_units_below; i++) {
-      unit_below_pixmap[i] = gtk_pixcomm_new(tileset_unit_width(tileset),
-                                             tileset_unit_height(tileset));
-      g_object_ref(unit_below_pixmap[i]);
-      gtk_widget_add_events(unit_below_pixmap[i], GDK_BUTTON_PRESS_MASK);
-      unit_below_pixmap_button[i] = gtk_event_box_new();
-      g_object_ref(unit_below_pixmap_button[i]);
-      gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_below_pixmap_button[i]), FALSE);
-      gtk_container_add(GTK_CONTAINER(unit_below_pixmap_button[i]),
-                        unit_below_pixmap[i]);
-      g_signal_connect(unit_below_pixmap_button[i],
+      unit_below_image[i] = gtk_image_new();
+      g_object_ref(unit_below_image[i]);
+      gtk_widget_add_events(unit_below_image[i], GDK_BUTTON_PRESS_MASK);
+      unit_below_image_button[i] = gtk_event_box_new();
+      g_object_ref(unit_below_image_button[i]);
+      gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_below_image_button[i]), FALSE);
+      gtk_container_add(GTK_CONTAINER(unit_below_image_button[i]),
+                        unit_below_image[i]);
+      g_signal_connect(unit_below_image_button[i],
                        "button_press_event",
-                       G_CALLBACK(select_unit_pixmap_callback),
+                       G_CALLBACK(select_unit_image_callback),
                        GINT_TO_POINTER(i));
 
-      gtk_grid_attach(GTK_GRID(table), unit_below_pixmap_button[i],
+      gtk_grid_attach(GTK_GRID(table), unit_below_image_button[i],
                       i, 1, 1, 1);
-      gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
     }
   }
 
@@ -1002,22 +999,22 @@ static void populate_unit_pixmap_table(void)
 **************************************************************************/
 static void free_unit_table(void)
 {
-  if (unit_pixmap_button) {
-    gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-                         unit_pixmap_button);
-    g_object_unref(unit_pixmap);
-    g_object_unref(unit_pixmap_button);
+  if (unit_image_button) {
+    gtk_container_remove(GTK_CONTAINER(unit_image_table),
+                         unit_image_button);
+    g_object_unref(unit_image);
+    g_object_unref(unit_image_button);
     if (!GUI_GTK_OPTION(small_display_layout)) {
       int i;
 
       for (i = 0; i < num_units_below; i++) {
-        gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-                             unit_below_pixmap_button[i]);
-        g_object_unref(unit_below_pixmap[i]);
-        g_object_unref(unit_below_pixmap_button[i]);
+        gtk_container_remove(GTK_CONTAINER(unit_image_table),
+                             unit_below_image_button[i]);
+        g_object_unref(unit_below_image[i]);
+        g_object_unref(unit_below_image_button[i]);
       }
     }
-    gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
+    gtk_container_remove(GTK_CONTAINER(unit_image_table),
                          more_arrow_pixmap_container);
     g_object_unref(more_arrow_pixmap);
     g_object_unref(more_arrow_pixmap_button);
@@ -1033,10 +1030,10 @@ void reset_unit_table(void)
   /* Unreference all of the widgets that we're about to reallocate, thus
    * avoiding a memory leak. Remove them from the container first, just
    * to be safe. Note, the widgets are ref'd in
-   * populatate_unit_pixmap_table. */
+   * populatate_unit_image_table. */
   free_unit_table();
 
-  populate_unit_pixmap_table();
+  populate_unit_image_table();
 
   /* We have to force a redraw of the units.  And we explicitly have
    * to force a redraw of the focus unit, which is normally only
@@ -1427,7 +1424,7 @@ static void setup_widgets(void)
   gtk_grid_set_row_spacing(GTK_GRID(table), 2);
   gtk_grid_set_column_spacing(GTK_GRID(table), 2);
 
-  unit_pixmap_table = table;
+  unit_image_table = table;
 
   /* Map canvas, editor toolbar, and scrollbars */
 
@@ -1888,10 +1885,10 @@ void set_unit_icon(int idx, struct unit *punit)
   fc_assert_ret(idx >= -1 && idx < num_units_below);
 
   if (idx == -1) {
-    w = unit_pixmap;
+    w = unit_image;
     unit_id_top = punit ? punit->id : 0;
   } else {
-    w = unit_below_pixmap[idx];
+    w = unit_below_image[idx];
     unit_ids[idx] = punit ? punit->id : 0;
   }
 
@@ -1900,9 +1897,9 @@ void set_unit_icon(int idx, struct unit *punit)
   }
 
   if (punit) {
-    put_unit_gpixmap(punit, GTK_PIXCOMM(w));
+    put_unit_image(punit, GTK_IMAGE(w));
   } else {
-    gtk_pixcomm_clear(GTK_PIXCOMM(w));
+    gtk_image_clear(GTK_IMAGE(w));
   }
 }
 
@@ -1944,8 +1941,8 @@ void real_focus_units_changed(void)
  callback for clicking a unit icon underneath unit info box.
  these are the units on the same tile as the focus unit.
 **************************************************************************/
-static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
-                                        gpointer data) 
+static gboolean select_unit_image_callback(GtkWidget *w, GdkEvent *ev, 
+                                           gpointer data) 
 {
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
