@@ -348,7 +348,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl/sdl2/xaw/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/gtk3.22/sdl/sdl2/xaw/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -362,6 +362,7 @@ if test "x$fcweb" = "xtrue" ; then
 fi
 
 gui_gtk2=no
+gui_gtk3_22=no
 gui_gtk3=no
 gui_sdl=no
 gui_sdl2=no
@@ -382,6 +383,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
        test "x$gui" = "xgtk20"  ||
        test "x$gui" = "xgtk-2.0" ; then
       gui_gtk2=yes
+    elif test "x$gui" = "xgtk3.22" ; then
+      gui_gtk3_22=yes
     elif test "x$gui" = "xgtk3"   ||
          test "x$gui" = "xgtk3.0" ||
          test "x$gui" = "xgtk30"  ||
@@ -887,6 +890,9 @@ if test "x$client" != "xno"; then
     AS_MESSAGE([checking for which clients to compile:...])
   fi
 
+  dnl Gtk-3.22-specific overrides
+  FC_GTK3_22_CLIENT
+
   dnl Gtk-3.0-specific overrides
   FC_GTK3_CLIENT
 
@@ -922,6 +928,7 @@ fi
 
 if test "x$client" = "xall" ; then
   if test "x$gui_gtk2" = "xyes" ||
+     test "x$gui_gtk3_22" = "xyes" ||
      test "x$gui_gtk3" = "xyes" ||
      test "x$gui_sdl" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
@@ -1145,6 +1152,9 @@ AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 AC_SUBST([gui_gtk2_cflags])
 AC_SUBST([gui_gtk2_libs])
 AC_SUBST([gui_gtk2_ldflags])
+AC_SUBST([gui_gtk3_22_cflags])
+AC_SUBST([gui_gtk3_22_libs])
+AC_SUBST([gui_gtk3_22_ldflags])
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])
@@ -1190,6 +1200,7 @@ AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "x$gui_sdl" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
+AM_CONDITIONAL(CLIENT_GUI_GTK_3_22, test "x$gui_gtk3_22" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "x$gui_xaw" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
@@ -1592,6 +1603,27 @@ AC_CONFIG_FILES([Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Spin/Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Tabs/Makefile
 	  data/themes/gui-gtk-3.0/Freeciv/gtk-3.0/Toolbar/Makefile
+	  data/themes/gui-gtk-3.22/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Arrows/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Buttons/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Check-Radio/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Combo/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Frame-Gap/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Handles/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Lines/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/ListHeaders/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Menu-Menubar/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Others/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Panel/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/ProgressBar/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Range/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Scrollbars/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Shadows/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Spin/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Tabs/Makefile
+	  data/themes/gui-gtk-3.22/Freeciv/gtk-3.0/Toolbar/Makefile
 	  data/themes/gui-qt/Makefile
 	  data/themes/gui-qt/icons/Makefile
 	  data/themes/gui-qt/Classic/Makefile
@@ -1632,6 +1664,7 @@ AC_CONFIG_FILES([Makefile
           client/gui-sdl2/Makefile
 	  client/gui-gtk-2.0/Makefile
 	  client/gui-gtk-3.0/Makefile
+          client/gui-gtk-3.22/Makefile
 	  client/gui-xaw/Makefile
           client/gui-qt/Makefile
 	  client/gui-stub/Makefile
@@ -1716,7 +1749,8 @@ AC_MSG_NOTICE([
 
   In-development client frontends:
   (these are not yet ready for general use)
-    SDL2:    $gui_sdl2
+    Gtk-3.22: $gui_gtk3_22
+    SDL2:     $gui_sdl2
 
   Not maintained client frontends:
     Xaw:     $gui_xaw

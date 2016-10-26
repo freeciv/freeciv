@@ -14,10 +14,11 @@ This document contains sections and subsections as follows:
      1. Prerequisites for the clients:
           1a. Prerequisites for the Gtk2 client:
           1b. Prerequisites for the Gtk3 client:
-          1c. Prerequisites for the SDL client:
-          1d. Prerequisites for the SDL2 client:
-          1e. Prerequisites for the Xaw client:
-          1f. Prerequisites for the Qt client:
+          1c. Prerequisites for the Gtk3.22 client:
+          1d. Prerequisites for the SDL client:
+          1e. Prerequisites for the SDL2 client:
+          1f. Prerequisites for the Xaw client:
+          1g. Prerequisites for the Qt client:
      2. Generating Makefiles
           2a. Generating the Makefile for svn versions:
           2b. Generating the Makefile for release versions:
@@ -253,7 +254,74 @@ following order: pkg-config, Glib, Atk, Pango, Gtk+.
 If you are going to make these yourself, build and install them in the
 following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
-1c. Prerequisites for the SDL client:
+1c. Prerequisites for the Gtk+ 3.22 client:
+==========================================
+
+ - "pkg-config".
+
+   "pkg-config" is a system for managing library compile/link flags that
+   works with automake and autoconf. You may obtain it at:
+
+      http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.1.tar.gz
+
+ - The "Glib" utility library.
+
+   The "Glib" utility library provides non-graphical functions used by the
+   "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
+
+   Freeciv requires a version of "Glib" greater or equal to 2.50
+
+   If the Freeciv configure process tells you that you don't have the
+   Glib library installed, then it may be obtained from here:
+
+     http://ftp.gnome.org/pub/gnome/sources/glib/2.50/glib-2.50.1.tar.xz
+
+ - The "Atk" accessibility library.
+
+   The "Atk" library provides a set of interfaces for accessibility.
+   It allows people with disabilities to utilize all the functionality
+   provided by Gtk+ apps. You may obtain it at:
+
+     http://ftp.gnome.org/pub/gnome/sources/atk/2.22/atk-2.22.0.tar.xz
+
+ - The "Pango" text layout and rendering library.
+
+   "Pango" is library for layout and rendering of text, with an emphasis
+   on internationalization. You may obtain it at:
+
+     http://ftp.gnome.org/pub/gnome/sources/pango/1.40/pango-1.40.3.tar.xz
+
+ - The "Gdk-Pixbuf" image loading/saving library
+
+   "Gdk-Pixbuf" used to be part of "Gtk+" itself, but is now separate
+   project. It may be obtained from:
+
+     http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.0.tar.xz
+
+ - The "Gtk+" widget library.
+
+   The "Gtk+" widget library was designed for the GIMP graphics program.
+   Since then it has gained popularity as an easy to program, free toolkit.
+
+   The "Gtk+" library comes with one companion libraries:
+
+     "Gdk":
+       Provides an abstraction layer over X-Windows/LinuxFB/Win32 to implement
+       basic drawing functions, windows, clipping, etc.
+
+   Freeciv requires a version of "Gtk+" greater or equal to 3.22.0.
+
+   If the Freeciv configure process tells you that you don't have the
+   Gtk+ library installed, then it may be obtained from here:
+
+     http://ftp.gnome.org/pub/gnome/sources/gtk+/3.22/gtk+-3.22.1.tar.xz
+
+   "Gtk+" depends on the "Glib", "Atk", "Gdk-Pixbuf", and "Pango" libraries.
+
+If you are going to make these yourself, build and install them in the
+following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
+
+1d. Prerequisites for the SDL client:
 =====================================
 
  - The "SDL" library.
@@ -294,7 +362,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    
    http://download.savannah.gnu.org/releases/freetype/freetype-2.3.2.tar.gz
 
-1d. Prerequisites for the SDL2 client:
+1e. Prerequisites for the SDL2 client:
 =====================================
 
  - The "SDL2" library.
@@ -335,7 +403,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    http://download.savannah.gnu.org/releases/freetype/freetype-2.5.4.tar.bz2
 
-1e. Prerequisites for the Xaw client:
+1f. Prerequisites for the Xaw client:
 =====================================
 
  - X-Windows.
@@ -406,7 +474,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    After installing a suitable font and restarting X the problem should go
    away.
 
-1f. Prerequisites for the Qt client:
+1g. Prerequisites for the Qt client:
 ====================================
 
  - C++ compiler.

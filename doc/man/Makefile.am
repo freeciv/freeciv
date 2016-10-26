@@ -10,6 +10,7 @@ MAN_PAGES = 			\
 MAN_LINKS = 			\
 	freeciv-gtk2.6		\
 	freeciv-gtk3.6		\
+	freeciv-gtk3.22.6	\
 	freeciv-sdl.6		\
 	freeciv-sdl2.6		\
 	freeciv-xaw.6		\
