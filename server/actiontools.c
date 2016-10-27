@@ -804,7 +804,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
       = action_auto_perf_unit_sel(cause, actor, output);
 
   if (!autoperf) {
-    /* No matching action forcer. */
+    /* No matching Action Auto Performer. */
     return NULL;
   }
 
