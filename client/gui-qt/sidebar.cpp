@@ -68,6 +68,7 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   wheel_down = nullptr;
   wheel_up = nullptr;
   page = pg;
+  def_pixmap = nullptr;
   setContextMenuPolicy(Qt::CustomContextMenu);
   timer = new QTimer;
   timer->setSingleShot(false);
