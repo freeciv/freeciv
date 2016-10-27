@@ -644,6 +644,8 @@ gov_menu::gov_menu(QWidget* parent) :
 ****************************************************************************/
 gov_menu::~gov_menu()
 {
+  delete gov_mapper;
+  qDeleteAll(actions);
   instances.remove(this);
 }
 

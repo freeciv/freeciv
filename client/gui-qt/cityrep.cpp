@@ -168,6 +168,7 @@ city_model::city_model(QObject *parent): QAbstractListModel(parent)
 city_model::~city_model()
 {
   qDeleteAll(city_list);
+  city_list.clear();
 }
 
 /***************************************************************************

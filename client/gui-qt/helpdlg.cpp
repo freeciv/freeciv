@@ -185,7 +185,7 @@ void help_dialog::make_tree()
   int dep;
   int i;
   QHash<int, QTreeWidgetItem *> hash;
-  QIcon *icon;
+  QIcon icon;
   QTreeWidgetItem *item;
   sprite *spite;
   struct advance *padvance;
@@ -210,7 +210,6 @@ void help_dialog::make_tree()
     topics_map[item] = pitem;
     dep = s - pitem->topic;
     hash.insert(dep, item);
-    icon = nullptr;
 
     if (dep == 0) {
       tree_wdg->addTopLevelItem(item);
@@ -222,14 +221,14 @@ void help_dialog::make_tree()
       case HELP_EXTRA:
         pextra = extra_type_by_translated_name(s);
         fill_basic_extra_sprite_array(tileset, sprs, pextra);
-        icon = new QIcon(*sprs->sprite->pm);
+        icon = QIcon(*sprs->sprite->pm);
         break;
 
       case HELP_GOVERNMENT:
         gov = government_by_translated_name(s);
         spite = get_government_sprite(tileset, gov);
         if (spite) {
-          icon = new QIcon(*spite->pm);
+          icon = QIcon(*spite->pm);
         }
         break;
 
@@ -238,7 +237,7 @@ void help_dialog::make_tree()
         imp = improvement_by_translated_name(s);
         spite = get_building_sprite(tileset, imp);
         if (spite) {
-          icon = new QIcon(*spite->pm);
+          icon = QIcon(*spite->pm);
         }
         break;
 
@@ -247,7 +246,7 @@ void help_dialog::make_tree()
         if (padvance && !is_future_tech(i = advance_number(padvance))) {
           spite = get_tech_sprite(tileset, i);
           if (spite) {
-            icon = new QIcon(*spite->pm);
+            icon = QIcon(*spite->pm);
           }
         }
         break;
@@ -256,7 +255,7 @@ void help_dialog::make_tree()
         pterrain = terrain_by_translated_name(s);
         pcan = terrain_canvas(pterrain);
         if (pcan) {
-          icon = new QIcon(pcan->map_pixmap);
+          icon = QIcon(pcan->map_pixmap);
           delete pcan;
         }
         break;
@@ -267,7 +266,7 @@ void help_dialog::make_tree()
           spite = get_unittype_sprite(tileset, f_type, direction8_invalid());
         }
         if (spite) {
-          icon = new QIcon(*spite->pm);
+          icon = QIcon(*spite->pm);
         }
         break;
 
@@ -275,8 +274,8 @@ void help_dialog::make_tree()
         break;
       }
 
-      if (icon != nullptr) {
-        item->setIcon(0, *icon);
+      if (icon.isNull() == false) {
+        item->setIcon(0, icon);
       }
 
       hash.value(last)->addChild(item);

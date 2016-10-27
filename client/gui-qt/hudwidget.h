@@ -41,6 +41,7 @@ class hud_message_box: public QMessageBox
 
 public:
   hud_message_box(QWidget *parent);
+  ~hud_message_box();
   void set_text_title(QString s1, QString s2);
 
 protected:
@@ -70,6 +71,7 @@ class hud_input_box: public QDialog
 
 public:
   hud_input_box(QWidget *parent);
+  ~hud_input_box();
   void set_text_title_definput(QString s1, QString s2, QString def_input);
   QLineEdit input_edit;
 
@@ -155,8 +157,6 @@ private:
 class hud_units: public QFrame
 {
   Q_OBJECT
-  QPixmap *unit_pix;
-  QPixmap *tile_pix;
   click_label unit_label;
   click_label tile_label;
   QLabel text_label;

@@ -78,6 +78,7 @@ signals:
 
 public:
   progress_bar(QWidget *parent);
+  ~progress_bar();
   void mousePressEvent(QMouseEvent *event) {
     emit clicked();
   }
@@ -473,7 +474,6 @@ private slots:
   void worklist_del();
   void display_worklist_menu(const QPoint &p);
   void disband_state_changed(int state);
-  void update_results_text();
   void cma_slider(int val);
   void cma_celebrate_changed(int val);
   void cma_remove();
