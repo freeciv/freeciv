@@ -11,8 +11,8 @@ using MSYS2 from http://msys2.github.io
 
 - Msys1, not msys2, is still the official freeciv Windows Installer
   build method
-- Buildable clients are gtk3, gtk2, sdl2, and Qt
-  - Official pre-made msys2 environment supports only gtk3- and
+- Buildable clients are gtk3, gtk3.22, gtk2, sdl2, and Qt
+  - Official pre-made msys2 environment supports only gtk3-, gtk3.22- and
     sdl2-client builds
 
 
@@ -79,7 +79,7 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-readline / mingw-w64-x86_64-readline
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
 
-2.1.2.2) Arch-specific packages for building gtk3-client
+2.1.2.2) Arch-specific packages for building gtk3- and gtk3.22-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
 2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
@@ -166,6 +166,7 @@ somehow. Some options are:
   Target can be:
   - "<gui>-installer", where <gui> is
      - gtk3
+     - gtk3.22
      - gtk2
      - sdl2
      - qt

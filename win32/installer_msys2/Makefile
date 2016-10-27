@@ -35,18 +35,21 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 # by default build all installers that are buildable with current msys2 environment
 # gtk2-installer and qt-installers are not built.
-all: gtk3-installer sdl2-installer ruledit-installer
+all: gtk3-installer sdl2-installer ruledit-installer gtk3.22-installer
 
 # These are what can be built in current official environment version
-buildable-win32: gtk3-installer sdl2-installer ruledit-installer
+buildable-win32: gtk3-installer sdl2-installer ruledit-installer gtk3.22-installer
 
-buildable-win64: gtk3-installer sdl2-installer ruledit-installer
+buildable-win64: gtk3-installer sdl2-installer ruledit-installer gtk3.22-installer
 
 # See comments on 'snapshot' target why this wrapping is needed
 buildable: buildable-$(WINARCH)
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
+
+gtk3.22-installer:
+	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
 
 gtk2-installer:
 	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
@@ -123,6 +126,8 @@ install-freeciv-common:
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(WINARCH)-$(GUI)/
 
 install-freeciv-gtk3: install-freeciv-common
+
+install-freeciv-gtk3.22: install-freeciv-common
 
 install-freeciv-gtk2: install-freeciv-common
 
@@ -242,6 +247,8 @@ install-env-default-fcmp: install-env-common
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
 install-env-gtk3: install-env-default-fcmp
+
+install-env-gtk3.22: install-env-default-fcmp
 
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
@@ -401,6 +408,7 @@ clean-installer-ruledit:
 
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
+	make GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
