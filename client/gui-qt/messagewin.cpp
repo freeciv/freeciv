@@ -233,6 +233,22 @@ void messagewdg::item_selected(const QItemSelection &sl,
   mesg_table->clearSelection();
 }
 
+/**************************************************************************
+  Mouse entered messagewdg
+**************************************************************************/
+void messagewdg::enterEvent(QEvent *event)
+{
+  setCursor(Qt::ArrowCursor);
+}
+
+/**************************************************************************
+  Mouse left messagewdg
+**************************************************************************/
+void messagewdg::leaveEvent(QEvent *event)
+{
+  setCursor(Qt::ArrowCursor);
+}
+
 /***************************************************************************
   Paints semi-transparent background
 ***************************************************************************/
