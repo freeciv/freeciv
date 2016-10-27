@@ -1953,6 +1953,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   action_iterate(act) {
+    struct action *paction = action_by_number(act);
+
     if (action_by_number(act)->quiet) {
       /* The ruleset documents this action it self. */
       continue;
@@ -1995,6 +1997,72 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      target_adjective,
                      _(action_target_kind_name(
                          action_id_get_target_kind(act))));
+      }
+
+      if (action_id_get_target_kind(act) != ATK_SELF) {
+        /* Distance to target is relevant. */
+
+        /* FIXME: move paratroopers_range to the action and remove this
+         * variable once actions are generalized. */
+        int relative_max = action_has_result(paction, ACTION_PARADROP) ?
+              MIN(paction->max_distance, utype->paratroopers_range) :
+              paction->max_distance;
+
+        if (paction->min_distance == relative_max) {
+          /* Only one distance to target is acceptable */
+
+          if (paction->min_distance == 0) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: distance between an actor unit and its
+                          * target when performing a specific action. */
+                         _("  * target must be at the same tile.\n"));
+          } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: distance between an actor unit and its
+                        * target when performing a specific action. */
+                       PL_("  * target must be exactly %d tile away.\n",
+                           "  * target must be exactly %d tiles away.\n",
+                           paction->min_distance),
+                       paction->min_distance);
+          }
+        } else if (relative_max == ACTION_DISTANCE_UNLIMITED) {
+          /* No max distance */
+
+          if (paction->min_distance == 0) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: distance between an actor unit and its
+                          * target when performing a specific action. */
+                         _("  * target can be anywhere.\n"));
+          } else {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: distance between an actor unit and its
+                        * target when performing a specific action. */
+                       PL_("  * target must be at least %d tile away.\n",
+                           "  * target must be at least %d tiles away.\n",
+                           paction->min_distance),
+                       paction->min_distance);
+          }
+        } else if (paction->min_distance == 0) {
+          /* No min distance */
+
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: distance between an actor unit and its
+                        * target when performing a specific action. */
+                       PL_("  * target can be max %d tile away.\n",
+                           "  * target can be max %d tiles away.\n",
+                           relative_max),
+                       relative_max);
+        } else {
+          /* Full range. */
+
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: distance between an actor unit and its
+                        * target when performing a specific action. */
+                       PL_("  * target must be between %d and %d tile away.\n",
+                           "  * target must be between %d and %d tiles away.\n",
+                           relative_max),
+                       paction->min_distance, relative_max);
+        }
       }
 
       /* Custom action specific information. */
@@ -2044,12 +2112,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        " defenders, but damage all"
                        " defenders on a tile, and have no risk for the"
                        " attacker.\n"));
-        break;
-      case ACTION_PARADROP:
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: how far the jump can be. */
-                     _("  * range: %d tiles.\n"),
-                     utype->paratroopers_range);
         break;
       default:
         /* No action specific details. */
