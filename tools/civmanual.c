@@ -547,6 +547,8 @@ static bool manual_command(void)
       break;
 
     case MANUAL_GOVS:
+      /* Freeciv-web uses (parts of) the government HTML output in its own
+       * manual pages. */
       /* FIXME: this doesn't resemble the wiki manual at all. */
       /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
       fprintf(doc, _("%sFreeciv %s governments help (%s)%s\n\n"), TITLE_BEGIN,
@@ -565,6 +567,8 @@ static bool manual_command(void)
       break;
 
     case MANUAL_UNITS:
+      /* Freeciv-web uses (parts of) the unit type HTML output in its own
+       * manual pages. */
       /* FIXME: this doesn't resemble the wiki manual at all. */
       /* TRANS: markup ... Freeciv version ... ruleset name ... markup */
       fprintf(doc, _("%sFreeciv %s unit types help (%s)%s\n\n"),
