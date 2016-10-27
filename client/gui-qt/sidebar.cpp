@@ -68,7 +68,6 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   wheel_down = nullptr;
   wheel_up = nullptr;
   page = pg;
-  def_pixmap = nullptr;
   setContextMenuPolicy(Qt::CustomContextMenu);
   timer = new QTimer;
   timer->setSingleShot(false);
@@ -88,6 +87,11 @@ fc_sidewidget::~fc_sidewidget()
   if (def_pixmap) {
     delete def_pixmap;
   }
+
+  if (final_pixmap) {
+    delete final_pixmap;
+  }
+  delete timer;
 }
 
 /***************************************************************************
@@ -340,11 +344,16 @@ void fc_sidewidget::update_final_pixmap()
     pos = 0;
     int d, modulo;
     sprite = get_tax_sprite(tileset, O_GOLD);
+    if (sprite == nullptr) {
+      return;
+    }
     w = width() / 10;
     modulo = width() % 10;
     h = sprite->pm->height();
     reduce_mod(modulo, pos);
-
+    if (client.conn.playing == nullptr) {
+      return;
+    }
     for (d = 0; d < client.conn.playing->economic.tax / 10; ++d) {
       p.drawPixmap(pos, 5, sprite->pm->scaled(w, h), 0, 0, w, h);
       pos = pos + w;
@@ -444,7 +453,9 @@ fc_sidebar::fc_sidebar()
 ***************************************************************************/
 fc_sidebar::~fc_sidebar()
 {
-
+  if (sidebar_img) {
+    delete sidebar_img;
+  }
 }
 
 /***************************************************************************

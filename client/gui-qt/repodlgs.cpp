@@ -102,6 +102,8 @@ research_diagram::~research_diagram()
 {
   qtg_canvas_free(pcanvas);
   destroy_reqtree(req);
+  qDeleteAll(tt_help);
+  tt_help.clear();
 }
 
 /****************************************************************************

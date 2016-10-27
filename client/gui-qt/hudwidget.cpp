@@ -66,10 +66,19 @@ hud_message_box::hud_message_box(QWidget *parent): QMessageBox(parent)
   fm_text = new QFontMetrics(f_text);
   fm_title = new QFontMetrics(f_title);
   top = 0;
+  m_animate_step = 0;
   hide();
   mult = 1;
 }
 
+/****************************************************************************
+  Custom message box destructor
+****************************************************************************/
+hud_message_box::~hud_message_box()
+{
+  delete fm_text;
+  delete fm_title;
+}
 /****************************************************************************
   Key press event for hud message box
 ****************************************************************************/
@@ -218,10 +227,19 @@ hud_input_box::hud_input_box(QWidget *parent): QDialog(parent)
   fm_text = new QFontMetrics(f_text);
   fm_title = new QFontMetrics(f_title);
   top = 0;
+  m_animate_step = 0;
   hide();
   mult = 1;
 }
 
+/****************************************************************************
+  Custom input box destructor
+****************************************************************************/
+hud_input_box::~hud_input_box()
+{
+  delete fm_text;
+  delete fm_title;
+}
 /****************************************************************************
   Sets text, title and default text and shows input box
 ****************************************************************************/
@@ -380,7 +398,6 @@ hud_units::hud_units(QWidget *parent) : QFrame(parent)
 ****************************************************************************/
 hud_units::~hud_units()
 {
-
 }
 
 
@@ -549,6 +566,7 @@ hud_action::hud_action(QWidget *parent) : QWidget(parent)
   connect(this, SIGNAL(left_clicked()), SLOT(on_clicked()));
   setFocusPolicy(Qt::ClickFocus);
   focus = false;
+  action_pixmap = nullptr;
 }
 
 /****************************************************************************
@@ -589,7 +607,9 @@ void hud_action::paintEvent(QPaintEvent *event)
 ****************************************************************************/
 hud_action::~hud_action()
 {
-
+  if (action_pixmap) {
+    delete action_pixmap;
+  }
 }
 
 /****************************************************************************

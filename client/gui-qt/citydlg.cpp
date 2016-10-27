@@ -73,6 +73,15 @@ progress_bar::progress_bar(QWidget *parent): QProgressBar(parent)
   startTimer(50);
   create_region();
   sfont = new QFont;
+  m_animate_step = 0;
+}
+
+/****************************************************************************
+  Custom progressbar destructor
+****************************************************************************/
+progress_bar::~progress_bar()
+{
+  delete sfont;
 }
 
 /****************************************************************************
@@ -1845,6 +1854,7 @@ void city_dialog::update_prod_buttons()
 city_dialog::~city_dialog()
 {
   if (citizen_pixmap) {
+    citizen_pixmap->detach();
     delete citizen_pixmap;
   }
 
@@ -2129,7 +2139,6 @@ void city_dialog::update_cma_tab()
   }
 
   update_sliders();
-  update_results_text();
 }
 
 /****************************************************************************
@@ -2200,29 +2209,6 @@ void city_dialog::cma_slider(int value)
   }
 }
 
-/****************************************************************************
-  Updates text result in cma tab
-****************************************************************************/
-void city_dialog::update_results_text()
-{
-
-  QString str;
-  struct cm_parameter param;
-  struct cm_result *result = cm_result_new(pcity);
-
-  cmafec_get_fe_parameter(pcity, &param);
-  cm_result_from_main_map(result, pcity);
-  str = cmafec_get_result_descr(pcity, result, &param);
-  cma_info_text->setText(str);
-
-  if (!cma_is_city_under_agent(pcity, NULL)) {
-    cma_info_text->setDisabled(true);
-  } else {
-    cma_info_text->setDisabled(false);
-  }
-
-  cm_result_destroy(result);
-}
 
 /****************************************************************************
   Received signal about changed qcheckbox - disband at size 1
@@ -2411,6 +2397,7 @@ void city_dialog::update_citizens()
   height = h;
 
   if (citizen_pixmap) {
+    citizen_pixmap->detach();
     delete citizen_pixmap;
   }
 
