@@ -46,6 +46,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   QString name;
   QString res_name;
   QString path;
+  QString fake_dir;
   QDir dir;
   QFile f;
   QString lnb = "LittleFinger";
@@ -59,9 +60,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     real_data_dir = QString(directory);
   }
 
-  path = real_data_dir
-         + QDir::separator() + theme_name + QDir::separator();
-  name = dir.absolutePath() + QDir::separator() + real_data_dir;
+  path = real_data_dir + DIR_SEPARATOR + theme_name + DIR_SEPARATOR;
   name = path + "resource.qss";
   f.setFileName(name);
 
@@ -71,12 +70,12 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     }
     return;
   }
-
+  /* Stylesheet uses UNIX separators */
+  fake_dir = real_data_dir;
+  fake_dir.replace(QString(DIR_SEPARATOR), "/");
   QTextStream in(&f);
   stylestring = in.readAll();
-  stylestring.replace(lnb, real_data_dir
-                      + QDir::separator() + theme_name
-                      + QDir::separator());
+  stylestring.replace(lnb, fake_dir + "/" + theme_name + "/");
 
   if (QString(theme_name) == QString("System")) {
     QApplication::setStyle(QStyleFactory::create(def_app_style));
@@ -99,9 +98,10 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void qtg_gui_clear_theme()
 {
-  QString name;
+  QString name, str;
 
-  name = fileinfoname(get_data_dirs(), "themes/gui-qt/");
+  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
+  name = fileinfoname(get_data_dirs(), str.toLocal8Bit().data());
   qtg_gui_load_theme(name.toLocal8Bit().data(),
                      "NightStalker");
 }
@@ -114,10 +114,13 @@ void qtg_gui_clear_theme()
 *****************************************************************************/
 char **qtg_get_gui_specific_themes_directories(int *count)
 {
-  *count = 1;
   char **array;
+  char *persistent = static_cast<char*>(fc_malloc(256));
+
+  *count = 1;
   array = new char *[*count];
-  array[0] = const_cast<char*>(fileinfoname(get_data_dirs(),""));
+  strncpy(persistent, fileinfoname(get_data_dirs(),""), 256);
+  array[0] = persistent;
   return array;
 }
 
@@ -136,16 +139,16 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   QString name;
   QDir dir;
   QFile f;
-  
-  name = fileinfoname(get_data_dirs(),
-                      QString("themes/gui-qt/").toLocal8Bit().data());
-  
+
+  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
+  name = fileinfoname(get_data_dirs(), str.toLocal8Bit().data());
+
   dir.setPath(name);
   sl << dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
   name = name;
 
   foreach(str, sl) {
-    f.setFileName(name + str + QDir::separator() + "resource.qss");
+    f.setFileName(name + str + DIR_SEPARATOR + "resource.qss");
     if (f.exists() == false) {
       continue;
     }

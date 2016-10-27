@@ -831,15 +831,19 @@ void fc_icons::drop()
 QIcon fc_icons::get_icon(const QString &id)
 {
   QIcon icon;
+  QString str;
+
+  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   /* Try custom icon from theme */
   icon.addFile(fileinfoname(get_data_dirs(),
-                            QString("themes/gui-qt/" + current_theme
-                                    + QDir::separator()
+                            QString(str.toLocal8Bit().data() + current_theme
+                                    + DIR_SEPARATOR
                                     + id + ".png").toLocal8Bit().data()));
+  str = str + "icons" + DIR_SEPARATOR;
   /* Try icon from icons dir */
   if (icon.isNull()) {
   icon.addFile(fileinfoname(get_data_dirs(),
-                            QString("themes/gui-qt/icons/"
+                            QString(str.toLocal8Bit().data()
                                     + id + ".png").toLocal8Bit().data()));
   }
   return QIcon(icon);
@@ -852,15 +856,19 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
 {
   QPixmap *pm;
   bool status;
+  QString str;
+
   pm = new QPixmap;
+  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   status = pm->load(fileinfoname(get_data_dirs(),
-                                 QString("themes/gui-qt/" + current_theme
-                                 + QDir::separator()
+                                 QString(str + current_theme
+                                 + DIR_SEPARATOR
                                  + id + ".png").toLocal8Bit().data()));
 
   if (status == false) {
-  pm->load(fileinfoname(get_data_dirs(), QString("themes/gui-qt/icons/"
-                        + id + ".png").toLocal8Bit().data()));
+    str = str + "icons" + DIR_SEPARATOR;
+    pm->load(fileinfoname(get_data_dirs(), QString(str
+                          + id + ".png").toLocal8Bit().data()));
   }
   return pm;
 }
@@ -870,9 +878,12 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
 ****************************************************************************/
 QString fc_icons::get_path(const QString &id)
 {
+  QString str;
+  
+  str = QString("themes") + DIR_SEPARATOR + "gui-qt"
+        + DIR_SEPARATOR + "icons" + DIR_SEPARATOR;
   return fileinfoname(get_data_dirs(),
-                      QString("themes/gui-qt/icons/"
-                              + id + ".png").toLocal8Bit().data());
+                      QString(str + id + ".png").toLocal8Bit().data());
 }
 
 /****************************************************************************
