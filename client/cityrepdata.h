@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -66,6 +66,9 @@ const char *city_report_spec_tagname(int i);
 void init_city_report_game_data(void);
 
 int cityrepfield_compare(const char *field1, const char *field2);
+
+bool can_city_sell_universal(const struct city *pcity,
+                             const struct universal *target);
 
 #ifdef __cplusplus
 }

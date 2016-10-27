@@ -1719,16 +1719,6 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
 }
 
 /****************************************************************
-  Same as can_city_sell_building(), but with universal argument.
-*****************************************************************/
-static bool can_city_sell_universal(const struct city *pcity,
-                                    const struct universal *target)
-{
-  return (target->kind == VUT_IMPROVEMENT
-          && can_city_sell_building(pcity, target->value.building));
-}
-
-/****************************************************************
   Update the sell menu.
 *****************************************************************/
 static void recreate_sell_menu(void)

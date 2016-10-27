@@ -24,9 +24,6 @@
 #include "hudwidget.h"
 #include "qtg_cxxside.h"
 
-static bool can_city_sell_universal(const struct city *pcity,
-                                    const struct universal *target);
-
 /***************************************************************************
   Overriden compare for sorting items
 ***************************************************************************/
@@ -1232,17 +1229,6 @@ void city_report::update_city(struct city *pcity)
 {
   city_wdg->update_city(pcity);
 }
-
-/****************************************************************
-  Same as can_city_sell_building(), but with universal argument.
-*****************************************************************/
-static bool can_city_sell_universal(const struct city *pcity,
-                                    const struct universal *target)
-{
-  return (target->kind == VUT_IMPROVEMENT
-          && can_city_sell_building(pcity, target->value.building));
-}
-
 
 /**************************************************************************
   Display the city report dialog.  Optionally raise it.

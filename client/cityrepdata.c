@@ -1034,3 +1034,13 @@ int cityrepfield_compare(const char *str1, const char *str2)
 
   return retval;
 }
+
+/****************************************************************
+  Same as can_city_sell_building(), but with universal argument.
+*****************************************************************/
+bool can_city_sell_universal(const struct city *pcity,
+                             const struct universal *target)
+{
+  return target->kind == VUT_IMPROVEMENT
+    && can_city_sell_building(pcity, target->value.building);
+}
