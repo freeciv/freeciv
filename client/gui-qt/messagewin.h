@@ -48,6 +48,8 @@ private:
   QGridLayout *layout;
   QPixmap *pix;
 protected:
+  void enterEvent(QEvent *event);
+  void leaveEvent(QEvent *event);
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);
   void resizeEvent(QResizeEvent *event);
