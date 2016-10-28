@@ -6,7 +6,7 @@
 
 
 QMainWindow {
-  border-image:url(LittleFingerpattern.jpg);
+  border-image:url(LittleFingerpattern.png);
 }
 
 *[doomed="true"] {
@@ -325,7 +325,7 @@ info_tile {
 
 notify_dialog {
   color: white;
-  background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 rgba(0, 0, 125,135) stop:1 rgba(25, 25, 95, 175));
+  background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 rgba(0, 0, 75,195) stop:1 rgba(25, 25, 45, 225));
   border: 2px solid #0000AA;
 }
 
@@ -587,11 +587,11 @@ info_tab {
 }
 
 science_report QScrollArea {
-  background-image:url(LittleFingersun.jpg);
+  background-image:url(LittleFingersun.png);
 }
 
 science_report QScrollArea QWidget {
-  background-image:url(LittleFingersun.jpg);
+  background-image:url(LittleFingersun.png);
 }
 
 QTextEdit#scenarios_view {
@@ -673,7 +673,7 @@ QTreeWidget::item:selected {
 }
 
 fc_game_tab_widget {
-   background-image:url(LittleFingerpattern-game.jpg);
+   background-image:url(LittleFingerpattern-game.png);
 }
 
 help_widget QTextBrowser

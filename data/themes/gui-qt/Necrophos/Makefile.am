@@ -15,14 +15,14 @@ pkgdata_DATA =          	\
 	economy.png		\
 	endturn.png		\
 	nations.png		\
-	pattern.jpg		\
+	pattern.png		\
 	radio-checked.png	\
 	radio-unchecked.png	\
 	research.png		\
 	resource.qss		\
 	splitter-horizontal.png	\
 	splitter-vertical.png	\
-	sun.jpg			\
+	sun.png			\
 	units.png		\
 	view.png		\
 	wheel.png		
