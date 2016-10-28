@@ -34,10 +34,9 @@ flags =
 ;                 and sensible.
 ; helptxt       = displayed in the help for extra types with this flag
 ;                 (optional)
-extra_flags =
-  { "name", "helptxt"
-    _("ParadropFrom"), _("Units can paradrop from this tile.")
-  }
+;extra_flags =
+;  { "name", "helptxt"
+;  }
 
 [parameters]
 
@@ -901,7 +900,9 @@ reqs           =
 build_time     = 3
 removal_time   = 0
 native_to      = "Antigravity"
-flags          = "ParadropFrom"
+helptext       = _("\
+Units can paradrop from this tile.
+")
 
 [extra_road]
 name           = _("Road")

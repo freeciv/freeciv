@@ -557,7 +557,7 @@ actor_reqs    =
     { "type",      "name",         "range", "present"
       "UnitFlag",  "Paratroopers", "Local", TRUE
       "UnitState", "Transporting", "Local", FALSE
-      "ExtraFlag", "ParadropFrom", "Local", TRUE
+      "Extra",     "Antigrav Base","Local", TRUE
     }
 
 [actionenabler_paradrop_city]
