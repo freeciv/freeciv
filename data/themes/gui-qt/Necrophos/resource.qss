@@ -10,7 +10,7 @@
 
 
 QMainWindow {
-  background-image:url(LittleFingerpattern.jpg);
+  background-image:url(LittleFingerpattern.png);
 }
 
 *[doomed="true"] {
@@ -286,7 +286,7 @@ QRadioButton::indicator:checked:pressed {
 
 QDialog {
   color: black;
-  background-image:url(LittleFingerpattern.jpg);
+  background-image:url(LittleFingerpattern.png);
   border: 2px solid #a5a5a5;
 }
 
@@ -475,7 +475,7 @@ city_dialog QScrollArea {
 }
 
 science_report QScrollArea {
-  background-image:url(LittleFingersun.jpg);
+  background-image:url(LittleFingersun.png);
 }
 
 units_select {
@@ -486,7 +486,7 @@ units_select {
 }
 
 science_report QScrollArea QWidget {
-  background-image:url(LittleFingersun.jpg);
+  background-image:url(LittleFingersun.png);
 }
 
 QTextEdit {

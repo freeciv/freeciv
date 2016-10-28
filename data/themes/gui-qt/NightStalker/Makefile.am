@@ -19,14 +19,18 @@ pkgdata_DATA =          	\
 	city-switch.png		\
 	combo-arrow.png		\
 	human.png		\
-	pattern-game.jpg	\
-	pattern.jpg		\
+	pattern-game.png	\
+	pattern.png		\
+	plantforest.png		\
 	radio-checked.png	\
 	radio-unchecked.png	\
+	research.png		\
 	resource.qss		\
 	splitter-horizontal.png	\
 	splitter-vertical.png	\
-	sun.jpg			\
+	sun.png			\
+	units.png		\
+	view.png		\
 	wheel.png		
 
 EXTRA_DIST = $(pkgdata_DATA)
