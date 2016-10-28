@@ -40,7 +40,8 @@ Here's what to do:
 
    - Describe the problem, including any messages that were displayed.
 
-   - Indicate which client(s) you are using (gtk2, gtk3, gtk3x, SDL2, or Qt).
+   - Indicate which client(s) you are using (gtk2, gtk3, gtk3.22, gtk3x,
+     SDL2, or Qt).
 
    - Tell us the name and version of:
 

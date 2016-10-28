@@ -91,13 +91,16 @@ freeciv-gtk3:  This uses the GTK+ 3 libraries. To install, see section 1b of
   as such it is considered to be the default interface throughout the rest of
   this document.
 
+freeciv-gtk3.22:  This uses the GTK+ 3 libraries. Version 3.22 is required.
+  To install, see section 1c of the INSTALL document.
+
 freeciv-qt:  This uses the QT library. Development of this client has recently
   reached the state where it's considered generally usable, but it still lacks
   number of features gtk-clients have.
 
 freeciv-sdl2: This uses Simple DirectMedia Layer libraries version 2.
 
-freeciv-gtk3x: This uses GTK+ 3 libraries. This is development version of
+freeciv-gtk3x: This uses GTK+ 3.90+ libraries. This is development version of
   a client to get turned to use gtk4 once it's released.
 
 
