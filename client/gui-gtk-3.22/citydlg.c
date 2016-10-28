@@ -60,7 +60,6 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "gtkpixcomm.h"
 #include "happiness.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
@@ -135,7 +134,8 @@ struct city_dialog {
   GtkWidget *notebook;
 
   GtkWidget *popup_menu;
-  GtkWidget *citizen_pixmap;
+  GtkWidget *citizen_images;
+  cairo_surface_t *citizen_surface;
 
   struct {
     struct city_map_canvas map_canvas;
@@ -1484,9 +1484,11 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
-
   GtkWidget *close_command;
   GtkWidget *vbox, *hbox, *cbox, *ebox;
+  int citizen_bar_width;
+  int citizen_bar_height;
+  GdkPixbuf *pb;
 
   if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
@@ -1548,18 +1550,24 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   ebox = gtk_event_box_new();
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   gtk_container_add(GTK_CONTAINER(cbox), ebox);
-  pdialog->citizen_pixmap =
-      gtk_pixcomm_new(tileset_small_sprite_width(tileset)
-                      * NUM_CITIZENS_SHOWN,
-                      tileset_small_sprite_height(tileset));
-  gtk_widget_add_events(pdialog->citizen_pixmap, GDK_BUTTON_PRESS_MASK);
-  gtk_widget_set_margin_left(pdialog->citizen_pixmap, 2);
-  gtk_widget_set_margin_right(pdialog->citizen_pixmap, 2);
-  gtk_widget_set_margin_top(pdialog->citizen_pixmap, 2);
-  gtk_widget_set_margin_bottom(pdialog->citizen_pixmap, 2);
-  gtk_widget_set_halign(pdialog->citizen_pixmap, GTK_ALIGN_START);
-  gtk_widget_set_valign(pdialog->citizen_pixmap, GTK_ALIGN_CENTER);
-  gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
+
+  citizen_bar_width = tileset_small_sprite_width(tileset) * NUM_CITIZENS_SHOWN;
+  citizen_bar_height = tileset_small_sprite_height(tileset);
+
+  pdialog->citizen_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                                        citizen_bar_width, citizen_bar_height);
+  pb = surface_get_pixbuf(pdialog->citizen_surface, citizen_bar_width, citizen_bar_height);
+  pdialog->citizen_images = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
+
+  gtk_widget_add_events(pdialog->citizen_images, GDK_BUTTON_PRESS_MASK);
+  gtk_widget_set_margin_left(pdialog->citizen_images, 2);
+  gtk_widget_set_margin_right(pdialog->citizen_images, 2);
+  gtk_widget_set_margin_top(pdialog->citizen_images, 2);
+  gtk_widget_set_margin_bottom(pdialog->citizen_images, 2);
+  gtk_widget_set_halign(pdialog->citizen_images, GTK_ALIGN_START);
+  gtk_widget_set_valign(pdialog->citizen_images, GTK_ALIGN_CENTER);
+  gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_images);
   g_signal_connect(G_OBJECT(ebox), "button-press-event",
                    G_CALLBACK(citizens_callback), pdialog);
 
@@ -1699,11 +1707,13 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category categories[MAX_CITY_SIZE];
-  int i, width, size;
-  int start_margin;
-  int end_margin;
+  int i, width;
+  int citizen_bar_width;
+  int citizen_bar_height;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
+  GdkPixbuf *pb;
+  cairo_t *cr;
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
@@ -1720,19 +1730,24 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
-  start_margin = gtk_widget_get_margin_left(pdialog->citizen_pixmap);
-  end_margin = gtk_widget_get_margin_right(pdialog->citizen_pixmap);
-  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
+  citizen_bar_width = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) + 2;
+  citizen_bar_height = tileset_small_sprite_height(tileset);
 
-  size = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) +
-    2 * (start_margin + end_margin);
-  gtk_widget_set_size_request(GTK_WIDGET(pdialog->citizen_pixmap), size, -1);
+  cr = cairo_create(pdialog->citizen_surface);
 
   for (i = 0; i < num_citizens; i++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-                       get_citizen_sprite(tileset, categories[i], i, pcity),
-                       i * width, 0);
+    cairo_set_source_surface(cr,
+                             get_citizen_sprite(tileset, categories[i], i, pcity)->surface,
+                             i * width, 0);
+    cairo_rectangle(cr, i * width, 0, width, citizen_bar_height);
+    cairo_fill(cr);
   }
+
+  cairo_destroy(cr);
+
+  pb = surface_get_pixbuf(pdialog->citizen_surface, citizen_bar_width, citizen_bar_height);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->citizen_images), pb);
+  g_object_unref(pb);
 }
 
 /****************************************************************
@@ -3294,6 +3309,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   }
 
   cairo_surface_destroy(pdialog->map_canvas_store_unscaled);
+  cairo_surface_destroy(pdialog->citizen_surface);
 
   free(pdialog);
 
