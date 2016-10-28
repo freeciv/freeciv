@@ -107,6 +107,10 @@ QSpinBox {
   selection-background-color: none;
 }
 
+QLineEdit:disabled, QComboBox:disabled, QSpinBox:disabled , QComboBox:disabled{
+  color: #7b7b7b;
+}
+
 QComboBox {
   color: black;
   border-image: url(LittleFingercombo-normal.png) 3 3 3 3;
@@ -445,6 +449,10 @@ city_dialog QScrollArea {
   background: #e1cea1;
 }
 
+QCheckBox:disabled, QRadioButton:disabled {
+  background-color: transparent;
+  color: #7b7b7b;
+}
 
 QTextEdit {
   background-color: #efddb5;

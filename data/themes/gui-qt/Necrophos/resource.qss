@@ -478,6 +478,11 @@ science_report QScrollArea {
   background-image:url(LittleFingersun.png);
 }
 
+QCheckBox:disabled, QRadioButton:disabled {
+  background-color: transparent;
+  color: #7b7b7b;
+}
+
 units_select {
   background-color: rgba(0, 0, 0,175);
   color: #dcffcf;

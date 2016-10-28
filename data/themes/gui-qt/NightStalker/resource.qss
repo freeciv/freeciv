@@ -368,6 +368,8 @@ QRadioButton::indicator:checked:pressed {
   image: url(LittleFingerradio-checked.png);
 }
 
+
+
 QDialog {
   color: #3399FF;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #485261, stop: 1 #444d5b);
@@ -485,6 +487,11 @@ QToolTip {
 QCheckBox {
   color: rgb(240,240,240);
   spacing: 5px;
+}
+
+QCheckBox:disabled, QRadioButton:disabled {
+  background-color: transparent;
+  color: #696969;
 }
 
 QCheckBox::indicator {
