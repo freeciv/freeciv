@@ -59,11 +59,16 @@ struct tile *action_tgt_tile(struct unit *actor,
 const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,
+                          const struct player *other_player,
                           const struct output_type *output);
 
 const struct action *
 action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          struct unit *actor,
-                         const struct output_type *output);
+                         const struct player *other_player,
+                         const struct output_type *output,
+                         const struct tile *target_tile,
+                         const struct city *target_city,
+                         const struct unit *target_unit);
 
 #endif /* FC__ACTIONTOOLS_H */

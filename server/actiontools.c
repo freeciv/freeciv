@@ -761,10 +761,11 @@ struct tile *action_tgt_tile(struct unit *actor,
 const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,
+                          const struct player *other_player,
                           const struct output_type *output)
 {
   action_auto_perf_by_cause_iterate(cause, autoperformer) {
-    if (are_reqs_active(unit_owner(actor), NULL,
+    if (are_reqs_active(unit_owner(actor), other_player,
                         NULL, NULL, unit_tile(actor),
                         actor, unit_type_get(actor),
                         output, NULL, NULL,
@@ -789,19 +790,23 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
 const struct action *
 action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          struct unit *actor,
-                         const struct output_type *output)
+                         const struct player *other_player,
+                         const struct output_type *output,
+                         const struct tile *target_tile,
+                         const struct city *target_city,
+                         const struct unit *target_unit)
 {
   int i;
 
   int actor_id;
 
-  struct city *tgt_city;
-  struct tile *tgt_tile;
-  struct unit *tgt_unit;
-  struct tile *tgt_units;
+  const struct city *tgt_city;
+  const struct tile *tgt_tile;
+  const struct unit *tgt_unit;
+  const struct tile *tgt_units;
 
   const struct action_auto_perf *autoperf
-      = action_auto_perf_unit_sel(cause, actor, output);
+      = action_auto_perf_unit_sel(cause, actor, other_player, output);
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */
@@ -811,10 +816,15 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   actor_id = actor->id;
 
   /* Acquire the targets. */
-  tgt_city = action_tgt_city(actor, unit_tile(actor), TRUE);
-  tgt_tile = action_tgt_tile(actor, unit_tile(actor), TRUE);
-  tgt_unit = action_tgt_unit(actor, unit_tile(actor), TRUE);
-  tgt_units = action_tgt_tile_units(actor, unit_tile(actor), TRUE);
+  tgt_city = (target_city ? target_city
+                          : action_tgt_city(actor, unit_tile(actor), TRUE));
+  tgt_tile = (target_tile ? target_tile
+                          : action_tgt_tile(actor, unit_tile(actor), TRUE));
+  tgt_unit = (target_unit ? target_unit
+                          : action_tgt_unit(actor, unit_tile(actor), TRUE));
+  tgt_units = (target_tile
+               ? target_tile
+               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
 
   for (i = 0; i < ACTION_COUNT; i++) {
     const enum gen_action act = autoperf->alternatives[i];
