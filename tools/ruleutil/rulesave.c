@@ -505,16 +505,18 @@ static bool save_styles_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
-  Save the action a unit should perform when its missing food, gold or
-  shield upkeep. Save as regular settings since the Action Auto Perform
-  rules system isn't ready to be exposed to the ruleset yet.
+  Save an action auto performer's !present utype reqs as a regular setting.
+  This is done because the Action Auto Perform rules system isn't ready to
+  be exposed to the ruleset yet. The setting is a list of utype flags that
+  prevents the auto action performer.
 **************************************************************************/
-static bool save_hidden_action_auto(struct section_file *sfile,
-                                    const int aap,
-                                    const char *item)
+static bool save_action_auto_uflag_block(struct section_file *sfile,
+                                         const int aap,
+                                         const char *uflags_path,
+                                         bool (*unexpected_req)(
+                                           const struct requirement *preq))
 {
   enum unit_type_flag_id protecor_flag[MAX_NUM_USER_UNIT_FLAGS];
-  enum gen_action unit_acts[ACTION_COUNT];
   size_t i;
   size_t ret;
 
@@ -529,7 +531,7 @@ static bool save_hidden_action_auto(struct section_file *sfile,
       fc_assert(!req->present);
 
       protecor_flag[i++] = req->source.value.unitflag;
-    } else if (!(req->source.kind == VUT_OTYPE && req->present)) {
+    } else if (unexpected_req(req)) {
       log_error("Can't handle action auto performer requirement %s",
                 req_to_fstring(req));
 
@@ -539,14 +541,35 @@ static bool save_hidden_action_auto(struct section_file *sfile,
 
   ret = secfile_insert_enum_vec(sfile, &protecor_flag, i,
                                 unit_type_flag_id,
-                                "missing_unit_upkeep.%s_protected", item);
+                                "%s", uflags_path);
 
   if (ret != i) {
-    log_error("Didn't save all unit flags protected from upkeep killing");
+    log_error("%s: didn't save all unit type flags.", uflags_path);
 
     return FALSE;
   }
 
+  return TRUE;
+}
+
+/**************************************************************************
+  Save an action auto performer's action list as a regular setting. This
+  is done because the Action Auto Perform rules system isn't ready to be
+  exposed to the ruleset yet. The setting is a list of actions in the
+  order they should be tried.
+**************************************************************************/
+static bool save_action_auto_actions(struct section_file *sfile,
+                                         const int aap,
+                                         const char *actions_path)
+{
+  enum gen_action unit_acts[ACTION_COUNT];
+  size_t i;
+  size_t ret;
+
+  const struct action_auto_perf *auto_perf =
+      action_auto_perf_by_number(aap);
+
+  i = 0;
   for (i = 0;
        i < ACTION_COUNT && auto_perf->alternatives[i] != ACTION_COUNT;
        i++) {
@@ -554,15 +577,46 @@ static bool save_hidden_action_auto(struct section_file *sfile,
   }
 
   ret = secfile_insert_enum_vec(sfile, &unit_acts, i, gen_action,
-                                "missing_unit_upkeep.%s_unit_act", item);
+                                "%s", actions_path);
 
   if (ret != i) {
-    log_error("Didn't save all upkeep failure actions");
+    log_error("%s: didn't save all actions.", actions_path);
 
     return FALSE;
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Missing unit upkeep should only contain output type and absence of
+  blocking unit type flag requirements.
+**************************************************************************/
+static bool unexpected_non_otype(const struct requirement *req)
+{
+  return !(req->source.kind == VUT_OTYPE && req->present);
+}
+
+/**************************************************************************
+  Save the action a unit should perform when its missing food, gold or
+  shield upkeep. Save as regular settings since the Action Auto Perform
+  rules system isn't ready to be exposed to the ruleset yet.
+**************************************************************************/
+static bool save_muuk_action_auto(struct section_file *sfile,
+                                  const int aap,
+                                  const char *item)
+{
+  char uflags_path[100];
+  char action_path[100];
+
+  fc_snprintf(uflags_path, sizeof(uflags_path),
+              "missing_unit_upkeep.%s_protected", item);
+  fc_snprintf(action_path, sizeof(action_path),
+              "missing_unit_upkeep.%s_unit_act", item);
+
+  return (save_action_auto_uflag_block(sfile, aap, uflags_path,
+                                       unexpected_non_otype)
+          && save_action_auto_actions(sfile, aap, action_path));
 }
 
 /**************************************************************************
@@ -652,22 +706,22 @@ static bool save_cities_ruleset(const char *filename, const char *name)
                        "citizen.partisans_pct");
   }
 
-  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_FOOD,
-                          "food");
+  save_muuk_action_auto(sfile, ACTION_AUTO_UPKEEP_FOOD,
+                        "food");
   if (game.info.muuk_food_wipe != RS_DEFAULT_MUUK_FOOD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_food_wipe,
                         "missing_unit_upkeep.food_wipe");
   }
 
-  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_GOLD,
-                          "gold");
+  save_muuk_action_auto(sfile, ACTION_AUTO_UPKEEP_GOLD,
+                        "gold");
   if (game.info.muuk_gold_wipe != RS_DEFAULT_MUUK_GOLD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_gold_wipe,
                         "missing_unit_upkeep.gold_wipe");
   }
 
-  save_hidden_action_auto(sfile, ACTION_AUTO_UPKEEP_SHIELD,
-                          "shield");
+  save_muuk_action_auto(sfile, ACTION_AUTO_UPKEEP_SHIELD,
+                        "shield");
   if (game.info.muuk_shield_wipe != RS_DEFAULT_MUUK_SHIELD_WIPE) {
     secfile_insert_bool(sfile, game.info.muuk_shield_wipe,
                         "missing_unit_upkeep.shield_wipe");

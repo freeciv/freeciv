@@ -5003,31 +5003,31 @@ static bool load_ruleset_styles(struct section_file *file,
 }
 
 /**************************************************************************
-  Load missing unit upkeep ruleset settings as action auto performers.
+  Load a list of unit type flags that must be absent from the actor unit
+  if an action auto performer should be triggered into an action auto
+  performer.
 **************************************************************************/
-static bool load_muuk_as_action_auto(struct section_file *file,
-                                     struct action_auto_perf *auto_perf,
-                                     const char *item,
-                                     const char *filename)
+static bool load_action_auto_uflag_block(struct section_file *file,
+                                         struct action_auto_perf *auto_perf,
+                                         const char *uflags_path,
+                                         const char *filename)
 {
   /* Add each listed protected unit type flag as a !present
    * requirement. */
-  if (secfile_entry_lookup(file,
-                           "missing_unit_upkeep.%s_protected", item)) {
+  if (secfile_entry_lookup(file, "%s", uflags_path)) {
     enum unit_type_flag_id *protecor_flag;
     size_t psize;
     int i;
 
     protecor_flag =
         secfile_lookup_enum_vec(file, &psize, unit_type_flag_id,
-                                "missing_unit_upkeep.%s_protected", item);
+                                "%s", uflags_path);
 
     if (!protecor_flag) {
       /* Entity exists but couldn't read it. */
       ruleset_error(LOG_ERROR,
-                    "\"%s\": missing_unit_upkeep.%s_protected: bad unit "
-                    " type flag list.",
-                    filename, item);
+                    "\"%s\": %s: bad unit type flag list.",
+                    filename, uflags_path);
 
       return FALSE;
     }
@@ -5043,23 +5043,32 @@ static bool load_muuk_as_action_auto(struct section_file *file,
     free(protecor_flag);
   }
 
+  return TRUE;
+}
+
+/**************************************************************************
+  Load the list of actions an action auto performer should try. The
+  actions will be tried in the given order.
+**************************************************************************/
+static bool load_action_auto_actions(struct section_file *file,
+                                     struct action_auto_perf *auto_perf,
+                                     const char *actions_path,
+                                     const char *filename)
+{
   /* Read the alternative actions. */
-  if (secfile_entry_lookup(file,
-                           "missing_unit_upkeep.%s_unit_act", item)) {
+  if (secfile_entry_lookup(file, "%s", actions_path)) {
     enum gen_action *unit_acts;
     size_t asize;
     int i;
 
-    unit_acts =
-        secfile_lookup_enum_vec(file, &asize, gen_action,
-                                "missing_unit_upkeep.%s_unit_act", item);
+    unit_acts = secfile_lookup_enum_vec(file, &asize, gen_action,
+                                        "%s", actions_path);
 
     if (!unit_acts) {
       /* Entity exists but couldn't read it. */
       ruleset_error(LOG_ERROR,
-                    "\"%s\": missing_unit_upkeep.%s_unit_act: bad action "
-                    "list",
-                    filename, item);
+                    "\"%s\": %s: bad action list",
+                    filename, actions_path);
 
       return FALSE;
     }
@@ -5072,6 +5081,28 @@ static bool load_muuk_as_action_auto(struct section_file *file,
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Load missing unit upkeep ruleset settings as action auto performers.
+**************************************************************************/
+static bool load_muuk_as_action_auto(struct section_file *file,
+                                     struct action_auto_perf *auto_perf,
+                                     const char *item,
+                                     const char *filename)
+{
+  char uflags_path[100];
+  char action_path[100];
+
+  fc_snprintf(uflags_path, sizeof(uflags_path),
+              "missing_unit_upkeep.%s_protected", item);
+  fc_snprintf(action_path, sizeof(action_path),
+              "missing_unit_upkeep.%s_unit_act", item);
+
+  return (load_action_auto_uflag_block(file, auto_perf, uflags_path,
+                                       filename)
+          && load_action_auto_actions(file, auto_perf, action_path,
+                                      filename));
 }
 
 /**************************************************************************
