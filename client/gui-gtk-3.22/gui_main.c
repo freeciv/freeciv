@@ -2320,19 +2320,11 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 **************************************************************************/
 int screen_width(void)
 {
-  GdkScreen *screen;
-
   if (vmode.width > 0) {
     return vmode.width;
   }
 
-  screen = gdk_screen_get_default();
-
-  if (screen == NULL) {
-    return 0;
-  }
-
-  return gdk_screen_get_width(screen);
+  return 0;
 }
 
 /**************************************************************************
@@ -2340,19 +2332,11 @@ int screen_width(void)
 **************************************************************************/
 int screen_height(void)
 {
-  GdkScreen *screen;
-
   if (vmode.height > 0) {
     return vmode.height;
   }
 
-  screen = gdk_screen_get_default();
-
-  if (screen == NULL) {
-    return 0;
-  }
-
-  return gdk_screen_get_height(screen);
+  return 0;
 }
 
 /**************************************************************************
