@@ -50,7 +50,6 @@
 /* client/gui-gtk-3.22 */
 #include "colors.h"
 #include "graphics.h"
-#include "gtkpixcomm.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 
@@ -377,7 +376,7 @@ static void help_box_hide(void)
   gtk_widget_hide(help_utable);
   gtk_widget_hide(help_ttable);
   gtk_widget_hide(help_etable);
- 
+
   gtk_widget_hide(help_tile); /* FIXME: twice? */
 
   gtk_widget_hide(help_vbox);
@@ -544,18 +543,19 @@ static void create_help_dialog(void)
                                  GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(help_frame), help_box);
 
-  help_tile = gtk_pixcomm_new(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
+  help_tile = gtk_image_new();
+
   gtk_container_add(GTK_CONTAINER(help_box), help_tile);
 
   help_itable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_itable);
 
-  for (i=0; i<6; i++) {
+  for (i = 0; i < 6; i++) {
     help_ilabel[i] =
-	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
+      gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
     gtk_widget_set_hexpand(help_ilabel[i], TRUE);
 
-    if (i==5) {
+    if (i == 5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
       gtk_grid_attach(GTK_GRID(help_itable), button, i, 0, 1, 1);
     } else {
@@ -568,12 +568,12 @@ static void create_help_dialog(void)
   help_wtable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_wtable);
 
-  for (i=0; i<6; i++) {
+  for (i = 0; i < 6; i++) {
     help_wlabel[i] =
-	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
+      gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
     gtk_widget_set_hexpand(help_wlabel[i], TRUE);
 
-    if (i==3 || i==5) {
+    if (i == 3 || i == 5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
       gtk_grid_attach(GTK_GRID(help_wtable), button, i, 0, 1, 1);
     } else {
@@ -587,17 +587,18 @@ static void create_help_dialog(void)
   help_utable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_utable);
 
-  for (i=0; i<5; i++)
-    for (j=0; j<5; j++) {
+  for (i = 0; i < 5; i++) {
+    for (j = 0; j < 5; j++) {
       help_ulabel[j][i] =
-	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
+        gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
       gtk_widget_set_hexpand(help_ulabel[j][i], TRUE);
 
-      if (j==4 && (i==1 || i==4)) {
-	if (i==1)
-	  button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
-	else
-	  button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
+      if (j == 4 && (i == 1 || i == 4)) {
+        if (i == 1) {
+          button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
+        } else {
+          button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
+        }
 
         gtk_grid_attach(GTK_GRID(help_utable), button, i, j, 1, 1);
       } else {
@@ -607,7 +608,7 @@ static void create_help_dialog(void)
       }
       gtk_widget_show(help_ulabel[j][i]);
     }
-
+  }
 
   help_ttable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_ttable);
@@ -615,7 +616,7 @@ static void create_help_dialog(void)
   for (j = 0; j < 4; j++) {
     for (i = 0; i < 5; i++) {
       help_tlabel[j][i] =
-	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
+        gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_hexpand(help_tlabel[j][i], TRUE);
       gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
@@ -739,6 +740,22 @@ static void create_help_page(enum help_page_type type)
 }
 
 /**************************************************************************
+  Set sprite to show for current help item.
+**************************************************************************/
+static void set_help_tile_from_sprite(struct sprite *spr)
+{
+  GdkPixbuf *pix;
+
+  if (spr == NULL) {
+    return;
+  }
+
+  pix = sprite_get_pixbuf(spr);
+  gtk_image_set_from_pixbuf(GTK_IMAGE(help_tile), pix);
+  gtk_widget_show(help_tile);
+}
+
+/**************************************************************************
   Display updated help about improvement
 **************************************************************************/
 static void help_update_improvement(const struct help_item *pitem,
@@ -772,19 +789,14 @@ static void help_update_improvement(const struct help_item *pitem,
     } requirement_vector_iterate_end;
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), req);
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
-  }
-  else {
+  } else {
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_LABEL_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3);*/
   }
-    if (get_building_sprite(tileset, imp)) {
-      struct sprite *sprite = get_building_sprite(tileset, imp);
 
-      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
-      gtk_widget_show(help_tile);
-    }
+  set_help_tile_from_sprite(get_building_sprite(tileset, imp));
 
   gtk_widget_show(help_itable);
 
@@ -844,12 +856,8 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_wlabel[5]), skip_intl_qualifier_prefix(REQ_LABEL_NONE));
 /*    create_tech_tree(help_improvement_tree, 0, advance_count(), 3); */
   }
-    if (get_building_sprite(tileset, imp)) {
-      struct sprite *sprite = get_building_sprite(tileset, imp);
 
-      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
-      gtk_widget_show(help_tile);
-    }
+  set_help_tile_from_sprite(get_building_sprite(tileset, imp));
 
   gtk_widget_show(help_wtable);
 
@@ -870,8 +878,6 @@ static void help_update_unit_type(const struct help_item *pitem,
   create_help_page(HELP_UNIT);
 
   if (utype) {
-    struct sprite *sprite;
-
     sprintf(buf, "%d", utype_build_shield_cost(utype));
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), buf);
     sprintf(buf, "%d", utype->attack_strength);
@@ -907,12 +913,8 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
 
-    sprite = get_unittype_sprite(tileset, utype, direction8_invalid(),
-                                 TRUE);
-    if (sprite != NULL) {
-      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
-      gtk_widget_show(help_tile);
-    }
+    set_help_tile_from_sprite(get_unittype_sprite(tileset, utype, direction8_invalid(),
+                                                  TRUE));
   } else {
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][4]), "0");
@@ -982,12 +984,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     len = strlen(buf);
     fc_chomp(buf, len);
 
-    if (get_tech_sprite(tileset, i)) {
-      struct sprite *sprite = get_tech_sprite(tileset, i);
-
-      gtk_pixcomm_set_from_sprite(GTK_PIXCOMM(help_tile), sprite);
-      gtk_widget_show(help_tile);
-    }
+    set_help_tile_from_sprite(get_tech_sprite(tileset, i));
 
     w = gtk_text_view_new();
     gtk_widget_set_hexpand(w, TRUE);
