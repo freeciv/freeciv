@@ -1211,7 +1211,11 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->extras_owner = NULL;
   plrtile->site = NULL;
   BV_CLR_ALL(plrtile->extras);
-  plrtile->last_updated = game.info.year;
+  if (!game.server.last_updated_year) {
+    plrtile->last_updated = game.info.turn;
+  } else {
+    plrtile->last_updated = game.info.year;
+  }
 
   plrtile->seen_count[V_MAIN] = !game.server.fogofwar_old;
   plrtile->seen_count[V_INVIS] = 0;
@@ -1333,14 +1337,15 @@ void update_tile_knowledge(struct tile *ptile)
 
 /***************************************************************
   Remember that tile was last seen this year.
-
-  FIXME: Should last_updated be turn rather than year? Turn is
-         guaranteed to go forward when game proceeds, but year
-         is not (it can remain same or even go backwards)
 ***************************************************************/
-void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile)
+void update_player_tile_last_seen(struct player *pplayer,
+                                  struct tile *ptile)
 {
-  map_get_player_tile(ptile, pplayer)->last_updated = game.info.year;
+  if (!game.server.last_updated_year) {
+    map_get_player_tile(ptile, pplayer)->last_updated = game.info.turn;
+  } else {
+    map_get_player_tile(ptile, pplayer)->last_updated = game.info.year;
+  }
 }
 
 /***************************************************************

@@ -3979,6 +3979,9 @@ static void game_load_internal(struct section_file *file)
     int loaded_players = 0;
     int players;
 
+    /* Update time has been saved as year in legacysave.c */
+    game.server.last_updated_year = TRUE;
+
     /* destroyed wonders: */
     string = secfile_lookup_str(file, "game.destroyed_wonders_new");
     if (!string) {

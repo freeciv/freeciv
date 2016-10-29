@@ -1310,6 +1310,11 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
+  /* This is in the savegame only if the game has been started before savegame3.c time,
+   * and in that case it's TRUE. If it's missing, it's to be considered FALSE. */
+  game.server.last_updated_year = secfile_lookup_bool_default(loading->file, FALSE,
+                                                       "savefile.last_updated_as_year");
+
   /* Load improvements. */
   loading->improvement.size
     = secfile_lookup_int_default(loading->file, 0,
@@ -1526,6 +1531,10 @@ static void sg_save_savefile(struct savedata *saving)
     /* Current ruleset has version information, save it.
      * This is never loaded, but exist in savegame file only for debugging purposes. */
     secfile_insert_str(saving->file, game.control.version, "savefile.rulesetversion");
+  }
+
+  if (game.server.last_updated_year) {
+    secfile_insert_bool(saving->file, TRUE, "savefile.last_updated_as_year");
   }
 
   /* Save improvement order in savegame, so we are not dependent on ruleset

@@ -222,6 +222,8 @@ struct civ_game {
 
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
+      bool last_updated_year; /* last_updated is still counted as year in this
+                               * game. */
       char rulesetdir[MAX_LEN_NAME];
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
