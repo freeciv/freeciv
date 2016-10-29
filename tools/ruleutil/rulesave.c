@@ -783,6 +783,20 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 }
 
 /**************************************************************************
+  Auto attack should only require war, remaining movement and the absence
+  of blocking utype flags.
+**************************************************************************/
+static bool unexpected_auto_attack(const struct requirement *req)
+{
+  return !((req->source.kind == VUT_DIPLREL
+            && req->source.value.diplrel == DS_WAR
+            && req->present)
+           || (req->source.kind == VUT_MINMOVES
+               && req->source.value.minmoves == 1
+               && req->present));
+}
+
+/**************************************************************************
   Save game.ruleset
 **************************************************************************/
 static bool save_game_ruleset(const char *filename, const char *name)
@@ -974,6 +988,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.slow_invasions,
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
+
+  save_action_auto_uflag_block(sfile, ACTION_AUTO_MOVED_ADJ,
+                               "auto_attack.will_never",
+                               unexpected_auto_attack);
 
   save_default_bool(sfile,
                     action_id_would_be_blocked_by(ACTION_MARKETPLACE,

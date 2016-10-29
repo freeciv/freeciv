@@ -238,6 +238,9 @@ struct action_enabler
 /* (Can be triggered by food, shield or gold upkeep) */
 #define SPECENUM_VALUE0 AAPC_UNIT_UPKEEP
 #define SPECENUM_VALUE0NAME N_("Unit Upkeep")
+/* A unit moved to an adjacent tile (auto attack). */
+#define SPECENUM_VALUE1 AAPC_UNIT_MOVED_ADJ
+#define SPECENUM_VALUE1NAME N_("Moved Adjacent")
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
@@ -296,6 +299,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_UPKEEP_FOOD   0
 #define ACTION_AUTO_UPKEEP_GOLD   1
 #define ACTION_AUTO_UPKEEP_SHIELD 2
+#define ACTION_AUTO_MOVED_ADJ     3
 
 /* Initialization */
 void actions_init(void);

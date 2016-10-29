@@ -413,6 +413,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
   if (info->ver_game < 10) {
     struct action_enabler *enabler;
+    struct action_auto_perf *auto_perf;
 
     /* Unit capture is now action enabler controlled. Add the old rule that
      * units with the Capturer unit type flag can capture units with the
@@ -940,6 +941,15 @@ void rscompat_postprocess(struct rscompat_info *info)
         action_enabler_obligatory_reqs_add(ae);
       }
     } action_enablers_iterate_end;
+
+    /* Auto attack. */
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
+
+    /* Not a good idea to nuke our own area. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_str("UnitFlag", "Local",
+                                           FALSE, FALSE, TRUE,
+                                           "Nuclear"));
   }
 
   if (info->ver_effects < 10) {

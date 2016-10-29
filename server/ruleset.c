@@ -5830,6 +5830,41 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_SLOW_INVASIONS,
                                     "global_unit_options.slow_invasions");
 
+    if (ok) {
+      /* Auto attack. */
+      struct action_auto_perf *auto_perf;
+
+      /* A unit moved next to this unit and the autoattack server setting
+       * is enabled. */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
+      auto_perf->cause = AAPC_UNIT_MOVED_ADJ;
+
+      /* Auto attack happens during war. */
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_values(VUT_DIPLREL,
+                                                REQ_RANGE_LOCAL,
+                                                FALSE, TRUE, TRUE, DS_WAR));
+
+      /* Needs a movement point to auto attack. */
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_values(VUT_MINMOVES,
+                                                REQ_RANGE_LOCAL,
+                                                FALSE, TRUE, TRUE, 1));
+
+      /* Internally represented as an action auto performer rule. */
+      if (!load_action_auto_uflag_block(file, auto_perf,
+                                         "auto_attack.will_never",
+                                         filename)) {
+        ok = FALSE;
+      }
+
+      /* TODO: It would be great if unit_survive_autoattack() could be made
+       * flexible enough to also handle diplomatic actions etc. */
+      auto_perf->alternatives[0] = ACTION_CAPTURE_UNITS;
+      auto_perf->alternatives[1] = ACTION_BOMBARD;
+      auto_perf->alternatives[2] = ACTION_ATTACK;
+    }
+
     /* section: actions */
     if (ok) {
       const char *text;

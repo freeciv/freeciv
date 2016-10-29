@@ -190,6 +190,15 @@ slow_invasions = TRUE
 ; have only fractional moves left.
 tired_attack = TRUE
 
+[auto_attack]
+; An auto attack may be triggered when another unit moves to an adjacent
+; tile and the autoattack server setting is enabled. The following details
+; are ruleset controlled.
+;   will_never - units with this unit type flag will never auto attack.
+
+; Not a good idea to nuke our own area.
+;will_never = "Nuclear"
+
 [actions]
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to
 ; enter the marketplace of a city if it can establish a trade route to it

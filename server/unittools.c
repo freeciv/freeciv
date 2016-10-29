@@ -3026,19 +3026,6 @@ static int compare_units(const struct unit *const *p1,
 }
 
 /*****************************************************************
-  Can this unit be used in autoattack
-*****************************************************************/
-static bool is_suitable_autoattack_unit(struct unit *punit)
-{
-  if (unit_can_do_action(punit, ACTION_NUKE)) {
-    /* Not a good idea to nuke our own area */
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/*****************************************************************
   Check if unit survives enemy autoattacks. We assume that any
   unit that is adjacent to us can see us.
 *****************************************************************/
@@ -3060,13 +3047,8 @@ static bool unit_survive_autoattack(struct unit *punit)
   adjc_iterate(unit_tile(punit), ptile) {
     /* First add all eligible units to a unit list */
     unit_list_iterate(ptile->units, penemy) {
-      struct player *enemyplayer = unit_owner(penemy);
-      enum diplstate_type ds = 
-            player_diplstate_get(unit_owner(punit), enemyplayer)->type;
-
-      if (penemy->moves_left > 0
-          && ds == DS_WAR
-          && is_suitable_autoattack_unit(penemy)
+      if (action_auto_perf_unit_sel(AAPC_UNIT_MOVED_ADJ, penemy,
+                                    unit_owner(punit), NULL)
           && (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
                                               penemy, unit_tile(punit))
               || is_action_enabled_unit_on_units(ACTION_BOMBARD,
@@ -3111,6 +3093,10 @@ static bool unit_survive_autoattack(struct unit *punit)
          || utype_acts_hostile(unit_type_get(punit))
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
+      struct tile *tgt_tile = unit_tile(punit);
+
+      fc_assert(tgt_tile);
+
 #ifdef REALLY_DEBUG_THIS
       log_test("AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
                unit_rule_name(penemy), unit_rule_name(punit),
@@ -3119,25 +3105,9 @@ static bool unit_survive_autoattack(struct unit *punit)
 #endif
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
-      if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
-                                          penemy, unit_tile(punit))) {
-        /* Choose capture. */
-        unit_perform_action(unit_owner(penemy),
-                            penemy->id, tile_index(unit_tile(punit)),
-                            0, "", ACTION_CAPTURE_UNITS, ACT_REQ_RULES);
-      } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                                 penemy, unit_tile(punit))) {
-        /* Choose bombard. */
-        unit_perform_action(unit_owner(penemy),
-                            penemy->id, tile_index(unit_tile(punit)),
-                            0, "", ACTION_BOMBARD, ACT_REQ_RULES);
-      } else if (is_action_enabled_unit_on_tile(ACTION_ATTACK,
-                                                penemy, unit_tile(punit))) {
-        /* Choose regular attack. */
-        unit_perform_action(unit_owner(penemy),
-                            penemy->id, tile_index(unit_tile(punit)),
-                            0, "", ACTION_ATTACK, ACT_REQ_RULES);
-      }
+      action_auto_perf_unit_do(AAPC_UNIT_MOVED_ADJ,
+                               penemy, unit_owner(punit), NULL,
+                               tgt_tile, tile_city(tgt_tile), punit);
     } else {
 #ifdef REALLY_DEBUG_THIS
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
