@@ -1593,6 +1593,11 @@ static void sg_load_savefile(struct loaddata *loading)
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
+  /* In case of savegame2.c saves, missing entry means savegame older than support
+   * for saving last_updated by turn. So this must default to TRUE. */
+  game.server.last_updated_year = secfile_lookup_bool_default(loading->file, TRUE,
+                                                              "savefile.last_updated_as_year");
+
   /* Load improvements. */
   loading->improvement.size
     = secfile_lookup_int_default(loading->file, 0,
@@ -1928,6 +1933,9 @@ static void sg_save_savefile(struct savedata *saving)
      * This is never loaded, but exist in savegame file only for debugging purposes. */
     secfile_insert_str(saving->file, game.control.version, "savefile.rulesetversion");
   }
+
+  secfile_insert_bool(saving->file, game.server.last_updated_year,
+                      "savefile.last_updated_as_year");
 
   /* Save improvement order in savegame, so we are not dependent on ruleset
    * order. If the game isn't started improvements aren't loaded so we can
