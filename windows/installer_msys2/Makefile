@@ -34,16 +34,16 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 #
 
 # by default build all installers that are buildable with current msys2 environment
-# gtk2-installer and qt-installers are not built.
-all: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
+# gtk2-installer is not built.
+all: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
 
 gtk3x-installer:
 	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
 
 # These are what can be built in current official environment version
-buildable-win32: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
+buildable-win32: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
 
-buildable-win64: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer
+buildable-win64: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
 
 # See comments on 'snapshot' target why this wrapping is needed
 buildable: buildable-$(WINARCH)

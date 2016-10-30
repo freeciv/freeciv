@@ -12,8 +12,7 @@ using MSYS2 from http://msys2.github.io
 - Msys1, not msys2, is still the official freeciv Windows Installer
   build method
 - Buildable clients are gtk3, gtk2, sdl2, and Qt
-  - Official pre-made msys2 environment supports only gtk3-, gtk3x-, and
-    sdl2-client builds
+  - Official pre-made msys2 environment does not support gtk2-client
 
 
  Setup
