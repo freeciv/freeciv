@@ -43,8 +43,6 @@ libgui_gtk3_22_la_SOURCES = \
 	gotodlg.h	\
 	graphics.c	\
 	graphics.h	\
-	gtkpixcomm.c	\
-	gtkpixcomm.h	\
 	gui_main.c	\
 	gui_main.h	\
 	gui_stuff.c	\
