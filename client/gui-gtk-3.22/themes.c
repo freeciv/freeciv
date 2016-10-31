@@ -59,8 +59,6 @@ void gui_load_theme(const char *directory, const char *theme_name)
   if (error) {
     g_warning("%s\n", error->message);
   }
-
-  gtk_style_context_invalidate(gtk_widget_get_style_context(toplevel));
 }
 
 /*****************************************************************************
