@@ -20,6 +20,7 @@
 #include <QMessageBox>
 #include <QElapsedTimer>
 #include <QLineEdit>
+#include <QTableWidget>
 
 #include "shortcuts.h"
 
@@ -175,6 +176,23 @@ private:
   tile *current_tile;
 };
 
+/****************************************************************************
+  Widget allowing load units on transport
+****************************************************************************/
+class hud_unit_loader : public QTableWidget
+{
+  QList<unit * > transports;
+  Q_OBJECT
+public:
+  hud_unit_loader(struct unit *pcargo, struct tile *ptile);
+  ~hud_unit_loader();
+  void show_me();
+protected slots:
+  void selection_changed(const QItemSelection&, const QItemSelection&);
+private:
+  struct unit *cargo;
+  struct tile *qtile;
+};
 
 #endif /* FC__HUDWIDGET_H */
 

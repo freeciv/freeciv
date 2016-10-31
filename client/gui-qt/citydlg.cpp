@@ -708,7 +708,7 @@ void unit_item::disband()
 ****************************************************************************/
 void unit_item::load_unit()
 {
-  request_unit_load(qunit, NULL, unit_tile(qunit));
+  qtg_request_transport(qunit, unit_tile(qunit));
 }
 
 /****************************************************************************

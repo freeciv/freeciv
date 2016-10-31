@@ -21,6 +21,7 @@
 #include <QGridLayout>
 #include <QPaintEvent>
 #include <QLineEdit>
+#include <QHeaderView>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
@@ -40,6 +41,7 @@
 #include "hudwidget.h"
 #include "fonts.h"
 #include "qtg_cxxside.h"
+#include "sprite.h"
 
 /****************************************************************************
   Custom message box constructor
@@ -886,5 +888,109 @@ void unit_actions::clear_layout()
     actions.removeFirst();
   }
   setUpdatesEnabled(true);
+}
+
+/****************************************************************************
+  Constructor for widget allowing loading units on transports
+****************************************************************************/
+hud_unit_loader::hud_unit_loader(struct unit *pcargo, struct tile *ptile)
+{
+  setProperty("showGrid", "false");
+  setProperty("selectionBehavior", "SelectRows");
+  setEditTriggers(QAbstractItemView::NoEditTriggers);
+  setSelectionMode(QAbstractItemView::SingleSelection);
+  verticalHeader()->setVisible(false);
+  horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+  horizontalHeader()->setVisible(false);
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  connect(selectionModel(),
+          SIGNAL(selectionChanged(const QItemSelection &,
+                                  const QItemSelection &)), this,
+          SLOT(selection_changed(const QItemSelection &,
+                                 const QItemSelection &)));
+  cargo = pcargo;
+  qtile = ptile;
+
+}
+
+/****************************************************************************
+  Destructor for units loader
+****************************************************************************/
+hud_unit_loader::~hud_unit_loader()
+{
+
+}
+
+/****************************************************************************
+  Shows unit loader, adds possible tranportsand units to table
+  Calculates table size
+****************************************************************************/
+void hud_unit_loader::show_me()
+{
+  QTableWidgetItem *new_item;
+  int max_size = 0;
+  int i, j;
+  int w,h;
+  sprite *spite;
+
+  unit_list_iterate(qtile->units, ptransport) {
+    if (can_unit_transport(ptransport, cargo)
+        && get_transporter_occupancy(ptransport)
+        < get_transporter_capacity(ptransport)) {
+      transports.append(ptransport);
+      max_size = qMax(max_size, get_transporter_occupancy(ptransport));
+    }
+  } unit_list_iterate_end;
+
+  setRowCount(transports.count());
+  setColumnCount(max_size + 1);
+  for (i = 0 ; i < transports.count(); i++) {
+    QString str;
+    spite = get_unittype_sprite(tileset, transports.at(i)->utype,
+                                direction8_invalid());
+    str = utype_rule_name(transports.at(i)->utype);
+    /* TRANS: MP - just movement points */
+    str = str + " ("
+          + QString(move_points_text(transports.at(i)->moves_left, false))
+          + _("MP") + ")";
+    new_item = new QTableWidgetItem(QIcon(*spite->pm), str);
+    setItem(i, 0, new_item);
+    j = 1;
+    unit_list_iterate(transports.at(i)->transporting, tunit) {
+      spite = get_unittype_sprite(tileset, tunit->utype,
+                                  direction8_invalid());
+      new_item = new QTableWidgetItem(QIcon(*spite->pm), "");
+      setItem(i, j, new_item);
+      j++;
+    } unit_list_iterate_end;
+  }
+
+   w = verticalHeader()->width() + 4;
+   for (i = 0; i < columnCount(); i++) {
+      w += columnWidth(i);
+   }
+   h = horizontalHeader()->height() + 4;
+   for (i = 0; i < rowCount(); i++) {
+      h += rowHeight(i);
+   }
+
+  resize(w, h);
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Dialog
+                 | Qt::FramelessWindowHint);
+  show();
+}
+
+/****************************************************************************
+  Selects given tranport and closes widget
+****************************************************************************/
+void hud_unit_loader::selection_changed(const QItemSelection& s1,
+                                        const QItemSelection& s2)
+{
+  int curr_row;
+
+  curr_row = s1.indexes().at(0).row();
+  request_unit_load(cargo, transports.at(curr_row), qtile);
+  close();
 }
 
