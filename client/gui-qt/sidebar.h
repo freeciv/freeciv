@@ -32,7 +32,7 @@ class QPixmap;
 typedef void (*pfcn_bool)(bool);
 typedef void (*pfcn)(void);
 
-void side_show_diplomacy_dialog(void);
+void side_right_click_diplomacy(void);
 void side_blink_endturn(bool do_restore);
 void side_center_unit();
 void side_disable_endturn(bool do_restore);
@@ -40,7 +40,6 @@ void side_finish_turn(bool nothing);
 void side_indicators_menu();
 void side_rates_wdg(bool nothing);
 void side_show_map(bool nothing);
-
 /***************************************************************************
   Class representing single widget(icon) on sidebar
 ***************************************************************************/
@@ -72,6 +71,7 @@ public:
   QString page;
 public slots:
   void sblink();
+  void some_slot();
 protected:
   void contextMenuEvent(QContextMenuEvent  *event);
   void enterEvent(QEvent *event);
