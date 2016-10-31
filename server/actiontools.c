@@ -796,8 +796,6 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          const struct city *target_city,
                          const struct unit *target_unit)
 {
-  int i;
-
   int actor_id;
 
   const struct city *tgt_city;
@@ -826,13 +824,8 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                ? target_tile
                : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
 
-  for (i = 0; i < ACTION_COUNT; i++) {
-    const enum gen_action act = autoperf->alternatives[i];
-
-    if (act == ACTION_COUNT) {
-      /* No more alternative actions. */
-      break;
-    } else if (action_id_get_actor_kind(act) == AAK_UNIT) {
+  action_auto_perf_actions_iterate(autoperf, act) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT) {
       /* This action can be done by units. */
 
 #define perform_action_to(act, actor, tgtid)                              \
@@ -882,7 +875,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         return NULL;
       }
     }
-  }
+  } action_auto_perf_actions_iterate_end;
 
   return NULL;
 }

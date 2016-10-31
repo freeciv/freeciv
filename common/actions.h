@@ -294,6 +294,22 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define action_auto_perf_by_cause_iterate_end                             \
 } action_auto_perf_iterate_end
 
+#define action_auto_perf_actions_iterate(_autoperf_, _act_id_)            \
+{                                                                         \
+  int _perf_pos_;                                                         \
+                                                                          \
+  for (_perf_pos_ = 0; _perf_pos_ < ACTION_COUNT; _perf_pos_++) {         \
+    const int _act_id_ = _autoperf_->alternatives[_perf_pos_];            \
+                                                                          \
+    if (_act_id_ == ACTION_COUNT) {                                       \
+      /* No more alternative actions. */                                  \
+      break;                                                              \
+    }
+
+#define action_auto_perf_actions_iterate_end                              \
+  }                                                                       \
+}
+
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset. */
 #define ACTION_AUTO_UPKEEP_FOOD   0
