@@ -2791,5 +2791,36 @@ bool qtg_handmade_scenario_warning()
 *****************************************************************/
 bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
 {
-  return false; /* Unit was not handled here. */
+  int tcount;
+  hud_unit_loader *hul;
+  struct unit_list *potential_transports = unit_list_new();
+  struct unit *best_transport = transporter_for_unit(pcargo);
+
+  unit_list_iterate(ptile->units, ptransport) {
+    if (can_unit_transport(ptransport, pcargo)
+        && get_transporter_occupancy(ptransport) < get_transporter_capacity(ptransport)) {
+      unit_list_append(potential_transports, ptransport);
+    }
+  } unit_list_iterate_end;
+
+  tcount = unit_list_size(potential_transports);
+
+  if (tcount == 0) {
+    fc_assert(best_transport == NULL);
+    unit_list_destroy(potential_transports);
+
+    return false; /* Unit was not handled here. */
+  } else if (tcount == 1) {
+    /* There's exactly one potential transport - use it automatically */
+    fc_assert(unit_list_get(potential_transports, 0) == best_transport);
+    request_unit_load(pcargo, unit_list_get(potential_transports, 0), ptile);
+
+    unit_list_destroy(potential_transports);
+
+    return true;
+  }
+
+  hul = new hud_unit_loader(pcargo, ptile);
+  hul->show_me();
+  return true;
 }

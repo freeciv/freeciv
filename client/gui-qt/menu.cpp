@@ -2484,7 +2484,7 @@ void mr_menu::slot_execute_orders()
 void mr_menu::slot_load()
 {
   unit_list_iterate(get_units_in_focus(), punit) {
-    request_unit_load(punit, NULL, unit_tile(punit));
+    qtg_request_transport(punit, unit_tile(punit));
   } unit_list_iterate_end;
 }
 
