@@ -305,6 +305,36 @@ void fc_sidewidget::sblink()
   update_final_pixmap();
 }
 
+/***************************************************************************
+  Miscelanous slot, helping observe players currently,
+  extra functionality might be added,
+  eg by setting properties
+***************************************************************************/
+void fc_sidewidget::some_slot()
+{
+  QVariant qvar;
+  struct player *obs_player;
+  QAction *act;
+
+  act = qobject_cast<QAction *>(sender());
+  qvar = act->data();
+
+  if (qvar.isValid() == false) {
+    return;
+  }
+
+  if (qvar.toInt() == -1) {
+    send_chat("/observe");
+    return;
+  }
+
+  obs_player = reinterpret_cast<struct player *>(qvar.value<void *>());
+  if (obs_player != nullptr) {
+    QString s;
+    s = QString("/observe \"%1\"").arg(obs_player->name);
+    send_chat(s.toLocal8Bit().data());
+  }
+}
 
 /***************************************************************************
   Updates final pixmap and draws it on screen
@@ -609,14 +639,46 @@ void side_indicators_menu()
 }
 
 /***************************************************************************
-  Shows diplomacy dialog if there is any open
+  Right click for diplomacy 
+  Opens diplomacy meeting for player
+  For observer popups menu
 ***************************************************************************/
-void side_show_diplomacy_dialog(void)
+void side_right_click_diplomacy(void)
 {
-  int i;
-  i = gui()->gimme_index_of("DDI");
-  if (i < 0) {
-    return;
+  if (client_is_observer()) {
+    QMenu *menu = new QMenu(gui()->central_wdg);
+    QAction *eiskalt;
+    QString erwischt;
+
+    players_iterate(pplayer) {
+      if (pplayer == client.conn.playing) {
+        continue;
+      }
+      erwischt = QString(_("Observe %1")).arg(pplayer->name);
+      erwischt = erwischt + " ("
+                 + nation_plural_translation(pplayer->nation) + ")";
+      eiskalt = new QAction(erwischt, gui()->mapview_wdg);
+      eiskalt->setData(QVariant::fromValue((void *)pplayer));
+      QObject::connect(eiskalt, SIGNAL(triggered()), gui()->sw_diplo,
+                       SLOT(some_slot()));
+      menu->addAction(eiskalt);
+    } players_iterate_end
+
+    if (client_is_global_observer() == false) {
+      eiskalt = new QAction(_("Observe globally"), gui()->mapview_wdg);
+      eiskalt->setData(-1);
+      menu->addAction(eiskalt);
+      QObject::connect(eiskalt, SIGNAL(triggered()), gui()->sw_diplo,
+                       SLOT(some_slot()));
+    }
+
+    menu->exec(QCursor::pos());
+  } else {
+    int i;
+    i = gui()->gimme_index_of("DDI");
+    if (i < 0) {
+      return;
+    }
+    gui()->game_tab_widget->setCurrentIndex(i);
   }
-  gui()->game_tab_widget->setCurrentIndex(i);
 }

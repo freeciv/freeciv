@@ -714,7 +714,7 @@ void fc_client::create_game_page()
   sw_cunit->set_right_click(side_center_unit);
   sw_cunit->set_wheel_up(key_recall_previous_focus_unit);
   sw_cunit->set_wheel_down(key_unit_wait);
-  sw_diplo->set_right_click(side_show_diplomacy_dialog);
+  sw_diplo->set_right_click(side_right_click_diplomacy);
 
   sidebar_wdg->add_widget(sw_map);
   sidebar_wdg->add_widget(sw_cunit);
