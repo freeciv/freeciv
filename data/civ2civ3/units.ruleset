@@ -144,7 +144,7 @@ name          = _("?unitclass:Small Land")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
-                "ZOC", "TerrainDefense", "DoesntOccupyTile", "Airliftable"
+                "ZOC", "CanFortify", "TerrainDefense", "DoesntOccupyTile", "Airliftable"
 
 [unitclass_land_big]
 ; /* TRANS: Unit class: used adjectivally */
@@ -2442,7 +2442,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC"
+flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC", "Cant_Fortify"
 roles         = "Explorer", "ExplorerStartUnit"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
