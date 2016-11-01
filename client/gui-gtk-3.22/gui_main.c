@@ -105,7 +105,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3.x";
+const char *client_string = "gui-gtk-3.22";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1670,11 +1670,11 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
-  Migrate gtk3x client specific options from gtk3 client options.
+  Migrate gtk3.22 client specific options from gtk3 client options.
 **************************************************************************/
 static void migrate_options_from_gtk3(void)
 {
-  log_normal(_("Migrating options from gtk3 to gtk3x client"));
+  log_normal(_("Migrating options from gtk3 to gtk3.22 client"));
 
 #define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_##opt;
 #define MIGRATE_STR_OPTION(opt) \
