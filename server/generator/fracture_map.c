@@ -178,7 +178,7 @@ static void circle_bresenham(int xc, int yc, int r, int nn)
 **************************************************************************/
 static void fmfill(int x, int y, int c, int r)
 {
-  int x1,x2,y1,y2;
+  int x_less, x_more, y_less, y_more;
   struct tile *ptileXY;
   struct tile *ptileX2Y;
   struct tile *ptileX1Y;
@@ -190,37 +190,37 @@ static void fmfill(int x, int y, int c, int r)
   struct tile *ptileX1Y1;
 
   if (x < 0) {
-    x = wld.map.xsize+x;
+    x = wld.map.xsize + x;
   } else if (x > wld.map.xsize) {
-    x = x-wld.map.xsize;
+    x = x - wld.map.xsize;
   }
-  x1 = x - 1;
-  if (x1 < 0) {
-    x1 = wld.map.xsize - 1;
+  x_less = x - 1;
+  if (x_less < 0) {
+    x_less = wld.map.xsize - 1;
   }
-  x2 = x + 1;
-  if (x2 >= wld.map.xsize) {
-    x2 = 0;
+  x_more = x + 1;
+  if (x_more >= wld.map.xsize) {
+    x_more = 0;
   }
-  y1 = y - 1;
-  if (y1 < 0) {
-    y1 = wld.map.ysize - 1;
+  y_less = y - 1;
+  if (y_less < 0) {
+    y_less = wld.map.ysize - 1;
   }
-  y2 = y + 1;
-  if (y2 >= wld.map.ysize) {
-    y2 = 0;
+  y_more = y + 1;
+  if (y_more >= wld.map.ysize) {
+    y_more = 0;
   }
 
   if (y >= 0 && y < wld.map.ysize) {
-    ptileXY = native_pos_to_tile(x,y);
-    ptileX2Y = native_pos_to_tile(x2,y);
-    ptileX1Y = native_pos_to_tile(x1,y);
-    ptileXY2 = native_pos_to_tile(x,y2);
-    ptileXY1 = native_pos_to_tile(x,y1);
-    ptileX2Y1 = native_pos_to_tile(x2,y1);
-    ptileX2Y2 = native_pos_to_tile(x2,y2);
-    ptileX1Y2 = native_pos_to_tile(x1,y2);
-    ptileX1Y1 = native_pos_to_tile(x1,y1);
+    ptileXY = native_pos_to_tile(x, y);
+    ptileX2Y = native_pos_to_tile(x_more, y);
+    ptileX1Y = native_pos_to_tile(x_less, y);
+    ptileXY2 = native_pos_to_tile(x, y_more);
+    ptileXY1 = native_pos_to_tile(x, y_less);
+    ptileX2Y1 = native_pos_to_tile(x_more, y_less);
+    ptileX2Y2 = native_pos_to_tile(x_more, y_more);
+    ptileX1Y2 = native_pos_to_tile(x_less, y_more);
+    ptileX1Y1 = native_pos_to_tile(x_less, y_less);
 
     if (ptileXY->continent == 0 ) {
       ptileXY->continent = c;
@@ -242,7 +242,7 @@ static void fmfill(int x, int y, int c, int r)
       hmap(ptileX1Y2) = landmass[c-1].elevation;
       hmap(ptileX1Y1) = landmass[c-1].elevation;
       /* This bit of code could track the maximum and minimum extent
-         of the landmass. */
+       * of the landmass. */
       if (x < landmass[c-1].minX) {
         landmass[c-1].minX = x;
       }
