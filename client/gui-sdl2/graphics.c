@@ -323,37 +323,6 @@ SDL_Surface *load_surf(const char *pFname)
 }
 
 /**************************************************************************
-  Load a surface from file putting it in soft or hardware mem
-  Warning: pFname must have full path to file
-**************************************************************************/
-SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
-{
-  SDL_Surface *pBuf = NULL;
-#if 0
-  SDL_Surface *pNew_sur = NULL;
-  SDL_PixelFormat *pSpf = SDL_GetVideoSurface()->format;
-#endif
-
-  if ((pBuf = IMG_Load(pFname)) == NULL) {
-    log_error(_("load_surf_with_flags: Unable to load file %s."), pFname);
-    return NULL;
-  }
-
-  return pBuf;
-#if 0
-  if ((pNew_sur = SDL_ConvertSurface(pBuf, pSpf, iFlags)) == NULL) {
-    log_error(_("Unable to convert image from file %s into format %d."),
-              pFname, iFlags);
-    return pBuf;
-  }
-
-  FREESURFACE(pBuf);
-
-  return pNew_sur;
-#endif /* 0 */
-}
-
-/**************************************************************************
    create an surface with format
    MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
