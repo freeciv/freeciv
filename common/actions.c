@@ -3334,6 +3334,74 @@ bool are_action_probabilitys_equal(const struct act_prob *ap1,
 }
 
 /**************************************************************************
+  Returns ap1 with ap2 as fall back in cases where ap1 doesn't happen.
+  Said in math that is: P(A) + P(A') * P(B)
+
+  This is useful to calculate the probability of doing action A or, when A
+  is impossible, falling back to doing action B.
+**************************************************************************/
+struct act_prob action_prob_fall_back(const struct act_prob *ap1,
+                                      const struct act_prob *ap2)
+{
+  struct act_prob my_ap1;
+  struct act_prob my_ap2;
+  struct act_prob out;
+
+  /* The action probabilities are real. */
+  fc_assert(ap1 && !action_prob_not_relevant(*ap1));
+  fc_assert(ap2 && !action_prob_not_relevant(*ap2));
+
+  if (action_prob_is_signal(*ap1)
+      && are_action_probabilitys_equal(ap1, ap2)) {
+    /* Keep the information rather than converting the signal to
+     * ACTPROB_NOT_KNOWN. */
+
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(*ap1));
+
+    out.min = ap1->min;
+    out.max = ap2->max;
+
+    return out;
+  }
+
+  /* Convert any signals to ACTPROB_NOT_KNOWN. */
+  if (action_prob_is_signal(*ap1)) {
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(*ap1));
+
+    my_ap1.min = ACTPROB_VAL_MIN;
+    my_ap1.max = ACTPROB_VAL_MAX;
+  } else {
+    my_ap1.min = ap1->min;
+    my_ap1.max = ap1->max;
+  }
+
+  if (action_prob_is_signal(*ap2)) {
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(*ap2));
+
+    my_ap2.min = ACTPROB_VAL_MIN;
+    my_ap2.max = ACTPROB_VAL_MAX;
+  } else {
+    my_ap2.min = ap2->min;
+    my_ap2.max = ap2->max;
+  }
+
+  /* The action probabilities now have a math friendly form. */
+  fc_assert(!action_prob_is_signal(my_ap1));
+  fc_assert(!action_prob_is_signal(my_ap2));
+
+  /* Do the math. */
+  out.min = my_ap1.min + (((ACTPROB_VAL_MAX - my_ap1.min) * my_ap2.min)
+                          / ACTPROB_VAL_MAX);
+  out.max = my_ap1.max + (((ACTPROB_VAL_MAX - my_ap1.max) * my_ap2.max)
+                          / ACTPROB_VAL_MAX);
+
+  return out;
+}
+
+/**************************************************************************
   Will a player with the government gov be immune to the action act?
 **************************************************************************/
 bool action_immune_government(struct government *gov, int act)
