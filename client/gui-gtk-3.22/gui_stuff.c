@@ -586,8 +586,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       label = gtk_label_new(NULL);
       gtk_widget_set_halign(label, GTK_ALIGN_START);
       gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-      gtk_widget_set_margin_left(label, 4);
-      gtk_widget_set_margin_right(label, 4);
+      gtk_widget_set_margin_start(label, 4);
+      gtk_widget_set_margin_end(label, 4);
       gtk_widget_set_margin_top(label, 0);
       gtk_widget_set_margin_bottom(label, 0);
       gtk_container_add(GTK_CONTAINER(hbox), label);
@@ -602,8 +602,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       g_free(buf);
 
       image = gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
-      gtk_widget_set_margin_left(image, 0);
-      gtk_widget_set_margin_right(image, 0);
+      gtk_widget_set_margin_start(image, 0);
+      gtk_widget_set_margin_end(image, 0);
       gtk_widget_set_margin_top(image, 0);
       gtk_widget_set_margin_bottom(image, 0);
       gtk_button_set_image(GTK_BUTTON(button), image);

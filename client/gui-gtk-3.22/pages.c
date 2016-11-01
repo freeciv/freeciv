@@ -899,8 +899,8 @@ GtkWidget *create_statusbar(void)
   gtk_frame_set_shadow_type(GTK_FRAME(statusbar_frame), GTK_SHADOW_IN);
 
   statusbar = gtk_label_new("");
-  gtk_widget_set_margin_left(statusbar, 2);
-  gtk_widget_set_margin_right(statusbar, 2);
+  gtk_widget_set_margin_start(statusbar, 2);
+  gtk_widget_set_margin_end(statusbar, 2);
   gtk_widget_set_margin_top(statusbar, 2);
   gtk_widget_set_margin_bottom(statusbar, 2);
   gtk_container_add(GTK_CONTAINER(statusbar_frame), statusbar);

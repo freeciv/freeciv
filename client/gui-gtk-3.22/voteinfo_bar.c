@@ -122,8 +122,8 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_hexpand(label, TRUE);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_margin_left(label, 8);
-  gtk_widget_set_margin_right(label, 8);
+  gtk_widget_set_margin_start(label, 8);
+  gtk_widget_set_margin_end(label, 8);
   gtk_widget_set_margin_top(label, 4);
   gtk_widget_set_margin_bottom(label, 4);
   gtk_label_set_max_width_chars(GTK_LABEL(label), 80);
@@ -143,7 +143,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   }
 
   button = gtk_button_new();
-  gtk_widget_set_margin_right(button, 16);
+  gtk_widget_set_margin_end(button, 16);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_next_callback), NULL);
   gtk_button_set_image(GTK_BUTTON(button), arrow);

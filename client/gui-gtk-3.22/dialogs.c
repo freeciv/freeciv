@@ -1066,7 +1066,7 @@ static void create_races_dialog(struct player *pplayer)
       "yalign", 0.5,
       NULL);
   gtk_widget_set_margin_bottom(label, 6);
-  gtk_widget_set_margin_right(label, 12);
+  gtk_widget_set_margin_end(label, 12);
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 2);
   gtk_grid_attach(GTK_GRID(table), combo, 1, 0, 2, 1);
 
@@ -1111,7 +1111,7 @@ static void create_races_dialog(struct player *pplayer)
       "yalign", 0.5,
       NULL);
   gtk_widget_set_margin_top(label, 6);
-  gtk_widget_set_margin_right(label, 12);
+  gtk_widget_set_margin_end(label, 12);
   gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 
   render = gtk_cell_renderer_pixbuf_new();

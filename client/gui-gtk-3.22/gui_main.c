@@ -1269,8 +1269,8 @@ static void setup_widgets(void)
   label = gtk_label_new(NULL);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_margin_left(label, 2);
-  gtk_widget_set_margin_right(label, 2);
+  gtk_widget_set_margin_start(label, 2);
+  gtk_widget_set_margin_end(label, 2);
   gtk_widget_set_margin_top(label, 2);
   gtk_widget_set_margin_bottom(label, 2);
   gtk_container_add(GTK_CONTAINER(ebox), label);
@@ -1352,8 +1352,8 @@ static void setup_widgets(void)
 
     gtk_widget_set_halign(w, GTK_ALIGN_START);
     gtk_widget_set_valign(w, GTK_ALIGN_START);
-    gtk_widget_set_margin_left(w, 0);
-    gtk_widget_set_margin_right(w, 0);
+    gtk_widget_set_margin_start(w, 0);
+    gtk_widget_set_margin_end(w, 0);
     gtk_widget_set_margin_top(w, 0);
     gtk_widget_set_margin_bottom(w, 0);
     gtk_container_add(GTK_CONTAINER(ebox), w);
@@ -1407,8 +1407,8 @@ static void setup_widgets(void)
   gtk_widget_set_hexpand(label, TRUE);
   gtk_widget_set_halign(label, GTK_ALIGN_START);
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
-  gtk_widget_set_margin_left(label, 2);
-  gtk_widget_set_margin_right(label, 2);
+  gtk_widget_set_margin_start(label, 2);
+  gtk_widget_set_margin_end(label, 2);
   gtk_widget_set_margin_top(label, 2);
   gtk_widget_set_margin_bottom(label, 2);
   gtk_container_add(GTK_CONTAINER(sw), label);

@@ -698,8 +698,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
 
     label = gtk_label_new(buf);
     gtk_widget_set_name(label, "city_info_label");
-    gtk_widget_set_margin_left(label, 4);
-    gtk_widget_set_margin_right(label, 4);
+    gtk_widget_set_margin_start(label, 4);
+    gtk_widget_set_margin_end(label, 4);
     gtk_widget_set_margin_top(label, 4);
     gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
@@ -764,7 +764,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
       default:
         break;
     }
-    gtk_widget_set_margin_right(label, 5);
+    gtk_widget_set_margin_end(label, 5);
     gtk_widget_set_name(label, "city_label");	/* for font style? */
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
@@ -1561,8 +1561,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   g_object_unref(pb);
 
   gtk_widget_add_events(pdialog->citizen_images, GDK_BUTTON_PRESS_MASK);
-  gtk_widget_set_margin_left(pdialog->citizen_images, 2);
-  gtk_widget_set_margin_right(pdialog->citizen_images, 2);
+  gtk_widget_set_margin_start(pdialog->citizen_images, 2);
+  gtk_widget_set_margin_end(pdialog->citizen_images, 2);
   gtk_widget_set_margin_top(pdialog->citizen_images, 2);
   gtk_widget_set_margin_bottom(pdialog->citizen_images, 2);
   gtk_widget_set_halign(pdialog->citizen_images, GTK_ALIGN_START);
