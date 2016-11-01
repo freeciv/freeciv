@@ -434,6 +434,10 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     num = num_affected_units(peffect, ai);
     v += ((2 * c + num) * amount) / 400;
     break;
+  case EFT_ATTACK_BONUS:
+    num = num_affected_units(peffect, ai);
+    v += (num + 4) * amount / 200;
+    break;
   case EFT_DEFEND_BONUS:
     if (has_handicap(pplayer, H_DEFENSIVE)) {
       v += amount / 10; /* make AI slow */

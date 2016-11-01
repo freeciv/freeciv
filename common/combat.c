@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -413,17 +413,17 @@ struct city *sdi_try_defend(const struct player *owner,
 }
 
 /**************************************************************************
- Convenience wrapper for base_get_attack_power.
+  Convenience wrapper for base_get_attack_power.
 **************************************************************************/
 int get_attack_power(const struct unit *punit)
 {
   return base_get_attack_power(unit_type_get(punit), punit->veteran,
-			       punit->moves_left);
+                               punit->moves_left);
 }
 
 /**************************************************************************
- Returns the attack power, modified by moves left, and veteran
- status.
+  Returns the attack power, modified by moves left, and veteran
+  status.
 **************************************************************************/
 int base_get_attack_power(const struct unit_type *punittype,
                           int veteran, int moves_left)
@@ -486,15 +486,18 @@ static int get_defense_power(const struct unit *punit)
 }
 
 /***************************************************************************
- return the modified attack power of a unit.  Currently they aren't any
- modifications...
+  Return the modified attack power of a unit.
 ***************************************************************************/
 int get_total_attack_power(const struct unit *attacker,
-			   const struct unit *defender)
+                           const struct unit *defender)
 {
+  int mod;
   int attackpower = get_attack_power(attacker);
 
-  return attackpower;
+  mod = 100 + get_unittype_bonus(unit_owner(attacker), unit_tile(defender),
+                                 unit_type_get(attacker), EFT_ATTACK_BONUS);
+
+  return attackpower * mod / 100;
 }
 
 /**************************************************************************
@@ -508,10 +511,10 @@ May be called with a non-existing att_type to avoid any unit type
 effects.
 **************************************************************************/
 static int defense_multiplication(const struct unit_type *att_type,
-				  const struct unit_type *def_type,
-				  const struct player *def_player,
-				  const struct tile *ptile,
-				  int defensepower, bool fortified)
+                                  const struct unit_type *def_type,
+                                  const struct player *def_player,
+                                  const struct tile *ptile,
+                                  int defensepower, bool fortified)
 {
   struct city *pcity = tile_city(ptile);
   int mod;

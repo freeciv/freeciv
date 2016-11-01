@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -291,6 +291,8 @@ extern "C" {
 #define SPECENUM_VALUE114NAME "Building_Saboteur_Resistant"
 #define SPECENUM_VALUE115 EFT_UNIT_SLOTS
 #define SPECENUM_VALUE115NAME "Unit_Slots"
+#define SPECENUM_VALUE116 EFT_ATTACK_BONUS
+#define SPECENUM_VALUE116NAME "Attack_Bonus"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
