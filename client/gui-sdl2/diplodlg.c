@@ -1548,7 +1548,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     area.h += pText->h + adj_size(15);
 
     can_toward_war = can_client_issue_orders()
-      && pplayer_can_cancel_treaty(client_player(), pPlayer);
+      && pplayer_can_cancel_treaty(client_player(), pPlayer) == DIPL_OK;
 
     if (can_toward_war) {
       if (type == DS_ARMISTICE) {

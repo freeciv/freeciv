@@ -84,8 +84,6 @@ enum diplstate_type cancel_pact_result(enum diplstate_type oldstate)
 }
 
 /***************************************************************
-  Returns true iff p1 can cancel treaty on p2.
-
   The senate may not allow you to break the treaty.  In this 
   case you must first dissolve the senate then you can break 
   it.  This is waived if you have statue of liberty since you 
