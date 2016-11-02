@@ -19,8 +19,10 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QHeaderView>
+#include <QImage>
 #include <QMessageBox>
 #include <QRadioButton>
+#include <QRect>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
@@ -504,18 +506,23 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 unit_item::unit_item(QWidget *parent, struct unit *punit,
                      bool supp, int hppy_cost) : QLabel()
 {
-  setParent(parent);
   happy_cost = hppy_cost;
-  supported = supp;
-  unit_pixmap = NULL;
+  QImage cropped_img;
+  QImage img;
+  QPixmap pix;
+  QRect crop;
   qunit = punit;
+  struct canvas *unit_pixmap;
+
+  setParent(parent);
+  supported = supp;
 
   if (punit) {
     if (supported) {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+      unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
                                       tileset_unit_with_upkeep_height(tileset));
     } else {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
+      unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
                                       tileset_unit_height(tileset));
     }
 
@@ -527,11 +534,25 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
                              tileset_unit_layout_offset_y(tileset),
                              punit->upkeep, happy_cost);
     }
+  } else {
+    unit_pixmap = qtg_canvas_create(10, 10);
+    unit_pixmap->map_pixmap.fill(Qt::transparent);
   }
 
+  img = unit_pixmap->map_pixmap.toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  if (tileset_is_isometric(tileset) == true) {
+    unit_img = cropped_img.scaledToHeight(tileset_unit_width(tileset)
+                                          * 0.6, Qt::SmoothTransformation);
+  } else {
+    unit_img = cropped_img.scaledToHeight(tileset_unit_width(tileset),
+                                          Qt::SmoothTransformation);
+  }
+  qtg_canvas_free(unit_pixmap);
   create_actions();
-  setFixedWidth(unit_pixmap->map_pixmap.width() + 4);
-  setFixedHeight(unit_pixmap->map_pixmap.height());
+  setFixedWidth(unit_img.width() + 4);
+  setFixedHeight(unit_img.height());
   setToolTip(unit_description(qunit));
 }
 
@@ -540,7 +561,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
 ****************************************************************************/
 void unit_item::init_pix()
 {
-  setPixmap(unit_pixmap->map_pixmap);
+  setPixmap(QPixmap::fromImage(unit_img));
   update();
 }
 
@@ -549,9 +570,6 @@ void unit_item::init_pix()
 ****************************************************************************/
 unit_item::~unit_item()
 {
-  if (unit_pixmap) {
-    qtg_canvas_free(unit_pixmap);
-  }
 }
 
 /****************************************************************************
@@ -785,30 +803,17 @@ void unit_item::fortify_unit()
 ****************************************************************************/
 void unit_item::enterEvent(QEvent *event)
 {
-  if (unit_pixmap) {
-    delete unit_pixmap;
-  }
+  QImage temp_img(unit_img.size(), QImage::Format_ARGB32_Premultiplied);
+  QPainter p;
 
-  if (qunit) {
-    if (supported) {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                      tileset_unit_with_upkeep_height(tileset));
-    } else {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                      tileset_unit_height(tileset));
-    }
+  p.begin(&temp_img);
+  p.fillRect(0, 0, unit_img.width(), unit_img.height(),
+             QColor(palette().color(QPalette::Highlight)));
+  p.drawImage(0, 0, unit_img);
+  p.end();
 
-    unit_pixmap->map_pixmap.fill(QColor(palette().color(QPalette::Highlight)));
-    put_unit(qunit, unit_pixmap, 1.0, 0, 0);
-
-    if (supported) {
-      put_unit_city_overlays(qunit, unit_pixmap, 0,
-                             tileset_unit_layout_offset_y(tileset),
-                             qunit->upkeep, happy_cost);
-    }
-  }
-
-  init_pix();
+  setPixmap(QPixmap::fromImage(temp_img));
+  update();
 }
 
 /****************************************************************************
@@ -816,29 +821,6 @@ void unit_item::enterEvent(QEvent *event)
 ****************************************************************************/
 void unit_item::leaveEvent(QEvent *event)
 {
-  if (unit_pixmap) {
-    delete unit_pixmap;
-  }
-
-  if (qunit) {
-    if (supported) {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                      tileset_unit_with_upkeep_height(tileset));
-    } else {
-      unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                      tileset_unit_height(tileset));
-    }
-
-    unit_pixmap->map_pixmap.fill(Qt::transparent);
-    put_unit(qunit, unit_pixmap, 1.0, 0, 0);
-
-    if (supported) {
-      put_unit_city_overlays(qunit, unit_pixmap, 0,
-                             tileset_unit_layout_offset_y(tileset),
-                             qunit->upkeep, happy_cost);
-    }
-  }
-
   init_pix();
 }
 
@@ -923,11 +905,11 @@ void unit_info::update_units()
     layout->addWidget(ui, 0, Qt::AlignVCenter);
   }
 
-  h = tileset_unit_height(tileset) + 6;
-  if (supports) {
-    h = tileset_unit_with_upkeep_height(tileset) + 6;
+  if (tileset_is_isometric(tileset)) {
+    h = tileset_unit_width(tileset) * 0.7 + 6;
+  } else {
+    h = tileset_unit_width(tileset) + 6;
   }
-
   if (unit_list.count() > 0) {
     parentWidget()->parentWidget()->setFixedHeight(city_dlg->scroll_height
                                                    + h);

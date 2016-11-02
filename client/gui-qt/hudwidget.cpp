@@ -374,11 +374,15 @@ void hud_input_box::paintEvent(QPaintEvent *event)
 hud_units::hud_units(QWidget *parent) : QFrame(parent)
 {
   QVBoxLayout *vbox;
+  QVBoxLayout *unit_lab;
   setParent(parent);
   main_layout = new QHBoxLayout;
   vbox = new QVBoxLayout;
+  unit_lab = new QVBoxLayout;
+  unit_lab->setContentsMargins(6, 9, 0, 3);
   vbox->setSpacing(0);
-  main_layout->addWidget(&unit_label);
+  unit_lab->addWidget(&unit_label);
+  main_layout->addLayout(unit_lab);
   main_layout->addWidget(&tile_label);
   unit_icons = new unit_actions(this, nullptr);
   vbox->addWidget(&text_label);
@@ -428,19 +432,22 @@ void hud_units::moveEvent(QMoveEvent *event)
 ****************************************************************************/
 void hud_units::update_actions(unit_list *punits)
 {
-  QString text_str;
-  struct city *pcity;
-  struct unit *punit;
-  struct player *owner;
-  struct canvas *unit_pixmap;
-  struct canvas *tile_pixmap;
-  QPixmap pix;
+  int num;
+  int wwidth;
   QFont font = *fc_font::instance()->get_font(fonts::notify_label);
   QFontMetrics *fm;
+  QImage cropped_img;
+  QImage img;
+  QPixmap pix;
+  QRect crop;
   QString mp;
-  int wwidth;
-  int num;
   QString snum;
+  QString text_str;
+  struct canvas *tile_pixmap;
+  struct canvas *unit_pixmap;
+  struct city *pcity;
+  struct player *owner;
+  struct unit *punit;
 
   punit = head_of_units_in_focus();
   if (punit == nullptr) {
@@ -494,16 +501,16 @@ void hud_units::update_actions(unit_list *punits)
   fm = new QFontMetrics(font);
   text_label.setFixedWidth(fm->width(text_str) + 3);
   delete fm;
-  if (tileset_is_isometric(tileset)) {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset) * 3 / 2);
-  } else {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset));
-  }
+
+  unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
+                                  tileset_unit_height(tileset));
   unit_pixmap->map_pixmap.fill(Qt::transparent);
   put_unit(punit, unit_pixmap, 1,  0, 0);
-  pix = (&unit_pixmap->map_pixmap)->scaledToHeight(height());
+  img = unit_pixmap->map_pixmap.toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  img = cropped_img.scaledToHeight(height(), Qt::SmoothTransformation);
+  pix = QPixmap::fromImage(img);
   wwidth = 2 * 3 + pix.width();
   unit_label.setPixmap(pix);
   if (tileset_is_isometric(tileset)) {
@@ -515,7 +522,12 @@ void hud_units::update_actions(unit_list *punits)
   }
   tile_pixmap->map_pixmap.fill(QColor(0 , 0 , 0 , 0));
   put_terrain(punit->tile, tile_pixmap, 1.0,  0, 0);
-  pix = (&tile_pixmap->map_pixmap)->scaledToHeight(height());
+  img = tile_pixmap->map_pixmap.toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  img = cropped_img.scaledToWidth(wwidth - 10,
+                                  Qt::SmoothTransformation);
+  pix = QPixmap::fromImage(img);
   tile_label.setPixmap(pix);
   unit_label.setToolTip(popup_info_text(punit->tile));
   tile_label.setToolTip(popup_info_text(punit->tile));

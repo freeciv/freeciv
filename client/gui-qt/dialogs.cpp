@@ -18,8 +18,10 @@
 // Qt
 #include <QComboBox>
 #include <QHeaderView>
+#include <QImage>
 #include <QMessageBox>
 #include <QRadioButton>
+#include <QRect>
 #include <QTableWidgetItem>
 #include <QTextEdit>
 
@@ -2792,7 +2794,7 @@ units_select::units_select(tile *ptile, QWidget *parent)
   }
   move(final_p.x(), final_p.y() - height());
   setFocus();
-
+  QTimer::singleShot(10, this, SLOT(update_img()));
 }
 /****************************************************************
   Destructor for unit select
@@ -2809,17 +2811,22 @@ units_select::~units_select()
 *****************************************************************/
 void units_select::create_pixmap()
 {
-  struct unit *punit;
-  QPixmap *tmp_pix;
-  struct canvas *unit_pixmap;
+  int a;
+  int rate, f;
+  int x, y, i;
+  QFontMetrics fm(info_font);
+  QImage cropped_img;
+  QImage img;
   QList <QPixmap*>pix_list;
   QPainter p;
-  QString str;
-  int x, y, i;
-  int rate, f;
-  int a;
   QPen pen;
-  QFontMetrics fm(info_font);
+  QPixmap pixc;
+  QPixmap *pixp;
+  QPixmap *tmp_pix;
+  QRect crop;
+  QString str;
+  struct canvas *unit_pixmap;
+  struct unit *punit;
 
   if (pix != NULL) {
     delete pix;
@@ -2829,8 +2836,13 @@ void units_select::create_pixmap()
   update_units();
   if (unit_list.count() > 0) {
   punit = unit_list.at(0);
-  item_size.setWidth(tileset_full_tile_width(tileset));
-  item_size.setHeight(tileset_tile_height(tileset) * 3 / 2);
+  if (tileset_is_isometric(tileset) == false) {
+    item_size.setWidth(tileset_unit_width(tileset));
+    item_size.setHeight(tileset_unit_width(tileset));
+  } else {
+    item_size.setWidth(tileset_unit_width(tileset) * 0.7);
+    item_size.setHeight(tileset_unit_width(tileset) * 0.7);
+  }
   more = false;
   if (h_pix != nullptr) {
     delete h_pix;
@@ -2853,11 +2865,28 @@ void units_select::create_pixmap()
   }
   pix->fill(Qt::transparent);
   foreach(punit, unit_list) {
-    unit_pixmap = qtg_canvas_create(tileset_full_tile_width(tileset),
-                                    tileset_tile_height(tileset) * 3 / 2);
+    unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
+                                    tileset_unit_height(tileset));
     unit_pixmap->map_pixmap.fill(Qt::transparent);
     put_unit(punit, unit_pixmap, 1.0, 0, 0);
-    pix_list.push_back(&unit_pixmap->map_pixmap);
+    img = unit_pixmap->map_pixmap.toImage();
+    crop = zealous_crop_rect(img);
+    cropped_img = img.copy(crop);
+    if (tileset_is_isometric(tileset) == false) {
+      img = cropped_img.scaled(tileset_unit_width(tileset),
+                               tileset_unit_width(tileset),
+                               Qt::KeepAspectRatio,
+                               Qt::SmoothTransformation);
+    } else {
+      img = cropped_img.scaled(tileset_unit_width(tileset) * 0.7,
+                               tileset_unit_width(tileset) * 0.7,
+                               Qt::KeepAspectRatio,
+                               Qt::SmoothTransformation);
+    }
+    pixc = QPixmap::fromImage(img);
+    pixp = new QPixmap(pixc);
+    pix_list.push_back(pixp);
+    qtg_canvas_free(unit_pixmap);
   }
   a = qMin(item_size.width() / 4, 12);
   x = 0, y = -item_size.height(), i = -1;
@@ -2953,6 +2982,16 @@ void units_select::mousePressEvent(QMouseEvent *event)
     close();
     destroy();
   }
+}
+
+/****************************************************************
+  Update image, because in constructor theme colors
+  are uninitialized in QPainter
+*****************************************************************/
+void units_select::update_img()
+{
+  create_pixmap();
+  update();
 }
 
 /****************************************************************
@@ -3112,14 +3151,6 @@ void units_select::keyPressEvent(QKeyEvent *event)
   QWidget::keyPressEvent(event);
 }
 
-/***************************************************************************
-  Change the fonts when needed
-***************************************************************************/
-void units_select::update_font(const QString& name, const QFont& font)
-{
-  // FIXME Updating fonts isn't practical because the size of the widget
-  // will change -> its position too.
-}
 
 /***************************************************************************
   Set current diplo dialog

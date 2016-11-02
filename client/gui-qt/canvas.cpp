@@ -349,4 +349,37 @@ QFont *get_font(client_font font)
   return qf;
 }
 
+/****************************************************************************
+  Return rectangle containing pure image (crops transparency)
+****************************************************************************/
+QRect zealous_crop_rect(QImage &p)
+{
+  int r, t, b, l;
+
+  l = p.width();
+  r = 0;
+  t = p.height();
+  b = 0;
+  for (int y = 0; y < p.height(); ++y) {
+    QRgb *row = (QRgb *)p.scanLine(y);
+    bool row_filled = false;
+    int x;
+
+    for (x = 0; x < p.width(); ++x) {
+      if (qAlpha(row[x])) {
+        row_filled = true;
+        r = qMax(r, x);
+        if (l > x) {
+          l = x;
+          x = r;
+        }
+      }
+    }
+    if (row_filled) {
+      t = qMin(t, y);
+      b = y;
+    }
+  }
+  return QRect(l, t, r - l, b - t);
+}
 
