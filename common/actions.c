@@ -3334,6 +3334,56 @@ bool are_action_probabilitys_equal(const struct act_prob *ap1,
 }
 
 /**************************************************************************
+  Compare action probabilities. Prioritize the lowest possible value.
+**************************************************************************/
+int action_prob_cmp_pessimist(const struct act_prob ap1,
+                              const struct act_prob ap2)
+{
+  struct act_prob my_ap1;
+  struct act_prob my_ap2;
+
+  /* The action probabilities are real. */
+  fc_assert(!action_prob_not_relevant(ap1));
+  fc_assert(!action_prob_not_relevant(ap2));
+
+  /* Convert any signals to ACTPROB_NOT_KNOWN. */
+  if (action_prob_is_signal(ap1)) {
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(ap1));
+
+    my_ap1 = ACTPROB_NOT_KNOWN;
+  } else {
+    my_ap1 = ap1;
+  }
+
+  if (action_prob_is_signal(ap2)) {
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(ap2));
+
+    my_ap2 = ACTPROB_NOT_KNOWN;
+  } else {
+    my_ap2 = ap2;
+  }
+
+  /* The action probabilities now have a comparison friendly form. */
+  fc_assert(!action_prob_is_signal(my_ap1));
+  fc_assert(!action_prob_is_signal(my_ap2));
+
+  /* Do the comparison. Start with min. Continue with max. */
+  if (my_ap1.min < my_ap2.min) {
+    return -1;
+  } else if (my_ap1.min > my_ap2.min) {
+    return 1;
+  } else if (my_ap1.max < my_ap2.max) {
+    return -1;
+  } else if (my_ap1.max > my_ap2.max) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+/**************************************************************************
   Returns ap1 with ap2 as fall back in cases where ap1 doesn't happen.
   Said in math that is: P(A) + P(A') * P(B)
 
