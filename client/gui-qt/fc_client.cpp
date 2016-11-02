@@ -348,6 +348,8 @@ void fc_client::switch_page(int new_pg)
       setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
     }
     showMaximized();
+    /* For MS Windows, it might ingore first */
+    showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
     if (gui_options.gui_qt_fullscreen){
