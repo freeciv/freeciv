@@ -1174,7 +1174,11 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
     if (ptoolkit->toolbar_displayed) {
       gtk_widget_hide(ptoolkit->toolbar);
     }
-    gtk_widget_reparent(ptoolkit->main_widget, toolkit_view);
+    g_object_ref(ptoolkit->main_widget); /* Make sure reference count stays above 0
+                                          * during the transition to new parent. */
+    gtk_container_remove(GTK_CONTAINER(parent), ptoolkit->main_widget);
+    gtk_container_add(GTK_CONTAINER(toolkit_view), ptoolkit->main_widget);
+    g_object_unref(ptoolkit->main_widget);
     if (ptoolkit->toolbar_displayed) {
       gtk_widget_show(ptoolkit->toolbar);
     }

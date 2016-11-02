@@ -807,14 +807,20 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
 static void tearoff_destroy(GtkWidget *w, gpointer data)
 {
   GtkWidget *p, *b, *box;
+  GtkWidget *old_parent;
 
   box = GTK_WIDGET(data);
+  old_parent = gtk_widget_get_parent(box);
   p = g_object_get_data(G_OBJECT(w), "parent");
   b = g_object_get_data(G_OBJECT(w), "toggle");
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(b), FALSE);
 
   gtk_widget_hide(w);
-  gtk_widget_reparent(box, p);
+  g_object_ref(box); /* Make sure reference count stays above 0
+                      * during the transition to new parent. */
+  gtk_container_remove(GTK_CONTAINER(old_parent), box);
+  gtk_container_add(GTK_CONTAINER(p), box);
+  g_object_unref(box);
 }
 
 /**************************************************************************
@@ -834,11 +840,13 @@ static gboolean propagate_keypress(GtkWidget *w, GdkEventKey *ev)
 static void tearoff_callback(GtkWidget *b, gpointer data)
 {
   GtkWidget *box = GTK_WIDGET(data);
-  GtkWidget *w;
 
   if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(b))) {
     GtkWidget *temp_hide;
+    GtkWidget *old_parent;
+    GtkWidget *w;
 
+    old_parent = gtk_widget_get_parent(box);
     w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
@@ -854,7 +862,12 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     if (temp_hide != NULL) {
       gtk_widget_hide(temp_hide);
     }
-    gtk_widget_reparent(box, w);
+
+    g_object_ref(box); /* Make sure reference count stays above 0
+                        * during the transition to new parent. */
+    gtk_container_remove(GTK_CONTAINER(old_parent), box);
+    gtk_container_add(GTK_CONTAINER(w), box);
+    g_object_unref(box);
     gtk_widget_show(w);
     if (temp_hide != NULL) {
       gtk_widget_show(temp_hide);
