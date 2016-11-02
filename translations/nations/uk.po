@@ -11199,14 +11199,12 @@ msgstr ""
 "що були лідерами повстання проти Кітайської військової адміністрації."
 
 #: data/nation/vincentian.ruleset:3
-#, fuzzy
 msgid "Vincentian"
-msgstr "Винахідництво"
+msgstr "Вінсентійці"
 
 #: data/nation/vincentian.ruleset:4
-#, fuzzy
 msgid "?plural:Vincentians"
-msgstr "Кенійці"
+msgstr "Сент-Вінсент-і-Гренадинці"
 
 #: data/nation/vincentian.ruleset:6
 msgid ""
@@ -11220,7 +11218,7 @@ msgstr ""
 
 #: data/nation/visigothic.ruleset:3
 msgid "Visigothic"
-msgstr "Вестготський"
+msgstr "Візиготи"
 
 #: data/nation/visigothic.ruleset:4
 msgid "?plural:Visigoths"
@@ -11294,6 +11292,10 @@ msgid ""
 "the Ukrainian Steppe to the North. Their descendants are the modern "
 "Chuvashes and Volga Tatars."
 msgstr ""
+"Волзькі Булгари були середньовічним тюркським народом в середній течії Волги."
+"Можливо нащадки Європейських гунів - що мігрували з Українських степів на "
+"північ. (де вони взяли такі дані??). Нащадки булгар - сучасні Чуваші та "
+"Волзькі Татари."
 
 #: data/nation/volgagerman.ruleset:3
 msgid "Volga German"
@@ -11606,11 +11608,11 @@ msgstr ""
 
 #: data/nation/zapotec.ruleset:3
 msgid "Zapotec"
-msgstr "Запотеки"
+msgstr "Сапотеки"
 
 #: data/nation/zapotec.ruleset:4
 msgid "?plural:Zapotecs"
-msgstr "Запотеки"
+msgstr "Сапотеки"
 
 #. TRANS: The last letter in "Binniza", the fourth letter in
 #. TRANS: "Alban" and and the third letter in "Juarez" should be
@@ -11626,11 +11628,11 @@ msgstr ""
 
 #: data/nation/zhuang.ruleset:3
 msgid "Zhuang"
-msgstr "Жуань"
+msgstr "Жуані"
 
 #: data/nation/zhuang.ruleset:4
 msgid "?plural:Zhuang"
-msgstr "Жуань"
+msgstr "Жуані"
 
 #: data/nation/zhuang.ruleset:6
 msgid ""
