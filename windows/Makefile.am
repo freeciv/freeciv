@@ -29,7 +29,8 @@ dist_noinst_DATA = \
 		installer_msys2/Freeciv.url			\
 		installer_msys2/Makefile			\
 		installer_msys2/cleanup_checkout.sh		\
-		installer_msys2/win_arch.sh
+		installer_msys2/win_arch.sh			\
+		installer_cross/winbuild.sh
 
 if MINGW
 nodist_noinst_DATA = 		\
