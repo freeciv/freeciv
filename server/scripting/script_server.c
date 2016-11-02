@@ -158,16 +158,6 @@ bool script_server_do_file(struct connection *caller, const char *filename)
 }
 
 /*****************************************************************************
-  Invoke the 'callback_name' Lua function.
-*****************************************************************************/
-bool script_server_callback_invoke(const char *callback_name, int nargs,
-                                   enum api_types *parg_types, va_list args)
-{
-  return luascript_callback_invoke(fcl_main, callback_name, nargs, parg_types,
-                                   args);
-}
-
-/*****************************************************************************
   Mark any, if exported, full userdata representing 'object' in
   the current script state as 'Nonexistent'.
   This changes the type of the lua variable.

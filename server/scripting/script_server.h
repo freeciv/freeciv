@@ -23,10 +23,6 @@
 struct section_file;
 struct connection;
 
-/* Callback invocation function. */
-bool script_server_callback_invoke(const char *callback_name, int nargs,
-                                   enum api_types *parg_types, va_list args);
-
 void script_server_remove_exported_object(void *object);
 
 /* Script functions. */
