@@ -8,18 +8,24 @@ pkgdata_DATA =          \
 	activities.spec	\
 	bases.png	\
 	bases.spec	\
+	embellishments.png \
+	embellishments.spec \
+	forests.png	\
+	forests.spec	\
 	grid.png	\
 	grid.spec	\
+	hills.png	\
+	hills.spec	\
+	mountains.png	\
+	mountains.spec	\
 	rivers.png	\
 	rivers.spec	\
 	roads.png	\
 	roads.spec	\
 	select.png	\
 	select.spec	\
-	terrain1.png	\
-	terrain1.spec	\
-	terrain2.png	\
-	terrain2.spec	\
+	terrain.png	\
+	terrain.spec	\
 	tiles.png	\
 	tiles.spec	\
 	unitcost.png	\
