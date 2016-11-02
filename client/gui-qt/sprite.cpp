@@ -86,6 +86,8 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
   QPainter p;
   sprite *cropped;
 
+  fc_assert_ret_val(source, NULL);
+
   if (!width || !height) {
     return NULL;
   }

@@ -52,6 +52,8 @@ struct sprite *crop_sprite(struct sprite *source,
 {
   GdkPixbuf *mypixbuf, *sub, *mask_pixbuf;
 
+  fc_assert_ret_val(source, NULL);
+
   /* First just crop the image. */
   if (x < 0) {
     width += x;

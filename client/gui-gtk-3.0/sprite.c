@@ -53,6 +53,8 @@ struct sprite *crop_sprite(struct sprite *source,
   struct sprite *new = fc_malloc(sizeof(*new));
   cairo_t *cr;
 
+  fc_assert_ret_val(source, NULL);
+
   new->surface = cairo_surface_create_similar(source->surface,
           CAIRO_CONTENT_COLOR_ALPHA, width, height);
   cr = cairo_create(new->surface);
