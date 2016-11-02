@@ -1897,7 +1897,7 @@ static struct client_option client_options[] = {
   GEN_STR_LIST_OPTION(gui_gtk3_22_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
-                      COC_GRAPHICS, GUI_GTK3, FC_GTK3_22_DEFAULT_THEME_NAME,
+                      COC_GRAPHICS, GUI_GTK3_22, FC_GTK3_22_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback, 0),
   GEN_STR_LIST_OPTION(gui_sdl_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
