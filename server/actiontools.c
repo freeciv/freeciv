@@ -879,3 +879,92 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 
   return NULL;
 }
+
+/**************************************************************************
+  Returns the probability for the specified actor unit to be forced to
+  perform an action by the specified cause.
+**************************************************************************/
+const struct act_prob
+action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
+                           struct unit *actor,
+                           const struct player *other_player,
+                           const struct output_type *output,
+                           const struct tile *target_tile,
+                           const struct city *target_city,
+                           const struct unit *target_unit)
+{
+  struct act_prob out;
+
+  const struct city *tgt_city;
+  const struct tile *tgt_tile;
+  const struct unit *tgt_unit;
+  const struct tile *tgt_units;
+
+  const struct action_auto_perf *autoperf
+      = action_auto_perf_unit_sel(cause, actor, other_player, output);
+
+  if (!autoperf) {
+    /* No matching Action Auto Performer. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  out = ACTPROB_IMPOSSIBLE;
+
+  /* Acquire the targets. */
+  tgt_city = (target_city ? target_city
+                          : action_tgt_city(actor, unit_tile(actor), TRUE));
+  tgt_tile = (target_tile ? target_tile
+                          : action_tgt_tile(actor, unit_tile(actor), TRUE));
+  tgt_unit = (target_unit ? target_unit
+                          : action_tgt_unit(actor, unit_tile(actor), TRUE));
+  tgt_units = (target_tile
+               ? target_tile
+               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
+
+  action_auto_perf_actions_iterate(autoperf, act) {
+    struct act_prob current = ACTPROB_IMPOSSIBLE;
+
+    if (action_id_get_actor_kind(act) == AAK_UNIT) {
+      /* This action can be done by units. */
+
+      switch (action_id_get_target_kind(act)) {
+      case ATK_UNITS:
+        if (tgt_units
+            && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
+          current = action_prob_vs_units(actor, act, tgt_units);
+        }
+        break;
+      case ATK_TILE:
+        if (tgt_tile
+            && is_action_enabled_unit_on_tile(act, actor, tgt_tile)) {
+          current = action_prob_vs_tile(actor, act, tgt_tile);
+        }
+        break;
+      case ATK_CITY:
+        if (tgt_city
+            && is_action_enabled_unit_on_city(act, actor, tgt_city)) {
+          current = action_prob_vs_city(actor, act, tgt_city);
+        }
+        break;
+      case ATK_UNIT:
+        if (tgt_unit
+            && is_action_enabled_unit_on_unit(act, actor, tgt_unit)) {
+          current = action_prob_vs_unit(actor, act, tgt_unit);
+        }
+        break;
+      case ATK_SELF:
+        if (actor
+            && is_action_enabled_unit_on_self(act, actor)) {
+          current = action_prob_self(actor, act);
+        }
+        break;
+      case ATK_COUNT:
+        fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
+      }
+    }
+
+    out = action_prob_fall_back(&out, &current);
+  } action_auto_perf_actions_iterate_end;
+
+  return out;
+}
