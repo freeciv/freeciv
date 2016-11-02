@@ -5623,6 +5623,19 @@ static void settable_options_save(struct section_file *sf)
       /* Do not save mapseed or gameseed. */
       continue;
     }
+    if (!fc_strcasecmp(name, "topology")) {
+      /* client_start_server() sets topology based on tileset. Don't store
+       * its choice. The tileset is already stored. Storing topology leads
+       * to all sort of breakage:
+       * - it breaks ruleset default topology.
+       * - it interacts badly with tileset ruleset change, ruleset tileset
+       *   change and topology tileset change.
+       * - its value is probably based on what tileset was loaded when
+       *   client_start_server() decided to set topology, not on player
+       *   choice.
+       */
+      continue;
+    }
     secfile_insert_str(sf, value, "server.%s", name);
   } settable_options_hash_iterate_end;
 }
