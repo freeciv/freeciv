@@ -308,12 +308,13 @@ void fc_client::switch_page(int new_pg)
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
     gui()->infotab->chtwdg->update_font();
+    showMaximized();
+      /* For MS Windows, it might ingore first */
+    showMaximized();
     if (fullscreen_mode){
       gui()->showFullScreen();
       gui()->mapview_wdg->showFullScreen();
-    } else {
-      showMaximized();
-    } 
+    }
     menuBar()->setVisible(true);
     mapview_wdg->setFocus();
     center_on_something();
