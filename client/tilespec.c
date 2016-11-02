@@ -1285,10 +1285,10 @@ void tilespec_reread(const char *new_tileset_name, bool game_fully_initialized)
   }
 
   if (game_fully_initialized) {
+    tileset_background_init(tileset);
     players_iterate(pplayer) {
       tileset_player_init(tileset, pplayer);
     } players_iterate_end;
-    tileset_background_init(tileset);
     boot_help_texts(); /* "About Current Tileset" */
   }
 
@@ -6580,6 +6580,9 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
     /* XXX: if player hasn't been assigned a color, perhaps there's no
      * point proceeding with an arbitrary color; this should only happen
      * in pregame. Probably blank sprites would be better. */
+
+    fc_assert_ret(t->sprites.background.color != NULL);
+
     color = t->sprites.background.color;
   }
 
