@@ -188,9 +188,9 @@ protected:
   void mouseMoveEvent(QMouseEvent *event);
   void wheelEvent(QWheelEvent *event);
   void closeEvent(QCloseEvent *event);
+private slots:
+  void update_img();
 private:
-  void update_font(const QString &name, const QFont &font);
-
   bool more;
   int show_line;
   int highligh_num;

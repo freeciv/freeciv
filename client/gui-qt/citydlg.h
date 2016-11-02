@@ -50,6 +50,8 @@ class QVBoxLayout;
 #include <QTableWidget>
 #include <QToolTip>
 
+class QImage;
+
 QString get_tooltip(QVariant qvar);
 QString get_tooltip_improvement(impr_type *building);
 QString get_tooltip_unit(struct unit_type *unit);
@@ -119,7 +121,7 @@ public:
 
 private:
   struct unit *qunit;
-  struct canvas *unit_pixmap;
+  QImage unit_img;
   void contextMenuEvent(QContextMenuEvent *ev);
   void create_actions();
   int happy_cost;

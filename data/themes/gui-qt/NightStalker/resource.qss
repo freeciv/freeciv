@@ -708,7 +708,7 @@ help_widget QScrollArea {
 units_select {
   background-color: rgba(0, 0, 0, 135);
   color: white;
-  selection-color: rgba(25, 25, 95, 135);
+  selection-color: #3399FF;
   border: 2px solid #0000AA;
 }
 
@@ -781,7 +781,11 @@ hud_message_box QLineEdit {
   background: #2704b2;
 }
 
-
+hud_unit_loader::item:hover {
+  border: none;
+  padding: 0 0;
+  background: #3399FF;
+}
 
 fc_sidewidget {
   color: white;
