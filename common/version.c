@@ -129,7 +129,7 @@ const char *fc_comparable_version(void)
 const char *beta_message(void)
 {
 #if IS_BETA_VERSION
-  static char msgbuf[128];
+  static char msgbuf[500];
   static const char *month[] =
   {
     NULL,
