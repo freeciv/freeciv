@@ -90,7 +90,7 @@ struct specfile {
 /*
  * Information about an individual sprite. All fields except 'sprite' are
  * filled at the time of the scan of the specfile. 'Sprite' is
- * set/cleared on demand in load_sprite/unload_sprite.
+ * set/cleared on demand in theme_load_sprite/theme_unload_sprite.
  */
 struct small_sprite {
   int ref_count;
@@ -832,12 +832,12 @@ struct theme *theme_read_toplevel(const char *theme_name)
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.
 **************************************************************************/
-static struct sprite *load_sprite(struct theme *t, const char *tag_name)
+static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
   struct small_sprite *ss;
 
-  log_debug("load_sprite(tag='%s')", tag_name);
+  log_debug("theme_load_sprite(tag='%s')", tag_name);
   if (!small_sprite_hash_lookup(t->sprite_hash, tag_name, &ss)) {
     return NULL;
   }
@@ -881,7 +881,7 @@ static struct sprite *load_sprite(struct theme *t, const char *tag_name)
   Unloads the sprite. Decrease the reference counter. If the last
   reference is removed the sprite is freed.
 **************************************************************************/
-static void unload_sprite(struct theme *t, const char *tag_name)
+static void theme_unload_sprite(struct theme *t, const char *tag_name)
 {
   struct small_sprite *ss;
 
@@ -904,7 +904,7 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag)					  \
   do {								  \
-    t->sprites.field = load_sprite(t, tag);			  \
+    t->sprites.field = theme_load_sprite(t, tag);		  \
     fc_assert_exit_msg(NULL != t->sprites.field,                  \
                        "Sprite tag '%s' missing.", tag);          \
   } while (FALSE)
@@ -912,9 +912,9 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
 #define SET_SPRITE_ALT(field, tag, alt)					    \
   do {									    \
-    t->sprites.field = load_sprite(t, tag);				    \
+    t->sprites.field = theme_load_sprite(t, tag);			    \
     if (!t->sprites.field) {						    \
-      t->sprites.field = load_sprite(t, alt);				    \
+      t->sprites.field = theme_load_sprite(t, alt);			    \
     }									    \
     fc_assert_exit_msg(NULL != t->sprites.field,                            \
                        "Sprite tag '%s' and alternate '%s' are "            \
@@ -923,7 +923,7 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \
-  t->sprites.field = load_sprite(t, tag)
+  t->sprites.field = theme_load_sprite(t, tag)
 
 #define SET_SPRITE_ALT_OPT(field, tag, alt)				    \
   do {									    \
@@ -946,8 +946,8 @@ static void theme_lookup_sprite_tags(struct theme *t)
 }
 
 /**************************************************************************
-  Frees any internal buffers which are created by load_sprite. Should
-  be called after the last (for a given period of time) load_sprite
+  Frees any internal buffers which are created by theme_load_sprite. Should
+  be called after the last (for a given period of time) theme_load_sprite
   call.  This saves a fair amount of memory, but it will take extra time
   the next time we start loading sprites again.
 **************************************************************************/
@@ -990,12 +990,12 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
                         "attempt to lookup for %s \"%s\" before "
                         "sprite_hash setup", what, name);
 
-  sp = load_sprite(t, tag);
+  sp = theme_load_sprite(t, tag);
   if (sp) {
     return sp;
   }
 
-  sp = load_sprite(t, alt);
+  sp = theme_load_sprite(t, alt);
   if (sp) {
     log_verbose("Using alternate graphic \"%s\" (instead of \"%s\") "
                 "for %s \"%s\".", alt, tag, what, name);
@@ -1026,15 +1026,14 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
   ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
 
 /****************************************************************************
-  This patch unloads all sprites from the sprite hash (the hash itself
-  is left intact).
+  Unload all sprites from theme sprite hash (the hash itself is left intact).
 ****************************************************************************/
-static void unload_all_sprites(struct theme *t)
+static void theme_unload_all_sprites(struct theme *t)
 {
   if (t->sprite_hash) {
     small_sprite_hash_iterate(t->sprite_hash, tag_name, ss) {
       while (ss->ref_count > 0) {
-        unload_sprite(t, tag_name);
+        theme_unload_sprite(t, tag_name);
       }
     } small_sprite_hash_iterate_end;
   }
@@ -1047,7 +1046,7 @@ void theme_free_sprites(struct theme *t)
 {
   log_debug("theme_free_sprites()");
 
-  unload_all_sprites(t);
+  theme_unload_all_sprites(t);
 
   if (t->sprite_hash) {
     small_sprite_hash_destroy(t->sprite_hash);
