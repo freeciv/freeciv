@@ -7,10 +7,9 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 [info]
 
 artists = "
-    Tim F. Smith <yoohootim@hotmail.com>
-    Daniel Speyer <dspeyer@users.sf.net> (mix)
-    Frederic Rodrigo <f.rodrigo@tuxfamily.org> (mix)
-    Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
+		Unknown Artist (Yautja? Desert Artist)
+		Peter Arbor <peter.arbor@gmail.com> (Original terrain)
+		GriffonSpade
 "
 
 [file]
