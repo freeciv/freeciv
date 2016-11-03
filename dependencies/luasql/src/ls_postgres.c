@@ -374,24 +374,34 @@ static int conn_escape (lua_State *L) {
 	int error;
 	int ret = 1;
 	luaL_Buffer b;
-#if defined(luaL_buffinitsize)
-	char *to = luaL_buffinitsize (L, &b, 2*len+1);
-#else
 	char *to;
+#if !defined(LUA_VERSION_NUM) || (LUA_VERSION_NUM == 501)
+	/* Lua 5.0 and 5.1 */
 	luaL_buffinit (L, &b);
-	to = luaL_prepbuffer (&b);
-#endif
+	do {
+		int max = LUAL_BUFFERSIZE / 2;
+		size_t bytes_copied;
+		size_t this_len = (len > max) ? max : len;
+		to = luaL_prepbuffer (&b);
+		bytes_copied = PQescapeStringConn (conn->pg_conn, to, from, this_len, &error);
+		if (error != 0) { /* failed ! */
+			return luasql_failmsg (L, "cannot escape string. PostgreSQL: ", PQerrorMessage (conn->pg_conn));
+		}
+		luaL_addsize (&b, bytes_copied);
+		from += this_len;
+		len -= this_len;
+	} while (len > 0);
+	luaL_pushresult (&b);
+#else
+	/* Lua 5.2 and 5.3 */
+	to = luaL_buffinitsize (L, &b, 2*len+1);
 	len = PQescapeStringConn (conn->pg_conn, to, from, len, &error);
 	if (error == 0) { /* success ! */
-#if defined(luaL_pushresultsize)
 		luaL_pushresultsize (&b, len);
-#else
-		luaL_addsize (&b, len);
-		luaL_pushresult (&b);
-#endif
 	} else {
 		ret = luasql_failmsg (L, "cannot escape string. PostgreSQL: ", PQerrorMessage (conn->pg_conn));
 	}
+#endif
 	return ret;
 }
 
@@ -510,8 +520,9 @@ static int env_connect (lua_State *L) {
 	conn = PQsetdbLogin(pghost, pgport, NULL, NULL, sourcename, username, password);
 
 	if (PQstatus(conn) == CONNECTION_BAD) {
+		int rc = luasql_failmsg(L, "error connecting to database. PostgreSQL: ", PQerrorMessage(conn));
 		PQfinish(conn);
-		return luasql_failmsg(L, "error connecting to database. PostgreSQL: ", PQerrorMessage(conn));
+		return rc;
 	}
 	PQsetNoticeProcessor(conn, notice_processor, NULL);
 	return create_connection(L, 1, conn);
