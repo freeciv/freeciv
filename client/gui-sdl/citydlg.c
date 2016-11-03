@@ -63,8 +63,6 @@
 #include "citydlg.h"
 
 /* ============================================================= */
-#define SCALLED_TILE_WIDTH	48
-#define SCALLED_TILE_HEIGHT	24
 
 static struct city_dialog {
   struct city *pCity;
@@ -1572,11 +1570,11 @@ static void disable_city_dlg_widgets(void)
 SDL_Surface *get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
-  
-  city_map_zoom = ((pBuf->w > pBuf->h) ?
+
+  city_map_zoom = ((pBuf->w * 159 > pBuf->h * 249) ?
                      (float)adj_size(249) / pBuf->w
                    : (float)adj_size(159) / pBuf->h);
-  
+
   return zoomSurface(pBuf, city_map_zoom, city_map_zoom, 1);
 }
 
