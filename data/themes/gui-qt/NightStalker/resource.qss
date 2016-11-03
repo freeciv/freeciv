@@ -94,6 +94,35 @@ hud_input_box QDialogButtonBox QPushButton {
   min-width: 160px;
 }
 
+unit_hud_selector {
+  color: white;
+  background-color: #3d4552;
+  border: 2px solid #0000AA;
+}
+
+unit_hud_selector QPushButton {
+  color: #FFFFFF;
+  background: #323843;
+  border: 2px solid #47515f;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 160px;
+}
+
+unit_hud_selector QPushButton:hover {
+  color: white;
+  background: #414a57;
+  border: 2px solid #3399FF;
+}
+
+unit_hud_selector QGroupBox {
+  color: white;
+  background-color: #3d4552;
+  border: 1px solid #2e2e2e;
+  border-radius: 5px;
+  margin-top: 2ex;
+}
+
 hud_input_box QDialogButtonBox QPushButton:disabled {
   background: #696969;
   border: none;
