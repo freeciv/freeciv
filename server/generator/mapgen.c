@@ -38,9 +38,9 @@
 #include "fracture_map.h"
 #include "height_map.h"
 #include "mapgen_topology.h"
+#include "mapgen_utils.h"
 #include "startpos.h"
 #include "temperature_map.h"
-#include "utilities.h"
 
 #include "mapgen.h"
 

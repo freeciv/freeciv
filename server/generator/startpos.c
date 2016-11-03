@@ -31,9 +31,9 @@
 
 /* server/generator */
 #include "mapgen_topology.h"
+#include "mapgen_utils.h"
 #include "startpos.h"
 #include "temperature_map.h"
-#include "utilities.h"
 
 struct islands_data_type {
   Continent_id id;

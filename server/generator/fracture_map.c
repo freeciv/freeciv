@@ -23,7 +23,7 @@
 /* server/generator */
 #include "height_map.h"
 #include "mapgen_topology.h"
-#include "utilities.h"
+#include "mapgen_utils.h"
 
 #include "fracture_map.h"
 

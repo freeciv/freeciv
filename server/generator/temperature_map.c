@@ -15,17 +15,18 @@
 #include <fc_config.h>
 #endif
 
+/* utilities */
+#include "log.h"
+
 /* common */
 #include "map.h"
 
 /* generator */
 #include "height_map.h"
-#include "temperature_map.h"
 #include "mapgen_topology.h"
-#include "utilities.h"
+#include "mapgen_utils.h"
 
-/* utilities */
-#include "log.h"
+#include "temperature_map.h"
 
 static int *temperature_map;
 

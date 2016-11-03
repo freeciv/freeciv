@@ -26,7 +26,7 @@
 #include "terrain.h"
 #include "tile.h"
 
-#include "utilities.h"
+#include "mapgen_utils.h"
 
 /****************************************************************************
  Map that contains, according to circumstances, information on whether

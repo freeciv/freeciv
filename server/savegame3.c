@@ -133,7 +133,7 @@
 
 /* server/generator */
 #include "mapgen.h"
-#include "utilities.h"
+#include "mapgen_utils.h"
 
 /* server/scripting */
 #include "script_server.h"

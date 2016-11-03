@@ -82,14 +82,6 @@
 #include "version.h"
 #include "victory.h"
 
-/* server/generator */
-#include "mapgen.h"
-#include "utilities.h"
-
-/* server/scripting */
-#include "script_server.h"
-#include "luascript_types.h"
-
 /* server */
 #include "aiiface.h"
 #include "animals.h"
@@ -130,6 +122,14 @@
 #include "advbuilding.h"
 #include "advspace.h"
 #include "infracache.h"
+
+/* server/scripting */
+#include "script_server.h"
+#include "luascript_types.h"
+
+/* server/generator */
+#include "mapgen.h"
+#include "mapgen_utils.h"
 
 /* ai */
 #include "aitraits.h"

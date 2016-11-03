@@ -22,7 +22,7 @@
 
 /* server/generator */
 #include "mapgen_topology.h"
-#include "utilities.h"
+#include "mapgen_utils.h"
 
 #include "height_map.h"
 

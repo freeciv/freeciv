@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__UTILITIES_H
-#define FC__UTILITIES_H
+#ifndef FC__MAPGEN_UTILS_H
+#define FC__MAPGEN_UTILS_H
 
 typedef void (*tile_knowledge_cb)(struct tile *ptile);
 
@@ -115,4 +115,4 @@ bool placed_map_is_initialized(void);
 void set_all_ocean_tiles_placed(void) ;
 void set_placed_near_pos(struct tile *ptile, int dist);
 
-#endif  /* FC__UTILITIES_H */
+#endif  /* FC__MAPGEN_UTILS_H */

@@ -35,9 +35,6 @@
 #include "research.h"
 #include "unitlist.h"
 
-/* generator */
-#include "utilities.h"
-
 /* server */
 #include "aiiface.h"
 #include "citytools.h"
@@ -53,6 +50,9 @@
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unittools.h"
+
+/* server/generator */
+#include "mapgen_utils.h"
 
 #include "edithand.h"
 

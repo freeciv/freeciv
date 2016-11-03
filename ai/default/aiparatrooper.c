@@ -40,7 +40,7 @@
 #include "advdata.h"
 
 /* server/generator */
-#include "utilities.h"
+#include "mapgen_utils.h"
 
 /* ai */
 #include "handicaps.h"

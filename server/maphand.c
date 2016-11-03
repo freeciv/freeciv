@@ -38,9 +38,6 @@
 #include "unitlist.h"
 #include "vision.h"
 
-/* generator */
-#include "utilities.h"
-
 /* server */
 #include "citytools.h"
 #include "cityturn.h"
@@ -51,6 +48,9 @@
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/generator */
+#include "mapgen_utils.h"
 
 #include "maphand.h"
 
