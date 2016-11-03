@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "June 25th 2016"
+.TH FREECIV 6 "November 2nd 2016"
 .SH NAME
 freeciv-gtk2, freeciv-gtk3, freeciv-gtk3.22, freeciv-sdl, freeciv-sdl2, \
 freeciv-qt, freeciv-xaw \
@@ -251,7 +251,7 @@ Starts the SDL client with the \fItrident\fP tiles and autoconnects to
 \fIlocalhost\fP.
 .SH FILES
 .TP
-.BI ~/.freeciv-client-rc-\fI[version-number]\fP
+.BI ~/.freeciv/freeciv-client-rc-\fI[version-number]\fP
 This is where your local settings will be stored.
 .TP
 .BI tilespecs
