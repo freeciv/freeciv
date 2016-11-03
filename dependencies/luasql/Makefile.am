@@ -4,5 +4,4 @@ SUBDIRS = src
 
 EXTRA_DIST = \
 		README \
-		freeciv_luasql.patch \
 		Version
