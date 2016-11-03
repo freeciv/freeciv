@@ -344,6 +344,10 @@ together; those variables are the recommended way to override paths, with
 of Freeciv. The precise search path depends on the type of file being
 searched for.
 .TP
+.BI FREECIV_OPT
+Specifies a file to contain local settings, instead of
+~/.freeciv/freeciv-client-rc-\fI[version-number]\fP.
+.TP
 .BI HOME
 Specifies the user's home directory.
 .TP
