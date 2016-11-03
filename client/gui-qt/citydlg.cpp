@@ -1028,18 +1028,16 @@ void city_map::paintEvent(QPaintEvent *event)
   QString str;
 
   painter.begin(this);
-  painter.drawPixmap(0, 0, cutted_width, cutted_height,
-                     miniview->map_pixmap);
+  painter.drawPixmap(0, 0, zoomed_pixmap);
 
   if (cma_is_city_under_agent(mcity, NULL)) {
-    QPixmap pix(cutted_width, cutted_height);
-    pix.fill(QColor(90, 90, 90, 90));
-    painter.drawPixmap(0, 0, cutted_width, cutted_height, pix);
-    painter.setPen(QColor(120, 120, 120));
+    painter.fillRect(0, 0, zoomed_pixmap.width(), zoomed_pixmap.height(),
+                     QBrush(QColor(60, 60 , 60 , 110)));
+    painter.setPen(QColor(255, 255, 255));
     /* TRANS: %1 is custom string choosen by player. */
     str = QString(_("Governor %1"))
           .arg(cmafec_get_short_descr_of_city(mcity));
-    painter.drawText(5, cutted_height - 10, str);
+    painter.drawText(5, zoomed_pixmap.height() - 10, str);
   }
 
   painter.end();
@@ -1048,16 +1046,18 @@ void city_map::paintEvent(QPaintEvent *event)
 /****************************************************************************
   Calls function to put pixmap on view ( it doesn't draw on screen )
 ****************************************************************************/
-void city_map::set_pixmap(struct city *pcity)
+void city_map::set_pixmap(struct city *pcity, float z)
 {
   int r, max_r;
+  QSize size;
 
+  zoom = z;
   r = sqrt(city_map_radius_sq_get(pcity));
 
   if (radius != r) {
     max_r = sqrt(rs_max_city_radius_sq());
     radius = r;
-    delete miniview;
+    qtg_canvas_free(miniview);
     cutted_width = wdth * (r + 1) / max_r;
     cutted_height = hight * (r + 1) / max_r;
     cutted_width = qMin(cutted_width, wdth);
@@ -1066,15 +1066,33 @@ void city_map::set_pixmap(struct city *pcity)
     delta_y = (hight - cutted_height) / 2;
     miniview = qtg_canvas_create(cutted_width, cutted_height);
     miniview->map_pixmap.fill(Qt::black);
-    setMinimumSize(cutted_width, cutted_height);
-    setMaximumSize(cutted_width, cutted_height);
-    parentWidget()->updateGeometry();
   }
 
   city_dialog_redraw_map(pcity, view);
   qtg_canvas_copy(miniview, view, delta_x, delta_y,
                   0, 0, cutted_width, cutted_height);
+  size = miniview->map_pixmap.size();
+  zoomed_pixmap = miniview->map_pixmap.scaled(size * zoom,
+                                              Qt::KeepAspectRatio,
+                                              Qt::SmoothTransformation);
+  setFixedSize(zoomed_pixmap.size());
   mcity = pcity;
+}
+
+/****************************************************************************
+  Size hint for city map
+****************************************************************************/
+QSize city_map::sizeHint()
+{
+  return zoomed_pixmap.size();
+}
+
+/****************************************************************************
+  Minimum size hint for city map
+****************************************************************************/
+QSize city_map::minimumSizeHint()
+{
+  return zoomed_pixmap.size();
 }
 
 /****************************************************************************
@@ -1088,8 +1106,8 @@ void city_map::mousePressEvent(QMouseEvent *event)
     return;
   }
 
-  canvas_x = event->x() + delta_x;
-  canvas_y = event->y() + delta_y;
+  canvas_x = event->x() / zoom + delta_x;
+  canvas_y = event->y() / zoom + delta_y;
 
   if (canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
                          canvas_x, canvas_y)) {
@@ -1123,8 +1141,8 @@ void city_map::context_menu(QPoint point)
     return;
   }
 
-  canvas_x = point.x() + delta_x;
-  canvas_y = point.y() + delta_y;
+  canvas_x = point.x() / zoom + delta_x;
+  canvas_y = point.y() / zoom + delta_y;
 
   if (!canvas_to_city_pos(&city_x, &city_y, city_map_radius_sq_get(mcity),
                           canvas_x, canvas_y)) {
@@ -1241,11 +1259,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QSlider *slider;
   QStringList info_list, str_list;
   QVBoxLayout *lefttop_layout, *units_layout, *worklist_layout,
-              *right_layout, *vbox, *vbox_layout;
+              *right_layout, *vbox, *vbox_layout, *zoom_vbox;
   QWidget *split_widget1, *split_widget2, *info_wdg;
 
   int h = 2 * fm.height() + 2;
   small_font = fc_font::instance()->get_font(fonts::city_label);
+  zoom = 1.0;
 
   happines_shown = false;
   central_splitter = new QSplitter;
@@ -1311,10 +1330,29 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   citizen_pixmap = NULL;
   view = new city_map(this);
 
+  zoom_vbox = new QVBoxLayout();
+  zoom_in_button = new QPushButton();
+  zoom_in_button->setIcon(fc_icons::instance()->get_icon("plus"));
+  zoom_in_button->setIconSize(QSize(16, 16));
+  zoom_in_button->setFixedSize(QSize(20, 20));
+  zoom_in_button->setToolTip(_("Zoom in"));
+  connect(zoom_in_button, SIGNAL(clicked()), SLOT(zoom_in()));
+  zoom_out_button = new QPushButton();
+  zoom_out_button->setIcon(fc_icons::instance()->get_icon("minus"));
+  zoom_out_button->setIconSize(QSize(16, 16));
+  zoom_out_button->setFixedSize(QSize(20, 20));
+  zoom_out_button->setToolTip(_("Zoom out"));
+  connect(zoom_out_button, SIGNAL(clicked()), SLOT(zoom_out()));
+  zoom_vbox->addWidget(zoom_in_button);
+  zoom_vbox->addWidget(zoom_out_button);
+
   /* City map group box */
   vbox_layout = new QVBoxLayout;
   hbox_layout = new QHBoxLayout;
+  hbox_layout->addStretch(100);
   hbox_layout->addWidget(view);
+  hbox_layout->addStretch(100);
+  hbox_layout->addLayout(zoom_vbox);
   vbox_layout->addLayout(hbox_layout);
   vbox_layout->addWidget(lcity_name);
   map_box->setLayout(vbox_layout);
@@ -1900,6 +1938,32 @@ void city_dialog::city_rename()
 }
 
 /****************************************************************************
+  Zooms in tiles view
+****************************************************************************/
+void city_dialog::zoom_in()
+{
+  zoom = zoom * 1.2;
+  if (pcity) {
+    view->set_pixmap(pcity, zoom);
+  }
+  updateGeometry();
+  left_layout->update();
+}
+
+/****************************************************************************
+  Zooms out tiles view
+****************************************************************************/
+void city_dialog::zoom_out()
+{
+  zoom = zoom / 1.2;
+  if (pcity) {
+    view->set_pixmap(pcity, zoom);
+  }
+  updateGeometry();
+  left_layout->update();
+}
+
+/****************************************************************************
   Save cma dialog input
 ****************************************************************************/
 void city_dialog::save_cma()
@@ -2085,6 +2149,7 @@ void city_dialog::update_cma_tab()
   }
 
   if (cma_is_city_under_agent(pcity, NULL)) {
+    view->update();
     s = QString(cmafec_get_short_descr_of_city(pcity));
     pix = style()->standardPixmap(QStyle::SP_DialogApplyButton);
     pix = pix.scaled(2 * pix.width(), 2 * pix.height(),
@@ -2119,7 +2184,6 @@ void city_dialog::update_cma_tab()
   } else {
     cma_enable_but->setText(_("Enable"));
   }
-
   update_sliders();
 }
 
@@ -2451,7 +2515,7 @@ void city_dialog::refresh()
   production_combo_p->blockSignals(true);
 
   if (pcity) {
-    view->set_pixmap(pcity);
+    view->set_pixmap(pcity, zoom);
     view->update();
     update_title();
     update_info_label();
