@@ -7,10 +7,8 @@ options = "+Freeciv-2.6-spec"
 [info]
 
 artists = "
-    Tim F. Smith <yoohootim@hotmail.com>
-    Daniel Speyer <dspeyer@users.sf.net> (mix)
-    Frederic Rodrigo <f.rodrigo@tuxfamily.org> (mix)
-    Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
+		Peter Arbor <peter.arbor@gmail.com> (Original terrain)
+		GriffonSpade
 "
 
 [file]
