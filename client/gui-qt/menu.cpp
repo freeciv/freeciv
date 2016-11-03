@@ -59,7 +59,6 @@
 #include "menu.h"
 
 extern QApplication *qapp;
-static bool has_player_unit_type(Unit_type_id utype);
 
 /**************************************************************************
   New turn callback
@@ -594,38 +593,6 @@ void fc_message_box::info(QWidget *parent, const QString &title,
   show();
 }
 
-/****************************************************************************
-  Unit filter constructor
-****************************************************************************/
-unit_filter::unit_filter()
-{
-  reset_activity();
-  reset_other();
-  any = true;
-  any_activity = true;
-}
-
-/****************************************************************************
-  Resets activity filter to all disabled
-****************************************************************************/
-void unit_filter::reset_activity()
-{
-  forified = false;
-  sentried = false;
-  idle = false;
-  any_activity = false;
-}
-
-/****************************************************************************
-  Resets 2nd filter to all disbaled
-****************************************************************************/
-void unit_filter::reset_other()
-{
-  full_hp = false;
-  full_mp = false;
-  full_hp_mp = false;
-  any = false;
-}
 
 /****************************************************************************
   Creates a new government menu.
@@ -929,24 +896,6 @@ void go_act_menu::update_all()
   }
 }
 
-/****************************************************************************
-  Applies activity filter to given unit
-****************************************************************************/
-void mr_menu::apply_filter(struct unit *punit)
-{
-  if (punit->activity == ACTIVITY_FORTIFIED && u_filter.forified) {
-    apply_2nd_filter(punit);
-  }
-  if (punit->activity == ACTIVITY_SENTRY && u_filter.sentried) {
-    apply_2nd_filter(punit);
-  }
-  if (punit->activity == ACTIVITY_IDLE && u_filter.idle) {
-    apply_2nd_filter(punit);
-  }
-  if (u_filter.any_activity){
-    apply_2nd_filter(punit);
-  }
-}
 
 /****************************************************************************
   Predicts last unit position
@@ -989,97 +938,6 @@ struct tile *mr_menu::find_last_unit_pos(unit *punit, int pos)
   }
   return nullptr;
 }
-
-/****************************************************************************
-  Applies miscelanous filter for given unit
-****************************************************************************/
-void mr_menu::apply_2nd_filter(struct unit *punit)
-{
-  if (punit->hp >= punit->utype->hp && u_filter.full_hp
-      && !u_filter.full_hp_mp) {
-    unit_focus_add(punit);
-  }
-  if (punit->moves_left  >= punit->utype->move_rate && u_filter.full_mp
-      && !u_filter.full_hp_mp) {
-    unit_focus_add(punit);
-  }
-  if (punit->hp >= punit->utype->hp
-      && punit->moves_left  >= punit->utype->move_rate
-      && u_filter.full_hp_mp) {
-    unit_focus_add(punit);
-  }
-  if (u_filter.any) {
-    unit_focus_add(punit);
-  }
-}
-
-/****************************************************************************
-  Selects units based on selection modes
-****************************************************************************/
-void mr_menu::unit_select(struct unit_list *punits,
-                         enum unit_select_type_mode seltype,
-                         enum unit_select_location_mode selloc)
-{
-  QList<const struct tile *> tiles;
-  QList<struct unit_type *> types;
-  QList<Continent_id> conts;
-
-  const struct player *pplayer;
-  const struct tile *ptile;
-  struct unit *punit_first;
-
-  if (!can_client_change_view() || !punits
-      || unit_list_size(punits) < 1) {
-    return;
-  }
-
-  punit_first = unit_list_get(punits, 0);
-
-  if (seltype == SELTYPE_SINGLE) {
-    unit_focus_set(punit_first);
-    return;
-  }
-  pplayer = unit_owner(punit_first);
-  unit_list_iterate(punits, punit) {
-    if (seltype == SELTYPE_SAME) {
-      types.append(unit_type_get(punit));
-    }
-
-    ptile = unit_tile(punit);
-    if (selloc == SELLOC_TILE) {
-      tiles.append(ptile);
-    } else if (selloc == SELLOC_CONT) {
-      conts.append(ptile->continent);
-    }
-  } unit_list_iterate_end;
-
-  if (selloc == SELLOC_TILE) {
-    foreach (ptile, tiles) {
-      unit_list_iterate(ptile->units, punit) {
-        if (unit_owner(punit) != pplayer) {
-          continue;
-        }
-        if (seltype == SELTYPE_SAME
-            && !types.contains(unit_type_get(punit))) {
-          continue;
-        }
-        apply_filter(punit);
-      } unit_list_iterate_end;
-    }
-  } else {
-    unit_list_iterate(pplayer->units, punit) {
-      ptile = unit_tile(punit);
-      if ((seltype == SELTYPE_SAME
-           && !types.contains(unit_type_get(punit)))
-          || (selloc == SELLOC_CONT
-              && !conts.contains(ptile->continent))) {
-        continue;
-      }
-      apply_filter(punit);
-    } unit_list_iterate_end;
-  }
-}
-
 
 /****************************************************************************
   Constructor for global menubar in gameview
@@ -1259,67 +1117,11 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(STANDARD, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_done_moving()));
 
-  filter_act = new QActionGroup(this);
-  filter_any = new QActionGroup(this);
-  filter_menu = menu->addMenu(_("Units Filter"));
-  /* TRANS: Any activity for given selection of units */
-  act = filter_menu->addAction(_("Any activity"));
-  act->setCheckable(true);
-  act->setShortcut(QKeySequence(tr("ctrl+1")));
-  act->setChecked(u_filter.any_activity);
-  act->setData(qVariantFromValue((void *) &u_filter.any_activity));
-  filter_act->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
-  act = filter_menu->addAction(_("Idle"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.idle);
-  act->setShortcut(QKeySequence(tr("ctrl+2")));
-  act->setData(qVariantFromValue((void *) &u_filter.idle));
-  filter_act->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
-  act = filter_menu->addAction(_("Fortified"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.forified);
-  act->setShortcut(QKeySequence(tr("ctrl+3")));
-  act->setData(qVariantFromValue((void *) &u_filter.forified));
-  filter_act->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
-  act = filter_menu->addAction(_("Sentried"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.sentried);
-  act->setShortcut(QKeySequence(tr("ctrl+4")));
-  act->setData(qVariantFromValue((void *) &u_filter.sentried));
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter()));
-  filter_act->addAction(act);
-  filter_menu->addSeparator();
-  act = filter_menu->addAction(_("Any unit"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.any);
-  act->setShortcut(QKeySequence(tr("ctrl+6")));
-  act->setData(qVariantFromValue((void *) &u_filter.any));
-  filter_any->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
-  act = filter_menu->addAction(_("Full HP"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.idle);
-  act->setShortcut(QKeySequence(tr("ctrl+7")));
-  act->setData(qVariantFromValue((void *) &u_filter.full_hp));
-  filter_any->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
-  act = filter_menu->addAction(_("Full MP"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.full_mp);
-  act->setShortcut(QKeySequence(tr("ctrl+8")));
-  act->setData(qVariantFromValue((void *) &u_filter.full_mp));
-  filter_any->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
-  act = filter_menu->addAction(_("Full HP and MP"));
-  act->setCheckable(true);
-  act->setChecked(u_filter.full_hp_mp);
-  act->setShortcut(QKeySequence(tr("ctrl+9")));
-  act->setData(qVariantFromValue((void *) &u_filter.full_hp_mp));
-  filter_any->addAction(act);
-  connect(act, SIGNAL(triggered()), this, SLOT(slot_filter_other()));
+  act = menu->addAction(_("Advanced unit selection"));
+  act->setShortcut(QKeySequence(tr("ctrl+e")));
+  menu_list.insertMulti(NOT_4_OBS, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_unit_filter()));
+
 
   /* Unit Menu */
   menu = this->addMenu(_("Unit"));
@@ -2905,7 +2707,7 @@ void mr_menu::slot_done_moving()
 ***************************************************************************/
 void mr_menu::slot_select_all_tile()
 {
-  unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
+  request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
 }
 
 /***************************************************************************
@@ -2913,7 +2715,7 @@ void mr_menu::slot_select_all_tile()
 ***************************************************************************/
 void mr_menu::slot_select_one()
 {
-  unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
+  request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
 }
 
 /***************************************************************************
@@ -2921,7 +2723,7 @@ void mr_menu::slot_select_one()
 ***************************************************************************/
 void mr_menu::slot_select_same_continent()
 {
-  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
 }
 
 /***************************************************************************
@@ -2929,7 +2731,7 @@ void mr_menu::slot_select_same_continent()
 ***************************************************************************/
 void mr_menu::slot_select_same_everywhere()
 {
-  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
+  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
 }
 
 /***************************************************************************
@@ -2937,7 +2739,7 @@ void mr_menu::slot_select_same_everywhere()
 ***************************************************************************/
 void mr_menu::slot_select_same_tile()
 {
-  unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
+  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
 }
 
 
@@ -2950,42 +2752,15 @@ void mr_menu::slot_wait()
 }
 
 /***************************************************************************
-  Filter units has been changed
+  Shows units filter
 ***************************************************************************/
-void mr_menu::slot_filter()
+void mr_menu::slot_unit_filter()
 {
-  QAction *act;
-  QVariant v;
-  bool *bp;
-  bool b;
-
-  /* toggle u_filter.value */
-  act = qobject_cast<QAction *>(sender());
-  v = act->data();
-  bp = (bool *) v.value<void *>();
-  b = *bp;
-  u_filter.reset_activity();
-  *bp = !b;
+  unit_hud_selector *uhs;
+  uhs = new unit_hud_selector(gui()->central_wdg);
+  uhs->show_me();
 }
 
-/***************************************************************************
-  Second filter units has been changed
-***************************************************************************/
-void mr_menu::slot_filter_other()
-{
-  QAction *act;
-  QVariant v;
-  bool *bp;
-  bool b;
-
-  /* toggle u_filter.value */
-  act = qobject_cast<QAction *>(sender());
-  v = act->data();
-  bp = (bool *) v.value<void *>();
-  b = *bp;
-  u_filter.reset_other();
-  *bp = !b;
-}
 
 /****************************************************************
   Action "SHOW DEMOGRAPGHICS REPORT"
@@ -3159,21 +2934,6 @@ void mr_menu::back_to_menu()
     disconnect_from_server();
   }
 }
-
-/***************************************************************************
-  Returns true if player has any unit of unit_type
-***************************************************************************/
-bool has_player_unit_type(Unit_type_id utype)
-{
-  unit_list_iterate(client.conn.playing->units, punit) {
-    if (utype_number(punit->utype) == utype) {
-      return true;
-    }
-  } unit_list_iterate_end;
-
-  return false;
-}
-
 
 /***************************************************************************
   Airlift unit type to city acity from each city

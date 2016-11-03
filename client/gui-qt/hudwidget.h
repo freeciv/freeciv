@@ -22,16 +22,23 @@
 #include <QLineEdit>
 #include <QTableWidget>
 
+// common
+#include "unit.h"
+
+// qt-client
 #include "shortcuts.h"
 
 class QIcon;
 class QHBoxLayout;
 class QLabel;
+class QRadioButton;
+class QComboBox;
 class move_widget;
 struct unit_list;
 struct tile;
 struct unit;
 
+bool has_player_unit_type(Unit_type_id utype);
 /****************************************************************************
   Custom message box with animated background
 ****************************************************************************/
@@ -192,6 +199,50 @@ protected slots:
 private:
   struct unit *cargo;
   struct tile *qtile;
+};
+
+class unit_hud_selector : public QFrame
+{
+  Q_OBJECT
+  QVBoxLayout *main_layout;
+  QComboBox *unit_sel_type;
+  QPushButton *select;
+  QPushButton *cancel;
+public:
+  unit_hud_selector(QWidget *parent);
+  ~unit_hud_selector();
+  void show_me();
+private slots:
+  void select_units(int x = 0);
+  void select_units(bool x);
+  void uhs_select();
+  void uhs_cancel();
+protected:
+  void keyPressEvent(QKeyEvent *event);
+private:
+  bool activity_filter(struct unit *punit);
+  bool hp_filter(struct unit *punit);
+  bool island_filter(struct unit *punit);
+  bool type_filter(struct unit *punit);
+
+  QRadioButton *any_activity;
+  QRadioButton *fortified;
+  QRadioButton *idle;
+  QRadioButton *sentried;
+
+  QRadioButton *any;
+  QRadioButton *full_mp;
+  QRadioButton *full_hp;
+  QRadioButton *full_hp_mp;
+
+  QRadioButton *this_tile;
+  QRadioButton *this_continent;
+  QRadioButton *main_continent;
+  QRadioButton *everywhere;
+
+  QRadioButton *this_type;
+  QRadioButton *any_type;
+  QLabel result_label;
 };
 
 #endif /* FC__HUDWIDGET_H */

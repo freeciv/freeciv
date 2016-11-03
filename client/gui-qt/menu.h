@@ -144,25 +144,6 @@ public:
   int nr_units;
 };
 
-
-/**************************************************************************
-  Class for filtering chosen units
-**************************************************************************/
-class unit_filter {
-public:
-  unit_filter();
-  void reset_activity();
-  void reset_other();
-  bool any_activity;
-  bool forified;
-  bool idle;
-  bool sentried;
-  bool any;
-  bool full_mp;
-  bool full_hp;
-  bool full_hp_mp;
-};
-
 /**************************************************************************
   Helper item for trade calculation
 ***************************************************************************/
@@ -301,14 +282,10 @@ class mr_menu : public QMenuBar
 {
   Q_OBJECT
   QMenu *menu;
-  QMenu *filter_menu;
   QMenu *airlift_menu;
   QMenu *multiplayer_menu;
-  QActionGroup *filter_act;
-  QActionGroup *filter_any;
   QActionGroup *airlift_type;
   QHash<munit, QAction*> menu_list;
-  unit_filter u_filter;
   qfc_units_list units_list;
 public:
   mr_menu();
@@ -393,7 +370,7 @@ private slots:
   void slot_city_buycost();
   void slot_city_traderoutes();
   void slot_city_names();
-  
+
   /*used by select menu */
   void slot_select_one();
   void slot_select_all_tile();
@@ -402,8 +379,7 @@ private slots:
   void slot_select_same_everywhere();
   void slot_done_moving();
   void slot_wait();
-  void slot_filter();
-  void slot_filter_other();
+  void slot_unit_filter();
 
   /* used by multiplayer menu */
   void slot_orders_clear();
@@ -434,11 +410,6 @@ private slots:
   void slot_traveler();
 
 private:
-  void unit_select(struct unit_list *punits, 
-                   enum unit_select_type_mode seltype,
-                   enum unit_select_location_mode selloc);
-  void apply_filter(struct unit *punit);
-  void apply_2nd_filter(struct unit *punit);
   struct tile* find_last_unit_pos(struct unit* punit, int pos);
   QSignalMapper *signal_help_mapper;
 };
