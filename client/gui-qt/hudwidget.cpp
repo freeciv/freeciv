@@ -895,6 +895,7 @@ void unit_actions::clear_layout()
   for (j = 0; j < i; j++) {
     ui = actions[j];
     layout->removeWidget(ui);
+    delete ui;
   }
   while (!actions.empty()) {
     actions.removeFirst();
