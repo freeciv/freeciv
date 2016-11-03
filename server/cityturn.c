@@ -3200,16 +3200,29 @@ static void update_city_activity(struct city *pcity)
       }
     }
 
+    revolution_turns = get_city_bonus(pcity, EFT_REVOLUTION_UNHAPPINESS);
     if (city_unhappy(pcity)) {
+      const char *revomsg;
+
       pcity->anarchy++;
+      if (pcity->anarchy == revolution_turns) {
+        /* Revolution next turn if not dealt with */
+        /* TRANS: preserve leading space; this string will be appended to
+         * another sentence */
+        revomsg = _(" Unrest threatens to spread beyond the city.");
+      } else {
+        revomsg = "";
+      }
       if (pcity->anarchy == 1) {
         notify_player(pplayer, city_tile(pcity), E_CITY_DISORDER, ftc_server,
-                      _("Civil disorder in %s."),
-                      city_link(pcity));
+                      /* TRANS: second %s is an optional extra sentence */
+                      _("Civil disorder in %s.%s"),
+                      city_link(pcity), revomsg);
       } else {
         notify_player(pplayer, city_tile(pcity), E_CITY_DISORDER, ftc_server,
-                      _("CIVIL DISORDER CONTINUES in %s."),
-                      city_link(pcity));
+                      /* TRANS: second %s is an optional extra sentence */
+                      _("CIVIL DISORDER CONTINUES in %s.%s"),
+                      city_link(pcity), revomsg);
       }
     } else {
       if (pcity->anarchy != 0) {
@@ -3223,7 +3236,6 @@ static void update_city_activity(struct city *pcity)
 
     send_city_info(NULL, pcity);
 
-    revolution_turns = get_city_bonus(pcity, EFT_REVOLUTION_UNHAPPINESS);
     if (revolution_turns > 0 && pcity->anarchy > revolution_turns) {
       notify_player(pplayer, city_tile(pcity), E_ANARCHY, ftc_server,
                     _("The people have overthrown your %s, "
