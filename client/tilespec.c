@@ -540,6 +540,8 @@ int focus_unit_state = 0;
 
 static bool tileset_update = FALSE;
 
+static struct tileset *tileset_read_toplevel(const char *tileset_name,
+                                             bool verbose, int topology_id);
 
 static int fill_unit_type_sprite_array(const struct tileset *t,
                                        struct drawn_sprite *sprs,
@@ -1698,8 +1700,8 @@ static int check_sprite_type(const char *sprite_type, const char *tile_section)
   intro files.
   topology_id of -1 means any topology is acceptable.
 ***********************************************************************/
-struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
-                                      int topology_id)
+static struct tileset *tileset_read_toplevel(const char *tileset_name,
+                                             bool verbose, int topology_id)
 {
   struct section_file *file;
   char *fname;
