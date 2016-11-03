@@ -33,12 +33,14 @@ pkgdata_DATA =          	\
 	irrigation.png		\
 	load.png		\
 	mine.png		\
+	minus.png		\
 	move.png		\
 	nations.png		\
 	nuke.png		\
 	list-add.png		\
 	meeting-observer.png	\
 	plantforest.png		\
+	plus.png		\
 	preferences-other.png	\
 	research.png		\
 	resize.png		\

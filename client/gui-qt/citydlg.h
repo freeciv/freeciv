@@ -218,23 +218,27 @@ class city_map: public QWidget
   Q_OBJECT
   canvas *view;
   canvas *miniview;
+  QPixmap zoomed_pixmap;
 
 public:
   city_map(QWidget *parent);
   ~city_map();
-  void set_pixmap(struct city *pcity);
-
+  void set_pixmap(struct city *pcity, float z);
 private:
   void mousePressEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);
   struct city *mcity;
   int radius;
+  float zoom;
   int wdth;
   int hight;
   int cutted_width;
   int cutted_height;
   int delta_x;
   int delta_y;
+protected:
+  QSize sizeHint();
+  QSize minimumSizeHint();
 private slots:
   void context_menu(QPoint point);
 };
@@ -426,6 +430,8 @@ class city_dialog: public QDialog
   QPushButton *work_rem_but;
   QPushButton *but_menu_worklist;
   QPushButton *happiness_button;
+  QPushButton *zoom_in_button;
+  QPushButton *zoom_out_button;
   QPixmap *citizen_pixmap;
   unit_info *current_units;
   unit_info *supported_units;
@@ -441,6 +447,7 @@ public:
   void refresh();
   struct city *pcity;
   int scroll_height;
+  float zoom;
 
 private:
   int current_building;
@@ -486,6 +493,8 @@ private slots:
   void cma_context_menu(const QPoint &p);
   void save_cma();
   void city_rename();
+  void zoom_in();
+  void zoom_out();
 protected:
   void showEvent(QShowEvent *event);
   void hideEvent(QHideEvent *event);
