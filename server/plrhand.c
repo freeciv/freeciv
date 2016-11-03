@@ -393,6 +393,14 @@ int revolution_length(struct government *gov, struct player *plr)
 {
   int turns;
 
+  if (!untargeted_revolution_allowed()
+      && gov == game.government_during_revolution) {
+    /* Targetless revolution not acceptable */
+    notify_player(plr, NULL, E_REVOLT_DONE, ftc_server,
+                  _("You can't revolt without selecting target government."));
+    return -1;
+  }
+
   turns = GAME_DEFAULT_REVOLUTION_LENGTH; /* To avoid compiler warning */
   switch (game.info.revolentype) {
   case REVOLEN_FIXED:
@@ -403,12 +411,6 @@ int revolution_length(struct government *gov, struct player *plr)
     break;
   case REVOLEN_QUICKENING:
   case REVOLEN_RANDQUICK:
-    if (gov == game.government_during_revolution) {
-      /* Targetless revolution not acceptable */
-      notify_player(plr, NULL, E_REVOLT_DONE, ftc_server,
-                    _("You can't revolt without selecting target government."));
-      return -1;
-    }
     turns = game.server.revolution_length - gov->changed_to_times;
     turns = MAX(1, turns);
     if (game.info.revolentype == REVOLEN_RANDQUICK) {

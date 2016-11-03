@@ -546,3 +546,18 @@ void governments_free(void)
   governments = NULL;
   game.control.government_count = 0;
 }
+
+/****************************************************************************
+  Is it possible to start a revolution without specifying the target
+  government in the current game?
+****************************************************************************/
+bool untargeted_revolution_allowed(void)
+{
+  if (game.info.revolentype == REVOLEN_QUICKENING
+      || game.info.revolentype == REVOLEN_RANDQUICK) {
+    /* We need to know the target government at the onset of the revolution
+     * in order to know how long anarchy will last. */
+    return FALSE;
+  }
+  return TRUE;
+}
