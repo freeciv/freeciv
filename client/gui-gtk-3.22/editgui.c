@@ -1074,7 +1074,6 @@ create_tool_value_selector(struct editbar *eb,
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tvs->store));
   gtk_widget_set_size_request(view, -1, 10 * tileset_tile_height(tileset));
-  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
   gtk_tree_view_set_search_column(GTK_TREE_VIEW(view), TVS_COL_NAME);
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(tool_value_selector_treeview_row_activated), tvs);

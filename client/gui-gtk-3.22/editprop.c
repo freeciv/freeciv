@@ -3630,7 +3630,6 @@ static struct extviewer *extviewer_new(struct objprop *op)
 
     if (store) {
       view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-      gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
       sel = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
       gtk_tree_selection_set_mode(sel, GTK_SELECTION_MULTIPLE);
     } else {
@@ -4777,7 +4776,6 @@ property_page_new(enum editor_object_type objtype,
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pp->object_store));
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
-  gtk_tree_view_set_rules_hint(GTK_TREE_VIEW(view), TRUE);
 
   property_page_objprop_iterate(pp, op) {
     if (!objprop_show_in_listview(op)) {
