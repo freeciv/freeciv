@@ -2172,7 +2172,10 @@ static struct setting settings[] = {
            N_("Way to determine revolution length"),
            N_("Which method is used in determining how long period of anarchy "
               "lasts when changing government. The actual value is set with "
-              "'revolen' setting."),
+              "'revolen' setting. The 'quickening' methods depend on how "
+              "many times any player has changed to this type of government "
+              "before, so it becomes easier to establish a new system of "
+              "government if it has been done before."),
            NULL, NULL, NULL, revolentype_name, GAME_DEFAULT_REVOLENTYPE)
 
   GEN_INT("revolen", game.server.revolution_length,
