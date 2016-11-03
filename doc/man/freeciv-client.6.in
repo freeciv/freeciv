@@ -310,6 +310,10 @@ by running "make install".
 files; these are always created in ".freeciv/scenarios" in the user's
 home directory.)
 .TP
+.BI FREECIV_OPT
+Specifies a file to contain local settings, instead of
+~/.freeciv/freeciv-client-rc-\fI[version-number]\fP.
+.TP
 .BI HOME
 Specifies the user's home directory.
 .TP
