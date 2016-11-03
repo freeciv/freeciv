@@ -35,7 +35,7 @@
 #include "messagewin_g.h"
 #include "options.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"

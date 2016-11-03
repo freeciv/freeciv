@@ -46,7 +46,7 @@
 #include "mapview_common.h"
 #include "options.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "chatline.h"
 #include "citydlg.h"
 #include "gui_main.h"

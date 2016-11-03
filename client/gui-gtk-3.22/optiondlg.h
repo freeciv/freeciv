@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
 
+/* client */
 #include "optiondlg_g.h"
 
 #endif  /* FC__OPTIONDLG_H */

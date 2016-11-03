@@ -13,6 +13,7 @@
 #ifndef FC__LUACONSOLE_H
 #define FC__LUACONSOLE_H
 
+/* client */
 #include "luaconsole_g.h"
 
 void luaconsole_dialog_init(void);

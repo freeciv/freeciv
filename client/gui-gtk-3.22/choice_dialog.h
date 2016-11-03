@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,12 +16,12 @@
 #include <gtk/gtk.h>
 
 GtkWidget *popup_choice_dialog(GtkWindow *parent, const gchar *dialogname,
-			       const gchar *text, ...);
+                               const gchar *text, ...);
 
 void choice_dialog_set_hide(GtkWidget *dshell, gboolean setting);
 
 GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
-				       const gchar *text);
+                               const gchar *text);
 void choice_dialog_add(GtkWidget *dshell, const gchar *label,
                        GCallback handler, gpointer data,
                        bool meta, const gchar *tool_tip);

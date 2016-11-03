@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

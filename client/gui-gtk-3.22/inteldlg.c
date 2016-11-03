@@ -36,7 +36,7 @@
 #include "client_main.h"
 #include "options.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"

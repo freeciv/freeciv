@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,8 +13,9 @@
 #ifndef FC__CITYDLG_H
 #define FC__CITYDLG_H
 
+/* client */
 #include "citydlg_g.h"
 
 void reset_city_dialogs(void);
 
-#endif				/* FC__CITYDLG_H */
+#endif  /* FC__CITYDLG_H */

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,8 +25,10 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "packets.h"
 #include "support.h"
+
+/* common */
+#include "packets.h"
 #include "version.h"
 
 /* client */

@@ -26,7 +26,7 @@
 /* common */
 #include "rgbcolor.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "gui_main.h"
 
 #include "colors.h"

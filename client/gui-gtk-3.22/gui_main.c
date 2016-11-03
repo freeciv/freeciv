@@ -78,7 +78,7 @@
 #include "tilespec.h"
 #include "zoom.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "chatline.h"
 #include "citizensinfo.h"
 #include "connectdlg.h"
@@ -2262,8 +2262,8 @@ static void apply_reqtree_text_font(struct option *poption)
 }
 
 /****************************************************************************
-  Extra initializers for client options.  Here we make set the callback
-  for the specific gui-gtk-3.x options.
+  Extra initializers for client options. Here we make set the callback
+  for the specific gui-gtk-3.22 options.
 ****************************************************************************/
 void options_extra_init(void)
 {

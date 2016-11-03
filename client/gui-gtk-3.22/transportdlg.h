@@ -13,6 +13,7 @@
 #ifndef FC__TRANSPORTDLG_H
 #define FC__TRANSPORTDLG_H
 
+/* client */
 #include "dialogs_g.h"
 
 #endif  /* FC__TRANSPORTDLG_H */

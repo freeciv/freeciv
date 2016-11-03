@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
 
 #include <gtk/gtk.h>
 
+/* client */
 #include "canvas_g.h"
 
 struct canvas

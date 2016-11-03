@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 #include "dialogs_g.h"
 #include "options.h"
 
-/* gui-gtk-3.x */
+/* gui-gtk-3.22 */
 #include "gui_main.h"
 
 static bool load_theme = FALSE;

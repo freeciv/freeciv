@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,6 +13,7 @@
 #ifndef FC__MESSAGEWIN_H
 #define FC__MESSAGEWIN_H
 
+/* client */
 #include "messagewin_g.h"
 
 void meswin_dialog_popdown(void);

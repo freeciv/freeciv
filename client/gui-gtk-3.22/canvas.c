@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-/* gui-gtk-3.x */
+/* gui-gtk-3.22 */
 #include "colors.h"
 #include "gui_main.h"
 #include "mapview.h"

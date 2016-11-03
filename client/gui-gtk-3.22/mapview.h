@@ -23,7 +23,7 @@
 #include "mapview_g.h"
 #include "mapview_common.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "canvas.h"
 #include "graphics.h"
 

@@ -28,7 +28,7 @@
 #include "city.h"
 #include "player.h"
 
-/* client/gui-gtk-3.x */
+/* client/gui-gtk-3.22 */
 #include "gui_stuff.h"
 #include "plrdlg.h"
 
