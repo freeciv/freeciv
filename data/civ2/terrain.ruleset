@@ -31,10 +31,9 @@ format_version=10
 ;                 and sensible.
 ; helptxt       = displayed in the help for extra types with this flag
 ;                 (optional)
-extra_flags =
-  { "name", "helptxt"
-    _("DiplomatDefense"), _("Diplomatic units get a 25% defense bonus in diplomatic fights.")
-  }
+;extra_flags =
+;  { "name", "helptxt"
+;  }
 
 [parameters]
 
@@ -1041,11 +1040,13 @@ build_time     = 3
 removal_time   = 0
 defense_bonus  = 100
 native_to      = "Land"
-flags          = "DiplomatDefense", "NoStackDeath"
+flags          = "NoStackDeath"
 helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
 unit remaining in a fortress for a whole turn without moving recovers \
 a quarter of its hit points.\
+"), _("\
+Diplomatic units get a 25% defense bonus in diplomatic fights.\
 ")
 
 [extra_airbase]

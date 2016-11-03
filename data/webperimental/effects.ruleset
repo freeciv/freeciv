@@ -1032,12 +1032,12 @@ reqs	=
       "Building", "Courthouse", "City", TRUE
     }
 
-[effect_diplomat_defense_extra]
+[effect_diplomat_defense_fortress]
 type    = "Spy_Resistant"
-value	= 25
-reqs	=
-    { "type",      "name",            "range"
-      "ExtraFlag", "DiplomatDefense", "Local"
+value   = 25
+reqs    =
+    { "type",  "name",     "range"
+      "Extra", "Fortress", "Local"
     }
 
 [effect_incite_cost_empty]
