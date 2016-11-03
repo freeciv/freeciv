@@ -46,9 +46,12 @@ info_tab::info_tab(QWidget *parent)
   layout->setVerticalSpacing(0);
   setLayout(layout);
   resize_mode = false;
-  move_mode = false;
   resx = false;
   resy = false;
+  resxy = false;
+  mw = new move_widget(this);
+  mw->put_to_corner();
+  mw->setFixedSize(13, 13);
   setMouseTracking(true);
 }
 
@@ -84,7 +87,8 @@ void info_tab::mousePressEvent(QMouseEvent *event)
     cursor = event->globalPos() - geometry().topLeft();
     if (event->y() > 0 && event->y() < 25 && event->x() > width() - 25
         && event->x() < width()) {
-      move_mode = true;
+      resize_mode = true;
+      resxy = true;
       return;
     }
     if (event->y() > 0 && event->y() < 5){
@@ -107,15 +111,19 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
     resize_mode = false;
     resx = false;
     resy = false;
+    resxy = false;
     setCursor(Qt::ArrowCursor);
-    gui()->qt_settings.chat_width = width() * 100 / mapview.width;
-    gui()->qt_settings.chat_height = height() * 100 / mapview.height;
+    gui()->qt_settings.chat_width = (width() * 10000)
+                                    / gui()->mapview_wdg->width();
+    gui()->qt_settings.chat_height = (height() * 10000)
+                                    / gui()->mapview_wdg->height();
   }
-  if (move_mode) {
-    move_mode = false;
-  }
-
+  gui()->qt_settings.chat_x_pos = 1 + (pos().x() * 10000)
+                                     / gui()->mapview_wdg->width();
+  gui()->qt_settings.chat_y_pos = 1 + ((pos().y() + height()) * 10000)
+                                     / gui()->mapview_wdg->height();
 }
+
 
 /**************************************************************************
   Called when mouse moved (mouse track is enabled).
@@ -131,6 +139,8 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     move(this->x(), to_move.y());
     setCursor(Qt::SizeVerCursor);
     restore_chat();
+  } else if (event->x() > width() - 9 && event->y() > 0 && event->y() < 9) {
+    setCursor(Qt::SizeBDiagCursor);
   } else if ((event->buttons() & Qt::LeftButton) && resize_mode && resx) {
     resize(event->x(), height());
     setCursor(Qt::SizeHorCursor);
@@ -138,9 +148,14 @@ void info_tab::mouseMoveEvent(QMouseEvent *event)
     setCursor(Qt::SizeHorCursor);
   } else if (event->y() > 0 && event->y() < 5) {
     setCursor(Qt::SizeVerCursor);
-  } else if (move_mode && (event->buttons() & Qt::LeftButton)) {
-    setCursor(Qt::SizeAllCursor);
-    move(event->globalPos() - cursor);
+  } else if (resxy && (event->buttons() & Qt::LeftButton)) {
+    QPoint to_move;
+    int newheight = event->globalY() - cursor.y() - geometry().y();
+    resize(event->x(), this->geometry().height()- newheight);
+    to_move = event->globalPos() - cursor;
+    move(this->x(), to_move.y());
+    setCursor(Qt::SizeBDiagCursor);
+    restore_chat();
   } else {
     setCursor(Qt::ArrowCursor);
   }

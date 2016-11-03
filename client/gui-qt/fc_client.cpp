@@ -586,15 +586,25 @@ void fc_client::read_settings()
   if (s.contains("Fonts-set") == false) {
     configure_fonts();
   }
-  if (s.contains("Chat-xsize")) {
-    qt_settings.chat_width = s.value("Chat-xsize").toInt();
+  if (s.contains("Chat-x-size")) {
+    qt_settings.chat_width = s.value("Chat-x-size").toInt();
   } else {
-    qt_settings.chat_width = 33;
+    qt_settings.chat_width = 3300;
   }
-  if (s.contains("Chat-ysize")) {
-    qt_settings.chat_height = s.value("Chat-ysize").toInt();
+  if (s.contains("Chat-y-size")) {
+    qt_settings.chat_height = s.value("Chat-y-size").toInt();
   } else {
-    qt_settings.chat_height = 33;
+    qt_settings.chat_height = 3300;
+  }
+  if (s.contains("Chat-x-pos")) {
+    qt_settings.chat_x_pos = s.value("Chat-x-pos").toInt();
+  } else {
+    qt_settings.chat_x_pos = 0;
+  }
+  if (s.contains("Chat-y-pos")) {
+    qt_settings.chat_y_pos = s.value("Chat-y-pos").toInt();
+  } else {
+    qt_settings.chat_y_pos = 10000;
   }
   if (s.contains("unit_x")) {
     qt_settings.unit_info_pos_x = s.value("unit_x").toInt();
@@ -621,6 +631,9 @@ void fc_client::read_settings()
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
 
+  if (qt_settings.chat_x_pos < 0) {
+    qt_settings.chat_x_pos = 0;
+  }
 }
 
 /****************************************************************************
@@ -631,8 +644,10 @@ void fc_client::write_settings()
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
   s.setValue("Fonts-set", true);
-  s.setValue("Chat-xsize", qt_settings.chat_width);
-  s.setValue("Chat-ysize", qt_settings.chat_height);
+  s.setValue("Chat-x-size", qt_settings.chat_width);
+  s.setValue("Chat-y-size", qt_settings.chat_height);
+  s.setValue("Chat-x-pos", qt_settings.chat_x_pos);
+  s.setValue("Chat-y-pos", qt_settings.chat_y_pos);
   s.setValue("City-dialog", qt_settings.city_geometry);
   s.setValue("splitter1", qt_settings.city_splitter1);
   s.setValue("splitter2", qt_settings.city_splitter2);
@@ -900,10 +915,13 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
     map_canvas_resized(size.width(), size.height());
     size.setWidth(event->size().width() - gui()->sidebar_wdg->width());
     gui()->infotab->resize((size.width()
-                             * gui()->qt_settings.chat_width) / 100,
+                             * gui()->qt_settings.chat_width) / 10000,
                              (size.height()
-                             * gui()->qt_settings.chat_height) / 100);
-    gui()->infotab->move(0 , size.height() - gui()->infotab->height());
+                             * gui()->qt_settings.chat_height) / 10000);
+    gui()->infotab->move((size.width() * gui()->qt_settings.chat_x_pos)
+                         /10000,
+                         (size.height() * gui()->qt_settings.chat_y_pos)
+                         /10000 - gui()->infotab->height());
     gui()->infotab->restore_chat();
     gui()->minimapview_wdg->move(event->size().width() -
                                  gui()->minimapview_wdg->width() - 10,

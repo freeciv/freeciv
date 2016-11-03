@@ -76,9 +76,10 @@ private:
   void update_menu();
   QPoint cursor;
   QSize last_size;
+  move_widget *mw;
   bool hidden_state;
   bool resize_mode;
-  bool move_mode;
+  bool resxy;
   bool resx;
   bool resy;
 protected:

@@ -122,8 +122,10 @@ private slots:
 ****************************************************************************/
 struct fc_settings
 {
-  int chat_width; /* in percent */
-  int chat_height; /* in percent */
+  int chat_width;
+  int chat_height;
+  int chat_x_pos;
+  int chat_y_pos;
   int player_repo_sort_col;
   Qt::SortOrder player_report_sort;
   int city_repo_sort_col;
