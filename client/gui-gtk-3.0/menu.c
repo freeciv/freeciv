@@ -2183,7 +2183,7 @@ void real_menus_update(void)
       } else {
         /* Revolution without target government */
         gtk_widget_set_sensitive(GTK_WIDGET(iter->data),
-                                 game.info.revolentype != REVOLEN_QUICKENING);
+                                 untargeted_revolution_allowed());
       }
     }
     g_list_free(list);
