@@ -450,6 +450,8 @@ bool are_action_probabilitys_equal(const struct act_prob *ap1,
 int action_prob_cmp_pessimist(const struct act_prob ap1,
                               const struct act_prob ap2);
 
+double action_prob_to_0_to_1_pessimist(const struct act_prob ap);
+
 struct act_prob action_prob_fall_back(const struct act_prob *ap1,
                                       const struct act_prob *ap2);
 

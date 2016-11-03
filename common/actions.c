@@ -3384,6 +3384,33 @@ int action_prob_cmp_pessimist(const struct act_prob ap1,
 }
 
 /**************************************************************************
+  Returns double in the range [0-1] representing the minimum of the given
+  action probability.
+**************************************************************************/
+double action_prob_to_0_to_1_pessimist(const struct act_prob ap)
+{
+  struct act_prob my_ap;
+
+  /* The action probability is real. */
+  fc_assert(!action_prob_not_relevant(ap));
+
+  /* Convert any signals to ACTPROB_NOT_KNOWN. */
+  if (action_prob_is_signal(ap)) {
+    /* Assert that it is OK to convert the signal. */
+    fc_assert(action_prob_not_impl(ap));
+
+    my_ap = ACTPROB_NOT_KNOWN;
+  } else {
+    my_ap = ap;
+  }
+
+  /* The action probability now has a math friendly form. */
+  fc_assert(!action_prob_is_signal(my_ap));
+
+  return (double)my_ap.min / (double) ACTPROB_VAL_MAX;
+}
+
+/**************************************************************************
   Returns ap1 with ap2 as fall back in cases where ap1 doesn't happen.
   Said in math that is: P(A) + P(A') * P(B)
 
