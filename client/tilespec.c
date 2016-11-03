@@ -4215,14 +4215,17 @@ static int fill_unit_sprite_array(const struct tileset *t,
     } else if (punit->activity != ACTIVITY_IDLE) {
       ADD_SPRITE_SIMPLE(t->sprites.unit.connect);
     } else {
-      ADD_SPRITE(t->sprites.unit.go_to, TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+      ADD_SPRITE(t->sprites.unit.go_to, TRUE,
+                 FULL_TILE_X_OFFSET + t->activity_offset_x,
                  FULL_TILE_Y_OFFSET + t->activity_offset_y);
     }
   }
 
   if (t->sprites.unit.action_decision_want != NULL
       && should_ask_server_for_actions(punit)) {
-    ADD_SPRITE_FULL(t->sprites.unit.action_decision_want);
+    ADD_SPRITE(t->sprites.unit.action_decision_want, TRUE,
+               FULL_TILE_X_OFFSET + t->activity_offset_x,
+               FULL_TILE_Y_OFFSET + t->activity_offset_y);
   }
 
   if (punit->battlegroup != BATTLEGROUP_NONE) {
