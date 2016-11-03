@@ -106,8 +106,29 @@ struct unit_move_data {
   TYPED_LIST_ITERATE_REV(struct unit_move_data, _plist, _pdata)
 #define unit_move_data_list_iterate_rev_end LIST_ITERATE_REV_END
 
-/* We need this global variable for our sort algorithm */
-static struct tile *autoattack_target;
+/* This data structure lets the auto attack code cache each potential
+ * attacker unit's probability of success against the target unit during
+ * the checks if the unit can do autoattack. It is then reused when the
+ * list of potential attackers is sorted by probability of success. */
+struct autoattack_prob {
+  int unit_id;
+  struct act_prob prob;
+};
+
+#define SPECLIST_TAG autoattack_prob
+#define SPECLIST_TYPE struct autoattack_prob
+#include "speclist.h"
+
+#define autoattack_prob_list_iterate_safe(autoattack_prob_list, _aap_,     \
+                                          _unit_)                          \
+  TYPED_LIST_ITERATE(struct autoattack_prob, autoattack_prob_list, _aap_)  \
+  struct unit *_unit_ = game_unit_by_number(_aap_->unit_id);               \
+                                                                           \
+  if (_unit_ == NULL) {                                                    \
+    continue;                                                              \
+  }
+
+#define autoattack_prob_list_iterate_safe_end  LIST_ITERATE_END
 
 static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
@@ -3002,26 +3023,33 @@ void unit_transport_unload_send(struct unit *punit)
 }
 
 /*****************************************************************
-  This function is passed to unit_list_sort() to sort a list of
-  units according to their win chance against autoattack_x|y.
+  Used when unit_survive_autoattack()'s autoattack_prob_list
+  autoattack frees its items.
+*****************************************************************/
+static void autoattack_prob_free(struct autoattack_prob *prob)
+{
+  free(prob);
+}
+
+/*****************************************************************
+  This function is passed to autoattack_prob_list_sort() to sort
+  a list of units and action probabilities according to their win
+  chance against the autoattack target.
+
   If the unit is being transported, then push it to the front of
   the list, since we wish to leave its transport out of combat
   if at all possible.
 *****************************************************************/
-static int compare_units(const struct unit *const *p1,
-                         const struct unit *const *q1)
+static int compare_units(const struct autoattack_prob *const *p1,
+                         const struct autoattack_prob *const *q1)
 {
-  struct unit *p1def = get_defender(*p1, autoattack_target);
-  struct unit *q1def = get_defender(*q1, autoattack_target);
-  int p1uwc = unit_win_chance(*p1, p1def);
-  int q1uwc = unit_win_chance(*q1, q1def);
+  const struct unit *q1unit = game_unit_by_number((*q1)->unit_id);
 
-  if (p1uwc < q1uwc || unit_transport_get(*q1)) {
+  if (unit_transport_get(q1unit)) {
     return -1; /* q is better */
-  } else if (p1uwc == q1uwc) {
-    return 0;
   } else {
-    return 1; /* p is better */
+    /* Assume the worst. */
+    return action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob);
   }
 }
 
@@ -3031,7 +3059,7 @@ static int compare_units(const struct unit *const *p1,
 *****************************************************************/
 static bool unit_survive_autoattack(struct unit *punit)
 {
-  struct unit_list *autoattack;
+  struct autoattack_prob_list *autoattack;
   int moves = punit->moves_left;
   int sanity1 = punit->id;
 
@@ -3039,42 +3067,46 @@ static bool unit_survive_autoattack(struct unit *punit)
     return TRUE;
   }
 
-  autoattack = unit_list_new();
+  autoattack = autoattack_prob_list_new_full(autoattack_prob_free);
 
   /* Kludge to prevent attack power from dropping to zero during calc */
   punit->moves_left = MAX(punit->moves_left, 1);
 
   adjc_iterate(unit_tile(punit), ptile) {
-    /* First add all eligible units to a unit list */
+    /* First add all eligible units to a autoattack list */
     unit_list_iterate(ptile->units, penemy) {
-      if (action_auto_perf_unit_sel(AAPC_UNIT_MOVED_ADJ, penemy,
-                                    unit_owner(punit), NULL)
-          && (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
-                                              penemy, unit_tile(punit))
-              || is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                                 penemy, unit_tile(punit))
-              || is_action_enabled_unit_on_tile(ACTION_ATTACK, penemy,
-                                                unit_tile(punit)))) {
-        unit_list_prepend(autoattack, penemy);
+      struct autoattack_prob *probability = fc_malloc(sizeof(*probability));
+      struct tile *tgt_tile = unit_tile(punit);
+
+      fc_assert_action(tgt_tile, continue);
+
+      probability->prob =
+          action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
+                                     penemy, unit_owner(punit), NULL,
+                                     tgt_tile, tile_city(tgt_tile),
+                                     punit);
+
+      if (action_prob_possible(probability->prob)) {
+        probability->unit_id = penemy->id;
+        autoattack_prob_list_prepend(autoattack, probability);
       }
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
   /* The unit list is now sorted according to win chance against punit */
-  autoattack_target = unit_tile(punit); /* global variable */
-  if (unit_list_size(autoattack) >= 2) {
-    unit_list_sort(autoattack, &compare_units);
+  if (autoattack_prob_list_size(autoattack) >= 2) {
+    autoattack_prob_list_sort(autoattack, &compare_units);
   }
 
-  unit_list_iterate_safe(autoattack, penemy) {
+  autoattack_prob_list_iterate_safe(autoattack, peprob, penemy) {
     int sanity2 = penemy->id;
     struct tile *ptile = unit_tile(penemy);
     struct unit *enemy_defender = get_defender(punit, ptile);
-    struct unit *punit_defender = get_defender(penemy, unit_tile(punit));
     double punitwin, penemywin;
     double threshold = 0.25;
+    struct tile *tgt_tile = unit_tile(punit);
 
-    fc_assert_action(NULL != punit_defender, continue);
+    fc_assert(tgt_tile);
 
     if (tile_city(ptile) && unit_list_size(ptile->units) == 1) {
       /* Don't leave city defenseless */
@@ -3087,15 +3119,26 @@ static bool unit_survive_autoattack(struct unit *punit)
       /* 'penemy' can attack 'punit' but it may be not reciproque. */
       punitwin = 1.0;
     }
-    penemywin = unit_win_chance(penemy, punit_defender);
+
+    /* Previous attacks may have changed the odds. Recalculate. */
+    peprob->prob =
+        action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
+                                   penemy, unit_owner(punit), NULL,
+                                   tgt_tile, tile_city(tgt_tile),
+                                   punit);
+
+    if (!action_prob_possible(peprob->prob)) {
+      /* No longer legal. */
+      continue;
+    }
+
+    /* Assume the worst. */
+    penemywin = action_prob_to_0_to_1_pessimist(peprob->prob);
 
     if ((penemywin > 1.0 - punitwin
          || utype_acts_hostile(unit_type_get(punit))
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
-      struct tile *tgt_tile = unit_tile(punit);
-
-      fc_assert(tgt_tile);
 
 #ifdef REALLY_DEBUG_THIS
       log_test("AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
@@ -3124,12 +3167,12 @@ static bool unit_survive_autoattack(struct unit *punit)
     if (game_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
-      unit_list_destroy(autoattack);
+      autoattack_prob_list_destroy(autoattack);
       return FALSE; /* moving unit dead */
     }
-  } unit_list_iterate_safe_end;
+  } autoattack_prob_list_iterate_safe_end;
 
-  unit_list_destroy(autoattack);
+  autoattack_prob_list_destroy(autoattack);
   if (game_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
     punit->moves_left = MIN(punit->moves_left, moves);
