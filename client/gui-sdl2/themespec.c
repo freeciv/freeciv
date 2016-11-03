@@ -235,9 +235,8 @@ static char *themespec_fullname(const char *theme_name)
     char fname[strlen(theme_name) + strlen(THEMESPEC_SUFFIX) + 1], *dname;
 
     fc_snprintf(fname, sizeof(fname),
-		"%s%s", theme_name, THEMESPEC_SUFFIX);
+                "%s%s", theme_name, THEMESPEC_SUFFIX);
 
-/*    dname = fileinfoname(get_data_dirs(), fname);*/
     dname = fname;
 
     if (dname) {

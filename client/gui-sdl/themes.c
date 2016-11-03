@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,13 +34,15 @@
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
-  char buf[strlen(directory) + strlen("/") + strlen(theme_name) + strlen("/theme") + 1];
+  char buf[strlen(directory) + strlen(DIR_SEPARATOR) + strlen(theme_name)
+           + strlen(DIR_SEPARATOR "theme") + 1];
 
   /* free previous loaded theme, if any */
   theme_free(theme);
   theme = NULL;
 
-  fc_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
+  fc_snprintf(buf, sizeof(buf), "%s" DIR_SEPARATOR "%s" DIR_SEPARATOR "theme",
+              directory, theme_name);
   
   themespec_try_read(buf);
   theme_load_sprites(theme);
