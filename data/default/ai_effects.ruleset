@@ -73,7 +73,15 @@ reqs    =
 
 [effect_ai_handicapped_defense]
 type    = "Defend_Bonus"
-value   = -25
+value   = -20
+reqs    =
+    { "type", "name", "range"
+      "AI", "Handicapped", "Player"
+    }
+
+[effect_ai_handicapped_attack]
+type    = "Attack_Bonus"
+value   = -20
 reqs    =
     { "type", "name", "range"
       "AI", "Handicapped", "Player"
