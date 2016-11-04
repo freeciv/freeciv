@@ -601,7 +601,7 @@ moves. Includes MAP_MAX_LINEAR_SIZE because a map can be non wrapping. */
 /* Freeciv-web doesn't support isometric maps yet. */
 #define MAP_DEFAULT_TOPO         TF_WRAPX
 #else /* FREECIV_WEB */
-#define MAP_DEFAULT_TOPO         (TF_WRAPX|TF_ISO)
+#define MAP_DEFAULT_TOPO         (TF_WRAPX|TF_ISO|TF_HEX)
 #endif /* FREECIV_WEB */
 
 #define MAP_DEFAULT_SEED         0
