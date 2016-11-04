@@ -2915,8 +2915,10 @@ action_prob(const enum gen_action wanted_action,
       if (can_player_see_unit(actor_player, defender_unit)) {
         double unconverted = unit_win_chance(actor_unit, defender_unit);
 
-        chance.min = floor((double)ACTPROB_VAL_MAX * unconverted);
-        chance.max = ceil((double)ACTPROB_VAL_MAX * unconverted);
+        chance.min = MAX(ACTPROB_VAL_MIN,
+                         floor((double)ACTPROB_VAL_MAX * unconverted));
+        chance.max = MIN(ACTPROB_VAL_MAX,
+                         ceil((double)ACTPROB_VAL_MAX * unconverted));
       } else if (known == TRI_YES) {
         known = TRI_MAYBE;
       }
