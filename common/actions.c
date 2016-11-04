@@ -1297,6 +1297,14 @@ action_prob(const enum gen_action wanted_action,
     break;
   }
 
+  /* Non signal action probabilities should be in range. */
+  fc_assert_action((action_prob_is_signal(chance)
+                    || chance.max <= ACTPROB_VAL_MAX),
+                   chance.max = ACTPROB_VAL_MAX);
+  fc_assert_action((action_prob_is_signal(chance)
+                    || chance.min >= ACTPROB_VAL_MIN),
+                   chance.min = ACTPROB_VAL_MIN);
+
   switch (known) {
   case TRI_NO:
     return ACTPROB_IMPOSSIBLE;
