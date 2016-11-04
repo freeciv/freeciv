@@ -19,7 +19,7 @@ fi
 
 if test "x$1" = "x-v" || test "x$1" = "x--version" ; then
   echo "winbuild.sh version $WINBUILD_VERSION"
-  exit 
+  exit
 fi
 
 DLLSPATH="$1"
@@ -49,12 +49,12 @@ fi
 
 if test x$SETUP = xwin64 ; then
   TARGET=x86_64-w64-mingw32
-  CLIENTS="gtk3,sdl2"
+  CLIENTS="gtk3,sdl2,gtk3.22"
   FCMP="gtk3,cli"
   VERREV="win64-$VERREV"
 else
   TARGET=i686-w64-mingw32
-  CLIENTS="gtk2,gtk3,sdl2"
+  CLIENTS="gtk2,gtk3,sdl2,gtk3.22"
   FCMP="gtk2,gtk3,cli"
   VERREV="win32-$VERREV"
 fi
