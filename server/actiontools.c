@@ -779,6 +779,20 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
   return NULL;
 }
 
+#define action_auto_perf_acquire_targets                                   \
+  tgt_city = (target_city ? target_city                                    \
+                          : action_tgt_city(actor, unit_tile(actor),       \
+                                            TRUE));                        \
+  tgt_tile = (target_tile ? target_tile                                    \
+                          : action_tgt_tile(actor, unit_tile(actor),       \
+                                            TRUE));                        \
+  tgt_unit = (target_unit ? target_unit                                    \
+                          : action_tgt_unit(actor, unit_tile(actor),       \
+                                            TRUE));                        \
+  tgt_units = (target_tile                                                 \
+               ? target_tile                                               \
+               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
+
 /**************************************************************************
   Make the specified actor unit perform an action because of cause.
 
@@ -814,15 +828,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   actor_id = actor->id;
 
   /* Acquire the targets. */
-  tgt_city = (target_city ? target_city
-                          : action_tgt_city(actor, unit_tile(actor), TRUE));
-  tgt_tile = (target_tile ? target_tile
-                          : action_tgt_tile(actor, unit_tile(actor), TRUE));
-  tgt_unit = (target_unit ? target_unit
-                          : action_tgt_unit(actor, unit_tile(actor), TRUE));
-  tgt_units = (target_tile
-               ? target_tile
-               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
+  action_auto_perf_acquire_targets;
 
   action_auto_perf_actions_iterate(autoperf, act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT) {
@@ -911,15 +917,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   out = ACTPROB_IMPOSSIBLE;
 
   /* Acquire the targets. */
-  tgt_city = (target_city ? target_city
-                          : action_tgt_city(actor, unit_tile(actor), TRUE));
-  tgt_tile = (target_tile ? target_tile
-                          : action_tgt_tile(actor, unit_tile(actor), TRUE));
-  tgt_unit = (target_unit ? target_unit
-                          : action_tgt_unit(actor, unit_tile(actor), TRUE));
-  tgt_units = (target_tile
-               ? target_tile
-               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
+  action_auto_perf_acquire_targets;
 
   action_auto_perf_actions_iterate(autoperf, act) {
     struct act_prob current = ACTPROB_IMPOSSIBLE;
