@@ -7,7 +7,6 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 [info]
 
 artists = "
-    Jason Dorje Short <jdorje@freeciv.org>
     GriffonSpade
 "
 
@@ -18,7 +17,7 @@ gfx = "hexemplio/grid"
 
 x_top_left = 1
 y_top_left = 1
-dx = 128
+dx = 126
 dy = 64
 pixel_border = 1
 
@@ -35,29 +34,29 @@ tiles = { "row", "column", "tag"
   1, 2, "grid.worked.ns"
   2, 2, "grid.worked.ud"
 
-  0, 3, "grid.unavailable"
-  1, 3, "grid.nonnative"
+  0, 3, "grid.selected.we"
+  1, 3, "grid.selected.ns"
+  2, 3, "grid.selected.ud"
 
-  0, 4, "grid.selected.we"
-  1, 4, "grid.selected.ns"
-  2, 4, "grid.selected.ud"
+  0, 4, "grid.coastline.we"
+  1, 4, "grid.coastline.ns"
+  2, 4, "grid.coastline.ud"
 
-  0, 5, "grid.coastline.we"
-  1, 5, "grid.coastline.ns"
-  2, 5, "grid.coastline.ud"
+  0, 5, "grid.borders.w"
+  0, 6, "grid.borders.e"
+  1, 5, "grid.borders.n"
+  1, 6, "grid.borders.s"
+  2, 5, "grid.borders.u"
+  2, 6, "grid.borders.d"
 
-  3, 0, "grid.borders.n"
-  3, 1, "grid.borders.s"
-  3, 2, "grid.borders.w"
-  3, 3, "grid.borders.e"
-  3, 4, "grid.borders.u"
-  3, 5, "grid.borders.d"
+  3, 0, "tx.darkness_n"
+  3, 1, "tx.darkness_e"
+  3, 2, "tx.darkness_se"
+  3, 3, "tx.darkness_s"
+  3, 4, "tx.darkness_w"
+  3, 5, "tx.darkness_nw"
 
-  4, 0, "tx.darkness_n"
-  4, 1, "tx.darkness_e"
-  4, 2, "tx.darkness_se"
-  4, 3, "tx.darkness_s"
-  4, 4, "tx.darkness_w"
-  4, 5, "tx.darkness_nw"
+  3, 6, "grid.unavailable"
+  3, 7, "grid.nonnative"
 
 }
