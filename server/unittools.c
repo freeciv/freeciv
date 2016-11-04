@@ -2937,13 +2937,15 @@ void unit_transport_unload_send(struct unit *punit)
   send_unit_info(NULL, ptrans);
 }
 
-/*****************************************************************
-  This function is passed to unit_list_sort() to sort a list of
-  units according to their win chance against autoattack_x|y.
-  If the unit is being transported, then push it to the front of
-  the list, since we wish to leave its transport out of combat
-  if at all possible.
-*****************************************************************/
+/**************************************************************************
+  This function is passed to unit_list_sort() to sort a list of units
+  according to their win chance against autoattack_target modified by
+  transportation relationships.
+
+  The reason for making sure that a cargo unit is ahead of it
+  transporter(s) is to leave transports out of combat if at all possible.
+  (The transport could be destroyed during combat.)
+**************************************************************************/
 static int compare_units(const struct unit *const *p1,
                          const struct unit *const *q1)
 {
@@ -2952,7 +2954,14 @@ static int compare_units(const struct unit *const *p1,
   int p1uwc = unit_win_chance(*p1, p1def);
   int q1uwc = unit_win_chance(*q1, q1def);
 
-  if (p1uwc < q1uwc || unit_transport_get(*q1)) {
+  /* Sort by transport depth first. This makes sure that no transport
+   * attacks before its cargo does. */
+  if (unit_transport_depth(*p1) != unit_transport_depth(*q1)) {
+    /* The units have a different number of recursive transporters. */
+    return unit_transport_depth(*q1) - unit_transport_depth(*p1);
+  }
+
+  if (p1uwc < q1uwc) {
     return -1; /* q is better */
   } else if (p1uwc == q1uwc) {
     return 0;
