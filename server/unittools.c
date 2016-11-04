@@ -3031,22 +3031,26 @@ static void autoattack_prob_free(struct autoattack_prob *prob)
   free(prob);
 }
 
-/*****************************************************************
-  This function is passed to autoattack_prob_list_sort() to sort
-  a list of units and action probabilities according to their win
-  chance against the autoattack target.
+/**************************************************************************
+  This function is passed to autoattack_prob_list_sort() to sort a list of
+  units and action probabilities according to their win chance against the
+  autoattack target modified by transportation relationships.
 
-  If the unit is being transported, then push it to the front of
-  the list, since we wish to leave its transport out of combat
-  if at all possible.
-*****************************************************************/
+  The reason for making sure that a cargo unit is ahead of it
+  transporter(s) is to leave transports out of combat if at all possible.
+  (The transport could be destroyed during combat.)
+**************************************************************************/
 static int compare_units(const struct autoattack_prob *const *p1,
                          const struct autoattack_prob *const *q1)
 {
+  const struct unit *p1unit = game_unit_by_number((*p1)->unit_id);
   const struct unit *q1unit = game_unit_by_number((*q1)->unit_id);
 
-  if (unit_transport_get(q1unit)) {
-    return -1; /* q is better */
+  /* Sort by transport depth first. This makes sure that no transport
+   * attacks before its cargo does. */
+  if (unit_transport_depth(p1unit) != unit_transport_depth(q1unit)) {
+    /* The units have a different number of recursive transporters. */
+    return unit_transport_depth(q1unit) - unit_transport_depth(p1unit);
   } else {
     /* Assume the worst. */
     return action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob);
