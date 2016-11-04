@@ -604,6 +604,16 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                  iWidth, iHeight,
                                  0);
 
+  if (iFlags & SDL_WINDOW_FULLSCREEN) {
+    SDL_DisplayMode mode;
+
+    /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
+    SDL_SetWindowFullscreen(Main.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_GetWindowDisplayMode(Main.screen, &mode);
+    iWidth = mode.w;
+    iHeight = mode.h;
+  }
+
   if (is_bigendian()) {
       main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
                                           0x0000FF00, 0x00FF0000,
