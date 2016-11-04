@@ -9,7 +9,7 @@
 .\"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 .\"   GNU General Public License for more details.
 .\"
-.TH FREECIV 6 "June 25th 2016"
+.TH FREECIV 6 "November 2nd 2016"
 .SH NAME
 freeciv-gtk2, freeciv-gtk3, freeciv-sdl, freeciv-qt, freeciv-xaw \
 \- The clients for the Freeciv game
@@ -323,6 +323,10 @@ together; those variables are the recommended way to override paths, with
 \fBFREECIV_PATH\fP provided for backward compatibility with older versions
 of Freeciv. The precise search path depends on the type of file being
 searched for.
+.TP
+.BI FREECIV_OPT
+Specifies a file to contain local settings, instead of
+~/.freeciv-client-rc-\fI[version-number]\fP.
 .TP
 .BI HOME
 Specifies the user's home directory.
