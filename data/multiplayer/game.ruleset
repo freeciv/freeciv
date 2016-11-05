@@ -649,7 +649,7 @@ actor_reqs    =
 action = "Airlift Unit"
 actor_reqs    =
     { "type",          "name",         "range", "present"
-      "UnitClassFlag", "Airliftable",  "Local", TRUE
+      "UnitClass",     "Land",         "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
     }

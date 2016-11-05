@@ -37,7 +37,6 @@ flags =
 ;                 with this flag (optional)
 class_flags =
   { "name", "helptxt"
-    _("Airliftable"), _("Can be airlifted from a suitable city.")
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
   }
 
@@ -128,7 +127,10 @@ min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
-                "TerrainDefense", "KillCitizen", "Airliftable"
+                "TerrainDefense", "KillCitizen"
+helptext      = _("\
+  * Can be airlifted from a suitable city.\
+")
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
