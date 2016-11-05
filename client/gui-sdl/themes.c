@@ -36,6 +36,11 @@ void gui_load_theme(const char *directory, const char *theme_name)
 {
   char buf[strlen(directory) + strlen("/") + strlen(theme_name) + strlen("/theme") + 1];
 
+  if (theme != NULL) {
+    /* We don't support changing theme once it has been loaded */
+    return;
+  }
+
   /* free previous loaded theme, if any */
   theme_free(theme);
   theme = NULL;
@@ -51,9 +56,6 @@ void gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void gui_clear_theme(void)
 {
-  theme_free(theme);
-  theme = NULL;
-
   if (!load_theme(gui_sdl_default_theme_name)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
     log_fatal(_("No gui-sdl theme was found. For instructions on how to "
