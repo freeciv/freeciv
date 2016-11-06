@@ -962,4 +962,5 @@ set =
       ; no effect anyway
       "traitdistribution", "FIXED", TRUE
       "plrcolormode", "NATION_ORDER", FALSE
+      "topology", "WRAPX|ISO", FALSE
     }
