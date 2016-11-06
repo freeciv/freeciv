@@ -1488,18 +1488,26 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   /* Layout for units/buildings */
   v_layout = new QHBoxLayout;
   v_layout->addWidget(scroll3);
+  v_layout->setContentsMargins(0 , 0 , 0, 0);
+  v_layout->setSpacing(0);
   curr_impr->setLayout(v_layout);
   curr_impr->setTitle(_("Improvements"));
   v_layout = new QHBoxLayout;
   v_layout->addWidget(scroll2);
+  v_layout->setContentsMargins(0 , 0 , 0, 0);
+  v_layout->setSpacing(0);
   curr_units->setLayout(v_layout);
   v_layout = new QHBoxLayout;
   v_layout->addWidget(scroll);
+  v_layout->setContentsMargins(0 , 0 , 0, 0);
+  v_layout->setSpacing(0);
   supp_units->setLayout(v_layout);
 
   units_layout->addWidget(curr_units);
   units_layout->addWidget(supp_units);
   units_layout->addWidget(curr_impr);
+  units_layout->setSpacing(0);
+  units_layout->setContentsMargins(0 , 0 , 0, 0);
 
   vbox = new QVBoxLayout;
   vbox_layout = new QVBoxLayout;
