@@ -41,6 +41,10 @@ QMainWindow {
   margin-top: 2ex;
 }
 
+*[themed_border="true"] {
+  border: 2px solid #3399FF;
+}
+
 *[themed_groupbox="true"]::title {
   subcontrol-origin: margin;
   subcontrol-position: top center; /* position at the top center */
@@ -838,4 +842,5 @@ hud_units {
 hud_units QLabel {
   color: white;
 }
+
 
