@@ -1646,6 +1646,18 @@ void popdown_endgame_report()
 }
 
 /****************************************************************************
+  Popups endgame report to front if exists
+****************************************************************************/
+void popup_endgame_report()
+{
+  int i;
+  if (gui()->is_repo_dlg_open("END")) {
+    i = gui()->gimme_index_of("END");
+    gui()->game_tab_widget->setCurrentIndex(i);
+  }
+}
+
+/****************************************************************************
   Received endgame report information about single player.
 ****************************************************************************/
 void endgame_report_dialog_player(const struct packet_endgame_player *packet)

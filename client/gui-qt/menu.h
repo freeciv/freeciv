@@ -75,6 +75,7 @@ enum munit {
   GO_AND_BUILD_CITY,
   NOT_4_OBS,
   MULTIPLIERS,
+  ENDGAME,
   SAVE
 };
 
@@ -412,6 +413,7 @@ private slots:
   void slot_spaceship();
   void slot_demographics();
   void slot_achievements();
+  void slot_endgame();
   void slot_top_five();
   void slot_traveler();
 
