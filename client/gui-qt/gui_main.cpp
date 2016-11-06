@@ -433,18 +433,8 @@ static void apply_help_font(struct option *poption)
 ****************************************************************************/
 static void apply_notify_font(struct option *poption)
 {
-  QFont *f;
-  QFont *remove_old;
-  QString s;
-
   if (gui()) {
-    f = new QFont;
-    s = option_font_get(poption);
-    f->fromString(s);
-    s = option_name(poption);
-    remove_old = fc_font::instance()->get_font(s);
-    delete remove_old;
-    fc_font::instance()->set_font(s, f);
+    qtg_gui_update_font("notify_label", option_font_get(poption));
     restart_notify_dialogs();
   }
 }
@@ -455,18 +445,10 @@ static void apply_notify_font(struct option *poption)
 ****************************************************************************/
 void apply_city_font(option *poption)
 {
-  QFont *f;
-  QFont *remove_old;
   QString s;
 
   if (gui() && qtg_get_current_client_page() == PAGE_GAME) {
-    f = new QFont;
-    s = option_font_get(poption);
-    f->fromString(s);
-    s = option_name(poption);
-    remove_old = fc_font::instance()->get_font(s);
-    delete remove_old;
-    fc_font::instance()->set_font(s, f);
+    qtg_gui_update_font("city_label", option_font_get(poption));
     city_font_update();
   }
 }

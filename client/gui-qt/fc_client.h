@@ -307,8 +307,6 @@ protected slots:
 private:
   void chat_message_received(const QString &message,
                              const struct text_tag_list *tags);
-  void update_font(const QString &name, const QFont &font);
-
   void create_main_page();
   void create_network_page();
   void create_load_page();
