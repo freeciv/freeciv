@@ -7,11 +7,8 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 [info]
 
 artists = "
-    Tim F. Smith <yoohootim@hotmail.com>
-    Daniel Speyer <dspeyer@users.sf.net> (mix)
-    Frederic Rodrigo <f.rodrigo@tuxfamily.org> (mix)
-    Andreas Røsdal <andrearo@pvv.ntnu.no> (hex mode)
-    Jason Short <jdorje@users.sf.net> (hex mixing)
+    Yautja (Pond/River Sources)
+    GriffonSpade
 "
 
 [file]
@@ -105,5 +102,23 @@ tiles = { "row", "column","tag"
  8, 3, "road.river_outlet_w"
  8, 4, "road.river_outlet_nw"
  8, 5, "road.river_outlet_se"
+
+;irrigation outlets
+
+ 8, 0, "tx.irrigation_outlet_n"
+ 8, 1, "tx.irrigation_outlet_e"
+ 8, 2, "tx.irrigation_outlet_s"
+ 8, 3, "tx.irrigation_outlet_w"
+ 8, 4, "tx.irrigation_outlet_nw"
+ 8, 5, "tx.irrigation_outlet_se"
+
+;farmland outlets
+
+ 8, 0, "tx.farmland_outlet_n"
+ 8, 1, "tx.farmland_outlet_e"
+ 8, 2, "tx.farmland_outlet_s"
+ 8, 3, "tx.farmland_outlet_w"
+ 8, 4, "tx.farmland_outlet_nw"
+ 8, 5, "tx.farmland_outlet_se"
 
 }
