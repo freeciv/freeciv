@@ -312,7 +312,7 @@ struct client_options gui_options = {
   .gui_qt_fullscreen = FALSE,
   .gui_qt_show_preview = TRUE,
   .gui_qt_sidebar_left = TRUE,
-  .gui_qt_default_theme_name = "NightStalker",
+  .gui_qt_default_theme_name = FC_QT_DEFAULT_THEME_NAME,
   .gui_qt_font_city_label = "Monospace,8,-1,5,50,0,0,0,0,0",
   .gui_qt_font_default = "Sans Serif,10,-1,5,75,0,0,0,0,0",
   .gui_qt_font_notify_label = "Monospace,8,-1,5,75,0,0,0,0,0",
@@ -1912,7 +1912,7 @@ static struct client_option client_options[] = {
   GEN_STR_LIST_OPTION(gui_qt_default_theme_name, N_("Theme"),
                       N_("By changing this option you change the "
                          "active theme."),
-                      COC_GRAPHICS, GUI_QT, NULL,
+                      COC_GRAPHICS, GUI_QT, FC_QT_DEFAULT_THEME_NAME,
                       get_themes_list, theme_reread_callback, 0),
 
   /* It's important to give empty string instead of NULL as as default
