@@ -206,7 +206,6 @@ void map_view::shortcut_pressed(int key)
   if (bt == Qt::LeftButton
       && gui()->trade_gen.hover_city == true) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    gui()->menu_bar->set_tile_for_order(ptile);
     gui()->trade_gen.hover_city = false;
     gui()->trade_gen.add_tile(ptile);
     gui()->mapview_wdg->repaint();
