@@ -532,7 +532,7 @@ void real_menus_init(void)
 **************************************************************************/
 void real_menus_update(void)
 {
-  if (C_S_RUNNING == client_state()) {
+  if (C_S_RUNNING <= client_state()) {
     gui()->menuBar()->setVisible(true);
     gui()->menu_bar->menus_sensitive();
     gui()->menu_bar->update_airlift_menu();
@@ -1277,6 +1277,10 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("Achievements"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_achievements()));
 
+  act = menu->addAction(_("Endgame report"));
+  menu_list.insertMulti(ENDGAME, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_endgame()));
+
   /* Help Menu */
   menu = this->addMenu(_("Help"));
 
@@ -1551,6 +1555,14 @@ void mr_menu::menus_sensitive()
         break;
       case MULTIPLIERS:
         if (client_is_observer() == false && multiplier_count() > 0) {
+          i.value()->setEnabled(true);
+          i.value()->setVisible(true);
+        } else {
+          i.value()->setVisible(false);
+        }
+        break;
+      case ENDGAME:
+        if (gui()->is_repo_dlg_open("END")) {
           i.value()->setEnabled(true);
           i.value()->setVisible(true);
         } else {
@@ -2673,6 +2685,15 @@ void mr_menu::slot_achievements()
 {
   send_report_request(REPORT_ACHIEVEMENTS);
 }
+
+/****************************************************************
+  Action "SHOW ENDGAME REPORT"
+*****************************************************************/
+void mr_menu::slot_endgame()
+{
+  popup_endgame_report();
+}
+
 
 /****************************************************************
   Action "SHOW TOP FIVE CITIES"

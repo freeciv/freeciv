@@ -220,5 +220,6 @@ void popdown_economy_report();
 void popdown_units_report();
 void popdown_science_report();
 void popdown_endgame_report();
+void popup_endgame_report();
 
 #endif /* FC__REPODLGS_H */
