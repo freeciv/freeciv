@@ -363,6 +363,7 @@ struct client_options
   bool gui_sdl2_use_color_cursors;
 
 /* gui-qt client specific options. */
+#define FC_QT_DEFAULT_THEME_NAME "NightStalker"
   bool gui_qt_fullscreen;
   bool gui_qt_show_preview;
   bool gui_qt_allied_chat_only;
