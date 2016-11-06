@@ -156,15 +156,26 @@ void configure_fonts()
     fc_strlcpy(gui_options.gui_qt_font_city_names,
                font_name.toLocal8Bit().data(), 512);
   }
+  /* default for help text */
+  font_name = configure_font(fonts::help_text, sl, default_size);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_help_text,
+               font_name.toLocal8Bit().data(), 512);
+  }
   sl.clear();
 
-  /* notify */
+  /* notify and comment */
   sl  <<  "Cousine" << "Liberation Mono" << "Source Code Pro"
       << "Source Code Pro [ADBO]"
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
   font_name = configure_font(fonts::notify_label, sl, default_size);
   if (font_name.isEmpty() == false) {
     fc_strlcpy(gui_options.gui_qt_font_notify_label,
+               font_name.toLocal8Bit().data(), 512);
+  }
+  font_name = configure_font(fonts::comment_label, sl, default_size);
+  if (font_name.isEmpty() == false) {
+    fc_strlcpy(gui_options.gui_qt_font_comment_label,
                font_name.toLocal8Bit().data(), 512);
   }
 
