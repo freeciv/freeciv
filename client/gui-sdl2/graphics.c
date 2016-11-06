@@ -304,21 +304,6 @@ SDL_Surface *load_surf(const char *pFname)
     return NULL;
   }
 
-#if 0
-  if (Main.screen) {
-    SDL_Surface *pNew_sur;
-
-    if ((pNew_sur = SDL_ConvertSurfaceFormat(pBuf, SDL_PIXELFORMAT_RGBA4444, 0)) == NULL) {
-      log_error(_("load_surf: Unable to convert file %s "
-                  "into screen's format!"), pFname);
-    } else {
-      FREESURFACE(pBuf);
-
-      return pNew_sur;
-    }
-  }
-#endif /* 0 */
-
   return pBuf;
 }
 
@@ -423,51 +408,8 @@ int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
   return alphablit(pSrc, NULL, pDest, &dest_rect, 255);
 }
 
-/*
- * this is center main application window function
- * currently it work only for X but problem is that such 
- * functions will be needed by others enviroments.
- * ( for X it's make by settings "SDL_VIDEO_CENTERED" enviroment )
- */
-int center_main_window_on_screen(void)
-{
-#if 0
-  SDL_SysWMinfo myinfo;
-
-  SDL_VERSION(&myinfo.version);
-  if (SDL_GetWMInfo(&myinfo) > 0)
-  {
-#ifdef WIN32_NATIVE
-
-    /* Port ME - Write center window code with WinAPI instructions */
-
-    return 0;
-#else /* WIN32_NATIVE */
-
-#if 0
-    /* this code is for X and is only example what should be write to other
-       enviroments */
-    Screen *defscr;
-    Display *d = myinfo.info.x11.display;
-
-    myinfo.info.x11.lock_func();
-    defscr = DefaultScreenOfDisplay(d);
-    XMoveWindow(d, myinfo.info.x11.wmwindow,
-               (defscr->width - Main.screen->w) / 2,
-               (defscr->height - Main.screen->h) / 2);
-    myinfo.info.x11.unlock_func();
-#endif /* 0 */
-    return 0;
-#endif /* WIN32_NATIVE */
-  }
-  return -1;
-#endif /* 0 */
-
-  return 0;
-}
-
 /**************************************************************************
-  get pixel
+  Get pixel
   Return the pixel value at (x, y)
   NOTE: The surface must be locked before calling this!
 **************************************************************************/
@@ -642,53 +584,6 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
                                     SDL_PIXELFORMAT_ARGB8888,
                                     SDL_TEXTUREACCESS_STREAMING,
                                     iWidth, iHeight);
-
-#if 0
-  /* find best bpp */
-  int iDepth = SDL_GetVideoInfo()->vfmt->BitsPerPixel;
-
-  /*  if screen does exist check if this is mayby
-     exactly the same resolution then return 1 */
-  if (Main.screen) {
-    if (Main.screen->w == iWidth && Main.screen->h == iHeight) {
-      if ((Main.screen->flags & SDL_FULLSCREEN)
-          && (iFlags & SDL_FULLSCREEN)) {
-        return 1;
-      }
-    }
-  }
-
-  /* Check to see if a particular video mode is supported */
-  if ((iDepth = SDL_VideoModeOK(iWidth, iHeight, iDepth, iFlags)) == 0) {
-    log_error(_("No available mode for this resolution : %d x %d %d bpp"),
-              iWidth, iHeight, iDepth);
-
-    log_debug(_("Setting default resolution to : 640 x 480 16 bpp SW"));
-
-    Main.screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
-  } else { /* set video mode */
-    if ((Main.screen = SDL_SetVideoMode(iWidth, iHeight,
-                                        iDepth, iFlags)) == NULL) {
-    log_error(_("Unable to set this resolution: %d x %d %d bpp %s"),
-              iWidth, iHeight, iDepth, SDL_GetError());
-
-    exit(-30);
-  }
-
-  log_debug(_("Setting resolution to: %d x %d %d bpp"),
-            iWidth, iHeight, iDepth);
-  }
-
-  /* Create a dummy surface to be used when sprites are missing, etc.
-   * Various things (such as zoomSurfaceRGBA() don't cope well with a
-   * zero-sized surface, so we use a transparent 1x1 surface. */
-  FREESURFACE(Main.dummy);
-  Main.dummy = create_surf(1, 1, SDL_SWSURFACE);
-
-  FREESURFACE(Main.map);
-  Main.map = SDL_DisplayFormat(Main.screen);
-
-#endif /* 0 */
 
   if (Main.gui) {
     FREESURFACE(Main.gui->surface);
@@ -1468,64 +1363,6 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect)
 {
   return ((x >= rect.x) && (x < rect.x + rect.w)
           && (y >= rect.y) && (y < rect.y + rect.h));
-}
-
-/**************************************************************************
-  Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
-  off and colorkey is set to 0 this black color is transparent.
-  To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
-  (first collor != 0 in 16 bit coding).
-**************************************************************************/
-bool correct_black(SDL_Surface *pSrc)
-{
-#if 0
-  bool ret = 0;
-  register int x;
-
-  if (pSrc->format->BitsPerPixel == 32 && pSrc->format->Amask) {
-    register Uint32 alpha, *pPixels = (Uint32 *) pSrc->pixels;
-    Uint32 Amask = pSrc->format->Amask;
-    Uint32 black = SDL_MapRGBA(pSrc->format, 0, 0, 0, 255);
-    Uint32 new_black = SDL_MapRGBA(pSrc->format, 4, 4, 4, 255);
-    int end = pSrc->w * pSrc->h;
-
-    /* for 32 bit color coding */
-
-    lock_surf(pSrc);
-
-    for (x = 0; x < end; x++, pPixels++) {
-      if (*pPixels == black) {
-        *pPixels = new_black;
-      } else {
-        if (!ret) {
-          alpha = *pPixels & Amask;
-          if (alpha && (alpha != Amask)) {
-            ret = 1;
-          }
-        }
-      }
-    }
-
-    unlock_surf(pSrc);
-  } else {
-    if (pSrc->format->BitsPerPixel == 8 && pSrc->format->palette) {
-      for(x = 0; x < pSrc->format->palette->ncolors; x++) {
-        if (x != pSrc->format->colorkey &&
-            pSrc->format->palette->colors[x].r < 4 &&
-            pSrc->format->palette->colors[x].g < 4 &&
-            pSrc->format->palette->colors[x].b < 4) {
-          pSrc->format->palette->colors[x].r = 4;
-          pSrc->format->palette->colors[x].g = 4;
-          pSrc->format->palette->colors[x].b = 4;
-        }
-      }
-    }
-  }
-
-  return ret;
-#endif /* 0 */
-
-  return TRUE;
 }
 
 /* ===================================================================== */
