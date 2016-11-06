@@ -64,8 +64,6 @@ class help_widget : public QWidget
   Q_OBJECT
   QFrame *box_wdg;
   QLabel *title_label;
-  QList<QLabel *> label_list;
-  QList<QLabel *> title_list;
 
   QWidget *main_widget;
   QTextBrowser *text_browser;

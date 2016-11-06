@@ -280,16 +280,6 @@ void fc_client::chat_message_received(const QString &message,
 }
 
 /****************************************************************************
-  Updates the application's default font when it changes
-****************************************************************************/
-void fc_client::update_font(const QString &name, const QFont &font)
-{
-  if (name == fonts::default_font) {
-    QApplication::setFont(font);
-  }
-}
-
-/****************************************************************************
   Return whether chatline should be active on page.
 ****************************************************************************/
 bool fc_client::chat_active_on_page(enum client_pages check)

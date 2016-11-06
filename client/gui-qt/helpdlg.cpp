@@ -358,9 +358,11 @@ void help_widget::setup_ui()
   box_wdg->setFrameShadow(QFrame::Raised);
 
   title_label = new QLabel(box_wdg);
+  title_label->setProperty(fonts::help_title, "true");
   group_layout->addWidget(title_label);
 
   text_browser = new QTextBrowser(this);
+  text_browser->setProperty(fonts::help_text, "true");
   layout->addWidget(text_browser);
   main_widget = text_browser;
 
@@ -431,19 +433,28 @@ void help_widget::do_layout()
 **************************************************************************/
 void help_widget::update_fonts()
 {
-  QFont *help_font, *label_font, *title_font;
-  QLabel *label;
+  QList<QWidget *> l;
+  QFont *f;
 
-  label_font = fc_font::instance()->get_font(fonts::help_label);
-  help_font = fc_font::instance()->get_font(fonts::help_text);
-  title_font = fc_font::instance()->get_font(fonts::help_title);
-  text_browser->setFont(*help_font);
-  title_label->setFont(*title_font);
-  foreach (label, label_list) {
-    label->setFont(*label_font);
+  l = findChildren<QWidget *>();
+
+  f = fc_font::instance()->get_font(fonts::help_label);
+  for (int i = 0; i < l.size(); ++i) {
+    if (l.at(i)->property(fonts::help_label).isValid()) {
+      l.at(i)->setFont(*f);
+    }
   }
-  foreach (label, title_list) {
-    label->setFont(*title_font);
+  f = fc_font::instance()->get_font(fonts::help_text);
+  for (int i = 0; i < l.size(); ++i) {
+    if (l.at(i)->property(fonts::help_text).isValid()) {
+      l.at(i)->setFont(*f);
+    }
+  }
+  f = fc_font::instance()->get_font(fonts::help_title);
+  for (int i = 0; i < l.size(); ++i) {
+    if (l.at(i)->property(fonts::help_title).isValid()) {
+      l.at(i)->setFont(*f);
+    }
   }
 }
 
@@ -468,8 +479,6 @@ void help_widget::undo_layout()
   info_panel = NULL;
   splitter = NULL;
   info_layout = NULL;
-  label_list.clear();
-  title_list.clear();
 }
 
 /****************************************************************************
@@ -509,8 +518,7 @@ void help_widget::add_info_label(const QString &text)
 {
   QLabel *label = new QLabel(text);
   label->setWordWrap(true);
-
-  label_list << label;
+  label->setProperty(fonts::help_label, "true");
   info_layout->addWidget(label);
 }
 
@@ -537,14 +545,14 @@ void help_widget::add_info_progress(const QString &text, int progress,
 
   label = new QLabel(text, wdg);
   layout->addWidget(label, 0, 0);
-  label_list << label;
+  label->setProperty(fonts::help_label, "true");
   label = new QLabel(wdg);
   if (value.isEmpty()) {
     label->setNum(progress);
   } else {
     label->setText(value);
   }
-  label_list << label;
+  label->setProperty(fonts::help_label, "true");
   layout->addWidget(label, 0, 1, Qt::AlignRight);
 
   bar = new QProgressBar(wdg);
@@ -582,6 +590,7 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
       QLabel *tb;
       QString str;
       tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
 
@@ -918,6 +927,7 @@ void help_widget::set_topic_tech(const help_item *topic,
           if (VUT_ADVANCE == preq->source.kind
               && preq->source.value.advance == padvance) {
             tb = new QLabel(this);
+            tb->setProperty(fonts::help_label, "true");
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             str = _("Allows");
@@ -941,6 +951,7 @@ void help_widget::set_topic_tech(const help_item *topic,
                             is_great_wonder(pimprove) ? HELP_WONDER
                              : HELP_IMPROVEMENT);
             tb = new QLabel(this);
+            tb->setProperty(fonts::help_label, "true");
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
@@ -959,6 +970,7 @@ void help_widget::set_topic_tech(const help_item *topic,
                             is_great_wonder(pimprove) ? HELP_WONDER
                             : HELP_IMPROVEMENT);
             tb = new QLabel(this);
+            tb->setProperty(fonts::help_label, "true");
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
@@ -977,6 +989,7 @@ void help_widget::set_topic_tech(const help_item *topic,
         str = "<b>" + str + "</b> "
               + link_me(utype_name_translation(punittype), HELP_UNIT);
         tb = new QLabel(this);
+        tb->setProperty(fonts::help_label, "true");
         tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
         tb->setTextFormat(Qt::RichText);
         tb->setText(str.trimmed());
@@ -1063,11 +1076,11 @@ QLayout *help_widget::create_terrain_widget(const QString &title,
 
   label = new QLabel(title);
   layout->addWidget(label, 0, 1, Qt::AlignBottom);
-  title_list << label;
+  label->setProperty(fonts::help_title, "true");
 
   label = new QLabel(legend);
   layout->addWidget(label, 1, 1, Qt::AlignTop);
-  label_list << label;
+  label->setProperty(fonts::help_label, "true");
 
   if (!tooltip.isEmpty()) {
     label->setToolTip(tooltip);
