@@ -391,8 +391,11 @@ hud_units::hud_units(QWidget *parent) : QFrame(parent)
 {
   QVBoxLayout *vbox;
   QVBoxLayout *unit_lab;
+  QSpacerItem *sp;
   setParent(parent);
+
   main_layout = new QHBoxLayout;
+  sp = new QSpacerItem(50, 2);
   vbox = new QVBoxLayout;
   unit_lab = new QVBoxLayout;
   unit_lab->setContentsMargins(6, 9, 0, 3);
@@ -401,6 +404,7 @@ hud_units::hud_units(QWidget *parent) : QFrame(parent)
   main_layout->addLayout(unit_lab);
   main_layout->addWidget(&tile_label);
   unit_icons = new unit_actions(this, nullptr);
+  vbox->addSpacerItem(sp);
   vbox->addWidget(&text_label);
   vbox->addWidget(unit_icons);
   main_layout->addLayout(vbox);
@@ -471,6 +475,8 @@ void hud_units::update_actions(unit_list *punits)
     return;
   }
 
+  font.setCapitalization(QFont::AllUppercase);
+  font.setBold(true);
   setFixedHeight(parentWidget()->height() / 12);
   text_label.setFixedHeight((height() * 2) / 10);
   move((gui()->mapview_wdg->width()
@@ -515,10 +521,10 @@ void hud_units::update_actions(unit_list *punits)
     text_str = text_str + QString(_(" +1 unit"));
   }
   text_label.setText(text_str);
-  font.setPixelSize((text_label.height() * 8) / 10);
+  font.setPixelSize((text_label.height() * 9) / 10);
   text_label.setFont(font);
   fm = new QFontMetrics(font);
-  text_label.setFixedWidth(fm->width(text_str) + 3);
+  text_label.setFixedWidth(fm->width(text_str) + 20);
   delete fm;
 
   unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
