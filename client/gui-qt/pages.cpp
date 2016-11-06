@@ -469,6 +469,8 @@ void fc_client::create_load_page()
   lbl_show_preview = new QLabel(_("Show preview"));
   sav << _("Choose Saved Game to Load") << _("Date");
   load_pix = new QLabel;
+  load_pix->setProperty("themed_border", true);
+  load_pix->setFixedSize(0 ,0);
   load_save_text = new QLabel;
   load_save_text->setTextFormat(Qt::RichText);
   load_save_text->setWordWrap(true);
@@ -500,7 +502,7 @@ void fc_client::create_load_page()
           SLOT(state_preview(int)));
   pages_layout[PAGE_LOAD]->addWidget(wdg, 1, 0);
   pages_layout[PAGE_LOAD]->addWidget(load_save_text, 2, 0, 1, 2);
-  pages_layout[PAGE_LOAD]->addWidget(load_pix, 2, 3, 1, 1);
+  pages_layout[PAGE_LOAD]->addWidget(load_pix, 2, 2, 1, 2);
 
   but = new QPushButton;
   but->setText(_("Browse..."));
@@ -1294,7 +1296,8 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         } else {
           load_pix->setPixmap(*(new QPixmap));
         }
-
+        load_pix->setFixedSize(load_pix->pixmap()->width(),
+                               load_pix->pixmap()->height());
         if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
                                        "research", TRUE))) {
           sname = secfile_lookup_str_default(sf, nullptr,
