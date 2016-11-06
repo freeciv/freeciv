@@ -48,6 +48,25 @@ void update_nationset_combo();
 void popup_races_dialog(struct player *pplayer);
 void restart_notify_dialogs();
 
+
+class qdef_act
+{
+  Q_DISABLE_COPY(qdef_act);
+
+private:
+  explicit qdef_act();
+  static qdef_act* m_instance;
+  int vs_city;
+  int vs_unit;
+public:
+  static qdef_act* action();
+  static void drop();
+  void vs_city_set(int i);
+  void vs_unit_set(int i);
+  int vs_city_get();
+  int vs_unit_get();
+};
+
 /***************************************************************************
   Nonmodal message box for disbanding units
 ***************************************************************************/
@@ -247,5 +266,7 @@ void popup_revolution_dialog(struct government *government = NULL);
 void revolution_response(struct government *government);
 void popup_upgrade_dialog(struct unit_list *punits);
 void popup_disband_dialog(struct unit_list *punits);
+bool try_default_unit_action(QVariant q1, QVariant q2);
+bool try_default_city_action(QVariant q1, QVariant q2);
 
 #endif /* FC__DIALOGS_H */

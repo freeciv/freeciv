@@ -258,6 +258,10 @@ class mr_menu : public QMenuBar
   QMenu *airlift_menu;
   QMenu *multiplayer_menu;
   QActionGroup *airlift_type;
+  QActionGroup *action_vs_city;
+  QActionGroup *action_vs_unit;
+  QMenu *action_unit_menu;
+  QMenu *action_city_menu;
   QHash<munit, QAction*> menu_list;
   qfc_units_list units_list;
 public:
@@ -364,6 +368,8 @@ private slots:
   void slot_rally();
   void slot_quickairlift_set();
   void slot_quickairlift();
+  void slot_action_vs_unit();
+  void slot_action_vs_city();
 
   /*used by civilization menu */
   void slot_show_map();

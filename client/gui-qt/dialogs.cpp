@@ -104,6 +104,8 @@ static bool is_more_user_input_needed = FALSE;
  unit that wants a decision in the current unit selection. */
 static bool did_not_decide = false;
 
+qdef_act* qdef_act::m_instance = 0;
+
 /**********************************************************************
   Initialize a mapping between an action and the function to call if
   the action's button is pushed.
@@ -734,6 +736,68 @@ notify_dialog::~notify_dialog()
   destroy();
 }
 
+/****************************************************************************
+  Default actions provider constructor
+****************************************************************************/
+qdef_act::qdef_act()
+{
+  vs_city = -1;
+  vs_unit = -1;
+}
+
+/****************************************************************************
+  Returns instance of qdef_act
+****************************************************************************/
+qdef_act *qdef_act::action()
+{
+  if (!m_instance)
+    m_instance = new qdef_act;
+  return m_instance;
+}
+
+/****************************************************************************
+  Deletes qdef_act instance
+****************************************************************************/
+void qdef_act::drop()
+{
+  if (m_instance) {
+    delete m_instance;
+    m_instance = 0;
+  }
+}
+
+/****************************************************************************
+  Sets default action vs city
+****************************************************************************/
+void qdef_act::vs_city_set(int i)
+{
+  vs_city = i;
+}
+
+/****************************************************************************
+  Sets default action vs unit
+****************************************************************************/
+void qdef_act::vs_unit_set(int i)
+{
+  vs_unit = i;
+}
+
+/****************************************************************************
+  Returns default action vs city
+****************************************************************************/
+int qdef_act::vs_city_get()
+{
+  return vs_city;
+}
+
+/****************************************************************************
+  Returns default action vs unit
+****************************************************************************/
+int qdef_act::vs_unit_get()
+{
+  return vs_unit;
+}
+
 /***************************************************************************
   Button canceling all selections has been pressed. 
 ***************************************************************************/
@@ -1119,6 +1183,41 @@ Choice_dialog_button *choice_dialog::get_identified_button(const int id)
 }
 
 /***************************************************************************
+  Try to pick up default unit action
+***************************************************************************/
+bool try_default_unit_action(QVariant q1, QVariant q2)
+{
+  int action;
+  pfcn_void func;
+
+  action = qdef_act::action()->vs_unit_get();
+  if (action == -1) {
+    return false;
+  }
+  func = af_map[static_cast<gen_action>(action)];
+
+  func(q1, q2);
+  return true;
+}
+
+/***************************************************************************
+  Try to pick up default city action
+***************************************************************************/
+bool try_default_city_action(QVariant q1, QVariant q2)
+{
+  int action;
+  pfcn_void func;
+
+  action = qdef_act::action()->vs_city_get();
+  if (action == -1) {
+    return false;
+  }
+  func = af_map[static_cast<gen_action>(action)];
+  func(q1, q2);
+  return true;
+}
+
+/***************************************************************************
   Run chosen action and close dialog
 ***************************************************************************/
 void choice_dialog::execute_action(const int action)
@@ -1326,7 +1425,25 @@ void popup_action_selection(struct unit *actor_unit,
   QVariant qv1, qv2;
   pfcn_void func;
   struct city *actor_homecity;
+  int unit_act;
+  int city_act;
 
+  unit_act = qdef_act::action()->vs_unit_get();
+  city_act = qdef_act::action()->vs_city_get();
+
+  if (target_city
+      && try_default_city_action(actor_unit->id, target_city->id)
+      && action_prob_possible(act_probs[static_cast<gen_action>(unit_act)])) {
+    diplomat_queue_handle_primary(actor_unit->id);
+    return;
+  }
+
+  if (target_unit
+      && try_default_unit_action(actor_unit->id, target_unit->id)
+      && action_prob_possible(act_probs[static_cast<gen_action>(city_act)])) {
+    diplomat_queue_handle_primary(actor_unit->id);
+    return;
+  }
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
   fc_assert_msg(!is_more_user_input_needed,

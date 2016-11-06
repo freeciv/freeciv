@@ -1149,6 +1149,75 @@ void mr_menu::setup_menus()
   airlift_type = new QActionGroup(this);
   airlift_menu = multiplayer_menu->addMenu(_("Unit type for quickairlifting"));
 
+  /* Default diplo */
+  action_vs_city = new QActionGroup(this);
+  action_vs_unit = new QActionGroup(this);
+  action_unit_menu = multiplayer_menu->addMenu(_("Default action vs unit"));
+
+  act = action_unit_menu->addAction(_("Ask"));
+  act->setCheckable(true);
+  act->setChecked(true);
+  act->setData(-1);
+  action_vs_unit->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_unit()));
+
+  act = action_unit_menu->addAction(_("Bribe"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_BRIBE_UNIT);
+  action_vs_unit->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_unit()));
+
+  act = action_unit_menu->addAction(_("Sabotage"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_SABOTAGE_UNIT);
+  action_vs_unit->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_unit()));
+
+  action_city_menu = multiplayer_menu->addMenu(_("Default action vs city"));
+  act = action_city_menu->addAction(_("Ask"));
+  act->setCheckable(true);
+  act->setChecked(true);
+  act->setData(-1);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
+  act = action_city_menu->addAction(_("Investigate city"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_INVESTIGATE_CITY);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
+  act = action_city_menu->addAction(_("Establish embassy"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_ESTABLISH_EMBASSY);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
+  act = action_city_menu->addAction(_("Steal technology"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_STEAL_TECH);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
+  act = action_city_menu->addAction(_("Incite a revolt"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_INCITE_CITY);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
+  act = action_city_menu->addAction(_("Poison city"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_POISON);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax Rates..."));
@@ -2206,6 +2275,29 @@ void mr_menu::slot_quickairlift_set()
   act = qobject_cast<QAction *>(sender());
   v = act->data();
   airlift_type_id = v.toInt();
+}
+
+/**************************************************************************
+  Slot for choosing default action vs unit
+**************************************************************************/
+void mr_menu::slot_action_vs_unit()
+{
+  QAction *act;
+
+  act = qobject_cast<QAction *>(sender());
+  qdef_act::action()->vs_unit_set(act->data().toInt());
+}
+
+
+/**************************************************************************
+  Slot for choosing default action vs city
+**************************************************************************/
+void mr_menu::slot_action_vs_city()
+{
+  QAction *act;
+
+  act = qobject_cast<QAction *>(sender());
+  qdef_act::action()->vs_city_set(act->data().toInt());
 }
 
 /**************************************************************************
