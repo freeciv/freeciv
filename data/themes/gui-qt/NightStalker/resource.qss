@@ -38,7 +38,7 @@ QMainWindow {
   background-color: #414a57;
   border: none;
   border-radius: none;
-  margin-top: 2ex;
+  margin-top: 2.5ex;
 }
 
 *[themed_border="true"] {
