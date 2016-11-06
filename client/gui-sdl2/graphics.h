@@ -247,12 +247,8 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
 
 SDL_Surface *copy_surface(SDL_Surface *src);
 
-bool correct_black(SDL_Surface *pSrc);
-
 int blit_entire_src(SDL_Surface *pSrc,
                     SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
-
-int center_main_window_on_screen(void);
 
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *pSurface);
