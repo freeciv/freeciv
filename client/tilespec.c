@@ -495,6 +495,8 @@ struct tileset {
   int tilelabel_offset_y;
   int activity_offset_x;
   int activity_offset_y;
+  int select_offset_x;
+  int select_offset_y;
   int occupied_offset_x;
   int occupied_offset_y;
   int unit_upkeep_offset_y;
@@ -1970,6 +1972,10 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                              "tilespec.activity_offset_x")
       || !secfile_lookup_int(file, &t->activity_offset_y,
                              "tilespec.activity_offset_y")
+      || !secfile_lookup_int(file, &t->select_offset_x,
+                             "tilespec.select_offset_x")
+      || !secfile_lookup_int(file, &t->select_offset_y,
+                             "tilespec.select_offset_y")
       || !secfile_lookup_int(file, &t->city_offset_x,
                              "tilespec.city_offset_x")
       || !secfile_lookup_int(file, &t->city_offset_y,
@@ -5662,7 +5668,8 @@ int fill_sprite_array(struct tileset *t,
 	  && t->sprites.unit.select[0]) {
 	/* Special case for drawing the selection rectangle.  The blinking
 	 * unit is handled separately, inside get_drawable_unit(). */
-	ADD_SPRITE_SIMPLE(t->sprites.unit.select[focus_unit_state]);
+	ADD_SPRITE(t->sprites.unit.select[focus_unit_state], TRUE,
+                   t->select_offset_x, t->select_offset_y);
       }
 
       sprs += fill_unit_sprite_array(t, sprs, punit, stacked, backdrop);

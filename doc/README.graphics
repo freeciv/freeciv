@@ -132,6 +132,8 @@ options include:
   activity_offset_y      draw normal unit activity icons. "Auto" icons are not
                          affected by this as they are usually wanted in different
                          offset than real activity icons for both to appear simultaneously
+  select_offset_x      : Gives an offset from the tile origin at which to
+  select_offset_y        draw selected unit sprites.
   unit_upkeep_offset_y : Gives an offset from the unit origin at which to draw
                          the upkeep icons when they are shown along the unit. The upkeep
                          icons can safely extend below the unit icon itself.

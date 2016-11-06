@@ -56,6 +56,10 @@ unit_offset_y = 21
 activity_offset_x = 0
 activity_offset_y = 0
 
+; offset of the selected unit sprites
+select_offset_x = 0
+select_offset_y = 0
+
 ; offset the cities by this amount
 city_offset_x = 0
 city_offset_y = 0
