@@ -1276,7 +1276,7 @@ helptext       = _("\
 Airbases allow your air units to land and refuel. Air units in an \
 airbase may be attacked by land units.\
 "), _("\
-Units can paradrop from this tile.
+Units can paradrop from this tile.\
 ")
 
 [extra_buoy]

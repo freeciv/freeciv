@@ -901,7 +901,7 @@ build_time     = 3
 removal_time   = 0
 native_to      = "Antigravity"
 helptext       = _("\
-Units can paradrop from this tile.
+Units can paradrop from this tile.\
 ")
 
 [extra_road]
