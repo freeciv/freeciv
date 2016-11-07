@@ -2961,12 +2961,16 @@ static int compare_units(const struct unit *const *p1,
     return unit_transport_depth(*q1) - unit_transport_depth(*p1);
   }
 
+  /* Put the units with the highest probability of success first. The up
+   * side of this is that units with bonuses against the victim attacks
+   * before other units. The downside is that strong units can be lead
+   * away by sacrificial units. */
   if (p1uwc < q1uwc) {
-    return -1; /* q is better */
+    return +1; /* q is better */
   } else if (p1uwc == q1uwc) {
     return 0;
   } else {
-    return 1; /* p is better */
+    return -1; /* p is better */
   }
 }
 
@@ -3019,7 +3023,8 @@ static bool unit_survive_autoattack(struct unit *punit)
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
-  /* The unit list is now sorted according to win chance against punit */
+  /* Sort the potential attackers from highest to lowest success
+   * probability. */
   autoattack_target = unit_tile(punit); /* global variable */
   if (unit_list_size(autoattack) >= 2) {
     unit_list_sort(autoattack, &compare_units);
