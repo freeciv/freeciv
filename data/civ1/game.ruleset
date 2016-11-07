@@ -480,10 +480,10 @@ actor_reqs    =
 [actionenabler_attack_att_from_non_native]
 action = "Attack"
 actor_reqs    =
-    { "type",          "name",             "range", "present"
-      "UnitFlag",      "NonMil",           "Local", FALSE
-      "MinMoveFrags",  "1",                "Local", TRUE
-      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+    { "type",         "name",   "range", "present"
+      "UnitFlag",     "NonMil", "Local", FALSE
+      "MinMoveFrags", "1",      "Local", TRUE
+      "UnitClass",    "Sea",    "Local", TRUE
     }
 
 [actionenabler_conquer_city_native]
@@ -504,12 +504,12 @@ target_reqs    =
 [actionenabler_conquer_city_att_from_non_native]
 action = "Conquer City"
 actor_reqs    =
-    { "type",           "name",             "range", "present"
-      "UnitClassFlag",  "CanOccupyCity",    "Local", TRUE
-      "UnitFlag",       "NonMil",           "Local", FALSE
-      "DiplRel",        "War",              "Local", TRUE
-      "MinMoveFrags",   "1",                "Local", TRUE
-      "UnitClassFlag",  "AttFromNonNative", "Local", TRUE
+    { "type",          "name",          "range", "present"
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "DiplRel",       "War",           "Local", TRUE
+      "MinMoveFrags",  "1",             "Local", TRUE
+      "UnitClass",     "Sea",           "Local", TRUE
     }
 target_reqs    =
     { "type",           "name",          "range", "present"

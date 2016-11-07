@@ -42,10 +42,9 @@ flags =
 ;                 and sensible.
 ; helptxt       = displayed in the help for unit types belonging to a class
 ;                 with this flag (optional)
-class_flags =
-  { "name", "helptxt"
-    _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
-  }
+;class_flags =
+;  { "name", "helptxt"
+;  }
 
 [veteran_system]
 ; What are the names of the levels?
@@ -152,7 +151,10 @@ helptext      = _("\
 name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
-flags         = "DamageSlows", "AttackNonNative", "AttFromNonNative"
+flags         = "DamageSlows", "AttackNonNative"
+helptext      = _("\
+Can launch attack from non-native tiles.\
+")
 
 [unitclass_heli]
 ; /* TRANS: Unit class: used adjectivally */

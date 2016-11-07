@@ -44,7 +44,6 @@ flags =
 class_flags =
   { "name", "helptxt"
     _("Airliftable"), _("Can be airlifted from a suitable city.")
-    _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
   }
 
 [veteran_system]
@@ -147,8 +146,10 @@ flags         = "DamageSlows", "TerrainSpeed", "CanFortify", "ZOC",
 name          = _("?unitclass:Sea")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "DamageSlows", "TerrainSpeed", "CanPillage", "AttackNonNative",
-                "AttFromNonNative"
+flags         = "DamageSlows", "TerrainSpeed", "CanPillage", "AttackNonNative"
+helptext      = _("\
+Can launch attack from non-native tiles.\
+")
 
 [unitclass_amphibious]
 name          = _("?unitclass:Amphibious")
