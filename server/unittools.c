@@ -3052,8 +3052,13 @@ static int compare_units(const struct autoattack_prob *const *p1,
     /* The units have a different number of recursive transporters. */
     return unit_transport_depth(q1unit) - unit_transport_depth(p1unit);
   } else {
-    /* Assume the worst. */
-    return action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob);
+    /* Put the units with the highest probability of success first. The up
+     * side of this is that units with bonuses against the victim attacks
+     * before other units. The downside is that strong units can be lead
+     * away by sacrificial units. */
+    return (-1
+            /* Assume the worst. */
+            * action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob));
   }
 }
 
@@ -3097,7 +3102,8 @@ static bool unit_survive_autoattack(struct unit *punit)
     } unit_list_iterate_end;
   } adjc_iterate_end;
 
-  /* The unit list is now sorted according to win chance against punit */
+  /* Sort the potential attackers from highest to lowest success
+   * probability. */
   if (autoattack_prob_list_size(autoattack) >= 2) {
     autoattack_prob_list_sort(autoattack, &compare_units);
   }
