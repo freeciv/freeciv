@@ -359,6 +359,10 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 the "CanKillEscaping" unit type flag.
 ; "CanKillEscaping" = an attack from this unit ignores the "CanEscape" unit
 ;                 type flag.
+; "Provoking" =   a unit considering to auto attack this unit will choose to
+;                 do so even if has better odds when defending against it
+;                 then when attacking it. Applies when the autoattack server
+;                 setting is enabled.
 ;
 ; Following actions require extra fields:
 ;  "Attack"
@@ -1605,7 +1609,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
@@ -1639,7 +1643,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel replaces the Trireme and can enter\
@@ -1672,7 +1676,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Galleon is a pure transport ship and cannot\
@@ -1706,7 +1710,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Hunter"
 helptext      = _("\
 The Frigate is a highly versatile boat unit,\
@@ -1906,7 +1910,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
-flags         = "Partial_Invis", "BadCityDefender",
+flags         = "Partial_Invis", "BadCityDefender", "Provoking",
 	        "Only_Native_Attack"
 roles         = "Hunter"
 helptext      = _("\
@@ -1941,7 +1945,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Air", "Missile", "Helicopter"
-flags         = "BadCityDefender", "Only_Native_Attack"
+flags         = "BadCityDefender", "Only_Native_Attack", "Provoking"
 roles         = ""
 helptext      = _("\
 The Carrier is a mobile airport.\
@@ -1977,7 +1981,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Transport cannot attack on its own but\
@@ -2103,7 +2107,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Provoking"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
   _("?diplomatic_rank:attaché"),
@@ -2210,7 +2214,8 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy",
+                "Provoking"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),

@@ -1463,7 +1463,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "Coast", "BadCityDefender"
+flags         = "Coast", "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
@@ -1497,7 +1497,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel replaces the Trireme and is much\
@@ -1530,7 +1530,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Galleon is a pure transport ship and cannot\
@@ -1564,7 +1564,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Hunter"
 helptext      = _("\
 The Frigate is a highly versatile boat unit,\
@@ -1765,7 +1765,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
 flags         = "Partial_Invis", "BadCityDefender",
-	        "Only_Native_Attack"
+	        "Only_Native_Attack", "Provoking"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
@@ -1799,7 +1799,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Air", "Missile", "Helicopter"
-flags         = ""
+flags         = "Provoking"
 roles         = ""
 helptext      = _("\
 The Carrier is a mobile airport.\
@@ -1835,7 +1835,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Land"
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Transport cannot attack on its own but\
@@ -1955,7 +1955,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "NoVeteran"
+flags         = "Diplomat", "IgZOC", "NonMil", "NoVeteran", "Provoking"
 veteran_names = _("green"), _("veteran")
 veteran_raise_chance = 0, 0
 veteran_work_raise_chance = 0, 0
@@ -2050,7 +2050,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "Spy"
+flags         = "Diplomat", "IgZOC", "NonMil", "Spy", "Provoking"
 veteran_names = _("green"), _("veteran")
 veteran_raise_chance = 50, 0
 veteran_work_raise_chance = 0, 0

@@ -184,8 +184,10 @@ struct unit_class {
 #define SPECENUM_VALUE5NAME N_("?unitflag:OneAttack")
 #define SPECENUM_VALUE6 UTYF_FIELDUNIT
 #define SPECENUM_VALUE6NAME N_("?unitflag:FieldUnit")
-#define SPECENUM_VALUE7 UTYF_RESERVED_1
-#define SPECENUM_VALUE7NAME "Reserved1"
+/* autoattack: a unit will choose to attack this unit even if defending
+ * against it has better odds. */
+#define SPECENUM_VALUE7 UTYF_PROVOKING
+#define SPECENUM_VALUE7NAME "?unitflag:Provoking"
 /* Invisible except when adjacent (Submarine) */
 #define SPECENUM_VALUE8 UTYF_PARTIAL_INVIS
 #define SPECENUM_VALUE8NAME N_("?unitflag:Partial_Invis")

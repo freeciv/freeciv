@@ -3140,8 +3140,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     penemywin = action_prob_to_0_to_1_pessimist(peprob->prob);
 
     if ((penemywin > 1.0 - punitwin
-         || utype_acts_hostile(unit_type_get(punit))
-         || get_transporter_capacity(punit) > 0)
+         || unit_has_type_flag(punit, UTYF_PROVOKING))
         && penemywin > threshold) {
 
 #ifdef REALLY_DEBUG_THIS

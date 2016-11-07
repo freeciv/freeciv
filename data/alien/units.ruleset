@@ -354,6 +354,10 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 the "CanKillEscaping" unit type flag.
 ; "CanKillEscaping" = an attack from this unit ignores the "CanEscape" unit
 ;                 type flag.
+; "Provoking" =   a unit considering to auto attack this unit will choose to
+;                 do so even if has better odds when defending against it
+;                 then when attacking it. Applies when the autoattack server
+;                 setting is enabled.
 ;
 ; Following actions require extra fields:
 ;  "Attack"
@@ -1033,7 +1037,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
-flags         = "Bombarder"
+flags         = "Bombarder", "Provoking"
 bombard_rate  = 5
 helptext      = _("\
 This improved spitter can both make bombard attacks, and transport missiles \
@@ -1065,7 +1069,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Amphibious"
-flags         = ""
+flags         = "Provoking"
 helptext      = _("\
 Just let the biomass to engulf your tank and pick it up, then enjoy \
 the ride in the radiation-safe inside of the slimy being.")
@@ -1159,7 +1163,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
-flags         = "CoastStrict"
+flags         = "CoastStrict", "Provoking"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
   This vessel allows coastal travel, but not on Boiling Seas.\
@@ -1191,7 +1195,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
-flags         = ""
+flags         = "Provoking"
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
   This is basic ship type. It has no any special equipment, so \
@@ -1283,7 +1287,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Earthly", "Native"
-flags         = ""
+flags         = "Provoking"
 roles         = "Ferryboat"
 helptext      = _("\
 This is first unit that can enter boiling oceans - and more.\
@@ -1385,7 +1389,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis"
+flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis", "Provoking"
 veteran_names = _("Regular"), _("Elite"), _("Superb")
 veteran_raise_chance = 10, 0, 0
 veteran_work_raise_chance = 0, 0, 0

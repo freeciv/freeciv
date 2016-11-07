@@ -453,6 +453,10 @@ utypes = "\
 ;                 the \"CanKillEscaping\" unit type flag.\n\
 ; \"CanKillEscaping\" = an attack from this unit ignores the \"CanEscape\" unit\n\
 ;                 type flag.\n\
+; \"Provoking\" =   a unit considering to auto attack this unit will choose to\n\
+;                 do so even if has better odds when defending against it\n\
+;                 then when attacking it. Applies when the autoattack server\n\
+;                 setting is enabled.\n\
 ;\n\
 ; Following actions require extra fields:\n\
 ;  \"Attack\"\n\
