@@ -43,6 +43,8 @@ static GList *dialog_list;
 
 static GtkSizeGroup *gui_action;
 
+static GtkCssProvider *dlg_tab_provider = NULL;
+
 
 /**************************************************************************
   Draw widget now
@@ -429,7 +431,8 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
   n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->vbox);
 
   if (n == num) {
-    gtk_widget_override_color(dlg->v.tab.label, GTK_STATE_FLAG_NORMAL, NULL);
+    gtk_style_context_remove_class(gtk_widget_get_style_context(dlg->v.tab.label),
+                                   "alert");
   }
 }
 
@@ -622,6 +625,9 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
       dlg->v.tab.child = vbox;
 
+      gtk_style_context_add_provider(gtk_widget_get_style_context(label),
+                                     GTK_STYLE_PROVIDER(dlg_tab_provider),
+                                     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
       
@@ -838,9 +844,9 @@ void gui_dialog_present(struct gui_dialog *dlg)
 
       if (current != n) {
 	GtkWidget *label = dlg->v.tab.label;
-	GdkRGBA color = {.red = 1.0, .green = 0, .blue = 0, .alpha = 1.0};
 
-	gtk_widget_override_color(label, GTK_STATE_FLAG_NORMAL, &color);
+        gtk_style_context_add_class(gtk_widget_get_style_context(label),
+                                    "alert");
       }
     }
     break;
@@ -890,9 +896,9 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 
       if (current != n) {
         GtkWidget *label = dlg->v.tab.label;
-        GdkRGBA color = {.red = 0, .green = 0, .blue =1.0, .alpha = 1.0};
 
-        gtk_widget_override_color(label, GTK_STATE_FLAG_NORMAL, &color);
+        gtk_style_context_add_class(gtk_widget_get_style_context(label),
+                                    "alert");
       }
     }
     break;
@@ -1126,5 +1132,20 @@ GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
   col = gtk_tree_view_column_new_with_attributes(title, rend, attr,
                                                  model_index, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+
   return col;
+}
+
+/**************************************************************************
+  Prepare dialog tab style provider.
+**************************************************************************/
+void dlg_tab_provider_prepare(void)
+{
+  dlg_tab_provider = gtk_css_provider_new();
+
+  gtk_css_provider_load_from_data(dlg_tab_provider,
+                                  ".alert {\n"
+                                  "color: rgba(255, 0, 0, 255);\n"
+                                  "}\n",
+                                  -1, NULL);
 }

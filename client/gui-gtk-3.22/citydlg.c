@@ -1761,8 +1761,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   char buf[NUM_INFO_FIELDS][512];
   struct city *pcity = pdialog->pcity;
   int granaryturns;
-  GdkRGBA red = {1.0, 0, 0, 1.0};
-  GdkRGBA *color;
+  static GtkCssProvider *emergency_provider = NULL;
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
@@ -1824,24 +1823,57 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
     gtk_label_set_text(GTK_LABEL(info_label[i]), buf[i]);
   }
 
-  /* 
+  /*
    * Special style stuff for granary, growth and pollution below. The
    * "4" below is arbitrary. 3 turns should be enough of a warning.
    */
-  color = (granaryturns > -4 && granaryturns < 0) ? &red : NULL;
-  gtk_widget_override_color(info_label[GRANARY], GTK_STATE_FLAG_NORMAL, color);
 
-  color = (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) ? &red : NULL;
-  gtk_widget_override_color(info_label[GROWTH], GTK_STATE_FLAG_NORMAL, color);
+  if (emergency_provider == NULL) {
+    emergency_provider = gtk_css_provider_new();
+
+    gtk_css_provider_load_from_data(emergency_provider,
+                                    ".emergency {\n color: rgba(255, 0.0, 0.0, 255);\n}",
+                                    -1, NULL);
+
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[GRANARY]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[GROWTH]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[POLLUTION]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[ILLNESS]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  }
+
+  if (granaryturns > -4 && granaryturns < 0) {
+    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[GRANARY]), "emergency");
+  } else {
+    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[GRANARY]), "emergency");
+  }
+
+  if (granaryturns == 0 || pcity->surplus[O_FOOD] < 0) {
+    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[GROWTH]), "emergency");
+  } else {
+    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[GROWTH]), "emergency");
+  }
 
   /* someone could add the color &orange for better granularity here */
-
-  color = (pcity->pollution >= 10) ? &red : NULL;
-  gtk_widget_override_color(info_label[POLLUTION], GTK_STATE_FLAG_NORMAL, color);
+  if (pcity->pollution >= 10) {
+    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[POLLUTION]), "emergency");
+  } else {
+    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[POLLUTION]), "emergency");
+  }
 
   /* illness is in tenth of percent, i.e 100 != 10.0% */
-  color = (illness >= 100) ? &red : NULL;
-  gtk_widget_override_color(info_label[ILLNESS], GTK_STATE_FLAG_NORMAL, color);
+  if (illness >= 100) {
+    gtk_style_context_add_class(gtk_widget_get_style_context(info_label[ILLNESS]), "emergency");
+  } else {
+    gtk_style_context_remove_class(gtk_widget_get_style_context(info_label[ILLNESS]), "emergency");
+  }
 }
 
 /****************************************************************

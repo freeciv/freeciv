@@ -1737,6 +1737,8 @@ void ui_main(int argc, char **argv)
   /* GTK withdraw gtk options. Process GTK arguments */
   gtk_init(&argc, &argv);
 
+  dlg_tab_provider_prepare();
+
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
   if (vmode.width > 0 && vmode.height > 0) {
