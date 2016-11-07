@@ -490,6 +490,7 @@ struct tileset {
   int city_flag_offset_x, city_flag_offset_y;
   int unit_offset_x, unit_offset_y;
   int city_offset_x, city_offset_y;
+  int city_size_offset_x, city_size_offset_y;
 
   int citybar_offset_y;
   int tilelabel_offset_y;
@@ -1980,6 +1981,10 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                              "tilespec.city_offset_x")
       || !secfile_lookup_int(file, &t->city_offset_y,
                              "tilespec.city_offset_y")
+      || !secfile_lookup_int(file, &t->city_size_offset_x,
+                             "tilespec.city_size_offset_x")
+      || !secfile_lookup_int(file, &t->city_size_offset_y,
+                             "tilespec.city_size_offset_y")
       || !secfile_lookup_int(file, &t->citybar_offset_y,
                              "tilespec.citybar_offset_y")
       || !secfile_lookup_int(file, &t->tilelabel_offset_y,
@@ -5746,18 +5751,22 @@ int fill_sprite_array(struct tileset *t,
     if (pcity && gui_options.draw_cities && !gui_options.draw_full_citybar) {
       bool warn = FALSE;
 
-      ADD_SPRITE(t->sprites.city.size[city_size_get(pcity) % 10],
-                 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+      ADD_SPRITE(t->sprites.city.size[city_size_get(pcity) % 10], FALSE,
+                 FULL_TILE_X_OFFSET + t->city_size_offset_x,
+                 FULL_TILE_Y_OFFSET + t->city_size_offset_y);
       if (10 <= city_size_get(pcity)) {
-        ADD_SPRITE(t->sprites.city.size_tens[(city_size_get(pcity) / 10)
-                   % 10], FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+        ADD_SPRITE(t->sprites.city.size_tens[(city_size_get(pcity) / 10) 
+                   % 10], FALSE,
+                   FULL_TILE_X_OFFSET + t->city_size_offset_x,
+                   FULL_TILE_Y_OFFSET + t->city_size_offset_y);
         if (100 <= city_size_get(pcity)) {
           struct sprite *sprite =
               t->sprites.city.size_hundreds[(city_size_get(pcity) / 100) % 10];
 
           if (NULL != sprite) {
             ADD_SPRITE(sprite, FALSE,
-                       FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+                       FULL_TILE_X_OFFSET + t->city_size_offset_x,
+                       FULL_TILE_Y_OFFSET + t->city_size_offset_y);
           } else {
             warn = TRUE;
           }

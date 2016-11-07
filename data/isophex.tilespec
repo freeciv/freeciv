@@ -64,6 +64,11 @@ select_offset_y = 0
 city_offset_x = 0
 city_offset_y = 0
 
+; offset the city size number by this amount
+; This is relative to full sprite origin.
+city_size_offset_x = 0
+city_size_offset_y = 0
+
 ; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 20
 
