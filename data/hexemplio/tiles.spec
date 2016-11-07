@@ -7,8 +7,7 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 [info]
 
 artists = "
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+		GriffonSpade
 "
 
 [file]
@@ -18,8 +17,8 @@ gfx = "hexemplio/tiles"
 
 x_top_left = 1
 y_top_left = 1
-dx = 128
-dy = 128
+dx = 85
+dy = 56
 pixel_border = 1
 
 tiles = { "row", "column", "tag"
