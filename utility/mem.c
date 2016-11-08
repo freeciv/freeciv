@@ -43,6 +43,7 @@ static void handle_alloc_failure(size_t size, const char *called_as,
   exit(EXIT_FAILURE);
 }
 
+#ifdef FREECIV_DEBUG
 /****************************************************************************
   Check the size for sanity.  The program will exit rather than allocate a
   dangerously large amount of memory.
@@ -61,7 +62,7 @@ static void sanity_check_size(size_t size, const char *called_as,
                 called_as, (unsigned long) size, line, file);
   }
 }
-
+#endif /* FREECIV_DEBUG */
 
 /*******************************************************************************
   Function used by fc_malloc macro, malloc() replacement
@@ -74,7 +75,9 @@ void *fc_real_malloc(size_t size,
 {
   void *ptr;
 
+#ifdef FREECIV_DEBUG
   sanity_check_size(size, called_as, line, file);
+#endif /* FREECIV_DEBUG */
 
   /* Some systems return NULL on malloc(0)
    * According to ANSI C, the return is implementation-specific, 
@@ -104,7 +107,9 @@ void *fc_real_realloc(void *ptr, size_t size,
     return fc_real_malloc(size, called_as, line, file);
   }
 
+#ifdef FREECIV_DEBUG
   sanity_check_size(size, called_as, line, file);
+#endif /* FREECIV_DEBUG */
 
   new_ptr = realloc(ptr, size);
   if (!new_ptr) {
