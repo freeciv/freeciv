@@ -20,7 +20,7 @@ gfx = "hex2t/select"
 x_top_left = 0
 y_top_left = 0
 dx = 40
-dy = 72
+dy = 37
 pixel_border = 0
 
 tiles = { "row", "column", "tag"
