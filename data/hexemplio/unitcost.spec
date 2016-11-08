@@ -9,6 +9,7 @@ options = "+Freeciv-2.6-spec"
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+    GriffonSpade [GS]
 "
 
 [file]
@@ -25,9 +26,6 @@ pixel_border = 1
 tiles = { "row", "column", "tag"
 
 ; Unit upkeep in city dialog:
-; These should probably be handled differently and have
-; a different size...
-; values over 2 not loaded by code
 
   0, 0, "upkeep.food"
   0, 1, "upkeep.food2"
