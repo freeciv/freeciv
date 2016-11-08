@@ -535,11 +535,13 @@ void refresh_unit_city_dialogs(struct unit *punit)
   pcity_sup = game_city_by_number(punit->homecity);
   pcity_pre = tile_city(unit_tile(punit));
 
-  if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
+  if (pcity_sup && (pdialog = get_city_dialog(pcity_sup))) {
     city_dialog_update_supported_units(pdialog);
+  }
 
-  if (pcity_pre && (pdialog = get_city_dialog(pcity_pre)))
+  if (pcity_pre && (pdialog = get_city_dialog(pcity_pre))) {
     city_dialog_update_present_units(pdialog);
+  }
 }
 
 /****************************************************************
@@ -2212,7 +2214,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_image(punit, GTK_IMAGE(pix));
+      put_unit_image(punit, GTK_IMAGE(pix), pnode->height);
 
       g_signal_handlers_disconnect_matched(cmd,
 	  G_SIGNAL_MATCH_FUNC,
