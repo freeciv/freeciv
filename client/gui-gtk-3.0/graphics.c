@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,7 +46,6 @@
 #include "graphics.h"
 
 struct sprite *intro_gfx_sprite;
-struct sprite *radar_gfx_sprite;
 
 GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
@@ -99,10 +98,6 @@ void free_intro_radar_sprites(void)
 {
   if (intro_gfx_sprite) {
     free_sprite(intro_gfx_sprite);
-    intro_gfx_sprite=NULL;
-  }
-  if (radar_gfx_sprite) {
-    free_sprite(radar_gfx_sprite);
-    radar_gfx_sprite=NULL;
+    intro_gfx_sprite = NULL;
   }
 }

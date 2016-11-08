@@ -26,7 +26,6 @@
 #include "graphics.h"
 
 static struct sprite *intro_gfx_sprite = NULL;
-static struct sprite *radar_gfx_sprite = NULL;
 
 /****************************************************************************
   Return whether the client supports given view type.
@@ -50,9 +49,5 @@ void qtg_free_intro_radar_sprites()
   if (intro_gfx_sprite) {
     free_sprite(intro_gfx_sprite);
     intro_gfx_sprite = NULL;
-  }
-  if (radar_gfx_sprite) {
-    free_sprite(radar_gfx_sprite);
-    radar_gfx_sprite = NULL;
   }
 }

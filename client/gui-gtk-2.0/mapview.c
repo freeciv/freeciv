@@ -324,12 +324,6 @@ struct canvas *get_overview_window(void)
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
   if (!can_client_change_view()) {
-    if (radar_gfx_sprite) {
-      gdk_draw_drawable(overview_canvas->window, civ_gc,
-			radar_gfx_sprite->pixmap, ev->area.x, ev->area.y,
-			ev->area.x, ev->area.y,
-			ev->area.width, ev->area.height);
-    }
     return TRUE;
   }
   

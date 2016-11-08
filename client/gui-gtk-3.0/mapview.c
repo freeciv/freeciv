@@ -324,12 +324,10 @@ struct canvas *get_overview_window(void)
 gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
 {
   gpointer source = (can_client_change_view()) ?
-                     (gpointer)gui_options.overview.window : (gpointer)radar_gfx_sprite;
+                     (gpointer)gui_options.overview.window : NULL;
 
   if (source) {
-    cairo_surface_t *surface = (can_client_change_view()) ?
-                                gui_options.overview.window->surface :
-                                radar_gfx_sprite->surface;
+    cairo_surface_t *surface = gui_options.overview.window->surface;
 
     cairo_set_source_surface(cr, surface, 0, 0);
     cairo_paint(cr);
