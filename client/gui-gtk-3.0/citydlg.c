@@ -533,11 +533,13 @@ void refresh_unit_city_dialogs(struct unit *punit)
   pcity_sup = game_city_by_number(punit->homecity);
   pcity_pre = tile_city(unit_tile(punit));
 
-  if (pcity_sup && (pdialog = get_city_dialog(pcity_sup)))
+  if (pcity_sup && (pdialog = get_city_dialog(pcity_sup))) {
     city_dialog_update_supported_units(pdialog);
+  }
 
-  if (pcity_pre && (pdialog = get_city_dialog(pcity_pre)))
+  if (pcity_pre && (pdialog = get_city_dialog(pcity_pre))) {
     city_dialog_update_present_units(pdialog);
+  }
 }
 
 /****************************************************************
