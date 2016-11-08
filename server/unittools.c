@@ -4386,10 +4386,9 @@ void unit_did_action(struct unit *punit)
 }
 
 /**************************************************************************
-  Barbarian units may disband spontaneously if their age is more than
-  BARBARIAN_MIN_LIFESPAN, they are not in cities, and they are far from
-  any enemy units. It is to remove barbarians that do not engage into any
-  activity for a long time.
+  Units (usually barbarian units) may disband spontaneously if they are
+  far from any enemy units or cities. It is to remove barbarians that do
+  not engage into any activity for a long time.
 **************************************************************************/
 bool unit_can_be_retired(struct unit *punit)
 {
