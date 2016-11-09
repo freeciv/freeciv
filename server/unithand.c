@@ -136,7 +136,8 @@ static bool do_unit_upgrade(struct player *pplayer,
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile);
 static bool do_unit_conquer_city(struct player *act_player,
                                  struct unit *act_unit,
-                                 struct city *tgt_city);
+                                 struct city *tgt_city,
+                                 struct action *paction);
 
 /**************************************************************************
  Upgrade all units of a given type.
@@ -2509,7 +2510,7 @@ bool unit_perform_action(struct player *pplayer,
                                          actor_unit, pcity)) {
         ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
 
-        return do_unit_conquer_city(pplayer, actor_unit, pcity);
+        return do_unit_conquer_city(pplayer, actor_unit, pcity, paction);
       } else {
         illegal_action(pplayer, actor_unit, action_type,
                        city_owner(pcity), NULL, pcity, NULL,
@@ -3608,11 +3609,15 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
 **************************************************************************/
 static bool do_unit_conquer_city(struct player *act_player,
                                  struct unit *act_unit,
-                                 struct city *tgt_city)
+                                 struct city *tgt_city,
+                                 struct action *paction)
 {
+  bool success;
   struct tile *tgt_tile = city_tile(tgt_city);
   int move_cost = map_move_cost_unit(act_unit, tgt_tile);
   int tgt_city_id = tgt_city->id;
+  struct player *tgt_player = city_owner(tgt_city);
+  const char *victim_link = city_link(tgt_city);
 
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
@@ -3620,8 +3625,16 @@ static bool do_unit_conquer_city(struct player *act_player,
   unit_move(act_unit, tgt_tile, move_cost, NULL, TRUE);
 
   /* The city may have been destroyed during the conquest. */
-  return (!city_exist(tgt_city_id)
-          || city_owner(tgt_city) == act_player);
+  success = (!city_exist(tgt_city_id)
+             || city_owner(tgt_city) == act_player);
+
+  if (success) {
+    /* May cause an incident */
+    action_consequence_success(paction, act_player, tgt_player, tgt_tile,
+                               victim_link);
+  }
+
+  return success;
 }
 
 /**************************************************************************
