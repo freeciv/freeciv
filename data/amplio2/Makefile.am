@@ -27,7 +27,6 @@ pkgdata_DATA =          	\
 	ocean.png		\
 	ocean.spec		\
 	select-alpha.png	\
-	select.png		\
 	select.spec		\
 	terrain1.png		\
 	terrain1.spec		\
