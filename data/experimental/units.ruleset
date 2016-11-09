@@ -2335,7 +2335,8 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "IgZOC", "NonMil", "HasNoZOC", "NoBuild", "NoHome", "SuperSpy", 
-                "EvacuateFirst", "Unbribable", "GameLoss", "Unique"
+                "EvacuateFirst", "Unbribable", "GameLoss", "Unique",
+                "Provoking"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
