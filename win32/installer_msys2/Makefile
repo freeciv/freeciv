@@ -21,7 +21,7 @@ GCCDLL=gcc_s-1.dll
 endif
 
 ifeq ($(MIN_WIN_VER),)
-MIN_WIN_VER=0x0600
+MIN_WIN_VER=0x0601
 endif
 
 INSTSUB=usr/local
