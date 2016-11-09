@@ -175,6 +175,8 @@ files =
   "hexemplio/grid.spec",
   "hexemplio/rivers.spec",
   "hexemplio/roads.spec",
+  "hexemplio/roads-rails.spec",
+  "hexemplio/roads-maglevs.spec",
   "hexemplio/unitextras.spec",
   "hexemplio/unitcost.spec",
   "hexemplio/select.spec",
