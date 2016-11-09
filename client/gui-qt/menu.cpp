@@ -534,9 +534,12 @@ void real_menus_update(void)
 {
   if (C_S_RUNNING <= client_state()) {
     gui()->menuBar()->setVisible(true);
-    gui()->menu_bar->menus_sensitive();
-    gui()->menu_bar->update_airlift_menu();
-    gov_menu::update_all();
+    if (is_waiting_turn_change() == false) {
+      gui()->menu_bar->menus_sensitive();
+      gui()->menu_bar->update_airlift_menu();
+      gov_menu::update_all();
+      gui()->unitinfo_wdg->update_actions(nullptr);
+    }
   } else {
     gui()->menuBar()->setVisible(false);
   }

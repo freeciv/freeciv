@@ -995,10 +995,6 @@ void fc_client::update_info_label(void)
 ****************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
 {
-  if (gui()->unitinfo_wdg != nullptr && C_S_RUNNING == client_state()) {
-    gui()->menu_bar->menus_sensitive();
-    gui()->unitinfo_wdg->update_actions(punitlist);
-  }
 }
 
 
