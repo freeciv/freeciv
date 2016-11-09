@@ -921,7 +921,7 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
     gui()->update_sidebar_tooltips();
     side_disable_endturn(get_turn_done_button_state());
     gui()->mapview_wdg->resize(event->size().width(),size.height());
-    update_unit_info_label(nullptr);
+    gui()->unitinfo_wdg->update_actions(nullptr);
   }
   event->setAccepted(true);
 }
