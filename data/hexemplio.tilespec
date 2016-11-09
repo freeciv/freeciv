@@ -124,6 +124,8 @@ files =
   "hexemplio/mountains.spec",
   "hexemplio/rivers.spec",
   "hexemplio/roads.spec",
+  "hexemplio/roads-rails.spec",
+  "hexemplio/roads-maglevs.spec",
   "hexemplio/select.spec",
   "hexemplio/terrain.spec",
   "hexemplio/tiles.spec",

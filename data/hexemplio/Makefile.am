@@ -22,6 +22,10 @@ pkgdata_DATA =          \
 	rivers.spec	\
 	roads.png	\
 	roads.spec	\
+	roads-maglevs.png	\
+	roads-maglevs.spec	\
+	roads-rails.png	\
+	roads-rails.spec	\
 	select.png	\
 	select.spec	\
 	terrain.png	\
