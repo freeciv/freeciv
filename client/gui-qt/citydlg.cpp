@@ -286,6 +286,9 @@ impr_item::impr_item(QWidget *parent, impr_type *building,
     impr_pixmap->map_pixmap.fill(Qt::transparent);
     pixmap_copy(&impr_pixmap->map_pixmap, sprite->pm, 0 , 0, 0, 0,
                 sprite->pm->width(), sprite->pm->height());
+  } else {
+    impr_pixmap = qtg_canvas_create(10, 10);
+    impr_pixmap->map_pixmap.fill(Qt::red);
   }
 
   setFixedWidth(impr_pixmap->map_pixmap.width() + 4);
@@ -324,13 +327,16 @@ void impr_item::enterEvent(QEvent *event)
     qtg_canvas_free(impr_pixmap);
   }
 
-  if (impr) {
-    sprite = get_building_sprite(tileset , impr);
+  sprite = get_building_sprite(tileset , impr);
+  if (impr && sprite) {
     impr_pixmap = qtg_canvas_create(sprite->pm->width(),
                                     sprite->pm->height());
     impr_pixmap->map_pixmap.fill(QColor(palette().color(QPalette::Highlight)));
     pixmap_copy(&impr_pixmap->map_pixmap, sprite->pm, 0 , 0, 0, 0,
                 sprite->pm->width(), sprite->pm->height());
+  } else {
+    impr_pixmap = qtg_canvas_create(10, 10);
+    impr_pixmap->map_pixmap.fill(QColor(palette().color(QPalette::Highlight)));
   }
 
   init_pix();
@@ -347,13 +353,16 @@ void impr_item::leaveEvent(QEvent *event)
     qtg_canvas_free(impr_pixmap);
   }
 
-  if (impr) {
-    sprite = get_building_sprite(tileset , impr);
+  sprite = get_building_sprite(tileset , impr);
+  if (impr && sprite) {
     impr_pixmap = qtg_canvas_create(sprite->pm->width(),
                                     sprite->pm->height());
     impr_pixmap->map_pixmap.fill(Qt::transparent);
     pixmap_copy(&impr_pixmap->map_pixmap, sprite->pm, 0 , 0, 0, 0,
                 sprite->pm->width(), sprite->pm->height());
+  } else {
+    impr_pixmap = qtg_canvas_create(10, 10);
+    impr_pixmap->map_pixmap.fill(Qt::red);
   }
 
   init_pix();

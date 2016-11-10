@@ -60,12 +60,14 @@
 
 extern QApplication *qapp;
 
+static bool tradecity_rand(const trade_city *t1, const trade_city *t2);
 /**************************************************************************
   New turn callback
 **************************************************************************/
 void qt_start_turn()
 {
   gui()->rallies.run();
+  real_menus_update();
 }
 
 /**************************************************************************
@@ -281,35 +283,49 @@ void trade_generator::calculate()
 {
   trade_city *tc;
   trade_city *ttc;
+  int i;
+  bool tdone;
 
-  lines.clear();
-  foreach (tc, cities) {
-    tc->pos_cities.clear();
-    tc->new_tr_cities.clear();
-    tc->curr_tr_cities.clear();
-  }
-  foreach (tc, cities) {
-    tc->trade_num = city_num_trade_routes(tc->city);
-    tc->poss_trade_num = 0;
-    tc->pos_cities.clear();
-    tc->new_tr_cities.clear();
-    tc->curr_tr_cities.clear();
-    tc->done = false;
-    foreach (ttc, cities) {
-      if (have_cities_trade_route(tc->city, ttc->city) == false
-          && can_establish_trade_route(tc->city, ttc->city)) {
-        tc->poss_trade_num++;
-        tc->pos_cities.append(ttc->city);
+  for (i = 0; i < 100; i++) {
+    tdone = true;
+    qSort(cities.begin(), cities.end(), tradecity_rand);
+    lines.clear();
+    foreach (tc, cities) {
+      tc->pos_cities.clear();
+      tc->new_tr_cities.clear();
+      tc->curr_tr_cities.clear();
+    }
+    foreach (tc, cities) {
+      tc->trade_num = city_num_trade_routes(tc->city);
+      tc->poss_trade_num = 0;
+      tc->pos_cities.clear();
+      tc->new_tr_cities.clear();
+      tc->curr_tr_cities.clear();
+      tc->done = false;
+      foreach (ttc, cities) {
+        if (have_cities_trade_route(tc->city, ttc->city) == false
+            && can_establish_trade_route(tc->city, ttc->city)) {
+          tc->poss_trade_num++;
+          tc->pos_cities.append(ttc->city);
+        }
+        tc->over_max = tc->trade_num + tc->poss_trade_num
+                       - max_trade_routes(tc->city);
       }
-      tc->over_max = tc->trade_num + tc->poss_trade_num
-                     - max_trade_routes(tc->city);
+    }
+
+    find_certain_routes();
+    discard();
+    find_certain_routes();
+
+    foreach (tc, cities) {
+      if (!tc->done) {
+        tdone = false;
+      }
+    }
+    if (tdone) {
+      break;
     }
   }
-
-  find_certain_routes();
-  discard();
-  find_certain_routes();
-
   foreach (tc, cities) {
     if (!tc->done) {
       char text[1024];
@@ -397,7 +413,7 @@ void trade_generator::discard_trade(trade_city* tc, trade_city* ttc)
 /**************************************************************************
   Drops one trade route for given city if possible
 **************************************************************************/
-bool trade_generator::discard_one(trade_city* tc)
+bool trade_generator::discard_one(trade_city *tc)
 {
   int best = 0;
   int current_candidate = 0;
@@ -420,6 +436,7 @@ bool trade_generator::discard_one(trade_city* tc)
   return true;
 }
 
+
 /**************************************************************************
   Drops all trade routes for given city
 **************************************************************************/
@@ -437,6 +454,14 @@ bool trade_generator::discard_any(trade_city* tc, int freeroutes)
     }
   }
   return false;
+}
+
+/**************************************************************************
+  Helper function ato randomize list
+**************************************************************************/
+bool tradecity_rand(const trade_city *t1, const trade_city *t2)
+{
+  return (qrand() % 2);
 }
 
 /**************************************************************************
@@ -472,6 +497,7 @@ void trade_generator::find_certain_routes()
         check_if_done(tc, ttc);
         gilles.t1 = tc->city->tile;
         gilles.t2 = ttc->city->tile;
+        gilles.autocaravan = nullptr;
         lines.append(gilles);
       }
     }
@@ -542,6 +568,7 @@ void real_menus_update(void)
       gui()->menu_bar->update_airlift_menu();
       gov_menu::update_all();
       go_act_menu::update_all();
+      gui()->unitinfo_wdg->update_actions(nullptr);
     }
   } else {
     gui()->menuBar()->setVisible(false);
@@ -1325,6 +1352,10 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_trade_city()));
   act = multiplayer_menu->addAction(_("Clear Trade Planning"));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clear_trade()));
+  act = multiplayer_menu->addAction(_("Automatic caravan"));
+  menu_list.insertMulti(AUTOTRADEROUTE, act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_autocaravan()));
+  act->setShortcut(QKeySequence(tr("ctrl+j")));
   act = multiplayer_menu->addAction(_("Set/Unset rally point"));
   act->setShortcut(QKeySequence(tr("shift+s")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_rally()));
@@ -2092,6 +2123,12 @@ void mr_menu::menus_sensitive()
         }
         break;
 
+      case AUTOTRADEROUTE:
+        if (units_can_do_action(punits, ACTION_TRADE_ROUTE, TRUE)) {
+          i.value()->setEnabled(true);
+        }
+        break;
+
       case ORDER_TRADEROUTE:
         i.value()->setText(action_id_name_translation(ACTION_TRADE_ROUTE));
         if (can_units_do(punits, unit_can_est_trade_route_here)) {
@@ -2473,6 +2510,46 @@ void mr_menu::slot_clear_trade()
   gui()->trade_gen.clear_trade_planing();
 }
 
+/***************************************************************************
+  Sends automatic caravan
+***************************************************************************/
+void mr_menu::slot_autocaravan()
+{
+  qtiles gilles;
+  struct unit *punit;
+  struct city *homecity;
+  struct tile *home_tile;
+  struct tile *dest_tile;
+  bool sent = false;
+
+  punit = head_of_units_in_focus();
+  homecity = game_city_by_number(punit->homecity);
+  home_tile = homecity->tile;
+  foreach(gilles, gui()->trade_gen.lines) {
+    if ((gilles.t1 == home_tile || gilles.t2 == home_tile)
+         && gilles.autocaravan == nullptr) {
+      /* send caravan */
+      if (gilles.t1 == home_tile) {
+        dest_tile = gilles.t2;
+      } else {
+        dest_tile = gilles.t1;
+      }
+      if (send_goto_tile(punit, dest_tile)) {
+        int i;
+        i = gui()->trade_gen.lines.indexOf(gilles);
+        gilles = gui()->trade_gen.lines.takeAt(i);
+        gilles.autocaravan = punit;
+        gui()->trade_gen.lines.append(gilles);
+        sent = true;
+        break;
+      }
+    }
+  }
+
+  if (!sent) {
+    send_chat(_("Didn't find any trade route to establish"));
+  }
+}
 
 /**************************************************************************
   Slot for setting quick airlift
