@@ -330,14 +330,12 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
       + gtk_adjustment_get_upper(adjust)
       - gtk_adjustment_get_page_size(adjust)) / width * x;
     gtk_adjustment_set_value(adjust, value);
-    gtk_adjustment_value_changed(adjust);
 
     adjust = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
     value = (gtk_adjustment_get_lower(adjust)
       + gtk_adjustment_get_upper(adjust)
       - gtk_adjustment_get_page_size(adjust)) / height * y;
     gtk_adjustment_set_value(adjust, value);
-    gtk_adjustment_value_changed(adjust);
   }
 }
 

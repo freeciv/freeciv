@@ -444,7 +444,8 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
 /****************************************************************
   Center city dialog map.
 *****************************************************************/
-static void city_dialog_map_recenter(GtkWidget *map_canvas_sw) {
+static void city_dialog_map_recenter(GtkWidget *map_canvas_sw)
+{
   GtkAdjustment *adjust = NULL;
   gdouble value;
 
@@ -456,7 +457,6 @@ static void city_dialog_map_recenter(GtkWidget *map_canvas_sw) {
     + gtk_adjustment_get_upper(adjust)
     - gtk_adjustment_get_page_size(adjust)) / 2;
   gtk_adjustment_set_value(adjust, value);
-  gtk_adjustment_value_changed(adjust);
 
   adjust = gtk_scrolled_window_get_vadjustment(
     GTK_SCROLLED_WINDOW(map_canvas_sw));
@@ -464,7 +464,6 @@ static void city_dialog_map_recenter(GtkWidget *map_canvas_sw) {
     + gtk_adjustment_get_upper(adjust)
     - gtk_adjustment_get_page_size(adjust)) / 2;
   gtk_adjustment_set_value(adjust, value);
-  gtk_adjustment_value_changed(adjust);
 }
 
 /****************************************************************
