@@ -222,6 +222,8 @@ bool unit_can_take_over(const struct unit *punit)
 ****************************************************************************/
 bool utype_can_take_over(const struct unit_type *punittype)
 {
+  /* FIXME: "Paradrop Unit" can in certain circumstances result in city
+   * conquest. */
   return utype_can_do_action(punittype, ACTION_CONQUER_CITY);
 }
 

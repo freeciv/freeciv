@@ -2778,7 +2778,6 @@ void do_explore(struct unit *punit)
 **************************************************************************/
 bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
-  struct city *pcity;
   struct player *pplayer = unit_owner(punit);
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
@@ -2880,9 +2879,16 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   punit->paradropped = TRUE;
   if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub,
                 NULL,
-                /* A paradrop can result in city occupation. */
-                ((pcity = tile_city(ptile)) && unit_can_take_over(punit)
-                 && pplayers_at_war(pplayer, city_owner(pcity))))) {
+                /* A paradrop into a non allied city results in a city
+                 * occupation. */
+                /* FIXME: move the following actor requirements to the
+                 * ruleset. One alternative is to split "Paradrop Unit".
+                 * Another is to use different enablers. */
+                (pplayer->ai_common.barbarian_type != ANIMAL_BARBARIAN
+                 && uclass_has_flag(unit_class_get(punit),
+                                    UCF_CAN_OCCUPY_CITY)
+                 && !unit_has_type_flag(punit, UTYF_CIVILIAN)
+                 && is_non_allied_city_tile(ptile, pplayer)))) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
               || unit_transported(punit));

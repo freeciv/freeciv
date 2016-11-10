@@ -374,8 +374,14 @@ Actions done by a unit against a tile
    - the actor must be at war with each unit on the target tile
    - a unit at the target tile must be reachable unless it has a city
 
-"Paradrop Unit"
+"Paradrop Unit" - move the actor unit to the target tile.
  * UI name can be set using ui_paradrop_unit
+ * can result in the conquest of the city at the target tile if
+   - the actor player isn't an animal barbarian.
+   - the actor unit has the "CanOccupyCity" unit class flag
+   - the actor don't have the "NonMil" unit type flag
+   - the actor's relationship to the target is War
+   - the target city contains 0 units
  * the distance between actor and target is from 1 to paratroopers_range
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
