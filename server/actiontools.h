@@ -71,7 +71,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          const struct city *target_city,
                          const struct unit *target_unit);
 
-const struct act_prob
+struct act_prob
 action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            struct unit *actor,
                            const struct player *other_player,

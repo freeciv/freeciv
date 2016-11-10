@@ -890,7 +890,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   Returns the probability for the specified actor unit to be forced to
   perform an action by the specified cause.
 **************************************************************************/
-const struct act_prob
+struct act_prob
 action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            struct unit *actor,
                            const struct player *other_player,
