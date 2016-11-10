@@ -279,7 +279,7 @@ void audio_real_init(const char *const soundset_name,
     /* We only have the dummy plugin, skip the code but issue an advertise */
     log_normal(_("No real audio plugin present."));
     log_normal(_("Proceeding with sound support disabled."));
-    log_normal(_("For sound support, install SDL_mixer"));
+    log_normal(_("For sound support, install SDL2_mixer"));
     log_normal("http://www.libsdl.org/projects/SDL_mixer/index.html");
     ss_tagfile = NULL;
     ms_tagfile = NULL;
