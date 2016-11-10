@@ -3203,6 +3203,9 @@ void handle_rulesets_ready(void)
   /* Setup road integrators caches */
   road_integrators_cache_init();
 
+  /* Pre calculate action related data. */
+  actions_rs_pre_san_gen();
+
   /* Setup unit unknown move cost caches */
   unit_type_iterate(ptype) {
     ptype->unknown_move_cost = utype_unknown_move_cost(ptype);

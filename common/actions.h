@@ -319,6 +319,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 
 /* Initialization */
 void actions_init(void);
+void actions_rs_pre_san_gen(void);
 void actions_free(void);
 
 bool actions_are_ready(void);

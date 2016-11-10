@@ -501,6 +501,15 @@ void actions_init(void)
 }
 
 /**************************************************************************
+  Generate action related data based on the currently loaded ruleset. Done
+  before ruleset sanity checking and ruleset compatibility post
+  processing.
+**************************************************************************/
+void actions_rs_pre_san_gen(void)
+{
+}
+
+/**************************************************************************
   Free the actions and the action enablers.
 **************************************************************************/
 void actions_free(void)
