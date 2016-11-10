@@ -59,9 +59,6 @@ tiles = { "row", "column", "tag"
 ;[VC]
  0,  5, "base.ruins_mg"
 ;[HH]
-; 1,  5, "cd.occupied"
-; 1,  5, "cd.city"
-; 1,  5, "cd.city_wall"
  1,  5, "city.european_occupied_0"
  1,  5, "city.classical_occupied_0"
  1,  5, "city.asian_occupied_0"
