@@ -154,8 +154,9 @@ static void oblig_hard_req_register(struct requirement contradiction,
 }
 
 /**************************************************************************
-  Hard code the obligatory hard requirements. They are sorted by
-  requirement to make it easy to read, modify and explain them.
+  Hard code the obligatory hard requirements that don't depend on the rest
+  of the ruleset. They are sorted by requirement to make it easy to read,
+  modify and explain them.
 **************************************************************************/
 static void hard_code_oblig_hard_reqs(void)
 {
@@ -289,6 +290,27 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require that "
                           "the actor isn't transporting another unit.",
                           ACTION_PARADROP, ACTION_AIRLIFT, ACTION_NONE);
+}
+
+/**************************************************************************
+  Hard code the obligatory hard requirements that needs access to the
+  ruleset before they can be generated.
+**************************************************************************/
+static void hard_code_oblig_hard_reqs_ruleset(void)
+{
+  /* Why this is a hard requirement: the "animal can't conquer a city"
+   * rule. Assumed in unit_can_take_over(). */
+  nations_iterate(pnation) {
+    if (nation_barbarian_type(pnation) == ANIMAL_BARBARIAN) {
+      oblig_hard_req_register(req_from_values(VUT_NATION, REQ_RANGE_PLAYER,
+                                              FALSE, TRUE, TRUE,
+                                              nation_number(pnation)),
+                              TRUE,
+                              "All action enablers for %s must require a "
+                              "non animal player actor.",
+                              ACTION_CONQUER_CITY, ACTION_NONE);
+    }
+  } nations_iterate_end;
 }
 
 /**************************************************************************
@@ -507,6 +529,9 @@ void actions_init(void)
 **************************************************************************/
 void actions_rs_pre_san_gen(void)
 {
+  /* Some obligatory hard requirements needs access to the rest of the
+   * ruleset. */
+  hard_code_oblig_hard_reqs_ruleset();
 }
 
 /**************************************************************************
@@ -1549,15 +1574,6 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
 
     break;
 
-  case ACTION_CONQUER_CITY:
-    /* Reason: the "animal can't conquer a city" rule. */
-    /* Info leak: The player knows what he is. */
-    if (actor_player->ai_common.barbarian_type == ANIMAL_BARBARIAN) {
-      return TRI_NO;
-    }
-
-    break;
-
   case ACTION_AIRLIFT:
     {
       const struct city *psrc_city = tile_city(actor_tile);
@@ -1617,6 +1633,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_ATTACK:
+  case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
     /* No hard unit type requirements. */
     break;

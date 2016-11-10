@@ -293,7 +293,7 @@ Actions done by a unit against a city
  * if force_explode_nuclear is true "Explode Nuclear" must be impossible
  * "Attack" must be impossible
  * the actor unit must be on a tile next to the target.
- * the actor player can't be an animal barbarian.
+ * the actor player's nation can't be an animal barbarian. (!)
  * the actor unit must, if transported, be able to disembark from its
    transport.
  * the actor unit doesn't have the "CoastStrict" unit type flag or the
