@@ -1017,6 +1017,32 @@ static bool impr_contra_genus(const struct requirement *impr_req,
 }
 
 /**************************************************************************
+  Returns TRUE if the specified nation requirement contradicts the
+  specified nation group requirement.
+**************************************************************************/
+static bool nation_contra_group(const struct requirement *nation_req,
+                                const struct requirement *group_req)
+{
+  /* The input is sane. */
+  fc_assert_ret_val(nation_req->source.kind == VUT_NATION, FALSE);
+  fc_assert_ret_val(group_req->source.kind == VUT_NATIONGROUP, FALSE);
+
+  if (nation_req->range == REQ_RANGE_PLAYER
+      && group_req->range == REQ_RANGE_PLAYER) {
+    /* Applies to the same target building. */
+
+    if (nation_req->present && !group_req->present) {
+      /* The target nation can't be in the group. */
+      return nation_is_in_group(nation_req->source.value.nation,
+                                group_req->source.value.nationgroup);
+    }
+  }
+
+  /* No special knowledge. */
+  return FALSE;
+}
+
+/**************************************************************************
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -1087,6 +1113,22 @@ bool are_requirements_contradictions(const struct requirement *req1,
         return req1->source.value.minmoves <= req2->source.value.minmoves;
       }
     }
+    break;
+  case VUT_NATION:
+    if (req2->source.kind == VUT_NATIONGROUP) {
+      return nation_contra_group(req1, req2);
+    }
+
+    /* No special knowledge. */
+    return FALSE;
+    break;
+  case VUT_NATIONGROUP:
+    if (req2->source.kind == VUT_NATION) {
+      return nation_contra_group(req2, req1);
+    }
+
+    /* No special knowledge. */
+    return FALSE;
     break;
   default:
     /* No special knowledge exists. The requirements aren't the exact
