@@ -67,6 +67,7 @@ enum munit {
   GOTO_CITY,
   AIRLIFT,
   BUILD_WONDER,
+  AUTOTRADEROUTE,
   ORDER_TRADEROUTE,
   ORDER_DIPLOMAT_DLG,
   NUKE,
@@ -165,12 +166,19 @@ public:
 };
 
 /**************************************************************************
-  Struct of 2 tiles, used for drawing trade routes
+  Struct of 2 tiles, used for drawing trade routes.
+  Also assigned caravan if it was sent
 ***************************************************************************/
 struct qtiles
 {
   struct tile *t1;
   struct tile *t2;
+  struct unit *autocaravan;
+
+  bool operator==(const qtiles& a) const
+  {
+    return (t1 == a.t1 && t2 == a.t2 && autocaravan == a.autocaravan);
+  }
 };
 
 /**************************************************************************
@@ -366,6 +374,7 @@ private slots:
   void slot_trade_city();
   void slot_calculate();
   void slot_clear_trade();
+  void slot_autocaravan();
   void slot_rally();
   void slot_quickairlift_set();
   void slot_quickairlift();

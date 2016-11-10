@@ -1422,6 +1422,7 @@ void popup_action_selection(struct unit *actor_unit,
                             const struct act_prob *act_probs)
 {
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
+  qtiles caras;
   QVariant qv1, qv2;
   pfcn_void func;
   struct city *actor_homecity;
@@ -1431,6 +1432,21 @@ void popup_action_selection(struct unit *actor_unit,
   unit_act = qdef_act::action()->vs_unit_get();
   city_act = qdef_act::action()->vs_city_get();
 
+  foreach (caras, gui()->trade_gen.lines) {
+    if (caras.autocaravan == actor_unit) {
+      int i;
+      if (nullptr != game_unit_by_number(actor_unit->id)
+          && nullptr != game_city_by_number(target_city->id)) {
+        request_do_action(ACTION_TRADE_ROUTE, actor_unit->id,
+                          target_city->id, 0);
+        client_unit_init_act_prob_cache(actor_unit);
+        diplomat_queue_handle_primary(actor_unit->id);
+        i = gui()->trade_gen.lines.indexOf(caras);
+        gui()->trade_gen.lines.takeAt(i);
+        return;
+      }
+    }
+  }
   if (target_city
       && try_default_city_action(actor_unit->id, target_city->id)
       && action_prob_possible(act_probs[static_cast<gen_action>(unit_act)])) {

@@ -101,7 +101,7 @@ fc_shortcut default_shortcuts[] = {
     _("Go to/Airlift to City...") },
   {SC_AUTOEXPLORE, Qt::Key_X, Qt::AllButtons, Qt::NoModifier,
     _("Auto Explore") },
-  {SC_PATROL, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
+  {SC_PATROL, Qt::Key_P, Qt::AllButtons, Qt::ControlModifier,
     _("Patrol") },
   {SC_UNSENTRY_TILE, Qt::Key_D, Qt::AllButtons,
     Qt::ShiftModifier | Qt::ControlModifier, _("Unsentry All On Tile") },
