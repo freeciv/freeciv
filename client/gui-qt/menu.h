@@ -215,23 +215,6 @@ private:
 };
 
 
-/**************************************************************************
-  Custom dialog to show information
-**************************************************************************/
-class fc_message_box : public QDialog
-{
-  Q_OBJECT
-
-public:
-  fc_message_box() {};
-  void info(QWidget *parent, const QString &title, const QString &mess);
-
-private:
-  QLabel *label;
-  QScrollArea *scroll;
-  QPushButton *ok_button;
-};
-
 /****************************************************************************
   Instantiable government menu.
 ****************************************************************************/

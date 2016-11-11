@@ -592,36 +592,6 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   return text;
 }
 
-/**************************************************************************
-  Displays dialog with scrollbars, like QMessageBox with ok button
-**************************************************************************/
-void fc_message_box::info(QWidget *parent, const QString &title,
-                          const QString &message) {
-  setParent(parent);
-  setWindowTitle(title);
-  setWindowFlags(Qt::Window);
-  QVBoxLayout *vb = new  QVBoxLayout;
-  label = new QLabel;
-  label->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-  label->setContentsMargins(2, 2, 2, 2);
-  label->setWordWrap(true);
-  label->setText(message);
-  scroll = new QScrollArea(this);
-  scroll->setWidget(label);
-  scroll->setWidgetResizable(true);
-
-  ok_button = new QPushButton(this);
-  connect(ok_button, SIGNAL(clicked()), this, SLOT(close()));
-  ok_button->setText(_("Roger that"));
-
-  vb->addWidget(scroll);
-  vb->addWidget(ok_button);
-  setLayout(vb);
-  setFixedHeight(400);
-  setFixedWidth(600);
-  show();
-}
-
 
 /****************************************************************************
   Creates a new government menu.
