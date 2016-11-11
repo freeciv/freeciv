@@ -72,7 +72,8 @@ enum shortcut_id {
   SC_TRANSFORM = 39,
   SC_NUKE = 40,
   SC_LOAD = 41,
-  SC_UNLOAD = 42
+  SC_UNLOAD = 42,
+  SC_BUY_MAP
 };
 
 
