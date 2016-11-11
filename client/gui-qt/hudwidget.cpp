@@ -45,6 +45,8 @@
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
+static QString popup_terrain_info(struct tile *ptile);
+
 /***************************************************************************
   Returns true if player has any unit of unit_type
 ***************************************************************************/
@@ -555,7 +557,7 @@ void hud_units::update_actions(unit_list *punits)
   pix = QPixmap::fromImage(img);
   tile_label.setPixmap(pix);
   unit_label.setToolTip(popup_info_text(punit->tile));
-  tile_label.setToolTip(popup_info_text(punit->tile));
+  tile_label.setToolTip(popup_terrain_info(punit->tile));
   wwidth = wwidth + pix.width();
   qtg_canvas_free(tile_pixmap);
   qtg_canvas_free(unit_pixmap);
@@ -1343,4 +1345,24 @@ bool unit_hud_selector::type_filter(struct unit *punit)
     return true;
   }
   return false;
+}
+
+/****************************************************************************
+  Tooltip text for terrain information
+****************************************************************************/
+QString popup_terrain_info(struct tile *ptile)
+{
+  QString ret, t;
+  struct terrain *terr;
+
+  terr = ptile->terrain;
+  ret = QString(_("Terrain: %1\n")).arg(tile_get_info_text(ptile, TRUE, 0));
+  ret = ret + QString(_("Food/Prod/Trade: %1\n"))
+              .arg(get_tile_output_text(ptile));
+  t = get_infrastructure_text(ptile->extras);
+  if (t != '\0') {
+    ret = ret + QString(_("Infrastructure: %1\n")).arg(t);
+  }
+  ret = ret + QString(_("Defence bonus: %1%")).arg(terr->defense_bonus);
+  return ret;
 }
