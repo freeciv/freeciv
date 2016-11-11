@@ -823,25 +823,27 @@ notify_goto::notify_goto(const char *headline, const char *lines,
                          const struct text_tag_list *tags, tile *ptile,
                          QWidget *parent): QMessageBox(parent)
 {
+  QString qlines;
   setAttribute(Qt::WA_DeleteOnClose);
   goto_but = this->addButton(_("Goto Location"), QMessageBox::ActionRole);
-  goto_but->setIcon(style()->standardIcon(
-                      QStyle::SP_ToolBarHorizontalExtensionButton));
+  goto_but->setIcon(fc_icons::instance()->get_icon("go-up"));
   inspect_but = this->addButton(_("Inspect City"), QMessageBox::ActionRole);
-  inspect_but->setIcon(style()->standardIcon(QStyle::SP_FileDialogToParent));
+  inspect_but->setIcon(fc_icons::instance()->get_icon("plus"));
 
   close_but = this->addButton(QMessageBox::Close);
   gtile = ptile;
   if (!gtile) {
-    goto_but->setDisabled(true);
-    inspect_but->setDisabled(true);
+    goto_but->setVisible(false);
+    inspect_but->setVisible(false);
   } else {
     struct city *pcity = tile_city(gtile);
-    inspect_but->setEnabled(NULL != pcity
+    inspect_but->setVisible(NULL != pcity
                             && city_owner(pcity) == client.conn.playing);
   }
   setWindowTitle(headline);
-  setText(lines);
+  qlines = lines;
+  qlines.replace("\n", " ");
+  setText(qlines);
   connect(goto_but, SIGNAL(pressed()), SLOT(goto_tile()));
   connect(inspect_but, SIGNAL(pressed()), SLOT(inspect_city()));
   connect(close_but, SIGNAL(pressed()), SLOT(close()));
