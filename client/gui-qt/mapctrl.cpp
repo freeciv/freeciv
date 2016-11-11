@@ -43,6 +43,7 @@
 #include "qtg_cxxside.h"
 
 extern void side_disable_endturn(bool do_restore);
+extern "C" int city_buy_production(struct city *pcity);
 
 /**************************************************************************
   Popup a dialog to ask for the name of a new city.  The given string
@@ -320,8 +321,12 @@ void map_view::shortcut_pressed(int key)
       gui()->infotab->chtwdg->make_link(ptile);
       return;
     }
-
-
+    sc = fc_shortcuts::sc()->get_shortcut(SC_BUY_MAP);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && pcity != nullptr) {
+      city_buy_production(pcity);
+      return;
+    }
     sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_BUY);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {

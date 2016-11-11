@@ -50,7 +50,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 42;
+static int num_shortcuts = 43;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -101,7 +101,7 @@ fc_shortcut default_shortcuts[] = {
     _("Go to/Airlift to City...") },
   {SC_AUTOEXPLORE, Qt::Key_X, Qt::AllButtons, Qt::NoModifier,
     _("Auto Explore") },
-  {SC_PATROL, Qt::Key_P, Qt::AllButtons, Qt::ControlModifier,
+  {SC_PATROL, Qt::Key_E, Qt::AllButtons, Qt::ShiftModifier,
     _("Patrol") },
   {SC_UNSENTRY_TILE, Qt::Key_D, Qt::AllButtons,
     Qt::ShiftModifier | Qt::ControlModifier, _("Unsentry All On Tile") },
@@ -134,6 +134,8 @@ fc_shortcut default_shortcuts[] = {
     _("Load") },
   {SC_UNLOAD, Qt::Key_U, Qt::AllButtons, Qt::NoModifier,
     _("Unload") },
+  {SC_BUY_MAP, 0, Qt::BackButton, Qt::NoModifier,
+    _("Quick buy current production from map") },
 };
 
 
