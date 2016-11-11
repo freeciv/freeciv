@@ -62,11 +62,12 @@ extern gint cur_x, cur_y;
 /**************************************************************************
   Button released when showing info label
 **************************************************************************/
-static gboolean popit_button_release(GtkWidget *w, GdkEventButton *event)
+static gboolean popit_button_release(GtkWidget *w, GdkEventButton *ev)
 {
   gtk_grab_remove(w);
-  gdk_device_ungrab(event->device, event->time);
+  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
   gtk_widget_destroy(w);
+
   return FALSE;
 }
 
@@ -114,14 +115,14 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
   Popup a label with information about the tile, unit, city, when the user
   used the middle mouse button on the map.
 **************************************************************************/
-static void popit(GdkEventButton *event, struct tile *ptile)
+static void popit(GdkEventButton *ev, struct tile *ptile)
 {
   GtkWidget *p;
   static struct tmousepos mousepos;
   struct unit *punit;
 
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
-    p=gtk_window_new(GTK_WINDOW_POPUP);
+    p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
     gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(ptile)));
@@ -137,19 +138,19 @@ static void popit(GdkEventButton *event, struct tile *ptile)
     mapdeco_set_crosshair(ptile, TRUE);
 
     g_signal_connect(p, "destroy",
-		     G_CALLBACK(popupinfo_popdown_callback), NULL);
+                     G_CALLBACK(popupinfo_popdown_callback), NULL);
 
-    mousepos.x = event->x;
-    mousepos.y = event->y;
+    mousepos.x = ev->x;
+    mousepos.y = ev->y;
 
     g_signal_connect(p, "size-allocate",
-		     G_CALLBACK(popupinfo_positioning_callback), 
-		     &mousepos);
+                     G_CALLBACK(popupinfo_positioning_callback),
+                     &mousepos);
 
     gtk_widget_show_all(p);
-    gdk_device_grab(event->device, gtk_widget_get_window(p),
-                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
-                    event->time);
+    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+                  GDK_SEAT_CAPABILITY_ALL_POINTING,
+                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",
@@ -356,10 +357,9 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 void create_line_at_mouse_pos(void)
 {
   int x, y;
+  GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));
+  GdkDevice *pointer = gdk_seat_get_pointer(seat);
   GdkWindow *window;
-  GdkDeviceManager *manager =
-      gdk_display_get_device_manager(gtk_widget_get_display(toplevel));
-  GdkDevice *pointer = gdk_device_manager_get_client_pointer(manager);
 
   if (!pointer) {
     return;
@@ -376,8 +376,8 @@ void create_line_at_mouse_pos(void)
 }
 
 /**************************************************************************
- The Area Selection rectangle. Called by center_tile_mapcanvas() and
- when the mouse pointer moves.
+  The Area Selection rectangle. Called by center_tile_mapcanvas() and
+  when the mouse pointer moves.
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
@@ -385,10 +385,9 @@ void update_rect_at_mouse_pos(void)
   GdkWindow *window;
   GdkDevice *pointer;
   GdkModifierType mask;
-  GdkDeviceManager *manager =
-      gdk_display_get_device_manager(gtk_widget_get_display(toplevel));
+  GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));
 
-  pointer = gdk_device_manager_get_client_pointer(manager);
+  pointer = gdk_seat_get_pointer(seat);
   if (!pointer) {
     return;
   }

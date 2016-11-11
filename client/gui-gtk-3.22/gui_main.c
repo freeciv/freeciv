@@ -2009,11 +2009,13 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 /**************************************************************************
   Button released when showing info popup
 **************************************************************************/
-static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
+                                         gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_device_ungrab(ev->device, ev->time);
+  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
   gtk_widget_destroy(w);
+
   return FALSE;
 }
 
@@ -2036,9 +2038,9 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
         			   NULL);
     gtk_widget_show(p);
 
-    gdk_device_grab(ev->device, gtk_widget_get_window(p),
-                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
-                    ev->time);
+    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+                  GDK_SEAT_CAPABILITY_ALL_POINTING,
+                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",

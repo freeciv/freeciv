@@ -163,9 +163,9 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
-    gdk_device_grab(ev->device, gtk_widget_get_window(p),
-                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
-                    ev->time);
+    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+                  GDK_SEAT_CAPABILITY_ALL_POINTING,
+                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",
@@ -178,13 +178,13 @@ static gboolean show_happiness_popup(GtkWidget *w,
 /**************************************************************************
   Clear the happiness popup.
 **************************************************************************/
-static gboolean show_happiness_button_release(GtkWidget *w,
-                                              GdkEventButton *ev,
+static gboolean show_happiness_button_release(GtkWidget *w, GdkEventButton *ev,
                                               gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_device_ungrab(ev->device, ev->time);
+  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
   gtk_widget_destroy(w);
+
   return FALSE;
 }
 

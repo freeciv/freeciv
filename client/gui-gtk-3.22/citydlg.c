@@ -629,11 +629,12 @@ static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
   Destroy info popup dialog when button released
 **************************************************************************/
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
-					 gpointer data)
+                                         gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_device_ungrab(ev->device, ev->time);
+  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
   gtk_widget_destroy(w);
+
   return FALSE;
 }
 
@@ -706,9 +707,9 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
 
-    gdk_device_grab(ev->device, gtk_widget_get_window(p),
-                    GDK_OWNERSHIP_NONE, TRUE, GDK_BUTTON_RELEASE_MASK, NULL,
-                    ev->time);
+    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+                  GDK_SEAT_CAPABILITY_ALL_POINTING,
+                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
 
     g_signal_connect_after(p, "button_release_event",
@@ -3147,12 +3148,12 @@ static void sell_callback_response(GtkWidget *w, gint response, gpointer data)
  this is here because it's closely related to the sell stuff
 *****************************************************************/
 static void impr_callback(GtkTreeView *view, GtkTreePath *path,
-			  GtkTreeViewColumn *col, gpointer data)
+                          GtkTreeViewColumn *col, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
   GdkWindow *win;
-  GdkDeviceManager *manager;
+  GdkSeat *seat;
   GdkModifierType mask;
   struct impr_type *pimprove;
 
@@ -3165,10 +3166,9 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   gtk_tree_model_get(model, &it, 0, &pimprove, -1);
 
   win = gdk_get_default_root_window();
-  manager = gdk_display_get_device_manager(gdk_window_get_display(win));
+  seat = gdk_display_get_default_seat(gdk_window_get_display(win));
 
-  gdk_window_get_device_position(win, 
-                                 gdk_device_manager_get_client_pointer(manager),
+  gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
                                  NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {

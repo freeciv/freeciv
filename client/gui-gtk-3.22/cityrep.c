@@ -1419,12 +1419,12 @@ static void city_command_callback(struct gui_dialog *dlg, int response,
   User has selected city row from city report.
 *****************************************************************/
 static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
-				    GtkTreeViewColumn *col, gpointer data)
+                                    GtkTreeViewColumn *col, gpointer data)
 {
   GtkTreeModel *model;
   GtkTreeIter iter;
   GdkWindow *win;
-  GdkDeviceManager *manager;
+  GdkSeat *seat;
   GdkModifierType mask;
 
   model = gtk_tree_view_get_model(view);
@@ -1434,10 +1434,9 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
   }
 
   win = gdk_get_default_root_window();
-  manager = gdk_display_get_device_manager(gdk_window_get_display(win));
+  seat = gdk_display_get_default_seat(gdk_window_get_display(win));
 
-  gdk_window_get_device_position(win,
-                                 gdk_device_manager_get_client_pointer(manager),
+  gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
                                  NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {
