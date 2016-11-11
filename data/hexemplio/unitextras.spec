@@ -7,8 +7,9 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 [info]
 
 artists = "
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+    Hogne Håskjold <hogne@freeciv.org>[HH]
+    Eleazar[El]
+    GriffonSpade[GS]
 "
 
 [file]
@@ -26,7 +27,7 @@ tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
 ; Unit hit-point bars: approx percent of hp remaining
-
+; [GS]
   0,  0, "unit.hp_100"
   0,  1, "unit.hp_90"
   0,  2, "unit.hp_80"
