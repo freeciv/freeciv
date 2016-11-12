@@ -19,7 +19,7 @@ gfx = "hexemplio/select"
 x_top_left = 1
 y_top_left = 1
 dx = 126
-dy = 64
+dy = 38
 pixel_border = 1
 
 tiles = { "row", "column", "tag"
