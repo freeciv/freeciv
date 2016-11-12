@@ -1627,7 +1627,7 @@ static void setup_widgets(void)
   g_object_set(view, "margin", 3, NULL);
 
   button = gtk_check_button_new_with_label(_("Allies Only"));
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
                                GUI_GTK_OPTION(allied_chat_only));
   g_signal_connect(button, "toggled",
