@@ -77,6 +77,7 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-curl / mingw-w64-x86_64-curl
  - mingw-w64-i686-bzip2 / mingw-w64-x64_64-bzip2
  - mingw-w64-i686-readline / mingw-w64-x86_64-readline
+ - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
 
 2.1.2.2) Arch-specific packages for building gtk3-client
@@ -117,7 +118,7 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-161018.7z, based on
+msys2-freeciv-win64-161110.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160921.exe
 
 Only win64 target is included - replace <arch> with 'x86_64' in package names below
@@ -147,6 +148,7 @@ Following packages have been installed:
 - mingw-w64-<arch>-SDL2_image
 - mingw-w64-<arch>-SDL2_ttf
 - mingw-w64-<arch>-SDL2_gfx
+- mingw-w64-<arch>-imagemagick
 - mingw-w64-<arch>-qt5
 
 
