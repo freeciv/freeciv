@@ -83,6 +83,9 @@ void info_tab::maximize_chat()
 ***************************************************************************/
 void info_tab::mousePressEvent(QMouseEvent *event)
 {
+  if (gui()->interface_locked) {
+    return;
+  }
   if (event->button() == Qt::LeftButton) {
     cursor = event->globalPos() - geometry().topLeft();
     if (event->y() > 0 && event->y() < 25 && event->x() > width() - 25
@@ -107,6 +110,9 @@ void info_tab::mousePressEvent(QMouseEvent *event)
 ***************************************************************************/
 void info_tab::mouseReleaseEvent(QMouseEvent* event)
 {
+  if (gui()->interface_locked) {
+    return;
+  }
   if (resize_mode) {
     resize_mode = false;
     resx = false;
@@ -131,6 +137,9 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
 **************************************************************************/
 void info_tab::mouseMoveEvent(QMouseEvent *event)
 {
+  if (gui()->interface_locked) {
+    return;
+  }
   if ((event->buttons() & Qt::LeftButton) && resize_mode && resy) {
     QPoint to_move;
     int newheight = event->globalY() - cursor.y() - geometry().y();

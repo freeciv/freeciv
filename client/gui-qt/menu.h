@@ -327,6 +327,7 @@ private slots:
   void slot_center_view();
   void slot_minimap_view();
   void slot_fullscreen();
+  void slot_lock();
   void slot_city_outlines();
   void slot_city_output();
   void slot_map_grid();

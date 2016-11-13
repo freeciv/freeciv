@@ -108,6 +108,7 @@ fc_client::fc_client() : QMainWindow()
   update_info_timer = nullptr;
   game_layout = nullptr;
   unitinfo_wdg = nullptr;
+  interface_locked = false;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;
