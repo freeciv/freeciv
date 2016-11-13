@@ -151,7 +151,11 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
                     /* The old call would result in occupation before the
                      * checks below. */
                     ((pcity = tile_city(dest))
-                     && unit_can_take_over(punit)
+                     && (unit_owner(punit)->ai_common.barbarian_type
+                         != ANIMAL_BARBARIAN)
+                     && uclass_has_flag(unit_class_get(punit),
+                                        UCF_CAN_OCCUPY_CITY)
+                     && !unit_has_type_flag(punit, UTYF_CIVILIAN)
                      && pplayers_at_war(unit_owner(punit),
                                         city_owner(pcity))));
   if (alive) {
@@ -530,7 +534,11 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                    /* Backwards compatibility for old scripts in rulesets
                     * and (scenario) savegames. */
                    ((pcity = tile_city(ptile))
-                    && unit_can_take_over(punit)
+                    && (unit_owner(punit)->ai_common.barbarian_type
+                        != ANIMAL_BARBARIAN)
+                    && uclass_has_flag(unit_class_get(punit),
+                                       UCF_CAN_OCCUPY_CITY)
+                    && !unit_has_type_flag(punit, UTYF_CIVILIAN)
                     && pplayers_at_war(unit_owner(punit),
                                        city_owner(pcity))));
 }
