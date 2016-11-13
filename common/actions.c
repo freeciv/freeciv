@@ -2740,6 +2740,21 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
   return ACTPROB_CERTAIN;
 }
 
+/***************************************************************************
+  Returns the action probability for when a target is unseen.
+***************************************************************************/
+static struct act_prob act_prob_unseen_target(int action_id,
+                                              const struct unit *actor_unit)
+{
+  if (action_maybe_possible_actor_unit(action_id, actor_unit)) {
+    /* Unknown because the target is unseen. */
+    return ACTPROB_NOT_KNOWN;
+  } else {
+    /* The actor it self can't do this. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+}
+
 /**************************************************************************
   An action's probability of success.
 
@@ -3133,7 +3148,7 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
                                          target_tile)) {
     /* Invisible units at this tile can make the action legal or
      * illegal. */
-    return ACTPROB_NOT_KNOWN;
+    return act_prob_unseen_target(action_id, actor_unit);
   } else if (unit_list_size(target_tile->units) == 0) {
     /* Known empty tile. */
     return ACTPROB_IMPOSSIBLE;
