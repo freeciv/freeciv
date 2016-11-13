@@ -918,6 +918,15 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
     return FALSE;
   }
 
+  /* Units in within some extras may be hidden. */
+  if (!pplayers_allied(pplayer, ptile->extras_owner)) {
+    extra_type_list_iterate(extra_type_list_of_unit_hiders(), pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        return FALSE;
+      }
+    } extra_type_list_iterate_end;
+  }
+
   /* Can't see non allied units in transports. */
   unit_list_iterate(ptile->units, punit) {
     if (unit_type_get(punit)->transport_capacity > 0
@@ -966,6 +975,17 @@ bool can_player_see_unit_at(const struct player *pplayer,
   pcity = tile_city(ptile);
   if (pcity && !can_player_see_units_in_city(pplayer, pcity)) {
     return FALSE;
+  }
+
+  /* Units in within some extras may be hidden. */
+  if (!pplayers_allied(pplayer, ptile->extras_owner)) {
+    struct unit_type *ptype = unit_type_get(punit);
+
+    extra_type_list_iterate(extra_type_list_of_unit_hiders(), pextra) {
+      if (tile_has_extra(ptile, pextra) && is_native_extra_to_utype(pextra, ptype)) {
+        return FALSE;
+      }
+    } extra_type_list_iterate_end;
   }
 
   /* Allied or non-hiding units are always seen. */

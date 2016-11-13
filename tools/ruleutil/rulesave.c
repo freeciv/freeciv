@@ -2283,6 +2283,10 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (pextra->defense_bonus != 0) {
       secfile_insert_int(sfile, pextra->defense_bonus, "%s.defense_bonus", path);
     }
+    if (pextra->eus != EUS_NORMAL) {
+      secfile_insert_str(sfile, extra_unit_seen_type_name(pextra->eus),
+                         "%s.unit_seen", path);
+    }
     if (is_extra_caused_by(pextra, EC_APPEARANCE)
         && pextra->appearance_chance != RS_DEFAULT_EXTRA_APPEARANCE) {
       secfile_insert_int(sfile, pextra->appearance_chance, "%s.appearance_chance", path);

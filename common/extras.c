@@ -34,6 +34,7 @@ static struct user_flag user_extra_flags[MAX_NUM_USER_EXTRA_FLAGS];
 static struct extra_type_list *category_extra[ECAT_COUNT];
 static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
+static struct extra_type_list *unit_hidden;
 
 /****************************************************************************
   Initialize extras structures.
@@ -51,6 +52,7 @@ void extras_init(void)
   for (i = 0; i < ECAT_COUNT; i++) {
     category_extra[i] = extra_type_list_new();
   }
+  unit_hidden = extra_type_list_new();
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_init(&(extras[i].reqs));
@@ -110,6 +112,9 @@ void extras_free(void)
     extra_type_list_destroy(category_extra[i]);
     category_extra[i] = NULL;
   }
+
+  extra_type_list_destroy(unit_hidden);
+  unit_hidden = NULL;
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
     requirement_vector_free(&(extras[i].reqs));
@@ -245,6 +250,14 @@ struct extra_type_list *extra_type_list_for_category(enum extra_category cat)
   fc_assert(cat < ECAT_LAST);
 
   return category_extra[cat];
+}
+
+/**************************************************************************
+  Returns extra types that hide units.
+**************************************************************************/
+struct extra_type_list *extra_type_list_of_unit_hiders(void)
+{
+  return unit_hidden;
 }
 
 /**************************************************************************

@@ -3845,6 +3845,11 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     }
   }
 
+  pextra->eus = p->eus;
+  if (pextra->eus == EUS_HIDDEN) {
+    extra_type_list_append(extra_type_list_of_unit_hiders(), pextra);
+  }
+
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;

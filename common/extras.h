@@ -115,6 +115,8 @@ struct extra_type
   int appearance_chance;
   int disappearance_chance;
 
+  enum extra_unit_seen_type eus;
+
   bv_unit_classes native_to;
 
   bv_extra_flags flags;
@@ -174,6 +176,8 @@ struct extra_type *extra_type_by_translated_name(const char *name);
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
 struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause);
+
+struct extra_type_list *extra_type_list_of_unit_hiders(void);
 
 void extra_to_category_list(struct extra_type *pextra, enum extra_category cat);
 struct extra_type_list *extra_type_list_for_category(enum extra_category cat);

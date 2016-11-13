@@ -3010,6 +3010,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         int cj;
         enum extra_cause cause;
         enum extra_rmcause rmcause;
+        const char *eus_name;
 
         catname = secfile_lookup_str(file, "%s.category", section);
         if (catname == NULL) {
@@ -3158,6 +3159,20 @@ static bool load_ruleset_terrain(struct section_file *file,
           } else {
             extra_to_caused_by_list(pextra, EC_DEFENSIVE);
           }
+        }
+
+        eus_name = secfile_lookup_str_default(file, "Normal", "%s.unit_seen", section);
+        pextra->eus = extra_unit_seen_type_by_name(eus_name, fc_strcasecmp);
+        if (!extra_unit_seen_type_is_valid(pextra->eus)) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" extra \"%s\" has illegal unit_seen value \"%s\".",
+                        filename, extra_rule_name(pextra),
+                        eus_name); 
+          ok = FALSE;
+          break;
+        }
+        if (pextra->eus == EUS_HIDDEN) {
+          extra_type_list_append(extra_type_list_of_unit_hiders(), pextra);
         }
 
         pextra->appearance_chance = secfile_lookup_int_default(file, RS_DEFAULT_EXTRA_APPEARANCE,
@@ -7261,6 +7276,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.removal_time = e->removal_time;
     packet.removal_time_factor = e->removal_time_factor;
     packet.defense_bonus = e->defense_bonus;
+    packet.eus = e->eus;
 
     packet.native_to = e->native_to;
 

@@ -705,6 +705,13 @@ FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
 /* packets.def and struct extra_type reserve 8 bits (0-7) for these. */
 FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 
+#define SPECENUM_NAME extra_unit_seen_type
+#define SPECENUM_VALUE0 EUS_NORMAL
+#define SPECENUM_VALUE0NAME "Normal"
+#define SPECENUM_VALUE1 EUS_HIDDEN
+#define SPECENUM_VALUE1NAME "Hidden"
+#include "specenum_gen.h"
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME achievement_type
 #define SPECENUM_VALUE0 ACHIEVEMENT_SPACESHIP

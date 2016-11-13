@@ -2165,9 +2165,30 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
                     struct player *powner, struct player *ploser)
 {
   struct base_type *pbase;
+  int units_num;
+  bv_player *could_see_unit;
+  int i;
 
   if (!tile_has_extra(ptile, pextra)) {
     return;
+  }
+
+  units_num = unit_list_size(ptile->units);
+  could_see_unit = (units_num > 0
+                    ? fc_malloc(sizeof(*could_see_unit) * units_num)
+                    : NULL);
+
+  i = 0;
+  if (pextra->eus != EUS_NORMAL) {
+    unit_list_iterate(ptile->units, aunit) {
+      BV_CLR_ALL(could_see_unit[i]);
+      players_iterate(aplayer) {
+        if (can_player_see_unit(aplayer, aunit)) {
+          BV_SET(could_see_unit[i], player_index(aplayer));
+        }
+      } players_iterate_end;
+      i++;
+    } unit_list_iterate_end;
   }
 
   pbase = extra_base_get(pextra);
@@ -2216,6 +2237,24 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
     city_thaw_workers_queue();
     city_refresh_queue_processing();
   }
+
+  i = 0;
+  if (pextra->eus != EUS_NORMAL) {
+    unit_list_iterate(ptile->units, aunit) {
+      players_iterate(aplayer) {
+        if (can_player_see_unit(aplayer, aunit)) {
+          if (!BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+            send_unit_info(aplayer->connections, aunit);
+          }
+        } else {
+          if (BV_ISSET(could_see_unit[i], player_index(aplayer))) {
+            unit_goes_out_of_sight(aplayer, aunit);
+          }
+        }
+      } players_iterate_end;
+      i++;
+    } unit_list_iterate_end;
+  }
 }
 
 /****************************************************************************
@@ -2258,6 +2297,19 @@ void create_extra(struct tile *ptile, struct extra_type *pextra,
       extras_removed = TRUE;
     }
   } extra_type_iterate_end;
+
+  if (pextra->eus != EUS_NORMAL) {
+    unit_list_iterate(ptile->units, aunit) {
+      if (is_native_extra_to_utype(pextra, unit_type_get(aunit))) {
+        players_iterate(aplayer) {
+          if (!pplayers_allied(pplayer, aplayer)
+              && can_player_see_unit(aplayer, aunit)) {
+            unit_goes_out_of_sight(aplayer, aunit);
+          }
+        } players_iterate_end;
+      }
+    } unit_list_iterate_end;
+  }
 
   tile_add_extra(ptile, pextra);
 
@@ -2344,6 +2396,21 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
         send_tile_info(pplayer->connections, ptile, FALSE);
       }
     } players_iterate_end;
+
+    if (pextra->eus != EUS_NORMAL) {
+      struct player *eowner = extra_owner(ptile);
+
+      unit_list_iterate(ptile->units, aunit) {
+        if (is_native_extra_to_utype(pextra, unit_type_get(aunit))) {
+          players_iterate(aplayer) {
+            if (can_player_see_unit(aplayer, aunit)
+                && !pplayers_allied(aplayer, eowner)) {
+              send_unit_info(aplayer->connections, aunit);
+            }
+          } players_iterate_end;
+        }
+      } unit_list_iterate_end;
+    }
   }
 }
 

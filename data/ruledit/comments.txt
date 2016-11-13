@@ -720,6 +720,9 @@ extras = "\
 ;                           multiplied by this value (default 1)\n\
 ; defense_bonus           = Percent added to defense when tile has the extra\n\
 ;                           (default none)\n\
+; unit_seen               = How opponents see units inside this extra\n\
+;                           \"Normal\" - Units are seen normally (default)\n\
+;                           \"Hidden\" - Units are hidden from opponents\n\
 ; appearance_chance       = If extra has cause \"Appear\" and other requirements\n\
 ;                           for its appearance are fulfilled, this tells how big\n\
 ;                           chance it has to appear each turn. The chance is 1/10000\n\

@@ -867,6 +867,9 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           multiplied by this value (default 1)
 ; defense_bonus           = Percent added to defense when tile has the extra
 ;                           (default none)
+; unit_seen               = How opponents see units inside this extra
+;                           "Normal" - Units are seen normally (default)
+;                           "Hidden" - Units are hidden from opponents
 ; appearance_chance       = If extra has cause "Appear" and other requirements
 ;                           for its appearance are fulfilled, this tells how big
 ;                           chance it has to appear each turn. The chance is 1/10000

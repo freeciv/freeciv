@@ -259,6 +259,7 @@ type TECH_LEAKAGE_STYLE = uint8(enum tech_leakage_style)
 type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
 type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
 type GOODS_SELECTION    = uint8(enum goods_selection_method)
+type EUS                = uint8(enum extra_unit_seen_type)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -1652,6 +1653,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 removal_time;
   UINT8 removal_time_factor;
   UINT8 defense_bonus;
+  EUS eus;
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
   BV_EXTRAS hidden_by;
