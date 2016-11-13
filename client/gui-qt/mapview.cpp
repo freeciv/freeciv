@@ -949,6 +949,7 @@ void fc_client::update_info_label(void)
   } else {
     sw_economy->set_custom_labels("");
   }
+  sw_tax->update_final_pixmap();
   sw_economy->update_final_pixmap();
   delete update_info_timer;
   update_info_timer = nullptr;
