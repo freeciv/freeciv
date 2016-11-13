@@ -21,6 +21,8 @@
 enum ane_kind {
   /* Explanation: wrong actor unit. */
   ANEK_ACTOR_UNIT,
+  /* Explanation: no action target. */
+  ANEK_MISSING_TARGET,
   /* Explanation: the action is redundant vs this target. */
   ANEK_BAD_TARGET,
   /* Explanation: bad actor terrain. */

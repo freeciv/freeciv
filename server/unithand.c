@@ -802,6 +802,36 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
+  switch (action_id_get_target_kind(action_id)) {
+  case ATK_CITY:
+    if (target_city == NULL) {
+      explnat->kind = ANEK_MISSING_TARGET;
+    }
+    break;
+  case ATK_UNIT:
+    if (target_unit == NULL) {
+      explnat->kind = ANEK_MISSING_TARGET;
+    }
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+    if (target_tile == NULL) {
+      explnat->kind = ANEK_MISSING_TARGET;
+    }
+    break;
+  case ATK_SELF:
+    /* No other target. */
+    break;
+  case ATK_COUNT:
+    fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
+    break;
+  }
+
+  if (explnat->kind == ANEK_MISSING_TARGET) {
+    /* No point continuing. */
+    return explnat;
+  }
+
   if (action_id == ACTION_ANY) {
     /* Find the target player of some actions. */
     if (target_city) {
@@ -1171,6 +1201,11 @@ static void explain_why_no_action_enabled(struct unit *punit,
 
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Unit cannot do anything."));
+    break;
+  case ANEK_MISSING_TARGET:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("Your %s found no suitable target."),
+                  unit_name_translation(punit));
     break;
   case ANEK_BAD_TARGET:
     /* This shouldn't happen at the moment. Only specific action checks
@@ -1584,6 +1619,12 @@ void illegal_action_msg(struct player *pplayer,
                       action_id_name_translation(stopped_action));
       }
     }
+    break;
+  case ANEK_MISSING_TARGET:
+    notify_player(pplayer, unit_tile(actor), event, ftc_server,
+                  _("Your %s found no target suitable for %s."),
+                  unit_name_translation(actor),
+                  action_id_name_translation(stopped_action));
     break;
   case ANEK_BAD_TARGET:
     notify_player(pplayer, unit_tile(actor), event, ftc_server,
