@@ -1745,12 +1745,16 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   leftbot_layout->addWidget(prod_unit_splitter);
   top_widget = new QWidget;
   top_widget->setLayout(lefttop_layout);
+  top_widget->setSizePolicy(QSizePolicy::MinimumExpanding,
+                            QSizePolicy::Fixed);
   scroll_info = new QScrollArea();
   scroll_unit = new QScrollArea();
   scroll_info->setWidget(top_widget);
   scroll_info->setWidgetResizable(true);
   prod_happ_widget = new QWidget;
   prod_happ_widget->setLayout(leftbot_layout);
+  prod_happ_widget->setSizePolicy(QSizePolicy::MinimumExpanding,
+                                  QSizePolicy::MinimumExpanding);
   scroll_unit->setWidget(prod_happ_widget);
   scroll_unit->setWidgetResizable(true);
   central_left_splitter->addWidget(scroll_info);
