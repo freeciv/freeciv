@@ -259,6 +259,7 @@ public:
   trade_generator trade_gen;
   qfc_rally_list rallies;
   hud_units *unitinfo_wdg;
+  bool interface_locked;
   fc_sidewidget *sw_cunit;
   fc_sidewidget *sw_science;
   fc_sidewidget *sw_endturn;

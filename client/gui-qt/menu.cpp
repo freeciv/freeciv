@@ -61,6 +61,7 @@
 extern QApplication *qapp;
 
 static bool tradecity_rand(const trade_city *t1, const trade_city *t2);
+static void enable_interface(bool enable);
 /**************************************************************************
   New turn callback
 **************************************************************************/
@@ -1019,6 +1020,12 @@ void mr_menu::setup_menus()
   minimap_status->setChecked(true);
   connect(minimap_status, SIGNAL(triggered()), this,
           SLOT(slot_minimap_view()));
+  minimap_status = menu->addAction(_("Lock interface"));
+  minimap_status->setCheckable(true);
+  minimap_status->setShortcut(QKeySequence(shortcut_to_string(
+                             fc_shortcuts::sc()->get_shortcut(SC_LOCK))));
+  minimap_status->setChecked(false);
+  connect(minimap_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
   act->setCheckable(true);
@@ -2729,6 +2736,44 @@ void mr_menu::slot_unit_explore()
 void mr_menu::slot_center_view()
 {
   request_center_focus_unit();
+}
+
+/****************************************************************
+  Action "Lock interface"
+*****************************************************************/
+void mr_menu::slot_lock()
+{
+  if (gui()->interface_locked) {
+    enable_interface(false);
+  } else {
+    enable_interface(true);
+  }
+  gui()->interface_locked = !gui()->interface_locked;
+}
+
+/****************************************************************
+  Helper function to hide/show widgets
+*****************************************************************/
+void enable_interface(bool enable)
+{
+  QList<close_widget *> lc;
+  QList<move_widget *> lm;
+  QList<resize_widget *> lr;
+  int i;
+
+  lc = gui()->findChildren<close_widget *>();
+  lm = gui()->findChildren<move_widget *>();
+  lr = gui()->findChildren<resize_widget *>();
+
+  for (i = 0; i < lc.size(); ++i) {
+    lc.at(i)->setVisible(!enable);
+  }
+  for (i = 0; i < lm.size(); ++i) {
+    lm.at(i)->setVisible(!enable);
+  }
+  for (i = 0; i < lr.size(); ++i) {
+    lr.at(i)->setVisible(!enable);
+  }
 }
 
 /***************************************************************************

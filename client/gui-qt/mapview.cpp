@@ -384,7 +384,9 @@ void move_widget::put_to_corner()
 ****************************************************************************/
 void move_widget::mouseMoveEvent(QMouseEvent *event)
 {
-  parentWidget()->move(event->globalPos() - point);
+  if(gui()->interface_locked == false) {
+    parentWidget()->move(event->globalPos() - point);
+  }
 }
 
 /****************************************************************************
@@ -392,7 +394,9 @@ void move_widget::mouseMoveEvent(QMouseEvent *event)
 ****************************************************************************/
 void move_widget::mousePressEvent(QMouseEvent* event)
 {
-  point = event->globalPos() - parentWidget()->geometry().topLeft();
+  if (gui()->interface_locked == false) {
+    point = event->globalPos() - parentWidget()->geometry().topLeft();
+  }
   update();
 }
 
@@ -422,6 +426,9 @@ void resize_widget::mouseMoveEvent(QMouseEvent * event)
 {
   QPoint qp, np;
 
+  if (gui()->interface_locked) {
+    return;
+  }
   qp = event->globalPos();
   np.setX(qp.x() - point.x());
   np.setY(qp.y() - point.y());
@@ -437,6 +444,9 @@ void resize_widget::mousePressEvent(QMouseEvent* event)
 {
   QPoint qp;
 
+  if (gui()->interface_locked) {
+    return;
+  }
   qp = event->globalPos();
   point.setX(qp.x() - parentWidget()->width());
   point.setY(qp.y() - parentWidget()->height());
@@ -466,6 +476,9 @@ void close_widget::put_to_corner()
 ****************************************************************************/
 void close_widget::mousePressEvent(QMouseEvent* event)
 {
+  if (gui()->interface_locked) {
+    return;
+  }
   if (event->button() == Qt::LeftButton) {
     parentWidget()->hide();
     notify_parent();
@@ -830,6 +843,9 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
   int x, y;
 
   if (event->button() == Qt::LeftButton) {
+    if (gui()->interface_locked) {
+      return;
+    }
     cursor = event->globalPos() - geometry().topLeft();
   }
   if (event->button() == Qt::RightButton) {
@@ -857,6 +873,9 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
 **************************************************************************/
 void minimap_view::mouseMoveEvent(QMouseEvent* event)
 {
+  if (gui()->interface_locked) {
+    return;
+  }
   if (event->buttons() & Qt::LeftButton) {
     move(event->globalPos() - cursor);
     setCursor(Qt::SizeAllCursor);

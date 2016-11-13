@@ -50,7 +50,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 43;
+static int num_shortcuts = 44;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -136,6 +136,8 @@ fc_shortcut default_shortcuts[] = {
     _("Unload") },
   {SC_BUY_MAP, 0, Qt::BackButton, Qt::NoModifier,
     _("Quick buy current production from map") },
+  {SC_LOCK, Qt::Key_L, Qt::AllButtons, Qt::ControlModifier
+    | Qt::ShiftModifier, _("Lock/unlock interface") },
 };
 
 
