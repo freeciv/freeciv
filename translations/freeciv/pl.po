@@ -38,7 +38,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-01-02 01:22+0200\n"
-"PO-Revision-Date: 2016-11-11 08:17+0100\n"
+"PO-Revision-Date: 2016-11-13 22:46+0100\n"
 "Last-Translator: Doom <Doom.org>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -7270,7 +7270,7 @@ msgstr "%d R&G + %d handel"
 #, c-format
 #| msgid "% of Road bonus"
 msgid "%d one time bonus"
-msgstr "% jednorazowy bonus"
+msgstr "%d jednorazowy bonus"
 
 #: client/gui-sdl/action_dialog.c:889 client/gui-sdl2/action_dialog.c:892
 msgid "Subvert Enemy Unit"
@@ -15054,8 +15054,8 @@ msgstr[2] "%d zadowolonych poniżej dopuszczalnego progu."
 msgid "Cities: %d total:"
 msgid_plural "Cities: %d total:"
 msgstr[0] "Miasta: %d razem:"
-msgstr[1] "Raport o miastach"
-msgstr[2] "Raport o miastach"
+msgstr[1] "Miasta: %d razem:"
+msgstr[2] "Miasta: %d razem:"
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space. Pluralized in "nearest threshold of %d cities".
@@ -15090,9 +15090,9 @@ msgstr[2] "%d dodatkowych niezadowolonych mieszkańców."
 #| msgid "%s citizens"
 msgid "%d angry citizen."
 msgid_plural "%d angry citizens."
-msgstr[0] "%d wkurwiony mieszkaniec."
-msgstr[1] "%s mieszkańcy"
-msgstr[2] "%s mieszkańcy"
+msgstr[0] "%d wściekły mieszkaniec."
+msgstr[1] "%d wściekłych mieszkańców"
+msgstr[2] "%d wściekłych mieszkańców"
 
 #. TRANS: appended to "Cities: %d total:"; preserve leading
 #. * space.
