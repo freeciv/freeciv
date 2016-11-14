@@ -35,15 +35,15 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 
 # by default build all installers that are buildable with current msys2 environment
 # gtk2-installer is not built.
-all: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
+all: gtk3-installer gtk3.22-installer sdl2-installer ruledit-installer qt-installer
 
-gtk3x-installer:
-	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3x
+gtk3.22-installer:
+	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
 
 # These are what can be built in current official environment version
-buildable-win32: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
+buildable-win32: gtk3-installer gtk3.22-installer sdl2-installer ruledit-installer qt-installer
 
-buildable-win64: gtk3-installer gtk3x-installer sdl2-installer ruledit-installer qt-installer
+buildable-win64: gtk3-installer gtk3.22-installer sdl2-installer ruledit-installer qt-installer
 
 # See comments on 'snapshot' target why this wrapping is needed
 buildable: buildable-$(WINARCH)
@@ -94,7 +94,7 @@ build-freeciv-ruledit:
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
 	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 
-build-freeciv-gtk3x: build-freeciv-common
+build-freeciv-gtk3.22: build-freeciv-common
 
 build-freeciv-gtk3: build-freeciv-common
 
@@ -375,7 +375,7 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	mkdir -p Output
 	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit.nsi
 
-wrap-gtk3x: build-freeciv-gtk3x installer-common
+wrap-gtk3.22: build-freeciv-gtk3.22 installer-common
 
 wrap-gtk3: build-freeciv-gtk3 installer-common
 
