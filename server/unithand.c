@@ -1433,7 +1433,7 @@ void handle_unit_get_actions(struct connection *pc,
   struct unit *target_unit;
   struct city *target_city;
 
-  bool is_same_tile;
+  int actor_target_distance;
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -1481,8 +1481,9 @@ void handle_unit_get_actions(struct connection *pc,
     target_city = game_city_by_number(target_city_id_client);
   }
 
-  /* Is the actor asking about actions against his own tile? */
-  is_same_tile = unit_tile(actor_unit) == target_tile;
+  /* Distance between actor and target tile. */
+  actor_target_distance = real_map_distance(unit_tile(actor_unit),
+                                            target_tile);
 
   /* Find out what can be done to the targets. */
 
@@ -1507,7 +1508,7 @@ void handle_unit_get_actions(struct connection *pc,
     } else if (target_tile && action_id_get_target_kind(act) == ATK_TILE) {
       probabilities[act] = action_prob_vs_tile(actor_unit, act,
                                                target_tile);
-    } else if (is_same_tile
+    } else if (actor_target_distance == 0
                && action_id_get_target_kind(act) == ATK_SELF) {
       /* Don't bother with self targeted actions unless the actor is asking
        * about what can be done to its own tile. */
