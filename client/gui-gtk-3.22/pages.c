@@ -2014,8 +2014,7 @@ static gboolean connection_list_event(GtkWidget *widget,
     pconn = conn_by_number(conn_id);
 
     menu = create_conn_menu(pplayer, pconn);
-    gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-                   NULL, NULL, event->button, event->time);
+    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
     ret = TRUE;
   }
 

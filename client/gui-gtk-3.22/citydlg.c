@@ -2358,33 +2358,6 @@ static void show_units_response(void *data)
 }
 
 /****************************************************************
-  Set city menu position
-*****************************************************************/
-static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
-                               gboolean *push_in, gpointer data)
-{
-  GtkWidget *widget;
-  GtkAllocation allocation;
-  gint xpos;
-  gint ypos;
-
-  fc_assert_ret(GTK_IS_BUTTON(data));
-
-  widget = GTK_WIDGET(data);
-
-  gtk_widget_get_allocation(widget, &allocation);
-
-  gdk_window_get_origin(gtk_widget_get_window(widget), &xpos, &ypos);
-
-  xpos += allocation.x + allocation.width/2;
-  ypos += allocation.y + allocation.height/2;
-
-  *x = xpos;
-  *y = ypos;
-  *push_in = TRUE;
-}
-
-/****************************************************************
   Destroy widget -callback
 *****************************************************************/
 static void destroy_func(GtkWidget *w, gpointer data)
@@ -2395,8 +2368,8 @@ static void destroy_func(GtkWidget *w, gpointer data)
 /****************************************************************
 Pop-up menu to change attributes of supported units
 *****************************************************************/
-static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
-				        gpointer data)
+static gboolean supported_unit_callback(GtkWidget *w, GdkEventButton *ev,
+                                        gpointer data)
 {
   GtkWidget *menu, *item;
   struct city_dialog *pdialog;
@@ -2448,11 +2421,9 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
 
     gtk_widget_show_all(menu);
 
-    gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-      city_menu_position, w, ev->button, ev->time);
-
-
+    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
   }
+
   return TRUE;
 }
 
@@ -2460,7 +2431,7 @@ static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
 Pop-up menu to change attributes of units, ex. change homecity.
 *****************************************************************/
 static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
-				      gpointer data)
+                                      gpointer data)
 {
   GtkWidget *menu, *item;
   struct city_dialog *pdialog;
@@ -2568,9 +2539,9 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
 
     gtk_widget_show_all(menu);
 
-    gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-      city_menu_position, w, ev->button, ev->time);
+    gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
   }
+
   return TRUE;
 }
 
