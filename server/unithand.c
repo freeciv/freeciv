@@ -2142,521 +2142,261 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
-#define ACTION_STARTED_UNIT_CITY(action, actor, target)                   \
-  script_server_signal_emit("action_started_unit_city", 3,                \
-                            API_TYPE_ACTION, action_by_number(action),    \
-                            API_TYPE_UNIT, actor,                         \
-                            API_TYPE_CITY, target);                       \
-  if (!actor || !unit_is_alive(actor_id)) {                               \
-    /* Actor unit was destroyed during pre action Lua. */                 \
-    return FALSE;                                                         \
-  }                                                                       \
-  if (!target || !city_exist(target_id)) {                                \
-    /* Target city was destroyed during pre action Lua. */                \
-    return FALSE;                                                         \
+#define ACTION_STARTED_UNIT_CITY(action, actor, target, action_performer) \
+  if (pcity) {                                                            \
+    if (is_action_enabled_unit_on_city(action_type,                       \
+                                       actor_unit, pcity)) {              \
+      script_server_signal_emit("action_started_unit_city", 3,            \
+                                API_TYPE_ACTION, action_by_number(action),\
+                                API_TYPE_UNIT, actor,                     \
+                                API_TYPE_CITY, target);                   \
+      if (!actor || !unit_is_alive(actor_id)) {                           \
+        /* Actor unit was destroyed during pre action Lua. */             \
+        return FALSE;                                                     \
+      }                                                                   \
+      if (!target || !city_exist(target_id)) {                            \
+        /* Target city was destroyed during pre action Lua. */            \
+        return FALSE;                                                     \
+      }                                                                   \
+      return action_performer;                                            \
+    } else {                                                              \
+      illegal_action(pplayer, actor_unit, action_type,                    \
+                     city_owner(pcity), NULL, pcity, NULL,                \
+                     requester);                                          \
+    }                                                                     \
   }
 
-#define ACTION_STARTED_UNIT_SELF(action, actor)                           \
-  script_server_signal_emit("action_started_unit_self", 2,                \
-                            API_TYPE_ACTION, action_by_number(action),    \
-                            API_TYPE_UNIT, actor);                        \
-  if (!actor || !unit_is_alive(actor_id)) {                               \
-    /* Actor unit was destroyed during pre action Lua. */                 \
-    return FALSE;                                                         \
+#define ACTION_STARTED_UNIT_SELF(action, actor, action_performer)         \
+  if (actor_unit) {                                                       \
+    if (is_action_enabled_unit_on_self(action_type, actor_unit)) {        \
+      script_server_signal_emit("action_started_unit_self", 2,            \
+                                API_TYPE_ACTION, action_by_number(action),\
+                                API_TYPE_UNIT, actor);                    \
+      if (!actor || !unit_is_alive(actor_id)) {                           \
+        /* Actor unit was destroyed during pre action Lua. */             \
+        return FALSE;                                                     \
+      }                                                                   \
+      return action_performer;                                            \
+    } else {                                                              \
+      illegal_action(pplayer, actor_unit, action_type,                    \
+                     unit_owner(actor_unit), NULL, NULL, actor_unit,      \
+                     requester);                                          \
+    }                                                                     \
   }
 
-#define ACTION_STARTED_UNIT_UNIT(action, actor, target)                   \
-  script_server_signal_emit("action_started_unit_unit", 3,                \
-                            API_TYPE_ACTION, action_by_number(action),    \
-                            API_TYPE_UNIT, actor,                         \
-                            API_TYPE_UNIT, target);                       \
-  if (!actor || !unit_is_alive(actor_id)) {                               \
-    /* Actor unit was destroyed during pre action Lua. */                 \
-    return FALSE;                                                         \
-  }                                                                       \
-  if (!target || !unit_is_alive(target_id)) {                             \
-    /* Target unit was destroyed during pre action Lua. */                \
-    return FALSE;                                                         \
+#define ACTION_STARTED_UNIT_UNIT(action, actor, target, action_performer) \
+  if (punit) {                                                            \
+    if (is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) { \
+      script_server_signal_emit("action_started_unit_unit", 3,            \
+                                API_TYPE_ACTION, action_by_number(action),\
+                                API_TYPE_UNIT, actor,                     \
+                                API_TYPE_UNIT, target);                   \
+      if (!actor || !unit_is_alive(actor_id)) {                           \
+        /* Actor unit was destroyed during pre action Lua. */             \
+        return FALSE;                                                     \
+      }                                                                   \
+      if (!target || !unit_is_alive(target_id)) {                         \
+        /* Target unit was destroyed during pre action Lua. */            \
+        return FALSE;                                                     \
+      }                                                                   \
+      return action_performer;                                            \
+    } else {                                                              \
+      illegal_action(pplayer, actor_unit, action_type,                    \
+                     unit_owner(punit), NULL, NULL, punit,                \
+                     requester);                                          \
+    }                                                                     \
   }
 
-#define ACTION_STARTED_UNIT_UNITS(action, actor, target)                  \
-  script_server_signal_emit("action_started_unit_units", 3,               \
-                            API_TYPE_ACTION, action_by_number(action),    \
-                            API_TYPE_UNIT, actor,                         \
-                            API_TYPE_TILE, target);                       \
-  if (!actor || !unit_is_alive(actor_id)) {                               \
-    /* Actor unit was destroyed during pre action Lua. */                 \
-    return FALSE;                                                         \
+#define ACTION_STARTED_UNIT_UNITS(action, actor, target, action_performer)\
+  if (target_tile) {                                                      \
+    if (is_action_enabled_unit_on_units(action_type,                      \
+                                        actor_unit, target_tile)) {       \
+      script_server_signal_emit("action_started_unit_units", 3,           \
+                                API_TYPE_ACTION, action_by_number(action),\
+                                API_TYPE_UNIT, actor,                     \
+                                API_TYPE_TILE, target);                   \
+      if (!actor || !unit_is_alive(actor_id)) {                           \
+        /* Actor unit was destroyed during pre action Lua. */             \
+        return FALSE;                                                     \
+      }                                                                   \
+      return action_performer;                                            \
+    } else {                                                              \
+      illegal_action(pplayer, actor_unit, action_type,                    \
+                     NULL, target_tile, NULL, NULL,                       \
+                     requester);                                          \
+    }                                                                     \
   }
 
-#define ACTION_STARTED_UNIT_TILE(action, actor, target)                   \
-  script_server_signal_emit("action_started_unit_tile", 3,                \
-                            API_TYPE_ACTION, action_by_number(action),    \
-                            API_TYPE_UNIT, actor,                         \
-                            API_TYPE_TILE, target);                       \
-  if (!actor || !unit_is_alive(actor_id)) {                               \
-    /* Actor unit was destroyed during pre action Lua. */                 \
-    return FALSE;                                                         \
+#define ACTION_STARTED_UNIT_TILE(action, actor, target, action_performer) \
+  if (target_tile) {                                                      \
+    if (is_action_enabled_unit_on_tile(action_type,                       \
+                                       actor_unit, target_tile)) {        \
+      script_server_signal_emit("action_started_unit_tile", 3,            \
+                                API_TYPE_ACTION, action_by_number(action),\
+                                API_TYPE_UNIT, actor,                     \
+                                API_TYPE_TILE, target);                   \
+      if (!actor || !unit_is_alive(actor_id)) {                           \
+        /* Actor unit was destroyed during pre action Lua. */             \
+        return FALSE;                                                     \
+      }                                                                   \
+      return action_performer;                                            \
+    } else {                                                              \
+      illegal_action(pplayer, actor_unit, action_type,                    \
+                     NULL, target_tile, NULL, NULL,                       \
+                     requester);                                          \
+    }                                                                     \
   }
 
   switch(action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit) {
-      if (is_action_enabled_unit_on_unit(action_type,
-                                         actor_unit, punit)) {
-        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
-
-        return diplomat_bribe(pplayer, actor_unit, punit, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             diplomat_bribe(pplayer, actor_unit, punit,
+                                            action_type));
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
-    if (punit) {
-      if (is_action_enabled_unit_on_unit(action_type,
-                                         actor_unit, punit)) {
-        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
-
-        return spy_sabotage_unit(pplayer, actor_unit, punit, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             spy_sabotage_unit(pplayer, actor_unit,
+                                               punit, action_type));
     break;
   case ACTION_EXPEL_UNIT:
-    if (punit) {
-      if (is_action_enabled_unit_on_unit(action_type,
-                                         actor_unit, punit)) {
-        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
-
-        return do_expel_unit(pplayer, actor_unit, punit);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_expel_unit(pplayer, actor_unit, punit));
     break;
   case ACTION_HEAL_UNIT:
-    if (punit) {
-      if (is_action_enabled_unit_on_unit(action_type,
-                                         actor_unit, punit)) {
-        ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit);
-
-        return do_heal_unit(pplayer, actor_unit, punit);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(punit), NULL, NULL, punit,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_heal_unit(pplayer, actor_unit, punit));
     break;
   case ACTION_DISBAND_UNIT:
-    if (actor_unit) {
-      if (is_action_enabled_unit_on_self(action_type,
-                                         actor_unit)) {
-        ACTION_STARTED_UNIT_SELF(action_type, actor_unit);
-
-        return do_unit_disband(pplayer, actor_unit);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       unit_owner(actor_unit), NULL, NULL, actor_unit,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             do_unit_disband(pplayer, actor_unit));
     break;
   case ACTION_SPY_SABOTAGE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return diplomat_sabotage(pplayer, actor_unit, pcity, B_LAST,
-                                 action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_sabotage(pplayer, actor_unit, pcity,
+                                               B_LAST, action_type));
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type, actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        /* packet value is improvement ID + 1 (or some special codes) */
-        return diplomat_sabotage(pplayer, actor_unit, pcity, value - 1,
-                                 action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_sabotage(pplayer, actor_unit, pcity,
+                                               value - 1, action_type));
     break;
   case ACTION_SPY_POISON:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return spy_poison(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             spy_poison(pplayer, actor_unit, pcity,
+                                        action_type));
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return diplomat_investigate(pplayer, actor_unit, pcity,
-                                    action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_investigate(pplayer,
+                                                  actor_unit, pcity,
+                                                  action_type));
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return diplomat_embassy(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_embassy(pplayer, actor_unit, pcity,
+                                              action_type));
     break;
   case ACTION_SPY_INCITE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return diplomat_incite(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_incite(pplayer, actor_unit, pcity,
+                                             action_type));
     break;
   case ACTION_SPY_STEAL_TECH:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        /* packet value is technology ID (or some special codes) */
-        return diplomat_get_tech(pplayer, actor_unit, pcity, A_UNSET,
-                                 action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_get_tech(pplayer, actor_unit, pcity,
+                                               A_UNSET, action_type));
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        /* packet value is technology ID (or some special codes) */
-        return diplomat_get_tech(pplayer, actor_unit, pcity, value,
-                                 action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_get_tech(pplayer, actor_unit, pcity,
+                                               value, action_type));
     break;
   case ACTION_SPY_STEAL_GOLD:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return spy_steal_gold(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             spy_steal_gold(pplayer, actor_unit, pcity,
+                                            action_type));
     break;
   case ACTION_STEAL_MAPS:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return spy_steal_some_maps(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             spy_steal_some_maps(pplayer, actor_unit,
+                                                 pcity, action_type));
     break;
   case ACTION_TRADE_ROUTE:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_establish_trade(pplayer, actor_unit, pcity,
-                                       TRUE);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_establish_trade(pplayer, actor_unit,
+                                                     pcity, TRUE));
     break;
   case ACTION_MARKETPLACE:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_establish_trade(pplayer, actor_unit, pcity,
-                                       FALSE);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_establish_trade(pplayer, actor_unit,
+                                                     pcity, FALSE));
     break;
   case ACTION_HELP_WONDER:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_help_build_wonder(pplayer,
-                                         actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_help_build_wonder(pplayer,
+                                                       actor_unit, pcity));
     break;
   case ACTION_SPY_NUKE:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return spy_nuke_city(pplayer, actor_unit, pcity, action_type);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             spy_nuke_city(pplayer, actor_unit, pcity,
+                                           action_type));
     break;
   case ACTION_JOIN_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return city_add_unit(pplayer, actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             city_add_unit(pplayer, actor_unit, pcity));
     break;
   case ACTION_DESTROY_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return unit_do_destroy_city(pplayer, actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             unit_do_destroy_city(pplayer,
+                                                  actor_unit, pcity));
     break;
   case ACTION_RECYCLE_UNIT:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return unit_do_recycle(pplayer, actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             unit_do_recycle(pplayer, actor_unit, pcity));
     break;
   case ACTION_HOME_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_change_homecity(actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_change_homecity(actor_unit, pcity));
     break;
   case ACTION_UPGRADE_UNIT:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_upgrade(pplayer, actor_unit, pcity,
-                               requester);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_upgrade(pplayer, actor_unit,
+                                             pcity, requester));
     break;
   case ACTION_CONQUER_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_unit_conquer_city(pplayer, actor_unit, pcity, paction);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_conquer_city(pplayer, actor_unit,
+                                                  pcity, paction));
     break;
   case ACTION_AIRLIFT:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         actor_unit, pcity)) {
-        ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity);
-
-        return do_airline(actor_unit, pcity);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       city_owner(pcity), NULL, pcity, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_airline(actor_unit, pcity));
     break;
   case ACTION_CAPTURE_UNITS:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_units(action_type,
-                                          actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile);
-
-        return do_capture_units(pplayer, actor_unit, target_tile);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              do_capture_units(pplayer, actor_unit,
+                                               target_tile));
     break;
   case ACTION_BOMBARD:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_units(action_type,
-                                          actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile);
-
-        return unit_bombard(actor_unit, target_tile);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              unit_bombard(actor_unit, target_tile));
     break;
   case ACTION_FOUND_CITY:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_tile(action_type,
-                                          actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
-
-        return city_build(pplayer, actor_unit, target_tile, name);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             city_build(pplayer, actor_unit,
+                                        target_tile, name));
     break;
   case ACTION_NUKE:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_tile(action_type,
-                                          actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
-
-        return unit_nuke(pplayer, actor_unit, target_tile);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_nuke(pplayer, actor_unit, target_tile));
     break;
   case ACTION_PARADROP:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_tile(action_type,
-                                         actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
-
-        return do_paradrop(actor_unit, target_tile);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             do_paradrop(actor_unit, target_tile));
     break;
   case ACTION_ATTACK:
-    if (target_tile) {
-      if (is_action_enabled_unit_on_tile(action_type,
-                                         actor_unit, target_tile)) {
-        ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile);
-
-        return do_attack(actor_unit, target_tile);
-      } else {
-        illegal_action(pplayer, actor_unit, action_type,
-                       NULL, target_tile, NULL, NULL,
-                       requester);
-      }
-    }
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             do_attack(actor_unit, target_tile));
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
