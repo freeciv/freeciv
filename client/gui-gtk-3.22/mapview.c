@@ -548,20 +548,22 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
   Put overlay tile to pixmap
 **************************************************************************/
 void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
-			     int canvas_x, int canvas_y,
-			     struct sprite *ssprite)
+                             int canvas_x, int canvas_y,
+                             struct sprite *ssprite)
 {
   cairo_t *cr;
+  GdkDrawingContext *ctx;
 
   if (!ssprite) {
     return;
   }
 
-  cr = gdk_cairo_create(pixmap);
+  ctx = gdk_window_begin_draw_frame(pixmap, NULL);
+  cr = gdk_drawing_context_get_cairo_context(ctx);
   cairo_scale(cr, zoom, zoom);
   cairo_set_source_surface(cr, ssprite->surface, canvas_x, canvas_y);
   cairo_paint(cr);
-  cairo_destroy(cr);
+  gdk_window_end_draw_frame(pixmap, ctx);
 }
 
 /**************************************************************************
@@ -749,6 +751,8 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   double dashes[2] = {4.0, 4.0};
   struct color *pcolor;
   cairo_t *cr;
+  GdkDrawingContext *ctx;
+  GdkWindow *wndw;
 
   if (w == 0 || h == 0) {
     return;
@@ -759,14 +763,16 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
     return;
   }
 
-  cr = gdk_cairo_create(gtk_widget_get_window(map_canvas));
+  wndw = gtk_widget_get_window(map_canvas);
+  ctx = gdk_window_begin_draw_frame(wndw, NULL);
+  cr = gdk_drawing_context_get_cairo_context(ctx);
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_set_line_width(cr, 2.0);
   cairo_set_dash(cr, dashes, 2, 0);
   cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
   cairo_rectangle(cr, canvas_x, canvas_y, w, h);
   cairo_stroke(cr);
-  cairo_destroy(cr);
+  gdk_window_end_draw_frame(wndw, ctx);
 }
 
 /**************************************************************************
