@@ -1495,26 +1495,61 @@ void handle_unit_get_actions(struct connection *pc,
       continue;
     }
 
-    if (target_city && action_id_get_target_kind(act) == ATK_CITY) {
-      probabilities[act] = action_prob_vs_city(actor_unit, act,
-                                               target_city);
-    } else if (target_unit && action_id_get_target_kind(act) == ATK_UNIT) {
-      probabilities[act] = action_prob_vs_unit(actor_unit, act,
-                                               target_unit);
-    } else if (target_tile
-               && action_id_get_target_kind(act) == ATK_UNITS) {
-      probabilities[act] = action_prob_vs_units(actor_unit, act,
-                                                target_tile);
-    } else if (target_tile && action_id_get_target_kind(act) == ATK_TILE) {
-      probabilities[act] = action_prob_vs_tile(actor_unit, act,
-                                               target_tile);
-    } else if (actor_target_distance == 0
-               && action_id_get_target_kind(act) == ATK_SELF) {
-      /* Don't bother with self targeted actions unless the actor is asking
-       * about what can be done to its own tile. */
-      probabilities[act] = action_prob_self(actor_unit, act);
-    } else {
-      probabilities[act] = ACTPROB_IMPOSSIBLE;
+    switch (action_id_get_target_kind(act)) {
+    case ATK_CITY:
+      if (target_city) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_vs_city(actor_unit, act,
+                                                 target_city);
+      } else {
+        /* No target to act against. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
+    case ATK_UNIT:
+      if (target_unit) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_vs_unit(actor_unit, act,
+                                                 target_unit);
+      } else {
+        /* No target to act against. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
+    case ATK_UNITS:
+      if (target_tile) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_vs_units(actor_unit, act,
+                                                  target_tile);
+      } else {
+        /* No target to act against. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
+    case ATK_TILE:
+      if (target_tile) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_vs_tile(actor_unit, act,
+                                                 target_tile);
+      } else {
+        /* No target to act against. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
+    case ATK_SELF:
+      if (actor_target_distance == 0) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_self(actor_unit, act);
+      } else {
+        /* Don't bother with self targeted actions unless the actor is
+         * asking about what can be done to its own tile. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
+    case ATK_COUNT:
+      fc_assert_action(action_id_get_target_kind(act) != ATK_COUNT,
+                       probabilities[act] = ACTPROB_IMPOSSIBLE);
+      break;
     }
   } action_iterate_end;
 
