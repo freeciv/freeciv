@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -743,6 +743,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
     int speed = FC_PTR_TO_INT(param->data);
+
     activity_time = ((activity_time * ACTIVITY_FACTOR)
                      + (speed - 1)) / speed;
     activity_time--;
@@ -755,19 +756,19 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
    * of the result.  When building road type with move_cost 0, we
    * care most about construction time. */
 
-  /* *dest_cost==-1 means we haven't reached dest until now */
+  /* *dest_cost == -1 means we haven't reached dest until now */
 
   if (*dest_cost != -1) {
     if (proad->move_cost > 0) {
       if (total_extra > *dest_extra 
-	  || (total_extra == *dest_extra && total_cost >= *dest_cost)) {
-	/* No, this path is worse than what we already have */
-	return -1;
+          || (total_extra == *dest_extra && total_cost >= *dest_cost)) {
+        /* No, this path is worse than what we already have */
+        return -1;
       }
     } else {
       if (total_cost > *dest_cost 
-	  || (total_cost == *dest_cost && total_extra >= *dest_extra)) {
-	return -1;
+          || (total_cost == *dest_cost && total_extra >= *dest_extra)) {
+        return -1;
       }
     }
   }
@@ -836,6 +837,7 @@ static int get_connect_irrig(const struct tile *src_tile,
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
     int speed = FC_PTR_TO_INT(param->data);
+
     activity_time = ((activity_time * ACTIVITY_FACTOR)
                      + (speed - 1)) / speed;
     activity_time--;
@@ -843,9 +845,9 @@ static int get_connect_irrig(const struct tile *src_tile,
   }
   total_cost += activity_time * param->move_rate;
 
-  /* *dest_cost==-1 means we haven't reached dest until now */
+  /* *dest_cost == -1 means we haven't reached dest until now */
   if (*dest_cost != -1 && total_cost > *dest_cost) {
-      return -1;
+    return -1;
   }
 
   /* Ok, we found a better path! */  

@@ -1491,7 +1491,7 @@ void dont_run_as_root(const char *argv0, const char *fallback)
 #if (defined(ALWAYS_ROOT) || defined(__EMX__) || defined(__BEOS__))
   return;
 #else
-  if (getuid()==0 || geteuid()==0) {
+  if (getuid() == 0 || geteuid() == 0) {
     fc_fprintf(stderr,
 	       _("%s: Fatal error: you're trying to run me as superuser!\n"),
 	       (argv0 ? argv0 : fallback ? fallback : "freeciv"));
@@ -1543,7 +1543,7 @@ enum m_pre_result match_prefix(m_pre_accessor_fn_t accessor_fn,
   according to given comparison function.
   Returns type of match or fail, and for return <= M_PRE_AMBIGUOUS
   sets *ind_result with matching index (or for ambiguous, first match).
-  If max_len_name==0, treat as no maximum.
+  If max_len_name == 0, treat as no maximum.
   If the int array 'matches' is non-NULL, up to 'max_matches' ambiguous
   matching names indices will be inserted into it. If 'pnum_matches' is
   non-NULL, it will be set to the number of indices inserted into 'matches'.

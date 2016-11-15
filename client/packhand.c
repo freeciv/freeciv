@@ -945,8 +945,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     refresh_city_mapcanvas(pcity, pcenter, FALSE, FALSE);
   }
 
-  if (city_workers_display==pcity)  {
-    city_workers_display=NULL;
+  if (city_workers_display == pcity)  {
+    city_workers_display = NULL;
   }
 
   if (investigate) {

@@ -541,11 +541,11 @@ static void create_help_dialog(void)
   help_itable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_itable, FALSE, FALSE, 0);
 
-  for (i=0; i<6; i++) {
+  for (i = 0; i < 6; i++) {
     help_ilabel[i] =
 	gtk_label_new(help_ilabel_name[i] ? _(help_ilabel_name[i]) : "");
 
-    if (i==5) {
+    if (i == 5) {
       button = help_hyperlink_new(help_ilabel[i], HELP_TECH);
       gtk_table_attach_defaults(GTK_TABLE(help_itable), button, i, i+1, 0, 1);
     } else {
@@ -559,46 +559,45 @@ static void create_help_dialog(void)
   help_wtable = gtk_table_new(1, 6, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_wtable, FALSE, FALSE, 0);
 
-  for (i=0; i<6; i++) {
+  for (i = 0; i < 6; i++) {
     help_wlabel[i] =
 	gtk_label_new(help_wlabel_name[i] ? _(help_wlabel_name[i]) : "");
 
-    if (i==3 || i==5) {
+    if (i == 3 || i == 5) {
       button = help_hyperlink_new(help_wlabel[i], HELP_TECH);
-      gtk_table_attach_defaults(GTK_TABLE(help_wtable), button, i, i+1, 0, 1);
+      gtk_table_attach_defaults(GTK_TABLE(help_wtable), button, i, i + 1, 0, 1);
     } else {
       gtk_table_attach_defaults(GTK_TABLE(help_wtable),
-			        help_wlabel[i], i, i+1, 0, 1);
+                                help_wlabel[i], i, i + 1, 0, 1);
       gtk_widget_set_name(help_wlabel[i], "help_label");
     }
     gtk_widget_show(help_wlabel[i]);
   }
 
-
   help_utable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_utable, FALSE, FALSE, 0);
 
-  for (i=0; i<5; i++)
-    for (j=0; j<5; j++) {
+  for (i = 0; i < 5; i++)
+    for (j = 0; j < 5; j++) {
       help_ulabel[j][i] =
-	  gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
+        gtk_label_new(help_ulabel_name[j][i] ? _(help_ulabel_name[j][i]) : "");
 
-      if (j==4 && (i==1 || i==4)) {
-	if (i==1)
-	  button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
-	else
-	  button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
+      if (j == 4 && (i == 1 || i == 4)) {
+	if (i == 1) {
+          button = help_hyperlink_new(help_ulabel[j][i], HELP_TECH);
+        } else {
+	 button = help_hyperlink_new(help_ulabel[j][i], HELP_UNIT);
+        }
 
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
-					    button, i, i+1, j, j+1);
+                                  button, i, i + 1, j, j + 1);
       } else {
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
-			          help_ulabel[j][i], i, i+1, j, j+1);
+                                  help_ulabel[j][i], i, i + 1, j, j+1);
         gtk_widget_set_name(help_ulabel[j][i], "help_label");
       }
       gtk_widget_show(help_ulabel[j][i]);
     }
-
 
   help_ttable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);

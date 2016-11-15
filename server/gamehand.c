@@ -854,7 +854,7 @@ void send_year_to_clients(void)
 
 /**************************************************************************
   Send game_info packet; some server options and various stuff...
-  dest==NULL means game.est_connections
+  dest == NULL means game.est_connections
 
   It may be sent at any time. It MUST be sent before any player info, 
   as it contains the number of players.  To avoid inconsistency, it

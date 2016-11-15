@@ -364,8 +364,8 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   separately. 'prefix' is prepended to every line _after_ the first line.
 **************************************************************************/
 static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
-			      enum rfc_status rfc_status, const char *prefix,
-			      const char *format, va_list ap)
+                              enum rfc_status rfc_status, const char *prefix,
+                              const char *format, va_list ap)
 {
   char buf[4096];
   char *c0, *c1;
@@ -373,12 +373,13 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
   fc_vsnprintf(buf, sizeof(buf), format, ap);
 
   c0 = buf;
-  while ((c1=strstr(c0, "\n"))) {
+  while ((c1 = strstr(c0, "\n"))) {
     *c1 = '\0';
-    cmd_reply_line(cmd, caller, rfc_status, (c0==buf?"":prefix), c0);
-    c0 = c1+1;
+    cmd_reply_line(cmd, caller, rfc_status, (c0 == buf ? "" : prefix), c0);
+    c0 = c1 + 1;
   }
-  cmd_reply_line(cmd, caller, rfc_status, (c0==buf?"":prefix), c0);
+
+  cmd_reply_line(cmd, caller, rfc_status, (c0 == buf ? "" : prefix), c0);
 }
 
 /**************************************************************************
@@ -4113,7 +4114,7 @@ bool handle_stdin_input(struct connection *caller, char *str)
 /**************************************************************************
   Handle "command input", which could really come from stdin on console,
   or from client chat command, or read from file with -r, etc.
-  caller==NULL means console, str is the input, which may optionally
+  caller == NULL means console, str is the input, which may optionally
   start with SERVER_COMMAND_PREFIX character.
 
   If check is TRUE, then do nothing, just check syntax.
@@ -6209,20 +6210,20 @@ static bool show_help(struct connection *caller, char *arg)
                                    fc_strncasecmp, NULL, arg, &ind, matches,
                                    ARRAY_SIZE(matches), &num_matches);
 
-  if (match_result==M_PRE_EMPTY) {
+  if (match_result == M_PRE_EMPTY) {
     show_help_intro(caller, CMD_HELP);
     return FALSE;
   }
-  if (match_result==M_PRE_AMBIGUOUS) {
+  if (match_result == M_PRE_AMBIGUOUS) {
     cmd_reply(CMD_HELP, caller, C_FAIL,
-	      _("Help argument '%s' is ambiguous."), arg);
+              _("Help argument '%s' is ambiguous."), arg);
     cmd_reply_matches(CMD_HELP, caller, helparg_accessor,
                       matches, num_matches);
     return FALSE;
   }
-  if (match_result==M_PRE_FAIL) {
+  if (match_result == M_PRE_FAIL) {
     cmd_reply(CMD_HELP, caller, C_FAIL,
-	      _("No match for help argument '%s'."), arg);
+              _("No match for help argument '%s'."), arg);
     return FALSE;
   }
 
@@ -6835,9 +6836,9 @@ static char *cmdlevel_arg1_generator(const char *text, int state)
 **************************************************************************/
 static const char *cmdlevel_arg2_accessor(int idx)
 {
-  return ((idx==0) ? "first" :
-	  (idx==1) ? "new" :
-	  connection_name_accessor(idx-2));
+  return ((idx == 0) ? "first" :
+          (idx == 1) ? "new" :
+          connection_name_accessor(idx - 2));
 }
 
 /**************************************************************************

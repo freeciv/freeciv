@@ -2536,7 +2536,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 
 /****************************************************************************
   Return a textual representation of the F/P/T bonus a road provides to a
-  terrain if supplied, or the terrain-independent bonus if pterrain==NULL.
+  terrain if supplied, or the terrain-independent bonus if pterrain == NULL.
   e.g. "0/0/+1", "0/+50%/0", or for a complex road "+2/+1+50%/0".
   Returns a pointer to a static string, so caller should not free
   (or NULL if there is no effect at all).
@@ -2545,8 +2545,9 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
                                     const struct road_type *proad)
 {
   static char str[64];
-  str[0] = '\0';
   bool has_effect = FALSE;
+
+  str[0] = '\0';
   output_type_iterate(o) {
     switch (o) {
     case O_FOOD:
@@ -2555,6 +2556,7 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
       {
         int bonus = proad->tile_bonus[o];
         int incr = proad->tile_incr_const[o];
+
         if (pterrain) {
           incr +=
             proad->tile_incr[o] * pterrain->road_output_incr_pct[o] / 100;

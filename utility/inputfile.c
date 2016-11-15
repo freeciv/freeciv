@@ -357,7 +357,7 @@ static bool check_include(struct inputfile *inf)
   const char *c, *bare_name_start, *full_name;
   struct inputfile *new_inf, temp;
 
-  if (len==0) {
+  if (len == 0) {
     len = strlen(include_prefix);
   }
   fc_assert_ret_val(inf_sanity_check(inf), FALSE);

@@ -505,30 +505,30 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
           && !can_player_build_improvement_direct(pplayer, iunit->need_improvement)) {
         struct impr_type *building = iunit->need_improvement;
 
-	requirement_vector_iterate(&building->reqs, preq) {
-	  if (VUT_ADVANCE == preq->source.kind && preq->present) {
-	    int iimprtech = advance_number(preq->source.value.advance);
+        requirement_vector_iterate(&building->reqs, preq) {
+          if (VUT_ADVANCE == preq->source.kind && preq->present) {
+            int iimprtech = advance_number(preq->source.value.advance);
 
             if (TECH_KNOWN != research_invention_state(presearch,
                                                        iimprtech)) {
               int imprcost = research_goal_bulbs_required(presearch,
                                                           iimprtech);
 
-	      if (imprcost < cost || cost == 0) {
-	        /* If we already have the primary tech (cost==0),
-	         * or the building's tech is cheaper,
-	         * go for the building's required tech. */
-	        itech = preq->source.value.advance;
-	        cost = 0;
-	      }
-	      cost += imprcost;
-	    }
-	  }
-	} requirement_vector_iterate_end;
+              if (imprcost < cost || cost == 0) {
+                /* If we already have the primary tech (cost == 0),
+                 * or the building's tech is cheaper,
+                 * go for the building's required tech. */
+                itech = preq->source.value.advance;
+                cost = 0;
+              }
+              cost += imprcost;
+            }
+          }
+        } requirement_vector_iterate_end;
       }
 
       if (cost < best_cost
-       && research_invention_reachable(presearch, advance_number(itech))) {
+          && research_invention_reachable(presearch, advance_number(itech))) {
         best_tech = itech;
         best_cost = cost;
         best_unit = iunit;
@@ -550,6 +550,7 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
              want,
              utype_rule_name(best_unit));
   }
+
   return build_unit;
 }
 

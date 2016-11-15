@@ -141,15 +141,15 @@ struct gui_layer *add_gui_layer(int width, int height)
 }
 
 /**************************************************************************
-  Free buffer layer ( call by popdown_window_group_dialog(...) funct )
-  Funct. free buffer layer and cleare buffer array entry.
+  Free buffer layer ( call by popdown_window_group_dialog(...) func )
+  Func. Free buffer layer and clear buffer array entry.
 **************************************************************************/
 void remove_gui_layer(struct gui_layer *gui_layer)
 {
   int i;
 
   for (i = 0; i < Main.guis_count - 1; i++) {
-    if (Main.guis[i] && (Main.guis[i]== gui_layer)) {
+    if (Main.guis[i] && (Main.guis[i] == gui_layer)) {
       gui_layer_destroy(&Main.guis[i]);
       Main.guis[i] = Main.guis[i + 1];
       Main.guis[i + 1] = NULL;

@@ -187,8 +187,8 @@ void gui_remove_net_input(void)
   punit is the unit the information should be taken from. Use NULL to
   clear the icon.
 
-  idx specified which icon should be modified. Use idx==-1 to indicate
-  the icon for the active unit. Or idx in [0..num_units_below-1] for
+  idx specified which icon should be modified. Use idx == -1 to indicate
+  the icon for the active unit. Or idx in [0..num_units_below - 1] for
   secondary (inactive) units on the same tile.
 **************************************************************************/
 void gui_set_unit_icon(int idx, struct unit *punit)

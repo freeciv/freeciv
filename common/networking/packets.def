@@ -1259,9 +1259,9 @@ PACKET_SPACESHIP_PLACE = 136; cs, dsend
   PLACE_TYPE type;
 
   # Meaning of num:
-  #  - if type==SSHIP_ACT_PLACE_STRUCTURAL: 
+  #  - if type == SSHIP_ACT_PLACE_STRUCTURAL: 
   #      index to sship->structure[]
-  #  - if type!=SSHIP_ACT_PLACE_STRUCTURAL:
+  #  - if type != SSHIP_ACT_PLACE_STRUCTURAL:
   #      new value for sship->fuel etc; should be just one more than
   #      current value of ship->fuel etc Used to avoid possible
   #      problems if we send duplicate packets when client

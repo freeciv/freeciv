@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -925,7 +925,7 @@ void get_effect_req_text(const struct effect *peffect,
     fc_strlcat(buf, multiplier_name_translation(peffect->multiplier), buf_len);
   }
 
-  /* FIXME: should we do something for present==FALSE reqs?
+  /* FIXME: should we do something for present == FALSE reqs?
    * Currently we just ignore them. */
   requirement_vector_iterate(&peffect->reqs, preq) {
     if (!preq->present) {

@@ -769,7 +769,7 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
   astr_clear(&str);
   if ((mp == 0 && none) || SINGLE_MOVE == 0) {
     /* No movement points, and we have a special representation to use */
-    /* (Also used when SINGLE_MOVE==0, to avoid dividing by zero, which is
+    /* (Also used when SINGLE_MOVE == 0, to avoid dividing by zero, which is
      * important for client before ruleset has been received. Doesn't much
      * matter what we print in this case.) */
     astr_add(&str, "%s%*s", none ? none : "", pad2, "");

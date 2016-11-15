@@ -2204,9 +2204,8 @@ void send_player_cities(struct player *pplayer)
   city_list_iterate_end;
 }
 
-
 /**************************************************************************
-  A wrapper, accessing either broadcast_city_info() (dest==NULL),
+  A wrapper, accessing either broadcast_city_info() (dest == NULL),
   or a convenience case of send_city_info_at_tile().
   Must specify non-NULL pcity.
 **************************************************************************/

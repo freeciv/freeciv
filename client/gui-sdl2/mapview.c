@@ -972,14 +972,14 @@ static bool is_focus_anim_enabled(void)
 
 /**************************************************************************
   Set one of the unit icons in the information area based on punit.
-  NULL will be passed to clear the icon. idx==-1 will be passed to
-  indicate this is the active unit, or idx in [0..num_units_below-1] for
+  NULL will be passed to clear the icon. idx == -1 will be passed to
+  indicate this is the active unit, or idx in [0..num_units_below - 1] for
   secondary (inactive) units on the same tile.
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)
 {
-/* FIXME */
-/*  update_unit_info_label(punit);*/
+  /* FIXME */
+  /*  update_unit_info_label(punit);*/
 }
 
 /**************************************************************************

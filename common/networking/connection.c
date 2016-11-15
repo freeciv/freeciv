@@ -369,10 +369,11 @@ void conn_list_do_unbuffer(struct conn_list *dest)
 struct connection *conn_by_user(const char *user_name)
 {
   conn_list_iterate(game.all_connections, pconn) {
-    if (fc_strcasecmp(user_name, pconn->username)==0) {
+    if (fc_strcasecmp(user_name, pconn->username) == 0) {
       return pconn;
     }
   } conn_list_iterate_end;
+
   return NULL;
 }
 

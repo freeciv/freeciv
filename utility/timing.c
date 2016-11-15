@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -86,10 +86,10 @@ struct timer {
 
   /* this is accumulated time for previous timings: */
   double sec;
-  long usec;		/* not always used, in which case zero,
-			   or if used may be negative, but >= -1000000 */
+  long usec;            /* not always used, in which case zero,
+                           or if used may be negative, but >= -1000000 */
 
-  /* this is start of current timing, if state==TIMER_STARTED: */
+  /* this is start of current timing, if state == TIMER_STARTED: */
   union {
     clock_t c;
 #ifdef HAVE_GETTIMEOFDAY

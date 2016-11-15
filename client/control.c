@@ -797,7 +797,7 @@ struct unit *find_visible_unit(struct tile *ptile)
   struct unit *panyowned = NULL, *panyother = NULL, *ptptother = NULL;
 
   /* If no units here, return nothing. */
-  if (unit_list_size(ptile->units)==0) {
+  if (unit_list_size(ptile->units) == 0) {
     return NULL;
   }
 

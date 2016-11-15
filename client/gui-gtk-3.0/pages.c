@@ -1644,7 +1644,7 @@ void ai_fill_changed_by_server(int aifill)
     /* HACK: this GUI control doesn't have quite the same semantics as the
      * server 'aifill' option, in that it claims to represent the minimum
      * number of players _including humans_. The GUI control has a minimum
-     * value of 1, so aifill==0 will not be represented correctly.
+     * value of 1, so aifill == 0 will not be represented correctly.
      * But there's generally exactly one human player because the control
      * only shows up for a locally spawned server, so we more or less
      * get away with this. */

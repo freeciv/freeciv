@@ -2935,7 +2935,7 @@ static void srv_ready(void)
       if (!created && max > 1) {
         int set;
 
-        /* If we're retrying, seed_setting==0, which will yield a new map
+        /* If we're retrying, seed_setting == 0, which will yield a new map
          * next time */
         fc_assert(wld.map.server.seed_setting == 0);
         if (i == 0) {

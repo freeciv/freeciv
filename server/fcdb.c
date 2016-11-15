@@ -80,7 +80,7 @@ static bool fcdb_load_config(const char *filename);
 
 
 /****************************************************************************
-  Set one fcdb option (or delete it if value==NULL).
+  Set one fcdb option (or delete it if value == NULL).
   Replaces any previous setting.
 ****************************************************************************/
 static bool fcdb_set_option(const char *key, const char *value,
@@ -91,6 +91,7 @@ static bool fcdb_set_option(const char *key, const char *value,
 
   if (value != NULL) {
     struct fcdb_option *newopt = fc_malloc(sizeof(*newopt));
+
     newopt->value = fc_strdup(value);
     newopt->source = source;
     removed = fcdb_option_hash_replace_full(fcdb_config, key, newopt,

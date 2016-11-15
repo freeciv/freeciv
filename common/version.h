@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@ extern "C" {
 #endif
 
 /* This is only used in version.c, and only if IS_BETA_VERSION is true.
-   The month[] array is defined in version.c (index: 1==Jan, 2==Feb, ...). */
+ * The month[] array is defined in version.c (index: 1 == Jan, 2 == Feb, ...).
+ */
 #ifndef NEXT_RELEASE_MONTH
 #define NEXT_RELEASE_MONTH	(month[FREECIV_RELEASE_MONTH])
 #endif
