@@ -36,6 +36,8 @@ dnl different patch versions are compatible
 VERSION_SCRIPT_SILENT=yes
 m4_include(fc_version)
 
+AC_ARG_VAR([FREECIV_LABEL_FORCE], [Forced version label format])
+
 VERSION_WITHOUT_LABEL=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${EMERG_PART}
 VERSION=${VERSION_WITHOUT_LABEL}${VERSION_LABEL}x
 
