@@ -3025,10 +3025,10 @@ void unit_transport_unload_send(struct unit *punit)
 
 /**************************************************************************
   This function is passed to unit_list_sort() to sort a list of units
-  according to their win chance against autoattack_target modified by
+  according to their win chance against autoattack_target, modified by
   transportation relationships.
 
-  The reason for making sure that a cargo unit is ahead of it
+  The reason for making sure that a cargo unit is ahead of its
   transporter(s) is to leave transports out of combat if at all possible.
   (The transport could be destroyed during combat.)
 **************************************************************************/
@@ -3041,10 +3041,26 @@ static int compare_units(const struct unit *const *p1,
   int q1uwc = unit_win_chance(*q1, q1def);
 
   /* Sort by transport depth first. This makes sure that no transport
-   * attacks before its cargo does. */
-  if (unit_transport_depth(*p1) != unit_transport_depth(*q1)) {
-    /* The units have a different number of recursive transporters. */
-    return unit_transport_depth(*q1) - unit_transport_depth(*p1);
+   * attacks before its cargo does -- cargo sorts earlier in the list. */
+  {
+    const struct unit *p1trans = *p1, *q1trans = *q1;
+
+    /* Walk the transport stacks in parallel, so as to bail out as soon as
+     * one of them is empty (avoid walking deep stacks more often than
+     * necessary). */
+    while (p1trans && q1trans) {
+      p1trans = unit_transport_get(p1trans);
+      q1trans = unit_transport_get(q1trans);
+    }
+    if (!p1trans && q1trans) {
+      /* q1 is at greater depth (perhaps it's p1's cargo). It should sort
+       * earlier in the list (p1 > q1). */
+      return 1;
+    } else if (p1trans && !q1trans) {
+      /* p1 is at greater depth, so should sort earlier (p1 < q1). */
+      return -1;
+    }
+    /* else same depth, so move on to checking win chance: */
   }
 
   if (p1uwc < q1uwc) {
