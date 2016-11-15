@@ -1370,6 +1370,7 @@ reqs           =
     }
 build_time     = 2
 removal_time   = 0
+unit_seen      = "Hidden"
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
 flags          = "NativeTile", "DiplomatDefense"
@@ -1450,6 +1451,7 @@ reqs           =
     }
 build_time     = 2
 removal_time   = 0
+unit_seen      = "Hidden"
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
 flags          = "Refuel", "ParadropFrom"
