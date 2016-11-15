@@ -3040,9 +3040,9 @@ static void autoattack_prob_free(struct autoattack_prob *prob)
 /**************************************************************************
   This function is passed to autoattack_prob_list_sort() to sort a list of
   units and action probabilities according to their win chance against the
-  autoattack target modified by transportation relationships.
+  autoattack target, modified by transportation relationships.
 
-  The reason for making sure that a cargo unit is ahead of it
+  The reason for making sure that a cargo unit is ahead of its
   transporter(s) is to leave transports out of combat if at all possible.
   (The transport could be destroyed during combat.)
 **************************************************************************/
@@ -3053,19 +3053,35 @@ static int compare_units(const struct autoattack_prob *const *p1,
   const struct unit *q1unit = game_unit_by_number((*q1)->unit_id);
 
   /* Sort by transport depth first. This makes sure that no transport
-   * attacks before its cargo does. */
-  if (unit_transport_depth(p1unit) != unit_transport_depth(q1unit)) {
-    /* The units have a different number of recursive transporters. */
-    return unit_transport_depth(q1unit) - unit_transport_depth(p1unit);
-  } else {
-    /* Put the units with the highest probability of success first. The up
-     * side of this is that units with bonuses against the victim attacks
-     * before other units. The downside is that strong units can be lead
-     * away by sacrificial units. */
-    return (-1
-            /* Assume the worst. */
-            * action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob));
+   * attacks before its cargo does -- cargo sorts earlier in the list. */
+  {
+    const struct unit *p1trans = p1unit, *q1trans = q1unit;
+
+    /* Walk the transport stacks in parallel, so as to bail out as soon as
+     * one of them is empty (avoid walking deep stacks more often than
+     * necessary). */
+    while (p1trans && q1trans) {
+      p1trans = unit_transport_get(p1trans);
+      q1trans = unit_transport_get(q1trans);
+    }
+    if (!p1trans && q1trans) {
+      /* q1 is at greater depth (perhaps it's p1's cargo). It should sort
+       * earlier in the list (p1 > q1). */
+      return 1;
+    } else if (p1trans && !q1trans) {
+      /* p1 is at greater depth, so should sort earlier (p1 < q1). */
+      return -1;
+    }
+    /* else same depth, so move on to checking win chance: */
   }
+
+  /* Put the units with the highest probability of success first. The up
+   * side of this is that units with bonuses against the victim attacks
+   * before other units. The downside is that strong units can be led
+   * away by sacrificial units. */
+  return (-1
+          /* Assume the worst. */
+          * action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob));
 }
 
 /*****************************************************************
