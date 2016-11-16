@@ -575,8 +575,8 @@ void wonder_destroyed(const struct city *pcity,
 bool wonder_is_lost(const struct player *pplayer,
                     const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(NULL != pplayer, NULL);
-  fc_assert_ret_val(is_wonder(pimprove), NULL);
+  fc_assert_ret_val(NULL != pplayer, FALSE);
+  fc_assert_ret_val(is_wonder(pimprove), FALSE);
 
   return pplayer->wonders[improvement_index(pimprove)] == WONDER_LOST;
 }
@@ -588,8 +588,8 @@ bool wonder_is_lost(const struct player *pplayer,
 bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove)
 {
-  fc_assert_ret_val(NULL != pplayer, NULL);
-  fc_assert_ret_val(is_wonder(pimprove), NULL);
+  fc_assert_ret_val(NULL != pplayer, FALSE);
+  fc_assert_ret_val(is_wonder(pimprove), FALSE);
 
   return WONDER_BUILT(pplayer->wonders[improvement_index(pimprove)]);
 }
