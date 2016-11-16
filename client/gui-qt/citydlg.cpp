@@ -3755,12 +3755,20 @@ QVariant city_production_model::data(const QModelIndex &index, int role) const
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
       && index.column() < columnCount()
       && (index.column() + index.row() * 3 < city_target_list.count())) {
+    int r, c, t ,new_index;
+    r = index.row();
+    c = index.column();
+    t = r * 3 + c;
+    new_index = t / 3 + rowCount() * c;
+    /* Exception, shift whole column */
+    if ((c == 2) && city_target_list.count() % 3 == 1) {
+      new_index = t / 3 + rowCount() * c - 1;
+    }
     if (role == Qt::ToolTipRole) {
-      return get_tooltip(city_target_list[index.row() * 3
-                                          + index.column()]->data());
+      return get_tooltip(city_target_list[new_index]->data());
     }
 
-    return city_target_list[index.row() * 3 + index.column()]->data();
+    return city_target_list[new_index]->data();
   }
 
   return QVariant();
@@ -3777,7 +3785,7 @@ void city_production_model::populate()
   struct universal *renegade;
   int item, targets_used;
   QString str;
-  QFont f = QApplication::font();
+  QFont f = *fc_font::instance()->get_font(fonts::default_font);
   QFontMetrics fm(f);
 
   sh.setY(fm.height() * 2);
