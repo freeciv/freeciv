@@ -14,7 +14,10 @@
 #include <fc_config.h>
 #endif
 
+#ifdef FREECIV_HAVE_DIRENT_H
 #include <dirent.h>
+#endif
+
 #include <sys/stat.h>
 
 /* utility */

@@ -22,7 +22,10 @@
 #include <sys/types.h>
 #endif
 
+#ifdef FREECIV_HAVE_DIRENT_H
 #include <dirent.h>
+#endif
+
 #include <errno.h>
 #include <limits.h>
 #include <stdarg.h>

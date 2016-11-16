@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,7 +14,10 @@
 #include <fc_config.h>
 #endif
 
+#ifdef FREECIV_HAVE_DIRENT_H
 #include <dirent.h>
+#endif
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -186,7 +189,6 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
 {
   DIR *dir;
   struct dirent *entry;
-  
   char **theme_names = fc_malloc(sizeof(char *) * 2);
   /* Allocated memory size */
   int t_size = 2;

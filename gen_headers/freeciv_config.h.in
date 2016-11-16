@@ -83,6 +83,9 @@
 /* netinet/in.h available */
 #undef FREECIV_HAVE_NETINET_IN_H
 
+/* dirent.h available */
+#undef FREECIV_HAVE_DIRENT_H
+
 /* Have standard compliant stdbool.h */
 #undef FREECIV_HAVE_STDBOOL_H
 

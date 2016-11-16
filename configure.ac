@@ -1339,6 +1339,7 @@ AC_CHECK_HEADERS([sys/time.h], [AC_DEFINE([FREECIV_HAVE_SYS_TIME_H], [1], [sys/t
 AC_CHECK_HEADERS([unistd.h], [AC_DEFINE([FREECIV_HAVE_UNISTD_H], [1], [unistd.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
 AC_CHECK_HEADERS([libintl.h], [AC_DEFINE([FREECIV_HAVE_LIBINTL_H], [1], [libint.h available])])
+AC_CHECK_HEADERS([dirent.h], [AC_DEFINE([FREECIV_HAVE_DIRENT_H], [1], [dirent.h available])])
 AC_HEADER_STDBOOL
 if test $ac_cv_header_stdbool_h = yes; then
   AC_DEFINE([FREECIV_HAVE_STDBOOL_H], [1], [Have standard compliant stdbool.h])

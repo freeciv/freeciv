@@ -26,7 +26,10 @@ extern "C" {
 
 #include <freeciv_config.h>
 
+#ifdef FREECIV_HAVE_DIRENT_H
 #include <dirent.h>
+#endif
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>		/* size_t */
