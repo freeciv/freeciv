@@ -650,6 +650,12 @@ struct extra_type *get_preferred_pillage(bv_extras extras)
     }
   } extra_type_by_cause_iterate_rev_end;
 
+  extra_type_by_cause_iterate_rev(EC_NONE, pextra) {
+    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
+      return pextra;
+    }
+  } extra_type_by_cause_iterate_rev_end;
+
   return NULL;
 }
 
