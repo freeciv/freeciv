@@ -50,7 +50,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 44;
+static int num_shortcuts = 46;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -106,7 +106,7 @@ fc_shortcut default_shortcuts[] = {
   {SC_UNSENTRY_TILE, Qt::Key_D, Qt::AllButtons,
     Qt::ShiftModifier | Qt::ControlModifier, _("Unsentry All On Tile") },
   {SC_DO, Qt::Key_D, Qt::AllButtons, Qt::NoModifier, _("Do...") },
-  {SC_UPGRADE_UNIT, Qt::Key_U, Qt::AllButtons, Qt::ShiftModifier,
+  {SC_UPGRADE_UNIT, Qt::Key_U, Qt::AllButtons, Qt::ControlModifier,
     _("Upgrade") },
   {SC_SETHOME, Qt::Key_H, Qt::AllButtons, Qt::NoModifier,
     _("Set Home City") },
@@ -138,6 +138,10 @@ fc_shortcut default_shortcuts[] = {
     _("Quick buy current production from map") },
   {SC_IFACE_LOCK, Qt::Key_L, Qt::AllButtons, Qt::ControlModifier
     | Qt::ShiftModifier, _("Lock/unlock interface") },
+  {SC_AUTOMATE, Qt::Key_A, Qt::AllButtons, Qt::NoModifier,
+    _("Auto worker") },
+  {SC_PARADROP, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
+    _("Paradrop/clean pollution") },
 };
 
 

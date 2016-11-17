@@ -864,6 +864,44 @@ int unit_actions::update_actions()
     a->set_pixmap(fc_icons::instance()->get_pixmap("load"));
     actions.append(a);
   }
+  /* Set homecity */
+  if (tile_city(unit_tile(current_unit))) {
+    if (can_unit_change_homecity_to(current_unit,
+                                    tile_city(unit_tile(current_unit)))) {
+      a = new hud_action(this);
+      a->action_shortcut = SC_SETHOME;
+      a->set_pixmap(fc_icons::instance()->get_pixmap("set_homecity"));
+      actions.append(a);
+    }
+  }
+  /* Upgrade */
+  if (UU_OK == unit_upgrade_test(current_unit, FALSE)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_UPGRADE_UNIT;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("upgrade"));
+    actions.append(a);
+  }
+  /* Automate */
+  if (can_unit_do_autosettlers(current_unit)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_AUTOMATE;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("automate"));
+    actions.append(a);
+  }
+  /* Paradrop */
+  if (can_unit_paradrop(current_unit)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_PARADROP;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("paradrop"));
+    actions.append(a);
+  }
+  /* Clean pollution */
+  if (can_unit_do_activity(current_unit, ACTIVITY_POLLUTION)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_PARADROP;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("pollution"));
+    actions.append(a);
+  }
   /* Unload */
   if (unit_transported(current_unit)
       && can_unit_unload(current_unit, unit_transport_get(current_unit))

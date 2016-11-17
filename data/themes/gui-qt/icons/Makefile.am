@@ -5,6 +5,7 @@ pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-qt/icons
 
 pkgdata_DATA =          	\
 	ai.png			\
+	automate.png		\
 	building.png		\
 	buildroad.png		\
 	cclose.png		\
@@ -39,15 +40,19 @@ pkgdata_DATA =          	\
 	nuke.png		\
 	list-add.png		\
 	meeting-observer.png	\
+	paradrop.png		\
 	plantforest.png		\
 	plus.png		\
+	pollution.png		\
 	preferences-other.png	\
 	research.png		\
 	resize.png		\
 	sentry.png		\
+	set_homecity.png	\
 	transform.png		\
 	units.png		\
 	unload.png		\
+	upgrade.png		\
 	wait.png		\
 	wonder.png		\
 	view.png

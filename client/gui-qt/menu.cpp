@@ -1255,7 +1255,8 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("shift+j")));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_go_join_city()));
   act = menu->addAction(_("Auto Settler"));
-  act->setShortcut(QKeySequence(tr("a")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_AUTOMATE))));
   menu_list.insertMulti(AUTOSETTLER, act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_auto_settler()));
   menu->addSeparator();
@@ -1295,7 +1296,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_transform()));
   act = menu->addAction(_("Clean Pollution"));
   menu_list.insertMulti(POLLUTION, act);
-  act->setShortcut(QKeySequence(tr("p")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_PARADROP))));
   connect(act, SIGNAL(triggered()), this, SLOT(slot_clean_pollution()));
   act = menu->addAction(_("Clean Nuclear Fallout"));
   menu_list.insertMulti(FALLOUT, act);
@@ -1627,8 +1629,9 @@ void mr_menu::execute_shortcut(int sid)
   menu_list = findChildren<QMenu*>();
     foreach (m, menu_list) {
         foreach (a, m->actions()) {
-          if (a->shortcut() == seq) {
+          if (a->shortcut() == seq && a->isEnabled()) {
             a->activate(QAction::Trigger);
+            return;
           }
         }
     }
