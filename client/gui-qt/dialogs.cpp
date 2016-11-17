@@ -2783,7 +2783,23 @@ void popup_soundset_suggestion_dialog(void)
 *****************************************************************/
 void popup_musicset_suggestion_dialog(void)
 {
-  qDebug() << Q_FUNC_INFO << "PORTME";
+  hud_message_box ask(gui()->central_wdg);
+  QString text;
+  QString title;
+  QPushButton *ok_button;
+
+  title = QString(_("Modpack suggests using %1 musicset."))
+          .arg(game.control.preferred_musicset);
+  text = QString("It might not work with other tilesets.\n"
+                 "You are currently using musicset %1.")
+         .arg(music_set_name);
+  ask.addButton(_("Keep current musicset"), QMessageBox::ActionRole);
+  ok_button = ask.addButton(_("Load musicset"), QMessageBox::ActionRole);
+  ask.set_text_title(text, title);
+  ask.exec();
+  if (ask.clickedButton() == ok_button) {
+    audio_restart(sound_set_name, game.control.preferred_musicset);
+  }
 }
 
 /**************************************************************************
