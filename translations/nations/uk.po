@@ -32,6 +32,11 @@ msgid ""
 "Greeks, Romans, Byzantines, Turks, Russians and Georgians. Nowadays Abkhazia "
 "is a partially recognized republic."
 msgstr ""
+"Нащадки Абхазів жили на західному Кавказі з незапам’ятних часів."
+"Короткі періоди незалежності змінювались пануванням греків, римлян, "
+"візантійців, турків, росіян та грузинів. Нинішня Абхазія є частково "
+"визнаною республікою."
+
 
 #: data/nation/abkhaz.ruleset:24 data/nation/acehnese.ruleset:29
 #: data/nation/bashkir.ruleset:27 data/nation/chechen.ruleset:31
@@ -164,6 +169,9 @@ msgid ""
 "ruled historical states in the Horn of Africa, the most prominent being the "
 "Aksumite Kingdom and the Ethiopian Empire."
 msgstr ""
+"Абіссинці - також знані як Габеша або Ефіопи - семітський народ, що правив "
+"історичними державами Рогу Африки, найяскравішими були Аксумське Царство та "
+"Ефіопська Імперія."
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
@@ -239,6 +247,13 @@ msgid ""
 "distrust of British colonial authorities who would forcefully deport them in "
 "1755. Acadians have since returned to their land and rebuilt."
 msgstr ""
+"Акадія заснована 1604 року - перша Французська колонія в Північній Америці. "
+"Невдовзі попала під перехресний вогонь англо-Французських воєн, через що "
+"Акадія часто переходила з рук в руки. Це змусило акадійців виробити "
+"окремішність і самоврядування. Нестача підтримки кожній із сторін в цих "
+"війнах зробила їм славу французських нейтралів, але також зневірила і "
+"британських колоніальних урядовців, котрі силоміць виселили їх у 1755. "
+"Акадійці після того повернулись на свою землю і відбудувались."
 
 #: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
@@ -311,6 +326,9 @@ msgid ""
 "trade through the Strait of Malacca. Aceh was subjugated by the Dutch in the "
 "bloody Aceh War of 1873-1903."
 msgstr ""
+"Султанат Ачех, що знаходився на західному кінці острову Суматра був місцевою "
+"силою в XVI та XVII століттях, контролюючи більшу частину торгівлі протокою "
+"Малака. Голландці підкорили Ачех в кривавій війні 1873-1903 рр."
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
 #: data/nation/comorian.ruleset:26 data/nation/darfuri.ruleset:28
@@ -376,6 +394,11 @@ msgid ""
 "Petropolis of 1903, after which Acre was annexed to Brazil. Acre is one of "
 "the world's most important rubber producing regions."
 msgstr ""
+"Акре - найзахідніший штат Бразилії. Регіон був частиноб Болівії до 1899, коли "
+"Бразильські поселенці повстали і проголосили Незалежну Державу Акре. Болівія "
+"забрала свої претензії на територію в Петропольській Угоді 1903 року, після "
+"якої Акре була анексована Бразилією. Акре - один з найважливіших регіонів "
+"виробництва ґуми."
 
 #: data/nation/acrean.ruleset:31
 #, c-format
@@ -519,7 +542,7 @@ msgid ""
 "The Ainu are the indigenous people of northern Japan, the Kuril islands, "
 "Sakhalin, and the southern part of the Kamchatka peninsula."
 msgstr ""
-"Аіну це місцевий народ північної Японії, Курильских островів, Сахалину та "
+"Аіну це місцевий народ північної Японії, Курильских островів, Сахаліну та "
 "південної частини півострова Камчатка."
 
 #: data/nation/akwe.ruleset:3
@@ -540,6 +563,12 @@ msgid ""
 "in large ring villages since about the 9th century CE. They are Ge speakers "
 "who farm maize, manioc, sweet potatoes and yams."
 msgstr ""
+"Акве також знані під трьома різними племінними іменами Португальською - "
+"Ксаванте, Ксаріаба і Ксеренте. Мають патрілінійну кланову систему і живуть у "
+"штатах Мату-Гросу і Токантинс, проте історично Бразильці змушували їх "
+"переселятись кілька разів. Традиційно, ними правлять ради старійшин, котрі "
+"вибирають вождів, живуть у великих кільцевих селищах десь з ІХ століття н.е. "
+"Розмовляють мовою Ге, садять маїс, маніоку, солодкі картоплі і ямс."
 
 #: data/nation/alandalus.ruleset:3
 msgid "Andalusi"
@@ -557,6 +586,11 @@ msgid ""
 "kingdoms gradually pushed back the Islamic states of Al-Andalus. Their last "
 "city on the Iberian peninsula, Granada, fell in 1492."
 msgstr ""
+"Аль-Андалус це частини Піренейського півострова, що були під мусульманським "
+"пануванням протягом середніх віків. Мусульмани-Андалузи відомі своїм широким "
+"архітектурним спадком. Під час Реконкісти християнські королівства значно "
+"потіснили ісламські держави Аль-Андалуза. Останнє їх місто на півострові - "
+"Гранада впала 1492 року."
 
 #: data/nation/alandalus.ruleset:31 data/nation/amazigh.ruleset:71
 #: data/nation/bahraini.ruleset:25 data/nation/cyrenaican.ruleset:26
@@ -647,6 +681,11 @@ msgid ""
 "long period in which the islands were contested between Sweden and Finland. "
 "Aland's special and demilitarized status is protected by international law."
 msgstr ""
+"Аланд це архіпелаг в Балтійському морі, між Швецією та Фінляндією. мешканці "
+"островів розмовляють шведською, але Аланд є автономною провінцією Фінляндії, "
+"цього стану вдалось досягти 1921 року після довготривалого змагання між "
+"країнами. Спеціальний і демілітаризований статус Аланду захищають "
+"міжнародні закони."
 
 #: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
@@ -691,6 +730,11 @@ msgid ""
 "history. It has been an independent state again since 1912. For much of the "
 "20th century Albania was ruled by communist dictator Enver Hoxha."
 msgstr ""
+"Жителі Балканського півострова Албанці - їх етнічні корені до кінця невідомі. "
+"Припускають що вони нащадки ілірійців класичною античності. Албанія "
+"переходила з рук в руки кілька разів. Стала знову незалежною державою у 1912. "
+"Велику частину 20-го сторіччя албанією правив комуністичний диктатор - "
+"Енвер Ходжа."
 
 #: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
@@ -708,7 +752,7 @@ msgstr ""
 #: data/nation/urartian.ruleset:37 data/nation/westernpomeranian.ruleset:29
 #, c-format
 msgid "Prince %s"
-msgstr "Принц %s"
+msgstr "Князь %s"
 
 #: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
@@ -770,6 +814,12 @@ msgid ""
 "Russians to their other colonial entrepots such as Ft. Ross in northern "
 "California and Ft. Elizabeth in Hawai'i."
 msgstr ""
+"Унангани або Алеути, жили в постійних землянках у мисливських та рибальських "
+"селищах. Прожили тисячі років на Алеутських островах до контакту з "
+"євпропейцями. Унанганські люди прив’язалися до російських місіонерів і "
+"торговців і багато перейшло в російське православ’я, та переженилися з "
+"росіянами, деякі навіть супроводжували росіян до інших колоніальних надбань, "
+"як форт Росс в пн Каліфорнії та форт Єлизавети на Гаваях."
 
 #: data/nation/aleut.ruleset:23 data/nation/choctaw.ruleset:33
 #: data/nation/chumash.ruleset:24 data/nation/comanche.ruleset:26
@@ -986,6 +1036,13 @@ msgid ""
 "Tachelhit or Tarifit, collectively known as Berber languages, using an age-"
 "old writing system called Tifinagh."
 msgstr ""
+"Цивілізація Амазигів одна з найстаріших в середземномор’ї, співіснувала з "
+"древнім Єгиптом. Люди з народу Амазигів, що означає \"вільні люди\", стійкі "
+"і сильні але гостинні і привітні з великою шаною до родини і племені. Кожне "
+"плем’я має свої традиції та культуру - що стало причиною нескінченого "
+"різноманіття звичаїв в сучасних Марокко, Алжирі та Тунісі. Амазиги "
+"розмовляють старими мовами - Тамазірт, Тахелхіт чи Тарифіт, котрі вкупі "
+"відомі під назвою Берберських і використовують віковічну писемність Тіфінаг."
 
 #: data/nation/amazonian.ruleset:3
 msgid "Amazonian"
@@ -1023,6 +1080,11 @@ msgid ""
 "their successors - the current bishop of Urgell and the President of the "
 "French Republic - bear the (mostly honorific) title of co-prince of Andorra."
 msgstr ""
+"Андорра - маленька країна в східних Піренеях. У 1278 спір між єпископом "
+"Ургельским і графом Фуа скінчився домовленістю розділити суверенітет Андорри. "
+"Цей договір ще в силі і наступники - нинішній єпископ Ургельський і Президент "
+"Французької Республіки - носять (здебільшого почесні) "
+"титули співкнязів Андорри."
 
 #: data/nation/andorran.ruleset:23 data/nation/palmyrene.ruleset:20
 #: data/nation/paraguayan.ruleset:37 data/nation/ugandan.ruleset:32
@@ -1038,7 +1100,7 @@ msgstr "Диктаторка %s"
 #: data/nation/andorran.ruleset:24
 #, c-format
 msgid "Co-Prince %s"
-msgstr "Ко-Принц %s"
+msgstr "Спів-Князь %s"
 
 #: data/nation/andorran.ruleset:24
 #, c-format
@@ -9917,12 +9979,11 @@ msgstr ""
 
 #: data/nation/sotho.ruleset:3
 msgid "Sotho"
-msgstr ""
+msgstr "Суто"
 
 #: data/nation/sotho.ruleset:4
-#, fuzzy
 msgid "?plural:Basotho"
-msgstr "Башкіри"
+msgstr "Басото"
 
 #: data/nation/sotho.ruleset:6
 msgid ""
@@ -9932,6 +9993,10 @@ msgid ""
 "Moshoeshoe I. Today, there are about 2 million Sotho in the Kingdom of "
 "Lesotho and almost twice that number in South Africa."
 msgstr ""
+"Народ Банту в Південній Африці, предки Басото вперше прибули в регіон "
+"наприкінці першого тисячоліття н.е. Басуто об’єднались в першу політичну силу "
+"на початку 19 століття королем Мошошо І. Нині близько 2 мільйонів Сото живе в "
+"Королівстві Лесото, і вдвічі більше в Південній Африці."
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
@@ -10050,7 +10115,6 @@ msgid "?plural:Soviets"
 msgstr "Радянські"
 
 #: data/nation/soviet.ruleset:6
-#, fuzzy
 msgid ""
 "The history of the Soviet Union starts in November 1917, when under Lenin's "
 "leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet "
@@ -10819,7 +10883,6 @@ msgid "?plural:Ukrainians"
 msgstr "Українці"
 
 #: data/nation/ukrainian.ruleset:6
-#, fuzzy
 msgid ""
 "Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
@@ -11087,7 +11150,6 @@ msgstr "Венесуельці"
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
-#, fuzzy
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -11099,7 +11161,10 @@ msgid ""
 msgstr ""
 "Венесуела - це найпівнічніша країна Південної Америки. Вона була іспанською "
 "колонією з 16-го сторіччя. Країна набула незалежності 5 липня 1811 року під "
-"керівництвом Сімона Болівара - Визволителя."
+"керівництвом Сімона Болівара - Визволителя. Венесуела має одні з найбільших "
+"розвіданих запасів нафти і газу в світі; протягом нафтового буму 1970х вона "
+"була найбагатшою країною латинської Америки. Країна відома різномаїттям "
+"ландшафтів і життєвих форм."
 
 #: data/nation/vermont.ruleset:3
 msgid "Vermont"
