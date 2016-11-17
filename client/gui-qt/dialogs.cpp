@@ -2227,7 +2227,23 @@ void popup_disband_dialog(struct unit_list *punits)
 **************************************************************************/
 void popup_tileset_suggestion_dialog(void)
 {
-  qDebug() << Q_FUNC_INFO << "PORTME";
+  hud_message_box ask(gui()->central_wdg);
+  QString text;
+  QString title;
+  QPushButton *ok_button;
+
+  title = QString(_("Modpack suggests using %1 tileset."))
+          .arg(game.control.preferred_tileset);
+  text = QString("It might not work with other tilesets.\n"
+                 "You are currently using tileset %1.")
+         .arg(tileset_basename(tileset));
+  ask.addButton(_("Keep current tileset"), QMessageBox::ActionRole);
+  ok_button = ask.addButton(_("Load tileset"), QMessageBox::ActionRole);
+  ask.set_text_title(text, title);
+  ask.exec();
+  if (ask.clickedButton() == ok_button) {
+    tilespec_reread(game.control.preferred_tileset, FALSE);
+  }
 }
 
 /****************************************************************
