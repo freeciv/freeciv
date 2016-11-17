@@ -256,7 +256,7 @@ static gboolean
 gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 {
   fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
-  fc_assert_ret_val(ev!=NULL, FALSE);
+  fc_assert_ret_val(ev != NULL, FALSE);
 
   if (GTK_WIDGET_DRAWABLE(widget)) {
     GtkPixcomm *p;

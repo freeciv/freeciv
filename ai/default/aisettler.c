@@ -767,7 +767,7 @@ struct cityresult *city_desirability(struct ai_type *ait, struct player *pplayer
 /**************************************************************************
   Find nearest and best city placement in a PF iteration according to 
   "parameter".  The value in "boat_cost" is both the penalty to pay for 
-  using a boat and an indicator (boat_cost!=0) if a boat was used at all. 
+  using a boat and an indicator (boat_cost != 0) if a boat was used at all. 
   The result is returned in "best".
 
   Return value is a 'struct cityresult' if found something better than what

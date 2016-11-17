@@ -949,7 +949,7 @@ void boot_help_texts(void)
           sz_strlcat(long_buffer, _(para));
           inserted = TRUE;
         }
-        if (inserted && i!=npara-1) {
+        if (inserted && i != npara - 1) {
           sz_strlcat(long_buffer, "\n\n");
         }
       }
