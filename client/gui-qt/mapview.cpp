@@ -510,8 +510,6 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
   setCursor(Qt::CrossCursor);
   rw = new resize_widget(this);
   rw->put_to_corner();
-  cw = new close_widget(this);
-  cw->put_to_corner();
   pix = new QPixmap;
   scale_factor = 1.0;
 }
@@ -781,7 +779,6 @@ void minimap_view::paint(QPainter * painter, QPaintEvent * event)
   painter->drawRect(0, 0, width() - 1, height() - 1);
   draw_viewport(painter);
   rw->put_to_corner();
-  cw->put_to_corner();
 }
 
 /****************************************************************************
@@ -792,9 +789,14 @@ void minimap_view::resizeEvent(QResizeEvent* event)
   QSize size;
   size = event->size();
 
-  if (C_S_RUNNING <= client_state()) {
+  if (C_S_RUNNING <= client_state() && size.width() > 0
+      && size.height() > 0) {
     w_ratio = static_cast<float>(width()) / gui_options.overview.width;
     h_ratio = static_cast<float>(height()) / gui_options.overview.height;
+    gui()->qt_settings.minimap_width = static_cast<float>(size.width())
+                                       / mapview.width;
+    gui()->qt_settings.minimap_height = static_cast<float>(size.height())
+                                        / mapview.height;
   }
   update_image();
 }
@@ -876,8 +878,15 @@ void minimap_view::mouseMoveEvent(QMouseEvent* event)
     return;
   }
   if (event->buttons() & Qt::LeftButton) {
+    QPoint p, r;
+    p = event->pos();
+    r = mapTo(gui()->mapview_wdg, p);
+    p = r - p;
     move(event->globalPos() - cursor);
     setCursor(Qt::SizeAllCursor);
+    gui()->qt_settings.minimap_x = static_cast<float>(p.x()) / mapview.width;
+    gui()->qt_settings.minimap_y = static_cast<float>(p.y())
+                                   / mapview.height;
   }
 }
 
@@ -1209,8 +1218,14 @@ void get_overview_area_dimensions(int *width, int *height)
 void overview_size_changed(void)
 {
   gui()->minimapview_wdg->resize(0, 0);
-  gui()->minimapview_wdg->resize(gui()->mapview_wdg->width()/6,
-                                 gui()->mapview_wdg->height()/4);
+  gui()->minimapview_wdg->move(gui()->qt_settings.minimap_x
+                               * mapview.width,
+                               gui()->qt_settings.minimap_y
+                               * mapview.height);
+  gui()->minimapview_wdg->resize(gui()->qt_settings.minimap_width
+                                 * mapview.width,
+                                 gui()->qt_settings.minimap_height
+                                 * mapview.height);
 }
 
 /**************************************************************************

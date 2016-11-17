@@ -265,6 +265,7 @@ public:
   void execute_shortcut(int sid);
   QString shortcut_2_menustring(int sid);
   QAction *minimap_status;
+  QAction *lock_status;
   QAction *chat_status;
   QAction *messages_status;
   bool delayed_order;

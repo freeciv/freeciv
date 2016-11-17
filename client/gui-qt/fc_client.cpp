@@ -607,6 +607,27 @@ void fc_client::read_settings()
   } else {
     qt_settings.unit_info_pos_y = 0;
   }
+  if (s.contains("minimap_x")) {
+    qt_settings.minimap_x = s.value("minimap_x").toFloat();
+  } else {
+    qt_settings.minimap_x = 0.84;
+  }
+  if (s.contains("minimap_y")) {
+    qt_settings.minimap_y = s.value("minimap_y").toFloat();
+  } else {
+    qt_settings.minimap_y = 0.79;
+  }
+  if (s.contains("minimap_width")) {
+    qt_settings.minimap_width = s.value("minimap_width").toFloat();
+  } else {
+    qt_settings.minimap_width = 0.15;
+  }
+  if (s.contains("minimap_height")) {
+    qt_settings.minimap_height = s.value("minimap_height").toFloat();
+  } else {
+    qt_settings.minimap_height = 0.2;
+  }
+
   if (s.contains("City-dialog")) {
     qt_settings.city_geometry = s.value("City-dialog").toByteArray();
   }
@@ -645,6 +666,10 @@ void fc_client::write_settings()
   s.setValue("splitter3", qt_settings.city_splitter3);
   s.setValue("unit_x", qt_settings.unit_info_pos_x);
   s.setValue("unit_y", qt_settings.unit_info_pos_y);
+  s.setValue("minimap_x", qt_settings.minimap_x);
+  s.setValue("minimap_y", qt_settings.minimap_y);
+  s.setValue("minimap_width", qt_settings.minimap_width);
+  s.setValue("minimap_height", qt_settings.minimap_height);
   write_shortcuts();
 }
 
@@ -914,10 +939,14 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
                          (size.height() * gui()->qt_settings.chat_y_pos)
                          /10000 - gui()->infotab->height());
     gui()->infotab->restore_chat();
-    gui()->minimapview_wdg->move(event->size().width() -
-                                 gui()->minimapview_wdg->width() - 10,
-                                 size.height() -
-                                 gui()->minimapview_wdg->height() - 10);
+    gui()->minimapview_wdg->move(gui()->qt_settings.minimap_x
+                                 * mapview.width,
+                                 gui()->qt_settings.minimap_y
+                                 * mapview.height);
+    gui()->minimapview_wdg->resize(gui()->qt_settings.minimap_width
+                                   * mapview.width,
+                                   gui()->qt_settings.minimap_height
+                                   * mapview.height);
     gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
     gui()->update_sidebar_tooltips();
     side_disable_endturn(get_turn_done_button_state());
