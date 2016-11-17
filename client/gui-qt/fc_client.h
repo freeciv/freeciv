@@ -136,6 +136,10 @@ struct fc_settings
   QByteArray city_splitter3;
   int unit_info_pos_x;
   int unit_info_pos_y;
+  float minimap_x;
+  float minimap_y;
+  float minimap_width;
+  float minimap_height;
 };
 
 /****************************************************************************

@@ -219,7 +219,6 @@ private:
   void scale(double factor);
   void scale_point(int &x, int &y);
   void unscale_point(int &x, int &y);
-  close_widget *cw;
   double scale_factor;
   float w_ratio, h_ratio;
   QBrush background;

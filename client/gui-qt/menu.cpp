@@ -1020,11 +1020,12 @@ void mr_menu::setup_menus()
   minimap_status->setChecked(true);
   connect(minimap_status, SIGNAL(triggered()), this,
           SLOT(slot_minimap_view()));
-  minimap_status = menu->addAction(_("Lock interface"));
-  minimap_status->setCheckable(true);
-  minimap_status->setShortcut(QKeySequence(shortcut_to_string(
-                             fc_shortcuts::sc()->get_shortcut(SC_IFACE_LOCK))));
-  minimap_status->setChecked(false);
+  lock_status = menu->addAction(_("Lock interface"));
+  lock_status->setCheckable(true);
+  lock_status->setShortcut(QKeySequence(shortcut_to_string(
+                           fc_shortcuts::sc()->get_shortcut(SC_IFACE_LOCK))));
+  lock_status->setChecked(false);
+  connect(lock_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   connect(minimap_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
@@ -2800,7 +2801,7 @@ void mr_menu::slot_fullscreen()
 *****************************************************************/
 void mr_menu::slot_minimap_view()
 {
-  if (minimap_status->isChecked()){
+  if (minimap_status->isChecked()) {
     ::gui()->minimapview_wdg->show();
   } else {
     ::gui()->minimapview_wdg->hide();
