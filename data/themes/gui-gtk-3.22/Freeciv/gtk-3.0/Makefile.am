@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 ## Override automake so that "make install" puts these in proper place:
-pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-gtk-3.x/Freeciv/gtk-3.0
+pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-gtk-3.22/Freeciv/gtk-3.0
 
 SUBDIRS = Arrows Buttons Check-Radio Combo Frame-Gap Handles Lines \
           ListHeaders Menu-Menubar Others Panel ProgressBar Range \
