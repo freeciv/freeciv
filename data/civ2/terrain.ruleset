@@ -1073,6 +1073,7 @@ reqs           =
     }
 build_time     = 3
 removal_time   = 0
+unit_seen      = "Hidden"
 native_to      = "Air", "Helicopter", "Missile"
 flags          = "Refuel", "NoStackDeath"
 helptext       = _("\
