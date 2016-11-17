@@ -136,7 +136,7 @@ fc_shortcut default_shortcuts[] = {
     _("Unload") },
   {SC_BUY_MAP, 0, Qt::BackButton, Qt::NoModifier,
     _("Quick buy current production from map") },
-  {SC_LOCK, Qt::Key_L, Qt::AllButtons, Qt::ControlModifier
+  {SC_IFACE_LOCK, Qt::Key_L, Qt::AllButtons, Qt::ControlModifier
     | Qt::ShiftModifier, _("Lock/unlock interface") },
 };
 

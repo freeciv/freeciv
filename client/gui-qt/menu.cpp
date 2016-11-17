@@ -1023,7 +1023,7 @@ void mr_menu::setup_menus()
   minimap_status = menu->addAction(_("Lock interface"));
   minimap_status->setCheckable(true);
   minimap_status->setShortcut(QKeySequence(shortcut_to_string(
-                             fc_shortcuts::sc()->get_shortcut(SC_LOCK))));
+                             fc_shortcuts::sc()->get_shortcut(SC_IFACE_LOCK))));
   minimap_status->setChecked(false);
   connect(minimap_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   menu->addSeparator();

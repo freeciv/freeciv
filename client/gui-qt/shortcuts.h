@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ enum shortcut_id {
   SC_LOAD = 41,
   SC_UNLOAD = 42,
   SC_BUY_MAP = 43,
-  SC_LOCK = 44
+  SC_IFACE_LOCK = 44
 };
 
 
