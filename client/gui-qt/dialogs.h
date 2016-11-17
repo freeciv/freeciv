@@ -229,6 +229,8 @@ public:
   pfcn_void getFunc();
   QVariant getData1();
   QVariant getData2();
+  void setData1(QVariant wariat);
+  void setData2(QVariant wariat);
 };
 
 /***************************************************************************
@@ -237,12 +239,15 @@ public:
 class choice_dialog: public QWidget
 {
   Q_OBJECT
-  QVBoxLayout *layout;
+  QPushButton *target_unit_button;
   QSignalMapper *signal_mapper;
+  QVBoxLayout *layout;
+  QHBoxLayout *unit_skip;
   QList<Choice_dialog_button *> buttons_list;
   QList<Choice_dialog_button *> last_buttons_stack;
   QList<Choice_dialog_button *> action_button_map;
   void (*run_on_close)(int);
+  void switch_target();
 public:
   choice_dialog(const QString title, const QString text,
                 QWidget *parent = NULL,
@@ -258,8 +263,13 @@ public:
   Choice_dialog_button *get_identified_button(const int id);
   int unit_id;
   int target_id[ATK_COUNT];
+  struct unit* targeted_unit;
+  void update_dialog(const struct act_prob *act_probs);
 public slots:
   void execute_action(const int action);
+private slots:
+  void prev_unit();
+  void next_unit();
 };
 
 void popup_revolution_dialog(struct government *government = NULL);
