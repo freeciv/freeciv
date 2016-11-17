@@ -1109,6 +1109,22 @@ QVariant Choice_dialog_button::getData2()
   return data2;
 }
 
+/**************************************************************************
+  Sets the first piece of data
+**************************************************************************/
+void Choice_dialog_button::setData1(QVariant wariat)
+{
+  data1 = wariat;
+}
+
+/**************************************************************************
+  Sets the second piece of data
+**************************************************************************/
+void Choice_dialog_button::setData2(QVariant wariat)
+{
+  data2 = wariat;
+}
+
 /***************************************************************************
   Constructor for choice_dialog
 ***************************************************************************/
@@ -1136,6 +1152,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
 
+  targeted_unit = nullptr;
   /* No buttons are added yet. */
   for (int i = 0; i < BUTTON_COUNT; i++) {
     action_button_map << NULL;
@@ -1163,6 +1180,41 @@ choice_dialog::~choice_dialog()
 ***************************************************************************/
 void choice_dialog::set_layout()
 {
+
+  targeted_unit = game_unit_by_number(target_id[ATK_UNIT]);
+
+  if ((game_unit_by_number(unit_id)) && targeted_unit
+      && unit_list_size(targeted_unit->tile->units) > 1) {
+    struct canvas *pix;
+    QPushButton *next, *prev;
+    unit_skip = new QHBoxLayout;
+    next = new QPushButton();
+    next->setIcon(fc_icons::instance()->get_icon("city-right"));
+    next->setIconSize(QSize(32, 32));
+    next->setFixedSize(QSize(36, 36));
+    prev = new QPushButton();
+    prev->setIcon(fc_icons::instance()->get_icon("city-left"));
+    prev->setIconSize(QSize(32, 32));
+    prev->setFixedSize(QSize(36, 36));
+    target_unit_button = new QPushButton;
+    pix = qtg_canvas_create(tileset_unit_width(tileset),
+                            tileset_unit_height(tileset));
+    pix->map_pixmap.fill(Qt::transparent);
+    put_unit(targeted_unit, pix, 1.0, 0, 0);
+    target_unit_button->setIcon(QIcon(pix->map_pixmap));
+    qtg_canvas_free(pix);
+    target_unit_button->setIconSize(QSize(96, 96));
+    target_unit_button->setFixedSize(QSize(100, 100));
+    unit_skip->addStretch(100);
+    unit_skip->addWidget(prev, Qt::AlignCenter);
+    unit_skip->addWidget(target_unit_button, Qt::AlignCenter);
+    unit_skip->addWidget(next, Qt::AlignCenter);
+    layout->addLayout(unit_skip);
+    unit_skip->addStretch(100);
+    connect(prev, SIGNAL(clicked()), SLOT(prev_unit()));
+    connect(next, SIGNAL(clicked()), SLOT(next_unit()));
+  }
+
   connect(signal_mapper, SIGNAL(mapped(const int &)),
            this, SLOT(execute_action(const int &)));
   setLayout(layout);
@@ -1262,6 +1314,108 @@ bool try_default_city_action(QVariant q1, QVariant q2)
   func(q1, q2);
   return true;
 }
+
+/***************************************************************************
+  Focus next target
+***************************************************************************/
+void choice_dialog::next_unit()
+{
+  struct tile *ptile;
+  struct unit *new_target = nullptr;
+  bool break_next = false;
+  bool first = true;
+  struct canvas *pix;
+
+  if (targeted_unit == nullptr) {
+    return;
+  }
+
+  ptile = targeted_unit->tile;
+
+  unit_list_iterate(ptile->units, ptgt) {
+    if (first) {
+      new_target = ptgt;
+      first = false;
+    }
+    if (break_next == true) {
+      new_target = ptgt;
+      break;
+    }
+    if (ptgt == targeted_unit) {
+       break_next = true;
+    }
+  } unit_list_iterate_end;
+  targeted_unit = new_target;
+  pix = qtg_canvas_create(tileset_unit_width(tileset),
+                          tileset_unit_height(tileset));
+  pix->map_pixmap.fill(Qt::transparent);
+  put_unit(targeted_unit, pix, 1.0, 0, 0);
+  target_unit_button->setIcon(QIcon(pix->map_pixmap));
+  qtg_canvas_free(pix);
+  switch_target();
+}
+
+/***************************************************************************
+  Focus previous target
+***************************************************************************/
+void choice_dialog::prev_unit()
+{
+  struct tile *ptile;
+  struct unit *new_target = nullptr;
+  struct canvas *pix;
+  if (targeted_unit == nullptr) {
+    return;
+  }
+
+  ptile = targeted_unit->tile;
+  unit_list_iterate(ptile->units, ptgt) {
+    if ((ptgt == targeted_unit) && new_target != nullptr) {
+       break;
+    }
+    new_target = ptgt;
+  } unit_list_iterate_end;
+  targeted_unit = new_target;
+  pix = qtg_canvas_create(tileset_unit_width(tileset),
+                          tileset_unit_height(tileset));
+  pix->map_pixmap.fill(Qt::transparent);
+  put_unit(targeted_unit, pix, 1.0, 0, 0);
+  target_unit_button->setIcon(QIcon(pix->map_pixmap));
+  qtg_canvas_free(pix);
+  switch_target();
+}
+
+/***************************************************************************
+  Update dialog for new target (targeted_unit)
+***************************************************************************/
+void choice_dialog::update_dialog(const struct act_prob *act_probs)
+{
+  if (targeted_unit == nullptr) {
+    return;
+  }
+  unit_skip->setParent(nullptr);
+  action_selection_refresh(game_unit_by_number(unit_id), nullptr,
+                          targeted_unit, targeted_unit->tile, act_probs);
+  layout->addLayout(unit_skip);
+}
+
+/***************************************************************************
+  Switches target unit
+***************************************************************************/
+void choice_dialog::switch_target()
+{
+  if (targeted_unit == nullptr) {
+    return;
+  }
+  unit_skip->setParent(nullptr);
+  dsend_packet_unit_get_actions(&client.conn,
+                                unit_id,
+                                targeted_unit->id,
+                                IDENTITY_NUMBER_ZERO,
+                                targeted_unit->tile->index,
+                                TRUE);
+  layout->addLayout(unit_skip);
+}
+
 
 /***************************************************************************
   Run chosen action and close dialog
@@ -1529,6 +1683,7 @@ void popup_action_selection(struct unit *actor_unit,
                             const struct act_prob *act_probs)
 {
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
+  choice_dialog *cd;
   qtiles caras;
   QVariant qv1, qv2;
   pfcn_void func;
@@ -1610,10 +1765,14 @@ void popup_action_selection(struct unit *actor_unit,
              unit_name_translation(actor_unit));
   }
 
-  choice_dialog *cd = new choice_dialog(astr_str(&title),
-                                        astr_str(&text),
-                                        gui()->game_tab_widget,
-                                        diplomat_queue_handle_primary);
+  cd = gui()->get_diplo_dialog();
+  if ((cd != nullptr) && cd->targeted_unit != nullptr) {
+    cd->update_dialog(act_probs);
+    return;
+  }
+  cd = new choice_dialog(astr_str(&title), astr_str(&text),
+                         gui()->game_tab_widget,
+                         diplomat_queue_handle_primary);
   qv1 = actor_unit->id;
 
   cd->unit_id = actor_unit->id;
@@ -1807,7 +1966,7 @@ static void action_entry(choice_dialog *cd,
 /**********************************************************************
   Update an existing button.
 **********************************************************************/
-static void action_entry_update(QPushButton *button,
+static void action_entry_update(Choice_dialog_button *button,
                                 gen_action act,
                                 const struct act_prob *act_probs,
                                 QString custom,
@@ -1819,7 +1978,8 @@ static void action_entry_update(QPushButton *button,
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
   button->setEnabled(action_prob_possible(act_probs[act]));
-
+  button->setData1(data1);
+  button->setData2(data2);
   /* The probability may have changed. */
   title = QString(action_prepare_ui_name(act, "&",
                                          act_probs[act],
