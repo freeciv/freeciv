@@ -39,6 +39,7 @@
 #include "research.h"
 
 // client
+#include "audio.h"
 #include "control.h"
 #include "helpdata.h"
 #include "packhand.h"
@@ -2412,7 +2413,23 @@ void popup_tileset_suggestion_dialog(void)
 *****************************************************************/
 void popup_soundset_suggestion_dialog(void)
 {
-  qDebug() << Q_FUNC_INFO << "PORTME";
+  hud_message_box ask(gui()->central_wdg);
+  QString text;
+  QString title;
+  QPushButton *ok_button;
+
+  title = QString(_("Modpack suggests using %1 soundset."))
+          .arg(game.control.preferred_soundset);
+  text = QString("It might not work with other tilesets.\n"
+                 "You are currently using soundset %1.")
+         .arg(sound_set_name);
+  ask.addButton(_("Keep current soundset"), QMessageBox::ActionRole);
+  ok_button = ask.addButton(_("Load soundset"), QMessageBox::ActionRole);
+  ask.set_text_title(text, title);
+  ask.exec();
+  if (ask.clickedButton() == ok_button) {
+    audio_restart(game.control.preferred_soundset, music_set_name);
+  }
 }
 
 /****************************************************************
