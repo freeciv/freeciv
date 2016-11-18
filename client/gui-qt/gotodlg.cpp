@@ -41,29 +41,7 @@ goto_dialog::goto_dialog(QWidget *parent)
 {
   QStringList headers_lst;
   QHBoxLayout *hb;
-  setStyleSheet("QPushButton {background-color: transparent;}"
-                "QPushButton {color: #ffffff;}"
-                "QPushButton:enabled {color: #ffffff;}"
-                "QPushButton:disabled {color: grey;}"
-                "QPushButton:hover:disabled {color: transparent;}"
-                "QPushButton:hover {background-color: blue;}"
-                "QPushButton {min-width: 80px;}"
-                "QPushButton {border: noborder;}"
-                "QScrollBar:vertical "
-                "{border: 1px solid #90A4FF; background: transparent;}"
-                "QScrollBar::sub-line:vertical {width: 0px;height: 0px}"
-                "QScrollBar::sub-page:vertical {width: 0px;height: 0px}"
-                "QScrollBar::add-line:vertical {width: 0px;height: 0px}"
-                "QScrollBar::add-page:vertical {width: 0px;height: 0px}"
-                "QScrollBar::handle:vertical {background: #90A4FF;"
-                "min-height: 20px}"
-                "QTableWidget {background-color: transparent;}"
-                "QTableWidget:item {color: white;}"
-                "QTableCornerButton::section "
-                "{background-color: transparent;}"
-                "QLabel {color: grey;}"
-                "QHeaderView::section { background-color: "
-                "QColor(90,90,90,90);}");
+
   setParent(parent);
   headers_lst << QString(_("City")) << QString(_("Nation"))
               << QString(_("Airlift"));
@@ -89,8 +67,9 @@ goto_dialog::goto_dialog(QWidget *parent)
   goto_tab->setSelectionMode(QAbstractItemView::SingleSelection);
   goto_tab->setColumnCount(3);
   goto_tab->setHorizontalHeaderLabels(headers_lst);
-  goto_tab->horizontalHeader()->setStretchLastSection(true);
   goto_tab->setSortingEnabled(true);
+  goto_tab->horizontalHeader()->setSectionResizeMode(
+                                             QHeaderView::ResizeToContents);
 
   layout->addWidget(goto_tab, 0, 0, 4, 4);
   layout->addItem(hb, 4, 0, 1, 2);
