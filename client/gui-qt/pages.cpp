@@ -55,6 +55,7 @@ const char *get_nuclear_winter_tooltip(void);
 const char *get_government_tooltip(void);
 const char *get_info_label_text_popup(void);
 const char *get_info_label_text(bool);
+const char *text_happiness_cities(const struct city *pcity);
 }
 
 int last_center_capital = 0;
@@ -2082,6 +2083,10 @@ void fc_client::update_sidebar_tooltips()
     fc_snprintf(buf, sizeof(buf), _("Income: %d    Total Costs: %d"),
                 tax, building_total + unit_total);
     sw_economy->set_tooltip(buf);
+    if (player_capital(client_player())) {
+      sw_cities->set_tooltip(text_happiness_cities(
+                                          player_capital(client_player())));
+    }
   } else {
     sw_tax->set_tooltip("");
     sw_science->set_tooltip("");
