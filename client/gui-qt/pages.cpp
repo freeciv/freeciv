@@ -62,8 +62,8 @@ static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
 static struct terrain *char2terrain(char ch);
-
-
+static void cycle_enemy_units();
+int last_center_enemy = 0;
 /****************************************************************************
   Helper function for drawing map of savegames. Converts stored map char in
   savefile to proper terrain.
@@ -714,7 +714,7 @@ void fc_client::create_game_page()
                                  _("Turn Done"), "", side_finish_turn);
   sw_endturn->set_right_click(side_indicators_menu);
   sw_cunit->set_right_click(side_center_unit);
-  sw_cunit->set_wheel_up(key_recall_previous_focus_unit);
+  sw_cunit->set_wheel_up(cycle_enemy_units);
   sw_cunit->set_wheel_down(key_unit_wait);
   sw_diplo->set_right_click(side_right_click_diplomacy);
 
@@ -2088,3 +2088,38 @@ void fc_client::update_sidebar_position()
   }
 }
 
+/***************************************************************************
+  Center on next enemy unit
+***************************************************************************/
+void cycle_enemy_units()
+{
+  bool center_next = false;
+  bool first_tile = false;
+  int first_id;
+  struct tile *ptile = nullptr;
+
+  players_iterate(pplayer) {
+    if (pplayer != client_player()) {
+      unit_list_iterate(pplayer->units, punit) {
+        if (first_tile == false) {
+          first_tile = true;
+          ptile = punit->tile;
+          first_id = punit->id;
+        }
+        if ((last_center_enemy == 0) || center_next == true) {
+          last_center_enemy = punit->id;
+          center_tile_mapcanvas(punit->tile);
+          return;
+        }
+        if (punit->id == last_center_enemy) {
+          center_next = true;
+        }
+      } unit_list_iterate_end;
+    }
+  } players_iterate_end;
+
+  if (ptile != nullptr) {
+    center_tile_mapcanvas(ptile);
+    last_center_enemy = first_id;
+  }
+}
