@@ -19,7 +19,7 @@ msgstr ""
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
-msgstr "Абхазький"
+msgstr "Абхази"
 
 #: data/nation/abkhaz.ruleset:4
 msgid "?plural:Abkhazians"
@@ -231,7 +231,7 @@ msgstr "Імператриця %s"
 
 #: data/nation/acadian.ruleset:3
 msgid "Acadian"
-msgstr "Акадський"
+msgstr "Акадійці"
 
 #: data/nation/acadian.ruleset:4
 msgid "?plural:Acadians"
@@ -798,7 +798,7 @@ msgstr "Перша Секретар %s"
 
 #: data/nation/aleut.ruleset:3
 msgid "Aleut"
-msgstr "Алеутський"
+msgstr "Алеути"
 
 #: data/nation/aleut.ruleset:4
 msgid "?plural:Aleuts"
@@ -1398,7 +1398,7 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from the Soviet Union in 1991."
 msgstr ""
-"Згідно легенди, Вірмени - це нащадки Хайка, пра-правнука Ноя. Сучасна "
+"За легендою, Вірмени - це нащадки Хайка, пра-правнука Ноя. Сучасна "
 "Республіка Вірменія здобула незалежність від Радянського Союзу в 1991."
 
 #: data/nation/armenian.ruleset:24 data/nation/assyrian.ruleset:21
@@ -2768,7 +2768,7 @@ msgid ""
 "founded Bulgaria in 681. This was the first Slavic nation-state in history."
 msgstr ""
 "Булгарський лідер хан Аспарух привів свій народ до північних Балкан, та "
-"заснував Болграію у 681 році. Це була перша славянська держава у істрорії."
+"заснував Болгарію у 681 році. Це була перша славянська держава у історії."
 
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
@@ -2911,7 +2911,7 @@ msgstr ""
 
 #: data/nation/californian.ruleset:3
 msgid "Californian"
-msgstr "Каліфорнійський"
+msgstr "Каліфорнійці"
 
 #: data/nation/californian.ruleset:4
 msgid "?plural:Californians"
@@ -2961,7 +2961,7 @@ msgstr ""
 
 #: data/nation/cameroonian.ruleset:3
 msgid "Cameroonian"
-msgstr "Камерунський"
+msgstr "Камерунці"
 
 #: data/nation/cameroonian.ruleset:4
 msgid "?plural:Cameroonians"
@@ -4589,7 +4589,7 @@ msgstr "Архієпископ %s"
 
 #: data/nation/flemish.ruleset:3
 msgid "Flemish"
-msgstr "Фламандський"
+msgstr "Фламандці"
 
 #: data/nation/flemish.ruleset:4
 msgid "?plural:Flemings"
@@ -6987,7 +6987,7 @@ msgstr "Верховна Уповноважена %s"
 
 #: data/nation/malawian.ruleset:3
 msgid "Malawian"
-msgstr "Малавійський"
+msgstr "Малавійці"
 
 #: data/nation/malawian.ruleset:4
 msgid "?plural:Malawians"
@@ -7678,7 +7678,7 @@ msgstr ""
 
 #: data/nation/mozambican.ruleset:3
 msgid "Mozambican"
-msgstr "Мозамбіцький"
+msgstr "Мозамбік"
 
 #: data/nation/mozambican.ruleset:4
 msgid "?plural:Mozambicans"
@@ -7692,7 +7692,7 @@ msgstr ""
 
 #: data/nation/mughal.ruleset:3
 msgid "Mughal"
-msgstr "Могольський"
+msgstr "Моголи"
 
 #: data/nation/mughal.ruleset:4
 msgid "?plural:Mughals"
@@ -8233,7 +8233,7 @@ msgstr "Віконтеса %s"
 
 #: data/nation/ohlone.ruleset:2
 msgid "Ohlone"
-msgstr "Олонський"
+msgstr "Олоні"
 
 #: data/nation/ohlone.ruleset:3
 msgid "?plural:Ohlone"
@@ -10302,7 +10302,7 @@ msgstr ""
 
 #: data/nation/tahitian.ruleset:3
 msgid "Tahitian"
-msgstr "Таїтійський"
+msgstr "Таїті"
 
 #: data/nation/tahitian.ruleset:4
 msgid "?plural:Tahitians"
@@ -11319,7 +11319,7 @@ msgstr ""
 
 #: data/nation/walloon.ruleset:3
 msgid "Walloon"
-msgstr "Валлонський"
+msgstr "Валлони"
 
 #: data/nation/walloon.ruleset:4
 msgid "?plural:Walloons"
