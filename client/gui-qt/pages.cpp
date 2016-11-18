@@ -57,7 +57,13 @@ const char *get_info_label_text_popup(void);
 const char *get_info_label_text(bool);
 }
 
+int last_center_capital = 0;
+int last_center_player_city = 0;
+int last_center_enemy_city = 0;
 extern void popup_shortcuts_dialog();
+static void center_next_enemy_city();
+static void center_next_player_city();
+static void center_next_player_capital();
 static struct server_scan *meta_scan, *lan_scan;
 static bool holding_srv_list_mutex = false;
 static enum connection_state connection_status;
@@ -702,8 +708,12 @@ void fc_client::create_game_page()
   sw_cities = new fc_sidewidget(fc_icons::instance()->get_pixmap("cities"),
                                 _("Cities"), "CTS",
                                 city_report_dialog_popup);
+  sw_cities->set_wheel_up(center_next_enemy_city);
+  sw_cities->set_wheel_down(center_next_player_city);
   sw_diplo = new fc_sidewidget(fc_icons::instance()->get_pixmap("nations"),
                                _("Nations"), "PLR", popup_players_dialog);
+  sw_diplo->set_wheel_up(center_next_player_capital);
+  sw_diplo->set_wheel_down(key_center_capital);
   sw_science = new fc_sidewidget(fc_icons::instance()->get_pixmap("research"),
                                  _("Research"), "SCI",
                                  science_report_dialog_popup);
@@ -2073,6 +2083,120 @@ void fc_client::update_sidebar_tooltips()
     sw_economy->set_tooltip("");
   }
   sw_indicators->set_tooltip(QString(get_info_label_text_popup()));
+}
+
+/****************************************************************************
+  Centers next enemy city on view
+****************************************************************************/
+void center_next_enemy_city()
+{
+  bool center_next = false;
+  bool first_tile = false;
+  int first_id;
+  struct tile *ptile = nullptr;
+
+  players_iterate(pplayer) {
+    if (pplayer != client_player()) {
+      city_list_iterate(pplayer->cities, pcity) {
+        if (first_tile == false) {
+          first_tile = true;
+          ptile = pcity->tile;
+          first_id = pcity->id;
+        }
+        if ((last_center_enemy_city == 0) || center_next == true) {
+          last_center_enemy_city = pcity->id;
+          center_tile_mapcanvas(pcity->tile);
+          return;
+        }
+        if (pcity->id == last_center_enemy_city) {
+          center_next = true;
+        }
+      } city_list_iterate_end;
+    }
+  } players_iterate_end;
+
+  if (ptile != nullptr) {
+    center_tile_mapcanvas(ptile);
+    last_center_enemy_city = first_id;
+  }
+}
+
+/****************************************************************************
+  Centers next player city on view
+****************************************************************************/
+void center_next_player_city()
+{
+  bool center_next = false;
+  bool first_tile = false;
+  int first_id;
+  struct tile *ptile = nullptr;
+
+  players_iterate(pplayer) {
+    if (pplayer == client_player()) {
+      city_list_iterate(pplayer->cities, pcity) {
+        if (first_tile == false) {
+          first_tile = true;
+          ptile = pcity->tile;
+          first_id = pcity->id;
+        }
+        if ((last_center_player_city == 0) || center_next == true) {
+          last_center_player_city = pcity->id;
+          center_tile_mapcanvas(pcity->tile);
+          return;
+        }
+        if (pcity->id == last_center_player_city) {
+          center_next = true;
+        }
+      } city_list_iterate_end;
+    }
+  } players_iterate_end;
+
+  if (ptile != nullptr) {
+    center_tile_mapcanvas(ptile);
+    last_center_player_city = first_id;
+  }
+}
+
+/****************************************************************************
+  Centers next enemy capital
+****************************************************************************/
+void center_next_player_capital()
+{
+  struct city *capital;
+  bool center_next = false;
+  bool first_tile = false;
+  int first_id;
+  struct tile *ptile = nullptr;
+
+  players_iterate(pplayer) {
+    if (pplayer != client_player()) {
+      capital = player_capital(pplayer);
+      if (capital == nullptr) {
+        continue;
+      }
+        if (first_tile == false) {
+          first_tile = true;
+          ptile = capital->tile;
+          first_id = capital->id;
+        }
+        if ((last_center_player_city == 0) || center_next == true) {
+          last_center_player_city = capital->id;
+          center_tile_mapcanvas(capital->tile);
+          put_cross_overlay_tile(capital->tile);
+          return;
+        }
+        if (capital->id == last_center_player_city) {
+          center_next = true;
+        }
+    }
+  } players_iterate_end;
+
+  if (ptile != nullptr) {
+    center_tile_mapcanvas(ptile);
+    put_cross_overlay_tile(ptile);
+    last_center_player_city = first_id;
+  }
+
 }
 
 /***************************************************************************
