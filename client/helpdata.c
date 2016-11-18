@@ -2657,6 +2657,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("* May appear spontaneously.\n"));
   }
 
+  if (pextra->eus == EUS_HIDDEN) {
+    CATLSTR(buf, bufsz,
+            _("* Units inside are hidden from non-allied players.\n"));
+  }
+
   /* XXX Non-zero requirement vector is not a good test of whether
    * req_text_insert_nl() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
