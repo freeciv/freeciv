@@ -423,6 +423,9 @@ void player_restore_units(struct player *pplayer)
           struct pf_parameter parameter;
 
           pft_fill_unit_parameter(&parameter, punit);
+          parameter.move_rate = 0;
+          parameter.is_pos_dangerous = NULL;
+          parameter.get_moves_left_req = NULL;
           pfm = pf_map_new(&parameter);
 
           pf_map_move_costs_iterate(pfm, ptile, move_cost, TRUE) {
