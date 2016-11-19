@@ -70,7 +70,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 22:23+0100\n"
+"POT-Creation-Date: 2016-11-19 11:38+0000\n"
 "PO-Revision-Date: 2016-11-16 23:36+0100\n"
 "Last-Translator: Marvin Gülker <m-guelker@phoenixmail.de>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -3549,9 +3549,10 @@ msgstr "Forschung"
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
-#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
-#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
-#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637
+#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
+#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
+#: data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "Gold"
 
@@ -4365,12 +4366,14 @@ msgstr "_Bericht zur Lage der Nation"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
+#: data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Übersicht"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
+#: data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Strategie und Taktik"
 
@@ -16057,9 +16060,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
-#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
-#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070
+#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
+#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
+#: data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Universität"
 
@@ -16073,8 +16077,10 @@ msgstr ""
 "verdoppelt."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038
+#: data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178
+#: data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "das Apollo-Programm"
 
@@ -16092,14 +16098,18 @@ msgstr ""
 "erforderlichen Technologien erforscht haben)."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081
+#: data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232
+#: data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "Kolossus"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095
+#: data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246
+#: data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16109,8 +16119,10 @@ msgstr ""
 "Handelspunkt."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101
+#: data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252
+#: data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "Kopernikus’ Observatorium"
 
@@ -16120,8 +16132,10 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Das Forschungstempo der Stadt wird um 50% gesteigert."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121
+#: data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272
+#: data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "Krebsheilung"
 
@@ -16136,13 +16150,16 @@ msgstr ""
 "Aktivitäten unzufrieden sind)."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145
+#: data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296
+#: data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "Darwins Reise"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159
+#: data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16153,13 +16170,16 @@ msgstr ""
 "zur Folge hatte. Gewährt zwei sofortige Fortschritte."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187
+#: data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342
+#: data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "die Große Bibliothek"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201
+#: data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16168,19 +16188,24 @@ msgstr ""
 "steht auch der Zivilisation mit der Großen Bibliothek zur Verfügung."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207
+#: data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366
+#: data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "die Große Mauer"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221
+#: data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Gilt als Stadtmauer für jede eigene Stadt."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229
+#: data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389
+#: data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "die Hängenden Gärten"
 
@@ -16198,8 +16223,10 @@ msgstr ""
 "zufrieden gestellt werden."
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253
+#: data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411
+#: data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "den Hoover-Staudamm"
 
@@ -16214,21 +16241,26 @@ msgstr ""
 "Produktivität wird erhöht.)"
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274
+#: data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435
+#: data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "Isaac Newtons Universität"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116
+#: data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Verdoppelt das Forschungstempo in der Stadt, wo sie steht."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295
+#: data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459
+#: data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "J. S. Bachs Kathedrale"
 
@@ -16243,8 +16275,10 @@ msgstr ""
 "sind)."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354
+#: data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522
+#: data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "den Leuchtturm"
 
@@ -16253,8 +16287,10 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Alle Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375
+#: data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544
+#: data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "Magellans Expedition"
 
@@ -16264,14 +16300,18 @@ msgstr ""
 "Alle eigenen Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395
+#: data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566
+#: data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "das Manhattan-Projekt"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432
+#: data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606
+#: data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "Michelangelos Kapelle"
 
@@ -16280,7 +16320,8 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "In allen Städten verdoppelt sich der Effekt von Kathedralen."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457
+#: data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "das Orakel"
@@ -16294,8 +16335,10 @@ msgstr ""
 "Einfluss auf wegen militärischer Aktivitäten unzufriedene Bürger."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478
+#: data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693
+#: data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "die Pyramiden"
 
@@ -16312,7 +16355,8 @@ msgstr ""
 "ohne die Periode der Anarchie."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500
+#: data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "das SETI-Programm"
 
@@ -16322,13 +16366,16 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Beschleunigt das Forschungstempo in jeder eigenen Stadt um 50%."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520
+#: data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741
+#: data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "Shakespeares Theater"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535
+#: data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16338,14 +16385,18 @@ msgstr ""
 "solche, die wegen militärischer Aktivitäten unzufrieden sind."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584
+#: data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809
+#: data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "die Vereinten Nationen"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611
+#: data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837
+#: data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "das Frauenstimmrecht"
 
@@ -16533,13 +16584,16 @@ msgid "Team 3"
 msgstr "Team 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59
+#: data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59
+#: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarchie"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64
+#: data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16547,7 +16601,8 @@ msgid "Warlord %s"
 msgstr "Kriegsherr %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65
+#: data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16555,8 +16610,10 @@ msgid "Warlady %s"
 msgstr "Kriegsherrin %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67
+#: data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67
+#: data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16577,7 +16634,8 @@ msgstr ""
 "etwas mehr Unzufriedenheit als in einer Diktatur."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80
+#: data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
@@ -16585,7 +16643,8 @@ msgstr "Diktatur"
 
 # MG: Standardtitel für männliche Tyrannen
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86
+#: data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16594,7 +16653,8 @@ msgstr "Diktator %s"
 
 # MG: Standardtitel für weibliche Tyranninen
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87
+#: data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16602,7 +16662,8 @@ msgid "?female:Chief %s"
 msgstr "Diktatorin %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89
+#: data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -19483,8 +19544,8 @@ msgstr ""
 "sich der Bonus auf 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
-#: data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974
+#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Börse"
 
@@ -19502,8 +19563,8 @@ msgstr ""
 "Bank erhöhen sich diese Werte sogar um 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
-#: data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998
+#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Autobahnen"
 
@@ -19551,7 +19612,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206
+#: data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "A. Smiths Handelsgesellschaft"
 
@@ -19565,7 +19627,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320
+#: data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "den Eiffelturm"
 
@@ -19617,7 +19680,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479
+#: data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "König Richards Kreuzzug"
 
@@ -19631,7 +19695,8 @@ msgstr "Jedes Feld der Stadt produziert einen zusätzlichen Schild."
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503
+#: data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "Leonardos Werkstatt"
 
@@ -19655,7 +19720,8 @@ msgstr "Alle Marineeinheiten erhalten 2 zusätzliche Bewegungspunkte."
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584
+#: data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "Marco Polos Botschaft"
 
@@ -19695,13 +19761,15 @@ msgstr "Zählt als Forschungslabor in jeder eigenen Stadt."
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765
+#: data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "die Freiheitsstatue"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788
+#: data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "Sun Tzus Militärakademie"
 
@@ -20434,7 +20502,8 @@ msgid "Airbase"
 msgstr "Fliegerhorst"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049
+#: data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -21123,7 +21192,7 @@ msgstr ""
 "Wird ein Barbarenanführer auf einem Feld ohne Verteidiger getötet, werden "
 "die 100 Goldstücke Belohnung nur an Landeinheiten oder Helikopter bezahlt."
 
-#: data/default/default.lua:22 server/unittools.c:2915
+#: data/default/default.lua:22 server/unittools.c:2918
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -21155,7 +21224,7 @@ msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Freundliche Nomaden sind von Ihnen beeindruckt und schließen sich Ihnen an."
 
-#: data/default/default.lua:108 server/unittools.c:2922
+#: data/default/default.lua:108 server/unittools.c:2925
 msgid "An abandoned village is here."
 msgstr "Hier ist eine verlassene Ortschaft."
 
@@ -21163,7 +21232,7 @@ msgstr "Hier ist eine verlassene Ortschaft."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Barbarenhorde freigesetzt."
 
-#: data/default/default.lua:118 server/unittools.c:2925
+#: data/default/default.lua:118 server/unittools.c:2928
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Barbaren haben %s vernichtet."
@@ -21401,7 +21470,8 @@ msgstr ""
 "der Produktion um 150% und eliminieren die gesamte durch die Stadtproduktion "
 "verursachte Umweltverschmutzung."
 
-#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008
+#: data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21413,7 +21483,8 @@ msgstr ""
 "vier Unzufriedene zufrieden gestellt werden. Hat keine Auswirkungen auf "
 "Bürger, die wegen militärischer Aktivitäten unzufrieden sind."
 
-#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032
+#: data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21423,7 +21494,8 @@ msgstr ""
 "In Verbindung mit einer Bücherei wird das Forschungstempo einer Stadt um "
 "250% erhöht."
 
-#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075
+#: data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21431,7 +21503,8 @@ msgstr ""
 "In allen eigenen Städten braucht für Stadterweiterungen mit Unterhaltskosten "
 "von 1 kein Unterhalt mehr bezahlt zu werden."
 
-#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181
+#: data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21439,7 +21512,8 @@ msgstr ""
 "Ihre Reputation und Ihre Anerkennung bei anderen Nationen wird doppelt so "
 "schnell wiederhergestellt als sonst."
 
-#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289
+#: data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21448,7 +21522,8 @@ msgstr ""
 "Verdoppelt das Forschungstempo in jeder Ihrer Städte, die eine Universität "
 "besitzt."
 
-#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369
+#: data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21456,11 +21531,13 @@ msgstr ""
 "Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. In allen "
 "eigenen Städten erhalten neue Marineeinheiten Veteran-Status."
 
-#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390
+#: data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Alle Marineeinheiten erhalten zwei zusätzliche Bewegungspunkte."
 
-#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471
+#: data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21469,7 +21546,8 @@ msgstr ""
 "zufrieden, abgesehen von solchen, die wegen militärischer Aktivitäten "
 "unzufrieden sind."
 
-#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493
+#: data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21480,14 +21558,16 @@ msgstr ""
 "wiederaufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot besser "
 "zu widerstehen. Summiert sich mit dem Effekt von Kornspeichern."
 
-#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515
+#: data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Beschleunigt das Forschungstempo in jeder Stadt mit einem Forschungslabor um "
 "100%."
 
-#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576
+#: data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21500,13 +21580,17 @@ msgstr ""
 "Landeinheit nach einer Schlacht den nächsten Veteranengrad erreicht, erhöht "
 "sich um die Hälfte."
 
-#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638
+#: data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859
+#: data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Kapitalisierung"
 
-#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659
+#: data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880
+#: data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -41177,8 +41261,8 @@ msgstr "Lediglich %s können von nichtnativen Feldern aus angreifen."
 msgid "Cannot conquer from a non-native tile."
 msgstr "Kann von einem nichtnativen Feld nicht angreifen."
 
-#: server/unithand.c:1329 server/unittools.c:2809 server/unittools.c:2817
-#: server/unittools.c:2847
+#: server/unithand.c:1329 server/unittools.c:2812 server/unittools.c:2820
+#: server/unittools.c:2850
 msgid "Cannot attack unless you declare war first."
 msgstr "Kann erst nach Kriegserklärung angreifen."
 
@@ -41192,7 +41276,7 @@ msgstr "%s können sich nur in der eigenen Kontrollzone bewegen."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s kann sich nicht weiter von der Küste entfernen."
 
-#: server/unithand.c:1347 server/unittools.c:2825 server/unittools.c:2855
+#: server/unithand.c:1347 server/unittools.c:2828 server/unittools.c:2858
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Kann erst einmarschieren, wenn du den Frieden mit %s brichst."
@@ -41352,80 +41436,80 @@ msgstr ""
 msgid "Your %s has run out of hit points."
 msgstr "%s haben keine Trefferpunkte mehr."
 
-#: server/unittools.c:472
+#: server/unittools.c:475
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "%s sind zum Auftanken zurück gekommen."
 
-#: server/unittools.c:503
+#: server/unittools.c:506
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "%s haben keinen Treibstoff mehr."
 
 #. TRANS: Your <unit> became ... rank of <veteran level>.
-#: server/unittools.c:748
+#: server/unittools.c:751
 #, c-format
 msgid "Your %s became more experienced and achieved the rank of %s."
 msgstr "%s sammelten Erfahrung und wurden in den Rang eines %ss erhoben."
 
-#: server/unittools.c:767
+#: server/unittools.c:770
 #, c-format
 msgid "%s converted to %s."
 msgstr "%s mit %s ausgetauscht."
 
-#: server/unittools.c:773
+#: server/unittools.c:776
 #, c-format
 msgid "%s cannot be converted."
 msgstr "%s können nicht ausgetauscht werden."
 
-#: server/unittools.c:985
+#: server/unittools.c:988
 #, c-format
 msgid "Orders for %s aborted because activity is no longer available."
 msgstr ""
 "Befehle für %s verworfen, da die Aufgabe nicht mehr zur Verfügung steht."
 
-#: server/unittools.c:1151
+#: server/unittools.c:1154
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "%s nach %s teleportiert."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1217
+#: server/unittools.c:1220
 #, c-format
 msgid "Moved your %s."
 msgstr "%s wurden verschoben."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1236
+#: server/unittools.c:1239
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Einheit „%s“ aufgelöst."
 
-#: server/unittools.c:1681
+#: server/unittools.c:1684
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Konnte %s nicht verteidigen, %s hat das Spiel verloren."
 
 # MG: „Anführer“ ist die einzige Einheit, die im Singular benutzt
 # MG: werden darf. Es gibt eben nur einen.
-#: server/unittools.c:1685
+#: server/unittools.c:1688
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Durch den Verlust des %ss ist das Spiel verloren. Seien Sie das nächste Mal "
 "vorsichtiger!"
 
-#: server/unittools.c:1744
+#: server/unittools.c:1747
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s beim Verlust von %s verloren."
 
-#: server/unittools.c:1970
+#: server/unittools.c:1973
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s ist der Zerstörung von %s entgangen und nach %s geflüchtet."
 
-#: server/unittools.c:2130
+#: server/unittools.c:2133
 #, c-format
 msgid "Barbarian leader captured; %d gold ransom paid."
 msgid_plural "Barbarian leader captured; %d gold ransom paid."
@@ -41433,19 +41517,19 @@ msgstr[0] "Barbarenanführer gefasst, %d Goldstück Belohnung erhalten."
 msgstr[1] "Barbarenanführer gefasst, %d Goldstücke Belohnung erhalten."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:2151
+#: server/unittools.c:2154
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Der Angriff Ihrer %s gegen die %sen %s ist geglückt!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:2160 server/unittools.c:2221
+#: server/unittools.c:2163 server/unittools.c:2224
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s beim Angriff der %sen %s verloren."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:2196
+#: server/unittools.c:2199
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -41458,14 +41542,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:2231
+#: server/unittools.c:2234
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s beim Angriff der %sen %s auf die %sen %s verloren."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:2247
+#: server/unittools.c:2250
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (und %s) beim Angriff der %sen %s verloren."
@@ -41473,7 +41557,7 @@ msgstr "%s (und %s) beim Angriff der %sen %s verloren."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2258
+#: server/unittools.c:2261
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -41483,14 +41567,14 @@ msgstr[1] "%s und %d weitere Einheiten beim Angriff der %sen %s verloren."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:2273
+#: server/unittools.c:2276
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d Einheit beim Angriff der %sen %s auf die %sen %s verloren."
 msgstr[1] "%d Einheiten beim Angriff der %sen %s auf %sen %s verloren."
 
-#: server/unittools.c:2575
+#: server/unittools.c:2578
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%s wurden von %s atomar angegriffen!"
@@ -41499,33 +41583,33 @@ msgstr "%s wurden von %s atomar angegriffen!"
 # versehentlich selbst in die Luft sprengt. Wird in
 # "wurde von XY atomar angegriffen" und in
 # "Sie haben XY atomar angegriffen" eingesetzt.
-#: server/unittools.c:2578 server/unittools.c:2596
+#: server/unittools.c:2581 server/unittools.c:2599
 msgid "yourself"
 msgstr "Ihnen selbst"
 
-#: server/unittools.c:2582
+#: server/unittools.c:2585
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "Die %sen %s wurden atomar angegriffen."
 
-#: server/unittools.c:2593
+#: server/unittools.c:2596
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s wurden von %s atomar angegriffen."
 
-#: server/unittools.c:2601
+#: server/unittools.c:2604
 #, c-format
 msgid "You nuked %s."
 msgstr "Sie haben %s atomar angegriffen."
 
-#: server/unittools.c:2653
+#: server/unittools.c:2656
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Die %s haben eine Atombombe gezündet!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2677 server/unittools.c:2685
+#: server/unittools.c:2680 server/unittools.c:2688
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr ""
@@ -41534,112 +41618,112 @@ msgstr ""
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2696
+#: server/unittools.c:2699
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s können nicht nach %s transportiert werden."
 
-#: server/unittools.c:2706
+#: server/unittools.c:2709
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s transportiert."
 
-#: server/unittools.c:2766
+#: server/unittools.c:2769
 msgid "This unit type can not be paradropped."
 msgstr "Diese Einheit kann nicht fallschirmspringen."
 
-#: server/unittools.c:2776
+#: server/unittools.c:2779
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Ein Transporter kann nicht fallschirmspringen."
 
-#: server/unittools.c:2783
+#: server/unittools.c:2786
 msgid "The destination location is not known."
 msgstr "Der Zielort ist nicht bekannt."
 
-#: server/unittools.c:2791
+#: server/unittools.c:2794
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "Die Entfernung zum Ziel (%i) ist größer als die Reichweite dieser Einheit "
 "(%i)."
 
-#: server/unittools.c:2802 server/unittools.c:2838
+#: server/unittools.c:2805 server/unittools.c:2841
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Diese Einheit kann nicht über %s abspringen."
 
-#: server/unittools.c:2867
+#: server/unittools.c:2870
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Die %s sind über %s abgesprungen und gingen verloren."
 
-#: server/unittools.c:2881
+#: server/unittools.c:2884
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Die %s wurden von feindlichen Einheiten bei der Landung vernichtet."
 
-#: server/unittools.c:2953
+#: server/unittools.c:2956
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       dass sie in alle Himmelsrichtungen flohen."
 
-#: server/unittools.c:3264
+#: server/unittools.c:3267
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Befehle für %s verworfen, weil eine Feindbewegung entdeckt wurde."
 
-#: server/unittools.c:3922
+#: server/unittools.c:3925
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Befehle für %s verworfen, da Einheiten in der Nähe sind."
 
-#: server/unittools.c:3991
+#: server/unittools.c:3994
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Befehle für %s verworfen, da die Stadt nicht gegründet werden konnte."
 
-#: server/unittools.c:4041
+#: server/unittools.c:4044
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Befehle für %s verworfen, Auftrag unmöglich."
 
-#: server/unittools.c:4050
+#: server/unittools.c:4053
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Befehle für %s verworfen, das Ziel ist ungültig."
 
-#: server/unittools.c:4061
+#: server/unittools.c:4064
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 
-#: server/unittools.c:4087
+#: server/unittools.c:4090
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
-#: server/unittools.c:4104
+#: server/unittools.c:4107
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Der Versuch, die Heimatstadt der %s zu ändern, schlug fehl."
 
-#: server/unittools.c:4115
+#: server/unittools.c:4118
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Der Versuch, eine Handelsroute nach %s einzurichten, misslang."
 
-#: server/unittools.c:4127
+#: server/unittools.c:4130
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Der Versuch, ein Weltwunder in %s zu errichten, misslang."
 
-#: server/unittools.c:4136
+#: server/unittools.c:4139
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Befehle für %s sind ungültig."
 
-#: server/unittools.c:4234
+#: server/unittools.c:4237
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
