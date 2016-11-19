@@ -48,8 +48,7 @@ documentation. It also accepts
 .B freeciv-gtk3x
 accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
 documentation. It also accepts
-.B [ \-g|\-\-gtk-warnings ] \
-[ \-h|\-\-help ] \
+.B[ \-h|\-\-help ] \
 [ \-r|\-\-resolution \fIWIDTHxHEIGHT\fP ]
 
 .B freeciv-qt
