@@ -202,24 +202,6 @@ Base_type_id base_number(const struct base_type *pbase)
 }
 
 /**************************************************************************
-  Return the base index.
-
-  Currently same as base_number(), paired with base_count()
-  indicates use as an array index.
-
-  FIXME: Get rid of this. _index() makes no sense when they are not
-  in an array.
-**************************************************************************/
-Base_type_id base_index(const struct base_type *pbase)
-{
-  fc_assert_ret_val(NULL != pbase, -1);
-
-  /* FIXME: */
-  /*  return pbase - base_types; */
-  return base_number(pbase);
-}
-
-/**************************************************************************
   Return extra that base is.
 **************************************************************************/
 struct extra_type *base_extra_get(const struct base_type *pbase)

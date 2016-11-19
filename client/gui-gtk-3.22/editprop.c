@@ -1549,7 +1549,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         BV_CLR_ALL(pv->data.v_bv_bases);
         extra_type_by_cause_iterate(EC_BASE, pextra) {
           if (tile_has_extra(ptile, pextra)) {
-            BV_SET(pv->data.v_bv_bases, base_index(extra_base_get(pextra)));
+            BV_SET(pv->data.v_bv_bases, base_number(extra_base_get(pextra)));
           }
         } extra_type_by_cause_iterate_end;
         break;
@@ -2424,7 +2424,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_TILE_BASES:
         extra_type_by_cause_iterate(EC_BASE, pextra) {
-          int bidx = base_index(extra_base_get(pextra));
+          int bidx = base_number(extra_base_get(pextra));
 
           if (BV_ISSET(pv->data.v_bv_bases, bidx)) {
             BV_SET(packet->extras, extra_index(pextra));

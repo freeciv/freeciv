@@ -3349,7 +3349,7 @@ static bool load_ruleset_terrain(struct section_file *file,
     /* base details */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
-      const char *section = &base_sections[base_index(pbase) * MAX_SECTION_LABEL];
+      const char *section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
       int bj;
       const char **slist;
       const char *gui_str;

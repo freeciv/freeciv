@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -78,7 +78,6 @@ struct base_type {
 
 /* General base accessor functions. */
 Base_type_id base_count(void);
-Base_type_id base_index(const struct base_type *pbase);
 Base_type_id base_number(const struct base_type *pbase);
 
 struct base_type *base_by_number(const Base_type_id id);
