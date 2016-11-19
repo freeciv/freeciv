@@ -4,11 +4,11 @@
 # Roman Festchook <roma@polesye.net>, 2003.
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 1.14.0\n"
+"Project-Id-Version: freeciv 2.5.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-30 12:10+0100\n"
-"PO-Revision-Date: 2011-10-06 17:27+0300\n"
-"Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
+"PO-Revision-Date: 2016-11-19 1:27+0300\n"
+"Last-Translator: Swiatoslav Golda <swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -4163,7 +4163,7 @@ msgstr ""
 
 #: data/nation/dryad.ruleset:3
 msgid "Dryad"
-msgstr "Дріди"
+msgstr "Дріади"
 
 #: data/nation/dryad.ruleset:4
 msgid "?plural:Dryads"
