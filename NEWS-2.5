@@ -1,10 +1,168 @@
 ========================
-Welcome to Freeciv 2.5.5
+Welcome to Freeciv 2.5.6
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.5 to 2.5.6
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.6>)
+
+   2.5.6 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Disbanding a caravan-type unit with the "Disband" action (Shift-D)
+       in a city that's building a wonder no longer contributes 100% of
+       that unit's production cost towards the wonder. You must explicitly
+       use the "Help Build Wonder" action (B). This change was made
+       because this allowed rules to be bypassed -- it allowed adding
+       shields to foreign cities' wonders. GNA#23911
+     * If autoattack is enabled, cargo now preferentially attacks before
+       its transport. GNA#25259 GNAPATCH#7985
+     * Air units could fail to return to refuel automatically and be lost,
+       despite having enough movement points. GNA#25294
+     * A spurious enemy land unit could be shown in the middle of the sea
+       on the client if the client's player saw its transporter being
+       sunk, in games with 'killstack' disabled. GNA#24921
+     * Borders were sometimes not adjusted after tiles changed from land
+       to water. GNA#23179
+     * It was possible to launch a spaceship that was not entirely
+       connected (in a specific way). GNA#24979
+     * The server could emit assertion failures when a barbarian leader
+       could not or did not want to move. GNA#24929
+     * The server could emit assertion failures shortly after creating a
+       new barbarian player. GNA#24545
+     * The server now gives a clear error message if it fails to parse a
+       saved game file. GNA#24972
+     * After selecting a specific nation to play and then reverting to
+       random selection, it was possible to end up with previously
+       selected nation anyway, due to the leader name persisting.
+       GNA#24170
+     * Removed duplicate city 'Orange' from Texan ruleset. (This was
+       harmless.) GNA#25003
+
+Changes affecting other rulesets / modders
+
+     * Remove init_government from the Lycian nation. This prevented using
+       the standard nation set nationlist.ruleset in a ruleset not
+       containing a 'Despotism' government type. GNA#24904
+     * Extra sanity checking when loading rulesets. GNA#24905 GNA#25137
+
+Changes affecting server operators
+
+     * When reducing command permissions (cmdlevel) on game start to
+       'basic' for connected players, new connections after game start
+       still got 'ctrl' permissions. GNA#24774
+
+General
+
+     * A tiny optimization for speed. GNAPATCH#7567
+     * Various internal changes which should only affect developers.
+       GNA#25007 GNA#25301
+
+AI
+
+     * The building advisor will no longer automatically build (and hence
+       move) 'small wonder' buildings of any kind. (Previously it only
+       refused to move the Palace.) GNA#7598
+     * The AI could send caravans toward foreign cities in the mistaken
+       belief that (a) they could help build a wonder there, (b) this
+       would be somehow useful. GNA#24662
+
+Clients
+
+     * Sound is no longer disabled by default for fresh installations,
+       unless it was not compiled in. GNA#24280
+     * If a sound set with menu music was in use, a brief snatch of it
+       would be played when quitting the client. GNA#24844
+     * The 'Turn Done' button is now disabled for dead players. (It did
+       not do anything useful.) GNA#24945
+     * (Gtk3) Fix misdrawing of the scenario choosing page. GNA#24882
+     * (Gtk3) Fix warnings about use of Pango font syntax seen with newer
+       versions of Gtk. GNAPATCH#7162 GNA#25226
+     * (Gtk3) Fix various other trouble when using the newest Gtk (3.22).
+       GNAPATCH#7845 GNA#25160
+     * (Qt) Fix constantly blinking research text the turn when the tech
+       tree is complete. GNA#25071
+     * (Qt) Added the option to show which tiles are native to a unit, as
+       in other clients. GNAPATCH#6445
+     * (Qt) Added the 'Default' option to theme selection. GNAPATCH#7666
+     * (Qt) Fix artifacts on minimap: a vertical line of bright (unfogged)
+       pixels was shown in hex topologies, and more unfogged pixels could
+       be left after unit movement. GNA#24370 GNA#24861
+     * (Qt) Now shows any startup message set on the server with
+       'connectmsg'. GNAPATCH#7537
+     * (Qt) Now displays information about new releases of Freeciv from
+       the metaserver, like other clients. GNA#24935
+     * (Qt) Trying to start the game very quickly after loading a savegame
+       or scenario could fail. GNA#24859
+     * (Qt) Picking a nation for another player in pregame could set that
+       player's leader name to the client's username. GNA#24906
+     * (Qt) When sending a chat message, the position in the chat history
+       is reset to the bottom. GNA#24881
+     * (Qt) Chat messages containing non-ASCII characters could be
+       displayed incorrectly. GNA#24888
+     * (Qt) Windows-specific fixes:
+          + Some changes that may help with failure to start this client
+            on Windows. GNA#24901
+          + The map could fail to be drawn initially. GNA#24860
+          + Fix possible networking trouble. GNA#24909
+     * (SDL) It was usually impossible to cancel a treaty. Opening the
+       diplomacy dialog when it would have been possible would usually
+       crash the client. GNA#25245 GNA#25085
+     * (SDL) With hex topologies, the city map was drawn over other parts
+       of the city dialog. GNA#25251
+     * (SDL) The goto/airlift dialog had a hardcoded limit to the number
+       of cities it could display, making some inaccessible. GNA#25024
+     * (SDL) Fix possible trouble when entering or leaving the main game
+       view. GNA#23992
+     * (SDL) Fix possible trouble on theme change. Theme changes are not
+       applied until a restart. GNA#25117
+
+Tilesets / Art
+
+     * Minor fixes to civ2civ3 wonder graphics. GNA#25009
+     * An invisible fix to improve hex2t performance slightly.
+       GNAPATCH#7953
+
+Help / Documentation
+
+     * Documented the FREECIV_OPT client environment variable. GNA#25165
+     * Miscellaneous changes to developer/ruleset docs. GNA#24941
+       GNA#24996 GNAPATCH#7688
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Russian.
+          + Incomplete translations: Finnish (100% core, 92% nations),
+            German (100% core, 87% nations), Ukrainian (99.1% core, 79%
+            nations).
+     * (We're looking for a new primary maintainer for the German
+       translation. See <http://www.freeciv.org/wiki/Translations>
+       if you can help.)
+
+Build/portability
+
+     * Fix portability issues when building for 64-bit Windows.
+       GNAPATCH#7558 GNAPATCH#7588 GNA#24902 GNA#24900
+     * Fix some compilation warnings on OpenBSD. GNA#24948 GNAPATCH#7634
+     * Fix use of deprecated types in the Qt client, causing warnings.
+       GNAPATCH#7704
+     * Some incomplete changes aimed at enabling compilation with tcc.
+       GNAPATCH#7509 GNAPATCH#7519 GNAPATCH#7526
+     * Fix generation of the configure script with the (rather old)
+       autoconf 2.64. This would not affect building from our release
+       tarballs. GNA#24907
+     * The FREECIV_LABEL_FORCE variable is now cached between runs of
+       'configure'. GNAPATCH#7987
 
 
 CHANGES FROM 2.5.4 to 2.5.5
