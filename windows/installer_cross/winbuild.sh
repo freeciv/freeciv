@@ -81,7 +81,7 @@ fi
 
 INSTALL_DIR="$(pwd)/freeciv-${VERREV}"
 
-(
+if ! (
 cd build-$SETUP
 
 if ! ../../../configure CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-svnrev --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser --enable-ai-static=classic --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread
@@ -100,7 +100,9 @@ if ! cp gen_headers/fc_config.h $INSTALL_DIR/share/freeciv/ ; then
   echo "Storing fc_config.h failed" >&2
   exit 1
 fi
-)
+) then
+  exit 1
+fi
 
 if ! 7z a -r freeciv-${VERREV}.7z freeciv-${VERREV}
 then
