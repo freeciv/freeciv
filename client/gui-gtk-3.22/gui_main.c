@@ -282,10 +282,6 @@ static void print_usage(void)
              _("Other gui-specific options are:\n"));
 
   fc_fprintf(stderr,
-             _("-g, --gtk-warnings\tAllow Gtk+ to print warnings "
-               "to console\n"));
-
-  fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
                "screen\n"));
 
@@ -303,23 +299,12 @@ static void print_usage(void)
 }
 
 /**************************************************************************
-  Dummy gtk error printer
-**************************************************************************/
-static void log_gtk_warns(const gchar *log_domain, GLogLevelFlags log_level,
-                          const gchar *message,
-                          gpointer user_data)
-{
-  log_verbose("%s", message);
-}
-
-/**************************************************************************
   Search for command line options. right now, it's just help
   semi-useless until we have options that aren't the same across all clients.
 **************************************************************************/
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
-  bool gtk_warns_enabled = FALSE;
 
   while (i < argc) {
     char *option = NULL;
@@ -327,8 +312,6 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i])) {
       print_usage();
       exit(EXIT_SUCCESS);
-    } else if (is_option("--gtk-warnings", argv[i])) {
-      gtk_warns_enabled = TRUE;
 
 #ifdef GTK3_ZOOM_ENABLED
     } else if ((option = get_option_malloc("--zoom", argv, &i, argc, FALSE))) {
@@ -353,10 +336,6 @@ static void parse_options(int argc, char **argv)
     /* Can't check against unknown options, as those might be gtk options */
 
     i++;
-  }
-
-  if (!gtk_warns_enabled) {
-    g_log_set_handler("Gtk", G_LOG_LEVEL_WARNING, log_gtk_warns, NULL);
   }
 }
 
