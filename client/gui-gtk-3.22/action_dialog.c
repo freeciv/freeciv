@@ -1638,7 +1638,7 @@ void popup_action_selection(struct unit *actor_unit,
   if (unit_can_move_to_tile(actor_unit, target_tile, FALSE, FALSE)) {
     action_button_map[BUTTON_MOVE] =
         choice_dialog_get_number_of_buttons(shl);
-    choice_dialog_add(shl, _("_Keep moving"),
+    choice_dialog_add(shl, _("Keep moving"),
                       (GCallback)act_sel_keep_moving_callback,
                       data, FALSE, NULL);
   }
