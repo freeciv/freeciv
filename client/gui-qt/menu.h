@@ -293,6 +293,7 @@ public:
   QString shortcut_2_menustring(int sid);
   QAction *minimap_status;
   QAction *lock_status;
+  QAction *osd_status;
   QAction *chat_status;
   QAction *messages_status;
   bool delayed_order;
@@ -355,6 +356,7 @@ private slots:
   /*used by view menu*/
   void slot_center_view();
   void slot_minimap_view();
+  void slot_show_new_turn_text();
   void slot_fullscreen();
   void slot_lock();
   void slot_city_outlines();

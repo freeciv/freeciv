@@ -32,6 +32,7 @@
 
 // common
 #include "movement.h"
+#include "research.h"
 #include "unitlist.h"
 #include "tile.h"
 #include "unit.h"
@@ -45,6 +46,9 @@
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
+extern "C" {
+  const char *calendar_text(void);
+}
 static QString popup_terrain_info(struct tile *ptile);
 
 /***************************************************************************
@@ -218,6 +222,115 @@ void hud_message_box::paintEvent(QPaintEvent *event)
   }
   p.end();
   event->accept();
+}
+
+/****************************************************************************
+  Hud text constructor takes text to display and time
+****************************************************************************/
+hud_text::hud_text(QString s, int time_secs,
+                   QWidget *parent) : QWidget(parent)
+{
+  int size;
+
+  text = s;
+  timeout = time_secs;
+
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Dialog
+                | Qt::FramelessWindowHint);
+  f_text = *fc_font::instance()->get_font(fonts::default_font);
+  f_text.setBold(true);
+  f_text.setCapitalization(QFont::SmallCaps);
+  size = f_text.pointSize();
+  if (size > 0) {
+    f_text.setPointSize(size * 2);
+  } else {
+    size = f_text.pixelSize();
+    f_text.setPixelSize(size * 2);
+  }
+  fm_text = new QFontMetrics(f_text);
+  m_animate_step = 0;
+  m_timer.start();
+  startTimer(46);
+  setAttribute(Qt::WA_TranslucentBackground);
+  setAttribute(Qt::WA_ShowWithoutActivating);
+  setFocusPolicy(Qt::NoFocus);
+}
+
+/****************************************************************************
+  Shows hud text
+****************************************************************************/
+void hud_text::show_me()
+{
+  show();
+  center_me();
+}
+
+/****************************************************************************
+  Moves to top center parent widget and sets size new size
+****************************************************************************/
+void hud_text::center_me()
+{
+  int w;
+  QPoint p;
+  w = width();
+  if (bound_rect.isEmpty() == false) {
+    setFixedSize(bound_rect.width(), bound_rect.height());
+  }
+  p = QPoint((parentWidget()->width() - w) / 2,
+             parentWidget()->height() / 10);
+  p = parentWidget()->mapToGlobal(p);
+  move(p);
+}
+
+/****************************************************************************
+  Destructor for hud text
+****************************************************************************/
+hud_text::~hud_text()
+{
+  delete fm_text;
+}
+
+/****************************************************************************
+  Timer event, closes widget after timeout
+****************************************************************************/
+void hud_text::timerEvent(QTimerEvent *event)
+{
+  m_animate_step = m_timer.elapsed() / 40;
+  if (m_timer.elapsed() > timeout * 1000) {
+    close();
+    deleteLater();
+  }
+  update();
+}
+
+/****************************************************************************
+  Paint event for custom hud_text
+****************************************************************************/
+void hud_text::paintEvent(QPaintEvent *event)
+{
+  QPainter p;
+  QRect rfull;
+  QColor c1;
+  QColor c2;
+  float opacity;
+
+  center_me();
+  if (m_timer.elapsed() < timeout * 500) {
+    opacity = static_cast<float>(m_timer.elapsed())/(timeout * 300);
+  } else {
+    opacity = static_cast<float>(5000 - m_timer.elapsed())/(timeout * 200);
+  }
+  opacity = qMin(1.0f, opacity);
+  opacity = qMax(0.0f, opacity);
+  rfull = QRect(0 , 0, width(), height());
+  c1 = QColor(Qt::white);
+  c1.setAlphaF(c1.alphaF() * opacity);
+  p.begin(this);
+  p.setFont(f_text);
+  p.setPen(c1);
+  p.drawText(rfull, Qt::AlignCenter, text, &bound_rect);
+
+  p.end();
 }
 
 /****************************************************************************
@@ -1403,4 +1516,46 @@ QString popup_terrain_info(struct tile *ptile)
   }
   ret = ret + QString(_("Defence bonus: %1%")).arg(terr->defense_bonus);
   return ret;
+}
+
+/****************************************************************************
+  Shows new turn information with big font
+****************************************************************************/
+void show_new_turn_info()
+{
+  QString s;
+  hud_text *ht;
+  QList<hud_text *> close_list;
+  struct research *research;
+  int i;
+
+  if (client_has_player() == false
+      || gui()->qt_settings.show_new_turn_text == false) {
+    return;
+  }
+  close_list = gui()->mapview_wdg->findChildren<hud_text *>();
+  for (i = 0; i < close_list.size(); ++i) {
+    close_list.at(i)->close();
+    close_list.at(i)->deleteLater();
+  }
+  research = research_get(client_player());
+  s = QString(_("Year: %1 (Turn: %2)"))
+      .arg(calendar_text()).arg(game.info.turn) + "\n";
+  s = s + QString(nation_plural_for_player(client_player()));
+  s = s + " - " + QString(_("Population: %1"))
+      .arg(population_to_text(civ_population(client.conn.playing)));
+  if (research->researching != A_UNKNOWN
+      && research->researching != A_UNSET
+      && research->researching != A_NONE) {
+    s = s + "\n" + QString(research_advance_name_translation(research,
+                           research->researching)) +
+        " (" + QString::number(research->bulbs_researched) + "/"
+        + QString::number(research->client.researching_cost) + ")";
+  }
+  s = s + "\n" + science_dialog_text() + "\n";
+  s = s + QString(_("Gold: %1 (+%2)"))
+      .arg(client.conn.playing->economic.gold)
+      .arg(player_get_expected_income(client.conn.playing));
+  ht = new hud_text(s, 5, gui()->mapview_wdg);
+  ht->show_me();
 }

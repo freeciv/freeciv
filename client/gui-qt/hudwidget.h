@@ -38,7 +38,9 @@ struct unit_list;
 struct tile;
 struct unit;
 
+void show_new_turn_info();
 bool has_player_unit_type(Unit_type_id utype);
+
 /****************************************************************************
   Custom message box with animated background
 ****************************************************************************/
@@ -67,6 +69,31 @@ private:
   QFont f_title;
   int top;
   int mult;
+};
+
+/****************************************************************************
+  Class for showing text on screen
+****************************************************************************/
+class hud_text: public QWidget
+{
+  Q_OBJECT
+public:
+  hud_text(QString s, int time_secs, QWidget *parent);
+  ~hud_text();
+  void show_me();
+protected:
+  void paintEvent(QPaintEvent *event);
+  void timerEvent(QTimerEvent *event);
+private:
+  void center_me();
+  QRect bound_rect;
+  int timeout;
+  int m_animate_step;
+  QString text;
+  QElapsedTimer m_timer;
+  QFontMetrics *fm_text;
+  QFont f_text;
+  QFont f_title;
 };
 
 /****************************************************************************

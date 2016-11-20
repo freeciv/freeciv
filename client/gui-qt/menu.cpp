@@ -73,6 +73,7 @@ void qt_start_turn()
 {
   gui()->rallies.run();
   real_menus_update();
+  show_new_turn_info();
   last_center_enemy = 0;
   last_center_capital = 0;
   last_center_player_city = 0;
@@ -1028,6 +1029,11 @@ void mr_menu::setup_menus()
   minimap_status->setChecked(true);
   connect(minimap_status, SIGNAL(triggered()), this,
           SLOT(slot_minimap_view()));
+  osd_status = menu->addAction(_("Show new turn information"));
+  osd_status->setCheckable(true);
+  osd_status->setChecked(gui()->qt_settings.show_new_turn_text);
+  connect(osd_status, SIGNAL(triggered()), this,
+          SLOT(slot_show_new_turn_text()));
   lock_status = menu->addAction(_("Lock interface"));
   lock_status->setCheckable(true);
   lock_status->setShortcut(QKeySequence(shortcut_to_string(
@@ -2812,6 +2818,18 @@ void mr_menu::slot_minimap_view()
     ::gui()->minimapview_wdg->show();
   } else {
     ::gui()->minimapview_wdg->hide();
+  }
+}
+
+/****************************************************************
+  Action "Show/Dont show new turn info"
+*****************************************************************/
+void mr_menu::slot_show_new_turn_text()
+{
+  if (osd_status->isChecked()) {
+    gui()->qt_settings.show_new_turn_text = true;
+  } else {
+    gui()->qt_settings.show_new_turn_text = false;
   }
 }
 

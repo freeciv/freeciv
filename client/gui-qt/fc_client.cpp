@@ -356,6 +356,7 @@ void fc_client::switch_page(int new_pg)
     overview_size_changed();
     update_sidebar_tooltips();
     real_science_report_dialog_update();
+    show_new_turn_info();
     break;
   case PAGE_SCENARIO:
     update_scenarios_page();
@@ -640,6 +641,11 @@ void fc_client::read_settings()
   if (s.contains("splitter3")) {
     qt_settings.city_splitter3 = s.value("splitter3").toByteArray();
   }
+  if (s.contains("new_turn_text")) {
+    qt_settings.show_new_turn_text = s.value("new_turn_text").toBool();
+  } else {
+    qt_settings.show_new_turn_text = true;
+  }
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
 
@@ -670,6 +676,7 @@ void fc_client::write_settings()
   s.setValue("minimap_y", qt_settings.minimap_y);
   s.setValue("minimap_width", qt_settings.minimap_width);
   s.setValue("minimap_height", qt_settings.minimap_height);
+  s.setValue("new_turn_text", qt_settings.show_new_turn_text);
   write_shortcuts();
 }
 
