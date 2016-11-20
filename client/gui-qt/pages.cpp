@@ -728,6 +728,7 @@ void fc_client::create_game_page()
   sw_cunit->set_wheel_up(cycle_enemy_units);
   sw_cunit->set_wheel_down(key_unit_wait);
   sw_diplo->set_right_click(side_right_click_diplomacy);
+  sw_science->set_right_click(side_right_click_science);
 
   sidebar_wdg->add_widget(sw_map);
   sidebar_wdg->add_widget(sw_cunit);
