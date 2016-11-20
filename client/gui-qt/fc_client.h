@@ -127,6 +127,7 @@ struct fc_settings
   int chat_x_pos;
   int chat_y_pos;
   int player_repo_sort_col;
+  bool show_new_turn_text;
   Qt::SortOrder player_report_sort;
   int city_repo_sort_col;
   Qt::SortOrder city_report_sort;
