@@ -33,6 +33,7 @@ typedef void (*pfcn_bool)(bool);
 typedef void (*pfcn)(void);
 
 void side_right_click_diplomacy(void);
+void side_right_click_science(void);
 void side_blink_endturn(bool do_restore);
 void side_center_unit();
 void side_disable_endturn(bool do_restore);

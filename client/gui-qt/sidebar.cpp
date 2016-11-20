@@ -22,7 +22,11 @@
 #include <QPixmap>
 #include <QTimer>
 
+//common
+#include "research.h"
+
 // qt-client
+#include "repodlgs.h"
 #include "sidebar.h"
 #include "sprite.h"
 
@@ -306,7 +310,7 @@ void fc_sidewidget::sblink()
 }
 
 /***************************************************************************
-  Miscelanous slot, helping observe players currently,
+  Miscelanous slot, helping observe players currently, and changing science
   extra functionality might be added,
   eg by setting properties
 ***************************************************************************/
@@ -320,6 +324,11 @@ void fc_sidewidget::some_slot()
   qvar = act->data();
 
   if (qvar.isValid() == false) {
+    return;
+  }
+
+  if (act->property("scimenu") == true) {
+    dsend_packet_player_research(&client.conn, qvar.toInt());
     return;
   }
 
@@ -680,5 +689,47 @@ void side_right_click_diplomacy(void)
       return;
     }
     gui()->game_tab_widget->setCurrentIndex(i);
+  }
+}
+
+/***************************************************************************
+  Right click for science, allowing to choose current tech
+***************************************************************************/
+void side_right_click_science(void)
+{
+  QMenu *menu;
+  QString str;
+  QAction *act;
+  QVariant qvar;
+  QList<qlist_item> curr_list;
+  qlist_item item;
+
+  if (client_is_observer() == false) {
+    struct research *research = research_get(client_player());
+
+    advance_index_iterate(A_FIRST, i) {
+      if (TECH_PREREQS_KNOWN == research->inventions[i].state
+        && research->researching != i) {
+        item.tech_str =
+          QString::fromUtf8(advance_name_translation(advance_by_number(i)));
+        item.id = i;
+        curr_list.append(item);
+      }
+    } advance_index_iterate_end;
+    if (curr_list.isEmpty()) {
+      return;
+    }
+    qSort(curr_list.begin(), curr_list.end(), comp_less_than);
+    menu = new QMenu(gui()->central_wdg);
+    for (int i = 0; i < curr_list.count(); i++) {
+      qvar = curr_list.at(i).id;
+      act = new QAction(curr_list.at(i).tech_str, gui()->mapview_wdg);
+      act->setData(qvar);
+      act->setProperty("scimenu", true);
+      menu->addAction(act);
+      QObject::connect(act, SIGNAL(triggered()), gui()->sw_science,
+                       SLOT(some_slot()));
+    }
+    menu->exec(QCursor::pos());
   }
 }
