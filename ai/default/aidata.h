@@ -122,4 +122,6 @@ struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
 void dai_gov_value(struct ai_type *ait, struct player *pplayer, struct government *gov,
                    adv_want *val, bool *override);
 
+void dai_adjust_policies(struct ai_type *ait, struct player *pplayer);
+
 #endif /* FC__AIDATA_H */

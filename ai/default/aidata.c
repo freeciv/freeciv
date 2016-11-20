@@ -19,6 +19,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "multipliers.h"
 #include "research.h"
 
 /* server */
@@ -420,6 +421,86 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
   }
 
   *player_intel_slot = NULL;
+}
+
+/****************************************************************************
+  Adjust multiplier values.
+****************************************************************************/
+void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
+{
+  bool needs_back_rearrange = FALSE; 
+  struct adv_data *adv;
+
+  adv = adv_data_get(pplayer, NULL);
+
+  multipliers_iterate(ppol) {
+    int orig_value = 0;
+    int mp_val = player_multiplier_value(pplayer, ppol);
+    int pidx = multiplier_index(ppol);
+    bool better_found = FALSE;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      orig_value += dai_city_want(pplayer, pcity, adv, NULL);
+    } city_list_iterate_end;
+
+    /* Consider reducing policy value */
+    if (mp_val > ppol->start) {
+      int new_value = 0;
+
+      pplayer->multipliers[pidx] = MAX(mp_val - ppol->step, ppol->start);
+
+      city_list_iterate(pplayer->cities, acity) {
+        auto_arrange_workers(acity);
+      } city_list_iterate_end;
+
+      city_list_iterate(pplayer->cities, pcity) {
+        new_value += dai_city_want(pplayer, pcity, adv, NULL);
+      } city_list_iterate_end;
+
+      if (new_value > orig_value) {
+        /* This is step to right direction, leave it in effect. */
+        pplayer->multipliers_target[pidx] = pplayer->multipliers[pidx];
+
+        needs_back_rearrange = FALSE;
+        better_found = TRUE;
+      }
+    }
+
+    /* Consider increasing policy value */
+    if (!better_found && mp_val < ppol->stop) {
+      int new_value = 0;
+
+      pplayer->multipliers[pidx] = MIN(mp_val + ppol->step, ppol->stop);
+
+      city_list_iterate(pplayer->cities, acity) {
+        auto_arrange_workers(acity);
+      } city_list_iterate_end;
+
+      city_list_iterate(pplayer->cities, pcity) {
+        new_value += dai_city_want(pplayer, pcity, adv, NULL);
+      } city_list_iterate_end;
+
+      if (new_value > orig_value) {
+        /* This is step to right direction, leave it in effect. */
+        pplayer->multipliers_target[pidx] = pplayer->multipliers[pidx];
+
+        needs_back_rearrange = FALSE;
+        better_found = TRUE;
+      }
+    }
+
+    if (!better_found) {
+      /* Restore original multiplier value */
+      pplayer->multipliers[pidx] = mp_val;
+      needs_back_rearrange = TRUE;
+    }
+  } multipliers_iterate_end;
+
+  if (needs_back_rearrange) {
+    city_list_iterate(pplayer->cities, acity) {
+      auto_arrange_workers(acity);
+    } city_list_iterate_end;
+  }
 }
 
 /****************************************************************************

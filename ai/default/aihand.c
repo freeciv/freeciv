@@ -765,6 +765,7 @@ void dai_do_last_activities(struct ai_type *ait, struct player *pplayer)
   dai_clear_tech_wants(ait, pplayer);
 
   dai_manage_government(ait, pplayer);
+  dai_adjust_policies(ait, pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_START);
   dai_manage_taxes(ait, pplayer);
   TIMING_LOG(AIT_TAXES, TIMER_STOP);
