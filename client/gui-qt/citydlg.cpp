@@ -3556,6 +3556,7 @@ void city_production_delegate::paint(QPainter *painter,
   color col;
   QIcon icon = qapp->style()->standardIcon(QStyle::SP_DialogCancelButton);
   bool free_sprite = false;
+  struct unit_class *pclass;
 
   if (!option.rect.isValid()) {
     return;
@@ -3579,12 +3580,22 @@ void city_production_delegate::paint(QPainter *painter,
   } else if (VUT_UTYPE == target->kind) {
     name = utype_name_translation(target->value.utype);
     is_neutral = utype_has_flag(target->value.utype, UTYF_CIVILIAN);
-
-    if (utype_move_type(target->value.utype) == UMT_SEA) {
+    pclass = utype_class(target->value.utype);
+    if (!uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)
+        && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
+        && !uclass_has_flag(pclass, UCF_ZOC)) {
       is_sea = true;
     }
 
-    if (utype_move_type(target->value.utype) == UMT_BOTH) {
+    if ((utype_fuel(target->value.utype)
+         && !uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)
+        && !uclass_has_flag(pclass, UCF_CAN_PILLAGE)
+        && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
+        && !uclass_has_flag(pclass, UCF_ZOC))
+        || uclass_has_flag(pclass, UCF_MISSILE)) {
+      if (is_sea == true) {
+        is_sea = false;
+      }
       is_flying = true;
     }
 

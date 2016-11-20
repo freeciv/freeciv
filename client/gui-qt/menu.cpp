@@ -1505,8 +1505,7 @@ void mr_menu::update_airlift_menu()
     utype_id = utype_index(utype);
 
     if (!can_player_build_unit_now(client.conn.playing, utype)
-        || utype_move_type(utype) != UMT_LAND
-        || utype_has_flag(utype, UTYF_NOBUILD)) {
+        || !uclass_has_flag(utype_class(utype), UCF_AIRLIFTABLE)) {
       continue;
     }
     if (!can_player_build_unit_now(client.conn.playing, utype)
