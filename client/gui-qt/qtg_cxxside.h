@@ -100,6 +100,9 @@ void qtg_sound_bell();
 void qtg_real_set_client_page(enum client_pages page);
 enum client_pages qtg_get_current_client_page();
 
+void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
+                           int attacker_hp, int defender_hp,
+                           bool make_winner_veteran);
 void qtg_set_unit_icon(int idx, struct unit *punit);
 void qtg_set_unit_icons_more_arrow(bool onoff);
 void qtg_real_focus_units_changed(void);

@@ -515,6 +515,8 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
       refresh_unit_mapcanvas(pwinner, unit_tile(pwinner), TRUE, FALSE);
     }
   }
+  popup_combat_info(attacker_unit_id, defender_unit_id, attacker_hp,
+                    defender_hp, make_winner_veteran);
 }
 
 /**************************************************************************
