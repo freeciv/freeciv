@@ -581,12 +581,12 @@ void fc_client::read_settings()
   if (s.contains("Chat-x-size")) {
     qt_settings.chat_width = s.value("Chat-x-size").toInt();
   } else {
-    qt_settings.chat_width = 3300;
+    qt_settings.chat_width = 2000;
   }
   if (s.contains("Chat-y-size")) {
     qt_settings.chat_height = s.value("Chat-y-size").toInt();
   } else {
-    qt_settings.chat_height = 3300;
+    qt_settings.chat_height = 4000;
   }
   if (s.contains("Chat-x-pos")) {
     qt_settings.chat_x_pos = s.value("Chat-x-pos").toInt();
@@ -606,7 +606,7 @@ void fc_client::read_settings()
   if (s.contains("unit_y")) {
     qt_settings.unit_info_pos_y = s.value("unit_y").toInt();
   } else {
-    qt_settings.unit_info_pos_y = 0;
+    qt_settings.unit_info_pos_y = 880;
   }
   if (s.contains("minimap_x")) {
     qt_settings.minimap_x = s.value("minimap_x").toFloat();
