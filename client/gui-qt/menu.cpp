@@ -1688,8 +1688,7 @@ void mr_menu::update_airlift_menu()
     utype_id = utype_index(utype);
 
     if (!can_player_build_unit_now(client.conn.playing, utype)
-        || utype_move_type(utype) != UMT_LAND
-        || utype_has_flag(utype, UTYF_NOBUILD)) {
+        || !utype_can_do_action(utype, ACTION_AIRLIFT)) {
       continue;
     }
     if (!can_player_build_unit_now(client.conn.playing, utype)
