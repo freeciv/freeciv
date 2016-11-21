@@ -119,9 +119,9 @@ static bool calls_are_equal(const struct call *pcall1,
   agents.calls list, add the call to this list.
   Maintains the list in a sorted order.
 ***********************************************************************/
-static void enqueue_call(struct my_agent *agent,
-			 enum oct type,
-			 enum callback_type cb_type, ...)
+static void enqueue_call(enum oct type,
+                         enum callback_type cb_type,
+                         struct my_agent *agent, ...)
 {
   va_list ap;
   struct call *pcall2;
@@ -129,7 +129,7 @@ static void enqueue_call(struct my_agent *agent,
   const struct tile *ptile;
   bool added = FALSE;
 
-  va_start(ap, cb_type);
+  va_start(ap, agent);
 
   if (client_is_observer()) {
     return;
@@ -487,7 +487,7 @@ void agents_new_turn(void)
       continue;
     }
     if (agent->agent.turn_start_notify) {
-      enqueue_call(agent, OCT_NEW_TURN, CB_LAST);
+      enqueue_call(OCT_NEW_TURN, CB_LAST, agent);
     }
   }
   /*
@@ -519,7 +519,7 @@ void agents_unit_changed(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
+      enqueue_call(OCT_UNIT, CB_CHANGE, agent, punit->id);
     }
   }
   call_handle_methods();
@@ -544,7 +544,7 @@ void agents_unit_new(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_UNIT, CB_NEW, punit->id);
+      enqueue_call(OCT_UNIT, CB_NEW, agent, punit->id);
     }
   }
 
@@ -570,7 +570,7 @@ void agents_unit_remove(struct unit *punit)
       continue;
     }
     if (agent->agent.unit_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_UNIT, CB_REMOVE, punit->id);
+      enqueue_call(OCT_UNIT, CB_REMOVE, agent, punit->id);
     }
   }
 
@@ -596,7 +596,7 @@ void agents_city_changed(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
+      enqueue_call(OCT_CITY, CB_CHANGE, agent, pcity->id);
     }
   }
 
@@ -622,7 +622,7 @@ void agents_city_new(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_CITY, CB_NEW, pcity->id);
+      enqueue_call(OCT_CITY, CB_NEW, agent, pcity->id);
     }
   }
 
@@ -648,7 +648,7 @@ void agents_city_remove(struct city *pcity)
       continue;
     }
     if (agent->agent.city_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_CITY, CB_REMOVE, pcity->id);
+      enqueue_call(OCT_CITY, CB_REMOVE, agent, pcity->id);
     }
   }
 
@@ -673,7 +673,7 @@ void agents_tile_remove(struct tile *ptile)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_REMOVE]) {
-      enqueue_call(agent, OCT_TILE, CB_REMOVE, ptile);
+      enqueue_call(OCT_TILE, CB_REMOVE, agent, ptile);
     }
   }
 
@@ -697,7 +697,7 @@ void agents_tile_changed(struct tile *ptile)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_CHANGE]) {
-      enqueue_call(agent, OCT_TILE, CB_CHANGE, ptile);
+      enqueue_call(OCT_TILE, CB_CHANGE, agent, ptile);
     }
   }
 
@@ -721,7 +721,7 @@ void agents_tile_new(struct tile *ptile)
       continue;
     }
     if (agent->agent.tile_callbacks[CB_NEW]) {
-      enqueue_call(agent, OCT_TILE, CB_NEW, ptile);
+      enqueue_call(OCT_TILE, CB_NEW, agent, ptile);
     }
   }
 
@@ -776,7 +776,7 @@ void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
   struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
   fc_assert_ret(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
-  enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
+  enqueue_call(OCT_UNIT, CB_CHANGE, agent, punit->id);
   call_handle_methods();
 }
 
@@ -789,7 +789,7 @@ void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
   struct my_agent *agent = agent_by_name(name_of_calling_agent);
 
   fc_assert_ret(agent->agent.city_callbacks[CB_CHANGE] != NULL);
-  enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
+  enqueue_call(OCT_CITY, CB_CHANGE, agent, pcity->id);
   call_handle_methods();
 }
 
