@@ -1347,6 +1347,9 @@ fi
 
 AC_CHECK_HEADERS([pwd.h])
 
+AC_CHECK_FUNCS([opendir], [
+  AC_DEFINE([FREECIV_HAVE_OPENDIR], [1], [opendir() available])])
+
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW" != "xyes"; then

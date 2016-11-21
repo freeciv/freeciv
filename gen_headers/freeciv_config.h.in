@@ -146,4 +146,7 @@
 /* C++11 static assert supported */
 #undef FREECIV_CXX11_STATIC_ASSERT
 
+/* opendir() available */
+#undef FREECIV_HAVE_OPENDIR
+
 #endif /* FC__FREECIV_CONFIG_H */
