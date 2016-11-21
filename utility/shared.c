@@ -1269,7 +1269,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
         size_t len = strlen(dirname) + strlen(filename) + 2;
 
         fullname = fc_malloc(len);
-        fc_snprintf(fullname, len, "%s/%s", dirname, filename);
+        fc_snprintf(fullname, len, "%s" DIR_SEPARATOR "%s", dirname, filename);
 
         if (fc_stat(fullname, &buf) == 0) {
           file = fc_malloc(sizeof(*file));
