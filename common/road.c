@@ -37,24 +37,6 @@ Road_type_id road_number(const struct road_type *proad)
 }
 
 /**************************************************************************
-  Return the road index.
-
-  Currently same as road_number(), paired with road_count()
-  indicates use as an array index.
-
-  FIXME: Get rid of this. _index() makes no sense when they are not
-  in an array.
-**************************************************************************/
-Road_type_id road_index(const struct road_type *proad)
-{
-  fc_assert_ret_val(NULL != proad, -1);
-
-  /* FIXME: */
-  /* return proad - roads; */
-  return road_number(proad);
-}
-
-/**************************************************************************
   Return extra that road is.
 **************************************************************************/
 struct extra_type *road_extra_get(const struct road_type *proad)
@@ -136,7 +118,8 @@ void road_integrators_cache_init(void)
     extra_type_list_append(proad->integrators, pextra);
     extra_type_by_cause_iterate(EC_ROAD, oextra) {
       struct road_type *oroad = extra_road_get(oextra);
-      if (BV_ISSET(proad->integrates, road_index(oroad))) {
+
+      if (BV_ISSET(proad->integrates, road_number(oroad))) {
         extra_type_list_append(proad->integrators, oextra);
       }
     } extra_type_by_cause_iterate_end;

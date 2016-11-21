@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -86,7 +86,6 @@ struct road_type {
 
 /* General road type accessor functions. */
 Road_type_id road_count(void);
-Road_type_id road_index(const struct road_type *proad);
 Road_type_id road_number(const struct road_type *proad);
 
 struct road_type *road_by_number(Road_type_id id);

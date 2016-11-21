@@ -1537,7 +1537,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
         BV_CLR_ALL(pv->data.v_bv_roads);
         extra_type_by_cause_iterate(EC_ROAD, pextra) {
           if (tile_has_extra(ptile, pextra)) {
-            BV_SET(pv->data.v_bv_roads, road_index(extra_road_get(pextra)));
+            BV_SET(pv->data.v_bv_roads, road_number(extra_road_get(pextra)));
           }
         } extra_type_by_cause_iterate_end;
         break;
@@ -2409,7 +2409,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_TILE_ROADS:
         extra_type_by_cause_iterate(EC_ROAD, pextra) {
-          int ridx = road_index(extra_road_get(pextra));
+          int ridx = road_number(extra_road_get(pextra));
 
           if (BV_ISSET(pv->data.v_bv_roads, ridx)) {
             BV_SET(packet->extras, extra_index(pextra));

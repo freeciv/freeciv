@@ -867,9 +867,10 @@ bool sanity_check_ruleset_data(bool ignore_retired)
 
     extra_type_list_iterate(proad->integrators, iextra) {
       struct road_type *iroad = extra_road_get(iextra);
+      int pnbr = road_number(proad);
 
-      if (road_index(proad) != road_index(iroad)
-          && !BV_ISSET(iroad->integrates, road_index(proad))) {
+      if (pnbr != road_number(iroad)
+          && !BV_ISSET(iroad->integrates, pnbr)) {
         /* We don't support non-symmetric integrator relationships yet. */
         ruleset_error(LOG_ERROR,
                       "Road '%s' integrates with '%s' but not vice versa!",

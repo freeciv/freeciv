@@ -1534,8 +1534,8 @@ static void player_load_units(struct player *plr, int plrno,
 
     /* load the unit orders */
     if (has_capability("orders", savefile_options)) {
-      int road_idx = road_index(road_by_compat_special(ROCO_ROAD));
-      int rail_idx = road_index(road_by_compat_special(ROCO_RAILROAD));
+      int road_idx = road_number(road_by_compat_special(ROCO_ROAD));
+      int rail_idx = road_number(road_by_compat_special(ROCO_RAILROAD));
 
       int len = secfile_lookup_int_default(file, 0,
 			"player%d.u%d.orders_length", plrno, i);

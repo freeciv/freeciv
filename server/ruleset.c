@@ -3428,7 +3428,7 @@ static bool load_ruleset_terrain(struct section_file *file,
   if (ok) {
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
-      const char *section = &road_sections[road_index(proad) * MAX_SECTION_LABEL];
+      const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
       const char **slist;
       const char *special;
       const char *modestr;
@@ -3523,7 +3523,7 @@ static bool load_ruleset_terrain(struct section_file *file,
           ok = FALSE;
           break;
         } else {
-          BV_SET(proad->integrates, road_index(top));
+          BV_SET(proad->integrates, road_number(top));
         }
       }
       free(slist);

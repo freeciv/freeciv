@@ -181,7 +181,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 
             fc_assert(punit->activity_target != NULL);
 
-            build_rnbr = road_index(extra_road_get(punit->activity_target));
+            build_rnbr = road_number(extra_road_get(punit->activity_target));
 
             if (build_rnbr == rnbr) {
               real_road[i] = TRUE;

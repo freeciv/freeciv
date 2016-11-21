@@ -3961,12 +3961,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
       if (cfspe == S_OLD_ROAD) {
         proad = road_by_compat_special(ROCO_ROAD);
         if (proad) {
-          road_id = road_index(proad);
+          road_id = road_number(proad);
         }
       } else if (cfspe == S_OLD_RAILROAD) {
         proad = road_by_compat_special(ROCO_RAILROAD);
         if (proad) {
-          road_id = road_index(proad);
+          road_id = road_number(proad);
         }
       }
     }
@@ -4144,8 +4144,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
       const char *tgt_unitstr;
       const char *base_unitstr = NULL;
       const char *road_unitstr = NULL;
-      int road_idx = road_index(road_by_compat_special(ROCO_ROAD));
-      int rail_idx = road_index(road_by_compat_special(ROCO_RAILROAD));
+      int road_idx = road_number(road_by_compat_special(ROCO_ROAD));
+      int rail_idx = road_number(road_by_compat_special(ROCO_RAILROAD));
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
