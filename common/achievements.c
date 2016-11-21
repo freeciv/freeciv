@@ -288,13 +288,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return pplayer->score.literacy >= ach->value;
   case ACHIEVEMENT_LAND_AHOY:
     {
-      bool seen[wld.map.num_continents];
-      int i;
+      bool *seen = fc_calloc(wld.map.num_continents, sizeof(bool));
       int count = 0;
-
-      for (i = 0; i < wld.map.num_continents; i++) {
-        seen[i] = FALSE;
-      }
 
       whole_map_iterate(ptile) {
         bool this_is_known = FALSE;
@@ -315,6 +310,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
            *        to their current continent when they were last seen. */
           if (ptile->continent > 0 && !seen[ptile->continent]) {
             if (++count >= ach->value) {
+              free(seen);
               return TRUE;
             }
             seen[ptile->continent] = TRUE;
@@ -322,6 +318,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
         }
       } whole_map_iterate_end;
 
+      free(seen);
       return FALSE;
     }
   case ACHIEVEMENT_COUNT:
