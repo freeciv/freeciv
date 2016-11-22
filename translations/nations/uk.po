@@ -9042,11 +9042,11 @@ msgstr ""
 
 #: data/nation/rusyn.ruleset:3
 msgid "Rusyn"
-msgstr "Підкарпатські Русини"
+msgstr "Русини"
 
 #: data/nation/rusyn.ruleset:4
 msgid "?plural:Rusyns"
-msgstr "Руси"
+msgstr "Русини"
 
 #: data/nation/rusyn.ruleset:6
 msgid ""

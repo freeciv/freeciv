@@ -1130,7 +1130,7 @@ msgstr "Спеціальне"
 #. TRANS: "Announce" is exactly what user must type, do not translate.
 #: client/client_main.c:366 server/civserver.c:342
 msgid "Announce PROTO"
-msgstr ""
+msgstr "Announce ПРОТО"
 
 #: client/client_main.c:367 server/civserver.c:343
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
@@ -1146,7 +1146,7 @@ msgstr "Пропустити діалог з'єднання"
 #: tools/civmanual.c:588 tools/mpcmdline.c:77 tools/mpcmdline.c:84
 #: server/civserver.c:367 server/civserver.c:373
 msgid "debug NUM"
-msgstr ""
+msgstr "debug ЧИСЛО"
 
 #: client/client_main.c:375 tools/civmanual.c:583 tools/mpcmdline.c:78
 #: server/civserver.c:368
@@ -1163,7 +1163,7 @@ msgstr "  -d, --debug НОМЕР\tВстановити рівень відлад
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
 #: client/client_main.c:388 tools/civmanual.c:595 server/civserver.c:379
 msgid "Fatal [SIGNAL]"
-msgstr ""
+msgstr "Fatal [СИГНАЛ]"
 
 #: client/client_main.c:389 tools/civmanual.c:596 server/civserver.c:380
 msgid "Raise a signal on failed assertion"
@@ -1172,7 +1172,7 @@ msgstr "Подати сигнал на навдалому ствердженні
 #. TRANS: "file" is exactly what user must type, do not translate.
 #: client/client_main.c:393 server/civserver.c:384
 msgid "file FILE"
-msgstr ""
+msgstr "file ФАЙЛ"
 
 #: client/client_main.c:394 server/civserver.c:385
 msgid "Load saved game FILE"
@@ -1186,7 +1186,7 @@ msgstr "Вивести підказку по опціях"
 #. TRANS: "log" is exactly what user must type, do not translate.
 #: client/client_main.c:399 tools/civmanual.c:602 server/civserver.c:394
 msgid "log FILE"
-msgstr ""
+msgstr "log ФАЙЛ"
 
 #: client/client_main.c:400
 msgid "Use FILE as logfile (spawned server also uses this)"
@@ -1195,7 +1195,7 @@ msgstr "Використати ФАЙЛ як журнал (породжений 
 #. TRANS: "Meta" is exactly what user must type, do not translate.
 #: client/client_main.c:403
 msgid "Meta HOST"
-msgstr ""
+msgstr "Meta ХОСТ"
 
 #: client/client_main.c:404
 msgid "Connect to the metaserver at HOST"
@@ -1204,7 +1204,7 @@ msgstr "Приєднатися до метасервера на АДРЕСА"
 #. TRANS: "name" is exactly what user must type, do not translate.
 #: client/client_main.c:407
 msgid "name NAME"
-msgstr ""
+msgstr "name ІМ’Я"
 
 #: client/client_main.c:408
 msgid "Use NAME as username on server"
@@ -1213,7 +1213,7 @@ msgstr "Використовувати ІМ'Я як ім'я на сервері"
 #. TRANS: "port" is exactly what user must type, do not translate.
 #: client/client_main.c:411 server/civserver.c:407
 msgid "port PORT"
-msgstr ""
+msgstr "port ПОРТ"
 
 #: client/client_main.c:412
 msgid "Connect to server port PORT (usually with -a)"
@@ -1222,7 +1222,7 @@ msgstr "Приєднатися до сервера на порт ПОРТ (як 
 #. TRANS: "Plugin" is exactly what user must type, do not translate.
 #: client/client_main.c:415
 msgid "Plugin PLUGIN"
-msgstr ""
+msgstr "Plugin ВТУЛКА"
 
 #: client/client_main.c:416
 #, c-format
@@ -1232,7 +1232,7 @@ msgstr "Використати ДОДАТОК для виводу звуку %s"
 #. TRANS: "read" is exactly what user must type, do not translate.
 #: client/client_main.c:420 server/civserver.c:429
 msgid "read FILE"
-msgstr ""
+msgstr "read ФАЙЛ"
 
 #: client/client_main.c:421
 msgid "Read startup script FILE (for spawned server only)"
@@ -1241,7 +1241,7 @@ msgstr "Читати ФАЙЛ стартового скрипта (лише дл
 #. TRANS: "server" is exactly what user must type, do not translate.
 #: client/client_main.c:424
 msgid "server HOST"
-msgstr ""
+msgstr "server ХОСТ"
 
 #: client/client_main.c:425
 msgid "Connect to the server at HOST (usually with -a)"
@@ -1250,7 +1250,7 @@ msgstr "Приєднатися до сервера на ХОСТІ (як пра�
 #. TRANS: "Sound" is exactly what user must type, do not translate.
 #: client/client_main.c:428
 msgid "Sound FILE"
-msgstr ""
+msgstr "Sound ФАЙЛ"
 
 #: client/client_main.c:429
 msgid "Read sound tags from FILE"
@@ -1259,7 +1259,7 @@ msgstr "Читати звукові теги з файлу ФАЙЛ"
 #. TRANS: "tiles" is exactly what user must type, do not translate.
 #: client/client_main.c:432
 msgid "tiles FILE"
-msgstr ""
+msgstr "tiles ФАЙЛ"
 
 #: client/client_main.c:433
 msgid "Use data file FILE.tilespec for tiles"
@@ -6468,7 +6468,7 @@ msgstr "Додача до захисту"
 #. TRANS: Display a percentage, eg "50%".
 #: client/gui-qt/helpdlg.cpp:843
 msgid "%1%"
-msgstr ""
+msgstr "%1%"
 
 #: client/gui-qt/helpdlg.cpp:852
 msgid "Irrigation: +%1 food in %2 turn"
@@ -8079,7 +8079,7 @@ msgstr "Міські Мури"
 
 #: client/gui-sdl/mapview.c:652
 msgid "?blistend:"
-msgstr ""
+msgstr "?blistend:"
 
 #. TRANS: (<nation>,<diplomatic_state>)"
 #: client/gui-sdl/mapview.c:660
@@ -9048,7 +9048,7 @@ msgstr "Рівень досвіду    Множник Сили   Бонус Ру
 #. TRANS: Part of header for veteran level table.
 #: client/helpdata.c:178
 msgid "--------------------------------------------"
-msgstr ""
+msgstr "--------------------------------------------"
 
 #. TRANS: Header for fixed-width terrain alteration table.
 #. * TRANS: Translators cannot change column widths :(
@@ -13801,7 +13801,7 @@ msgstr "Шаблон відсутній"
 
 #: common/effects.c:1125
 msgid "?req-list-separator:+"
-msgstr ""
+msgstr "+"
 
 #. TRANS: This and following strings are prefixes for event names, which
 #. * replace %s. For instance, "Technology: Selected New Goal".
@@ -30345,19 +30345,19 @@ msgstr "Завантажую навчальні події"
 #. TRANS: Version tag name received from metaserver
 #: translations/Strings.txt:12
 msgid "?vertag:stable"
-msgstr ""
+msgstr "стабільна"
 
 #: translations/Strings.txt:13
 msgid "?vertag:win32"
-msgstr ""
+msgstr "win32"
 
 #: translations/Strings.txt:14
 msgid "?vertag:S2_4"
-msgstr ""
+msgstr "S2_4"
 
 #: translations/Strings.txt:15
 msgid "?vertag:S2_5"
-msgstr ""
+msgstr "S2_5"
 
 #: translations/Strings.txt:16
 msgid "?vertag:crosser"
@@ -30600,7 +30600,7 @@ msgstr "Використовувати ФАЙЛ як журнал"
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
 #: tools/civmanual.c:606
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset НАБІРПРАВИЛ"
 
 #: tools/civmanual.c:607
 msgid "Make manual for RULESET"
@@ -30747,7 +30747,7 @@ msgstr "Ліцензія=\"%s\""
 #: tools/mpcli.c:88
 #, c-format
 msgid "URL=\"%s\""
-msgstr ""
+msgstr "URL=\"%s\""
 
 #: tools/mpcli.c:90
 #, c-format
@@ -30783,7 +30783,7 @@ msgstr "Збій установки modpack: %s"
 #. TRANS: "List" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:64
 msgid "List URL"
-msgstr ""
+msgstr "List URL"
 
 #: tools/mpcmdline.c:65
 msgid "Load modpack list from given URL"
@@ -30792,7 +30792,7 @@ msgstr "Завантажити список modpackів з даного URL"
 #. TRANS: "prefix" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:68
 msgid "prefix DIR"
-msgstr ""
+msgstr "prefix ТЕКА"
 
 #: tools/mpcmdline.c:69
 msgid "Install modpacks to given directory hierarchy"
@@ -30801,7 +30801,7 @@ msgstr "Встановити modpack’и в цю ієрархію катало�
 #. TRANS: "install" is exactly what user must type, do not translate.
 #: tools/mpcmdline.c:72
 msgid "install URL"
-msgstr ""
+msgstr "install URL"
 
 #: tools/mpcmdline.c:73
 msgid "Automatically install modpack from a given URL"
@@ -30829,6 +30829,8 @@ msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
+"%s%s\n"
+"commit: %s"
 
 #: tools/mpgui_gtk2.c:475 tools/mpgui_gtk3.c:478 tools/mpgui_qt.cpp:218
 msgid "Installed"
@@ -30849,7 +30851,7 @@ msgstr "Ліцензія"
 
 #: tools/mpgui_gtk2.c:498 tools/mpgui_gtk3.c:501 tools/mpgui_qt.cpp:220
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: tools/mpgui_gtk2.c:504 tools/mpgui_gtk3.c:507 tools/mpgui_qt.cpp:187
 msgid "Install modpack"
@@ -30857,7 +30859,7 @@ msgstr "Встановити modpack"
 
 #: tools/mpgui_gtk2.c:510 tools/mpgui_gtk3.c:515 tools/mpgui_qt.cpp:184
 msgid "Modpack URL"
-msgstr ""
+msgstr "URL модпака"
 
 #: tools/mpgui_gtk2.c:527 tools/mpgui_gtk3.c:532 tools/mpgui_qt.cpp:259
 msgid "Select modpack to install"
@@ -31909,7 +31911,7 @@ msgstr "Ви можете багато дізнатися про Freeciv на %s
 #. TRANS: "Database" is exactly what user must type, do not translate.
 #: server/civserver.c:348
 msgid "Database FILE"
-msgstr ""
+msgstr "Database ФАЙЛ"
 
 #: server/civserver.c:349
 msgid "Enable database connection with configuration from FILE."
@@ -31930,11 +31932,11 @@ msgstr "Дає новим користувачам заходити, якщо а
 #. TRANS: "bind" is exactly what user must type, do not translate.
 #: server/civserver.c:360
 msgid "bind ADDR"
-msgstr ""
+msgstr "bind АДРЕ"
 
 #: server/civserver.c:361
 msgid "Listen for clients on ADDR"
-msgstr "Слухати клієнтів на АДРЕСІ"
+msgstr "Слухати клієнтів на АДРЕсі"
 
 #: server/civserver.c:363
 msgid "Connect to metaserver from this address"
@@ -31943,11 +31945,11 @@ msgstr "Зєднатись з метасервером з цієї адреси"
 #. TRANS: "identity" is exactly what user must type, do not translate.
 #: server/civserver.c:390
 msgid "identity ADDR"
-msgstr ""
+msgstr "identity АДРЕСА"
 
 #: server/civserver.c:391
 msgid "Be known as ADDR at metaserver or LAN client"
-msgstr "Повідомитись як ADDR метасерверу чи клієнту ЛОМ"
+msgstr "Повідомитись як АДРЕСА метасерверу чи клієнту ЛОМ"
 
 #: server/civserver.c:397
 msgid "Notify metaserver and send server's info"
@@ -31956,11 +31958,11 @@ msgstr "Повідомити метасервер та відправити ін
 #. TRANS: "Metaserver" is exactly what user must type, do not translate.
 #: server/civserver.c:400
 msgid "Metaserver ADDR"
-msgstr ""
+msgstr "Metaserver АДРЕСА"
 
 #: server/civserver.c:401
 msgid "Set ADDR as metaserver address"
-msgstr "задати ADDR як адресу метасервера"
+msgstr "задати АДРЕСА як адресу метасервера"
 
 #: server/civserver.c:403
 msgid "Keep updating game information on metaserver even after failure"
@@ -31973,7 +31975,7 @@ msgstr "Слухати клієнтів на порту ПОРТ"
 #. TRANS: "quitidle" is exactly what user must type, do not translate.
 #: server/civserver.c:411
 msgid "quitidle TIME"
-msgstr ""
+msgstr "quitidle ЧАС"
 
 #: server/civserver.c:412
 msgid "Quit if no players for TIME seconds"
@@ -31986,16 +31988,16 @@ msgstr "Коли гра скінчиться, вийти замість пере
 #. TRANS: "saves" is exactly what user must type, do not translate.
 #: server/civserver.c:417
 msgid "saves DIR"
-msgstr ""
+msgstr "saves ДИРЕКТОРІЯ"
 
 #: server/civserver.c:418
 msgid "Save games to directory DIR"
-msgstr "Зберігає ігри в теку DIR"
+msgstr "Зберігає ігри в теку ДИРЕКТОРІЯ"
 
 #. TRANS: "scenarios" is exactly what user must type, do not translate.
 #: server/civserver.c:421
 msgid "scenarios DIR"
-msgstr ""
+msgstr "scenarios ТЕКА"
 
 #: server/civserver.c:422
 msgid "Save scenarios to directory DIR"
@@ -32004,7 +32006,7 @@ msgstr "Зберігає сценарій в теку ТЕКА"
 #. TRANS: "Serverid" is exactly what user must type, do not translate.
 #: server/civserver.c:425
 msgid "Serverid ID"
-msgstr "ID сервера"
+msgstr "Serverid ID"
 
 #: server/civserver.c:426
 msgid "Sets the server id to ID"
@@ -32017,7 +32019,7 @@ msgstr "Читати ФАЙЛ стартового скрипта"
 #. TRANS: "Ranklog" is exactly what user must type, do not translate.
 #: server/civserver.c:433
 msgid "Ranklog FILE"
-msgstr ""
+msgstr "Ranklog ФАЙЛ"
 
 #: server/civserver.c:434
 msgid "Use FILE as ranking logfile"
@@ -32026,7 +32028,7 @@ msgstr "Використовувати ФАЙЛ як впорядкований 
 #. TRANS: "LoadAI" is exactly what user must type, do not translate.
 #: server/civserver.c:438
 msgid "LoadAI MODULE"
-msgstr ""
+msgstr "LoadAI МОДУЛЬ"
 
 #: server/civserver.c:439
 msgid "Load ai module MODULE. Can appear multiple times"
@@ -33158,6 +33160,11 @@ msgid ""
 "mapimg delete <id>|all\n"
 "mapimg colortest"
 msgstr ""
+"mapimg define <mapdef>\n"
+"mapimg show <id>|all\n"
+"mapimg create <id>|all\n"
+"mapimg delete <id>|all\n"
+"mapimg colortest"
 
 #: server/commands.c:660
 msgid "Create image files of the world/player map."
@@ -39606,7 +39613,7 @@ msgstr ", Мертвий"
 #: server/stdinhand.c:6333
 #, c-format
 msgid ", %s"
-msgstr ""
+msgstr ", %s"
 
 #: server/stdinhand.c:6334
 #, c-format
@@ -39673,7 +39680,7 @@ msgstr "Список розмірів і визначень карти"
 #: server/stdinhand.c:6465
 #, c-format
 msgid "[%2d] %s"
-msgstr ""
+msgstr "[%2d] %s"
 
 #: server/stdinhand.c:6476
 msgid "List of player colors:"
