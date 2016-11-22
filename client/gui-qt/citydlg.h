@@ -140,6 +140,7 @@ private slots:
   void unload_all();
 
 protected:
+  void wheelEvent(QWheelEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
   void enterEvent(QEvent *event);
@@ -165,6 +166,8 @@ public:
 
 private:
   bool supports;
+protected:
+  void wheelEvent(QWheelEvent *event);
 };
 
 
@@ -186,6 +189,7 @@ private:
   struct city *pcity;
 
 protected:
+  void wheelEvent(QWheelEvent *event);
   void mouseDoubleClickEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
   void enterEvent(QEvent *event);
@@ -207,6 +211,8 @@ public:
   void clear_layout();
   QHBoxLayout *layout;
   QList<impr_item *> impr_list;
+protected:
+  void wheelEvent(QWheelEvent *event);
 };
 
 /****************************************************************************

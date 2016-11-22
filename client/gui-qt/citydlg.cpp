@@ -433,6 +433,23 @@ void impr_info::clear_layout()
 }
 
 /****************************************************************************
+  Mouse wheel event - send it to scrollbar
+****************************************************************************/
+void impr_info::wheelEvent(QWheelEvent *event)
+{
+  QPoint p;
+
+  p = parentWidget()->parentWidget()->pos();
+  p = mapToGlobal(p);
+  QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
+                        event->angleDelta(),
+                        event->angleDelta().y(),
+                        Qt::Horizontal,  event->buttons(),
+                        event->modifiers(), event->phase(), event->source());
+  QApplication::sendEvent(parentWidget(), &new_event);
+}
+
+/****************************************************************************
   Updates list of improvements
 ****************************************************************************/
 void impr_info::update_buildings()
@@ -462,6 +479,24 @@ void impr_info::update_buildings()
   setUpdatesEnabled(true);
   layout->update();
   updateGeometry();
+}
+
+/****************************************************************************
+  Mouse wheel event - send it to scrollbar
+****************************************************************************/
+void impr_item::wheelEvent(QWheelEvent *event)
+{
+  QPoint p;
+
+  p = parentWidget()->parentWidget()->pos();
+  p = mapToGlobal(p);
+  QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
+                        event->angleDelta(),
+                        event->angleDelta().y(),
+                        Qt::Horizontal,  event->buttons(),
+                        event->modifiers(), event->phase(), event->source());
+  QApplication::sendEvent(parentWidget()->parentWidget(),
+                          &new_event);
 }
 
 /****************************************************************************
@@ -834,6 +869,25 @@ void unit_item::leaveEvent(QEvent *event)
 }
 
 /****************************************************************************
+  Mouse wheel event - send it to scrollbar
+****************************************************************************/
+void unit_item::wheelEvent(QWheelEvent *event)
+{
+  QPoint p;
+
+  p = parentWidget()->parentWidget()->pos();
+  p = mapToGlobal(p);
+  QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
+                        event->angleDelta(),
+                        event->angleDelta().y(),
+                        Qt::Horizontal,  event->buttons(),
+                        event->modifiers(), event->phase(), event->source());
+  QApplication::sendEvent(parentWidget()->parentWidget(),
+                          &new_event);
+}
+
+
+/****************************************************************************
   Mouse press event -activates unit and closes dialog
 ****************************************************************************/
 void unit_item::mousePressEvent(QMouseEvent *event)
@@ -895,6 +949,22 @@ void unit_info::init_layout()
   setLayout(layout);
 }
 
+/****************************************************************************
+  Mouse wheel event - send it to scrollbar
+****************************************************************************/
+void unit_info::wheelEvent(QWheelEvent *event)
+{
+  QPoint p;
+
+  p = parentWidget()->parentWidget()->pos();
+  p = mapToGlobal(p);
+  QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
+                        event->angleDelta(),
+                        event->angleDelta().y(),
+                        Qt::Horizontal,  event->buttons(),
+                        event->modifiers(), event->phase(), event->source());
+  QApplication::sendEvent(parentWidget(), &new_event);
+}
 
 /****************************************************************************
   Updates units
