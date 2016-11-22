@@ -695,9 +695,9 @@ msgstr "%+4d : Втрати %s\n"
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Corruption%s\n"
-msgstr "%+4d : Корупція\n"
+msgstr "%+4d : Корупція %s\n"
 
 #: client/citydlg_common.c:564
 #, c-format
@@ -1133,11 +1133,9 @@ msgid "Announce PROTO"
 msgstr ""
 
 #: client/client_main.c:367 server/civserver.c:343
-#, fuzzy
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
 msgstr ""
-" -A  --Announce PROTO\tПовідомити про гру в локальній мережі протоколом "
-"PROTO (IPv4/IPv6/none)\n"
+"Повідомити про гру в локальній мережі протоколом PROTO (IPv4/IPv6/none)"
 
 #: client/client_main.c:370
 msgid "Skip connect dialog"
@@ -1152,9 +1150,9 @@ msgstr ""
 
 #: client/client_main.c:375 tools/civmanual.c:583 tools/mpcmdline.c:78
 #: server/civserver.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
-msgstr "Встановити рівень відладки (з %d по %d, або %d:файл1,мін,макс:...)\n"
+msgstr "Встановити рівень відладки (з %d по %d, або %d:файл1,мін,макс:...)"
 
 #: client/client_main.c:382 tools/civmanual.c:589 tools/mpcmdline.c:85
 #: server/civserver.c:374
@@ -1182,9 +1180,8 @@ msgstr "Завантажити гру з файлу"
 
 #: client/client_main.c:396 tools/civmanual.c:599 tools/mpcmdline.c:61
 #: server/civserver.c:387
-#, fuzzy
 msgid "Print a summary of the options"
-msgstr "  -h, --help\t\tВивести підказку по опціях\n"
+msgstr "Вивести підказку по опціях"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
 #: client/client_main.c:399 tools/civmanual.c:602 server/civserver.c:394
@@ -1192,11 +1189,8 @@ msgid "log FILE"
 msgstr ""
 
 #: client/client_main.c:400
-#, fuzzy
 msgid "Use FILE as logfile (spawned server also uses this)"
-msgstr ""
-"-l, --log ФАЙЛ\tВикористати ФАЙЛ як журнал (породжений сервер також його "
-"використовує)\n"
+msgstr "Використати ФАЙЛ як журнал (породжений сервер також його використовує)"
 
 #. TRANS: "Meta" is exactly what user must type, do not translate.
 #: client/client_main.c:403
@@ -1204,9 +1198,8 @@ msgid "Meta HOST"
 msgstr ""
 
 #: client/client_main.c:404
-#, fuzzy
 msgid "Connect to the metaserver at HOST"
-msgstr "  -M, --Meta АДРЕСА\tПриєднатися до метасервера на АДРЕСА\n"
+msgstr "Приєднатися до метасервера на АДРЕСА"
 
 #. TRANS: "name" is exactly what user must type, do not translate.
 #: client/client_main.c:407
@@ -1214,9 +1207,8 @@ msgid "name NAME"
 msgstr ""
 
 #: client/client_main.c:408
-#, fuzzy
 msgid "Use NAME as username on server"
-msgstr "  -n, --name ІМ'Я\tВикористовувати ІМ'Я як ім'я на сервері\n"
+msgstr "Використовувати ІМ'Я як ім'я на сервері"
 
 #. TRANS: "port" is exactly what user must type, do not translate.
 #: client/client_main.c:411 server/civserver.c:407
@@ -1224,10 +1216,8 @@ msgid "port PORT"
 msgstr ""
 
 #: client/client_main.c:412
-#, fuzzy
 msgid "Connect to server port PORT (usually with -a)"
-msgstr ""
-"  -p, --port ПОРТ\tПриєднатися до сервера на порт ПОРТ (як правило з -a)\n"
+msgstr "Приєднатися до сервера на порт ПОРТ (як правило з -a)"
 
 #. TRANS: "Plugin" is exactly what user must type, do not translate.
 #: client/client_main.c:415
@@ -1235,9 +1225,9 @@ msgid "Plugin PLUGIN"
 msgstr ""
 
 #: client/client_main.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "Use PLUGIN for sound output %s"
-msgstr "  -P, --Plugin ДОДАТОК\tВикористати ДОДАТОК для виводу звуку %s\n"
+msgstr "Використати ДОДАТОК для виводу звуку %s"
 
 #. TRANS: "read" is exactly what user must type, do not translate.
 #: client/client_main.c:420 server/civserver.c:429
@@ -1245,11 +1235,8 @@ msgid "read FILE"
 msgstr ""
 
 #: client/client_main.c:421
-#, fuzzy
 msgid "Read startup script FILE (for spawned server only)"
-msgstr ""
-"  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта (лише для породженого "
-"сервера)\n"
+msgstr "Читати ФАЙЛ стартового скрипта (лише для породженого сервера)"
 
 #. TRANS: "server" is exactly what user must type, do not translate.
 #: client/client_main.c:424
@@ -1257,10 +1244,8 @@ msgid "server HOST"
 msgstr ""
 
 #: client/client_main.c:425
-#, fuzzy
 msgid "Connect to the server at HOST (usually with -a)"
-msgstr ""
-"  -s, --server ХОСТ\tПриєднатися до сервера на ХОСТІ (як правило, з -a)\n"
+msgstr "Приєднатися до сервера на ХОСТІ (як правило, з -a)"
 
 #. TRANS: "Sound" is exactly what user must type, do not translate.
 #: client/client_main.c:428
@@ -1268,9 +1253,8 @@ msgid "Sound FILE"
 msgstr ""
 
 #: client/client_main.c:429
-#, fuzzy
 msgid "Read sound tags from FILE"
-msgstr "  -S, --Sound ФАЙЛ\tЧитати звукові теги з файлу ФАЙЛ\n"
+msgstr "Читати звукові теги з файлу ФАЙЛ"
 
 #. TRANS: "tiles" is exactly what user must type, do not translate.
 #: client/client_main.c:432
@@ -1278,17 +1262,13 @@ msgid "tiles FILE"
 msgstr ""
 
 #: client/client_main.c:433
-#, fuzzy
 msgid "Use data file FILE.tilespec for tiles"
-msgstr ""
-"  -t, --tiles ФАЙЛ\tВикористовувати данні з файлу ФАЙЛ.tilespec для "
-"клітинок\n"
+msgstr "Використовувати данні з файлу ФАЙЛ.tilespec для клітинок"
 
 #: client/client_main.c:435 tools/civmanual.c:609 tools/mpcmdline.c:89
 #: server/civserver.c:442
-#, fuzzy
 msgid "Print the version number"
-msgstr "  -v, --version\t\tВивести версію\n"
+msgstr "Вивести версію"
 
 #: client/client_main.c:455 tools/civmanual.c:534 server/civserver.c:226
 #, c-format
@@ -6933,9 +6913,9 @@ msgstr "Qt клієнта."
 
 #. TRANS: "version 2.6.0 (r25000), Qt client"
 #: client/gui-qt/pages.cpp:147
-#, fuzzy, c-format
+#, c-format
 msgid "%s%s (%s), Qt client"
-msgstr "Це команда клієнта."
+msgstr "%s%s (%s), Qt клієнт"
 
 #: client/gui-qt/pages.cpp:166
 msgid "Start new game"
@@ -9062,9 +9042,8 @@ msgstr "Яким буде нове ім'я?"
 #. * TRANS: Translators cannot change column widths :(
 #. * TRANS: "Level name" left-justified, other two right-justified
 #: client/helpdata.c:175
-#, fuzzy
 msgid "Veteran level      Power factor   Move bonus\n"
-msgstr "Рівень досвіду\t\tМножник Сили \tБонус Руху\n"
+msgstr "Рівень досвіду    Множник Сили   Бонус Руху\n"
 
 #. TRANS: Part of header for veteran level table.
 #: client/helpdata.c:178
@@ -39723,16 +39702,16 @@ msgstr "%s вивчили Технологію Майбутнього %d."
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
 #: server/techtools.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "?fromeffect:%s acquired from %s!"
-msgstr "?fromeffect: %s здобули від %s!"
+msgstr "%s здобули від %s!"
 
 #. TRANS: Tech from source of an effect
 #. * (Great Library)
 #: server/techtools.c:195
 #, c-format
 msgid "?fromeffect:The %s have acquired %s from %s."
-msgstr "?fromeffect: %s здобули %s від %s."
+msgstr "%s здобули %s від %s."
 
 #: server/techtools.c:241
 #, c-format
