@@ -235,8 +235,7 @@ hud_text::hud_text(QString s, int time_secs,
   text = s;
   timeout = time_secs;
 
-  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Dialog
-                | Qt::FramelessWindowHint);
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
   f_text = *fc_font::instance()->get_font(fonts::default_font);
   f_text.setBold(true);
   f_text.setCapitalization(QFont::SmallCaps);
@@ -253,6 +252,7 @@ hud_text::hud_text(QString s, int time_secs,
   startTimer(46);
   setAttribute(Qt::WA_TranslucentBackground);
   setAttribute(Qt::WA_ShowWithoutActivating);
+  setAttribute(Qt::WA_TransparentForMouseEvents);
   setFocusPolicy(Qt::NoFocus);
 }
 
@@ -277,8 +277,7 @@ void hud_text::center_me()
     setFixedSize(bound_rect.width(), bound_rect.height());
   }
   p = QPoint((parentWidget()->width() - w) / 2,
-             parentWidget()->height() / 10);
-  p = parentWidget()->mapToGlobal(p);
+              parentWidget()->height() / 20);
   move(p);
 }
 
@@ -324,8 +323,12 @@ void hud_text::paintEvent(QPaintEvent *event)
   opacity = qMax(0.0f, opacity);
   rfull = QRect(0 , 0, width(), height());
   c1 = QColor(Qt::white);
+  c2 = QColor(35, 35, 35, 175);
   c1.setAlphaF(c1.alphaF() * opacity);
+  c2.setAlphaF(c2.alphaF() * opacity);
   p.begin(this);
+  p.setBrush(c2);
+  p.drawRoundedRect(rfull, height() / 6 , height() / 6);
   p.setFont(f_text);
   p.setPen(c1);
   p.drawText(rfull, Qt::AlignCenter, text, &bound_rect);
