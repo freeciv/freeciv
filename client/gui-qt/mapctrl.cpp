@@ -125,19 +125,37 @@ void map_view::keyPressEvent(QKeyEvent * event)
     switch (event->key()) {
     case Qt::Key_Up:
     case Qt::Key_8:
-      key_unit_move(DIR8_NORTH);
+      if (is_shift) {
+        recenter_button_pressed(gui()->mapview_wdg->width() / 2, 0);
+      } else {
+        key_unit_move(DIR8_NORTH);
+      }
       return;
     case Qt::Key_Left:
     case Qt::Key_4:
-      key_unit_move(DIR8_WEST);
+      if (is_shift) {
+        recenter_button_pressed(0, gui()->mapview_wdg->height() / 2);
+      } else {
+        key_unit_move(DIR8_WEST);
+      }
       return;
     case Qt::Key_Right:
     case Qt::Key_6:
-      key_unit_move(DIR8_EAST);
+      if (is_shift) {
+        recenter_button_pressed(gui()->mapview_wdg->width(),
+                                gui()->mapview_wdg->height() / 2);
+      } else {
+        key_unit_move(DIR8_EAST);
+      }
       return;
     case Qt::Key_Down:
     case Qt::Key_2:
-      key_unit_move(DIR8_SOUTH);
+      if (is_shift) {
+        recenter_button_pressed(gui()->mapview_wdg->width() / 2,
+                                gui()->mapview_wdg->height());
+      } else {
+        key_unit_move(DIR8_SOUTH);
+      }
       return;
     case Qt::Key_PageUp:
     case Qt::Key_9:
