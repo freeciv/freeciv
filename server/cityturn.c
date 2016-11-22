@@ -3238,6 +3238,7 @@ static void update_city_activity(struct city *pcity)
 
     if (revolution_turns > 0 && pcity->anarchy > revolution_turns) {
       notify_player(pplayer, city_tile(pcity), E_ANARCHY, ftc_server,
+                    /* TRANS: %s - government form, e.g., Democracy */
                     _("The people have overthrown your %s, "
                       "your country is in turmoil."),
                     government_name_translation(gov));
