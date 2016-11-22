@@ -1627,7 +1627,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   p_table_p->setSelectionMode(QAbstractItemView::SingleSelection);
   production_combo_p->setFixedHeight(h);
   p_table_p->setMinimumWidth(200);
-  p_table_p->setSizePolicy(size_expanding_policy);
+  p_table_p->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   p_table_p->setContextMenuPolicy(Qt::CustomContextMenu);
   header = p_table_p->horizontalHeader();
   header->setStretchLastSection(true);
@@ -1818,6 +1818,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   top_widget->setSizePolicy(QSizePolicy::MinimumExpanding,
                             QSizePolicy::Fixed);
   scroll_info = new QScrollArea();
+  scroll_info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   scroll_unit = new QScrollArea();
   scroll_info->setWidget(top_widget);
   scroll_info->setWidgetResizable(true);
