@@ -196,7 +196,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != -1 && rc > max_tiles) {
          log_error("%s: Requirement list has more %s requirements than "
-                   "can ever be fullfilled.", list_for,
+                   "can ever be fulfilled.", list_for,
                    universal_type_rule_name(&preq->source));
          return FALSE;
        }
@@ -205,7 +205,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_TERRAINCLASS:
        if (rc > 2 || (max_tiles != -1 && rc > max_tiles)) {
          log_error("%s: Requirement list has more %s requirements than "
-                   "can ever be fullfilled.", list_for,
+                   "can ever be fulfilled.", list_for,
                    universal_type_rule_name(&preq->source));
          return FALSE;
        }
