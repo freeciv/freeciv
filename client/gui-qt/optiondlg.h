@@ -76,7 +76,7 @@ private:
   unsigned get_bitwise(struct option *poption);
   void full_reset();
 private slots:
-  void apply_option(int repsonse);
+  void apply_option(int response);
   void set_color();
   void set_font();
 };
