@@ -109,7 +109,7 @@ void qfc_rally_list::run()
       } unit_list_iterate_end;
 
       if (last_unit && rally->pcity->production.kind == VUT_UTYPE) {
-        send_attack_tile(last_unit, rally->ptile);
+        send_goto_tile(last_unit, rally->ptile);
       }
     }
   }
