@@ -55,6 +55,7 @@
 #include "hudwidget.h"
 
 //agents
+#include "cma_core.h"
 #include "cma_fec.h"
 
 extern QApplication *qapp;
@@ -2171,16 +2172,15 @@ void city_dialog::cma_selected(const QItemSelection &sl,
 ****************************************************************************/
 void city_dialog::update_sliders()
 {
-  const struct cm_parameter *param;
+  struct cm_parameter *param;
   int output;
   QVariant qvar;
   QLabel *label;
 
-  if (cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
+  param = new cm_parameter;
+  if (cma_is_city_under_agent(pcity, param) == false) {
     return;
   }
-
-  param = cmafec_preset_get_parameter(cma_table->currentRow());
 
   for (output = O_FOOD; output < 2 * O_LAST; output++) {
     slider_tab[output]->blockSignals(true);
@@ -2210,6 +2210,7 @@ void city_dialog::update_sliders()
   for (output = O_FOOD; output < 2 * O_LAST; output++) {
     slider_tab[output]->blockSignals(false);
   }
+  delete param;
 }
 
 /****************************************************************************
