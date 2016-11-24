@@ -576,7 +576,8 @@ void hud_units::update_actions(unit_list *punits)
   QFontMetrics *fm;
   QImage cropped_img;
   QImage img;
-  QPixmap pix;
+  QPainter p;
+  QPixmap pix, pix2;
   QRect crop;
   QString mp;
   QString snum;
@@ -654,6 +655,16 @@ void hud_units::update_actions(unit_list *punits)
   cropped_img = img.copy(crop);
   img = cropped_img.scaledToHeight(height(), Qt::SmoothTransformation);
   pix = QPixmap::fromImage(img);
+  /* add transparent borders if image is too slim */
+  if (pix.width() < tileset_unit_width(tileset)) {
+    int px = tileset_full_tile_width(tileset);
+    pix2 = QPixmap(px, pix.height());
+    pix2.fill(Qt::transparent);
+    p.begin(&pix2);
+    p.drawPixmap(px / 2 - pix.width() / 2, 0, pix);
+    p.end();
+    pix = pix2;
+  }
   wwidth = 2 * 3 + pix.width();
   unit_label.setPixmap(pix);
   if (tileset_is_isometric(tileset)) {
@@ -668,8 +679,13 @@ void hud_units::update_actions(unit_list *punits)
   img = tile_pixmap->map_pixmap.toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
-  img = cropped_img.scaledToWidth(wwidth - 10,
-                                  Qt::SmoothTransformation);
+  if (cropped_img.height() > height() - 5 ||
+      cropped_img.height() < height() / 3) {
+    img = cropped_img.scaledToHeight(height() - 5,
+                                     Qt::SmoothTransformation);
+  } else {
+    img = cropped_img;
+  }
   pix = QPixmap::fromImage(img);
   tile_label.setPixmap(pix);
   unit_label.setToolTip(popup_info_text(punit->tile));
