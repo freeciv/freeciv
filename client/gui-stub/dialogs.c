@@ -307,8 +307,8 @@ bool gui_request_transport(struct unit *pcargo, struct tile *ptile)
   Popup detailed information about battle or save information for
   some kind of statistics
 ***************************************************************************/
-void popup_combat_info(int attacker_unit_id, int defender_unit_id,
-                       int attacker_hp, int defender_hp,
-                       bool make_winner_veteran)
+void gui_popup_combat_info(int attacker_unit_id, int defender_unit_id,
+                           int attacker_hp, int defender_hp,
+                           bool make_winner_veteran)
 {
 }
