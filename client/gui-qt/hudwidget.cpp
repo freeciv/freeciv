@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -1530,7 +1530,7 @@ QString popup_terrain_info(struct tile *ptile)
   ret = ret + QString(_("Food/Prod/Trade: %1\n"))
               .arg(get_tile_output_text(ptile));
   t = get_infrastructure_text(ptile->extras);
-  if (t != '\0') {
+  if (t != "") {
     ret = ret + QString(_("Infrastructure: %1\n")).arg(t);
   }
   ret = ret + QString(_("Defence bonus: %1%")).arg(terr->defense_bonus);
