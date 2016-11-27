@@ -90,6 +90,9 @@ struct fc_shortcut
   Qt::MouseButton mouse;
   Qt::KeyboardModifiers mod;
   QString str;
+  bool operator==(const fc_shortcut& a) const {
+    return ((key == a.key) && (mouse == a.mouse) && (mod == a.mod));
+  }
 };
 
 /**************************************************************************
@@ -138,6 +141,7 @@ public:
 protected:
  void closeEvent(QCloseEvent*);
 private:
+  bool check_if_exist();
   line_edit edit;
 };
 
@@ -147,10 +151,15 @@ private:
 class fc_sc_button : public QPushButton
 {
   Q_OBJECT
+  QString err_message;
 public:
   fc_sc_button();
   fc_sc_button(fc_shortcut *s);
   fc_shortcut *sc;
+  fc_shortcut *sc_orig;
+  void show_info(QString str);
+private slots:
+  void popup_error();
 };
 
 /**************************************************************************

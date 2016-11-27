@@ -33,6 +33,7 @@ class QLabel;
 class QPushButton;
 class QSignalMapper;
 class QScrollArea;
+class fc_shortcut;
 
 void qt_start_turn();
 
@@ -290,6 +291,7 @@ public:
   void update_airlift_menu();
   void set_tile_for_order(struct tile *ptile);
   void execute_shortcut(int sid);
+  QString shortcut_exist(fc_shortcut *fcs);
   QString shortcut_2_menustring(int sid);
   QAction *minimap_status;
   QAction *lock_status;
