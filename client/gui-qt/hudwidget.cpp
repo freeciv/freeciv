@@ -737,7 +737,8 @@ void click_label::on_clicked()
 hud_action::hud_action(QWidget *parent) : QWidget(parent)
 {
   connect(this, SIGNAL(left_clicked()), SLOT(on_clicked()));
-  setFocusPolicy(Qt::ClickFocus);
+  setFocusPolicy(Qt::StrongFocus);
+  setMouseTracking(true);
   focus = false;
   action_pixmap = nullptr;
 }
@@ -797,6 +798,14 @@ void hud_action::mousePressEvent(QMouseEvent *e)
   }
 }
 
+/****************************************************************************
+  Mouse move event for hud_action, draw focus
+****************************************************************************/
+void hud_action::mouseMoveEvent(QMouseEvent *event)
+{
+  focus = true;
+  update();
+}
 /****************************************************************************
   Leave event for hud_action, used to get status of pixmap higlight
 ****************************************************************************/
