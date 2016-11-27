@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 
 /* utility */
+#include "fc_dirent.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"

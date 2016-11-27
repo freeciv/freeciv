@@ -26,10 +26,6 @@ extern "C" {
 
 #include <freeciv_config.h>
 
-#ifdef FREECIV_HAVE_DIRENT_H
-#include <dirent.h>
-#endif
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>		/* size_t */
@@ -128,7 +124,6 @@ FILE *fc_fopen(const char *filename, const char *opentype);
 #include <zlib.h>
 gzFile fc_gzopen(const char *filename, const char *opentype);
 #endif
-DIR *fc_opendir(const char *dir_to_open);
 int fc_remove(const char *filename);
 int fc_stat(const char *filename, struct stat *buf);
 

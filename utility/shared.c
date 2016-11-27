@@ -55,6 +55,7 @@
 
 /* utility */
 #include "astring.h"
+#include "fc_dirent.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "mem.h"

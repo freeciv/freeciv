@@ -25,9 +25,9 @@
 #include <gtk/gtk.h>
 
 /* utility */
+#include "fc_dirent.h"
 #include "mem.h"
 #include "string_vector.h"
-#include "support.h"
 
 /* client */
 #include "themes_common.h"
