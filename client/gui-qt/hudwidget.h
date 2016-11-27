@@ -161,6 +161,7 @@ signals:
 protected:
   void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *e);
+  void mouseMoveEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
   void enterEvent(QEvent *event);
 private slots:
