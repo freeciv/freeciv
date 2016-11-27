@@ -1470,6 +1470,29 @@ void mr_menu::execute_shortcut(int sid)
 }
 
 /****************************************************************************
+  Returns string assigned to shortcut or empty string if doesnt exist
+****************************************************************************/
+QString mr_menu::shortcut_exist(fc_shortcut *fcs)
+{
+  QList<QMenu*> menu_list;
+  QMenu *m;
+  QKeySequence seq;
+  QAction* a;
+
+  seq = QKeySequence(shortcut_to_string(fcs));
+  menu_list = findChildren<QMenu *>();
+  foreach (m, menu_list) {
+    foreach (a, m->actions()) {
+      if (a->shortcut() == seq && fcs->mouse == Qt::AllButtons) {
+        return a->text();
+      }
+    }
+  }
+
+  return QString();
+}
+
+/****************************************************************************
   Returns string bounded to given shortcut
 ****************************************************************************/
 QString mr_menu::shortcut_2_menustring(int sid)

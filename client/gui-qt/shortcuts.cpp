@@ -271,6 +271,7 @@ fc_shortcut_popup::fc_shortcut_popup(QWidget *parent): QDialog()
 {
   QVBoxLayout *vb = new QVBoxLayout;
   setParent(parent);
+  setAttribute(Qt::WA_DeleteOnClose);
   setWindowFlags(Qt::Popup);
   vb->addWidget(&edit);
   setLayout(vb);
@@ -338,12 +339,50 @@ void fc_shortcut_popup::closeEvent(QCloseEvent *ev)
 {
   fc_sc_button *scp;
   if (sc != nullptr) {
-    scp = reinterpret_cast<fc_sc_button *>(parentWidget());
-    scp->setText(shortcut_to_string(scp->sc));
-    fc_shortcuts::sc()->set_shortcut(sc);
+    if (check_if_exist() == false) {
+      scp = reinterpret_cast<fc_sc_button *>(parentWidget());
+      scp->setText(shortcut_to_string(scp->sc));
+      fc_shortcuts::sc()->set_shortcut(sc);
+    }
   }
 
   QDialog::closeEvent(ev);
+}
+
+/**************************************************************************
+  Checks is shortcut is already assigned and popups hud box then
+  or return false if is not assigned
+**************************************************************************/
+bool fc_shortcut_popup::check_if_exist()
+{
+  fc_shortcut *fsc;
+  QString desc;
+  int id = 0;
+
+  desc = "";
+  if (sc != nullptr) {
+    foreach (fsc, fc_shortcuts::sc()->hash) {
+      if (id == 0) {
+        id++;
+        continue;
+      }
+      if (*sc == *fsc) {
+        desc = fc_shortcuts::sc()->get_desc(static_cast<shortcut_id>(id + 1));
+      }
+      id++;
+    }
+    if (desc.isEmpty() == true) {
+      desc = gui()->menu_bar->shortcut_exist(sc);
+    }
+    if (desc.isEmpty() == false) {
+      fc_sc_button *fsb;
+      fsb = qobject_cast<fc_sc_button*>(parentWidget());
+      fsb->show_info(desc);
+      return true;
+    }
+  }
+
+  return false;
 }
 
 
@@ -428,10 +467,48 @@ fc_sc_button::fc_sc_button(): QPushButton()
 **************************************************************************/
 fc_sc_button::fc_sc_button(fc_shortcut *s): QPushButton()
 {
-  sc = s;
+  sc_orig = s;
+  sc = new fc_shortcut;
+  sc->id = sc_orig->id;
+  sc->key = sc_orig->key;
+  sc->mouse = sc_orig->mouse;
+  sc->mod = sc_orig->mod;
+  sc->str = sc_orig->str;
   setText(shortcut_to_string(sc));
 }
 
+/**************************************************************************
+  Executes slot to show information about assigned shortcut
+**************************************************************************/
+void fc_sc_button::show_info(QString str)
+{
+  err_message = str;
+  popup_error();
+}
+
+/**************************************************************************
+  Shows information about assigned shortcut
+**************************************************************************/
+void fc_sc_button::popup_error()
+{
+  hud_message_box scinfo(gui()->central_wdg);
+  QList<fc_shortcut_popup *> fsb_list;
+  QString title;
+  /* wait until shortcut popup is destroyed */
+  fsb_list = findChildren<fc_shortcut_popup *>();
+  if (fsb_list.count() > 0) {
+    QTimer::singleShot(20, this, SLOT(popup_error()));
+    return;
+  }
+
+  /* TRANS: Given shortcut(%1) is already assigned */
+  title = QString(_("%1 is already assigned to"))
+                  .arg(shortcut_to_string(sc));
+  scinfo.setStandardButtons(QMessageBox::Ok);
+  scinfo.setDefaultButton(QMessageBox::Ok);
+  scinfo.set_text_title(err_message, title);
+  scinfo.exec();
+}
 /**************************************************************************
   Contructor for shortcut dialog
 **************************************************************************/
