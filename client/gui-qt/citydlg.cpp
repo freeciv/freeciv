@@ -446,7 +446,7 @@ void impr_info::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal,  event->buttons(),
-                        event->modifiers(), event->phase(), event->source());
+                        event->modifiers(), event->phase());
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 
@@ -495,7 +495,7 @@ void impr_item::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal,  event->buttons(),
-                        event->modifiers(), event->phase(), event->source());
+                        event->modifiers(), event->phase());
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -882,7 +882,7 @@ void unit_item::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal,  event->buttons(),
-                        event->modifiers(), event->phase(), event->source());
+                        event->modifiers(), event->phase());
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
@@ -963,7 +963,7 @@ void unit_info::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal,  event->buttons(),
-                        event->modifiers(), event->phase(), event->source());
+                        event->modifiers(), event->phase());
   QApplication::sendEvent(parentWidget(), &new_event);
 }
 
