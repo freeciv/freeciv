@@ -243,8 +243,8 @@ private:
   int delta_x;
   int delta_y;
 protected:
-  QSize sizeHint();
-  QSize minimumSizeHint();
+  QSize sizeHint() const;
+  QSize minimumSizeHint() const;
 private slots:
   void context_menu(QPoint point);
 };
