@@ -1162,7 +1162,7 @@ void city_map::set_pixmap(struct city *pcity, float z)
 /****************************************************************************
   Size hint for city map
 ****************************************************************************/
-QSize city_map::sizeHint()
+QSize city_map::sizeHint() const
 {
   return zoomed_pixmap.size();
 }
@@ -1170,7 +1170,7 @@ QSize city_map::sizeHint()
 /****************************************************************************
   Minimum size hint for city map
 ****************************************************************************/
-QSize city_map::minimumSizeHint()
+QSize city_map::minimumSizeHint() const
 {
   return zoomed_pixmap.size();
 }
