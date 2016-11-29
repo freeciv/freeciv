@@ -1519,6 +1519,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   prod_option_layout->addWidget(label, Qt::AlignRight);
   prod_options = new QGroupBox(this);
   prod_options->setLayout(prod_option_layout);
+  prod_options->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
   /* prev/next and close buttons */
   button = new QPushButton;
@@ -1628,8 +1629,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   p_table_p->setSelectionMode(QAbstractItemView::SingleSelection);
   production_combo_p->setFixedHeight(h);
   p_table_p->setMinimumWidth(200);
-  p_table_p->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+  p_table_p->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
   p_table_p->setContextMenuPolicy(Qt::CustomContextMenu);
+  p_table_p->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   header = p_table_p->horizontalHeader();
   header->setStretchLastSection(true);
 
@@ -2172,14 +2174,18 @@ void city_dialog::cma_selected(const QItemSelection &sl,
 ****************************************************************************/
 void city_dialog::update_sliders()
 {
-  struct cm_parameter *param;
+  struct cm_parameter param;
+  const struct cm_parameter *cparam;
   int output;
   QVariant qvar;
   QLabel *label;
 
-  param = new cm_parameter;
-  if (cma_is_city_under_agent(pcity, param) == false) {
-    return;
+  if (cma_is_city_under_agent(pcity, &param) == false) {
+    if (cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
+      return;
+    }
+    cparam = cmafec_preset_get_parameter(cma_table->currentRow());
+    cm_copy_parameter(&param, cparam);
   }
 
   for (output = O_FOOD; output < 2 * O_LAST; output++) {
@@ -2189,28 +2195,27 @@ void city_dialog::update_sliders()
   for (output = O_FOOD; output < O_LAST; output++) {
     qvar = slider_tab[2 * output + 1]->property("FC");
     label = reinterpret_cast<QLabel *>(qvar.value<void *>());
-    label->setText(QString::number(param->factor[output]));
-    slider_tab[2 * output + 1]->setValue(param->factor[output]);
+    label->setText(QString::number(param.factor[output]));
+    slider_tab[2 * output + 1]->setValue(param.factor[output]);
     qvar = slider_tab[2 * output]->property("FC");
     label = reinterpret_cast<QLabel *>(qvar.value<void *>());
-    label->setText(QString::number(param->minimal_surplus[output]));
-    slider_tab[2 * output]->setValue(param->minimal_surplus[output]);
+    label->setText(QString::number(param.minimal_surplus[output]));
+    slider_tab[2 * output]->setValue(param.minimal_surplus[output]);
   }
 
   slider_tab[2 * O_LAST + 1]->blockSignals(true);
   qvar = slider_tab[2 * O_LAST + 1]->property("FC");
   label = reinterpret_cast<QLabel *>(qvar.value<void *>());
-  label->setText(QString::number(param->happy_factor));
-  slider_tab[2 * O_LAST + 1]->setValue(param->happy_factor);
+  label->setText(QString::number(param.happy_factor));
+  slider_tab[2 * O_LAST + 1]->setValue(param.happy_factor);
   slider_tab[2 * O_LAST + 1]->blockSignals(false);
   cma_celeb_checkbox->blockSignals(true);
-  cma_celeb_checkbox->setChecked(param->require_happy);
+  cma_celeb_checkbox->setChecked(param.require_happy);
   cma_celeb_checkbox->blockSignals(false);
 
   for (output = O_FOOD; output < 2 * O_LAST; output++) {
     slider_tab[output]->blockSignals(false);
   }
-  delete param;
 }
 
 /****************************************************************************
