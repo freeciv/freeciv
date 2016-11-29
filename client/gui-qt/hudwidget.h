@@ -229,6 +229,9 @@ private:
   struct tile *qtile;
 };
 
+/****************************************************************************
+  Widget allowing quick select given type of units
+****************************************************************************/
 class unit_hud_selector : public QFrame
 {
   Q_OBJECT
@@ -271,6 +274,61 @@ private:
   QRadioButton *this_type;
   QRadioButton *any_type;
   QLabel result_label;
+};
+
+/****************************************************************************
+  Widget showing one combat result
+****************************************************************************/
+class hud_unit_combat : public QWidget
+{
+  Q_OBJECT
+public:
+  hud_unit_combat(int attacker_unit_id, int defender_unit_id,
+                  int attacker_hp, int defender_hp,
+                  bool make_winner_veteran, QWidget *parent);
+  ~hud_unit_combat();
+  bool get_focus();
+  void set_fading(float fade);
+protected:
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *e);
+  void leaveEvent(QEvent *event);
+  void enterEvent(QEvent *event);
+private:
+  int att_hp;
+  int def_hp;
+  int att_hp_loss;
+  int def_hp_loss;
+  bool winner_veteran;
+  struct unit *attacker;
+  struct unit *defender;
+  struct unit *winner;
+  struct tile *winner_tile;
+  bool focus;
+  float fading;
+  QImage dimg, aimg;
+};
+
+/****************************************************************************
+  Widget showing combat log
+****************************************************************************/
+class hud_battle_log : public QWidget
+{
+  Q_OBJECT
+  QVBoxLayout *main_layout;
+  QList<hud_unit_combat*> lhuc;
+public:
+  hud_battle_log(QWidget *parent);
+  ~hud_battle_log();
+  void add_combat_info(hud_unit_combat* huc);
+protected:
+  void paintEvent(QPaintEvent *event);
+  void moveEvent(QMoveEvent *event);
+  void timerEvent(QTimerEvent *event);
+  void showEvent(QShowEvent *event);
+private:
+  move_widget *mw;
+  QElapsedTimer m_timer;
 };
 
 #endif /* FC__HUDWIDGET_H */

@@ -89,3 +89,8 @@ fc_sidewidget {
   /* blink */
   selection-color: rgba(85, 25, 25, 185);
 }
+
+hud_unit_combat {
+  selection-background-color: rgba(0, 0, 75,165);
+  alternate-background-color: #0000AA;
+}

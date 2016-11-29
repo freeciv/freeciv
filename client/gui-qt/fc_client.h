@@ -127,6 +127,7 @@ struct fc_settings
   int chat_y_pos;
   int player_repo_sort_col;
   bool show_new_turn_text;
+  bool show_battle_log;
   Qt::SortOrder player_report_sort;
   int city_repo_sort_col;
   Qt::SortOrder city_report_sort;
@@ -140,6 +141,8 @@ struct fc_settings
   float minimap_y;
   float minimap_width;
   float minimap_height;
+  float battlelog_x;
+  float battlelog_y;
 };
 
 /****************************************************************************
@@ -263,6 +266,7 @@ public:
   trade_generator trade_gen;
   qfc_rally_list rallies;
   hud_units *unitinfo_wdg;
+  hud_battle_log *battlelog_wdg;
   bool interface_locked;
   fc_sidewidget *sw_cunit;
   fc_sidewidget *sw_science;

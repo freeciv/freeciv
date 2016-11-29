@@ -108,6 +108,7 @@ fc_client::fc_client() : QMainWindow()
   update_info_timer = nullptr;
   game_layout = nullptr;
   unitinfo_wdg = nullptr;
+  battlelog_wdg = nullptr;
   interface_locked = false;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
@@ -646,6 +647,21 @@ void fc_client::read_settings()
   } else {
     qt_settings.show_new_turn_text = true;
   }
+  if (s.contains("show_battle_log")) {
+    qt_settings.show_battle_log = s.value("show_battle_log").toBool();
+  } else {
+    qt_settings.show_battle_log = false;
+  }
+  if (s.contains("battlelog_x")) {
+    qt_settings.battlelog_x = s.value("battlelog_x").toFloat();
+  } else {
+    qt_settings.battlelog_x = 0.0;
+  }
+  if (s.contains("minimap_y")) {
+    qt_settings.battlelog_y = s.value("battlelog_y").toFloat();
+  } else {
+    qt_settings.battlelog_y = 0.0;
+  }
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
 
@@ -676,7 +692,10 @@ void fc_client::write_settings()
   s.setValue("minimap_y", qt_settings.minimap_y);
   s.setValue("minimap_width", qt_settings.minimap_width);
   s.setValue("minimap_height", qt_settings.minimap_height);
+  s.setValue("battlelog_x", qt_settings.battlelog_x);
+  s.setValue("battlelog_y", qt_settings.battlelog_y);
   s.setValue("new_turn_text", qt_settings.show_new_turn_text);
+  s.setValue("show_battle_log", qt_settings.show_battle_log);
   write_shortcuts();
 }
 
@@ -954,6 +973,10 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
                                    * mapview.width,
                                    gui()->qt_settings.minimap_height
                                    * mapview.height);
+    gui()->battlelog_wdg->move(gui()->qt_settings.battlelog_x
+                               * mapview.width,
+                               gui()->qt_settings.battlelog_y
+                               * mapview.height);
     gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
     gui()->update_sidebar_tooltips();
     side_disable_endturn(get_turn_done_button_state());
