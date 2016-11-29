@@ -1587,3 +1587,301 @@ void show_new_turn_info()
   ht = new hud_text(s, 5, gui()->mapview_wdg);
   ht->show_me();
 }
+
+/****************************************************************************
+  Hud unit combat contructor, prepares images to show as result
+****************************************************************************/
+hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
+                                 int attacker_hp, int defender_hp,
+                                 bool make_winner_veteran,
+                                 QWidget *parent) : QWidget(parent)
+{
+  QImage crdimg, acrimg, at, dt;
+  QRect dr, ar;
+  QPainter p;
+  struct canvas *defender_pixmap;
+  struct canvas *attacker_pixmap;
+  int w;
+
+  w = 3 * tileset_unit_height(tileset) / 2;
+  att_hp = attacker_hp;
+  def_hp = defender_hp;
+
+  winner_veteran = make_winner_veteran;
+  attacker = game_unit_by_number(attacker_unit_id);
+  defender = game_unit_by_number(defender_unit_id);
+  att_hp_loss = attacker->hp - att_hp;
+  def_hp_loss = defender->hp - def_hp;
+  if (defender_hp == 0) {
+    winner = attacker;
+    winner_tile = attacker->tile;
+  } else {
+    winner = defender;
+    winner_tile = defender->tile;
+  }
+  setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+  setFixedSize(2 * w, w);
+  focus = false;
+
+  defender_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
+                                      tileset_unit_height(tileset));
+  defender_pixmap->map_pixmap.fill(Qt::transparent);
+  if (defender != nullptr) {
+    put_unit(defender, defender_pixmap,  1.0, 0, 0);
+    dimg = defender_pixmap->map_pixmap.toImage();
+    dr = zealous_crop_rect(dimg);
+    crdimg = dimg.copy(dr);
+    dimg = crdimg.scaledToHeight(w, Qt::SmoothTransformation);
+  }
+  if (dimg.width() < w) {
+    dt = QImage(w, dimg.height(), QImage::Format_ARGB32_Premultiplied);
+    dt.fill(Qt::transparent);
+    p.begin(&dt);
+    p.drawImage(w / 2 - dimg.width() / 2, 0, dimg);
+    p.end();
+    dimg = dt;
+  }
+  dimg = dimg.scaled(w, w, Qt::IgnoreAspectRatio,
+                     Qt::SmoothTransformation);
+  attacker_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
+                                      tileset_unit_height(tileset));
+  attacker_pixmap->map_pixmap.fill(Qt::transparent);
+  if (attacker != nullptr) {
+    put_unit(attacker, attacker_pixmap, 1,  0, 0);
+    aimg = attacker_pixmap->map_pixmap.toImage();
+    ar = zealous_crop_rect(aimg);
+    acrimg = aimg.copy(ar);
+    aimg = acrimg.scaledToHeight(w, Qt::SmoothTransformation);
+  }
+  if (aimg.width() < w) {
+    at = QImage(w, dimg.height(), QImage::Format_ARGB32_Premultiplied);
+    at.fill(Qt::transparent);
+    p.begin(&at);
+    p.drawImage(w / 2 - aimg.width() / 2, 0, aimg);
+    p.end();
+    aimg = at;
+  }
+  aimg = aimg.scaled(w, w, Qt::IgnoreAspectRatio,
+                     Qt::SmoothTransformation);
+}
+
+/****************************************************************************
+  Hud unit combat destructor
+****************************************************************************/
+hud_unit_combat::~hud_unit_combat()
+{
+}
+
+/****************************************************************************
+  Sets widget fading
+****************************************************************************/
+void hud_unit_combat::set_fading(float fade)
+{
+  fading = fade;
+  update();
+}
+
+/****************************************************************************
+  Returns true if widget has focus (used to prevent hiding parent)
+****************************************************************************/
+bool hud_unit_combat::get_focus()
+{
+  return focus;
+}
+
+/****************************************************************************
+  Paint event for hud_unit combat
+****************************************************************************/
+void hud_unit_combat::paintEvent(QPaintEvent *event)
+{
+  QPainter p;
+  QRect left, right;
+  QColor c1, c2;
+  QPen pen;
+  QFont f = *fc_font::instance()->get_font(fonts::default_font);
+  QString ahploss, dhploss;
+  if (att_hp_loss > 0) {
+    ahploss = "-" + QString::number(att_hp_loss);
+  } else {
+    ahploss = "0";
+  }
+  if (def_hp_loss > 0) {
+    dhploss = "-" + QString::number(def_hp_loss);
+  } else {
+    dhploss = "0";
+  }
+  f.setBold(true);
+
+  if (def_hp == 0) {
+    c1 = QColor(25, 125, 25, 175);
+    c2 = QColor(125, 25, 25, 175);
+  } else {
+    c1 = QColor(125, 25, 25, 175);
+    c2 = QColor(25, 125, 25, 175);
+  }
+  int w = 3 * tileset_unit_height(tileset) / 2;
+
+  left = QRect(0 , 0, w , w);
+  right = QRect(w, 0, w , w);
+  pen = QPen(QColor(palette().color(QPalette::AlternateBase)), 2.0);
+  p.begin(this);
+  if (fading < 1.0) {
+    p.setOpacity(fading);
+  }
+  if (focus == true) {
+    p.fillRect(left, QColor(palette().color(QPalette::Highlight)));
+    p.fillRect(right, QColor(palette().color(QPalette::Highlight)));
+    c1.setAlpha(110);
+    c2.setAlpha(110);
+  }
+  p.fillRect(left, c1);
+  p.fillRect(right, c2);
+  p.setPen(pen);
+  p.drawRect(1, 1, width() - 2 , height() - 2);
+  p.drawImage(left, aimg);
+  p.setFont(f);
+  p.setPen(QColor(Qt::white));
+  if (winner == defender && winner_veteran) {
+    p.drawText(right, Qt::AlignHCenter | Qt::AlignJustify
+               | Qt::AlignAbsolute, "*");
+  }
+  if (winner == attacker && winner_veteran) {
+    p.drawText(left, Qt::AlignHCenter | Qt::AlignJustify
+               | Qt::AlignAbsolute, "*");
+  }
+  p.drawText(left, Qt::AlignHorizontal_Mask, ahploss);
+  p.drawImage(right, dimg);
+  p.drawText(right, Qt::AlignHorizontal_Mask, dhploss);
+  p.end();
+}
+
+/****************************************************************************
+  Mouse press event, centers on highlighted combat
+****************************************************************************/
+void hud_unit_combat::mousePressEvent(QMouseEvent *e)
+{
+  center_tile_mapcanvas(winner_tile);
+}
+
+/****************************************************************************
+  Leave event for hud unit combat. Stops showing highlight.
+****************************************************************************/
+void hud_unit_combat::leaveEvent(QEvent *event)
+{
+  focus = false;
+  update();
+}
+
+/****************************************************************************
+  Leave event for hud unit combat. Shows highlight.
+****************************************************************************/
+void hud_unit_combat::enterEvent(QEvent *event)
+{
+  focus = true;
+  update();
+}
+
+/****************************************************************************
+  Hud battle log contructor
+****************************************************************************/
+hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
+{
+  setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+  main_layout = new QVBoxLayout;
+  mw = new move_widget(this);
+  setContentsMargins(0, 0, 0, 0);
+  main_layout->setContentsMargins(0, 0, 0, 0);
+}
+
+/****************************************************************************
+  Hud battle log destructor
+****************************************************************************/
+hud_battle_log::~hud_battle_log()
+{
+}
+
+/****************************************************************************
+  Adds comabt information to battle log
+****************************************************************************/
+void hud_battle_log::add_combat_info(hud_unit_combat *huc)
+{
+  hud_unit_combat *hudc;
+  int w = 3 * tileset_unit_height(tileset) / 2;
+
+  delete layout();
+  main_layout = new QVBoxLayout;
+  lhuc.prepend(huc);
+  while (lhuc.count() > 5) {
+    hudc = lhuc.takeLast();
+    delete hudc;
+  }
+  foreach (hudc, lhuc) {
+    main_layout->addWidget(hudc);
+    hudc->set_fading(1.0);
+  }
+  setFixedSize(2 * w + 10, lhuc.count() * w + 10);
+  setLayout(main_layout);
+
+  update();
+  show();
+  m_timer.restart();
+  startTimer(50);
+}
+
+/****************************************************************************
+  Paint event for hud battle log
+****************************************************************************/
+void hud_battle_log::paintEvent(QPaintEvent *event)
+{
+  mw->put_to_corner();
+}
+
+/****************************************************************************
+  Move event, saves current position
+****************************************************************************/
+void hud_battle_log::moveEvent(QMoveEvent *event)
+{
+  QPoint p;
+  p = event->pos();
+  gui()->qt_settings.battlelog_x = static_cast<float>(p.x()) / mapview.width;
+  gui()->qt_settings.battlelog_y = static_cast<float>(p.y())
+                                   / mapview.height;
+}
+
+/****************************************************************************
+  Timer event. Starts/stops fading
+****************************************************************************/
+void hud_battle_log::timerEvent(QTimerEvent *event)
+{
+  hud_unit_combat *hudc;
+  hud_unit_combat *hupdate;
+  if (m_timer.elapsed() > 4000 && m_timer.elapsed() < 5000) {
+    foreach (hudc, lhuc) {
+      if (hudc->get_focus() == true) {
+        m_timer.restart();
+        foreach (hupdate, lhuc) {
+          hupdate->set_fading(1.0);
+        }
+        return;
+      }
+      hudc->set_fading((5000.0 - m_timer.elapsed()) / 1000);
+    }
+  }
+  if (m_timer.elapsed() >= 5000) {
+    hide();
+  }
+}
+
+/****************************************************************************
+  Show event, restart fading timer
+****************************************************************************/
+void hud_battle_log::showEvent(QShowEvent *event)
+{
+  hud_unit_combat *hupdate;
+  foreach (hupdate, lhuc) {
+    hupdate->set_fading(1.0);
+  }
+  m_timer.restart();
+  setVisible(true);
+}
+

@@ -743,6 +743,8 @@ void fc_client::create_game_page()
   minimapview_wdg = new minimap_view(mapview_wdg);
   minimapview_wdg->show();
   unitinfo_wdg = new hud_units(mapview_wdg);
+  battlelog_wdg = new hud_battle_log(mapview_wdg);
+  battlelog_wdg->hide();
   infotab = new info_tab(mapview_wdg);
   infotab->show();
   x_vote = new xvote(mapview_wdg);

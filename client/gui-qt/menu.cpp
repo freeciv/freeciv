@@ -1036,6 +1036,10 @@ void mr_menu::setup_menus()
   osd_status->setChecked(gui()->qt_settings.show_new_turn_text);
   connect(osd_status, SIGNAL(triggered()), this,
           SLOT(slot_show_new_turn_text()));
+  btlog_status = menu->addAction(_("Show combat detailed information"));
+  btlog_status->setCheckable(true);
+  btlog_status->setChecked(gui()->qt_settings.show_battle_log);
+  connect(btlog_status, SIGNAL(triggered()), this, SLOT(slot_battlelog()));
   lock_status = menu->addAction(_("Lock interface"));
   lock_status->setCheckable(true);
   lock_status->setShortcut(QKeySequence(shortcut_to_string(
@@ -2856,6 +2860,18 @@ void mr_menu::slot_show_new_turn_text()
     gui()->qt_settings.show_new_turn_text = true;
   } else {
     gui()->qt_settings.show_new_turn_text = false;
+  }
+}
+
+/****************************************************************
+  Action "Show/Dont battle log"
+*****************************************************************/
+void mr_menu::slot_battlelog()
+{
+  if (btlog_status->isChecked()) {
+    gui()->qt_settings.show_battle_log = true;
+  } else {
+    gui()->qt_settings.show_battle_log = false;
   }
 }
 

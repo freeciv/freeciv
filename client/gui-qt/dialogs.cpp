@@ -3569,4 +3569,13 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
                            int attacker_hp, int defender_hp,
                            bool make_winner_veteran)
 {
+  if (gui()->qt_settings.show_battle_log == true) {
+    hud_unit_combat* huc = new hud_unit_combat(attacker_unit_id,
+                                              defender_unit_id,
+                                              attacker_hp, defender_hp,
+                                              make_winner_veteran,
+                                              gui()->battlelog_wdg);
+    gui()->battlelog_wdg->add_combat_info(huc);
+    gui()->battlelog_wdg->show();
+  }
 }

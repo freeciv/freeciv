@@ -321,6 +321,13 @@ void map_view::shortcut_pressed(int key)
       return;
     }
 
+    sc = fc_shortcuts::sc()->get_shortcut(SC_POPUP_COMB_INF);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
+        && gui()->battlelog_wdg != nullptr) {
+      gui()->battlelog_wdg->show();
+      return;
+    }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_PASTE_PROD);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {

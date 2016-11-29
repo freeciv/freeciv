@@ -296,6 +296,7 @@ public:
   QAction *minimap_status;
   QAction *lock_status;
   QAction *osd_status;
+  QAction *btlog_status;
   QAction *chat_status;
   QAction *messages_status;
   bool delayed_order;
@@ -360,6 +361,7 @@ private slots:
   void slot_center_view();
   void slot_minimap_view();
   void slot_show_new_turn_text();
+  void slot_battlelog();
   void slot_fullscreen();
   void slot_lock();
   void slot_city_outlines();

@@ -778,3 +778,8 @@ hud_units {
 hud_units QLabel {
   color: white;
 }
+
+hud_unit_combat {
+  selection-background-color: rgba(0, 0, 75,165);
+  alternate-background-color: #ffecba;
+}
