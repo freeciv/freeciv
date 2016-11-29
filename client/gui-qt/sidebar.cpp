@@ -63,7 +63,7 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   def_pixmap = pix;
   scaled_pixmap = new QPixmap;
   final_pixmap = new QPixmap;
-  sfont = new QFont;
+  sfont = new QFont(*fc_font::instance()->get_font(fonts::notify_label));
   left_click = func;
   desc = label;
   standard = type;
@@ -76,6 +76,16 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   timer = new QTimer;
   timer->setSingleShot(false);
   timer->setInterval(700);
+  sfont->setCapitalization(QFont::SmallCaps);
+  sfont->setItalic(true);
+  info_font = new  QFont(*sfont);
+  info_font->setBold(true);
+  if (sfont->pointSize() < 0) {
+    info_font->setPixelSize(sfont->pixelSize() + 2);
+  } else  {
+    info_font->setPointSize(sfont->pointSize() + 2);
+  }
+  info_font->setItalic(false);
   connect(timer, SIGNAL(timeout()), this, SLOT(sblink()));
 }
 
@@ -96,6 +106,8 @@ fc_sidewidget::~fc_sidewidget()
     delete final_pixmap;
   }
   delete timer;
+  delete sfont;
+  delete info_font;
 }
 
 /***************************************************************************
@@ -372,9 +384,6 @@ void fc_sidewidget::update_final_pixmap()
   }
 
   p.begin(final_pixmap);
-  sfont->setPixelSize(16);
-  sfont->setCapitalization(QFont::SmallCaps);
-  sfont->setItalic(true);
   p.setFont(*sfont);
   pen.setColor(QColor(232, 255, 0));
   p.setPen(pen);
@@ -436,10 +445,8 @@ void fc_sidewidget::update_final_pixmap()
   }
 
   p.setPen(palette().color(QPalette::Text));
-
   if (custom_label.isEmpty() == false) {
-    sfont->setItalic(false);
-    p.setFont(*sfont);
+    p.setFont(*info_font);
     p.drawText(0, 0, width(), height(), Qt::AlignLeft | Qt::TextWordWrap,
                custom_label);
   }
