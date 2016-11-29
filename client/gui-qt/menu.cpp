@@ -825,6 +825,8 @@ void mr_menu::setup_menus()
   menu_list.insertMulti(SAVE, act);
   act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
   connect(act, SIGNAL(triggered()), this, SLOT(save_game_as()));
+  act = menu->addAction(_("Save Map to Image"));
+  connect(act, SIGNAL(triggered()), this, SLOT(save_image()));
   menu->addSeparator();
   act = menu->addAction(_("Leave game"));
   act->setIcon(style()->standardIcon(QStyle::SP_DialogDiscardButton));
@@ -2937,6 +2939,44 @@ void mr_menu::save_options_now()
 void mr_menu::quit_game()
 {
   popup_quit_dialog();
+}
+
+/***************************************************************************
+  Menu Save Map Image
+***************************************************************************/
+void mr_menu::save_image()
+{
+  int current_width, current_height;
+  int full_size_x, full_size_y;
+  hud_message_box saved(gui()->central_wdg);
+  bool map_saved;
+  QString img_name;
+
+  full_size_x = (game.map.xsize + 2) * tileset_tile_width(tileset);
+  full_size_y = (game.map.ysize + 2) * tileset_tile_height(tileset);
+  current_width = gui()->mapview_wdg->width();
+  current_height = gui()->mapview_wdg->height();
+  if (tileset_hex_width(tileset) > 0) {
+    full_size_y = full_size_y * 11 / 20;
+  } else if (tileset_is_isometric(tileset)) {
+    full_size_y = full_size_y / 2;
+  }
+  map_canvas_resized(full_size_x, full_size_y);
+  img_name = QString("FreeCiv-Turn%1").arg(game.info.turn);
+  if (client_has_player() == true) {
+    img_name = img_name + "-"
+                + QString(nation_plural_for_player(client_player()));
+  }
+  map_saved = mapview.store->map_pixmap.save(img_name, "png");
+  map_canvas_resized(current_width, current_height);
+  saved.setStandardButtons(QMessageBox::Ok);
+  saved.setDefaultButton(QMessageBox::Cancel);
+  if (map_saved) {
+    saved.set_text_title("Image saved as " + img_name, _("Succeess"));
+  } else {
+    saved.set_text_title(_("Failed to save image of the map"), _("Error"));
+  }
+  saved.exec();
 }
 
 /***************************************************************************

@@ -283,6 +283,7 @@ private slots:
   void save_options_now();
   void save_game();
   void save_game_as();
+  void save_image();
   void back_to_menu();
   void quit_game();
 
