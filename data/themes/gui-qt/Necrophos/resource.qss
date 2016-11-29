@@ -47,33 +47,22 @@ resize_widget
   background: #006633;
 }
 
-
 QPushButton {
   color: black;
   background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #fefefe ,stop: 1 #eaeaea);
-  border: 2px solid #a5a5a5;
-  border-radius: 0px;
+  border: 1px solid #a5a5a5;
+  border-radius: 6px;
   padding: 2px;
 }
 
 QPushButton:hover {
-  color: black;
-  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f5f5f5, stop: 1 #e9ffe5);
-  border: 2px solid #0e8706;
+  color: white;
+  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2ebd26, stop: 1 #29aa22);
+  border: 1px solid black;
 }
 
 QPushButton:disabled {
   background: #c2c2c2;
-}
-
-QPushButton:default {
-  padding: 2px;
-}
-
-city_dialog QPushButton:hover {
-  color: black;
-  background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f5f5f5, stop: 1 #ededed);
-  border: 2px solid #0e8706;
 }
 
 QLabel {
@@ -91,13 +80,13 @@ QTableWidget {
   padding: 0 0;
   color: black;
   selection-color: white;
-  selection-background-color:  #5d8869;
+  selection-background-color:  #2ebd26;
 }
 
 QTableWidget::item:selected {
   border: none;
   padding: 0 0;
-  background: #5d8869;
+  background: #2ebd26;
 }
 
 
@@ -227,11 +216,7 @@ QMenu::item:disabled {
 
 QMenu::item:selected {
   color: white;
-  background-color: #5d8869;
-}
-
-QMenu::separator {
-  background: #595959;
+  background-color: #29aa22;
 }
 
 minimap_view
@@ -389,20 +374,20 @@ QTreeView {
   padding: 0 0;
   color: black;
   selection-color: white;
-  selection-background-color:  #5d8869;
+  selection-background-color:  #2ebd26;
 }
 
 QTreeView::item:selected {
   border: none;
   padding: 0 0;
-  background: #5d8869;
+  background: #2ebd26;
 }
 
 
 QItemDelegate:selected {
   border: none;
   padding: 0 0;
-  background-color: #5d8869;
+  background-color: #2ebd26;
 }
 
 QToolTip {
@@ -450,7 +435,7 @@ QCheckBox::indicator:checked:hover {
 
 QGroupBox {
   color: black;
-  background-color: #dcdcdc;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #d6d6d6, stop: 1 #ebebeb);
   border: 1px solid #808080;
   border-radius: 5px;
   margin-top: 2ex;
@@ -487,16 +472,6 @@ city_dialog QScrollArea QFrame {
 
 city_dialog QScrollArea {
   background: #c5c5c5;
-}
-
-city_dialog QFrame {
-  border: none
-}
-
-city_dialog QGroupBox {
-  border-radius: 5px;
-  margin-top: 2ex;
-  border: 1px solid #a5a5a5;
 }
 
 science_report QScrollArea {
@@ -584,7 +559,7 @@ QTreeWidget {
 
 QTreeWidget::item:selected {
   border: none;
-  background: #5d8869;
+  background: #2ebd26;
 }
 
 
@@ -646,7 +621,7 @@ messagewdg QTableWidget
 
 messagewdg QTableWidget::item:hover {
   color: white;
-  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #5d8869, stop: 1 #5d8869);
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2ebd26, stop: 1 #29aa22);
   border-radius: 9px;
 }
 
@@ -704,30 +679,6 @@ fc_sidewidget {
   alternate-background-color: rgba(125, 25, 125, 125);
   /* blink */
   selection-color: rgba(85, 25, 25, 185);
-}
-
-hud_message_box QDialogButtonBox QPushButton {
-  border-radius: 0px;
-  padding: 0px;
-  min-width: 160px;
-}
-
-unit_hud_selector {
-  color: white;
-  background-image:url(LittleFingersun.png);
-  border: 2px solid #a5a5a5;
-}
-
-unit_hud_selector QGroupBox {
-  color: white;
-  background-image:url(LittleFingerpattern.png);
-  border: 1px solid #a5a5a5;
-  border-radius: 5px;
-  margin-top: 2ex;
-}
-
-unit_hud_selector QLabel {
-  color: white;
 }
 
 hud_action {

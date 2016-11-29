@@ -320,21 +320,9 @@ QMenu::item:selected {
   border-radius: 9px;
 }
 
-
 minimap_view
 {
   selection-background-color: #1155BB;
-}
-
-QTreeWidget {
-  color: white;
-  background-color: #353b47;
-  border: none;
-}
-
-QTreeWidget::item:selected {
-  border: none;
-  background: #3399FF;
 }
 
 QComboBox QAbstractItemView {
@@ -713,6 +701,16 @@ QScrollBar::handle:horizontal {
   background: #3399FF; min-width: 20px
 }
 
+QTreeWidget {
+  color: white;
+  background-color: #353b47;
+  border: none;
+}
+
+QTreeWidget::item:selected {
+  border: none;
+  background: #3399FF;
+}
 
 fc_game_tab_widget {
    background-image:url(LittleFingerpattern-game.png);
@@ -720,29 +718,23 @@ fc_game_tab_widget {
 
 help_widget QTextBrowser
 {
-  background-color: #414a57;
+  background-color: #353b47;
   color: white;
 }
 
 help_widget QWidget
 {
-  background-color: #414a57;
-  color: white;
-}
-
-help_widget QTreeWidget
-{
-  background-color: #414a57;
+  background-color: #353b47;
   color: white;
 }
 
 help_widget QScrollArea QFrame {
-  background-color: #414a57;
+  background-color: #353b47;
   color: white;
 }
 
 help_widget QScrollArea {
-  background-color: #414a57;
+  background-color: #353b47;
   color: white;
 }
 
