@@ -572,16 +572,18 @@ void hud_units::update_actions(unit_list *punits)
 {
   int num;
   int wwidth;
+  int font_width;
   QFont font = *fc_font::instance()->get_font(fonts::notify_label);
   QFontMetrics *fm;
   QImage cropped_img;
   QImage img;
   QPainter p;
   QPixmap pix, pix2;
-  QRect crop;
+  QRect crop, bounding_rect;
   QString mp;
   QString snum;
-  QString text_str;
+  QChar fraction1, fraction2;
+  QString text_str, move_pt_text;
   struct canvas *tile_pixmap;
   struct canvas *unit_pixmap;
   struct city *pcity;
@@ -665,6 +667,45 @@ void hud_units::update_actions(unit_list *punits)
     p.end();
     pix = pix2;
   }
+  /* Draw movement points */
+  move_pt_text = move_points_text(punit->moves_left, false);
+  if (move_pt_text.contains('/')) {
+    fraction1 = move_pt_text[move_pt_text.count() - 3];
+    fraction2 = move_pt_text[move_pt_text.count() - 1];
+    move_pt_text.remove(move_pt_text.count() - 3, 3);
+  }
+  crop = QRect(5, 5, pix.width() - 5, pix.height() - 5);
+  font.setCapitalization(QFont::Capitalize);
+  font.setPointSize((pix.height() * 2) / 5);
+  p.begin(&pix);
+  p.setFont(font);
+  p.setPen(Qt::white);
+  p.drawText(crop, Qt::AlignLeft | Qt::AlignBottom, move_pt_text);
+  if (move_pt_text.isEmpty()) {
+    move_pt_text = " ";
+  }
+  bounding_rect = p.boundingRect(crop, Qt::AlignLeft | Qt::AlignBottom,
+                                 move_pt_text);
+  font.setPointSize(pix.height() / 5);
+  fm = new QFontMetrics(font);
+  font_width = (fm->width(move_pt_text) * 3) / 5;
+  delete fm;
+  p.setFont(font);
+  if (fraction1.isNull() == false) {
+    int t = 2 * font.pointSize();
+    crop = QRect(bounding_rect.right() - font_width,
+                 bounding_rect.top(), t, (t / 5) * 4);
+    p.drawText(crop, Qt::AlignLeft | Qt::AlignBottom, fraction1);
+    crop = QRect(bounding_rect.right() - font_width,
+                 (bounding_rect.bottom() + bounding_rect.top()) / 2,
+                 t, (t / 5) * 4);
+    p.drawText(crop, Qt::AlignLeft | Qt::AlignTop, fraction2);
+    crop = QRect(bounding_rect.right() - font_width,
+                 (bounding_rect.bottom() + bounding_rect.top()) / 2 - t / 16,
+                 (t * 2) / 5, t / 8);
+    p.fillRect(crop, Qt::white);
+  }
+  p.end();
   wwidth = 2 * 3 + pix.width();
   unit_label.setPixmap(pix);
   if (tileset_is_isometric(tileset)) {
