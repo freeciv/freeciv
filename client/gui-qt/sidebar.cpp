@@ -80,11 +80,6 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   sfont->setItalic(true);
   info_font = new  QFont(*sfont);
   info_font->setBold(true);
-  if (sfont->pointSize() < 0) {
-    info_font->setPixelSize(sfont->pixelSize() + 2);
-  } else  {
-    info_font->setPointSize(sfont->pointSize() + 2);
-  }
   info_font->setItalic(false);
   connect(timer, SIGNAL(timeout()), this, SLOT(sblink()));
 }
