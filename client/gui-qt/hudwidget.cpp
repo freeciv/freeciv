@@ -582,7 +582,7 @@ void hud_units::update_actions(unit_list *punits)
   QRect crop, bounding_rect;
   QString mp;
   QString snum;
-  QChar fraction1, fraction2;
+  QString fraction1, fraction2;
   QString text_str, move_pt_text;
   struct canvas *tile_pixmap;
   struct canvas *unit_pixmap;
@@ -670,9 +670,10 @@ void hud_units::update_actions(unit_list *punits)
   /* Draw movement points */
   move_pt_text = move_points_text(punit->moves_left, false);
   if (move_pt_text.contains('/')) {
-    fraction1 = move_pt_text[move_pt_text.count() - 3];
-    fraction2 = move_pt_text[move_pt_text.count() - 1];
-    move_pt_text.remove(move_pt_text.count() - 3, 3);
+    fraction2 = move_pt_text.right(1);
+    move_pt_text.remove(move_pt_text.count() - 2, 2);
+    fraction1 = move_pt_text.right(1);
+    move_pt_text.remove(move_pt_text.count() - 1, 1);
   }
   crop = QRect(5, 5, pix.width() - 5, pix.height() - 5);
   font.setCapitalization(QFont::Capitalize);
