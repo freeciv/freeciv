@@ -1636,6 +1636,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   header->setStretchLastSection(true);
 
   qgbprod->setTitle(_("Worklist"));
+  vbox_layout->setSpacing(0);
   vbox_layout->addWidget(prod_options);
   vbox_layout->addWidget(production_combo_p);
   vbox_layout->addWidget(buy_button);
@@ -1646,7 +1647,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   but_menu_worklist->setText(_("Worklist menu"));
   but_menu_worklist->setIcon(style()->standardIcon(
                                QStyle::SP_FileLinkIcon));
-
+  worklist_layout->setSpacing(0);
   worklist_layout->addWidget(qgbprod);
   connect(p_table_p,
           SIGNAL(customContextMenuRequested(const QPoint &)), this,
