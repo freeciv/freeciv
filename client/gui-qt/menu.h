@@ -33,7 +33,7 @@ class QLabel;
 class QPushButton;
 class QSignalMapper;
 class QScrollArea;
-class fc_shortcut;
+struct fc_shortcut;
 
 void qt_start_turn();
 
