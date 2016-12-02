@@ -3292,7 +3292,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
    */
   punit->moves_left = unit_move_rate(punit) - moves_used - SINGLE_MOVE;
   pdefender->moves_left = unit_move_rate(pdefender) - def_moves_used;
-  
+
   if (punit->moves_left < 0) {
     punit->moves_left = 0;
   }
@@ -3381,8 +3381,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
    * multiple defenders and unstacked combat). Note that this could mean 
    * capturing (or destroying) a city. */
 
-  if (pwinner == punit && fc_rand(100) < game.server.occupychance &&
-      !is_non_allied_unit_tile(def_tile, pplayer)) {
+  if (pwinner == punit && fc_rand(100) < game.server.occupychance
+      && !is_non_allied_unit_tile(def_tile, pplayer)) {
 
     /* Hack: make sure the unit has enough moves_left for the move to succeed,
        and adjust moves_left to afterward (if successful). */
@@ -3398,7 +3398,11 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
          && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
                                 0, "", ACTION_CONQUER_CITY, ACT_REQ_RULES))
         || (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL))) {
-      punit->moves_left = old_moves - (full_moves - punit->moves_left);
+      int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
+
+      /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
+       * Attack SINGLE_COST is already calculated in to old_moves. */
+      punit->moves_left = old_moves - mcost;
       if (punit->moves_left < 0) {
         punit->moves_left = 0;
       }
