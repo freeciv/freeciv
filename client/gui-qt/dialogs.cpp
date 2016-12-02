@@ -2701,12 +2701,11 @@ void show_tileset_error(const char *msg)
 
   fc_snprintf(buf, sizeof(buf),
               _("Tileset problem, it's probably incompatible with the"
-                " ruleset:\n%s\nProgram will now exit."), msg);
+                " ruleset:\n%s"), msg);
   ask.setText(buf);
   ask.setStandardButtons(QMessageBox::Ok);
   ask.setWindowTitle(_("Tileset error"));
   ask.exec();
-  gui()->quit();
 
 }
 

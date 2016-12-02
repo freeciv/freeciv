@@ -285,6 +285,8 @@ private slots:
   void save_game();
   void save_game_as();
   void save_image();
+  void tileset_custom_load();
+  void load_new_tileset();
   void back_to_menu();
   void quit_game();
 
