@@ -1577,7 +1577,7 @@ QString popup_terrain_info(struct tile *ptile)
   if (t != "") {
     ret = ret + QString(_("Infrastructure: %1\n")).arg(t);
   }
-  ret = ret + QString(_("Defence bonus: %1%")).arg(terr->defense_bonus);
+  ret = ret + QString(_("Defense bonus: %1%")).arg(terr->defense_bonus);
   return ret;
 }
 
