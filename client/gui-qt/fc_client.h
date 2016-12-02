@@ -121,10 +121,10 @@ private slots:
 ****************************************************************************/
 struct fc_settings
 {
-  int chat_width;
-  int chat_height;
-  int chat_x_pos;
-  int chat_y_pos;
+  float chat_fwidth;
+  float chat_fheight;
+  float chat_fx_pos;
+  float chat_fy_pos;
   int player_repo_sort_col;
   bool show_new_turn_text;
   bool show_battle_log;
@@ -135,8 +135,8 @@ struct fc_settings
   QByteArray city_splitter1;
   QByteArray city_splitter2;
   QByteArray city_splitter3;
-  int unit_info_pos_x;
-  int unit_info_pos_y;
+  float unit_info_pos_fx;
+  float unit_info_pos_fy;
   float minimap_x;
   float minimap_y;
   float minimap_width;

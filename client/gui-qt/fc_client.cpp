@@ -579,35 +579,35 @@ void fc_client::read_settings()
   if (s.contains("Fonts-set") == false) {
     configure_fonts();
   }
-  if (s.contains("Chat-x-size")) {
-    qt_settings.chat_width = s.value("Chat-x-size").toInt();
+  if (s.contains("Chat-fx-size")) {
+    qt_settings.chat_fwidth = s.value("Chat-fx-size").toFloat();
   } else {
-    qt_settings.chat_width = 2000;
+    qt_settings.chat_fwidth = 0.2;
   }
-  if (s.contains("Chat-y-size")) {
-    qt_settings.chat_height = s.value("Chat-y-size").toInt();
+  if (s.contains("Chat-fy-size")) {
+    qt_settings.chat_fheight = s.value("Chat-fy-size").toFloat();
   } else {
-    qt_settings.chat_height = 4000;
+    qt_settings.chat_fheight = 0.4;
   }
-  if (s.contains("Chat-x-pos")) {
-    qt_settings.chat_x_pos = s.value("Chat-x-pos").toInt();
+  if (s.contains("Chat-fx-pos")) {
+    qt_settings.chat_fx_pos = s.value("Chat-fx-pos").toFloat();
   } else {
-    qt_settings.chat_x_pos = 0;
+    qt_settings.chat_fx_pos = 0.0;
   }
-  if (s.contains("Chat-y-pos")) {
-    qt_settings.chat_y_pos = s.value("Chat-y-pos").toInt();
+  if (s.contains("Chat-fy-pos")) {
+    qt_settings.chat_fy_pos = s.value("Chat-fy-pos").toFloat();
   } else {
-    qt_settings.chat_y_pos = 10000;
+    qt_settings.chat_fy_pos = 0.6;
   }
-  if (s.contains("unit_x")) {
-    qt_settings.unit_info_pos_x = s.value("unit_x").toInt();
+  if (s.contains("unit_fx")) {
+    qt_settings.unit_info_pos_fx = s.value("unit_fx").toFloat();
   } else {
-    qt_settings.unit_info_pos_x = 330;
+    qt_settings.unit_info_pos_fx = 0.33;
   }
-  if (s.contains("unit_y")) {
-    qt_settings.unit_info_pos_y = s.value("unit_y").toInt();
+  if (s.contains("unit_fy")) {
+    qt_settings.unit_info_pos_fy = s.value("unit_fy").toFloat();
   } else {
-    qt_settings.unit_info_pos_y = 880;
+    qt_settings.unit_info_pos_fy = 0.88;
   }
   if (s.contains("minimap_x")) {
     qt_settings.minimap_x = s.value("minimap_x").toFloat();
@@ -665,8 +665,29 @@ void fc_client::read_settings()
   qt_settings.player_repo_sort_col = -1;
   qt_settings.city_repo_sort_col = -1;
 
-  if (qt_settings.chat_x_pos < 0) {
-    qt_settings.chat_x_pos = 0;
+  if (qt_settings.chat_fx_pos < 0 || qt_settings.chat_fx_pos >= 1) {
+    qt_settings.chat_fx_pos = 0.0;
+  }
+  if (qt_settings.chat_fy_pos >= 1 || qt_settings.chat_fy_pos < 0) {
+    qt_settings.chat_fy_pos = 0.6;
+  }
+  if (qt_settings.chat_fwidth < 0.05 || qt_settings.chat_fwidth > 0.9) {
+    qt_settings.chat_fwidth = 0.2;
+  }
+  if (qt_settings.chat_fheight < 0.05 || qt_settings.chat_fheight > 0.9) {
+    qt_settings.chat_fheight = 0.33;
+  }
+  if (qt_settings.battlelog_x < 0.0) {
+    qt_settings.battlelog_x = 0.33;
+  }
+  if (qt_settings.battlelog_y < 0.0) {
+    qt_settings.battlelog_y = 0.0;
+  }
+  if (qt_settings.minimap_x < 0 || qt_settings.minimap_x > 1) {
+    qt_settings.chat_fx_pos = 0.84;
+  }
+  if (qt_settings.minimap_y < 0 || qt_settings.minimap_y > 1) {
+    qt_settings.chat_fx_pos = 0.79;
   }
 }
 
@@ -678,16 +699,16 @@ void fc_client::write_settings()
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
   s.setValue("Fonts-set", true);
-  s.setValue("Chat-x-size", qt_settings.chat_width);
-  s.setValue("Chat-y-size", qt_settings.chat_height);
-  s.setValue("Chat-x-pos", qt_settings.chat_x_pos);
-  s.setValue("Chat-y-pos", qt_settings.chat_y_pos);
+  s.setValue("Chat-fx-size", qt_settings.chat_fwidth);
+  s.setValue("Chat-fy-size", qt_settings.chat_fheight);
+  s.setValue("Chat-fx-pos", qt_settings.chat_fx_pos);
+  s.setValue("Chat-fy-pos", qt_settings.chat_fy_pos);
   s.setValue("City-dialog", qt_settings.city_geometry);
   s.setValue("splitter1", qt_settings.city_splitter1);
   s.setValue("splitter2", qt_settings.city_splitter2);
   s.setValue("splitter3", qt_settings.city_splitter3);
-  s.setValue("unit_x", qt_settings.unit_info_pos_x);
-  s.setValue("unit_y", qt_settings.unit_info_pos_y);
+  s.setValue("unit_fx", qt_settings.unit_info_pos_fx);
+  s.setValue("unit_fy", qt_settings.unit_info_pos_fy);
   s.setValue("minimap_x", qt_settings.minimap_x);
   s.setValue("minimap_y", qt_settings.minimap_y);
   s.setValue("minimap_width", qt_settings.minimap_width);
@@ -955,28 +976,27 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
   if (C_S_RUNNING <= client_state()) {
     gui()->sidebar_wdg->resize_me(size.width(), size.height());
     map_canvas_resized(size.width(), size.height());
-    size.setWidth(event->size().width() - gui()->sidebar_wdg->width());
-    gui()->infotab->resize((size.width()
-                             * gui()->qt_settings.chat_width) / 10000,
-                             (size.height()
-                             * gui()->qt_settings.chat_height) / 10000);
-    gui()->infotab->move((size.width() * gui()->qt_settings.chat_x_pos)
-                         /10000,
-                         (size.height() * gui()->qt_settings.chat_y_pos)
-                         /10000 - gui()->infotab->height());
+    gui()->infotab->resize(qRound((size.width()
+                             * gui()->qt_settings.chat_fwidth)),
+                             qRound((size.height()
+                             * gui()->qt_settings.chat_fheight)));
+    gui()->infotab->move(qRound((size.width()
+                                 * gui()->qt_settings.chat_fx_pos)),
+                         qRound((size.height()
+                                 * gui()->qt_settings.chat_fy_pos)));
     gui()->infotab->restore_chat();
-    gui()->minimapview_wdg->move(gui()->qt_settings.minimap_x
-                                 * mapview.width,
-                                 gui()->qt_settings.minimap_y
-                                 * mapview.height);
-    gui()->minimapview_wdg->resize(gui()->qt_settings.minimap_width
-                                   * mapview.width,
-                                   gui()->qt_settings.minimap_height
-                                   * mapview.height);
-    gui()->battlelog_wdg->move(gui()->qt_settings.battlelog_x
-                               * mapview.width,
-                               gui()->qt_settings.battlelog_y
-                               * mapview.height);
+    gui()->minimapview_wdg->move(qRound(gui()->qt_settings.minimap_x
+                                 * mapview.width),
+                                 qRound(gui()->qt_settings.minimap_y
+                                 * mapview.height));
+    gui()->minimapview_wdg->resize(qRound(gui()->qt_settings.minimap_width
+                                   * mapview.width),
+                                   qRound(gui()->qt_settings.minimap_height
+                                   * mapview.height));
+    gui()->battlelog_wdg->move(qRound(gui()->qt_settings.battlelog_x
+                               * mapview.width),
+                               qRound(gui()->qt_settings.battlelog_y
+                               * mapview.height));
     gui()->x_vote->move(width() / 2 - gui()->x_vote->width() / 2, 0);
     gui()->update_sidebar_tooltips();
     side_disable_endturn(get_turn_done_button_state());
