@@ -24,6 +24,8 @@
 
 #include "sprite.h"
 
+static const char **gfx_array_extensions = nullptr;
+
 /****************************************************************************
   Return a NULL-terminated, permanently allocated array of possible
   graphics types extensions.  Extensions listed first will be checked
@@ -31,16 +33,27 @@
 ****************************************************************************/
 const char **gfx_fileextensions(void)
 {
-  /* PORTME */
+  QList<QByteArray> gfx_ext;
+  QByteArray cp;
+  int j = 0;
 
-  /* hack to allow stub to run */
-  static const char *ext[] = {
-    "png",  /* png should be the default. */
-    /* ...etc... */
-    NULL
-  };
+  if (gfx_array_extensions != nullptr) {
+    return gfx_array_extensions;
+  }
 
-  return ext;
+  gfx_ext = QImageReader::supportedImageFormats();
+
+  gfx_array_extensions = new const char *[gfx_ext.count()];
+  while (gfx_ext.isEmpty() == false) {
+    char *ext;
+    cp = gfx_ext.takeFirst();
+    ext = static_cast<char *>(fc_malloc(sizeof(cp.data())));
+    strncpy(ext, cp.data(), sizeof(cp.data()));
+    gfx_array_extensions[j] = ext;
+    j++;
+  }
+
+  return gfx_array_extensions;
 }
 
 /****************************************************************************
