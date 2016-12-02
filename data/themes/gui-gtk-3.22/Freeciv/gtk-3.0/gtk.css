@@ -67,7 +67,7 @@
 }
 
 .notebook {
-  background-image: -gtk-gradient (linear, left top, right top, from (#e8ddaa), to (#d1c4a7));
+  background-image: linear-gradient(to bottom right, #e8ddaa, #d1c4a7);
 }
 
 .toolbar {
