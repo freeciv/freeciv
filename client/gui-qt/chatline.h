@@ -34,10 +34,10 @@ extern "C" {
 #include <QCheckBox>
 
 class QPushButton;
-
+class chat_listener;
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    QColor bg_color);
-
+template<> std::set<chat_listener *> listener<chat_listener>::instances;
 /***************************************************************************
   Listener for chat. See listener<> for information about how to use it
 ***************************************************************************/
