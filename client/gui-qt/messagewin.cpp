@@ -110,6 +110,7 @@ void info_tab::mousePressEvent(QMouseEvent *event)
 ***************************************************************************/
 void info_tab::mouseReleaseEvent(QMouseEvent* event)
 {
+  QPoint p;
   if (gui()->interface_locked) {
     return;
   }
@@ -119,15 +120,16 @@ void info_tab::mouseReleaseEvent(QMouseEvent* event)
     resy = false;
     resxy = false;
     setCursor(Qt::ArrowCursor);
-    gui()->qt_settings.chat_width = (width() * 10000)
-                                    / gui()->mapview_wdg->width();
-    gui()->qt_settings.chat_height = (height() * 10000)
-                                    / gui()->mapview_wdg->height();
   }
-  gui()->qt_settings.chat_x_pos = 1 + (pos().x() * 10000)
-                                     / gui()->mapview_wdg->width();
-  gui()->qt_settings.chat_y_pos = 1 + ((pos().y() + height()) * 10000)
-                                     / gui()->mapview_wdg->height();
+  p = pos();
+  gui()->qt_settings.chat_fwidth = static_cast<float>(width())
+                                   / gui()->mapview_wdg->width();
+  gui()->qt_settings.chat_fheight = static_cast<float>(height())
+                                    / gui()->mapview_wdg->height();
+  gui()->qt_settings.chat_fx_pos = static_cast<float>(p.x())
+                                   / gui()->mapview_wdg->width();
+  gui()->qt_settings.chat_fy_pos = static_cast<float>(p.y())
+                                   / gui()->mapview_wdg->height();
 }
 
 

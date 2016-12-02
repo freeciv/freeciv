@@ -550,18 +550,10 @@ hud_units::~hud_units()
 ****************************************************************************/
 void hud_units::moveEvent(QMoveEvent *event)
 {
-  if (event->pos().x() != 0) {
-    gui()->qt_settings.unit_info_pos_x = 1 + (event->pos().x() * 1000)
-                                          / gui()->mapview_wdg->width();
-  } else {
-    gui()->qt_settings.unit_info_pos_x = 0;
-  }
-  if (event->pos().y() != 0) {
-    gui()->qt_settings.unit_info_pos_y = 1 + (event->pos().y() * 1000)
-                                          / gui()->mapview_wdg->height();
-  } else {
-    gui()->qt_settings.unit_info_pos_y = 0;
-  }
+  gui()->qt_settings.unit_info_pos_fx = static_cast<float>(event->pos().x())
+                                        / gui()->mapview_wdg->width();
+  gui()->qt_settings.unit_info_pos_fy = static_cast<float>(event->pos().y())
+                                        / gui()->mapview_wdg->height();
 }
 
 
@@ -600,10 +592,11 @@ void hud_units::update_actions(unit_list *punits)
   font.setBold(true);
   setFixedHeight(parentWidget()->height() / 12);
   text_label.setFixedHeight((height() * 2) / 10);
-  move((gui()->mapview_wdg->width()
-        * gui()->qt_settings.unit_info_pos_x) / 1000,
-        (gui()->mapview_wdg->height()
-        * gui()->qt_settings.unit_info_pos_y) / 1000);
+
+  move(qRound(gui()->mapview_wdg->width()
+        * gui()->qt_settings.unit_info_pos_fx),
+       qRound((gui()->mapview_wdg->height()
+        * gui()->qt_settings.unit_info_pos_fy)));
   unit_icons->setFixedHeight((height() * 8) / 10);
 
   setUpdatesEnabled(false);
@@ -1884,7 +1877,7 @@ void hud_battle_log::paintEvent(QPaintEvent *event)
 void hud_battle_log::moveEvent(QMoveEvent *event)
 {
   QPoint p;
-  p = event->pos();
+  p = pos();
   gui()->qt_settings.battlelog_x = static_cast<float>(p.x()) / mapview.width;
   gui()->qt_settings.battlelog_y = static_cast<float>(p.y())
                                    / mapview.height;
