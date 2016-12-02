@@ -364,7 +364,7 @@ class pregame_options : public QWidget
   QPushButton *nation;
   QSpinBox *max_players;
 public:
-  pregame_options() {};
+  pregame_options(QWidget *parent);
   void init();
 
   void set_rulesets(int num_rulesets, char **rulesets);

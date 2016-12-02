@@ -933,6 +933,9 @@ void fc_client::update_info_label(void)
     return;
   }
   update_sidebar_tooltips();
+  if (head_of_units_in_focus() != nullptr) {
+    real_menus_update();
+  }
   /* TRANS: T is shortcut from Turn */
   s = QString(_("%1 \nT:%2")).arg(calendar_text(),
                                   QString::number(game.info.turn));

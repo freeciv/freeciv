@@ -1034,17 +1034,26 @@ void fc_game_tab_widget::current_changed(int index)
 }
 
 /****************************************************************************
+  Pregame options contructor
+****************************************************************************/
+pregame_options::pregame_options(QWidget *parent) : QWidget(parent)
+{
+}
+
+/****************************************************************************
   Init's layout and default values for options in START_PAGE
 ****************************************************************************/
 void pregame_options::init()
 {
   QFormLayout *layout;
+  QPushButton *qclient_options;
   QHBoxLayout *hbox = nullptr;
   QPushButton *but;
   int level;
 
   layout = new QFormLayout(this);
   nation = new QPushButton(this);
+  qclient_options = new QPushButton(_("Client Options"));
   max_players = new QSpinBox(this);
   ailevel = new QComboBox(this);
   cruleset = new QComboBox(this);
@@ -1053,7 +1062,8 @@ void pregame_options::init()
   // Text and icon set by update_buttons()
   connect(nation, &QPushButton::clicked,
           this, &pregame_options::pick_nation);
-
+  connect(qclient_options, SIGNAL(clicked()), parentWidget(),
+          SLOT(popup_client_options()));
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(static_cast<ai_level>(level))) {
       const char *level_name = ai_level_translated_name(
@@ -1085,6 +1095,7 @@ void pregame_options::init()
   hbox->addWidget(ailevel);
   layout->addRow(_("Players:"), hbox);
   layout->addWidget(but);
+  layout->addWidget(qclient_options);
   setLayout(layout);
 
   update_buttons();
