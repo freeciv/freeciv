@@ -605,7 +605,7 @@ city_dialog QGroupBox {
   background-color: #414a57;
   border: 1px solid #4f5a6a;
   border-radius: 5px;
-  margin-top: 2ex;
+  margin-top: 2.5em;
 }
 
 city_dialog QTableWidget {
