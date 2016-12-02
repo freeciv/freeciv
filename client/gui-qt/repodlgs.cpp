@@ -48,7 +48,7 @@ extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
 extern QString get_tooltip_improvement(impr_type *building);
 extern QString get_tooltip_unit(struct unit_type *unit);
-
+extern QApplication *qapp;
 /****************************************************************************
   From reqtree.c used to get tooltips
 ****************************************************************************/
@@ -700,6 +700,7 @@ units_report::units_report(): QWidget()
 {
   int len;
   QStringList slist;
+  QMargins margins;
 
   QGridLayout *units_layout= new QGridLayout;
   units_widget = new QTableWidget;
@@ -739,8 +740,11 @@ units_report::units_report(): QWidget()
           SLOT(selection_changed(const QItemSelection &,
                                  const QItemSelection &)));
   setLayout(units_layout);
-  len = units_widget->horizontalHeader()->length() + 4;
+  margins = units_widget->contentsMargins();
+  len = units_widget->horizontalHeader()->length() + margins.left()
+        + margins.right();
   units_widget->setFixedWidth(len);
+  units_widget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   find_button->setFixedWidth(len / 3);
   upgrade_button->setFixedWidth(len / 3);
 }
@@ -793,8 +797,9 @@ void units_report::update_report()
   int h;
   int len;
   QFontMetrics fm(f);
-  h = fm.height() + 6;
+  QMargins margins;
 
+  h = fm.height() + 6;
   units_widget->setRowCount(0);
   units_widget->clearContents();
   memset(unit_array, '\0', sizeof(unit_array));
@@ -925,7 +930,9 @@ void units_report::update_report()
     units_widget->setItem(row - 1, column, unit_item);
   }
   units_widget->resizeColumnsToContents();
-  len = units_widget->horizontalHeader()->length() + 4;
+  margins = units_widget->contentsMargins();
+  len = units_widget->horizontalHeader()->length() + margins.left()
+        + margins.right();
   units_widget->setFixedWidth(len);
   find_button->setFixedWidth(len / 3);
   upgrade_button->setFixedWidth(len / 3);

@@ -17,6 +17,7 @@
 
 
 //Qt
+#include <QApplication>
 #include <QGridLayout>
 #include <QTableWidget>
 #include <QHeaderView>
@@ -29,6 +30,7 @@
 
 #include "messagedlg.h"
 
+extern QApplication *qapp;
 /**************************************************************************
   Message widget constructor
 **************************************************************************/
@@ -39,6 +41,7 @@ message_dlg::message_dlg()
   QLabel *empty1, *empty2;
   QPushButton *but1;
   QPushButton *but2;
+  QMargins margins;
   int len;
 
   setAttribute(Qt::WA_DeleteOnClose);
@@ -77,8 +80,12 @@ message_dlg::message_dlg()
   gui()->game_tab_widget->setCurrentIndex(index);
 
   fill_data();
-  len = msgtab->horizontalHeader()->length() + 16;
+  margins = msgtab->contentsMargins();
+  len = msgtab->horizontalHeader()->length() + margins.left()
+        + margins.right()
+        + qapp->style()->pixelMetric(QStyle::PM_ScrollBarExtent);
   msgtab->setFixedWidth(len);
+  msgtab->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   but1->setFixedWidth(len / 3);
   but2->setFixedWidth(len / 3);
 }
