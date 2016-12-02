@@ -615,7 +615,7 @@ void fc_client::create_start_page()
   up_layout = new QGridLayout;
   down_layout = new QGridLayout;
   start_players_tree = new QTreeWidget;
-  pr_options = new pregame_options();
+  pr_options = new pregame_options(this);
   chat_line = new chat_input;
   chat_line->setProperty("doomchat", true);
   output_window = new QTextEdit;
