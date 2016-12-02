@@ -50,7 +50,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 47;
+static int num_shortcuts = 49;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -143,7 +143,11 @@ fc_shortcut default_shortcuts[] = {
   {SC_PARADROP, Qt::Key_P, Qt::AllButtons, Qt::NoModifier,
     _("Paradrop/clean pollution") },
   {SC_POPUP_COMB_INF, Qt::Key_F1, Qt::AllButtons, Qt::ControlModifier,
-    _("Popup combat information") }
+    _("Popup combat information") },
+  {SC_RELOAD_THEME, Qt::Key_F5, Qt::AllButtons, Qt::ControlModifier
+     | Qt::ShiftModifier, _("Reload theme") },
+  {SC_RELOAD_TILESET, Qt::Key_F6, Qt::AllButtons, Qt::ControlModifier
+    | Qt::ShiftModifier, _("Reload tileset") }
 };
 
 

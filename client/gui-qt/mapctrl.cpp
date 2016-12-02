@@ -333,6 +333,18 @@ void map_view::shortcut_pressed(int key)
       return;
     }
 
+    sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_THEME);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      qtg_gui_load_theme(QString().toLocal8Bit().data(),
+                         gui_options.gui_qt_default_theme_name);
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_TILESET);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      tilespec_reread(tileset_basename(tileset), true);
+      return;
+    }
     sc = fc_shortcuts::sc()->get_shortcut(SC_HIDE_WORKERS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       key_city_overlay(pos.x(), pos.y());
