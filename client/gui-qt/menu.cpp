@@ -983,6 +983,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(messages_options()));
   act = menu->addAction(_("Shortcuts"));
   connect(act, SIGNAL(triggered()), this, SLOT(shortcut_options()));
+  act = menu->addAction(_("Load another tileset"));
+  connect(act, SIGNAL(triggered()), this, SLOT(tileset_custom_load()));
   act = menu->addAction(_("Save Options Now"));
   act->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
   connect(act, SIGNAL(triggered()), this, SLOT(save_options_now()));
@@ -3070,6 +3072,55 @@ void mr_menu::slot_top_five()
 void mr_menu::slot_traveler()
 {
   send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+}
+
+/****************************************************************
+  Shows rulesets to load
+*****************************************************************/
+void mr_menu::tileset_custom_load()
+{
+  QDialog *dialog = new QDialog(this);
+  QLabel *label;
+  QPushButton *but;
+  QVBoxLayout *layout;
+  const struct strvec *tlset_list;
+  const struct option *poption;
+  QStringList sl;
+  QString s;
+
+  sl << "default_tileset_overhead_name" << "default_tileset_iso_name"
+     << "default_tileset_hex_name" << "default_tileset_isohex_name";
+  layout = new QVBoxLayout;
+  dialog->setWindowTitle(_("Available tilesets"));
+  label = new QLabel;
+  label->setText(_("Some tilesets might be not compatible with current"
+                   " map topology!"));
+  layout->addWidget(label);
+
+  foreach (s, sl) {
+    poption = optset_option_by_name(client_optset, s.toLocal8Bit().data());
+    tlset_list = get_tileset_list(poption);
+    strvec_iterate(tlset_list, value) {
+      but = new QPushButton(value);
+      connect(but, SIGNAL(clicked()), this, SLOT(load_new_tileset()));
+      layout->addWidget(but);
+    } strvec_iterate_end;
+  }
+  dialog->setSizeGripEnabled(true);
+  dialog->setLayout(layout);
+  dialog->show();
+}
+
+/****************************************************************
+  Slot for loading new tileset
+*****************************************************************/
+void mr_menu::load_new_tileset()
+{
+  QPushButton *but;
+
+  but = qobject_cast<QPushButton *>(sender());
+  tilespec_reread(but->text().toLocal8Bit().data(), true);
+  but->parentWidget()->close();
 }
 
 /****************************************************************
