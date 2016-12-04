@@ -72,10 +72,7 @@ const char *client_string = "gui-qt";
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = false;
 
-static QPixmap *unit_pixmap;
-
 void reset_unit_table(void);
-static void populate_unit_pixmap_table(void);
 static void apply_titlebar(struct option *poption);
 static void apply_sidebar(struct option *poption);
 static void apply_font(struct option *poption);
@@ -179,7 +176,6 @@ void qtg_ui_main(int argc, char *argv[])
 
     tileset_init(tileset);
     tileset_load_tiles(tileset);
-    populate_unit_pixmap_table();
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
@@ -550,19 +546,6 @@ void popup_quit_dialog()
     qapp->quit();
     break;
   }
-}
-
-/**************************************************************************
-  Called to build the unit_below pixmap table.  This is the table on the
-  left of the screen that shows all of the inactive units in the current
-  tile.
-
-  It may be called again if the tileset changes.
-**************************************************************************/
-static void populate_unit_pixmap_table(void)
-{
-  unit_pixmap = new QPixmap(tileset_unit_width(tileset), 
-                            tileset_unit_height(tileset));
 }
 
 /**************************************************************************
