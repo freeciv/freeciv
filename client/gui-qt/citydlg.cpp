@@ -2270,9 +2270,8 @@ void city_dialog::update_cma_tab()
 
   if (cma_is_city_under_agent(pcity, NULL)) {
     cmafec_get_fe_parameter(pcity, &param);
-    i = cmafec_preset_get_index_of_parameter(const_cast < const struct
-        cm_parameter *const >(&param));
-
+    i = cmafec_preset_get_index_of_parameter(const_cast <struct
+                                             cm_parameter *const >(&param));
     if (i >= 0 && i < cma_table->rowCount()) {
       cma_table->blockSignals(true);
       cma_table->setCurrentCell(i, 0);

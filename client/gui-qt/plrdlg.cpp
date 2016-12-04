@@ -167,14 +167,13 @@ QVariant plr_item::data(int column, int role) const
     str = pdc->func(ipplayer);
     if (str.toInt() != 0){
       return str.toInt();
-    } else if (str == "?"){
+    } else if (str == "?") {
       return -1;
     }
     return str;
   default:
     return QVariant();
   }
-  return QVariant();
 }
 
 /**************************************************************************
