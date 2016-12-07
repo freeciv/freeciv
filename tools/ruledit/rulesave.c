@@ -1043,11 +1043,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
                   "trade.settings%d", set_count++);
 
       secfile_insert_str(sfile, trade_route_type_name(trt),
-                         "%s.name", path);
+                         "%s.type", path);
       secfile_insert_int(sfile, set->trade_pct,
                          "%s.pct", path);
       secfile_insert_str(sfile, cancelling,
                          "%s.cancelling", path);
+      secfile_insert_str(sfile, traderoute_bonus_type_name(set->bonus_type),
+                         "%s.bonus", path);
     }
   }
 
