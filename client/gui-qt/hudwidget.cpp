@@ -328,6 +328,7 @@ void hud_text::paintEvent(QPaintEvent *event)
   c2.setAlphaF(c2.alphaF() * opacity);
   p.begin(this);
   p.setBrush(c2);
+  p.setPen(QColor(0, 0, 0, 0));
   p.drawRoundedRect(rfull, height() / 6 , height() / 6);
   p.setFont(f_text);
   p.setPen(c1);
