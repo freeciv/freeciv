@@ -146,8 +146,7 @@ static inline void SPECVEC_FOO(_vector_remove) (SPECVEC_VECTOR *tthis,
                           SPECVEC_FOO(_vector_size)(tthis) - svindex :
                           (size_t)svindex);
 
-  fc_assert_ret(0 <= rmpos
-                && rmpos < SPECVEC_FOO(_vector_size)(tthis));
+  fc_assert_ret(rmpos < SPECVEC_FOO(_vector_size)(tthis));
 
   for (i = rmpos; (i + 1) < SPECVEC_FOO(_vector_size)(tthis); i++) {
     /* Relocate the elements following the deleted element. */
