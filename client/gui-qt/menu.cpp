@@ -3211,6 +3211,7 @@ void mr_menu::save_image()
 {
   int current_width, current_height;
   int full_size_x, full_size_y;
+  QString path, storage_path;
   hud_message_box saved(gui()->central_wdg);
   bool map_saved;
   QString img_name;
@@ -3230,12 +3231,22 @@ void mr_menu::save_image()
     img_name = img_name + "-"
                 + QString(nation_plural_for_player(client_player()));
   }
+  storage_path = freeciv_storage_dir();
+  path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+  if (storage_path.isEmpty() == false && QDir(storage_path).isReadable()) {
+    img_name = storage_path + DIR_SEPARATOR + img_name;
+  } else if (path.isEmpty() == false) {
+    img_name = path + DIR_SEPARATOR + img_name;
+  } else {
+    img_name = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
+               + DIR_SEPARATOR + img_name;
+  }
   map_saved = mapview.store->map_pixmap.save(img_name, "png");
   map_canvas_resized(current_width, current_height);
   saved.setStandardButtons(QMessageBox::Ok);
   saved.setDefaultButton(QMessageBox::Cancel);
   if (map_saved) {
-    saved.set_text_title("Image saved as " + img_name, _("Succeess"));
+    saved.set_text_title("Image saved as:\n" + img_name, _("Succeess"));
   } else {
     saved.set_text_title(_("Failed to save image of the map"), _("Error"));
   }
