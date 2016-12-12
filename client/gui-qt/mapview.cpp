@@ -513,6 +513,8 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
   rw->put_to_corner();
   pix = new QPixmap;
   scale_factor = 1.0;
+  connect(&thread, SIGNAL(rendered_image(QImage)),
+          this, SLOT(update_pixmap(QImage)));
 }
 
 /**************************************************************************
@@ -676,7 +678,7 @@ void minimap_view::scale_point(int &x, int &y)
 /**************************************************************************
   Scales point from scaled overview coords to real overview coords.
 **************************************************************************/
-void minimap_view::unscale_point(int &x, int &y)
+void unscale_point(double scale_factor, int &x, int &y)
 {
   int ax, bx;
   int dx, dy;
@@ -701,25 +703,70 @@ void minimap_view::reset()
 }
 
 /**************************************************************************
-  Updates minimap's pixmap
+  Slot for updating pixmap from thread's image
 **************************************************************************/
-void minimap_view::update_image()
+void minimap_view::update_pixmap(const QImage &image)
 {
-  QPixmap *tpix;
-  QPixmap gpix;
-  QPixmap bigger_pix(gui_options.overview.width * 2,
-                     gui_options.overview.height * 2);
+  *pix = QPixmap::fromImage(image);
+  update();
+}
+
+/**************************************************************************
+  Minimap thread's contructor
+**************************************************************************/
+minimap_thread::minimap_thread(QObject *parent) : QThread(parent)
+{
+  restart = false;
+}
+
+/**************************************************************************
+  Minimap thread's desctructor
+**************************************************************************/
+minimap_thread::~minimap_thread()
+{
+  mutex.lock();
+  condition.wakeOne();
+  mutex.unlock();
+
+  wait();
+}
+
+/**************************************************************************
+  Starts thread
+**************************************************************************/
+void minimap_thread::render(double scale_factor, int width, int height)
+{
+  QMutexLocker locker(&mutex);
+  mini_width = width;
+  mini_height = height;
+  scale = scale_factor;
+
+  if (!isRunning()) {
+    start(LowPriority);
+  } else {
+    restart = true;
+    condition.wakeOne();
+  }
+}
+
+/**************************************************************************
+  Updates minimap's iamge in thread
+**************************************************************************/
+void minimap_thread::run()
+{
+  QImage tpix;
+  QImage gpix;
+  QImage bigger_pix(gui_options.overview.width * 2,
+                    gui_options.overview.height * 2, QImage::Format_RGB32);
   int delta_x, delta_y;
   int x, y, ix, iy;
   float wf, hf;
   QPixmap *src, *dst;
+  QImage image(QSize(mini_width, mini_height), QImage::Format_RGB32);
 
-  if (isHidden() == true ){
-    return; 
-  }
   if (gui_options.overview.map != NULL) {
-    if (scale_factor > 1) {
-      /* move minimap now, 
+    if (scale > 1) {
+      /* move minimap now,
          scale later and draw without looking for origin */
       src = &gui_options.overview.map->map_pixmap;
       dst = &gui_options.overview.window->map_pixmap;
@@ -731,29 +778,48 @@ void minimap_view::update_image()
       pixmap_copy(dst, src, 0, y, ix, 0, x, iy);
       pixmap_copy(dst, src, x, 0, 0, iy, ix, y);
       pixmap_copy(dst, src, x, y, 0, 0, ix, iy);
-      tpix = &gui_options.overview.window->map_pixmap;
-      wf = static_cast <float>(gui_options.overview.width) / scale_factor;
-      hf = static_cast <float>(gui_options.overview.height) / scale_factor;
+      tpix = gui_options.overview.window->map_pixmap.toImage();
+      wf = static_cast <float>(gui_options.overview.width) / scale;
+      hf = static_cast <float>(gui_options.overview.height) / scale;
       x = 0;
       y = 0;
-      unscale_point(x, y);
-      /* qt 4.8 is going to copy pixmap badly if coords x+size, y+size 
+      unscale_point(scale, x, y);
+      /* qt 4.8 is going to copy pixmap badly if coords x+size, y+size
          will go over image so we create extra black bigger image */
       bigger_pix.fill(Qt::black);
       delta_x = gui_options.overview.width / 2;
       delta_y = gui_options.overview.height / 2;
-      pixmap_copy(&bigger_pix, tpix, 0, 0, delta_x, delta_y,
-                  gui_options.overview.width, gui_options.overview.height);
+      image_copy(&bigger_pix, &tpix, 0, 0, delta_x, delta_y,
+                 gui_options.overview.width, gui_options.overview.height);
       gpix = bigger_pix.copy(delta_x + x, delta_y + y, wf, hf);
-      *pix = gpix.scaled(width(), height(),
-                         Qt::IgnoreAspectRatio, Qt::FastTransformation);
+      image = gpix.scaled(mini_width, mini_height,
+                          Qt::IgnoreAspectRatio, Qt::FastTransformation);
     } else {
-      tpix = &gui_options.overview.map->map_pixmap;
-      *pix = tpix->scaled(width(), height(),
+      tpix = gui_options.overview.map->map_pixmap.toImage();
+      image = tpix.scaled(mini_width, mini_height,
                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
     }
   }
-  update();
+  if (!restart) {
+    emit rendered_image(image);
+  }
+  mutex.lock();
+  if (!restart) {
+    condition.wait(&mutex);
+  }
+  restart = false;
+  mutex.unlock();
+}
+
+/**************************************************************************
+  Updates minimap's pixmap
+**************************************************************************/
+void minimap_view::update_image()
+{
+  if (isHidden() == true ) {
+    return;
+  }
+  thread.render(scale_factor, width(), height());
 }
 
 /**************************************************************************
@@ -857,7 +923,7 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
     fx = qRound(fx / w_ratio);
     fy = qRound(fy / h_ratio);
     if (scale_factor > 1) {
-      unscale_point(fx, fy);
+      unscale_point(scale_factor, fx, fy);
     }
     fx = qMax(fx, 1);
     fy = qMax(fy, 1);
