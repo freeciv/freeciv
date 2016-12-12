@@ -103,6 +103,25 @@ void pixmap_copy(QPixmap *dest, QPixmap *src, int src_x, int src_y,
 }
 
 /****************************************************************************
+  Copies an area from the source image to the destination image.
+****************************************************************************/
+void image_copy(QImage *dest, QImage *src, int src_x, int src_y,
+                 int dest_x, int dest_y, int width, int height)
+{
+  QRectF source_rect(src_x, src_y, width, height);
+  QRectF dest_rect(dest_x, dest_y, width, height);
+  QPainter p;
+
+  if (!width || !height) {
+    return;
+  }
+
+  p.begin(dest);
+  p.drawImage(dest_rect, *src, source_rect);
+  p.end();
+}
+
+/****************************************************************************
   Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
 void qtg_canvas_put_sprite(struct canvas *pcanvas,

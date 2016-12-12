@@ -32,10 +32,13 @@ extern "C" {
 // Qt
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMutex>
 #include <QObject>
 #include <QPushButton>
 #include <QQueue>
+#include <QThread>
 #include <QTimer>
+#include <QWaitCondition>
 #include <QVariant>
 #include <QWidget>
 
@@ -45,6 +48,7 @@ class QPixmap;
 class minimap_view;
 
 bool is_point_in_area(int x, int y, int px, int py, int pxe, int pye);
+void unscale_point(double scale_factor, int &x, int &y);
 void draw_calculated_trade_routes(QPainter *painter);
 
 /**************************************************************************
@@ -187,6 +191,30 @@ protected:
 };
 
 /**************************************************************************
+  Thread helper for drawing minimap
+**************************************************************************/
+class minimap_thread : public QThread
+{
+  Q_OBJECT
+public:
+  minimap_thread(QObject *parent = 0);
+  ~minimap_thread();
+  void render(double scale_factor, int width, int height);
+
+signals:
+  void rendered_image(const QImage &image);
+protected:
+  void run() Q_DECL_OVERRIDE;
+
+private:
+  int mini_width, mini_height;
+  bool restart;
+  double scale;
+  QMutex mutex;
+  QWaitCondition condition;
+};
+
+/**************************************************************************
   QLabel used for displaying overview (minimap)
 **************************************************************************/
 class minimap_view: public fcwidget
@@ -211,6 +239,7 @@ protected:
   void showEvent(QShowEvent *event);
 
 private slots:
+  void update_pixmap(const QImage &image);
   void zoom_in();
   void zoom_out();
 
@@ -218,9 +247,9 @@ private:
   void draw_viewport(QPainter *painter);
   void scale(double factor);
   void scale_point(int &x, int &y);
-  void unscale_point(int &x, int &y);
   double scale_factor;
   float w_ratio, h_ratio;
+  minimap_thread thread;
   QBrush background;
   QPixmap *pix;
   QPoint cursor;
