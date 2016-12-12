@@ -482,7 +482,6 @@ void fc_sidewidget::update_final_pixmap()
 fc_sidebar::fc_sidebar()
 {
   setAttribute(Qt::WA_OpaquePaintEvent, true);
-  sidebar_img = nullptr;
   layout = new QVBoxLayout;
   layout->setContentsMargins(0, 0, 0, 0);
   setLayout(layout);
@@ -494,9 +493,6 @@ fc_sidebar::fc_sidebar()
 ***************************************************************************/
 fc_sidebar::~fc_sidebar()
 {
-  if (sidebar_img) {
-    delete sidebar_img;
-  }
 }
 
 /***************************************************************************
@@ -545,12 +541,6 @@ void fc_sidebar::resize_me(int wdth, int hght, bool force)
   if (force == false && w == width() && h == height()) {
     return;
   }
-
-  if (sidebar_img) {
-    delete sidebar_img;
-  }
-
-  sidebar_img = new QPixmap(w, h);
 
   non_std = 0;
   non_std_count = 0;

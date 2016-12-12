@@ -114,7 +114,6 @@ public:
 protected:
   void paintEvent(QPaintEvent *event);
 private:
-  QPixmap *sidebar_img;
   QVBoxLayout *layout;
 };
 
