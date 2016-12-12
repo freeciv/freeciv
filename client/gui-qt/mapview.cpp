@@ -143,9 +143,7 @@ void draw_calculated_trade_routes(QPainter *painter)
 mr_idle::mr_idle()
 {
   connect(&timer, SIGNAL(timeout()), this, SLOT(idling()));
-  /*if there would be messages in
-   *that queue is big we may want to decrease it*/
-  timer.start(50);
+  timer.start(0);
 }
 
 /**************************************************************************
