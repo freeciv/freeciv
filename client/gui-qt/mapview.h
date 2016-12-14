@@ -38,7 +38,6 @@ extern "C" {
 #include <QQueue>
 #include <QThread>
 #include <QTimer>
-#include <QWaitCondition>
 #include <QVariant>
 #include <QWidget>
 
@@ -208,10 +207,8 @@ protected:
 
 private:
   int mini_width, mini_height;
-  bool restart;
   double scale;
   QMutex mutex;
-  QWaitCondition condition;
 };
 
 /**************************************************************************
