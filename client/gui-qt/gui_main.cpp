@@ -264,6 +264,7 @@ void qtg_real_conn_list_dialog_update()
 void qtg_sound_bell()
 {
   QApplication::beep();
+  QApplication::alert(gui()->central_wdg);
 }
 
 /**************************************************************************

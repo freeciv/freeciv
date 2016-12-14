@@ -15,9 +15,8 @@
 #include <fc_config.h>
 #endif
 
-#ifdef HAVE_CONFIG_H
-#include <fc_config.h>
-#endif
+// Qt
+#include <QApplication>
 
 // gui-qt
 #include "qtg_cxxside.h"
@@ -27,7 +26,7 @@
 
 typedef advance *p_advance;
 typedef city *p_city;
-
+extern QApplication *qapp;
 /****************************************************************************
   Constructor for diplomacy widget
 ****************************************************************************/
@@ -997,6 +996,7 @@ void close_all_diplomacy_dialogs(void)
   diplo_dlg *dd;
   QWidget *w;
 
+  qapp->alert(gui()->central_wdg);
   if (!gui()->is_repo_dlg_open("DDI")) {
     return;
   }
