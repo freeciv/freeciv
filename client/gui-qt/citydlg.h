@@ -412,9 +412,9 @@ class city_dialog: public QDialog
   QLabel *cma_info_text;
   QLabel *cma_result;
   QLabel *cma_result_pix;
-  QGroupBox *supp_units;
-  QGroupBox *curr_units;
-  QGroupBox *curr_impr;
+  QLabel *supp_units;
+  QLabel *curr_units;
+  QLabel *curr_impr;
   progress_bar *production_combo_p;
   QTableWidget *p_table_p;
   QTableWidget *nationality_table;

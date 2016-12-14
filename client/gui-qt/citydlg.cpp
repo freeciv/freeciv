@@ -1328,7 +1328,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QGroupBox *group_box, *map_box, *prod_options,
             *qgbox, *qgbprod, *qsliderbox, *result_box;
   QHBoxLayout *hbox, *hbox_layout, *prod_option_layout,
-              *v_layout, *work_but_layout;
+              *work_but_layout;
   QHeaderView *header;
   QLabel *lab2, *label, *ql, *some_label;
   QPushButton *qpush2;
@@ -1339,8 +1339,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   QSlider *slider;
   QStringList info_list, str_list;
   QVBoxLayout *lefttop_layout, *units_layout, *worklist_layout,
-              *right_layout, *vbox, *vbox_layout, *zoom_vbox;
-  QWidget *split_widget1, *split_widget2, *info_wdg;
+              *right_layout, *vbox, *vbox_layout, *zoom_vbox, *v_layout;
+  QWidget *split_widget1, *split_widget2, *info_wdg, *curr_unit_wdg,
+          *supp_unit_wdg,  *curr_impr_wdg;;
 
   int h = 2 * fm.height() + 2;
   small_font = fc_font::instance()->get_font(fonts::city_label);
@@ -1370,7 +1371,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
   /* map view */
   map_box = new QGroupBox(this);
-  v_layout = new QHBoxLayout;
 
   /* City information widget texts about surpluses and so on */
   info_wdg = new QWidget(this);
@@ -1439,12 +1439,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   map_box->setTitle(_("City map"));
 
   /* current/supported units/improvements widgets */
-  supp_units = new QGroupBox();
-  supp_units->setProperty("themed_groupbox", true);
-  curr_units = new QGroupBox();
-  curr_units->setProperty("themed_groupbox", true);
-  curr_impr = new QGroupBox();
-  curr_impr->setProperty("themed_groupbox", true);
+  supp_units = new QLabel();
+  curr_units = new QLabel();
+  curr_impr = new QLabel();
+  curr_units->setAlignment(Qt::AlignCenter);
+  curr_impr->setAlignment(Qt::AlignCenter);
+  supp_units->setAlignment(Qt::AlignCenter);
   supported_units = new unit_info(true);
   scroll = new QScrollArea;
   scroll->setWidgetResizable(true);
@@ -1567,26 +1567,31 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   lefttop_layout->addStretch(1);
 
   /* Layout for units/buildings */
-  v_layout = new QHBoxLayout;
+  curr_unit_wdg = new QWidget();
+  supp_unit_wdg = new QWidget();
+  curr_impr_wdg = new QWidget();
+  v_layout = new QVBoxLayout;
+  v_layout->addWidget(curr_impr);
   v_layout->addWidget(scroll3);
   v_layout->setContentsMargins(0 , 0 , 0, 0);
   v_layout->setSpacing(0);
-  curr_impr->setLayout(v_layout);
-  curr_impr->setTitle(_("Improvements"));
-  v_layout = new QHBoxLayout;
+  curr_impr_wdg->setLayout(v_layout);
+  v_layout = new QVBoxLayout;
+  v_layout->addWidget(curr_units);
   v_layout->addWidget(scroll2);
   v_layout->setContentsMargins(0 , 0 , 0, 0);
   v_layout->setSpacing(0);
-  curr_units->setLayout(v_layout);
-  v_layout = new QHBoxLayout;
+  curr_unit_wdg->setLayout(v_layout);
+  v_layout = new QVBoxLayout;
+  v_layout->addWidget(supp_units);
   v_layout->addWidget(scroll);
   v_layout->setContentsMargins(0 , 0 , 0, 0);
   v_layout->setSpacing(0);
-  supp_units->setLayout(v_layout);
+  supp_unit_wdg->setLayout(v_layout);
 
-  units_layout->addWidget(curr_units);
-  units_layout->addWidget(supp_units);
-  units_layout->addWidget(curr_impr);
+  units_layout->addWidget(curr_unit_wdg);
+  units_layout->addWidget(supp_unit_wdg);
+  units_layout->addWidget(curr_impr_wdg);
   units_layout->setSpacing(0);
   units_layout->setContentsMargins(0 , 0 , 0, 0);
 
@@ -2883,7 +2888,7 @@ void city_dialog::update_units()
   } unit_list_iterate_end;
   n = unit_list_size(units);
   fc_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
-  supp_units->setTitle(QString(buf));
+  supp_units->setText(QString(buf));
   supported_units->update_units();
   supported_units->setUpdatesEnabled(true);
   current_units->setUpdatesEnabled(true);
@@ -2904,7 +2909,7 @@ void city_dialog::update_units()
 
   n = unit_list_size(units);
   fc_snprintf(buf, sizeof(buf), _("Present units %d"), n);
-  curr_units->setTitle(QString(buf));
+  curr_units->setText(QString(buf));
 
   current_units->update_units();
   current_units->setUpdatesEnabled(true);
@@ -3158,7 +3163,7 @@ void city_dialog::update_improvements()
   city_buildings->setUpdatesEnabled(true);
   city_buildings->setUpdatesEnabled(true);
 
-  curr_impr->setTitle(QString(_("Improvements - upkeep %1")).arg(upkeep));
+  curr_impr->setText(QString(_("Improvements - upkeep %1")).arg(upkeep));
 }
 
 /****************************************************************************

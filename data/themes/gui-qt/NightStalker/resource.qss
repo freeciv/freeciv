@@ -33,23 +33,10 @@ QMainWindow {
   border: 1px solid gray;
 }
 
-*[themed_groupbox="true"] {
-  color: yellow;
-  background-color: #414a57;
-  border: none;
-  border-radius: none;
-  margin-top: 2.5ex;
-}
-
 *[themed_border="true"] {
   border: 2px solid #3399FF;
 }
 
-*[themed_groupbox="true"]::title {
-  subcontrol-origin: margin;
-  subcontrol-position: top center; /* position at the top center */
-  padding: 0 0px;
-}
 
 *[city_scroll="true"] {
   border: none;
@@ -561,6 +548,7 @@ QGroupBox {
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #3d4552, stop: 1 #383f4c);
   border: 1px solid #454545;
   border-radius: 5px;
+  margin-top: 2ex;
 }
 
 QComboBox:hover {
