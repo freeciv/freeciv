@@ -143,7 +143,7 @@ void draw_calculated_trade_routes(QPainter *painter)
 mr_idle::mr_idle()
 {
   connect(&timer, SIGNAL(timeout()), this, SLOT(idling()));
-  timer.start(0);
+  timer.start(5);
 }
 
 /**************************************************************************
