@@ -2654,7 +2654,7 @@ static bool load_terrain_names(struct section_file *file,
 
           if (pextra_res != NULL) {
             ruleset_load_names(&pextra_res->name, NULL, file, sec_name);
-            resource_name = untranslated_name(&(pextra_res->name));
+            resource_name = extra_rule_name(pextra_res);
           }
         }
       }
