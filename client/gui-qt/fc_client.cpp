@@ -321,7 +321,7 @@ void fc_client::switch_page(int new_pg)
   if (status_bar != nullptr) {
     status_bar->setVisible(true);
   }
-
+  QApplication::alert(gui()->central_wdg);
   central_layout->setCurrentWidget(pages[new_pg]);
   page = new_page;
   i_page = new_page;

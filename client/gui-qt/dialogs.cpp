@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QApplication>
 #include <QComboBox>
 #include <QHeaderView>
 #include <QImage>
@@ -2837,6 +2838,7 @@ void popdown_all_game_dialogs(void)
   QList <choice_dialog *> cd_list;
   QList <notify_dialog *> nd_list;
 
+  QApplication::alert(gui()->central_wdg);
   cd_list = gui()->game_tab_widget->findChildren <choice_dialog *>();
   for (i = 0; i < cd_list.count(); i++) {
       cd_list[i]->close();

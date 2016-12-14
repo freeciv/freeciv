@@ -40,6 +40,7 @@
 
 #include "chatline.h"
 
+extern QApplication *qapp;
 static bool is_plain_public_message(QString s);
 
 FC_CPP_DECLARE_LISTENER(chat_listener)
@@ -693,9 +694,14 @@ void qtg_real_output_window_append(const char *astring,
     wakeup = wakeup.arg(client.conn.username);
   }
 
+  if (str.contains(client.conn.username)) {
+    qapp->alert(gui()->central_wdg);
+  }
+
   /* Play sound if we encountered wakeup string */
   if (str.contains(wakeup) && client_state() < C_S_RUNNING
       && !wakeup.isEmpty()) {
+    qapp->alert(gui()->central_wdg);
     audio_play_sound("e_player_wake", NULL);
   }
 
