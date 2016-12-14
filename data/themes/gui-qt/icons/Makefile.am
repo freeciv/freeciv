@@ -17,6 +17,7 @@ pkgdata_DATA =          	\
 	city-left.png		\
 	city-right.png		\
 	city-switch.png		\
+	control.png		\
 	close.png		\
 	cunits.png		\
 	done.png		\

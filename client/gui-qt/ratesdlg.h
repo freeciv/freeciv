@@ -42,6 +42,35 @@
 extern "C" {
 #include "ratesdlg_g.h"
 }
+class QPixmap;
+
+/**************************************************************************
+ * Custom slider with two settable values
+ *************************************************************************/
+class fc_double_edge : public QWidget
+{
+  Q_OBJECT
+
+private:
+  double cursor_size;
+  double mouse_x;
+  int moved;
+  bool on_min;
+  bool on_max;
+  int max_rates;
+  QPixmap cursor_pix;
+public:
+  fc_double_edge(QWidget *parent = NULL);
+  ~fc_double_edge();
+  int current_min;
+  int current_max;
+  QSize sizeHint() const;
+protected:
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+
+};
 
 /**************************************************************************
  * Dialog used to change tax rates
@@ -52,27 +81,10 @@ Q_OBJECT
 
   public:
   tax_rates_dialog(QWidget *parent = 0);
-  int tax;
-  int sci;
-  int lux;
 
 private:
-  QLabel *some_label;
-  QLabel *tax_label;
-  QLabel *sci_label;
-  QLabel *lux_label;
-  QCheckBox *tax_checkbox;
-  QCheckBox *sci_checkbox;
-  QCheckBox *lux_checkbox;
-  QSlider *tax_slider;
-  QSlider *sci_slider;
-  QSlider *lux_slider;
-  QDialogButtonBox *button_box;
-  QPushButton *cancel_button;
-  QPushButton *ok_button;
-  void check(QString);
+  fc_double_edge *fcde;
 private slots:
-  void slot_set_value(int i);
   void slot_ok_button_pressed();
   void slot_cancel_button_pressed();
 };
@@ -95,6 +107,7 @@ private slots:
   void slot_ok_button_pressed();
   void slot_cancel_button_pressed();
 };
+
 
 void popup_multiplier_dialog(void);
 
