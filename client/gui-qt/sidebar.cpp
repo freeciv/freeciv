@@ -403,16 +403,16 @@ void fc_sidewidget::update_final_pixmap()
       reduce_mod(modulo, pos);
     }
 
-    sprite = get_tax_sprite(tileset, O_LUXURY);
+    sprite = get_tax_sprite(tileset, O_SCIENCE);
 
     for (; d < (client.conn.playing->economic.tax
-                + client.conn.playing->economic.luxury) / 10; ++d) {
+                + client.conn.playing->economic.science) / 10; ++d) {
       p.drawPixmap(pos, 5, sprite->pm->scaled(w, h), 0, 0, w, h);
       pos = pos + w;
       reduce_mod(modulo, pos);
     }
 
-    sprite = get_tax_sprite(tileset, O_SCIENCE);
+    sprite = get_tax_sprite(tileset, O_LUXURY);
 
     for (; d < 10 ; ++d) {
       p.drawPixmap(pos, 5, sprite->pm->scaled(w, h), 0, 0, w, h);
