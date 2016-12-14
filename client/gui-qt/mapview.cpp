@@ -714,7 +714,6 @@ void minimap_view::update_pixmap(const QImage &image)
 **************************************************************************/
 minimap_thread::minimap_thread(QObject *parent) : QThread(parent)
 {
-  restart = false;
 }
 
 /**************************************************************************
@@ -722,10 +721,6 @@ minimap_thread::minimap_thread(QObject *parent) : QThread(parent)
 **************************************************************************/
 minimap_thread::~minimap_thread()
 {
-  mutex.lock();
-  condition.wakeOne();
-  mutex.unlock();
-
   wait();
 }
 
@@ -738,13 +733,7 @@ void minimap_thread::render(double scale_factor, int width, int height)
   mini_width = width;
   mini_height = height;
   scale = scale_factor;
-
-  if (!isRunning()) {
-    start(LowPriority);
-  } else {
-    restart = true;
-    condition.wakeOne();
-  }
+  start(LowPriority);
 }
 
 /**************************************************************************
@@ -754,15 +743,16 @@ void minimap_thread::run()
 {
   QImage tpix;
   QImage gpix;
+  QImage image(QSize(mini_width, mini_height), QImage::Format_RGB32);
   QImage bigger_pix(gui_options.overview.width * 2,
                     gui_options.overview.height * 2, QImage::Format_RGB32);
   int delta_x, delta_y;
   int x, y, ix, iy;
   float wf, hf;
   QPixmap *src, *dst;
-  QImage image(QSize(mini_width, mini_height), QImage::Format_RGB32);
 
-  if (gui_options.overview.map != NULL) {
+  mutex.lock();
+  if (gui_options.overview.map != nullptr) {
     if (scale > 1) {
       /* move minimap now,
          scale later and draw without looking for origin */
@@ -782,8 +772,6 @@ void minimap_thread::run()
       x = 0;
       y = 0;
       unscale_point(scale, x, y);
-      /* qt 4.8 is going to copy pixmap badly if coords x+size, y+size
-         will go over image so we create extra black bigger image */
       bigger_pix.fill(Qt::black);
       delta_x = gui_options.overview.width / 2;
       delta_y = gui_options.overview.height / 2;
@@ -798,14 +786,7 @@ void minimap_thread::run()
                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
     }
   }
-  if (!restart) {
-    emit rendered_image(image);
-  }
-  mutex.lock();
-  if (!restart) {
-    condition.wait(&mutex);
-  }
-  restart = false;
+  emit rendered_image(image);
   mutex.unlock();
 }
 
