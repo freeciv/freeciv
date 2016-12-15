@@ -1368,34 +1368,36 @@ static bool save_game_ruleset(const char *filename, const char *name)
   set_count = 0;
   settings_iterate(SSET_ALL, pset) {
     if (setting_get_setdef(pset) == SETDEF_RULESET || setting_locked(pset)) {
-      secfile_insert_str(sfile, setting_name(pset), "settings.name%d", set_count);
+      secfile_insert_str(sfile, setting_name(pset),
+                         "settings.set%d.name", set_count);
       switch (setting_type(pset)) {
       case SSET_BOOL:
         secfile_insert_bool(sfile, setting_bool_get(pset),
-                            "settings.value%d", set_count);
+                            "settings.set%d.value", set_count);
         break;
       case SSET_INT:
         secfile_insert_int(sfile, setting_int_get(pset),
-                           "settings.value%d", set_count);
+                           "settings.set%d.value", set_count);
         break;
       case SSET_STRING:
         secfile_insert_str(sfile, setting_str_get(pset),
-                           "settings.value%d", set_count);
+                           "settings.set%d.value", set_count);
         break;
       case SSET_ENUM:
         secfile_insert_enum_data(sfile, read_enum_value(pset), FALSE,
                                  setting_enum_secfile_str, pset,
-                                 "settings.value%d", set_count);
+                                 "settings.set%d.value", set_count);
         break;
       case SSET_BITWISE:
         secfile_insert_enum_data(sfile, setting_bitwise_get(pset), TRUE,
                                  setting_bitwise_secfile_str, pset,
-                                 "settings.value%d", set_count);
+                                 "settings.set%d.value", set_count);
         break;
       }
 
       if (locks) {
-        secfile_insert_bool(sfile, setting_locked(pset), "settings.lock%d", set_count);
+        secfile_insert_bool(sfile, setting_locked(pset),
+                            "settings.set%d.lock", set_count);
       }
 
       set_count++;
