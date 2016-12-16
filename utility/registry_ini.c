@@ -647,6 +647,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
                     compression_method, compression_level);
 
   if (!fs) {
+    SECFILE_LOG(secfile, NULL, _("Can't open %s for writing"), real_filename);
+
     return FALSE;
   }
 
