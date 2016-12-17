@@ -118,8 +118,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-161110.7z, based on
+msys2-freeciv-win64-161212.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160921.exe
+with packages updated to 12-Dec-16 level.
 
 Only win64 target is included - replace <arch> with 'x86_64' in package names below
 
