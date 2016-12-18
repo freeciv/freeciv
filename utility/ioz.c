@@ -192,6 +192,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   } else {
 #if defined(HAVE_LIBBZ2) || defined(HAVE_LIBLZMA)
     char test_mode[4];
+
     sz_strlcpy(test_mode, mode);
     sz_strlcat(test_mode, "b");
 #endif /* HAVE_LIBBZ2 || HAVE_LIBLZMA */
@@ -349,6 +350,10 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       fp->u.xz.out_index = 0;
       fp->u.xz.total_read = 0;
       fp->u.xz.plain = fc_fopen(filename, mode);
+      if (!fp->u.xz.plain) {
+        free(fp);
+        return NULL;
+      }
     }
     return fp;
 #endif /* HAVE_LIBLZMA */
@@ -365,9 +370,12 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       if (fp->u.bz2.error != BZ_OK) {
         int tmp_err; /* See comments for similar variable
                       * near BZ2_bzReadOpen() */
+
         BZ2_bzWriteClose(&tmp_err, fp->u.bz2.file, 0, NULL, NULL);
         fp->u.bz2.file = NULL;
       }
+    } else {
+      fp->u.bz2.file = NULL;
     }
     if (!fp->u.bz2.file) {
       if (fp->u.bz2.plain) {
