@@ -449,6 +449,16 @@ city_dialog QScrollArea {
   background: #e1cea1;
 }
 
+city_dialog QFrame {
+  border: none
+}
+
+city_dialog QGroupBox {
+  border-radius: 5px;
+  margin-top: 2.5ex;
+  border: 1px solid #a5a5a5;
+}
+
 QCheckBox:disabled, QRadioButton:disabled {
   background-color: transparent;
   color: #7b7b7b;
@@ -765,6 +775,13 @@ fc_sidewidget {
   alternate-background-color: rgba(125, 25, 125, 125);
   selection-color: rgba(85, 25, 25, 185);
 }
+
+unit_hud_selector {
+  color: white;
+  background-image:url(LittleFingerpattern.png);
+  border: 2px solid #a5a5a5;
+}
+
 
 hud_action {
   selection-background-color:  rgba(221, 204, 161, 220);

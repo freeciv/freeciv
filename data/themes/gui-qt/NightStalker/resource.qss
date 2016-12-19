@@ -91,7 +91,7 @@ unit_hud_selector {
   border: 2px solid #0000AA;
 }
 
-unit_hud_selector QPushButton {
+unit_hud_selector, tax_rates_dialog QPushButton {
   color: #FFFFFF;
   background: #323843;
   border: 2px solid #47515f;
@@ -100,7 +100,8 @@ unit_hud_selector QPushButton {
   min-width: 160px;
 }
 
-unit_hud_selector QPushButton:hover {
+
+unit_hud_selector, tax_rates_dialog QPushButton:hover {
   color: white;
   background: #414a57;
   border: 2px solid #3399FF;
@@ -306,9 +307,21 @@ QMenu::item:selected {
   border-radius: 9px;
 }
 
+
 minimap_view
 {
   selection-background-color: #1155BB;
+}
+
+QTreeWidget {
+  color: white;
+  background-color: #353b47;
+  border: none;
+}
+
+QTreeWidget::item:selected {
+  border: none;
+  background: #3399FF;
 }
 
 QComboBox QAbstractItemView {
@@ -686,16 +699,6 @@ QScrollBar::handle:horizontal {
   background: #3399FF; min-width: 20px
 }
 
-QTreeWidget {
-  color: white;
-  background-color: #353b47;
-  border: none;
-}
-
-QTreeWidget::item:selected {
-  border: none;
-  background: #3399FF;
-}
 
 fc_game_tab_widget {
    background-image:url(LittleFingerpattern-game.png);
@@ -703,23 +706,29 @@ fc_game_tab_widget {
 
 help_widget QTextBrowser
 {
-  background-color: #353b47;
+  background-color: #414a57;
   color: white;
 }
 
 help_widget QWidget
 {
-  background-color: #353b47;
+  background-color: #414a57;
+  color: white;
+}
+
+help_widget QTreeWidget
+{
+  background-color: #414a57;
   color: white;
 }
 
 help_widget QScrollArea QFrame {
-  background-color: #353b47;
+  background-color: #414a57;
   color: white;
 }
 
 help_widget QScrollArea {
-  background-color: #353b47;
+  background-color: #414a57;
   color: white;
 }
 
@@ -831,4 +840,10 @@ hud_units QLabel {
 hud_unit_combat {
   selection-background-color: rgba(0, 0, 75,165);
   alternate-background-color: #0000AA;
+}
+
+tax_rates_dialog {
+  color: white;
+  background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,stop:0 rgba(0, 0, 75,195) stop:1 rgba(25, 25, 45, 225));
+  border: 2px solid #0000AA;
 }
