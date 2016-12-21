@@ -15,6 +15,11 @@
 #include <fc_config.h>
 #endif
 
+#include <stdlib.h>
+
+/* utility */
+#include "fciconv.h"
+
 #include "fc_dirent.h"
 
 /******************************************************************
