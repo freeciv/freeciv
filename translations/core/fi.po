@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2016-11-19 18:00+0200\n"
-"PO-Revision-Date: 2016-11-19 18:35+0200\n"
+"PO-Revision-Date: 2016-12-22 13:52+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -740,7 +740,7 @@ msgstr "%+4d : Korruptio%s\n"
 #: client/citydlg_common.c:592
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr "%+4d : Epäjärjestys\n"
+msgstr "%+4d : Levottomuudet\n"
 
 #: client/citydlg_common.c:598
 #, c-format
@@ -834,7 +834,7 @@ msgstr "Juhlii"
 
 #: client/cityrepdata.c:109
 msgid "?city_state:Disorder"
-msgstr "Kapinoi"
+msgstr "Levoton"
 
 #: client/cityrepdata.c:110
 msgid "?city_state:Peace"
@@ -886,11 +886,11 @@ msgstr "Tila"
 
 #: client/cityrepdata.c:657
 msgid "Celebrating/Peace/Disorder"
-msgstr "Juhlii/Rauhallinen/Kapinoi"
+msgstr "Juhlii/Rauhallinen/Levoton"
 
 #: client/cityrepdata.c:659
 msgid "Concise *=Celebrating, X=Disorder"
-msgstr "Lyhyesti *=juhlii, X=kapinoi"
+msgstr "Lyhyesti *=Juhlii, X=Levoton"
 
 #: client/cityrepdata.c:662
 msgid "?Happy workers:H"
@@ -914,7 +914,7 @@ msgstr "T"
 
 #: client/cityrepdata.c:666
 msgid "Workers: Unhappy"
-msgstr "Työläiset: tyytymättömiä"
+msgstr "Työläiset: Tyytymättömiä"
 
 #: client/cityrepdata.c:668
 msgid "?Angry workers:A"
@@ -922,7 +922,7 @@ msgstr "V"
 
 #: client/cityrepdata.c:668
 msgid "Workers: Angry"
-msgstr "Työläiset: vimmoissaan"
+msgstr "Työläiset: Vimmoissaan"
 
 #: client/cityrepdata.c:670
 msgid "?city:Workers"
@@ -934,7 +934,7 @@ msgstr "O/R/T/V"
 
 #: client/cityrepdata.c:672
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr "Työläiset: onnellisia, rauhallisia, tyytymättömiä, vimmoissaan"
+msgstr "Työläiset: Onnellisia, Rauhallisia, Tyytymättömiä, Vimmoissaan"
 
 #: client/cityrepdata.c:675 client/cityrepdata.c:677
 msgid "Best"
@@ -980,7 +980,7 @@ msgstr "Yksiköt"
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:681
 msgid "?Present (units):Here"
-msgstr "Sis."
+msgstr "paikalla"
 
 #: client/cityrepdata.c:682
 msgid "Number of units present"
@@ -989,7 +989,7 @@ msgstr "Paikalla olevien yksiköiden määrä"
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:685
 msgid "?Supported (units):Owned"
-msgstr "Omat"
+msgstr "ylläp."
 
 #: client/cityrepdata.c:686
 msgid "Number of units supported"
@@ -1018,7 +1018,7 @@ msgstr "R/T/K"
 
 #: client/cityrepdata.c:695
 msgid "Surplus: Food, Production, Trade"
-msgstr "Ylijäämä: Ruoka, Tuotanto, Kauppa"
+msgstr "Ylijäämä: Ruokaa, Tuotantoa, Kauppaa"
 
 #: client/cityrepdata.c:697
 msgid "?Food surplus [short]:+F"
@@ -1034,7 +1034,7 @@ msgstr "+T"
 
 #: client/cityrepdata.c:700
 msgid "Surplus: Production"
-msgstr "Ylijäämä: Tuotanto"
+msgstr "Ylijäämä: Tuotantoa"
 
 #: client/cityrepdata.c:701
 msgid "?Production loss (waste) [short]:-P"
@@ -1050,7 +1050,7 @@ msgstr "+K"
 
 #: client/cityrepdata.c:703
 msgid "Surplus: Trade"
-msgstr "Ylijäämä: Kauppa"
+msgstr "Ylijäämä: Kauppaa"
 
 #: client/cityrepdata.c:705
 msgid "?Trade loss (corruption) [short]:-T"
@@ -1076,27 +1076,27 @@ msgstr "K/L/T"
 
 #: client/cityrepdata.c:709
 msgid "Economy: Gold, Luxuries, Science"
-msgstr "Talous: Kultaa, luksusta, tutkimuspanosta"
+msgstr "Talous: Kultaa, Luksusta, Tutkimuspanosta"
 
 #: client/cityrepdata.c:711
 msgid "?Gold:G"
-msgstr "?Rahaa:R"
+msgstr "K"
 
 #: client/cityrepdata.c:711
 msgid "Economy: Gold"
-msgstr "Talous: Rahaa"
+msgstr "Talous: Kultaa"
 
 #: client/cityrepdata.c:713
 msgid "?Luxury:L"
-msgstr "?Luksus:L"
+msgstr "L"
 
 #: client/cityrepdata.c:713
 msgid "Economy: Luxury"
-msgstr "Talous: Luksus"
+msgstr "Talous: Luksusta"
 
 #: client/cityrepdata.c:715
 msgid "?Science:S"
-msgstr "?Tutkimus:T"
+msgstr "T"
 
 #: client/cityrepdata.c:715
 msgid "Economy: Science"
@@ -2336,7 +2336,7 @@ msgstr "Kauppaa:"
 #: client/gui-qt/citydlg.cpp:1309 client/gui-qt/diplodlg.cpp:135
 #: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:454
 msgid "Gold:"
-msgstr "Rahaa:"
+msgstr "Kultaa:"
 
 #: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:736 client/gui-gtk-3.0/inteldlg.c:55
@@ -2380,7 +2380,7 @@ msgstr "Kulttuuri:"
 #: client/gui-gtk-2.0/citydlg.c:695 client/gui-gtk-3.0/citydlg.c:743
 #: client/gui-gtk-3.22/citydlg.c:743 client/gui-qt/citydlg.cpp:1312
 msgid "Pollution:"
-msgstr "Saasteet:"
+msgstr "Saastutus:"
 
 #: client/gui-gtk-2.0/citydlg.c:696 client/gui-gtk-3.0/citydlg.c:744
 #: client/gui-gtk-3.22/citydlg.c:744 client/gui-qt/citydlg.cpp:1312
@@ -2564,7 +2564,7 @@ msgstr "Seuraava kaupunki"
 #: client/gui-gtk-3.22/citydlg.c:1675
 #, c-format
 msgid "<b>%s</b> - %s citizens - DISORDER"
-msgstr "<b>%s</b> – %s asukasta – KAPINOIVA"
+msgstr "<b>%s</b> – %s asukasta – LEVOTTOMUUKSIA"
 
 #. TRANS: city dialog title
 #: client/gui-gtk-2.0/citydlg.c:1464 client/gui-gtk-3.0/citydlg.c:1681
@@ -7381,7 +7381,7 @@ msgstr "Uusi työlista"
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3249
 msgid "%1 - %2 citizens - DISORDER"
-msgstr "%1 - %2 asukasta - KAPINOI"
+msgstr "%1 - %2 asukasta - LEVOTTOMUUKSIA"
 
 #. TRANS: city dialog title
 #: client/gui-qt/citydlg.cpp:3253
@@ -8471,11 +8471,11 @@ msgstr "Kaupungin tiedot"
 #: client/gui-sdl2/citydlg.c:1914
 #, c-format
 msgid "Pollution: %d"
-msgstr "Saasteet: %d"
+msgstr "Saastutus: %d"
 
 #: client/gui-sdl2/citydlg.c:1942
 msgid "Pollution: none"
-msgstr "Saasteet: ei saasteongelmaa"
+msgstr "Saastutus: Ei saastuta"
 
 #: client/gui-sdl2/citydlg.c:1955
 msgid "Trade routes: "
@@ -10266,7 +10266,7 @@ msgstr "· Voidaan purkaa %s yksiköiden kyydistä missä hyvänsä.\n"
 #: client/helpdata.c:1764
 #, c-format
 msgid "* Can build %s on tiles.\n"
-msgstr "· Voi rakentaa %s ruutuihin.\n"
+msgstr "· Voi rakentaa ruutuihin parannuksen %s.\n"
 
 #: client/helpdata.c:1730
 msgid "* Can convert terrain to another type by mining.\n"
@@ -10784,29 +10784,32 @@ msgstr "Rakentamisvaatimukset:\n"
 #: client/helpdata.c:2696
 #, c-format
 msgid "* Native to %s units.\n"
-msgstr "· Tukikohta sopii %s yksiköille.\n"
+msgstr "· Sopii %s yksiköille.\n"
 
 #: client/helpdata.c:2703
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
 msgstr ""
-"  · Tukikohdan yksiköt voivat liikkua ruutuun vaikka maasto ei normaalisti "
-"sopisi niille.\n"
+"  · Niiden tyyppiset yksiköt voivat liikkua tähän ruutuun vaikka maasto ei "
+"normaalisti sopisi niille.\n"
 
 #: client/helpdata.c:2710
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
 msgstr ""
-"  · Tukikohdassa olevat yksiköt eivät aiheuta tyytymättömyyttä kunhan "
-"tukikohta on korkeintaan 3 ruudun päässä ystävällismielisestä kaupungista.\n"
+"  · Niiden tyyppiset yksiköt tällä ruudulla eivät aiheuta tyytymättömyyttä "
+"kunhan tukikohta on korkeintaan 3 ruudun päässä ystävällismielisestä "
+"kaupungista.\n"
 
 #: client/helpdata.c:2715
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
-msgstr "  · Tukikohta voidaan myös valloittaa vastaavilla yksiköillä.\n"
+msgstr
+"  · Voidaan valloittaa vastaavilla yksiköillä, jos sodassa ruudun "
+"tämänhetkisen omistajan kanssa.\n"
 
 #: client/helpdata.c:2721
 #, c-format
@@ -11188,7 +11191,7 @@ msgid ""
 "give gold.\n"
 msgstr ""
 "· Rakennukset jotka tavallisesti poistavat tyytymättömyyttä tuottavat sen "
-"sijaan rahaa.\n"
+"sijaan kultaa.\n"
 
 #. TRANS: %s is list of unit types separated by 'or'
 #: client/helpdata.c:3358
@@ -14673,7 +14676,7 @@ msgstr "Juhlii"
 
 #: common/events.c:100
 msgid "Civil Disorder"
-msgstr "Kapinan partaalla"
+msgstr "Levottomuuksia"
 
 #: common/events.c:101 data/civ1/game.ruleset:673
 msgid "Famine"
@@ -18756,8 +18759,8 @@ msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr ""
-"Kierrätyskeskuksen rakentaminen Vähentää kaupungin tuotannosta johtuvan "
-"saasteen määrää 66%."
+"Kierrätyskeskuksen rakentaminen vähentää kaupungin tuotannosta johtuvan "
+"saastutuksen määrää 66%."
 
 #: data/civ1/buildings.ruleset:606 data/civ2/buildings.ruleset:792
 #: data/classic/buildings.ruleset:826 data/sandbox/buildings.ruleset:985
@@ -22877,7 +22880,7 @@ msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
 msgstr ""
-"Sallii kaupungin kasvaa kokoa 12 suuremmaksi . Ensin tosin tarvitaan "
+"Sallii kaupungin kasvaa kokoa 12 suuremmaksi. Ensin tosin tarvitaan "
 "vesijohtoverkosto, jotta kaupunki voisi kasvaa kokoa 8 suuremmaksi."
 
 #: data/civ2/buildings.ruleset:842 data/classic/buildings.ruleset:878
@@ -22948,7 +22951,7 @@ msgid ""
 "second time."
 msgstr ""
 "Lisää ruuan tuotantoa 50% kaikilla kaupunkia ympäröivillä käytössä olevilla "
-"viljelysmailla. Kasteltu maa muuttuu peltomaaksi, kun siihen kaivetaan "
+"peltomailla. Kasteltu maa muuttuu peltomaaksi, kun siihen kaivetaan "
 "kasteluverkosto toistamiseen."
 
 #: data/civ2/buildings.ruleset:1096 data/classic/buildings.ruleset:1141
@@ -24259,7 +24262,7 @@ msgid ""
 "occupied by enemy units are easy targets!)"
 msgstr ""
 "Laskuvarjojääkärit pääsevät hyökkäysasemiin ilmateitse. Laskuvarjojääkärit, "
-"jotka eivät ole vielä kuluttanut yhtään liikepistettä, voivat lähteä "
+"jotka eivät ole vielä kuluttaneet yhtään liikepistettä, voivat lähteä "
 "ystävällismielisestä kaupungista tai lentotukikohdasta suorittamaan "
 "laskuvarjohyppyä. He voivat tiputtautua mille hyvänsä ruudulle kantaman "
 "sisällä, ja ovat heti valmiita toimimaan (Varo pudottautumasta alueelle "
@@ -24383,8 +24386,8 @@ msgid ""
 msgstr ""
 "Helikopteri on erittäin voimakas yksikkö, joka voi sekä lentää että "
 "valloittaa kaupunkeja. Ole tarkkana, sillä helikopterien kunto heikkenee "
-"hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, tukikohdassa tai "
-"lentotukialuksessa (paitsi jos sinulla on ihme Yhdistyneet Kansakunnat). "
+"hieman joka pelivuorolla, jota ne eivät vietä kaupungissa, lentotukikohdassa "
+"tai lentotukialuksessa (paitsi jos sinulla on ihme Yhdistyneet Kansakunnat). "
 "Vihollisen maavoimien yksiköt voivat lisäksi hyökätä Helikopterisi kimppuun."
 
 #: data/civ2/units.ruleset:1372 data/classic/units.ruleset:1418
@@ -24944,7 +24947,7 @@ msgid ""
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
 "Muuttaa yhden tyytymättömän asukkaan rauhalliseksi. Edistysaskel mystiikka "
-"kkaksinkertaistaa tämän vaikutuksen. Mystiikan ja ihmeen Delfoin oraakkeli "
+"kaksinkertaistaa tämän vaikutuksen. Mystiikan ja ihmeen Delfoin oraakkeli "
 "kanssa neljä asukasta muuttuu tyytyväiseksi. Vaikutus ei ulotu asukkaisiin, "
 "joiden tyytymättömyys johtuu sotatoimista."
 
@@ -26090,7 +26093,7 @@ msgid ""
 msgstr ""
 "Kierrätyskeskus vähentää tuotannosta johtuvaa saastutusta 50%, ja toisten "
 "saasteita vähentävien rakennusten (ydinvoimala, vesivoimala, aurinkovoimala) "
-"vielä 25% enemmän."
+"kanssa vielä 25% enemmän."
 
 #: data/sandbox/buildings.ruleset:950 data/civ2civ3/buildings.ruleset:947
 #, no-c-format
@@ -26153,9 +26156,9 @@ msgid ""
 "production to 25% of its normal value, or eliminates it entirely in "
 "combination with a Recycling Center."
 msgstr ""
-"Aurinkovoimala myös vähentää tuotannosta johtuvan saastumisen 25 prosenttiin "
-"sen normaalista arvosta, tai poistaa sen kokonaan yhdessä kierrätyskeskuksen "
-"kanssa."
+"Aurinkovoimala myös vähentää tuotannosta johtuvan saastutuksen 25 "
+"prosenttiin sen normaalista arvosta, tai poistaa sen kokonaan yhdessä "
+"kierrätyskeskuksen kanssa."
 
 #: data/sandbox/buildings.ruleset:1191 data/civ2civ3/buildings.ruleset:1188
 #, no-c-format
@@ -26192,7 +26195,7 @@ msgid ""
 "Super Highways also increase the pollution caused by the population of the "
 "city."
 msgstr ""
-"Moottoritie myös lisää kaupungin väkimäärästä riippuvien saasteiden määrää."
+"Moottoritie myös lisää kaupungin väkimäärästä riippuvaa saastutuksen määrää."
 
 #: data/sandbox/buildings.ruleset:1269 data/civ2civ3/buildings.ruleset:1266
 msgid ""
@@ -26234,7 +26237,7 @@ msgid ""
 "units) despite fog-of-war.  It allows all players to start building "
 "spaceship parts (assuming they have researched the necessary technologies)."
 msgstr ""
-"Omistaja saa koko maailman kartta tulee pysyvästi näkyväksi. Hän saa aina "
+"Omistaja saa koko maailman kartan pysyvästi näkyväksi. Hän saa aina "
 "ajantasaisen tiedon kaikenlaisesta maastosta ja kaupungeista, ei kuitenkaan "
 "yksiköistä, näkyvyysrajoista huolimatta. Kaikki pelaajat voivat alkaa "
 "rakentaa avaruusalusta (jos heidän teknologiatasonsa siihen riittää)."
@@ -26316,7 +26319,7 @@ msgid ""
 "pollution caused by the population; it counteracts the pollution associated "
 "with a single building in each of your cities."
 msgstr ""
-"Tietokonepelaajat suhtautuminen tämän ihmeen omistajaan kääntyy helpommin "
+"Tietokonepelaajien suhtautuminen tämän ihmeen omistajaan kääntyy helpommin "
 "suopeaksi kunhan Apollo-ohjelmaa ei ole rakennettu. Ihme vähentää myös "
 "väkimäärästä johtuvaa saastuttamista; se poistaa yhden muun yksittäisen "
 "rakennuksen aiheuttaman saastutuksen lisäyksen kussakin kaupungissa."
@@ -26599,7 +26602,7 @@ msgid ""
 "caused by military units (reducing it to the same level as a Republic)."
 msgstr ""
 "Vähentää aggressiivisesti sijoitetuista sotilasyksiköistä johtuvaa "
-"tyytymättömyyttä yhdellä pisteellä kussakin kaupunigssa. Demokratian alla "
+"tyytymättömyyttä yhdellä pisteellä kussakin kaupungissa. Demokratian alla "
 "lisäksi puolittaa aggressiivisista yksiköistä johtuvan tyytymättömyyden, "
 "laskien sen samalle tasolle kuin tasavallassa."
 
@@ -26820,17 +26823,17 @@ msgid ""
 "* Base production waste is 30%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Rakennukset tai teknologiat eivät tarvitse laisinkaan ylläpitoa\n"
-"* Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"· Rakennukset tai teknologiat eivät tarvitse laisinkaan ylläpitoa\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"* Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes "
+"· Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes "
 "vihamielisesti käyttäytyessään.\n"
-"* Hallitsijalla ei ole veroasteiden hallintaa. Puolet tuotosta kuluu "
+"· Hallitsijalla ei ole veroasteiden hallintaa. Puolet tuotosta kuluu "
 "talouteen (vähemmän, mikäli käytössä on luksusta tuottavia rakennuksia), ja "
 "loput menevät luksukseen. Korruptio on sitä suurempi mitä kauempana "
 "pääkaupungista ollaan, etäisyyden vaikutus puolittuu osakeyhtiöiden "
 "keksimisen myötä.\n"
-"* Perus tuotantohävikki on 30%. Vaikutus on sitä suurempi mitä kauempana "
+"· Perus tuotantohävikki on 30%. Vaikutus on sitä suurempi mitä kauempana "
 "pääkaupungista ollaan, etäisyyden vaikutus puolittuu kaupan keksimisen myötä."
 
 #: data/sandbox/governments.ruleset:90 data/civ2civ3/governments.ruleset:90
@@ -26869,16 +26872,16 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle "
+"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle "
 "kokeneisuustasolle voittoisan taistelun jälkeen.\n"
-"* Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"* Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
+"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
 "eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
-"* Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa "
+"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa "
 "sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos "
 "tunnetaan osakeyhtiöt)\n"
-"* Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
+"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
 "pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:135 data/civ2civ3/governments.ruleset:135
@@ -26900,14 +26903,14 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Pääkaupunki saa +75% bonuksen kullan tuotantoon.\n"
-"* Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"· Pääkaupunki saa +75% bonuksen kullan tuotantoon.\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 1 kultaa kierroksessa kukin.\n"
-"* Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
+"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
 "eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
-"* Korruption perustaso on 20%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 20%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"* Tuotantohävikin perustaso on 10%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Tuotantohävikin perustaso on 10%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:167 data/civ2civ3/governments.ruleset:167
@@ -26929,16 +26932,16 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Pääkaupunki saa +50% bonuksen kullan tuotantoon.\n"
-"* Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"· Pääkaupunki saa +50% bonuksen kullan tuotantoon.\n"
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
 "joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"* Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen "
+"· Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen "
 "määrä); lisäyksiköiden ylläpito maksaa 1 kultaa kierroksessa kukin.\n"
-"* Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt "
+"· Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt "
 "tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 10%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 10%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"* Tuotantohävikin perustaso on 20%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Tuotantohävikin perustaso on 20%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:203 data/civ2civ3/governments.ruleset:203
@@ -26961,14 +26964,14 @@ msgid ""
 "* Base corruption is 30%, but is not affected by distance to the capital.\n"
 "* There is no production waste."
 msgstr ""
-"* Normaalisti yhden pisteen kultaa ylläpitoonsa tarvitsevat rakennukset ovat "
+"· Normaalisti yhden pisteen kultaa ylläpitoonsa tarvitsevat rakennukset ovat "
 "ilmaisia ylläpitää\n"
-"* Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen "
+"· Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen "
 "määrä); lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"* Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt "
+"· Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt "
 "tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 30%, eikä etäisyys pääkaupunkiin vaikuta siihen.\n"
-"* Tuotantohävikkiä ei ole."
+"· Korruption perustaso on 30%, eikä etäisyys pääkaupunkiin vaikuta siihen.\n"
+"· Tuotantohävikkiä ei ole."
 
 #: data/sandbox/governments.ruleset:217 data/sandbox/governments.ruleset:337
 #: data/sandbox/governments.ruleset:374
@@ -26999,16 +27002,16 @@ msgid ""
 "* Base production waste is 15%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Tiedetuotanto on puolet siitä mitä muiden hallitusmuotojen alla. "
+"· Tiedetuotanto on puolet siitä mitä muiden hallitusmuotojen alla. "
 "(Fundamentelistikaupunki, jossa on kirjasto, tuottaa saman määrän tiedettä "
 "kuin se tuottaisi ilman kirjastoa muiden hallitusmuotojen alla.)\n"
-"* Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 2 kultaa kierroksessa kukin, paitsi fanaatikot.\n"
-"* Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
+"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
 "tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"* Tuotantohävikin perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Tuotantohävikin perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:269 data/civ2civ3/governments.ruleset:268
@@ -27042,17 +27045,17 @@ msgid ""
 "* Base production waste is 30%, but is not affected by distance to the "
 "capital."
 msgstr ""
-"* Jokainen kaupunki saa 3 pistettä luksusta yksistään hallitusmuodosta.\n"
-"* Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"· Jokainen kaupunki saa 3 pistettä luksusta yksistään hallitusmuodosta.\n"
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
 "joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"* Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
-"* Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
+"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
 "tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. "
 "Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
-"* Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta "
+"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta "
 "siihen."
 
 #: data/sandbox/governments.ruleset:323 data/civ2civ3/governments.ruleset:322
@@ -27072,17 +27075,17 @@ msgid ""
 "* Base production waste is 5%. This increases with distance from the capital "
 "(half as fast with knowledge of Trade)."
 msgstr ""
-"* Kaupungit saavat yhden lisäpisteen rahaa jokaisesta maaruudusta, joka "
+"· Kaupungit saavat yhden lisäpisteen rahaa jokaisesta maaruudusta, joka "
 "muutenkin tuottaa rahaa\n"
-"* Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
 "joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"* Kukin kaupunki voi ylläpitää yhden yksikön ilmaiseksi; lisäyksiköiden "
+"· Kukin kaupunki voi ylläpitää yhden yksikön ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa yhden tuotantoa kierroksessa kukin.\n"
-"* Kukin kaupunki sietää yhden aggressiivisen sotilasyksikön; lisäyksiköt "
+"· Kukin kaupunki sietää yhden aggressiivisen sotilasyksikön; lisäyksiköt "
 "tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 25%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 25%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"* Tuotantohävikin perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Tuotantohävikin perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:353 data/civ2civ3/governments.ruleset:351
@@ -27112,17 +27115,17 @@ msgid ""
 "* Base production waste is 25%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Kaupungit saavat yhden lisäpisteen rahaa jokaisesta maaruudusta, joka "
+"· Kaupungit saavat yhden lisäpisteen rahaa jokaisesta maaruudusta, joka "
 "muutenkin tuottaa rahaa\n"
-"* Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
 "joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"* Kukin kaupunki voi ylläpitää yhden yksikön ilmaiseksi; lisäyksiköiden "
+"· Kukin kaupunki voi ylläpitää yhden yksikön ilmaiseksi; lisäyksiköiden "
 "ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
-"* Kukin kaupunki sietää yhden aggressiivisen sotilasyksikön; lisäyksiköt "
+"· Kukin kaupunki sietää yhden aggressiivisen sotilasyksikön; lisäyksiköt "
 "tekevät kaksi kansalaista kotirintamalla tyytymättömäksi kukin.\n"
-"* Korruption perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Korruption perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"\"* Tuotantohävikin perustaso on 25%. Se kasvaa sitä mukaa mitä kauemmas "
+"· Tuotantohävikin perustaso on 25%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:401
@@ -28023,7 +28026,7 @@ msgstr ""
 "Helikopterit voivat kuljettaa yhden jalkaväkiyksikön. Normaalisti yksiköitä "
 "voidaan lastata tai purkaa vain kaupungeissa tai lentotukikohdissa, mutta "
 "erityisen liikkumiskykyisille yksiköille (laskuvarjojääkäreille, "
-"alppijääkäreille, merijalkaväenlle, sissijoukoille ja fanaatikoille) se "
+"alppijääkäreille, merijalkaväelle, sissijoukoille ja fanaatikoille) se "
 "voidaan tehdä missä vain."
 
 #: data/sandbox/units.ruleset:1615 data/civ2civ3/units.ruleset:1605
@@ -28344,8 +28347,8 @@ msgstr ""
 "Geenilaboratoriossa voidaan tutkia eri hoitomuotoja. Se lievittää riskiä "
 "ruton iskusta kaupungissa.\n"
 "Geenilaboratorio mahdollistaa kasvien ja eläinten perimän kohentamisen. "
-"Ruuantuotanto kaupungin ympäristössä lisääntyy 25% jos kaupungin on kooltaan "
-"on yli 20."
+"Ruuantuotanto kaupungin ympäristössä lisääntyy 25% jos kaupungin koko on yli "
+"20."
 
 #: data/experimental/buildings.ruleset:582
 #: data/experimental/buildings.ruleset:1104
@@ -28367,7 +28370,7 @@ msgstr ""
 
 #: data/experimental/buildings.ruleset:1157
 msgid "The work of the priests also reduces the effect of plague in the city."
-msgstr "Pappien toiminta helpottaa ruton vaikutusta kaupungissa."
+msgstr "Pappien toiminta vähentää ruton vaikutusta kaupungissa."
 
 #: data/experimental/buildings.ruleset:1184
 msgid "Adds 1 point of culture each turn."
@@ -28559,7 +28562,7 @@ msgid ""
 "on a tile occupied by enemy units are easy targets!)"
 msgstr ""
 "Laskuvarjojääkärit pääsevät hyökkäysasemiin ilmateitse. Laskuvarjojääkärit, "
-"jotka eivät ole vielä kuluttanut yhtään liikepistettä, voivat lähteä "
+"jotka eivät ole vielä kuluttaneet yhtään liikepistettä, voivat lähteä "
 "ystävällismielisestä kaupungista tai lentotukikohdasta suorittamaan "
 "laskuvarjohyppyä. He voivat tiputtautua mille hyvänsä ruudulle kantaman "
 "sisällä (jopa laivoille), ja ovat heti valmiita toimimaan (Varo "
@@ -31303,7 +31306,7 @@ msgid ""
 msgstr ""
 "Tietyt yksiköt (klassisessa sääntökokoelmassa uudisasukkaat, työläiset ja "
 "teknikot) voivat muuttaa maastoa monin tavoin. Seuraavat esimerkit pätevät "
-"klassisiin sääntöihin; toisssa sääntökokoelmissa tarkat säännöt saattavat "
+"klassisiin sääntöihin; toisissa sääntökokoelmissa tarkat säännöt saattavat "
 "erota, tai joitakin muutoksia ei voi tehdä ollenkaan."
 
 #: data/helpdata.txt:353
@@ -31315,7 +31318,7 @@ msgid ""
 "However, once irrigated, land remains so even if its requirements are "
 "removed."
 msgstr ""
-"Kastelujärjestelmia voidaan rakentaa joillekin maastotyypeille. Ne saavat "
+"Kastelujärjestelmiä voidaan rakentaa joillekin maastotyypeille. Ne saavat "
 "ruudun tuottamaan jonkin verran enemmän ruokaa joka kierroksella. "
 "Klassisissa säännöissä kastelujärjestelmää ei voi rakentaa mikäli saatavilla "
 "ei ole veden lähdettä. Tarkista yksityiskohdat itse sääntökokoelman "
@@ -33422,7 +33425,7 @@ msgstr ""
 "Pääkaupungin menettäminen ei aina johda sisällissotaan. Jos olet kohdellut "
 "kansalaisiasi lempeästi, säilytät heidän luottamuksensa todennäköisemmin. "
 "Jokainen juhliva kaupunki vähentää sisällissodan todennäköisyyttä ja "
-"jokainen kapinoiva kaupunki vastaavasti lisää sitä."
+"jokainen levoton kaupunki vastaavasti lisää sitä."
 
 #: data/helpdata.txt:1415
 msgid ""
@@ -38978,7 +38981,7 @@ msgstr " Levottomuudet uhkaavat levittäytyä kaupungin ulkopuolelle."
 #: server/cityturn.c:3219
 #, c-format
 msgid "Civil disorder in %s.%s"
-msgstr "%s on kapinan partaalla.%s"
+msgstr "%s kärsii levottomuuksista.%s"
 
 #. TRANS: second %s is an optional extra sentence
 #: server/cityturn.c:3224
