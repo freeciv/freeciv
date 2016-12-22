@@ -49,15 +49,15 @@
 #include "client_main.h"
 #include "editgui_g.h"
 #include "options.h"
-#include "tilespec.h"
 #include "sprite.h"
+#include "tilespec.h"
 
 // gui-qt
 #include "fc_client.h"
 #include "fonts.h"
-#include "hudwidget.h"
 #include "gui_main.h"
 #include "helpdlg.h"
+#include "hudwidget.h"
 #include "qtg_cxxside.h"
 
 extern "C" {
@@ -66,19 +66,19 @@ extern "C" {
 extern void restart_notify_dialogs();
 extern void city_font_update();
 
-static QApplication *qapp = nullptr;
-static fc_client *freeciv_qt;
-const char *client_string = "gui-qt";
-const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = false;
+const char * const gui_character_encoding = "UTF-8";
+const char *client_string = "gui-qt";
+static fc_client *freeciv_qt;
+static QApplication *qapp = nullptr;
 
 void reset_unit_table(void);
-static void apply_titlebar(struct option *poption);
-static void apply_sidebar(struct option *poption);
-static void apply_font(struct option *poption);
 static void apply_city_font(struct option *poption);
+static void apply_font(struct option *poption);
 static void apply_help_font(struct option *poption);
 static void apply_notify_font(struct option *poption);
+static void apply_sidebar(struct option *poption);
+static void apply_titlebar(struct option *poption);
 
 /****************************************************************************
   Return fc_client instance

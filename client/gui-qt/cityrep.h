@@ -22,6 +22,14 @@ extern "C" {
 #include "cityrep_g.h"
 }
 
+// Qt
+#include <QAbstractListModel>
+#include <QItemDelegate>
+#include <QMenu>
+#include <QSortFilterProxyModel>
+#include <QTreeView>
+#include <QWidget>
+
 //common
 #include "city.h"
 
@@ -36,14 +44,6 @@ extern "C" {
 
 // gui-qt
 #include "sprite.h"
-
-// Qt
-#include <QAbstractListModel>
-#include <QItemDelegate>
-#include <QSortFilterProxyModel>
-#include <QTreeView>
-#include <QWidget>
-#include <QMenu>
 
 #define NEG_VAL(x)  ((x)<0 ? (x) : (-x))
 #define CMA_NONE        (10000)

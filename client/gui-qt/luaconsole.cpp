@@ -21,9 +21,8 @@
 #include "featured_text.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
 #include "luaconsole.h"
+#include "qtg_cxxside.h"
 
 /*****************************************************************************
   Popup the lua console inside the main-window, and optionally raise it.

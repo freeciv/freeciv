@@ -18,9 +18,12 @@
 // Qt
 #include <QAction>
 #include <QApplication>
+#include <QDateTime>
 #include <QFileDialog>
 #include <QHeaderView>
 #include <QLineEdit>
+#include <QPainter>
+#include <QSignalMapper>
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTableWidget>
@@ -38,6 +41,7 @@
 // gui-qt
 #include "colors.h"
 #include "dialogs.h"
+#include "fc_client.h"
 #include "pages.h"
 #include "plrdlg.h"
 #include "qtg_cxxside.h"
@@ -71,6 +75,7 @@ static enum connection_state connection_status;
 static struct terrain *char2terrain(char ch);
 static void cycle_enemy_units();
 int last_center_enemy = 0;
+
 /****************************************************************************
   Helper function for drawing map of savegames. Converts stored map char in
   savefile to proper terrain.

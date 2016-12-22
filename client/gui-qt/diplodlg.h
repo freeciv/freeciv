@@ -18,23 +18,27 @@
 #include <fc_config.h>
 #endif
 
-extern "C" {
-#include "diplodlg_g.h"
-}
-#include "game.h"
-#include "research.h"
-#include "sprite.h"
-#include "tilespec.h"
-
-// gui-qt
+// Qt
 #include <QHeaderView>
 #include <QLayout>
 #include <QMap>
 #include <QSpinBox>
 #include <QStyle>
-#include <QTabWidget>
 #include <QTableWidget>
+#include <QTabWidget>
 #include <QWidget>
+
+extern "C" {
+#include "diplodlg_g.h"
+}
+
+// common
+#include "research.h"
+
+//  client
+#include "game.h"
+#include "sprite.h"
+#include "tilespec.h"
 
 class QIcon;
 class QLabel;

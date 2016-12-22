@@ -18,6 +18,8 @@
 // Qt
 #include <QApplication>
 #include <QHeaderView>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QStyleFactory>
 
 // gui-qt

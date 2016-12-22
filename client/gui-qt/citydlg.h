@@ -18,15 +18,22 @@
 #endif
 
 // Qt
+#include <QDialog>
+#include <QElapsedTimer>
 #include <QItemDelegate>
+#include <QLabel>
+#include <QtMath>
 
 class city_dialog;
+class QCheckBox;
 class QComboBox;
 class QDialog;
 class QGridLayout;
-class QLabel;
+class QGroupBox;
+class QHBoxLayout;
 class QProgressBar;
 class QPushButton;
+class QRadioButton;
 class QSplitter;
 class QTableView;
 class QTableWidget;
@@ -36,7 +43,7 @@ class QVBoxLayout;
 
 #define NUM_INFO_FIELDS 13
 
-//common
+// common
 #include "unittype.h"
 
 // client

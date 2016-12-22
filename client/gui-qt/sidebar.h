@@ -14,32 +14,25 @@
 #ifndef FC__SIDEBAR_H
 #define FC__SIDEBAR_H
 
-extern "C" {
-#include "canvas_g.h"
-}
-
 // Qt
 #include <QWidget>
 
-// gui-qt
-#include "qtg_cxxside.h"
-
 enum { SW_STD = 0, SW_TAX = 1, SW_INDICATORS = 2 };
 
-class QVBoxLayout;
 class QPixmap;
+class QVBoxLayout;
 
 typedef void (*pfcn_bool)(bool);
 typedef void (*pfcn)(void);
 
-void side_right_click_diplomacy(void);
-void side_right_click_science(void);
 void side_blink_endturn(bool do_restore);
 void side_center_unit();
 void side_disable_endturn(bool do_restore);
 void side_finish_turn(bool nothing);
 void side_indicators_menu();
 void side_rates_wdg(bool nothing);
+void side_right_click_diplomacy();
+void side_right_click_science();
 void side_show_map(bool nothing);
 /***************************************************************************
   Class representing single widget(icon) on sidebar

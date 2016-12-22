@@ -18,11 +18,15 @@
 // Qt
 #include <QApplication>
 #include <QHeaderView>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QPushButton>
+#include <QSortFilterProxyModel>
 #include <QSplitter>
 
 // gui-qt
+#include "fc_client.h"
 #include "plrdlg.h"
-#include "qtg_cxxside.h"
 
 /**************************************************************************
   Help function to draw checkbox inside delegate

@@ -16,16 +16,22 @@
 #endif
 
 // Qt
+#include <QAction>
 #include <QHBoxLayout>
+#include <QMenu>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPixmap>
 #include <QTimer>
 
-//common
+// common
 #include "research.h"
 
-// qt-client
+// client
+#include "client_main.h"
+
+// gui-qt
+#include "fc_client.h"
 #include "repodlgs.h"
 #include "sidebar.h"
 #include "sprite.h"

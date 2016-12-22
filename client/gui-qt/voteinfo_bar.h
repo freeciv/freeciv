@@ -20,9 +20,9 @@ extern "C" {
 // Qt
 #include <QWidget>
 
-class QPushButton;
-class QLabel;
 class QGridLayout;
+class QLabel;
+class QPushButton;
 
 /***************************************************************************
   pregamevote class used for displaying vote bar in PAGE START

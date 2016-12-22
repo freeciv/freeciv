@@ -17,12 +17,28 @@
 
 // Qt
 #include <QApplication>
+#include <QCloseEvent>
+#include <QLabel>
+#include <QMenu>
+#include <QPainter>
+#include <QPushButton>
+
+// common
+#include "government.h"
+
+// client
+#include "client_main.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
 #include "colors.h"
 #include "diplodlg.h"
+#include "fc_client.h"
 #include "sidebar.h"
+
+extern "C" {
+  int client_player_number(void);
+  struct player *player_by_number(const int player_id);
+}
 
 typedef advance *p_advance;
 typedef city *p_city;

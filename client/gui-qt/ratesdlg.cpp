@@ -15,6 +15,10 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QMouseEvent>
+#include <QPainter>
+
 // client
 #include "multipliers.h"
 

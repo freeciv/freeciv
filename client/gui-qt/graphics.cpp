@@ -15,18 +15,15 @@
 #include <fc_config.h>
 #endif
 
-#include <stdlib.h>
-
 // client
 #include "tilespec.h"
 
 // gui-qt
+#include "graphics.h"
 #include "qtg_cxxside.h"
 
-#include "graphics.h"
-
-static struct sprite *intro_gfx_sprite = NULL;
-static struct sprite *radar_gfx_sprite = NULL;
+static struct sprite *intro_gfx_sprite = nullptr;
+static struct sprite *radar_gfx_sprite = nullptr;
 
 /****************************************************************************
   Return whether the client supports given view type.

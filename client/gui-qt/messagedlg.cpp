@@ -19,6 +19,8 @@
 //Qt
 #include <QApplication>
 #include <QGridLayout>
+#include <QLabel>
+#include <QPushButton>
 #include <QTableWidget>
 #include <QHeaderView>
 
@@ -26,8 +28,7 @@
 #include "options.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
+#include "fc_client.h"
 #include "messagedlg.h"
 
 extern QApplication *qapp;

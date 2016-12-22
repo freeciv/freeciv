@@ -15,16 +15,13 @@
 #include <fc_config.h>
 #endif
 
-// std
-#include <stdlib.h>
-
 // Qt
 #include <QApplication>
 #include <QKeyEvent>
-#include <QPushButton>
 #include <QMouseEvent>
+#include <QPushButton>
 
-//common
+// common
 #include "control.h"
 #include "goto.h"
 
@@ -37,10 +34,10 @@
 #include "unit.h"
 
 // gui-qt
-#include "fc_client.h"
 #include "citydlg.h"
-#include "shortcuts.h"
+#include "fc_client.h"
 #include "qtg_cxxside.h"
+#include "shortcuts.h"
 
 extern void side_disable_endturn(bool do_restore);
 extern "C" int city_buy_production(struct city *pcity);

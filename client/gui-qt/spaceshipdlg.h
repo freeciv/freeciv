@@ -28,9 +28,9 @@ extern "C" {
 // Qt
 #include <QWidget>
 
+class QLabel;
 class QPixmap;
 class QPushButton;
-class QLabel;
 
 /****************************************************************************
   Tab widget to display spaceship report (F12)

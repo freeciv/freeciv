@@ -15,9 +15,15 @@
 #include <fc_config.h>
 #endif
 
-//qt
+// Qt
 #include <QApplication>
+#include <QCheckBox>
+#include <QHBoxLayout>
+#include <QHBoxLayout>
 #include <QHeaderView>
+#include <QLabel>
+#include <QPainter>
+#include <QPushButton>
 #include <QTableWidget>
 
 /* common */
@@ -30,9 +36,10 @@
 #include "text.h"
 
 // gui-qt
-#include "sprite.h"
-#include "qtg_cxxside.h"
+#include "fc_client.h"
 #include "gotodlg.h"
+#include "qtg_cxxside.h"
+#include "sprite.h"
 
 /***************************************************************************
   Constructor for goto_dialog

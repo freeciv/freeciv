@@ -19,9 +19,8 @@
 #include "mem.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
 #include "colors.h"
+#include "qtg_cxxside.h"
 
 /****************************************************************************
   Allocate a color (adjusting it for our colormap if necessary on paletted

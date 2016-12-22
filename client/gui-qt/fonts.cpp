@@ -15,17 +15,18 @@
 #include <fc_config.h>
 #endif
 
-// client
-#include "options.h"
-
-#include "fonts.h"
-
 // Qt
 #include <QApplication>
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QWidget>
 #include <QScreen>
+
+// client
+#include "options.h"
+
+// gui-qt
+#include "fonts.h"
 
 /****************************************************************************
   Font provider constructor

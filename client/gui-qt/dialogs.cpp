@@ -18,13 +18,18 @@
 // Qt
 #include <QApplication>
 #include <QComboBox>
+#include <QGroupBox>
 #include <QHeaderView>
 #include <QImage>
 #include <QMessageBox>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QRadioButton>
 #include <QRect>
+#include <QSignalMapper>
 #include <QTableWidgetItem>
 #include <QTextEdit>
+#include <QtMath>
 
 // utility
 #include "astring.h"
@@ -41,6 +46,8 @@
 
 // client
 #include "audio.h"
+#include "chatline_common.h"
+#include "client_main.h"
 #include "control.h"
 #include "helpdata.h"
 #include "packhand.h"
@@ -49,6 +56,7 @@
 
 // gui-qt
 #include "dialogs.h"
+#include "fc_client.h"
 #include "hudwidget.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"

@@ -18,11 +18,15 @@
 // Qt
 #include <QApplication>
 #include <QHeaderView>
+#include <QVBoxLayout>
+
+// client
+#include "client_main.h"
 
 // gui-qt
 #include "cityrep.h"
+#include "fc_client.h"
 #include "hudwidget.h"
-#include "qtg_cxxside.h"
 
 static bool can_city_sell_universal(const struct city *pcity,
                                     const struct universal *target);

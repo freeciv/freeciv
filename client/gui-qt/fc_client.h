@@ -29,6 +29,9 @@
 #include <QSpinBox>
 #include <QStackedWidget>
 
+// common
+#include "packets.h"
+
 // client
 #include "chatline_common.h"
 #include "client_main.h"
@@ -38,9 +41,6 @@
 #include "servers.h"
 #include "tilespec.h"
 
-// common
-#include "packets.h"
-
 // gui-qt
 #include "canvas.h"
 #include "chatline.h"
@@ -48,8 +48,8 @@
 #include "fonts.h"
 #include "gotodlg.h"
 #include "mapview.h"
-#include "messagewin.h"
 #include "menu.h"
+#include "messagewin.h"
 #include "pages.h"
 #include "ratesdlg.h"
 #include "voteinfo_bar.h"
@@ -61,7 +61,6 @@ enum connection_state {
   WAITING_TYPE
 };
 
-struct fc_shortcut;
 class fc_sidebar;
 class fc_sidetax;
 class fc_sidewidget;
@@ -80,6 +79,7 @@ class QTableWidget;
 class QTextEdit;
 class QTimer;
 class QTreeWidget;
+struct fc_shortcut;
 
 
 /****************************************************************************

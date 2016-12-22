@@ -16,25 +16,30 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QColorDialog>
 #include <QComboBox>
 #include <QFontDialog>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QLineEdit>
+#include <QPainter>
+#include <QPushButton>
 #include <QScrollArea>
+#include <QSignalMapper>
 #include <QSpinBox>
 
 // utility
 #include "log.h"
 #include "string_vector.h"
 
-// gui-qt
-#include "qtg_cxxside.h"
-
-#include "optiondlg.h"
-
 // client
 #include "options.h"
-#include <client_main.h>
+#include "client_main.h"
+
+// gui-qt
+#include "fc_client.h"
+#include "optiondlg.h"
 
 enum {
   RESPONSE_CANCEL,
