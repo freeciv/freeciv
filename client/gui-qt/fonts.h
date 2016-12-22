@@ -14,16 +14,13 @@
 #ifndef FC__FONTS_H
 #define FC__FONTS_H
 
-// gui-qt
-#include "listener.h"
-
-// client
-#include "canvas_g.h" // client_font
-
 // Qt
 #include <QFont>
 #include <QMap>
 #include <QObject>
+
+// gui-qt
+#include "listener.h"
 
 namespace fonts
 {

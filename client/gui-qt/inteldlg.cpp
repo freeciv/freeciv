@@ -16,9 +16,8 @@
 #endif
 
 // gui-qt
-#include "qtg_cxxside.h"
-
 #include "inteldlg.h"
+#include "qtg_cxxside.h"
 
 /**************************************************************************
   Close an intelligence dialog for the given player.

@@ -20,20 +20,33 @@
 #include <QDesktopWidget>
 #include <QHeaderView>
 #include <QImage>
+#include <QMenu>
 #include <QMessageBox>
+#include <QPainter>
 #include <QRadioButton>
 #include <QRect>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
 #include <QVBoxLayout>
+#include <QWheelEvent>
 #include <QWidgetAction>
 
 // utility
 #include "support.h"
 
+// common
+#include "citizens.h"
+#include "city.h"
+#include "game.h"
+
+//agents
+#include "cma_core.h"
+#include "cma_fec.h"
+
 // client
 #include "citydlg_common.h"
+#include "client_main.h"
 #include "climisc.h"
 #include "control.h"
 #include "global_worklist.h"
@@ -44,19 +57,11 @@
 #include "text.h"
 #include "tilespec.h"
 
-// common
-#include "citizens.h"
-#include "city.h"
-#include "game.h"
-
 //gui-qt
 #include "citydlg.h"
 #include "colors.h"
+#include "fc_client.h"
 #include "hudwidget.h"
-
-//agents
-#include "cma_core.h"
-#include "cma_fec.h"
 
 extern QApplication *qapp;
 static bool city_dlg_created = false; /** defines if dialog for city has been
@@ -303,7 +308,7 @@ impr_item::impr_item(QWidget *parent, impr_type *building,
 impr_item::~impr_item()
 {
   if (impr_pixmap) {
-    qtg_canvas_free(impr_pixmap);
+    canvas_free(impr_pixmap);
   }
 }
 
@@ -325,7 +330,7 @@ void impr_item::enterEvent(QEvent *event)
   QPainter p;
 
   if (impr_pixmap) {
-    qtg_canvas_free(impr_pixmap);
+    canvas_free(impr_pixmap);
   }
 
   sprite = get_building_sprite(tileset , impr);
@@ -351,7 +356,7 @@ void impr_item::leaveEvent(QEvent *event)
   struct sprite *sprite;
 
   if (impr_pixmap) {
-    qtg_canvas_free(impr_pixmap);
+    canvas_free(impr_pixmap);
   }
 
   sprite = get_building_sprite(tileset , impr);
@@ -594,7 +599,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
     unit_img = cropped_img.scaledToHeight(tileset_unit_width(tileset),
                                           Qt::SmoothTransformation);
   }
-  qtg_canvas_free(unit_pixmap);
+  canvas_free(unit_pixmap);
   create_actions();
   setFixedWidth(unit_img.width() + 4);
   setFixedHeight(unit_img.height());

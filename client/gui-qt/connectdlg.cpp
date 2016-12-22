@@ -15,8 +15,6 @@
 #include <fc_config.h>
 #endif
 
-#include <errno.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -30,9 +28,8 @@
 #include "packhand_gen.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
 #include "connectdlg.h"
+#include "fc_client.h"
 
 /**************************************************************************
  Really close and destroy the dialog.

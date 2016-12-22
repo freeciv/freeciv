@@ -33,17 +33,18 @@
 // common
 #include "movement.h"
 #include "research.h"
-#include "unitlist.h"
 #include "tile.h"
 #include "unit.h"
+#include "unitlist.h"
 
 // client
+#include "client_main.h"
 #include "text.h"
 
-//gui-qt
-#include "hudwidget.h"
+// gui-qt
+#include "fc_client.h"
 #include "fonts.h"
-#include "qtg_cxxside.h"
+#include "hudwidget.h"
 #include "sprite.h"
 
 extern "C" {

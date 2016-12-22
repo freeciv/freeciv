@@ -21,9 +21,6 @@ extern "C" {
 // Qt
 #include <QPixmap>
 
-// gui-qt
-#include "qtg_cxxside.h"
-
 struct canvas {
   QPixmap map_pixmap;
 };

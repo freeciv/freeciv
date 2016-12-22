@@ -15,13 +15,14 @@
 #include <fc_config.h>
 #endif
 
-#include <stdlib.h>
+// Qt
+#include <QImageReader>
+#include <QPainter>
 
 // gui-qt
 #include "colors.h"
 #include "fc_client.h"
 #include "qtg_cxxside.h"
-
 #include "sprite.h"
 
 static const char **gfx_array_extensions = nullptr;

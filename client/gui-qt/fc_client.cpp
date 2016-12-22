@@ -18,24 +18,32 @@
 // Qt
 #include <QApplication>
 #include <QFormLayout>
-#include <QMainWindow>
 #include <QLineEdit>
+#include <QMainWindow>
+#include <QPainter>
+#include <QResizeEvent>
 #include <QScrollBar>
+#include <QSettings>
+#include <QSignalMapper>
+#include <QSocketNotifier>
 #include <QStackedLayout>
+#include <QStandardPaths>
 #include <QStatusBar>
 #include <QStyleFactory>
 #include <QTabBar>
+#include <QTextBlock>
+#include <QTextCodec>
 #include <QTextEdit>
-
-// client
-#include "connectdlg_common.h"
 
 // common
 #include "game.h"
 
+// client
+#include "connectdlg_common.h"
+
 // gui-qt
-#include "fonts.h"
 #include "fc_client.h"
+#include "fonts.h"
 #include "gui_main.h"
 #include "optiondlg.h"
 #include "sidebar.h"

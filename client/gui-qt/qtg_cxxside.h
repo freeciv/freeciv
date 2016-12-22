@@ -17,9 +17,13 @@
 // common
 #include "fc_types.h"
 
+// client
+#include "tilespec.h"
+
 // gui-qt
 #include "canvas.h"
 #include "pages.h"
+
 
 void setup_gui_funcs();
 

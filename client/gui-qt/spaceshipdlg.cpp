@@ -15,12 +15,19 @@
 #include <fc_config.h>
 #endif
 
-/* common */
+// Qt
+#include <QLabel>
+
+// common
 #include "game.h"
 #include "victory.h"
 
+// client
+#include "client_main.h"
+
 // gui-qt
 #include "canvas.h"
+#include "fc_client.h"
 #include "qtg_cxxside.h"
 #include "spaceshipdlg.h"
 

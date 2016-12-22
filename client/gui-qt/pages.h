@@ -17,13 +17,7 @@ extern "C" {
 #include "pages_g.h"
 }
 
-// Qt
-#include <QMenuBar>
-#include <QtGui>
-#include <QSizePolicy>
-
 // gui-qt
-#include "fc_client.h"
 #include "qtg_cxxside.h"
 
 struct player;

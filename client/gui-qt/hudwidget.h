@@ -16,27 +16,28 @@
 
 // Qt
 #include <QDialog>
-#include <QLabel>
-#include <QMessageBox>
 #include <QElapsedTimer>
+#include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QTableWidget>
 
 // common
 #include "unit.h"
 
-// qt-client
+// gui-qt
 #include "shortcuts.h"
 
-class QIcon;
+class move_widget;
+class QComboBox;
 class QHBoxLayout;
+class QIcon;
 class QLabel;
 class QRadioButton;
-class QComboBox;
-class move_widget;
-struct unit_list;
+class QVBoxLayout;
 struct tile;
 struct unit;
+struct unit_list;
 
 void show_new_turn_info();
 bool has_player_unit_type(Unit_type_id utype);

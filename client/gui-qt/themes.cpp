@@ -17,7 +17,9 @@
 // Qt
 #include <QApplication>
 #include <QDir>
+#include <QPalette>
 #include <QStyleFactory>
+#include <QTextStream>
 
 /* utility */
 #include "mem.h"
@@ -25,18 +27,18 @@
 /* client */
 #include "themes_common.h"
 
-// gui-qt
-#include "qtg_cxxside.h"
-
 /* client/include */
 #include "themes_g.h"
 
-static QString stylestring;
-static QString real_data_dir;
+// gui-qt
+#include "fc_client.h"
+
+extern QApplication *current_app();
 extern QApplication *qapp;
 extern QString current_theme;
-extern QApplication *current_app();
 static QString def_app_style;
+static QString real_data_dir;
+static QString stylestring;
 
 /*****************************************************************************
   Loads a qt theme directory/theme_name

@@ -15,12 +15,14 @@
 #include <fc_config.h>
 #endif
 
-/* client */
+// Qt
+#include <QPainter>
+
+// client
 #include "voteinfo.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
+#include "fc_client.h"
 #include "voteinfo_bar.h"
 
 

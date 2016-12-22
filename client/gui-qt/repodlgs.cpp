@@ -18,28 +18,39 @@
 // Qt
 #include <QApplication>
 #include <QComboBox>
+#include <QElapsedTimer>
+#include <QGridLayout>
+#include <QGroupBox>
 #include <QHeaderView>
 #include <QMessageBox>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QRadioButton>
 #include <QScrollArea>
 #include <QTableWidget>
+#include <QtMath>
 #include <QToolTip>
 
 // common
 #include "control.h"
+#include "government.h"
 #include "research.h"
 
 // client
+#include "client_main.h"
 #include "helpdata.h"
+#include "options.h"
 #include "repodlgs_common.h"
 #include "reqtree.h"
 #include "sprite.h"
 #include "text.h"
+#include "tilespec.h"
 
 // gui-qt
 #include "citydlg.h"
 #include "cityrep.h"
+#include "fc_client.h"
 #include "hudwidget.h"
-#include "qtg_cxxside.h"
 #include "sidebar.h"
 
 #include "repodlgs.h"
@@ -100,7 +111,7 @@ research_diagram::research_diagram(QWidget *parent): QWidget(parent)
 ****************************************************************************/
 research_diagram::~research_diagram()
 {
-  qtg_canvas_free(pcanvas);
+  canvas_free(pcanvas);
   destroy_reqtree(req);
   qDeleteAll(tt_help);
   tt_help.clear();
@@ -237,7 +248,7 @@ void research_diagram::reset()
     destroy_reqtree(req);
   }
   if (pcanvas != NULL) {
-    qtg_canvas_free(pcanvas);
+    canvas_free(pcanvas);
   }
   req = create_reqtree(client_player(), true);
   get_reqtree_dimensions(req, &width, &height);

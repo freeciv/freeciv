@@ -15,35 +15,6 @@
 #include <fc_config.h>
 #endif
 
-#define MAX_HELP_TEXT_SIZE 8192 // Taken from Gtk 3 client
-#define REQ_LABEL_NONE _("?tech:None")
-#define REQ_LABEL_NEVER _("(Never)")
-
-// common
-#include "nation.h"
-#include "terrain.h"
-#include "specialist.h"
-#include "unit.h"
-
-// utility
-#include "fcintl.h"
-
-// common
-#include "movement.h"
-#include "nation.h"
-#include "terrain.h"
-#include "specialist.h"
-#include "unit.h"
-
-// client
-#include "helpdata.h"
-
-// gui-qt
-#include "qtg_cxxside.h"
-#include "fonts.h"
-#include "helpdlg.h"
-#include "sprite.h"
-
 // Qt
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -55,9 +26,32 @@
 #include <QSplitter>
 #include <QStack>
 #include <QStringList>
+#include <QTextBrowser>
 #include <QTreeWidget>
 #include <QVBoxLayout>
 
+// utility
+#include "fcintl.h"
+
+// common
+#include "movement.h"
+#include "nation.h"
+#include "specialist.h"
+#include "terrain.h"
+#include "unit.h"
+
+// client
+#include "helpdata.h"
+
+// gui-qt
+#include "fc_client.h"
+#include "fonts.h"
+#include "helpdlg.h"
+#include "sprite.h"
+
+#define MAX_HELP_TEXT_SIZE 8192
+#define REQ_LABEL_NEVER _("(Never)")
+#define REQ_LABEL_NONE _("?tech:None")
 static help_dialog *help_dlg = NULL;
 canvas *terrain_canvas(struct terrain *terrain,
                        const struct extra_type *resource = NULL,
@@ -1048,7 +1042,7 @@ canvas *terrain_canvas(struct terrain *terrain,
 
   if (resource != NULL) {
     sprite = get_resource_sprite(tileset, extra_resource_get(resource));
-    canvas_put_sprite(canvas, 0, canvas_y, sprite, 0, 0, width, height);
+    qtg_canvas_put_sprite(canvas, 0, canvas_y, sprite, 0, 0, width, height);
   }
 
   return canvas;

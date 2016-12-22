@@ -21,8 +21,10 @@
 #include <QDialogButtonBox>
 #include <QGridLayout>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QLineEdit>
 #include <QScrollArea>
+#include <QSettings>
 #include <QSignalMapper>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -31,7 +33,7 @@
 #include "options.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
+#include "fc_client.h"
 #include "shortcuts.h"
 
 extern "C" void real_menus_init();

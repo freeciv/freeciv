@@ -15,15 +15,12 @@
 #include <fc_config.h>
 #endif
 
-#include <stdlib.h>
-
 // client
 #include "tilespec.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
-
 #include "graphics.h"
+#include "qtg_cxxside.h"
 
 static struct sprite *intro_gfx_sprite = NULL;
 

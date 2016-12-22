@@ -21,8 +21,10 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QScrollArea>
+#include <QSignalMapper>
+#include <QStandardPaths>
 
-// utility 
+// utility
 #include "string_vector.h"
 
 // common
@@ -39,7 +41,6 @@
 #include "helpdata.h"
 
 // gui-qt
-#include "qtg_cxxside.h"
 #include "fc_client.h"
 #include "chatline.h"
 #include "cityrep.h"

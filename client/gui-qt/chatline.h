@@ -22,16 +22,16 @@ extern "C" {
 #include "chatline_g.h"
 }
 
+// Qt
+#include <QCheckBox>
+#include <QEvent>
+#include <QLineEdit>
+#include <QStringList>
+#include <QTextBrowser>
+
 // gui-qt
 #include "fonts.h"
 #include "listener.h"
-
-//Qt
-#include <QEvent>
-#include <QStringList>
-#include <QTextBrowser>
-#include <QLineEdit>
-#include <QCheckBox>
 
 class QPushButton;
 class chat_listener;

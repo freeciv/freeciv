@@ -17,12 +17,14 @@
 
 // Qt
 #include <QFontMetrics>
+#include <QPainter>
 
 // qt-client
 #include "canvas.h"
-#include "fonts.h"
-#include "sprite.h"
 #include "colors.h"
+#include "fonts.h"
+#include "qtg_cxxside.h"
+#include "sprite.h"
 
 static QFont *get_font(enum client_font font);
 /****************************************************************************

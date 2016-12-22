@@ -18,6 +18,8 @@
 //Qt
 #include <QApplication>
 #include <QCompleter>
+#include <QKeyEvent>
+#include <QPainter>
 #include <QScrollBar>
 #include <QStyleFactory>
 
@@ -26,19 +28,18 @@
 
 // client
 #include "audio.h"
-#include "climisc.h"      /* for write_chatline_content */
 #include "climap.h"
-#include "control.h"
+#include "climisc.h"      /* for write_chatline_content */
 #include "connectdlg_common.h"
+#include "control.h"
 #include "game.h"
 
 // gui-qt
+#include "chatline.h"
 #include "colors.h"
 #include "fc_client.h"
 #include "gui_main.h"
 #include "qtg_cxxside.h"
-
-#include "chatline.h"
 
 extern QApplication *qapp;
 static bool is_plain_public_message(QString s);
