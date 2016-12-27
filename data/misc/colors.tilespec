@@ -10,6 +10,9 @@ mapview_citytext = {"r", "g", "b"
 mapview_citytext_dark = {"r", "g", "b"
     0,     0,   0
 }
+mapview_cityprod_negative = {"r", "g", "b"
+    255,     0,   0
+}
 mapview_cityblocked = {"r", "g", "b"
     255,   0,   0
 }
