@@ -1472,6 +1472,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
   static char name[512], growth[32], prod[512], size[32], trade_routes[32];
   enum color_std growth_color;
+  enum color_std production_color;
   /* trade_routes_color initialized just to get rid off gcc warning
    * on optimization level 3 when it misdiagnoses that it would be used
    * uninitialized otherwise. Funny thing here is that warning would
@@ -1526,7 +1527,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 
   get_sprite_dimensions(bg, &bg_w, &bg_h);
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-				   growth, sizeof(growth), &growth_color);
+				   growth, sizeof(growth), &growth_color, &production_color);
 
   if (gui_options.draw_city_names) {
     fc_snprintf(size, sizeof(size), "%d", city_size_get(pcity));
@@ -1671,10 +1672,8 @@ static void show_full_citybar(struct canvas *pcanvas,
                            occupy_rect.x / map_zoom, occupy_rect.y / map_zoom,
                            occupy);
     canvas_put_text(pcanvas, name_rect.x / map_zoom, name_rect.y / map_zoom,
-		    FONT_CITY_NAME,
-		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
-		    name);
-
+                    FONT_CITY_NAME,
+                    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
     canvas_put_rectangle(pcanvas, owner_color,
 			 (size_rect.x - border / 2) / map_zoom,
                          canvas_y / map_zoom,
@@ -1702,7 +1701,7 @@ static void show_full_citybar(struct canvas *pcanvas,
                              citybar->shields);
       canvas_put_text(pcanvas, prod_rect.x / map_zoom, prod_rect.y / map_zoom,
                       FONT_CITY_PROD,
-                      get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
+                      get_color(tileset, production_color), prod);
     }
 
     if (should_draw_trade_routes) {
@@ -1762,6 +1761,7 @@ static void show_small_citybar(struct canvas *pcanvas,
 {
   static char name[512], growth[32], prod[512], trade_routes[32];
   enum color_std growth_color;
+  enum color_std production_color;
  /* trade_routes_color initialized just to get rid off gcc warning
    * on optimization level 3 when it misdiagnoses that it would be used
    * uninitialized otherwise. Funny thing here is that warning would
@@ -1793,7 +1793,8 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_height = 0;
 
     get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-                                    growth, sizeof(growth), &growth_color);
+                                    growth, sizeof(growth), &growth_color,
+                                    &production_color);
 
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
     total_width += name_rect.w;
@@ -1855,7 +1856,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     canvas_put_text(pcanvas, (canvas_x - total_width / 2) / map_zoom,
                     canvas_y / map_zoom,
 		    FONT_CITY_PROD,
-		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
+		    get_color(tileset, production_color), prod);
 
     canvas_y += total_height;
     *width = MAX(*width, total_width);
@@ -2701,10 +2702,12 @@ void get_city_mapview_name_and_growth(struct city *pcity,
                                       size_t name_buffer_len,
                                       char *growth_buffer,
                                       size_t growth_buffer_len,
-                                      enum color_std *growth_color)
+                                      enum color_std *growth_color,
+                                      enum color_std *production_color)
 {
   fc_strlcpy(name_buffer, city_name_get(pcity), name_buffer_len);
 
+  *production_color = COLOR_MAPVIEW_CITYTEXT;
   if (NULL == client.conn.playing
       || city_owner(pcity) == client.conn.playing) {
     int turns = city_turns_to_grow(pcity);
@@ -2724,6 +2727,10 @@ void get_city_mapview_name_and_growth(struct city *pcity,
       *growth_color = COLOR_MAPVIEW_CITYGROWTH_BLOCKED;
     } else {
       *growth_color = COLOR_MAPVIEW_CITYTEXT;
+    }
+
+    if (pcity->surplus[O_SHIELD] < 0) {
+      *production_color = COLOR_MAPVIEW_CITYGROWTH_BLOCKED;
     }
   } else {
     growth_buffer[0] = '\0';
