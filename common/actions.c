@@ -511,6 +511,16 @@ action_enablers_for_action(enum gen_action action)
 }
 
 /**************************************************************************
+  Returns TRUE iff the specified player knows (has seen) the specified
+  tile.
+**************************************************************************/
+static bool plr_knows_tile(const struct player *plr,
+                           const struct tile *ttile)
+{
+  return plr && ttile && (tile_get_known(ttile, plr) != TILE_UNKNOWN);
+}
+
+/**************************************************************************
   Returns TRUE if the wanted action is possible given that an action
   enabler later will enable it.
 
@@ -562,13 +572,26 @@ static bool is_action_possible(const enum gen_action wanted_action,
     }
   }
 
-  if (action_id_get_target_kind(wanted_action) == ATK_UNIT) {
-    /* The Freeciv code for all actions with a unit target that is
-     * controlled by action enablers assumes that the acting player can see
-     * the target unit. */
+  switch (action_id_get_target_kind(wanted_action)) {
+  case ATK_UNIT:
+    /* The Freeciv code for all actions that is controlled by action
+     * enablers and targets a unit assumes that the acting
+     * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
       return FALSE;
     }
+    break;
+  case ATK_CITY:
+    /* The Freeciv code assumes that the player is aware of the target
+     * city's existence. (How can you order an airlift to a city when you
+     * don't know its city ID?) */
+    if (!(plr_knows_tile(actor_player, city_tile(target_city)))) {
+      return TRI_NO;
+    }
+    break;
+  case ATK_COUNT:
+    fc_assert(action_id_get_target_kind(wanted_action) != ATK_COUNT);
+    break;
   }
 
   if (wanted_action == ACTION_ESTABLISH_EMBASSY
