@@ -337,8 +337,11 @@ void option_dialog::set_font(struct option* poption, QString s)
   fp->fromString(s);
   qp = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   ql = s.split(",");
-  qp->setText(ql[0] + " " + ql[1]);
+  if (s.isEmpty() == false) {
+    qp->setText(ql[0] + " " + ql[1]);
+  }
   qp->setFont(*fp);
+
 }
 
 
