@@ -1727,13 +1727,31 @@ is_action_possible(const enum gen_action wanted_action,
     return TRI_NO;
   }
 
-  if (action_id_get_target_kind(wanted_action) == ATK_UNIT) {
+  switch (action_id_get_target_kind(wanted_action)) {
+  case ATK_UNIT:
     /* The Freeciv code for all actions that is controlled by action
      * enablers and targets a unit assumes that the acting
      * player can see the target unit. */
     if (!can_player_see_unit(actor_player, target_unit)) {
       return TRI_NO;
     }
+    break;
+  case ATK_CITY:
+    /* The Freeciv code assumes that the player is aware of the target
+     * city's existence. (How can you order an airlift to a city when you
+     * don't know its city ID?) */
+    if (!(plr_knows_tile(actor_player, city_tile(target_city)))) {
+      return TRI_NO;
+    }
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+  case ATK_SELF:
+    /* No special player knowledge checks. */
+    break;
+  case ATK_COUNT:
+    fc_assert(action_id_get_target_kind(wanted_action) != ATK_COUNT);
+    break;
   }
 
   if (action_is_blocked_by(wanted_action, actor_unit,
