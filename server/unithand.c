@@ -802,29 +802,32 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
-  switch (action_id_get_target_kind(action_id)) {
-  case ATK_CITY:
-    if (target_city == NULL) {
-      explnat->kind = ANEK_MISSING_TARGET;
+  if (action_id != ACTION_ANY) {
+    /* A specific action should have a suiting target. */
+    switch (action_id_get_target_kind(action_id)) {
+    case ATK_CITY:
+      if (target_city == NULL) {
+        explnat->kind = ANEK_MISSING_TARGET;
+      }
+      break;
+    case ATK_UNIT:
+      if (target_unit == NULL) {
+        explnat->kind = ANEK_MISSING_TARGET;
+      }
+      break;
+    case ATK_UNITS:
+    case ATK_TILE:
+      if (target_tile == NULL) {
+        explnat->kind = ANEK_MISSING_TARGET;
+      }
+      break;
+    case ATK_SELF:
+      /* No other target. */
+      break;
+    case ATK_COUNT:
+      fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
+      break;
     }
-    break;
-  case ATK_UNIT:
-    if (target_unit == NULL) {
-      explnat->kind = ANEK_MISSING_TARGET;
-    }
-    break;
-  case ATK_UNITS:
-  case ATK_TILE:
-    if (target_tile == NULL) {
-      explnat->kind = ANEK_MISSING_TARGET;
-    }
-    break;
-  case ATK_SELF:
-    /* No other target. */
-    break;
-  case ATK_COUNT:
-    fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
-    break;
   }
 
   if (explnat->kind == ANEK_MISSING_TARGET) {
