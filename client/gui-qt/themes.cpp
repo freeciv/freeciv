@@ -68,7 +68,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   f.setFileName(name);
 
   if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    if (QString(theme_name) != QString("NightStalker")) {
+    if (QString(theme_name) != QString(FC_QT_DEFAULT_THEME_NAME)) {
       qtg_gui_clear_theme();
     }
     return;
@@ -105,7 +105,7 @@ void qtg_gui_clear_theme()
 
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   name = fileinfoname(get_data_dirs(), str.toLocal8Bit().data());
-  qtg_gui_load_theme(name.toLocal8Bit().data(), "NightStalker");
+  qtg_gui_load_theme(name.toLocal8Bit().data(), FC_QT_DEFAULT_THEME_NAME);
 }
 
 /*****************************************************************************
@@ -139,6 +139,7 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   QByteArray qba;;
   QString str;
   QString name;
+  QString qtheme_name;
   QDir dir;
   QFile f;
 
@@ -156,7 +157,13 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
     }
     theme_list << str;
   }
-  
+
+  qtheme_name = gui_options.gui_qt_default_theme_name;
+  /* move current theme on first position */
+  if (theme_list.contains(qtheme_name)) {
+    theme_list.removeAll(qtheme_name);
+    theme_list.prepend(qtheme_name);
+  }
   array = new char *[theme_list.count()];
   *count = theme_list.count();
 
@@ -166,6 +173,6 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
     strcpy(data, theme_list[i].toLocal8Bit().data());
     array[i] = data;
   }
-  
+
   return array;
 }
