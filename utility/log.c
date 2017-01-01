@@ -65,7 +65,7 @@ static struct log_fileinfo *log_files = NULL;
 #endif /* FREECIV_DEBUG */
 
 static char *log_level_names[] = {
-  "Fatal", "Error", "Normal", "Verbose", "Debug", NULL
+  "Fatal", "Error", "Warning", "Normal", "Verbose", "Debug", NULL
 };
 
 /* A helper variable to indicate that there is no log message. The '%s' is

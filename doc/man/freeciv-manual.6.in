@@ -7,7 +7,7 @@ freeciv-manual - Generate HTML manual for
 [\fIoption \fR...]
 .TP
 \fB\-d\fR, \fB\-\-debug\fR NUM
-Set debug log level (0 to 3)
+Set debug log level (0 to 4)
 .TP
 \fB\-h\fR, \fB\-\-help\fR
 Print a summary of the options

@@ -50,4 +50,3 @@ const char *script_client_signal_list(void);
 #endif /* __cplusplus */
 
 #endif /* FC__SCRIPT_CLIENT_H */
-

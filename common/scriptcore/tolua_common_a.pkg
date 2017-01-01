@@ -59,6 +59,7 @@ module log {
     enum log_level {
       LOG_FATAL @ FATAL,
       LOG_ERROR @ ERROR,
+      LOG_WARN @ WARN,
       LOG_NORMAL @ NORMAL,
       LOG_VERBOSE @ VERBOSE,
       LOG_DEBUG @ DEBUG
@@ -81,6 +82,10 @@ end
 
 function log.error(fmt, ...)
   log.base(log.level.ERROR, string.format(fmt, ...))
+end
+
+function log.warn(fmt, ...)
+  log.base(log.level.WARN, string.format(fmt, ...))
 end
 
 function log.normal(fmt, ...)

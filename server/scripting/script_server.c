@@ -499,6 +499,7 @@ static void script_server_cmd_reply(struct fc_lua *fcl, enum log_level level,
     log_fatal("%s", buf);
     break;
   case LOG_ERROR:
+  case LOG_WARN:
     rfc_status = C_WARNING;
     break;
   case LOG_NORMAL:

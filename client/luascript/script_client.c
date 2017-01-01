@@ -249,6 +249,9 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
   case LOG_ERROR:
     ftc_luaconsole = ftc_luaconsole_error;
     break;
+  case LOG_WARN:
+    ftc_luaconsole = ftc_luaconsole_warn;
+    break;
   case LOG_NORMAL:
     ftc_luaconsole = ftc_luaconsole_normal;
     break;

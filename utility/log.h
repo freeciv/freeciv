@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ extern "C" {
 enum log_level {
   LOG_FATAL = 0,
   LOG_ERROR,                    /* non-fatal errors */
+  LOG_WARN,
   LOG_NORMAL,
   LOG_VERBOSE,                  /* not shown by default */
   LOG_DEBUG                     /* suppressed unless DEBUG defined */
@@ -98,6 +99,8 @@ void do_log(const char *file, const char *function, int line,
          LOG_FATAL, message, ## __VA_ARGS__);
 #define log_error(message, ...)                                             \
   log_base(LOG_ERROR, message, ## __VA_ARGS__)
+#define log_warn(message, ...)                                              \
+  log_base(LOG_WARN, message, ## __VA_ARGS__)
 #define log_normal(message, ...)                                            \
   log_base(LOG_NORMAL, message, ## __VA_ARGS__)
 #define log_verbose(message, ...)                                           \

@@ -157,6 +157,7 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
     log_fatal("%s", buf);
     break;
   case LOG_ERROR:
+  case LOG_WARN:
     rfc_status = C_WARNING;
     break;
   case LOG_NORMAL:

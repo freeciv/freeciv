@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ extern "C" {
 
 typedef void (*deprecation_warn_callback)(const char *msg);
 
-#define LOG_DEPRECATION LOG_NORMAL
+#define LOG_DEPRECATION LOG_WARN
 
 void deprecation_warn_cb_set(deprecation_warn_callback new_cb);
 void deprecation_warnings_enable(void);

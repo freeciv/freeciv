@@ -117,9 +117,11 @@ option. Acceptable values for the \fIlevel_number\fP are:
 
 \fB1\fP    for fatal and error messages.
 
-\fB2\fP    for fatal, error and normal messages (default).
+\fB2\fP    for fatal, error and warning messages
 
-\fB3\fP    for fatal, error, normal, and verbose messages.
+\fB3\fP    for fatal, error, warning and normal messages (default).
+
+\fB4\fP    for fatal, error, warning, normal, and verbose messages.
 
 .TP
 .BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"

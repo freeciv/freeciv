@@ -192,6 +192,7 @@ extern const struct ft_color ftc_vote_abstain;
 
 extern const struct ft_color ftc_luaconsole_input;
 extern const struct ft_color ftc_luaconsole_error;
+extern const struct ft_color ftc_luaconsole_warn;
 extern const struct ft_color ftc_luaconsole_normal;
 extern const struct ft_color ftc_luaconsole_verbose;
 extern const struct ft_color ftc_luaconsole_debug;
