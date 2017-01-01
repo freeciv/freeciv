@@ -694,10 +694,6 @@ case "$host_os" in
     AC_DEFINE([FREECIV_SOCKET_ZERO_NOT_STDIN], [1], [Mingw-specific setting - stdin])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Mingw])
     AC_DEFINE([FREECIV_MSWINDOWS], [1], [Windows build])
-
-    dnl Backward compatibility macro, FREECIV_MSWINDOWS is the preferred one, and
-    dnl one that must be used in public headers.
-    AC_DEFINE([WIN32_NATIVE], [1], [Mingw-specific setting - native])
     AC_DEFINE([NONBLOCKING_SOCKETS], [1], [nonblocking sockets support])
     ;;
 
