@@ -23,14 +23,10 @@
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
 #include <SDL_mixer.h>
-#elif AUDIO_SDL1_2
-/* SDL */
-#include <SDL/SDL.h>
-#else  /* AUDIO_SDL1_2 */
-/* SDL2 */
+#else  /* PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
-#endif /* AUDIO_SDL1_2 */
-#endif
+#endif /* PLAIN_INCLUDE */
+#endif /* AUDIO_SDL */
 
 #include <stdio.h>
 
