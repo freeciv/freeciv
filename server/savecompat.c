@@ -1768,6 +1768,9 @@ static void compat_load_dev(struct loaddata *loading)
     } player_slots_iterate_end;
   }
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
+
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_1
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
