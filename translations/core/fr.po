@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2017-01-01 08:24+0100\n"
+"POT-Creation-Date: 2017-01-01 22:01+0200\n"
 "PO-Revision-Date: 2017-01-01 18:13+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -568,7 +568,9 @@ msgstr ""
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it "
 "under certain conditions;"
-msgstr "Freeciv est un logiciel libre, son copiage et sa distribution sont les bienvenus sous certaines conditions ;"
+msgstr ""
+"Freeciv est un logiciel libre, son copiage et sa distribution sont les "
+"bienvenus sous certaines conditions ;"
 
 #: client/chatline_common.c:183
 msgid "See the \"Copying\" item on the Help menu."
@@ -12259,7 +12261,12 @@ msgid ""
 "window will pop up asking which action should be performed even if an attack "
 "action is legal and no other interesting action are. This allows you to "
 "change you mind or to select an uninteresting action."
-msgstr "Lorsque cette option est activée, quand une unité arrive sur une cible qu'elle peut attaquer, une fenêtre s'ouvrira pour demander quelle action devrait être réalisée, même si une attaque est légale et qu'aucune autre action intéressante le soit. Ceci vous permet de changer d'avis ou de sélectionner une action inintéressante."
+msgstr ""
+"Lorsque cette option est activée, quand une unité arrive sur une cible "
+"qu'elle peut attaquer, une fenêtre s'ouvrira pour demander quelle action "
+"devrait être réalisée, même si une attaque est légale et qu'aucune autre "
+"action intéressante le soit. Ceci vous permet de changer d'avis ou de "
+"sélectionner une action inintéressante."
 
 #: client/options.c:2259
 msgid "Enable cursor changing"
@@ -15975,7 +15982,9 @@ msgstr "Impossible si %s a déjà été construit."
 #: common/reqtext.c:357
 #, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete."
-msgstr "Nécessite qu'un joueur possède la merveille %s et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite qu'un joueur possède la merveille %s et qu'elle ne soit pas déjà "
+"obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:364
@@ -15988,7 +15997,9 @@ msgstr "Nécessite qu'un joueur possède %s."
 #, c-format
 msgid ""
 "Prevented if %s is currently owned by any player, unless it is obsolete."
-msgstr "Impossible un joueur possède actuellement la merveille %s - sauf si elle est obsolète."
+msgstr ""
+"Impossible un joueur possède actuellement la merveille %s - sauf si elle est "
+"obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:379
@@ -16002,7 +16013,9 @@ msgstr "Impossible un joueur possède actuellement la merveille %s."
 msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point, and for it not to have been rendered obsolete."
-msgstr "Nécessite qu'un de vos alliés actuels ait construit la merveille %s à un moment donné, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite qu'un de vos alliés actuels ait construit la merveille %s à un "
+"moment donné, et qu'elle ne soit pas déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:405
@@ -16010,7 +16023,8 @@ msgstr "Nécessite qu'un de vos alliés actuels ait construit la merveille %s à
 msgid ""
 "Requires someone who is currently allied to you to have built %s at some "
 "point."
-msgstr "Nécessite qu'un de vos alliés actuels ait construit %s à un moment donné."
+msgstr ""
+"Nécessite qu'un de vos alliés actuels ait construit %s à un moment donné."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:414
@@ -16018,13 +16032,16 @@ msgstr "Nécessite qu'un de vos alliés actuels ait construit %s à un moment do
 msgid ""
 "Prevented if someone currently allied to you has ever built %s, unless it "
 "would be obsolete."
-msgstr "Impossible si l'un de vos alliés actuels a un jour construit la merveille %s, à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si l'un de vos alliés actuels a un jour construit la merveille "
+"%s, à moins qu'elle ne soit obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:422
 #, c-format
 msgid "Prevented if someone currently allied to you has ever built %s."
-msgstr "Impossible si l'un de vos alliés actuels a un jour construit la merveille %s."
+msgstr ""
+"Impossible si l'un de vos alliés actuels a un jour construit la merveille %s."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:434
@@ -16032,7 +16049,9 @@ msgstr "Impossible si l'un de vos alliés actuels a un jour construit la merveil
 msgid ""
 "Requires someone allied to you to own %s, and for it not to have been "
 "rendered obsolete."
-msgstr "Nécessite qu'un de vos alliés possède la merveille %s, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite qu'un de vos alliés possède la merveille %s, et qu'elle ne soit "
+"pas déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:442
@@ -16044,7 +16063,9 @@ msgstr "Nécessite qu'un de vos alliés possède la merveille %s."
 #: common/reqtext.c:450
 #, c-format
 msgid "Prevented if someone allied to you owns %s, unless it is obsolete."
-msgstr "Impossible si l'un de vos alliés possède la merveille %s, à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si l'un de vos alliés possède la merveille %s, à moins qu'elle ne "
+"soit obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:457
@@ -16058,13 +16079,16 @@ msgstr "Impossible si l'un de vos alliés possède la merveille %s."
 msgid ""
 "Requires someone on your team to have built %s at some point, and for it not "
 "to have been rendered obsolete."
-msgstr "Nécessite qu'un coéquipier ait construit la merveille %s à un moment donné, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite qu'un coéquipier ait construit la merveille %s à un moment donné, "
+"et qu'elle ne soit pas déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:482
 #, c-format
 msgid "Requires someone on your team to have built %s at some point."
-msgstr "Nécessite qu'un coéquipier ait construit la merveille %s à un moment donné."
+msgstr ""
+"Nécessite qu'un coéquipier ait construit la merveille %s à un moment donné."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:491
@@ -16072,7 +16096,9 @@ msgstr "Nécessite qu'un coéquipier ait construit la merveille %s à un moment 
 msgid ""
 "Prevented if someone on your team has ever built %s, unless it would be "
 "obsolete."
-msgstr "Impossible si un coéquipier a un jour construit la merveille %s - à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si un coéquipier a un jour construit la merveille %s - à moins "
+"qu'elle ne soit obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:498
@@ -16086,7 +16112,9 @@ msgstr "Impossible si un coéquipier a un jour construit la merveille %s."
 msgid ""
 "Requires someone on your team to own %s, and for it not to have been "
 "rendered obsolete."
-msgstr "Nécessite qu'un coéquipier possède la merveille %s, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite qu'un coéquipier possède la merveille %s, et qu'elle ne soit pas "
+"déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:518
@@ -16098,7 +16126,9 @@ msgstr "Nécessite qu'un coéquipier possède la merveille %s."
 #: common/reqtext.c:526
 #, c-format
 msgid "Prevented if someone on your team owns %s, unless it is obsolete."
-msgstr "Impossible si un coéquipier possède la merveille %s, à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si un coéquipier possède la merveille %s, à moins qu'elle ne soit "
+"obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:533
@@ -16112,7 +16142,9 @@ msgstr "Impossible si un coéquipier possède la merveille %s."
 msgid ""
 "Requires you to have built %s at some point, and for it not to have been "
 "rendered obsolete."
-msgstr "Nécessite que vous ayez construit la merveille %s à un moment donné, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite que vous ayez construit la merveille %s à un moment donné, et "
+"qu'elle ne soit pas déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:558
@@ -16124,7 +16156,9 @@ msgstr "Nécessite que vous ayez construit %s à un moment donné."
 #: common/reqtext.c:566
 #, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete."
-msgstr "Impossible si vous avez un jour construit la merveille %s - à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si vous avez un jour construit la merveille %s - à moins qu'elle "
+"ne soit obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:573
@@ -16136,7 +16170,9 @@ msgstr "Impossible si vous avez un jour construit la merveille %s."
 #: common/reqtext.c:584
 #, c-format
 msgid "Requires you to own %s, which must not be obsolete."
-msgstr "Nécessite que vous possédiez la merveille %s, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite que vous possédiez la merveille %s, et qu'elle ne soit pas déjà "
+"obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:591
@@ -16148,7 +16184,9 @@ msgstr "Nécessite que vous possédiez la merveille %s."
 #: common/reqtext.c:599
 #, c-format
 msgid "Prevented if you own %s, unless it is obsolete."
-msgstr "Impossible si vous possédez la merveille %s, à moins qu'elle ne soit obsolète."
+msgstr ""
+"Impossible si vous possédez la merveille %s, à moins qu'elle ne soit "
+"obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:606
@@ -16162,13 +16200,17 @@ msgstr "Impossible si vous possédez la merveille %s."
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
 "obsolete."
-msgstr "Nécessite que la merveille %s soit dans l'une de vos ville du même continent, et qu'elle ne soit pas déjà obsolète."
+msgstr ""
+"Nécessite que la merveille %s soit dans l'une de vos ville du même "
+"continent, et qu'elle ne soit pas déjà obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:629
 #, c-format
 msgid "Requires %s in one of your cities on the same continent."
-msgstr "Nécessite que la merveille %s soit dans l'une de vos villes du même continent."
+msgstr ""
+"Nécessite que la merveille %s soit dans l'une de vos villes du même "
+"continent."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:638
@@ -16176,19 +16218,24 @@ msgstr "Nécessite que la merveille %s soit dans l'une de vos villes du même co
 msgid ""
 "Prevented if %s is in one of your cities on the same continent, unless it is "
 "obsolete."
-msgstr "Impossible si la merveille %s est dans l'une de vos cité du même continent, sauf si elle est obsolète."
+msgstr ""
+"Impossible si la merveille %s est dans l'une de vos cité du même continent, "
+"sauf si elle est obsolète."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:645
 #, c-format
 msgid "Prevented if %s is in one of your cities on the same continent."
-msgstr "Impossible si la merveille %s est dans l'une de vos villes du même continent."
+msgstr ""
+"Impossible si la merveille %s est dans l'une de vos villes du même continent."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:661
 #, c-format
 msgid "Requires %s in the city or a trade partner (and not yet obsolete)."
-msgstr "Nécessite %s dans la ville ou chez un partenaire commercial (et pas déjà obsolète)."
+msgstr ""
+"Nécessite %s dans la ville ou chez un partenaire commercial (et pas déjà "
+"obsolète)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:668
@@ -16200,7 +16247,9 @@ msgstr "Nécessite %s dans la ville ou chez un partenaire commercial."
 #: common/reqtext.c:677
 #, c-format
 msgid "Prevented by %s in the city or a trade partner (unless it is obsolete)."
-msgstr "Empêché par %s dans la ville ou chez un partenaire commercial (sauf si obsolète)."
+msgstr ""
+"Empêché par %s dans la ville ou chez un partenaire commercial (sauf si "
+"obsolète)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:684
@@ -16287,14 +16336,18 @@ msgstr "Empêché par %s sur une case dans le rayon de la ville."
 msgid ""
 "?extra:Requires %s on a tile within the city radius, or the city radius of a "
 "trade partner."
-msgstr "Nécessite %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite %s sur une case dans le rayon de la ville, ou dans le rayon de la "
+"ville d'un partenaire commercial."
 
 #: common/reqtext.c:805
 #, c-format
 msgid ""
 "?extra:Prevented by %s on any tile within the city radius or the city radius "
 "of a trade partner."
-msgstr "Empêché par %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par %s sur une case dans le rayon de la ville, ou dans le rayon de "
+"la ville d'un partenaire commercial."
 
 #: common/reqtext.c:825
 #, c-format
@@ -16319,12 +16372,15 @@ msgstr "Empêché par un terrain %s sur la case."
 #: common/reqtext.c:861
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile."
-msgstr "Nécessite le terrain %s sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite le terrain %s sur la case ou sur une case adjacente cardinalement."
 
 #: common/reqtext.c:866
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile."
-msgstr "Empêché par le terrain %s sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par le terrain %s sur la case ou sur une case adjacente "
+"cardinalement."
 
 #: common/reqtext.c:874
 #, c-format
@@ -16351,14 +16407,18 @@ msgstr "Empêché par un terrain %s sur une case dans le rayon de la ville."
 msgid ""
 "?terrain:Requires %s on a tile within the city radius, or the city radius of "
 "a trade partner."
-msgstr "Nécessite le terrain %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite le terrain %s sur une case dans le rayon de la ville, ou dans le "
+"rayon de la ville d'un partenaire commercial."
 
 #: common/reqtext.c:905
 #, c-format
 msgid ""
 "?terrain:Prevented by %s on any tile within the city radius or the city "
 "radius of a trade partner."
-msgstr "Empêché par un terrain %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par un terrain %s sur une case dans le rayon de la ville, ou dans le "
+"rayon de la ville d'un partenaire commercial."
 
 #. TRANS: "... playing as the Swedes."
 #: common/reqtext.c:927
@@ -16486,14 +16546,18 @@ msgstr "Nécessite que vous jouiez pas une nation du style %s."
 #: common/reqtext.c:1095
 #, c-format
 msgid "Requires at least one %s citizen in the city or a trade partner."
-msgstr "Nécessite au moins un citoyen %s dans la ville, ou chez un partenaire commercial."
+msgstr ""
+"Nécessite au moins un citoyen %s dans la ville, ou chez un partenaire "
+"commercial."
 
 #. TRANS: "... no Pirate citizens ..."
 #: common/reqtext.c:1101
 #, c-format
 msgid ""
 "Requires that there are no %s citizens in the city or any trade partners."
-msgstr "Nécessite qu'il n'y ait aucun citoyen %s dans la ville, ou chez un partenaire commercial."
+msgstr ""
+"Nécessite qu'il n'y ait aucun citoyen %s dans la ville, ou chez un "
+"partenaire commercial."
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
 #: common/reqtext.c:1110
@@ -16516,41 +16580,53 @@ msgstr "Nécessite qu'il n'y ait aucun citoyen %s dans la ville."
 msgid ""
 "Requires that you have the relationship '%s' with at least one other living "
 "player."
-msgstr "Nécessite que vos relations diplomatique avec au moins un autre joueur en vie soit '%s'."
+msgstr ""
+"Nécessite que vos relations diplomatique avec au moins un autre joueur en "
+"vie soit '%s'."
 
 #: common/reqtext.c:1148
 #, c-format
 msgid ""
 "Requires that you do not have the relationship '%s' with any living player."
-msgstr "Nécessite que vous n'ayez pas de relations diplomatiques '%s' avec un joueur en vie."
+msgstr ""
+"Nécessite que vous n'ayez pas de relations diplomatiques '%s' avec un joueur "
+"en vie."
 
 #: common/reqtext.c:1156
 #, c-format
 msgid ""
 "Requires that somebody on your team has the relationship '%s' with at least "
 "one other living player."
-msgstr "Nécessite qu'un coéquipier ait des relations diplomatiques de '%s' avec au moins un autre joueur en vie."
+msgstr ""
+"Nécessite qu'un coéquipier ait des relations diplomatiques de '%s' avec au "
+"moins un autre joueur en vie."
 
 #: common/reqtext.c:1162
 #, c-format
 msgid ""
 "Requires that nobody on your team has the relationship '%s' with any living "
 "player."
-msgstr "Nécessite qu'aucun copéquipier n'ait de relations diplomatiques de '%s' avec un autre joueur en vie."
+msgstr ""
+"Nécessite qu'aucun copéquipier n'ait de relations diplomatiques de '%s' avec "
+"un autre joueur en vie."
 
 #: common/reqtext.c:1170
 #, c-format
 msgid ""
 "Requires that somebody in your alliance has the relationship '%s' with at "
 "least one other living player."
-msgstr "Nécessite qu'un de vos alliés ait des relations diplomatiques de '%s' avec un autre joueur en vie."
+msgstr ""
+"Nécessite qu'un de vos alliés ait des relations diplomatiques de '%s' avec "
+"un autre joueur en vie."
 
 #: common/reqtext.c:1176
 #, c-format
 msgid ""
 "Requires that nobody in your alliance has the relationship '%s' with any "
 "living player."
-msgstr "Nécessite qu'aucun de vos alliés n'ait de relations diplomatiques de '%s' avec un autre joueur en vie."
+msgstr ""
+"Nécessite qu'aucun de vos alliés n'ait de relations diplomatiques de '%s' "
+"avec un autre joueur en vie."
 
 #: common/reqtext.c:1184
 #, c-format
@@ -16560,18 +16636,23 @@ msgstr "Nécessite une relation diplomatique '%s' entre deux joueurs en vie."
 #: common/reqtext.c:1189
 #, c-format
 msgid "Requires that no two living players have the relationship '%s'."
-msgstr "Nécessite qu'il n'y ait pas de relation diplomatique '%s' entre deux joueurs en vie."
+msgstr ""
+"Nécessite qu'il n'y ait pas de relation diplomatique '%s' entre deux joueurs "
+"en vie."
 
 #: common/reqtext.c:1197
 #, c-format
 msgid "Requires that you have the relationship '%s' with the other player."
-msgstr "Nécessite que vos relations diplomatiques avec l'autre joueur soient %s."
+msgstr ""
+"Nécessite que vos relations diplomatiques avec l'autre joueur soient %s."
 
 #: common/reqtext.c:1202
 #, c-format
 msgid ""
 "Requires that you do not have the relationship '%s' with the other player."
-msgstr "Nécessite que vos relations diplomatique avec l'autre joueur ne soient pas %s."
+msgstr ""
+"Nécessite que vos relations diplomatique avec l'autre joueur ne soient pas "
+"%s."
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1223
@@ -16736,8 +16817,12 @@ msgstr "Ne s'applique pas aux %s."
 msgid "Requires a minimum city size of %d for this city or a trade partner."
 msgid_plural ""
 "Requires a minimum city size of %d for this city or a trade partner."
-msgstr[0] "Nécessite une taille de ville minimale de %d pour cette ville ou un partenaire commercial."
-msgstr[1] "Nécessite une taille de ville minimale de %d pour cette ville ou un partenaire commercial."
+msgstr[0] ""
+"Nécessite une taille de ville minimale de %d pour cette ville ou un "
+"partenaire commercial."
+msgstr[1] ""
+"Nécessite une taille de ville minimale de %d pour cette ville ou un "
+"partenaire commercial."
 
 #: common/reqtext.c:1565
 #, c-format
@@ -16747,8 +16832,12 @@ msgid ""
 msgid_plural ""
 "Requires the city size to be less than %d for this city and all trade "
 "partners."
-msgstr[0] "Nécessite une taille de ville plus petite que %d pour cette ville et tous les partenaires commerciaux."
-msgstr[1] "Nécessite une taille de ville plus petite que %d pour cette ville et tous les partenaires commerciaux."
+msgstr[0] ""
+"Nécessite une taille de ville plus petite que %d pour cette ville et tous "
+"les partenaires commerciaux."
+msgstr[1] ""
+"Nécessite une taille de ville plus petite que %d pour cette ville et tous "
+"les partenaires commerciaux."
 
 #: common/reqtext.c:1576
 #, c-format
@@ -16783,8 +16872,12 @@ msgstr[1] "Nécessite une culture dans la ville inférieure à %d."
 msgid "Requires a minimum culture of %d in this city or a trade partner."
 msgid_plural ""
 "Requires a minimum culture of %d in this city or a trade partner."
-msgstr[0] "Nécessite une culture minimale de %d dans la ville ou chez un partenaire commercial."
-msgstr[1] "Nécessite une culture minimale de %d dans la ville ou chez un partenaire commercial."
+msgstr[0] ""
+"Nécessite une culture minimale de %d dans la ville ou chez un partenaire "
+"commercial."
+msgstr[1] ""
+"Nécessite une culture minimale de %d dans la ville ou chez un partenaire "
+"commercial."
 
 #: common/reqtext.c:1631
 #, c-format
@@ -16792,8 +16885,12 @@ msgid ""
 "Requires the culture in this city and all trade partners to be less than %d."
 msgid_plural ""
 "Requires the culture in this city and all trade partners to be less than %d."
-msgstr[0] "Nécessite une culture inférieure à %d dans la ville et chez tous ses partenaires commerciaux."
-msgstr[1] "Nécessite une culture inférieure à %d dans la ville et chez tous ses partenaires commerciaux."
+msgstr[0] ""
+"Nécessite une culture inférieure à %d dans la ville et chez tous ses "
+"partenaires commerciaux."
+msgstr[1] ""
+"Nécessite une culture inférieure à %d dans la ville et chez tous ses "
+"partenaires commerciaux."
 
 #: common/reqtext.c:1642
 #, c-format
@@ -16829,16 +16926,20 @@ msgid ""
 "Requires someone in your current alliance to have culture of at least %d."
 msgid_plural ""
 "Requires someone in your current alliance to have culture of at least %d."
-msgstr[0] "Nécessite qu'un membre de votre alliance ait une culture d'au moins %d."
-msgstr[1] "Nécessite qu'un membre de votre alliance ait une culture d'au moins %d."
+msgstr[0] ""
+"Nécessite qu'un membre de votre alliance ait une culture d'au moins %d."
+msgstr[1] ""
+"Nécessite qu'un membre de votre alliance ait une culture d'au moins %d."
 
 #: common/reqtext.c:1688
 #, c-format
 msgid "Prevented if anyone in your current alliance has culture of %d or more."
 msgid_plural ""
 "Prevented if anyone in your current alliance has culture of %d or more."
-msgstr[0] "Impossible si un membre de votre alliance a une culture de %d ou plus."
-msgstr[1] "Impossible si un membre de votre alliance a une culture de %d ou plus."
+msgstr[0] ""
+"Impossible si un membre de votre alliance a une culture de %d ou plus."
+msgstr[1] ""
+"Impossible si un membre de votre alliance a une culture de %d ou plus."
 
 #: common/reqtext.c:1699
 #, c-format
@@ -16875,7 +16976,8 @@ msgid ""
 msgid_plural ""
 "The tile or at least one cardinally adjacent tile must have %d units or "
 "fewer."
-msgstr[0] "La case ou une case adjacente cardinallement doit avoir %d unité ou moins."
+msgstr[0] ""
+"La case ou une case adjacente cardinallement doit avoir %d unité ou moins."
 msgstr[1] "La case ou une case adjacente doit avoir %d unités ou moins."
 
 #: common/reqtext.c:1754
@@ -16884,24 +16986,34 @@ msgid ""
 "The tile and all cardinally adjacent tiles must have more than %d unit each."
 msgid_plural ""
 "The tile and all cardinally adjacent tiles must have more than %d units each."
-msgstr[0] "La case et toutes les cases adjacentes cardinallement ne doivent pas avoir plus de %d unité chacune."
-msgstr[1] "La case et toutes les cases adjacentes cardinallement ne doivent pas avoir plus de %d unités chacune."
+msgstr[0] ""
+"La case et toutes les cases adjacentes cardinallement ne doivent pas avoir "
+"plus de %d unité chacune."
+msgstr[1] ""
+"La case et toutes les cases adjacentes cardinallement ne doivent pas avoir "
+"plus de %d unités chacune."
 
 #: common/reqtext.c:1765
 #, c-format
 msgid "The tile or at least one adjacent tile must have %d unit or fewer."
 msgid_plural ""
 "The tile or at least one adjacent tile must have %d units or fewer."
-msgstr[0] "La case ou au moins une case adjacente doit avoir %d unité ou moins."
-msgstr[1] "La case ou au moins une case adjacente doit avoir %d unités ou moins."
+msgstr[0] ""
+"La case ou au moins une case adjacente doit avoir %d unité ou moins."
+msgstr[1] ""
+"La case ou au moins une case adjacente doit avoir %d unités ou moins."
 
 #: common/reqtext.c:1773
 #, c-format
 msgid "The tile and all adjacent tiles must have more than %d unit each."
 msgid_plural ""
 "The tile and all adjacent tiles must have more than %d units each."
-msgstr[0] "La case et toutes les cases adjacentes doivent avoir plus de %d unité chacune."
-msgstr[1] "La case et toutes les cases adjacentes doivent avoir plus de %d unités chacune."
+msgstr[0] ""
+"La case et toutes les cases adjacentes doivent avoir plus de %d unité "
+"chacune."
+msgstr[1] ""
+"La case et toutes les cases adjacentes doivent avoir plus de %d unités "
+"chacune."
 
 #. TRANS: AI level (e.g., "Handicapped")
 #: common/reqtext.c:1800
@@ -16932,7 +17044,9 @@ msgstr "Empêché par un terrain de type %s sur la case."
 #, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent tile."
-msgstr "Nécessite un terrain de type %s sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite un terrain de type %s sur la case ou sur une case adjacente "
+"cardinalement."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1838
@@ -16940,7 +17054,9 @@ msgstr "Nécessite un terrain de type %s sur la case ou sur une case adjacente c
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
 "tile."
-msgstr "Empêché par un terrain de type %s sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par un terrain de type %s sur la case ou sur une case adjacente "
+"cardinalement."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1848
@@ -16952,20 +17068,23 @@ msgstr "Nécessite un terrain de type %s sur la case ou sur une case adjacente."
 #: common/reqtext.c:1855
 #, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile."
-msgstr "Empêché par un terrain de type %s sur la case ou sur une case adjacente."
+msgstr ""
+"Empêché par un terrain de type %s sur la case ou sur une case adjacente."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1865
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius."
-msgstr "Nécessite un terrain de type %s sur une case dans le rayon de la ville."
+msgstr ""
+"Nécessite un terrain de type %s sur une case dans le rayon de la ville."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1872
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius."
-msgstr "Empêché par un terrain de type %s sur une case dans le rayon de la ville."
+msgstr ""
+"Empêché par un terrain de type %s sur une case dans le rayon de la ville."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1882
@@ -16973,7 +17092,9 @@ msgstr "Empêché par un terrain de type %s sur une case dans le rayon de la vil
 msgid ""
 "?terrainclass:Requires %s terrain on a tile within the city radius or the "
 "city radius of a trade partner."
-msgstr "Nécessite un terrain de type %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite un terrain de type %s sur une case dans le rayon de la ville, ou "
+"dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1890
@@ -16981,7 +17102,9 @@ msgstr "Nécessite un terrain de type %s sur une case dans le rayon de la ville,
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius or "
 "the city radius of a trade partner."
-msgstr "Empêché par un terrain de type %s sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par un terrain de type %s sur une case dans le rayon de la ville, ou "
+"dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1914
@@ -17001,7 +17124,9 @@ msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur la case."
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
-msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite un terrain avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1934
@@ -17009,33 +17134,43 @@ msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur la case ou sur une ca
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
-msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par un terrain avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1943
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile or an adjacent tile."
-msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Nécessite un terrain avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1949
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile."
-msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Empêché par un terrain avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1958
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on a tile within the city radius."
-msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Nécessite un terrain avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1964
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius."
-msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Empêché par un terrain avec l'indicateur \"%s\" sur une case dans le rayon "
+"de la ville."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1973
@@ -17043,7 +17178,9 @@ msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur une case dans le r
 msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius or "
 "the city radius of a trade partner."
-msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite un terrain avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville, ou le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:1980
@@ -17051,7 +17188,9 @@ msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur une case dans le rayo
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
-msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par un terrain avec l'indicateur \"%s\" sur une case dans le rayon "
+"de la ville, ou le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2003
@@ -17071,7 +17210,9 @@ msgstr "Empêché par une base avec l'indicateur \"%s\" sur la case."
 msgid ""
 "Requires a base with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
-msgstr "Nécessite une base avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite une base avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2023
@@ -17079,33 +17220,43 @@ msgstr "Nécessite une base avec l'indicateur \"%s\" sur la case ou sur une case
 msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
-msgstr "Empêché par une base avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par une base avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2032
 #, c-format
 msgid "Requires a base with the \"%s\" flag on the tile or an adjacent tile."
-msgstr "Nécessite une base avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Nécessite une base avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2038
 #, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any adjacent tile."
-msgstr "Empêché par une base avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Empêché par une base avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2047
 #, c-format
 msgid "Requires a base with the \"%s\" flag on a tile within the city radius."
-msgstr "Nécessite une base avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Nécessite une base avec l'indicateur \"%s\" sur une case dans le rayon de la "
+"ville."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2053
 #, c-format
 msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city radius."
-msgstr "Empêché par une base avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Empêché par une base avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2062
@@ -17113,7 +17264,9 @@ msgstr "Empêché par une base avec l'indicateur \"%s\" sur une case dans le ray
 msgid ""
 "Requires a base with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner."
-msgstr "Nécessite une base avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite une base avec l'indicateur \"%s\" sur une case dans le rayon de la "
+"ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2069
@@ -17121,7 +17274,9 @@ msgstr "Nécessite une base avec l'indicateur \"%s\" sur une case dans le rayon 
 msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
-msgstr "Empêché par une base avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par une base avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2092
@@ -17141,7 +17296,9 @@ msgstr "Empêché par une route avec l'indicateur \"%s\" sur la case."
 msgid ""
 "Requires a road with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
-msgstr "Nécessite une route avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite une route avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2112
@@ -17149,33 +17306,43 @@ msgstr "Nécessite une route avec l'indicateur \"%s\" sur la case ou sur une cas
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
-msgstr "Empêché par une route avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par une route avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2121
 #, c-format
 msgid "Requires a road with the \"%s\" flag on the tile or an adjacent tile."
-msgstr "Nécessite une route avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Nécessite une route avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2127
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any adjacent tile."
-msgstr "Empêché par une route avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Empêché par une route avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2136
 #, c-format
 msgid "Requires a road with the \"%s\" flag on a tile within the city radius."
-msgstr "Nécessite une route avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Nécessite une route avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2142
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius."
-msgstr "Empêché par une route avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Empêché par une route avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2151
@@ -17183,7 +17350,9 @@ msgstr "Empêché par une route avec l'indicateur \"%s\" sur une case dans le ra
 msgid ""
 "Requires a road with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner."
-msgstr "Nécessite une route avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite une route avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2158
@@ -17191,7 +17360,9 @@ msgstr "Nécessite une route avec l'indicateur \"%s\" sur une case dans le rayon
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
-msgstr "Empêché par une route avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par une route avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2181
@@ -17211,7 +17382,9 @@ msgstr "Empêché par un extra avec l'indicateur \"%s\" sur la case."
 msgid ""
 "Requires an extra with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
-msgstr "Nécessite un extra avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Nécessite un extra avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2201
@@ -17219,27 +17392,35 @@ msgstr "Nécessite un extra avec l'indicateur \"%s\" sur la case ou sur une case
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
-msgstr "Empêché par un extra avec l'indicateur \"%s\" sur la case ou sur une case adjacente cardinalement."
+msgstr ""
+"Empêché par un extra avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2210
 #, c-format
 msgid "Requires an extra with the \"%s\" flag on the tile or an adjacent tile."
-msgstr "Nécessite un extra avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Nécessite un extra avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2216
 #, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any adjacent tile."
-msgstr "Empêché par un extra avec l'indicateur \"%s\" sur la case ou sur une case adjacente."
+msgstr ""
+"Empêché par un extra avec l'indicateur \"%s\" sur la case ou sur une case "
+"adjacente."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2225
 #, c-format
 msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius."
-msgstr "Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon de la "
+"ville."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2231
@@ -17247,7 +17428,9 @@ msgstr "Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon 
 msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
 "radius."
-msgstr "Empêché par un extra avec l'indicateur \"%s\" sur une case dans le rayon de la ville."
+msgstr ""
+"Empêché par un extra avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2240
@@ -17255,7 +17438,9 @@ msgstr "Empêché par un extra avec l'indicateur \"%s\" sur une case dans le ray
 msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius or "
 "the city radius of a trade partner."
-msgstr "Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon de la "
+"ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2247
@@ -17263,7 +17448,9 @@ msgstr "Nécessite un extra avec l'indicateur \"%s\" sur une case dans le rayon 
 msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
 "radius or the city radius of a trade partner."
-msgstr "Empêché par un extra avec l'indicateur \"%s\" sur une case dans le rayon de la ville, ou dans le rayon de la ville d'un partenaire commercial."
+msgstr ""
+"Empêché par un extra avec l'indicateur \"%s\" sur une case dans le rayon de "
+"la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #: common/reqtext.c:2270
 #, c-format
@@ -21330,7 +21517,9 @@ msgstr "Les forteresses améliorent la défense des unités terrestres."
 #: data/multiplayer/terrain.ruleset:1251 server/rscompat.c:269
 #, c-format
 msgid "Diplomatic units get a 25% defense bonus in diplomatic fights."
-msgstr "Les unités diplomatiques obtiennent un bonus défensif de 25% dans les luttes diplomatiques."
+msgstr ""
+"Les unités diplomatiques obtiennent un bonus défensif de 25% dans les luttes "
+"diplomatiques."
 
 #: data/civ1/terrain.ruleset:981 data/civ2/terrain.ruleset:1108
 #: data/classic/terrain.ruleset:1384 data/multiplayer/terrain.ruleset:1358
@@ -25574,7 +25763,12 @@ msgid ""
 "instantly transports the unit from one city to another and will use all of "
 "the unit's movement points. A unit must have some movement points left to be "
 "airlifted, and cannot carry cargo."
-msgstr "Une ville avec un Aéroport peut transporter une unité supplémentaire par tour. L'aéroportage transporte instantanément l'unité d'une ville à l'autre et consomme tous les points de mouvement de l'unité. Une unité doit avoir des points de mouvement restants pour pouvoir être transportée, et ne peut pas porter de cargaison."
+msgstr ""
+"Une ville avec un Aéroport peut transporter une unité supplémentaire par "
+"tour. L'aéroportage transporte instantanément l'unité d'une ville à l'autre "
+"et consomme tous les points de mouvement de l'unité. Une unité doit avoir "
+"des points de mouvement restants pour pouvoir être transportée, et ne peut "
+"pas porter de cargaison."
 
 #: data/sandbox/buildings.ruleset:90
 msgid ""
@@ -26561,9 +26755,13 @@ msgid ""
 "\n"
 "This ruleset was originally based on current default ruleset, civ2civ3."
 msgstr ""
-"Vous jouez avec des règles du jeu Bac à sable. Elles présentent les fonctionalités nouvelles ou inhabituelles disponibles dans Freeciv, sans considération pour l'équité stricte du jeu, la jouabilité, la performance IA ou ou compatibilité des sauvegardes entre les versions.\n"
+"Vous jouez avec des règles du jeu Bac à sable. Elles présentent les "
+"fonctionalités nouvelles ou inhabituelles disponibles dans Freeciv, sans "
+"considération pour l'équité stricte du jeu, la jouabilité, la performance IA "
+"ou ou compatibilité des sauvegardes entre les versions.\n"
 "\n"
-"Ces règles du jeu sont basées intialement sur les règles du jeu par défaut actuelles, civ2civ3."
+"Ces règles du jeu sont basées intialement sur les règles du jeu par défaut "
+"actuelles, civ2civ3."
 
 #. TRANS: Steal _Map Fragments (3% chance of success).
 #: data/sandbox/game.ruleset:266
@@ -28532,11 +28730,14 @@ msgid ""
 msgstr ""
 "Vous jouez à Freeciv avec les règles civ2civ3 :\n"
 "\n"
-"La manière de jouer ressemble plus à civ3, tout en conservant le système de combats de civ2.\n"
+"La manière de jouer ressemble plus à civ3, tout en conservant le système de "
+"combats de civ2.\n"
 "\n"
-"Adapté pour le jeu solo, avec des IA moins agressives au début, mais plus difficiles à la fin.\n"
+"Adapté pour le jeu solo, avec des IA moins agressives au début, mais plus "
+"difficiles à la fin.\n"
 "\n"
-"Les différences avec les anciennes règles du jeu par défaut, dites 'classiques', sont listées en entier dans README.civ2civ3."
+"Les différences avec les anciennes règles du jeu par défaut, dites "
+"'classiques', sont listées en entier dans README.civ2civ3."
 
 #: data/civ2civ3/terrain.ruleset:1513
 msgid ""
@@ -37491,7 +37692,9 @@ msgstr "Impossible d'écrire dans le fichier de manuel \"%s\"."
 msgid ""
 "%sFreeciv %s server options (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s options du serveur (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s options du serveur (%s)%s\n"
+"\n"
 
 #: tools/civmanual.c:270
 #, c-format
@@ -37540,7 +37743,9 @@ msgstr ""
 msgid ""
 "\n"
 "<p class=\"changed\">Value set to %s</p>\n"
-msgstr "\n<p class=\"changed\">Valeur positionnée à %s</p>\n"
+msgstr ""
+"\n"
+"<p class=\"changed\">Valeur positionnée à %s</p>\n"
 
 #. TRANS: markup ... Freeciv version ... markup
 #: tools/civmanual.c:335
@@ -37585,7 +37790,9 @@ msgstr ""
 msgid ""
 "%sFreeciv %s terrain help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide du terrain (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide du terrain (%s)%s\n"
+"\n"
 
 #: tools/civmanual.c:380
 msgid "Move cost"
@@ -37622,7 +37829,9 @@ msgstr "impossible"
 msgid ""
 "%sFreeciv %s buildings help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide des bâtiments (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide des bâtiments (%s)%s\n"
+"\n"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:494
@@ -37630,7 +37839,9 @@ msgstr "%sFreeciv %s aide des bâtiments (%s)%s\n\n"
 msgid ""
 "%sFreeciv %s wonders help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide des merveilles (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide des merveilles (%s)%s\n"
+"\n"
 
 #: tools/civmanual.c:500
 msgid "Upkeep"
@@ -37660,7 +37871,9 @@ msgstr "pas de %s"
 msgid ""
 "%sFreeciv %s governments help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide sur les gouvernements (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide sur les gouvernements (%s)%s\n"
+"\n"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:574
@@ -37668,7 +37881,9 @@ msgstr "%sFreeciv %s aide sur les gouvernements (%s)%s\n\n"
 msgid ""
 "%sFreeciv %s unit types help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide des types d'unité (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide des types d'unité (%s)%s\n"
+"\n"
 
 #: tools/civmanual.c:584
 #, c-format
@@ -37718,7 +37933,9 @@ msgstr "Points de vie : %d"
 msgid ""
 "%sFreeciv %s tech help (%s)%s\n"
 "\n"
-msgstr "%sFreeciv %s aide des technologies (%s)%s\n\n"
+msgstr ""
+"%sFreeciv %s aide des technologies (%s)%s\n"
+"\n"
 
 #: tools/civmanual.c:655
 #, c-format
@@ -39181,7 +39398,9 @@ msgstr ""
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
-msgstr "%s ne peut pas construire %s de la liste de travail ; plus disponible après %s. Différé..."
+msgstr ""
+"%s ne peut pas construire %s de la liste de travail ; plus disponible après "
+"%s. Différé..."
 
 #: server/cityturn.c:1932
 #, c-format
@@ -43878,14 +44097,32 @@ msgid ""
 "If the requested generator is incompatible with other server settings, the "
 "server may fall back to another generator."
 msgstr ""
-"Spécifie l'algorithme utilisé pour générer la carte. Si la valeur par défaut de l'option 'startpos' est utilisée, alors le générateur sélectionné choisit une valeur convenable pour l'option 'startpos' ; sinon, la carte générée tente de satisfaire à l'option 'startpos'.\n"
-"- \"Carte du scenario\" (SCENARIO) : indique une carte prégénérée. Par défaut, si le scenario ne précise pas les positions de départ, elles seront allouée en fonction de la taille des contients.\n"
-"- \"Hauteur complètement aléatoire\" (RANDOM) : génère des cartes avec un certain nombre d'îles relativement petites régulièrement espacées. Par défaut, les positions de départ sont allouées en fonction de la taille des continents.\n"
-"- \"Hauteur pseudo-fractale\" (FRACTAL) : génère des mondes semblables à la Terre avec un ou plusieurs grands continents et une constellation d'îles plus petites. Par défaut, tous les joueurs sont placés sur un seul continent.\n"
-"- \"Basée sur des îles\" (ISLAND) : génère une carte 'juste' avec un certain nombre d'îles de taille et de forme comparables, chacune avec approximativement le même taux de chaque type de terrain. Par défaut, chaque joueur a sa propre île.\n"
-"- \"Îles équitables\" (FAIR) : génère une copie exacte de la même île pour tous les joueurs ou toutes les équipes.\n"
-"- \"Carte à fracture\" (FRACTURE) : génère des cartes à partir d'un motif de fracture. A tendance à placer les collines et les montagnes le long des bords des contients.\n"
-"Si le générateur sélectionné est imcompatible avec d'autres options du serveur, le serveur peut recourrir à un autre générateur."
+"Spécifie l'algorithme utilisé pour générer la carte. Si la valeur par défaut "
+"de l'option 'startpos' est utilisée, alors le générateur sélectionné choisit "
+"une valeur convenable pour l'option 'startpos' ; sinon, la carte générée "
+"tente de satisfaire à l'option 'startpos'.\n"
+"- \"Carte du scenario\" (SCENARIO) : indique une carte prégénérée. Par "
+"défaut, si le scenario ne précise pas les positions de départ, elles seront "
+"allouée en fonction de la taille des contients.\n"
+"- \"Hauteur complètement aléatoire\" (RANDOM) : génère des cartes avec un "
+"certain nombre d'îles relativement petites régulièrement espacées. Par "
+"défaut, les positions de départ sont allouées en fonction de la taille des "
+"continents.\n"
+"- \"Hauteur pseudo-fractale\" (FRACTAL) : génère des mondes semblables à la "
+"Terre avec un ou plusieurs grands continents et une constellation d'îles "
+"plus petites. Par défaut, tous les joueurs sont placés sur un seul "
+"continent.\n"
+"- \"Basée sur des îles\" (ISLAND) : génère une carte 'juste' avec un certain "
+"nombre d'îles de taille et de forme comparables, chacune avec "
+"approximativement le même taux de chaque type de terrain. Par défaut, chaque "
+"joueur a sa propre île.\n"
+"- \"Îles équitables\" (FAIR) : génère une copie exacte de la même île pour "
+"tous les joueurs ou toutes les équipes.\n"
+"- \"Carte à fracture\" (FRACTURE) : génère des cartes à partir d'un motif de "
+"fracture. A tendance à placer les collines et les montagnes le long des "
+"bords des contients.\n"
+"Si le générateur sélectionné est imcompatible avec d'autres options du "
+"serveur, le serveur peut recourrir à un autre générateur."
 
 #: server/settings.c:1461
 msgid "Method used to choose start positions"

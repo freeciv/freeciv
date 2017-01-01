@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-12-09 01:19+0200\n"
+"POT-Creation-Date: 2017-01-01 22:01+0200\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Generator: KBabel 1.11.4\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:131
 msgid "Close"
 msgstr ""
 
@@ -36,208 +36,255 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:132
+#: tools/ruledit/ruledit.cpp:108
+msgid "Failed to load comments.txt"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:142
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tAfişează sumarul opţiunilor\n"
 
-#: tools/ruledit/ruledit.cpp:134
+#: tools/ruledit/ruledit.cpp:144
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tAfişează numărul versiunii\n"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:147
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:138
+#: tools/ruledit/ruledit.cpp:148
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:151
+#: tools/ruledit/ruledit.cpp:161
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:168
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opţiune nerecunoscută: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:62
-#, fuzzy
-msgid "Freeciv Ruleset Editor"
-msgstr "Listă servere Freeciv"
-
-#: tools/ruledit/ruledit_qt.cpp:131
+#: tools/ruledit/ruledit_qt.cpp:121
 #, c-format
 msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:136
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:148
 #, fuzzy
 msgid "Start editing"
 msgstr "Stabileşte opţiunile locale"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:160
 #, fuzzy
 msgid "Tech"
 msgstr "_Tehnologii"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Buildings"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:166
+msgid "Goods"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:168
+msgid "Governments"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:170
+msgid "Enablers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Nations"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:181
 #, fuzzy
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bun venit în Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:199
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "Deşert"
 
-#: tools/ruledit/ruledit_qt.cpp:219
+#: tools/ruledit/ruledit_qt.cpp:218
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:281
+#: tools/ruledit/ruledit_qt.cpp:268
+#, fuzzy
+msgid "Freeciv Ruleset Editor"
+msgstr "Listă servere Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:284
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:285
+#: tools/ruledit/ruledit_qt.cpp:288
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:64
-msgid "Name"
-msgstr "Nume"
-
-#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:72
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:65
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
 #, fuzzy
 msgid "Rule Name"
 msgstr "Nume jucător :"
 
-#: tools/ruledit/tab_building.cpp:78
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:73
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+msgid "Name"
+msgstr "Nume"
+
+#: tools/ruledit/tab_building.cpp:84 tools/ruledit/tab_good.cpp:84
+msgid "Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:89
 msgid "Add Building"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:83
+#: tools/ruledit/tab_building.cpp:94
 #, fuzzy
 msgid "Remove this Building"
 msgstr "Îndepărtaţi această presetare?"
 
-#: tools/ruledit/tab_building.cpp:148
+#: tools/ruledit/tab_building.cpp:171
 msgid "Building with that rule name already exist!"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:62
+#: tools/ruledit/tab_good.cpp:89
+msgid "Add Good"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:94
+#, fuzzy
+msgid "Remove this Good"
+msgstr "Îndepărtaţi această presetare?"
+
+#: tools/ruledit/tab_good.cpp:172
+msgid "Good with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:67
 #, fuzzy
 msgid "Ruleset name"
 msgstr "Deşert"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:72
 #, fuzzy
 msgid "Ruleset version"
 msgstr "P_resetări:"
 
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:77
 #, fuzzy
 msgid "Save to directory"
 msgstr "  -s, --saves DIR\tSalvează jocul în directorul DIR\n"
 
-#: tools/ruledit/tab_misc.cpp:79
+#: tools/ruledit/tab_misc.cpp:84
+msgid "Version suffix to directory name"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:89
 #, fuzzy
 msgid "Save now"
 msgstr "Începe un _scenariu de joc"
 
-#: tools/ruledit/tab_misc.cpp:86
+#: tools/ruledit/tab_misc.cpp:96
 msgid "?stat:Terrains"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Resources"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:104
+#, fuzzy
+msgid "?stat:Tech Classes"
+msgstr "_Tehnologii"
+
+#: tools/ruledit/tab_misc.cpp:108
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "_Tehnologii"
 
-#: tools/ruledit/tab_misc.cpp:98
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Unit Classes"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:102
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Unit Types"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Buildings"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Nations"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Styles"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Specialists"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Governments"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Disasters"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Bases"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:150
+#: tools/ruledit/tab_misc.cpp:160
+#, fuzzy
+msgid "?stat:Goods"
+msgstr "_Tehnologii"
+
+#: tools/ruledit/tab_misc.cpp:168
 msgid "Refresh Stats"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:231
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Deşert"
@@ -250,62 +297,82 @@ msgstr ""
 msgid "Nationlist"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:82
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:87
+#: tools/ruledit/tab_tech.cpp:91
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:95
+#: tools/ruledit/tab_tech.cpp:99
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:104
+#: tools/ruledit/tab_tech.cpp:108
 msgid "Add tech"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:109
+#: tools/ruledit/tab_tech.cpp:113
 #, fuzzy
 msgid "Remove this tech"
 msgstr "Îndepărtaţi această presetare?"
 
-#: tools/ruledit/tab_tech.cpp:189
+#: tools/ruledit/tab_tech.cpp:194
 #, fuzzy
 msgid "Never"
 msgstr "(Niciodată)"
 
-#: tools/ruledit/tab_tech.cpp:311
+#: tools/ruledit/tab_tech.cpp:330
 msgid "Tech with that rule name already exist!"
 msgstr ""
 
-#: tools/ruledit/tab_unit.cpp:80
+#: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
 msgstr ""
 
-#: tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_unit.cpp:88
 msgid "Add Unit"
 msgstr ""
 
-#: tools/ruledit/tab_unit.cpp:89
+#: tools/ruledit/tab_unit.cpp:93
 #, fuzzy
 msgid "Remove this Unit"
 msgstr "Îndepărtaţi această presetare?"
 
-#: tools/ruledit/tab_unit.cpp:154
+#: tools/ruledit/tab_unit.cpp:170
 msgid "Unit type with that rule name already exist!"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:62
+msgid "Type:"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:80
+msgid "Value:"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:96
+msgid "Range:"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:121
+msgid "Add Requirement"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:126
+msgid "Delete Requirement"
 msgstr ""
 
 #: tools/ruledit/validity.c:65
 msgid "Effect"
 msgstr ""
 
-#: tools/ruledit/validity.c:127
+#: tools/ruledit/validity.c:134
 msgid "Action Enabler"
 msgstr ""
 
-#: tools/ruledit/validity.c:147
+#: tools/ruledit/validity.c:154
 #, fuzzy
 msgid "Music Style"
 msgstr "Stilul oraşelor:"
