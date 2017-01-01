@@ -31,7 +31,6 @@ flags =
     _("Cities")
     _("AddToCity")
     _("Nuclear")
-    _("Infra"), _("Can build infrastructure.")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
   }
@@ -356,7 +355,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "Airbase", "AddToCity", "Cities", "NoVeteran"
 roles         = "Settlers", "WorkerStartUnit", "CitiesStartUnit"
 helptext      = _("\
 Settlers are one of the key units in the game, as they are your main \
@@ -415,7 +414,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "Transform", "Airbase", "AddToCity", "Cities", "NoVeteran"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "Transform", "Airbase", "AddToCity", "Cities", "NoVeteran"
 roles         = "Settlers", "WorkerStartUnit", "CitiesStartUnit"
 helptext      = _("\
 Engineers are similar to Settlers, but they work twice as fast and\

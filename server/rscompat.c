@@ -182,7 +182,6 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("AddToCity"), N_("Can join cities.") },
       { N_("Bombarder"), N_("Can do bombard attacks.") },
       { N_("Nuclear"), N_("This unit's attack causes a nuclear explosion!") },
-      { N_("Infra"), N_("Can build infrastructure.") },
       { N_("Paratroopers"),
           N_("Can be paradropped from a friendly city or suitable base.") },
       { N_("Marines"), N_("Can launch attack from non-native tiles.") },

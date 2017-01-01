@@ -41,7 +41,6 @@ flags =
     _("Cities")
     _("AddToCity")
     _("Nuclear")
-    _("Infra"), _("Can build infrastructure.")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
   }
@@ -457,7 +456,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 0
-flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity", "Cities"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity", "Cities"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -502,7 +501,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "Infra", "NonMil", "HasNoZOC", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Airbase"
 veteran_names             =
 ; /* TRANS: Worker veteran level */
   _("?worker_level:apprentice"),
@@ -569,7 +568,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers", "Infra", "NonMil", "HasNoZOC", "Transform", "Airbase"
+flags         = "Settlers", "NonMil", "HasNoZOC", "Transform", "Airbase"
 veteran_names             =
 ; /* TRANS: Worker veteran level */
   _("?worker_level:apprentice"),
