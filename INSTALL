@@ -275,7 +275,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    The "Glib" utility library provides non-graphical functions used by the
    "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
 
-   Freeciv requires a version of "Glib" greater or equal to 2.46
+   Freeciv requires a version of "Glib" greater or equal to 2.48
 
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
@@ -315,7 +315,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
        Provides an abstraction layer over X-Windows/LinuxFB/Win32 to implement
        basic drawing functions, windows, clipping, etc.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 3.18.0.
+   Freeciv requires a version of "Gtk+" greater or equal to 3.20.0.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
