@@ -47,8 +47,6 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/freetype2.m4			\
 		m4/gettext.m4			\
 		m4/gettimeofday.m4		\
-		m4/gtk-2.0.m4			\
-		m4/gtk2-client.m4		\
 		m4/gtk3-client.m4		\
 		m4/gtk3.22-client.m4		\
 		m4/gtk3x-client.m4		\

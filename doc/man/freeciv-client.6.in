@@ -11,10 +11,10 @@
 .\"
 .TH FREECIV 6 "November 2nd 2016"
 .SH NAME
-freeciv-gtk2, freeciv-gtk3, freeciv-gtk3.22, freeciv-sdl2, freeciv-qt \
+freeciv-gtk3, freeciv-gtk3.22, freeciv-sdl2, freeciv-qt \
 \- The clients for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-gtk2|freeciv-gtk3|freeciv-gtk3.22|freeciv-sdl2|freeciv-qt \
+.B freeciv-gtk3|freeciv-gtk3.22|freeciv-sdl2|freeciv-qt \
 [ \-A|\-\-Announce \fIprotocol\fP ] \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
@@ -32,11 +32,6 @@ freeciv-gtk2, freeciv-gtk3, freeciv-gtk3.22, freeciv-sdl2, freeciv-qt \
 [ \-t|\-\-tiles \fIname\fP ] \
 [ \-v|\-\-version ] \
 [ \-\- \fIclient-specific-parameters\fP ]
-
-.B freeciv-gtk2
-accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
-documentation. It also accepts
-.B [ \-h|\-\-help ]
 
 .B freeciv-gtk3
 accepts the standard Gtk parameters following \fB\-\-\fP; see the Gtk
@@ -75,12 +70,12 @@ easily one of the most fun and addictive network games out there!
 
 This is the client program used to connect to a Freeciv server - see also
 .IR freeciv-server (6)
-\&. \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-gtk3.22\fP, \fBfreeciv-qt\fP, and
+\&. \fBfreeciv-gtk3\fP, \fBfreeciv-gtk3.22\fP, \fBfreeciv-qt\fP, and
 \fBfreeciv-sdl2\fP
 can also spawn their own local server for single-player games.
 
 This manual page only lists the command line arguments. For more details
-about using \fBfreeciv-gtk2\fP, \fBfreeciv-gtk3\fP, \fBfreeciv-gtk3.22\fP,
+about using \fBfreeciv-gtk3\fP, \fBfreeciv-gtk3.22\fP,
 \fBfreeciv-sdl2\fP, or \fBfreeciv-qt\fP,
 see the Client Manual which can be found at
 .UR @WIKI_URL@

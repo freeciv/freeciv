@@ -14,11 +14,6 @@ CLIENT_FILES =				\
 	stdmusic.musicspec		\
 	stdsounds.soundspec		\
 	helpdata.txt
-if CLIENT_GUI_GTK_2_0
-CLIENT_FILES += \
-	freeciv.rc-2.0	\
-	gtk2_menus.xml
-endif
 if CLIENT_GUI_GTK_3_0
 CLIENT_FILES += \
 	gtk3_menus.xml
@@ -56,8 +51,6 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
 	freeciv-client.png \
-	freeciv.rc-2.0	\
-	gtk2_menus.xml	\
 	gtk3_menus.xml	\
 	gtk3.22_menus.xml	\
 	amplio2.tilespec \

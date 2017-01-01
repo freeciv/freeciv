@@ -410,7 +410,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk2/gtk3/sdl2/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk3/sdl2/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -419,7 +419,6 @@ if test "x$fcweb" = "xtrue" && test "x$client" = "xauto" ; then
   clients=no
 fi
 
-gui_gtk2=no
 gui_gtk3=no
 gui_gtk3_22=no
 gui_sdl2=no
@@ -434,15 +433,10 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   elif test "x$gui" = "xall" ; then
     client=all
   else
-    if test "x$gui" = "xgtk2"   ||
-       test "x$gui" = "xgtk2.0" ||
-       test "x$gui" = "xgtk20"  ||
-       test "x$gui" = "xgtk-2.0" ; then
-      gui_gtk2=yes
-    elif test "x$gui" = "xgtk3"   ||
-         test "x$gui" = "xgtk3.0" ||
-         test "x$gui" = "xgtk30"  ||
-         test "x$gui" = "xgtk-3.0" ; then
+    if test "x$gui" = "xgtk3"   ||
+        test "x$gui" = "xgtk3.0" ||
+        test "x$gui" = "xgtk30"  ||
+        test "x$gui" = "xgtk-3.0" ; then
       gui_gtk3=yes
     elif test "x$gui" = "xgtk3.22" ; then
       gui_gtk3_22=yes
@@ -972,9 +966,6 @@ if test "x$client" != "xno"; then
   dnl Gtk-3.0-specific overrides
   FC_GTK3_CLIENT
 
-  dnl Gtk-2.0-specific overrides
-  FC_GTK2_CLIENT
-
   dnl QT-specific overrides
   FC_QT_CLIENT
 
@@ -997,8 +988,7 @@ if test "x$client" != "xno"; then
 fi
 
 if test "x$client" = "xall" ; then
-  if test "x$gui_gtk2" = "xyes" ||
-     test "x$gui_gtk3" = "xyes" ||
+  if test "x$gui_gtk3" = "xyes" ||
      test "x$gui_gtk3_22" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
@@ -1030,12 +1020,11 @@ fi
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/yes/gtk2/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/ye/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
 fcmp_cli=no
-fcmp_gtk2=no
 fcmp_gtk3=no
 fcmp_gtk3_22=no
 fcmp_qt=no
@@ -1053,15 +1042,10 @@ for mp in $(echo $fc_mp | $SED 's/,/ /g') ; do
     modinst=auto
   elif test "x$mp" = "xall" ; then
     modinst=all
-  else if test "x$mp" = "xgtk2"   ||
-          test "x$mp" = "xgtk2.0" ||
-          test "x$mp" = "xgtk20"  ||
-          test "x$mp" = "xgtk-2.0" ; then
-      req_fcmp_gtk2=yes
-    elif test "x$mp" = "xgtk3"   ||
-         test "x$mp" = "xgtk3.0" ||
-         test "x$mp" = "xgtk30"  ||
-         test "x$mp" = "xgtk-3.0" ; then
+  else if test "x$mp" = "xgtk3"   ||
+          test "x$mp" = "xgtk3.0" ||
+          test "x$mp" = "xgtk30"  ||
+          test "x$mp" = "xgtk-3.0" ; then
       req_fcmp_gtk3=yes
     elif test "x$mp" = "xgtk3x" ; then
       req_fcmp_gtk3x=yes
@@ -1131,32 +1115,6 @@ if test "x$req_fcmp_gtk3x" = "xyes" && test "x$fcmp_gtk3x" != "xyes" ; then
   AC_MSG_ERROR([Cannot build gtk3x-version of freeciv-modpack as requested])
 fi
 
-if test "x$req_fcmp_gtk2" = "xyes" ||
-   test "x$modinst" = "xall" ; then
-  AM_PATH_GTK_2_0([2.12.0],
-[
-  PKG_CHECK_MODULES([GTHREAD_GTK2], [gthread-2.0],
-[
-  fcmp_gtk2=yes
-  fcmp_list="$fcmp_list gtk2"
-  mp_gtk2_cflags="$GTK2_CFLAGS $GTHREAD_GTK2_CFLAGS"
-  mp_gtk2_libs="$GTK2_LIBS $GTHREAD_GTK2_LIBS"
-  if test "x$MINGW" = "xyes"; then
-     dnl Required to compile gtk2 on Windows platform
-     mp_gtk2_cflags="$mp_gtk2_cflags -mms-bitfields"
-     mp_gtk2_ldflags="$mp_gtk2_ldflags -mwindows"
-  fi
-
-  if test "x$modinst" = "xauto" ; then
-    modinst=found
-  fi
-], [])], [])
-fi
-
-if test "x$req_fcmp_gtk2" = "xyes" && test "x$fcmp_gtk2" != "xyes" ; then
-  AC_MSG_ERROR([Cannot build gtk2-version of freeciv-modpack as requested])
-fi
-
 if test "x$req_fcmp_qt" = "xyes" ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
 
@@ -1194,14 +1152,12 @@ if test "x$modinst" != "xfound" &&
    test "x$modinst" != "xcli" &&
    test "x$fcmp_gtk3" != "xyes" &&
    test "x$fcmp_gtk3x" != "xyes" &&
-   test "x$fcmp_gtk2" != "xyes" &&
    test "x$fcmp_qt" != "xyes" ;then
   AC_MSG_ERROR([Cannot build modpack installer with any gui])
 fi 
 
 if test "x$modinst" != "xno" && test "x$MINGW" != "xyes" ; then
   dnl Hack to get a run-time icon -- not needed on Windows
-  mp_gtk2_cflags="$mp_gtk2_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   mp_gtk3_cflags="$mp_gtk3_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
   mp_gtk3x_cflags="$mp_gtk3x_cflags -DMPICON_PATH=\"\\\"$datadir/freeciv/misc/mpicon.png\\\"\""
 fi
@@ -1213,7 +1169,6 @@ fi
 AM_CONDITIONAL([MODINST], [test "x$modinst" != "xno"])
 AM_CONDITIONAL([MODINST_GTK3], [test "x$fcmp_gtk3" = "xyes"])
 AM_CONDITIONAL([MODINST_GTK3X], [test "x$fcmp_gtk3x" = "xyes"])
-AM_CONDITIONAL([MODINST_GTK2], [test "x$fcmp_gtk2" = "xyes"])
 AM_CONDITIONAL([MODINST_QT], [test "x$fcmp_qt" = "xyes"])
 AM_CONDITIONAL([MODINST_CLI], [test "x$fcmp_cli" = "xyes"])
 
@@ -1251,9 +1206,6 @@ if test "x$ruledit" = "xtest" ; then
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
-AC_SUBST([gui_gtk2_cflags])
-AC_SUBST([gui_gtk2_libs])
-AC_SUBST([gui_gtk2_ldflags])
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])
@@ -1274,9 +1226,6 @@ AC_SUBST([gui_stub_ldflags])
 AC_SUBST([mp_cli_cflags])
 AC_SUBST([mp_cli_libs])
 AC_SUBST([mp_cli_ldflags])
-AC_SUBST([mp_gtk2_cflags])
-AC_SUBST([mp_gtk2_libs])
-AC_SUBST([mp_gtk2_ldflags])
 AC_SUBST([mp_gtk3_cflags])
 AC_SUBST([mp_gtk3_libs])
 AC_SUBST([mp_gtk3_ldflags])
@@ -1298,7 +1247,6 @@ AC_SUBST([HOST_DIR_SEPARATOR])
 AC_SUBST([FREECIV_STORAGE_DIR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "x$gui_gtk2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_22, test "x$gui_gtk3_22" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3X, /bin/false)
@@ -1797,22 +1745,18 @@ AC_CONFIG_FILES([Makefile
           bootstrap/Makefile
           lua/Makefile
           client/freeciv.desktop:bootstrap/freeciv.desktop.in
-          client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
           client/freeciv-gtk3.22.desktop:bootstrap/freeciv-gtk3.22.desktop.in
           client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
           client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
 	  tools/freeciv-mp-gtk3.desktop:bootstrap/freeciv-mp-gtk3.desktop.in
-	  tools/freeciv-mp-gtk2.desktop:bootstrap/freeciv-mp-gtk2.desktop.in
 	  tools/freeciv-mp-qt.desktop:bootstrap/freeciv-mp-qt.desktop.in
 	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
-          client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
           client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in
           client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
-          tools/freeciv-mp-gtk2.appdata.xml:bootstrap/freeciv-mp-gtk2.appdata.xml.in
           tools/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
           tools/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
           tools/ruledit/freeciv-ruledit.appdata.xml:bootstrap/freeciv-ruledit.appdata.xml.in])
@@ -1852,9 +1796,6 @@ AC_MSG_NOTICE([
     SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub
-
-  Not maintained client frontends:
-    Gtk-2.0: $gui_gtk2
 
   == Server ==
   Build freeciv server:  $server

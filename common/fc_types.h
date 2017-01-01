@@ -516,6 +516,8 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 /* Used for options which do not belong to any gui. */
 #define SPECENUM_VALUE0 GUI_STUB
 #define SPECENUM_VALUE0NAME "stub"
+/* GUI_GTK2 remains for now for keeping client options alive until
+ * user has migrated them to gtk3-client */
 #define SPECENUM_VALUE1 GUI_GTK2
 #define SPECENUM_VALUE1NAME "gtk2"
 #define SPECENUM_VALUE2 GUI_GTK3

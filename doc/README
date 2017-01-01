@@ -80,11 +80,6 @@ a game is in progress, there will be one server program running, and as many
 client programs as there are human players.  The server does not use a gui,
 but the clients do.  The clients come in many flavors:
 
-freeciv-gtk2:  This uses the GTK+ 2 libraries. To install, see section 1a of
-  the INSTALL document.
-  This client has been replaced by freeciv-gtk3, but it still exist for benefit
-  of those who cannot to switch to gtk3.
-
 freeciv-gtk3:  This uses the GTK+ 3 libraries. To install, see section 1b of
   the INSTALL document.
   This client is better supported and more developed than the others,

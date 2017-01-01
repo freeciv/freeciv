@@ -30,7 +30,6 @@ a) Install or update your Cygwin using the "Install Cygwin Now!" link
    - zlib-devel (Libs)
 
   Install development package for the gui you want to compile, one of
-  - libgtk2.0-devel (Libs)
   - libgtk3-devel (Libs)
 
   For additional functionality install also:
@@ -52,7 +51,7 @@ b) Get a Freeciv source tree (the doc/ subdirectory this file is in, is in sourc
    Put it in a temporary place like /tmp.
 
       ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
-   where <gui> is either "gtk2", "gtk3" or both as "gtk2,gtk3". If you
+   where <gui> is "gtk3". If you
    didn't install gettext-devel, you have to give also configure option
    --disable-nls to disable Native Language Support.
 

@@ -21,9 +21,6 @@ endif
 if MODINST_CLI
 bin_PROGRAMS += freeciv-mp-cli
 endif
-if MODINST_GTK2
-bin_PROGRAMS += freeciv-mp-gtk2
-endif
 if MODINST_GTK3
 bin_PROGRAMS += freeciv-mp-gtk3
 endif
@@ -59,13 +56,6 @@ desktopfile_DATA =
 
 appdatafiledir = @APPDATADIR@
 appdatafile_DATA =
-
-if MODINST_GTK2
-desktopfile_DATA += \
-	freeciv-mp-gtk2.desktop
-appdatafile_DATA += \
-	freeciv-mp-gtk2.appdata.xml
-endif
 
 if MODINST_GTK3
 desktopfile_DATA += \
@@ -131,22 +121,6 @@ freeciv_mp_cli_LDADD = \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
 		$(mp_cli_libs)
-endif
-
-if MODINST_GTK2
-freeciv_mp_gtk2_CPPFLAGS = $(common_cppflags) $(mp_gtk2_cflags)
-
-freeciv_mp_gtk2_SOURCES = mpgui_gtk2.c
-
-freeciv_mp_gtk2_LDFLAGS = $(mp_gtk2_ldflags)
-
-freeciv_mp_gtk2_LDADD = \
-		libfcmp.la \
-		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
-		$(top_builddir)/common/libfreeciv.la \
-		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_gtk2_libs) \
-		$(MPICON)
 endif
 
 if MODINST_GTK3

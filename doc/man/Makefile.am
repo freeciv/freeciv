@@ -8,12 +8,10 @@ MAN_PAGES = 			\
 	freeciv-ruledit.6
 
 MAN_LINKS = 			\
-	freeciv-gtk2.6		\
 	freeciv-gtk3.6		\
 	freeciv-gtk3.22.6	\
 	freeciv-sdl2.6		\
 	freeciv-qt.6		\
-	freeciv-mp-gtk2.6	\
 	freeciv-mp-gtk3.6	\
 	freeciv-mp-qt.6		\
 	freeciv-mp-cli.6

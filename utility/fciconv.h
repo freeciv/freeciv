@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003-2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ extern "C" {
 
 #include <stdio.h>
 
+/* utility */
 #include "shared.h"
 
 /*
@@ -37,8 +38,8 @@ extern "C" {
     This is always UTF-8.
 
   - The internal_encoding is used internally within freeciv.  This is always
-    UTF-8 at the server, but can be configured by the GUI client.  The GTK2
-    client uses UTF-8 here but other clients will use whatever their GUI
+    UTF-8 at the server, but can be configured by the GUI client.  The GTK
+    clients use UTF-8 here but other clients will use whatever their GUI
     library or platform requires.  By using the GUI encoding internally at
     the client it allows us to pass any strings directly to the GUI without
     needing to convert them.  The drawback is that we have to convert them

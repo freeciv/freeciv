@@ -34,7 +34,6 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 #
 
 # by default build all installers that are buildable with current msys2 environment
-# gtk2-installer is not built.
 all: gtk3-installer gtk3.22-installer sdl2-installer ruledit-installer qt-installer
 
 gtk3.22-installer:
@@ -50,9 +49,6 @@ buildable: buildable-$(WINARCH)
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
-
-gtk2-installer:
-	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
 
 sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
@@ -98,8 +94,6 @@ build-freeciv-gtk3.22: build-freeciv-common
 
 build-freeciv-gtk3: build-freeciv-common
 
-build-freeciv-gtk2: build-freeciv-common
-
 build-freeciv-sdl2: build-freeciv-common
 
 build-freeciv-qt: build-freeciv-common
@@ -130,8 +124,6 @@ install-freeciv-common:
 install-freeciv-gtk3.22: install-freeciv-common
 
 install-freeciv-gtk3: install-freeciv-common
-
-install-freeciv-gtk2: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 
@@ -254,25 +246,6 @@ install-env-gtk3.22: install-env-default-fcmp
 
 install-env-gtk3: install-env-default-fcmp
 
-GTK2_DLLS := \
-	libgdk-win32-2.0-0.dll \
-	libgtk-win32-2.0-0.dll \
-	libexpat-1.dll \
-	libharfbuzz-0.dll \
-	libpangoft2-1.0-0.dll \
-	libpcre-1.dll
-
-install-env-gtk2: install-env-common
-	# add DLLs
-	cp -R $(addprefix $(DLLPATH_PREFIX), $(GTK2_DLLS)) install-$(WINARCH)-$(GUI)/
-	# add additional GTK+2 files
-	mkdir -p install-$(WINARCH)-$(GUI)/etc
-	cp -R /$(ARCHDIR)/etc/gtk-2.0 install-$(WINARCH)-$(GUI)/etc/
-	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
-	cp -R /$(ARCHDIR)/lib/gtk-2.0/2.10.0 install-$(WINARCH)-$(GUI)/lib/gtk-2.0/
-	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
-	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
-
 SDL2_DLLS := \
 	libSDL2_gfx-1-0-0.dll \
 	SDL2_image.dll \
@@ -379,8 +352,6 @@ wrap-gtk3.22: build-freeciv-gtk3.22 installer-common
 
 wrap-gtk3: build-freeciv-gtk3 installer-common
 
-wrap-gtk2: build-freeciv-gtk2 installer-common
-
 wrap-sdl2: build-freeciv-sdl2 installer-common
 
 wrap-qt: build-freeciv-qt installer-common
@@ -415,7 +386,6 @@ clean-installer-ruledit:
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
 	make GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
-	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit clean-install-ruledit clean-installer-ruledit

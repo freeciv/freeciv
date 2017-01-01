@@ -67,12 +67,7 @@ fi
 dnl ==========================================================================
 dnl debug level >= checks
 if test "x$enable_debug" = "xchecks"; then
-  dnl Add additional flags as stated in ./doc/HACKING. Compiling the
-  dnl server is OK but there are problems in a external library (gtk2)
-  dnl which prevent the compilation of the client using this extended
-  dnl flags (see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=148766)
-  dnl temporary fixing the problem by patching this file to compile freeciv
-  dnl with this option set
+  dnl Add additional flags as stated in ./doc/HACKING.
   FC_C_FLAGS([-Wstrict-prototypes], [], [EXTRA_DEBUG_CFLAGS])
 fi
 

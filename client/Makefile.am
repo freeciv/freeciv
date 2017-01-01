@@ -16,13 +16,6 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-sdl2.appdata.xml
 endif
-if CLIENT_GUI_GTK_2_0
-GUI_SUBDIRS += gui-gtk-2.0
-desktopfile_DATA += \
-	freeciv-gtk2.desktop
-appdatafile_DATA += \
-	freeciv-gtk2.appdata.xml
-endif
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
 desktopfile_DATA += \
@@ -192,22 +185,6 @@ clientlibs = \
  $(top_builddir)/client/agents/libagents.la \
  $(top_builddir)/client/luascript/libscripting_client.la \
  $(top_builddir)/dependencies/cvercmp/libcvercmp.la
-
-if CLIENT_GUI_GTK_2_0
-bin_PROGRAMS += freeciv-gtk2
-noinst_LTLIBRARIES += libfcgui-gtk2.la
-libfcgui_gtk2_la_SOURCES = $(freeciv_client_src)
-libfcgui_gtk2_la_LIBADD = gui-gtk-2.0/libgui-gtk2.la $(clientlibs)
-freeciv_gtk2_SOURCES = dummy.c
-freeciv_gtk2_LDFLAGS = $(gui_gtk2_ldflags)
-freeciv_gtk2_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-gtk2.la \
- $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_gtk2_libs)
-endif
 
 if CLIENT_GUI_GTK_3_0
 bin_PROGRAMS += freeciv-gtk3

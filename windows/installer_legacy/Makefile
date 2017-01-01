@@ -33,13 +33,10 @@ endif
 
 
 # by default build all installers
-all: gtk3-installer gtk2-installer sdl2-installer qt-installer ruledit-installer
+all: gtk3-installer sdl2-installer qt-installer ruledit-installer
 
 gtk3-installer:
 	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
-
-gtk2-installer:
-	make GUI=gtk2 FCMP=gtk2 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk2
 
 sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
@@ -79,8 +76,6 @@ build-freeciv-ruledit:
 
 build-freeciv-gtk3: build-freeciv-common
 
-build-freeciv-gtk2: build-freeciv-common
-
 build-freeciv-sdl2: build-freeciv-common
 
 build-freeciv-qt: build-freeciv-common
@@ -109,8 +104,6 @@ install-freeciv-common:
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
 
 install-freeciv-gtk3: install-freeciv-common
-
-install-freeciv-gtk2: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 	# add CJK fonts
@@ -215,21 +208,6 @@ install-env-default-fcmp: install-env-common
 
 install-env-gtk3: install-env-default-fcmp
 
-GTK2_DLLS := \
-	libgdk-win32-2.0-0.dll \
-	libgtk-win32-2.0-0.dll
-
-install-env-gtk2: install-env-common
-	# add DLLs
-	cp -R $(addprefix /bin/, $(GTK2_DLLS)) install-$(GUI)
-	# add additional GTK+2 files
-	mkdir -p install-$(GUI)/etc
-	cp -R /etc/gtk-2.0 install-$(GUI)/etc/
-	mkdir -p install-$(GUI)/lib/gtk-2.0/
-	cp -R /lib/gtk-2.0/2.10.0 install-$(GUI)/lib/gtk-2.0/
-	cp -R /share/locale install-$(GUI)/share/
-	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk20.mo -delete
-
 SDL2_DLLS := \
 	libpng16-16.dll \
 	libSDL2_gfx-1-0-0.dll \
@@ -285,8 +263,6 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 
 wrap-gtk3: build-freeciv-gtk3 installer-common
 
-wrap-gtk2: build-freeciv-gtk2 installer-common
-
 wrap-sdl2: build-freeciv-sdl2 installer-common
 
 wrap-qt: build-freeciv-qt installer-common
@@ -320,7 +296,6 @@ clean-installer-ruledit:
 
 clean:
 	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
-	make GUI=gtk2 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit clean-install-ruledit clean-installer-ruledit

@@ -11,7 +11,7 @@
 .\"
 .TH FREECIV 6 "May 24th 2014"
 .SH NAME
-freeciv-mp-gtk2, freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
+freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
 \- Custom content installers for the Freeciv game
 .SH SYNOPSIS
 .B freeciv-modpack \
