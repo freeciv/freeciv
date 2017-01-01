@@ -20,7 +20,7 @@ extern "C" {
 /* utility */
 #include "support.h"
 
-#define RULESET_COMPAT_CAP "+Freeciv-2.6-ruleset"
+#define RULESET_COMPAT_CAP "+Freeciv-ruleset-Devel-2015.January.14"
 
 struct rscompat_info
 {

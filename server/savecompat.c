@@ -63,7 +63,8 @@ static char *special_names[] =
           | * "known" info format change                   |            |
   2.5.0   | 2.5.0 release                                  | 201./../.. | 20
   2.6.0   | 2.6.0 release                                  | 201./../.. | 30
-  3.0.0   | 3.0.0 release (development)                    | 201./../.. | 40
+  3.0.0   | 3.0.0 release                                  | 201./../.. | 40
+  3.1.0   | 3.0.0 release (development)                    | 201./../.. | 50
           |                                                |            |
 */
 
@@ -71,6 +72,7 @@ static void compat_load_020400(struct loaddata *loading);
 static void compat_load_020500(struct loaddata *loading);
 static void compat_load_020600(struct loaddata *loading);
 static void compat_load_030000(struct loaddata *loading);
+static void compat_load_030100(struct loaddata *loading);
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading);
@@ -93,8 +95,8 @@ struct compatibility {
  * add the needed code to load the old version below. Thus, old
  * savegames can still be loaded while the main definition
  * represents the current state of the art. */
-/* While developing freeciv 3.0.0, add the compatibility functions to
- * - compat_load_030000 to load old savegame. */
+/* While developing freeciv 3.1.0, add the compatibility functions to
+ * - compat_load_030100 to load old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { 0, NULL },
@@ -110,6 +112,8 @@ static struct compatibility compat[] = {
   { 30, compat_load_020600 },
   /* version 31 to 39 are reserved for possible changes in 2.6.x */
   { 40, compat_load_030000 },
+  /* version 41 to 49 are reserved for possible changes in 3.0.x */
+  { 50, compat_load_030100 },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
@@ -163,7 +167,6 @@ void sg_load_compat(struct loaddata *loading)
     compat_load_dev(loading);
   }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
-
 }
 
 /****************************************************************************
@@ -1307,6 +1310,20 @@ static void compat_load_030000(struct loaddata *loading)
   }
 
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
+}
+
+/****************************************************************************
+  Translate savegame secfile data from 3.0.x to 3.1.0 format.
+  Note that even after 2.6 savegame has gone through all the compatibility
+  functions, it's still 2.6 savegame in the sense that savegame2.c, and not
+  savegame3.c, handles it.
+****************************************************************************/
+static void compat_load_030100(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  log_debug("Upgrading data from savegame to version 3.1.0");
 }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
