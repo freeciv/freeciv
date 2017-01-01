@@ -46,7 +46,7 @@ enum tai_abort_msg_class
   TAI_ABORT_NONE
 };
 
-static enum tai_abort_msg_class tai_check_messages(void);
+static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait);
 
 struct tai_thr
 {
@@ -73,6 +73,7 @@ void tai_init_threading(void)
 static void tai_thread_start(void *arg)
 {
   bool finished = FALSE;
+  struct ai_type *ait = arg;
 
   log_debug("New AI thread launched");
 
@@ -81,7 +82,7 @@ static void tai_thread_start(void *arg)
   while (!finished) {
     fc_thread_cond_wait(&thrai.msgs_to.thr_cond, &thrai.msgs_to.mutex);
 
-    if (tai_check_messages() <= TAI_ABORT_EXIT) {
+    if (tai_check_messages(ait) <= TAI_ABORT_EXIT) {
       finished = TRUE;
     }
   }
@@ -93,7 +94,7 @@ static void tai_thread_start(void *arg)
 /**************************************************************************
   Handle messages from message queue.
 **************************************************************************/
-static enum tai_abort_msg_class tai_check_messages(void)
+static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait)
 {
   enum tai_abort_msg_class ret_abort= TAI_ABORT_NONE;
 
@@ -117,14 +118,14 @@ static enum tai_abort_msg_class tai_check_messages(void)
       /* Use _safe iterate in case the main thread
        * destroyes cities while we are iterating through these. */
       city_list_iterate_safe(msg->plr->cities, pcity) {
-        tai_city_worker_requests_create(msg->plr, pcity);
+        tai_city_worker_requests_create(ait, msg->plr, pcity);
 
         /* Release mutex for a second in case main thread
          * wants to do something to city list. */
         fc_release_mutex(&game.server.mutexes.city_list);
 
         /* Recursive message check in case phase is finished. */
-        new_abort = tai_check_messages();
+        new_abort = tai_check_messages(ait);
         fc_allocate_mutex(&game.server.mutexes.city_list);
         if (new_abort < TAI_ABORT_NONE) {
           break;
@@ -206,7 +207,7 @@ void tai_control_gained(struct ai_type *ait, struct player *pplayer)
  
     fc_thread_cond_init(&thrai.msgs_to.thr_cond);
     fc_init_mutex(&thrai.msgs_to.mutex);
-    fc_thread_start(&thrai.ait, tai_thread_start, NULL);
+    fc_thread_start(&thrai.ait, tai_thread_start, ait);
   }
 }
 

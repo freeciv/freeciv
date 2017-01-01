@@ -16,7 +16,8 @@
 struct city;
 struct tai_req;
 
-void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity);
+void tai_city_worker_requests_create(struct ai_type *ait,
+                                     struct player *pplayer, struct city *pcity);
 void tai_req_worker_task_rcv(struct tai_req *req);
 
 #endif /* FC__TAICITY_H */

@@ -49,10 +49,12 @@ struct tai_worker_task_req
 };
 
 enum tai_worker_task_limitation {
-  TWTL_CURRENT_UNITS
+  TWTL_CURRENT_UNITS,
+  TWTL_BUILDABLE_UNITS
 };
 
-static bool tai_city_worker_task_select(struct player *pplayer, struct city *pcity,
+static bool tai_city_worker_task_select(struct ai_type *ait,
+                                        struct player *pplayer, struct city *pcity,
                                         struct worker_task *task,
                                         enum tai_worker_task_limitation limit);
 
@@ -60,11 +62,12 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
   Create worker request for the city. Only tasks that existing units can
   do are created.
 **************************************************************************/
-void tai_city_worker_requests_create(struct player *pplayer, struct city *pcity)
+void tai_city_worker_requests_create(struct ai_type *ait,
+                                     struct player *pplayer, struct city *pcity)
 {
   struct worker_task task;
 
-  if (tai_city_worker_task_select(pplayer, pcity, &task, TWTL_CURRENT_UNITS)) {
+  if (tai_city_worker_task_select(ait, pplayer, pcity, &task, TWTL_CURRENT_UNITS)) {
     struct tai_worker_task_req *data = fc_malloc(sizeof(*data));
 
     data->city_id = pcity->id;
@@ -83,7 +86,10 @@ struct tai_tile_state
   int worst_worked;
   int orig_worst_worked;
   int old_worst_worked;
+  int *wants;
 };
+
+static int dummy_wants[U_LAST];
 
 /**************************************************************************
   Select worker task suitable for the tile.
@@ -93,7 +99,8 @@ static void tai_tile_worker_task_select(struct player *pplayer,
                                         int cindex, struct unit_list *units,
                                         struct worker_task *worked,
                                         struct worker_task *unworked,
-                                        struct tai_tile_state *state)
+                                        struct tai_tile_state *state,
+                                        enum tai_worker_task_limitation limit)
 {
   int orig_value;
   bool potential_worst_worked = FALSE;
@@ -114,6 +121,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
   as_transform_activity_iterate(act) {
     bool consider = TRUE;
     bool possible = FALSE;
+    struct extra_type *tgt = NULL;
     enum extra_cause cause;
     enum extra_rmcause rmcause;
 
@@ -135,8 +143,6 @@ static void tai_tile_worker_task_select(struct player *pplayer,
     rmcause = activity_to_extra_rmcause(act);
 
     unit_list_iterate(units, punit) {
-      struct extra_type *tgt = NULL;
-
       if (cause != EC_NONE) {
         tgt = next_extra_for_tile(ptile, cause, pplayer, punit);
       } else if (rmcause != ERM_NONE) {
@@ -154,10 +160,18 @@ static void tai_tile_worker_task_select(struct player *pplayer,
 
       if (tile_worked(ptile) == pcity) {
         if ((value - orig_value) * TWMP > worked->want) {
-          worked->want  = TWMP * (value - orig_value);
-          worked->ptile = ptile;
-          worked->act   = act;
-          worked->tgt   = NULL;
+          worked->want       = TWMP * (value - orig_value);
+          worked->ptile      = ptile;
+          worked->act        = act;
+          worked->tgt        = NULL;
+          worked->tgt        = NULL;
+          if (limit == TWTL_BUILDABLE_UNITS) {
+            unit_list_iterate(units, punit) {
+              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+                state->wants[utype_index(unit_type_get(punit))] += worked->want;
+              }
+            } unit_list_iterate_end;
+          }         
         }
         if (value > state->old_worst_worked) {
           /* After improvement it would not be the worst */
@@ -167,11 +181,18 @@ static void tai_tile_worker_task_select(struct player *pplayer,
         }
       } else {
         if (value > orig_value && value > state->uw_max) {
-          state->uw_max = value;
+          state->uw_max   = value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
           unworked->act   = act;
           unworked->tgt   = NULL;
+          if (limit == TWTL_BUILDABLE_UNITS) {
+            unit_list_iterate(units, punit) {
+              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+                state->wants[utype_index(unit_type_get(punit))] += unworked->want;
+              }
+            } unit_list_iterate_end;
+          }
         }
       }
     }
@@ -275,6 +296,13 @@ static void tai_tile_worker_task_select(struct player *pplayer,
           worked->ptile = ptile;
           worked->act   = act;
           worked->tgt   = tgt;
+          if (limit == TWTL_BUILDABLE_UNITS) {
+            unit_list_iterate(units, punit) {
+              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+                state->wants[utype_index(unit_type_get(punit))] += worked->want;
+              }
+            } unit_list_iterate_end;
+          }
         }
         if (value > state->old_worst_worked) {
           /* After improvement it would not be the worst */
@@ -284,11 +312,18 @@ static void tai_tile_worker_task_select(struct player *pplayer,
         }
       } else {
         if (value > orig_value && value > state->uw_max) {
-          state->uw_max = value;
+          state->uw_max   = value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
           unworked->act   = act;
           unworked->tgt   = tgt;
+          if (limit == TWTL_BUILDABLE_UNITS) {
+            unit_list_iterate(units, punit) {
+              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+                state->wants[utype_index(unit_type_get(punit))] += unworked->want;
+              }
+            } unit_list_iterate_end;
+          }
         }
       }
     }
@@ -303,7 +338,8 @@ static void tai_tile_worker_task_select(struct player *pplayer,
 /**************************************************************************
   Select worker task suitable for the city.
 **************************************************************************/
-static bool tai_city_worker_task_select(struct player *pplayer, struct city *pcity,
+static bool tai_city_worker_task_select(struct ai_type *ait,
+                                        struct player *pplayer, struct city *pcity,
                                         struct worker_task *task,
                                         enum tai_worker_task_limitation limit)
 {
@@ -317,13 +353,23 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
   switch (limit) {
   case TWTL_CURRENT_UNITS:
     units = pplayer->units;
+    state.wants = NULL;
+    break;
+  case TWTL_BUILDABLE_UNITS:
+    units = unit_list_new();
+    unit_type_iterate(ptype) {
+      if (can_city_build_unit_now(pcity, ptype)) {
+        unit_list_append(units, unit_virtual_create(pplayer, pcity, ptype, 0));
+      }
+    } unit_type_iterate_end;
+    state.wants = dummy_wants;
     break;
   }
 
   city_tile_iterate_index(city_map_radius_sq_get(pcity), city_tile(pcity),
                           ptile, cindex) {
     tai_tile_worker_task_select(pplayer, pcity, ptile, cindex, units, &worked, &unworked,
-                                &state);
+                                &state, limit);
   } city_tile_iterate_end;
 
   if (worked.ptile == NULL
@@ -336,10 +382,17 @@ static bool tai_city_worker_task_select(struct player *pplayer, struct city *pci
     selected = &worked;
   }
 
+  if (limit == TWTL_BUILDABLE_UNITS) {
+    unit_list_iterate(units, punit) {
+      unit_virtual_destroy(punit);
+    } unit_list_iterate_end;
+    unit_list_destroy(units);
+  }
+
   if (selected->ptile != NULL) {
     struct extra_type *target = NULL;
 
-    if (selected->tgt == NULL) {      
+    if (selected->tgt == NULL) {
       enum extra_cause cause = activity_to_extra_cause(selected->act);
 
       if (cause != EC_NONE) {
