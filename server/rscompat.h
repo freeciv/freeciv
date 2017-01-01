@@ -46,14 +46,11 @@ bool rscompat_names(struct rscompat_info *info);
 
 void rscompat_postprocess(struct rscompat_info *info);
 
-/* Functions specific to 2.6 -> 3.0 transition */
-void rscompat_goods_3_0(void);
-struct extra_type *rscompat_extra_from_resource_3_0(struct section_file *sfile,
-                                                    const char *sec_name);
-const char *rscompat_req_type_name_3_0(const char *type, const char *range,
+/* Functions specific to 3.0 -> 3.1 transition */
+const char *rscompat_req_type_name_3_1(const char *type, const char *range,
                                        bool survives, bool present,
                                        bool quiet, const char *value);
-const char *rscompat_utype_flag_name_3_0(struct rscompat_info *info,
+const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
 
 #ifdef __cplusplus

@@ -430,11 +430,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     }
 
     if (compat->compat_mode) {
-      type = rscompat_req_type_name_3_0(type, range,
-                                        survives, present, quiet,
-                                        name);
       if (!fc_strcasecmp(type, universals_n_name(VUT_UTFLAG))) {
-        name = rscompat_utype_flag_name_3_0(compat, name);
+        name = rscompat_utype_flag_name_3_1(compat, name);
       }
     }
 
@@ -481,7 +478,7 @@ static bool lookup_cbonus_list(struct rscompat_info *compat,
     struct combat_bonus *bonus = fc_malloc(sizeof(*bonus));
     const char *type;
 
-    bonus->flag = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, flag),
+    bonus->flag = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, flag),
                                             fc_strcasecmp);
     if (!unit_type_flag_id_is_valid(bonus->flag)) {
       log_error("\"%s\": unknown flag name \"%s\" in '%s.%s'.",
@@ -1445,7 +1442,7 @@ static bool load_unit_names(struct section_file *file,
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
 
-    if (unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, flag),
+    if (unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, flag),
                                   fc_strcasecmp)
         != unit_type_flag_id_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\": Duplicate unit flag name '%s'",
@@ -1771,7 +1768,7 @@ static bool load_ruleset_units(struct section_file *file,
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (!unit_class_flag_id_is_valid(ival)) {
           ok = FALSE;
-          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, sval),
+          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
                                            fc_strcasecmp);
           if (unit_type_flag_id_is_valid(ival)) {
             ruleset_error(LOG_ERROR,
@@ -2087,7 +2084,7 @@ static bool load_ruleset_units(struct section_file *file,
         if (0 == strcmp(sval, "")) {
           continue;
         }
-        ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_0(compat, sval),
+        ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
                                          fc_strcasecmp);
         if (!unit_type_flag_id_is_valid(ival)) {
           ok = FALSE;
@@ -2648,16 +2645,6 @@ static bool load_terrain_names(struct section_file *file,
       struct extra_type *pextra = NULL;
 
       resource_name = secfile_lookup_str_default(file, NULL, "%s.extra", sec_name);
-      if (resource_name == NULL) {
-        if (compat->compat_mode) {
-          struct extra_type *pextra_res = rscompat_extra_from_resource_3_0(file, sec_name);
-
-          if (pextra_res != NULL) {
-            ruleset_load_names(&pextra_res->name, NULL, file, sec_name);
-            resource_name = extra_rule_name(pextra_res);
-          }
-        }
-      }
 
       if (resource_name != NULL) {
         pextra = extra_type_by_rule_name(resource_name);
@@ -6676,53 +6663,49 @@ static bool load_ruleset_game(struct section_file *file, bool act,
   }
 
   if (ok) {
-    if (compat->ver_game < 10) {
-      rscompat_goods_3_0();
-    } else {
-      sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
+    sec = secfile_sections_by_name_prefix(file, GOODS_SECTION_PREFIX);
 
-      goods_type_iterate(pgood) {
-        int id = goods_index(pgood);
-        const char *sec_name = section_name(section_list_get(sec, id));
-        struct requirement_vector *reqs;
-        const char **slist;
-        int j;
+    goods_type_iterate(pgood) {
+      int id = goods_index(pgood);
+      const char *sec_name = section_name(section_list_get(sec, id));
+      struct requirement_vector *reqs;
+      const char **slist;
+      int j;
 
-        reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
-        if (reqs == NULL) {
+      reqs = lookup_req_list(file, compat, sec_name, "reqs", goods_rule_name(pgood));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pgood->reqs, reqs);
+
+      pgood->from_pct = secfile_lookup_int_default(file, 100,
+                                                   "%s.from_pct", sec_name);
+      pgood->to_pct = secfile_lookup_int_default(file, 100,
+                                                 "%s.to_pct", sec_name);
+
+      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
+      BV_CLR_ALL(pgood->flags);
+      for (j = 0; j < nval; j++) {
+        enum goods_flag_id flag;
+
+        sval = slist[j];
+        flag = goods_flag_id_by_name(sval, fc_strcasecmp);
+        if (!goods_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" good \"%s\": unknown flag \"%s\".",
+                        filename,
+                        goods_rule_name(pgood),
+                        sval);
           ok = FALSE;
           break;
+        } else {
+          BV_SET(pgood->flags, flag);
         }
-        requirement_vector_copy(&pgood->reqs, reqs);
+      }
+      free(slist);
 
-        pgood->from_pct = secfile_lookup_int_default(file, 100,
-                                                     "%s.from_pct", sec_name);
-        pgood->to_pct = secfile_lookup_int_default(file, 100,
-                                                   "%s.to_pct", sec_name);
-
-        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
-        BV_CLR_ALL(pgood->flags);
-        for (j = 0; j < nval; j++) {
-          enum goods_flag_id flag;
-
-          sval = slist[j];
-          flag = goods_flag_id_by_name(sval, fc_strcasecmp);
-          if (!goods_flag_id_is_valid(flag)) {
-            ruleset_error(LOG_ERROR, "\"%s\" good \"%s\": unknown flag \"%s\".",
-                          filename,
-                          goods_rule_name(pgood),
-                          sval);
-            ok = FALSE;
-            break;
-          } else {
-            BV_SET(pgood->flags, flag);
-          }
-        }
-        free(slist);
-
-        pgood->helptext = lookup_strvec(file, sec_name, "helptext");
-      } goods_type_iterate_end;
-    }
+      pgood->helptext = lookup_strvec(file, sec_name, "helptext");
+    } goods_type_iterate_end;
   }
 
   /* secfile_check_unused() is not here, but only after also settings section

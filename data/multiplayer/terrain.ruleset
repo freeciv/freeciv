@@ -12,8 +12,8 @@
 
 [datafile]
 description="Multiplayer terrain data for Freeciv"
-options="+Freeciv-ruleset-Devel-2015.January.14"
-format_version=10
+options="+Freeciv-ruleset-Devel-2017.Jan.02"
+format_version=20
 
 [control]
 ; Names for custom terrain flags. There can be up to 8 of these.
