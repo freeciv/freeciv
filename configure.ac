@@ -110,6 +110,8 @@ if test "x$fc_cv_malloc_zero_ok" = "xtrue" ; then
   AC_DEFINE([MALLOC_ZERO_OK], [1], [It's ok to call malloc() for zero bytes])
 fi
 
+FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
+
 dnl set default values
 fcdb_all=no
 fcdb_mysql=no
@@ -123,9 +125,9 @@ dnl postgres:             use postgres database
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([fcdb],
   AS_HELP_STRING([--enable-fcdb[=no/all/mysql/postgres/sqlite3]],
-                 [database backends [no](no, or list)]),
+                 [database backends [sqlite3](no, or list)]),
 [databases=${enableval}],
-[databases=no])
+[databases=sqlite3])
 
 for db in $(echo $databases | $SED 's/,/ /g') ; do
   if test "x$db" = "xall" ; then

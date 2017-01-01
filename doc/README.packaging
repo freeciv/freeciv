@@ -20,6 +20,8 @@ Updating from 3.0 to 3.1
 * Gtk2-client has been dropped completely
 * Sdl1.2 Mixer support has been dropped
 * Minimum automake version is now 1.11.3
+* Libsqlite3 is now hard requirement
+* Sqlite3 based player authentication support is enabled by default
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
