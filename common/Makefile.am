@@ -130,7 +130,7 @@ libfreeciv_la_SOURCES = \
 EXTRA_DIST = \
 		generate_packets.py
 
-libfreeciv_la_DEPENDENCIES = \
+EXTRA_libfreeciv_la_DEPENDENCIES = \
 	$(top_builddir)/utility/libcivutility.la \
 	$(top_builddir)/common/aicore/libaicore.la \
 	$(top_builddir)/common/networking/libfcivnetwork.la \

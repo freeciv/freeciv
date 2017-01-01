@@ -99,7 +99,7 @@ contains the generated files.
 
    Autoconf is required to create configure from configure.ac.
 
- - GNU automake version 1.11.2 or better
+ - GNU automake version 1.11.3 or better
 
    Automake is required to create the various Makefile.in from
    Makefile.am.
