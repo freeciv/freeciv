@@ -529,7 +529,7 @@ compresstype_name(enum fz_method compresstype)
   NAME_CASE(FZ_ZLIB, "LIBZ", N_("Using zlib (gzip format)"));
 #endif
 #ifdef FREECIV_HAVE_LIBBZ2
-  NAME_CASE(FZ_BZIP2, "BZIP2", N_("Using bzip2"));
+  NAME_CASE(FZ_BZIP2, "BZIP2", N_("Using bzip2 (deprecated)"));
 #endif
 #ifdef FREECIV_HAVE_LIBLZMA
   NAME_CASE(FZ_XZ, "XZ", N_("Using xz"));
@@ -1225,6 +1225,22 @@ static bool topology_callback(unsigned value, struct connection *caller,
     return FALSE;
   }
 #endif /* FREECIV_WEB */
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Warn about deprecated compresstype selection.
+*************************************************************************/
+static bool compresstype_callback(int value,
+                                  struct connection *caller,
+                                  char *reject_msg,
+                                  size_t reject_msg_len)
+{
+  if (value == FZ_BZIP2) {
+    log_warn(_("Bzip2 is deprecated as compresstype. Consider "
+               "other options."));
+  }
 
   return TRUE;
 }
@@ -2818,7 +2834,7 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
            N_("Savegame compression algorithm"),
            N_("Compression library to use for savegames."),
-           NULL, NULL, NULL, compresstype_name, GAME_DEFAULT_COMPRESS_TYPE)
+           NULL, compresstype_callback, NULL, compresstype_name, GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_STRING("savename", game.server.save_name,
              SSET_META, SSET_INTERNAL, SSET_VITAL, ALLOW_HACK, ALLOW_HACK,
