@@ -31,7 +31,6 @@ SRV_RE_FILES = \
 	civ2.serv \
 	classic.serv \
 	default.serv \
-	experimental.serv \
 	multiplayer.serv \
 	alien.serv \
 	civ2civ3.serv \
@@ -69,7 +68,6 @@ EXTRA_DIST = \
 	civ2.serv	\
 	classic.serv	\
 	default.serv	\
-	experimental.serv \
 	multiplayer.serv \
 	alien.serv \
 	civ2civ3.serv \
@@ -82,7 +80,7 @@ else
 CLIENTDATADIRS = 
 endif
 
-SRV_RE_DATADIRS = default classic civ1 civ2 sandbox experimental multiplayer alien civ2civ3 nation
+SRV_RE_DATADIRS = default classic civ1 civ2 sandbox multiplayer alien civ2civ3 nation
 if SERVER
 SERVERDATADIRS = $(SRV_RE_DATADIRS) scenarios
 else

@@ -226,15 +226,6 @@ data/sandbox/styles.ruleset
 data/sandbox/techs.ruleset
 data/sandbox/terrain.ruleset
 data/sandbox/units.ruleset
-data/experimental/buildings.ruleset
-data/experimental/cities.ruleset
-data/experimental/game.ruleset
-data/experimental/governments.ruleset
-data/experimental/script.lua
-data/experimental/styles.ruleset
-data/experimental/techs.ruleset
-data/experimental/terrain.ruleset
-data/experimental/units.ruleset
 data/civ2civ3/buildings.ruleset
 data/civ2civ3/cities.ruleset
 data/civ2civ3/game.ruleset
