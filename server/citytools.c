@@ -2175,7 +2175,7 @@ void send_all_known_cities(struct conn_list *dest)
     if (!pplayer && !pconn->observer) {
       continue;
     }
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (!pplayer || NULL != map_get_player_site(ptile, pplayer)) {
 	send_city_info_at_tile(pplayer, pconn->self, NULL, ptile);
       }

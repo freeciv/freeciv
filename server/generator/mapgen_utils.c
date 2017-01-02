@@ -95,7 +95,7 @@ void map_unset_placed(struct tile *ptile)
 ****************************************************************************/
 void set_all_ocean_tiles_placed(void) 
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (is_ocean_tile(ptile)) {
       map_set_placed(ptile);
     }
@@ -202,7 +202,7 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
   source_map = int_map;
 
   do {
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       float N = 0, D = 0;
 
       axis_iterate(ptile, pnear, i, 2, axe) {
@@ -253,7 +253,7 @@ static void recalculate_lake_surrounders(void)
   lake_surrounders = fc_realloc(lake_surrounders, size);
   memset(lake_surrounders, 0, size);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
     Continent_id cont = tile_continent(ptile);
 
@@ -390,7 +390,7 @@ void regenerate_lakes(void)
     }
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct terrain *pterrain = tile_terrain(ptile);
     Continent_id here = tile_continent(ptile);
 
@@ -450,12 +450,12 @@ void assign_continent_numbers(void)
   wld.map.num_continents = 0;
   wld.map.num_oceans = 0;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     tile_set_continent(ptile, 0);
   } whole_map_iterate_end;
 
   /* Assign new numbers */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
 
     if (tile_continent(ptile) != 0) {
@@ -611,7 +611,7 @@ void smooth_water_depth(void)
   int dist;
 
   /* First, improve the coasts. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (terrain_type_terrain_class(tile_terrain(ptile)) != TC_OCEAN) {
       continue;
     }
@@ -633,7 +633,7 @@ void smooth_water_depth(void)
   } whole_map_iterate_end;
 
   /* Now, try to have something more continuous. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (terrain_type_terrain_class(tile_terrain(ptile)) != TC_OCEAN) {
       continue;
     }

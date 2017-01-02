@@ -116,7 +116,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
         sz_strlcpy(old_barbs->username, _(ANON_USER_NAME));
         old_barbs->unassigned_user = TRUE;
         /* I need to make them to forget the map, I think */
-	whole_map_iterate(ptile) {
+	whole_map_iterate(&(wld.map), ptile) {
 	  map_clear_known(ptile, old_barbs);
 	} whole_map_iterate_end;
       }

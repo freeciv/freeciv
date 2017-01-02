@@ -298,7 +298,7 @@ static void make_relief(void)
                           * (100 - wld.map.server.steepness))
                          / 100 + hmap_shore_level);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (not_placed(ptile)
         && ((hmap_mountain_level < hmap(ptile)
              && (fc_rand(10) > 5
@@ -331,7 +331,7 @@ static void make_polar(void)
 {
   struct terrain *ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM, TRUE);
 
-  whole_map_iterate(ptile) {  
+  whole_map_iterate(&(wld.map), ptile) {
     if (tmap_is(ptile, TT_FROZEN)
         || (tmap_is(ptile, TT_COLD)
             && (fc_rand(10) > 7)
@@ -370,7 +370,8 @@ static bool ok_for_separate_poles(struct tile *ptile)
 static void make_polar_land(void)
 {
   assign_continent_numbers();
-  whole_map_iterate(ptile) {
+
+  whole_map_iterate(&(wld.map), ptile) {
     if ((tile_terrain(ptile) == T_UNKNOWN
          || !terrain_has_flag(tile_terrain(ptile), TER_FROZEN))
         && ((tmap_is(ptile, TT_FROZEN)
@@ -448,7 +449,7 @@ static void make_plains(void)
 {
   int to_be_placed;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (not_placed(ptile)) {
       to_be_placed = 1;
       make_plain(ptile, &to_be_placed);
@@ -490,7 +491,7 @@ static void make_terrains(void)
   int plains_count = 0;
   int swamps_count = 0;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (not_placed(ptile)) {
       total++;
     }
@@ -985,7 +986,7 @@ static void make_rivers(void)
 
       extra_type_by_cause_iterate(EC_ROAD, oriver) {
         if (oriver != road_river) {
-          whole_map_iterate(rtile) {
+          whole_map_iterate(&(wld.map), rtile) {
             if (tile_has_extra(rtile, oriver)) {
               dbv_set(&rivermap.blocked, tile_index(rtile));
             }
@@ -998,7 +999,7 @@ static void make_rivers(void)
 
       /* Try to make a river. If it is OK, apply it to the map. */
       if (make_river(&rivermap, ptile, road_river)) {
-        whole_map_iterate(ptile1) {
+        whole_map_iterate(&(wld.map), ptile1) {
           if (dbv_isset(&rivermap.ok, tile_index(ptile1))) {
             struct terrain *river_terrain = tile_terrain(ptile1);
 
@@ -1067,7 +1068,7 @@ static void make_land(void)
 
   hmap_shore_level = (hmap_max_level * (100 - wld.map.server.landpercent)) / 100;
   ini_hmap_low_level();
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     tile_set_terrain(ptile, T_UNKNOWN); /* set as oceans count is used */
     if (hmap(ptile) < hmap_shore_level) {
       int depth = (hmap_shore_level - hmap(ptile)) * 100 / hmap_shore_level;
@@ -1169,7 +1170,7 @@ static bool is_tiny_island(struct tile *ptile)
 **************************************************************************/
 static void remove_tiny_islands(void)
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (is_tiny_island(ptile)) {
       struct terrain *shallow
         = most_shallow_ocean(terrain_has_flag(tile_terrain(ptile), TER_FROZEN));
@@ -1200,7 +1201,7 @@ static void print_mapgen_map(void)
     terrain_counts[terrain_index(pterrain)] = 0;
   } terrain_type_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct terrain *pterrain = tile_terrain(ptile);
 
     terrain_counts[terrain_index(pterrain)]++;
@@ -1555,7 +1556,7 @@ static bool is_resource_close(const struct tile *ptile)
 ****************************************************************************/
 static void add_resources(int prob)
 {
-  whole_map_iterate(ptile)  {
+  whole_map_iterate(&(wld.map), ptile)  {
     const struct terrain *pterrain = tile_terrain(ptile);
 
     if (is_resource_close (ptile) || fc_rand (1000) > prob) {
@@ -2186,7 +2187,7 @@ static void initworld(struct gen234_state *pstate)
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
   create_placed_map(); /* land tiles which aren't placed yet */
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     tile_set_terrain(ptile, deepest_ocean);
     tile_set_continent(ptile, 0);
     map_set_placed(ptile); /* not a land tile */
@@ -3436,7 +3437,7 @@ static bool map_generate_fair_islands(void)
     wld.map.server.startpos = MAPSTARTPOS_SINGLE;
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     tile_set_terrain(ptile, deepest_ocean);
     tile_set_continent(ptile, 0);
     BV_CLR_ALL(ptile->extras);
@@ -3448,7 +3449,7 @@ static bool map_generate_fair_islands(void)
   if (HAS_POLES) {
     make_polar();
 
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (tile_terrain(ptile) != deepest_ocean) {
         i++;
       }
@@ -3489,7 +3490,7 @@ static bool map_generate_fair_islands(void)
   while (--iter >= 0) {
     done = TRUE;
 
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       struct fair_tile *pftile = pmap + tile_index(ptile);
 
       if (tile_terrain(ptile) != deepest_ocean) {
@@ -3686,7 +3687,7 @@ static bool map_generate_fair_islands(void)
 
   /* Apply the map. */
   log_debug("Applying the map...");
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct fair_tile *pftile = pmap + tile_index(ptile);
 
     fc_assert(pftile->pterrain != NULL);

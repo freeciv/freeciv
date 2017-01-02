@@ -493,7 +493,7 @@ void map_allocate(void)
   /* Note this use of whole_map_iterate may be a bit sketchy, since the
    * tile values (ptile->index, etc.) haven't been set yet.  It might be
    * better to do a manual loop here. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     ptile->index = ptile - wld.map.tiles;
     CHECK_INDEX(tile_index(ptile));
     tile_init(ptile);
@@ -516,7 +516,7 @@ void map_free(void)
   if (wld.map.tiles) {
     /* it is possible that map_init was called but not map_allocate */
 
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       tile_free(ptile);
     } whole_map_iterate_end;
 
@@ -1134,7 +1134,7 @@ struct tile *rand_map_pos_filtered(void *data,
 
     positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
 
-    whole_map_iterate(check_tile) {
+    whole_map_iterate(&(wld.map), check_tile) {
       if (filter(check_tile, data)) {
 	positions[count] = tile_index(check_tile);
 	count++;

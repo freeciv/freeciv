@@ -1063,7 +1063,7 @@ void auto_settlers_player(struct player *pplayer)
     citymap_turn_init(pplayer);
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     state[tile_index(ptile)].enroute = -1;
     state[tile_index(ptile)].eta = FC_INFINITY;    
   } whole_map_iterate_end;

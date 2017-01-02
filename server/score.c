@@ -175,7 +175,7 @@ static void build_landarea_map(struct claim_map *pcmap)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct player *owner = NULL;
     bv_player *pclaim = &claims[tile_index(ptile)];
 

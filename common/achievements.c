@@ -205,7 +205,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
       max_unknown = (total * (100 - ach->value)) / 100;
       required = total - max_unknown;
 
-      whole_map_iterate(ptile) {
+      whole_map_iterate(&(wld.map), ptile) {
         bool this_is_known = FALSE;
 
         if (is_server()) {
@@ -291,7 +291,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
       bool *seen = fc_calloc(wld.map.num_continents, sizeof(bool));
       int count = 0;
 
-      whole_map_iterate(ptile) {
+      whole_map_iterate(&(wld.map), ptile) {
         bool this_is_known = FALSE;
 
         if (is_server()) {

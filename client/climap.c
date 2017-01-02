@@ -100,7 +100,7 @@ struct tile *client_city_tile(const struct city *pcity)
     return city_tile(pcity);
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     int tile_x, tile_y;
 
     index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));

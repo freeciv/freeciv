@@ -376,7 +376,7 @@ void refresh_overview_canvas(void)
   if (!can_client_change_view()) {
     return;
   }
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     overview_update_tile(ptile);
   } whole_map_iterate_end;
   redraw_overview();

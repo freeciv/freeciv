@@ -1050,7 +1050,7 @@ static void unit_ordering_calc(void)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     j = 0;
     unit_list_iterate(ptile->units, punit) {
       punit->server.ord_map = j++;
@@ -1071,7 +1071,7 @@ static void unit_ordering_apply(void)
     city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
 }
@@ -2494,7 +2494,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
   assign_continent_numbers();
 
   /* Check for special tile sprites. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const char *spec_sprite;
     const char *label;
     int nat_x, nat_y;
@@ -2526,7 +2526,7 @@ static void sg_save_map_tiles(struct savedata *saving)
                 "map.t%04d");
 
   /* Save special tile sprites. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     int nat_x, nat_y;
 
     index_to_native_pos(&nat_x, &nat_y, tile_index(ptile));
@@ -2558,7 +2558,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
   if (S_S_INITIAL != loading->server_state
       || MAPGEN_SCENARIO != wld.map.server.generator
       || game.scenario.have_resources) {
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       extra_type_by_cause_iterate(EC_RESOURCE, pres) {
         if (tile_has_extra(ptile, pres)) {
           tile_set_resource(ptile, pres);
@@ -3027,7 +3027,7 @@ static void sg_load_map_known(struct loaddata *loading)
 
     /* HACK: we read the known data from hex into 32-bit integers, and
      * now we convert it to the known tile data of each player. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       players_iterate(pplayer) {
         p = player_index(pplayer);
         l = player_index(pplayer) / 32;
@@ -3065,7 +3065,7 @@ static void sg_save_map_known(struct savedata *saving)
       /* HACK: we convert the data into a 32-bit integer, and then save it as
        * hex. */
 
-      whole_map_iterate(ptile) {
+      whole_map_iterate(&(wld.map), ptile) {
         players_iterate(pplayer) {
           if (map_is_known(ptile, pplayer)) {
             p = player_index(pplayer);
@@ -6024,7 +6024,7 @@ static void sg_load_player_vision(struct loaddata *loading,
      * - or game.save_private_map is not set to FALSE in the scenario /
      * savegame. The players private knowledge is set to be what he could
      * see without fog of war. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known(ptile, plr)) {
         struct city *pcity = tile_city(ptile);
 
@@ -6141,7 +6141,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   }
 
   /* Repair inconsistent player maps. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (map_is_known_and_seen(ptile, plr, V_MAIN)) {
       struct city *pcity = tile_city(ptile);
 
@@ -6356,7 +6356,7 @@ static void sg_save_player_vision(struct savedata *saving,
 
   /* Save known cities. */
   i = 0;
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct vision_site *pdcity = map_get_player_city(ptile, plr);
     char impr_buf[MAX_NUM_ITEMS + 1];
     char buf[32];
@@ -6876,7 +6876,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 #ifdef FREECIV_DEBUG
   if (loading->worked_tiles != NULL) {
     /* check the entire map for unused worked tiles */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (loading->worked_tiles[ptile->index] != -1) {
         log_error("[city id: %d] Unused worked tile at (%d, %d).",
                   loading->worked_tiles[ptile->index], TILE_XY(ptile));

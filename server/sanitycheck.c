@@ -79,7 +79,7 @@ static void check_city_feelings(const struct city *pcity, const char *file,
 **************************************************************************/
 static void check_specials(const char *file, const char *function, int line)
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const struct terrain *pterrain = tile_terrain(ptile);
 
     extra_type_iterate(pextra) {
@@ -116,7 +116,7 @@ static void check_fow(const char *file, const char *function, int line)
     return;
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     players_iterate(pplayer) {
       struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
 
@@ -170,7 +170,7 @@ static void check_misc(const char *file, const char *function, int line)
 **************************************************************************/
 static void check_map(const char *file, const char *function, int line)
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct city *pcity = tile_city(ptile);
     int cont = tile_continent(ptile);
 

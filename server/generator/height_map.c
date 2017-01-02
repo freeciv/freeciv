@@ -63,7 +63,7 @@ static float hmap_pole_factor(struct tile *ptile)
 ****************************************************************************/
 void normalize_hmap_poles(void)
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
       hmap(ptile) *= hmap_pole_factor(ptile);
     } else if (near_singularity(ptile)) {
@@ -79,7 +79,7 @@ void normalize_hmap_poles(void)
 ****************************************************************************/
 void renormalize_hmap_poles(void)
 {
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (hmap(ptile) == 0) {
       /* Nothing left to restore. */
     } else if (map_colatitude(ptile) <= 2.5 * ICE_BASE_LEVEL) {
@@ -251,7 +251,7 @@ void make_pseudofractal1_hmap(int extra_div)
   }
 
   /* put in some random fuzz */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     hmap(ptile) = 8 * hmap(ptile) + fc_rand(4) - 2;
   } whole_map_iterate_end;
 

@@ -334,12 +334,12 @@ bool create_start_positions(enum map_startpos mode,
   tile_value = fc_calloc(MAP_INDEX_SIZE, sizeof(*tile_value));
 
   /* get the tile value */
-  whole_map_iterate(value_tile) {
+  whole_map_iterate(&(wld.map), value_tile) {
     tile_value_aux[tile_index(value_tile)] = get_tile_value(value_tile);
   } whole_map_iterate_end;
 
   /* select the best tiles */
-  whole_map_iterate(value_tile) {
+  whole_map_iterate(&(wld.map), value_tile) {
     int this_tile_value = tile_value_aux[tile_index(value_tile)];
     int lcount = 0, bcount = 0;
 
@@ -363,7 +363,7 @@ bool create_start_positions(enum map_startpos mode,
   initialize_isle_data();
 
   /* Only consider tiles marked as 'starter terrains' by ruleset */
-  whole_map_iterate(starter_tile) {
+  whole_map_iterate(&(wld.map), starter_tile) {
     if (!filter_starters(starter_tile, NULL)) {
       tile_value[tile_index(starter_tile)] = 0;
     } else {
@@ -376,7 +376,7 @@ bool create_start_positions(enum map_startpos mode,
 
   /* evaluate the best places on the map */
   adjust_int_map_filtered(tile_value, 1000, NULL, filter_starters);
- 
+
   /* Sort the islands so the best ones come first.  Note that islands[0] is
    * unused so we just skip it. */
   qsort(islands + 1, wld.map.num_continents,

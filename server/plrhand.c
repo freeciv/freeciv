@@ -233,7 +233,7 @@ void kill_player(struct player *pplayer)
   } unit_list_iterate_safe_end;
 
   /* Remove ownership of tiles */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (tile_owner(ptile) == pplayer) {
       map_claim_ownership(ptile, NULL, NULL, FALSE);
     }
@@ -659,7 +659,7 @@ static void maybe_claim_base(struct tile *ptile, struct player *new_owner,
 void enter_war(struct player *pplayer, struct player *pplayer2)
 {
   /* Claim bases where units are already standing */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     struct player *old_owner = extra_owner(ptile);
 
     if (old_owner == pplayer2) {

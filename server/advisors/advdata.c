@@ -374,7 +374,8 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   adv->explore.sea_done = TRUE;
   adv->explore.continent = fc_calloc(adv->num_continents + 1, sizeof(bool));
   adv->explore.ocean = fc_calloc(adv->num_oceans + 1, sizeof(bool));
-  whole_map_iterate(ptile) {
+
+  whole_map_iterate(&(wld.map), ptile) {
     Continent_id continent = tile_continent(ptile);
 
     if (is_ocean_tile(ptile)) {

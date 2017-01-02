@@ -763,7 +763,7 @@ static void unit_ordering_apply(void)
     city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
 }
@@ -1894,7 +1894,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
   assign_continent_numbers();
 
   /* Check for special tile sprites. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const char *spec_sprite;
     const char *label;
     int nat_x, nat_y;
@@ -2003,7 +2003,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
                 loading->file, "map.res%04d");
 
   /* After the resources are loaded, indicate those currently valid. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (NULL == ptile->resource) {
       continue;
     }
@@ -2277,7 +2277,7 @@ static void sg_load_map_known(struct loaddata *loading)
 
     /* HACK: we read the known data from hex into 32-bit integers, and
      * now we convert it to the known tile data of each player. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       players_iterate(pplayer) {
         p = player_index(pplayer);
         l = player_index(pplayer) / 32;
@@ -4442,7 +4442,7 @@ static void sg_load_player_vision(struct loaddata *loading,
      * - or game.save_private_map is not set to FALSE in the scenario /
      * savegame. The players private knowledge is set to be what he could
      * see without fog of war. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known(ptile, plr)) {
         struct city *pcity = tile_city(ptile);
 
@@ -4601,7 +4601,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   }
 
   /* Repair inconsistent player maps. */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (map_is_known_and_seen(ptile, plr, V_MAIN)) {
       struct city *pcity = tile_city(ptile);
 
@@ -5057,7 +5057,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 #ifdef FREECIV_DEBUG
   if (loading->worked_tiles != NULL) {
     /* check the entire map for unused worked tiles */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (loading->worked_tiles[ptile->index] != -1) {
         log_error("[city id: %d] Unused worked tile at (%d, %d).",
                   loading->worked_tiles[ptile->index], TILE_XY(ptile));

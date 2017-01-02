@@ -521,14 +521,14 @@ extern struct terrain_misc terrain_control;
 
 /* Iterate over all positions on the globe.
  * Use index positions for cache efficiency. */
-#define whole_map_iterate(_tile)					    \
+#define whole_map_iterate(_map, _tile)                                      \
 {									    \
   struct tile *_tile;							    \
   int _tile##_index = 0;						    \
   for (;								    \
        _tile##_index < MAP_INDEX_SIZE;					    \
        _tile##_index++) {						    \
-    _tile = wld.map.tiles + _tile##_index;
+    _tile = (_map)->tiles + _tile##_index;
 
 #define whole_map_iterate_end						    \
   }									    \

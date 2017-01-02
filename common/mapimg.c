@@ -2396,7 +2396,7 @@ static void img_createmap(struct img *pimg)
   struct terrain *pterrain = NULL;
   bool plr_knowledge = pimg->def->layers[MAPIMG_LAYER_KNOWLEDGE];
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (bvplayers_count(pimg->def) == 1) {
       /* only one player; get player id for 'known' and 'fogofwar' */
       players_iterate(aplayer) {

@@ -714,7 +714,7 @@ static void update_environmental_upset(enum environment_upset_type type,
   count = 0;
   extra_type_iterate(cause) {
     if (extra_causes_env_upset(cause, type)) {
-      whole_map_iterate(ptile) {
+      whole_map_iterate(&(wld.map), ptile) {
         if (tile_has_extra(ptile, cause)) {
           count++;
         }
@@ -1389,7 +1389,7 @@ static void end_turn(void)
    * Extra never appears only to disappear at the same turn,
    * but it can disappear and reappear. */
   extra_type_by_rmcause_iterate(ERM_DISAPPEARANCE, pextra) {
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (tile_has_extra(ptile, pextra)
           && fc_rand(10000) < pextra->disappearance_chance
           && can_extra_disappear(pextra, ptile)) {
@@ -1419,7 +1419,7 @@ static void end_turn(void)
   } extra_type_by_rmcause_iterate_end;
 
   extra_type_by_cause_iterate(EC_APPEARANCE, pextra) {
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (!tile_has_extra(ptile, pextra)
           && fc_rand(10000) < pextra->appearance_chance
           && can_extra_appear(pextra, ptile)) {

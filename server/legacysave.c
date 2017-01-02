@@ -638,7 +638,7 @@ static void map_load_tiles(struct section_file *file)
 
   assign_continent_numbers();
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     const char *spec_sprite;
     const char *label;
     int nat_x, nat_y;
@@ -988,7 +988,7 @@ static void map_load(struct section_file *file,
   }
 
   /* after the resources are loaded, indicate those currently valid */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (NULL == ptile->resource) {
       continue;
     }
@@ -1129,7 +1129,7 @@ static void map_load_known(struct section_file *file,
 
     /* HACK: we read the known data from hex into a 32-bit integer, and
      * now we convert it to bv_player. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       players_iterate(pplayer) {
         if (known[tile_index(ptile)] & (1u << player_index(pplayer))) {
           map_set_known(ptile, pplayer);
@@ -3040,7 +3040,7 @@ static void player_load_vision(struct player *plr, int plrno,
     /* Repair inconsistent player maps. There was a bug in some pre-1.11
        savegames, and possibly other versions, and border support changed
        from time to time. Anyway, it shouldn't hurt. */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known_and_seen(ptile, plr, V_MAIN)) {
 	struct city *pcity = tile_city(ptile);
 
@@ -3056,7 +3056,7 @@ static void player_load_vision(struct player *plr, int plrno,
     /* We have an old savegame or fog of war was turned off; the
        players private knowledge is set to be what he could see
        without fog of war */
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (map_is_known(ptile, plr)) {
 	struct city *pcity = tile_city(ptile);
 
@@ -3084,7 +3084,7 @@ static void apply_unit_ordering(void)
     city_list_iterate_end;
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
 }
@@ -4121,7 +4121,7 @@ static void game_load_internal(struct section_file *file)
     if (worked_tiles != NULL) {
 #ifdef FREECIV_DEBUG
       /* check the entire map for unused worked tiles */
-      whole_map_iterate(ptile) {
+      whole_map_iterate(&(wld.map), ptile) {
         if (worked_tiles[ptile->index] != -1) {
           log_error("[city id: %d] Unused worked tile at (%d, %d).",
                     worked_tiles[ptile->index], TILE_XY(ptile));

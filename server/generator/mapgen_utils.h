@@ -79,14 +79,14 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
 } 
 
 /***************************************************************************
- pdata or pfilter can be NULL!
+  pdata or pfilter can be NULL!
 ***************************************************************************/
 #define whole_map_iterate_filtered(_tile, pdata, pfilter)		\
 {									\
   bool (*_tile##_filter)(const struct tile *vtile, const void *vdata) = (pfilter);\
   const void *_tile##_data = (pdata);					\
 									\
-  whole_map_iterate(_tile) {						\
+  whole_map_iterate(&(wld.map), _tile) {                                \
     if (NULL == _tile##_filter || (_tile##_filter)(_tile, _tile##_data)) {
 
 #define whole_map_iterate_filtered_end					\

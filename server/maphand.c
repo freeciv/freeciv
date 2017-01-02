@@ -365,7 +365,7 @@ void give_map_from_player_to_player(struct player *pfrom, struct player *pdest)
 {
   buffer_shared_vision(pdest);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     give_tile_info_from_player_to_player(pfrom, pdest, ptile);
   } whole_map_iterate_end;
 
@@ -381,7 +381,7 @@ void give_seamap_from_player_to_player(struct player *pfrom, struct player *pdes
 {
   buffer_shared_vision(pdest);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (is_ocean_tile(ptile)) {
       give_tile_info_from_player_to_player(pfrom, pdest, ptile);
     }
@@ -433,7 +433,7 @@ void send_all_known_tiles(struct conn_list *dest)
   tiles_sent = 0;
   conn_list_do_buffer(dest);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     tiles_sent++;
     if ((tiles_sent % wld.map.xsize) == 0) {
       conn_list_do_unbuffer(dest);
@@ -690,7 +690,7 @@ void map_set_border_vision(struct player *pplayer,
   /* Set the new border seer value. */
   pplayer->server.border_vision = is_enabled;
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (pplayer == ptile->owner) {
       /* The tile is within the player's borders. */
       shared_vision_change_seen(pplayer, ptile, radius_sq, TRUE);
@@ -819,7 +819,7 @@ void map_show_all(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     map_show_tile(pplayer, ptile);
   } whole_map_iterate_end;
 
@@ -1074,7 +1074,7 @@ void map_know_and_see_all(struct player *pplayer)
   const v_radius_t radius_sq = V_RADIUS(1, 1);
 
   buffer_shared_vision(pplayer);
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     map_change_seen(pplayer, ptile, radius_sq, TRUE);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
@@ -1100,7 +1100,7 @@ void player_map_init(struct player *pplayer)
     = fc_realloc(pplayer->server.private_map,
                  MAP_INDEX_SIZE * sizeof(*pplayer->server.private_map));
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     player_tile_init(ptile, pplayer);
   } whole_map_iterate_end;
 
@@ -1116,7 +1116,7 @@ void player_map_free(struct player *pplayer)
     return;
   }
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     player_tile_free(ptile, pplayer);
   } whole_map_iterate_end;
 
@@ -1135,7 +1135,7 @@ void remove_player_from_maps(struct player *pplayer)
 {
   /* only after removing borders! */
   conn_list_do_buffer(game.est_connections);
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     /* Clear all players' knowledge about the removed player, and free
      * data structures (including those in removed player's player map). */
     bool reality_changed = FALSE;
@@ -1499,7 +1499,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
                        player_index(pplayer2))) {
         log_debug("really giving shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
-        whole_map_iterate(ptile) {
+        whole_map_iterate(&(wld.map), ptile) {
           const v_radius_t change =
               V_RADIUS(map_get_own_seen(pplayer, ptile, V_MAIN),
                        map_get_own_seen(pplayer, ptile, V_INVIS));
@@ -1556,7 +1556,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
                       player_index(pplayer2))) {
         log_debug("really removing shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
-        whole_map_iterate(ptile) {
+        whole_map_iterate(&(wld.map), ptile) {
           const v_radius_t change =
               V_RADIUS(-map_get_own_seen(pplayer, ptile, V_MAIN),
                        -map_get_own_seen(pplayer, ptile, V_INVIS));
@@ -1583,7 +1583,7 @@ void enable_fog_of_war_player(struct player *pplayer)
   const v_radius_t radius_sq = V_RADIUS(-1, 0);
 
   buffer_shared_vision(pplayer);
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     map_change_seen(pplayer, ptile, radius_sq, FALSE);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
@@ -1607,7 +1607,7 @@ void disable_fog_of_war_player(struct player *pplayer)
   const v_radius_t radius_sq = V_RADIUS(1, 0);
 
   buffer_shared_vision(pplayer);
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     map_change_seen(pplayer, ptile, radius_sq, FALSE);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
@@ -2147,7 +2147,7 @@ void map_calculate_borders(void)
 
   log_verbose("map_calculate_borders()");
 
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (is_border_source(ptile)) {
       map_claim_border(ptile, ptile->owner, -1);
     }
@@ -2424,10 +2424,10 @@ void give_distorted_map(struct player *pfrom, struct player *pto,
                         int good, int bad, bool reveal_cities)
 {
   int all = good + bad;
-  
+
   buffer_shared_vision(pto);
-  
-  whole_map_iterate(ptile) {
+
+  whole_map_iterate(&(wld.map), ptile) {
     if (fc_rand(all) >= bad) {
       give_tile_info_from_player_to_player(pfrom, pto, ptile);
     } else if (reveal_cities && NULL != tile_city(ptile)) {

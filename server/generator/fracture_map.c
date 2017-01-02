@@ -126,7 +126,7 @@ void make_fracture_map(void)
   }
 
   /* put in some random fuzz */
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (hmap(ptile) > hmap_shore_level) {
       hmap(ptile) = hmap(ptile) + fc_rand(4) - 2;
     }
@@ -296,7 +296,7 @@ void make_fracture_relief(void)
 
   /* compute the land area */
   landarea = 0;
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (hmap(ptile) > hmap_shore_level) {
       landarea++;
     }
@@ -306,7 +306,7 @@ void make_fracture_relief(void)
      Choose hills and mountains based on local elevation.
   */
   total_mtns = 0;
-  whole_map_iterate(ptile) {
+  whole_map_iterate(&(wld.map), ptile) {
     if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* place on land only */
       /* mountains */
       choose_mountain = (hmap(ptile) > local_ave_elevation(ptile) * 1.20)
@@ -339,7 +339,7 @@ void make_fracture_relief(void)
   */
   for (iter = 0; total_mtns < (landarea * wld.map.server.steepness) / 100 && iter < 50;
        iter++) {
-    whole_map_iterate(ptile) {
+    whole_map_iterate(&(wld.map), ptile) {
       if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* place on land only */
         choose_mountain = fc_rand(10000) < 10;
         choose_hill = fc_rand(10000) < 10;

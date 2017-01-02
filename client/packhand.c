@@ -1071,7 +1071,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
       pcity->owner = powner;
       pcity->original = powner;
 
-      whole_map_iterate(wtile) {
+      whole_map_iterate(&(wld.map), wtile) {
         if (wtile->worked == pcity) {
           int dist_sq = sq_map_distance(pcenter, wtile);
 
