@@ -50,6 +50,8 @@ void rscompat_postprocess(struct rscompat_info *info);
 const char *rscompat_req_type_name_3_1(const char *type, const char *range,
                                        bool survives, bool present,
                                        bool quiet, const char *value);
+const char *rscompat_req_name_3_1(const char *type,
+                                  const char *old_name);
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
 

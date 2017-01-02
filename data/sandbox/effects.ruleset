@@ -2746,7 +2746,7 @@ value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "Building", "SDI Defense", "City", TRUE
-      "DiplRel", "Is foreign", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
       "DiplRel", "Team", "Local", FALSE
     }
 

@@ -351,7 +351,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+      "DiplRel", "Foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -365,7 +365,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+      "DiplRel", "Foreign", "Local"
     }
 
 [actionenabler_poison_city]
@@ -389,7 +389,7 @@ actor_reqs    =
       "UnitFlag", "Diplomat", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+      "DiplRel", "Foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -403,7 +403,7 @@ actor_reqs    =
       "UnitFlag", "Spy", "Local"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+      "DiplRel", "Foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -419,7 +419,7 @@ actor_reqs    =
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
     }
 target_reqs  =
     { "type",   "name", "range", "present"
@@ -436,7 +436,7 @@ actor_reqs    =
       "DiplRel", "Team", "Local", FALSE
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -467,7 +467,7 @@ action = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Foreign", "Local", FALSE
     }
 target_reqs    =
     { "type",   "name", "range"
@@ -479,7 +479,7 @@ action = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Foreign", "Local", FALSE
     }
 target_reqs    =
     { "type",   "name", "range"
@@ -520,7 +520,7 @@ actor_reqs    =
       "UnitFlag", "Cities", "Local", TRUE
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Foreign", "Local", FALSE
     }
 
 [actionenabler_join_city]
@@ -528,7 +528,7 @@ action = "Join City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "AddToCity", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Foreign", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
     }
 
@@ -617,7 +617,7 @@ actor_reqs    =
     { "type",      "name",        "range", "present"
       "UnitFlag",  "NoHome",      "Local", FALSE
       "UnitState", "HasHomeCity", "Local", TRUE
-      "DiplRel",   "Is foreign",  "Local", FALSE
+      "DiplRel",   "Foreign",  "Local", FALSE
     }
 
 [actionenabler_paradrop_base]
@@ -642,7 +642,7 @@ actor_reqs    =
 action = "Upgrade Unit"
 actor_reqs    =
     { "type",    "name",       "range", "present"
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Foreign", "Local", FALSE
     }
 
 [actionenabler_airlift_unit]

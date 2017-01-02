@@ -1573,7 +1573,7 @@ static bool worklist_change_build_target(struct player *pplayer,
                 notify_player(pplayer, city_tile(pcity),
                               E_CITY_CANTBUILD, ftc_server,
                               /* TRANS: '%s' is a wide range of relationships;
-                               * e.g., 'Peace', 'Never met', 'Is foreign',
+                               * e.g., 'Peace', 'Never met', 'Foreign',
                                * 'Hosts embassy', 'Provided Casus Belli' */
                               _("%s can't build %s from the worklist; "
                                 "the relationship '%s' is required."

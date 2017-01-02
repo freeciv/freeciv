@@ -252,6 +252,23 @@ const char *rscompat_req_type_name_3_1(const char *old_type,
 }
 
 /**************************************************************************
+  Replace deprecated requirement type names with currently valid ones.
+
+  The extra arguments are for situation where some, but not all, instances
+  of a requirement type should become something else.
+**************************************************************************/
+const char *rscompat_req_name_3_1(const char *type,
+                                  const char *old_name)
+{
+  if (!fc_strcasecmp("DiplRel", type)
+      && !fc_strcasecmp("Is foreign", old_name)) {
+    return "Foreign";
+  }
+
+  return old_name;
+}
+
+/**************************************************************************
   Replace deprecated unit type flag names with currently valid ones.
 **************************************************************************/
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,

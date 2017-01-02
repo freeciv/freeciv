@@ -180,7 +180,7 @@ struct player_ai {
 #define SPECENUM_VALUE14 DRO_PROVIDED_CASUS_BELLI
 #define SPECENUM_VALUE14NAME N_("Provided Casus Belli")
 #define SPECENUM_VALUE15 DRO_FOREIGN
-#define SPECENUM_VALUE15NAME N_("Is foreign")
+#define SPECENUM_VALUE15NAME N_("Foreign")
 #define SPECENUM_COUNT DRO_LAST
 #include "specenum_gen.h"
 
