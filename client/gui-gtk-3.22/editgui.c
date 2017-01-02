@@ -441,7 +441,7 @@ static void editbar_add_tool_button(struct editbar *eb,
   gtk_widget_set_tooltip_text(button, editor_tool_get_tooltip(ett));
   gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
 
   g_signal_connect(button, "toggled",
       G_CALLBACK(editbar_tool_button_toggled), GINT_TO_POINTER(ett));
@@ -503,7 +503,7 @@ static void editbar_add_mode_button(struct editbar *eb,
   }
   gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
 
   g_signal_connect(button, "toggled",
       G_CALLBACK(editbar_mode_button_toggled), GINT_TO_POINTER(etm));
@@ -597,9 +597,9 @@ static struct editbar *editbar_create(void)
   gtk_widget_set_tooltip_text(button, _("Show the property editor."));
   gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   g_signal_connect(button, "clicked",
-      G_CALLBACK(editbar_player_properties_button_clicked), eb);
+                   G_CALLBACK(editbar_player_properties_button_clicked), eb);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   eb->player_properties_button = button;
 
