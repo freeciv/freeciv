@@ -369,7 +369,6 @@ server/generator/mapgen.c
 server/generator/mapgen_topology.c
 server/generator/startpos.c
 server/handchat.c
-server/legacysave.c
 server/maphand.c
 server/meta.c
 server/plrhand.c

@@ -26,7 +26,6 @@
 
 /* server */
 #include "console.h"
-#include "legacysave.h"
 #include "notify.h"
 #include "savegame2.h"
 #include "savegame3.h"
@@ -65,9 +64,8 @@ void savegame_load(struct section_file *sfile)
     log_verbose("loading savefile in 2.3 - 2.6 format ...");
     savegame2_load(sfile);
   } else {
-    log_verbose("loading savefile in legacy format ...");
-    secfile_allow_digital_boolean(sfile, TRUE);
-    legacy_game_load(sfile);
+    log_error("Too old savegame format not supported any more.");
+    return;
   }
 
 #ifdef DEBUG_TIMERS

@@ -73,8 +73,6 @@ libfreeciv_srv_la_SOURCES = \
 		handchat.h	\
 		hand_gen.c	\
 		hand_gen.h	\
-		legacysave.c	\
-		legacysave.h	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\
