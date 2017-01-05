@@ -361,7 +361,7 @@ void fc_double_edge::mousePressEvent(QMouseEvent *event)
   if (event->buttons() & Qt::LeftButton) {
     mouse_x = static_cast<double>(event->x());
 
-    if (mouse_x <= current_max * width() / 10 - cursor_size) {
+    if (mouse_x <= current_max * width() / 10 - 2 * cursor_size) {
       moved = 1;
     } else {
       moved = 2;
@@ -411,6 +411,9 @@ void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
       }
       if (current_max < current_min) {
         current_max = current_min;
+      }
+      if (current_max - current_min > max_rates) {
+        current_min = current_max - max_rates;
       }
       moved = 1;
     } else if ((moved != 1) && on_max) {
