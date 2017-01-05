@@ -4132,6 +4132,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
       log_sg("Bad action_decision_tile for unit %d", punit->id);
     }
   } else {
+    (void) secfile_entry_lookup(loading->file, "%s.action_decision_tile_x", unitstr);
+    (void) secfile_entry_lookup(loading->file, "%s.action_decision_tile_y", unitstr);
     punit->action_decision_tile = NULL;
   }
 
