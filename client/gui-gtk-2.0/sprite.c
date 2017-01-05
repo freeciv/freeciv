@@ -204,8 +204,8 @@ struct sprite *ctor_sprite(GdkPixbuf *pixbuf)
 ****************************************************************************/
 const char **gfx_fileextensions(void)
 {
-  /* Includes space for termination NULL */
-  static const char *ext[MAX_FILE_EXTENSIONS + 1] =
+  /* Includes space for hardcoded 'png' and termination NULL */
+  static const char *ext[MAX_FILE_EXTENSIONS + 2] =
   {
     NULL
   };
@@ -219,6 +219,9 @@ const char **gfx_fileextensions(void)
       GdkPixbufFormat *format = g_slist_nth_data(next, 0);
       gchar **mimes = gdk_pixbuf_format_get_mime_types(format);
       int i;
+
+      /* Consider .png to be supported even when there's no mime-type called "png" */
+      ext[count++] = fc_strdup("png");
 
       for (i = 0; mimes[i] != NULL && count < MAX_FILE_EXTENSIONS; i++) {
         char *end = strstr(mimes[i], "/");
