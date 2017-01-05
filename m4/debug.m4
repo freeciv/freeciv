@@ -27,7 +27,8 @@ if test "x$enable_debug" = "xno"; then
   AC_DEFINE([FREECIV_NDEBUG], [1], [No freeciv specific debugging support at all])
   FC_C_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
-    FC_CXX_FLAGS([-O3 -fomit-frame-pointer -DQT_NO_DEBUG], [], [EXTRA_DEBUG_CXXFLAGS])
+    AC_DEFINE([QT_NO_DEBUG], [1], [Qt debugging support disabled])
+    FC_CXX_FLAGS([-O3 -fomit-frame-pointer], [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 fi
 
@@ -38,7 +39,8 @@ if test "x$enable_debug" = "xsome" -o "x$enable_debug" = "xyes" -o \
   FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align ],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
-    FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align -DQT_NO_DEBUG],
+    AC_DEFINE([QT_NO_DEBUG], [1], [Qt debugging support disabled])
+    FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 fi
