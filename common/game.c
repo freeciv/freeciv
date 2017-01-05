@@ -436,7 +436,7 @@ void game_init(void)
 {
   game_defaults();
   player_slots_init();
-  map_init();
+  map_init(&wld.map, is_server());
   team_slots_init();
   game_ruleset_init();
   idex_init();
@@ -465,7 +465,8 @@ void game_map_init(void)
 void game_free(void)
 {
   player_slots_free();
-  map_free();
+  map_free(&(wld.map));
+  free_city_map_index();
   idex_free();
   team_slots_free();
   game_ruleset_free();
@@ -488,10 +489,11 @@ void game_reset(void)
       player_clear(pplayer, FALSE);
     } players_iterate_end;
 
-    map_free();
+    map_free(&(wld.map));
+    free_city_map_index();
     idex_free();
 
-    map_init();
+    map_init(&wld.map, FALSE);
     idex_init();
     researches_init();
   }

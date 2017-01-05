@@ -2000,7 +2000,8 @@ void handle_set_topology(int topology_id)
 void handle_map_info(int xsize, int ysize, int topology_id)
 {
   if (!map_is_empty()) {
-    map_free();
+    map_free(&(wld.map));
+    free_city_map_index();
   }
 
   wld.map.xsize = xsize;
@@ -2013,7 +2014,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   wld.map.topology_id = topology_id;
 
   map_init_topology();
-  map_allocate();
+  main_map_allocate();
   client_player_maps_reset();
   init_client_goto();
   mapdeco_init();

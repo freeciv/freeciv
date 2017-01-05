@@ -150,46 +150,46 @@ bool map_is_empty(void)
 }
 
 /***************************************************************
- put some sensible values into the map structure
+  Put some sensible values into the map structure
 ***************************************************************/
-void map_init(void)
+void map_init(struct civ_map *imap, bool server_side)
 {
-  wld.map.topology_id = MAP_DEFAULT_TOPO;
-  wld.map.num_continents = 0;
-  wld.map.num_oceans = 0;
-  wld.map.tiles = NULL;
-  wld.map.startpos_table = NULL;
-  wld.map.iterate_outwards_indices = NULL;
+  imap->topology_id = MAP_DEFAULT_TOPO;
+  imap->num_continents = 0;
+  imap->num_oceans = 0;
+  imap->tiles = NULL;
+  imap->startpos_table = NULL;
+  imap->iterate_outwards_indices = NULL;
 
   /* The [xy]size values are set in map_init_topology.  It is initialized
    * to a non-zero value because some places erronously use these values
    * before they're initialized. */
-  wld.map.xsize = MAP_DEFAULT_LINEAR_SIZE;
-  wld.map.ysize = MAP_DEFAULT_LINEAR_SIZE;
+  imap->xsize = MAP_DEFAULT_LINEAR_SIZE;
+  imap->ysize = MAP_DEFAULT_LINEAR_SIZE;
 
-  if (is_server()) {
-    wld.map.server.mapsize = MAP_DEFAULT_MAPSIZE;
-    wld.map.server.size = MAP_DEFAULT_SIZE;
-    wld.map.server.tilesperplayer = MAP_DEFAULT_TILESPERPLAYER;
-    wld.map.server.seed_setting = MAP_DEFAULT_SEED;
-    wld.map.server.seed = MAP_DEFAULT_SEED;
-    wld.map.server.riches = MAP_DEFAULT_RICHES;
-    wld.map.server.huts = MAP_DEFAULT_HUTS;
-    wld.map.server.huts_absolute = -1;
-    wld.map.server.animals = MAP_DEFAULT_ANIMALS;
-    wld.map.server.landpercent = MAP_DEFAULT_LANDMASS;
-    wld.map.server.wetness = MAP_DEFAULT_WETNESS;
-    wld.map.server.steepness = MAP_DEFAULT_STEEPNESS;
-    wld.map.server.generator = MAP_DEFAULT_GENERATOR;
-    wld.map.server.startpos = MAP_DEFAULT_STARTPOS;
-    wld.map.server.tinyisles = MAP_DEFAULT_TINYISLES;
-    wld.map.server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
-    wld.map.server.single_pole = MAP_DEFAULT_SINGLE_POLE;
-    wld.map.server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
-    wld.map.server.temperature = MAP_DEFAULT_TEMPERATURE;
-    wld.map.server.have_huts = FALSE;
-    wld.map.server.have_resources = FALSE;
-    wld.map.server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
+  if (server_side) {
+    imap->server.mapsize = MAP_DEFAULT_MAPSIZE;
+    imap->server.size = MAP_DEFAULT_SIZE;
+    imap->server.tilesperplayer = MAP_DEFAULT_TILESPERPLAYER;
+    imap->server.seed_setting = MAP_DEFAULT_SEED;
+    imap->server.seed = MAP_DEFAULT_SEED;
+    imap->server.riches = MAP_DEFAULT_RICHES;
+    imap->server.huts = MAP_DEFAULT_HUTS;
+    imap->server.huts_absolute = -1;
+    imap->server.animals = MAP_DEFAULT_ANIMALS;
+    imap->server.landpercent = MAP_DEFAULT_LANDMASS;
+    imap->server.wetness = MAP_DEFAULT_WETNESS;
+    imap->server.steepness = MAP_DEFAULT_STEEPNESS;
+    imap->server.generator = MAP_DEFAULT_GENERATOR;
+    imap->server.startpos = MAP_DEFAULT_STARTPOS;
+    imap->server.tinyisles = MAP_DEFAULT_TINYISLES;
+    imap->server.separatepoles = MAP_DEFAULT_SEPARATE_POLES;
+    imap->server.single_pole = MAP_DEFAULT_SINGLE_POLE;
+    imap->server.alltemperate = MAP_DEFAULT_ALLTEMPERATE;
+    imap->server.temperature = MAP_DEFAULT_TEMPERATURE;
+    imap->server.have_huts = FALSE;
+    imap->server.have_resources = FALSE;
+    imap->server.team_placement = MAP_DEFAULT_TEAM_PLACEMENT;
   }
 }
 
@@ -482,7 +482,7 @@ static void tile_free(struct tile *ptile)
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
 **************************************************************************/
-void map_allocate(void)
+void map_allocate(struct civ_map *amap)
 {
   log_debug("map_allocate (was %p) (%d,%d)",
             (void *) wld.map.tiles, wld.map.xsize, wld.map.ysize);
@@ -499,9 +499,6 @@ void map_allocate(void)
     tile_init(ptile);
   } whole_map_iterate_end;
 
-  generate_city_map_indices();
-  generate_map_indices();
-
   if (wld.map.startpos_table != NULL) {
     startpos_hash_destroy(wld.map.startpos_table);
   }
@@ -509,27 +506,36 @@ void map_allocate(void)
 }
 
 /***************************************************************
+  Allocate main map and related global structures.
+***************************************************************/
+void main_map_allocate(void)
+{
+  map_allocate(&(wld.map));
+  generate_city_map_indices();
+  generate_map_indices();
+}
+
+/***************************************************************
   Frees the allocated memory of the map.
 ***************************************************************/
-void map_free(void)
+void map_free(struct civ_map *fmap)
 {
-  if (wld.map.tiles) {
+  if (fmap->tiles) {
     /* it is possible that map_init was called but not map_allocate */
 
-    whole_map_iterate(&(wld.map), ptile) {
+    whole_map_iterate(fmap, ptile) {
       tile_free(ptile);
     } whole_map_iterate_end;
 
-    free(wld.map.tiles);
-    wld.map.tiles = NULL;
+    free(fmap->tiles);
+    fmap->tiles = NULL;
 
-    if (wld.map.startpos_table) {
-      startpos_hash_destroy(wld.map.startpos_table);
-      wld.map.startpos_table = NULL;
+    if (fmap->startpos_table) {
+      startpos_hash_destroy(fmap->startpos_table);
+      fmap->startpos_table = NULL;
     }
 
-    FC_FREE(wld.map.iterate_outwards_indices);
-    free_city_map_index();
+    FC_FREE(fmap->iterate_outwards_indices);
   }
 }
 

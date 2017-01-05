@@ -2951,7 +2951,8 @@ static void srv_ready(void)
         wld.map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
-        map_free();
+        map_free(&(wld.map));
+        free_city_map_index();
         /* Restore the settings. */
         for (set = 0; set < ARRAY_SIZE(mapgen_settings); set++) {
           struct setting *pset = setting_by_name(mapgen_settings[set].name);
@@ -2970,7 +2971,7 @@ static void srv_ready(void)
                         error);
 #endif /* FREECIV_NDEBUG */
         }
-        map_allocate(); /* NOT map_init() as that would overwrite settings */
+        main_map_allocate(); /* NOT map_init() as that would overwrite settings */
       }
     }
     if (!created) {

@@ -1290,7 +1290,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     generator_init_topology(autosize);
     /* Map can be already allocated, if we failed first map generation */
     if (map_is_empty()) {
-      map_allocate();
+      main_map_allocate();
     }
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */

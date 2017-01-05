@@ -1886,7 +1886,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
   map_init_topology();
 
   /* Allocate map. */
-  map_allocate();
+  main_map_allocate();
 
   /* get the terrain type */
   LOAD_MAP_CHAR(ch, ptile, ptile->terrain = char2terrain(ch), loading->file,
