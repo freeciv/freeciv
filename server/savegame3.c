@@ -457,7 +457,7 @@ void savegame3_load(struct section_file *file)
 
   /* Load the savegame data. */
   /* [compat] */
-  sg_load_compat(loading);
+  sg_load_compat(loading, SAVEGAME_3);
   /* [scenario] */
   sg_load_scenario(loading);
   /* [savefile] */

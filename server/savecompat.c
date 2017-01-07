@@ -68,17 +68,17 @@ static char *special_names[] =
           |                                                |            |
 */
 
-static void compat_load_020400(struct loaddata *loading);
-static void compat_load_020500(struct loaddata *loading);
-static void compat_load_020600(struct loaddata *loading);
-static void compat_load_030000(struct loaddata *loading);
-static void compat_load_030100(struct loaddata *loading);
+static void compat_load_020400(struct loaddata *loading, enum sgf_version format_class);
+static void compat_load_020500(struct loaddata *loading, enum sgf_version format_class);
+static void compat_load_020600(struct loaddata *loading, enum sgf_version format_class);
+static void compat_load_030000(struct loaddata *loading, enum sgf_version format_class);
+static void compat_load_030100(struct loaddata *loading, enum sgf_version format_class);
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading);
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
-typedef void (*load_version_func_t) (struct loaddata *loading);
+typedef void (*load_version_func_t) (struct loaddata *loading, enum sgf_version format_class);
 
 struct compatibility {
   int version;
@@ -128,7 +128,7 @@ static const int compat_num = ARRAY_SIZE(compat);
   loading->file should be change such, that the current loading functions can
   be executed without errors.
 ****************************************************************************/
-void sg_load_compat(struct loaddata *loading)
+void sg_load_compat(struct loaddata *loading, enum sgf_version format_class)
 {
   int i;
 
@@ -158,7 +158,7 @@ void sg_load_compat(struct loaddata *loading)
       log_normal(_("Run compatibility function for version: <%d "
                    "(save file: %d; server: %d)."), compat[i].version,
                  loading->version, compat[compat_current].version);
-      compat[i].load(loading);
+      compat[i].load(loading, format_class);
     }
   }
 
@@ -273,7 +273,8 @@ struct extra_type *resource_by_identifier(const char identifier)
 /****************************************************************************
   Translate savegame secfile data from 2.3.x to 2.4.0 format.
 ****************************************************************************/
-static void compat_load_020400(struct loaddata *loading)
+static void compat_load_020400(struct loaddata *loading,
+                               enum sgf_version format_class)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -502,7 +503,8 @@ static const char *killcitizen_enum_str(secfile_data_t data, int bit)
 /****************************************************************************
   Translate savegame secfile data from 2.4.x to 2.5.0 format.
 ****************************************************************************/
-static void compat_load_020500(struct loaddata *loading)
+static void compat_load_020500(struct loaddata *loading,
+                               enum sgf_version format_class)
 {
   const char *modname[] = { "Road", "Railroad" };
   const char *old_activities_names[] = {
@@ -627,7 +629,8 @@ static char *revolentype_str(enum revolen_type type)
 /****************************************************************************
   Translate savegame secfile data from 2.5.x to 2.6.0 format.
 ****************************************************************************/
-static void compat_load_020600(struct loaddata *loading)
+static void compat_load_020600(struct loaddata *loading,
+                               enum sgf_version format_class)
 {
   bool team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   int tsize;
@@ -1214,7 +1217,8 @@ static int increase_secfile_turn_int(struct loaddata *loading, const char *key,
   function, it's still 2.6 savegame in the sense that savegame2.c, and not
   savegame3.c, handles it.
 ****************************************************************************/
-static void compat_load_030000(struct loaddata *loading)
+static void compat_load_030000(struct loaddata *loading,
+                               enum sgf_version format_class)
 {
   bool randsaved;
   int num_settings;
@@ -1318,7 +1322,8 @@ static void compat_load_030000(struct loaddata *loading)
   functions, it's still 2.6 savegame in the sense that savegame2.c, and not
   savegame3.c, handles it.
 ****************************************************************************/
-static void compat_load_030100(struct loaddata *loading)
+static void compat_load_030100(struct loaddata *loading,
+                               enum sgf_version format_class)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();

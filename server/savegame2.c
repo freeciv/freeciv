@@ -396,7 +396,7 @@ void savegame2_load(struct section_file *file)
   /* Set up correct ruleset */
   sg_load_ruleset(loading);
   /* [compat] */
-  sg_load_compat(loading);
+  sg_load_compat(loading, SAVEGAME_2);
   /* [savefile] */
   sg_load_savefile(loading);
   /* [game] */

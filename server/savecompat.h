@@ -24,6 +24,8 @@ struct extra_type;
 struct base_type;
 struct road_type;
 
+enum sgf_version { SAVEGAME_2, SAVEGAME_3 };
+
 enum tile_special_type {
   S_IRRIGATION,
   S_MINE,
@@ -155,7 +157,7 @@ struct loaddata {
     sg_check_ret_val(_val);                                                 \
   }
 
-void sg_load_compat(struct loaddata *loading);
+void sg_load_compat(struct loaddata *loading, enum sgf_version format_class);
 int current_compat_ver(void);
 
 #define hex_chars "0123456789abcdef"
