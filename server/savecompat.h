@@ -63,6 +63,11 @@ struct loaddata {
   struct {
     const char **order;
     size_t size;
+  } activities;
+  /* loaded in sg_load_savefile(); needed in sg_load_player() */
+  struct {
+    const char **order;
+    size_t size;
   } trait;
  /* loaded in sg_load_savefile(); needed in sg_load_map(), ... */
   struct {

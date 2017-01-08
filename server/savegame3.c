@@ -571,6 +571,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->improvement.size = -1;
   loading->technology.order = NULL;
   loading->technology.size = -1;
+  loading->activities.order = NULL;
+  loading->activities.size = -1;
   loading->trait.order = NULL;
   loading->trait.size = -1;
   loading->extra.order = NULL;
@@ -600,6 +602,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->technology.order != NULL) {
     free(loading->technology.order);
+  }
+
+  if (loading->activities.order != NULL) {
+    free(loading->activities.order);
   }
 
   if (loading->trait.order != NULL) {
@@ -1338,6 +1344,19 @@ static void sg_load_savefile(struct loaddata *loading)
                                "savefile.technology_vector");
     sg_failure_ret(loading->improvement.size != 0,
                    "Failed to load technology order: %s",
+                   secfile_error());
+  }
+
+  /* Load Activities. */
+  loading->activities.size
+    = secfile_lookup_int_default(loading->file, 0,
+                                 "savefile.activities_size");
+  if (loading->activities.size) {
+    loading->activities.order
+      = secfile_lookup_str_vec(loading->file, &loading->activities.size,
+                               "savefile.activities_vector");
+    sg_failure_ret(loading->activities.size != 0,
+                   "Failed to load activity order: %s",
                    secfile_error());
   }
 
@@ -5118,7 +5137,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &ei,
                                      "%s.activity", unitstr), FALSE,
                   "%s", secfile_error());
-  activity = ei;
+  activity = unit_activity_by_name(loading->activities.order[ei],
+                                   fc_strcasecmp);
 
   punit->server.birth_turn
     = secfile_lookup_int_default(loading->file, game.info.turn,
