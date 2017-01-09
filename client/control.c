@@ -2765,6 +2765,9 @@ static struct unit *quickselect(struct tile *ptile,
     return (unit_owner(punit) == client.conn.playing) ? punit : NULL;
   }
 
+  if (qtype == SELECT_FOCUS) {
+    return head_of_units_in_focus();
+  }
   /*  Quickselect priorities. Units with moves left
    *  before exhausted. Focus unit is excluded.
    *

@@ -33,7 +33,7 @@ enum cursor_hover_state {
 
 /* Selecting unit from a stack without popup. */
 enum quickselect_type {
-  SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND, SELECT_APPEND
+  SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND, SELECT_APPEND,  SELECT_FOCUS
 };
 
 void control_init(void);
