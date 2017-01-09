@@ -387,7 +387,7 @@ void map_view::shortcut_pressed(int key)
   }
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
-    action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
+    action_button_pressed(pos.x(), pos.y(), SELECT_FOCUS);
     return;
   }
 
@@ -424,7 +424,11 @@ void map_view::shortcut_released(Qt::MouseButton bt)
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod) {
-    release_goto_button(pos.x(), pos.y());
+    if (keyboardless_goto_active) {
+      release_goto_button(pos.x(), pos.y());
+    } else {
+      action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
+    }
     return;
   }
 }
