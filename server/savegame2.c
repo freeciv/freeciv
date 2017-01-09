@@ -1149,7 +1149,7 @@ static void sg_load_savefile(struct loaddata *loading)
     loading->technology.order
       = secfile_lookup_str_vec(loading->file, &loading->technology.size,
                                "savefile.technology_vector");
-    sg_failure_ret(loading->improvement.size != 0,
+    sg_failure_ret(loading->technology.size != 0,
                    "Failed to load technology order: %s",
                    secfile_error());
   }
