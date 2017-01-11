@@ -1644,6 +1644,7 @@ void mr_menu::execute_shortcut(int sid)
   fc_shortcut *fcs;
 
   if (sid == SC_GOTO) {
+    gui()->mapview_wdg->menu_click = true;
     slot_unit_goto();
     return;
   }

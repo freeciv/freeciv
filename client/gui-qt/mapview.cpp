@@ -174,6 +174,7 @@ void mr_idle::add_callback(call_me_back* cb)
 **************************************************************************/
 map_view::map_view() : QWidget()
 {
+  menu_click = false;
   cursor = -1;
   QTimer *timer = new QTimer(this);
   setAttribute(Qt::WA_OpaquePaintEvent, true);
