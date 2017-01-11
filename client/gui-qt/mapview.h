@@ -90,6 +90,7 @@ public:
   void resume_searching(int pos_x,int pos_y,int &w, int &h,
                         int wdtht, int hght, int recursive_nr);
   void update_cursor(enum cursor_type);
+  bool menu_click;
 
 protected:
   void paintEvent(QPaintEvent *event);
