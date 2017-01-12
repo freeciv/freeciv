@@ -485,24 +485,24 @@ static void tile_free(struct tile *ptile)
 void map_allocate(struct civ_map *amap)
 {
   log_debug("map_allocate (was %p) (%d,%d)",
-            (void *) wld.map.tiles, wld.map.xsize, wld.map.ysize);
+            (void *) amap->tiles, amap->xsize, amap->ysize);
 
-  fc_assert_ret(NULL == wld.map.tiles);
-  wld.map.tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*wld.map.tiles));
+  fc_assert_ret(NULL == amap->tiles);
+  amap->tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*amap->tiles));
 
   /* Note this use of whole_map_iterate may be a bit sketchy, since the
    * tile values (ptile->index, etc.) haven't been set yet.  It might be
    * better to do a manual loop here. */
-  whole_map_iterate(&(wld.map), ptile) {
-    ptile->index = ptile - wld.map.tiles;
+  whole_map_iterate(amap, ptile) {
+    ptile->index = ptile - amap->tiles;
     CHECK_INDEX(tile_index(ptile));
     tile_init(ptile);
   } whole_map_iterate_end;
 
-  if (wld.map.startpos_table != NULL) {
-    startpos_hash_destroy(wld.map.startpos_table);
+  if (amap->startpos_table != NULL) {
+    startpos_hash_destroy(amap->startpos_table);
   }
-  wld.map.startpos_table = startpos_hash_new();
+  amap->startpos_table = startpos_hash_new();
 }
 
 /***************************************************************
