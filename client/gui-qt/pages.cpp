@@ -728,7 +728,6 @@ void fc_client::create_game_page()
                                  economy_report_dialog_popup);
   sw_endturn = new fc_sidewidget(fc_icons::instance()->get_pixmap("endturn"),
                                  _("Turn Done"), "", side_finish_turn);
-  sw_endturn->set_right_click(side_indicators_menu);
   sw_cunit->set_right_click(side_center_unit);
   sw_cunit->set_wheel_up(cycle_enemy_units);
   sw_cunit->set_wheel_down(key_unit_wait);
