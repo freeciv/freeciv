@@ -60,7 +60,8 @@ class QVBoxLayout;
 class QImage;
 
 QString get_tooltip(QVariant qvar);
-QString get_tooltip_improvement(impr_type *building);
+QString get_tooltip_improvement(impr_type *building,
+                                struct city *pcity = nullptr);
 QString get_tooltip_unit(struct unit_type *unit);
 QString bold(QString text);
 
