@@ -1022,7 +1022,7 @@ fi
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
-  AS_HELP_STRING([--enable-fcmp=no/ye/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
+  AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
 [fc_mp=auto])
 
