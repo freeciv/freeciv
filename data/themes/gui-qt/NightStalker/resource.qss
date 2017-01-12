@@ -148,6 +148,9 @@ hud_message_box QDialogButtonBox QPushButton:hover {
 }
 
 hud_message_box QDialogButtonBox QPushButton:default {
+  color: white;
+  background: #414a57;
+  border: 2px solid #3399FF;
   padding: 2px;
 }
 
