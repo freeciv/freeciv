@@ -2702,8 +2702,8 @@ disband_box::disband_box(struct unit_list *punits,
                   unit_list_size(punits))).arg(unit_list_size(punits));
   pb = addButton(_("Yes"), QMessageBox::AcceptRole);
   addButton(_("No"), QMessageBox::RejectRole);
-  setDefaultButton(QMessageBox::Cancel);
   set_text_title(str, _("Disband units"));
+  setDefaultButton(pb);
   connect(pb, SIGNAL(clicked()), this, SLOT(disband_clicked()));
 }
 
