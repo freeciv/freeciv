@@ -57,7 +57,8 @@
 
 extern QString split_text(QString text, bool cut);
 extern QString cut_helptext(QString text);
-extern QString get_tooltip_improvement(impr_type *building);
+extern QString get_tooltip_improvement(impr_type *building,
+                                       struct city *pcity);
 extern QString get_tooltip_unit(struct unit_type *unit);
 extern QApplication *qapp;
 /****************************************************************************
@@ -328,7 +329,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
                   + QString(advance_name_translation(
                             advance_by_number(rttp->tech_id))) + "</b>\n";
       } else if (rttp->timpr != nullptr) {
-        def_str = get_tooltip_improvement(rttp->timpr);
+        def_str = get_tooltip_improvement(rttp->timpr, nullptr);
         tt_text = helptext_building(buffer, sizeof(buffer),
                                      client.conn.playing, NULL, rttp->timpr);
         tt_text = cut_helptext(tt_text);

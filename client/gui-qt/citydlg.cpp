@@ -299,7 +299,7 @@ impr_item::impr_item(QWidget *parent, impr_type *building,
 
   setFixedWidth(impr_pixmap->map_pixmap.width() + 4);
   setFixedHeight(impr_pixmap->map_pixmap.height());
-  setToolTip(get_tooltip_improvement(building).trimmed());
+  setToolTip(get_tooltip_improvement(building, city).trimmed());
 }
 
 /****************************************************************************
@@ -3105,8 +3105,8 @@ void city_dialog::update_improvements()
 
     fc_assert_action(VUT_IMPROVEMENT == target.kind, continue);
     sprite = get_building_sprite(tileset, target.value.building);
-    upkeep = upkeep + target.value.building->upkeep;
-    if (sprite != NULL) {
+    upkeep = upkeep + city_improvement_upkeep(pcity, target.value.building);
+    if (sprite != nullptr) {
       pix = sprite->pm;
       pix_scaled = pix->scaledToHeight(h);
     }
@@ -3522,16 +3522,22 @@ QString bold(QString text)
 /***************************************************************************
   Returns improvement properties to append in tooltip
 ***************************************************************************/
-QString get_tooltip_improvement(impr_type *building)
+QString get_tooltip_improvement(impr_type *building, struct city *pcity)
 {
   QString def_str;
+  QString upkeep;
 
+  if (pcity !=  nullptr) {
+    upkeep = QString::number(city_improvement_upkeep(pcity, building));
+  } else {
+    upkeep = QString::number(building->upkeep);
+  }
   def_str = "<p style='white-space:pre'><b>"
             + QString(improvement_name_translation(building))
             + "</b>\n";
   def_str += QString(_("Cost: %1, Upkeep: %2\n\n"))
              .arg(impr_build_shield_cost(building))
-             .arg(building->upkeep);
+             .arg(upkeep);
   return def_str;
 }
 
