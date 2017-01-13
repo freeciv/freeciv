@@ -69,6 +69,26 @@ static struct ai_type *texai_get_self(void)
 /**************************************************************************
   Call default ai with threxpr ai type as parameter.
 **************************************************************************/
+static void texwai_game_start(void)
+{
+  TEXAI_AIT;
+  TEXAI_TFUNC(texai_game_start);
+  /* Do not call default AI here, texai_player_alloc() does necessary parts */
+}
+
+/**************************************************************************
+  Call default ai with threxpr ai type as parameter.
+**************************************************************************/
+static void texwai_game_free(void)
+{
+  TEXAI_AIT;
+  TEXAI_TFUNC(texai_game_free);
+  /* Do not call default AI here, texai_player_alloc() does necessary parts */
+}
+
+/**************************************************************************
+  Call default ai with threxpr ai type as parameter.
+**************************************************************************/
 static void texwai_player_alloc(struct player *pplayer)
 {
   TEXAI_AIT;
@@ -565,6 +585,9 @@ bool fc_ai_threxpr_setup(struct ai_type *ai)
   ai->private = private;
 
   texai_init_self(ai);
+
+  ai->funcs.game_start = texwai_game_start;
+  ai->funcs.game_free = texwai_game_free;
 
   ai->funcs.player_alloc = texwai_player_alloc;
   ai->funcs.player_free = texwai_player_free;

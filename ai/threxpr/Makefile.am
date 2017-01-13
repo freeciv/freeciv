@@ -23,6 +23,8 @@ da_sources = \
 	texaimsg.h		\
 	texaiplayer.c		\
 	texaiplayer.h		\
+	texaiworld.c		\
+	texaiworld.h		\
 	threxprai.c
 
 if AI_MOD_STATIC_THREXPR

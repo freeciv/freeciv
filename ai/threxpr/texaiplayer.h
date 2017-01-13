@@ -48,6 +48,8 @@ void texai_init_threading(void);
 
 bool texai_thread_running(void);
 
+void texai_game_start(struct ai_type *ait);
+void texai_game_free(struct ai_type *ait);
 void texai_player_alloc(struct ai_type *ait, struct player *pplayer);
 void texai_player_free(struct ai_type *ait, struct player *pplayer);
 void texai_control_gained(struct ai_type *ait,struct player *pplayer);

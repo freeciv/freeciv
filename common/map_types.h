@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "fc_types.h"
+
 /****************************************************************
   Miscellaneous terrain information
 *****************************************************************/

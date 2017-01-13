@@ -22,6 +22,7 @@
 #include "ai.h"
 #include "city.h"
 #include "game.h"
+#include "map.h"
 #include "unit.h"
 
 /* server/advisors */
@@ -32,6 +33,7 @@
 
 /* ai/threxpr */
 #include "texaicity.h"
+#include "texaiworld.h"
 
 #include "texaiplayer.h"
 
@@ -77,6 +79,10 @@ static void texai_thread_start(void *arg)
 
   log_debug("New AI thread launched");
 
+  if (!map_is_empty()) {
+    texai_world_init();
+  }
+
   /* Just wait until we are signaled to shutdown */
   fc_allocate_mutex(&exthrai.msgs_to.mutex);
   while (!finished) {
@@ -88,7 +94,25 @@ static void texai_thread_start(void *arg)
   }
   fc_release_mutex(&exthrai.msgs_to.mutex);
 
+  texai_world_close();
+
   log_debug("AI thread exiting");
+}
+
+/**************************************************************************
+  Game has started
+**************************************************************************/
+void texai_game_start(struct ai_type *ait)
+{
+  texai_world_init();
+}
+
+/**************************************************************************
+  Game has ended
+**************************************************************************/
+void texai_game_free(struct ai_type *ait)
+{
+  texai_world_close();
 }
 
 /**************************************************************************
