@@ -133,8 +133,7 @@ layer_order =
   "WorkerTask", ; The unit task indicators ("G", "S", ...).
   "Editor"      ; Editor stuff (selected tile and start points).
 
-; These are special because they get freed and reloaded
-; as required:
+; This is special because it gets freed and reloaded as required:
 main_intro_file    = "misc/intro"
 
 ; Below, the graphics spec files; must be somewhere (anywhere) in 
