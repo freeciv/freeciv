@@ -3346,7 +3346,7 @@ static struct tile *link_mark_tile(const struct link_mark *pmark)
       return pcity ? pcity->tile : NULL;
     }
   case TLT_TILE:
-    return index_to_tile(pmark->id);
+    return index_to_tile(&(wld.map), pmark->id);
   case TLT_UNIT:
     {
       struct unit *punit = game_unit_by_number(pmark->id);

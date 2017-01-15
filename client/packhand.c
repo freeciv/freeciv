@@ -192,7 +192,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
    * unit_virtual_create. */
   punit->nationality = player_by_number(packet->nationality);
   punit->id = packet->id;
-  unit_tile_set(punit, index_to_tile(packet->tile));
+  unit_tile_set(punit, index_to_tile(&(wld.map), packet->tile));
   punit->facing = packet->facing;
   punit->homecity = packet->homecity;
   output_type_iterate(o) {
@@ -220,7 +220,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   punit->ai_controlled = packet->ai;
   punit->fuel = packet->fuel;
-  punit->goto_tile = index_to_tile(packet->goto_tile);
+  punit->goto_tile = index_to_tile(&(wld.map), packet->goto_tile);
   punit->paradropped = packet->paradropped;
   punit->done_moving = packet->done_moving;
 
@@ -263,7 +263,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
 
   punit->action_decision_want = packet->action_decision_want;
   punit->action_decision_tile
-      = index_to_tile(packet->action_decision_tile);
+    = index_to_tile(&(wld.map), packet->action_decision_tile);
 
   punit->client.asking_city_name = FALSE;
 
@@ -290,7 +290,7 @@ unpackage_short_unit(const struct packet_unit_short_info *packet)
 
   /* Owner and type fields are already filled in by unit_virtual_create. */
   punit->id = packet->id;
-  unit_tile_set(punit, index_to_tile(packet->tile));
+  unit_tile_set(punit, index_to_tile(&(wld.map), packet->tile));
   punit->facing = packet->facing;
   punit->nationality = NULL;
   punit->veteran = packet->veteran;
@@ -460,7 +460,7 @@ void handle_unit_remove(int unit_id)
 ****************************************************************************/
 void handle_nuke_tile_info(int tile)
 {
-  put_nuke_mushroom_pixmaps(index_to_tile(tile));
+  put_nuke_mushroom_pixmaps(index_to_tile(&(wld.map), tile));
 }
 
 /****************************************************************************
@@ -578,7 +578,7 @@ void handle_city_info(const struct packet_city_info *packet)
   struct unit_list *pfocus_units = get_units_in_focus();
   struct city *pcity = game_city_by_number(packet->id);
   struct tile_list *worked_tiles = NULL;
-  struct tile *pcenter = index_to_tile(packet->tile);
+  struct tile *pcenter = index_to_tile(&(wld.map), packet->tile);
   struct tile *ptile = NULL;
   struct player *powner = player_by_number(packet->owner);
 
@@ -1049,7 +1049,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   bool name_changed = FALSE;
   bool update_descriptions = FALSE;
   struct city *pcity = game_city_by_number(packet->id);
-  struct tile *pcenter = index_to_tile(packet->tile);
+  struct tile *pcenter = index_to_tile(&(wld.map), packet->tile);
   struct tile *ptile = NULL;
   struct tile_list *worked_tiles = NULL;
   struct player *powner = player_by_number(packet->owner);
@@ -1208,7 +1208,7 @@ void handle_worker_task(const struct packet_worker_task *packet)
   }
 
   if (ptask != NULL) {
-    ptask->ptile = index_to_tile(packet->tile_id);
+    ptask->ptile = index_to_tile(&(wld.map), packet->tile_id);
     ptask->act = packet->activity;
     if (packet->tgt >= 0) {
       ptask->tgt = extra_by_number(packet->tgt);
@@ -1392,7 +1392,7 @@ void play_sound_for_event(enum event_type type)
 void handle_chat_msg(const struct packet_chat_msg *packet)
 {
   handle_event(packet->message,
-               index_to_tile(packet->tile),
+               index_to_tile(&(wld.map), packet->tile),
                packet->event,
                packet->turn,
                packet->phase,
@@ -1412,7 +1412,7 @@ void handle_chat_msg(const struct packet_chat_msg *packet)
 void handle_early_chat_msg(const struct packet_early_chat_msg *packet)
 {
   handle_event(packet->message,
-               index_to_tile(packet->tile),
+               index_to_tile(&(wld.map), packet->tile),
                packet->event,
                packet->turn,
                packet->phase,
@@ -2831,7 +2831,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
   struct player *eowner = player_by_number(packet->extras_owner);
   struct extra_type *presource = extra_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
-  struct tile *ptile = index_to_tile(packet->tile);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->tile);
 
   fc_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
@@ -4555,7 +4555,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 {
   struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
 
-  struct tile *target_tile = index_to_tile(packet->target_tile_id);
+  struct tile *target_tile = index_to_tile(&(wld.map), packet->target_tile_id);
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
@@ -4840,7 +4840,7 @@ void handle_edit_object_created(int tag, int id)
 ****************************************************************************/
 void handle_edit_startpos(const struct packet_edit_startpos *packet)
 {
-  struct tile *ptile = index_to_tile(packet->id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->id);
   bool changed = FALSE;
 
   /* Check. */
@@ -4879,7 +4879,7 @@ void handle_edit_startpos(const struct packet_edit_startpos *packet)
 void handle_edit_startpos_full(const struct packet_edit_startpos_full *
                                packet)
 {
-  struct tile *ptile = index_to_tile(packet->id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->id);
   struct startpos *psp;
 
   /* Check. */

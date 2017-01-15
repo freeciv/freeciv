@@ -586,7 +586,7 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
 #endif
 
   /* Change the pf_map iterator. Node status step B. to C. */
-  pfm->tile = index_to_tile(tindex);
+  pfm->tile = index_to_tile(&(wld.map), tindex);
   pfnm->lattice[tindex].status = NS_PROCESSED;
 
   return TRUE;
@@ -736,7 +736,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
 #endif
 
   /* Change the pf_map iterator. Node status step C. to D. */
-  pfm->tile = index_to_tile(tindex);
+  pfm->tile = index_to_tile(&(wld.map), tindex);
   pfnm->lattice[tindex].status = NS_PROCESSED;
 
   return TRUE;
@@ -1690,7 +1690,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
      * to get it from danger_queue. */
     if (map_index_pq_remove(pfdm->danger_queue, &tindex)) {
       /* Change the pf_map iterator and reset data. */
-      tile = index_to_tile(tindex);
+      tile = index_to_tile(&(wld.map), tindex);
       pfm->tile = tile;
       node = pfdm->lattice + tindex;
     } else {
@@ -1705,7 +1705,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
 #endif
 
       /* Change the pf_map iterator and reset data. */
-      tile = index_to_tile(tindex);
+      tile = index_to_tile(&(wld.map), tindex);
       pfm->tile = tile;
       node = pfdm->lattice + tindex;
       if (NS_WAITING != node->status) {
@@ -2880,7 +2880,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       }
 
       /* Change the pf_map iterator and reset data. */
-      tile = index_to_tile(tindex);
+      tile = index_to_tile(&(wld.map), tindex);
       pfm->tile = tile;
       node = pffm->lattice + tindex;
       waited = TRUE;
@@ -2897,7 +2897,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 #endif
 
       /* Change the pf_map iterator and reset data. */
-      tile = index_to_tile(tindex);
+      tile = index_to_tile(&(wld.map), tindex);
       pfm->tile = tile;
       node = pffm->lattice + tindex;
 #ifdef PF_DEBUG

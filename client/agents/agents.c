@@ -222,7 +222,7 @@ static void execute_call(const struct call *call)
     break;
   case OCT_TILE:
     call->agent->agent.tile_callbacks[call->cb_type]
-      (index_to_tile(call->arg));
+      (index_to_tile(&(wld.map), call->arg));
     break;
   }
 }

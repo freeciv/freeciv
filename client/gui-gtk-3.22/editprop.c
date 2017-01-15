@@ -724,7 +724,7 @@ static gpointer objtype_get_object_from_id(enum editor_object_type objtype,
 {
   switch (objtype) {
   case OBJTYPE_TILE:
-    return index_to_tile(id);
+    return index_to_tile(&(wld.map), id);
   case OBJTYPE_STARTPOS:
     return map_startpos_by_number(id);
   case OBJTYPE_UNIT:

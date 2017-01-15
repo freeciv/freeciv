@@ -128,7 +128,7 @@ Tile *api_find_tile_by_index(lua_State *L, int tindex)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return index_to_tile(tindex);
+  return index_to_tile(&(wld.map), tindex);
 }
 
 /*****************************************************************************

@@ -243,7 +243,7 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir);
 
 struct tile *map_pos_to_tile(int x, int y);
 struct tile *native_pos_to_tile(int nat_x, int nat_y);
-struct tile *index_to_tile(int mindex);
+struct tile *index_to_tile(struct civ_map *imap, int mindex);
 
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);

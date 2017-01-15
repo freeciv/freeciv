@@ -636,7 +636,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
           }
           break;
         case TLT_TILE:
-          ptile = index_to_tile(id);
+          ptile = index_to_tile(&(wld.map), id);
 
           if (!ptile) {
             output_window_append(ftc_client,

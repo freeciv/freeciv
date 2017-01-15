@@ -515,7 +515,7 @@ static size_t text_tag_start_sequence(const struct text_tag *ptag,
         break;
       case TLT_TILE:
         {
-          struct tile *ptile = index_to_tile(ptag->link.id);
+          struct tile *ptile = index_to_tile(&(wld.map), ptag->link.id);
 
           if (ptile) {
             ret += fc_snprintf(buf + ret, len - ret,

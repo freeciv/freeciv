@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -196,7 +196,7 @@ static void notify_conn_packet(struct conn_list *dest,
 {
   struct packet_chat_msg real_packet = *packet;
   int tile = packet->tile;
-  struct tile *ptile = index_to_tile(tile);
+  struct tile *ptile = index_to_tile(&(wld.map), tile);
 
   if (!dest) {
     dest = game.est_connections;
@@ -907,7 +907,7 @@ void event_cache_save(struct section_file *file, const char *section)
   event_cache_status = FALSE;
 
   event_cache_iterate(pdata) {
-    struct tile *ptile = index_to_tile(pdata->packet.tile);
+    struct tile *ptile = index_to_tile(&(wld.map), pdata->packet.tile);
     char target[MAX_NUM_PLAYER_SLOTS + 1];
     char *p;
     int tile_x = -1, tile_y = -1;

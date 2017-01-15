@@ -445,14 +445,14 @@ struct tile *native_pos_to_tile(int nat_x, int nat_y)
 /****************************************************************************
   Return the tile for the given index position.
 ****************************************************************************/
-struct tile *index_to_tile(int mindex)
+struct tile *index_to_tile(struct civ_map *imap, int mindex)
 {
-  if (!wld.map.tiles) {
+  if (!imap->tiles) {
     return NULL;
   }
 
   if (mindex >= 0 && mindex < MAP_INDEX_SIZE) {
-    return wld.map.tiles + mindex;
+    return imap->tiles + mindex;
   } else {
     /* Unwrapped index coordinates are impossible, so the best we can do is
      * return NULL. */
@@ -1444,7 +1444,7 @@ static void startpos_destroy(struct startpos *psp)
 ****************************************************************************/
 struct startpos *map_startpos_by_number(int id)
 {
-  return map_startpos_get(index_to_tile(id));
+  return map_startpos_get(index_to_tile(&(wld.map), id));
 }
 
 /****************************************************************************

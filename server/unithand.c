@@ -1448,7 +1448,7 @@ void handle_unit_get_actions(struct connection *pc,
 
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
-  target_tile = index_to_tile(target_tile_id);
+  target_tile = index_to_tile(&(wld.map), target_tile_id);
 
   /* Check if the request is valid. */
   if (!target_tile || !actor_unit || !actor_player
@@ -2146,7 +2146,7 @@ bool unit_perform_action(struct player *pplayer,
 {
   struct action *paction;
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
-  struct tile *target_tile = index_to_tile(target_id);
+  struct tile *target_tile = index_to_tile(&(wld.map), target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
@@ -4128,7 +4128,7 @@ void handle_unit_sscs_set(struct player *pplayer,
      * perform against the target tile. Action decision state can be set by
      * the server it self too. */
 
-    if (index_to_tile(value) == NULL) {
+    if (index_to_tile(&(wld.map), value) == NULL) {
       /* Asked to be reminded to ask what actions the unit can do to a non
        * existing target tile. */
       log_verbose("unit_sscs_set() invalid target tile %d for unit %d",
@@ -4137,7 +4137,7 @@ void handle_unit_sscs_set(struct player *pplayer,
     }
 
     punit->action_decision_want = ACT_DEC_ACTIVE;
-    punit->action_decision_tile = index_to_tile(value);
+    punit->action_decision_tile = index_to_tile(&(wld.map), value);
 
     /* Let the client know that this unit needs the player to decide
      * what to do. */
@@ -4299,7 +4299,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
 {
   struct unit *pcargo = player_unit_by_number(pplayer, cargo_id);
   struct unit *ptrans = game_unit_by_number(trans_id);
-  struct tile *ptile = index_to_tile(ttile_idx);
+  struct tile *ptile = index_to_tile(&(wld.map), ttile_idx);
   struct tile *ctile;
   struct tile *ttile;
   bool moves = FALSE;
@@ -4412,7 +4412,7 @@ void handle_unit_orders(struct player *pplayer,
 {
   int length = packet->length, i;
   struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
-  struct tile *src_tile = index_to_tile(packet->src_tile);
+  struct tile *src_tile = index_to_tile(&(wld.map), packet->src_tile);
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -4720,7 +4720,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   if (!packet->repeat) {
-    punit->goto_tile = index_to_tile(packet->dest_tile);
+    punit->goto_tile = index_to_tile(&(wld.map), packet->dest_tile);
   } else {
     /* Make sure that no old goto_tile remains. */
     punit->goto_tile = NULL;
@@ -4748,7 +4748,7 @@ void handle_worker_task(struct player *pplayer,
 {
   struct city *pcity = game_city_by_number(packet->city_id);
   struct worker_task *ptask = NULL;
-  struct tile *ptile = index_to_tile(packet->tile_id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->tile_id);
 
   if (pcity == NULL || pcity->owner != pplayer || ptile == NULL) {
     return;

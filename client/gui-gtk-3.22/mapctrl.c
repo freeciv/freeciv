@@ -177,11 +177,11 @@ static void name_new_city_popup_callback(gpointer data, gint response,
 
   switch (response) {
   case GTK_RESPONSE_OK:
-    finish_city(index_to_tile(idx), input);
+    finish_city(index_to_tile(&(wld.map), idx), input);
     break;
   case GTK_RESPONSE_CANCEL:
   case GTK_RESPONSE_DELETE_EVENT:
-    cancel_city(index_to_tile(idx));
+    cancel_city(index_to_tile(&(wld.map), idx));
     break;
   }
 }

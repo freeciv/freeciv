@@ -2186,7 +2186,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       } else {
         sg_failure_ret(str_to_int(token2, &number),
                        "Got map source %s in (%d, %d).", token2, x, y);
-        claimer = index_to_tile(number);
+        claimer = index_to_tile(&(wld.map), number);
       }
 
       if (loading->version >= 30) {

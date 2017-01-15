@@ -369,7 +369,7 @@ void chatwdg::anchor_clicked(const QUrl &link)
   }
   break;
   case TLT_TILE:
-    ptile = index_to_tile(id);
+    ptile = index_to_tile(&(wld.map), id);
 
     if (!ptile) {
       output_window_append(ftc_client,

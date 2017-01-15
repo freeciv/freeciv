@@ -2112,7 +2112,7 @@ static void nuke(QVariant data1, QVariant data2)
   int diplomat_target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != index_to_tile(diplomat_target_id)) {
+      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
     request_do_action(ACTION_NUKE,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -2127,7 +2127,7 @@ static void attack(QVariant data1, QVariant data2)
   int diplomat_target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
-      && NULL != index_to_tile(diplomat_target_id)) {
+      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
     request_do_action(ACTION_ATTACK,
                       diplomat_id, diplomat_target_id, 0, "");
   }
@@ -2142,7 +2142,7 @@ static void paradrop(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(actor_id)
-      && NULL != index_to_tile(target_id)) {
+      && NULL != index_to_tile(&(wld.map), target_id)) {
     request_do_action(ACTION_PARADROP,
                       actor_id, target_id, 0, "");
   }
@@ -2434,7 +2434,7 @@ static void act_sel_keep_moving(QVariant data1, QVariant data2)
   int diplomat_target_id = data2.toInt();
 
   if ((punit = game_unit_by_number(diplomat_id))
-      && (ptile = index_to_tile(diplomat_target_id))
+      && (ptile = index_to_tile(&(wld.map), diplomat_target_id))
       && !same_pos(unit_tile(punit), ptile)) {
     request_unit_non_action_move(punit, ptile);
   }

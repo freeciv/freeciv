@@ -288,7 +288,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
   struct terrain *pterrain;
   struct tile *ptile_center;
 
-  ptile_center = index_to_tile(tile);
+  ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
@@ -324,7 +324,7 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
 {
   struct tile *ptile_center;
 
-  ptile_center = index_to_tile(tile);
+  ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
@@ -357,7 +357,7 @@ void handle_edit_tile(struct connection *pc,
   struct tile *ptile;
   bool changed = FALSE;
 
-  ptile = index_to_tile(packet->tile);
+  ptile = index_to_tile(&(wld.map), packet->tile);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit the tile because %d is not a valid "
@@ -405,7 +405,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   struct unit *punit;
   int id, i;
 
-  ptile = index_to_tile(tile);
+  ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot create units because %d is not a valid "
@@ -490,7 +490,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
   struct player *pplayer;
   int i;
 
-  ptile = index_to_tile(tile);
+  ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot remove units because %d is not a valid "
@@ -632,7 +632,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
   struct city *pcity;
   struct player *pplayer;
 
-  ptile = index_to_tile(tile);
+  ptile = index_to_tile(&(wld.map), tile);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot create a city because %d is not a valid "
@@ -1135,7 +1135,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
   struct player *pplayer;
   struct tile *ptile_center;
 
-  ptile_center = index_to_tile(tile);
+  ptile_center = index_to_tile(&(wld.map), tile);
   if (!ptile_center) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit vision because %d is not a valid "
@@ -1272,7 +1272,7 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
 void handle_edit_startpos(struct connection *pconn,
                           const struct packet_edit_startpos *packet)
 {
-  struct tile *ptile = index_to_tile(packet->id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->id);
   bool changed;
 
   /* Check. */
@@ -1311,7 +1311,7 @@ void handle_edit_startpos_full(struct connection *pconn,
                                const struct packet_edit_startpos_full *
                                packet)
 {
-  struct tile *ptile = index_to_tile(packet->id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->id);
   struct startpos *psp;
 
   /* Check. */

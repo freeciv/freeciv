@@ -184,7 +184,7 @@ static void nuke_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(args->target_tile_id)) {
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
     request_do_action(ACTION_NUKE, args->actor_unit_id,
                       args->target_tile_id, 0, "");
   }
@@ -201,7 +201,7 @@ static void paradrop_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(args->target_tile_id)) {
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
     request_do_action(ACTION_PARADROP, args->actor_unit_id,
                       args->target_tile_id, 0, "");
   }
@@ -218,7 +218,7 @@ static void attack_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(args->target_tile_id)) {
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
     request_do_action(ACTION_ATTACK, args->actor_unit_id,
                       args->target_tile_id, 0, "");
   }
@@ -1261,7 +1261,7 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
   struct tile *ptile;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (ptile = index_to_tile(args->target_tile_id))
+      && (ptile = index_to_tile(&(wld.map), args->target_tile_id))
       && (tunit = game_unit_by_number(args->target_unit_id))) {
     select_tgt_unit(punit, ptile, ptile->units, tunit,
                     _("Target unit selection"),
@@ -1304,7 +1304,7 @@ static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
   struct tile *ptile;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (ptile = index_to_tile(args->target_tile_id))
+      && (ptile = index_to_tile(&(wld.map), args->target_tile_id))
       && !same_pos(unit_tile(punit), ptile)) {
     request_unit_non_action_move(punit, ptile);
   }

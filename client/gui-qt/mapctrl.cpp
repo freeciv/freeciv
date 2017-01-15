@@ -53,10 +53,10 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
   ask.set_text_title_definput(_("What should we call our new city?"),
                               _("Build New City"), QString(suggestname));
   if (ask.exec() == QDialog::Accepted) {
-    finish_city(index_to_tile(index),
+    finish_city(index_to_tile(&(wld.map), index),
                 ask.input_edit.text().toLocal8Bit().data());
   } else {
-    cancel_city(index_to_tile(index));
+    cancel_city(index_to_tile(&(wld.map), index));
   }
 
   return;

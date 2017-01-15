@@ -3031,7 +3031,7 @@ static void fair_map_make_huts(struct fair_tile *pmap)
       tile_add_extra(pvtile, phut);
       pftile->extras = pvtile->extras;
       pftile->flags |= FTF_HAS_HUT;
-      square_iterate(index_to_tile(pftile - pmap), 3, ptile) {
+      square_iterate(index_to_tile(&(wld.map), pftile - pmap), 3, ptile) {
         pmap[tile_index(ptile)].flags |= FTF_NO_HUT;
       } square_iterate_end;
     }
@@ -3164,7 +3164,7 @@ static struct fair_tile *fair_map_island_new(int size, int startpos_num)
 
   /* Make sea around the island. */
   for (i = 0; i < size; i++) {
-    circle_iterate(index_to_tile(land_tiles[i] - pisland),
+    circle_iterate(index_to_tile(&(wld.map), land_tiles[i] - pisland),
                    sea_around_island_sq, ptile) {
       pftile = pisland + tile_index(ptile);
 
