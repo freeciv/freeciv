@@ -70,7 +70,7 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
-  save_install_info_lists(&fcmp);
+  close_mpdbs();
 
   fcmp_deinit();
   cmdline_option_values_free();
@@ -229,7 +229,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
 
      type = type_int;
 
-     new_inst = get_installed_version(name_str, type);
+     new_inst = mpdb_installed_version(name_str, type);
 
      if (new_inst == NULL) {
        new_inst = _("Not installed");
@@ -389,7 +389,7 @@ static void setup_modpack_list(const char *name, const char *URL,
     lic_str = Q_("?license:Unknown");
   }
 
-  inst_str = get_installed_version(name, type);
+  inst_str = mpdb_installed_version(name, type);
   if (inst_str == NULL) {
     inst_str = _("Not installed");
   }
@@ -636,7 +636,7 @@ int main(int argc, char *argv[])
 
     gtk_main();
 
-    save_install_info_lists(&fcmp);
+    close_mpdbs();
   }
 
   fcmp_deinit();

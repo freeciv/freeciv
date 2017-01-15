@@ -74,7 +74,7 @@ static void setup_modpack_list(const char *name, const char *URL,
     lic_str = Q_("?license:Unknown");
   }
 
-  inst_str = get_installed_version(name, type);
+  inst_str = mpdb_installed_version(name, type);
   if (inst_str == NULL) {
     inst_str = _("Not installed");
   }
@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
       }
     }
 
-    save_install_info_lists(&fcmp);
+    close_mpdbs();
   }
 
   fcmp_deinit();

@@ -38,7 +38,7 @@
 // common
 #include "version.h"
 
-// modinst
+// tools
 #include "download.h"
 #include "mpcmdline.h"
 #include "mpdb.h"
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
     delete gui;
     delete qapp;
 
-    save_install_info_lists(&fcmp);
+    close_mpdbs();
   }
 
   fcmp_deinit();
@@ -340,7 +340,7 @@ void mpgui::refresh_list_versions()
     name_str = mplist_table->item(i, ML_COL_NAME)->text();
     type_int = mplist_table->item(i, ML_TYPE)->text().toInt();
     type = (enum modpack_type) type_int;
-    new_inst = get_installed_version(name_str.toUtf8().data(), type);
+    new_inst = mpdb_installed_version(name_str.toUtf8().data(), type);
 
     if (new_inst == nullptr) {
       new_inst = _("Not installed");
@@ -388,7 +388,7 @@ void mpgui::setup_list(const char *name, const char *URL,
     lic_str = Q_("?license:Unknown");
   }
 
-  inst_str = get_installed_version(name, type);
+  inst_str = mpdb_installed_version(name, type);
   if (inst_str == nullptr) {
     inst_str = _("Not installed");
   }

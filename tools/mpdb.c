@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <sqlite3.h>
+
 /* utility */
 #include "capability.h"
 #include "fcintl.h"
@@ -28,11 +30,17 @@
 
 #define MPDB_CAPSTR "+mpdb"
 
+#define MPDB_FORMAT_VERSION "1"
+
+static sqlite3 *main_handle = NULL;
+static sqlite3 *scenario_handle = NULL;
+
+static int mpdb_query(sqlite3 *handle, const char *query);
+
 /**************************************************************************
   Construct install info list from file.
 **************************************************************************/
-void load_install_info_list(const char *filename,
-                            struct install_info_list *list)
+void load_install_info_list(const char *filename)
 {
   struct section_file *file;
   const char *caps;
@@ -78,17 +86,14 @@ void load_install_info_list(const char *filename,
       str = secfile_lookup_str_default(file, NULL, "%s.name", buf);
 
       if (str != NULL) {
-        struct install_info *ii;
+        const char *type;
+        const char *ver;
 
-        ii = fc_malloc(sizeof(*ii));
+        type = secfile_lookup_str(file, "%s.type", buf);
+        ver = secfile_lookup_str(file, "%s.version", buf);
 
-        strncpy(ii->name, str, sizeof(ii->name));
-        str = secfile_lookup_str(file, "%s.type", buf);
-        ii->type = modpack_type_by_name(str, fc_strcasecmp);
-        str = secfile_lookup_str(file, "%s.version", buf);
-        strncpy(ii->version, str, sizeof(ii->version));
-
-        install_info_list_append(list, ii);
+        mpdb_update_modpack(str, modpack_type_by_name(type, fc_strcasecmp),
+                            ver);
       } else {
         all_read = TRUE;
       }
@@ -99,32 +104,169 @@ void load_install_info_list(const char *filename,
 }
 
 /**************************************************************************
-  Save install info list to file.
+  SQL query to database
 **************************************************************************/
-void save_install_info_list(const char *filename,
-                            struct install_info_list *list)
+static int mpdb_query(sqlite3 *handle, const char *query)
 {
-  int i = 0;
-  struct section_file *file = secfile_new(TRUE);
+  int ret;
+  sqlite3_stmt *stmt;
 
-  secfile_insert_str(file, MPDB_CAPSTR, "info.options");
+  ret = sqlite3_prepare_v2(handle, query, -1, &stmt, NULL);
 
-  install_info_list_iterate(list, ii) {
-    char buf[80];
-
-    fc_snprintf(buf, sizeof(buf), "modpacks.mp%d", i);
-
-    secfile_insert_str(file, ii->name, "%s.name", buf);
-    secfile_insert_str(file, modpack_type_name(ii->type),
-                       "%s.type", buf);
-    secfile_insert_str(file, ii->version, "%s.version", buf);
-
-    i++;
-  } install_info_list_iterate_end;
-
-  if (!secfile_save(file, filename, 0, FZ_PLAIN)) {
-    log_error("Saving of install info to file %s failed.", filename);
+  if (ret == SQLITE_OK) {
+    ret = sqlite3_step(stmt);
   }
 
-  secfile_destroy(file);
+  if (ret == SQLITE_DONE) {
+    ret = sqlite3_finalize(stmt);
+  }
+
+  if (ret != SQLITE_OK) {
+    log_error("Query \"%s\" failed. (%d)", query, ret);
+  }
+
+  return ret;
+}
+
+/**************************************************************************
+  Create modpack database
+**************************************************************************/
+void create_mpdb(const char *filename, bool scenario_db)
+{
+  sqlite3 **handle;
+  int ret;
+
+  if (scenario_db) {
+    handle = &scenario_handle;
+  } else {
+    handle = &main_handle;
+  }
+
+  ret = sqlite3_open_v2(filename, handle, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
+                        NULL);
+
+  if (ret == SQLITE_OK) {
+    ret = mpdb_query(*handle,
+                     "create table meta (version INTEGER default " MPDB_FORMAT_VERSION ");");
+  }
+
+  if (ret == SQLITE_OK) {
+    ret = mpdb_query(*handle,
+                     "create table modpacks (name VARCHAR(60) NOT NULL, type VARCHAR(32), version VARCHAR(32) NOT NULL);");
+  }
+
+  if (ret == SQLITE_OK) {
+    log_debug("Created %s", filename);
+  } else {
+    log_error(_("Creating \"%s\" failed: %s"), filename, sqlite3_errstr(ret));
+  }
+}
+
+/**************************************************************************
+  Open existing database
+**************************************************************************/
+void open_mpdb(const char *filename, bool scenario_db)
+{
+  sqlite3 **handle;
+  int ret;
+
+  if (scenario_db) {
+    handle = &scenario_handle;
+  } else {
+    handle = &main_handle;
+  }
+
+  ret = sqlite3_open_v2(filename, handle, SQLITE_OPEN_READWRITE, NULL);
+
+  if (ret != SQLITE_OK) {
+    log_error(_("Opening \"%s\" failed: %s"), filename, sqlite3_errstr(ret));
+  }
+}
+
+/**************************************************************************
+  Close open databases
+**************************************************************************/
+void close_mpdbs(void)
+{
+  sqlite3_close(main_handle);
+  main_handle = NULL;
+  sqlite3_close(scenario_handle);
+  scenario_handle = NULL;
+}
+
+/**************************************************************************
+  Update modpack information in database
+**************************************************************************/
+bool mpdb_update_modpack(const char *name, enum modpack_type type,
+                         const char *version)
+{
+  sqlite3 **handle;
+  int ret;
+  char qbuf[2048];
+
+  if (type == MPT_SCENARIO) {
+    handle = &scenario_handle;
+  } else {
+    handle = &main_handle;
+  }
+
+  sqlite3_snprintf(sizeof(qbuf), qbuf, "select * from modpacks where name is '%q';",
+                   name);
+  ret = mpdb_query(*handle, qbuf);
+
+  if (ret == SQLITE_ROW) {
+    sqlite3_snprintf(sizeof(qbuf), qbuf,
+                     "update modpacks set type = '%q', version = '%q' where name is '%q';",
+                     modpack_type_name(type), version, name);
+    ret = mpdb_query(*handle, qbuf);
+  } else {
+    /* Completely new modpack */
+    sqlite3_snprintf(sizeof(qbuf), qbuf,
+                     "insert into modpacks values ('%q', '%q', '%q');",
+                     name, modpack_type_name(type), version);
+    ret = mpdb_query(*handle, qbuf);
+  }
+
+  if (ret != SQLITE_OK) {
+    log_error(_("Failed to insert modpack '%s' information"), name);
+  }
+
+  return ret != SQLITE_OK;
+}
+
+/**************************************************************************
+  Return version of modpack.
+**************************************************************************/
+const char *mpdb_installed_version(const char *name,
+                                   enum modpack_type type)
+{
+  sqlite3 **handle;
+  int ret;
+  char qbuf[2048];
+  sqlite3_stmt *stmt;
+
+  if (type == MPT_SCENARIO) {
+    handle = &scenario_handle;
+  } else {
+    handle = &main_handle;
+  }
+
+  sqlite3_snprintf(sizeof(qbuf), qbuf,
+                   "select * from modpacks where name is '%q';",
+                   name);
+  ret = sqlite3_prepare_v2(*handle, qbuf, -1, &stmt, NULL);
+
+  if (ret == SQLITE_OK) {
+    ret = sqlite3_step(stmt);
+  }
+
+  if (ret == SQLITE_DONE) {
+    ret = sqlite3_finalize(stmt);
+  }
+
+  if (ret == SQLITE_ROW) {
+    return (const char *)sqlite3_column_text(stmt, 2);
+  }
+
+  return NULL;
 }

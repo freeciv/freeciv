@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,6 +12,10 @@
 ***********************************************************************/
 #ifndef FC__MPDB_H
 #define FC__MPDB_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* common */
 #include "fc_types.h"
@@ -34,9 +38,20 @@ struct install_info
   TYPED_LIST_ITERATE(struct install_info, ii_list, item)
 #define install_info_list_iterate_end  LIST_ITERATE_END
 
-void load_install_info_list(const char *filename,
-                            struct install_info_list *list);
-void save_install_info_list(const char *filename,
-                            struct install_info_list *list);
+/* Backward compatibility to pre-sqlite database versions */
+void load_install_info_list(const char *filename);
+
+void create_mpdb(const char *filename, bool scenario_db);
+void open_mpdb(const char *filename, bool scenario_db);
+void close_mpdbs(void);
+
+bool mpdb_update_modpack(const char *name, enum modpack_type type,
+                         const char *version);
+const char *mpdb_installed_version(const char *name,
+                                   enum modpack_type type);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* FC__MPDB_H */

@@ -37,7 +37,9 @@
 #include "netfile.h"
 #include "registry.h"
 
-/* modinst */
+/* tools */
+#include "mpdb.h"
+
 #include "download.h"
 
 static const char *download_modpack_recursive(const char *URL,
@@ -212,7 +214,7 @@ static const char *download_modpack_recursive(const char *URL,
         return _("Illegal dependency modpack type");
       }
 
-      inst_ver = get_installed_version(dep_name, type);
+      inst_ver = mpdb_installed_version(dep_name, type);
 
       if (inst_ver != NULL) {
         const char *dep_ver;
@@ -384,7 +386,7 @@ static const char *download_modpack_recursive(const char *URL,
     return _("Some parts of the modpack failed to install.");
   }
 
-  update_install_info_lists(mpname, type, mpver);
+  mpdb_update_modpack(mpname, type, mpver);
 
   secfile_destroy(control);
 
