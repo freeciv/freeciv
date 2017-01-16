@@ -62,10 +62,15 @@ AC_DEFUN([FC_QT5_GENERIC],
     done])
   fi
 
-  AC_LANG_POP([C++])
-
   if test "x$qt5_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
+    AC_MSG_CHECKING([for Qt >= 5.2])
+    FC_QT52_CHECK
+  fi
+
+  AC_LANG_POP([C++])
+  if test "x$fc_qt52" = "xyes" ; then
+    AC_MSG_RESULT([ok])
     FC_QT5_VALIDATE_MOC([fc_qt5_usable=true], [fc_qt5_usable=false])
   else
     AC_MSG_RESULT([not found])
@@ -99,6 +104,30 @@ AC_DEFUN([FC_QT5_COMPILETEST],
 
   CPPFLAGS="$CPPFLAGS_SAVE"
 ])
+
+dnl Check if the included version of Qt is at least Qt5.2
+dnl Output: fc_qt52=yes|no
+AC_DEFUN([FC_QT52_CHECK],
+[
+  CPPFLAGS_SAVE="$CPPFLAGS"
+  CPPFLAGS="$CPPFLAGS $FC_QT5_CPPFLAGS"
+  CXXFLAGS_SAVE="$CXXFLAGS"
+  CXXFLAGS="$CXXFLAGS $FC_QT5_CXXFLAGS"
+  LIBS_SAVE="$LIBS"
+  LIBS="${LIBS}${LIBSADD}"
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+    [[#include <QtCore>]],[[
+      #if QT_VERSION < 0x050200
+        fail
+      #endif
+    ]])],
+    [fc_qt52=yes],
+    [fc_qt52=no])
+  LIBS="$LIBS_SAVE"
+  CPPFLAGS="${CPPFLAGS_SAVE}"
+  CXXFLAGS="${CXXFLAGS_SAVE}"
+])
+
 
 dnl Test Qt application linking with current flags
 AC_DEFUN([FC_QT5_LINKTEST],
