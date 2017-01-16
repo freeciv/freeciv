@@ -16,6 +16,8 @@
 #endif
 
 // Qt
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -229,12 +231,23 @@ int scale_to_mult(const struct multiplier *pmul, int scale)
 void popup_rates_dialog(void)
 {
   QPoint p;
+  QRect rect;
 
   p = QCursor::pos();
+  rect = QApplication::desktop()->availableGeometry();
   tax_rates_dialog *trd = new tax_rates_dialog(gui()->central_wdg);
-  trd->show();
-  p.setX(p.x() - trd->width() /2);
+  p.setY(p.y() - trd->height() / 2);
+  if (p.y() < 50) {
+    p.setY(50);
+  }
+  if (p.y() + trd->height() > rect.bottom()) {
+    p.setY(rect.bottom() - trd->height());
+  }
+  if (p.x() + trd->width() > rect.right()) {
+    p.setX(rect.right() - trd->width());
+  }
   trd->move(p);
+  trd->show();
 }
 
 /**************************************************************************
