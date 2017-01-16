@@ -41,10 +41,10 @@
 
 static bool is_init = FALSE;
 static char convert_buffer[4096];
+static const char *transliteration_string;
 
 #ifdef HAVE_ICONV
 static const char *local_encoding, *data_encoding, *internal_encoding;
-static const char *transliteration_string;
 #else  /* HAVE_ICONV */
 /* Hack to confuse the compiler into working. */
 #  define local_encoding get_local_encoding()
@@ -61,11 +61,10 @@ static const char *transliteration_string;
 void init_character_encodings(const char *my_internal_encoding,
 			      bool my_use_transliteration)
 {
+  transliteration_string = "";
 #ifdef HAVE_ICONV
   if (my_use_transliteration) {
     transliteration_string = "//TRANSLIT";
-  } else {
-    transliteration_string = "";
   }
 
   /* Set the data encoding - first check $FREECIV_DATA_ENCODING,
