@@ -52,7 +52,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 49;
+static int num_shortcuts = 50;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -149,7 +149,9 @@ fc_shortcut default_shortcuts[] = {
   {SC_RELOAD_THEME, Qt::Key_F5, Qt::AllButtons, Qt::ControlModifier
      | Qt::ShiftModifier, _("Reload theme") },
   {SC_RELOAD_TILESET, Qt::Key_F6, Qt::AllButtons, Qt::ControlModifier
-    | Qt::ShiftModifier, _("Reload tileset") }
+    | Qt::ShiftModifier, _("Reload tileset") },
+  {SC_SHOW_FULLBAR, Qt::Key_F, Qt::AllButtons, Qt::ControlModifier,
+    _("Toggle city full bar visiblity") }
 };
 
 
