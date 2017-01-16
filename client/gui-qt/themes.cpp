@@ -120,7 +120,9 @@ char **qtg_get_gui_specific_themes_directories(int *count)
   char *persistent = static_cast<char*>(fc_malloc(256));
 
   *count = 1;
-  array = new char *[*count];
+  /* array is deleted in C client code and shouln't
+     be allocated with new[] */
+  array = static_cast<char **>(fc_malloc((*count) * sizeof(char *)));
   strncpy(persistent, fileinfoname(get_data_dirs(),""), 256);
   array[0] = persistent;
   return array;
