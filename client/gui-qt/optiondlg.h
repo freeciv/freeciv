@@ -65,12 +65,12 @@ private:
   void set_bitwise(struct option *poption, unsigned value);
   void set_color(struct option *poption, struct ft_color color);
   void set_font(struct option *poption, QString s);
-  struct ft_color get_color(struct option *poption);
+  void get_color(struct option *poption, QByteArray &a1, QByteArray &a2);
   bool get_bool(struct option *poption);
   int get_int(struct option *poption);
-  QFont get_font(struct option *poption); 
-  char *get_button_font(struct option *poption);
-  char *get_string(struct option *poption);
+  QFont get_font(struct option *poption);
+  QByteArray get_button_font(struct option *poption);
+  QByteArray get_string(struct option *poption);
   int get_enum(struct option *poption);
   struct option* get_color_option();
   unsigned get_bitwise(struct option *poption);
