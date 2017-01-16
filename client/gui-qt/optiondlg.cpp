@@ -225,8 +225,9 @@ void option_dialog::apply_option(int response)
 /****************************************************************************
   Return selected colors (for highlighting chat).
 ****************************************************************************/
-struct ft_color option_dialog::get_color(struct option *poption) {
-
+void option_dialog::get_color(struct option *poption, QByteArray &a1,
+                              QByteArray &a2)
+{
   QPalette pal;
   QColor col1, col2;
   QWidget *w;
@@ -239,8 +240,8 @@ struct ft_color option_dialog::get_color(struct option *poption) {
   but = w->findChild<QPushButton *>("text_background");
   pal = but->palette();
   col2 =  pal.color(QPalette::Button);
-
-  return ft_color_construct(col1.name().toUtf8().data(), col2.name().toUtf8().data());
+  a1 = col1.name().toUtf8();
+  a2 = col2.name().toUtf8();
 }
 
 /****************************************************************************
@@ -248,6 +249,8 @@ struct ft_color option_dialog::get_color(struct option *poption) {
 ****************************************************************************/
 void option_dialog::apply_options()
 {
+  QByteArray ba1, ba2;
+
   options_iterate(curr_options, poption) {
     switch (option_type(poption)) {
     case OT_BOOLEAN:
@@ -257,7 +260,7 @@ void option_dialog::apply_options()
       option_int_set(poption, get_int(poption));
       break;
     case OT_STRING:
-      option_str_set(poption, get_string(poption));
+      option_str_set(poption, get_string(poption).data());
       break;
     case OT_ENUM:
       option_enum_set_int(poption, get_enum(poption));
@@ -266,10 +269,11 @@ void option_dialog::apply_options()
       option_bitwise_set(poption, get_bitwise(poption));
       break;
     case OT_FONT:
-      option_font_set(poption, get_button_font(poption));
+      option_font_set(poption, get_button_font(poption).data());
       break;
     case OT_COLOR:
-      option_color_set(poption, get_color(poption));
+      get_color(poption,  ba1,  ba2);
+      option_color_set(poption, ft_color_construct(ba1.data(), ba2.data()));
       break;
     case OT_VIDEO_MODE:
       log_error("Option type %s (%d) not supported yet.",
@@ -383,17 +387,17 @@ void option_dialog::set_string(struct option *poption, const char *string)
 /****************************************************************************
   Get string for desired option from combobox or lineedit.
 ****************************************************************************/
-char *option_dialog::get_string(struct option *poption)
+QByteArray option_dialog::get_string(struct option *poption)
 {
   QComboBox *cb;
   QLineEdit *le;
 
   if (option_str_values(poption) != NULL) {
     cb = reinterpret_cast<QComboBox *>(option_get_gui_data(poption));
-    return cb->currentText().toUtf8().data();
+    return cb->currentText().toUtf8();
   } else {
     le = reinterpret_cast<QLineEdit *>(option_get_gui_data(poption));
-    return le->displayText().toUtf8().data();
+    return le->displayText().toUtf8();
   }
 }
 
@@ -812,14 +816,14 @@ QFont option_dialog::get_font(struct option *poption)
 /****************************************************************************
   Get font from pushbutton.
 ****************************************************************************/
-char *option_dialog::get_button_font(struct option *poption)
+QByteArray option_dialog::get_button_font(struct option *poption)
 {
   QPushButton *qp;
   QFont f;
 
   qp = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   f = qp->font();
-  return f.toString().toUtf8().data();
+  return f.toString().toUtf8();
 }
 
 /****************************************************************************
