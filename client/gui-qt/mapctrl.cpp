@@ -387,7 +387,7 @@ void map_view::shortcut_pressed(int key)
   }
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
-    if (goto_is_active() == false && pcity == nullptr) {
+    if (goto_is_active() == false) {
       action_button_pressed(pos.x(), pos.y(), SELECT_FOCUS);
     }
     return;
