@@ -2758,6 +2758,10 @@ static struct unit *quickselect(struct tile *ptile,
 
   fc_assert_ret_val(qtype > SELECT_POPUP, NULL);
 
+  if (qtype == SELECT_FOCUS) {
+    return head_of_units_in_focus();
+  }
+
   if (listsize == 0) {
     return NULL;
   } else if (listsize == 1) {
@@ -2765,9 +2769,6 @@ static struct unit *quickselect(struct tile *ptile,
     return (unit_owner(punit) == client.conn.playing) ? punit : NULL;
   }
 
-  if (qtype == SELECT_FOCUS) {
-    return head_of_units_in_focus();
-  }
   /*  Quickselect priorities. Units with moves left
    *  before exhausted. Focus unit is excluded.
    *
