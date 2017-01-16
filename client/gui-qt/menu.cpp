@@ -2001,8 +2001,26 @@ void mr_menu::menus_sensitive()
         break;
 
       case ROAD:
-        if (can_units_do_any_road(punits)) {
-          i.value()->setEnabled(true);
+        {
+          char road_item[500];
+          struct extra_type *pextra = nullptr;
+
+          if (can_units_do_any_road(punits)) {
+            i.value()->setEnabled(true);
+          }
+          unit_list_iterate(punits, punit) {
+            pextra = next_extra_for_tile(unit_tile(punit), EC_ROAD,
+                                        unit_owner(punit), punit);
+            if (pextra != nullptr) {
+              break;
+            }
+          } unit_list_iterate_end;
+
+          if (pextra != nullptr) {
+            fc_snprintf(road_item, sizeof(road_item), _("Build %s"),
+                        extra_name_translation(pextra));
+            i.value()->setText(road_item);
+          }
         }
         break;
 
