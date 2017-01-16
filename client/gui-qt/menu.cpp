@@ -1080,6 +1080,8 @@ void mr_menu::setup_menus()
   connect(act, SIGNAL(triggered()), this, SLOT(slot_native_tiles()));
   act = menu->addAction(_("City Full Bar"));
   act->setCheckable(true);
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_SHOW_FULLBAR))));
   act->setChecked(gui_options.draw_full_citybar);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_fullbar()));
   act = menu->addAction(_("City Names"));
