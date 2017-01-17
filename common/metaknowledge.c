@@ -710,8 +710,9 @@ bool can_see_techs_of_target(const struct player *pow_player,
   Returns TRUE iff pow_player can see externally visible features of
   target_city.
 
-  Those are visible to its owner, to players that currently sees its city
-  tile and to players that has it as a trade partner.
+  A city's external features are visible to its owner, to players that
+  currently sees the tile it is located at and to players that has it as
+  a trade partner.
 **************************************************************************/
 bool mke_can_see_city_externals(const struct player *pow_player,
                                 const struct city *target_city) {
