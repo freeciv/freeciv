@@ -344,6 +344,7 @@ struct pf_path {
  * Examples of callbacks can be found in "pf_tools.c"
  * NB: It should be safe to struct copy pf_parameter. */
 struct pf_parameter {
+  struct civ_map *map;
   struct tile *start_tile;      /* Initial position */
 
   int moves_left_initially;

@@ -657,6 +657,7 @@ static inline void
 pft_fill_default_parameter(struct pf_parameter *parameter,
                            const struct unit_type *punittype)
 {
+  parameter->map = &(wld.map);
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
@@ -945,6 +946,8 @@ void pft_fill_reverse_parameter(struct pf_parameter *parameter,
                                 struct tile *target_tile)
 {
   memset(parameter, 0, sizeof(*parameter));
+
+  parameter->map = &(wld.map);
 
   /* We ignore refuel bases in reverse mode. */
   parameter->fuel = 1;
