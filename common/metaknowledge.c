@@ -41,15 +41,6 @@ enum fc_tristate tri_and(enum fc_tristate one,
 }
 
 /**************************************************************************
-  Returns TRUE iff the target_tile is seen by pow_player.
-**************************************************************************/
-static bool is_tile_seen(const struct player *pow_player,
-                         const struct tile *target_tile)
-{
-  return tile_get_known(target_tile, pow_player) == TILE_KNOWN_SEEN;
-}
-
-/**************************************************************************
   Returns TRUE iff the target_tile it self and all tiles cardinally
   adjacent to it are seen by pow_player.
 **************************************************************************/
@@ -57,13 +48,13 @@ static bool is_tile_seen_cadj(const struct player *pow_player,
                               const struct tile *target_tile)
 {
   /* The tile it self is unseen. */
-  if (!is_tile_seen(pow_player, target_tile)) {
+  if (!tile_is_seen(target_tile, pow_player)) {
     return FALSE;
   }
 
   /* A cardinally adjacent tile is unseen. */
   cardinal_adjc_iterate(target_tile, ptile) {
-    if (!is_tile_seen(pow_player, ptile)) {
+    if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;
     }
   } cardinal_adjc_iterate_end;
@@ -80,13 +71,13 @@ static bool is_tile_seen_adj(const struct player *pow_player,
                              const struct tile *target_tile)
 {
   /* The tile it self is unseen. */
-  if (!is_tile_seen(pow_player, target_tile)) {
+  if (!tile_is_seen(target_tile, pow_player)) {
     return FALSE;
   }
 
   /* An adjacent tile is unseen. */
   adjc_iterate(target_tile, ptile) {
-    if (!is_tile_seen(pow_player, ptile)) {
+    if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -109,7 +100,7 @@ static bool is_tile_seen_city(const struct player *pow_player,
   /* A tile of the city is unseen */
   city_tile_iterate(city_map_radius_sq_get(target_city),
                     city_tile(target_city), ptile) {
-    if (!is_tile_seen(pow_player, ptile)) {
+    if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;
     }
   } city_tile_iterate_end;
@@ -361,7 +352,7 @@ static bool is_req_knowable(const struct player *pow_player,
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       /* Known because the tile is seen */
-      if (is_tile_seen(pow_player, target_tile)) {
+      if (tile_is_seen(target_tile, pow_player)) {
         return TRUE;
       }
 
@@ -575,7 +566,7 @@ static bool is_req_knowable(const struct player *pow_player,
 
     switch (req->range) {
     case REQ_RANGE_LOCAL:
-      return is_tile_seen(pow_player, target_tile);
+      return tile_is_seen(target_tile, pow_player);
     case REQ_RANGE_CADJACENT:
       /* TODO: The answer is known when the universal is located on a seen
        * tile. Is returning TRUE in those cases worth the added complexity
@@ -724,7 +715,7 @@ bool mke_can_see_city_externals(const struct player *pow_player,
     return TRUE;
   }
 
-  if (is_tile_seen(pow_player, city_tile(target_city))) {
+  if (tile_is_seen(city_tile(target_city), pow_player)) {
     /* The tile is being observed. */
     return TRUE;
   }

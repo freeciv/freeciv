@@ -428,6 +428,15 @@ enum known_type tile_get_known(const struct tile *ptile,
   }
 }
 
+/**************************************************************************
+  Returns TRUE iff the target_tile is seen by pow_player.
+**************************************************************************/
+bool tile_is_seen(const struct tile *target_tile,
+                  const struct player *pow_player)
+{
+  return tile_get_known(target_tile, pow_player) == TILE_KNOWN_SEEN;
+}
+
 /****************************************************************************
   Time to complete the given activity on the given tile.
 ****************************************************************************/

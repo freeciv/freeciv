@@ -158,6 +158,9 @@ bool tile_has_extra_flag(const struct tile *ptile, enum extra_flag_id flag);;
 enum known_type tile_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 
+bool tile_is_seen(const struct tile *target_tile,
+                  const struct player *pow_player);
+
 /* A somewhat arbitrary integer value.  Activity times are multiplied by
  * this amount, and divided by them later before being used.  This may
  * help to avoid rounding errors; however it should probably be removed. */
