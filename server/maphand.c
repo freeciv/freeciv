@@ -24,6 +24,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "base.h"
 #include "borders.h"
 #include "events.h"
@@ -473,6 +474,10 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
   struct packet_tile_info info;
   const struct player *owner;
   const struct player *eowner;
+
+  if (dest == NULL) {
+    CALL_FUNC_EACH_AI(tile_info, ptile);
+  }
 
   if (send_tile_suppressed) {
     return;

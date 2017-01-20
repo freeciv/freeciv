@@ -104,6 +104,14 @@ static void texai_thread_start(void *arg)
 **************************************************************************/
 void texai_game_start(struct ai_type *ait)
 {
+  texai_send_msg(TEXAI_MSG_GAME_START, NULL, NULL);
+}
+
+/**************************************************************************
+  Game start message received
+**************************************************************************/
+static void texai_game_start_recv(void)
+{
   texai_world_init();
 }
 
@@ -111,6 +119,14 @@ void texai_game_start(struct ai_type *ait)
   Game has ended
 **************************************************************************/
 void texai_game_free(struct ai_type *ait)
+{
+  texai_send_msg(TEXAI_MSG_GAME_END, NULL, NULL);
+}
+
+/**************************************************************************
+  Game end message received
+**************************************************************************/
+static void texai_game_free_recv(void)
 {
   texai_world_close();
 }
@@ -161,11 +177,20 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       texai_send_req(TEXAI_REQ_TURN_DONE, msg->plr, NULL);
 
       break;
+    case TEXAI_MSG_TILE_INFO:
+      texai_tile_info_recv(msg->data);
+      break;
     case TEXAI_MSG_PHASE_FINISHED:
       new_abort = TEXAI_ABORT_PHASE_END;
       break;
     case TEXAI_MSG_THR_EXIT:
       new_abort = TEXAI_ABORT_EXIT;
+      break;
+    case TEXAI_MSG_GAME_START:
+      texai_game_start_recv();
+      break;
+    case TEXAI_MSG_GAME_END:
+      texai_game_free_recv();
       break;
     default:
       log_error("Illegal message type %s (%d) for threaded ai!",

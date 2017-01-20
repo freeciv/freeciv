@@ -660,7 +660,9 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.consider_tile_dangerous = cai_consider_tile_dangerous;
   ai->funcs.consider_wonder_city = cai_consider_wonder_city;
 
-  ai->funcs.refresh = NULL;
+  /* ai->funcs.refresh = NULL; */
+
+  /* ai->funcs.tile_info = NULL; */
 
   return TRUE;
 }

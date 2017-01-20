@@ -35,6 +35,7 @@
 #include "texaicity.h"
 #include "texaimsg.h"
 #include "texaiplayer.h"
+#include "texaiworld.h"
 
 const char *fc_ai_threxpr_capstr(void);
 bool fc_ai_threxpr_setup(struct ai_type *ai);
@@ -656,5 +657,7 @@ bool fc_ai_threxpr_setup(struct ai_type *ai)
 
   ai->funcs.refresh = texwai_refresh;
 
+  ai->funcs.tile_info = texai_tile_info;
+  
   return TRUE;
 }

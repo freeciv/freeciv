@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Sep.23"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.1-ai-module-2017.Jan.13"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -264,6 +264,9 @@ struct ai_type
 
     /* Called for player AI type with short internval */
     void (*refresh)(struct player *pplayer);
+
+    /* Called for every AI type when tile has changed */
+    void (*tile_info)(struct tile *ptile);
 
     /* These are here reserving space for future optional callbacks.
      * This way we don't need to change the mandatory capability of the AI module

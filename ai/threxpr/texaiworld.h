@@ -16,4 +16,7 @@
 void texai_world_init(void);
 void texai_world_close(void);
 
+void texai_tile_info(struct tile *ptile);
+void texai_tile_info_recv(void *data);
+
 #endif /* FC__TEXAIWORLD_H */

@@ -19,9 +19,19 @@
 #include "map.h"
 #include "world_object.h"
 
+/* threxpr */
+#include "texaiplayer.h"
+
 #include "texaiworld.h"
 
 static struct world texai_world;
+
+struct texai_tile_info_msg
+{
+  int index;
+  struct terrain *terrain;
+  bv_extras extras;
+};
 
 /**************************************************************************
   Initialize world object for texai
@@ -38,4 +48,38 @@ void texai_world_init(void)
 void texai_world_close(void)
 {
   map_free(&(texai_world.map));
+}
+
+/**************************************************************************
+  Tile info updated on main map. Send update to threxpr map.
+**************************************************************************/
+void texai_tile_info(struct tile *ptile)
+{
+  if (texai_thread_running()) {
+    struct texai_tile_info_msg *info = fc_malloc(sizeof(struct texai_tile_info_msg));
+
+    info->index = tile_index(ptile);
+    info->terrain = ptile->terrain;
+    info->extras = ptile->extras;
+
+    texai_send_msg(TEXAI_MSG_TILE_INFO, NULL, info);
+  }
+}
+
+/**************************************************************************
+  Receive tile update to the thread.
+**************************************************************************/
+void texai_tile_info_recv(void *data)
+{
+  struct texai_tile_info_msg *info = (struct texai_tile_info_msg *)data;
+
+  if (texai_world.map.tiles != NULL) {
+    struct tile *ptile;
+
+    ptile = index_to_tile(&(texai_world.map), info->index);
+    ptile->terrain = info->terrain;
+    ptile->extras = info->extras;
+  }
+
+  free(info);
 }
