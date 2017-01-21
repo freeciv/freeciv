@@ -18,10 +18,12 @@
 // Qt
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QGroupBox>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QVBoxLayout>
 
-// client
+// common
 #include "multipliers.h"
 
 // gui-qt

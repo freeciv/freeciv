@@ -23,18 +23,17 @@ extern "C" {
 }
 
 // Qt
-#include <QCheckBox>
 #include <QEvent>
 #include <QLineEdit>
-#include <QStringList>
-#include <QTextBrowser>
 
 // gui-qt
 #include "fonts.h"
 #include "listener.h"
 
-class QPushButton;
 class chat_listener;
+class QCheckBox;
+class QPushButton;
+class QTextBrowser;
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    QColor bg_color);
 template<> std::set<chat_listener *> listener<chat_listener>::instances;

@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QGridLayout>
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>

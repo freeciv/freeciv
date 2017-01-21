@@ -17,12 +17,14 @@
 
 // Qt
 #include <QApplication>
+#include <QHBoxLayout>
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPushButton>
 #include <QSortFilterProxyModel>
 #include <QSplitter>
+#include <QVBoxLayout>
 
 // gui-qt
 #include "fc_client.h"

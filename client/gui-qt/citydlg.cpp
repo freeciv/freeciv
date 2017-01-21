@@ -17,7 +17,9 @@
 
 // Qt
 #include <QApplication>
+#include <QCheckBox>
 #include <QDesktopWidget>
+#include <QGroupBox>
 #include <QHeaderView>
 #include <QImage>
 #include <QMenu>

@@ -21,6 +21,7 @@
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QGridLayout>
+#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QLineEdit>
