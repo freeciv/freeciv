@@ -7,10 +7,11 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.0 (31-Oct-16)
+# Version 2.1 (17-Jan-17)
 
-WINBUILD_VERSION="2.0"
+WINBUILD_VERSION="2.1"
 MIN_WINVER=0x0600 # Vista
+CROSSER_FEATURE_LEVEL=1.2
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir>"
@@ -38,6 +39,13 @@ if test -d ../../.svn ; then
   VERREV="$(../../fc_version)-r$(cd ../.. && svn info | grep Revision | sed 's/Revision: //')"
 else
   VERREV="$(../../fc_version)"
+fi
+
+FLVL=$(grep "FeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/FeatureLevel="//' -e 's/"//')
+
+if test "x$FLVL" != "x$CROSSER_FEATURE_LEVEL" ; then
+  echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!"
+  exit 1
 fi
 
 SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
