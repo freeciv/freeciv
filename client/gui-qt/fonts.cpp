@@ -134,9 +134,9 @@ void configure_fonts()
   qreal scale = (physical_dpi / logical_dpi)
                 / screen->devicePixelRatio();
 
-  max = qRound(physical_dpi * scale / 6);
-  smaller = qRound(physical_dpi * scale / 8);
-  default_size = qRound(physical_dpi * scale / 7);
+  max = qRound(scale * 16);
+  smaller = qRound(scale * 12);
+  default_size = qRound(scale *14);
 
   /* default and help label*/
   sl << "Segoe UI" << "Cousine" << "Liberation Sans" << "Droid Sans" 
