@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QComboBox>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QMainWindow>
@@ -26,6 +27,7 @@
 #include <QSettings>
 #include <QSignalMapper>
 #include <QSocketNotifier>
+#include <QSpinBox>
 #include <QStackedLayout>
 #include <QStandardPaths>
 #include <QStatusBar>

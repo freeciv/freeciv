@@ -15,13 +15,13 @@
 #define FC__SHORTCUTSDLG_H
 
 #include <QDialog>
-#include <QPushButton>
 #include <QLineEdit>
+#include <QPushButton>
 
-class QVBoxLayout;
-struct fc_shortcut;
 class QDialogButtonBox;
 class QSignalMapper;
+class QVBoxLayout;
+struct fc_shortcut;
 
 void popup_shortcuts_dialog();
 QString shortcut_to_string(fc_shortcut *sc);

@@ -18,8 +18,11 @@
 // Qt
 #include <QApplication>
 #include <QCloseEvent>
+#include <QGridLayout>
+#include <QHeaderView>
 #include <QLabel>
 #include <QMenu>
+#include <QSpinBox>
 #include <QPainter>
 #include <QPushButton>
 

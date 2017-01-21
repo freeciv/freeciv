@@ -23,6 +23,7 @@
 #include <QScrollArea>
 #include <QSignalMapper>
 #include <QStandardPaths>
+#include <QVBoxLayout>
 
 // utility
 #include "string_vector.h"

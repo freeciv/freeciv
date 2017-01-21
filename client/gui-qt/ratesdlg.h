@@ -22,16 +22,8 @@
 #endif
 
 // Qt
-#include <QLabel>
-#include <QCheckBox>
-#include <QSlider>
 #include <QDialog>
-#include <QPushButton>
-#include <QDialogButtonBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QString>
-#include <QGroupBox>
+# include <QList>
 
 // common
 #include "government.h"
@@ -42,7 +34,13 @@
 extern "C" {
 #include "ratesdlg_g.h"
 }
+
+class QMouseEvent;
+class QPaintEvent;
 class QPixmap;
+class QPushButton;
+class QSize;
+class QSlider;
 
 /**************************************************************************
  * Custom slider with two settable values

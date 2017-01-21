@@ -15,12 +15,12 @@
 #define FC__FONTS_H
 
 // Qt
-#include <QFont>
 #include <QMap>
-#include <QObject>
 
 // gui-qt
 #include "listener.h"
+
+class QFont;
 
 namespace fonts
 {

@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QGridLayout>
 #include <QLabel>
 
 // common

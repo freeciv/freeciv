@@ -17,11 +17,14 @@
 
 //Qt
 #include <QApplication>
+#include <QCheckBox>
 #include <QCompleter>
+#include <QGridLayout>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QScrollBar>
 #include <QStyleFactory>
+#include <QTextBrowser>
 
 // common
 #include "chat.h"

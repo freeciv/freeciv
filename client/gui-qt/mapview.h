@@ -30,18 +30,15 @@ extern "C" {
 #include "fonts.h"
 
 // Qt
-#include <QHBoxLayout>
+#include <QFrame>
 #include <QLabel>
 #include <QMutex>
-#include <QObject>
-#include <QPushButton>
 #include <QQueue>
 #include <QThread>
 #include <QTimer>
-#include <QVariant>
-#include <QWidget>
 
 // Forward declarations
+class QMutex;
 class QPixmap;
 
 class minimap_view;
