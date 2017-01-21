@@ -19,14 +19,8 @@
 #endif
 
 // Qt
-#include <QHeaderView>
-#include <QLayout>
 #include <QMap>
-#include <QSpinBox>
-#include <QStyle>
-#include <QTableWidget>
 #include <QTabWidget>
-#include <QWidget>
 
 extern "C" {
 #include "diplodlg_g.h"
@@ -40,9 +34,14 @@ extern "C" {
 #include "sprite.h"
 #include "tilespec.h"
 
+class QCloseEvent;
+class QGridLayout;
 class QIcon;
 class QLabel;
 class QPushButton;
+class QSpinBox;
+class QTableWidget;
+class QTableWidgetItem;
 
 /****************************************************************************
   Diplomacy tab for one nation

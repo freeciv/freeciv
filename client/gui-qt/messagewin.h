@@ -23,14 +23,18 @@ extern "C" {
 }
 
 //Qt
-#include <QTableWidget>
-#include <QGridLayout>
-#include <QPushButton>
+#include <QWidget>
 
 //qt-client
 #include "chatline.h"
 #include "mapview.h"
 
+class QEvent;
+class QGridLayout;
+class QItemSelection;
+class QMouseEvent;
+class QPixmap;
+class QTableWidget;
 
 /***************************************************************************
   Class representing message output

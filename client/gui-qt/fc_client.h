@@ -23,10 +23,7 @@
 #endif
 
 // Qt
-#include <QComboBox>
 #include <QMainWindow>
-#include <QMap>
-#include <QSpinBox>
 #include <QStackedWidget>
 
 // common
@@ -72,6 +69,7 @@ class QLabel;
 class QLineEdit;
 class QMainWindow;
 class QSocketNotifier;
+class QSpinBox;
 class QStackedLayout;
 class QStatusBar;
 class QString;

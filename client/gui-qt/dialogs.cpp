@@ -29,6 +29,7 @@
 #include <QSignalMapper>
 #include <QTableWidgetItem>
 #include <QTextEdit>
+#include <QVBoxLayout>
 #include <QtMath>
 
 // utility

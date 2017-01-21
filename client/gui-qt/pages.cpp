@@ -18,8 +18,10 @@
 // Qt
 #include <QAction>
 #include <QApplication>
+#include <QCheckBox>
 #include <QDateTime>
 #include <QFileDialog>
+#include <QGridLayout>
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QPainter>
