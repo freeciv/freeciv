@@ -1057,6 +1057,41 @@ bool can_player_see_city_internals(const struct player *pplayer,
   return (!pplayer || pplayer == city_owner(pcity));
 }
 
+/**************************************************************************
+  Returns TRUE iff pow_player can see externally visible features of
+  target_city.
+
+  A city's external features are visible to its owner, to players that
+  currently sees the tile it is located at and to players that has it as
+  a trade partner.
+**************************************************************************/
+bool player_can_see_city_externals(const struct player *pow_player,
+                                   const struct city *target_city) {
+  fc_assert_ret_val(target_city, FALSE);
+  fc_assert_ret_val(pow_player, FALSE);
+
+  if (can_player_see_city_internals(pow_player, target_city)) {
+    /* City internals includes city externals. */
+    return TRUE;
+  }
+
+  if (tile_is_seen(city_tile(target_city), pow_player)) {
+    /* The tile is being observed. */
+    return TRUE;
+  }
+
+  fc_assert_ret_val(target_city->routes, FALSE);
+
+  trade_partners_iterate(target_city, trade_city) {
+    if (city_owner(trade_city) == pow_player) {
+      /* Revealed because of the trade route. */
+      return TRUE;
+    }
+  } trade_partners_iterate_end;
+
+  return FALSE;
+}
+
 /***************************************************************
  If the specified player owns the city with the specified id,
  return pointer to the city struct.  Else return NULL.

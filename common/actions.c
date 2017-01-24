@@ -1952,7 +1952,7 @@ is_action_possible(const enum gen_action wanted_action,
       int new_pop;
 
       if (!omniscient
-          && !mke_can_see_city_externals(actor_player, target_city)) {
+          && !player_can_see_city_externals(actor_player, target_city)) {
         return TRI_MAYBE;
       }
 

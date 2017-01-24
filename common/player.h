@@ -413,6 +413,8 @@ bool can_player_see_units_in_city(const struct player *pplayer,
 				  const struct city *pcity);
 bool can_player_see_city_internals(const struct player *pplayer,
 				   const struct city *pcity);
+bool player_can_see_city_externals(const struct player *pow_player,
+                                   const struct city *target_city);
 
 bool player_owns_city(const struct player *pplayer,
 		      const struct city *pcity);
