@@ -1,6 +1,6 @@
 /* -*- mode: c; tab-width: 2; indent-tabs-mode: nil; -*-
 Copyright (c) 2012 Marcus Geelnard
-Copyright (c) 2013-2014 Evan Nemerson
+Copyright (c) 2013-2016 Evan Nemerson
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -384,7 +384,8 @@ int cnd_broadcast(cnd_t *cond)
 #if defined(_TTHREAD_WIN32_)
 static int _cnd_timedwait_win32(cnd_t *cond, mtx_t *mtx, DWORD timeout)
 {
-  int result, lastWaiter;
+  DWORD result;
+  int lastWaiter;
 
   /* Increment number of waiters */
   EnterCriticalSection(&cond->mWaitersCountLock);
@@ -404,7 +405,7 @@ static int _cnd_timedwait_win32(cnd_t *cond, mtx_t *mtx, DWORD timeout)
     mtx_lock(mtx);
     return thrd_timedout;
   }
-  else if (result == (int)WAIT_FAILED)
+  else if (result == WAIT_FAILED)
   {
     /* The mutex is locked again before the function returns, even if an error occurred */
     mtx_lock(mtx);
@@ -641,7 +642,7 @@ int thrd_detach(thrd_t thr)
 int thrd_equal(thrd_t thr0, thrd_t thr1)
 {
 #if defined(_TTHREAD_WIN32_)
-  return thr0 == thr1;
+  return GetThreadId(thr0) == GetThreadId(thr1);
 #else
   return pthread_equal(thr0, thr1);
 #endif
@@ -655,7 +656,7 @@ void thrd_exit(int res)
     _tinycthread_tss_cleanup();
   }
 
-  ExitThread(res);
+  ExitThread((DWORD)res);
 #else
   pthread_exit((void*)(intptr_t)res);
 #endif
@@ -674,7 +675,7 @@ int thrd_join(thrd_t thr, int *res)
   {
     if (GetExitCodeThread(thr, &dwRes) != 0)
     {
-      *res = dwRes;
+      *res = (int) dwRes;
     }
     else
     {
@@ -699,7 +700,14 @@ int thrd_join(thrd_t thr, int *res)
 int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 {
 #if !defined(_TTHREAD_WIN32_)
-  return nanosleep(duration, remaining);
+  int res = nanosleep(duration, remaining);
+  if (res == 0) {
+    return 0;
+  } else if (errno == EINTR) {
+    return -1;
+  } else {
+    return -2;
+  }
 #else
   struct timespec start;
   DWORD t;
@@ -713,20 +721,20 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 
   if (t == 0) {
     return 0;
-  } else if (remaining != NULL) {
-    timespec_get(remaining, TIME_UTC);
-    remaining->tv_sec -= start.tv_sec;
-    remaining->tv_nsec -= start.tv_nsec;
-    if (remaining->tv_nsec < 0)
-    {
-      remaining->tv_nsec += 1000000000;
-      remaining->tv_sec -= 1;
-    }
   } else {
-    return -1;
-  }
+    if (remaining != NULL) {
+      timespec_get(remaining, TIME_UTC);
+      remaining->tv_sec -= start.tv_sec;
+      remaining->tv_nsec -= start.tv_nsec;
+      if (remaining->tv_nsec < 0)
+      {
+        remaining->tv_nsec += 1000000000;
+        remaining->tv_sec -= 1;
+      }
+    }
 
-  return 0;
+    return (t == WAIT_IO_COMPLETION) ? -1 : -2;
+  }
 #endif
 }
 
