@@ -1,6 +1,6 @@
 /* -*- mode: c; tab-width: 2; indent-tabs-mode: nil; -*-
 Copyright (c) 2012 Marcus Geelnard
-Copyright (c) 2013-2014 Evan Nemerson
+Copyright (c) 2013-2016 Evan Nemerson
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
@@ -76,6 +76,7 @@ extern "C" {
     #undef _XOPEN_SOURCE
     #define _XOPEN_SOURCE 500
   #endif
+  #define _XPG6
 #endif
 
 /* Generic includes */
@@ -220,7 +221,14 @@ void mtx_destroy(mtx_t *mtx);
 */
 int mtx_lock(mtx_t *mtx);
 
-/** NOT YET IMPLEMENTED.
+/** Lock the given mutex, or block until a specific point in time.
+* Blocks until either the given mutex can be locked, or the specified TIME_UTC
+* based time.
+* @param mtx A mutex object.
+* @param ts A UTC based calendar time
+* @return @ref The mtx_timedlock function returns thrd_success on success, or
+* thrd_timedout if the time specified was reached without acquiring the
+* requested resource, or thrd_error if the request could not be honored.
 */
 int mtx_timedlock(mtx_t *mtx, const struct timespec *ts);
 

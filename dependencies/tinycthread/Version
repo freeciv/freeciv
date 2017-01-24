@@ -1,6 +1,6 @@
 Source here are from tinycthread development version from
 https://github.com/tinycthread/tinycthread
-commit ffbb00b2c0d2daa501ab42d6346bd8717c2d6eed
-Sat Nov 14 19:35:48 2015 -0800
+commit 6957fc8383d6c7db25b60b8c849b29caab1caaee
+Fri Sep 30 12:47:32 2016 -0400
 
 Only files needed by freeciv have been included here.
