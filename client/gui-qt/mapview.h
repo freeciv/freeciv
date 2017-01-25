@@ -102,6 +102,7 @@ private slots:
 private:
   void update_font(const QString &name, const QFont &font);
 
+  bool stored_autocenter;
   int cursor_frame;
   int cursor;
 
