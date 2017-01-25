@@ -1995,22 +1995,6 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 }
 
 /**************************************************************************
-  Returns true if the player owns a city which has a trade route with
-  the given city.
-**************************************************************************/
-static bool player_has_trade_route_with_city(struct player *pplayer,
-                                             struct city *pcity)
-{
-  trade_routes_iterate(pcity, other) {
-    if (city_owner(other) == pplayer) {
-      return TRUE;
-    }
-  } trade_routes_iterate_end;
-
-  return FALSE;
-}
-
-/**************************************************************************
  Which wall gfx city should display?
 **************************************************************************/
 static int city_got_citywalls(const struct city *pcity)
@@ -2065,8 +2049,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 void refresh_dumb_city(struct city *pcity)
 {
   players_iterate(pplayer) {
-    if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
-        || player_has_trade_route_with_city(pplayer, pcity)) {
+    if (player_can_see_city_externals(pplayer, pcity)) {
       if (update_dumb_city(pplayer, pcity)) {
 	struct packet_city_short_info packet;
 
@@ -2107,8 +2090,7 @@ static void broadcast_city_info(struct city *pcity)
         lsend_packet_city_info(powner->connections, &packet, FALSE);
       }
     } else {
-      if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
-          || player_has_trade_route_with_city(pplayer, pcity)) {
+      if (player_can_see_city_externals(pplayer, pcity)) {
         reality_check_city(pplayer, pcity->tile);
 	update_dumb_city(pplayer, pcity);
 	package_dumb_city(pplayer, pcity->tile, &sc_pack);
