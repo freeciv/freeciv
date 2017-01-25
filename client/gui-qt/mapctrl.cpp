@@ -388,6 +388,8 @@ void map_view::shortcut_pressed(int key)
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
     if (goto_is_active() == false) {
+      stored_autocenter = gui_options.auto_center_on_unit;
+      gui_options.auto_center_on_unit = false;
       action_button_pressed(pos.x(), pos.y(), SELECT_FOCUS);
     }
     return;
@@ -432,6 +434,7 @@ void map_view::shortcut_released(Qt::MouseButton bt)
     }
     if (keyboardless_goto_active == false || goto_is_active() == true) {
       action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
+      gui_options.auto_center_on_unit = stored_autocenter;
     }
     release_goto_button(pos.x(), pos.y());
     return;
