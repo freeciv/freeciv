@@ -7,14 +7,14 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.1 (17-Jan-17)
+# Version 2.2 (24-Jan-17)
 
-WINBUILD_VERSION="2.1"
+WINBUILD_VERSION="2.2"
 MIN_WINVER=0x0600 # Vista
 CROSSER_FEATURE_LEVEL=1.2
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
-  echo "Usage: $0 <crosser dir>"
+  echo "Usage: $0 <crosser dir> [gui]"
   exit 1
 fi
 
@@ -50,6 +50,19 @@ fi
 
 SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
+if test "x$2" != "x" ; then
+  SINGLE_GUI=true
+  CLIENTS="$2"
+  case $2 in
+    gtk3) FCMP="gtk3" ;;
+    sdl2) FCMP="gtk3" ;;
+    gtk3.22) FCMP="gtk3" ;;
+    qt) FCMP="qt" ;;
+    *) echo "Unknown gui \"$2\"!" >&2
+       exit 1 ;;
+  esac
+fi
+
 if ! mkdir -p build-$SETUP ; then
   echo "Can't create build directory \"build-$SETUP\"!" >&2
   exit 1
@@ -57,20 +70,26 @@ fi
 
 if test x$SETUP = xwin64 ; then
   TARGET=x86_64-w64-mingw32
-  CLIENTS="gtk3,sdl2,gtk3.22"
-  FCMP="gtk3,cli"
+  if test "x$SINGLE_GUI" != "xtrue" ; then
+    CLIENTS="gtk3,sdl2,gtk3.22"
+    FCMP="gtk3,cli"
+  fi
   VERREV="win64-$VERREV"
 else
   TARGET=i686-w64-mingw32
-  CLIENTS="gtk3,sdl2,gtk3.22"
-  FCMP="gtk3,cli"
+  if test "x$SINGLE_GUI" != "xtrue" ; then
+    CLIENTS="gtk3,sdl2,gtk3.22"
+    FCMP="gtk3,cli"
+  fi
   VERREV="win32-$VERREV"
 fi
 
-if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
-then
+if test "x$SINGLE_GUI" != "xtrue" ; then
+  if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
+  then
     CLIENTS="$CLIENTS,qt"
     FCMP="$FCMP,qt"
+  fi
 fi
 
 echo "----------------------------------"
