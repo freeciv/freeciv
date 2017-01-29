@@ -717,7 +717,7 @@ void side_right_click_science(void)
     if (curr_list.isEmpty()) {
       return;
     }
-    qSort(curr_list.begin(), curr_list.end(), comp_less_than);
+    std::sort(curr_list.begin(), curr_list.end(), comp_less_than);
     menu = new QMenu(gui()->central_wdg);
     for (int i = 0; i < curr_list.count(); i++) {
       qvar = curr_list.at(i).id;
