@@ -42,7 +42,7 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted tileset loading */
-    tilespec_reread(game.control.preferred_tileset, FALSE);
+    tilespec_reread(game.control.preferred_tileset, FALSE, 1.0);
   }
 }
 

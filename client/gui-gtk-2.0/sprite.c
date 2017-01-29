@@ -48,7 +48,7 @@ struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y,
 			   int width, int height,
 			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y)
+			   int mask_offset_x, int mask_offset_y, float scale)
 {
   GdkPixbuf *mypixbuf, *sub, *mask_pixbuf;
 
@@ -377,7 +377,7 @@ struct sprite *crop_blankspace(struct sprite *s)
 
   sprite_get_bounding_box(s, &x1, &y1, &x2, &y2);
 
-  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1);
+  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1, 1.0);
 }
 
 /****************************************************************************

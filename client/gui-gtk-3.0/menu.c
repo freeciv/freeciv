@@ -149,7 +149,7 @@ static void save_options_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void reload_tileset_callback(GtkAction *action, gpointer data)
 {
-  tilespec_reread(NULL, TRUE);
+  tilespec_reread(NULL, TRUE, 1.0);
 }
 
 /****************************************************************
