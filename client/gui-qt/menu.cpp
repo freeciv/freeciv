@@ -3142,7 +3142,7 @@ void mr_menu::load_new_tileset()
   QPushButton *but;
 
   but = qobject_cast<QPushButton *>(sender());
-  tilespec_reread(but->text().toLocal8Bit().data(), true);
+  tilespec_reread(but->text().toLocal8Bit().data(), true, 1.0f);
   but->parentWidget()->close();
 }
 

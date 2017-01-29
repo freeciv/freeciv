@@ -220,7 +220,8 @@ void finish_loading_sprites(struct tileset *t);
 
 void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
                        bool global_default);
-void tilespec_reread(const char *tileset_name, bool game_fully_initialized);
+void tilespec_reread(const char *tileset_name, bool game_fully_initialized,
+                     float scale);
 void tilespec_reread_callback(struct option *poption);
 void tilespec_reread_frozen_refresh(const char *tname);
 
@@ -408,7 +409,8 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                                            enum log_level level,
                                            const char *tag, const char *alt,
                                            const char *what,
-                                           const char *name);
+                                           const char *name,
+                                           bool scale);
 
 struct color_system;
 struct color_system *get_color_system(const struct tileset *t);

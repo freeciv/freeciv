@@ -120,6 +120,7 @@ fc_client::fc_client() : QMainWindow()
   unitinfo_wdg = nullptr;
   battlelog_wdg = nullptr;
   interface_locked = false;
+  map_scale = 1.0f;
   for (int i = 0; i <= PAGE_GAME; i++) {
     pages_layout[i] = NULL;
     pages[i] = NULL;

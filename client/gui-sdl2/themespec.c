@@ -866,7 +866,7 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
       }
       ss->sprite =
 	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
-		    NULL, -1, -1);
+		    NULL, -1, -1, 1.0);
     }
   }
 
