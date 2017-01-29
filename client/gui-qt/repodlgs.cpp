@@ -552,8 +552,8 @@ void science_report::update_report()
   } advance_index_iterate_end;
 
   /** sort both lists */
-   qSort(goal_list->begin(), goal_list->end(), comp_less_than);
-   qSort(curr_list->begin(), curr_list->end(), comp_less_than);
+  std::sort(goal_list->begin(), goal_list->end(), comp_less_than);
+  std::sort(curr_list->begin(), curr_list->end(), comp_less_than);
 
   /** fill combo boxes */
   researching_combo->blockSignals(true);
