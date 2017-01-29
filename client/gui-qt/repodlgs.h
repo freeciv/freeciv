@@ -79,7 +79,8 @@ public:
   void update_reqtree();
   void reset();
   QSize size();
-
+private slots:
+  void show_tooltip();
 private:
   void mousePressEvent(QMouseEvent *event);
   void mouseMoveEvent(QMouseEvent *event);
@@ -87,9 +88,14 @@ private:
   void create_tooltip_help();
   struct canvas *pcanvas;
   struct reqtree *req;
+  bool timer_active;
   int width;
   int height;
   QList<req_tooltip_help*> tt_help;
+  QPoint tooltip_pos;
+  QString tooltip_text;
+  QRect tooltip_rect;
+  
 };
 
 /****************************************************************************
