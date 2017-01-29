@@ -83,7 +83,7 @@ bool request_transport(struct unit *cargo, struct tile *ptile)
 {
   int tcount;
   struct unit_list *potential_transports = unit_list_new();
-  struct unit *best_transport = transporter_for_unit(cargo);
+  struct unit *best_transport = transporter_for_unit_at(cargo, ptile);
 
   unit_list_iterate(ptile->units, ptransport) {
     if (can_unit_transport(ptransport, cargo)
