@@ -245,6 +245,7 @@ void research_diagram::update_reqtree()
 ****************************************************************************/
 void research_diagram::reset()
 {
+  timer_active = false;
   if (req != NULL) {
     destroy_reqtree(req);
   }
@@ -350,11 +351,29 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       }
       tt_text = split_text(tt_text, true);
       tt_text = def_str + tt_text;
-      tt_text = tt_text.trimmed();
-      if (QToolTip::text() == "") {
-        QToolTip::showText(event->globalPos(), tt_text, this, rttp->rect);
+      tooltip_text = tt_text.trimmed();
+      tooltip_rect = rttp->rect;
+      tooltip_pos = event->globalPos();
+      if (QToolTip::isVisible() == false && timer_active == false) {
+        timer_active = true;
+        QTimer::singleShot(500, this, SLOT(show_tooltip()));
       }
     }
+  }
+}
+
+/****************************************************************************
+  Slot for timer used to show tooltip
+****************************************************************************/
+void research_diagram::show_tooltip()
+{
+  QPoint cp;
+
+  timer_active = false;
+  cp = QCursor::pos();
+  if (qAbs(cp.x() - tooltip_pos.x()) < 4
+      && qAbs(cp.y() - tooltip_pos.y()) < 4) {
+    QToolTip::showText(cp, tooltip_text, this, tooltip_rect);
   }
 }
 
