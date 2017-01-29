@@ -24,7 +24,7 @@ GUI_FUNC_PROTO(struct sprite *, load_gfxfile, const char *filename)
 GUI_FUNC_PROTO(struct sprite *, crop_sprite, struct sprite *source,
                int x, int y, int width, int height,
                struct sprite *mask,
-               int mask_offset_x, int mask_offset_y)
+               int mask_offset_x, int mask_offset_y, float scale)
 GUI_FUNC_PROTO(struct sprite *, create_sprite, int width, int height,
                struct color *pcolor)
 GUI_FUNC_PROTO(void, get_sprite_dimensions, struct sprite *sprite,

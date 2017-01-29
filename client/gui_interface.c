@@ -155,10 +155,10 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
 			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y)
+			   int mask_offset_x, int mask_offset_y, float scale)
 {
   return funcs.crop_sprite(source, x, y, width, height, mask,
-                           mask_offset_x, mask_offset_y);
+                           mask_offset_x, mask_offset_y, scale);
 }
 
 /**************************************************************************

@@ -101,7 +101,7 @@ struct sprite *load_gfxfile(const char *filename)
 struct sprite *crop_sprite(struct sprite *source,
                            int x, int y, int width, int height,
                            struct sprite *mask,
-                           int mask_offset_x, int mask_offset_y)
+                           int mask_offset_x, int mask_offset_y, float scale)
 {
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
   SDL_Surface *pSrc = crop_rect_from_surface(GET_SURF(source), &src_rect);

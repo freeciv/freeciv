@@ -48,7 +48,8 @@ void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height);
 struct sprite *qtg_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
-                               int mask_offset_x, int mask_offset_y);
+                               int mask_offset_x, int mask_offset_y,
+                               float scale);
 void qtg_free_sprite(struct sprite *s);
 
 struct color *qtg_color_alloc(int r, int g, int b);

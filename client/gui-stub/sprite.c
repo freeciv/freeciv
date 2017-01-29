@@ -76,7 +76,8 @@ struct sprite *gui_load_gfxfile(const char *filename)
 struct sprite *gui_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
-                               int mask_offset_x, int mask_offset_y)
+                               int mask_offset_x, int mask_offset_y,
+                               float scale)
 {
   /* PORTME */
   return NULL;

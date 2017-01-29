@@ -341,7 +341,7 @@ void map_view::shortcut_pressed(int key)
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_TILESET);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
-      tilespec_reread(tileset_basename(tileset), true);
+      tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
       return;
     }
     sc = fc_shortcuts::sc()->get_shortcut(SC_HIDE_WORKERS);

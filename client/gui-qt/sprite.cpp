@@ -95,7 +95,8 @@ struct sprite *qtg_load_gfxfile(const char *filename)
 struct sprite *qtg_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
-                               int mask_offset_x, int mask_offset_y)
+                               int mask_offset_x, int mask_offset_y,
+                               float scale)
 {
   QPainter p;
   sprite *cropped;

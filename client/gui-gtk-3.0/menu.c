@@ -592,7 +592,7 @@ static void save_options_callback(GtkMenuItem *item, gpointer data)
 *****************************************************************/
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data)
 {
-  tilespec_reread(NULL, TRUE);
+  tilespec_reread(NULL, TRUE, 1.0);
 }
 
 /****************************************************************

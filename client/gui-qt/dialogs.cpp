@@ -2758,7 +2758,7 @@ void popup_tileset_suggestion_dialog(void)
   ask.set_text_title(text, title);
   ask.exec();
   if (ask.clickedButton() == ok_button) {
-    tilespec_reread(game.control.preferred_tileset, FALSE);
+    tilespec_reread(game.control.preferred_tileset, FALSE, gui()->map_scale);
   }
 }
 
