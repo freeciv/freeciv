@@ -1237,10 +1237,12 @@ static bool compresstype_callback(int value,
                                   char *reject_msg,
                                   size_t reject_msg_len)
 {
+#ifdef FREECIV_HAVE_LIBBZ2
   if (value == FZ_BZIP2) {
     log_warn(_("Bzip2 is deprecated as compresstype. Consider "
                "other options."));
   }
+#endif /* FREECIV_HAVE_LIBBZ2 */
 
   return TRUE;
 }
