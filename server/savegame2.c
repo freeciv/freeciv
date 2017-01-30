@@ -4295,6 +4295,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
     } else {
       punit->has_orders = FALSE;
       punit->orders.list = NULL;
+
+      (void) secfile_entry_lookup(loading->file, "%s.orders_index", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.orders_repeat", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.orders_vigilant", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.orders_list", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.dir_list", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.activity_list", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.tgt_list", unitstr);
     }
   }
 
