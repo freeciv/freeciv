@@ -1049,7 +1049,7 @@ city_label::city_label(int t, QWidget *parent) : QLabel(parent)
 void city_label::mousePressEvent(QMouseEvent *event)
 {
   int citnum, i;
-  int w = tileset_small_sprite_width(tileset);
+  int w = tileset_small_sprite_width(tileset) / gui()->map_scale;
   int num_citizens = pcity->size;
 
   if (cma_is_city_under_agent(pcity, NULL)) {
@@ -2542,8 +2542,8 @@ void city_dialog::update_citizens()
   QPainter p;
   QPixmap *pix;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
-  int w = tileset_small_sprite_width(tileset);
-  int h = tileset_small_sprite_height(tileset);
+  int w = tileset_small_sprite_width(tileset) / gui()->map_scale;
+  int h = tileset_small_sprite_height(tileset) / gui()->map_scale;
 
   i = 1 + (num_citizens * 5 / 200);
   w = w  / i;

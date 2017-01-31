@@ -55,6 +55,9 @@ public:
   QFont* get_font(QString name);
   void init_fonts();
   void release_fonts();
+  void get_mapfont_size();
+  int city_fontsize;
+  int prod_fontsize;
 };
 
 void configure_fonts();
