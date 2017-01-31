@@ -22,6 +22,7 @@
 // qt-client
 #include "canvas.h"
 #include "colors.h"
+#include "fc_client.h"
 #include "fonts.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
@@ -350,12 +351,26 @@ void qtg_canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
 QFont *get_font(client_font font)
 {
   QFont *qf;
+  int ssize;
+  
   switch (font) {
   case FONT_CITY_NAME:
-    qf = fc_font::instance()->get_font(fonts::city_names);
+  qf = fc_font::instance()->get_font(fonts::city_names);
+    if (gui()->map_scale != 1.0f) {
+     ssize = ceil(gui()->map_scale * fc_font::instance()->city_fontsize);
+      if (qf->pointSize() != ssize) {
+        qf->setPointSize(ssize);
+      }
+    }
     break;
   case FONT_CITY_PROD:
     qf = fc_font::instance()->get_font(fonts::city_productions);
+    if (gui()->map_scale != 1.0f) {
+      ssize = ceil(gui()->map_scale * fc_font::instance()->prod_fontsize);
+      if (qf->pointSize() != ssize) {
+        qf->setPointSize(ssize);
+      }
+    }
     break;
   case FONT_REQTREE_TEXT:
     qf = fc_font::instance()->get_font(fonts::reqtree_text);
