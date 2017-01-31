@@ -98,6 +98,7 @@ void fc_font::init_fonts()
       set_font(s, f);
     }
   } options_iterate_end;
+  get_mapfont_size();
 }
 
 /****************************************************************************
@@ -110,6 +111,14 @@ void fc_font::release_fonts()
   }
 }
 
+/****************************************************************************
+  Stores default font sizes
+****************************************************************************/
+void fc_font::get_mapfont_size()
+{
+  city_fontsize = get_font(fonts::city_names)->pointSize();
+  prod_fontsize = get_font(fonts::city_productions)->pointSize();
+}
 
 /****************************************************************************
   Adds new font or overwrite old one

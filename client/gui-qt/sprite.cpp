@@ -99,7 +99,11 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
                                float scale)
 {
   QPainter p;
+  QRectF source_rect;
+  QRectF dest_rect;
   sprite *cropped;
+  int widthzoom;
+  int heightzoom;
 
   fc_assert_ret_val(source, NULL);
 
@@ -107,21 +111,30 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
     return NULL;
   }
 
+  widthzoom = ceil(width * scale);
+  heightzoom = ceil(height * scale);
   cropped = new sprite;
-
-  cropped->pm = new QPixmap(width, height);
+  cropped->pm = new QPixmap(widthzoom, heightzoom);
   cropped->pm->fill(Qt::transparent);
-  QRectF source_rect(x, y, width, height);
-  QRectF dest_rect(0, 0, width, height);
+  source_rect = QRectF(x, y, width, height);
+  dest_rect = QRectF(0, 0, widthzoom, heightzoom);
 
   p.begin(cropped->pm);
-  p.drawPixmap(dest_rect, *source->pm,source_rect);
+  p.setRenderHint(QPainter::Antialiasing);
+  p.drawPixmap(dest_rect, *source->pm, source_rect);
   p.end();
 
   if (mask) {
+    int mw = mask->pm->width();
+    int mh = mask->pm->height();
+
+    source_rect = QRectF(0, 0, mw, mh);
+    dest_rect = QRectF(mask_offset_x - x, mask_offset_y - y, mw, mh);
     p.begin(cropped->pm);
     p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-    p.drawPixmap(mask_offset_x-x, mask_offset_y - y, *mask->pm);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
+    p.drawPixmap(dest_rect, *mask->pm, source_rect);
     p.end();
   }
 

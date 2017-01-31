@@ -1052,6 +1052,15 @@ void mr_menu::setup_menus()
   connect(lock_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   connect(minimap_status, SIGNAL(triggered()), this, SLOT(slot_lock()));
   menu->addSeparator();
+  act = menu->addAction(_("Zoom in"));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                          fc_shortcuts::sc()->get_shortcut(SC_ZOOM_IN))));
+  connect(act, SIGNAL(triggered()), this, SLOT(zoom_in()));
+  act = menu->addAction(_("Zoom out"));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                          fc_shortcuts::sc()->get_shortcut(SC_ZOOM_OUT))));
+  connect(act, SIGNAL(triggered()), this, SLOT(zoom_out()));
+  menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_outlines);
@@ -2933,6 +2942,24 @@ void mr_menu::slot_city_growth()
 }
 
 /***************************************************************************
+  Action "RELOAD ZOOMED IN TILESET"
+***************************************************************************/
+void mr_menu::zoom_in()
+{
+  gui()->map_scale = gui()->map_scale * 1.2f;
+  tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
+}
+
+/***************************************************************************
+  Action "RELOAD ZOOMED OUT TILESET"
+***************************************************************************/
+void mr_menu::zoom_out()
+{
+  gui()->map_scale = gui()->map_scale / 1.2f;
+  tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
+}
+
+/***************************************************************************
   Action "SHOW CITY NAMES"
 ***************************************************************************/
 void mr_menu::slot_city_names()
@@ -3143,6 +3170,7 @@ void mr_menu::load_new_tileset()
 
   but = qobject_cast<QPushButton *>(sender());
   tilespec_reread(but->text().toLocal8Bit().data(), true, 1.0f);
+  gui()->map_scale = 1.0f;
   but->parentWidget()->close();
 }
 

@@ -397,6 +397,7 @@ static void apply_font(struct option *poption)
     gui()->infotab->chtwdg->update_font();
     QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
     real_science_report_dialog_update();
+    fc_font::instance()->get_mapfont_size();
   }
 }
 
@@ -499,6 +500,7 @@ void qtg_gui_update_font(const char *font_name, const char *font_value)
   remove_old = fc_font::instance()->get_font(fname);
   delete remove_old;
   fc_font::instance()->set_font(fname, f);
+  fc_font::instance()->get_mapfont_size();
 }
 
 /****************************************************************************

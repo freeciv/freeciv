@@ -80,7 +80,9 @@ enum shortcut_id {
   SC_POPUP_COMB_INF = 47,
   SC_RELOAD_THEME = 48,
   SC_RELOAD_TILESET = 49,
-  SC_SHOW_FULLBAR = 50
+  SC_SHOW_FULLBAR = 50,
+  SC_ZOOM_IN = 51,
+  SC_ZOOM_OUT = 52
 };
 
 
