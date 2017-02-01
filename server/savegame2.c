@@ -3065,7 +3065,7 @@ static void sg_load_player_main(struct loaddata *loading,
   for (i = 0; i < loading->specialist.size; i++) {
     plr->score.specialists[specialist_index(loading->specialist.order[i])]
       = secfile_lookup_int_default(loading->file, 0,
-                                   "score%d.specialist%d", plrno, i);
+                                   "score%d.specialists%d", plrno, i);
   }
 
   plr->score.wonders =
