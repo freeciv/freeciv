@@ -24,7 +24,7 @@ ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=0x0601
 endif
 
-INSTSUB=usr/local
+INSTSUB=${ARCHDIR}
 
 # msys2 has dlls in...
 DLLPATH_PREFIX=/$(ARCHDIR)/bin/
@@ -232,6 +232,8 @@ install-env-default-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/share/icons/Adwaita install-$(WINARCH)-$(GUI)/share/icons/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R /$(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
+	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
+	cp -R /$(ARCHDIR)/lib/gdk-pixbuf-2.0/* install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 

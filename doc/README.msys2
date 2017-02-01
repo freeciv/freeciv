@@ -9,10 +9,7 @@ using MSYS2 from http://msys2.github.io
  Status
 ====================================
 
-- Msys1, not msys2, is still the official freeciv Windows Installer
-  build method
-- Buildable clients are gtk3, gtk2, sdl2, and Qt
-  - Official pre-made msys2 environment does not support gtk2-client
+- Buildable clients are gtk3, gtk3.22, sdl2, and Qt
 
 
  Setup
@@ -27,9 +24,9 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20160205.exe
+ https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20161025.exe
  for win32 or
- https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20160205.exe
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20161025.exe
  for win64
 
 1.2) Run it to install MSYS2 on build system
@@ -38,7 +35,6 @@ using MSYS2 from http://msys2.github.io
 > pacman -Syu
 
 2) Install following packages with 'pacman -Su'
-   As of 18-Oct-16, one has to use also '--force' option.
 
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
@@ -86,10 +82,7 @@ using MSYS2 from http://msys2.github.io
 2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit
  - mingw-w64-i686-qt5 / mingw-w64-x86_64-qt5
 
-2.1.2.4) Arch-specific packages for building gtk2-client
- - mingw-w64-i686-gtk2 / mingw-w64-x86_64-gtk2
-
-2.1.2.5) Arch-specific packages for building sdl2-client
+2.1.2.4) Arch-specific packages for building sdl2-client
  - mingw-w64-i686-SDL2_image / mingw-w64-x86_64-SDL2_image
  - mingw-w64-i686-SDL2_ttf / mingw-w64-x86_64-SDL2_ttf
  - mingw-w64-i686-SDL2_gfx / mingw-w64-x86_64-SDL2_gfx
@@ -103,10 +96,6 @@ using MSYS2 from http://msys2.github.io
 
  - mingw-w64-i686-nsis / mingw-w64-x86_64-nsis
 
-2.3) Packages TODO:
-
- - MagickWand support
-
 
  Premade environment
 ====================================
@@ -118,9 +107,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-161212.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20160921.exe
-with packages updated to 12-Dec-16 level.
+msys2-freeciv-win64-170126.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20161025.exe
+with packages updated to 26-Jan-17 level.
 
 Only win64 target is included - replace <arch> with 'x86_64' in package names below
 
@@ -163,13 +152,13 @@ somehow. Some options are:
 3) Copy them from Windows folder where they are to a directory that
    is within msys2
 
-> cd win32/installer_msys2
+> cd windows/installer_msys2
 > make <targets>
 
   Target can be:
   - "<gui>-installer", where <gui> is
      - gtk3
-     - gtk2
+     - gtk3.22
      - sdl2
      - qt
   - "ruledit-installer"
