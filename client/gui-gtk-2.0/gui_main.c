@@ -561,7 +561,14 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
   case GDK_Escape:
     key_cancel_action();
     return TRUE;
-
+  case GDK_KEY_plus:
+    tilespec_reread(tileset_basename(tileset), true, tileset_scale(tileset)
+                    * 1.2f);
+    return TRUE;
+  case GDK_KEY_minus:
+    tilespec_reread(tileset_basename(tileset), true, tileset_scale(tileset)
+                    / 1.2f);
+    return TRUE;
   case GDK_b:
     if (tiles_hilited_cities) {
       buy_production_in_selected_cities();

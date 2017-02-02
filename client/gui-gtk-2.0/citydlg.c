@@ -1344,8 +1344,9 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(cbox), ebox, FALSE, FALSE, 0);
   pdialog->citizen_pixmap =
       gtk_pixcomm_new(tileset_small_sprite_width(tileset)
-                      * NUM_CITIZENS_SHOWN,
-                      tileset_small_sprite_height(tileset));
+                      * NUM_CITIZENS_SHOWN / tileset_scale(tileset),
+                      tileset_small_sprite_height(tileset)
+                      / tileset_scale(tileset));
   gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
   gtk_misc_set_alignment(GTK_MISC(pdialog->citizen_pixmap), 0.0f, 0.5f);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
@@ -1501,11 +1502,11 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   /* tileset_small_sprite_width(tileset) pixels.                           */
 
   if (num_citizens > 1) {
-    width = MIN(tileset_small_sprite_width(tileset),
-		((NUM_CITIZENS_SHOWN - 1) * tileset_small_sprite_width(tileset)) /
-		(num_citizens - 1));
+    width = MIN(tileset_small_sprite_width(tileset)  / tileset_scale(tileset),
+        ((NUM_CITIZENS_SHOWN - 1) * (tileset_small_sprite_width(tileset))
+        / tileset_scale(tileset)) / (num_citizens - 1));
   } else {
-    width = tileset_small_sprite_width(tileset);
+    width = tileset_small_sprite_width(tileset) / tileset_scale(tileset);
   }
   pdialog->cwidth = width;
 
@@ -2554,7 +2555,7 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
     return FALSE;
   }
 
-  tlen = tileset_small_sprite_width(tileset);
+  tlen = tileset_small_sprite_width(tileset) / tileset_scale(tileset);
   len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
   if (ev->x > len) {
     return FALSE;		/* no citizen that far to the right */
