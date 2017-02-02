@@ -1274,7 +1274,6 @@ void tilespec_reread(const char *new_tileset_name,
   enum client_states state = client_state();
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
-  int i;
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(tileset_name, name);
@@ -1292,11 +1291,7 @@ void tilespec_reread(const char *new_tileset_name,
    *
    * We free all old data in preparation for re-reading it.
    */
-  tileset_free_tiles(tileset);
-  tileset_free_toplevel(tileset);
-  for (i = 0; i < ARRAY_SIZE(tileset->sprites.player); i++) {
-    tileset_player_free(tileset, i);
-  }
+  tileset_free(tileset);
 
   /* Step 2:  Read.
    *
@@ -2513,6 +2508,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
         get_sprite_dimensions(s, &w, &h);
         ss->sprite = crop_sprite(s, 0, 0, w,
                                  h, NULL, -1, -1, t->scale);
+        free_sprite(s);
       } else {
         ss->sprite = load_gfx_file(ss->file);
       }
