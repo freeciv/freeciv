@@ -182,6 +182,7 @@ map_view::map_view() : QWidget()
   timer->start(200);
   resize(0, 0);
   setMouseTracking(true);
+  stored_autocenter = gui_options.auto_center_on_unit;
   setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 }
 
