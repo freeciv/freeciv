@@ -18,6 +18,7 @@
 /* utility */
 #include "log.h"
 #include "mem.h"
+#include "math.h"
 #include "shared.h"
 
 /* client/gtk-2.0 */
@@ -65,7 +66,13 @@ struct sprite *crop_sprite(struct sprite *source,
   height = CLIP(0, height, source->height - y);
   sub = gdk_pixbuf_new_subpixbuf(sprite_get_pixbuf(source), x, y,
 				 width, height);
-  mypixbuf = gdk_pixbuf_copy(sub);
+  if (scale == 1.0f) {
+    mypixbuf = gdk_pixbuf_copy(sub);
+  } else {
+    mypixbuf = gdk_pixbuf_scale_simple(sub, ceil(width *scale),
+                                       ceil(height * scale),
+                                       GDK_INTERP_NEAREST);
+  }
   g_object_unref(sub);
 
   /* Now mask.  This reduces the alpha of the final image proportional to the
@@ -95,8 +102,8 @@ struct sprite *crop_sprite(struct sprite *source,
       g_object_unref(p2);
     }
 
-    for (x1 = 0; x1 < width; x1++) {
-      for (y1 = 0; y1 < height; y1++) {
+    for (x1 = 0; x1 < ceil(width * scale); x1++) {
+      for (y1 = 0; y1 < ceil(height * scale); y1++) {
 	int mask_x = x1 - mask_offset_x, mask_y = y1 - mask_offset_y;
 	guchar *alpha = gdk_pixbuf_get_pixels(mypixbuf)
 	  + y1 * gdk_pixbuf_get_rowstride(mypixbuf)
