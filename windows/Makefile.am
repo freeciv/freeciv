@@ -25,7 +25,13 @@ dist_noinst_DATA = \
 		installer_msys2/Makefile			\
 		installer_msys2/cleanup_checkout.sh		\
 		installer_msys2/win_arch.sh			\
-		installer_cross/winbuild.sh
+		installer_cross/create-freeciv-gtk-qt-nsi.sh	\
+		installer_cross/installer_build.sh		\
+		installer_cross/winbuild.sh			\
+		installer_cross/Freeciv.url			\
+		installer_cross/freeciv-server.cmd		\
+		installer_cross/freeciv-gtk3.22.cmd		\
+		installer_cross/licenses/COPYING.installer
 
 if MINGW
 nodist_noinst_DATA = 		\
