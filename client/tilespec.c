@@ -866,6 +866,14 @@ int tileset_tilelabel_offset_y(const struct tileset *t)
 }
 
 /****************************************************************************
+  Returns tileset scale
+****************************************************************************/
+float tileset_scale(const struct tileset *t)
+{
+  return tileset->scale;
+}
+
+/****************************************************************************
   Return the small sprite height of the current tileset.  The small sprites
   are used for various theme graphics (e.g., citymap citizens/specialists
   as well as panel indicator icons).
