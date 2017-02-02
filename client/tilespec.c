@@ -1941,6 +1941,12 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
+  if (t->unit_tile_width != t->unit_tile_width && t->scale != 1.0f) {
+    t->unit_tile_width = ceil(t->unit_tile_width * t->scale);
+  }
+  if (t->unit_tile_height != t->unit_tile_height && t->scale != 1.0f) {
+    t->unit_tile_height = ceil(t->unit_tile_height * t->scale);
+  }
   t->small_sprite_width = t->small_sprite_width * t->scale;
   t->small_sprite_height = t->small_sprite_height * t->scale;
   log_verbose("tile sizes %dx%d, %d%d unit, %d%d small",
@@ -2040,6 +2046,14 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   t->tilelabel_offset_y = t->scale * t->tilelabel_offset_y;
   t->occupied_offset_x = t->scale * t->occupied_offset_x;
   t->occupied_offset_y = t->scale * t->occupied_offset_y;
+  if (t->scale != 1.0f
+      && t->unit_upkeep_offset_y != tileset_tile_height(t)) {
+    t->unit_upkeep_offset_y = t->scale * t->unit_upkeep_offset_y;
+  }
+  if (t->scale != 1.0f
+      && t->unit_upkeep_small_offset_y != t->unit_upkeep_offset_y) {
+    t->unit_upkeep_small_offset_y = t->scale * t->unit_upkeep_small_offset_y;
+  }
 
   set_city_names_font_sizes(t->city_names_font_size,
                             t->city_productions_font_size);
