@@ -1569,8 +1569,10 @@ bool unit_hud_selector::type_filter(struct unit *punit)
 ****************************************************************************/
 QString popup_terrain_info(struct tile *ptile)
 {
-  QString ret, t;
+  int movement_cost;
   struct terrain *terr;
+  QString ret, t, move_text;
+  bool has_road;
 
   terr = ptile->terrain;
   ret = QString(_("Terrain: %1\n")).arg(tile_get_info_text(ptile, TRUE, 0));
@@ -1580,7 +1582,27 @@ QString popup_terrain_info(struct tile *ptile)
   if (t != "") {
     ret = ret + QString(_("Infrastructure: %1\n")).arg(t);
   }
-  ret = ret + QString(_("Defense bonus: %1%")).arg(terr->defense_bonus);
+  ret = ret + QString(_("Defense bonus: %1%\n")).arg(terr->defense_bonus);
+  movement_cost = terr->movement_cost;
+
+  extra_type_by_cause_iterate(EC_ROAD, pextra) {
+    struct road_type *proad = extra_road_get(pextra);
+
+    if (tile_has_road(ptile, proad)) {
+      if (proad->move_cost <= movement_cost) {
+        has_road = true;
+        move_text = move_points_text(proad->move_cost, TRUE);
+        movement_cost = proad->move_cost;
+      }
+    }
+  } extra_type_by_cause_iterate_end;
+
+  if (has_road == true) {
+    ret = ret + QString(_("Movement cost: %1")).arg(move_text);
+  } else {
+    ret = ret + QString(_("Movement cost: %1")).arg(movement_cost);
+  }
+
   return ret;
 }
 
