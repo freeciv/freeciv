@@ -1419,13 +1419,12 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
        * caller hope that the situation would change before the unit got
        * there? */
 
-      /* No current final order user should try to walk through non allied
-       * units or cities. */
-      fc_assert_msg(!is_non_allied_city_tile(old_tile, client_player())
-                     && !is_non_allied_unit_tile(old_tile,
-                                                 client_player()),
-                    "Warning: unit or city blocks the path of your %s",
-                    unit_rule_name(punit));
+      /* It's currently illegal to walk into tiles with non allied units or
+       * cities. Some actions causes the actor to enter the target tile but
+       * that is a part of the action it self, not a regular pre action
+       * move. */
+      log_verbose("unit or city blocks the path of your %s",
+                  unit_rule_name(punit));
     }
   }
 
