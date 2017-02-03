@@ -8,6 +8,7 @@ fi
 DLLSPATH="$1"
 GUI="gtk3.22"
 GUINAME="GTK3.22"
+FCMP="gtk3"
 
 if ! test -d "$DLLSPATH" ; then
   echo "Dllstack directory \"$DLLSPATH\" not found!" >&2
@@ -37,7 +38,7 @@ mv $INSTDIR/share/doc $INSTDIR/
 mkdir -p $INSTDIR/doc/freeciv/installer
 cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/
 rm -Rf $INSTDIR/lib
-cp freeciv-server.cmd freeciv-$GUI.cmd Freeciv.url $INSTDIR/
+cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd Freeciv.url $INSTDIR/
 
 if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
 then
