@@ -4593,12 +4593,36 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       /* No interesting actions except a single attack action has been
        * found. The player wants it performed without questions. */
 
+      /* The order requests below doesn't send additional details. */
+      fc_assert(!action_requires_details(auto_action));
+
       /* Give the order. */
-      fc_assert(action_id_get_target_kind(auto_action) == ATK_TILE
-                || action_id_get_target_kind(auto_action) == ATK_UNITS);
-      request_do_action(auto_action,
-                        packet->actor_unit_id, packet->target_tile_id,
-                        0, "");
+      switch(action_id_get_target_kind(auto_action)) {
+      case ATK_TILE:
+      case ATK_UNITS:
+        request_do_action(auto_action,
+                          packet->actor_unit_id, packet->target_tile_id,
+                          0, "");
+        break;
+      case ATK_CITY:
+        request_do_action(auto_action,
+                          packet->actor_unit_id, packet->target_city_id,
+                          0, "");
+        break;
+      case ATK_UNIT:
+        request_do_action(auto_action,
+                          packet->actor_unit_id, packet->target_unit_id,
+                          0, "");
+        break;
+      case ATK_SELF:
+        request_do_action(auto_action,
+                          packet->actor_unit_id, packet->actor_unit_id,
+                          0, "");
+        break;
+      case ATK_COUNT:
+        fc_assert(action_id_get_target_kind(auto_action) != ATK_COUNT);
+        break;
+      }
 
       /* Clean up. */
       action_selection_no_longer_in_progress(packet->actor_unit_id);
