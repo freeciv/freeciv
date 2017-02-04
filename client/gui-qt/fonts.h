@@ -21,6 +21,7 @@
 #include "listener.h"
 
 class QFont;
+class QStringList;
 
 namespace fonts
 {
