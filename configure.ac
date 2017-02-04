@@ -1028,7 +1028,7 @@ AC_ARG_ENABLE([fcmp],
 
 fcmp_cli=no
 fcmp_gtk3=no
-fcmp_gtk3_22=no
+fcmp_gtk3x=no
 fcmp_qt=no
 fcmp_list=
 
