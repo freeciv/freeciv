@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,9 +51,11 @@ void load_install_info_lists(struct fcmp_params *fcmp)
   scenario_ii_list = install_info_list_new();
 
   fc_snprintf(main_ii_filename, sizeof(main_ii_filename),
-              "%s/" DATASUBDIR "/" FCMP_CONTROLD "/modpacks.db", fcmp->inst_prefix);
+              "%s" DIR_SEPARATOR DATASUBDIR DIR_SEPARATOR FCMP_CONTROLD DIR_SEPARATOR "modpacks.db",
+              fcmp->inst_prefix);
   fc_snprintf(scenario_ii_filename, sizeof(scenario_ii_filename),
-              "%s/scenarios/" FCMP_CONTROLD "/modpacks.db", fcmp->inst_prefix);
+              "%s" DIR_SEPARATOR "scenarios" DIR_SEPARATOR FCMP_CONTROLD DIR_SEPARATOR "modpacks.db",
+              fcmp->inst_prefix);
 
   load_install_info_list(main_ii_filename, main_ii_list);
   load_install_info_list(scenario_ii_filename, scenario_ii_list);
@@ -68,7 +70,8 @@ void save_install_info_lists(struct fcmp_params *fcmp)
     char controld[500];
 
     fc_snprintf(controld, sizeof(controld),
-                "%s/" DATASUBDIR "/" FCMP_CONTROLD, fcmp->inst_prefix);
+                "%s" DIR_SEPARATOR DATASUBDIR DIR_SEPARATOR FCMP_CONTROLD,
+                fcmp->inst_prefix);
 
     if (make_dir(controld)) {
       save_install_info_list(main_ii_filename, main_ii_list);
@@ -82,7 +85,8 @@ void save_install_info_lists(struct fcmp_params *fcmp)
     char controld[500];
 
     fc_snprintf(controld, sizeof(controld),
-                "%s/scenarios/" FCMP_CONTROLD, fcmp->inst_prefix);
+                "%s" DIR_SEPARATOR "scenarios" DIR_SEPARATOR FCMP_CONTROLD,
+                fcmp->inst_prefix);
 
     if (make_dir(controld)) {
       save_install_info_list(scenario_ii_filename, scenario_ii_list);
