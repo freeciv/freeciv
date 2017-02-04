@@ -32,6 +32,8 @@ dist_noinst_DATA = \
 		installer_cross/freeciv-server.cmd		\
 		installer_cross/freeciv-gtk3.22.cmd		\
 		installer_cross/freeciv-mp-gtk3.cmd		\
+		installer_cross/freeciv-qt.cmd			\
+		installer_cross/freeciv-mp-qt.cmd		\
 		installer_cross/licenses/COPYING.installer
 
 if MINGW

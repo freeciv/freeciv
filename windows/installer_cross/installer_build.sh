@@ -1,14 +1,24 @@
 #!/bin/bash
 
-if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
-  echo "Usage: $0 <crosser dir>"
+if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$2" = "x" ; then
+  echo "Usage: $0 <crosser dir> <gui>"
   exit 1
 fi
 
 DLLSPATH="$1"
-GUI="gtk3.22"
-GUINAME="GTK3.22"
-FCMP="gtk3"
+GUI="$2"
+
+case $GUI in
+  gtk3.22)
+    GUINAME="GTK3.22"
+    FCMP="gtk3" ;;
+  qt)
+    GUINAME="Qt"
+    FCMP="qt" ;;
+  *)
+    echo "Unknown gui type \"$GUI\"" >&2
+    exit 1 ;;
+esac
 
 if ! test -d "$DLLSPATH" ; then
   echo "Dllstack directory \"$DLLSPATH\" not found!" >&2
