@@ -382,7 +382,7 @@ actor_reqs    =
       "Tech", "Writing", "Player"
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+      "DiplRel", "Foreign", "Local"
     }
 target_reqs  =
     { "type",   "name", "range", "present"
