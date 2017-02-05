@@ -200,8 +200,8 @@ void load_intro_gfx(void)
 ****************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y, int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y, float scale)
+			   struct sprite *mask, int mask_offset_x, int mask_offset_y,
+               float scale, bool smooth)
 {
   Pixmap mypixmap, mymask;
   GC plane_gc;

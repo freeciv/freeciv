@@ -77,7 +77,7 @@ struct sprite *gui_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
                                int mask_offset_x, int mask_offset_y,
-                               float scale)
+                               float scale, bool smooth)
 {
   /* PORTME */
   return NULL;

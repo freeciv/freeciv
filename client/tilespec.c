@@ -2405,9 +2405,11 @@ static char *valid_index_str(const struct tileset *t, int idx)
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.
+  Scale means if sprite should be scaled, smooth if scaling might use
+  other scaling algorithm than nearest neighbor.
 **************************************************************************/
 static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
-                                  bool scale)
+                                  bool scale, bool smooth)
 {
   struct small_sprite *ss;
   float sprite_scale = 1.0f;
@@ -2431,7 +2433,7 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
         s = load_gfx_file(ss->file);
         get_sprite_dimensions(s, &w, &h);
         ss->sprite = crop_sprite(s, 0, 0, w,
-                                 h, NULL, -1, -1, t->scale);
+                                 h, NULL, -1, -1, t->scale, smooth);
         free_sprite(s);
       } else {
         ss->sprite = load_gfx_file(ss->file);
@@ -2455,7 +2457,8 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name,
         sprite_scale = t->scale;
       }
       ss->sprite = crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width,
-                               ss->height, NULL, -1, -1, sprite_scale);
+                               ss->height, NULL, -1, -1, sprite_scale,
+                               smooth);
     }
   }
 
@@ -2516,7 +2519,15 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 /* Not very safe, but convenient: */
 #define SET_SPRITE(field, tag)					  \
   do {								  \
-    t->sprites.field = load_sprite(t, tag, TRUE);			  \
+    t->sprites.field = load_sprite(t, tag, TRUE, TRUE);			  \
+    if (t->sprites.field == NULL) {                               \
+      tileset_error(LOG_FATAL, _("Sprite for tag '%s' missing."), tag);    \
+    }                                                             \
+  } while(FALSE)
+
+#define SET_SPRITE_NOTSMOOTH(field, tag)					  \
+  do {								  \
+    t->sprites.field = load_sprite(t, tag, TRUE, FALSE);			  \
     if (t->sprites.field == NULL) {                               \
       tileset_error(LOG_FATAL, _("Sprite for tag '%s' missing."), tag);    \
     }                                                             \
@@ -2524,7 +2535,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 
 #define SET_SPRITE_UNSCALED(field, tag)           \
   do {                  \
-    t->sprites.field = load_sprite(t, tag, FALSE);       \
+    t->sprites.field = load_sprite(t, tag, FALSE, FALSE);       \
     if (t->sprites.field == NULL) {                               \
       tileset_error(LOG_FATAL, _("Sprite for tag '%s' missing."), tag);    \
     }                                                             \
@@ -2533,9 +2544,9 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
 #define SET_SPRITE_ALT(field, tag, alt)					    \
   do {									    \
-    t->sprites.field = load_sprite(t, tag, TRUE);				    \
+    t->sprites.field = load_sprite(t, tag, TRUE, TRUE);			    \
     if (!t->sprites.field) {						    \
-      t->sprites.field = load_sprite(t, alt, TRUE);				    \
+      t->sprites.field = load_sprite(t, alt, TRUE, TRUE);			    \
     }									    \
     if (t->sprites.field == NULL) {                                         \
       tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "  \
@@ -2545,7 +2556,7 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 
 /* Sets sprites.field to tag, or NULL if not available */
 #define SET_SPRITE_OPT(field, tag) \
-  t->sprites.field = load_sprite(t, tag, TRUE)
+  t->sprites.field = load_sprite(t, tag, TRUE, TRUE)
 
 #define SET_SPRITE_ALT_OPT(field, tag, alt)				    \
   do {									    \
@@ -2567,7 +2578,8 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
     /* Try rule name + index number */
     fc_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
-    t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE);
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
+                                                      FALSE);
 
     /* Break if no more index specific sprites are defined */
     if (!t->sprites.specialist[id].sprite[j]) {
@@ -2577,7 +2589,8 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 
   /* Nothing? Try the alt tag */
   if (j == 0) {
-    t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE);
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE,
+                                                      FALSE);
 
     if (t->sprites.specialist[id].sprite[j]) {
       j = 1;
@@ -2606,7 +2619,7 @@ static void tileset_setup_citizen_types(struct tileset *t)
 
     for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
       fc_snprintf(buffer, sizeof(buffer), "citizen.%s_%d", name, j);
-      t->sprites.citizen[i].sprite[j] = load_sprite(t, buffer, FALSE);
+      t->sprites.citizen[i].sprite[j] = load_sprite(t, buffer, FALSE, FALSE);
       if (!t->sprites.citizen[i].sprite[j]) {
 	break;
       }
@@ -2675,7 +2688,7 @@ static int load_city_thresholds_sprites(struct tileset *t, const char *tag,
   for (size = 0; size < MAX_CITY_SIZE; size++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_%s_%d",
                 gfx_in_use, tag, size);
-    if ((sprite = load_sprite(t, buffer, TRUE))) {
+    if ((sprite = load_sprite(t, buffer, TRUE, TRUE))) {
       num_thresholds++;
       *thresholds = fc_realloc(*thresholds, num_thresholds * sizeof(**thresholds));
       (*thresholds)[num_thresholds - 1].sprite = sprite;
@@ -2776,7 +2789,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     SET_SPRITE(dither_tile, "t.dither_tile");
   }
 
-  SET_SPRITE(mask.tile, "mask.tile");
+  if (tileset_is_isometric(tileset)) {
+    SET_SPRITE_NOTSMOOTH(mask.tile, "mask.tile");
+  } else {
+    SET_SPRITE(mask.tile, "mask.tile");
+  }
   SET_SPRITE(mask.worked_tile, "mask.worked_tile");
   SET_SPRITE(mask.unworked_tile, "mask.unworked_tile");
 
@@ -2832,7 +2849,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     struct sprite *sprite;
 
     fc_snprintf(buffer, sizeof(buffer), "explode.unit_%d", i);
-    sprite = load_sprite(t, buffer, TRUE);
+    sprite = load_sprite(t, buffer, TRUE, TRUE);
     if (!sprite) {
       break;
     }
@@ -2873,7 +2890,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     /* Veteran level sprites are optional.  For instance "green" units
      * usually have no special graphic. */
     fc_snprintf(buffer, sizeof(buffer), "unit.vet_%d", i);
-    t->sprites.unit.vet_lev[i] = load_sprite(t, buffer, TRUE);
+    t->sprites.unit.vet_lev[i] = load_sprite(t, buffer, TRUE, TRUE);
   }
 
   t->sprites.unit.select[0] = NULL;
@@ -2894,7 +2911,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     struct sprite *sprite;
 
     fc_snprintf(buffer, sizeof(buffer), "citybar.occupancy_%d", i);
-    sprite = load_sprite(t, buffer, TRUE);
+    sprite = load_sprite(t, buffer, TRUE, TRUE);
     if (!sprite) {
       break;
     }
@@ -3007,14 +3024,14 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE_OPT(path.s[GTS_TURN_STEP].specific, "path.step");
   SET_SPRITE(path.waypoint, "path.waypoint");
 
-  SET_SPRITE(tx.fog,        "tx.fog");
+  SET_SPRITE_NOTSMOOTH(tx.fog, "tx.fog");
 
   sprite_vector_init(&t->sprites.colors.overlays);
   for (i = 0; ; i++) {
     struct sprite *sprite;
 
     fc_snprintf(buffer, sizeof(buffer), "colors.overlay_%d", i);
-    sprite = load_sprite(t, buffer, TRUE);
+    sprite = load_sprite(t, buffer, TRUE, TRUE);
     if (!sprite) {
       break;
     }
@@ -3035,11 +3052,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
     color = *sprite_vector_get(&t->sprites.colors.overlays, i);
     color_mask = crop_sprite(color, 0, 0, W, H, t->sprites.mask.tile, 0, 0,
-                             1.0f);
+                             1.0f, FALSE);
     worked = crop_sprite(color_mask, 0, 0, W, H,
-			 t->sprites.mask.worked_tile, 0, 0, 1.0f);
+			 t->sprites.mask.worked_tile, 0, 0, 1.0f, FALSE);
     unworked = crop_sprite(color_mask, 0, 0, W, H,
-			   t->sprites.mask.unworked_tile, 0, 0, 1.0f);
+			   t->sprites.mask.unworked_tile, 0, 0, 1.0f, FALSE);
     free_sprite(color_mask);
     t->sprites.city.worked_tile_overlay.p[i] =  worked;
     t->sprites.city.unworked_tile_overlay.p[i] = unworked;
@@ -3089,7 +3106,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   case DARKNESS_ISORECT:
     {
       /* Isometric: take a single tx.darkness tile and split it into 4. */
-      struct sprite *darkness = load_sprite(t, "tx.darkness", TRUE);
+      struct sprite *darkness = load_sprite(t, "tx.darkness", TRUE, FALSE);
       const int ntw = t->normal_tile_width, nth = t->normal_tile_height;
       int offsets[4][2] = {{ntw / 2, 0}, {0, nth / 2}, {ntw / 2, nth / 2}, {0, 0}};
 
@@ -3099,7 +3116,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       for (i = 0; i < 4; i++) {
         t->sprites.tx.darkness[i] = crop_sprite(darkness, offsets[i][0],
                                                 offsets[i][1], ntw / 2,
-                                                nth / 2, NULL, 0, 0, 1.0f);
+                                                nth / 2, NULL, 0, 0, 1.0f,
+                                                FALSE);
       }
     }
     break;
@@ -3109,14 +3127,14 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
       fc_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
 		  dir_get_tileset_name(dir));
-      SET_SPRITE(tx.darkness[i], buffer);
+      SET_SPRITE_NOTSMOOTH(tx.darkness[i], buffer);
     }
     break;
   case DARKNESS_CARD_FULL:
     for(i = 1; i < t->num_index_cardinal; i++) {
       fc_snprintf(buffer, sizeof(buffer), "tx.darkness_%s",
 		  cardinal_index_str(t, i));
-      SET_SPRITE(tx.darkness[i], buffer);
+      SET_SPRITE_NOTSMOOTH(tx.darkness[i], buffer);
     }
     break;
   case DARKNESS_CORNER:
@@ -3136,7 +3154,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
       }
       fc_assert(k == 0);
 
-      t->sprites.tx.fullfog[i] = load_sprite(t, buf, TRUE);
+      t->sprites.tx.fullfog[i] = load_sprite(t, buf, TRUE, FALSE);
     }
     break;
   };
@@ -3158,7 +3176,7 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_index_cardinal; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_s_%s",
                 tag_pfx, cardinal_index_str(t, i));
-    store->spec[i] = load_sprite(t, buffer, TRUE);
+    store->spec[i] = load_sprite(t, buffer, TRUE, TRUE);
     if (store->spec[i] == NULL) {
       return FALSE;
     }
@@ -3167,7 +3185,7 @@ static bool load_river_sprites(struct tileset *t,
   for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
     fc_snprintf(buffer, sizeof(buffer), "%s_outlet_%s",
                 tag_pfx, dir_get_tileset_name(t->cardinal_tileset_dirs[i]));
-    store->outlet[i] = load_sprite(t, buffer, TRUE);
+    store->outlet[i] = load_sprite(t, buffer, TRUE, TRUE);
     if (store->outlet[i] == NULL) {
       if (t->cardinal_tileset_dirs[i] == DIR8_NORTHWEST
           || t->cardinal_tileset_dirs[i] == DIR8_NORTHEAST
@@ -3229,10 +3247,10 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
                         "attempt to lookup for %s \"%s\" before "
                         "sprite_hash setup", what, name);
 
-  sp = load_sprite(t, tag, scale);
+  sp = load_sprite(t, tag, scale, TRUE);
   if (sp) return sp;
 
-  sp = load_sprite(t, alt, scale);
+  sp = load_sprite(t, alt, scale, TRUE);
   if (sp) {
     log_verbose("Using alternate graphic \"%s\" "
                 "(instead of \"%s\") for %s \"%s\".",
@@ -3262,7 +3280,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
   /* We don't use _alt graphics here, as that could lead to loading
    * real icon gfx, but alternative orientation gfx. Tileset author
    * probably meant icon gfx to be used as fallback for all orientations */
-  t->sprites.units.facing[uidx][dir] = load_sprite(t, buf, TRUE);
+  t->sprites.units.facing[uidx][dir] = load_sprite(t, buf, TRUE, TRUE);
 
   if (t->sprites.units.facing[uidx][dir] != NULL) {
     return TRUE;
@@ -3279,7 +3297,7 @@ bool static tileset_setup_unit_type_from_tag(struct tileset *t,
 {
   bool facing_sprites = TRUE;
 
-  t->sprites.units.icon[uidx] = load_sprite(t, tag, TRUE);
+  t->sprites.units.icon[uidx] = load_sprite(t, tag, TRUE, TRUE);
 
 #define LOAD_FACING_SPRITE(dir, dname)                           \
   if (!tileset_setup_unit_direction(t, uidx, tag, dir, dname)) { \
@@ -3435,20 +3453,22 @@ void tileset_setup_extra(struct tileset *t,
           fc_snprintf(buffer, sizeof(buffer), "%s_%s",
                       pextra->graphic_str, cardinal_index_str(t, i));
           t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer,
-                                                             TRUE);
+                                                             TRUE, TRUE);
           if (!t->sprites.extras[id].u.cardinals[i]) {
             t->sprites.extras[id].u.cardinals[i] = load_sprite(t,
-                                                  pextra->graphic_str, TRUE);
+                                                  pextra->graphic_str, TRUE,
+                                                  TRUE);
           }
           if (!t->sprites.extras[id].u.cardinals[i]) {
             fc_snprintf(buffer, sizeof(buffer), "%s_%s",
                         pextra->graphic_alt, cardinal_index_str(t, i));
             t->sprites.extras[id].u.cardinals[i] = load_sprite(t, buffer,
-                                                               TRUE);
+                                                               TRUE, TRUE);
           }
           if (!t->sprites.extras[id].u.cardinals[i]) {
             t->sprites.extras[id].u.cardinals[i] = load_sprite(t,
-                                                  pextra->graphic_alt, TRUE);
+                                                  pextra->graphic_alt, TRUE,
+                                                  TRUE);
           }
           if (!t->sprites.extras[id].u.cardinals[i]) {
             tileset_error(LOG_FATAL, _("Sprite for tags '%s' and alternate '%s' are "
@@ -3467,14 +3487,14 @@ void tileset_setup_extra(struct tileset *t,
     t->sprites.extras[id].activity = NULL;
   } else {
     t->sprites.extras[id].activity = load_sprite(t, pextra->activity_gfx,
-                                                 TRUE);
+                                                 TRUE, TRUE);
     if (t->sprites.extras[id].activity == NULL) {
       t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt,
-                                                   TRUE);
+                                                   TRUE, TRUE);
     }
     if (t->sprites.extras[id].activity == NULL) {
       t->sprites.extras[id].activity = load_sprite(t, pextra->act_gfx_alt2,
-                                                   TRUE);
+                                                   TRUE, TRUE);
     }
     if (t->sprites.extras[id].activity == NULL) {
       tileset_error(LOG_FATAL, _("Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" and \"%s\"."),
@@ -3486,10 +3506,11 @@ void tileset_setup_extra(struct tileset *t,
   if (!fc_strcasecmp(pextra->rmact_gfx, "none")) {
     t->sprites.extras[id].rmact = NULL;
   } else {
-    t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx, TRUE);
+    t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx, TRUE,
+                                              TRUE);
     if (t->sprites.extras[id].rmact == NULL) {
       t->sprites.extras[id].rmact = load_sprite(t, pextra->rmact_gfx_alt,
-                                                TRUE);
+                                                TRUE, TRUE);
       if (t->sprites.extras[id].rmact == NULL) {
         tileset_error(LOG_FATAL, _("Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."),
                       extra_rule_name(pextra), pextra->rmact_gfx, pextra->rmact_gfx_alt);
@@ -3636,17 +3657,17 @@ static void tileset_setup_base(struct tileset *t,
   sz_strlcpy(full_tag_name, pextra->graphic_str);
   strcat(full_tag_name, "_bg");
   t->sprites.extras[id].u.bmf.background = load_sprite(t, full_tag_name,
-                                                       TRUE);
+                                                       TRUE, TRUE);
 
   sz_strlcpy(full_tag_name, pextra->graphic_str);
   strcat(full_tag_name, "_mg");
   t->sprites.extras[id].u.bmf.middleground = load_sprite(t, full_tag_name,
-                                                         TRUE);
+                                                         TRUE, TRUE);
 
   sz_strlcpy(full_tag_name, pextra->graphic_str);
   strcat(full_tag_name, "_fg");
   t->sprites.extras[id].u.bmf.foreground = load_sprite(t, full_tag_name,
-                                                       TRUE);
+                                                       TRUE, TRUE);
 
   if (t->sprites.extras[id].u.bmf.background == NULL
       && t->sprites.extras[id].u.bmf.middleground == NULL
@@ -3660,17 +3681,17 @@ static void tileset_setup_base(struct tileset *t,
     sz_strlcpy(full_tag_name, pextra->graphic_alt);
     strcat(full_tag_name, "_bg");
     t->sprites.extras[id].u.bmf.background = load_sprite(t, full_tag_name,
-                                                         TRUE);
+                                                         TRUE, TRUE);
 
     sz_strlcpy(full_tag_name, pextra->graphic_alt);
     strcat(full_tag_name, "_mg");
     t->sprites.extras[id].u.bmf.middleground = load_sprite(t, full_tag_name,
-                                                           TRUE);
+                                                           TRUE, TRUE);
 
     sz_strlcpy(full_tag_name, pextra->graphic_alt);
     strcat(full_tag_name, "_fg");
     t->sprites.extras[id].u.bmf.foreground = load_sprite(t, full_tag_name,
-                                                         TRUE);
+                                                         TRUE, TRUE);
 
     if (t->sprites.extras[id].u.bmf.background == NULL
         && t->sprites.extras[id].u.bmf.middleground == NULL
@@ -3725,7 +3746,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	for (i = 0; ; i++) {
           fc_snprintf(buffer, sizeof(buffer), "t.l%d.%s%d",
                       l, draw->name, i + 1);
-	  sprite = load_sprite(t, buffer, TRUE);
+	  sprite = load_sprite(t, buffer, TRUE, FALSE);
 	  if (!sprite) {
 	    break;
 	  }
@@ -3863,7 +3884,7 @@ void tileset_setup_tile_type(struct tileset *t,
                           "t.l%d.cellgroup_%c_%c_%c_%c", l,
                           tslp->match_types[n][0], tslp->match_types[e][0],
                           tslp->match_types[s][0], tslp->match_types[w][0]);
-	      sprite = load_sprite(t, buffer, TRUE);
+	      sprite = load_sprite(t, buffer, TRUE, FALSE);
 
 	      if (sprite) {
 		/* Crop the sprite to separate this cell. */
@@ -3877,7 +3898,8 @@ void tileset_setup_tile_type(struct tileset *t,
 		int yo[4] = {H / 2, -H / 2, 0, 0};
 
         sprite = crop_sprite(sprite, x[dir], y[dir], W / 2, H / 2,
-                             t->sprites.mask.tile, xo[dir], yo[dir], 1.0f);
+                             t->sprites.mask.tile, xo[dir], yo[dir], 1.0f,
+                             FALSE);
                 /* We allocated new sprite with crop_sprite. Store its
                  * address so we can free it. */
                 sprite_vector_reserve(&dlp->allocated, vec_size + 1);
@@ -3939,7 +3961,8 @@ void tileset_setup_tile_type(struct tileset *t,
     for (; dir < 4; dir++) {
       draw->blend[dir] = crop_sprite(draw->blender, offsets[dir][0],
                                      offsets[dir][1], W / 2, H / 2,
-                                     t->sprites.dither_tile, 0, 0, 1.0f);
+                                     t->sprites.dither_tile, 0, 0, 1.0f,
+                                     FALSE);
     }
   }
 
@@ -3978,11 +4001,11 @@ void tileset_setup_nation_flag(struct tileset *t,
 
   for (i = 0; tags[i] && !flag; i++) {
     fc_snprintf(buf, sizeof(buf), "f.%s", tags[i]);
-    flag = load_sprite(t, buf, TRUE);
+    flag = load_sprite(t, buf, TRUE, TRUE);
   }
   for (i = 0; tags[i] && !shield; i++) {
     fc_snprintf(buf, sizeof(buf), "f.shield.%s", tags[i]);
-    shield = load_sprite(t, buf, TRUE);
+    shield = load_sprite(t, buf, TRUE, TRUE);
   }
   if (!flag || !shield) {
     /* Should never get here because of the f.unknown fallback. */
@@ -4960,7 +4983,7 @@ static int fill_terrain_sprite_layer(struct tileset *t,
   /* FIXME: this should avoid calling load_sprite since it's slow and
    * increases the refcount without limit. */
   if (ptile->spec_sprite && (sprite = load_sprite(t, ptile->spec_sprite,
-                                                  TRUE))) {
+                                                  TRUE, FALSE))) {
     if (l == 0) {
       ADD_SPRITE_SIMPLE(sprite);
       return 1;
@@ -6673,7 +6696,7 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
   t->sprites.player[plrid].background
     = crop_sprite(color, 0, 0,
                   t->normal_tile_width, t->normal_tile_height,
-                  t->sprites.mask.tile, 0, 0, t->scale);
+                  t->sprites.mask.tile, 0, 0, t->scale, FALSE);
 
   for (i = 0; i < EDGE_COUNT; i++) {
     for (j = 0; j < 2; j++) {
@@ -6682,7 +6705,7 @@ void tileset_player_init(struct tileset *t, struct player *pplayer)
       if (color && t->sprites.grid.borders[i][j]) {
         s = crop_sprite(color, 0, 0,
                         t->normal_tile_width, t->normal_tile_height,
-                        t->sprites.grid.borders[i][j], 0, 0, 1.0f);
+                        t->sprites.grid.borders[i][j], 0, 0, 1.0f, FALSE);
       } else {
         s = t->sprites.grid.borders[i][j];
       }
@@ -6736,7 +6759,7 @@ void tileset_background_init(struct tileset *t)
   t->sprites.background.graphic
     = crop_sprite(t->sprites.background.color, 0, 0,
                   t->normal_tile_width, t->normal_tile_height,
-                  t->sprites.mask.tile, 0, 0, t->scale);
+                  t->sprites.mask.tile, 0, 0, t->scale, FALSE);
 }
 
 /****************************************************************************
