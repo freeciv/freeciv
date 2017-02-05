@@ -474,8 +474,8 @@ static int get_defense_power(const struct unit *punit)
   struct unit_class *pclass = unit_class_get(punit);
 
   if (uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
-    db = 10 + tile_terrain(ptile)->defense_bonus / 10;
-    power = (power * db) / 10;
+    db = 100 + tile_terrain(ptile)->defense_bonus;
+    power = (power * db) / 100;
   }
 
   if (!is_native_tile_to_class(pclass, ptile)) {
