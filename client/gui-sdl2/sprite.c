@@ -97,11 +97,16 @@ struct sprite *load_gfxfile(const char *filename)
   origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
+
+  scale gives scale of new tileset
+  smooth means if scaling might be bilinear, if set to false use nearest
+  neighbor
 ****************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
                            int x, int y, int width, int height,
                            struct sprite *mask,
-                           int mask_offset_x, int mask_offset_y, float scale)
+                           int mask_offset_x, int mask_offset_y,
+                           float scale, bool smooth)
 {
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
   SDL_Surface *pSrc = crop_rect_from_surface(GET_SURF(source), &src_rect);

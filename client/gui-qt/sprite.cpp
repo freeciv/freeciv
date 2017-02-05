@@ -96,7 +96,7 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
                                int x, int y, int width, int height,
                                struct sprite *mask,
                                int mask_offset_x, int mask_offset_y,
-                               float scale)
+                               float scale, bool smooth)
 {
   QPainter p;
   QRectF source_rect;
@@ -120,6 +120,9 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
   dest_rect = QRectF(0, 0, widthzoom, heightzoom);
 
   p.begin(cropped->pm);
+  if (smooth) {
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
+  }
   p.setRenderHint(QPainter::Antialiasing);
   p.drawPixmap(dest_rect, *source->pm, source_rect);
   p.end();
