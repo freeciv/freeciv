@@ -1941,10 +1941,10 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
-  if (t->unit_tile_width != t->unit_tile_width && t->scale != 1.0f) {
+  if (t->unit_tile_width != t->full_tile_width && t->scale != 1.0f) {
     t->unit_tile_width = ceil(t->unit_tile_width * t->scale);
   }
-  if (t->unit_tile_height != t->unit_tile_height && t->scale != 1.0f) {
+  if (t->unit_tile_height != t->full_tile_height && t->scale != 1.0f) {
     t->unit_tile_height = ceil(t->unit_tile_height * t->scale);
   }
   t->small_sprite_width = t->small_sprite_width * t->scale;
