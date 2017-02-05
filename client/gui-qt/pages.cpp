@@ -1076,8 +1076,10 @@ void fc_client::start_scenario()
     client_start_server();
     send_chat("/detach");
   }
-  send_chat_printf("/load %s", current_file.toLocal8Bit().data());
-  switch_page(PAGE_GAME + 1);
+  if (is_server_running()) {
+    send_chat_printf("/load %s", current_file.toLocal8Bit().data());
+    switch_page(PAGE_GAME + 1);
+  }
 }
 
 /**************************************************************************
@@ -1089,8 +1091,10 @@ void fc_client::start_from_save()
     client_start_server();
     send_chat("/detach");
   }
-  send_chat_printf("/load %s", current_file.toLocal8Bit().data());
-  switch_page(PAGE_GAME + 1);
+  if (is_server_running()) {
+    send_chat_printf("/load %s", current_file.toLocal8Bit().data());
+    switch_page(PAGE_GAME + 1);
+  }
 }
 
 /***************************************************************************
