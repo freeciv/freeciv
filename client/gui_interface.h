@@ -53,7 +53,7 @@ struct gui_funcs {
                                  int x, int y, int width, int height,
                                  struct sprite *mask,
                                  int mask_offset_x, int mask_offset_y,
-                                 float scale);
+                                 float scale, bool smooth);
   void (*free_sprite)(struct sprite *s);
 
   struct color *(*color_alloc)(int r, int g, int b);

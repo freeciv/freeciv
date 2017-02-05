@@ -43,12 +43,16 @@
   origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
+
+  scale gives scale of new tileset
+  smooth means if scaling might be bilinear, if set to false use nearest
+  neighbor
 ****************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
 			   int x, int y,
 			   int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y, float scale)
+			   struct sprite *mask, int mask_offset_x, int mask_offset_y,
+               float scale, bool smooth)
 {
   struct sprite *new = fc_malloc(sizeof(*new));
   cairo_t *cr;
@@ -375,7 +379,8 @@ struct sprite *crop_blankspace(struct sprite *s)
 
   sprite_get_bounding_box(s, &x1, &y1, &x2, &y2);
 
-  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1, 1.0);
+  return crop_sprite(s, x1, y1, x2 - x1 + 1, y2 - y1 + 1, NULL, -1, -1,
+                     1.0, FALSE);
 }
 
 /********************************************************************
