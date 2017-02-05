@@ -15,6 +15,9 @@ case $GUI in
   qt)
     GUINAME="Qt"
     FCMP="qt" ;;
+  sdl2)
+    GUINAME="SDL2"
+    FCMP="gtk3" ;;  
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -50,7 +53,12 @@ cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/
 rm -Rf $INSTDIR/lib
 cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd Freeciv.url $INSTDIR/
 
-if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+if test "x$GUI" = "xsdl2" ; then
+  if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+  then
+    exit 1
+  fi
+elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
 then
   exit 1
 fi
