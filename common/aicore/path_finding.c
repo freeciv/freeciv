@@ -3556,7 +3556,7 @@ static genhash_val_t pf_pos_hash_val(const struct pf_parameter *parameter)
   for (i = 0, b = sizeof(result) * 8 - 1; i < signifiant_flags_num;
        i++, b--) {
     if (utype_has_flag(parameter->utype, signifiant_flags[i])) {
-      result |= (1 << b);
+      result |= (1u << b);
     }
   }
 
