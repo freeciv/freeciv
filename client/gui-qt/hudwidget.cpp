@@ -1572,7 +1572,7 @@ QString popup_terrain_info(struct tile *ptile)
   int movement_cost;
   struct terrain *terr;
   QString ret, t, move_text;
-  bool has_road;
+  bool has_road = false;
 
   terr = ptile->terrain;
   ret = QString(_("Terrain: %1\n")).arg(tile_get_info_text(ptile, TRUE, 0));
