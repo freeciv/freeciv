@@ -17,7 +17,8 @@ case $GUI in
     FCMP="qt" ;;
   sdl2)
     GUINAME="SDL2"
-    FCMP="gtk3" ;;  
+    FCMP="gtk3" ;;
+  ruledit) ;;
   *)
     echo "Unknown gui type \"$GUI\"" >&2
     exit 1 ;;
@@ -42,8 +43,13 @@ fi
 
 INSTDIR="freeciv-$SETUP-$VERREV"
 
-make -C build-$SETUP/translations/core update-po
-make -C build-$SETUP/bootstrap langstat_core.txt
+if test "x$GUI" = "xruledit" ; then
+  make -C build-$SETUP/translations/ruledit update-po
+  make -C build-$SETUP/bootstrap langstat_ruledit.txt
+else
+  make -C build-$SETUP/translations/core update-po
+  make -C build-$SETUP/bootstrap langstat_core.txt
+fi
 
 mv $INSTDIR/bin/* $INSTDIR/
 mv $INSTDIR/share/freeciv $INSTDIR/data
@@ -51,17 +57,31 @@ mv $INSTDIR/share/doc $INSTDIR/
 mkdir -p $INSTDIR/doc/freeciv/installer
 cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/
 rm -Rf $INSTDIR/lib
-cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd Freeciv.url $INSTDIR/
+cp Freeciv.url $INSTDIR/
 
-if test "x$GUI" = "xsdl2" ; then
-  if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+if test "x$GUI" = "xruledit" ; then
+  cp freeciv-ruledit.cmd $INSTDIR/
+
+  if ! ./create-freeciv-ruledit-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-ruledit-$SETUP-$VERREV.nsi
   then
     exit 1
   fi
-elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
-then
-  exit 1
-fi
 
-mkdir -p Output
-makensis Freeciv-$SETUP-$VERREV-$GUI.nsi
+  mkdir -p Output
+  makensis Freeciv-ruledit-$SETUP-$VERREV.nsi
+else
+  cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd $INSTDIR/
+
+  if test "x$GUI" = "xsdl2" ; then
+    if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+    then
+      exit 1
+    fi
+  elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+  then
+    exit 1
+  fi
+
+  mkdir -p Output
+  makensis Freeciv-$SETUP-$VERREV-$GUI.nsi
+fi
