@@ -27,6 +27,7 @@ dist_noinst_DATA = \
 		installer_msys2/win_arch.sh			\
 		installer_cross/create-freeciv-gtk-qt-nsi.sh	\
 		installer_cross/create-freeciv-sdl2-nsi.sh	\
+		installer_cross/create-freeciv-ruledit-nsi.sh	\
 		installer_cross/installer_build.sh		\
 		installer_cross/winbuild.sh			\
 		installer_cross/Freeciv.url			\
@@ -36,6 +37,7 @@ dist_noinst_DATA = \
 		installer_cross/freeciv-qt.cmd			\
 		installer_cross/freeciv-mp-qt.cmd		\
 		installer_cross/freeciv-sdl2.cmd		\
+		installer_cross/freeciv-ruledit.cmd		\
 		installer_cross/licenses/COPYING.installer
 
 if MINGW
