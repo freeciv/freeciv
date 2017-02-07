@@ -149,7 +149,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_button_set_image(GTK_BUTTON(button), arrow);
   gtk_widget_set_size_request(button, -1, BUTTON_HEIGHT);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   vib->next_button = button;
 
@@ -157,7 +157,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_YES));
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote yes button");
   vib->yes_button = button;
@@ -172,7 +172,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_NO));
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote no button");
   vib->no_button = button;
@@ -187,7 +187,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_do_vote_callback),
                    GINT_TO_POINTER(CVT_ABSTAIN));
-  gtk_button_set_focus_on_click(GTK_BUTTON(button), FALSE);
+  gtk_widget_set_focus_on_click(button, FALSE);
   gtk_container_add(GTK_CONTAINER(hbox), button);
   gtk_widget_set_name(button, "vote abstain button");
   vib->abstain_button = button;
