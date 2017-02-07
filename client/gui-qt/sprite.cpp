@@ -104,15 +104,19 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
   sprite *cropped;
   int widthzoom;
   int heightzoom;
+  int hex = 0;
 
   fc_assert_ret_val(source, NULL);
 
   if (!width || !height) {
     return NULL;
   }
-
-  widthzoom = ceil(width * scale);
-  heightzoom = ceil(height * scale);
+  if (scale != 1.0f && (tileset_hex_height(tileset) > 0
+      || tileset_hex_width(tileset) > 0)) {
+    hex = 1;
+  }
+  widthzoom = ceil(width * scale) + hex;
+  heightzoom = ceil(height * scale) + hex;
   cropped = new sprite;
   cropped->pm = new QPixmap(widthzoom, heightzoom);
   cropped->pm->fill(Qt::transparent);
