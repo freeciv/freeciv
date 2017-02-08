@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3 (26-Jan-17)
+# Version 2.3.1 (02-Feb-17)
 
-WINBUILD_VERSION="2.3"
+WINBUILD_VERSION="2.3.1"
 MIN_WINVER=0x0600 # Vista
 CROSSER_FEATURE_LEVEL=1.2
 
@@ -52,12 +52,14 @@ SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
 if test "x$2" = "xruledit" ; then
   SINGLE_GUI=true
+  GUIP="-ruledit"  
   RULEDIT="yes"
   CLIENTS="no"
   FCMP="no"
   SERVER="no"
 elif test "x$2" != "x" ; then
   SINGLE_GUI=true
+  GUIP="-$2"
   SERVER="yes"
   if test "x$2" = "xqt" ; then
     RULEDIT="yes"
@@ -74,12 +76,13 @@ elif test "x$2" != "x" ; then
        exit 1 ;;
   esac
 else
+  GUIP=""
   SERVER="yes"
   RULEDIT="yes"
 fi
 
-if ! mkdir -p build-$SETUP ; then
-  echo "Can't create build directory \"build-$SETUP\"!" >&2
+if ! mkdir -p build-$SETUP$GUIP ; then
+  echo "Can't create build directory \"build-$SETUP$GUIP\"!" >&2
   exit 1
 fi
 
@@ -121,10 +124,10 @@ if ! ../../autogen.sh --no-configure-run ; then
   exit 1
 fi
 
-INSTALL_DIR="$(pwd)/freeciv-${VERREV}"
+INSTALL_DIR="$(pwd)/freeciv-${VERREV}${GUIP}"
 
 if ! (
-cd build-$SETUP
+cd build-$SETUP$GUIP
 
 if ! ../../../configure CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-svnrev --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser --enable-ai-static=classic --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT
 then
@@ -146,7 +149,7 @@ fi
   exit 1
 fi
 
-if ! 7z a -r freeciv-${VERREV}.7z freeciv-${VERREV}
+if ! 7z a -r freeciv-${VERREV}${GUIP}.7z freeciv-${VERREV}${GUIP}
 then
   echo "7z failed" >&2
   exit 1

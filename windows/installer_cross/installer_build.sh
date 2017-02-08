@@ -41,14 +41,14 @@ else
   VERREV="$(../../fc_version)"
 fi
 
-INSTDIR="freeciv-$SETUP-$VERREV"
+INSTDIR="freeciv-$SETUP-${VERREV}-${GUI}"
 
 if test "x$GUI" = "xruledit" ; then
-  make -C build-$SETUP/translations/ruledit update-po
-  make -C build-$SETUP/bootstrap langstat_ruledit.txt
+  make -C build-${SETUP}-${GUI}/translations/ruledit update-po
+  make -C build-${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
 else
-  make -C build-$SETUP/translations/core update-po
-  make -C build-$SETUP/bootstrap langstat_core.txt
+  make -C build-${SETUP}-${GUI}/translations/core update-po
+  make -C build-${SETUP}-${GUI}/bootstrap langstat_core.txt
 fi
 
 mv $INSTDIR/bin/* $INSTDIR/
