@@ -209,7 +209,7 @@ static gboolean option_button_press_callback(GtkWidget *widget,
                    G_CALLBACK(option_apply_callback), poption);
 
   gtk_widget_show_all(menu);
-  gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, 0);
+  gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
 
   return TRUE;
 }
