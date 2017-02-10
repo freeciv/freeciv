@@ -4288,10 +4288,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
          * outside of it. */
 
         cancel_orders(punit, "  target location doesn't exist");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("%s could not do %s. No target tile."),
-                      unit_link(punit),
-                      action_id_name_translation(order.action));
+        illegal_action_msg(unit_owner(punit), E_UNIT_ORDERS, punit,
+                           order.action, dst_tile, NULL, NULL);
 
         return TRUE;
       }
@@ -4304,10 +4302,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
         /* This action targets a city but no city target was found. */
 
         cancel_orders(punit, "  perform action vs city with no city");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("%s could not do %s. No target city."),
-                      unit_link(punit),
-                      action_id_name_translation(order.action));
+        illegal_action_msg(unit_owner(punit), E_UNIT_ORDERS, punit,
+                           order.action, dst_tile, tgt_city, NULL);
 
         return TRUE;
       }
@@ -4320,10 +4316,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
         /* This action targets a unit but no target unit was found. */
 
         cancel_orders(punit, "  perform action vs unit with no unit");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("%s could not do %s. No target unit."),
-                      unit_link(punit),
-                      action_id_name_translation(order.action));
+        illegal_action_msg(unit_owner(punit), E_UNIT_ORDERS, punit,
+                           order.action, dst_tile, tgt_city, tgt_unit);
 
         return TRUE;
       }
