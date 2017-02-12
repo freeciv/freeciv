@@ -486,6 +486,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                      + ": "  + QString("</b>") + nl;
           added = true;
         }
+        if (gives_shared_vision(pplayer, other)) {
+          ally_str = ally_str + "(◐‿◑)";
+        }
         ally_str = ally_str + nation_plural_for_player(other) + ", ";
         entry_exist = true;
       }
