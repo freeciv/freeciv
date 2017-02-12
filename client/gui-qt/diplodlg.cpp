@@ -105,10 +105,9 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
          + "</center></h3></b>";
   colr = get_player_color(tileset, player_by_number(initiated_from));
   text = "<style>h3{background-color: "
-         + colr->qcolor.name() + ";}</style>" + text;
-  palette.setColor(QPalette::WindowText, color_best_contrast(colr,
-                   textcolors, ARRAY_SIZE(textcolors))->qcolor);
-  label3->setPalette(palette);
+         + colr->qcolor.name() + ";" + "color: " + color_best_contrast(colr,
+             textcolors, ARRAY_SIZE(textcolors))->qcolor.name()
+         + "}</style>" + text;
   label3->setText(text);
   label3->setMinimumWidth(300);
   label4 = new QLabel;
@@ -117,10 +116,9 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
          + "</center></h3></b></body>";
   colr = get_player_color(tileset, player_by_number(counterpart));
   text = "<style>h3{background-color: "
-         + colr->qcolor.name() + ";}</style>" + text;
-  palette.setColor(QPalette::WindowText, color_best_contrast(colr,
-                   textcolors, ARRAY_SIZE(textcolors))->qcolor);
-  label4->setPalette(palette);
+         + colr->qcolor.name() + ";" + "color: " + color_best_contrast(colr,
+             textcolors, ARRAY_SIZE(textcolors))->qcolor.name()
+         + "}</style>" + text;
   label4->setMinimumWidth(300);
   label4->setText(text);
   layout->addWidget(label3, 0, 5);
