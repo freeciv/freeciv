@@ -28,6 +28,7 @@
 
 // common
 #include "government.h"
+#include "player.h"
 
 // client
 #include "client_main.h"
@@ -55,6 +56,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   QString text;
   QString text2;
   QString text_color;
+  QString text_tooltip;
   QLabel *plr1_label;
   QLabel *plr2_label;
   QLabel *label;
@@ -69,6 +71,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   QPalette palette;
   struct sprite *sprite, *sprite2;
   char plr_buf[4 * MAX_LEN_NAME];
+  const struct player_diplstate *state;
   QHeaderView *header;
   struct color *textcolors[2] = {
     get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
@@ -85,6 +88,17 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
 
   init_treaty(&treaty, player_by_number(counterpart),
               player_by_number(initiated_from));
+  state = player_diplstate_get(player_by_number(player1),
+                               player_by_number(player2));
+  text_tooltip = QString(diplstate_type_translated_name(state->type));
+  if (state->turns_left > 0) {
+    text_tooltip = text_tooltip + " (";
+    text_tooltip = text_tooltip + QString(PL_("%1 turn left",
+                                              "%1 turns left",
+                                             state->turns_left))
+                                          .arg(state->turns_left);
+    text_tooltip = text_tooltip + ")";
+  }
   label3 = new QLabel;
   text = "<b><h3><center>"
          + QString(nation_plural_for_player(player_by_number(initiated_from)))
@@ -203,6 +217,16 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   connect(cancel_treaty, SIGNAL(clicked()), SLOT(response_cancel()));
   layout->addWidget(accept_treaty, 17, 5);
   layout->addWidget(cancel_treaty, 17, 6);
+
+  if (client_player_number() != counterpart) {
+    label4->setToolTip(text_tooltip);
+    plr2_label->setToolTip(text_tooltip);
+  }
+  if (client_player_number() != initiated_from) {
+    label3->setToolTip(text_tooltip);
+    plr1_label->setToolTip(text_tooltip);
+  }
+
   setLayout(layout);
   update_wdg();
 }
