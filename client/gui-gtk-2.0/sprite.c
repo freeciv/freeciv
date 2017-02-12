@@ -21,6 +21,9 @@
 #include "math.h"
 #include "shared.h"
 
+/* client */
+#include "tilespec.h"
+
 /* client/gtk-2.0 */
 #include "colors.h"
 
@@ -82,8 +85,12 @@ struct sprite *crop_sprite(struct sprite *source,
     } else {
       interp_type = GDK_INTERP_NEAREST;
     }
-    mypixbuf = gdk_pixbuf_scale_simple(sub, ceil(width *scale),
-                                       ceil(height * scale),
+    int hex = 0;
+    if (tileset_hex_height(tileset) > 0 || tileset_hex_width(tileset) > 0) {
+      hex = 1;
+    }
+    mypixbuf = gdk_pixbuf_scale_simple(sub, ceil(width *scale) + hex,
+                                       ceil(height * scale) + hex,
                                        interp_type);
   }
   g_object_unref(sub);
