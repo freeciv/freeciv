@@ -187,6 +187,7 @@ void help_dialog::make_tree()
   struct extra_type *pextra;
   struct government *gov;
   struct impr_type *imp;
+  struct nation_type *nation;
   struct terrain *pterrain;
   struct unit_type *f_type;
   struct drawn_sprite sprs[80];
@@ -234,7 +235,13 @@ void help_dialog::make_tree()
           icon = QIcon(*spite->pm);
         }
         break;
-
+      case HELP_NATIONS:
+        nation = nation_by_translated_plural(s);
+        spite = get_nation_flag_sprite(tileset, nation);
+        if (spite) {
+            icon = QIcon(*spite->pm);
+        }
+        break;
       case HELP_TECH:
         padvance  = advance_by_translated_name(s);
         if (padvance && !is_future_tech(i = advance_number(padvance))) {
