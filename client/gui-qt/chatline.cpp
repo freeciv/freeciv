@@ -613,15 +613,26 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   /* insert html starting from last items */
   last_i = str.count();
   QMultiMap<int, QString>::const_iterator i = mm.constEnd();
+  QMultiMap<int, QString>::const_iterator j = mm.constEnd();
   while (i != mm.constBegin()) {
     --i;
     if (i.key() < last_i) {
       final_string = final_string.prepend(QString(qba.mid(i.key(),
                                                           last_i - i.key()))
-                                             .toHtmlEscaped());
+                                          .toHtmlEscaped());
     }
     last_i = i.key();
-    final_string = final_string.prepend(i.value());
+    j = i;
+    if (i != mm.constBegin()) {
+      j--;
+    }
+    if (j.key() == i.key() && i != j) {
+      final_string = final_string.prepend(j.value());
+      final_string = final_string.prepend(i.value());
+      i--;
+    } else {
+      final_string = final_string.prepend(i.value());
+    }
   }
   if (last_i == str.count()) {
     return str;
