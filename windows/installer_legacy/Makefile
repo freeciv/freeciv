@@ -4,7 +4,7 @@
 # Usage:
 #
 # 1. download and extract the MinGW build environment from
-#    http://download.gna.org/freeciv/packages/windows/gnuwin32/
+#    https://sourceforge.net/projects/freeciv/files/dependencies/gnuwin32/
 #    Current version is gnuwin32-2016-07-27.
 # 2. double click on "gnuwin32/msys.bat"
 # 3. install the development packages:
