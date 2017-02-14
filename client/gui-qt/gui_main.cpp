@@ -250,8 +250,7 @@ void qtg_ui_exit()
 **************************************************************************/
 void qtg_real_conn_list_dialog_update()
 {
-  if (qtg_get_current_client_page() < PAGE_GAME
-      && qtg_get_current_client_page() != PAGE_START) {
+  if (qtg_get_current_client_page() == PAGE_NETWORK) {
     qtg_real_set_client_page(PAGE_START);
   }
   gui()->update_start_page();
