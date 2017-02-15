@@ -49,8 +49,10 @@ add_sdl2_env() {
 }
 
 add_qt_env() {
+  cp -R $1/plugins $2/ &&
   cp $1/bin/Qt5Core.dll $2/ &&
-  cp $1/bin/Qt5Gui.dll $2/
+  cp $1/bin/Qt5Gui.dll $2/ &&
+  cp $1/bin/Qt5Widgets.dll $2/
 }
 
 add_common_env() {
