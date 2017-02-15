@@ -1,26 +1,26 @@
 # Try to configure the GTK+-3.22 client (gui-gtk-3.22)
 
-# FC_GTK3X_CLIENT
+# FC_GTK3_22_CLIENT
 # Test for GTK+-3.0 libraries needed for gui-gtk-3.22
 
 AC_DEFUN([FC_GTK3_22_CLIENT],
 [
   if test "x$gui_gtk3_22" = "xyes" ||
      test "x$client" = "xall" || test "x$client" = "xauto" ; then
-    PKG_CHECK_MODULES([GTK3X], [gtk+-3.0 >= 3.22.0],
+    PKG_CHECK_MODULES([GTK3_22], [gtk+-3.0 >= 3.22.0],
       [
-        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20"
-        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50"
+        GTK3_22_CFLAGS="$GTK3_22_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20"
+        GTK3_22_CFLAGS="$GTK3_22_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_50"
         gui_gtk3_22=yes
         if test "x$client" = "xauto" ; then
           client=yes
         fi
-        gui_gtk3x_cflags="$GTK3X_CFLAGS"
-        gui_gtk3x_libs="$GTK3X_LIBS"
+        gui_gtk3_22_cflags="$GTK3_22_CFLAGS"
+        gui_gtk3_22_libs="$GTK3_22_LIBS"
         if test "x$MINGW" = "xyes"; then
           dnl Required to compile gtk3 on Windows platform
-          gui_gtk3x_cflags="$gui_gtk3x_cflags -mms-bitfields"
-          gui_gtk3x_ldflags="$gui_gtk3x_ldflags -mwindows"
+          gui_gtk3_22_cflags="$gui_gtk3_22_cflags -mms-bitfields"
+          gui_gtk3_22_ldflags="$gui_gtk3_22_ldflags -mwindows"
         fi
       ],
       [

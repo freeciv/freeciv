@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES = libgui-gtk3x.la
+noinst_LTLIBRARIES = libgui-gtk3_22.la
 AM_CPPFLAGS = \
 	-I$(srcdir)/.. \
 	-I$(srcdir)/../include \
@@ -12,9 +12,9 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/../agents \
 	-I$(srcdir)/../luascript \
 	-I$(top_srcdir)/dependencies/tinycthread \
-	$(gui_gtk3x_cflags) $(SOUND_CFLAGS)
+	$(gui_gtk3_22_cflags) $(SOUND_CFLAGS)
 
-libgui_gtk3x_la_SOURCES = \
+libgui_gtk3_22_la_SOURCES = \
 	action_dialog.c \
 	canvas.c	\
 	canvas.h	\
@@ -102,4 +102,4 @@ libgui_gtk3x_la_SOURCES = \
 	wldlg.c		\
 	wldlg.h
 
-libgui_gtk3x_la_LIBADD = -lm
+libgui_gtk3_22_la_LIBADD = -lm

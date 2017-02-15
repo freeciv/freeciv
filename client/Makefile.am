@@ -37,9 +37,6 @@ desktopfile_DATA += \
 appdatafile_DATA += \
 	freeciv-gtk3.22.appdata.xml
 endif
-if CLIENT_GUI_GTK_3X
-GUI_SUBDIRS += gui-gtk-3.22
-endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
@@ -229,32 +226,16 @@ if CLIENT_GUI_GTK_3_22
 bin_PROGRAMS += freeciv-gtk3.22
 noinst_LTLIBRARIES += libfcgui-gtk3_22.la
 libfcgui_gtk3_22_la_SOURCES = $(freeciv_client_src)
-libfcgui_gtk3_22_la_LIBADD = gui-gtk-3.22/libgui-gtk3x.la $(clientlibs)
+libfcgui_gtk3_22_la_LIBADD = gui-gtk-3.22/libgui-gtk3_22.la $(clientlibs)
 freeciv_gtk3_22_SOURCES = dummy.c
-freeciv_gtk3_22_LDFLAGS = $(gui_gtk3x_ldflags)
+freeciv_gtk3_22_LDFLAGS = $(gui_gtk3_22_ldflags)
 freeciv_gtk3_22_LDADD = \
  $(SOUND_LIBS) \
  libfcgui-gtk3_22.la \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_gtk3x_libs)
-endif
-
-if CLIENT_GUI_GTK_3X
-bin_PROGRAMS += freeciv-gtk3x
-noinst_LTLIBRARIES += libfcgui-gtk3x.la
-libfcgui_gtk3x_la_SOURCES = $(freeciv_client_src)
-libfcgui_gtk3x_la_LIBADD = gui-gtk-3.22/libgui-gtk3x.la $(clientlibs)
-freeciv_gtk3x_SOURCES = dummy.c
-freeciv_gtk3x_LDFLAGS = $(gui_gtk3x_ldflags)
-freeciv_gtk3x_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-gtk3x.la \
- $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
- $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_gtk3x_libs)
+ $(gui_gtk3_22_libs)
 endif
 
 if CLIENT_GUI_SDL2
