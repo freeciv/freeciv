@@ -259,6 +259,10 @@ void plr_model::notify_plr_changed(int row)
 void plr_model::populate()
 {
   plr_item *pi;
+
+  qDeleteAll(plr_list);
+  plr_list.clear();
+  beginResetModel();
   players_iterate(pplayer) {
     if ((is_barbarian(pplayer))){
       continue;
@@ -266,6 +270,7 @@ void plr_model::populate()
     pi = new plr_item(pplayer);
     plr_list << pi;
   } players_iterate_end;
+  endResetModel();
 }
 
 
@@ -718,7 +723,8 @@ void plr_widget::mousePressEvent(QMouseEvent *event)
 void plr_report::update_report(bool update_selection)
 {
   QModelIndex qmi;
-
+  int player_count = 0;
+  
   /* Force updating selected player information */
   if (update_selection == true) {
     qmi = plr_wdg->currentIndex();
@@ -726,6 +732,17 @@ void plr_report::update_report(bool update_selection)
       plr_wdg->clearSelection();
       plr_wdg->setCurrentIndex(qmi);
     }
+  }
+
+  players_iterate(pplayer) {
+    if ((is_barbarian(pplayer))){
+      continue;
+    }
+    player_count++;
+  } players_iterate_end;
+
+  if (player_count != plr_wdg->get_model()->rowCount()) {
+    plr_wdg->get_model()->populate();
   }
 
   plr_wdg->header()->resizeSections(QHeaderView::ResizeToContents);
