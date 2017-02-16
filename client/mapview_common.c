@@ -1781,6 +1781,10 @@ static void show_small_citybar(struct canvas *pcanvas,
   canvas_x += tileset_tile_width(tileset) / 2 * map_zoom;
   canvas_y += tileset_citybar_offset_y(tileset) * map_zoom;
 
+  get_city_mapview_name_and_growth(pcity, name, sizeof(name),
+                                   growth, sizeof(growth), &growth_color,
+                                   &production_color);
+
   if (gui_options.draw_city_names) {
     int drawposx;
 
@@ -1790,10 +1794,6 @@ static void show_small_citybar(struct canvas *pcanvas,
 
     total_width = 0;
     total_height = 0;
-
-    get_city_mapview_name_and_growth(pcity, name, sizeof(name),
-                                    growth, sizeof(growth), &growth_color,
-                                    &production_color);
 
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
     total_width += name_rect.w;
@@ -1854,8 +1854,8 @@ static void show_small_citybar(struct canvas *pcanvas,
 
     canvas_put_text(pcanvas, (canvas_x - total_width / 2) / map_zoom,
                     canvas_y / map_zoom,
-		    FONT_CITY_PROD,
-		    get_color(tileset, production_color), prod);
+                    FONT_CITY_PROD,
+                    get_color(tileset, production_color), prod);
 
     canvas_y += total_height;
     *width = MAX(*width, total_width);
