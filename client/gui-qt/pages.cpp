@@ -549,16 +549,18 @@ void fc_client::create_load_page()
  **************************************************************************/
 void fc_client::create_scenario_page()
 {
-  pages_layout[PAGE_SCENARIO] = new QGridLayout;
   QPushButton *but;
+  QHeaderView *header;
+  QStringList sav;
 
+  pages_layout[PAGE_SCENARIO] = new QGridLayout;
   scenarios_load = new QTableWidget;
   scenarios_view = new QTextEdit;
-  scenarios_view->setObjectName("scenarios_view");
   scenarios_text = new QLabel;
+
+  scenarios_view->setObjectName("scenarios_view");
   scenarios_text->setTextFormat(Qt::RichText);
   scenarios_text->setWordWrap(true);
-  QStringList sav;
   sav << _("Choose a Scenario");
   scenarios_load->setRowCount(0);
   scenarios_load->setColumnCount(sav.count());
@@ -568,13 +570,15 @@ void fc_client::create_scenario_page()
   scenarios_load->setEditTriggers(QAbstractItemView::NoEditTriggers);
   scenarios_load->setSelectionMode(QAbstractItemView::SingleSelection);
   scenarios_load->verticalHeader()->setVisible(false);
-  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_load, 0, 0, 3, 3);
-  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_view, 0, 3, 3, 2);
-  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_text, 3, 0, 1, 4);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_load, 0, 0, 3, 3,
+                                         Qt::AlignLeft);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_view, 1, 3, 2, 3);
+  pages_layout[PAGE_SCENARIO]->addWidget(scenarios_text, 0, 3, 1, 2,
+                                         Qt::AlignTop);
   scenarios_view->setReadOnly(true);
   scenarios_view->setWordWrapMode(QTextOption::WordWrap);
+  scenarios_text->setAlignment(Qt::AlignCenter);
 
-  QHeaderView *header;
   header = scenarios_load->horizontalHeader();
   header->setSectionResizeMode(0, QHeaderView::Stretch);
   header->setStretchLastSection(true);
@@ -586,7 +590,7 @@ void fc_client::create_scenario_page()
   but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
   connect(but, SIGNAL(clicked()), this, SLOT(browse_scenarios()));
-  pages_layout[PAGE_SCENARIO]->addWidget (but, 4, 0);
+  pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 0);
 
   but = new QPushButton;
   but->setText(_("Cancel"));
@@ -596,6 +600,10 @@ void fc_client::create_scenario_page()
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
+  pages_layout[PAGE_SCENARIO]->setColumnStretch(2, 10);
+  pages_layout[PAGE_SCENARIO]->setColumnStretch(4, 20);
+  pages_layout[PAGE_SCENARIO]->setColumnStretch(3, 20);
+  pages_layout[PAGE_SCENARIO]->setRowStretch(1, 5);
   but = new QPushButton;
   but->setText(_("Load Scenario"));
   but->setIcon(QApplication::style()->standardIcon(
@@ -1184,9 +1192,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     index = indexes.at(0);
     qvar = index.data(Qt::UserRole);
     sl = qvar.toStringList();
-    scenarios_view->setText(sl.at(0));
+    scenarios_text->setText(sl.at(0));
     if (sl.count() > 1) {
-      scenarios_text->setText(sl.at(2));
+      scenarios_view->setText(sl.at(2));
       current_file = sl.at(1);
     }
     break;
