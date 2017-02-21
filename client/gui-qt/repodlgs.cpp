@@ -61,6 +61,9 @@ extern QString get_tooltip_improvement(impr_type *building,
                                        struct city *pcity);
 extern QString get_tooltip_unit(struct unit_type *unit);
 extern QApplication *qapp;
+
+units_reports* units_reports::m_instance = 0;
+
 /****************************************************************************
   From reqtree.c used to get tooltips
 ****************************************************************************/
@@ -87,6 +90,446 @@ struct reqtree {
   struct tree_node ***layers;
   int diagram_width, diagram_height;
 };
+
+/****************************************************************************
+  Unit item constructor (single item for units report)
+****************************************************************************/
+unittype_item::unittype_item(QWidget *parent,
+                            struct unit_type *ut): QFrame(parent)
+{
+  int isize;
+  QFont f;
+  QFontMetrics *fm;
+  QHBoxLayout *hbox;
+  QHBoxLayout *hbox_top;
+  QHBoxLayout *hbox_upkeep;
+  QImage cropped_img;
+  QImage img;
+  QLabel *lab;
+  QPixmap pix;
+  QRect crop;
+  QSizePolicy size_fixed_policy(QSizePolicy::Maximum, QSizePolicy::Maximum,
+                                QSizePolicy::Slider);
+  QSpacerItem *spacer;
+  QVBoxLayout *vbox;
+  QVBoxLayout *vbox_main;
+  struct sprite *spr;
+
+  setParent(parent);
+  utype = ut;
+  init_img();
+  unit_scroll = 0;
+  setSizePolicy(size_fixed_policy);
+  f = *fc_font::instance()->get_font(fonts::default_font);
+  fm = new QFontMetrics(f);
+  isize = fm->height() * 2 / 3;
+  vbox_main = new QVBoxLayout();
+  hbox = new QHBoxLayout();
+  vbox = new QVBoxLayout();
+  hbox_top = new QHBoxLayout();
+  upgrade_button.setText("★");
+  upgrade_button.setVisible(false);
+  connect(&upgrade_button, SIGNAL(pressed()), SLOT(upgrade_units()));
+  hbox_top->addWidget(&upgrade_button, 0, Qt::AlignLeft);
+  hbox_top->addWidget(&label_info_unit);
+  vbox_main->addLayout(hbox_top);
+  vbox->addWidget(&label_info_active);
+  vbox->addWidget(&label_info_inbuild);
+  hbox->addWidget(&label_pix);
+  hbox->addLayout(vbox);
+  vbox_main->addLayout(hbox);
+  hbox_upkeep = new QHBoxLayout;
+  hbox_upkeep->addWidget(&shield_upkeep);
+  lab = new QLabel("");
+  spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.shield",
+                                    "citybar.shields", "", "", false);
+  img = spr->pm->toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  pix = QPixmap::fromImage(cropped_img);
+  lab->setPixmap(pix.scaledToHeight(isize));
+  hbox_upkeep->addWidget(lab);
+  spacer = new QSpacerItem(0, isize, QSizePolicy::Expanding,
+                           QSizePolicy::Minimum);
+  hbox_upkeep->addSpacerItem(spacer);
+  hbox_upkeep->addWidget(&gold_upkeep);
+  spr = get_tax_sprite(tileset, O_GOLD);
+  lab = new QLabel("");
+  lab->setPixmap(spr->pm->scaledToHeight(isize));
+  hbox_upkeep->addWidget(lab);
+  spacer = new QSpacerItem(0, isize, QSizePolicy::Expanding,
+                           QSizePolicy::Minimum);
+  hbox_upkeep->addSpacerItem(spacer);
+  hbox_upkeep->addWidget(&food_upkeep);
+  lab = new QLabel("");
+  spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "citybar.food",
+                                    "citybar.food", "", "", false);
+  img = spr->pm->toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  pix = QPixmap::fromImage(cropped_img);
+  lab->setPixmap(pix.scaledToHeight(isize));
+  hbox_upkeep->addWidget(lab);
+  vbox_main->addLayout(hbox_upkeep);
+  setLayout(vbox_main);
+  entered = false;
+  delete fm;
+}
+
+/****************************************************************************
+  Unit item destructor
+****************************************************************************/
+unittype_item::~unittype_item()
+{
+
+}
+
+/****************************************************************************
+  Sets unit type pixmap to label
+****************************************************************************/
+void unittype_item::init_img()
+{
+  struct sprite *sp;
+
+  sp = get_unittype_sprite(tileset, utype, direction8_invalid());
+  label_pix.setPixmap(*sp->pm);
+}
+
+/****************************************************************************
+  Popup question if to upgrade units
+****************************************************************************/
+void unittype_item::upgrade_units()
+{
+  char buf[1024];
+  char buf2[2048];
+  hud_message_box ask(gui()->central_wdg);
+  int price;
+  int ret;
+  QString s1, s2;
+  struct unit_type *upgrade;
+
+  upgrade = can_upgrade_unittype(client_player(), utype);
+  price = unit_upgrade_price(client_player(), utype, upgrade);
+  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
+                                        "Treasury contains %d gold.",
+                                        client_player()->economic.gold),
+              client_player()->economic.gold);
+  fc_snprintf(buf2, ARRAY_SIZE(buf2),
+              PL_("Upgrade as many %s to %s as possible "
+                  "for %d gold each?\n%s",
+                  "Upgrade as many %s to %s as possible "
+                  "for %d gold each?\n%s", price),
+              utype_name_translation(utype),
+              utype_name_translation(upgrade), price, buf);
+  s2 = QString(buf2);
+  ask.set_text_title(s2, _("Upgrade Obsolete Units"));
+  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask.setDefaultButton(QMessageBox::Cancel);
+  ret = ask.exec();
+
+  switch (ret) {
+  case QMessageBox::Cancel:
+    return;
+  case QMessageBox::Ok:
+    dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype));
+    return;
+  }
+}
+
+/****************************************************************************
+  Mouse entered widget
+****************************************************************************/
+void unittype_item::enterEvent(QEvent *event)
+{
+  entered = true;
+  update();
+}
+
+/****************************************************************************
+  Paint event for unittype item ( draws background from theme )
+****************************************************************************/
+void unittype_item::paintEvent(QPaintEvent *event)
+{
+  QRect rx, ry, rfull;
+  QPainter p;
+
+  if (entered) {
+    rfull = QRect(1 , 1, width() - 2 , height() - 2);
+    p.begin(this);
+    p.setPen(QColor(palette().color(QPalette::Highlight)));
+    p.drawRect(rfull);
+    p.end();
+  }
+}
+
+/****************************************************************************
+  Mouse left widget
+****************************************************************************/
+void unittype_item::leaveEvent(QEvent *event)
+{
+  entered = false;
+  update();
+}
+
+/****************************************************************************
+  Mouse wheel event - cycles via units for given unittype
+****************************************************************************/
+void unittype_item::wheelEvent(QWheelEvent *event)
+{
+  int unit_count = 0;
+
+  unit_list_iterate(client_player()->units, punit) {
+    if (punit->utype != utype) {
+      continue;
+    }
+    if (ACTIVITY_IDLE == punit->activity
+        || ACTIVITY_SENTRY == punit->activity) {
+      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+        unit_count++;
+      }
+    }
+  } unit_list_iterate_end;
+
+  if (event->delta() < 0) {
+    unit_scroll--;
+  } else {
+    unit_scroll++;
+  }
+  if (unit_scroll < 0) {
+    unit_scroll = unit_count;
+  } else if (unit_scroll > unit_count) {
+    unit_scroll = 0;
+  }
+
+  unit_count = 0;
+
+  unit_list_iterate(client_player()->units, punit) {
+    if (punit->utype != utype) {
+      continue;
+    }
+    if (ACTIVITY_IDLE == punit->activity
+        || ACTIVITY_SENTRY == punit->activity) {
+      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+        unit_count++;
+        if (unit_count == unit_scroll) {
+          unit_focus_set_and_select(punit);
+        }
+      }
+    }
+  } unit_list_iterate_end;
+  event->accept();
+}
+
+/****************************************************************************
+  Class representing list of unit types ( unit_items )
+****************************************************************************/
+units_reports::units_reports() : fcwidget()
+{
+  layout = new QHBoxLayout;
+  scroll_layout = new QHBoxLayout(this);
+  init_layout();
+  setParent(gui()->mapview_wdg);
+  cw = new close_widget(this);
+  cw->setFixedSize(12, 12);
+  setVisible(false);
+}
+
+/****************************************************************************
+  Destructor for unit_report
+****************************************************************************/
+units_reports::~units_reports()
+{
+  qDeleteAll(unittype_list);
+  unittype_list.clear();
+  delete cw;
+}
+
+/****************************************************************************
+  Adds one unit to list
+****************************************************************************/
+void units_reports::add_item(unittype_item *item)
+{
+  unittype_list.append(item);
+}
+
+/****************************************************************************
+  Returns instance of units_reports
+****************************************************************************/
+units_reports *units_reports::instance()
+{
+  if (!m_instance)
+    m_instance = new units_reports;
+  return m_instance;
+}
+
+/****************************************************************************
+  Deletes units_reports instance
+****************************************************************************/
+void units_reports::drop()
+{
+  if (m_instance) {
+    delete m_instance;
+    m_instance = 0;
+  }
+}
+
+/***************************************************************************
+  Called when close button was pressed
+***************************************************************************/
+void units_reports::update_menu()
+{
+  was_destroyed = true;
+  drop();
+}
+
+/****************************************************************************
+  Initiazlizes layout ( layout needs to be changed after adding units )
+****************************************************************************/
+void units_reports::init_layout()
+{
+  QSizePolicy size_fixed_policy(QSizePolicy::Maximum,
+                                QSizePolicy::Maximum,
+                                QSizePolicy::Slider);
+
+  scroll = new QScrollArea(this);
+  setSizePolicy(size_fixed_policy);
+  scroll->setWidgetResizable(true);
+  scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  scroll_widget.setLayout(layout);
+  scroll->setWidget(&scroll_widget);
+  scroll->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+  scroll->setProperty("city_scroll", true);
+  scroll_layout->addWidget(scroll);
+  setLayout(scroll_layout);
+}
+
+/****************************************************************************
+  Paint event
+****************************************************************************/
+void units_reports::paintEvent(QPaintEvent *event)
+{
+  cw->put_to_corner();
+}
+
+/****************************************************************************
+  Updates units
+****************************************************************************/
+void units_reports::update_units(bool show)
+{
+  struct urd_info {
+    int active_count;
+    int building_count;
+    int upkeep[O_LAST];
+  };
+  bool upgradable;
+  int i, j;
+  int output;
+  int total_len = 0;
+  struct urd_info *info;
+  struct urd_info unit_array[utype_count()];
+  struct urd_info unit_totals;
+  Unit_type_id utype_id;
+  unittype_item *ui;
+
+  clear_layout();
+  memset(unit_array, '\0', sizeof(unit_array));
+  memset(&unit_totals, '\0', sizeof(unit_totals));
+  /* Count units. */
+  players_iterate(pplayer) {
+    if (client_has_player() && pplayer != client_player()) {
+      continue;
+    }
+    unit_list_iterate(pplayer->units, punit) {
+      info = unit_array + utype_index(unit_type_get(punit));
+      if (0 != punit->homecity) {
+        for (output = 0; output < O_LAST; output++) {
+          info->upkeep[output] += punit->upkeep[output];
+        }
+      }
+      info->active_count++;
+    } unit_list_iterate_end;
+    city_list_iterate(pplayer->cities, pcity) {
+      if (VUT_UTYPE == pcity->production.kind) {
+        int num_units;
+        info = unit_array + utype_index(pcity->production.value.utype);
+        /* Account for build slots in city */
+        (void) city_production_build_units(pcity, true, &num_units);
+        /* Unit is in progress even if it won't be done this turn */
+        num_units = MAX(num_units, 1);
+        info->building_count += num_units;
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  unit_type_iterate(utype) {
+    utype_id = utype_index(utype);
+    info = unit_array + utype_id;
+    upgradable = client_has_player()
+                 && nullptr != can_upgrade_unittype(client_player(), utype);
+    if (0 == info->active_count && 0 == info->building_count) {
+      continue;                 /* We don't need a row for this type. */
+    }
+    ui = new unittype_item(this, utype);
+    ui->label_info_active.setText("⚔:" + QString::number(info->active_count));
+    ui->label_info_inbuild.setText("⚒:" + QString::number(info->building_count));
+    ui->label_info_unit.setText(utype_name_translation(utype));
+    if (upgradable) {
+      ui->upgrade_button.setVisible(true);
+    } else {
+      ui->upgrade_button.setVisible(false);
+    }
+    ui->shield_upkeep.setText(QString::number(info->upkeep[O_SHIELD]));
+    ui->food_upkeep.setText(QString::number(info->upkeep[O_FOOD]));
+    ui->gold_upkeep.setText(QString::number(info->upkeep[O_GOLD]));
+    add_item(ui);
+  } unit_type_iterate_end;
+
+  setUpdatesEnabled(false);
+  hide();
+  i = unittype_list.count();
+  for (j = 0; j < i; j++) {
+    ui = unittype_list[j];
+    layout->addWidget(ui, 0, Qt::AlignVCenter);
+    total_len = total_len + ui->sizeHint().width() + 18;
+  }
+
+  total_len = total_len + contentsMargins().left()
+              + contentsMargins().right();
+  if (show) {
+    setVisible(true);
+  }
+  setUpdatesEnabled(true);
+  setFixedWidth(qMin(total_len, gui()->mapview_wdg->width()));
+  setFixedHeight(ui->height() + 60);
+  layout->update();
+  updateGeometry();
+}
+
+/****************************************************************************
+  Cleans layout - run it before layout initialization
+****************************************************************************/
+void units_reports::clear_layout()
+{
+  int i = unittype_list.count();
+  unittype_item *ui;
+  int j;
+
+  setUpdatesEnabled(false);
+  setMouseTracking(false);
+
+  for (j = 0; j < i; j++) {
+    ui = unittype_list[j];
+    layout->removeWidget(ui);
+    delete ui;
+  }
+
+  while (!unittype_list.empty()) {
+    unittype_list.removeFirst();
+  }
+
+  setMouseTracking(true);
+  setUpdatesEnabled(true);
+}
 
 /****************************************************************************
   Compare unit_items (used for techs) by name
@@ -724,383 +1167,6 @@ void real_science_report_dialog_update(void)
   }
 }
 
-/**************************************************************************
-  Constructor for units report
-**************************************************************************/
-units_report::units_report(): QWidget()
-{
-  int len;
-  QStringList slist;
-  QMargins margins;
-
-  QGridLayout *units_layout= new QGridLayout;
-  units_widget = new QTableWidget;
-  find_button = new QPushButton(style()->standardIcon(
-                          QStyle::SP_ToolBarHorizontalExtensionButton),
-                          _("Find Nearest"));
-  upgrade_button = new QPushButton(style()->standardIcon(
-                          QStyle::SP_FileDialogToParent),_("Upgrade"));
-
-  slist << _("Unit Type") << Q_("?Upgradable unit [short]:U") << _("In-Prog") 
-        << _("Active") << _("Shield") << _("Food") << _("Gold");
-  units_widget->setColumnCount(slist.count());
-  units_widget->setHorizontalHeaderLabels(slist);
-  units_widget->setProperty("showGrid", "false");
-  units_widget->setProperty("selectionBehavior", "SelectRows");
-  units_widget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  units_widget->horizontalHeader()->resizeSections(QHeaderView::
-                                                   ResizeToContents);
-  units_widget->verticalHeader()->setVisible(false);
-  units_widget->setSelectionMode(QAbstractItemView::SingleSelection);
-  units_widget->setAlternatingRowColors(true);
-  find_button->setEnabled(false);
-  upgrade_button->setText(_("Upgrade"));
-  upgrade_button->setEnabled(false);
-  units_layout->addWidget(units_widget, 0, 1, 1, 2);
-  units_layout->addWidget(find_button, 1, 2, 1, 1, Qt::AlignRight);
-  units_layout->addWidget(upgrade_button, 1, 1, 1, 1);
-  units_layout->setColumnStretch(0, 1);
-  units_layout->setColumnStretch(1, 10);
-  units_layout->setColumnStretch(3, 1);
-
-  connect(find_button, SIGNAL(pressed()), SLOT(find_units()));
-  connect(upgrade_button, SIGNAL(pressed()), SLOT(upgrade_units()));
-  connect(units_widget->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &,
-                                  const QItemSelection &)),
-          SLOT(selection_changed(const QItemSelection &,
-                                 const QItemSelection &)));
-  setLayout(units_layout);
-  margins = units_widget->contentsMargins();
-  len = units_widget->horizontalHeader()->length() + margins.left()
-        + margins.right();
-  units_widget->setFixedWidth(len);
-  units_widget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  find_button->setFixedWidth(len / 3);
-  upgrade_button->setFixedWidth(len / 3);
-}
-
-
-/****************************************************************************
-  Destructor for units report
-****************************************************************************/
-units_report::~units_report()
-{
-  gui()->remove_repo_dlg("UNI");
-}
-
-/****************************************************************************
-  Updates units_report and marks it as opened
-  It has to be called soon after constructor.
-****************************************************************************/
-void units_report::init()
-{
-  curr_row = -1;
-  gui()->gimme_place(this, "UNI");
-  index = gui()->add_game_tab(this);
-  gui()->game_tab_widget->setCurrentIndex(index);
-}
-
-/**************************************************************************
-  Updates all widgets in units reports
-**************************************************************************/
-void units_report::update_report()
-{
-  struct urd_info {
-    int active_count;
-    int building_count;
-    int upkeep[O_LAST];
-  };
-  int output;
-  int row, column;
-  Unit_type_id utype_id;
-  QTableWidgetItem *unit_item;
-  struct urd_info unit_array[utype_count()];
-  struct urd_info unit_totals;
-  struct urd_info *info;
-  int total_upgradable_count = 0;
-  bool upgradable;
-  QVariant qvar;
-  QPixmap *pix;
-  QPixmap pix_scaled;
-  struct sprite *sprite;
-  QFont f = QApplication::font();
-  int h;
-  int len;
-  QFontMetrics fm(f);
-  QMargins margins;
-
-  h = fm.height() + 6;
-  units_widget->setRowCount(0);
-  units_widget->clearContents();
-  memset(unit_array, '\0', sizeof(unit_array));
-  memset(&unit_totals, '\0', sizeof(unit_totals));
-  /* Count units. */
-  players_iterate(pplayer) {
-    if (client_has_player() && pplayer != client_player()) {
-      continue;
-    }
-
-    unit_list_iterate(pplayer->units, punit) {
-      info = unit_array + utype_index(unit_type_get(punit));
-
-      if (0 != punit->homecity) {
-        for (output = 0; output < O_LAST; output++) {
-          info->upkeep[output] += punit->upkeep[output];
-        }
-      }
-      info->active_count++;
-    } unit_list_iterate_end;
-    city_list_iterate(pplayer->cities, pcity) {
-      if (VUT_UTYPE == pcity->production.kind) {
-        int num_units;
-        info = unit_array + utype_index(pcity->production.value.utype);
-        /* Account for build slots in city */
-        (void) city_production_build_units(pcity, true, &num_units);
-        /* Unit is in progress even if it won't be done this turn */
-        num_units = MAX(num_units, 1);
-        info->building_count += num_units;
-      }
-    } city_list_iterate_end;
-  } players_iterate_end;
-  row = 0;
-  unit_type_iterate(utype) {
-    utype_id = utype_index(utype);
-    info = unit_array + utype_id;
-    upgradable = client_has_player()
-                 && NULL != can_upgrade_unittype(client_player(), utype);
-    if (0 == info->active_count && 0 == info->building_count) {
-      continue;                 /* We don't need a row for this type. */
-    }
-    units_widget->setRowCount(row + 1);
-    for (column = 0; column < 7; column++) {
-      unit_item = new QTableWidgetItem;
-      unit_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-      switch (column) {
-      case 0:
-        unit_item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        unit_item->setText(utype_name_translation(utype));
-        qvar = utype_id;
-        unit_item->setData(Qt::UserRole, qvar);
-        sprite = get_unittype_sprite(tileset, utype, direction8_invalid());
-        if (sprite != NULL) {
-          pix = sprite->pm;
-          pix_scaled = pix->scaledToHeight(h);
-        } else {
-          pix_scaled.fill();
-        }
-        unit_item->setData(Qt::DecorationRole, pix_scaled);
-        break;
-      case 1:
-        if ((client_has_player()
-             && NULL != can_upgrade_unittype(client_player(), utype))) {
-          unit_item->setCheckState(Qt::Checked);
-        } else {
-          unit_item->setCheckState(Qt::Unchecked);
-        }
-        unit_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        break;
-      case 2:
-        unit_item->setText(QString::number(info->building_count));
-        break;
-      case 3:
-        unit_item->setText(QString::number(info->active_count));
-        break;
-      case 4:
-        unit_item->setText(QString::number(info->upkeep[O_SHIELD]));
-        break;
-      case 5:
-        unit_item->setText(QString::number(info->upkeep[O_FOOD]));
-        break;
-      case 6:
-        unit_item->setText(QString::number(info->upkeep[O_GOLD]));
-        break;
-      }
-      units_widget->setItem(row, column, unit_item);
-    }
-    /* Update totals. */
-    unit_totals.active_count += info->active_count;
-    for (output = 0; output < O_LAST; output++) {
-      unit_totals.upkeep[output] += info->upkeep[output];
-    }
-    unit_totals.building_count += info->building_count;
-    if (upgradable) {
-      total_upgradable_count += info->active_count;
-    }
-    row++;
-  } unit_type_iterate_end;
-  row++;
-  units_widget->setRowCount(row);
-  for (column = 0; column < 7; column++) {
-    unit_item = new QTableWidgetItem;
-    unit_item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    switch (column) {
-    case 0:
-      unit_item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-      unit_item->setText(_("Totals:"));
-      break;
-    case 1:
-      unit_item->setText(QString::number(total_upgradable_count));
-      break;
-    case 2:
-      unit_item->setText(QString::number(unit_totals.building_count));
-      break;
-    case 3:
-      unit_item->setText(QString::number(unit_totals.active_count));
-      break;
-    case 4:
-      unit_item->setText(QString::number(unit_totals.upkeep[O_SHIELD]));
-      break;
-    case 5:
-      unit_item->setText(QString::number(unit_totals.upkeep[O_FOOD]));
-      break;
-    case 6:
-      unit_item->setText(QString::number(unit_totals.upkeep[O_GOLD]));
-      break;
-    }
-    units_widget->setItem(row - 1, column, unit_item);
-  }
-  units_widget->resizeColumnsToContents();
-  margins = units_widget->contentsMargins();
-  len = units_widget->horizontalHeader()->length() + margins.left()
-        + margins.right();
-  units_widget->setFixedWidth(len);
-  find_button->setFixedWidth(len / 3);
-  upgrade_button->setFixedWidth(len / 3);
-  max_row = row - 1;
-}
-
-/**************************************************************************
-  Finds closest unit
-**************************************************************************/
-struct unit *units_report::find_nearest_unit(const struct unit_type *utype,
-                                             struct tile *ptile)
-{
-  struct unit *best_candidate = NULL;
-  int best_dist = FC_INFINITY, dist;
-
-  players_iterate(pplayer) {
-    if (client_has_player() && pplayer != client_player()) {
-      continue;
-    }
-
-    unit_list_iterate(pplayer->units, punit) {
-      if (utype == unit_type_get(punit)
-          && FOCUS_AVAIL == punit->client.focus_status
-          && 0 < punit->moves_left
-          && !punit->done_moving && !punit->ai_controlled) {
-        dist = sq_map_distance(unit_tile(punit), ptile);
-        if (dist < best_dist) {
-          best_candidate = punit;
-          best_dist = dist;
-        }
-      }
-    } unit_list_iterate_end;
-  } players_iterate_end;
-  return best_candidate;
-}
-
-/**************************************************************************
-  Action for button 'find units' in units report
-**************************************************************************/
-void units_report::find_units()
-{
-  struct tile *ptile;
-  struct unit *punit;
-  struct unit_type *utype;
-
-  utype = utype_by_number(uid);
-  ptile = get_center_tile_mapcanvas();
-  if ((punit = find_nearest_unit(utype, ptile))) {
-    center_tile_mapcanvas(unit_tile(punit));
-
-    if (ACTIVITY_IDLE == punit->activity
-        || ACTIVITY_SENTRY == punit->activity) {
-      if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-        unit_focus_set_and_select(punit);
-      }
-    }
-  }
-}
-
-/**************************************************************************
-  Upgrades selected units after clicking 'upgrade' button
-**************************************************************************/
-void units_report::upgrade_units()
-{
-
-  struct unit_type *utype;
-  struct unit_type *upgrade;
-  utype = utype_by_number(uid);
-  int price;
-  hud_message_box ask(gui()->central_wdg);
-  QString s1, s2;
-  int ret;
-  char buf[1024];
-  char buf2[2048];
-
-  upgrade = can_upgrade_unittype(client_player(), utype);
-  price = unit_upgrade_price(client_player(), utype, upgrade);
-  fc_snprintf(buf, ARRAY_SIZE(buf), PL_("Treasury contains %d gold.",
-                                        "Treasury contains %d gold.",
-                                        client_player()->economic.gold),
-              client_player()->economic.gold);
-  fc_snprintf(buf2, ARRAY_SIZE(buf2),
-              PL_("Upgrade as many %s to %s as possible "
-                  "for %d gold each?\n%s",
-                  "Upgrade as many %s to %s as possible "
-                  "for %d gold each?\n%s", price),
-              utype_name_translation(utype),
-              utype_name_translation(upgrade), price, buf);
-  s2 = QString(buf2);
-  ask.set_text_title(s2, _("Upgrade Obsolete Units"));
-  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-  ask.setDefaultButton(QMessageBox::Cancel);
-  ret = ask.exec();
-
-  switch (ret) {
-  case QMessageBox::Cancel:
-    return;
-  case QMessageBox::Ok:
-    dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype));
-    return;
-  }
-}
-
-/**************************************************************************
-  Action for changed selection in units report
-**************************************************************************/
-void units_report::selection_changed(const QItemSelection& sl,
-                                     const QItemSelection& ds)
-{
-  QTableWidgetItem *itm;
-  int i;
-  QVariant qvar;
-  struct unit_type *utype;
-  find_button->setEnabled(false);
-  upgrade_button->setEnabled(false);
-
-  if (sl.isEmpty()) {
-    return;
-  }
-
-  curr_row = sl.indexes().at(0).row();
-  if (curr_row >= 0 && curr_row < max_row) {
-    itm = units_widget->item(curr_row, 0);
-    qvar = itm->data(Qt::UserRole);
-    uid = qvar.toInt();
-    utype = utype_by_number(uid);
-    itm = units_widget->item(curr_row, 3);
-    i = itm->text().toInt();
-    if (i > 0) {
-      find_button->setEnabled(true);
-    }
-    if (can_client_issue_orders()
-        && NULL != can_upgrade_unittype(client_player(), utype)) {
-      upgrade_button->setEnabled(true);
-    }
-  }
-}
 
 /**************************************************************************
   Constructor for eceonmy report
@@ -1623,17 +1689,8 @@ void economy_report_dialog_popup(bool raise)
 **************************************************************************/
 void real_units_report_dialog_update(void)
 {
-  int i;
-  units_report *units_rep;
-  QWidget *w;
-
-  if (gui()->is_repo_dlg_open("UNI")) {
-    i = gui()->gimme_index_of("UNI");
-    if (gui()->game_tab_widget->currentIndex() == i) {
-      w = gui()->game_tab_widget->widget(i);
-      units_rep = reinterpret_cast<units_report*>(w);
-      units_rep->update_report();
-    }
+  if (units_reports::instance()->isVisible()) {
+    units_reports::instance()->update_units();
   }
 }
 
@@ -1643,21 +1700,8 @@ void real_units_report_dialog_update(void)
 **************************************************************************/
 void units_report_dialog_popup(bool raise)
 {
-  int i;
-  units_report *ur;
-  QWidget *w;
-    if (!gui()->is_repo_dlg_open("UNI")) {
-    units_report *units_rep = new units_report;
-    units_rep->init();
-    units_rep->update_report();
-  } else {
-    i = gui()->gimme_index_of("UNI");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    ur = reinterpret_cast<units_report*>(w);
-    ur->update_report();
-    gui()->game_tab_widget->setCurrentWidget(ur);
-  }
+  gui()->game_tab_widget->setCurrentIndex(0);
+  units_reports::instance()->update_units(true);
 }
 
 /****************************************************************************
@@ -1773,16 +1817,19 @@ void popdown_science_report()
 ****************************************************************************/
 void popdown_units_report()
 {
-  int i;
-  units_report *units_rep;
-  QWidget *w;
+  units_reports::instance()->drop();
+}
 
-  if (gui()->is_repo_dlg_open("UNI")) {
-    i = gui()->gimme_index_of("UNI");
-    fc_assert(i != -1);
-    w = gui()->game_tab_widget->widget(i);
-    units_rep = reinterpret_cast<units_report*>(w);
-    units_rep->deleteLater();
+/****************************************************************************
+  Toggles units report, bool used for compatibility with sidebar callback
+****************************************************************************/
+void toggle_units_report(bool x)
+ {
+  Q_UNUSED(x);
+  if (units_reports::instance()->isVisible()
+      && gui()->game_tab_widget->currentIndex() == 0) {
+    units_reports::instance()->drop();
+  } else {
+    units_report_dialog_popup(true);
   }
-
 }
