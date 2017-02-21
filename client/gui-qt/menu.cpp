@@ -2071,7 +2071,7 @@ void mr_menu::slot_show_map()
 ***************************************************************************/
 void mr_menu::slot_show_units_report()
 {
-  units_report_dialog_popup(false);
+  toggle_units_report(true);
 }
 
 /***************************************************************************

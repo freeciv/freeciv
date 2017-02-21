@@ -503,6 +503,34 @@ science_report QScrollArea {
   background-image:url(LittleFingersun.png);
 }
 
+units_reports QScrollArea {
+  background: rgba(0,0,0,45);
+}
+
+units_reports QScrollArea QWidget{
+  background: rgba(0,0,0,45);
+}
+
+unittype_item {
+  border: none;
+  background-color: rgba(0,0,0,95);
+  selection-background-color: rgba(46, 189, 38,220);
+}
+
+unittype_item QLabel {
+  color: white;
+  background-color: none;
+}
+unittype_item QPushButton {
+  color: green;
+  border: none;
+}
+
+units_reports {
+  border: 1px solid #dcffcf;
+  background-color: rgba(0,75,0,95);
+}
+
 QCheckBox:disabled, QRadioButton:disabled {
   background-color: transparent;
   color: #7b7b7b;

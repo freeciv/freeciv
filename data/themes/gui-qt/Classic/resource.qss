@@ -574,6 +574,36 @@ info_tab {
   border: 1px solid #685f47;
 }
 
+units_reports QScrollArea {
+  background: rgba(0,0,0,45);
+}
+
+units_reports QScrollArea QWidget{
+  background: rgba(0,0,0,45);
+}
+
+unittype_item {
+  border: none;
+  background-color: rgba(0,0,0,95);
+  selection-background-color: rgba(231, 214, 176, 220);
+}
+
+units_reports {
+  border: 1px solid #ffecba;
+  background-color: rgba(85, 25, 25, 95);
+}
+
+unittype_item QLabel {
+  color: white;
+  background-color: none;
+}
+
+unittype_item QPushButton {
+  color: white;
+  border: none;
+}
+
+
 help_widget QTextBrowser
 {
   background-image:url(LittleFingerpattern.png);

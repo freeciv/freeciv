@@ -627,6 +627,25 @@ info_tab {
   background-color: rgba(0,0,75,185);
 }
 
+units_reports QScrollArea {
+  background: rgba(0,0,0,45);
+}
+
+units_reports QScrollArea QWidget{
+  background: rgba(0,0,0,45);
+}
+
+unittype_item {
+  border: none;
+  background-color: rgba(0,0,0,95);
+  selection-background-color: rgba(50, 150, 250,220);
+}
+
+units_reports {
+  border: 1px solid #1d5994;
+  background-color: rgba(0,0,75,95);
+}
+
 science_report QScrollArea {
   background-image:url(LittleFingersun.png);
 }

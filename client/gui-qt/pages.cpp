@@ -67,6 +67,7 @@ const char *text_happiness_cities(const struct city *pcity);
 int last_center_capital = 0;
 int last_center_player_city = 0;
 int last_center_enemy_city = 0;
+extern void toggle_units_report(bool);
 extern void popup_shortcuts_dialog();
 static void center_next_enemy_city();
 static void center_next_player_city();
@@ -719,8 +720,8 @@ void fc_client::create_game_page()
                                     SW_INDICATORS);
   sw_indicators->set_right_click(side_indicators_menu);
   sw_cunit = new fc_sidewidget(fc_icons::instance()->get_pixmap("units"),
-                               _("Units"), "UNI",
-                               units_report_dialog_popup);
+                               _("Units"), "",
+                               toggle_units_report);
   sw_cities = new fc_sidewidget(fc_icons::instance()->get_pixmap("cities"),
                                 _("Cities"), "CTS",
                                 city_report_dialog_popup);

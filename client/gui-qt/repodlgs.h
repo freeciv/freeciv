@@ -27,9 +27,11 @@ extern "C" {
 
 // gui-qt
 #include "fonts.h"
+#include "mapview.h"
 
 // Qt
-#include <QObject>
+#include <QLabel>
+#include <QPushButton>
 #include <QWidget>
 
 class progress_bar;
@@ -38,11 +40,71 @@ class QGridLayout;
 class QGroupBox;
 class QHBoxLayout;
 class QItemSelection;
-class QLabel;
 class QPushButton;
 class QScrollArea;
 class QTableWidget;
 class QTableWidgetItem;
+
+class unittype_item: public QFrame {
+
+  Q_OBJECT
+
+  bool entered;
+  int unit_scroll;
+  QLabel label_pix;
+
+public:
+  unittype_item(QWidget *parent, unit_type *ut);
+  ~unittype_item();
+  void init_img();
+  QLabel food_upkeep;
+  QLabel gold_upkeep;
+  QLabel label_info_active;
+  QLabel label_info_inbuild;
+  QLabel label_info_unit;
+  QLabel shield_upkeep;
+  QPushButton upgrade_button;
+
+private:
+  unit_type *utype;
+
+private slots:
+  void upgrade_units();
+
+protected:
+  void enterEvent(QEvent *event);
+  void leaveEvent(QEvent *event);
+  void paintEvent(QPaintEvent *event);
+  void wheelEvent(QWheelEvent *event);
+};
+
+class units_reports: public fcwidget {
+
+  Q_DISABLE_COPY(units_reports);
+  Q_OBJECT
+
+  close_widget *cw;
+  explicit units_reports();
+  QHBoxLayout *scroll_layout;
+  QScrollArea *scroll;
+  QWidget scroll_widget;
+  static units_reports *m_instance;
+
+public:
+  ~units_reports();
+  static units_reports *instance();
+  static void drop();
+  void clear_layout();
+  void init_layout();
+  void update_units(bool show = false);
+  void add_item(unittype_item *item);
+  virtual void update_menu();
+  QHBoxLayout *layout;
+  QList<unittype_item *> unittype_list;
+
+protected:
+  void paintEvent(QPaintEvent *event);
+};
 
 /****************************************************************************
   Helper item for comboboxes, holding string of tech and its id
@@ -135,37 +197,6 @@ private slots:
   void goal_tech_changed(int index);
 };
 
-/****************************************************************************
-  Tab widget to display units report (F2)
-****************************************************************************/
-class units_report: public QWidget
-{
-  Q_OBJECT
-  QPushButton *find_button;
-  QPushButton *upgrade_button;
-  QTableWidget *units_widget;
-
-public:
-  units_report();
-  ~units_report();
-  void update_report();
-  void init();
-
-private:
-  int index;
-  int curr_row;
-  int max_row;
-  Unit_type_id uid;
-  struct unit *find_nearest_unit(const struct unit_type *utype,
-                                      struct tile *ptile);
-
-private slots:
-  void find_units();
-  void upgrade_units();
-  void selection_changed(const QItemSelection &sl,
-                         const QItemSelection &ds);
-
-};
 
 /****************************************************************************
   Tab widget to display economy report (F5)
@@ -227,5 +258,6 @@ void popdown_units_report();
 void popdown_science_report();
 void popdown_endgame_report();
 void popup_endgame_report();
+void toggle_units_report(bool);
 
 #endif /* FC__REPODLGS_H */
