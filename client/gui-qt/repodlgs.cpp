@@ -429,7 +429,7 @@ void units_reports::update_units(bool show)
   struct urd_info unit_array[utype_count()];
   struct urd_info unit_totals;
   Unit_type_id utype_id;
-  unittype_item *ui;
+  unittype_item *ui = nullptr;
 
   clear_layout();
   memset(unit_array, '\0', sizeof(unit_array));
@@ -500,7 +500,9 @@ void units_reports::update_units(bool show)
   }
   setUpdatesEnabled(true);
   setFixedWidth(qMin(total_len, gui()->mapview_wdg->width()));
-  setFixedHeight(ui->height() + 60);
+  if (ui != nullptr) {
+    setFixedHeight(ui->height() + 60);
+  }
   layout->update();
   updateGeometry();
 }
