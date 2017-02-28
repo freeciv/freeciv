@@ -1566,6 +1566,9 @@ void mr_menu::update_airlift_menu()
     act = airlift_menu->addAction(utype_name_translation(utype));
     act->setCheckable(true);
     act->setData(utype_id);
+    if (airlift_type_id == utype_id) {
+      act->setChecked(true);
+    }
     connect(act, SIGNAL(triggered()), this, SLOT(slot_quickairlift_set()));
     airlift_type->addAction(act);
   } unit_type_iterate_end;
