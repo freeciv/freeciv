@@ -402,10 +402,12 @@ void fc_client::create_network_page(void)
   network_button = new QPushButton(_("Connect"));
   page_network_grid_layout->addWidget(network_button, 5, 5, 1, 1);
   connect(network_button, SIGNAL(clicked()), this, SLOT(slot_connect()));
+  connect(connect_login_edit, SIGNAL(returnPressed()),
+          this, SLOT(slot_connect()));
   connect(connect_password_edit, SIGNAL(returnPressed()),
-          network_button, SIGNAL(clicked()));
+          this, SLOT(slot_connect()));
   connect(connect_confirm_password_edit, SIGNAL(returnPressed()),
-          network_button, SIGNAL(clicked()));
+          this, SLOT(slot_connect()));
 
   connect_lan->setLayout(page_network_lan_layout);
   connect_metaserver->setLayout(page_network_wan_layout);
