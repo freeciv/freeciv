@@ -2257,7 +2257,8 @@ bool unit_perform_action(struct player *pplayer,
     return action_performer;                                              \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
-                   NULL, target_tile, NULL, NULL,                         \
+                   target_tile ? tile_owner(target_tile) : NULL,          \
+                   target_tile, NULL, NULL,                               \
                    requester);                                            \
   }
 
