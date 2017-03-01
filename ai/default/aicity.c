@@ -282,9 +282,9 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
     CITY_LOG(LOG_WANT, pcity, "Falling back - didn't want to build soldiers,"
 	     " workers, caravans, settlers, or buildings!");
     city_data->choice.want = 1;
-    if (best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE))) {
+    if (best_role_unit(pcity, action_id_get_role(ACTION_TRADE_ROUTE))) {
       city_data->choice.value.utype
-        = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
+        = best_role_unit(pcity, action_id_get_role(ACTION_TRADE_ROUTE));
       city_data->choice.type = CT_CIVILIAN;
       adv_choice_set_use(&(city_data->choice), "fallback trade route");
     } else {

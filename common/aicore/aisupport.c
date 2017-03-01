@@ -114,7 +114,7 @@ int city_gold_worth(struct city *pcity)
 
   if (!game.scenario.prevent_new_cities) {
     u = best_role_unit_for_player(city_owner(pcity),
-                                  action_get_role(ACTION_FOUND_CITY));
+                                  action_id_get_role(ACTION_FOUND_CITY));
   }
 
   if (u != NULL) {

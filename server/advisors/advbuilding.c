@@ -65,16 +65,16 @@ static void calculate_city_clusters(struct player *pplayer)
     pcity->server.adv->downtown = 0;
   } city_list_iterate_end;
 
-  if (num_role_units(action_get_role(ACTION_HELP_WONDER)) == 0) {
+  if (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) == 0) {
     return; /* ruleset has no help wonder unit */
   }
 
   punittype = best_role_unit_for_player(pplayer,
-      action_get_role(ACTION_HELP_WONDER));
+      action_id_get_role(ACTION_HELP_WONDER));
 
   if (!punittype) {
     /* simulate future unit */
-    punittype = get_role_unit(action_get_role(ACTION_HELP_WONDER), 0);
+    punittype = get_role_unit(action_id_get_role(ACTION_HELP_WONDER), 0);
   }
 
   fc_assert_msg(utype_can_do_action(punittype, ACTION_HELP_WONDER),
@@ -205,7 +205,7 @@ void building_advisor(struct player *pplayer)
     struct city *best_candidate = NULL;
     /* Whether ruleset has a help wonder unit type */
     bool has_help =
-        (num_role_units(action_get_role(ACTION_HELP_WONDER)) > 0);
+        (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) > 0);
 
     calculate_city_clusters(pplayer);
 
@@ -232,7 +232,7 @@ void building_advisor(struct player *pplayer)
        * These may be able to help with caravans. Also look at the whole
        * continent. */
       if (first_role_unit_for_player(pplayer,
-                                     action_get_role(ACTION_HELP_WONDER))) {
+              action_id_get_role(ACTION_HELP_WONDER))) {
         value += city_data->downtown;
 
         if (place >= 0) {

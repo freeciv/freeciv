@@ -1118,7 +1118,7 @@ void request_unit_goto(enum unit_orders last_order,
         struct astring astr = ASTRING_INIT;
 
         if (role_units_translations(&astr,
-                                    action_get_role(action_id),
+                                    action_id_get_role(action_id),
                                     TRUE)) {
           /* ...but other units can perform it. */
 
