@@ -985,17 +985,16 @@ const char *action_get_tool_tip(const int action_id,
 }
 
 /**************************************************************************
-  Get the unit type role corresponding to the ability to do action.
+  Get the unit type role corresponding to the ability to do the specified
+  action.
 **************************************************************************/
-int action_get_role(int action_id)
+int action_get_role(const struct action *paction)
 {
-  fc_assert_msg(actions[action_id], "Action %d don't exist.", action_id);
-
-  fc_assert_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
+  fc_assert_msg(AAK_UNIT == action_get_actor_kind(paction),
                 "Action %s isn't performed by a unit",
-                action_id_rule_name(action_id));
+                action_rule_name(paction));
 
-  return action_id + L_LAST;
+  return paction->id + L_LAST;
 }
 
 /**************************************************************************

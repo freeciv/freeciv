@@ -1164,8 +1164,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
    * uniqueness, so we don't mention it here.) */
 
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
-      && num_role_units(action_get_role(ACTION_NUKE)) > 0) {
-    struct unit_type *u = get_role_unit(action_get_role(ACTION_NUKE), 0);
+      && num_role_units(action_id_get_role(ACTION_NUKE)) > 0) {
+    struct unit_type *u = get_role_unit(action_id_get_role(ACTION_NUKE), 0);
 
     cat_snprintf(buf, bufsz,
 		 /* TRANS: 'Allows all players with knowledge of atomic

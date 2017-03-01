@@ -365,7 +365,9 @@ bool action_would_be_blocked_by(const struct action *blocked,
   action_would_be_blocked_by(action_by_number(blocked_id),                \
                              action_by_number(blocker_id))
 
-int action_get_role(int action_id);
+int action_get_role(const struct action *paction);
+#define action_id_get_role(action_id)                                     \
+  action_get_role(action_by_number(action_id))
 
 const char *action_rule_name(const struct action *action);
 const char *action_id_rule_name(int action_id);

@@ -1300,7 +1300,7 @@ void contemplate_new_city(struct ai_type *ait, struct city *pcity)
     return;
   }
 
-  unit_type = best_role_unit(pcity, action_get_role(ACTION_FOUND_CITY));
+  unit_type = best_role_unit(pcity, action_id_get_role(ACTION_FOUND_CITY));
 
   if (unit_type == NULL) {
     log_debug("No ACTION_FOUND_CITY role unit available");

@@ -1640,7 +1640,7 @@ void illegal_action_msg(struct player *pplayer,
       struct astring astr = ASTRING_INIT;
 
       if (role_units_translations(&astr,
-                                  action_get_role(stopped_action),
+                                  action_id_get_role(stopped_action),
                                   TRUE)) {
         notify_player(pplayer, unit_tile(actor),
                       event, ftc_server,

@@ -86,7 +86,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   struct unit_type *unit_type;
   struct city *wonder_city = game_city_by_number(ai->wonder_city);
 
-  if (num_role_units(action_get_role(ACTION_HELP_WONDER)) == 0) {
+  if (num_role_units(action_id_get_role(ACTION_HELP_WONDER)) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -122,12 +122,12 @@ static void dai_choose_help_wonder(struct ai_type *ait,
     }
   } city_list_iterate_end;
 
-  unit_type = best_role_unit(pcity, action_get_role(ACTION_HELP_WONDER));
+  unit_type = best_role_unit(pcity, action_id_get_role(ACTION_HELP_WONDER));
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(action_get_role(ACTION_HELP_WONDER), 0);
+    unit_type = get_role_unit(action_id_get_role(ACTION_HELP_WONDER), 0);
   }
 
   fc_assert_msg(utype_can_do_action(unit_type, ACTION_HELP_WONDER),
@@ -152,7 +152,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
       unit_type = dai_wants_role_unit(ait, pplayer, pcity,
-                                      action_get_role(ACTION_HELP_WONDER),
+                                      action_id_get_role(ACTION_HELP_WONDER),
                                       want);
       if (unit_type != NULL) {
         choice->want = want;
@@ -202,8 +202,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     return;
   }
 
-  if (num_role_units(action_get_role(ACTION_TRADE_ROUTE)) == 0
-      && num_role_units(action_get_role(ACTION_MARKETPLACE)) == 0) {
+  if (num_role_units(action_id_get_role(ACTION_TRADE_ROUTE)) == 0
+      && num_role_units(action_id_get_role(ACTION_MARKETPLACE)) == 0) {
     /* No such units available in the ruleset */
     return;
   }
@@ -282,7 +282,8 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     return;
   }
 
-  unit_type = best_role_unit(pcity, action_get_role(ACTION_TRADE_ROUTE));
+  unit_type = best_role_unit(pcity,
+                             action_id_get_role(ACTION_TRADE_ROUTE));
 
   if (!unit_type) {
     /* Can't establish trade route yet. What about entering a marketplace? */
@@ -290,19 +291,20 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
      * prioritized above a present unit capable of entering a market place?
      * In that case this should be below the check for a future unit
      * capable of establishing a trade route. */
-    unit_type = best_role_unit(pcity, action_get_role(ACTION_MARKETPLACE));
+    unit_type = best_role_unit(pcity,
+                               action_id_get_role(ACTION_MARKETPLACE));
   }
 
   if (!unit_type) {
     /* We cannot build such units yet
      * but we will consider it to stimulate science */
-    unit_type = get_role_unit(action_get_role(ACTION_TRADE_ROUTE), 0);
+    unit_type = get_role_unit(action_id_get_role(ACTION_TRADE_ROUTE), 0);
   }
 
   if (!unit_type) {
     /* We'll never be able to establish a trade route. Consider a unit that
      * can enter the marketplace in stead to stimulate science. */
-    unit_type = get_role_unit(action_get_role(ACTION_MARKETPLACE), 0);
+    unit_type = get_role_unit(action_id_get_role(ACTION_MARKETPLACE), 0);
   }
 
   fc_assert_msg(unit_type,
@@ -426,12 +428,12 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     /* This sets our tech want in cases where we cannot actually build
      * the unit. */
     unit_type = dai_wants_role_unit(ait, pplayer, pcity,
-                                    action_get_role(ACTION_TRADE_ROUTE),
+                                    action_id_get_role(ACTION_TRADE_ROUTE),
                                     want);
 
     if (unit_type == NULL) {
       unit_type = dai_wants_role_unit(ait, pplayer, pcity,
-                                      action_get_role(ACTION_MARKETPLACE),
+                                      action_id_get_role(ACTION_MARKETPLACE),
                                       want);
     }
 
@@ -498,7 +500,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   /* Basically, copied from above and adjusted. -- jjm */
   if (!game.scenario.prevent_new_cities) {
     founder_type = best_role_unit(pcity,
-                                  action_get_role(ACTION_FOUND_CITY));
+                                  action_id_get_role(ACTION_FOUND_CITY));
 
     /* founder_want calculated in aisettlers.c */
     founder_want = city_data->founder_want;
@@ -525,7 +527,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
         CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF,
                  founder_want);
         dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                             action_get_role(ACTION_FOUND_CITY),
+                             action_id_get_role(ACTION_FOUND_CITY),
                              founder_want,
                              city_data->founder_boat);
         adv_choice_set_use(choice, "founder");
@@ -556,7 +558,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
                && (founder_want > choice->want || founder_want < -choice->want)) {
       /* Can't build founders. Lets stimulate science */
       dai_wants_role_unit(ait, pplayer, pcity,
-                          action_get_role(ACTION_FOUND_CITY),
+                          action_id_get_role(ACTION_FOUND_CITY),
                           founder_want);
     }
   }
@@ -615,7 +617,7 @@ void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer,
   }
 
   punittype = best_role_unit_for_player(pplayer,
-      action_get_role(ACTION_HELP_WONDER));
+      action_id_get_role(ACTION_HELP_WONDER));
 
   if (!punittype) {
     return;
