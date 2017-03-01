@@ -2061,48 +2061,48 @@ void handle_unit_action_query(struct connection *pc,
 
   switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
-    if (punit) {
-      if (is_action_enabled_unit_on_unit(action_type,
-                                         pactor, punit)) {
-        dsend_packet_unit_action_answer(pc,
-                                        actor_id, target_id,
-                                        unit_bribe_cost(punit, pplayer),
-                                        action_type);
-      } else {
-        illegal_action(pplayer, pactor, action_type, unit_owner(punit),
-                       NULL, NULL, punit, ACT_REQ_PLAYER);
-        unit_query_impossible(pc, actor_id, target_id);
-        return;
-      }
+    if (punit
+        && is_action_enabled_unit_on_unit(action_type,
+                                          pactor, punit)) {
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      unit_bribe_cost(punit, pplayer),
+                                      action_type);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     punit ? unit_owner(punit) : NULL,
+                     NULL, NULL, punit, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id);
+      return;
     }
     break;
   case ACTION_SPY_INCITE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         pactor, pcity)) {
-        dsend_packet_unit_action_answer(pc,
-                                        actor_id, target_id,
-                                        city_incite_cost(pplayer, pcity),
-                                        action_type);
-      } else {
-        illegal_action(pplayer, pactor, action_type, city_owner(pcity),
-                       NULL, pcity, NULL, ACT_REQ_PLAYER);
-        unit_query_impossible(pc, actor_id, target_id);
-        return;
-      }
+    if (pcity
+        && is_action_enabled_unit_on_city(action_type,
+                                          pactor, pcity)) {
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      city_incite_cost(pplayer, pcity),
+                                      action_type);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     pcity ? city_owner(pcity) : NULL,
+                     NULL, pcity, NULL, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id);
+      return;
     }
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-    if (pcity) {
-      if (is_action_enabled_unit_on_city(action_type,
-                                         pactor, pcity)) {
-        spy_send_sabotage_list(pc, pactor, pcity, action_type);
-      } else {
-        illegal_action(pplayer, pactor, action_type, city_owner(pcity),
-                       NULL, pcity, NULL, ACT_REQ_PLAYER);
-        unit_query_impossible(pc, actor_id, target_id);
-        return;
-      }
+    if (pcity
+        && is_action_enabled_unit_on_city(action_type,
+                                          pactor, pcity)) {
+      spy_send_sabotage_list(pc, pactor, pcity, action_type);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     pcity ? city_owner(pcity) : NULL,
+                     NULL, pcity, NULL, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id);
+      return;
     }
     break;
   default:
@@ -2181,108 +2181,103 @@ bool unit_perform_action(struct player *pplayer,
   }
 
 #define ACTION_STARTED_UNIT_CITY(action, actor, target, action_performer) \
-  if (pcity) {                                                            \
-    if (is_action_enabled_unit_on_city(action_type,                       \
+  if (pcity                                                               \
+      && is_action_enabled_unit_on_city(action_type,                      \
                                        actor_unit, pcity)) {              \
-      script_server_signal_emit("action_started_unit_city", 3,            \
-                                API_TYPE_ACTION, action_by_number(action),\
-                                API_TYPE_UNIT, actor,                     \
-                                API_TYPE_CITY, target);                   \
-      if (!actor || !unit_is_alive(actor_id)) {                           \
-        /* Actor unit was destroyed during pre action Lua. */             \
-        return FALSE;                                                     \
-      }                                                                   \
-      if (!target || !city_exist(target_id)) {                            \
-        /* Target city was destroyed during pre action Lua. */            \
-        return FALSE;                                                     \
-      }                                                                   \
-      return action_performer;                                            \
-    } else {                                                              \
-      illegal_action(pplayer, actor_unit, action_type,                    \
-                     city_owner(pcity), NULL, pcity, NULL,                \
-                     requester);                                          \
+    script_server_signal_emit("action_started_unit_city", 3,              \
+                              API_TYPE_ACTION, action_by_number(action),  \
+                              API_TYPE_UNIT, actor,                       \
+                              API_TYPE_CITY, target);                     \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
     }                                                                     \
+    if (!target || !city_exist(target_id)) {                              \
+      /* Target city was destroyed during pre action Lua. */              \
+      return FALSE;                                                       \
+    }                                                                     \
+    return action_performer;                                              \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   pcity ? city_owner(pcity) : NULL, NULL, pcity, NULL,   \
+                   requester);                                            \
   }
 
 #define ACTION_STARTED_UNIT_SELF(action, actor, action_performer)         \
-  if (actor_unit) {                                                       \
-    if (is_action_enabled_unit_on_self(action_type, actor_unit)) {        \
-      script_server_signal_emit("action_started_unit_self", 2,            \
-                                API_TYPE_ACTION, action_by_number(action),\
-                                API_TYPE_UNIT, actor);                    \
-      if (!actor || !unit_is_alive(actor_id)) {                           \
-        /* Actor unit was destroyed during pre action Lua. */             \
-        return FALSE;                                                     \
-      }                                                                   \
-      return action_performer;                                            \
-    } else {                                                              \
-      illegal_action(pplayer, actor_unit, action_type,                    \
-                     unit_owner(actor_unit), NULL, NULL, actor_unit,      \
-                     requester);                                          \
+  if (actor_unit                                                          \
+      && is_action_enabled_unit_on_self(action_type, actor_unit)) {       \
+    script_server_signal_emit("action_started_unit_self", 2,              \
+                              API_TYPE_ACTION, action_by_number(action),  \
+                              API_TYPE_UNIT, actor);                      \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
     }                                                                     \
+    return action_performer;                                              \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   unit_owner(actor_unit), NULL, NULL, actor_unit,        \
+                   requester);                                            \
   }
 
 #define ACTION_STARTED_UNIT_UNIT(action, actor, target, action_performer) \
-  if (punit) {                                                            \
-    if (is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) { \
-      script_server_signal_emit("action_started_unit_unit", 3,            \
-                                API_TYPE_ACTION, action_by_number(action),\
-                                API_TYPE_UNIT, actor,                     \
-                                API_TYPE_UNIT, target);                   \
-      if (!actor || !unit_is_alive(actor_id)) {                           \
-        /* Actor unit was destroyed during pre action Lua. */             \
-        return FALSE;                                                     \
-      }                                                                   \
-      if (!target || !unit_is_alive(target_id)) {                         \
-        /* Target unit was destroyed during pre action Lua. */            \
-        return FALSE;                                                     \
-      }                                                                   \
-      return action_performer;                                            \
-    } else {                                                              \
-      illegal_action(pplayer, actor_unit, action_type,                    \
-                     unit_owner(punit), NULL, NULL, punit,                \
-                     requester);                                          \
+  if (punit                                                               \
+      && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
+    script_server_signal_emit("action_started_unit_unit", 3,              \
+                              API_TYPE_ACTION, action_by_number(action),  \
+                              API_TYPE_UNIT, actor,                       \
+                              API_TYPE_UNIT, target);                     \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
     }                                                                     \
+    if (!target || !unit_is_alive(target_id)) {                           \
+      /* Target unit was destroyed during pre action Lua. */              \
+      return FALSE;                                                       \
+    }                                                                     \
+    return action_performer;                                              \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   punit ? unit_owner(punit) : NULL, NULL, NULL, punit,   \
+                   requester);                                            \
   }
 
 #define ACTION_STARTED_UNIT_UNITS(action, actor, target, action_performer)\
-  if (target_tile) {                                                      \
-    if (is_action_enabled_unit_on_units(action_type,                      \
-                                        actor_unit, target_tile)) {       \
-      script_server_signal_emit("action_started_unit_units", 3,           \
-                                API_TYPE_ACTION, action_by_number(action),\
-                                API_TYPE_UNIT, actor,                     \
-                                API_TYPE_TILE, target);                   \
-      if (!actor || !unit_is_alive(actor_id)) {                           \
-        /* Actor unit was destroyed during pre action Lua. */             \
-        return FALSE;                                                     \
-      }                                                                   \
-      return action_performer;                                            \
-    } else {                                                              \
-      illegal_action(pplayer, actor_unit, action_type,                    \
-                     NULL, target_tile, NULL, NULL,                       \
-                     requester);                                          \
+  if (target_tile                                                         \
+      && is_action_enabled_unit_on_units(action_type,                     \
+                                         actor_unit, target_tile)) {      \
+    script_server_signal_emit("action_started_unit_units", 3,             \
+                              API_TYPE_ACTION, action_by_number(action),  \
+                              API_TYPE_UNIT, actor,                       \
+                              API_TYPE_TILE, target);                     \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
     }                                                                     \
+    return action_performer;                                              \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   NULL, target_tile, NULL, NULL,                         \
+                   requester);                                            \
   }
 
 #define ACTION_STARTED_UNIT_TILE(action, actor, target, action_performer) \
-  if (target_tile) {                                                      \
-    if (is_action_enabled_unit_on_tile(action_type,                       \
-                                       actor_unit, target_tile)) {        \
-      script_server_signal_emit("action_started_unit_tile", 3,            \
-                                API_TYPE_ACTION, action_by_number(action),\
-                                API_TYPE_UNIT, actor,                     \
-                                API_TYPE_TILE, target);                   \
-      if (!actor || !unit_is_alive(actor_id)) {                           \
-        /* Actor unit was destroyed during pre action Lua. */             \
-        return FALSE;                                                     \
-      }                                                                   \
-      return action_performer;                                            \
-    } else {                                                              \
-      illegal_action(pplayer, actor_unit, action_type,                    \
-                     NULL, target_tile, NULL, NULL,                       \
-                     requester);                                          \
+  if (target_tile                                                         \
+      && is_action_enabled_unit_on_tile(action_type,                      \
+                                        actor_unit, target_tile)) {       \
+    script_server_signal_emit("action_started_unit_tile", 3,              \
+                              API_TYPE_ACTION, action_by_number(action),  \
+                              API_TYPE_UNIT, actor,                       \
+                              API_TYPE_TILE, target);                     \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
     }                                                                     \
+    return action_performer;                                              \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   NULL, target_tile, NULL, NULL,                         \
+                   requester);                                            \
   }
 
   switch(action_type) {
