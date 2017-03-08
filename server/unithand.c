@@ -821,7 +821,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   int action_custom;
 
   if (action_id != ACTION_ANY) {
-    /* A specific action should have a suiting target. */
+    /* A specific action should have a suitable target. */
     switch (action_id_get_target_kind(action_id)) {
     case ATK_CITY:
       if (target_city == NULL) {
