@@ -498,6 +498,29 @@ static bool do_heal_unit(struct player *act_player,
 }
 
 /**************************************************************************
+  Returns TRUE iff the player is able to change his diplomatic
+  relationship to the other player to war.
+
+  Note that the player can't declare war on someone he already is at war
+  with.
+**************************************************************************/
+static bool rel_may_become_war(const struct player *pplayer,
+                               const struct player *oplayer)
+{
+  enum diplstate_type ds;
+
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(oplayer, FALSE);
+
+  ds = player_diplstate_get(pplayer, oplayer)->type;
+
+  /* The player can't declare war on someone he already is at war with. */
+  return ds != DS_WAR
+      /* The player can't declare war on a teammate or on himself. */
+      && ds != DS_TEAM && pplayer != oplayer;
+}
+
+/**************************************************************************
   Returns the first player that may enable the specified action if war is
   declared.
 
@@ -535,14 +558,12 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       struct unit *tunit;
 
       if ((tcity = tile_city(target_tile))
-          && player_diplstate_get(unit_owner(actor),
-                                  city_owner(tcity))->type != DS_WAR) {
+          && rel_may_become_war(unit_owner(actor), city_owner(tcity))) {
         return city_owner(tcity);
       }
 
       if ((tunit = is_non_attack_unit_tile(target_tile, unit_owner(actor)))
-          && player_diplstate_get(unit_owner(actor),
-                                  unit_owner(tunit))->type != DS_WAR) {
+          && rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
         return unit_owner(tunit);
       }
     }
@@ -554,7 +575,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
 
       if (target_tile
           && (tunit = is_non_attack_unit_tile(target_tile,
-                                              unit_owner(actor)))) {
+                                              unit_owner(actor)))
+          && rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
         return unit_owner(tunit);
       }
     }
@@ -609,8 +631,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       return NULL;
     }
 
-    if (player_diplstate_get(unit_owner(actor),
-                             city_owner(target_city))->type != DS_WAR) {
+    if (rel_may_become_war(unit_owner(actor), city_owner(target_city))) {
       return city_owner(target_city);
     }
     break;
@@ -620,8 +641,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       return NULL;
     }
 
-    if (player_diplstate_get(unit_owner(actor),
-                             unit_owner(target_unit))->type != DS_WAR) {
+    if (rel_may_become_war(unit_owner(actor), unit_owner(target_unit))) {
       return unit_owner(target_unit);
     }
     break;
@@ -632,8 +652,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
 
     unit_list_iterate(target_tile->units, tunit) {
-      if (player_diplstate_get(unit_owner(actor),
-                               unit_owner(tunit))->type != DS_WAR) {
+      if (rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
         return unit_owner(tunit);
       }
     } unit_list_iterate_end;
@@ -644,8 +663,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       return NULL;
     }
 
-    if (player_diplstate_get(unit_owner(actor),
-                             tile_owner(target_tile))->type != DS_WAR) {
+    if (rel_may_become_war(unit_owner(actor), tile_owner(target_tile))) {
       return tile_owner(target_tile);
     }
     break;
