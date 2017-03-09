@@ -3609,13 +3609,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * it still looks like a target since move_do_not_act isn't set.
        * Assume that the intention is to do an action. */
 
-      struct unit *tunit = action_tgt_unit(punit, pdesttile, can_not_move);
-      struct city *tcity = action_tgt_city(punit, pdesttile, can_not_move);
-
-      /* If a tcity or a tunit exists it must be possible to act against it
-       * since action_tgt_city() or action_tgt_unit() wouldn't have
-       * targeted it otherwise. */
-      if (tcity || tunit
+      if (action_tgt_unit(punit, pdesttile, can_not_move)
+          || action_tgt_city(punit, pdesttile, can_not_move)
           || action_tgt_tile_units(punit, pdesttile, can_not_move)
           || ttile) {
         if (is_ai(pplayer)) {
