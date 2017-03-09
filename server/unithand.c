@@ -3613,10 +3613,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           || action_tgt_city(punit, pdesttile, can_not_move)
           || action_tgt_tile_units(punit, pdesttile, can_not_move)
           || ttile) {
-        if (is_ai(pplayer)) {
-          return FALSE;
-        }
-
         punit->action_decision_want = ACT_DEC_ACTIVE;
         punit->action_decision_tile = pdesttile;
 
