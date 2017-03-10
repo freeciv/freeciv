@@ -3596,8 +3596,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * For tiles occupied by allied cities or units, keep moving if
    * move_do_not_act tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
-  if (!move_do_not_act
-      && utype_may_act_at_all(unit_type_get(punit))) {
+  if (!move_do_not_act) {
     const bool can_not_move = !unit_can_move_to_tile(punit, pdesttile,
                                                      igzoc, FALSE);
     struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
