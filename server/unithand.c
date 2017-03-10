@@ -569,19 +569,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
     break;
 
-  case ACTION_CONQUER_CITY:
-    {
-      struct unit *tunit;
-
-      if (target_tile
-          && (tunit = is_non_attack_unit_tile(target_tile,
-                                              unit_owner(actor)))
-          && rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
-        return unit_owner(tunit);
-      }
-    }
-    break;
-
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_SPY_POISON:
@@ -610,6 +597,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_PARADROP:
   case ACTION_AIRLIFT:
   case ACTION_HEAL_UNIT:
+  case ACTION_CONQUER_CITY:
     /* No special help. */
     break;
   case ACTION_COUNT:
