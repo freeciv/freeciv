@@ -85,6 +85,7 @@ position islands for all players.\n\
   - webperimental's bombardment can target unit stacks 3 tiles away.\n\
   - webperimental's bombardment doesn't replace regular attack.\n\
 - The Battleship is weak against Bomber planes.\n\
+- Moving from a ship to the beach doesn't spend all movement points.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \
@@ -233,7 +234,7 @@ total_factor = 100
 ;  TRUE  - (default) slow invasions by removing all
 ;          movement points from ground units moving
 ;          from ocean tile to land
-slow_invasions = TRUE
+slow_invasions = FALSE
 
 [combat_rules]
 ; If tired_attack is set to TRUE, units that attack with less than a single
