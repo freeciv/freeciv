@@ -24,23 +24,6 @@
 #include "traderoutes.h"
 
 /**************************************************************************
-  An AND function for fc_tristate.
-**************************************************************************/
-enum fc_tristate tri_and(enum fc_tristate one,
-                         enum fc_tristate two)
-{
-  if (TRI_NO == one || TRI_NO == two) {
-    return TRI_NO;
-  }
-
-  if (TRI_MAYBE == one || TRI_MAYBE == two) {
-    return TRI_MAYBE;
-  }
-
-  return TRI_YES;
-}
-
-/**************************************************************************
   Returns TRUE iff the target_tile it self and all tiles cardinally
   adjacent to it are seen by pow_player.
 **************************************************************************/

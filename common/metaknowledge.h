@@ -21,9 +21,6 @@
 extern "C" {
 #endif /* __cplusplus */
 
-enum fc_tristate tri_and(enum fc_tristate one,
-                         enum fc_tristate two);
-
 enum fc_tristate
 mke_eval_req(const struct player *pow_player,
              const struct player *target_player,
