@@ -117,6 +117,22 @@ static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb);
 
 
+/***************************************************************************
+  An AND function for fc_tristate.
+***************************************************************************/
+enum fc_tristate fc_tristate_and(enum fc_tristate one, enum fc_tristate two)
+{
+  if (TRI_NO == one || TRI_NO == two) {
+    return TRI_NO;
+  }
+
+  if (TRI_MAYBE == one || TRI_MAYBE == two) {
+    return TRI_MAYBE;
+  }
+
+  return TRI_YES;
+}
+
 /***************************************************************
   Take a string containing multiple lines and create a copy where
   each line is padded to the length of the longest line and centered.

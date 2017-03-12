@@ -46,6 +46,9 @@ extern "C" {
 enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 #define BOOL_TO_TRISTATE(tri) ((tri) ? TRI_YES : TRI_NO)
 
+enum fc_tristate fc_tristate_and(enum fc_tristate one,
+                                 enum fc_tristate two);
+
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))
 #define MIN(x,y) (((x)<(y))?(x):(y))
