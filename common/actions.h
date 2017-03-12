@@ -265,7 +265,7 @@ struct action_auto_perf
   struct requirement_vector reqs;
 
   /* Auto perform the first legal action in this list.
-   * The list is terminated by ACTION_COUNT. */
+   * The list is terminated by ACTION_NONE. */
   enum gen_action alternatives[ACTION_COUNT];
 };
 
@@ -301,7 +301,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
   for (_perf_pos_ = 0; _perf_pos_ < ACTION_COUNT; _perf_pos_++) {         \
     const int _act_id_ = _autoperf_->alternatives[_perf_pos_];            \
                                                                           \
-    if (_act_id_ == ACTION_COUNT) {                                       \
+    if (_act_id_ == ACTION_NONE) {                                        \
       /* No more alternative actions. */                                  \
       break;                                                              \
     }
