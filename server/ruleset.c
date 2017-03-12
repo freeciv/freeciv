@@ -7509,8 +7509,8 @@ static void send_ruleset_action_auto_performers(struct conn_list *dest)
     for (counter = 0;
          /* Can't list more actions than all actions. */
          counter < ACTION_COUNT
-         /* ACTION_COUNT terminates the list. */
-         && aperf->alternatives[counter] != ACTION_COUNT;
+         /* ACTION_NONE terminates the list. */
+         && aperf->alternatives[counter] != ACTION_NONE;
          counter++) {
       packet.alternatives[counter] = aperf->alternatives[counter];
     }

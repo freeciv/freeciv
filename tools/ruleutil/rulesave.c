@@ -571,7 +571,7 @@ static bool save_action_auto_actions(struct section_file *sfile,
 
   i = 0;
   for (i = 0;
-       i < ACTION_COUNT && auto_perf->alternatives[i] != ACTION_COUNT;
+       i < ACTION_COUNT && auto_perf->alternatives[i] != ACTION_NONE;
        i++) {
     unit_acts[i] = auto_perf->alternatives[i];
   }

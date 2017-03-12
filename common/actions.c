@@ -514,7 +514,7 @@ void actions_init(void)
 
     for (j = 0; j < ACTION_COUNT; j++) {
       /* Nothing here. Nothing after this point. */
-      auto_perfs[i].alternatives[j] = ACTION_COUNT;
+      auto_perfs[i].alternatives[j] = ACTION_NONE;
     }
   }
 
