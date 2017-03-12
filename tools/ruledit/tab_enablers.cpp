@@ -210,7 +210,7 @@ void tab_enabler::add_now()
   // Try to add completely new enabler
   new_enabler = action_enabler_new();
 
-  new_enabler->action = ACTION_MARKETPLACE;
+  new_enabler->action = (enum gen_action)(ACTION_COUNT - 1);
 
   action_enabler_add(new_enabler);
 
