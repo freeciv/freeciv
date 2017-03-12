@@ -118,6 +118,22 @@ static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
 
 static char *expand_dir(char *tok_in, bool ok_to_free);
 
+/***************************************************************************
+  An AND function for fc_tristate.
+***************************************************************************/
+enum fc_tristate fc_tristate_and(enum fc_tristate one, enum fc_tristate two)
+{
+  if (TRI_NO == one || TRI_NO == two) {
+    return TRI_NO;
+  }
+
+  if (TRI_MAYBE == one || TRI_MAYBE == two) {
+    return TRI_MAYBE;
+  }
+
+  return TRI_YES;
+}
+
 /***************************************************************
   Returns a statically allocated string containing a nicely-formatted
   version of the given number according to the user's locale.  (Only

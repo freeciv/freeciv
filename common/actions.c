@@ -2559,18 +2559,20 @@ action_enabled_local(const enum gen_action wanted_action,
   result = TRI_NO;
   action_enabler_list_iterate(action_enablers_for_action(wanted_action),
                               enabler) {
-    current = tri_and(mke_eval_reqs(actor_player, actor_player,
-                                    target_player, actor_city,
-                                    actor_building, actor_tile,
-                                    actor_unit, actor_output,
-                                    actor_specialist,
-                                    &enabler->actor_reqs, RPT_CERTAIN),
-                      mke_eval_reqs(actor_player, target_player,
-                                    actor_player, target_city,
-                                    target_building, target_tile,
-                                    target_unit, target_output,
-                                    target_specialist,
-                                    &enabler->target_reqs, RPT_CERTAIN));
+    current = fc_tristate_and(mke_eval_reqs(actor_player, actor_player,
+                                            target_player, actor_city,
+                                            actor_building, actor_tile,
+                                            actor_unit, actor_output,
+                                            actor_specialist,
+                                            &enabler->actor_reqs,
+                                            RPT_CERTAIN),
+                              mke_eval_reqs(actor_player, target_player,
+                                            actor_player, target_city,
+                                            target_building, target_tile,
+                                            target_unit, target_output,
+                                            target_specialist,
+                                            &enabler->target_reqs,
+                                            RPT_CERTAIN));
     if (current == TRI_YES) {
       return TRI_YES;
     } else if (current == TRI_MAYBE) {
@@ -2842,16 +2844,18 @@ action_prob(const enum gen_action wanted_action,
 
   chance = ACTPROB_NOT_IMPLEMENTED;
 
-  known = tri_and(known,
-                  action_enabled_local(wanted_action,
-                                       actor_player, actor_city,
-                                       actor_building, actor_tile,
-                                       actor_unit,
-                                       actor_output, actor_specialist,
-                                       target_player, target_city,
-                                       target_building, target_tile,
-                                       target_unit,
-                                       target_output, target_specialist));
+  known = fc_tristate_and(known,
+                          action_enabled_local(wanted_action,
+                                               actor_player, actor_city,
+                                               actor_building, actor_tile,
+                                               actor_unit,
+                                               actor_output,
+                                               actor_specialist,
+                                               target_player, target_city,
+                                               target_building, target_tile,
+                                               target_unit,
+                                               target_output,
+                                               target_specialist));
 
   switch (wanted_action) {
   case ACTION_SPY_POISON:
@@ -2885,16 +2889,18 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_SPY_STEAL_TECH:
     /* Do the victim have anything worth taking? */
-    known = tri_and(known,
-                    tech_can_be_stolen(actor_player, target_player));
+    known = fc_tristate_and(known,
+                            tech_can_be_stolen(actor_player,
+                                               target_player));
 
     /* TODO: Calculate actual chance */
 
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     /* Do the victim have anything worth taking? */
-    known = tri_and(known,
-                    tech_can_be_stolen(actor_player, target_player));
+    known = fc_tristate_and(known,
+                            tech_can_be_stolen(actor_player,
+                                               target_player));
 
     /* TODO: Calculate actual chance */
 
