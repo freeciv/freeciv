@@ -1858,6 +1858,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_HELP_WONDER:
+  case ACTION_RECYCLE_UNIT:
     /* It is only possible to help the production if the production needs
      * the help. (If not it would be possible to add shields for something
      * that can't legally receive help if it is build later) */
@@ -1873,13 +1874,6 @@ is_action_possible(const enum gen_action wanted_action,
           < city_production_build_shield_cost(target_city))) {
       return TRI_NO;
     }
-
-    break;
-
-  case ACTION_RECYCLE_UNIT:
-    /* FIXME: The next item may be forbidden from receiving help. But
-     * forbidding the player from recycling a unit because the production
-     * has enough, like Help Wonder does, would be a rule change. */
 
     break;
 
