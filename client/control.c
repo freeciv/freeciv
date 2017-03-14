@@ -1102,7 +1102,7 @@ void request_unit_goto(enum unit_orders last_order,
 
   if (last_order == ORDER_PERFORM_ACTION) {
     /* An action has been specified. */
-    fc_assert_ret(action_id_is_valid(action_id));
+    fc_assert_ret(action_id_exists(action_id));
 
     /* The order system doesn't support actions that can be done to a
      * target that isn't at or next to the actor unit's tile.

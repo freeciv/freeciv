@@ -324,7 +324,7 @@ void actions_free(void);
 
 bool actions_are_ready(void);
 
-bool action_id_is_valid(const int action_id);
+bool action_id_exists(const int action_id);
 
 struct action *action_by_number(int action_id);
 struct action *action_by_rule_name(const char *name);

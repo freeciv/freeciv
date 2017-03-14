@@ -143,9 +143,9 @@ static void oblig_hard_req_register(struct requirement contradiction,
   va_start(args, error_message);
 
   while (ACTION_NONE != (act = va_arg(args, enum gen_action))) {
-    /* The only expected invalid action id is ACTION_NONE and it should
-     * terminate the loop before this assertion. */
-    fc_assert_ret_msg(action_id_is_valid(act), "Invalid action id %d", act);
+    /* Any invalid action result should terminate the loop before this
+     * assertion. */
+    fc_assert_ret_msg(gen_action_is_valid(act), "Invalid action id %d", act);
 
     obligatory_req_vector_append(&obligatory_hard_reqs[act], oreq);
   }
@@ -637,9 +637,10 @@ static struct action *action_new(enum gen_action id,
 /**************************************************************************
   Returns TRUE iff the specified action ID refers to a valid action.
 **************************************************************************/
-bool action_id_is_valid(const int action_id)
+bool action_id_exists(const int action_id)
 {
-  return gen_action_is_valid(action_id);
+  /* Actions are still hard coded. */
+  return gen_action_is_valid(action_id) && actions[action_id];
 }
 
 /**************************************************************************
@@ -649,7 +650,7 @@ bool action_id_is_valid(const int action_id)
 **************************************************************************/
 struct action *action_by_number(int action_id)
 {
-  if (!action_id_is_valid(action_id)) {
+  if (!action_id_exists(action_id)) {
     /* Nothing to return. */
 
     log_verbose("Asked for non existing action numbered %d", action_id);
@@ -672,7 +673,7 @@ struct action *action_by_rule_name(const char *name)
   /* Actions are still hard coded in the gen_action enum. */
   int action_id = gen_action_by_name(name, fc_strcasecmp);
 
-  if (!action_id_is_valid(action_id)) {
+  if (!action_id_exists(action_id)) {
     /* Nothing to return. */
 
     log_verbose("Asked for non existing action named %s", name);
@@ -747,8 +748,7 @@ bool action_requires_details(int action_id)
 **************************************************************************/
 bool action_id_is_rare_pop_up(int action_id)
 {
-  fc_assert_ret_val_msg((action_id_is_valid(action_id)
-                         && actions[action_id]),
+  fc_assert_ret_val_msg((action_id_exists(action_id)),
                         FALSE, "Action %d don't exist.", action_id);
 
   return actions[action_id]->rare_pop_up;
@@ -868,7 +868,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
     fc_assert(action_prob_not_relevant(prob));
 
     /* but the action should be valid */
-    fc_assert_ret_val_msg(action_id_is_valid(action_id),
+    fc_assert_ret_val_msg(action_id_exists(action_id),
                           "Invalid action",
                           "Invalid action %d", action_id);
 
@@ -1040,7 +1040,7 @@ void action_enabler_add(struct action_enabler *enabler)
   /* Sanity check: a non existing action enabler can't be added. */
   fc_assert_ret(enabler);
   /* Sanity check: a non existing action doesn't have enablers. */
-  fc_assert_ret(action_id_is_valid(enabler->action));
+  fc_assert_ret(action_id_exists(enabler->action));
 
   action_enabler_list_append(
         action_enablers_for_action(enabler->action),
@@ -1057,7 +1057,7 @@ bool action_enabler_remove(struct action_enabler *enabler)
   /* Sanity check: a non existing action enabler can't be removed. */
   fc_assert_ret_val(enabler, FALSE);
   /* Sanity check: a non existing action doesn't have enablers. */
-  fc_assert_ret_val(action_id_is_valid(enabler->action), FALSE);
+  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
 
   return action_enabler_list_remove(
         action_enablers_for_action(enabler->action),
@@ -1071,7 +1071,7 @@ struct action_enabler_list *
 action_enablers_for_action(enum gen_action action)
 {
   /* Sanity check: a non existing action doesn't have enablers. */
-  fc_assert_ret_val(action_id_is_valid(action), NULL);
+  fc_assert_ret_val(action_id_exists(action), NULL);
 
   return action_enablers_by_action[action];
 }
@@ -1098,7 +1098,7 @@ action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret_val(action_id_is_valid(enabler->action), NULL);
+  fc_assert_ret_val(action_id_exists(enabler->action), NULL);
 
   obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
                                 obreq) {
@@ -1135,7 +1135,7 @@ void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret(action_id_is_valid(enabler->action));
+  fc_assert_ret(action_id_exists(enabler->action));
 
   obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
                                 obreq) {
@@ -2132,7 +2132,7 @@ is_action_possible(const enum gen_action wanted_action,
     /* No known hard coded requirements. */
     break;
   case ACTION_COUNT:
-    fc_assert(action_id_is_valid(wanted_action));
+    fc_assert(action_id_exists(wanted_action));
     break;
   }
 
@@ -3708,7 +3708,7 @@ bool action_maybe_possible_actor_unit(const int action_id,
 bool action_mp_full_makes_legal(const struct unit *actor,
                                 const int action_id)
 {
-  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+  fc_assert(action_id_exists(action_id) || action_id == ACTION_ANY);
 
   /* Check if full movement points may enable the specified action. */
   return !utype_may_act_move_frags(unit_type_get(actor),

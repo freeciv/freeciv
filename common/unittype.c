@@ -611,7 +611,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
 {
   struct range *ml_range;
 
-  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+  fc_assert(action_id_exists(action_id) || action_id == ACTION_ANY);
 
   if (!utype_may_act_at_all(punit_type)) {
     /* Not an actor unit. */

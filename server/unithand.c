@@ -731,7 +731,7 @@ static bool does_terrain_block_action(const int action_id,
   }
 
   /* ACTION_ANY is handled above. */
-  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+  fc_assert_ret_val(action_id_exists(action_id), FALSE);
 
   action_enabler_list_iterate(action_enablers_for_action(action_id),
                               enabler) {
@@ -773,7 +773,7 @@ static bool does_nation_block_action(const int action_id,
   }
 
   /* ACTION_ANY is handled above. */
-  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+  fc_assert_ret_val(action_id_exists(action_id), FALSE);
 
   action_enabler_list_iterate(action_enablers_for_action(action_id),
                               enabler) {
@@ -1046,7 +1046,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                              CITYT_CLAIMED,
                                              FALSE)) {
     explnat->kind = ANEK_TGT_IS_UNCLAIMED;
-  } else if (action_id_is_valid(action_id) && punit
+  } else if (action_id_exists(action_id) && punit
              && ((target_tile
                   && !action_id_distance_inside_max(action_id,
                       real_map_distance(unit_tile(punit), target_tile)))
@@ -1065,7 +1065,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                 > unit_type_get(punit)->paratroopers_range) {
     explnat->kind = ANEK_DISTANCE_FAR;
     explnat->distance = unit_type_get(punit)->paratroopers_range;
-  } else if (action_id_is_valid(action_id) && punit
+  } else if (action_id_exists(action_id) && punit
              && ((target_tile
                   && real_map_distance(unit_tile(punit), target_tile)
                       < action_by_number(action_id)->min_distance)
@@ -1155,7 +1155,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     /* Please add a check for any new action forbidding scenario setting
      * above this comment. */
     explnat->kind = ANEK_SCENARIO_DISABLED;
-  } else if (action_id_is_valid(action_id)
+  } else if (action_id_exists(action_id)
              && (blocker = action_is_blocked_by(action_id, punit,
                                                 target_tile, target_city,
                                                 target_unit))) {
@@ -2040,7 +2040,7 @@ void handle_unit_action_query(struct connection *pc,
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (!action_id_is_valid(action_type)) {
+  if (!action_id_exists(action_type)) {
     /* Non existing action */
     log_error("handle_unit_action_query() the action %d doesn't exist.",
               action_type);
@@ -2156,7 +2156,7 @@ bool unit_perform_action(struct player *pplayer,
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (!action_id_is_valid(action_type)) {
+  if (!action_id_exists(action_type)) {
     /* Non existing action */
     log_error("unit_perform_action() the action %d doesn't exist.",
               action_type);
@@ -4539,7 +4539,7 @@ void handle_unit_orders(struct player *pplayer,
 
       break;
     case ORDER_PERFORM_ACTION:
-      if (!action_id_is_valid(packet->action[i])) {
+      if (!action_id_exists(packet->action[i])) {
         /* Non existing action */
         log_error("handle_unit_orders() the action %d doesn't exist. "
                   "Sent in order number %d from %s to unit number %d.",
