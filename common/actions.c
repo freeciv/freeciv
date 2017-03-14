@@ -430,7 +430,7 @@ static void hard_code_actions(void)
                  FALSE, FALSE, TRUE, TRUE,
                  /* Illegal to perform to a target on another tile to
                   * keep the rules exactly as they were for now. */
-                 0, 0);
+                 0, 1);
   actions[ACTION_DISBAND_UNIT] =
       action_new(ACTION_DISBAND_UNIT, ATK_SELF,
                  FALSE, FALSE, TRUE, TRUE,
