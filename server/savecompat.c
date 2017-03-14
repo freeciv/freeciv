@@ -1802,7 +1802,7 @@ enum barbarian_type barb_type_convert(int old_type)
 
 /**************************************************************************
   Returns the action id corresponding to the specified order id. If no
-  corresponding action is found ACTION_COUNT is returned.
+  corresponding action is found ACTION_NONE is returned.
 
   Relevant tile content information must be loaded before this function is
   called. Tile content information is relevant if it determines what action
@@ -1855,5 +1855,5 @@ int sg_order_to_action(int order, struct unit *act_unit,
   }
 
   /* The order hasn't been replaced by an action. */
-  return ACTION_COUNT;
+  return ACTION_NONE;
 }

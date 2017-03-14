@@ -4651,9 +4651,9 @@ void handle_unit_orders(struct player *pplayer,
         break;
       /* Invalid action. Should have been caught above. */
       case ACTION_COUNT:
-        fc_assert_ret_msg(packet->action[i] != ACTION_COUNT,
-                          "ACTION_COUNT in order number %d from %s to "
-                          "unit number %d.",
+        fc_assert_ret_msg(packet->action[i] != ACTION_NONE,
+                          "ACTION_NONE in ORDER_PERFORM_ACTION order. "
+                          "Order number %d from %s to unit number %d.",
                           i, player_name(pplayer), packet->unit_id);
       }
 

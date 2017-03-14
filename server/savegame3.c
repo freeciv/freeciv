@@ -5426,12 +5426,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
                          ||
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
                          action_unitstr[j] == '?'
-                         ? ACTION_COUNT
+                         ? ACTION_NONE
                          : char2num(action_unitstr[j]));
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
         if (order->order != ORDER_PERFORM_ACTION
-            && order->action == ACTION_COUNT) {
+            && order->action == ACTION_NONE) {
           /* This order may have been replaced by the perform action
            * order */
 
@@ -5439,7 +5439,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           order->action = sg_order_to_action(order->order, punit,
                                              punit->goto_tile);
 
-          if (order->action != ACTION_COUNT) {
+          if (order->action != ACTION_NONE) {
             /* The order should be upgraded. */
             order->order = ORDER_PERFORM_ACTION;
           }

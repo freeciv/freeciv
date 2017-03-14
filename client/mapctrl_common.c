@@ -490,7 +490,7 @@ void release_goto_button(int canvas_x, int canvas_y)
     do_unit_goto(ptile);
     set_hover_state(NULL, HOVER_NONE,
                     ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
+                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
     update_unit_info_label(get_units_in_focus());
   }
   keyboardless_goto_active = FALSE;
@@ -510,7 +510,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
       && !same_pos(keyboardless_goto_start_tile, ptile)
       && can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;
-    request_unit_goto(ORDER_LAST, ACTION_COUNT, EXTRA_NONE);
+    request_unit_goto(ORDER_LAST, ACTION_NONE, EXTRA_NONE);
   }
 }
 
