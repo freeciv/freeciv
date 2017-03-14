@@ -1758,7 +1758,7 @@ PACKET_RULESET_ACTION_AUTO = 252; sc, lsend
   REQUIREMENT       reqs[MAX_NUM_REQS:reqs_count];
 
   UINT8             alternatives_count;
-  GEN_ACTION        alternatives[ACTION_COUNT:alternatives_count];
+  GEN_ACTION        alternatives[MAX_NUM_ACTIONS:alternatives_count];
 end
 
 PACKET_RULESET_MUSIC = 240; sc, lsend

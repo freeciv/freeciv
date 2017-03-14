@@ -123,6 +123,10 @@ extern "C" {
 /* Used to signal the absence of any actions. */
 #define ACTION_NONE ACTION_COUNT
 
+/* Used in the network protocol. */
+#define MAX_NUM_ACTIONS ACTION_COUNT
+#define NUM_ACTIONS MAX_NUM_ACTIONS
+
 /* Who ordered the action to be performed? */
 #define SPECENUM_NAME action_requester
 /* The player ordered it directly. */
@@ -212,10 +216,10 @@ struct action_enabler
   TYPED_LIST_ITERATE(struct action_enabler, action_enabler_list, aenabler)
 #define action_enabler_list_iterate_end LIST_ITERATE_END
 
-#define action_iterate(_act_)                          \
-{                                                      \
-  int _act_;                                           \
-  for (_act_ = 0; _act_ < ACTION_COUNT; _act_++) {
+#define action_iterate(_act_)                                             \
+{                                                                         \
+  int _act_;                                                              \
+  for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {
 
 #define action_iterate_end                             \
   }                                                    \
@@ -266,7 +270,7 @@ struct action_auto_perf
 
   /* Auto perform the first legal action in this list.
    * The list is terminated by ACTION_NONE. */
-  enum gen_action alternatives[ACTION_COUNT];
+  enum gen_action alternatives[MAX_NUM_ACTIONS];
 };
 
 #define action_auto_perf_iterate(_act_perf_)                              \
@@ -298,7 +302,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 {                                                                         \
   int _perf_pos_;                                                         \
                                                                           \
-  for (_perf_pos_ = 0; _perf_pos_ < ACTION_COUNT; _perf_pos_++) {         \
+  for (_perf_pos_ = 0; _perf_pos_ < NUM_ACTIONS; _perf_pos_++) {          \
     const int _act_id_ = _autoperf_->alternatives[_perf_pos_];            \
                                                                           \
     if (_act_id_ == ACTION_NONE) {                                        \

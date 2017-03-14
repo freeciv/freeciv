@@ -512,7 +512,7 @@ void actions_init(void)
     /* The criteria to pick *this* auto performer for its cause. */
     requirement_vector_init(&auto_perfs[i].reqs);
 
-    for (j = 0; j < ACTION_COUNT; j++) {
+    for (j = 0; j < MAX_NUM_ACTIONS; j++) {
       /* Nothing here. Nothing after this point. */
       auto_perfs[i].alternatives[j] = ACTION_NONE;
     }
