@@ -260,7 +260,7 @@ Actions done by a unit against a city
  * UI name can be set using ui_name_recycle_unit
  * actor must be aware that the target exists
  * "Help Wonder" must be impossible
- * actor must be on the same tile as the target
+ * actor must be on the same tile as the target or on the tile next to it.
  * target city must need the extra shields to complete its production.
 
 "Join City" - Add the actor to the target city's population.
