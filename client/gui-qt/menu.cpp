@@ -2674,7 +2674,7 @@ void mr_menu::slot_delayed_goto()
   }
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_COUNT, ORDER_LAST);
+                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     control_mouse_cursor(NULL);

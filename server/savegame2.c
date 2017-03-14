@@ -4230,7 +4230,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         /* The order may have been replaced by the perform action order */
         order->action = sg_order_to_action(order->order, punit,
                                            punit->goto_tile);
-        if (order->action != ACTION_COUNT) {
+        if (order->action != ACTION_NONE) {
           /* The order was converted by order_to_action */
           order->order = ORDER_PERFORM_ACTION;
         }
