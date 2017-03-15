@@ -4482,7 +4482,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
 **************************************************************************/
 static enum gen_action auto_attack_act(const struct act_prob *act_probs)
 {
-  enum gen_action attack_action = ACTION_COUNT;
+  enum gen_action attack_action = ACTION_NONE;
 
   action_iterate(act) {
     if (action_prob_possible(act_probs[act])) {
@@ -4496,12 +4496,12 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_ATTACK:
       case ACTION_CONQUER_CITY:
         /* An attack. */
-        if (attack_action == ACTION_COUNT) {
+        if (attack_action == ACTION_NONE) {
           /* No previous attack action found. */
           attack_action = act;
         } else {
           /* More than one legal attack action found. */
-          return ACTION_COUNT;
+          return ACTION_NONE;
         }
         break;
       case ACTION_ESTABLISH_EMBASSY:
@@ -4531,7 +4531,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
         /* An interesting non attack action has been found. */
-        return ACTION_COUNT;
+        return ACTION_NONE;
         break;
       case ACTION_COUNT:
         fc_assert(act != ACTION_COUNT);
@@ -4580,14 +4580,14 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 
     if (gui_options.popup_attack_actions) {
       /* Pop up the action selection dialog no matter what. */
-      auto_action = ACTION_COUNT;
+      auto_action = ACTION_NONE;
     } else {
       /* Pop up the action selection dialog unless the only interesting
        * action the unit may be able to do is an attack action. */
       auto_action = auto_attack_act(act_probs);
     }
 
-    if (auto_action != ACTION_COUNT) {
+    if (auto_action != ACTION_NONE) {
       /* No interesting actions except a single attack action has been
        * found. The player wants it performed without questions. */
 
