@@ -4400,8 +4400,8 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
 /**************************************************************************
   Handle the requested follow up question about an action
 
-  The action can be a valid action or the special value ACTION_COUNT.
-  ACTION_COUNT indicates that performing the action is impossible.
+  The action can be a valid action or the special value ACTION_NONE.
+  ACTION_NONE indicates that performing the action is impossible.
 **************************************************************************/
 void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
                                enum gen_action action_type)
@@ -4411,7 +4411,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
 
-  if (ACTION_COUNT != action_type
+  if (ACTION_NONE != action_type
       && !action_id_exists(action_type)) {
     /* Non existing action */
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
@@ -4460,7 +4460,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       action_selection_next_in_focus(diplomat_id);
     }
     break;
-  case ACTION_COUNT:
+  case ACTION_NONE:
     log_debug("Server didn't respond to query.");
     action_selection_no_longer_in_progress(diplomat_id);
     action_decision_clear_want(diplomat_id);
