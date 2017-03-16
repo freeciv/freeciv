@@ -2020,7 +2020,7 @@ static void unit_query_impossible(struct connection *pc,
   dsend_packet_unit_action_answer(pc,
                                   diplomat_id, target_id,
                                   0,
-                                  ACTION_COUNT);
+                                  ACTION_NONE);
 }
 
 /**************************************************************************
