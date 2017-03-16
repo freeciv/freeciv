@@ -812,7 +812,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   const char *tnames[game.server.ruledit.named_teams];
   enum trade_route_type trt;
   int i;
-  enum gen_action quiet_actions[ACTION_COUNT];
+  enum gen_action quiet_actions[MAX_NUM_ACTIONS];
   bool locks;
   int force_capture_units, force_bombard, force_explode_nuclear;
 
