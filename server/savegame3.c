@@ -1707,21 +1707,21 @@ static void sg_save_savefile(struct savedata *saving)
   }
 
   /* Save action order in the savegame. */
-  secfile_insert_int(saving->file, ACTION_COUNT,
+  secfile_insert_int(saving->file, NUM_ACTIONS,
                      "savefile.action_size");
-  if (ACTION_COUNT > 0) {
+  if (NUM_ACTIONS > 0) {
     const char **modname;
     int j;
 
     i = 0;
-    modname = fc_calloc(ACTION_COUNT, sizeof(*modname));
+    modname = fc_calloc(NUM_ACTIONS, sizeof(*modname));
 
-    for (j = 0; j < ACTION_COUNT; j++) {
-      modname[i++] = gen_action_name(j);
+    for (j = 0; j < NUM_ACTIONS; j++) {
+      modname[i++] = action_id_rule_name(j);
     }
 
     secfile_insert_str_vec(saving->file, modname,
-                           ACTION_COUNT,
+                           NUM_ACTIONS,
                            "savefile.action_vector");
     free(modname);
   }
