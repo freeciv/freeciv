@@ -6239,7 +6239,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         section_list_iterate(sec, psection) {
           struct action_enabler *enabler;
           const char *sec_name = section_name(psection);
-          enum gen_action action;
+          struct action *paction;
           struct requirement_vector *actor_reqs;
           struct requirement_vector *target_reqs;
           const char *action_text;
@@ -6255,15 +6255,15 @@ static bool load_ruleset_game(struct section_file *file, bool act,
             break;
           }
 
-          action = gen_action_by_name(action_text, fc_strcasecmp);
-          if (!action_id_exists(action)) {
+          paction = action_by_rule_name(action_text);
+          if (!paction) {
             ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown action type \"%s\".",
                           filename, sec_name, action_text);
             ok = FALSE;
             break;
           }
 
-          enabler->action = action;
+          enabler->action = paction->id;
 
           actor_reqs = lookup_req_list(file, compat, sec_name, "actor_reqs", action_text);
           if (actor_reqs == NULL) {
