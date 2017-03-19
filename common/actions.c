@@ -1730,7 +1730,12 @@ is_action_possible(const enum gen_action wanted_action,
   case ATK_UNIT:
     /* The Freeciv code for all actions that is controlled by action
      * enablers and targets a unit assumes that the acting
-     * player can see the target unit. */
+     * player can see the target unit.
+     * Examples:
+     * - action_prob_vs_unit()'s quick check that the distance between actor
+     *   and target is acceptable would leak distance to target unit if the
+     *   target unit can't be seen.
+     */
     if (!can_player_see_unit(actor_player, target_unit)) {
       return TRI_NO;
     }
@@ -3057,6 +3062,15 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  /* Doesn't leak information about city position since an unknown city
+   * can't be targeted and a city can't move. */
+  if (!action_id_distance_accepted(action_id,
+          real_map_distance(unit_tile(actor_unit),
+                            city_tile(target_city)))) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   target_building = tgt_city_local_building(target_city);
   target_utype = tgt_city_local_utype(target_city);
 
@@ -3101,6 +3115,15 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
                         action_target_kind_name(ATK_UNIT));
 
   if (!unit_can_do_action(actor_unit, action_id)) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  /* Doesn't leak information about unit position since an unseen unit can't
+   * be targeted. */
+  if (!action_id_distance_accepted(action_id,
+          real_map_distance(unit_tile(actor_unit),
+                            unit_tile(target_unit)))) {
     /* No point in continuing. */
     return ACTPROB_IMPOSSIBLE;
   }
@@ -3152,6 +3175,8 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  /* Doesn't leak information about unit stack position since it is
+   * specified as a tile and an unknown tile's position is known. */
   if (!action_id_distance_accepted(action_id,
                                    real_map_distance(unit_tile(actor_unit),
                                                      target_tile))) {
@@ -3250,6 +3275,15 @@ struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  /* Doesn't leak information about unit stack position since an unknown
+   * tile's position is known. */
+  if (!action_id_distance_accepted(action_id,
+                                   real_map_distance(unit_tile(actor_unit),
+                                                     target_tile))) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   return action_prob(action_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
@@ -3271,6 +3305,8 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
     /* Can't do the action when the actor is missing. */
     return ACTPROB_IMPOSSIBLE;
   }
+
+  /* No point in checking distance to target. It is always 0. */
 
   fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(action_id),
                         ACTPROB_IMPOSSIBLE,
