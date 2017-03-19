@@ -563,6 +563,10 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "EvacuateFirst", "Local", FALSE
       "UnitFlag", "Consensus",     "Local", FALSE
+      "DiplRel",  "War",        "Local", FALSE
+      "DiplRel",  "Cease-fire", "Local", FALSE
+      "DiplRel",  "Armistice",  "Local", FALSE
+      "DiplRel",  "Peace",      "Local", FALSE
     }
 
 [actionenabler_recycle_unit_consensus]
@@ -574,6 +578,10 @@ actor_reqs    =
       "Gov",      "Communism",     "Player", FALSE
       "Gov",      "Democracy",     "Player", FALSE
       "Gov",      "Republic",      "Player", FALSE
+      "DiplRel",  "War",        "Local", FALSE
+      "DiplRel",  "Cease-fire", "Local", FALSE
+      "DiplRel",  "Armistice",  "Local", FALSE
+      "DiplRel",  "Peace",      "Local", FALSE
     }
 
 [actionenabler_disband_unit]
