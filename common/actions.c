@@ -2997,7 +2997,7 @@ action_prob(const enum gen_action wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
-    fc_assert(FALSE);
+    fc_assert(wanted_action != ACTION_COUNT);
     break;
   }
 
