@@ -895,6 +895,7 @@ void adv_best_government(struct player *pplayer)
 
           case ACTION_COUNT:
             /* Invalid */
+            fc_assert(act != ACTION_COUNT);
             break;
           }
         } action_iterate_end;
