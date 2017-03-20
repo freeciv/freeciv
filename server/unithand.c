@@ -602,6 +602,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     break;
   case ACTION_COUNT:
     /* Invalid. */
+    fc_assert(act != ACTION_COUNT);
     break;
   }
 
