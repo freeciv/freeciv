@@ -3276,8 +3276,8 @@ struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  /* Doesn't leak information about unit stack position since an unknown
-   * tile's position is known. */
+  /* Doesn't leak information about tile position since an unknown tile's
+   * position is known. */
   if (!action_id_distance_accepted(action_id,
                                    real_map_distance(unit_tile(actor_unit),
                                                      target_tile))) {
