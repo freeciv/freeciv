@@ -327,6 +327,29 @@ static void home_city_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Upgrade Unit" from choice dialog.
+*****************************************************************/
+static void upgrade_callback(GtkWidget *w, gpointer data)
+{
+  struct unit *punit;
+
+  struct action_data *args = (struct action_data *)data;
+
+  if ((punit = game_unit_by_number(args->actor_unit_id))
+      && NULL != game_city_by_number(args->target_city_id)) {
+    struct unit_list *as_list;
+
+    as_list = unit_list_new();
+    unit_list_append(as_list, punit);
+    popup_upgrade_dialog(as_list);
+    unit_list_destroy(as_list);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected "Airlift Unit" from choice dialog.
 *****************************************************************/
 static void airlift_callback(GtkWidget *w, gpointer data)
@@ -1374,6 +1397,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_DESTROY_CITY] = (GCallback)destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = (GCallback)recycle_unit_callback,
   [ACTION_HOME_CITY] = (GCallback)home_city_callback,
+  [ACTION_UPGRADE_UNIT] = (GCallback)upgrade_callback,
   [ACTION_AIRLIFT] = (GCallback)airlift_callback,
   [ACTION_CONQUER_CITY] = (GCallback)conquer_city_callback,
 
