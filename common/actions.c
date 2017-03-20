@@ -70,12 +70,13 @@ struct obligatory_req {
 /* Action probability unsupported when min is this. */
 #define ACTPROB_VAL_NOT_IMPL 254
 
-static struct action *actions[ACTION_COUNT];
+static struct action *actions[MAX_NUM_ACTIONS];
 struct action_auto_perf auto_perfs[MAX_NUM_ACTION_AUTO_PERFORMERS];
 static bool actions_initialized = FALSE;
 
-static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
+static struct action_enabler_list *action_enablers_by_action[MAX_NUM_ACTIONS];
 
+/* Hard requirements relates to action result. */
 static struct obligatory_req_vector obligatory_hard_reqs[ACTION_COUNT];
 
 static struct action *action_new(enum gen_action id,
