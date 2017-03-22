@@ -5791,7 +5791,7 @@ static void sg_save_player_units(struct savedata *saving,
            * actions (the last action + 1). strlen(num_chars) is the number
            * of chars (the last char + 1). The assert is supposed to be
            * true. */
-          FC_STATIC_STRLEN_ASSERT(ACTION_COUNT <= strlen(num_chars),
+          FC_STATIC_STRLEN_ASSERT(MAX_NUM_ACTIONS <= strlen(num_chars),
                                   can_not_encode_all_actions);
 
           tgt_vec[j] = punit->orders.list[j].target;
