@@ -1030,6 +1030,26 @@ static int home_city_callback(struct widget *pWidget)
 }
 
 /****************************************************************
+  User clicked "Upgrade Unit"
+*****************************************************************/
+static int upgrade_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *punit;
+    struct city *pcity;
+
+    if ((pcity = game_city_by_number(pDiplomat_Dlg->target_ids[ATK_CITY]))
+        && (punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))) {
+      popup_unit_upgrade_dlg(punit, pcity);
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Airlift Unit"
 *****************************************************************/
 static int airlift_callback(struct widget *pWidget)
@@ -1124,6 +1144,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_DESTROY_CITY] = destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = unit_recycle_callback,
   [ACTION_HOME_CITY] = home_city_callback,
+  [ACTION_UPGRADE_UNIT] = upgrade_callback,
   [ACTION_AIRLIFT] = airlift_callback,
   [ACTION_CONQUER_CITY] = conquer_city_callback,
 
