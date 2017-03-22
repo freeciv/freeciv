@@ -107,6 +107,7 @@ static void paradrop(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
+static void unit_upgrade(QVariant data1, QVariant data2);
 static void airlift(QVariant data1, QVariant data2);
 static void conquer_city(QVariant data1, QVariant data2);
 static void heal_unit(QVariant data1, QVariant data2);
@@ -162,6 +163,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_DESTROY_CITY] = destroy_city;
   action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
   action_function[ACTION_HOME_CITY] = unit_home_city;
+  action_function[ACTION_UPGRADE_UNIT] = unit_upgrade;
   action_function[ACTION_AIRLIFT] = airlift;
   action_function[ACTION_CONQUER_CITY] = conquer_city;
 
@@ -1554,6 +1556,27 @@ static void unit_home_city(QVariant data1, QVariant data2)
       && NULL != game_city_by_number(tgt_city_id)) {
     request_do_action(ACTION_HOME_CITY,
                       actor_id, tgt_city_id, 0, "");
+  }
+}
+
+/***************************************************************************
+  Action "Upgrade Unit" for choice dialog
+***************************************************************************/
+static void unit_upgrade(QVariant data1, QVariant data2)
+{
+  struct unit *punit;
+
+  int actor_id = data1.toInt();
+  int tgt_city_id = data2.toInt();
+
+  if ((punit = game_unit_by_number(actor_id))
+      && NULL != game_city_by_number(tgt_city_id)) {
+    struct unit_list *as_list;
+
+    as_list = unit_list_new();
+    unit_list_append(as_list, punit);
+    popup_upgrade_dialog(as_list);
+    unit_list_destroy(as_list);
   }
 }
 
