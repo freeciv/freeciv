@@ -1962,7 +1962,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     if (utype_can_do_action(utype, act)) {
       const char *target_adjective;
-      const char *blockers[ACTION_COUNT];
+      const char *blockers[MAX_NUM_ACTIONS];
       int i = 0;
 
       /* Generic action information. */
