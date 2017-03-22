@@ -3598,28 +3598,32 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
        * it still looks like a target since move_do_not_act isn't set.
        * Assume that the intention is to do an action. */
 
-      if (action_tgt_unit(punit, pdesttile, can_not_move)
-          || action_tgt_city(punit, pdesttile, can_not_move)
-          || action_tgt_tile_units(punit, pdesttile, can_not_move)
-          || ttile) {
+      if ((action_tgt_unit(punit, pdesttile, can_not_move)
+           || action_tgt_city(punit, pdesttile, can_not_move)
+           || action_tgt_tile_units(punit, pdesttile, can_not_move)
+           || ttile)
+          || can_not_move) {
+        /* There is a target punit, from the player's point of view, may be
+         * able to act against OR punit can't do any non action move. The
+         * client should therefore ask what action(s) the unit can perform
+         * to any targets at pdesttile.
+         *
+         * In the first case the unit needs a decision about what action, if
+         * any at all, to take. Asking what actions the unit can perform
+         * will return a list of actions that may, from the players point of
+         * view, be possible. The client can then show this list to the
+         * player or, if configured to do so, make the choice it self.
+         *
+         * In the last case the player may need an explanation about why no
+         * action could be taken. Asking what actions the unit can perform
+         * will provide this explanation. */
         punit->action_decision_want = ACT_DEC_ACTIVE;
         punit->action_decision_tile = pdesttile;
-
-        /* Let the client know that this unit needs the player to decide
-         * what to do. */
         send_unit_info(player_reply_dest(pplayer), punit);
 
         /* The move wasn't done because the unit wanted the player to
-         * decide what to do. */
-        return FALSE;
-      } else if (can_not_move) {
-        /* No action can be done. No regular move can be done. Attack isn't
-         * possible. Try to explain it to the player. */
-        explain_why_no_action_enabled(punit, pdesttile, pcity,
-                                      is_non_attack_unit_tile(pdesttile,
-                                                              pplayer));
-
-        /* The move wasn't done because the unit couldn't do anything. */
+         * decide what to do or because the unit couldn't move to the
+         * target tile. */
         return FALSE;
       }
     }
