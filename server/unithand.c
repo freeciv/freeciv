@@ -1457,14 +1457,14 @@ void handle_unit_get_actions(struct connection *pc,
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(&(wld.map), target_tile_id);
 
+  /* Initialize the action probabilities. */
+  action_iterate(act) {
+    probabilities[act] = ACTPROB_NA;
+  } action_iterate_end;
+
   /* Check if the request is valid. */
   if (!target_tile || !actor_unit || !actor_player
       || actor_unit->owner != actor_player) {
-    action_iterate(act) {
-      /* No probability can exist when the request is invalid. */
-      probabilities[act] = ACTPROB_NA;
-    } action_iterate_end;
-
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
                               target_tile_id,
@@ -1501,7 +1501,6 @@ void handle_unit_get_actions(struct connection *pc,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
-      probabilities[act] = ACTPROB_NA;
       continue;
     }
 
