@@ -1423,7 +1423,6 @@ void choice_dialog::switch_target()
   dsend_packet_unit_get_actions(&client.conn,
                                 unit_id,
                                 targeted_unit->id,
-                                IDENTITY_NUMBER_ZERO,
                                 targeted_unit->tile->index,
                                 TRUE);
   layout->addLayout(unit_skip);

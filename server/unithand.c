@@ -1431,7 +1431,6 @@ static void explain_why_no_action_enabled(struct unit *punit,
 void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
                              const int target_unit_id_client,
-                             const int target_city_id_client,
                              const int target_tile_id,
                              const bool disturb_player)
 {
@@ -1483,18 +1482,11 @@ void handle_unit_get_actions(struct connection *pc,
     target_unit = game_unit_by_number(target_unit_id_client);
   }
 
-  if (target_city_id_client == IDENTITY_NUMBER_ZERO) {
-    /* Find a new target city. */
-    target_city = action_tgt_city(actor_unit, target_tile, TRUE);
-  } else {
-    /* Prepare the client selected target city. */
-    target_city = game_city_by_number(target_city_id_client);
-  }
+  /* Find the target city. */
+  target_city = action_tgt_city(actor_unit, target_tile, TRUE);
 
-  /* The specified target unit or target city must be located at the target
-   * tile. */
-  if ((target_city && city_tile(target_city) != target_tile)
-      || (target_unit && unit_tile(target_unit) != target_tile)) {
+  /* The specified target unit must be located at the target tile. */
+  if (target_unit && unit_tile(target_unit) != target_tile) {
     notify_player(actor_player, unit_tile(actor_unit),
                   E_BAD_COMMAND, ftc_server,
                   _("Target not at target tile."));

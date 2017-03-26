@@ -1248,18 +1248,12 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
                                       /* Let the server choose the target
                                        * unit. */
                                       IDENTITY_NUMBER_ZERO,
-                                      /* Let the server choose the target
-                                       * city. */
-                                      IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
                                       TRUE);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
                                       actor->id,
                                       tgt_id,
-                                      /* Let the server choose the target
-                                       * city. */
-                                      IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
                                       TRUE);
       }

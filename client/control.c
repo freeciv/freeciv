@@ -355,7 +355,6 @@ static void ask_server_for_actions(struct unit *punit)
   dsend_packet_unit_get_actions(&client.conn,
                                 punit->id,
                                 IDENTITY_NUMBER_ZERO,
-                                IDENTITY_NUMBER_ZERO,
                                 tile_index(punit->action_decision_tile),
                                 TRUE);
 }
