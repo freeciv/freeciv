@@ -1491,6 +1491,21 @@ void handle_unit_get_actions(struct connection *pc,
     target_city = game_city_by_number(target_city_id_client);
   }
 
+  /* The specified target unit or target city must be located at the target
+   * tile. */
+  if ((target_city && city_tile(target_city) != target_tile)
+      || (target_unit && unit_tile(target_unit) != target_tile)) {
+    notify_player(actor_player, unit_tile(actor_unit),
+                  E_BAD_COMMAND, ftc_server,
+                  _("Target not at target tile."));
+    dsend_packet_unit_actions(pc, actor_unit_id,
+                              IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+                              target_tile_id,
+                              disturb_player,
+                              probabilities);
+    return;
+  }
+
   /* Distance between actor and target tile. */
   actor_target_distance = real_map_distance(unit_tile(actor_unit),
                                             target_tile);
