@@ -1443,6 +1443,7 @@ void handle_unit_get_actions(struct connection *pc,
   struct city *target_city;
 
   int actor_target_distance;
+  const struct player_tile *plrtile;
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -1498,6 +1499,11 @@ void handle_unit_get_actions(struct connection *pc,
     return;
   }
 
+  /* The player may have outdated information about the target tile.
+   * Limiting the player knowledge look up to the target tile is OK since
+   * all targets must be located at it. */
+  plrtile = map_get_player_tile(target_tile, actor_player);
+
   /* Distance between actor and target tile. */
   actor_target_distance = real_map_distance(unit_tile(actor_unit),
                                             target_tile);
@@ -1513,10 +1519,27 @@ void handle_unit_get_actions(struct connection *pc,
 
     switch (action_id_get_target_kind(act)) {
     case ATK_CITY:
-      if (target_city) {
-        /* Calculate the probabilities. */
-        probabilities[act] = action_prob_vs_city(actor_unit, act,
-                                                 target_city);
+      if (plrtile && plrtile->site) {
+        /* Only a known city may be targeted. */
+        if (target_city) {
+          /* Calculate the probabilities. */
+          probabilities[act] = action_prob_vs_city(actor_unit, act,
+                                                   target_city);
+        } else if (!tile_is_seen(target_tile, actor_player)
+                   && action_maybe_possible_actor_unit(act, actor_unit)
+                   && action_id_distance_accepted(act,
+                                                  actor_target_distance)) {
+          /* The target city is non existing. The player isn't aware of this
+           * fact because he can't see the tile it was located on. The
+           * actor unit it self doesn't contradict the requirements to
+           * perform the action. The (no longer existing) target city was
+           * known to be close enough. */
+          probabilities[act] = ACTPROB_NOT_KNOWN;
+        } else {
+          /* The actor unit is known to be unable to act or the target city
+           * is known to be too far away. */
+          probabilities[act] = ACTPROB_IMPOSSIBLE;
+        }
       } else {
         /* No target to act against. */
         probabilities[act] = ACTPROB_IMPOSSIBLE;
@@ -1581,8 +1604,13 @@ void handle_unit_get_actions(struct connection *pc,
       case ATK_CITY:
         /* The city should be sent as a target since it is possible to act
          * against it. */
-        fc_assert(target_city != NULL);
-        target_city_id = target_city->id;
+
+        /* All city targeted actions requires that the player is aware of
+         * the target city. It is therefore in the player's map. */
+        fc_assert_action(plrtile, continue);
+        fc_assert_action(plrtile->site, continue);
+
+        target_city_id = plrtile->site->identity;
         break;
       case ATK_UNIT:
         /* The unit should be sent as a target since it is possible to act
