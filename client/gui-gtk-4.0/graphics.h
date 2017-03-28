@@ -19,7 +19,7 @@
 #include "graphics_g.h"
 #include "mapview_common.h"
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-4.0 */
 #include "canvas.h"
 #include "sprite.h"
 

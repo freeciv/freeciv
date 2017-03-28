@@ -24,7 +24,7 @@
 #include "dialogs_g.h"
 #include "options.h"
 
-/* gui-gtk-3.22 */
+/* gui-gtk-4.0 */
 #include "gui_main.h"
 
 static bool load_theme = FALSE;

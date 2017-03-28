@@ -43,7 +43,7 @@
 #include "options.h"
 #include "text.h"
 
-/* clien/gui-gtk-3.22 */
+/* clien/gui-gtk-4.0 */
 #include "plrdlg.h"
 #include "dialogs.h"
 #include "gui_main.h"

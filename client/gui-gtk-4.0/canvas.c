@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-/* gui-gtk-3.22 */
+/* gui-gtk-4.0 */
 #include "colors.h"
 #include "gui_main.h"
 #include "mapview.h"

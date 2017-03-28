@@ -32,7 +32,7 @@
 /* client */
 #include "themes_common.h"
 
-/* gui-gtk-3.22 */
+/* gui-gtk-4.0 */
 #include "gui_main.h"
 
 #include "themes_g.h"

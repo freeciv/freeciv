@@ -74,7 +74,7 @@
 #include "tilespec.h"
 #include "zoom.h"
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-4.0 */
 #include "chatline.h"
 #include "citizensinfo.h"
 #include "connectdlg.h"

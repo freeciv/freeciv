@@ -26,7 +26,7 @@
 #include "options.h"
 #include "voteinfo.h"
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-4.0 */
 #include "chatline.h"
 #include "pages.h"
 

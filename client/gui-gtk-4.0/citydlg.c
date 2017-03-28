@@ -52,7 +52,7 @@
 /* client/agents */
 #include "cma_fec.h" 
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-4.0 */
 #include "choice_dialog.h"
 #include "citizensinfo.h"
 #include "cityrep.h"

@@ -43,7 +43,7 @@
 #include "mapview.h"
 #include "packhand.h"
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-4.0 */
 #include "citydlg.h"
 #include "dialogs.h"
 #include "unitselunitdlg.h"

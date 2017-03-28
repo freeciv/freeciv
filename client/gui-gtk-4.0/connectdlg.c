@@ -33,15 +33,17 @@
 
 /* client */
 #include "client_main.h"
-#include "chatline.h"
-#include "colors.h"
 #include "connectdlg_common.h"
-#include "dialogs.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
 #include "options.h"
 #include "packhand.h"
 #include "tilespec.h"
+
+/* gui-gtk-4.0 */
+#include "chatline.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
 
 #include "connectdlg.h"
 
