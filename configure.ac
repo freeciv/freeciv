@@ -412,7 +412,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk3/sdl2/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk3/gtk3.22/sdl2/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -1211,6 +1211,9 @@ AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])
+AC_SUBST([gui_gtk3_22_cflags])
+AC_SUBST([gui_gtk3_22_libs])
+AC_SUBST([gui_gtk3_22_ldflags])
 AC_SUBST([gui_gtk3x_cflags])
 AC_SUBST([gui_gtk3x_libs])
 AC_SUBST([gui_gtk3x_ldflags])
