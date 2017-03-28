@@ -3072,6 +3072,12 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  if (!player_can_see_city_externals(unit_owner(actor_unit), target_city)) {
+    /* The invisible city at this tile may, as far as the player knows, not
+     * exist anymore. */
+    return act_prob_unseen_target(action_id, actor_unit);
+  }
+
   target_building = tgt_city_local_building(target_city);
   target_utype = tgt_city_local_utype(target_city);
 
