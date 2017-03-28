@@ -86,6 +86,7 @@ position islands for all players.\n\
   - webperimental's bombardment doesn't replace regular attack.\n\
 - The Battleship is weak against Bomber planes.\n\
 - Moving from a ship to the beach doesn't spend all movement points.\n\
+- Airlifting to and from allied cities is allowed by default.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \
@@ -1225,4 +1226,5 @@ set =
     "citymindist", 3, FALSE
     "generator", "FAIR", FALSE
     "dispersion", 2, FALSE
+    "airliftingstyle", "FROM_ALLIES|TO_ALLIES", FALSE
   }
