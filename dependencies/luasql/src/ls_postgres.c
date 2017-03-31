@@ -621,5 +621,10 @@ LUASQL_API int luaopen_luasql_postgres (lua_State *L) {
 	lua_newtable (L);
 	luaL_setfuncs (L, driver, 0);
 	luasql_set_info (L);
+#if defined(PQlibVersion)
+	lua_pushliteral (L, "_CLIENTVERSION");
+	lua_pushinteger (L, PQlibVersion());
+	lua_settable (L, -3);
+#endif
 	return 1;
 }
