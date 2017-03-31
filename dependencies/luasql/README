@@ -1,5 +1,5 @@
 LuaSQL
-http://keplerproject.github.io/luasql/doc/us/
+http://keplerproject.github.io/luasql
 
 LuaSQL is a simple interface from Lua to a DBMS. It enables a Lua program to:
 

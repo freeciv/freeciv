@@ -532,6 +532,7 @@ static int env_close (lua_State *L) {
 		lua_pushboolean (L, 0);
 		return 1;
 	}
+	mysql_library_end();
 	env->closed = 1;
 	lua_pushboolean (L, 1);
 	return 1;
@@ -601,7 +602,7 @@ LUASQL_API int luaopen_luasql_mysql (lua_State *L) {
 	lua_newtable(L);
 	luaL_setfuncs(L, driver, 0);
 	luasql_set_info (L);
-    lua_pushliteral (L, "_MYSQLVERSION");
+    lua_pushliteral (L, "_CLIENTVERSION");
     lua_pushliteral (L, MYSQL_SERVER_VERSION);
     lua_settable (L, -3);
 	return 1;
