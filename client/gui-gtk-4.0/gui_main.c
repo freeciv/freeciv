@@ -101,7 +101,7 @@
 
 #include "gui_main.h"
 
-const char *client_string = "gui-gtk-3.22";
+const char *client_string = "gui-gtk-3x";
 
 GtkWidget *map_canvas;                  /* GtkDrawingArea */
 GtkWidget *map_horizontal_scrollbar;
@@ -1672,15 +1672,15 @@ int main(int argc, char **argv)
 }
 
 /**************************************************************************
-  Migrate gtk3.22 client specific options from gtk3 client options.
+  Migrate gtk3x client specific options from gtk3.22 client options.
 **************************************************************************/
-static void migrate_options_from_gtk3(void)
+static void migrate_options_from_gtk3_22(void)
 {
-  log_normal(_("Migrating options from gtk3 to gtk3.22 client"));
+  log_normal(_("Migrating options from gtk3.22 to gtk3x client"));
 
-#define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_##opt;
+#define MIGRATE_OPTION(opt) GUI_GTK_OPTION(opt) = gui_options.gui_gtk3_22_##opt;
 #define MIGRATE_STR_OPTION(opt) \
-  strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk3_##opt,      \
+  strncpy(GUI_GTK_OPTION(opt), gui_options.gui_gtk3_22_##opt,      \
           sizeof(GUI_GTK_OPTION(opt)));
 
   /* Default theme name is never migrated */
@@ -1719,7 +1719,7 @@ static void migrate_options_from_gtk3(void)
 #undef MIGRATE_OPTION
 #undef MIGRATE_STR_OPTION
 
-  GUI_GTK_OPTION(migrated_from_gtk3) = TRUE;
+  GUI_GTK_OPTION(migrated_from_gtk3_22) = TRUE;
 }
 
 /**************************************************************************
@@ -1754,8 +1754,8 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_window(toplevel);
 
-  if (!GUI_GTK_OPTION(migrated_from_gtk3)) {
-    migrate_options_from_gtk3();
+  if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
+    migrate_options_from_gtk3_22();
   }
 
   if (GUI_GTK_OPTION(fullscreen)) {
@@ -1881,7 +1881,7 @@ void ui_exit(void)
 **************************************************************************/
 enum gui_type get_gui_type(void)
 {
-  return GUI_GTK3_22;
+  return GUI_GTK3x;
 }
 
 /**************************************************************************
