@@ -210,20 +210,6 @@ void rscompat_postprocess(struct rscompat_info *info)
         fc_assert(unit_type_flag_id_is_valid(flag));
         BV_SET(ptype->flags, flag);
       }
-
-      if (utype_can_do_action(ptype, ACTION_SPY_INVESTIGATE_CITY)
-          || utype_can_do_action(ptype, ACTION_SPY_POISON)
-          || utype_can_do_action(ptype, ACTION_SPY_STEAL_GOLD)
-          || utype_can_do_action(ptype, ACTION_SPY_SABOTAGE_CITY)
-          || utype_can_do_action(ptype, ACTION_SPY_TARGETED_SABOTAGE_CITY)
-          || utype_can_do_action(ptype, ACTION_SPY_STEAL_TECH)
-          || utype_can_do_action(ptype, ACTION_SPY_TARGETED_STEAL_TECH)
-          || utype_can_do_action(ptype, ACTION_SPY_INCITE_CITY)
-          || utype_can_do_action(ptype, ACTION_SPY_BRIBE_UNIT)
-          || utype_can_do_action(ptype, ACTION_SPY_SABOTAGE_UNIT)
-          || 0 < ptype->transport_capacity) {
-        BV_SET(ptype->flags, UTYF_PROVOKING);
-      }
     } unit_type_iterate_end;
   }
 
