@@ -38,6 +38,11 @@ struct functions {
   bool (*player_tile_vision_get)(const struct tile *ptile,
                                  const struct player *pplayer,
                                  enum vision_layer vision);
+  /* Returns the id of the city 'pplayer' believes exists at 'ptile' or
+   * IDENTITY_NUMBER_ZERO when the player is unaware of a city at that
+   * location. */
+  int (*player_tile_city_id_get)(const struct tile *ptile,
+                                 const struct player *pplayer);
   void (*gui_color_free)(struct color *pcolor);
 };
 
