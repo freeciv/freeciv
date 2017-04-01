@@ -534,7 +534,7 @@ void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
     return;
   }
 
-  ctx = gdk_window_begin_draw_frame(pixmap,
+  ctx = gdk_window_begin_draw_frame(pixmap, NULL,
                                     gdk_window_get_clip_region(pixmap));
   cr = gdk_drawing_context_get_cairo_context(ctx);
   cairo_scale(cr, zoom, zoom);
@@ -743,7 +743,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   }
 
   wndw = gtk_widget_get_window(map_canvas);
-  ctx = gdk_window_begin_draw_frame(wndw,
+  ctx = gdk_window_begin_draw_frame(wndw, NULL,
                                     gdk_window_get_clip_region(wndw));
   cr = gdk_drawing_context_get_cairo_context(ctx);
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
