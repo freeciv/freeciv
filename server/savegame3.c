@@ -5787,10 +5787,10 @@ static void sg_save_player_units(struct savedata *saving,
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
           /* Encoding with num2char() limits the number of actions. */
-          /* Note: <= is the correct operator. ACTION_COUNT is number of
-           * actions (the last action + 1). strlen(num_chars) is the number
-           * of chars (the last char + 1). The assert is supposed to be
-           * true. */
+          /* Note: <= is the correct operator. MAX_NUM_ACTIONS is number of
+           * actions (the last action id + 1). strlen(num_chars) is the
+           * number of chars (the last char position + 1). The assert is
+           * supposed to be true. */
           FC_STATIC_STRLEN_ASSERT(MAX_NUM_ACTIONS <= strlen(num_chars),
                                   can_not_encode_all_actions);
 
