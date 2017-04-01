@@ -123,7 +123,6 @@ static void popit(GdkEventButton *ev, struct tile *ptile)
 
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     p = gtk_window_new(GTK_WINDOW_POPUP);
-    gtk_widget_set_app_paintable(p, TRUE);
     gtk_widget_set_margin_start(p, 4);
     gtk_widget_set_margin_end(p, 4);
     gtk_widget_set_margin_top(p, 4);
