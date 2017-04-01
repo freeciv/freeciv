@@ -3627,7 +3627,10 @@ static struct extviewer *extviewer_new(struct objprop *op)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
   ev->view_widget = vbox;
 
   label = gtk_label_new(objprop_get_name(op));
@@ -4788,7 +4791,10 @@ property_page_new(enum editor_object_type objtype,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
   gtk_paned_pack1(GTK_PANED(paned), vbox, TRUE, TRUE);
 
   scrollwin = gtk_scrolled_window_new(NULL, NULL);
@@ -4896,7 +4902,10 @@ property_page_new(enum editor_object_type objtype,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 4);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
   gtk_container_add(GTK_CONTAINER(hbox), vbox);
 
   /* Extended property viewer to the right of the properties panel.
@@ -4923,7 +4932,10 @@ property_page_new(enum editor_object_type objtype,
   gtk_container_add(GTK_CONTAINER(vbox2), hsep);
 
   hbox2 = gtk_grid_new();
-  gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
+  gtk_widget_set_margin_start(hbox2, 4);
+  gtk_widget_set_margin_end(hbox2, 4);
+  gtk_widget_set_margin_top(hbox2, 4);
+  gtk_widget_set_margin_bottom(hbox2, 4);
   gtk_container_add(GTK_CONTAINER(vbox2), hbox2);
 
   button = gtk_button_new_with_label(_("Close"));
@@ -4956,7 +4968,10 @@ property_page_new(enum editor_object_type objtype,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox2),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox2), 4);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox2), 4);
+  gtk_widget_set_margin_start(vbox2, 4);
+  gtk_widget_set_margin_end(vbox2, 4);
+  gtk_widget_set_margin_top(vbox2, 4);
+  gtk_widget_set_margin_bottom(vbox2, 4);
   gtk_container_add(GTK_CONTAINER(scrollwin), vbox2);
   
   property_page_objprop_iterate(pp, op) {
@@ -6162,7 +6177,10 @@ static struct property_editor *property_editor_new(void)
   gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
   gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(win), GDK_WINDOW_TYPE_HINT_DIALOG);
-  gtk_container_set_border_width(GTK_CONTAINER(win), 4);
+  gtk_widget_set_margin_start(win, 4);
+  gtk_widget_set_margin_end(win, 4);
+  gtk_widget_set_margin_top(win, 4);
+  gtk_widget_set_margin_bottom(win, 4);
   g_signal_connect(win, "delete-event",
                    G_CALLBACK(gtk_widget_hide_on_delete), NULL);
   pe->widget = win;

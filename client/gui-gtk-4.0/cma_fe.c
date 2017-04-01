@@ -230,7 +230,10 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(pdialog->shell),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(pdialog->shell), 8);
-  gtk_container_set_border_width(GTK_CONTAINER(pdialog->shell), 8);
+  gtk_widget_set_margin_start(pdialog->shell, 8);
+  gtk_widget_set_margin_end(pdialog->shell, 8);
+  gtk_widget_set_margin_top(pdialog->shell, 8);
+  gtk_widget_set_margin_bottom(pdialog->shell, 8);
   g_signal_connect(pdialog->shell, "destroy",
                    G_CALLBACK(cma_dialog_destroy_callback), pdialog);
 

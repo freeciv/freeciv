@@ -120,7 +120,10 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
   gtk_container_add(GTK_CONTAINER(dshell),vbox);
 
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
+  gtk_widget_set_margin_start(vbox, 5);
+  gtk_widget_set_margin_end(vbox, 5);
+  gtk_widget_set_margin_top(vbox, 5);
+  gtk_widget_set_margin_bottom(vbox, 5);
 
   dlabel = gtk_label_new(text);
   gtk_container_add(GTK_CONTAINER(vbox), dlabel);

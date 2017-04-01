@@ -650,7 +650,10 @@ static void create_help_dialog(void)
   gtk_grid_set_row_spacing(GTK_GRID(help_vbox), 1);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(help_vbox),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(help_vbox), 5);
+  gtk_widget_set_margin_start(help_vbox, 5);
+  gtk_widget_set_margin_end(help_vbox, 5);
+  gtk_widget_set_margin_top(help_vbox, 5);
+  gtk_widget_set_margin_bottom(help_vbox, 5);
   gtk_container_add(GTK_CONTAINER(help_box), help_vbox);
 
   text = gtk_text_view_new();
@@ -658,7 +661,10 @@ static void create_help_dialog(void)
   gtk_widget_set_vexpand(text, TRUE);
   gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(text), FALSE);
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
-  gtk_container_set_border_width(GTK_CONTAINER(text), 5);
+  gtk_widget_set_margin_start(text, 5);
+  gtk_widget_set_margin_end(text, 5);
+  gtk_widget_set_margin_top(text, 5);
+  gtk_widget_set_margin_bottom(text, 5);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
   gtk_widget_set_name(text, "help_text");
   help_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
@@ -1019,7 +1025,10 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(w), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
     gtk_widget_set_name(w, "help_text");
-    gtk_container_set_border_width(GTK_CONTAINER(w), 5);
+    gtk_widget_set_margin_start(w, 5);
+    gtk_widget_set_margin_end(w, 5);
+    gtk_widget_set_margin_top(w, 5);
+    gtk_widget_set_margin_bottom(w, 5);
     gtk_text_view_set_editable(GTK_TEXT_VIEW(w), FALSE);
     gtk_container_add(GTK_CONTAINER(help_vbox), w);
     gtk_widget_show(w);

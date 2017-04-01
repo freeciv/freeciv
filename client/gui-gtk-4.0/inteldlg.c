@@ -232,7 +232,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->diplstates);
-  gtk_container_set_border_width(GTK_CONTAINER(view), 6);
+  gtk_widget_set_margin_start(view, 6);
+  gtk_widget_set_margin_end(view, 6);
+  gtk_widget_set_margin_top(view, 6);
+  gtk_widget_set_margin_bottom(view, 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
   rend = gtk_cell_renderer_text_new();
@@ -263,7 +266,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   gtk_widget_set_hexpand(view, TRUE);
   gtk_widget_set_vexpand(view, TRUE);
   g_object_unref(pdialog->techs);
-  gtk_container_set_border_width(GTK_CONTAINER(view), 6);
+  gtk_widget_set_margin_start(view, 6);
+  gtk_widget_set_margin_end(view, 6);
+  gtk_widget_set_margin_top(view, 6);
+  gtk_widget_set_margin_bottom(view, 6);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
   rend = gtk_cell_renderer_toggle_new();

@@ -1216,7 +1216,10 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(ahbox);
 
   overview_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_set_border_width(GTK_CONTAINER (overview_scrolled_window), 1);
+  gtk_widget_set_margin_start(overview_scrolled_window, 1);
+  gtk_widget_set_margin_end(overview_scrolled_window, 1);
+  gtk_widget_set_margin_top(overview_scrolled_window, 1);
+  gtk_widget_set_margin_bottom(overview_scrolled_window, 1);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (overview_scrolled_window),
                                     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -2026,7 +2029,10 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
-    gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_widget_set_margin_start(p, 4);
+    gtk_widget_set_margin_end(p, 4);
+    gtk_widget_set_margin_top(p, 4);
+    gtk_widget_set_margin_bottom(p, 4);
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,

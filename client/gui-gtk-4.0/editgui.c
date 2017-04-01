@@ -1214,14 +1214,20 @@ static struct editinfobox *editinfobox_create(void)
   ei = fc_calloc(1, sizeof(*ei));
 
   frame = gtk_frame_new(_("Editor Tool"));
-  gtk_container_set_border_width(GTK_CONTAINER(frame), 4);
+  gtk_widget_set_margin_start(frame, 4);
+  gtk_widget_set_margin_end(frame, 4);
+  gtk_widget_set_margin_top(frame, 4);
+  gtk_widget_set_margin_bottom(frame, 4);
   ei->widget = frame;
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 8);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
   gtk_container_add(GTK_CONTAINER(frame), vbox);
 
   /* tool section */

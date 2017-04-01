@@ -880,7 +880,11 @@ static void create_races_dialog(struct player *pplayer)
 
   hbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 18);
-  gtk_container_set_border_width(GTK_CONTAINER(hbox), 3);
+  gtk_widget_set_margin_start(hbox, 3);
+  gtk_widget_set_margin_end(hbox, 3);
+  gtk_widget_set_margin_top(hbox, 3);
+  gtk_widget_set_margin_bottom(hbox, 3);
+
   gtk_container_add(GTK_CONTAINER(frame), hbox);
 
   /* Left side: nation list */

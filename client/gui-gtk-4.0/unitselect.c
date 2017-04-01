@@ -396,7 +396,10 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   page = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_widget_set_margin_start(page, 8);
+  gtk_widget_set_margin_end(page, 8);
+  gtk_widget_set_margin_top(page, 8);
+  gtk_widget_set_margin_bottom(page, 8);
   pdialog->tabs[loc].page = page;
 
   label = gtk_label_new_with_mnemonic(title);

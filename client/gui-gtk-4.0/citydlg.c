@@ -693,7 +693,10 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_name(p, "Freeciv");
-    gtk_container_set_border_width(GTK_CONTAINER(p), 2);
+    gtk_widget_set_margin_start(p, 2);
+    gtk_widget_set_margin_end(p, 2);
+    gtk_widget_set_margin_top(p, 2);
+    gtk_widget_set_margin_bottom(p, 2);
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     frame = gtk_frame_new(NULL);
@@ -902,7 +905,10 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   page = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_widget_set_margin_start(page, 8);
+  gtk_widget_set_margin_end(page, 8);
+  gtk_widget_set_margin_top(page, 8);
+  gtk_widget_set_margin_bottom(page, 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -1085,7 +1091,10 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
     page = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
                                    GTK_ORIENTATION_VERTICAL);
-    gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+    gtk_widget_set_margin_start(page, 8);
+    gtk_widget_set_margin_end(page, 8);
+    gtk_widget_set_margin_top(page, 8);
+    gtk_widget_set_margin_bottom(page, 8);
     label = gtk_label_new_with_mnemonic(tab_title);
     gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -1181,7 +1190,10 @@ static void create_and_append_buildings_page(struct city_dialog *pdialog)
     page = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
                                    GTK_ORIENTATION_VERTICAL);
-    gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+    gtk_widget_set_margin_start(page, 8);
+    gtk_widget_set_margin_end(page, 8);
+    gtk_widget_set_margin_top(page, 8);
+    gtk_widget_set_margin_bottom(page, 8);
     label = gtk_label_new_with_mnemonic(tab_title);
 
     create_production_header(pdialog, GTK_CONTAINER(page));
@@ -1212,7 +1224,10 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   page = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(page),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_widget_set_margin_start(page, 8);
+  gtk_widget_set_margin_end(page, 8);
+  gtk_widget_set_margin_top(page, 8);
+  gtk_widget_set_margin_bottom(page, 8);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* stuff that's being currently built */
@@ -1255,7 +1270,10 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   /* main page */
   page = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(page), 6);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_widget_set_margin_start(page, 8);
+  gtk_widget_set_margin_end(page, 8);
+  gtk_widget_set_margin_top(page, 8);
+  gtk_widget_set_margin_bottom(page, 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
@@ -1374,7 +1392,10 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   page = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(page), 18);
-  gtk_container_set_border_width(GTK_CONTAINER(page), 8);
+  gtk_widget_set_margin_start(page, 8);
+  gtk_widget_set_margin_end(page, 8);
+  gtk_widget_set_margin_top(page, 8);
+  gtk_widget_set_margin_bottom(page, 8);
   
   size = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
   

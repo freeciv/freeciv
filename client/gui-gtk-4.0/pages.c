@@ -1194,7 +1194,10 @@ GtkWidget *create_network_page(void)
   box = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
                                  GTK_ORIENTATION_VERTICAL);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
+  gtk_widget_set_margin_start(box, 4);
+  gtk_widget_set_margin_end(box, 4);
+  gtk_widget_set_margin_top(box, 4);
+  gtk_widget_set_margin_bottom(box, 4);
 
   notebook = gtk_notebook_new();
   gtk_container_add(GTK_CONTAINER(box), notebook);
@@ -1235,7 +1238,10 @@ GtkWidget *create_network_page(void)
   label = gtk_label_new_with_mnemonic(_("Local _Area Network"));
 
   sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
+  gtk_widget_set_margin_start(sw, 4);
+  gtk_widget_set_margin_end(sw, 4);
+  gtk_widget_set_margin_top(sw, 4);
+  gtk_widget_set_margin_bottom(sw, 4);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -1280,7 +1286,10 @@ GtkWidget *create_network_page(void)
   label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
 
   sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
+  gtk_widget_set_margin_start(sw, 4);
+  gtk_widget_set_margin_end(sw, 4);
+  gtk_widget_set_margin_top(sw, 4);
+  gtk_widget_set_margin_bottom(sw, 4);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -2603,7 +2612,10 @@ GtkWidget *create_start_page(void)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(box), 8);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
+  gtk_widget_set_margin_start(box, 4);
+  gtk_widget_set_margin_end(box, 4);
+  gtk_widget_set_margin_top(box, 4);
+  gtk_widget_set_margin_bottom(box, 4);
 
   sbox = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(sbox), 12);
@@ -2878,7 +2890,10 @@ GtkWidget *create_load_page(void)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(box),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(box), 18);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
+  gtk_widget_set_margin_start(box, 4);
+  gtk_widget_set_margin_end(box, 4);
+  gtk_widget_set_margin_top(box, 4);
+  gtk_widget_set_margin_bottom(box, 4);
 
   load_store = save_dialog_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(load_store));
@@ -3141,7 +3156,10 @@ GtkWidget *create_scenario_page(void)
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 18);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
+  gtk_widget_set_margin_start(vbox, 4);
+  gtk_widget_set_margin_end(vbox, 4);
+  gtk_widget_set_margin_top(vbox, 4);
+  gtk_widget_set_margin_bottom(vbox, 4);
 
   scenario_store = gtk_list_store_new(5, G_TYPE_STRING,
                                          G_TYPE_STRING,

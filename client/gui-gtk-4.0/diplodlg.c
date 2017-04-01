@@ -691,7 +691,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
+  gtk_widget_set_margin_start(vbox, 2);
+  gtk_widget_set_margin_end(vbox, 2);
+  gtk_widget_set_margin_top(vbox, 2);
+  gtk_widget_set_margin_bottom(vbox, 2);
   gtk_container_add(GTK_CONTAINER(mainbox), vbox);
 
   /* Our nation. */
@@ -773,7 +776,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 5);
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
+  gtk_widget_set_margin_start(vbox, 2);
+  gtk_widget_set_margin_end(vbox, 2);
+  gtk_widget_set_margin_top(vbox, 2);
+  gtk_widget_set_margin_bottom(vbox, 2);
   gtk_container_add(GTK_CONTAINER(mainbox), vbox);
 
   /* Their nation. */
