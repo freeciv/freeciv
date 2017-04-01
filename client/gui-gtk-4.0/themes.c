@@ -43,7 +43,6 @@
 void gui_load_theme(const char *directory, const char *theme_name)
 {
   static GtkCssProvider *fc_css_provider = NULL;
-  GError *error = NULL;
   char buf[strlen(directory) + strlen(theme_name) + 32];
 
   if (fc_css_provider == NULL) {
@@ -57,11 +56,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-3.0/gtk.css", directory,
               theme_name);
 
-  gtk_css_provider_load_from_file(fc_css_provider, g_file_new_for_path(buf), &error);
-
-  if (error) {
-    g_warning("%s\n", error->message);
-  }
+  gtk_css_provider_load_from_file(fc_css_provider, g_file_new_for_path(buf));
 }
 
 /*****************************************************************************
