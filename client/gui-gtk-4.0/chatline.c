@@ -1442,8 +1442,7 @@ void chatline_init(void)
   button = gtk_toggle_button_new();
   g_object_set(button, "margin", 2, NULL);
   gtk_container_add(GTK_CONTAINER(hbox), button);
-  gtk_button_set_image(GTK_BUTTON(button),
-                       gtk_image_new_from_icon_name("gtk-edit", 0));
+  gtk_button_set_icon_name(GTK_BUTTON(button), "gtk-edit");
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
   toolkit.toggle_button = button;

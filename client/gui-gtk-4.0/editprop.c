@@ -4727,7 +4727,7 @@ property_page_new(enum editor_object_type objtype,
   struct property_page *pp;
   GtkWidget *vbox, *vbox2, *hbox, *hbox2, *paned, *frame, *w;
   GtkWidget *scrollwin, *view, *label, *entry, *notebook;
-  GtkWidget *button, *hsep, *image;
+  GtkWidget *button, *hsep;
   GtkTreeSelection *sel;
   GtkCellRenderer *cell;
   GtkTreeViewColumn *col;
@@ -4859,8 +4859,7 @@ property_page_new(enum editor_object_type objtype,
     gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
     button = gtk_button_new();
-    image = gtk_image_new_from_icon_name("list-add", GTK_ICON_SIZE_BUTTON);
-    gtk_button_set_image(GTK_BUTTON(button), image);
+    gtk_button_set_icon_name(GTK_BUTTON(button), "list-add");
     gtk_button_set_label(GTK_BUTTON(button), _("Create"));
     gtk_size_group_add_widget(sizegroup, button);
     gtk_widget_set_tooltip_text(button,
@@ -4875,9 +4874,7 @@ property_page_new(enum editor_object_type objtype,
     gtk_container_add(GTK_CONTAINER(hbox), button);
 
     button = gtk_button_new();
-    image = gtk_image_new_from_icon_name("list-remove",
-                                         GTK_ICON_SIZE_BUTTON);
-    gtk_button_set_image(GTK_BUTTON(button), image);
+    gtk_button_set_icon_name(GTK_BUTTON(button), "list-remove");
     gtk_button_set_label(GTK_BUTTON(button), _("Destroy"));
     gtk_size_group_add_widget(sizegroup, button);
     gtk_widget_set_tooltip_text(button,

@@ -77,13 +77,11 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
                                  const gchar *label_text)
 {
   GtkWidget *button;
-  GtkWidget *image;
 
   button = gtk_button_new_with_mnemonic(label_text);
 
   if (icon_name != NULL) {
-    image = gtk_image_new_from_icon_name(icon_name, GTK_ICON_SIZE_BUTTON);
-    gtk_button_set_image(GTK_BUTTON(button), image);
+    gtk_button_set_icon_name(GTK_BUTTON(button), icon_name);
   }
 
   return button;
@@ -578,7 +576,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   case GUI_DIALOG_TAB:
     {
-      GtkWidget *hbox, *label, *image, *button, *event_box;
+      GtkWidget *hbox, *label, *button, *event_box;
       gint w, h;
       gchar *buf;
 
@@ -604,12 +602,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_widget_set_tooltip_text(button, buf);
       g_free(buf);
 
-      image = gtk_image_new_from_icon_name("window-close", GTK_ICON_SIZE_MENU);
-      gtk_widget_set_margin_start(image, 0);
-      gtk_widget_set_margin_end(image, 0);
-      gtk_widget_set_margin_top(image, 0);
-      gtk_widget_set_margin_bottom(image, 0);
-      gtk_button_set_image(GTK_BUTTON(button), image);
+      gtk_button_set_icon_name(GTK_BUTTON(button), "window-close");
 
       gtk_container_add(GTK_CONTAINER(hbox), button);
 

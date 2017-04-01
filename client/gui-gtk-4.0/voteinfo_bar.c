@@ -91,7 +91,7 @@ static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
 **************************************************************************/
 GtkWidget *voteinfo_bar_new(bool split_bar)
 {
-  GtkWidget *label, *button, *vbox, *hbox, *arrow;
+  GtkWidget *label, *button, *vbox, *hbox;
   struct voteinfo_bar *vib;
   const int BUTTON_HEIGHT = 12;
 
@@ -131,11 +131,6 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_name(label, "vote label");
   vib->label = label;
 
-  arrow = gtk_image_new_from_icon_name("media-seek-backward",
-                                       GTK_ICON_SIZE_SMALL_TOOLBAR);
-  gtk_widget_set_halign(arrow, GTK_ALIGN_CENTER);
-  gtk_widget_set_valign(arrow, GTK_ALIGN_START);
-
   if (split_bar) {
     hbox = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
@@ -146,7 +141,7 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   gtk_widget_set_margin_end(button, 16);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(voteinfo_bar_next_callback), NULL);
-  gtk_button_set_image(GTK_BUTTON(button), arrow);
+  gtk_button_set_icon_name(GTK_BUTTON(button), "media-seek-backward");
   gtk_widget_set_size_request(button, -1, BUTTON_HEIGHT);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_widget_set_focus_on_click(button, FALSE);
