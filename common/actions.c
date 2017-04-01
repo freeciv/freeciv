@@ -24,6 +24,7 @@
 #include "actions.h"
 #include "city.h"
 #include "combat.h"
+#include "fc_interface.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
@@ -1745,7 +1746,9 @@ is_action_possible(const enum gen_action wanted_action,
     /* The Freeciv code assumes that the player is aware of the target
      * city's existence. (How can you order an airlift to a city when you
      * don't know its city ID?) */
-    if (!(plr_knows_tile(actor_player, city_tile(target_city)))) {
+    if (fc_funcs->player_tile_city_id_get(city_tile(target_city),
+                                          actor_player)
+        != target_city->id) {
       return TRI_NO;
     }
     break;

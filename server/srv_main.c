@@ -3250,6 +3250,19 @@ static inline void server_gui_color_free(struct color *pcolor)
   return;
 }
 
+/***************************************************************************
+  Returns the id of the city the player map of 'pplayer' has at 'ptile' or
+  IDENTITY_NUMBER_ZERO if the player map don't have a city there.
+***************************************************************************/
+static int server_plr_tile_city_id_get(const struct tile *ptile,
+                                       const struct player *pplayer)
+{
+  const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
+  return plrtile && plrtile->site ? plrtile->site->identity
+                                  : IDENTITY_NUMBER_ZERO;
+}
+
 /***************************************************************
   Initialize client specific functions.
 ***************************************************************/
@@ -3260,6 +3273,7 @@ static void fc_interface_init_server(void)
   funcs->create_extra = create_extra;
   funcs->destroy_extra = destroy_extra;
   funcs->player_tile_vision_get = map_is_known_and_seen;
+  funcs->player_tile_city_id_get = server_plr_tile_city_id_get;
   funcs->gui_color_free = server_gui_color_free;
 
   /* Keep this function call at the end. It checks if all required functions
