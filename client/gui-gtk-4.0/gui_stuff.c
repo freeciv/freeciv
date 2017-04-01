@@ -1047,7 +1047,7 @@ void gui_update_font(const char *font_name, const char *font_value)
 
   provider = gtk_css_provider_new();
   gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider),
-    str, -1, NULL);
+                                  str, -1);
   gtk_style_context_add_provider_for_screen(
     gtk_widget_get_screen(toplevel), GTK_STYLE_PROVIDER(provider),
     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -1147,5 +1147,5 @@ void dlg_tab_provider_prepare(void)
                                   ".alert {\n"
                                   "color: rgba(255, 0, 0, 255);\n"
                                   "}\n",
-                                  -1, NULL);
+                                  -1);
 }

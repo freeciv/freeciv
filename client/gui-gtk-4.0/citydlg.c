@@ -1848,7 +1848,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 
     gtk_css_provider_load_from_data(emergency_provider,
                                     ".emergency {\n color: rgba(255, 0.0, 0.0, 255);\n}",
-                                    -1, NULL);
+                                    -1);
 
     gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[GRANARY]),
                                    GTK_STYLE_PROVIDER(emergency_provider),

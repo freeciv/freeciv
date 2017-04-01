@@ -92,7 +92,7 @@ void update_turn_done_button(bool do_restore)
                                       "color: rgba(235, 127, 235, 255);\n"
                                       "background-color: rgba(127, 127, 127, 255);\n"
                                       "}\n",
-                                      -1, NULL);
+                                      -1);
 
       gtk_style_context_add_provider(scontext,
                                      GTK_STYLE_PROVIDER(tdb_provider),
