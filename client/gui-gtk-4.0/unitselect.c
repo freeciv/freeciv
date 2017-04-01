@@ -265,7 +265,7 @@ static struct unit_select_dialog *usdlg_create(void)
   pdialog->notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(pdialog->notebook),
                            GTK_POS_BOTTOM);
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->notebook, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), pdialog->notebook, TRUE, TRUE);
 
   /* Append pages. */
   usdlg_tab_select(pdialog, _("_Units"), SELLOC_UNITS);

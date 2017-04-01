@@ -160,7 +160,7 @@ static void create_goto_dialog(void)
   gtk_label_set_line_wrap(GTK_LABEL(source), TRUE);
   gtk_label_set_justify(GTK_LABEL(source), GTK_JUSTIFY_CENTER);
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
-        source, FALSE, FALSE, 0);
+                     source, FALSE, FALSE);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -171,7 +171,7 @@ static void create_goto_dialog(void)
   frame = gtk_frame_new("");
   gtk_frame_set_label_widget(GTK_FRAME(frame), label);
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
-        frame, TRUE, TRUE, 0);
+                     frame, TRUE, TRUE);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
