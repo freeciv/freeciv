@@ -424,7 +424,7 @@ Actions done by a unit against a tile
  * the target tile has at least one enemy unit.
  * the target tile has no non enemy units.
  * the target tile has no non enemy city.
- * one or all (unreachable_protects) non transported units at the target
+ * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
    true:
    - it doesn't have the "Unreachable" unit class flag
