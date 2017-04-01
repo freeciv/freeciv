@@ -602,6 +602,20 @@ void rscompat_postprocess(struct rscompat_info *info)
                                            FALSE, FALSE, TRUE,
                                            "EvacuateFirst"));
 
+    /* The target city must be domestic, allied or on our team. */
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "War"));
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Cease-fire"));
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Armistice"));
+    requirement_vector_append(&enabler->actor_reqs,
+                              req_from_str("DiplRel", "Local", FALSE,
+                                           FALSE, TRUE, "Peace"));
+
     action_enabler_add(enabler);
 
     /* Disbanding a unit (without getting anything in return) is now action
