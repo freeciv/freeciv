@@ -436,8 +436,6 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   pdialog->active_command = gtk_toggle_button_new();
   gtk_button_set_use_underline(GTK_BUTTON(pdialog->active_command), TRUE);
-  gtk_button_set_image_position(GTK_BUTTON(pdialog->active_command),
-                                GTK_POS_TOP);
   gtk_widget_set_name(pdialog->active_command, "comment_label");
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->active_command);
 
