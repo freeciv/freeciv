@@ -31,7 +31,7 @@ appdatafile_DATA += \
 	freeciv-gtk3.22.appdata.xml
 endif
 if CLIENT_GUI_GTK_3X
-GUI_SUBDIRS += gui-gtk-3.22
+GUI_SUBDIRS += gui-gtk-4.0
 endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt

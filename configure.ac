@@ -423,6 +423,7 @@ fi
 
 gui_gtk3=no
 gui_gtk3_22=no
+gui_gtk3x=no
 gui_sdl2=no
 gui_qt=no
 gui_stub=no
@@ -442,6 +443,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
       gui_gtk3=yes
     elif test "x$gui" = "xgtk3.22" ; then
       gui_gtk3_22=yes
+    elif test "x$gui" = "xgtk3x" ; then
+      gui_gtk3x=yes
     elif test "x$gui" = "xgtk" ; then
       AC_MSG_WARN([for requested client 'gtk' enabled gtk3-client, that has changed since earlier versions and will change again in the future])
       gui_gtk3=yes
@@ -974,6 +977,9 @@ if test "x$client" != "xno"; then
   dnl SDL2-specific overrides
   FC_SDL2_CLIENT
 
+  dnl Gtk-3x-specific overrides
+  FC_GTK3X_CLIENT
+
   dnl Stub-specific overrides
   if test "x$gui_stub" = "xyes" || test "x$client" = "xall" ; then
     gui_stub=yes
@@ -992,6 +998,7 @@ fi
 if test "x$client" = "xall" ; then
   if test "x$gui_gtk3" = "xyes" ||
      test "x$gui_gtk3_22" = "xyes" ||
+     test "x$gui_gtk3x" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
      test "x$gui_stub" = "xyes" ; then
@@ -1254,7 +1261,7 @@ AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_22, test "x$gui_gtk3_22" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_GTK_3X, /bin/false)
+AM_CONDITIONAL(CLIENT_GUI_GTK_3X, test "x$gui_gtk3x" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_STUB, test "x$gui_stub" = "xyes")
 AM_CONDITIONAL(MINGW, test x"$MINGW" = "xyes")
@@ -1695,6 +1702,7 @@ AC_CONFIG_FILES([Makefile
           client/gui-sdl2/Makefile
 	  client/gui-gtk-3.0/Makefile
 	  client/gui-gtk-3.22/Makefile
+          client/gui-gtk-4.0/Makefile
           client/gui-qt/Makefile
 	  client/gui-stub/Makefile
           client/luascript/Makefile
@@ -1778,6 +1786,10 @@ AC_MSG_NOTICE([
     SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub
+
+  In-development client frontends:
+   (these are not yet ready for general use)
+    Gtk-3x:  $gui_gtk3x
 
   == Server ==
   Build freeciv server:  $server
