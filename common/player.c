@@ -918,7 +918,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
     return FALSE;
   }
 
-  /* Units in within some extras may be hidden. */
+  /* Units within some extras may be hidden. */
   if (!pplayers_allied(pplayer, ptile->extras_owner)) {
     extra_type_list_iterate(extra_type_list_of_unit_hiders(), pextra) {
       if (tile_has_extra(ptile, pextra)) {
@@ -977,7 +977,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
     return FALSE;
   }
 
-  /* Units in within some extras may be hidden. */
+  /* Units within some extras may be hidden. */
   if (!pplayers_allied(pplayer, ptile->extras_owner)) {
     struct unit_type *ptype = unit_type_get(punit);
 
