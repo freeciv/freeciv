@@ -340,13 +340,24 @@ bool utype_acts_hostile(const struct unit_type *putype)
  */
 BV_DEFINE(bv_ustate_act_cache, USP_COUNT * 2);
 
+/* Cache what actions may be possible when the target's local citytile state
+ * is
+ * bit 0 to CITYT_LAST - 1: Possible when the corresponding property is TRUE
+ * bit USP_COUNT to ((CITYT_LAST * 2) - 1): Possible when the corresponding
+ * property is FALSE
+ */
+BV_DEFINE(bv_citytile_cache, CITYT_LAST * 2);
+
 /* Cache position lookup functions */
 #define requirement_unit_state_ereq(_id_, _present_)                       \
   requirement_kind_ereq(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
+#define requirement_citytile_ereq(_id_, _present_)                         \
+  requirement_kind_ereq(_id_, REQ_RANGE_LOCAL, _present_, CITYT_LAST)
 
 /* Caches for each unit type */
 static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
 static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_AND_FAKES];
+static bv_citytile_cache ctile_tgt_act_cache[U_LAST][ACTION_AND_FAKES];
 
 /**************************************************************************
   Cache if any action may be possible for a unit of the type putype for
@@ -504,6 +515,84 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   }
 }
 
+/**************************************************************************
+  Cache if any action may be possible for a unit of the type putype for
+  each target local city tile property. Both present and !present must be
+  checked since a city tile property could be ignored.
+**************************************************************************/
+static void tgt_citytile_act_cache_set(struct unit_type *putype)
+{
+  struct requirement req;
+  int uidx = utype_index(putype);
+
+  /* The unit is not yet known to be allowed to perform any actions no
+   * matter what its target's CityTile state is. */
+  action_iterate(action_id) {
+    BV_CLR_ALL(ctile_tgt_act_cache[uidx][action_id]);
+  } action_iterate_end;
+  BV_CLR_ALL(ctile_tgt_act_cache[uidx][ACTION_ANY]);
+  BV_CLR_ALL(ctile_tgt_act_cache[uidx][ACTION_HOSTILE]);
+
+  if (!utype_may_act_at_all(putype)) {
+    /* Not an actor unit. */
+    return;
+  }
+
+  /* Common for every situation */
+  req.range = REQ_RANGE_LOCAL;
+  req.survives = FALSE;
+  req.source.kind = VUT_CITYTILE;
+
+  for (req.source.value.citytile = citytile_type_begin();
+       req.source.value.citytile != citytile_type_end();
+       req.source.value.citytile = citytile_type_next(
+         req.source.value.citytile)) {
+
+    /* No action will ever be possible in a target CityTile state if the
+     * opposite target CityTile state is required in all action enablers.
+     * No CityTile property state except present and !present of the same
+     * property implies or conflicts with another so the tests can be
+     * simple. */
+    action_enablers_iterate(enabler) {
+      if (requirement_fulfilled_by_unit_type(putype,
+                                             &(enabler->target_reqs))
+          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
+        /* Not required to be absent, so OK if present */
+        req.present = FALSE;
+        if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
+          BV_SET(ctile_tgt_act_cache[utype_index(putype)][enabler->action],
+              requirement_citytile_ereq(req.source.value.citytile,
+                                        TRUE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                requirement_citytile_ereq(req.source.value.citytile,
+                                          TRUE));
+          }
+          BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_ANY],
+              requirement_citytile_ereq(req.source.value.citytile,
+                                        TRUE));
+        }
+
+        /* Not required to be present, so OK if absent */
+        req.present = TRUE;
+        if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
+          BV_SET(ctile_tgt_act_cache[utype_index(putype)][enabler->action],
+              requirement_citytile_ereq(req.source.value.citytile,
+                                        FALSE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                requirement_citytile_ereq(req.source.value.citytile,
+                                          FALSE));
+          }
+          BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_ANY],
+              requirement_citytile_ereq(req.source.value.citytile,
+                                        FALSE));
+        }
+      }
+    } action_enablers_iterate_end;
+  }
+}
+
 struct range {
   int min;
   int max;
@@ -545,6 +634,7 @@ void unit_type_action_cache_set(struct unit_type *ptype)
   unit_can_act_cache_set(ptype);
   unit_state_action_cache_set(ptype);
   local_dipl_rel_action_cache_set(ptype);
+  tgt_citytile_act_cache_set(ptype);
 }
 
 /**************************************************************************
@@ -582,6 +672,20 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
 {
   return BV_ISSET(ustate_act_cache[utype_index(punit_type)][action_id],
       requirement_unit_state_ereq(prop, is_there));
+}
+
+/**************************************************************************
+  Returns TRUE iff the unit type can do the specified (action enabler
+  controlled) action while its target's CityTile property state has the
+  value is_there.
+**************************************************************************/
+bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
+                                      const int action_id,
+                                      const enum citytile_type prop,
+                                      const bool is_there)
+{
+  return BV_ISSET(ctile_tgt_act_cache[utype_index(punit_type)][action_id],
+      requirement_citytile_ereq(prop, is_there));
 }
 
 /**************************************************************************
