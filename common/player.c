@@ -897,24 +897,17 @@ int player_age(const struct player *pplayer)
 }
 
 /*************************************************************************
-  Check if pplayer could see all units on ptile if it had units.
+  Returns TRUE iff pplayer can trust that ptile really has no units when
+  it looks empty. A tile looks empty if the player can't see any units on
+  it and it doesn't contain anything marked as occupied by a unit.
 
   See can_player_see_unit_at() for rules about when an unit is visible.
 **************************************************************************/
-bool can_player_see_hypotetic_units_at(const struct player *pplayer,
-                                       const struct tile *ptile)
+bool player_can_trust_tile_has_no_units(const struct player *pplayer,
+                                        const struct tile *ptile)
 {
-  struct city *pcity;
-
   /* Can't see invisible units. */
   if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS)) {
-    return FALSE;
-  }
-
-  /* Can't see city units. */
-  pcity = tile_city(ptile);
-  if (pcity && !can_player_see_units_in_city(pplayer, pcity)
-      && unit_list_size(ptile->units) > 0) {
     return FALSE;
   }
 
@@ -925,6 +918,31 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
         return FALSE;
       }
     } extra_type_list_iterate_end;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Check if pplayer could see all units on ptile if it had units.
+
+  See can_player_see_unit_at() for rules about when an unit is visible.
+**************************************************************************/
+bool can_player_see_hypotetic_units_at(const struct player *pplayer,
+                                       const struct tile *ptile)
+{
+  struct city *pcity;
+
+  if (!player_can_trust_tile_has_no_units(pplayer, ptile)) {
+    /* The existance of any units at all is hidden from the player. */
+    return FALSE;
+  }
+
+  /* Can't see city units. */
+  pcity = tile_city(ptile);
+  if (pcity && !can_player_see_units_in_city(pplayer, pcity)
+      && unit_list_size(ptile->units) > 0) {
+    return FALSE;
   }
 
   /* Can't see non allied units in transports. */
