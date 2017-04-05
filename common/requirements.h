@@ -185,9 +185,6 @@ int requirement_kind_ereq(const int value,
                           const bool present,
                           const int max_value);
 
-#define requirement_unit_state_ereq(_id_, _present_)                       \
-  requirement_kind_ereq(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
-
 #define requirement_diplrel_ereq(_id_, _range_, _present_)                \
   requirement_kind_ereq(_id_, _range_, _present_, DRO_LAST)
 

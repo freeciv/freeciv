@@ -333,6 +333,10 @@ bool utype_acts_hostile(const struct unit_type *putype)
  */
 BV_DEFINE(bv_ustate_act_cache, USP_COUNT * 2);
 
+/* Cache position lookup functions */
+#define requirement_unit_state_ereq(_id_, _present_)                       \
+  requirement_kind_ereq(_id_, REQ_RANGE_LOCAL, _present_, USP_COUNT)
+
 /* Caches for each unit type */
 static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
 static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_AND_FAKES];
