@@ -400,8 +400,10 @@ bool player_has_embassy_from_effect(const struct player *pplayer,
 
 int player_age(const struct player *pplayer);
 
+bool player_can_trust_tile_has_no_units(const struct player *pplayer,
+                                        const struct tile *ptile);
 bool can_player_see_hypotetic_units_at(const struct player *pplayer,
-				       const struct tile *ptile);
+                                       const struct tile *ptile);
 bool can_player_see_unit(const struct player *pplayer,
 			 const struct unit *punit);
 bool can_player_see_unit_at(const struct player *pplayer,
