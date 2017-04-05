@@ -454,9 +454,11 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
                  requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
-          BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
-                 requirement_diplrel_ereq(req.source.value.diplrel,
-                                          REQ_RANGE_LOCAL, TRUE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+                   requirement_diplrel_ereq(req.source.value.diplrel,
+                                            REQ_RANGE_LOCAL, TRUE));
+          }
           BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
                  requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
@@ -467,9 +469,11 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
           BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
               requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
-          BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
-              requirement_diplrel_ereq(req.source.value.diplrel,
-                                       REQ_RANGE_LOCAL, FALSE));
+          if (action_is_hostile(enabler->action)) {
+            BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+                   requirement_diplrel_ereq(req.source.value.diplrel,
+                                            REQ_RANGE_LOCAL, FALSE));
+          }
           BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
               requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
