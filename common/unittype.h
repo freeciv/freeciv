@@ -615,6 +615,11 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
                                   const enum ustate_prop prop,
                                   const bool is_there);
 
+bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
+                                      const int action_id,
+                                      const enum citytile_type prop,
+                                      const bool is_there);
+
 bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int action_id,
                                      const int prop,
