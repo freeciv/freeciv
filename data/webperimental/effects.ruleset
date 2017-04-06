@@ -133,6 +133,16 @@ reqs    =
 type    = "City_Vision_Radius_Sq"
 value   = 5
 
+; Vision benefit from mountains (for every land unit)
+[effect_mountains_vision]
+type    = "Unit_Vision_Radius_Sq"
+value   = 4
+reqs    =
+    { "type",      "name",      "range"
+      "Terrain",   "Mountains", "Local"
+      "UnitClass", "Land",      "Local"
+    }
+
 [effect_trade_routes_base]
 type    = "Max_Trade_Routes"
 value   = 2
