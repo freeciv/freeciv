@@ -419,15 +419,15 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 static void local_dipl_rel_action_cache_set(struct unit_type *putype)
 {
   struct requirement req;
-  int putype_id = utype_index(putype);
+  int uidx = utype_index(putype);
 
   /* The unit is not yet known to be allowed to perform any actions no
    * matter what the diplomatic state is. */
   action_iterate(action_id) {
-    BV_CLR_ALL(dipl_rel_action_cache[putype_id][action_id]);
+    BV_CLR_ALL(dipl_rel_action_cache[uidx][action_id]);
   } action_iterate_end;
-  BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_ANY]);
-  BV_CLR_ALL(dipl_rel_action_cache[putype_id][ACTION_HOSTILE]);
+  BV_CLR_ALL(dipl_rel_action_cache[uidx][ACTION_ANY]);
+  BV_CLR_ALL(dipl_rel_action_cache[uidx][ACTION_HOSTILE]);
 
   if (!utype_may_act_at_all(putype)) {
     /* Not an actor unit. */
@@ -455,30 +455,30 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
           && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
         req.present = TRUE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
-          BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
+          BV_SET(dipl_rel_action_cache[uidx][enabler->action],
                  requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
           if (action_is_hostile(enabler->action)) {
-            BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+            BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
                    requirement_diplrel_ereq(req.source.value.diplrel,
                                             REQ_RANGE_LOCAL, TRUE));
           }
-          BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
+          BV_SET(dipl_rel_action_cache[uidx][ACTION_ANY],
                  requirement_diplrel_ereq(req.source.value.diplrel,
                                           REQ_RANGE_LOCAL, TRUE));
         }
 
         req.present = FALSE;
         if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
-          BV_SET(dipl_rel_action_cache[putype_id][enabler->action],
+          BV_SET(dipl_rel_action_cache[uidx][enabler->action],
               requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
           if (action_is_hostile(enabler->action)) {
-            BV_SET(dipl_rel_action_cache[putype_id][ACTION_HOSTILE],
+            BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
                    requirement_diplrel_ereq(req.source.value.diplrel,
                                             REQ_RANGE_LOCAL, FALSE));
           }
-          BV_SET(dipl_rel_action_cache[putype_id][ACTION_ANY],
+          BV_SET(dipl_rel_action_cache[uidx][ACTION_ANY],
               requirement_diplrel_ereq(req.source.value.diplrel,
                                        REQ_RANGE_LOCAL, FALSE));
         }
