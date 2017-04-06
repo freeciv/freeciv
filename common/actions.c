@@ -3194,6 +3194,18 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  /* Doesn't leak information since the actor player can see the target
+   * tile. */
+  if (tile_is_seen(target_tile, unit_owner(actor_unit))
+      && tile_city(target_tile) != NULL
+      && !utype_can_do_act_if_tgt_citytile(unit_type_get(actor_unit),
+                                           action_id,
+                                           CITYT_CENTER, TRUE)) {
+    /* Don't offer to perform actions that never can target a unit stack in
+     * a city. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   /* Does the player know if there are units at the tile? Must be done here
    * since an empthy unseen tile will result in false. */
   if (!can_player_see_hypotetic_units_at(unit_owner(actor_unit),
