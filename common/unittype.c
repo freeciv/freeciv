@@ -403,9 +403,6 @@ static void unit_state_action_cache_set(struct unit_type *putype)
         /* Not required to be absent, so OK if present */
         req.present = FALSE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
-              requirement_unit_state_ereq(req.source.value.unit_state,
-                                         TRUE));
           BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
               requirement_unit_state_ereq(req.source.value.unit_state,
                                          TRUE));
@@ -414,14 +411,14 @@ static void unit_state_action_cache_set(struct unit_type *putype)
                 requirement_unit_state_ereq(req.source.value.unit_state,
                                            TRUE));
           }
+          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
+              requirement_unit_state_ereq(req.source.value.unit_state,
+                                         TRUE));
         }
 
         /* Not required to be present, so OK if absent */
         req.present = TRUE;
         if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
-                 requirement_unit_state_ereq(req.source.value.unit_state,
-                                            FALSE));
           BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
                  requirement_unit_state_ereq(req.source.value.unit_state,
                                             FALSE));
@@ -430,6 +427,9 @@ static void unit_state_action_cache_set(struct unit_type *putype)
                    requirement_unit_state_ereq(req.source.value.unit_state,
                                               FALSE));
           }
+          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
+                 requirement_unit_state_ereq(req.source.value.unit_state,
+                                            FALSE));
         }
       }
     } action_enablers_iterate_end;
