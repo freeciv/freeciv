@@ -25,6 +25,7 @@ extern "C" {
 #define SPECENUM_VALUE2 SST_STRING
 #define SPECENUM_VALUE3 SST_ENUM
 #define SPECENUM_VALUE4 SST_BITWISE
+#define SPECENUM_COUNT  SST_COUNT
 #include "specenum_gen.h"
 
 #ifdef __cplusplus

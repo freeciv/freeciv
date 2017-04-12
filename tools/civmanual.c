@@ -316,6 +316,9 @@ static bool manual_command(void)
         case SST_BOOL:
         case SST_STRING:
           break;
+        case SST_COUNT:
+          fc_assert(setting_type(pset) != SST_COUNT);
+          break;
         }
         if (SST_INT != setting_type(pset)) {
           fprintf(doc, "\n<p class=\"bounds\">%s %s</p>\n",

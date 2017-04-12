@@ -3872,6 +3872,9 @@ const char *setting_value_name(const struct setting *pset, bool pretty,
   case SST_BITWISE:
     return setting_bitwise_to_str(pset, *pset->bitwise.pvalue,
                                   pretty, buf, buf_len);
+  case SST_COUNT:
+    /* Error logged below. */
+    break;
   }
 
   log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
@@ -3905,6 +3908,9 @@ const char *setting_default_name(const struct setting *pset, bool pretty,
   case SST_BITWISE:
     return setting_bitwise_to_str(pset, pset->bitwise.default_value,
                                   pretty, buf, buf_len);
+  case SST_COUNT:
+    /* Error logged below. */
+    break;
   }
 
   log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
@@ -3933,6 +3939,9 @@ void setting_set_to_default(struct setting *pset)
     break;
   case SST_BITWISE:
     (*pset->bitwise.pvalue) = pset->bitwise.default_value;
+    break;
+  case SST_COUNT:
+    fc_assert(pset->stype != SST_COUNT);
     break;
   }
 
@@ -4138,6 +4147,10 @@ static bool setting_ruleset_one(struct section_file *file,
       }
     }
     break;
+
+  case SST_COUNT:
+    fc_assert(pset->stype != SST_COUNT);
+    break;
   }
 
   pset->setdef = SETDEF_RULESET;
@@ -4171,6 +4184,9 @@ bool setting_non_default(const struct setting *pset)
     return (read_enum_value(pset) != pset->enumerator.default_value);
   case SST_BITWISE:
     return (*pset->bitwise.pvalue != pset->bitwise.default_value);
+  case SST_COUNT:
+    /* Error logged below. */
+    break;
   }
 
   log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
@@ -4224,6 +4240,10 @@ static void setting_game_set(struct setting *pset, bool init)
 
   case SST_BITWISE:
     pset->bitwise.game_value = *pset->bitwise.pvalue;
+    break;
+
+  case SST_COUNT:
+    fc_assert(setting_type(pset) != SST_COUNT);
     break;
   }
 }
@@ -4282,6 +4302,10 @@ static void setting_game_restore(struct setting *pset)
                                           FALSE, buf, sizeof(buf))
            && setting_bitwise_set(pset, buf, NULL, reject_msg,
                                   sizeof(reject_msg)));
+    break;
+
+  case SST_COUNT:
+    res = NULL;
     break;
   }
 
@@ -4355,6 +4379,13 @@ void settings_game_save(struct section_file *file, const char *section)
         secfile_insert_enum_data(file, pset->bitwise.game_value, TRUE,
                                  setting_bitwise_secfile_str, pset,
                                  "%s.set%d.gamestart", section, set_count);
+        break;
+      case SST_COUNT:
+        fc_assert(setting_type(pset) != SST_COUNT);
+        secfile_insert_str(file, "Unknown setting type",
+                           "%s.set%d.value", section, set_count);
+        secfile_insert_str(file, "Unknown setting type",
+                           "%s.set%d.gamestart", section, set_count);
         break;
       }
       set_count++;
@@ -4561,6 +4592,10 @@ void settings_game_load(struct section_file *file, const char *section)
           }
         }
         break;
+
+      case SST_COUNT:
+        fc_assert(pset->stype != SST_COUNT);
+        break;
       }
 
       if (game.server.settings_gamestart_valid) {
@@ -4598,6 +4633,10 @@ void settings_game_load(struct section_file *file, const char *section)
               secfile_lookup_enum_default_data(file,
                   *pset->bitwise.pvalue, TRUE, setting_bitwise_secfile_str,
                   pset, "%s.set%d.gamestart", section, i);
+          break;
+
+        case SST_COUNT:
+          fc_assert(pset->stype != SST_COUNT);
           break;
         }
 
@@ -4810,6 +4849,10 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
         send_packet_server_setting_bitwise(pconn, &packet);
       } conn_list_iterate_end;
     }
+    break;
+
+  case SST_COUNT:
+    fc_assert(setting_type(pset) != SST_COUNT);
     break;
   }
 
