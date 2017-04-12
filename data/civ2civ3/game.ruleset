@@ -727,7 +727,7 @@ size_effect    = 1
 ; If City_Radius_Sq is variable, so is the set of locked tiles; this is
 ; a squared value, so the radius of the ring of tiles which are workable
 ; but not locked (or vice versa) varies but the area is constant.
-radius_sq_city_permanent = -5
+radius_sq_city_permanent = -3
 
 [research]
 ; Method of calculating technology costs
