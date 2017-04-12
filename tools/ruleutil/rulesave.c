@@ -1394,6 +1394,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
                                  setting_bitwise_secfile_str, pset,
                                  "settings.set%d.value", set_count);
         break;
+      case SST_COUNT:
+        fc_assert(setting_type(pset) != SST_COUNT);
+        secfile_insert_str(sfile, "Unknown setting type",
+                           "settings.set%d.value", set_count);
+        break;
       }
 
       if (locks) {

@@ -1762,6 +1762,9 @@ static void show_help_option(struct connection *caller,
                   _("Default:"), def_buf);
       }
       break;
+    case SST_COUNT:
+      fc_assert(setting_type(pset) != SST_COUNT);
+      break;
     }
   }
 }
@@ -3000,6 +3003,11 @@ static bool set_command(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
       goto cleanup;
     }
+    break;
+
+  case SST_COUNT:
+    fc_assert(setting_type(pset) != SST_COUNT);
+    goto cleanup;
     break;
   }
 
