@@ -18,8 +18,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "game.h"
 
 struct sset_val_name {
