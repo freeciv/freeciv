@@ -1274,7 +1274,7 @@ static bool plrcol_validate(int value, struct connection *caller,
 #define GEN_BOOL(name, value, sclass, scateg, slevel, al_read, al_write,    \
                  short_help, extra_help, func_validate, func_action,        \
                  _default)                                                  \
-  {name, sclass, al_read, al_write, short_help, extra_help, NULL, SSET_BOOL,\
+  {name, sclass, al_read, al_write, short_help, extra_help, NULL, SST_BOOL, \
       scateg, slevel,                                                       \
       INIT_BRACE_BEGIN                                                      \
       .boolean = {&value, _default, func_validate, bool_name,               \
@@ -1285,7 +1285,7 @@ static bool plrcol_validate(int value, struct connection *caller,
                 func_validate, func_action,                             \
                 _min, _max, _default)                                   \
   {name, sclass, al_read, al_write, short_help, extra_help, func_help,  \
-      SSET_INT, scateg, slevel,                                         \
+      SST_INT, scateg, slevel,                                          \
       INIT_BRACE_BEGIN                                                  \
       .integer = {(int *) &value, _default, _min, _max, func_validate,  \
                   0} INIT_BRACE_END,                                    \
@@ -1295,7 +1295,7 @@ static bool plrcol_validate(int value, struct connection *caller,
                    short_help, extra_help, func_validate, func_action,  \
                    _default)                                            \
   {name, sclass, al_read, al_write, short_help, extra_help, NULL,       \
-      SSET_STRING, scateg, slevel,                                      \
+      SST_STRING, scateg, slevel,                                       \
       INIT_BRACE_BEGIN                                                  \
       .string = {value, _default, sizeof(value), func_validate, ""}     \
       INIT_BRACE_END,                                                   \
@@ -1305,7 +1305,7 @@ static bool plrcol_validate(int value, struct connection *caller,
                  short_help, extra_help, func_help, func_validate,          \
                  func_action, func_name, _default)                          \
   { name, sclass, al_read, al_write, short_help, extra_help, func_help,     \
-      SSET_ENUM, scateg, slevel,                                            \
+      SST_ENUM, scateg, slevel,                                             \
       INIT_BRACE_BEGIN                                                      \
       .enumerator = {  &value, sizeof(value), _default,                     \
                        func_validate,                                       \
@@ -1316,7 +1316,7 @@ static bool plrcol_validate(int value, struct connection *caller,
                    short_help, extra_help, func_validate, func_action,      \
                    func_name, _default)                                     \
   { name, sclass, al_read, al_write, short_help, extra_help, NULL,          \
-    SSET_BITWISE, scateg, slevel,                                           \
+    SST_BITWISE, scateg, slevel,                                            \
       INIT_BRACE_BEGIN                                                      \
       .bitwise = { (unsigned *) (void *) &value, _default, func_validate,   \
                    func_name, 0 } INIT_BRACE_END,                           \
@@ -3136,7 +3136,7 @@ bool setting_is_visible(const struct setting *pset,
 
 /****************************************************************************
   Convert the string prefix to an integer representation.
-  NB: This function is used for SSET_ENUM *and* SSET_BITWISE.
+  NB: This function is used for SST_ENUM *and* SST_BITWISE.
 
   FIXME: this mostly duplicate match_prefix_full().
 ****************************************************************************/
@@ -3184,7 +3184,7 @@ setting_match_prefix_base(const val_name_func_t name_fn,
 
 /****************************************************************************
   Convert the string prefix to an integer representation.
-  NB: This function is used for SSET_ENUM *and* SSET_BITWISE.
+  NB: This function is used for SST_ENUM *and* SST_BITWISE.
 ****************************************************************************/
 static bool setting_match_prefix(const val_name_func_t name_fn,
                                  const char *prefix, int *pvalue,
@@ -3257,7 +3257,7 @@ static bool setting_bool_validate_base(const struct setting *pset,
 {
   char buf[256];
 
-  if (SSET_BOOL != pset->stype) {
+  if (SST_BOOL != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not a boolean."));
     return FALSE;
@@ -3299,7 +3299,7 @@ bool setting_bool_set(struct setting *pset, const char *val,
 ****************************************************************************/
 bool setting_bool_get(struct setting *pset)
 {
-  fc_assert(setting_type(pset) == SSET_BOOL);
+  fc_assert(setting_type(pset) == SST_BOOL);
 
   return *pset->boolean.pvalue;
 }
@@ -3347,7 +3347,7 @@ static const char *setting_int_to_str(const struct setting *pset,
 ****************************************************************************/
 int setting_int_min(const struct setting *pset)
 {
-  fc_assert_ret_val(pset->stype == SSET_INT, 0);
+  fc_assert_ret_val(pset->stype == SST_INT, 0);
   return pset->integer.min_value;
 }
 
@@ -3356,7 +3356,7 @@ int setting_int_min(const struct setting *pset)
 ****************************************************************************/
 int setting_int_max(const struct setting *pset)
 {
-  fc_assert_ret_val(pset->stype == SSET_INT, 0);
+  fc_assert_ret_val(pset->stype == SST_INT, 0);
   return pset->integer.max_value;
 }
 
@@ -3388,7 +3388,7 @@ bool setting_int_validate(const struct setting *pset, int val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len)
 {
-  if (SSET_INT != pset->stype) {
+  if (SST_INT != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not an integer."));
     return FALSE;
@@ -3411,7 +3411,7 @@ bool setting_int_validate(const struct setting *pset, int val,
 ****************************************************************************/
 int setting_int_get(struct setting *pset)
 {
-  fc_assert(setting_type(pset) == SSET_INT);
+  fc_assert(setting_type(pset) == SST_INT);
 
   return *pset->integer.pvalue;
 }
@@ -3459,7 +3459,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len)
 {
-  if (SSET_STRING != pset->stype) {
+  if (SST_STRING != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not a string."));
     return FALSE;
@@ -3482,7 +3482,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
 ****************************************************************************/
 char *setting_str_get(struct setting *pset)
 {
-  fc_assert(setting_type(pset) == SSET_STRING);
+  fc_assert(setting_type(pset) == SST_STRING);
 
   return pset->string.value;
 }             
@@ -3508,7 +3508,7 @@ const char *setting_enum_val(const struct setting *pset, int val,
 {
   const struct sset_val_name *name;
 
-  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
+  fc_assert_ret_val(SST_ENUM == pset->stype, NULL);
   name = pset->enumerator.name(val);
   if (NULL == name) {
     return NULL;
@@ -3553,7 +3553,7 @@ static bool setting_enum_validate_base(const struct setting *pset,
 {
   char buf[256];
 
-  if (SSET_ENUM != pset->stype) {
+  if (SST_ENUM != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not an enumerator."));
     return FALSE;
@@ -3693,7 +3693,7 @@ const char *setting_bitwise_bit(const struct setting *pset,
 {
   const struct sset_val_name *name;
 
-  fc_assert_ret_val(SSET_BITWISE == pset->stype, NULL);
+  fc_assert_ret_val(SST_BITWISE == pset->stype, NULL);
   name = pset->bitwise.name(bit);
   if (NULL == name) {
     return NULL;
@@ -3783,7 +3783,7 @@ static bool setting_bitwise_validate_base(const struct setting *pset,
   const char *p;
   int bit;
 
-  if (SSET_BITWISE != pset->stype) {
+  if (SST_BITWISE != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not a bitwise."));
     return FALSE;
@@ -3859,7 +3859,7 @@ bool setting_bitwise_validate(const struct setting *pset, const char *val,
 ****************************************************************************/
 int setting_bitwise_get(struct setting *pset)
 {
-  fc_assert(setting_type(pset) == SSET_BITWISE);
+  fc_assert(setting_type(pset) == SST_BITWISE);
 
   return *pset->bitwise.pvalue;
 }
@@ -3875,19 +3875,19 @@ const char *setting_value_name(const struct setting *pset, bool pretty,
   fc_assert_ret_val(0 < buf_len, NULL);
 
   switch (pset->stype) {
-  case SSET_BOOL:
+  case SST_BOOL:
     return setting_bool_to_str(pset, *pset->boolean.pvalue,
                                pretty, buf, buf_len);
-  case SSET_INT:
+  case SST_INT:
     return setting_int_to_str(pset, *pset->integer.pvalue,
                               pretty, buf, buf_len);
-  case SSET_STRING:
+  case SST_STRING:
     return setting_str_to_str(pset, pset->string.value,
                               pretty, buf, buf_len);
-  case SSET_ENUM:
+  case SST_ENUM:
     return setting_enum_to_str(pset, read_enum_value(pset),
                                pretty, buf, buf_len);
-  case SSET_BITWISE:
+  case SST_BITWISE:
     return setting_bitwise_to_str(pset, *pset->bitwise.pvalue,
                                   pretty, buf, buf_len);
   }
@@ -3908,19 +3908,19 @@ const char *setting_default_name(const struct setting *pset, bool pretty,
   fc_assert_ret_val(0 < buf_len, NULL);
 
   switch (pset->stype) {
-  case SSET_BOOL:
+  case SST_BOOL:
     return setting_bool_to_str(pset, pset->boolean.default_value,
                                pretty, buf, buf_len);
-  case SSET_INT:
+  case SST_INT:
     return setting_int_to_str(pset, pset->integer.default_value,
                               pretty, buf, buf_len);
-  case SSET_STRING:
+  case SST_STRING:
     return setting_str_to_str(pset, pset->string.default_value,
                               pretty, buf, buf_len);
-  case SSET_ENUM:
+  case SST_ENUM:
     return setting_enum_to_str(pset, pset->enumerator.default_value,
                                pretty, buf, buf_len);
-  case SSET_BITWISE:
+  case SST_BITWISE:
     return setting_bitwise_to_str(pset, pset->bitwise.default_value,
                                   pretty, buf, buf_len);
   }
@@ -3936,20 +3936,20 @@ const char *setting_default_name(const struct setting *pset, bool pretty,
 void setting_set_to_default(struct setting *pset)
 {
   switch (pset->stype) {
-  case SSET_BOOL:
+  case SST_BOOL:
     (*pset->boolean.pvalue) = pset->boolean.default_value;
     break;
-  case SSET_INT:
+  case SST_INT:
     (*pset->integer.pvalue) = pset->integer.default_value;
     break;
-  case SSET_STRING:
+  case SST_STRING:
     fc_strlcpy(pset->string.value, pset->string.default_value,
                pset->string.value_size);
     break;
-  case SSET_ENUM:
+  case SST_ENUM:
     set_enum_value(pset, pset->enumerator.default_value);
     break;
-  case SSET_BITWISE:
+  case SST_BITWISE:
     (*pset->bitwise.pvalue) = pset->bitwise.default_value;
     break;
   }
@@ -4038,7 +4038,7 @@ static bool setting_ruleset_one(struct section_file *file,
   }
 
   switch (pset->stype) {
-  case SSET_BOOL:
+  case SST_BOOL:
     {
       int ival;
       bool val;
@@ -4069,7 +4069,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SSET_INT:
+  case SST_INT:
     {
       int val;
 
@@ -4089,7 +4089,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SSET_STRING:
+  case SST_STRING:
     {
       const char *val = secfile_lookup_str(file, "%s.value", path);
 
@@ -4109,7 +4109,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SSET_ENUM:
+  case SST_ENUM:
     {
       int val;
 
@@ -4133,7 +4133,7 @@ static bool setting_ruleset_one(struct section_file *file,
     }
     break;
 
-  case SSET_BITWISE:
+  case SST_BITWISE:
     {
       int val;
 
@@ -4179,15 +4179,15 @@ static bool setting_ruleset_one(struct section_file *file,
 bool setting_non_default(const struct setting *pset)
 {
   switch (setting_type(pset)) {
-  case SSET_BOOL:
+  case SST_BOOL:
     return (*pset->boolean.pvalue != pset->boolean.default_value);
-  case SSET_INT:
+  case SST_INT:
     return (*pset->integer.pvalue != pset->integer.default_value);
-  case SSET_STRING:
+  case SST_STRING:
     return (0 != strcmp(pset->string.value, pset->string.default_value));
-  case SSET_ENUM:
+  case SST_ENUM:
     return (read_enum_value(pset) != pset->enumerator.default_value);
-  case SSET_BITWISE:
+  case SST_BITWISE:
     return (*pset->bitwise.pvalue != pset->bitwise.default_value);
   }
 
@@ -4218,15 +4218,15 @@ void setting_lock_set(struct setting *pset, bool lock)
 static void setting_game_set(struct setting *pset, bool init)
 {
   switch (setting_type(pset)) {
-  case SSET_BOOL:
+  case SST_BOOL:
     pset->boolean.game_value = *pset->boolean.pvalue;
     break;
 
-  case SSET_INT:
+  case SST_INT:
     pset->integer.game_value = *pset->integer.pvalue;
     break;
 
-  case SSET_STRING:
+  case SST_STRING:
     if (init) {
       pset->string.game_value
         = fc_calloc(1, pset->string.value_size
@@ -4236,11 +4236,11 @@ static void setting_game_set(struct setting *pset, bool init)
               pset->string.value_size);
     break;
 
-  case SSET_ENUM:
+  case SST_ENUM:
     pset->enumerator.game_value = read_enum_value(pset);
     break;
 
-  case SSET_BITWISE:
+  case SST_BITWISE:
     pset->bitwise.game_value = *pset->bitwise.pvalue;
     break;
   }
@@ -4251,7 +4251,7 @@ static void setting_game_set(struct setting *pset, bool init)
 **************************************************************************/
 static void setting_game_free(struct setting *pset)
 {
-  if (setting_type(pset) == SSET_STRING) {
+  if (setting_type(pset) == SST_STRING) {
     FC_FREE(pset->string.game_value);
   }
 }
@@ -4271,31 +4271,31 @@ static void setting_game_restore(struct setting *pset)
   }
 
   switch (setting_type(pset)) {
-  case SSET_BOOL:
+  case SST_BOOL:
     res = (NULL != setting_bool_to_str(pset, pset->boolean.game_value,
                                        FALSE, buf, sizeof(buf))
            && setting_bool_set(pset, buf, NULL, reject_msg,
                                sizeof(reject_msg)));
     break;
 
-  case SSET_INT:
+  case SST_INT:
     res = setting_int_set(pset, pset->integer.game_value, NULL, reject_msg,
                           sizeof(reject_msg));
     break;
 
-  case SSET_STRING:
+  case SST_STRING:
     res = setting_str_set(pset, pset->string.game_value, NULL, reject_msg,
                           sizeof(reject_msg));
     break;
 
-  case SSET_ENUM:
+  case SST_ENUM:
     res = (NULL != setting_enum_to_str(pset, pset->enumerator.game_value,
                                        FALSE, buf, sizeof(buf))
            && setting_enum_set(pset, buf, NULL, reject_msg,
                                sizeof(reject_msg)));
     break;
 
-  case SSET_BITWISE:
+  case SST_BITWISE:
     res = (NULL != setting_bitwise_to_str(pset, pset->bitwise.game_value,
                                           FALSE, buf, sizeof(buf))
            && setting_bitwise_set(pset, buf, NULL, reject_msg,
@@ -4340,25 +4340,25 @@ void settings_game_save(struct section_file *file, const char *section)
       secfile_insert_str(file, setting_name(pset),
                          "%s.set%d.name", section, set_count);
       switch (setting_type(pset)) {
-      case SSET_BOOL:
+      case SST_BOOL:
         secfile_insert_bool(file, *pset->boolean.pvalue,
                             "%s.set%d.value", section, set_count);
         secfile_insert_bool(file, pset->boolean.game_value,
                             "%s.set%d.gamestart", section, set_count);
         break;
-      case SSET_INT:
+      case SST_INT:
         secfile_insert_int(file, *pset->integer.pvalue,
                            "%s.set%d.value", section, set_count);
         secfile_insert_int(file, pset->integer.game_value,
                            "%s.set%d.gamestart", section, set_count);
         break;
-      case SSET_STRING:
+      case SST_STRING:
         secfile_insert_str(file, pset->string.value,
                            "%s.set%d.value", section, set_count);
         secfile_insert_str(file, pset->string.game_value,
                            "%s.set%d.gamestart", section, set_count);
         break;
-      case SSET_ENUM:
+      case SST_ENUM:
         secfile_insert_enum_data(file, read_enum_value(pset), FALSE,
                                  setting_enum_secfile_str, pset,
                                  "%s.set%d.value", section, set_count);
@@ -4366,7 +4366,7 @@ void settings_game_save(struct section_file *file, const char *section)
                                  setting_enum_secfile_str, pset,
                                  "%s.set%d.gamestart", section, set_count);
         break;
-      case SSET_BITWISE:
+      case SST_BITWISE:
         secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
                                  setting_bitwise_secfile_str, pset,
                                  "%s.set%d.value", section, set_count);
@@ -4418,7 +4418,7 @@ void settings_game_load(struct section_file *file, const char *section)
 
       /* Load the current value of the setting. */
       switch (pset->stype) {
-      case SSET_BOOL:
+      case SST_BOOL:
         {
           bool val;
 
@@ -4451,7 +4451,7 @@ void settings_game_load(struct section_file *file, const char *section)
         }
         break;
 
-      case SSET_INT:
+      case SST_INT:
         {
           int val;
 
@@ -4483,7 +4483,7 @@ void settings_game_load(struct section_file *file, const char *section)
         }
         break;
 
-      case SSET_STRING:
+      case SST_STRING:
         {
           const char *val = secfile_lookup_str(file, "%s.set%d.value",
                                                section, i);
@@ -4512,7 +4512,7 @@ void settings_game_load(struct section_file *file, const char *section)
         }
         break;
 
-      case SSET_ENUM:
+      case SST_ENUM:
         {
           int val;
 
@@ -4546,7 +4546,7 @@ void settings_game_load(struct section_file *file, const char *section)
         }
         break;
 
-      case SSET_BITWISE:
+      case SST_BITWISE:
         {
           int val;
 
@@ -4584,19 +4584,19 @@ void settings_game_load(struct section_file *file, const char *section)
       if (game.server.settings_gamestart_valid) {
         /* Load the value of the setting at the start of the game. */
         switch (pset->stype) {
-        case SSET_BOOL:
+        case SST_BOOL:
           pset->boolean.game_value =
               secfile_lookup_bool_default(file, *pset->boolean.pvalue,
                                           "%s.set%d.gamestart", section, i);
           break;
 
-        case SSET_INT:
+        case SST_INT:
           pset->integer.game_value =
               secfile_lookup_int_default(file, *pset->integer.pvalue,
                                          "%s.set%d.gamestart", section, i);
           break;
 
-        case SSET_STRING:
+        case SST_STRING:
           fc_strlcpy(pset->string.game_value,
                      secfile_lookup_str_default(file, pset->string.value,
                                                 "%s.set%d.gamestart",
@@ -4604,14 +4604,14 @@ void settings_game_load(struct section_file *file, const char *section)
                      pset->string.value_size);
           break;
 
-        case SSET_ENUM:
+        case SST_ENUM:
           pset->enumerator.game_value =
               secfile_lookup_enum_default_data(file,
                   read_enum_value(pset), FALSE, setting_enum_secfile_str,
                   pset, "%s.set%d.gamestart", section, i);
           break;
 
-        case SSET_BITWISE:
+        case SST_BITWISE:
           pset->bitwise.game_value =
               secfile_lookup_enum_default_data(file,
                   *pset->bitwise.pvalue, TRUE, setting_bitwise_secfile_str,
@@ -4737,7 +4737,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
   packet.initial_setting = game.info.is_new_game;
 
   switch (setting_type(pset)) {
-  case SSET_BOOL:
+  case SST_BOOL:
     {
       struct packet_server_setting_bool packet;
 
@@ -4751,7 +4751,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       } conn_list_iterate_end;
     }
     break;
-  case SSET_INT:
+  case SST_INT:
     {
       struct packet_server_setting_int packet;
 
@@ -4767,7 +4767,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       } conn_list_iterate_end;
     }
     break;
-  case SSET_STRING:
+  case SST_STRING:
     {
       struct packet_server_setting_str packet;
 
@@ -4781,7 +4781,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       } conn_list_iterate_end;
     }
     break;
-  case SSET_ENUM:
+  case SST_ENUM:
     {
       struct packet_server_setting_enum packet;
       const struct sset_val_name *val_name;
@@ -4805,7 +4805,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       } conn_list_iterate_end;
     }
     break;
-  case SSET_BITWISE:
+  case SST_BITWISE:
     {
       struct packet_server_setting_bitwise packet;
       const struct sset_val_name *val_name;

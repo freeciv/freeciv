@@ -23,6 +23,7 @@ extern "C" {
 
 /* common */
 #include "game.h"
+#include "server_settings.h"
 
 struct sset_val_name {
   const char *support;          /* Untranslated long support name, used 
@@ -72,15 +73,6 @@ struct sset_val_name {
 #define SPECENUM_COUNT      OLEVELS_NUM
 #include "specenum_gen.h"
 
-/* Server setting types. */
-#define SPECENUM_NAME sset_type
-#define SPECENUM_VALUE0 SSET_BOOL
-#define SPECENUM_VALUE1 SSET_INT
-#define SPECENUM_VALUE2 SSET_STRING
-#define SPECENUM_VALUE3 SSET_ENUM
-#define SPECENUM_VALUE4 SSET_BITWISE
-#include "specenum_gen.h"
-
 enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
 
 /* forward declaration */
@@ -114,7 +106,7 @@ int read_enum_value(const struct setting *pset);
 const char *setting_enum_secfile_str(secfile_data_t data, int val);
 const char *setting_bitwise_secfile_str(secfile_data_t data, int bit);
 
-/* Type SSET_BOOL setting functions. */
+/* Type SST_BOOL setting functions. */
 bool setting_bool_set(struct setting *pset, const char *val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len);
@@ -123,7 +115,7 @@ bool setting_bool_validate(const struct setting *pset, const char *val,
                            size_t reject_msg_len);
 bool setting_bool_get(struct setting *pset);
 
-/* Type SSET_INT setting functions. */
+/* Type SST_INT setting functions. */
 int setting_int_min(const struct setting *pset);
 int setting_int_max(const struct setting *pset);
 bool setting_int_set(struct setting *pset, int val,
@@ -134,7 +126,7 @@ bool setting_int_validate(const struct setting *pset, int val,
                           size_t reject_msg_len);
 int setting_int_get(struct setting *pset);
 
-/* Type SSET_STRING setting functions. */
+/* Type SST_STRING setting functions. */
 bool setting_str_set(struct setting *pset, const char *val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len);
@@ -143,7 +135,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           size_t reject_msg_len);
 char *setting_str_get(struct setting *pset);
 
-/* Type SSET_ENUM setting functions. */
+/* Type SST_ENUM setting functions. */
 const char *setting_enum_val(const struct setting *pset, int val,
                              bool pretty);
 bool setting_enum_set(struct setting *pset, const char *val,
@@ -153,7 +145,7 @@ bool setting_enum_validate(const struct setting *pset, const char *val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
 
-/* Type SSET_BITWISE setting functions. */
+/* Type SST_BITWISE setting functions. */
 const char *setting_bitwise_bit(const struct setting *pset,
                                 int bit, bool pretty);
 bool setting_bitwise_set(struct setting *pset, const char *val,
