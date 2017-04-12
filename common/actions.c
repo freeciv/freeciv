@@ -3206,21 +3206,36 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
-  /* Does the player know if there are units at the tile? Must be done here
-   * since an empthy unseen tile will result in false. */
-  if (!can_player_see_hypotetic_units_at(unit_owner(actor_unit),
-                                         target_tile)) {
-    /* Invisible units at this tile can make the action legal or
-     * illegal. */
-    return act_prob_unseen_target(action_id, actor_unit);
-  } else if (unit_list_size(target_tile->units) == 0) {
-    /* Known empty tile. */
-    return ACTPROB_IMPOSSIBLE;
+  /* Must be done here since an empty unseen tile will result in
+   * ACTPROB_IMPOSSIBLE. */
+  if (unit_list_size(target_tile->units) == 0) {
+    /* Can't act against an empty tile. */
+
+    if (player_can_trust_tile_has_no_units(unit_owner(actor_unit),
+                                           target_tile)) {
+      /* Known empty tile. */
+      return ACTPROB_IMPOSSIBLE;
+    } else {
+      /* The player doesn't know that the tile is empty. */
+      return act_prob_unseen_target(action_id, actor_unit);
+    }
   }
 
-  prob_all = ACTPROB_CERTAIN;
+  /* Invisible units at this tile can make the action legal or illegal.
+   * Invisible units can be stacked with visible units. The possible
+   * existence of invisible units therefore makes the result uncertain. */
+  prob_all = (can_player_see_hypotetic_units_at(unit_owner(actor_unit),
+                                                target_tile)
+              ? ACTPROB_CERTAIN : ACTPROB_NOT_KNOWN);
+
   unit_list_iterate(target_tile->units, target_unit) {
     struct act_prob prob_unit;
+
+    if (!can_player_see_unit(unit_owner(actor_unit), target_unit)) {
+      /* Only visible units are considered. The invisible units contributed
+       * their uncertainty to prob_all above. */
+      continue;
+    }
 
     prob_unit = action_prob(action_id,
                             unit_owner(actor_unit),
