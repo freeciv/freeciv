@@ -912,6 +912,9 @@ Changes:
   Iron Working is a prerequisite to build Frigates and Ironclads.
 - Doubled costs of all spaceship parts, so it is harder to achieve a
   space victory.
+- Border stealing: The workable tiles next to a city are permanently within
+  the city owner's borders, once claimed. The outer workable tiles can be
+  stolen by a city with greater influence.
 
 Terrain:
 - Readjusted terrain transformations. Designed so all useful alterations
