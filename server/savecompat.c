@@ -163,7 +163,12 @@ void sg_load_compat(struct loaddata *loading, enum sgf_version format_class)
   }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
-  if (loading->version == compat[compat_current].version) {
+  if (loading->version == compat[compat_current].version
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
+      /* Make use of 3.0 compatibility while it is there. */
+      || loading->version == 40
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
+      ) {
     compat_load_dev(loading);
   }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
