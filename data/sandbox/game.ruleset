@@ -1084,8 +1084,8 @@ name           = _("Spaceship Launch")
 type           = "Spaceship"
 unique         = FALSE
 culture        = 10000
-first_msg      = _("You're the first one to launch spaceship towards Alpha Centauri!");
-cons_msg       = _("You have launched spaceship towards Alpha Centauri!")
+first_msg      = _("You're the first one to launch a spaceship towards Alpha Centauri!");
+cons_msg       = _("You have launched a spaceship towards Alpha Centauri!")
 
 [achievement_map_known]
 name           = _("Entire Map Known")
@@ -1093,8 +1093,8 @@ type           = "Map_Known"
 unique         = FALSE
 value          = 100
 culture        = 1000
-first_msg      = _("You're the first one to have entire world mapped!")
-cons_msg       = _("You have entire world mapped!")
+first_msg      = _("You're the first one to have mapped the entire world!")
+cons_msg       = _("You have mapped the entire world!")
 
 [achievement_another_island]
 name           = _("Land Ahoy")
@@ -1102,8 +1102,8 @@ type           = "Land_Ahoy"
 unique         = FALSE
 value          = 2
 culture        = 100
-first_msg      = _("As the first people in history, your people see foreign continent!")
-cons_msg       = _("You see foreign island!")
+first_msg      = _("As the first people in history, your people sight a foreign shore!")
+cons_msg       = _("You sight your first foreign shore!")
 
 [achievement_literate]
 name           = _("Literate")
