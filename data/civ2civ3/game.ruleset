@@ -1105,13 +1105,15 @@ colorlist =
 ;
 set =
     { "name", "value"
-      "aifill", 12
+      "aifill", 6
       "generator", "FRACTAL"
       "topology", "WRAPX|WRAPY|ISO|HEX"
       "mapsize", "PLAYER"
       "tilesperplayer", 100
       "tinyisles", "ENABLED"
-      "startunits", "cwx"
+      "temperature", 60
+      "flatpoles", 0
+      "startunits", "cwsx"
       "citymindist", 3
       "techlevel", 1
       "borders", "ENABLED"
@@ -1120,6 +1122,8 @@ set =
       "unreachableprotects", "DISABLED"
       "onsetbarbs", 120
       "occupychance", 100
+      "razechance", 10
       "techlossforgiveness", 0
       "techlossrestore", 50
+      "revolentype", "RANDQUICK"
     }
