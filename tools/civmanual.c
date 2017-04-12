@@ -283,13 +283,13 @@ static bool manual_command(void)
         fprintf(doc, "</p>\n");
         setting_default_name(pset, TRUE, buf, sizeof(buf));
         switch (setting_type(pset)) {
-        case SSET_INT:
+        case SST_INT:
           fprintf(doc, "\n<p class=\"bounds\">%s %d, %s %s, %s %d</p>\n",
                   _("Minimum:"), setting_int_min(pset),
                   _("Default:"), buf,
                   _("Maximum:"), setting_int_max(pset));
           break;
-        case SSET_ENUM:
+        case SST_ENUM:
           {
             const char *value;
 
@@ -301,7 +301,7 @@ static bool manual_command(void)
             }
           }
           break;
-        case SSET_BITWISE:
+        case SST_BITWISE:
           {
             const char *value;
 
@@ -313,11 +313,11 @@ static bool manual_command(void)
             }
           }
           break;
-        case SSET_BOOL:
-        case SSET_STRING:
+        case SST_BOOL:
+        case SST_STRING:
           break;
         }
-        if (SSET_INT != setting_type(pset)) {
+        if (SST_INT != setting_type(pset)) {
           fprintf(doc, "\n<p class=\"bounds\">%s %s</p>\n",
                   _("Default:"), buf);
         }

@@ -91,6 +91,7 @@ libfreeciv_la_SOURCES = \
 		rgbcolor.h	\
 		road.c		\
 		road.h		\
+		server_settings.h \
 		spaceship.c	\
 		spaceship.h	\
 		specialist.c	\

@@ -1721,14 +1721,14 @@ static void show_help_option(struct connection *caller,
     setting_default_name(pset, TRUE, def_buf, sizeof(def_buf));
 
     switch (setting_type(pset)) {
-    case SSET_INT:
+    case SST_INT:
       cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %d, %s %s, %s %d",
                 _("Value:"), val_buf,
                 _("Minimum:"), setting_int_min(pset),
                 _("Default:"), def_buf,
                 _("Maximum:"), setting_int_max(pset));
       break;
-    case SSET_ENUM:
+    case SST_ENUM:
       {
         int i;
         const char *value;
@@ -1740,12 +1740,12 @@ static void show_help_option(struct connection *caller,
         }
       }
       /* Fall through. */
-    case SSET_BOOL:
-    case SSET_STRING:
+    case SST_BOOL:
+    case SST_STRING:
       cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %s",
                 _("Value:"), val_buf, _("Default:"), def_buf);
       break;
-    case SSET_BITWISE:
+    case SST_BITWISE:
       {
         int i;
         const char *value;
@@ -2282,7 +2282,7 @@ static void show_settings_one(struct connection *caller, enum command_id cmd,
     } while (nl);
   }
 
-  if (SSET_INT == setting_type(pset)) {
+  if (SST_INT == setting_type(pset)) {
     /* Add the range. */
     cat_snprintf(value, sizeof(value), " (%d, %d)",
                  setting_int_min(pset), setting_int_max(pset));
@@ -2902,7 +2902,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   do_update = FALSE;
 
   switch (setting_type(pset)) {
-  case SSET_BOOL:
+  case SST_BOOL:
     if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
@@ -2920,7 +2920,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     break;
 
-  case SSET_INT:
+  case SST_INT:
     if (!str_to_int(args[1], &val)) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
                 _("The parameter %s should only contain +- and 0-9."),
@@ -2946,7 +2946,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     break;
 
-  case SSET_STRING:
+  case SST_STRING:
     if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
@@ -2966,7 +2966,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     break;
 
-  case SSET_ENUM:
+  case SST_ENUM:
     if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
@@ -2984,7 +2984,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     break;
 
-  case SSET_BITWISE:
+  case SST_BITWISE:
     if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
@@ -6753,10 +6753,10 @@ static int completion_option;
 static const char *option_value_accessor(int idx) {
   const struct setting *pset = setting_by_number(completion_option);
   switch (setting_type(pset)) {
-  case SSET_ENUM:
+  case SST_ENUM:
     return setting_enum_val(pset, idx, FALSE);
     break;
-  case SSET_BITWISE:
+  case SST_BITWISE:
     return setting_bitwise_bit(pset, idx, FALSE);
     break;
   default:
@@ -7189,17 +7189,17 @@ static bool is_enum_option_value(int start, int *opt_p)
   if (contains_str_before_start(start, command_name_by_number(CMD_SET),
                                 TRUE)) {
     settings_iterate(SSET_ALL, pset) {
-      if (setting_type(pset) != SSET_ENUM
-          && setting_type(pset) != SSET_BITWISE) {
+      if (setting_type(pset) != SST_ENUM
+          && setting_type(pset) != SST_BITWISE) {
         continue;
       }
       /* Allow a single token for enum options, multiple for bitwise
        * (the separator | will separate tokens for these purposes) */
       if (contains_token_before_start(start, 1, setting_name(pset),
-                                      setting_type(pset) == SSET_BITWISE)) {
+                                      setting_type(pset) == SST_BITWISE)) {
         *opt_p = setting_number(pset);
         /* Suppress appended space for bitwise options (user may want |) */
-        rl_completion_suppress_append = (setting_type(pset) == SSET_BITWISE);
+        rl_completion_suppress_append = (setting_type(pset) == SST_BITWISE);
         return TRUE;
       }
     } settings_iterate_end;

@@ -1371,24 +1371,24 @@ static bool save_game_ruleset(const char *filename, const char *name)
       secfile_insert_str(sfile, setting_name(pset),
                          "settings.set%d.name", set_count);
       switch (setting_type(pset)) {
-      case SSET_BOOL:
+      case SST_BOOL:
         secfile_insert_bool(sfile, setting_bool_get(pset),
                             "settings.set%d.value", set_count);
         break;
-      case SSET_INT:
+      case SST_INT:
         secfile_insert_int(sfile, setting_int_get(pset),
                            "settings.set%d.value", set_count);
         break;
-      case SSET_STRING:
+      case SST_STRING:
         secfile_insert_str(sfile, setting_str_get(pset),
                            "settings.set%d.value", set_count);
         break;
-      case SSET_ENUM:
+      case SST_ENUM:
         secfile_insert_enum_data(sfile, read_enum_value(pset), FALSE,
                                  setting_enum_secfile_str, pset,
                                  "settings.set%d.value", set_count);
         break;
-      case SSET_BITWISE:
+      case SST_BITWISE:
         secfile_insert_enum_data(sfile, setting_bitwise_get(pset), TRUE,
                                  setting_bitwise_secfile_str, pset,
                                  "settings.set%d.value", set_count);
