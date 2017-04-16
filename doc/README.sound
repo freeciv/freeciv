@@ -24,7 +24,7 @@ with eg "tar -xzvf stdsoundsX.tar.gz" or use 7-Zip (for Windows etc.), and
 put the files in the data directory mentioned above.
 
 You can get additional soundsets (sound files and a spec file)
-from <http://download.gna.org/freeciv/contrib/audio/soundsets>. At this
+from <http://files.freeciv.org/contrib/audio/soundsets>. At this
 address you find also extra sound files to change an existing soundset or
 create a new one.
 

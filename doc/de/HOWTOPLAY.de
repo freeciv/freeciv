@@ -8,7 +8,7 @@ Nachahmungen gespielt haben, sollten Sie zunächst einen Blick in die
 werfen:
 
      http://www.freeciv.org/wiki-de/Handbuch
-     http://download.gna.org/freeciv/contrib/manual/
+     http://files.freeciv.org/contrib/manual/
 
 ***************************************************************************
 *  Wenn Sie wissen wollen, wie man Freeciv spielt, sind Sie hier richtig! *
@@ -239,7 +239,7 @@ Technologien aufgeführt, die Voraussetzungen sind.
 Als Alternative können Sie David Pfitzner's "techtree"-Übersicht
 downloaden:
 
-http://download.gna.org/freeciv/contrib/charts/
+http://files.freeciv.org/contrib/charts/
 
 
 Außerdem können Sie sich die Datei '../data/default/techs.ruleset' ansehen.
