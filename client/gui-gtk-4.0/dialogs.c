@@ -772,7 +772,7 @@ void races_update_pickable(bool nationset_change)
   create_nation_selection_lists();
 
   /* Can't set current tab before child widget is visible */
-  gtk_widget_show_all(GTK_WIDGET(races_notebook));
+  gtk_widget_show(GTK_WIDGET(races_notebook));
 
   /* Restore selected tab */
   if (groupidx != -1 && races_nation_list[groupidx] != NULL) {
@@ -1181,7 +1181,7 @@ static void create_races_dialog(struct player *pplayer)
                                       FALSE);
   }
 
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
+  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(shell)));
 
   /* Select player's current nation in UI, if any */
   if (races_player->nation) {

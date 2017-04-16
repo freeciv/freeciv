@@ -386,7 +386,7 @@ GtkWidget *citizens_dialog_display(const struct city *pcity)
     pdialog = citizens_dialog_create(pcity);
   }
 
-  gtk_widget_show_all(pdialog->shell);
+  gtk_widget_show(pdialog->shell);
   citizens_dialog_refresh(pcity);
 
   return pdialog->shell;

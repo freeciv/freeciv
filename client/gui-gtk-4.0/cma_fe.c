@@ -439,7 +439,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   gtk_widget_set_name(pdialog->active_command, "comment_label");
   gtk_container_add(GTK_CONTAINER(hbox), pdialog->active_command);
 
-  gtk_widget_show_all(pdialog->shell);
+  gtk_widget_show(pdialog->shell);
 
   dialog_list_prepend(dialog_list, pdialog);
 

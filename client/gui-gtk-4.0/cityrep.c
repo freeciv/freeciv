@@ -444,8 +444,8 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   for (i = 0; i < 3; i++) {
     g_object_unref(group[i]);
   }
-  
-  gtk_widget_show_all(menu);
+
+  gtk_widget_show(menu);
 
   gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (targets_used > 0));
 }
@@ -843,8 +843,8 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   }
 
   g_object_set_data(G_OBJECT(menu), "freeciv_change_cma",
-		    GINT_TO_POINTER(change_cma));
-  gtk_widget_show_all(menu);
+                    GINT_TO_POINTER(change_cma));
+  gtk_widget_show(menu);
 }
 
 /****************************************************************************
@@ -975,7 +975,7 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   }
 
-  gtk_widget_show_all(menu);
+  gtk_widget_show(menu);
 }
 
 /****************************************************************

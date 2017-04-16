@@ -732,7 +732,7 @@ static void create_help_dialog(void)
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_expand);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
   gtk_container_add(GTK_CONTAINER(help_box), help_tree_buttons_hbox);
-  gtk_widget_show_all(help_tree_buttons_hbox);
+  gtk_widget_show(help_tree_buttons_hbox);
 
   create_help_page(HELP_TEXT);
 }
@@ -1049,34 +1049,34 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
       requirement_vector_iterate(&pgov->reqs, preq) {
-	if (VUT_ADVANCE == preq->source.kind
-	    && preq->source.value.advance == padvance) {
-	  hbox = gtk_grid_new();
-	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-	  w = gtk_label_new(_("Allows"));
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  w = help_slink_new(government_name_translation(pgov),
+        if (VUT_ADVANCE == preq->source.kind
+            && preq->source.value.advance == padvance) {
+          hbox = gtk_grid_new();
+          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          w = gtk_label_new(_("Allows"));
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          w = help_slink_new(government_name_translation(pgov),
                              HELP_GOVERNMENT);
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  gtk_widget_show_all(hbox);
-	}
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          gtk_widget_show(hbox);
+        }
       } requirement_vector_iterate_end;
     } governments_iterate_end;
 
     improvement_iterate(pimprove) {
       requirement_vector_iterate(&pimprove->reqs, preq) {
-	if (VUT_ADVANCE == preq->source.kind
-	    && preq->source.value.advance == padvance) {
-	  hbox = gtk_grid_new();
-	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-	  w = gtk_label_new(_("Allows"));
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  w = help_slink_new(improvement_name_translation(pimprove),
-			     is_great_wonder(pimprove)
-			     ? HELP_WONDER
-			     : HELP_IMPROVEMENT);
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  gtk_widget_show_all(hbox);
+        if (VUT_ADVANCE == preq->source.kind
+            && preq->source.value.advance == padvance) {
+          hbox = gtk_grid_new();
+          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+          w = gtk_label_new(_("Allows"));
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          w = help_slink_new(improvement_name_translation(pimprove),
+                             is_great_wonder(pimprove)
+                             ? HELP_WONDER
+                             : HELP_IMPROVEMENT);
+          gtk_container_add(GTK_CONTAINER(hbox), w);
+          gtk_widget_show(hbox);
 	}
       } requirement_vector_iterate_end;
       requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
@@ -1091,7 +1091,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
                              ? HELP_WONDER
                              : HELP_IMPROVEMENT);
           gtk_container_add(GTK_CONTAINER(hbox), w);
-          gtk_widget_show_all(hbox);
+          gtk_widget_show(hbox);
         }
       } requirement_vector_iterate_end;
     } improvement_iterate_end;
@@ -1106,7 +1106,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       gtk_container_add(GTK_CONTAINER(hbox), w);
       w = help_slink_new(utype_name_translation(punittype), HELP_UNIT);
       gtk_container_add(GTK_CONTAINER(hbox), w);
-      gtk_widget_show_all(hbox);
+      gtk_widget_show(hbox);
     } unit_type_iterate_end;
 
     advance_iterate(A_NONE, ptest) {
@@ -1118,7 +1118,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
           gtk_container_add(GTK_CONTAINER(hbox), w);
           w = help_slink_new(advance_name_translation(ptest), HELP_TECH);
           gtk_container_add(GTK_CONTAINER(hbox), w);
-          gtk_widget_show_all(hbox);
+          gtk_widget_show(hbox);
 	} else {
           hbox = gtk_grid_new();
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
@@ -1133,7 +1133,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
           gtk_container_add(GTK_CONTAINER(hbox), w);
           w = gtk_label_new(Q_("?techhelp:"));
           gtk_container_add(GTK_CONTAINER(hbox), w);
-          gtk_widget_show_all(hbox);
+          gtk_widget_show(hbox);
 	}
       }
       if (padvance == advance_requires(ptest, AR_TWO)) {
@@ -1150,7 +1150,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
         gtk_container_add(GTK_CONTAINER(hbox), w);
         w = gtk_label_new(Q_("?techhelp:"));
         gtk_container_add(GTK_CONTAINER(hbox), w);
-        gtk_widget_show_all(hbox);
+        gtk_widget_show(hbox);
       }
     } advance_iterate_end;
     gtk_widget_show(help_vbox);
@@ -1186,7 +1186,7 @@ static void help_extras_of_act_for_terrain(struct terrain *pterr,
       w = gtk_label_new(buffer);
       gtk_container_add(GTK_CONTAINER(hbox), w);
 
-      gtk_widget_show_all(hbox);
+      gtk_widget_show(hbox);
     }
   } extra_type_by_cause_iterate_end;
 }

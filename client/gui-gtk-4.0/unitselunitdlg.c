@@ -176,7 +176,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(dlg)));
+  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(dlg)));
   gtk_widget_show(dlg);
 
   return TRUE;

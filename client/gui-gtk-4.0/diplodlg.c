@@ -266,7 +266,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   item = gtk_menu_item_new_with_mnemonic(_("_Maps"));
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-  gtk_widget_show_all(item);
+  gtk_widget_show(item);
 
   /* Trading: advances */
   if (game.info.trading_tech) {
@@ -333,7 +333,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
       g_list_free(sorting_list);
     }
 
-    gtk_widget_show_all(advance_item);
+    gtk_widget_show(advance_item);
   }
 
 
@@ -383,7 +383,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     gtk_widget_set_sensitive(item, (i > 0));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
     gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show_all(item);
+    gtk_widget_show(item);
   }
 
 
@@ -442,7 +442,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
     item = gtk_menu_item_new_with_mnemonic(_("_Pacts"));
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
     gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show_all(item);
+    gtk_widget_show(item);
   }
 }
 
@@ -899,7 +899,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_container_add(GTK_CONTAINER(vbox), label);
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
-  gtk_widget_show_all(mainbox);
+  gtk_widget_show(mainbox);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(row_callback), pdialog);
 

@@ -672,7 +672,7 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
 
   save_dialog_update(pdialog);
   gtk_window_set_focus(GTK_WINDOW(shell), entry);
-  gtk_widget_show_all(GTK_WIDGET(vbox));
+  gtk_widget_show(GTK_WIDGET(vbox));
   return shell;
 }
 
@@ -1956,7 +1956,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     } team_slots_iterate_end;
   }
 
-  gtk_widget_show_all(menu);
+  gtk_widget_show(menu);
 
   return menu;
 }

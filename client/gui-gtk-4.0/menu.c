@@ -1945,7 +1945,7 @@ GtkWidget *setup_menus(GtkWidget *window)
 
     menubar = GTK_WIDGET(gtk_builder_get_object(ui_builder, "MENU"));
     gtk_widget_set_visible(menubar, TRUE);
-    gtk_widget_show_all(menubar);
+    gtk_widget_show(menubar);
   }
 
 #ifndef FREECIV_DEBUG

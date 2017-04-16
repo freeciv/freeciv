@@ -885,7 +885,7 @@ static void create_advances_list(struct player *pplayer,
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
     GTK_RESPONSE_ACCEPT, FALSE);
   
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell)));
+  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(spy_tech_shell)));
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
                    G_CALLBACK(spy_advances_callback), args);
@@ -1051,9 +1051,9 @@ static void create_improvements_list(struct player *pplayer,
   }
 
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
-    GTK_RESPONSE_ACCEPT, FALSE);
-  
-  gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell)));
+                                    GTK_RESPONSE_ACCEPT, FALSE);
+
+  gtk_widget_show(gtk_dialog_get_content_area(GTK_DIALOG(spy_sabotage_shell)));
 
   g_signal_connect(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)), "changed",
                    G_CALLBACK(spy_improvements_callback), args);

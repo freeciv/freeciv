@@ -709,7 +709,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_widget_set_margin_top(label, 4);
     gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
-    gtk_widget_show_all(p);
+    gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
@@ -808,7 +808,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
 
-  gtk_widget_show_all(table);
+  gtk_widget_show(table);
 
   return table;
 }
@@ -1075,7 +1075,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   unit_node_vector_init(&pdialog->overview.present_units);
 
   /* show page */
-  gtk_widget_show_all(page);
+  gtk_widget_show(page);
 }
 
 /****************************************************************
@@ -1100,7 +1100,7 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
 
     create_citydlg_main_map(pdialog, page);
 
-    gtk_widget_show_all(page);
+    gtk_widget_show(page);
   }
 }
 
@@ -1208,7 +1208,7 @@ static void create_and_append_buildings_page(struct city_dialog *pdialog)
 
     gtk_container_add(GTK_CONTAINER(vbox), view);
 
-    gtk_widget_show_all(page);
+    gtk_widget_show(page);
   }
 }
 
@@ -1249,7 +1249,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(page), editor);
   pdialog->production.worklist = editor;
 
-  gtk_widget_show_all(page);
+  gtk_widget_show(page);
 }
 
 /***************************************************************************
@@ -1332,7 +1332,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
                     get_top_happiness_display(pdialog->pcity, low_citydlg));
 
   /* show page */
-  gtk_widget_show_all(page);
+  gtk_widget_show(page);
 }
 
 /****************************************************************
@@ -1483,7 +1483,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   set_cityopt_values(pdialog);
 
-  gtk_widget_show_all(page);
+  gtk_widget_show(page);
 
   if (new_dialog_def_page == (NUM_PAGES - 1)) {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
@@ -1676,7 +1676,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
 
-  gtk_widget_show_all(pdialog->shell);
+  gtk_widget_show(pdialog->shell);
 
   gtk_window_set_focus(GTK_WINDOW(pdialog->shell), close_command);
 
@@ -2435,7 +2435,7 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEventButton *ev,
       gtk_widget_set_sensitive(item, FALSE);
     }
 
-    gtk_widget_show_all(menu);
+    gtk_widget_show(menu);
 
     gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
   }
@@ -2554,7 +2554,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       gtk_widget_set_sensitive(item, FALSE);
     }
 
-    gtk_widget_show_all(menu);
+    gtk_widget_show(menu);
 
     gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
   }

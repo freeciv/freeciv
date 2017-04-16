@@ -568,7 +568,7 @@ void create_players_dialog(void)
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     }
   }
-  gtk_widget_show_all(menu);
+  gtk_widget_show(menu);
 
   gui_dialog_show_all(players_dialog_shell);
 

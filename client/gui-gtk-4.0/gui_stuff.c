@@ -469,12 +469,12 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
   gtk_container_add(GTK_CONTAINER(window), dlg->vbox);
   dlg->v.window = window;
   g_signal_connect(window, "delete_event",
-    G_CALLBACK(gui_dialog_delete_handler), dlg);
-	
+                   G_CALLBACK(gui_dialog_delete_handler), dlg);
+
   gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
                               dlg->default_width,
-			      dlg->default_height);    
-  gtk_widget_show_all(window);
+                              dlg->default_height);    
+  gtk_widget_show(window);
 }
 
 /***************************************************************************
@@ -613,7 +613,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_container_add(GTK_CONTAINER(hbox), button);
 
-      gtk_widget_show_all(hbox);
+      gtk_widget_show(hbox);
 
       event_box = gtk_event_box_new();
       gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
@@ -788,7 +788,7 @@ GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_show_all(struct gui_dialog *dlg)
 {
-  gtk_widget_show_all(dlg->vbox);
+  gtk_widget_show(dlg->vbox);
 
   if (dlg->type == GUI_DIALOG_TAB) {
     GList *children;

@@ -241,9 +241,9 @@ static void create_goto_dialog(void)
   g_signal_connect(all_toggle, "toggled", G_CALLBACK(update_goto_dialog), NULL);
 
   g_signal_connect(goto_list_selection, "changed",
-    G_CALLBACK(goto_selection_callback), NULL);
+                   G_CALLBACK(goto_selection_callback), NULL);
 
-  gtk_widget_show_all(dshell);
+  gtk_widget_show(dshell);
 
   original_tile = get_center_tile_mapcanvas();
 

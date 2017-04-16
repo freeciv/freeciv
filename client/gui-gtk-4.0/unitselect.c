@@ -200,7 +200,7 @@ void unit_select_dialog_popup_main(struct tile *ptile, bool create)
   /* Present the unit selection dialog if it exists. */
   if (pdialog) {
     /* Show all. */
-    gtk_widget_show_all(GTK_WIDGET(pdialog->shell));
+    gtk_widget_show(GTK_WIDGET(pdialog->shell));
     /* Update tile. */
     usdlg_tile(pdialog, ptile);
     /* Refresh data and hide unused tabs. */

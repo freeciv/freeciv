@@ -994,7 +994,7 @@ static void populate_unit_image_table(void)
                     MAX_NUM_UNITS_BELOW, 0, 1, 1);
   }
 
-  gtk_widget_show_all(table);
+  gtk_widget_show(table);
 }
 
 /**************************************************************************
@@ -1068,7 +1068,7 @@ void enable_menus(bool enable)
     }
     gtk_grid_attach_next_to(GTK_GRID(top_vbox), main_menubar, NULL, GTK_POS_TOP, 1, 1);
     menus_init();
-    gtk_widget_show_all(main_menubar);
+    gtk_widget_show(main_menubar);
   } else {
     gtk_widget_destroy(main_menubar);
   }
@@ -1643,7 +1643,7 @@ static void setup_widgets(void)
 
   /* Other things to take care of */
 
-  gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
+  gtk_widget_show(gtk_bin_get_child(GTK_BIN(toplevel)));
 
   if (GUI_GTK_OPTION(enable_tabs)) {
     meswin_dialog_popup(FALSE);

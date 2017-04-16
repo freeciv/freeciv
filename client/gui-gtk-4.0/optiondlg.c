@@ -208,7 +208,7 @@ static gboolean option_button_press_callback(GtkWidget *widget,
   g_signal_connect(item, "activate",
                    G_CALLBACK(option_apply_callback), poption);
 
-  gtk_widget_show_all(menu);
+  gtk_widget_show(menu);
   gtk_menu_popup_at_pointer(GTK_MENU(menu), NULL);
 
   return TRUE;
@@ -340,7 +340,7 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
-  gtk_widget_show_all(dialog);
+  gtk_widget_show(dialog);
 }
 
 
@@ -394,7 +394,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   option_dialog_reorder_notebook(pdialog);
 
   /* Show the widgets. */
-  gtk_widget_show_all(pdialog->shell);
+  gtk_widget_show(pdialog->shell);
 
   return pdialog;
 }
@@ -509,7 +509,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_widget_set_hexpand(pdialog->vboxes[category], TRUE);
     gtk_container_add(GTK_CONTAINER(sw), pdialog->vboxes[category]);
 
-    gtk_widget_show_all(sw);
+    gtk_widget_show(sw);
   }
   pdialog->box_children[category]++;
 
@@ -652,7 +652,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_container_add(GTK_CONTAINER(main_hbox), w);
   }
 
-  gtk_widget_show_all(ebox);
+  gtk_widget_show(ebox);
 
   /* Set as current value. */
   option_dialog_option_refresh(poption);

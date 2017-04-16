@@ -369,7 +369,7 @@ static GtkWidget *create_multiplier_dialog(void)
   g_signal_connect(shell, "response",
                    G_CALLBACK(multipliers_command_callback), NULL);
 
-  gtk_widget_show_all(content);
+  gtk_widget_show(content);
 
   return shell;
 }
@@ -496,31 +496,32 @@ static GtkWidget *create_rates_dialog(void)
 
 
   g_signal_connect(shell, "response",
-		   G_CALLBACK(rates_command_callback), NULL);
+                   G_CALLBACK(rates_command_callback), NULL);
   g_signal_connect(shell, "destroy",
-		   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
+                   G_CALLBACK(gtk_widget_destroyed), &rates_dialog_shell);
 
-  gtk_widget_show_all(shell);
+  gtk_widget_show(shell);
 
-  rates_tax_value=-1;
-  rates_lux_value=-1;
-  rates_sci_value=-1;
+  rates_tax_value = -1;
+  rates_lux_value = -1;
+  rates_sci_value = -1;
 
   rates_tax_sig =
     g_signal_connect_after(rates_tax_scale, "value-changed",
-			   G_CALLBACK(rates_changed_callback), NULL);
+                           G_CALLBACK(rates_changed_callback), NULL);
 
   rates_lux_sig =
     g_signal_connect_after(rates_lux_scale, "value-changed",
-			   G_CALLBACK(rates_changed_callback), NULL);
+                           G_CALLBACK(rates_changed_callback), NULL);
 
   rates_sci_sig =
     g_signal_connect_after(rates_sci_scale, "value-changed",
-			   G_CALLBACK(rates_changed_callback), NULL);
+                           G_CALLBACK(rates_changed_callback), NULL);
 
   rates_set_values(client.conn.playing->economic.tax, 0,
-		   client.conn.playing->economic.luxury, 0,
-		   client.conn.playing->economic.science, 0);
+                   client.conn.playing->economic.luxury, 0,
+                   client.conn.playing->economic.science, 0);
+
   return shell;
 }
 

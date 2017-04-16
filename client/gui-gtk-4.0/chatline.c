@@ -1148,7 +1148,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
 
-  gtk_widget_show_all(dialog);
+  gtk_widget_show(dialog);
   g_free(buf);
 }
 
@@ -1187,7 +1187,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
       /* Attach to the toolkit button_box. */
       gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
     }
-    gtk_widget_show_all(ptoolkit->main_widget);
+    gtk_widget_show(ptoolkit->main_widget);
     if (!ptoolkit->toolbar_displayed) {
       gtk_widget_hide(ptoolkit->toolbar);
     }
@@ -1207,7 +1207,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
     /* First time attached to a parent. */
     gtk_container_add(GTK_CONTAINER(toolkit_view), ptoolkit->main_widget);
     gtk_container_add(GTK_CONTAINER(ptoolkit->button_box), button_box);
-    gtk_widget_show_all(ptoolkit->main_widget);
+    gtk_widget_show(ptoolkit->main_widget);
   }
 
   return FALSE;

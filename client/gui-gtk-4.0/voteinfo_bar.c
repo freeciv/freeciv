@@ -303,7 +303,7 @@ void voteinfo_gui_update(void)
   need_scroll = !gtk_widget_get_visible(vib->box)
     && chatline_is_scrolled_to_bottom();
 
-  gtk_widget_show_all(vib->box);
+  gtk_widget_show(vib->box);
 
   if (vote_count <= 1) {
     gtk_widget_hide(vib->next_button);

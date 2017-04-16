@@ -3756,8 +3756,8 @@ static struct extviewer *extviewer_new(struct objprop *op)
     break;
   }
 
-  gtk_widget_show_all(ev->panel_widget);
-  gtk_widget_show_all(ev->view_widget);
+  gtk_widget_show(ev->panel_widget);
+  gtk_widget_show(ev->view_widget);
 
   return ev;
 }
@@ -6259,7 +6259,7 @@ void property_editor_popup(struct property_editor *pe,
     return;
   }
 
-  gtk_widget_show_all(pe->widget);
+  gtk_widget_show(pe->widget);
 
   gtk_window_present(GTK_WINDOW(pe->widget));
   if (0 <= objtype && objtype < NUM_OBJTYPES) {

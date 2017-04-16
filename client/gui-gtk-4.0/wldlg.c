@@ -269,14 +269,14 @@ static GtkWidget *create_worklists_report(void)
   gtk_container_add(GTK_CONTAINER(sw), list);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", list,
-		       "label", _("_Worklists:"),
-		       "xalign", 0.0, "yalign", 0.5, NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", list,
+                       "label", _("_Worklists:"),
+                       "xalign", 0.0, "yalign", 0.5, NULL);
 
   gtk_container_add(GTK_CONTAINER(vbox), label);
   gtk_container_add(GTK_CONTAINER(vbox), sw);
-  gtk_widget_show_all(vbox);
+  gtk_widget_show(vbox);
 
   return shell;
 }
@@ -1111,10 +1111,10 @@ GtkWidget *create_worklist(void)
   gtk_container_add(GTK_CONTAINER(sw), src_view);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", src_view,
-		       "label", _("Source _Tasks:"),
-		       "xalign", 0.0, "yalign", 0.5, NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", src_view,
+                       "label", _("Source _Tasks:"),
+                       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_grid_attach(GTK_GRID(table), label, 3, 0, 1, 1);
 
   check = gtk_check_button_new_with_mnemonic(_("Show _Future Targets"));
@@ -1187,9 +1187,9 @@ GtkWidget *create_worklist(void)
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
   gtk_grid_attach(GTK_GRID(table), sw, 0, 1, 2, 1);
 
   dst_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store));
@@ -1203,10 +1203,10 @@ GtkWidget *create_worklist(void)
   gtk_container_add(GTK_CONTAINER(sw), dst_view);
 
   label = g_object_new(GTK_TYPE_LABEL,
-		       "use-underline", TRUE,
-		       "mnemonic-widget", dst_view,
-		       "label", _("Target _Worklist:"),
-		       "xalign", 0.0, "yalign", 0.5, NULL);
+                       "use-underline", TRUE,
+                       "mnemonic-widget", dst_view,
+                       "label", _("Target _Worklist:"),
+                       "xalign", 0.0, "yalign", 0.5, NULL);
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
   /* add bottom menu and buttons. */
@@ -1225,14 +1225,14 @@ GtkWidget *create_worklist(void)
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
   g_signal_connect(menu, "show",
-		   G_CALLBACK(popup_add_menu), ptr);
+                   G_CALLBACK(popup_add_menu), ptr);
   ptr->add_cmd = item;
   gtk_widget_set_sensitive(ptr->add_cmd, FALSE);
 
   button = icon_label_button_new("help-browser", _("Help"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
-		   G_CALLBACK(help_callback), ptr);
+                   G_CALLBACK(help_callback), ptr);
   ptr->help_cmd = button;
   gtk_widget_set_sensitive(ptr->help_cmd, FALSE);
 
@@ -1252,26 +1252,26 @@ GtkWidget *create_worklist(void)
   /* DND and other state changing callbacks. */
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
   g_signal_connect(dst_view, "drag_end",
-		   G_CALLBACK(dst_dnd_callback), ptr);
+                   G_CALLBACK(dst_dnd_callback), ptr);
 
   g_signal_connect(src_view, "row_activated",
-		   G_CALLBACK(src_row_callback), ptr);
+                   G_CALLBACK(src_row_callback), ptr);
   g_signal_connect(src_view, "key_press_event",
-		   G_CALLBACK(src_key_press_callback), ptr);
+                   G_CALLBACK(src_key_press_callback), ptr);
 
   g_signal_connect(dst_view, "row_activated",
-		   G_CALLBACK(dst_row_callback), ptr);
+                   G_CALLBACK(dst_row_callback), ptr);
   g_signal_connect(dst_view, "key_press_event",
-		   G_CALLBACK(dst_key_press_callback), ptr);
+                   G_CALLBACK(dst_key_press_callback), ptr);
 
   g_signal_connect(ptr->src_selection, "changed",
-      		   G_CALLBACK(src_selection_callback), ptr);
+                   G_CALLBACK(src_selection_callback), ptr);
   g_signal_connect(ptr->dst_selection, "changed",
-      		   G_CALLBACK(dst_selection_callback), ptr);
+                   G_CALLBACK(dst_selection_callback), ptr);
 
 
-  gtk_widget_show_all(table);
-  gtk_widget_show_all(bbox);
+  gtk_widget_show(table);
+  gtk_widget_show(bbox);
 
   return editor;
 }

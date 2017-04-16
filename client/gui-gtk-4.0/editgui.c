@@ -682,7 +682,7 @@ static void editbar_refresh(struct editbar *eb)
   refresh_all_tool_value_selectors(eb);
   refresh_player_pov_indicator(eb);
 
-  gtk_widget_show_all(eb->widget);
+  gtk_widget_show(eb->widget);
 }
 
 /****************************************************************************
@@ -1109,7 +1109,7 @@ create_tool_value_selector(struct editbar *eb,
   tvs->view = view;
 
   /* Show everything but the window itself. */
-  gtk_widget_show_all(vbox);
+  gtk_widget_show(vbox);
 
   return tvs;
 }
@@ -1370,7 +1370,7 @@ static struct editinfobox *editinfobox_create(void)
 
   /* The edit info box starts with no parent, so we have to
    * show its internal widgets manually. */
-  gtk_widget_show_all(ei->widget);
+  gtk_widget_show(ei->widget);
 
   return ei;
 }
@@ -1553,7 +1553,7 @@ static void replace_widget(GtkWidget *old, GtkWidget *new)
   gtk_widget_hide(old);
   gtk_container_remove(GTK_CONTAINER(parent), old);
   gtk_container_add(GTK_CONTAINER(parent), new);
-  gtk_widget_show_all(new);
+  gtk_widget_show(new);
 }
 
 /****************************************************************************

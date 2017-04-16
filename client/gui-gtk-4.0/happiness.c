@@ -163,7 +163,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_widget_set_margin_top(label, 4);
     gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
-    gtk_widget_show_all(p);
+    gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
@@ -274,7 +274,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
   gtk_grid_attach(GTK_GRID(table), label, 0, NUM_HAPPINESS_MODIFIERS, 2, 1);
 
-  gtk_widget_show_all(pdialog->shell);
+  gtk_widget_show(pdialog->shell);
   dialog_list_prepend(dialog_list, pdialog);
   refresh_happiness_dialog(pcity);
 

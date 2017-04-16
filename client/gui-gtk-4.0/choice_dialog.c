@@ -197,10 +197,10 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 void choice_dialog_end(GtkWidget *dshell)
 {
   GtkWidget *bbox;
-  
+
   bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
-  
-  gtk_widget_show_all(bbox);
+
+  gtk_widget_show(bbox);
   gtk_widget_show(dshell);  
 }
 

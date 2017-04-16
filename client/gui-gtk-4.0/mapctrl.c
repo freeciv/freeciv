@@ -149,7 +149,7 @@ static void popit(GdkEventButton *ev, struct tile *ptile)
                      G_CALLBACK(popupinfo_positioning_callback),
                      &mousepos);
 
-    gtk_widget_show_all(p);
+    gtk_widget_show(p);
     gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
