@@ -437,7 +437,7 @@ static void editbar_add_tool_button(struct editbar *eb,
   g_object_unref(G_OBJECT(pixbuf));
 
   gtk_container_add(GTK_CONTAINER(button), image);
-  gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
   gtk_widget_set_tooltip_text(button, editor_tool_get_tooltip(ett));
   gtk_size_group_add_widget(eb->size_group, button);
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
@@ -496,7 +496,7 @@ static void editbar_add_mode_button(struct editbar *eb,
   g_object_unref(G_OBJECT(pixbuf));
 
   gtk_container_add(GTK_CONTAINER(button), image);
-  gtk_toggle_button_set_mode(GTK_TOGGLE_BUTTON(button), FALSE);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
   tooltip = editor_get_mode_tooltip(etm);
   if (tooltip != NULL) {
     gtk_widget_set_tooltip_text(button, tooltip);
