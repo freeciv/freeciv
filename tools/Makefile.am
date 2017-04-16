@@ -140,15 +140,9 @@ freeciv_mp_gtk3_LDADD = \
 endif
 
 if MODINST_GTK3X
-freeciv_mp_gtk3x_CPPFLAGS = $(common_cppflags) $(mp_gtk3x_cflags) -DGTK3XMP
+freeciv_mp_gtk3x_CPPFLAGS = $(common_cppflags) $(mp_gtk3x_cflags)
 
-# For the time being gtk3 gui sources are ok in respect to gtk3x
-# requirements - there's no deprecated functions used.
-# The only difference is in the name the binary prints out - that's what
-# -DGTK3XMP in the freeciv_mp_gtk3x_CPPFLAGS is for.
-# Instead of maintaining two files, use the same one until there
-# comes real reason to make them differ.
-freeciv_mp_gtk3x_SOURCES = mpgui_gtk3.c
+freeciv_mp_gtk3x_SOURCES = mpgui_gtk4.c
 
 freeciv_mp_gtk3x_LDFLAGS = $(mp_gtk3x_ldflags)
 

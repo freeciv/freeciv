@@ -603,13 +603,8 @@ int main(int argc, char *argv[])
 
     gtk_widget_realize(toplevel);
     gtk_widget_set_name(toplevel, "Freeciv-modpack");
-#ifndef GTK3XMP
-    gtk_window_set_title(GTK_WINDOW(toplevel),
-                         _("Freeciv modpack installer (gtk3)"));
-#else  /* GTK3XMP */
     gtk_window_set_title(GTK_WINDOW(toplevel),
                          _("Freeciv modpack installer (gtk3x)"));
-#endif /* GTK3XMP */
 
     /* Keep the icon of the executable on Windows */
 #ifndef FREECIV_MSWINDOWS
