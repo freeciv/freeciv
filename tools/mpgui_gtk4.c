@@ -596,8 +596,7 @@ int main(int argc, char *argv[])
 
     load_install_info_lists(&fcmp);
 
-    /* Process GTK arguments */
-    gtk_init(&ui_options, &argv);
+    gtk_init();
 
     toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -623,7 +622,7 @@ int main(int argc, char *argv[])
 
     modinst_setup_widgets(toplevel);
 
-    gtk_widget_show_all(toplevel);
+    gtk_widget_show(toplevel);
 
     if (fcmp.autoinstall != NULL) {
       gui_download_modpack(fcmp.autoinstall);

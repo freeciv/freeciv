@@ -1107,10 +1107,10 @@ fi
 
 if test "x$req_fcmp_gtk3x" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  PKG_CHECK_MODULES([GTK3X_MP], [gtk+-4.0 >= 3.89.0],
+  PKG_CHECK_MODULES([GTK3X_MP], [gtk+-4.0 >= 3.90.0],
 [
   GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_90"
-  GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_46"
+  GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_52"
   PKG_CHECK_MODULES([GTHREAD_GTK3X], [gthread-2.0],
 [
   fcmp_gtk3x=yes
