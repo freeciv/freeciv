@@ -1739,8 +1739,7 @@ void ui_main(int argc, char **argv)
    * locale logic in gtk_init() causes problems with zh_CN (see PR#39475) */
   gtk_disable_setlocale();
 
-  /* GTK withdraw gtk options. Process GTK arguments */
-  gtk_init(&argc, &argv);
+  gtk_init();
 
   dlg_tab_provider_prepare();
 
