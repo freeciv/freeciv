@@ -1098,7 +1098,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
   if test "x$modinst" = "xauto" ; then
     modinst=found
   fi
-], [])], [])
+], [fcmp_gtk3=no])], [fcmp_gtk3=no])
 fi
 
 if test "x$req_fcmp_gtk3" = "xyes" && test "x$fcmp_gtk3" != "xyes" ; then
@@ -1126,7 +1126,7 @@ if test "x$req_fcmp_gtk3x" = "xyes" ||
   if test "x$modinst" = "xauto" ; then
     modinst=found
   fi
-], [])], [])
+], [fcmp_gtk3x=no])], [fcmp_gtk3x=no])
 fi
 
 if test "x$req_fcmp_gtk3x" = "xyes" && test "x$fcmp_gtk3x" != "xyes" ; then
