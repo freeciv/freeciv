@@ -112,7 +112,7 @@ Dit is wat u moet doen:
    In het bijzonder zou u een ontwikkelaars-versie kunnen proberen uit onze
    CVS database. Deze kunt u FTP'en van:
 
-        http://download.gna.org/freeciv/latest/
+        http://files.freeciv.org/latest/
 
  - Controleer de Freeciv FAQ (Frequent Asked Questions) op het Freeciv website
    om te kijken of er een noodoplossing (Engels: workaround) is voor uw fout.

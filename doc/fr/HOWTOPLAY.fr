@@ -16,7 +16,7 @@ http://www.freeciv.org/wiki/Manual
     En anglais
 http://www.freeciv.org/wiki-fr/Manuel
     En français, pas forcément à jour
-http://download.gna.org/freeciv/contrib/manual/
+http://files.freeciv.org/contrib/manual/
     Manuels en anglais, assez anciens
 
 Si vous cherchez des idées pour jouer à Freeciv, continuez à lire !
