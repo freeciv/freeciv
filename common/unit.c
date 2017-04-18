@@ -265,15 +265,6 @@ bool is_military_unit(const struct unit *punit)
 }
 
 /**************************************************************************
-  Return TRUE iff this unit is a diplomat (spy) unit.  Diplomatic units
-  can do diplomatic actions (not to be confused with diplomacy).
-**************************************************************************/
-bool is_diplomat_unit(const struct unit *punit)
-{
-  return (unit_has_type_flag(punit, UTYF_DIPLOMAT));
-}
-
-/**************************************************************************
   Return TRUE iff this unit can do the specified generalized (ruleset
   defined) action enabler controlled action.
 **************************************************************************/
