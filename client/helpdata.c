@@ -359,6 +359,55 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
   return FALSE;
 }
 
+/**************************************************************************
+  Returns a text describing the action target cities in range of a building
+  requirement.
+**************************************************************************/
+static const char *act_tgt_city_range_building(const enum req_range range)
+{
+  fc_assert(req_range_is_valid(range));
+
+  switch (range) {
+  case REQ_RANGE_LOCAL:
+    /* TRANS: used as part of sentence about a building action pair.
+     * "it" is a building (/wonder) */
+    return _("the city building it");
+  case REQ_RANGE_CITY:
+    /* TRANS: used as part of sentence about a building action pair.
+     * "it" is a building (/wonder) */
+    return _("its city");
+  case REQ_RANGE_TRADEROUTE:
+    /* TRANS: used as part of sentence about a building action pair.
+     * "it" is a building (/wonder) */
+    return _("its city and its trade partners");
+  case REQ_RANGE_CONTINENT:
+    /* TRANS: used as part of sentence about a building action pair.
+     * "it" is a building (/wonder) */
+    return _("all cities with its owner on its continent");
+  case REQ_RANGE_PLAYER:
+    /* TRANS: used as part of sentence about a building action pair.
+     * "it" is a building (/wonder) */
+    return _("all cities with its owner");
+  case REQ_RANGE_TEAM:
+    /* TRANS: used as part of sentence about a building action pair. */
+    return _("all cities on the same team");
+  case REQ_RANGE_ALLIANCE:
+    /* TRANS: used as part of sentence about a building action pair. */
+    return _("all allied cities");
+  case REQ_RANGE_WORLD:
+    /* TRANS: used as part of sentence about a building action pair. */
+    return _("all cities");
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_COUNT:
+    log_error("The range %s is invalid for buildings.",
+              req_range_name(range));
+    break;
+  }
+
+  return NULL;
+}
+
 /****************************************************************************
   Append text to 'buf' if the given requirements list 'subjreqs' contains
   'psource', implying that ability to build the subject 'subjstr' is
@@ -1190,6 +1239,64 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       }
     }
   } unit_type_iterate_end;
+
+  /* Actions that requires the building to target a city. */
+  action_iterate(act) {
+    /* Nothing is found yet. */
+    bool demanded = FALSE;
+    enum req_range max_range = REQ_RANGE_LOCAL;
+
+    if (action_id_get_target_kind(act) != ATK_CITY) {
+      /* Not relevant */
+      continue;
+    }
+
+    if (action_by_number(act)->quiet) {
+      /* The ruleset it self documents this action. */
+      continue;
+    }
+
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (universal_fulfills_requirement(TRUE, &(enabler->target_reqs),
+                                         &source)) {
+        /* The building is needed by this action enabler. */
+        demanded = TRUE;
+
+        /* See if this enabler gives the building a wider range. */
+        requirement_vector_iterate(&(enabler->target_reqs), preq) {
+          if (!universal_is_relevant_to_requirement(preq, &source)) {
+            /* Not relevant. */
+            continue;
+          }
+
+          if (!preq->present) {
+            /* A !present larger range requirement would make the present
+             * lower range illegal. */
+            continue;
+          }
+
+          if (preq->range > max_range) {
+            /* Found a larger range. */
+            max_range = preq->range;
+            /* Intentionally not breaking here. The requirement vector may
+             * contain other requirements with a larger range.
+             * Example: Building a GreatWonder in a city with a Palace. */
+          }
+        } requirement_vector_iterate_end;
+      }
+    } action_enabler_list_iterate_end;
+
+    if (demanded) {
+      /* At least one action enabler needed the building in its target
+       * requirements. */
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: the city building it ... Help build Wonder */
+                   _("* Makes it possible to target %s with the action "
+                     "\'%s\'.\n"),
+                   act_tgt_city_range_building(max_range),
+                   action_id_name_translation(act));
+    }
+  } action_iterate_end;
 
   {
     int i;
