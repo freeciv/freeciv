@@ -3740,6 +3740,27 @@ bool universal_fulfills_requirement(bool check_necessary,
 }
 
 /*************************************************************************
+  Returns TRUE iff the specified universal is relevant to fulfilling the
+  specified requirement.
+**************************************************************************/
+bool universal_is_relevant_to_requirement(const struct requirement *req,
+                                          const struct universal *source)
+{
+  fc_assert(universal_found_function[source->kind]);
+
+  switch ((*universal_found_function[source->kind])(req, source)) {
+  case ITF_NOT_APPLICABLE:
+    return FALSE;
+  case ITF_NO:
+  case ITF_YES:
+    return TRUE;
+  }
+
+  log_error("Unhandled item_found value");
+  return FALSE;
+}
+
+/*************************************************************************
   Find if a nation fulfills a requirement
 **************************************************************************/
 static enum item_found nation_found(const struct requirement *preq,
