@@ -308,7 +308,6 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
 bv_extras get_unit_tile_pillage_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
-bool is_diplomat_unit(const struct unit *punit);
 bool unit_can_do_action(const struct unit *punit,
                         const int action_id);
 bool is_square_threatened(const struct player *pplayer,
