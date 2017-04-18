@@ -1298,6 +1298,70 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
   } action_iterate_end;
 
+  /* Building protects against action. */
+  action_iterate(act) {
+    /* Nothing is found yet. */
+    bool vulnerable = FALSE;
+    enum req_range min_range = REQ_RANGE_COUNT;
+
+    if (action_id_get_target_kind(act) != ATK_CITY) {
+      /* Not relevant */
+      continue;
+    }
+
+    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+      /* This action isn't enabled at all. */
+      continue;
+    }
+
+    if (action_by_number(act)->quiet) {
+      /* The ruleset it self documents this action. */
+      continue;
+    }
+
+    /* Must be immune in all cases. */
+    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+      if (requirement_fulfilled_by_improvement(pimprove,
+                                               &(enabler->target_reqs))) {
+        vulnerable = TRUE;
+        break;
+      } else {
+        enum req_range vector_max_range = REQ_RANGE_LOCAL;
+
+        requirement_vector_iterate(&(enabler->target_reqs), preq) {
+          if (!universal_is_relevant_to_requirement(preq, &source)) {
+            /* Not relevant. */
+            continue;
+          }
+
+          if (preq->present) {
+            /* Not what is looked for. */
+            continue;
+          }
+
+          if (preq->range > vector_max_range) {
+            /* Found a larger range. */
+            vector_max_range = preq->range;
+          }
+        } requirement_vector_iterate_end;
+
+        if (vector_max_range < min_range) {
+          /* Found a smaller range. */
+          min_range = vector_max_range;
+        }
+      }
+    } action_enabler_list_iterate_end;
+
+    if (!vulnerable) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: Incite City ... all cities with its owner */
+                   _("* Makes it impossible to do the action \'%s\' to "
+                     "%s.\n"),
+                   action_id_name_translation(act),
+                   act_tgt_city_range_building(min_range));
+    }
+  } action_iterate_end;
+
   {
     int i;
 
