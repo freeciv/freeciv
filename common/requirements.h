@@ -165,6 +165,8 @@ void universal_found_functions_init(void);
 bool universal_fulfills_requirement(bool check_necessary,
                                     const struct requirement_vector *reqs,
                                     const struct universal *source);
+bool universal_is_relevant_to_requirement(const struct requirement *req,
+                                          const struct universal *source);
 
 #define universals_iterate(_univ_) \
   {                                \
