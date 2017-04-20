@@ -386,7 +386,7 @@ start) and Federation (available with Economics).
   Military Unhappiness. By default 2 free units per city.
 
 - "Mil Unhappiness": Most governments are affected by Military
-  Unhappiness due to units out of cities/fortresses (same than Republic
+  Unhappiness due to units out of cities/fortresses (same as Republic
   in classic ruleset).
 
 - "Martial Law": Max 3 units can apply Martial Law (was max 20 for
@@ -935,7 +935,7 @@ Terrain:
   Lake.
   It is still possible to transform any terrain to Hills by changing
   them to Forest first.
-- Mountains receive +2 Shields from mines, same than Hills. The tech
+- Mountains receive +2 Shields from mines, same as Hills. The tech
   Refining allows to upgrade the mines placed on Deserts and Glaciers
   to Oil Wells (+2 Shields).
 - Deep ocean tiles must be mined in order to take advantage of the
