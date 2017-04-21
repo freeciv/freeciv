@@ -363,7 +363,19 @@ action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is Foreign", "Local"
+    }
+target_reqs  =
+    { "type",   "name", "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[actionenabler_establish_embassy_explorer]
+action       = "Establish Embassy"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitType", "Explorer", "Local"
       "MinMoveFrags", "1", "Local"
       "DiplRel", "Is foreign", "Local"
     }
@@ -377,7 +389,15 @@ action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+      "DiplRel", "Is Foreign", "Local"
+    }
+
+[actionenabler_investigate_city_explorer]
+action       = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitType", "Explorer", "Local"
       "MinMoveFrags", "1", "Local"
       "DiplRel", "Is foreign", "Local"
     }
@@ -485,6 +505,7 @@ action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_help_build_wonder]
@@ -492,7 +513,11 @@ action = "Help Wonder"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "HelpWonder", "Local", TRUE
-      "DiplRel", "Is foreign", "Local", FALSE
+      "DiplRel", "Armistice", "Local", FALSE
+      "DiplRel", "War", "Local", FALSE
+      "DiplRel", "Cease-fire", "Local", FALSE
+      "DiplRel", "Peace", "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs    =
     { "type",   "name", "range"

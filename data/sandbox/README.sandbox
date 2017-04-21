@@ -35,9 +35,6 @@ Spies can steal other player's world map
 Border Vision:
 Border Vision is gained mid-game once Electricity is known
 
-Allied Wonder Building:
-One can help allies to build wonder.
-
 Destroy City:
 Leader unit can destroy domestic cities.
 
@@ -81,14 +78,6 @@ Under Republic government, the speed corruption increases as one goes
 further from the capital is relative to the size of the world. At
 the maximum distance corruption is the same regardless of the size of
 the world.
-
-Explorers establishing embassies:
-Explorers can establish embassies once Writing is known. The Explorer
-unit is used up by this.
-
-Establish Embassy from sea:
-Units can establish embassies directly from boats without
-disembarking.
 
 Units can be bribed/sabotaged if not alone on their tile:
 Being part of a unit stack won't protect against spy actions.
