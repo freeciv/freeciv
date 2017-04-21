@@ -3264,6 +3264,51 @@ static int server_plr_tile_city_id_get(const struct tile *ptile,
                                   : IDENTITY_NUMBER_ZERO;
 }
 
+/***************************************************************************
+  Returns the id of the server setting with the specified name.
+***************************************************************************/
+static server_setting_id server_ss_by_name(const char *name)
+{
+  struct setting *pset = setting_by_name(name);
+
+  if (pset) {
+    return setting_number(pset);
+  } else {
+    log_error("No server setting named %s exists.", name);
+    return SERVER_SETTING_NONE;
+  }
+}
+
+/***************************************************************************
+  Returns the name of the server setting with the specified id.
+***************************************************************************/
+static const char *server_ss_name_get(server_setting_id id)
+{
+  struct setting *pset = setting_by_number(id);
+
+  if (pset) {
+    return setting_name(pset);
+  } else {
+    log_error("No server setting with the id %d exists.", id);
+    return NULL;
+  }
+}
+
+/***************************************************************************
+  Returns the type of the server setting with the specified id.
+***************************************************************************/
+static enum sset_type server_ss_type_get(server_setting_id id)
+{
+  struct setting *pset = setting_by_number(id);
+
+  if (pset) {
+    return setting_type(pset);
+  } else {
+    log_error("No server setting with the id %d exists.", id);
+    return sset_type_invalid();
+  }
+}
+
 /***************************************************************
   Initialize client specific functions.
 ***************************************************************/
@@ -3271,6 +3316,9 @@ static void fc_interface_init_server(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
+  funcs->server_setting_by_name = server_ss_by_name;
+  funcs->server_setting_name_get = server_ss_name_get;
+  funcs->server_setting_type_get = server_ss_type_get;
   funcs->create_extra = create_extra;
   funcs->destroy_extra = destroy_extra;
   funcs->player_tile_vision_get = map_is_known_and_seen;

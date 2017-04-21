@@ -28,6 +28,12 @@ extern "C" {
 #define SPECENUM_COUNT  SST_COUNT
 #include "specenum_gen.h"
 
+/* Special value to signal the absence of a server setting. */
+#define SERVER_SETTING_NONE ((server_setting_id) -1)
+
+/* Mark server setting id's. */
+typedef int server_setting_id;
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

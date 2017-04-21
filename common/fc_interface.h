@@ -21,6 +21,7 @@ extern "C" {
 #include "support.h"
 
 /* common */
+#include "server_settings.h"
 #include "vision.h"
 
 struct player;
@@ -30,6 +31,9 @@ struct extra_type;
 
 /* The existence of each function should be checked in interface_init()! */
 struct functions {
+  server_setting_id (*server_setting_by_name)(const char *name);
+  const char *(*server_setting_name_get)(server_setting_id id);
+  enum sset_type (*server_setting_type_get)(server_setting_id id);
   void (*create_extra)(struct tile *ptile, struct extra_type *pextra,
                        struct player *pplayer);
   void (*destroy_extra)(struct tile *ptile, struct extra_type *pextra);
