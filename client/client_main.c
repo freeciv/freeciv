@@ -1355,6 +1355,78 @@ static int client_plr_tile_city_id_get(const struct tile *ptile,
   return pcity ? pcity->id : IDENTITY_NUMBER_ZERO;
 }
 
+/***************************************************************************
+  Returns the id of the server setting with the specified name.
+***************************************************************************/
+static server_setting_id client_ss_by_name(const char *name)
+{
+  struct option *pset = optset_option_by_name(server_optset, name);
+
+  if (pset) {
+    return option_number(pset);
+  } else {
+    log_error("No server setting named %s exists.", name);
+    return SERVER_SETTING_NONE;
+  }
+}
+
+/***************************************************************************
+  Returns the name of the server setting with the specified id.
+***************************************************************************/
+static const char *client_ss_name_get(server_setting_id id)
+{
+  struct option *pset = optset_option_by_number(server_optset, id);
+
+  if (pset) {
+    return option_name(pset);
+  } else {
+    log_error("No server setting with the id %d exists.", id);
+    return NULL;
+  }
+}
+
+/***************************************************************************
+  Returns the type of the server setting with the specified id.
+***************************************************************************/
+static enum sset_type client_ss_type_get(server_setting_id id)
+{
+  enum option_type opt_type;
+  struct option *pset = optset_option_by_number(server_optset, id);
+
+  if (!pset) {
+    log_error("No server setting with the id %d exists.", id);
+    return sset_type_invalid();
+  }
+
+  opt_type = option_type(pset);
+
+  /* The option type isn't client only. */
+  fc_assert_ret_val_msg((opt_type != OT_FONT
+                         && opt_type != OT_COLOR
+                         && opt_type != OT_VIDEO_MODE),
+                        sset_type_invalid(),
+                        "%s is a client option type but not a server "
+                        "setting type",
+                        option_type_name(option_type(pset)));
+
+  /* The option type is valid. */
+  fc_assert_ret_val(sset_type_is_valid(opt_type), sset_type_invalid());
+
+  /* Each server setting type value equals the client option type value with
+   * the same meaning. */
+  FC_STATIC_ASSERT((enum sset_type)OT_BOOLEAN == SST_BOOL
+                   && (enum sset_type)OT_INTEGER == SST_INT
+                   && (enum sset_type)OT_STRING == SST_STRING
+                   && (enum sset_type)OT_ENUM == SST_ENUM
+                   && (enum sset_type)OT_BITWISE == SST_BITWISE
+                   && SST_COUNT == (enum sset_type)5,
+                   server_setting_type_not_equal_to_client_option_type);
+
+  /* Exploit the fact that each server setting type value corresponds to the
+   * client option type value with the same meaning. */
+  return opt_type;
+}
+
 /***************************************************************
   Initialize client specific functions.
 ***************************************************************/
@@ -1362,6 +1434,9 @@ static void fc_interface_init_client(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
+  funcs->server_setting_by_name = client_ss_by_name;
+  funcs->server_setting_name_get = client_ss_name_get;
+  funcs->server_setting_type_get = client_ss_type_get;
   funcs->create_extra = NULL;
   funcs->destroy_extra = NULL;
   funcs->player_tile_vision_get = client_map_is_known_and_seen;
