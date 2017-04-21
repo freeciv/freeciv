@@ -1822,7 +1822,7 @@ food_bonus     = 0
 shield_bonus   = 50
 trade_bonus    = 0
 compat_special = "Railroad"
-flags          = "RequiresBridge"
+flags          = "RequiresBridge", "UnrestrictedInfra"
 
 [road_river]
 extra          = "River"
