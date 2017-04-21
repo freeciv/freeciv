@@ -17,9 +17,6 @@ the need to base also the testing ruleset to the new default.
 Main features relative to civ2civ3 ruleset
 ------------------------------------------
 
-Allied Wonder Building:
-One can help allies to build wonder.
-
 Barbarians:
 Barbarians have been completely disabled from the sandbox ruleset
 in preparation to make them to use new barbarians model that will
@@ -27,14 +24,6 @@ be introduced in freeciv-3.0.
 
 Sea Units in port:
 Sea Units in cities defend with 1/4 of their usual defense value.
-
-Explorers establishing embassies:
-Explorers can establish embassies once Writing is known. The Explorer
-unit is used up by this.
-
-Establish Embassy from sea:
-Units can establish embassies directly from boats without
-disembarking.
 
 Units can be bribed/sabotaged if not alone on their tile:
 Being part of a unit stack won't protect against spy actions.

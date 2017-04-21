@@ -292,12 +292,11 @@ target_reqs  =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
-[actionenabler_explorer_establish_embassy]
+[actionenabler_establish_embassy_explorer]
 action       = "Establish Embassy"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitType", "Explorer", "Local"
-      "Tech", "Writing", "Player"
       "MinMoveFrags", "1", "Local"
     }
 target_reqs  =
@@ -310,7 +309,14 @@ action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+
+[actionenabler_investigate_city_explorer]
+action       = "Investigate City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitType", "Explorer", "Local"
       "MinMoveFrags", "1", "Local"
     }
 
@@ -411,6 +417,7 @@ action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [actionenabler_marketplace]
@@ -418,6 +425,7 @@ action = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 target_reqs  =
     { "type",     "name",        "range"
@@ -433,6 +441,7 @@ actor_reqs    =
       "DiplRel",  "War",        "Local", FALSE
       "DiplRel",  "Cease-fire", "Local", FALSE
       "DiplRel",  "Peace",      "Local", FALSE
+      "MinMoveFrags", "1", "Local", TRUE
     }
 
 [borders]

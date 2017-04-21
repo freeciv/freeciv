@@ -599,6 +599,10 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
   get defensive bonuses from the terrain, can not perform pillage, and
   need Galleons or Transports to travel by sea.
 
+- Units can establish embassies or investigate cities directly from boats
+  without disembarking. Explorers can also perform those two actions, same
+  as Diplomats. Increased vision range of Explorers and Partisans.
+
 - Added Elephants from civ2, available with Polytheism:
   (at/def/mov-hp,cost) = (3/2/2-10,30). Obsolete by Dragoons.
 
@@ -980,7 +984,11 @@ Units:
   the movements of enemy units.
 - Diplomats and Spies are invisible like submarines, but they pay upkeep
   costs like all other units.
-- Increased vision of Explorer and Partisan. 
+- Units can establish embassies or investigate cities directly from boats
+  without disembarking. Explorers can also perform those two actions, same
+  as Diplomats. Cost of Explorers restored to 30.
+- Increased vision range of Explorers and Partisans.
+- Caravans and Freights can help allies to build wonder.
 - Cheating AI level gets +50% defense bonus for units placed in land
   tiles outside cities/fortresses.
 

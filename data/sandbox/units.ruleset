@@ -2424,14 +2424,14 @@ The Freight unit replaces the Caravan, and moves at twice the speed.\
 name          = _("Explorer")
 class         = "Small Land"
 tech_req      = "Seafaring"
-obsolete_by   = "Partisan"
+obsolete_by   = "None"
 graphic       = "u.explorer"
 graphic_alt   = "-"
 sound_move    = "m_explorer"
 sound_move_alt = "m_generic"
 sound_fight   = "f_explorer"
 sound_fight_alt = "f_generic"
-build_cost    = 20
+build_cost    = 30
 pop_cost      = 0
 attack        = 0
 defense       = 1
@@ -2451,9 +2451,18 @@ helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
 "), _("\
-An explorer can be ordered to remain in a foreign city as an ambassador\
- after Writing is discovered. This gives permanent contact with the city's\
- owner, as well as intelligence on their tax rates and technology.\
+Explorers can also perform some actions in another player's city, although\
+ the unit disappears after the action is complete.\
+"), _("\
+ - \"Establish Embassy\": This action always succeeds, and gives\
+ permanent contact with the city's owner, as well as intelligence\
+ on their tax rates and technology. Each player you have an embassy\
+ with that knows a technology reduces that technology's research\
+ cost to you.\
+"), _("\
+ - \"Investigate City\": Your unit attempts to report detailed\
+ information about the city: its status, what buildings and units are\
+ within, and what it is currently producing.\
 ")
 
 [unit_leader]
