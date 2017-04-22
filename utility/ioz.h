@@ -32,7 +32,7 @@ extern "C" {
 struct fz_FILE_s;		  /* opaque */
 typedef struct fz_FILE_s fz_FILE;
 
-/* (Possibly) supported methods (depending on fc_config.h). */
+/* (Possibly) supported methods (depending on freeciv_config.h). */
 enum fz_method {
   FZ_PLAIN = 0,
 #ifdef FREECIV_HAVE_LIBZ
@@ -47,9 +47,9 @@ enum fz_method {
 };
 
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,
-		      enum fz_method method, int compress_level);
+                      enum fz_method method, int compress_level);
 fz_FILE *fz_from_stream(FILE *stream);
-  fz_FILE *fz_from_memory(char *buffer, int size, bool control);
+fz_FILE *fz_from_memory(char *buffer, int size, bool control);
 int fz_fclose(fz_FILE *fp);
 char *fz_fgets(char *buffer, int size, fz_FILE *fp);
 int fz_fprintf(fz_FILE *fp, const char *format, ...)
