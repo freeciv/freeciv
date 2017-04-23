@@ -34,6 +34,15 @@ extern "C" {
 /* Mark server setting id's. */
 typedef int server_setting_id;
 
+
+/* Pure server settings. */
+server_setting_id server_setting_by_name(const char *name);
+bool server_setting_exists(server_setting_id id);
+
+enum sset_type server_setting_type_get(server_setting_id id);
+
+const char *server_setting_name_get(server_setting_id id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
