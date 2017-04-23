@@ -27,10 +27,6 @@ endif
 
 SUBDIRS = $(DSUBDIRS) dependencies utility common tests win32 $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers lua bootstrap
 
-## Automake should distribute config.rpath automatically - and new
-## versions probably do. We still support versions that do not, so
-## it's in the list below.
-## It should also install it automatically when running autogen.sh.
 EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
 		m4/c99.m4			\
