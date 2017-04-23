@@ -172,6 +172,9 @@ somehow. Some options are:
  list in: https://msdn.microsoft.com/en-us/library/6sehtctf.aspx
  Current default is 0x0601 (Windows 7).
 
+ It's possible to set number of make jobs used in the build by
+ setting suitable make parameter to MAKE_PARAMS variable, e,g,
+ MAKE_PARAMS="-j3"
 
  Problems
 ====================================

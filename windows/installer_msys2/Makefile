@@ -73,7 +73,7 @@ build-freeciv-common:
 	# configure
 	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-project-definition=../../../bootstrap/snapshot.project --enable-client=$(GUI) --with-followtag="windows-S3_1" --with-tinycthread --without-readline --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
 	# make
-	make -C build-$(WINARCH)-$(GUI)
+	make -C build-$(WINARCH)-$(GUI) $(MAKE_PARAMS)
 	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
 	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 
@@ -83,7 +83,7 @@ build-freeciv-ruledit:
 	# configure
 	cd build-$(WINARCH)-ruledit; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-project-definition=../../../bootstrap/snapshot.project --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 	# make
-	make -C build-$(WINARCH)-ruledit
+	make -C build-$(WINARCH)-ruledit $(MAKE_PARAMS)
 	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
 	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 
@@ -97,7 +97,7 @@ build-freeciv-qt: build-freeciv-common
 
 install-freeciv-common:
 	# make install
-	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) install
+	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
 	# reorder directory layout
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/bin/* install-$(WINARCH)-$(GUI)/
 	mv install-$(WINARCH)-$(GUI)/$(INSTSUB)/etc install-$(WINARCH)-$(GUI)/
@@ -130,7 +130,7 @@ install-ruledit-dir:
 
 install-ruledit: install-ruledit-dir
 	# make install
-	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ install
+	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ $(MAKE_PARAMS) install
 	# reorder directory layout
 	mv install-$(WINARCH)-ruledit/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit/
 	mv install-$(WINARCH)-ruledit/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit/data
