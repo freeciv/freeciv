@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-29 06:23+0100\n"
+"POT-Creation-Date: 2017-04-24 20:37+0200\n"
 "PO-Revision-Date: 2016-07-19 21:59+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -648,7 +648,7 @@ msgstr "%+4d : Provenant du commerce\n"
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
 #: client/citydlg_common.c:477 client/gui-gtk-2.0/inteldlg.c:388
-#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:450
+#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:455
 #: client/gui-sdl/inteldlg.c:314 client/gui-sdl/inteldlg.c:327
 #: client/gui-xaw/inteldlg.c:281 server/stdinhand.c:326
 msgid "(unknown)"
@@ -801,7 +801,7 @@ msgstr "Nom Ville"
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1409
 #: client/gui-gtk-3.0/pages.c:2776 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
-#: client/gui-qt/pages.cpp:552 client/gui-qt/plrdlg.cpp:442
+#: client/gui-qt/pages.cpp:554 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
@@ -1919,7 +1919,7 @@ msgstr "#"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2774
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:552
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:554
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "Drapeau"
@@ -1949,19 +1949,19 @@ msgstr "Commerce :"
 #: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
-#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:451
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "Or :"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:457
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Biens de luxe :"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:455
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Recherche :"
 
@@ -2644,7 +2644,7 @@ msgid "What Nation Will You Be?"
 msgstr "Quelle nation voulez-vous être ?"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-3.0/dialogs.c:895
-#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:574
+#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:576
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
 msgid "Pick Nation"
 msgstr "Prendre une nation"
@@ -3315,7 +3315,7 @@ msgstr "ID"
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
 #: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1406
 #: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:551 data/Freeciv.in:97
+#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:553 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
 #: tools/mpgui_qt.cpp:217
 msgid "Name"
@@ -3606,7 +3606,7 @@ msgstr "Vue (Invisible)"
 
 #: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
 #: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:741
-#: client/gui-qt/pages.cpp:763 client/gui-sdl/citydlg.c:1985
+#: client/gui-qt/pages.cpp:765 client/gui-sdl/citydlg.c:1985
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "Ville inconnue"
@@ -3752,7 +3752,7 @@ msgid "Shift+Return"
 msgstr "Maj+Entrée"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1410
-#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:638
+#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:640
 msgid "?noun:View"
 msgstr "Vue"
 
@@ -3953,7 +3953,7 @@ msgstr "Bonus (N/P/C) :"
 
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:137 client/gui-gtk-3.0/helpdlg.c:137
-#: client/gui-qt/plrdlg.cpp:522 client/gui-qt/plrdlg.cpp:528
+#: client/gui-qt/plrdlg.cpp:530 client/gui-qt/plrdlg.cpp:536
 #: client/gui-qt/repodlgs.cpp:582 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
@@ -4023,7 +4023,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/helpdlg.c:1153 client/gui-gtk-2.0/helpdlg.c:1240
 #: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1181
 #: client/gui-gtk-3.0/helpdlg.c:1268 client/gui-gtk-3.0/inteldlg.c:407
-#: client/gui-qt/plrdlg.cpp:432 client/gui-xaw/helpdlg.c:1014
+#: client/gui-qt/plrdlg.cpp:437 client/gui-xaw/helpdlg.c:1014
 #: client/gui-xaw/helpdlg.c:1095 common/requirements.c:1958
 #, c-format
 msgid "(none)"
@@ -4072,27 +4072,27 @@ msgid "?bonus:None"
 msgstr "Aucun"
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-qt/plrdlg.cpp:444
+#: client/gui-qt/plrdlg.cpp:449
 msgid "Ruler:"
 msgstr "Chef :"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-qt/plrdlg.cpp:446
+#: client/gui-qt/plrdlg.cpp:451
 msgid "Government:"
 msgstr "Gouvernement :"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-qt/plrdlg.cpp:448
+#: client/gui-qt/plrdlg.cpp:453
 msgid "Capital:"
 msgstr "Capitale :"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-qt/plrdlg.cpp:453
+#: client/gui-qt/plrdlg.cpp:458
 msgid "Tax:"
 msgstr "Taxe :"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-qt/plrdlg.cpp:459
+#: client/gui-qt/plrdlg.cpp:464
 msgid "Researching:"
 msgstr "Recherche :"
 
@@ -4111,7 +4111,7 @@ msgstr "Rapport sur l'étranger : empire %s"
 
 #. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-3.0/inteldlg.c:403
-#: client/gui-qt/plrdlg.cpp:429 common/tech.c:1227
+#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1227
 msgid "(Unknown)"
 msgstr "(Inconnu)"
 
@@ -4956,7 +4956,7 @@ msgid "_Browse..."
 msgstr "_Parcourir..."
 
 #: client/gui-gtk-2.0/pages.c:987 client/gui-gtk-3.0/pages.c:1068
-#: client/gui-qt/pages.cpp:1210 client/gui-sdl/connectdlg.c:937
+#: client/gui-qt/pages.cpp:1212 client/gui-sdl/connectdlg.c:937
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Les mots de passe ne correspondent pas, entrez le mot de passe."
@@ -5073,7 +5073,7 @@ msgid "Toggle player ready"
 msgstr "Permuter joueur prêt"
 
 #: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1831
-#: client/gui-qt/pages.cpp:1575
+#: client/gui-qt/pages.cpp:1577
 msgid "Pick nation"
 msgstr "Choisir la nation"
 
@@ -5082,7 +5082,7 @@ msgid "Observe this player"
 msgstr "Observer ce joueur"
 
 #: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1846
-#: client/gui-qt/pages.cpp:1565
+#: client/gui-qt/pages.cpp:1567
 msgid "Take this player"
 msgstr "Prendre ce joueur"
 
@@ -5091,12 +5091,12 @@ msgid "Cut connection"
 msgstr "Couper la connexion"
 
 #: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1869
-#: client/gui-qt/pages.cpp:1637
+#: client/gui-qt/pages.cpp:1639
 msgid "Aitoggle player"
 msgstr "Permuter entre IA et jouer"
 
 #: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1877
-#: client/gui-qt/pages.cpp:1557
+#: client/gui-qt/pages.cpp:1559
 msgid "Remove player"
 msgstr "Retirer le Joueur"
 
@@ -5162,19 +5162,19 @@ msgid "<%s AI>"
 msgstr "<IA %s>"
 
 #: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2411
-#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1291
+#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1293
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Aléatoire"
 
 #: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
 #: client/gui-gtk-3.0/pages.c:2485 client/gui-gtk-3.0/pages.c:2542
-#: client/gui-qt/pages.cpp:1362 client/gui-qt/pages.cpp:1392
+#: client/gui-qt/pages.cpp:1364 client/gui-qt/pages.cpp:1394
 msgid "Observer"
 msgstr "Observateur"
 
 #: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2567
-#: client/gui-qt/pages.cpp:1409
+#: client/gui-qt/pages.cpp:1411
 msgid "Detached"
 msgstr "Détaché"
 
@@ -5210,7 +5210,7 @@ msgstr "Classement"
 
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2770 client/gui-gtk-3.0/unitselect.c:475
-#: client/gui-qt/pages.cpp:551 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:1467
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "Prêt"
@@ -5221,12 +5221,12 @@ msgstr "Chef"
 
 # AR
 #: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2778
-#: client/gui-qt/pages.cpp:552 client/plrdlg_common.c:310
+#: client/gui-qt/pages.cpp:554 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "Équipe"
 
 #: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2899
-#: client/gui-qt/pages.cpp:429 client/gui-sdl/chatline.c:197
+#: client/gui-qt/pages.cpp:431 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Choisissez la partie à charger"
 
@@ -5235,7 +5235,7 @@ msgid "Choose Saved Game to _Load:"
 msgstr "Choisissez _la partie à charger :"
 
 #: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3048
-#: client/gui-qt/pages.cpp:490
+#: client/gui-qt/pages.cpp:492
 msgid "Choose a Scenario"
 msgstr "Choisissez un scenario"
 
@@ -5832,7 +5832,7 @@ msgid "Change homecity"
 msgstr "Changer la ville de rattachement"
 
 #: client/gui-qt/citydlg.cpp:216 client/gui-qt/menu.cpp:665
-#: client/gui-qt/pages.cpp:470
+#: client/gui-qt/pages.cpp:472
 msgid "Load"
 msgstr "Charger"
 
@@ -6072,8 +6072,8 @@ msgstr "Coût : %1, Entretien : %2\n"
 
 #: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
-#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:462
-#: client/gui-qt/pages.cpp:520 client/gui-qt/ratesdlg.cpp:140
+#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:464
+#: client/gui-qt/pages.cpp:522 client/gui-qt/ratesdlg.cpp:140
 #: client/gui-sdl/citydlg.c:526 client/gui-sdl/citydlg.c:1418
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/connectdlg.c:634
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
@@ -6124,7 +6124,7 @@ msgstr "Vendre"
 msgid "Select"
 msgstr "Sélectionner"
 
-#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:336
+#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:341
 msgid "Column visibility"
 msgstr "Visibilité des colonnes"
 
@@ -6249,7 +6249,7 @@ msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Êtes-vous sûr de vouloir congédier cette unité ?"
 msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 
-#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1327
+#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1329
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1212
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6265,7 +6265,7 @@ msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 msgid "Yes"
 msgstr "Oui"
 
-#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1329
+#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1331
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1201
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6352,12 +6352,12 @@ msgstr "Bienvenue à Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Client Qt pour Freeciv"
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1445
+#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1447
 msgid "Don't Observe"
 msgstr "Ne pas observer"
 
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:581
-#: client/gui-qt/pages.cpp:1447 client/gui-qt/pages.cpp:1548
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:583
+#: client/gui-qt/pages.cpp:1449 client/gui-qt/pages.cpp:1550
 msgid "Observe"
 msgstr "Observer"
 
@@ -6830,8 +6830,8 @@ msgid "Tax Rates..."
 msgstr "Taux d'imposition..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1258
-#: client/gui-qt/plrdlg.cpp:641 client/gui-sdl/plrdlg.c:337
+#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1260
+#: client/gui-qt/plrdlg.cpp:649 client/gui-sdl/plrdlg.c:337
 msgid "?header:Players"
 msgstr "Joueurs"
 
@@ -6943,92 +6943,92 @@ msgstr "Mot de passe"
 msgid "Confirm Password"
 msgstr "Confirmer le mot de passe:"
 
-#: client/gui-qt/pages.cpp:376
+#: client/gui-qt/pages.cpp:378
 msgid "Internet servers:"
 msgstr "Serveurs Internet :"
 
-#: client/gui-qt/pages.cpp:379
+#: client/gui-qt/pages.cpp:381
 msgid "Local servers:"
 msgstr "Seveurs locaux :"
 
-#: client/gui-qt/pages.cpp:429
+#: client/gui-qt/pages.cpp:431
 msgid "Date"
 msgstr "Date"
 
-#: client/gui-qt/pages.cpp:456 client/gui-qt/pages.cpp:514
+#: client/gui-qt/pages.cpp:458 client/gui-qt/pages.cpp:516
 msgid "Browse..."
 msgstr "Parcourir..."
 
-#: client/gui-qt/pages.cpp:528
+#: client/gui-qt/pages.cpp:530
 msgid "Load Scenario"
 msgstr "Charger le scenario"
 
-#: client/gui-qt/pages.cpp:551
+#: client/gui-qt/pages.cpp:553
 msgid "Leader"
 msgstr "Chef"
 
-#: client/gui-qt/pages.cpp:569 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
+#: client/gui-qt/pages.cpp:571 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: client/gui-qt/pages.cpp:587 client/gui-qt/pages.cpp:1473
+#: client/gui-qt/pages.cpp:589 client/gui-qt/pages.cpp:1475
 #: client/gui-sdl/chatline.c:800 data/Freeciv.in:3444
 msgid "Start"
 msgstr "Démarrer"
 
-#: client/gui-qt/pages.cpp:691
+#: client/gui-qt/pages.cpp:693
 msgid "Save Files"
 msgstr "Fichiers de sauvegarde"
 
-#: client/gui-qt/pages.cpp:694
+#: client/gui-qt/pages.cpp:696
 msgid "Open Save File"
 msgstr "Ouvrir la sauvegarde"
 
-#: client/gui-qt/pages.cpp:707
+#: client/gui-qt/pages.cpp:709
 msgid "Scenarios Files"
 msgstr "Fichiers de scenario"
 
-#: client/gui-qt/pages.cpp:710
+#: client/gui-qt/pages.cpp:712
 msgid "Open Scenario File"
 msgstr "Ouvrir le scenario"
 
-#: client/gui-qt/pages.cpp:1377
+#: client/gui-qt/pages.cpp:1379
 msgid "Global observers"
 msgstr "Observateurs globaux"
 
-#: client/gui-qt/pages.cpp:1454
+#: client/gui-qt/pages.cpp:1456
 msgid "Not ready"
 msgstr "Pas prêt"
 
-#: client/gui-qt/pages.cpp:1590
+#: client/gui-qt/pages.cpp:1592
 msgid "Set difficulty"
 msgstr "Choisir la difficulté"
 
-#: client/gui-qt/pages.cpp:1613
+#: client/gui-qt/pages.cpp:1615
 msgid "Put on team"
 msgstr "Mettre en équipe"
 
-#: client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:501
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Technologies inconnues par %1 :</b>"
 
-#: client/gui-qt/plrdlg.cpp:495
+#: client/gui-qt/plrdlg.cpp:503
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Technologies inconnues pour vous :</b>"
 
-#: client/gui-qt/plrdlg.cpp:535
+#: client/gui-qt/plrdlg.cpp:543
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Technologies connues par %1 :</b>"
 
-#: client/gui-qt/plrdlg.cpp:598 data/Freeciv.in:3286
+#: client/gui-qt/plrdlg.cpp:606 data/Freeciv.in:3286
 msgid "Meet"
 msgstr "Rencontrer"
 
-#: client/gui-qt/plrdlg.cpp:600 client/gui-sdl/diplodlg.c:1536
+#: client/gui-qt/plrdlg.cpp:608 client/gui-sdl/diplodlg.c:1536
 msgid "Cancel Treaty"
 msgstr "Annuler traité"
 
-#: client/gui-qt/plrdlg.cpp:602
+#: client/gui-qt/plrdlg.cpp:610
 msgid "Withdraw Vision"
 msgstr "Retirer la vue"
 
@@ -41698,7 +41698,7 @@ msgstr ", %s"
 msgid "?and-list:, and %s"
 msgstr " et %s"
 
-#: utility/fciconv.c:131
+#: utility/fciconv.c:130
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
@@ -41713,7 +41713,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:210
+#: utility/fciconv.c:209
 #, c-format
 msgid "Could not convert text from %s to %s: %s.\n"
 msgstr "Impossible de convertir le texte de %s vers %s : %s.\n"
