@@ -3309,6 +3309,21 @@ static enum sset_type server_ss_type_get(server_setting_id id)
   }
 }
 
+/***************************************************************************
+  Returns the value of the boolean server setting with the specified id.
+***************************************************************************/
+static bool server_ss_val_bool_get(server_setting_id id)
+{
+  struct setting *pset = setting_by_number(id);
+
+  if (pset) {
+    return setting_bool_get(pset);
+  } else {
+    log_error("No server setting with the id %d exists.", id);
+    return FALSE;
+  }
+}
+
 /***************************************************************
   Initialize client specific functions.
 ***************************************************************/
@@ -3319,6 +3334,7 @@ static void fc_interface_init_server(void)
   funcs->server_setting_by_name = server_ss_by_name;
   funcs->server_setting_name_get = server_ss_name_get;
   funcs->server_setting_type_get = server_ss_type_get;
+  funcs->server_setting_val_bool_get = server_ss_val_bool_get;
   funcs->create_extra = create_extra;
   funcs->destroy_extra = destroy_extra;
   funcs->player_tile_vision_get = map_is_known_and_seen;

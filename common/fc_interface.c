@@ -59,6 +59,7 @@ void fc_interface_init(void)
   fc_assert_exit(fc_funcs->server_setting_by_name);
   fc_assert_exit(fc_funcs->server_setting_name_get);
   fc_assert_exit(fc_funcs->server_setting_type_get);
+  fc_assert_exit(fc_funcs->server_setting_val_bool_get);
   fc_assert_exit(fc_funcs->player_tile_vision_get);
   fc_assert_exit(fc_funcs->player_tile_city_id_get);
   fc_assert_exit(fc_funcs->gui_color_free);
