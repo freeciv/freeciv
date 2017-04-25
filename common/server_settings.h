@@ -43,6 +43,8 @@ enum sset_type server_setting_type_get(server_setting_id id);
 
 const char *server_setting_name_get(server_setting_id id);
 
+bool server_setting_value_bool_get(server_setting_id id);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
