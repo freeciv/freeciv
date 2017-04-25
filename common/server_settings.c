@@ -51,3 +51,13 @@ bool server_setting_exists(server_setting_id id)
 {
   return sset_type_is_valid(server_setting_type_get(id));
 }
+
+/***************************************************************************
+  Returns the value of the server setting with the specified id.
+***************************************************************************/
+bool server_setting_value_bool_get(server_setting_id id)
+{
+  fc_assert_ret_val(server_setting_type_get(id) == SST_BOOL, FALSE);
+
+  return fc_funcs->server_setting_val_bool_get(id);
+}
