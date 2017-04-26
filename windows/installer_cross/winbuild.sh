@@ -35,7 +35,9 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-if test -d ../../.svn ; then
+if test -d ../../.git ; then
+  VERREV="$(../../fc_version)-$(cd ../.. && git rev-parse --short HEAD)"
+elif test -d ../../.svn ; then
   VERREV="$(../../fc_version)-r$(cd ../.. && svn info | grep Revision | sed 's/Revision: //')"
 else
   VERREV="$(../../fc_version)"
