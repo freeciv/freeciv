@@ -8,7 +8,9 @@
 
 AC_DEFUN([FC_NO_CLIENT],
 [
-  if test "x`eval echo '$'gui_$1`" = "xyes"; then
+  UL_GUI=$(printf $1 | $SED 's/\./_/g')
+
+  if test "x`eval echo '$'gui_$UL_GUI`" = "xyes"; then
     AC_MSG_ERROR([specified client '$1' not configurable ($2)])
   fi
 ])

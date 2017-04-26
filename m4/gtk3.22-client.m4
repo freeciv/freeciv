@@ -25,7 +25,7 @@ AC_DEFUN([FC_GTK3_22_CLIENT],
         fi
       ],
       [
-        FC_NO_CLIENT([gtk3_22], [GTK+-3.22 libraries not found])
+        FC_NO_CLIENT([gtk3.22], [GTK+-3.22 libraries not found])
       ])
   fi
 ])
