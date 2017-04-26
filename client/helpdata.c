@@ -43,6 +43,7 @@
 #include "multipliers.h"
 #include "reqtext.h"
 #include "research.h"
+#include "server_settings.h"
 #include "specialist.h"
 #include "tilespec.h"
 #include "unit.h"
@@ -2040,6 +2041,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_FIELDUNIT)) {
     CATLSTR(buf, bufsz,
             _("* A field unit: one unhappiness applies even when non-aggressive.\n"));
+  }
+  if (utype_has_flag(utype, UTYF_PROVOKING)
+      && server_setting_value_bool_get(
+        server_setting_by_name("autoattack"))) {
+    CATLSTR(buf, bufsz,
+            _("* An enemy unit considering to auto attack this unit will "
+              "choose to do so even if it has better odds when defending "
+              "against it than when attacking it.\n"));
   }
   if (utype_has_flag(utype, UTYF_SHIELD2GOLD)) {
     /* FIXME: the conversion shield => gold is activated if
