@@ -3325,7 +3325,7 @@ static bool server_ss_val_bool_get(server_setting_id id)
 }
 
 /***************************************************************
-  Initialize client specific functions.
+  Initialize server specific functions.
 ***************************************************************/
 static void fc_interface_init_server(void)
 {
