@@ -11,7 +11,7 @@ bug kunt rapporteren.
 De opsomming betreft uitsluitend de meest zichtbare fouten. Voor een complete
 opsomming zie:
 
-    http://gna.org/bugs/?group=freeciv
+    https://www.hostedredmine.com/projects/freeciv
 
 BEKENDE FOUTEN:
 ===============
@@ -119,7 +119,7 @@ Dit is wat u moet doen:
 
  - Controleer het Freeciv foutenvolgsysteem op:
 
-        http://gna.org/bugs/?group=freeciv
+        https://www.hostedredmine.com/projects/freeciv
 
    om te kijken of de fout al eerder gerapporteerd is.
 
