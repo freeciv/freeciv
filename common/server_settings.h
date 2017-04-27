@@ -18,21 +18,12 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/* Server setting types. */
-#define SPECENUM_NAME sset_type
-#define SPECENUM_VALUE0 SST_BOOL
-#define SPECENUM_VALUE1 SST_INT
-#define SPECENUM_VALUE2 SST_STRING
-#define SPECENUM_VALUE3 SST_ENUM
-#define SPECENUM_VALUE4 SST_BITWISE
-#define SPECENUM_COUNT  SST_COUNT
-#include "specenum_gen.h"
+/* common */
+#include "fc_types.h"
+
 
 /* Special value to signal the absence of a server setting. */
 #define SERVER_SETTING_NONE ((server_setting_id) -1)
-
-/* Mark server setting id's. */
-typedef int server_setting_id;
 
 
 /* Pure server settings. */

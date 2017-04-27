@@ -642,6 +642,19 @@ enum diplomacy_mode {
   DIPLO_DISABLED,
 };
 
+/* Server setting types. */
+#define SPECENUM_NAME sset_type
+#define SPECENUM_VALUE0 SST_BOOL
+#define SPECENUM_VALUE1 SST_INT
+#define SPECENUM_VALUE2 SST_STRING
+#define SPECENUM_VALUE3 SST_ENUM
+#define SPECENUM_VALUE4 SST_BITWISE
+#define SPECENUM_COUNT  SST_COUNT
+#include "specenum_gen.h"
+
+/* Mark server setting id's. */
+typedef int server_setting_id;
+
 /* Used in the network protocol. */
 #define SPECENUM_NAME extra_category
 #define SPECENUM_VALUE0 ECAT_INFRA

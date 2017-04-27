@@ -21,7 +21,7 @@ extern "C" {
 #include "support.h"
 
 /* common */
-#include "server_settings.h"
+#include "fc_types.h"
 #include "vision.h"
 
 struct player;
