@@ -57,6 +57,7 @@
 #include "packets.h"
 #include "player.h"
 #include "research.h"
+#include "server_settings.h"
 #include "version.h"
 
 /* client/include */
