@@ -23,7 +23,7 @@ REV2="dist"
  # If not, we will not claim to know which git revision this is
  # (REVSTATE will be OFF)
  if which git && which tail && which wc ; then
-   REVTMP="$(git rev-parse HEAD 2>/dev/null)"
+   REVTMP="$(git rev-parse --short HEAD 2>/dev/null)"
    if test "x$REVTMP" != "x" ; then
      # This is git repository. Check for local modifications
      if test $(cd "$SRCROOT" ; git diff | wc -l) -eq 0 ; then
