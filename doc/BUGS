@@ -3,7 +3,7 @@ BUGS
 ====
 
 Freeciv 2.6 certainly contains some bugs. Please report all
-you find to http://gna.org/bugs/?func=additem&group=freeciv.
+you find to https://www.hostedredmine.com/projects/freeciv.
 
 
 REPORTING A BUG:
@@ -21,7 +21,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        http://gna.org/bugs/?group=freeciv
+        https://www.hostedredmine.com/projects/freeciv
 
    to see if the bug has already been reported.
 
