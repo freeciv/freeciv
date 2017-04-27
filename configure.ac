@@ -2,7 +2,7 @@ dnl configure.ac for freeciv
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([Freeciv], m4_esyscmd([./fc_version | tr -d '\n']),
-        [http://www.hostedredmine.com/projects/freeciv],
+        [https://www.hostedredmine.com/projects/freeciv],
         [freeciv], [http://www.freeciv.org/])
 AC_PREREQ(2.65)
 

@@ -11,7 +11,7 @@ rpporter un nouveau bug.
 Ne sont listés que les bugs les plus évidents. Pour une liste exhaustive, 
 voyez : 
 
-    http://gna.org/bugs/?group=freeciv
+    https://www.hostedredmine.com/projects/freeciv
 
 BUGS CONNUS :
 ===========
@@ -109,7 +109,7 @@ Voici ce qu'il faut faire :
 
  - Vérifiez le système de rapport de bugs à :
 
-        http://gna.org/bugs/?group=freeciv
+        https://www.hostedredmine.com/projects/freeciv
 
    pour voir si le bug n'a pas déjà été rapporté.
 
