@@ -3049,7 +3049,7 @@ static inline void server_gui_color_free(struct color *pcolor)
 }
 
 /***************************************************************
-  Initialize client specific functions.
+  Initialize server specific functions.
 ***************************************************************/
 static void fc_interface_init_server(void)
 {
