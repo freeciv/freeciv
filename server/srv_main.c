@@ -3267,7 +3267,7 @@ static int server_plr_tile_city_id_get(const struct tile *ptile,
 /***************************************************************************
   Returns the id of the server setting with the specified name.
 ***************************************************************************/
-static server_setting_id server_ss_by_name(const char *name)
+server_setting_id server_ss_by_name(const char *name)
 {
   struct setting *pset = setting_by_name(name);
 
@@ -3282,7 +3282,7 @@ static server_setting_id server_ss_by_name(const char *name)
 /***************************************************************************
   Returns the name of the server setting with the specified id.
 ***************************************************************************/
-static const char *server_ss_name_get(server_setting_id id)
+const char *server_ss_name_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
 
@@ -3297,7 +3297,7 @@ static const char *server_ss_name_get(server_setting_id id)
 /***************************************************************************
   Returns the type of the server setting with the specified id.
 ***************************************************************************/
-static enum sset_type server_ss_type_get(server_setting_id id)
+enum sset_type server_ss_type_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
 
@@ -3312,7 +3312,7 @@ static enum sset_type server_ss_type_get(server_setting_id id)
 /***************************************************************************
   Returns the value of the boolean server setting with the specified id.
 ***************************************************************************/
-static bool server_ss_val_bool_get(server_setting_id id)
+bool server_ss_val_bool_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
 
