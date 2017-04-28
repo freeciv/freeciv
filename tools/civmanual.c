@@ -661,6 +661,58 @@ static bool manual_command(void)
   return TRUE;
 }
 
+/***************************************************************************
+  Unused but required by fc_interface_init()
+***************************************************************************/
+static bool tool_player_tile_vision_get(const struct tile *ptile,
+                                        const struct player *pplayer,
+                                        enum vision_layer vision)
+{
+  log_error("Assumed unused function %s called.",  __FUNCTION__);
+  return FALSE;
+}
+
+/***************************************************************************
+  Unused but required by fc_interface_init()
+***************************************************************************/
+static int tool_player_tile_city_id_get(const struct tile *ptile,
+                                        const struct player *pplayer)
+{
+  log_error("Assumed unused function %s called.",  __FUNCTION__);
+  return IDENTITY_NUMBER_ZERO;
+}
+
+/***************************************************************************
+  Unused but required by fc_interface_init()
+***************************************************************************/
+static void tool_gui_color_free(struct color *pcolor)
+{
+  log_error("Assumed unused function %s called.",  __FUNCTION__);
+}
+
+/***************************************************************
+  Initialize tool specific functions.
+***************************************************************/
+static void fc_interface_init_tool(void)
+{
+  struct functions *funcs = fc_interface_funcs();
+
+  /* May be used when generating help texts */
+  funcs->server_setting_by_name = server_ss_by_name;
+  funcs->server_setting_name_get = server_ss_name_get;
+  funcs->server_setting_type_get = server_ss_type_get;
+  funcs->server_setting_val_bool_get = server_ss_val_bool_get;
+
+  /* Not used. Set to dummy functions. */
+  funcs->player_tile_vision_get = tool_player_tile_vision_get;
+  funcs->player_tile_city_id_get = tool_player_tile_city_id_get;
+  funcs->gui_color_free = tool_gui_color_free;
+
+  /* Keep this function call at the end. It checks if all required functions
+     are defined. */
+  fc_interface_init();
+}
+
 /**************************************************************************
   Entry point of whole freeciv-manual program
 **************************************************************************/
@@ -730,6 +782,10 @@ int main(int argc, char **argv)
 
   /* Get common code to treat us as a tool. */
   i_am_tool();
+
+  /* Initialize the fc_interface functions needed to generate the help
+   * text. */
+  fc_interface_init_tool();
 
   /* Initialize game with default values */
   game_init();
