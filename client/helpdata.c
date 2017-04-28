@@ -360,55 +360,6 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
   return FALSE;
 }
 
-/**************************************************************************
-  Returns a text describing the action target cities in range of a building
-  requirement.
-**************************************************************************/
-static const char *act_tgt_city_range_building(const enum req_range range)
-{
-  fc_assert(req_range_is_valid(range));
-
-  switch (range) {
-  case REQ_RANGE_LOCAL:
-    /* TRANS: used as part of sentence about a building action pair.
-     * "it" is a building (/wonder) */
-    return _("the city building it");
-  case REQ_RANGE_CITY:
-    /* TRANS: used as part of sentence about a building action pair.
-     * "it" is a building (/wonder) */
-    return _("its city");
-  case REQ_RANGE_TRADEROUTE:
-    /* TRANS: used as part of sentence about a building action pair.
-     * "it" is a building (/wonder) */
-    return _("its city and its trade partners");
-  case REQ_RANGE_CONTINENT:
-    /* TRANS: used as part of sentence about a building action pair.
-     * "it" is a building (/wonder) */
-    return _("all cities with its owner on its continent");
-  case REQ_RANGE_PLAYER:
-    /* TRANS: used as part of sentence about a building action pair.
-     * "it" is a building (/wonder) */
-    return _("all cities with its owner");
-  case REQ_RANGE_TEAM:
-    /* TRANS: used as part of sentence about a building action pair. */
-    return _("all cities on the same team");
-  case REQ_RANGE_ALLIANCE:
-    /* TRANS: used as part of sentence about a building action pair. */
-    return _("all allied cities");
-  case REQ_RANGE_WORLD:
-    /* TRANS: used as part of sentence about a building action pair. */
-    return _("all cities");
-  case REQ_RANGE_CADJACENT:
-  case REQ_RANGE_ADJACENT:
-  case REQ_RANGE_COUNT:
-    log_error("The range %s is invalid for buildings.",
-              req_range_name(range));
-    break;
-  }
-
-  return NULL;
-}
-
 /****************************************************************************
   Append text to 'buf' if the given requirements list 'subjreqs' contains
   'psource', implying that ability to build the subject 'subjstr' is
@@ -1288,14 +1239,86 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     } action_enabler_list_iterate_end;
 
     if (demanded) {
-      /* At least one action enabler needed the building in its target
-       * requirements. */
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: the city building it ... Help build Wonder */
-                   _("* Makes it possible to target %s with the action "
-                     "\'%s\'.\n"),
-                   act_tgt_city_range_building(max_range),
-                   action_id_name_translation(act));
+      switch (max_range) {
+      case REQ_RANGE_LOCAL:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target the city building it "
+                       "with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CITY:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target its city with the "
+                       "action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_TRADEROUTE:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target its city and its "
+                       "trade partners with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CONTINENT:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target all cities with its "
+                       "owner on its continent with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_PLAYER:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target all cities with its "
+                       "owner with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_TEAM:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target all cities on the "
+                       "same team with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_ALLIANCE:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target all cities owned by "
+                       "or allied to its owner with the action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_WORLD:
+        /* At least one action enabler needed the building in its target
+         * requirements. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Help build Wonder */
+                     _("* Makes it possible to target all cities with the "
+                       "action \'%s\'.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CADJACENT:
+      case REQ_RANGE_ADJACENT:
+      case REQ_RANGE_COUNT:
+        log_error("The range %s is invalid for buildings.",
+                  req_range_name(max_range));
+        break;
+      }
     }
   } action_iterate_end;
 
@@ -1354,12 +1377,70 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     } action_enabler_list_iterate_end;
 
     if (!vulnerable) {
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: Incite City ... all cities with its owner */
-                   _("* Makes it impossible to do the action \'%s\' to "
-                     "%s.\n"),
-                   action_id_name_translation(act),
-                   act_tgt_city_range_building(min_range));
+      switch (min_range) {
+      case REQ_RANGE_LOCAL:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "the city building it.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CITY:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "its city.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_TRADEROUTE:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "its city or to its city's trade partners.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CONTINENT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "any city with its owner on its continent.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_PLAYER:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "any city with its owner.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_TEAM:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "any city on the same team.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_ALLIANCE:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "any city allied to or owned by its owner.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_WORLD:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Incite City */
+                     _("* Makes it impossible to do the action \'%s\' to "
+                       "any city in the game.\n"),
+                     action_id_name_translation(act));
+        break;
+      case REQ_RANGE_CADJACENT:
+      case REQ_RANGE_ADJACENT:
+      case REQ_RANGE_COUNT:
+        log_error("The range %s is invalid for buildings.",
+                  req_range_name(min_range));
+        break;
+      }
     }
   } action_iterate_end;
 
