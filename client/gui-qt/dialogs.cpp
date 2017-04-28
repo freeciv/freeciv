@@ -2585,6 +2585,7 @@ void action_selection_refresh(struct unit *actor_unit,
   choice_dialog *asd;
   Choice_dialog_button *keep_moving_button;
   Choice_dialog_button *wait_button;
+  Choice_dialog_button *cancel_button;
   QVariant qv1, qv2;
 
   asd = gui()->get_diplo_dialog();
@@ -2602,11 +2603,11 @@ void action_selection_refresh(struct unit *actor_unit,
   /* Put the actor id in qv1. */
   qv1 = actor_unit->id;
 
-  keep_moving_button = asd->get_identified_button(BUTTON_CANCEL);
-  if (keep_moving_button != NULL) {
-    /* Temporary remove the Keep moving button so it won't end up above
+  cancel_button = asd->get_identified_button(BUTTON_CANCEL);
+  if (cancel_button != NULL) {
+    /* Temporary remove the Cancel button so it won't end up above
      * any added buttons. */
-    asd->stack_button(keep_moving_button);
+    asd->stack_button(cancel_button);
   }
 
   wait_button = asd->get_identified_button(BUTTON_WAIT);
@@ -2614,6 +2615,13 @@ void action_selection_refresh(struct unit *actor_unit,
     /* Temporary remove the Wait button so it won't end up above
      * any added buttons. */
     asd->stack_button(wait_button);
+  }
+
+  keep_moving_button = asd->get_identified_button(BUTTON_MOVE);
+  if (keep_moving_button != NULL) {
+    /* Temporary remove the Keep moving button so it won't end up above
+     * any added buttons. */
+    asd->stack_button(keep_moving_button);
   }
 
   action_iterate(act) {
@@ -2674,7 +2682,8 @@ void action_selection_refresh(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (keep_moving_button != NULL || wait_button != NULL) {
+  if (keep_moving_button != NULL
+      || wait_button != NULL || cancel_button != NULL) {
     /* Reinsert the "Keep moving" button below any potential
      * buttons recently added. */
     asd->unstack_all_buttons();
