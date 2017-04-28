@@ -25,6 +25,9 @@
 ***************************************************************************/
 server_setting_id server_setting_by_name(const char *name)
 {
+  fc_assert_ret_val(fc_funcs, SERVER_SETTING_NONE);
+  fc_assert_ret_val(fc_funcs->server_setting_by_name, SERVER_SETTING_NONE);
+
   return fc_funcs->server_setting_by_name(name);
 }
 
@@ -33,6 +36,9 @@ server_setting_id server_setting_by_name(const char *name)
 ***************************************************************************/
 const char *server_setting_name_get(server_setting_id id)
 {
+  fc_assert_ret_val(fc_funcs, NULL);
+  fc_assert_ret_val(fc_funcs->server_setting_name_get, NULL);
+
   return fc_funcs->server_setting_name_get(id);
 }
 
@@ -41,6 +47,9 @@ const char *server_setting_name_get(server_setting_id id)
 ***************************************************************************/
 enum sset_type server_setting_type_get(server_setting_id id)
 {
+  fc_assert_ret_val(fc_funcs, sset_type_invalid());
+  fc_assert_ret_val(fc_funcs->server_setting_type_get, sset_type_invalid());
+
   return fc_funcs->server_setting_type_get(id);
 }
 
@@ -57,6 +66,8 @@ bool server_setting_exists(server_setting_id id)
 ***************************************************************************/
 bool server_setting_value_bool_get(server_setting_id id)
 {
+  fc_assert_ret_val(fc_funcs, FALSE);
+  fc_assert_ret_val(fc_funcs->server_setting_val_bool_get, FALSE);
   fc_assert_ret_val(server_setting_type_get(id) == SST_BOOL, FALSE);
 
   return fc_funcs->server_setting_val_bool_get(id);
