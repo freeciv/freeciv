@@ -104,8 +104,7 @@ else
   VERREV="win32-$VERREV"
 fi
 
-if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
-then
+if test "x$SINGLE_GUI" != "xtrue" ; then
   if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
   then
     CLIENTS="$CLIENTS,qt"
