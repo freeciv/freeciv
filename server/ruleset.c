@@ -6057,6 +6057,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: _Investigate City (spends the unit) (100% chance of
+           * success). */
+          N_("%sInvestigate City (spends the unit)%s"),
+          "actions.ui_name_investigate_city_spend_unit");
+      sz_strlcpy(action_by_number(ACTION_INV_CITY_SPEND)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Steal _Gold (100% chance of success). */
           N_("Steal %sGold%s"),
           "actions.ui_name_steal_gold");

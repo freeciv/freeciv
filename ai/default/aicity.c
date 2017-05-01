@@ -1198,6 +1198,7 @@ static int action_target_neg_util(int action_id,
   /* Could be worse */
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
   case ACTION_MARKETPLACE:
     /* TODO: Individual and well balanced values */
     return 1;

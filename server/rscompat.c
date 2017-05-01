@@ -409,6 +409,7 @@ void rscompat_postprocess(struct rscompat_info *info)
       }
 
       if (utype_can_do_action(ptype, ACTION_SPY_INVESTIGATE_CITY)
+          || utype_can_do_action(ptype, ACTION_INV_CITY_SPEND)
           || utype_can_do_action(ptype, ACTION_SPY_POISON)
           || utype_can_do_action(ptype, ACTION_SPY_STEAL_GOLD)
           || utype_can_do_action(ptype, ACTION_SPY_SABOTAGE_CITY)
@@ -961,6 +962,34 @@ void rscompat_postprocess(struct rscompat_info *info)
                                   req_from_str("BuildingGenus", "Local", FALSE,
                                                TRUE, TRUE, "SmallWonder"));
 
+      }
+
+      /* Investigate city is split in a unit consuming and a non unit
+       * consuming version. */
+      if (ae->action == ACTION_SPY_INVESTIGATE_CITY) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows spies to do "Investigate City". */
+        requirement_vector_append(&ae->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, TRUE,
+                                                  UTYF_SPY));
+
+        /* The other allows non spies to do
+         * "Investigate City Spend Unit". */
+        enabler->action = ACTION_INV_CITY_SPEND;
+        requirement_vector_append(&enabler->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, TRUE,
+                                                  UTYF_SPY));
+
+        /* Add previously implicit obligatory hard requirement(s) to the
+         * newly created copy. (Not done below.) */
+        action_enabler_obligatory_reqs_add(enabler);
       }
 
       if (action_enabler_obligatory_reqs_missing(ae)) {

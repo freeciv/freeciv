@@ -1421,6 +1421,13 @@ void mr_menu::setup_menus()
   action_vs_city->addAction(act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
 
+  act = action_city_menu->addAction(_("Investigate city (spends the unit)"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_INV_CITY_SPEND);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
   act = action_city_menu->addAction(_("Establish embassy"));
   act->setCheckable(true);
   act->setChecked(false);

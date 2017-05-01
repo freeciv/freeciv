@@ -708,6 +708,8 @@ pft_enable_default_actions(struct pf_parameter *parameter)
         || utype_can_do_action(parameter->utype,
                                ACTION_SPY_INVESTIGATE_CITY)
         || utype_can_do_action(parameter->utype,
+                               ACTION_INV_CITY_SPEND)
+        || utype_can_do_action(parameter->utype,
                                ACTION_ESTABLISH_EMBASSY)) {
       parameter->actions |= PF_AA_DIPLOMAT;
     }
