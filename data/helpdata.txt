@@ -2314,7 +2314,7 @@ project's mailing lists:\
 "), _("\
     freeciv-dev@freelists.org   - public development mailing\n\
                                   list (archives are public)\n\
-    freeciv-maintainers@lists.sourceforge.net
+    freeciv-maintainers@lists.sourceforge.net\n\
                                 - private project administration\n\
                                   list (for security issues, etc)\
 "), _("\
