@@ -1287,9 +1287,9 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
       fc_assert_ret_val(unit_class_get(myunit)->adv.sea_move != MOVE_FULL, choice);
-      dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
-                           L_FERRYBOAT, choice->want, TRUE);
-      if (dai_is_ferry_type(choice->value.utype, ait)) {
+      if (dai_choose_role_unit(ait, pplayer, pcity, choice, CT_ATTACKER,
+			       L_FERRYBOAT, choice->want, TRUE)
+	  && dai_is_ferry_type(choice->value.utype, ait)) {
 #ifdef FREECIV_DEBUG
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
