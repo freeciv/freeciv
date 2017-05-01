@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 02-Jan-17.
+Last minor update was 30-Apr-17.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -289,22 +289,22 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    them to "SDL surfaces" that can be handled by the "SDL" library. You may
    obtain it at:
 
-   http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.tar.gz
+   http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.1.tar.gz
 
  - The "SDL2_gfx" library.
 
-   http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.1.tar.gz
+   http://www.ferzkopp.net/Software/SDL2_gfx/SDL2_gfx-1.0.3.tar.gz
 
  - The "SDL2_ttf" library.
 
-   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz
+   http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.14.tar.gz
 
  - The "freetype" library.
 
    This library helps to render text for the SDL2 client, using an externally
    provided TrueType font. You may obtain it at:
 
-   http://download.savannah.gnu.org/releases/freetype/freetype-2.5.4.tar.bz2
+   http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
 
 1d. Prerequisites for the Qt client:
 ====================================
