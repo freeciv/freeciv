@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 21-Apr-15.
+Last minor update was 30-Apr-17.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -258,18 +258,18 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    "Simple DirectMedia Layer is a cross-platform multimedia library designed
     to provide low level access to audio, keyboard, mouse, joystick, 3D hardware
     via OpenGL, and 2D video framebuffer." (http://www.libsdl.org)
-    
+
    These features make it a good choice for portable games. You may obtain it
    at:
-    
-   http://www.libsdl.org/release/SDL-1.2.11.tar.gz
+
+   http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 
    To compile the client using the "SDL" library add "--enable-client=sdl"
-   to the Freeciv configure script.  See the section below for more 
+   to the Freeciv configure script.  See the section below for more
    information about the configure script.
-    
+
  - The "SDL_image" library.
- 
+
    This library loads the PNG images (with the help of libpng) and converts
    them to "SDL surfaces" that can be handled by the "SDL" library. You may
    obtain it at:
@@ -278,7 +278,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
  - The "SDL_gfx" library.
 
-   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.25.tar.gz
+   http://www.ferzkopp.net/Software/SDL_gfx-2.0/SDL_gfx-2.0.26.tar.gz
 
  - The "SDL_ttf" library.
 
@@ -288,10 +288,10 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
    This library helps to render text for the SDL client, using an externally
    provided TrueType font. You may obtain it at:
-   
-   http://download.savannah.gnu.org/releases/freetype/freetype-2.3.2.tar.gz
-   
- 
+
+   http://download.savannah.gnu.org/releases/freetype/freetype-2.7.1.tar.bz2
+
+
 1d. Prerequisites for the Xaw client:
 =====================================
 
