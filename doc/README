@@ -526,25 +526,27 @@ information about reporting new bugs.
 Mailing lists:
 ==============
 
-We maintain 4 mailing lists:
+We maintain 4 mailing lists. (At the time of writing, the mailing list
+hosting for -announce and -commits is subject to change.)
 
-  freeciv-announce Announcements of general interest.
+  freeciv-announce@gna.org
+                   Announcements of general interest.
                    This is a "Read Only" list, with infrequent messages.
                    In other words you can't mail this list, just read it.
-  freeciv-i18n     Freeciv translation.
+  freeciv-i18n@freelists.org
+                   Freeciv translation.
                    All discussions related to translating the Freeciv code,
                    documentation, and website, into other languages than
                    English.
-  freeciv-dev      Freeciv development.
-  freeciv-commits  Notifications of changes to the SVN repository.
+  freeciv-dev@freelists.org
+                   Freeciv development.
+  freeciv-commits@gna.org
+                   Notifications of changes to the code repository.
                    This is a "Read Only" list, carrying automated messages.
                    In other words you can't mail this list, just read it.
 
 All lists are open to the general public and everyone is welcome to join.
 Only maintainers may post to the -announce and -commits lists.
-
-The lists are hosted at gna.org. For more information, to join, or to leave
-these lists, go to http://gna.org/mail/?group=freeciv
 
 
 Internet Relay Chat (IRC)
