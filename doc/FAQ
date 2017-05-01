@@ -711,7 +711,7 @@ Starting game.
 
    It's unlikely that all precompiled binaries and ports have been updated
    to 2.4.2 yet. If you can contribute, please do! Prepare a package and
-   announce it to freeciv-dev@gna.org.
+   announce it to freeciv-dev@freelists.org.
 
    Clients and servers of different major versions are generally
    incompatible due to changes in the client/server protocol. You will see
