@@ -581,6 +581,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->multiplier.size = -1;
   loading->specialist.order = NULL;
   loading->specialist.size = -1;
+  loading->action.order = NULL;
+  loading->action.size = -1;
   loading->act_dec.order = NULL;
   loading->act_dec.size = -1;
 
@@ -622,6 +624,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->specialist.order != NULL) {
     free(loading->specialist.order);
+  }
+
+  if (loading->action.order != NULL) {
+    free(loading->action.order);
   }
 
   if (loading->act_dec.order != NULL) {
@@ -1461,6 +1467,38 @@ static void sg_load_savefile(struct loaddata *loading)
     for (; j < nmod; j++) {
       loading->specialist.order[j] = NULL;
     }
+  }
+
+  /* Load action order. */
+  loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                    "savefile.action_size");
+
+  sg_failure_ret(loading->action.size > 0,
+                 "Failed to load action order: %s",
+                 secfile_error());
+
+  if (loading->action.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                     "savefile.action_vector");
+
+    loading->action.order = fc_calloc(loading->action.size,
+                                      sizeof(*loading->action.order));
+
+    for (j = 0; j < loading->action.size; j++) {
+      struct action *real_action = action_by_rule_name(modname[j]);
+
+      if (real_action) {
+        loading->action.order[j] = real_action->id;
+      } else {
+        log_sg("Unknown action \'%s\'", modname[j]);
+        loading->action.order[j] = ACTION_NONE;
+      }
+    }
+
+    free(modname);
   }
 
   /* Load action decision order. */
@@ -5440,14 +5478,25 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
 
-        order->action = (
+        if (
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
                          action_unitstr[0] == '\0'
                          ||
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
-                         action_unitstr[j] == '?'
-                         ? ACTION_NONE
-                         : char2num(action_unitstr[j]));
+                         action_unitstr[j] == '?') {
+          order->action = ACTION_NONE;
+        } else {
+          unconverted = char2num(action_unitstr[j]);
+
+          if (unconverted >= 0 && unconverted < loading->action.size) {
+            /* Look up what action id the unconverted number represents. */
+            order->action = loading->action.order[unconverted];
+          } else {
+            log_sg("Invalid action id in order for unit %d", punit->id);
+
+            order->action = ACTION_NONE;
+          }
+        }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
         if (order->order != ORDER_PERFORM_ACTION
