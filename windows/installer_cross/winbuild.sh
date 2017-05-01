@@ -137,7 +137,7 @@ then
   exit 1
 fi
 
-if ! make DESTDIR="$INSTALL_DIR" clean install
+if ! make $MAKE_PARAMS DESTDIR="$INSTALL_DIR" clean install
 then
   echo "Build failed" >&2
   exit 1
