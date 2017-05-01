@@ -1278,9 +1278,9 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
       fc_assert_ret(is_ground_unit(myunit));
-      dai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
-                           L_FERRYBOAT, choice->want, TRUE);
-      if (UMT_SEA == utype_move_type(choice->value.utype)) {
+      if (dai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
+			       L_FERRYBOAT, choice->want, TRUE)
+	  && UMT_SEA == utype_move_type(choice->value.utype)) {
 #ifdef DEBUG
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
