@@ -59,6 +59,7 @@ if test "x$2" = "xruledit" ; then
   CLIENTS="no"
   FCMP="no"
   SERVER="no"
+  AIS=stub
 elif test "x$2" != "x" ; then
   SINGLE_GUI=true
   GUIP="-$2"
@@ -77,10 +78,12 @@ elif test "x$2" != "x" ; then
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;
   esac
+  AIS="classic"
 else
   GUIP=""
   SERVER="yes"
   RULEDIT="yes"
+  AIS="classic"
 fi
 
 if ! mkdir -p build-$SETUP$GUIP ; then
@@ -131,7 +134,7 @@ INSTALL_DIR="$(pwd)/freeciv-${VERREV}${GUIP}"
 if ! (
 cd build-$SETUP$GUIP
 
-if ! ../../../configure CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-svnrev --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser --enable-ai-static=classic --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT
+if ! ../../../configure CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-svnrev --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser --enable-ai-static=${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT
 then
   echo "Configure failed" >&2
   exit 1
