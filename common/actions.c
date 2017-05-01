@@ -175,6 +175,7 @@ static void hard_code_oblig_hard_reqs(void)
                           "foreign target.",
                           ACTION_ESTABLISH_EMBASSY,
                           ACTION_SPY_INVESTIGATE_CITY,
+                          ACTION_INV_CITY_SPEND,
                           ACTION_SPY_STEAL_GOLD,
                           ACTION_STEAL_MAPS,
                           ACTION_SPY_STEAL_TECH,
@@ -357,6 +358,10 @@ static void hard_code_actions(void)
                  0, 1);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       action_new(ACTION_SPY_INVESTIGATE_CITY, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 0, 1);
+  actions[ACTION_INV_CITY_SPEND] =
+      action_new(ACTION_INV_CITY_SPEND, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_STEAL_GOLD] =
@@ -1480,6 +1485,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
 
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_SABOTAGE_CITY:
@@ -1610,6 +1616,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
 
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_SABOTAGE_CITY:
@@ -2127,6 +2134,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -2909,6 +2917,10 @@ action_prob(const enum gen_action wanted_action,
 
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
+    /* There is no risk that the city won't get investigated. */
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTION_INV_CITY_SPEND:
     /* There is no risk that the city won't get investigated. */
     chance = ACTPROB_CERTAIN;
     break;

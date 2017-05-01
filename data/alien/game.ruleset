@@ -252,8 +252,8 @@ ui_name_incite_city = _("Incite a %sRevolt%s")
 ; /* TRANS: Copy Research _Data (3% chance of success). */
 ui_name_steal_tech = _("Copy Research %sData%s")
 
-; /* TRANS: _Investigate City (100% chance of success). */
-ui_name_investigate_city = _("%sInvestigate City%s")
+; /* TRANS: _Investigate City (spends the unit) (100% chance of success). */
+ui_name_investigate_city_spend_unit = _("%sInvestigate City (spends the unit)%s")
 
 ; /* TRANS: Establish Trade _Route (100% chance of success). */
 ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
@@ -333,7 +333,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city]
-action       = "Investigate City"
+action       = "Investigate City Spend Unit"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Diplomat", "Local"

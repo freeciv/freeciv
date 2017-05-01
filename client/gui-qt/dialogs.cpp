@@ -90,6 +90,7 @@ static void spy_nuke_city(QVariant data1, QVariant data2);
 static void destroy_city(QVariant data1, QVariant data2);
 static void diplomat_embassy(QVariant data1, QVariant data2);
 static void spy_sabotage_unit(QVariant data1, QVariant data2);
+static void spy_investigate(QVariant data1, QVariant data2);
 static void diplomat_investigate(QVariant data1, QVariant data2);
 static void diplomat_sabotage(QVariant data1, QVariant data2);
 static void diplomat_bribe(QVariant data1, QVariant data2);
@@ -145,7 +146,8 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 
   /* Unit acting against a city target. */
   action_function[ACTION_ESTABLISH_EMBASSY] = diplomat_embassy;
-  action_function[ACTION_SPY_INVESTIGATE_CITY] = diplomat_investigate;
+  action_function[ACTION_SPY_INVESTIGATE_CITY] = spy_investigate;
+  action_function[ACTION_INV_CITY_SPEND] = diplomat_investigate;
   action_function[ACTION_SPY_POISON] = spy_poison;
   action_function[ACTION_SPY_STEAL_GOLD] = spy_steal_gold;
   action_function[ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage;
@@ -2386,7 +2388,7 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
 /***************************************************************************
   Action investigate city for choice dialog
 ***************************************************************************/
-static void diplomat_investigate(QVariant data1, QVariant data2)
+static void spy_investigate(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2394,6 +2396,21 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
   if (NULL != game_city_by_number(diplomat_target_id)
       && NULL != game_unit_by_number(diplomat_id)) {
     request_do_action(ACTION_SPY_INVESTIGATE_CITY, diplomat_id,
+                      diplomat_target_id, 0, "");
+  }
+}
+
+/***************************************************************************
+  Action Investigate City Spend Unit for choice dialog
+***************************************************************************/
+static void diplomat_investigate(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_city_by_number(diplomat_target_id)
+      && NULL != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_INV_CITY_SPEND, diplomat_id,
                       diplomat_target_id, 0, "");
   }
 }

@@ -262,6 +262,9 @@ ui_name_targeted_steal_tech = _("Indus%strial Espionage%s")
 ; /* TRANS: _Investigate City (100% chance of success). */
 ui_name_investigate_city = _("%sInvestigate City%s")
 
+; /* TRANS: _Investigate City (spends the unit) (100% chance of success). */
+ui_name_investigate_city_spend_unit = _("%sInvestigate City (spends the unit)%s")
+
 ; /* TRANS: Establish Trade _Route (100% chance of success). */
 ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
 
@@ -354,10 +357,20 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city]
+action       = "Investigate City Spend Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Diplomat", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+      "UnitFlag", "Spy", "Local", FALSE
+    }
+
+[actionenabler_investigate_city_spy]
 action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
-      "UnitFlag", "Diplomat", "Local"
+      "UnitFlag", "Spy", "Local"
       "MinMoveFrags", "1", "Local"
       "DiplRel", "Foreign", "Local"
     }
