@@ -1978,7 +1978,7 @@ language, please see the instructions at:\
 You are also welcome to send any questions to the translation \
 mailing list:\
 "), "\
-  freeciv-i18n@gna.org\
+  freeciv-i18n@freelists.org\
 "
 
 [help_copying]         
@@ -2312,9 +2312,10 @@ in the Freeciv distribution.\
 To contact the developers about anything else, please email one of the \
 project's mailing lists:\
 "), _("\
-    freeciv-dev@gna.org         - public development mailing\n\
+    freeciv-dev@freelists.org   - public development mailing\n\
                                   list (archives are public)\n\
-    freeciv-maintainers@gna.org - private project administration\n\
+    freeciv-maintainers@lists.sourceforge.net
+                                - private project administration\n\
                                   list (for security issues, etc)\
 "), _("\
   Original authors:\n\
