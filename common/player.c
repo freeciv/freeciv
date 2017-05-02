@@ -1122,7 +1122,7 @@ bool player_can_see_city_externals(const struct player *pow_player,
 struct city *player_city_by_number(const struct player *pplayer, int city_id)
 {
   /* We call idex directly. Should use game_city_by_number() instead? */
-  struct city *pcity = idex_lookup_city(city_id);
+  struct city *pcity = idex_lookup_city(&wld, city_id);
 
   if (!pcity) {
     return NULL;
@@ -1148,7 +1148,7 @@ struct city *player_city_by_number(const struct player *pplayer, int city_id)
 struct unit *player_unit_by_number(const struct player *pplayer, int unit_id)
 {
   /* We call idex directly. Should use game_unit_by_number() instead? */
-  struct unit *punit = idex_lookup_unit(unit_id);
+  struct unit *punit = idex_lookup_unit(&wld, unit_id);
 
   if (!punit) {
     return NULL;

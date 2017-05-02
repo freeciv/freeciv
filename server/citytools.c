@@ -1483,7 +1483,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   pcity->id = identity_number();
 
   fc_allocate_mutex(&game.server.mutexes.city_list);
-  idex_register_city(pcity);
+  idex_register_city(&wld, pcity);
   fc_release_mutex(&game.server.mutexes.city_list);
 
   if (city_list_size(pplayer->cities) == 0) {

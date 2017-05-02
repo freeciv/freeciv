@@ -122,7 +122,7 @@ struct city *game_city_by_name(const char *name)
 **************************************************************************/
 struct city *game_city_by_number(int id)
 {
-  return idex_lookup_city(id);
+  return idex_lookup_city(&wld, id);
 }
 
 
@@ -132,7 +132,7 @@ struct city *game_city_by_number(int id)
 **************************************************************************/
 struct unit *game_unit_by_number(int id)
 {
-  return idex_lookup_unit(id);
+  return idex_lookup_unit(&wld, id);
 }
 
 /**************************************************************************
@@ -181,7 +181,7 @@ void game_remove_unit(struct unit *punit)
   unit_list_remove(unit_tile(punit)->units, punit);
   unit_list_remove(unit_owner(punit)->units, punit);
 
-  idex_unregister_unit(punit);
+  idex_unregister_unit(&wld, punit);
 
   if (game.callbacks.unit_deallocate) {
     (game.callbacks.unit_deallocate)(punit->id);
@@ -220,7 +220,7 @@ void game_remove_city(struct city *pcity)
     } city_tile_iterate_end;
   }
 
-  idex_unregister_city(pcity);
+  idex_unregister_city(&wld, pcity);
   destroy_city_virtual(pcity);
 }
 
@@ -439,7 +439,7 @@ void game_init(void)
   map_init(&wld.map, is_server());
   team_slots_init();
   game_ruleset_init();
-  idex_init();
+  idex_init(&wld);
   cm_init();
   researches_init();
   universal_found_functions_init();
@@ -467,7 +467,7 @@ void game_free(void)
   player_slots_free();
   map_free(&(wld.map));
   free_city_map_index();
-  idex_free();
+  idex_free(&wld);
   team_slots_free();
   game_ruleset_free();
   researches_free();
@@ -491,10 +491,10 @@ void game_reset(void)
 
     map_free(&(wld.map));
     free_city_map_index();
-    idex_free();
+    idex_free(&wld);
 
     map_init(&wld.map, FALSE);
-    idex_init();
+    idex_init(&wld);
     researches_init();
   }
 }

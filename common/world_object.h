@@ -20,9 +20,24 @@ extern "C" {
 /* common */
 #include "map_types.h"
 
+
+/* struct city_hash. */
+#define SPECHASH_TAG city
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct city *
+#include "spechash.h"
+
+/* struct unit_hash. */
+#define SPECHASH_TAG unit
+#define SPECHASH_INT_KEY_TYPE
+#define SPECHASH_IDATA_TYPE struct unit *
+#include "spechash.h"
+
 struct world
 {
   struct civ_map map;
+  struct city_hash *cities;
+  struct unit_hash *units;
 };
 
 #ifdef __cplusplus

@@ -45,7 +45,7 @@ City *api_find_city(lua_State *L, Player *pplayer, int city_id)
   if (pplayer) {
     return player_city_by_number(pplayer, city_id);
   } else {
-    return idex_lookup_city(city_id);
+    return idex_lookup_city(&wld, city_id);
   }
 }
 
@@ -59,7 +59,7 @@ Unit *api_find_unit(lua_State *L, Player *pplayer, int unit_id)
   if (pplayer) {
     return player_unit_by_number(pplayer, unit_id);
   } else {
-    return idex_lookup_unit(unit_id);
+    return idex_lookup_unit(&wld, unit_id);
   }
 }
 

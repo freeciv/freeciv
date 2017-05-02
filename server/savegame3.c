@@ -4437,7 +4437,7 @@ static void sg_load_player_cities(struct loaddata *loading,
     }
 
     identity_number_reserve(pcity->id);
-    idex_register_city(pcity);
+    idex_register_city(&wld, pcity);
 
     /* Load the information about the nationality of citizens. This is done
      * here because the city sanity check called by citizens_update() requires
@@ -5074,7 +5074,7 @@ static void sg_load_player_units(struct loaddata *loading,
     }
 
     identity_number_reserve(punit->id);
-    idex_register_unit(punit);
+    idex_register_unit(&wld, punit);
 
     if ((pcity = game_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);

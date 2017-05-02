@@ -1586,7 +1586,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   /* Register unit */
   punit->id = identity_number();
-  idex_register_unit(punit);
+  idex_register_unit(&wld, punit);
 
   fc_assert_ret_val(ptile != NULL, NULL);
   unit_tile_set(punit, ptile);

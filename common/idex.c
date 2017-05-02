@@ -38,57 +38,36 @@
 
 #include "idex.h"
 
-
-/* struct city_hash. */
-#define SPECHASH_TAG city
-#define SPECHASH_INT_KEY_TYPE
-#define SPECHASH_IDATA_TYPE struct city *
-#include "spechash.h"
-
-/* struct unit_hash. */
-#define SPECHASH_TAG unit
-#define SPECHASH_INT_KEY_TYPE
-#define SPECHASH_IDATA_TYPE struct unit *
-#include "spechash.h"
-
-
-/* "Global" data: */
-static struct city_hash *idex_city_hash = NULL;
-static struct unit_hash *idex_unit_hash = NULL;
-
 /**************************************************************************
    Initialize.  Should call this at the start before use.
 ***************************************************************************/
-void idex_init(void)
+void idex_init(struct world *iworld)
 {
-  fc_assert_ret(idex_city_hash == NULL);
-  fc_assert_ret(idex_unit_hash == NULL);
-
-  idex_city_hash = city_hash_new();
-  idex_unit_hash = unit_hash_new();
+  iworld->cities = city_hash_new();
+  iworld->units = unit_hash_new();
 }
 
 /**************************************************************************
    Free the hashs.
 ***************************************************************************/
-void idex_free(void)
+void idex_free(struct world *iworld)
 {
-  city_hash_destroy(idex_city_hash);
-  idex_city_hash = NULL;
+  city_hash_destroy(iworld->cities);
+  iworld->cities = NULL;
 
-  unit_hash_destroy(idex_unit_hash);
-  idex_unit_hash = NULL;
+  unit_hash_destroy(iworld->units);
+  iworld->units = NULL;
 }
 
 /**************************************************************************
    Register a city into idex, with current pcity->id.
    Call this when pcity created.
 ***************************************************************************/
-void idex_register_city(struct city *pcity)
+void idex_register_city(struct world *iworld, struct city *pcity)
 {
   struct city *old;
 
-  city_hash_replace_full(idex_city_hash, pcity->id, pcity, NULL, &old);
+  city_hash_replace_full(iworld->cities, pcity->id, pcity, NULL, &old);
   fc_assert_ret_msg(NULL == old,
                     "IDEX: city collision: new %d %p %s, old %d %p %s",
                     pcity->id, (void *) pcity, city_name_get(pcity),
@@ -99,11 +78,11 @@ void idex_register_city(struct city *pcity)
    Register a unit into idex, with current punit->id.
    Call this when punit created.
 ***************************************************************************/
-void idex_register_unit(struct unit *punit)
+void idex_register_unit(struct world *iworld, struct unit *punit)
 {
   struct unit *old;
 
-  unit_hash_replace_full(idex_unit_hash, punit->id, punit, NULL, &old);
+  unit_hash_replace_full(iworld->units, punit->id, punit, NULL, &old);
   fc_assert_ret_msg(NULL == old,
                     "IDEX: unit collision: new %d %p %s, old %d %p %s",
                     punit->id, (void *) punit, unit_rule_name(punit),
@@ -114,11 +93,11 @@ void idex_register_unit(struct unit *punit)
    Remove a city from idex, with current pcity->id.
    Call this when pcity deleted.
 ***************************************************************************/
-void idex_unregister_city(struct city *pcity)
+void idex_unregister_city(struct world *iworld, struct city *pcity)
 {
   struct city *old;
 
-  city_hash_remove_full(idex_city_hash, pcity->id, NULL, &old);
+  city_hash_remove_full(iworld->cities, pcity->id, NULL, &old);
   fc_assert_ret_msg(NULL != old,
                     "IDEX: city unreg missing: %d %p %s",
                     pcity->id, (void *) pcity, city_name_get(pcity));
@@ -132,11 +111,11 @@ void idex_unregister_city(struct city *pcity)
    Remove a unit from idex, with current punit->id.
    Call this when punit deleted.
 ***************************************************************************/
-void idex_unregister_unit(struct unit *punit)
+void idex_unregister_unit(struct world *iworld, struct unit *punit)
 {
   struct unit *old;
 
-  unit_hash_remove_full(idex_unit_hash, punit->id, NULL, &old);
+  unit_hash_remove_full(iworld->units, punit->id, NULL, &old);
   fc_assert_ret_msg(NULL != old,
                     "IDEX: unit unreg missing: %d %p %s",
                     punit->id, (void *) punit, unit_rule_name(punit));
@@ -150,11 +129,12 @@ void idex_unregister_unit(struct unit *punit)
    Lookup city with given id.
    Returns NULL if the city is not registered (which is not an error).
 ***************************************************************************/
-struct city *idex_lookup_city(int id)
+struct city *idex_lookup_city(struct world *iworld, int id)
 {
   struct city *pcity;
 
-  city_hash_lookup(idex_city_hash, id, &pcity);
+  city_hash_lookup(iworld->cities, id, &pcity);
+
   return pcity;
 }
 
@@ -162,10 +142,11 @@ struct city *idex_lookup_city(int id)
    Lookup unit with given id.
    Returns NULL if the unit is not registered (which is not an error).
 ***************************************************************************/
-struct unit *idex_lookup_unit(int id)
+struct unit *idex_lookup_unit(struct world *iworld, int id)
 {
   struct unit *punit;
 
-  unit_hash_lookup(idex_unit_hash, id, &punit);
+  unit_hash_lookup(iworld->units, id, &punit);
+
   return punit;
 }

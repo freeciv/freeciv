@@ -139,7 +139,7 @@ void packhand_free(void)
 {
   if (NULL != invisible.cities) {
     city_list_iterate(invisible.cities, pcity) {
-      idex_unregister_city(pcity);
+      idex_unregister_city(&wld, pcity);
       destroy_city_virtual(pcity);
     } city_list_iterate_end;
 
@@ -634,7 +634,7 @@ void handle_city_info(const struct packet_city_info *packet)
     city_is_new = TRUE;
     pcity = create_city_virtual(powner, pcenter, packet->name);
     pcity->id = packet->id;
-    idex_register_city(pcity);
+    idex_register_city(&wld, pcity);
     update_descriptions = TRUE;
   } else if (pcity->id != packet->id) {
     log_error("handle_city_info() city id %d != id %d.",
@@ -1103,7 +1103,7 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
     pcity = create_city_virtual(powner, pcenter, packet->name);
     pcity->id = packet->id;
     city_map_radius_sq_set(pcity, radius_sq);
-    idex_register_city(pcity);
+    idex_register_city(&wld, pcity);
   } else if (pcity->id != packet->id) {
     log_error("handle_city_short_info() city id %d != id %d.",
               pcity->id, packet->id);
@@ -1800,7 +1800,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   } else {
     /*** Create new unit ***/
     punit = packet_unit;
-    idex_register_unit(punit);
+    idex_register_unit(&wld, punit);
 
     unit_list_prepend(unit_owner(punit)->units, punit);
     unit_list_prepend(unit_tile(punit)->units, punit);
@@ -2885,7 +2885,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
 
         pwork = create_city_virtual(invisible.placeholder, NULL, named);
         pwork->id = packet->worked;
-        idex_register_city(pwork);
+        idex_register_city(&wld, pwork);
 
         city_list_prepend(invisible.cities, pwork);
 
