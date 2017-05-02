@@ -228,13 +228,34 @@ static int diplomat_dlg_window_callback(struct widget *pWindow)
 /****************************************************************
   User clicked "Establish Embassy"
 *****************************************************************/
-static int diplomat_embassy_callback(struct widget *pWidget)
+static int spy_embassy_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
       request_do_action(ACTION_ESTABLISH_EMBASSY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
+  User clicked "Establish Embassy"
+*****************************************************************/
+static int diplomat_embassy_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])
+        && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
+      request_do_action(ACTION_ESTABLISH_EMBASSY_STAY,
                         pDiplomat_Dlg->actor_unit_id,
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         0, "");
@@ -1148,7 +1169,8 @@ void popdown_diplomat_dialog(void)
  * pushed. */
 static const act_func af_map[ACTION_COUNT] = {
   /* Unit acting against a city target. */
-  [ACTION_ESTABLISH_EMBASSY] = diplomat_embassy_callback,
+  [ACTION_ESTABLISH_EMBASSY] = spy_embassy_callback,
+  [ACTION_ESTABLISH_EMBASSY_STAY] = diplomat_embassy_callback,
   [ACTION_SPY_INVESTIGATE_CITY] = spy_investigate_callback,
   [ACTION_INV_CITY_SPEND] = diplomat_investigate_callback,
   [ACTION_SPY_POISON] = spy_poison_callback,

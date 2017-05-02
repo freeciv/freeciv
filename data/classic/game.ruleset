@@ -254,6 +254,9 @@ ui_name_incite_city = _("Incite a %sRevolt%s")
 ; /* TRANS: Establish _Embassy (100% chance of success). */
 ui_name_establish_embassy = _("Establish %sEmbassy%s")
 
+; /* TRANS: Establish _Embassy (and stay) (100% chance of success). */
+ui_name_establish_embassy_stay = _("Establish %sEmbassy (and stay)%s")
+
 ; /* TRANS: Steal _Technology (3% chance of success). */
 ui_name_steal_tech = _("Steal %sTechnology%s")
 
@@ -351,16 +354,31 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy]
-action       = "Establish Embassy"
+action       = "Establish Embassy Stay"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
-      "DiplRel", "Is foreign", "Local"
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Is foreign",    "Local", TRUE
+      "UnitFlag",     "Spy",           "Local", FALSE
     }
 target_reqs  =
-    { "type",   "name", "range", "present"
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[actionenabler_establish_embassy_spy]
+action       = "Establish Embassy"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "DiplRel",      "Is foreign",    "Local"
+    }
+target_reqs  =
+    { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 

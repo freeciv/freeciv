@@ -216,6 +216,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
          || unit_can_do_action(punit, ACTION_SPY_TARGETED_SABOTAGE_CITY)
          || unit_can_do_action(punit, ACTION_SPY_INCITE_CITY)
          || unit_can_do_action(punit, ACTION_ESTABLISH_EMBASSY)
+         || unit_can_do_action(punit, ACTION_ESTABLISH_EMBASSY_STAY)
          || unit_can_do_action(punit, ACTION_SPY_STEAL_TECH)
          || unit_can_do_action(punit, ACTION_SPY_TARGETED_STEAL_TECH)
          || unit_can_do_action(punit, ACTION_SPY_INVESTIGATE_CITY)

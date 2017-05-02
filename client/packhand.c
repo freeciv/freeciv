@@ -4502,6 +4502,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
         }
         break;
       case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_ESTABLISH_EMBASSY_STAY:
       case ACTION_SPY_INVESTIGATE_CITY:
       case ACTION_INV_CITY_SPEND:
       case ACTION_SPY_POISON:

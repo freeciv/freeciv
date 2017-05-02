@@ -278,8 +278,10 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99
-        && is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
-                                      pplayer, acity)) {
+        && (is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
+                                       pplayer, acity)
+            || is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY_STAY,
+                                          pplayer, acity))) {
         log_base(LOG_DIPLOMAT_BUILD,
                  "A diplomat desired in %s to establish an embassy with %s "
                  "in %s",
@@ -383,6 +385,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   }
 
   T(ACTION_ESTABLISH_EMBASSY, 0);
+  T(ACTION_ESTABLISH_EMBASSY_STAY, 0);
 
   if (pplayers_allied(pplayer, tplayer)) {
     return; /* Don't do the rest to allies */
@@ -552,8 +555,10 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
      * 2. stealing techs OR
      * 3. inciting revolt */
     if ((!has_embassy
-         && is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
-                                       pplayer, acity))
+         && (is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY,
+                                        pplayer, acity)
+             || is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY_STAY,
+                                           pplayer, acity)))
         || (acity->server.steal == 0
             && !dipldef && can_steal
             && (research_get(pplayer)->techs_researched
