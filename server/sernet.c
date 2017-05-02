@@ -218,6 +218,7 @@ static void close_connection(struct connection *pconn)
   conn_list_remove(game.est_connections, pconn);
 
   pconn->playing = NULL;
+  pconn->client_gui = GUI_STUB;
   pconn->access_level = ALLOW_NONE;
   connection_common_close(pconn);
 

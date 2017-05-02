@@ -180,6 +180,8 @@ struct connection {
    */
   enum cmdlevel access_level;
 
+  enum gui_type client_gui;
+
   void (*notify_of_writable_data) (struct connection * pc,
                                    bool data_available_and_socket_full);
 
