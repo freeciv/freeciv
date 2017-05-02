@@ -1435,6 +1435,13 @@ void mr_menu::setup_menus()
   action_vs_city->addAction(act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
 
+  act = action_city_menu->addAction(_("Establish embassy (and stay)"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_ESTABLISH_EMBASSY_STAY);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
   act = action_city_menu->addAction(_("Steal technology"));
   act->setCheckable(true);
   act->setChecked(false);

@@ -617,13 +617,30 @@ static void bombard_callback(GtkWidget *w, gpointer data)
 /****************************************************************
   User selected embassy establishing from choice dialog
 *****************************************************************/
-static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
+static void spy_embassy_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_ESTABLISH_EMBASSY, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
+  User selected embassy establishing from choice dialog
+*****************************************************************/
+static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_ESTABLISH_EMBASSY_STAY, args->actor_unit_id,
                       args->target_city_id, 0, "");
   }
 
@@ -1395,7 +1412,8 @@ static void act_sel_close_callback(GtkWidget *w,
  * pushed. */
 static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a city target. */
-  [ACTION_ESTABLISH_EMBASSY] = (GCallback)diplomat_embassy_callback,
+  [ACTION_ESTABLISH_EMBASSY] = (GCallback)spy_embassy_callback,
+  [ACTION_ESTABLISH_EMBASSY_STAY] = (GCallback)diplomat_embassy_callback,
   [ACTION_SPY_INVESTIGATE_CITY] = (GCallback)spy_investigate_callback,
   [ACTION_INV_CITY_SPEND] = (GCallback)diplomat_investigate_callback,
   [ACTION_SPY_POISON] = (GCallback)spy_poison_callback,

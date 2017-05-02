@@ -1197,6 +1197,7 @@ static int action_target_neg_util(int action_id,
 
   /* Could be worse */
   case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_MARKETPLACE:

@@ -289,14 +289,15 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   - Otherwise, the embassy is created.
   - It costs some minimal movement to establish an embassy.
 
-  - Diplomats are consumed in creation of embassy.
-  - Spies always survive.
+  - If spends_unit is TRUE the actor unit is consumed in creation of
+    embassy. If it isn't the actor unit always survive.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-                      struct city *pcity, const enum gen_action action_id)
+                      struct city *pcity, const enum gen_action action_id,
+                      bool spends_unit)
 {
   struct player *cplayer;
 
@@ -342,8 +343,9 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   action_id_consequence_success(action_id, pplayer, cplayer,
                                 city_tile(pcity), city_link(pcity));
 
-  /* Spies always survive. Diplomats never do. */
-  if (!unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+  /* The actor unit always survive when spends_unit is FALSE, it never does
+   * when it is TRUE. */
+  if (spends_unit) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
   } else {
     send_unit_info(NULL, pdiplomat);

@@ -174,6 +174,7 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require a "
                           "foreign target.",
                           ACTION_ESTABLISH_EMBASSY,
+                          ACTION_ESTABLISH_EMBASSY_STAY,
                           ACTION_SPY_INVESTIGATE_CITY,
                           ACTION_INV_CITY_SPEND,
                           ACTION_SPY_STEAL_GOLD,
@@ -346,6 +347,10 @@ static void hard_code_actions(void)
                  0, 1);
   actions[ACTION_ESTABLISH_EMBASSY] =
       action_new(ACTION_ESTABLISH_EMBASSY, ATK_CITY,
+                 FALSE, FALSE, FALSE, TRUE,
+                 0, 1);
+  actions[ACTION_ESTABLISH_EMBASSY_STAY] =
+      action_new(ACTION_ESTABLISH_EMBASSY_STAY, ATK_CITY,
                  FALSE, FALSE, FALSE, TRUE,
                  0, 1);
   actions[ACTION_SPY_STEAL_TECH] =
@@ -1484,6 +1489,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     break;
 
   case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
@@ -1615,6 +1621,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
     break;
 
   case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
@@ -1817,6 +1824,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.
      * (Possible exception: crazy hack using the Lua callback
@@ -2896,6 +2904,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_ESTABLISH_EMBASSY:
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTION_ESTABLISH_EMBASSY_STAY:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_STEAL_TECH:

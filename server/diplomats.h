@@ -16,7 +16,8 @@
 #include "fc_types.h"
 
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-                      struct city *pcity, const enum gen_action action_id);
+                      struct city *pcity, const enum gen_action action_id,
+                      bool spends_unit);
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
                           struct city *pcity,
                           const enum gen_action action_id,

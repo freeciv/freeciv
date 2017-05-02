@@ -570,6 +570,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     break;
 
   case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
@@ -2378,7 +2379,12 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_ESTABLISH_EMBASSY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_embassy(pplayer, actor_unit, pcity,
-                                              action_type));
+                                              action_type, FALSE));
+    break;
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_embassy(pplayer, actor_unit, pcity,
+                                              action_type, TRUE));
     break;
   case ACTION_SPY_INCITE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -4666,6 +4672,7 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_ESTABLISH_EMBASSY_STAY:
       case ACTION_SPY_INVESTIGATE_CITY:
       case ACTION_INV_CITY_SPEND:
       case ACTION_SPY_POISON:
