@@ -39,6 +39,7 @@
 #include "rulesave.h"
 
 static char *rs_selected = NULL;
+static char *od_selected = NULL;
 
 /**************************************************************************
   Parse freeciv-ruleup commandline parameters.
@@ -59,6 +60,10 @@ static void rup_parse_cmdline(int argc, char *argv[])
                   /* TRANS: "ruleset" is exactly what user must type, do not translate. */
                   _("ruleset RULESET"),
                   _("Update RULESET"));
+      cmdhelp_add(help, "o",
+		  /* TRANS: "output" is exactly what user must type, do not translate. */
+		  _("output DIRECTORY"),
+		  _("Create directory DIRECTORY for output"));
 
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
@@ -74,6 +79,13 @@ static void rup_parse_cmdline(int argc, char *argv[])
                    _("Multiple rulesets requested. Only one ruleset at time supported.\n"));
       } else {
         rs_selected = option;
+      }
+    } else if ((option = get_option_malloc("--output", argv, &i, argc, TRUE))) {
+      if (od_selected != NULL) {
+	fc_fprintf(stderr,
+		   _("Multiple output directories given.\n"));
+      } else {
+	od_selected = option;
       }
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
@@ -134,7 +146,11 @@ int main(int argc, char **argv)
 
     data.nationlist = game.server.ruledit.nationlist;
 
-    fc_snprintf(tgt_dir, sizeof(tgt_dir), "%s.ruleup", rs_selected);
+    if (od_selected != NULL) {
+      fc_strlcpy(tgt_dir, od_selected, sizeof(tgt_dir));
+    } else {
+      fc_snprintf(tgt_dir, sizeof(tgt_dir), "%s.ruleup", rs_selected);
+    }
 
     comments_load();
     save_ruleset(tgt_dir, rs_selected, &data);
