@@ -43,6 +43,7 @@
 #include "ruledit.h"
 #include "tab_building.h"
 #include "tab_enablers.h"
+#include "tab_extras.h"
 #include "tab_good.h"
 #include "tab_gov.h"
 #include "tab_misc.h"
@@ -168,6 +169,8 @@ void ruledit_gui::setup(QWidget *central_in)
   stack->addTab(gov, QString::fromUtf8(R__("Governments")));
   enablers = new tab_enabler(this);
   stack->addTab(enablers, QString::fromUtf8(R__("Enablers")));
+  extras = new tab_extras(this);
+  stack->addTab(extras, QString::fromUtf8(R__("Extras")));
   nation = new tab_nation(this);
   stack->addTab(nation, QString::fromUtf8(R__("Nations")));
 
@@ -213,6 +216,7 @@ void ruledit_gui::launch_now()
     good->refresh();
     gov->refresh();
     enablers->refresh();
+    extras->refresh();
     main_layout->setCurrentIndex(1);
   } else {
     display_msg(R__("Ruleset loading failed!"));

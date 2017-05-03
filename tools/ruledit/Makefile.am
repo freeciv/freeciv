@@ -29,6 +29,7 @@ MOC_FILES = \
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
             meta_tab_enablers.cpp \
+	    meta_tab_extras.cpp	\
             meta_tab_misc.cpp	\
             meta_tab_nation.cpp	\
             meta_tab_tech.cpp	\
@@ -44,6 +45,8 @@ freeciv_ruledit_SOURCES =	\
 		tab_building.h	\
 		tab_enablers.cpp \
 		tab_enablers.h	\
+		tab_extras.cpp	\
+		tab_extras.h	\
 		tab_good.cpp	\
 		tab_good.h	\
 		tab_gov.cpp	\
