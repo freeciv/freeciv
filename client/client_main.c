@@ -1411,7 +1411,8 @@ static enum sset_type client_ss_type_get(server_setting_id id)
                         option_type_name(option_type(pset)));
 
   /* The option type is valid. */
-  fc_assert_ret_val(sset_type_is_valid(opt_type), sset_type_invalid());
+  fc_assert_ret_val(sset_type_is_valid((enum sset_type)opt_type),
+                    sset_type_invalid());
 
   /* Each server setting type value equals the client option type value with
    * the same meaning. */
@@ -1425,7 +1426,7 @@ static enum sset_type client_ss_type_get(server_setting_id id)
 
   /* Exploit the fact that each server setting type value corresponds to the
    * client option type value with the same meaning. */
-  return opt_type;
+  return (enum sset_type)opt_type;
 }
 
 /***************************************************************************
