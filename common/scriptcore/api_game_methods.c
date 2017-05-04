@@ -21,6 +21,7 @@
 /* common */
 #include "achievements.h"
 #include "actions.h"
+#include "calendar.h"
 #include "citizens.h"
 #include "culture.h"
 #include "game.h"
@@ -50,6 +51,36 @@ int api_methods_game_turn(lua_State *L)
   LUASCRIPT_CHECK_STATE(L, FALSE);
 
   return game.info.turn;
+}
+
+/*****************************************************************************
+  Return the current year.
+*****************************************************************************/
+int api_methods_game_year(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  return game.info.year;
+}
+
+/*****************************************************************************
+  Return the current year fragment.
+*****************************************************************************/
+int api_methods_game_year_fragment(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  return game.info.fragment_count;
+}
+
+/*****************************************************************************
+  Return the current year fragment.
+*****************************************************************************/
+const char *api_methods_game_year_text(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  return calendar_text();
 }
 
 /*****************************************************************************
