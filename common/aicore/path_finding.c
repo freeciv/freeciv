@@ -671,7 +671,8 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
         /* action move cost depends on action and unit type. */
         if (node1->action == PF_ACTION_ATTACK
             && (utype_has_flag(params->utype, UTYF_ONEATTACK)
-                || uclass_has_flag(utype_class(params->utype), UCF_MISSILE))) {
+                || utype_is_consumed_by_action(
+                       action_by_number(ACTION_ATTACK), params->utype))) {
           cost = params->move_rate;
         } else {
           cost = SINGLE_MOVE;
@@ -1565,8 +1566,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
           /* action move cost depends on action and unit type. */
           if (node1->action == PF_ACTION_ATTACK
               && (utype_has_flag(params->utype, UTYF_ONEATTACK)
-                  || uclass_has_flag(utype_class(params->utype),
-                                     UCF_MISSILE))) {
+                  || utype_is_consumed_by_action(
+                        action_by_number(ACTION_ATTACK), params->utype))) {
             cost = params->move_rate;
           } else {
             cost = SINGLE_MOVE;
@@ -2554,7 +2555,8 @@ static inline bool
 pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
                                int moves_left, int moves_left_req)
 {
-  if (uclass_has_flag(utype_class(param->utype), UCF_MISSILE)) {
+  if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                  param->utype)) {
     /* Case missile */
     return TRUE;
   } else if (utype_has_flag(param->utype, UTYF_ONEATTACK)) {
@@ -2708,8 +2710,9 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
             /* action move cost depends on action and unit type. */
             if (node1->action == PF_ACTION_ATTACK
                 && (utype_has_flag(params->utype, UTYF_ONEATTACK)
-                    || uclass_has_flag(utype_class(params->utype),
-                                       UCF_MISSILE))) {
+                    || utype_is_consumed_by_action(action_by_number(
+                                                     ACTION_ATTACK),
+                                                   params->utype))) {
               cost = params->move_rate;
             } else {
               cost = SINGLE_MOVE;
@@ -2739,7 +2742,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 
         moves_left = loc_moves_left - cost;
         if (moves_left < node1->moves_left_req
-            && (!uclass_has_flag(utype_class(params->utype), UCF_MISSILE)
+            && (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                             params->utype)
                 || 0 > moves_left)) {
           /* We don't have enough moves left, but missiles
            * can do suicidal attacks. */
