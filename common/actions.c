@@ -985,12 +985,21 @@ const char *action_get_tool_tip(const int action_id,
              (double)prob.max / ACTPROB_VAL_1_PCT);
   } else {
     astr_set(&tool_tip,
-             /* TRANS: action probability range (min to max). Given in
-              * percentage. Resolution is 0.5%. */
+             /* TRANS: action probability interval (min to max). Given in
+              * percentage. Resolution is 0.5%. The string at the end is
+              * shown when the interval is wide enough to not be caused by
+              * rounding. It explains that the interval in imprecise because
+              * the player doesn't have enough information. */
              _("The probability of success is %.1f%%, %.1f%% or somewhere"
-               " in between."),
+               " in between.%s"),
              (double)prob.min / ACTPROB_VAL_1_PCT,
-             (double)prob.max / ACTPROB_VAL_1_PCT);
+             (double)prob.max / ACTPROB_VAL_1_PCT,
+             prob.max - prob.min > 1 ?
+               /* TRANS: explanation used in the action probability tooltip
+                * above. */
+               _(" (This is the most precise interval I can calculate "
+                 "given the information our nation has access to.)") :
+               "");
   }
 
   return astr_str(&tool_tip);
