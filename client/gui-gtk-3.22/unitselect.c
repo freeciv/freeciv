@@ -690,10 +690,6 @@ static void usdlg_tab_append_utype(GtkTreeStore *store,
   gtk_tree_store_append(GTK_TREE_STORE(store), it, NULL);
 
   /* Create a icon */
-  pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
-                       tileset_full_tile_width(tileset),
-                       tileset_full_tile_height(tileset));
-
   {
     struct canvas canvas_store = FC_STATIC_CANVAS_INIT;
 
