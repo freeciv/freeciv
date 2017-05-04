@@ -465,7 +465,9 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!uclass_has_flag(pclass, UCF_MISSILE) && 1 == utype_fuel(punittype)) {
+    if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                     punittype)
+        && 1 == utype_fuel(punittype)) {
       continue;
     }
 
