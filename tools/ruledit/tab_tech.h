@@ -72,8 +72,6 @@ class tab_tech : public QWidget
     void req1_menu(QAction *action);
     void req2_menu(QAction *action);
     void root_req_menu(QAction *action);
-    void add_now();
-    void delete_now();
     void same_name_toggle(bool checked);
 };
 

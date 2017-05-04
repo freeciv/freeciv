@@ -50,8 +50,6 @@ class tab_unit : public QWidget
   private slots:
     void name_given();
     void select_unit();
-    void add_now();
-    void delete_now();
     void same_name_toggle(bool checked);
 };
 

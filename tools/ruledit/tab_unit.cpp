@@ -47,8 +47,6 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
-  QPushButton *add_button;
-  QPushButton *delete_button;
 
   ui = ui_in;
   selected = 0;
@@ -78,16 +76,6 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   unit_layout->addWidget(label, 1, 0);
   unit_layout->addWidget(same_name, 1, 1);
   unit_layout->addWidget(name, 1, 2);
-
-  add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
-  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  unit_layout->addWidget(add_button, 5, 0);
-  show_experimental(add_button);
-
-  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
-  connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  unit_layout->addWidget(delete_button, 5, 2);
-  show_experimental(delete_button);
 
   refresh();
 
@@ -179,24 +167,6 @@ void tab_unit::name_given()
 }
 
 /**************************************************************************
-  User requested unit deletion 
-**************************************************************************/
-void tab_unit::delete_now()
-{
-  if (selected != 0) {
-    ui->clear_required(utype_rule_name(selected));
-    if (is_utype_needed(selected, &ruledit_qt_display_requirers)) {
-      return;
-    }
-
-    selected->disabled = true;
-
-    refresh();
-    update_utype_info(0);
-  }
-}
-
-/**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
 bool tab_unit::initialize_new_utype(struct unit_type *ptype)
@@ -207,43 +177,6 @@ bool tab_unit::initialize_new_utype(struct unit_type *ptype)
 
   name_set(&(ptype->name), 0, "New Unit");
   return true;
-}
-
-/**************************************************************************
-  User requested new unit
-**************************************************************************/
-void tab_unit::add_now()
-{
-  struct unit_type *new_utype;
-
-  // Try to reuse freed utype slot
-  unit_type_iterate(ptype) {
-    if (ptype->disabled) {
-      if (initialize_new_utype(ptype)) {
-        ptype->disabled = false;
-        update_utype_info(ptype);
-        refresh();
-      }
-      return;
-    }
-  } unit_type_iterate_end;
-
-  // Try to add completely new unit type
-  if (game.control.num_unit_types >= U_LAST) {
-    return;
-  }
-
-  // num_unit_types must be big enough to hold new unit or
-  // utype_by_number() fails.
-  game.control.num_unit_types++;
-  new_utype = utype_by_number(game.control.num_unit_types - 1);
-  if (initialize_new_utype(new_utype)) {
-    update_utype_info(new_utype);
-
-    refresh();
-  } else {
-    game.control.num_unit_types--; // Restore
-  }
 }
 
 /**************************************************************************

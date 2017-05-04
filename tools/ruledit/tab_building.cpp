@@ -47,8 +47,6 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *bldg_layout = new QGridLayout();
   QLabel *label;
-  QPushButton *add_button;
-  QPushButton *delete_button;
 
   ui = ui_in;
   selected = 0;
@@ -78,16 +76,6 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   bldg_layout->addWidget(label, 1, 0);
   bldg_layout->addWidget(same_name, 1, 1);
   bldg_layout->addWidget(name, 1, 2);
-
-  add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
-  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
-  bldg_layout->addWidget(add_button, 5, 0);
-  show_experimental(add_button);
-
-  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Building")), this);
-  connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  bldg_layout->addWidget(delete_button, 5, 2);
-  show_experimental(delete_button);
 
   refresh();
 
@@ -179,24 +167,6 @@ void tab_building::name_given()
 }
 
 /**************************************************************************
-  User requested building deletion 
-**************************************************************************/
-void tab_building::delete_now()
-{
-  if (selected != 0) {
-    ui->clear_required(improvement_rule_name(selected));
-    if (is_building_needed(selected, &ruledit_qt_display_requirers)) {
-      return;
-    }
-
-    selected->disabled = true;
-
-    refresh();
-    update_bldg_info(0);
-  }
-}
-
-/**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
 bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
@@ -207,43 +177,6 @@ bool tab_building::initialize_new_bldg(struct impr_type *pimpr)
 
   name_set(&(pimpr->name), 0, "New Building");
   return true;
-}
-
-/**************************************************************************
-  User requested new building
-**************************************************************************/
-void tab_building::add_now2()
-{
-  struct impr_type *new_bldg;
-
-  // Try to reuse freed building slot
-  improvement_iterate(pimpr) {
-    if (pimpr->disabled) {
-      if (initialize_new_bldg(pimpr)) {
-        pimpr->disabled = false;
-        update_bldg_info(pimpr);
-        refresh();
-      }
-      return;
-    }
-  } improvement_iterate_end;
-
-  // Try to add completely new building
-  if (game.control.num_impr_types >= B_LAST) {
-    return;
-  }
-
-  // num_impr_types must be big enough to hold new building or
-  // improvement_by_number() fails.
-  game.control.num_impr_types++;
-  new_bldg = improvement_by_number(game.control.num_impr_types - 1);
-  if (initialize_new_bldg(new_bldg)) {
-    update_bldg_info(new_bldg);
-
-    refresh();
-  } else {
-    game.control.num_impr_types--; // Restore
-  }
 }
 
 /**************************************************************************

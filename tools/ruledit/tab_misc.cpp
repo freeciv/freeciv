@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,7 +51,6 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QLabel *name_label;
   QLabel *version_label;
   QPushButton *save_button;
-  QPushButton *refresh_button;
   int row = 0;
   QTableWidgetItem *item;
 
@@ -147,13 +146,6 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
   main_layout->addWidget(stats, row++, 0, 1, 2);
-  refresh_button = new QPushButton(QString::fromUtf8(R__("Refresh Stats")), this);
-  connect(refresh_button, SIGNAL(pressed()), this, SLOT(refresh_stats()));
-  main_layout->addWidget(refresh_button, row++, 0, 1, 2);
-
-  // Stats never change except with experimental features. Hide useless
-  // button.
-  show_experimental(refresh_button);
 
   refresh();
 

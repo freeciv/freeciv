@@ -47,8 +47,6 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *tech_layout = new QGridLayout();
   QLabel *label;
-  QPushButton *add_button;
-  QPushButton *delete_button;
 
   ui = ui_in;
   selected = 0;
@@ -104,16 +102,6 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   connect(root_req_button, SIGNAL(pressed()), this, SLOT(root_req_jump()));
   tech_layout->addWidget(label, 4, 0);
   tech_layout->addWidget(root_req_button, 4, 2);
-
-  add_button = new QPushButton(QString::fromUtf8(R__("Add tech")), this);
-  connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  tech_layout->addWidget(add_button, 5, 0);
-  show_experimental(add_button);
-
-  delete_button = new QPushButton(QString::fromUtf8(R__("Remove this tech")), this);
-  connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  tech_layout->addWidget(delete_button, 5, 2);
-  show_experimental(delete_button);
 
   refresh();
   update_tech_info(0);
@@ -345,24 +333,6 @@ void tab_tech::name_given()
 }
 
 /**************************************************************************
-  User requested tech deletion 
-**************************************************************************/
-void tab_tech::delete_now()
-{
-  if (selected != 0) {
-    ui->clear_required(advance_rule_name(selected));
-    if (is_tech_needed(selected, &ruledit_qt_display_requirers)) {
-      return;
-    }
-
-    selected->require[AR_ONE] = A_NEVER;
-
-    refresh();
-    update_tech_info(0);
-  }
-}
-
-/**************************************************************************
   Initialize new tech for use.
 **************************************************************************/
 bool tab_tech::initialize_new_tech(struct advance *padv)
@@ -379,41 +349,6 @@ bool tab_tech::initialize_new_tech(struct advance *padv)
   name_set(&(padv->name), 0, "New Tech");
 
   return true;
-}
-
-/**************************************************************************
-  User requested new tech
-**************************************************************************/
-void tab_tech::add_now()
-{
-  struct advance *new_adv;
-
-  // Try to reuse freed tech slot
-  advance_iterate(A_FIRST, padv) {
-    if (padv->require[AR_ONE] == A_NEVER) {
-      if (initialize_new_tech(padv)) {
-        update_tech_info(padv);
-        refresh();
-      }
-      return;
-    }
-  } advance_iterate_end;
-
-  // Try to add completely new tech
-  if (game.control.num_tech_types >= A_LAST) {
-    return;
-  }
-
-  // num_tech_types must be big enough to hold new tech or
-  // advance_by_number() fails.
-  game.control.num_tech_types++;
-  new_adv = advance_by_number(game.control.num_tech_types - 1);
-  if (initialize_new_tech(new_adv)) {
-    update_tech_info(new_adv);
-    refresh();
-  } else{
-    game.control.num_tech_types--; // Restore
-  }
 }
 
 /**************************************************************************
