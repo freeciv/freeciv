@@ -121,6 +121,15 @@ module game {
   int api_methods_game_turn_deprecated
     @ turn (lua_State *L);
 
+  int api_methods_game_year
+    @ current_year (lua_State *L);
+
+  int api_methods_game_year_fragment
+    @ current_fragment (lua_State *L);
+
+  const char *api_methods_game_year_text
+    @ current_year_text (lua_State *L);
+
   const char *api_methods_game_rulesetdir
     @ rulesetdir (lua_State *L);
 
