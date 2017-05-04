@@ -150,6 +150,11 @@ if ! cp gen_headers/fc_config.h $INSTALL_DIR/share/freeciv/ ; then
   echo "Storing fc_config.h failed" >&2
   exit 1
 fi
+
+if ! cp $DLLSPATH/crosser.txt $INSTALL_DIR/share/freeciv/ ; then
+  echo "Storing crosser.txt failed" >&2
+  exit 1
+fi
 ) then
   exit 1
 fi
