@@ -2260,6 +2260,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          action_id_get_target_kind(act))));
       }
 
+      if (utype_is_consumed_by_action(paction, utype)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: said about an action. %s is a unit type
+                      * name. */
+                     _("  * uses up the %s.\n"),
+                     utype_name_translation(utype));
+      }
+
       if (action_id_get_target_kind(act) != ATK_SELF) {
         /* Distance to target is relevant. */
 
