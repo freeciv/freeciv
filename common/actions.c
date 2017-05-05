@@ -988,7 +988,7 @@ const char *action_get_tool_tip(const int action_id,
              /* TRANS: action probability interval (min to max). Given in
               * percentage. Resolution is 0.5%. The string at the end is
               * shown when the interval is wide enough to not be caused by
-              * rounding. It explains that the interval in imprecise because
+              * rounding. It explains that the interval is imprecise because
               * the player doesn't have enough information. */
              _("The probability of success is %.1f%%, %.1f%% or somewhere"
                " in between.%s"),
