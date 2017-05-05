@@ -123,6 +123,8 @@ struct extra_type
   bv_extras conflicts;
   bv_extras hidden_by;
 
+  Tech_type_id visibility_req;
+
   /* Same information as in hidden_by, but iterating through this list is much
    * faster than through all extra types to check which ones are hiding this one.
    * Only used client side. */
@@ -255,6 +257,10 @@ enum extra_cause activity_to_extra_cause(enum unit_activity act);
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act);
 
 struct player *extra_owner(const struct tile *ptile);
+
+bool player_knows_extra_exist(const struct player *pplayer,
+			      const struct extra_type *pextra,
+			      const struct tile *ptile);
 
 #define extra_type_iterate(_p)                                \
 {                                                             \

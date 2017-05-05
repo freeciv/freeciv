@@ -3831,6 +3831,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   }
   fc_assert(pextra->disappearance_reqs.size == p->disappearance_reqs_count);
 
+  pextra->visibility_req = p->visibility_req;
   pextra->buildable = p->buildable;
   pextra->build_time = p->build_time;
   pextra->build_time_factor = p->build_time_factor;
