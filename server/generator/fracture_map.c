@@ -288,8 +288,8 @@ static int local_ave_elevation(struct tile *ptile)
 **************************************************************************/
 void make_fracture_relief(void)
 {
-  int choose_mountain;
-  int choose_hill;
+  bool choose_mountain;
+  bool choose_hill;
   int landarea;
   int total_mtns;
   int iter;
@@ -310,14 +310,14 @@ void make_fracture_relief(void)
     if (not_placed(ptile) && hmap(ptile) > hmap_shore_level) {  /* place on land only */
       /* mountains */
       choose_mountain = (hmap(ptile) > local_ave_elevation(ptile) * 1.20)
-        || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) * (fc_rand(10) < 4));
+        || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) && (fc_rand(10) < 4));
 
       choose_hill = (hmap(ptile) > local_ave_elevation(ptile) * 1.10)
-        || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) * (fc_rand(10) < 4));
+        || (area_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)) && (fc_rand(10) < 4));
       /* The following avoids hills and mountains directly along the coast. */
       if (count_terrain_class_near_tile(ptile, TRUE, TRUE, TC_OCEAN) > 0) {
-        choose_mountain = 0;
-        choose_hill = 0;
+        choose_mountain = FALSE;
+        choose_hill = FALSE;
       }
       if (choose_mountain) {
         total_mtns++;
