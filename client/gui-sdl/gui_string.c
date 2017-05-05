@@ -93,13 +93,13 @@ int adj_font(int size) {
 SDL_Rect str16size(SDL_String16 *pString16)
 {
   SDL_Rect Ret = {0, 0, 0, 0};
-  
-  if (pString16 && pString16->text && pString16->text != '\0') {
+
+  if (pString16 && pString16->text && pString16->text[0] != '\0') {
     Uint16 *pStr16 = pString16->text;
     Uint16 c = *pStr16;
     bool new_line = FALSE;
     int w, h;
-    
+
     /* find '\n' */
     while (c != '\0') {
       if (c == 10) {
