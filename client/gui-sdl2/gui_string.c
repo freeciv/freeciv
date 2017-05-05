@@ -98,7 +98,7 @@ int adj_font(int size) {
 **************************************************************************/
 void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
 {
-  if (pstr != NULL && pstr->text != NULL && pstr->text != '\0') {
+  if (pstr != NULL && pstr->text != NULL && pstr->text[0] != '\0') {
     char *current = pstr->text;
     char c = *current;
     bool new_line = FALSE;
