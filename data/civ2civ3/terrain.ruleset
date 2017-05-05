@@ -1045,6 +1045,9 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ; rmreqs                  = requirements to remove the extra
 ; appearance_reqs         = spontaneous appearance requirements
 ; disappearance_reqs      = spontaneous disappearance requirements
+; visibility_req          = Tech a player needs to have to see the extra
+;                           This affects visibility only, for all the rules
+;                           extra is still there even if player can't see it.
 ; buildable               = Can extra be built? Defaults to TRUE if extra has
 ;                           any causes indicating it can result from worker
 ;                           activity.

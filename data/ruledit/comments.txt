@@ -703,6 +703,9 @@ extras = "\
 ; rmreqs                  = requirements to remove the extra\n\
 ; appearance_reqs         = spontaneous appearance requirements\n\
 ; disappearance_reqs      = spontaneous disappearance requirements\n\
+; visibility_req          = Tech a player needs to have to see the extra\n\
+;                           This affects visibility only, for all the rules\n\
+;                           extra is still there even if player can't see it.\n\
 ; buildable               = Can extra be built? Defaults to TRUE if extra has\n\
 ;                           any causes indicating it can result from worker\n\
 ;                           activity.\n\

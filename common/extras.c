@@ -23,6 +23,7 @@
 #include "base.h"
 #include "game.h"
 #include "map.h"
+#include "research.h"
 #include "road.h"
 
 #include "extras.h"
@@ -69,6 +70,7 @@ void extras_init(void)
     extras[i].rmcauses = 0;
     extras[i].helptext = NULL;
     extras[i].disabled = FALSE;
+    extras[i].visibility_req = A_NONE;
   }
 }
 
@@ -942,4 +944,19 @@ bool can_extra_disappear(const struct extra_type *pextra, const struct tile *pti
     && are_reqs_active(NULL, tile_owner(ptile), NULL, NULL, ptile,
                        NULL, NULL, NULL, NULL, NULL,
                        &pextra->disappearance_reqs, RPT_CERTAIN);
+}
+
+/**************************************************************************
+  Extra is not hidden from the user.
+**************************************************************************/
+bool player_knows_extra_exist(const struct player *pplayer,
+                              const struct extra_type *pextra,
+                              const struct tile *ptile)
+{
+  if (!tile_has_extra(ptile, pextra)) {
+    return FALSE;
+  }
+
+  return research_invention_state(research_get(pplayer),
+                                  pextra->visibility_req) == TECH_KNOWN;
 }

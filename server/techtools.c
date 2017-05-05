@@ -416,6 +416,15 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       /* Give free infrastructure in every city */
       if (tech_found != A_FUTURE) {
         upgrade_all_city_extras(aplayer, was_discovery);
+
+        /* Revealing of extras with visibility_req */
+        whole_map_iterate(ptile) {
+          if (map_is_known_and_seen(ptile, aplayer, V_MAIN)) {
+            if (update_player_tile_knowledge(aplayer, ptile)) {
+              send_tile_info(aplayer->connections, ptile, FALSE);
+            }
+          }
+        } whole_map_iterate_end;
       }
 
       /* Enhance vision of units if a player-ranged effect has changed. Note

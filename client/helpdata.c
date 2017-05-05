@@ -2923,6 +2923,15 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("* Units inside are hidden from non-allied players.\n"));
   }
 
+  if (pextra->visibility_req != A_NONE) {
+    char vrbuf[1024];
+
+    fc_snprintf(vrbuf, sizeof(vrbuf),
+                _("* Visible only if %s known.\n"),
+                advance_name_translation(advance_by_number(pextra->visibility_req)));
+    CATLSTR(buf, bufsz, vrbuf);
+  }
+
   /* XXX Non-zero requirement vector is not a good test of whether
    * req_text_insert_nl() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {

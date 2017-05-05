@@ -515,7 +515,11 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                        ? extra_number(tile_resource(ptile))
                        : extra_count();
 
-      info.extras = ptile->extras;
+      if (pplayer != NULL) {
+	info.extras = map_get_player_tile(ptile, pplayer)->extras;
+      } else {
+	info.extras = ptile->extras;
+      }
 
       if (ptile->label != NULL) {
         strncpy(info.label, ptile->label, sizeof(info.label));
@@ -1292,7 +1296,13 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
       || owner != tile_owner(ptile)
       || plrtile->extras_owner != extra_owner(ptile)) {
     plrtile->terrain = ptile->terrain;
-    plrtile->extras = ptile->extras;
+    extra_type_iterate(pextra) {
+      if (player_knows_extra_exist(pplayer, pextra, ptile)) {
+	BV_SET(plrtile->extras, extra_number(pextra));
+      } else {
+	BV_CLR(plrtile->extras, extra_number(pextra));
+      }
+    } extra_type_iterate_end;
     plrtile->resource = ptile->resource;
     if (plrtile_owner_valid) {
       plrtile->owner = tile_owner(ptile);

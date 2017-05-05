@@ -3011,6 +3011,8 @@ static bool load_ruleset_terrain(struct section_file *file,
         enum extra_cause cause;
         enum extra_rmcause rmcause;
         const char *eus_name;
+        const char *vis_req_name;
+        const struct advance *vis_req;
 
         catname = secfile_lookup_str(file, "%s.category", section);
         if (catname == NULL) {
@@ -3275,6 +3277,19 @@ static bool load_ruleset_terrain(struct section_file *file,
         if (!ok) {
           break;
         }
+
+        vis_req_name = secfile_lookup_str_default(file, "None",
+                                                  "%s.visibility_req", section);
+        vis_req = advance_by_rule_name(vis_req_name);
+
+        if (vis_req == NULL) {
+          ruleset_error(LOG_ERROR, "\%s\" %s: unkniwn visibility_req %s.",
+                        filename, section, vis_req_name);
+          ok = FALSE;
+          break;
+        }
+
+        pextra->visibility_req = advance_number(vis_req);
 
         pextra->helptext = lookup_strvec(file, section, "helptext");
       }
@@ -7285,6 +7300,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     } requirement_vector_iterate_end;
     packet.disappearance_reqs_count = j;
 
+    packet.visibility_req = e->visibility_req;
     packet.buildable = e->buildable;
     packet.build_time = e->build_time;
     packet.build_time_factor = e->build_time_factor;
