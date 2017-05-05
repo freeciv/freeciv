@@ -843,6 +843,17 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
   return FALSE;
 }
 
+/**************************************************************************
+  Returns TRUE iff performing the specified action will consume an actor
+  unit of the specified type.
+**************************************************************************/
+bool utype_is_consumed_by_action(const struct action *paction,
+                                 const struct unit_type *utype)
+{
+  /* Only care about the action it self for now. */
+  return paction->actor_consuming_always;
+}
+
 /****************************************************************************
   Returns the number of shields it takes to build this unit type.
 ****************************************************************************/

@@ -165,16 +165,15 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
 
   - It costs some minimal movement to investigate a city.
 
-  - If spends_unit is TRUE the actor unit dies after investigation.
-  - If it isn't the actor unit always survive.  There is no risk.
+  - The actor unit always survives the investigation unless the action
+    being performed is configured to always consume the actor unit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
                           struct city *pcity,
-                          const enum gen_action action_id,
-                          bool spends_unit)
+                          const struct action *paction)
 {
   struct player *cplayer;
   struct packet_unit_short_info unit_packet;
@@ -241,12 +240,12 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_id_consequence_success(action_id, pplayer, cplayer,
-                                city_tile(pcity), city_link(pcity));
+  action_consequence_success(paction, pplayer, cplayer,
+                             city_tile(pcity), city_link(pcity));
 
-  /* The actor unit always survive when spends_unit is FALSE, it never does
-   * when it is TRUE. */
-  if (spends_unit) {
+  /* The actor unit always survive unless the action it self has determined
+   * to always consume it. */
+  if (utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
   } else {
     send_unit_info(NULL, pdiplomat);
@@ -289,15 +288,14 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   - Otherwise, the embassy is created.
   - It costs some minimal movement to establish an embassy.
 
-  - If spends_unit is TRUE the actor unit is consumed in creation of
-    embassy. If it isn't the actor unit always survive.
+  - The actor unit always survives the investigation unless the action
+    being performed is configured to always consume the actor unit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 ****************************************************************************/
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-                      struct city *pcity, const enum gen_action action_id,
-                      bool spends_unit)
+                      struct city *pcity, const struct action *paction)
 {
   struct player *cplayer;
 
@@ -340,12 +338,12 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* this may cause a diplomatic incident */
-  action_id_consequence_success(action_id, pplayer, cplayer,
-                                city_tile(pcity), city_link(pcity));
+  action_consequence_success(paction, pplayer, cplayer,
+                             city_tile(pcity), city_link(pcity));
 
-  /* The actor unit always survive when spends_unit is FALSE, it never does
-   * when it is TRUE. */
-  if (spends_unit) {
+  /* The actor unit always survive unless the action it self has determined
+   * to always consume it. */
+  if (utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
     wipe_unit(pdiplomat, ULR_USED, NULL);
   } else {
     send_unit_info(NULL, pdiplomat);

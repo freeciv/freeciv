@@ -2363,28 +2363,19 @@ bool unit_perform_action(struct player *pplayer,
                                         action_type));
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             diplomat_investigate(pplayer,
-                                                  actor_unit, pcity,
-                                                  action_type,
-                                                  FALSE));
-    break;
   case ACTION_INV_CITY_SPEND:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_investigate(pplayer,
                                                   actor_unit, pcity,
-                                                  action_type,
-                                                  TRUE));
+                                                  paction));
     break;
   case ACTION_ESTABLISH_EMBASSY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             diplomat_embassy(pplayer, actor_unit, pcity,
-                                              action_type, FALSE));
-    break;
   case ACTION_ESTABLISH_EMBASSY_STAY:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_embassy(pplayer, actor_unit, pcity,
-                                              action_type, TRUE));
+                                              paction));
     break;
   case ACTION_SPY_INCITE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,

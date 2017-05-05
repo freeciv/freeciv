@@ -16,12 +16,10 @@
 #include "fc_types.h"
 
 bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
-                      struct city *pcity, const enum gen_action action_id,
-                      bool spends_unit);
+                      struct city *pcity, const struct action *paction);
 bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
                           struct city *pcity,
-                          const enum gen_action action_id,
-                          bool spends_unit);
+                          const struct action *paction);
 void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
                             struct city *pcity,
                             const enum gen_action action_id);
