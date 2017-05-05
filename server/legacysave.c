@@ -952,8 +952,8 @@ static void map_load(struct section_file *file,
 		  ptile->resource = identifier_to_resource(ch));
 
     special_halfbyte_iterate(j, num_special_types) {
-      char buf[16]; /* enough for sprintf() below */
-      sprintf (buf, "map.spe%02d_%%03d", j);
+      char buf[20]; /* enough for sprintf() below */
+      sprintf(buf, "map.spe%02d_%%03d", j);
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	  secfile_lookup_str(file, buf, nat_y),
@@ -1010,7 +1010,7 @@ static void map_load(struct section_file *file,
     zeroline[i] = '\0';
 
     bases_halfbyte_iterate(j, num_bases_types) {
-      char buf[16]; /* enough for sprintf() below */
+      char buf[20]; /* enough for sprintf() below */
       sprintf(buf, "map.b%02d_%%03d", j);
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
