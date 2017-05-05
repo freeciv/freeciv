@@ -629,6 +629,9 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
                                  const enum citytile_type prop,
                                  const bool is_there);
 
+bool utype_is_consumed_by_action(const struct action *paction,
+                                 const struct unit_type *utype);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 

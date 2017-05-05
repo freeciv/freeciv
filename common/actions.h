@@ -201,6 +201,12 @@ struct action
   /* Actions that blocks this action. The action will be illegal if any
    * bloking action is legal. */
   bv_actions blocked_by;
+
+  /* Successfully performing this action will always consume the actor.
+   * Don't set this for actions that consumes the unit in some cases
+   * (depending on luck, the presence of a flag, etc) but not in other
+   * cases. */
+  bool actor_consuming_always;
 };
 
 struct action_enabler
