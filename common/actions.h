@@ -353,7 +353,8 @@ enum action_target_kind action_get_target_kind(
 
 int action_number(const struct action *action);
 
-bool action_has_result(struct action *paction, enum gen_action result);
+bool action_has_result(const struct action *paction,
+                       enum gen_action result);
 #define action_id_has_result(action_id, result)                            \
   action_has_result(action_by_number(action_id), result)
 
