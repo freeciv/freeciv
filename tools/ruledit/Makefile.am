@@ -33,6 +33,7 @@ MOC_FILES = \
             meta_tab_misc.cpp	\
             meta_tab_nation.cpp	\
             meta_tab_tech.cpp	\
+	    meta_tab_terrains.cpp \
             meta_tab_building.cpp \
 	    meta_tab_good.cpp	\
 	    meta_tab_gov.cpp	\
@@ -57,6 +58,8 @@ freeciv_ruledit_SOURCES =	\
 		tab_nation.h	\
                 tab_tech.cpp	\
 		tab_tech.h	\
+		tab_terrains.cpp \
+		tab_terrains.h	\
                 tab_unit.cpp	\
 		tab_unit.h	\
 		req_edit.cpp	\

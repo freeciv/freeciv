@@ -37,6 +37,7 @@ class tab_unit;
 class tab_nation;
 class tab_enabler;
 class tab_extras;
+class tab_terrains;
 
 class ruledit_main : public QMainWindow
 {
@@ -82,6 +83,7 @@ class ruledit_gui : public QObject
     tab_gov *gov;
     tab_enabler *enablers;
     tab_extras *extras;
+    tab_terrains *terrains;
     tab_nation *nation;
 
   private slots:
