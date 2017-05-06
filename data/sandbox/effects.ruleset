@@ -254,6 +254,14 @@ reqs    =
       "Tech", "Astronomy", "Player"
     }
 
+[effect_airbase_vision]
+type    = "Unit_Vision_Radius_Sq"
+value   = 8
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Airbase", "Local"
+    }
+
 ; Fortress HP regen (Every Land units)
 [effect_fortress_hp_regen]
 type    = "HP_Regen"
@@ -297,15 +305,6 @@ value   = 50
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Fortress", "Local", TRUE
-;      "UnitClass", "Land", "Local", FALSE
-;      "UnitClass", "Small Land", "Local", FALSE
-;      "UnitClass", "Big Land", "Local", FALSE
-;      "UnitClass", "Merchant", "Local", FALSE
-;      "UnitClass", "Sea", "Local", FALSE
-;      "UnitClass", "Trireme", "Local", FALSE
-      "UnitClass", "Helicopter", "Local", FALSE
-      "UnitClass", "Air", "Local", FALSE
-      "UnitClass", "Missile", "Local", FALSE
     }
 
 ; Airstrip HP regen (Every Air unit)
@@ -371,15 +370,6 @@ value   = 50
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Airbase", "Local", TRUE
-      "UnitClass", "Land", "Local", FALSE
-      "UnitClass", "Small Land", "Local", FALSE
-      "UnitClass", "Big Land", "Local", FALSE
-      "UnitClass", "Merchant", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-      "UnitClass", "Trireme", "Local", FALSE
-;      "UnitClass", "Helicopter", "Local", FALSE
-;      "UnitClass", "Air", "Local", FALSE
-;      "UnitClass", "Missile", "Local", FALSE
     }
 
 [effect_trade_routes]
