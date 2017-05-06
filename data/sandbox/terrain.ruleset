@@ -1388,7 +1388,6 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
-      "Extra", "River", "Local", FALSE
     }
 build_time     = 2
 removal_time   = 0
@@ -1430,6 +1429,7 @@ reqs           =
       "TerrainClass", "Land", "Local", TRUE
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
+      "Extra", "River", "Local", FALSE
     }
 build_time     = 2
 removal_time   = 0
