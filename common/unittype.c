@@ -850,8 +850,30 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
 bool utype_is_consumed_by_action(const struct action *paction,
                                  const struct unit_type *utype)
 {
-  /* Only care about the action it self for now. */
-  return paction->actor_consuming_always;
+  if (paction->actor_consuming_always) {
+    /* This action will always consume the unit no matter who it is. */
+    return TRUE;
+  }
+
+  /* FIXME: Since the actions listed below can be predicted to always
+   * consume the actor unit based on unit type alone they should probably
+   * be split in an actor consuming and a non actor consuming version. */
+  switch (paction->id) {
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_STEAL_MAPS:
+  case ACTION_SPY_NUKE:
+    /* A Spy has a chance to escape after performing the action. */
+    return !utype_has_flag(utype, UTYF_SPY);
+  default:
+    return FALSE;
+  }
 }
 
 /****************************************************************************
