@@ -23,6 +23,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "unithand.h"
+#include "unittools.h"
 
 #include "actiontools.h"
 
@@ -32,6 +33,25 @@ typedef void (*action_notify)(struct player *,
                               struct player *,
                               const struct tile *,
                               const char *);
+
+/**************************************************************************
+  Wipe an actor if the action it successfully performed consumed it.
+**************************************************************************/
+void action_success_actor_consume(struct action *paction,
+                                  int actor_id, struct unit *actor)
+{
+  if (unit_is_alive(actor_id)
+      && utype_is_consumed_by_action(paction, unit_type_get(actor))) {
+    if (action_has_result(paction, ACTION_DISBAND_UNIT)
+        || action_has_result(paction, ACTION_RECYCLE_UNIT)) {
+      wipe_unit(actor, ULR_DISBANDED, NULL);
+    } else if (action_has_result(paction, ACTION_NUKE)) {
+      wipe_unit(actor, ULR_DETONATED, NULL);
+    } else {
+      wipe_unit(actor, ULR_USED, NULL);
+    }
+  }
+}
 
 /**************************************************************************
   Give the victim a casus belli against the offender.

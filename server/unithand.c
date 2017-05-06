@@ -2227,6 +2227,7 @@ bool unit_perform_action(struct player *pplayer,
   if (pcity                                                               \
       && is_action_enabled_unit_on_city(action_type,                      \
                                        actor_unit, pcity)) {              \
+    bool success;                                                         \
     script_server_signal_emit("action_started_unit_city", 3,              \
                               API_TYPE_ACTION, action_by_number(action),  \
                               API_TYPE_UNIT, actor,                       \
@@ -2239,7 +2240,11 @@ bool unit_perform_action(struct player *pplayer,
       /* Target city was destroyed during pre action Lua. */              \
       return FALSE;                                                       \
     }                                                                     \
-    return action_performer;                                              \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_consume(paction, actor_id, actor);             \
+    }                                                                     \
+    return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    pcity ? city_owner(pcity) : NULL, NULL, pcity, NULL,   \
@@ -2249,6 +2254,7 @@ bool unit_perform_action(struct player *pplayer,
 #define ACTION_STARTED_UNIT_SELF(action, actor, action_performer)         \
   if (actor_unit                                                          \
       && is_action_enabled_unit_on_self(action_type, actor_unit)) {       \
+    bool success;                                                         \
     script_server_signal_emit("action_started_unit_self", 2,              \
                               API_TYPE_ACTION, action_by_number(action),  \
                               API_TYPE_UNIT, actor);                      \
@@ -2256,7 +2262,11 @@ bool unit_perform_action(struct player *pplayer,
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
     }                                                                     \
-    return action_performer;                                              \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_consume(paction, actor_id, actor);             \
+    }                                                                     \
+    return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    unit_owner(actor_unit), NULL, NULL, actor_unit,        \
@@ -2266,6 +2276,7 @@ bool unit_perform_action(struct player *pplayer,
 #define ACTION_STARTED_UNIT_UNIT(action, actor, target, action_performer) \
   if (punit                                                               \
       && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
+    bool success;                                                         \
     script_server_signal_emit("action_started_unit_unit", 3,              \
                               API_TYPE_ACTION, action_by_number(action),  \
                               API_TYPE_UNIT, actor,                       \
@@ -2278,7 +2289,11 @@ bool unit_perform_action(struct player *pplayer,
       /* Target unit was destroyed during pre action Lua. */              \
       return FALSE;                                                       \
     }                                                                     \
-    return action_performer;                                              \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_consume(paction, actor_id, actor);             \
+    }                                                                     \
+    return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    punit ? unit_owner(punit) : NULL, NULL, NULL, punit,   \
@@ -2289,6 +2304,7 @@ bool unit_perform_action(struct player *pplayer,
   if (target_tile                                                         \
       && is_action_enabled_unit_on_units(action_type,                     \
                                          actor_unit, target_tile)) {      \
+    bool success;                                                         \
     script_server_signal_emit("action_started_unit_units", 3,             \
                               API_TYPE_ACTION, action_by_number(action),  \
                               API_TYPE_UNIT, actor,                       \
@@ -2297,7 +2313,11 @@ bool unit_perform_action(struct player *pplayer,
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
     }                                                                     \
-    return action_performer;                                              \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_consume(paction, actor_id, actor);             \
+    }                                                                     \
+    return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? tile_owner(target_tile) : NULL,          \
@@ -2309,6 +2329,7 @@ bool unit_perform_action(struct player *pplayer,
   if (target_tile                                                         \
       && is_action_enabled_unit_on_tile(action_type,                      \
                                         actor_unit, target_tile)) {       \
+    bool success;                                                         \
     script_server_signal_emit("action_started_unit_tile", 3,              \
                               API_TYPE_ACTION, action_by_number(action),  \
                               API_TYPE_UNIT, actor,                       \
@@ -2317,7 +2338,11 @@ bool unit_perform_action(struct player *pplayer,
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
     }                                                                     \
-    return action_performer;                                              \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_consume(paction, actor_id, actor);             \
+    }                                                                     \
+    return success;                                                       \
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    NULL, target_tile, NULL, NULL,                         \
@@ -2619,8 +2644,6 @@ static bool do_unit_disband(struct player *pplayer, struct unit *punit)
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
 
-  wipe_unit(punit, ULR_DISBANDED, NULL);
-
   /* The unit is now disbanded. */
   return TRUE;
 }
@@ -2663,8 +2686,6 @@ static bool unit_do_recycle(struct player *pplayer,
                 city_link(pcity));
 
   send_city_info(city_owner(pcity), pcity);
-
-  wipe_unit(punit, ULR_DISBANDED, NULL);
 
   /* The unit is now recycled. */
   return TRUE;
@@ -2720,7 +2741,6 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   action_id_consequence_success(ACTION_JOIN_CITY, pplayer,
                                 city_owner(pcity), city_tile(pcity),
                                 city_link(pcity));
-  wipe_unit(punit, ULR_USED, NULL);
 
   sanity_check_city(pcity);
 
@@ -2769,7 +2789,6 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 
     city_change_size(pcity, size, nationality, NULL);
   }
-  wipe_unit(punit, ULR_USED, NULL);
 
   /* May cause an incident even if the target tile is unclaimed. A ruleset
    * could give everyone a casus belli against the city founder. A rule
@@ -3153,7 +3172,13 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 
   dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
+  /* A nuke is always consumed when it detonates. See below. */
+  fc_assert(action_by_number(ACTION_NUKE)->actor_consuming_always);
+
+  /* The nuke must be wiped here so it won't be seen as a victim of its own
+   * detonation. */
   wipe_unit(punit, ULR_DETONATED, NULL);
+
   do_nuclear_explosion(pplayer, def_tile);
 
   /* May cause an incident even if the target tile is unclaimed. A ruleset
@@ -3774,7 +3799,6 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                   work);
   }
 
-  wipe_unit(punit, ULR_USED, NULL);
   send_player_info_c(pplayer, pplayer->connections);
   send_city_info(pplayer, pcity_dest);
   conn_list_do_unbuffer(pplayer->connections);
@@ -3978,7 +4002,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
                   destcity_link,
                   goods_str);
   }
-  wipe_unit(punit, ULR_USED, NULL);
 
   if (bonus_type == TBONUS_GOLD || bonus_type == TBONUS_BOTH) {
     pplayer->economic.gold += revenue;

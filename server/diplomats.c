@@ -245,9 +245,9 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
 
   /* The actor unit always survive unless the action it self has determined
    * to always consume it. */
-  if (utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
-    wipe_unit(pdiplomat, ULR_USED, NULL);
-  } else {
+  if (!utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
+    /* This unit isn't about to be consumed. Send updated unit information
+     * to the clients. */
     send_unit_info(NULL, pdiplomat);
   }
 
@@ -343,9 +343,9 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
 
   /* The actor unit always survive unless the action it self has determined
    * to always consume it. */
-  if (utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
-    wipe_unit(pdiplomat, ULR_USED, NULL);
-  } else {
+  if (!utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
+    /* This unit isn't about to be consumed. Send updated unit information
+     * to the clients. */
     send_unit_info(NULL, pdiplomat);
   }
 
