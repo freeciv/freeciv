@@ -1359,12 +1359,14 @@ flags          = "NativeTile"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
 once the underlying fort is complete; and cannot be built on River tiles.\
-"), _("\
-Compared to a fort, units in a fortress receive extra defense against \
-land units and boats (in total, their defense is doubled), must be \
-defeated one at a time, and do not count as aggressive if near a friendly \
-city. Any kind of land unit remaining in a fortress for a whole turn \
-without moving recovers a quarter of its hit points.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Compared to a fort, units in a fortress receive extra defense (+50%) \
+against all units (in total, their defense against land units and boats \
+is doubled), and do not count as aggressive if near a friendly city. \
+Any kind of land unit remaining in a fortress for a whole turn without \
+moving recovers a quarter of its hit points.\
 "), _("\
 With Astronomy, fortresses gain watchtowers from which units can see \
 further afield.\
@@ -1440,12 +1442,14 @@ helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
 begin once the underlying airstrip is complete; and cannot be built on \
 River tiles.\
-"), _("\
-Compared to an airstrip, units in an airbase receive extra defense \
-against enemy air units (in total, their defense is doubled), must be \
-defeated one at a time, and do not count as aggressive if near a \
-friendly city. Also, air units recover more hit points (a third \
-per turn, the same as in a city without an Airport).\
+"),
+; /* xgettext:no-c-format */
+_("\
+Compared to an airstrip, units in an airbase receive extra defense (+50%) \
+against all units (in total, their defense against air units and missiles \
+is doubled), and do not count as aggressive if near a friendly city. \
+Also, air units recover more hit points (a third per turn, the same as in a \
+city without an Airport).\
 ")
 
 [extra_buoy]
