@@ -42,6 +42,9 @@ void action_consequence_success(const struct action *paction,
 action_consequence_success(action_by_number(action_id), offender,         \
                            victim_player, victim_tile, victim_link)
 
+void action_success_actor_consume(struct action *paction,
+                                  int actor_id, struct unit *actor);
+
 struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
                              bool accept_all_actions);
 
