@@ -252,6 +252,19 @@ bool is_extra_needed(struct extra_type *pextra, requirers_cb cb,
 }
 
 /**************************************************************************
+  Check if anything in ruleset needs terrain type
+**************************************************************************/
+bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data)
+{
+  struct universal uni = { .value.terrain = pterr, .kind = VUT_TERRAIN };
+  bool needed = FALSE;
+
+  needed |= is_universal_needed(&uni, cb, data);
+
+  return needed;
+}
+
+/**************************************************************************
   Check if anything in ruleset needs government
 **************************************************************************/
 bool is_government_needed(struct government *pgov, requirers_cb cb, void *data)
