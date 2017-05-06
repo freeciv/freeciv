@@ -268,20 +268,31 @@ Mountains                +100%    +200%
 
 RIVER                    +25%     +50%
 
-FORTIFIED                +50%     (=)
-(only Land and Big Land units can fortify; inside cities, they are
-always considered fortified)
-
 VETERAN
 Veteran                  +50%     (=)
 Hardened                 +75%     (=)
 Elite                    +100%    (=)
 
-BASE
-Fort     (vs Land/Sea)   +50%
-Fortress (vs Land/Sea)   +100%    (=)
-Airstrip (vs Air)        +50%
-Airbase  (vs Air)        +100%    +0%
+FORTIFIED                +50%     (=)
+(only Land and Big Land units can fortify; inside cities, they are
+always considered fortified)
+
+BASE             VS LAND  VS SEA   VS AIR   VS MISSILE
+Fort             +50%     +50%     +0%      +0%
+Fortress         +100%    +100%    +50%     +50%
+Airstrip         +0%      +0%      +50%     +50%
+Airbase          +50%     +50%     +100%    +100%
+
+CITY             VS LAND  VS SEA   VS AIR   VS MISSILE
+Town (Pop<=8)    +50%     +0%      +0%      +0%
+City (Pop>8)     +100%    +50%     +0%      +0%
+
+Buildings each add:
+Walls            +100%    +0%      +0%      +0%
+Great Wall(W)    +50%     +0%      +0%      +0%
+Coastal Defense  +0%      +100%    +0%      +0%
+SAM Battery      +0%      +0%      +100%    +0%
+SDI Defense      +0%      +0%      +0%      +100%
 
 - Every City of any size receives an inherent Defend_Bonus = +50%
   against all kinds of land units.
@@ -294,21 +305,6 @@ Airbase  (vs Air)        +100%    +0%
 
 - Great Wall gives additional Defend_Bonus = +50% against Land units,
   and prevents population loss in any city when a defending unit loses.
-
-The total city defense is similar to classic ruleset, but here cities
-receive some wall bonus for free, and large cities receive an extra
-bonus, as in civ3:
-
-CITY             VS LAND  VS SEA   VS AIR   VS MISSILE
-Town (Pop<=8)    +50%(+)  +0%(=)   +0%(=)   +0%(=)
-City (Pop>8)     +100%(+) +50%(+)  +0%(=)   +0%(=)
-
-Buildings each add:
-Walls            +100%    +0%      +0%      +0%
-Great Wall(W)    +50%     +0%      +0%      +0%
-Coastal Defense  +0%      +100%    +0%      +0%
-SAM Battery      +0%      +0%      +100%    +0%
-SDI Defense      +0%      +0%      +0%      +100%
 
 Total Defense = (UNIT DEFENSE) * (100+TERRAIN)/100 * (100+RIVER)/100
  * (100+CITY+BASE)/100 * (100+FORTIFIED)/100 * (100+VETERAN)/100
@@ -890,8 +886,10 @@ Changes:
 - Reduced by one the gold upkeep of Aqueduct, Bank, Stock Exchange, Port
   Facility and SDI Defense.
 - Added Fort and Airstrip bases, required before you can build Fortress
-  or Airbase, respectively. The bases no longer protect full stacks from
-  being killed when one unit is defeated.
+  or Airbase, respectively. Fortresses give more protection against land
+  and sea units, while airbases are better against air units and missiles.
+- The bases no longer protect full stacks from being killed when one unit
+  is defeated, and do not affect the national borders.
 - Introduced Maglev, available with Superconductors, that allows
   unlimited movement for Land units (except Big Land and Merchant
   classes).
@@ -950,10 +948,6 @@ Units:
   advantage of terrain defense bonuses. Wheeled units can move to
   fortress even if not roaded. Fixed bug that kept them from entering
   Glacier tiles.
-- Fortresses do not affect national borders, and do not protect against
-  Air units nor Missiles (they do protect against Land and Sea units,
-  included those with CityBuster). Airbases do protect against Air units
-  (+100% defend bonus).
 - Rebalanced ancient units. Reduced defense of Archers to 1 and cost to
   20 (no IgZoc). Reduced cost of Legion to 30. Increased attack of
   Chariot to 4, attack of Elephant to 3, and defense of Knights to 3.
