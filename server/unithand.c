@@ -2139,7 +2139,8 @@ void handle_unit_action_query(struct connection *pc,
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
-      spy_send_sabotage_list(pc, pactor, pcity, action_type);
+      spy_send_sabotage_list(pc, pactor, pcity,
+                             action_by_number(action_type));
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
@@ -2353,12 +2354,12 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_SPY_BRIBE_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              diplomat_bribe(pplayer, actor_unit, punit,
-                                            action_type));
+                                            paction));
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              spy_sabotage_unit(pplayer, actor_unit,
-                                               punit, action_type));
+                                               punit, paction));
     break;
   case ACTION_EXPEL_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
@@ -2375,17 +2376,17 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_SPY_SABOTAGE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
-                                               B_LAST, action_type));
+                                               B_LAST, paction));
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
-                                               value - 1, action_type));
+                                               value - 1, paction));
     break;
   case ACTION_SPY_POISON:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_poison(pplayer, actor_unit, pcity,
-                                        action_type));
+                                        paction));
     break;
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
@@ -2405,27 +2406,27 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_SPY_INCITE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_incite(pplayer, actor_unit, pcity,
-                                             action_type));
+                                             paction));
     break;
   case ACTION_SPY_STEAL_TECH:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
-                                               A_UNSET, action_type));
+                                               A_UNSET, paction));
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
-                                               value, action_type));
+                                               value, paction));
     break;
   case ACTION_SPY_STEAL_GOLD:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_steal_gold(pplayer, actor_unit, pcity,
-                                            action_type));
+                                            paction));
     break;
   case ACTION_STEAL_MAPS:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_steal_some_maps(pplayer, actor_unit,
-                                                 pcity, action_type));
+                                                 pcity, paction));
     break;
   case ACTION_TRADE_ROUTE:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -2445,7 +2446,7 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_SPY_NUKE:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_nuke_city(pplayer, actor_unit, pcity,
-                                           action_type));
+                                           paction));
     break;
   case ACTION_JOIN_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
