@@ -4431,7 +4431,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         CATLSTR(buf, bufsz,
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
-        if (utype_has_flag(utype, UTYF_SPY)) {
+        if (utype_has_flag(utype, UTYF_SPY) &&
+            (utype_can_do_action(utype, ACTION_SPY_POISON)
+             || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT)
+             || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH)
+             || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH)
+             || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY)
+             || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY)
+             || utype_can_do_action(utype, ACTION_SPY_TARGETED_SABOTAGE_CITY)
+             || utype_can_do_action(utype, ACTION_SPY_STEAL_GOLD))) {
           CATLSTR(buf, bufsz,
                   _("  * Veterans are more likely to survive missions.\n"));
         }
