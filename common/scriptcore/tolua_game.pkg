@@ -144,6 +144,9 @@ module Player {
       @ id (lua_State *L, Player *self);
   }
 
+  const char *api_methods_player_controlling_gui
+    @ controlling_gui (lua_State *L, Player *self);
+
   int api_methods_player_num_cities
     @ num_cities (lua_State *L, Player *self);
   int api_methods_player_num_units

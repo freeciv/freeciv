@@ -405,6 +405,30 @@ const char *api_methods_nation_type_plural_translation(lua_State *L,
 }
 
 /*****************************************************************************
+  Return gui type string of the controlling connection.
+*****************************************************************************/
+const char *api_methods_player_controlling_gui(lua_State *L, Player *pplayer)
+{
+  struct connection *conn = NULL;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (!pconn->observer) {
+      conn = pconn;
+      break;
+    }
+  } conn_list_iterate_end;
+
+  if (conn == NULL) {
+    return "None";
+  }
+
+  return gui_type_name(conn->client_gui);
+}
+
+/*****************************************************************************
   Return TRUE iff player has wonder
 *****************************************************************************/
 bool api_methods_player_has_wonder(lua_State *L, Player *pplayer,

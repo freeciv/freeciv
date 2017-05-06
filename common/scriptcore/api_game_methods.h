@@ -77,6 +77,7 @@ const char *api_methods_nation_type_plural_translation(lua_State *L,
                                                        Nation_Type *pnation);
 
 /* Player */
+const char *api_methods_player_controlling_gui(lua_State *L, Player *pplayer);
 bool api_methods_player_has_wonder(lua_State *L, Player *pplayer,
                                    Building_Type *building);
 int api_methods_player_number(lua_State *L, Player *pplayer);
