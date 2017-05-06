@@ -69,12 +69,14 @@ static bool diplomat_was_caught(struct player *act_player,
                                 struct player *tgt_player,
                                 const struct action *act);
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
-                            const struct city *pcity);
+                            const struct city *pcity,
+                            const struct action *paction);
 static void diplomat_escape_full(struct player *pplayer,
                                  struct unit *pdiplomat,
                                  bool city_related,
                                  struct tile *ptile,
-                                 const char *vlink);
+                                 const char *vlink,
+                                 const struct action *paction);
 
 /******************************************************************************
   Poison a city's water supply.
@@ -155,7 +157,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   action_consequence_success(paction, pplayer, cplayer, ctile, clink);
 
   /* Now lets see if the spy survives. */
-  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
+  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink, paction);
 
   return TRUE;
 }
@@ -436,7 +438,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                              unit_tile(pvictim), victim_link);
 
   /* Now lets see if the spy survives. */
-  diplomat_escape(pplayer, pdiplomat, NULL);
+  diplomat_escape(pplayer, pdiplomat, NULL, paction);
 
   return TRUE;
 }
@@ -763,8 +765,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   action_consequence_success(paction, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
-  /* Check if a spy survives her mission. Diplomats never do. */
-  diplomat_escape(pplayer, pdiplomat, pcity);
+  /* Check if a spy survives her mission. */
+  diplomat_escape(pplayer, pdiplomat, pcity, paction);
 
   return TRUE;
 }
@@ -899,11 +901,11 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                               API_TYPE_STRING, "incited");
   }
 
-  /* Check if a spy survives her mission. Diplomats never do.
+  /* Check if a spy survives her mission.
    * _After_ transferring the city, or the city area is first fogged
    * when the diplomat is removed, and then unfogged when the city
    * is transferred. */
-  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink);
+  diplomat_escape_full(pplayer, pdiplomat, TRUE, ctile, clink, paction);
 
   /* Update the players gold in the client */
   send_player_info_c(pplayer, pplayer->connections);
@@ -1177,8 +1179,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   action_consequence_success(paction, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
-  /* Check if a spy survives her mission. Diplomats never do. */
-  diplomat_escape(pplayer, pdiplomat, pcity);
+  /* Check if a spy survives her mission. */
+  diplomat_escape(pplayer, pdiplomat, pcity, paction);
 
   return TRUE;
 }
@@ -1313,7 +1315,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   /* Try to escape. */
   diplomat_escape_full(act_player, act_unit, TRUE,
-                       tgt_tile, tgt_city_link);
+                       tgt_tile, tgt_city_link, paction);
 
   /* Update the players' gold in the client */
   send_player_info_c(act_player, act_player->connections);
@@ -1422,7 +1424,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   /* Try to escape. */
   diplomat_escape_full(act_player, act_unit, TRUE,
-                       tgt_tile, tgt_city_link);
+                       tgt_tile, tgt_city_link, paction);
 
   return TRUE;
 }
@@ -1510,7 +1512,13 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
 
   /* Try to escape before the blast. */
   diplomat_escape_full(act_player, act_unit, TRUE,
-                       tgt_tile, tgt_city_link);
+                       tgt_tile, tgt_city_link, paction);
+
+  if (utype_is_consumed_by_action(paction, unit_type_get(act_unit))) {
+    /* The unit must be wiped here so it won't be seen as a victim of the
+     * detonation of its own nuke. */
+    wipe_unit(act_unit, ULR_USED, NULL);
+  }
 
   /* TODO: In real life a suitcase nuke is way less powerful than an ICBM.
    * Maybe the size of the suitcase nuke explosion should be ruleset
@@ -1847,7 +1855,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
     - Escapee may become a veteran.
 **************************************************************************/
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
-                            const struct city *pcity)
+                            const struct city *pcity,
+                            const struct action *paction)
 {
   struct tile *ptile;
   const char *vlink;
@@ -1861,7 +1870,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   }
 
   return diplomat_escape_full(pplayer, pdiplomat, pcity != NULL,
-                              ptile, vlink);
+                              ptile, vlink, paction);
 }
 
 /**************************************************************************
@@ -1877,7 +1886,8 @@ static void diplomat_escape_full(struct player *pplayer,
                                  struct unit *pdiplomat,
                                  bool city_related,
                                  struct tile *ptile,
-                                 const char *vlink)
+                                 const char *vlink,
+                                 const struct action *paction)
 {
   int escapechance;
   struct city *spyhome;
@@ -1899,7 +1909,7 @@ static void diplomat_escape_full(struct player *pplayer,
                               FALSE, FALSE, TRUE, FALSE, NULL);
 
   if (spyhome
-      && unit_has_type_flag(pdiplomat, UTYF_SPY)
+      && !utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))
       && (unit_has_type_flag(pdiplomat, UTYF_SUPERSPY)
           || fc_rand (100) < escapechance)) {
     /* Attacking Spy/Diplomat survives. */
@@ -1935,10 +1945,11 @@ static void diplomat_escape_full(struct player *pplayer,
     }
   }
 
-  wipe_unit(pdiplomat,
-            /* A non Spy can't escape. It is therefore spent, not caught. */
-            unit_has_type_flag(pdiplomat, UTYF_SPY) ? ULR_CAUGHT : ULR_USED,
-            NULL);
+  if (!utype_is_consumed_by_action(paction, unit_type_get(pdiplomat))) {
+    /* The unit was caught, not spent. It must therefore be deleted by
+     * hand. */
+    wipe_unit(pdiplomat, ULR_CAUGHT, NULL);
+  }
 }
 
 /**************************************************************************
