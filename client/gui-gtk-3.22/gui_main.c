@@ -1437,9 +1437,9 @@ static void setup_widgets(void)
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
 
-  
+
   if (GUI_GTK_OPTION(small_display_layout)) {
-    gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
+    gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, FALSE);
   } else if (GUI_GTK_OPTION(message_chat_location) == GUI_GTK_MSGCHAT_MERGED) {
     right_vbox = gtk_grid_new();
 
