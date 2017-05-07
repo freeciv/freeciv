@@ -11,6 +11,8 @@ libcivutility_la_SOURCES = \
 		astring.h       \
 		bitvector.c     \
 		bitvector.h     \
+		bugs.c		\
+		bugs.h		\
 		capability.c	\
 		capability.h	\
 		deprecations.c	\

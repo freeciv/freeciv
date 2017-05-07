@@ -50,6 +50,7 @@
 #endif
 
 /* utility */
+#include "bugs.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -88,10 +89,8 @@ static void set_socket_errno(void)
       errno = err;
       return;
     default:
-      log_error("Missing errno mapping for Winsock error #%d.", err);
-      /* TRANS: No full stop after the URL, could cause confusion. */
-      log_error(_("Please report this message at %s"), BUG_URL);
-
+      bugreport_request("Missing errno mapping for Winsock error #%d.", err);
+ 
       errno = 0;
   }
 }

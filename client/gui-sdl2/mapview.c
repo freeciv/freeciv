@@ -32,6 +32,7 @@
 
 /* utility */
 #include "astring.h"
+#include "bugs.h"
 #include "fcintl.h"
 #include "log.h"
 
@@ -164,10 +165,8 @@ void queue_flush(void)
       /* We don't want to set is_flush_queued in this case, since then
        * the flush code would simply stop working.  But this means the
        * below message may be repeated many times. */
-      log_error(_("Failed to add events to SDL2 event buffer: %s"),
-                SDL_GetError());
-      /* TRANS: No full stop after the URL, could cause confusion. */
-      log_error(_("Please report this message at %s"), BUG_URL);
+      bugreport_request(_("Failed to add events to SDL2 event buffer: %s"),
+                        SDL_GetError());
     }
   }
 }

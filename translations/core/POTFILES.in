@@ -392,6 +392,7 @@ server/unithand.c
 server/unittools.c
 server/voting.c
 utility/astring.c
+utility/bugs.c
 utility/fc_cmdline.c
 utility/fciconv.c
 utility/inputfile.c

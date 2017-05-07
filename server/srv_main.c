@@ -45,6 +45,7 @@
 /* utility */
 #include "astring.h"
 #include "bitvector.h"
+#include "bugs.h"
 #include "capability.h"
 #include "fc_cmdline.h"
 #include "fciconv.h"
@@ -2976,9 +2977,8 @@ static void srv_ready(void)
       }
     }
     if (!created) {
-      log_error(_("Cannot create suitable map with given settings."));
-       /* TRANS: No full stop after the URL, could cause confusion. */
-      log_error(_("Please report this message at %s"), BUG_URL);
+      bugreport_request(_("Cannot create suitable map with given settings."));
+
       exit(EXIT_FAILURE);
     }
 

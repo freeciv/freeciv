@@ -21,6 +21,7 @@
 #endif
 
 /* utility */
+#include "bugs.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -420,10 +421,8 @@ static void handle_city(struct city *pcity)
 
     cma_release_city(pcity);
 
-    log_error("handle_city() CMA: %s has changed multiple times.",
-              city_name_get(pcity));
-    /* TRANS: No full stop after the URL, could cause confusion. */
-    log_error(_("Please report this message at %s"), BUG_URL);
+    bugreport_request("handle_city() CMA: %s has changed multiple times.",
+                      city_name_get(pcity));
   }
 
   log_handle_city2("END handle city=(%d)", city_id);

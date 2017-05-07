@@ -158,6 +158,7 @@
 
 /* utility */
 #include "astring.h"
+#include "bugs.h"
 #include "deprecations.h"
 #include "fcintl.h"
 #include "inputfile.h"
@@ -775,14 +776,12 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
                  * FIXME: If the first row is missing some entries that the
                  * second or later row has, then we'll drop out of tabular
                  * format without an error message. */
-                log_error("In file %s, there is no entry in the registry for\n"
-                          "%s.%s (or the entries are out of order). This means\n"
-                          "a less efficient non-tabular format will be used.\n"
-                          "To avoid this make sure all rows of a table are\n"
-                          "filled out with an entry for every column.",
-                          real_filename, section_name(psection), expect);
-                /* TRANS: No full stop after the URL, could cause confusion. */
-                log_error(_("Please report this message at %s"), BUG_URL);
+                bugreport_request("In file %s, there is no entry in the registry for\n"
+                                  "%s.%s (or the entries are out of order). This means\n"
+                                  "a less efficient non-tabular format will be used.\n"
+                                  "To avoid this make sure all rows of a table are\n"
+                                  "filled out with an entry for every column.",
+                                  real_filename, section_name(psection), expect);
                 fz_fprintf(fs, "\n");
               }
               fz_fprintf(fs, "}\n");
