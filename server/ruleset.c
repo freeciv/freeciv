@@ -3274,7 +3274,7 @@ static bool load_ruleset_terrain(struct section_file *file,
         vis_req = advance_by_rule_name(vis_req_name);
 
         if (vis_req == NULL) {
-          ruleset_error(LOG_ERROR, "\%s\" %s: unkniwn visibility_req %s.",
+          ruleset_error(LOG_ERROR, "\%s\" %s: unknown visibility_req %s.",
                         filename, section, vis_req_name);
           ok = FALSE;
           break;
