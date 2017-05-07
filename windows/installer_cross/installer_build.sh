@@ -30,7 +30,9 @@ add_gtk3_env() {
   cp $1/bin/libpng16-16.dll $2/ &&
   cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
-  cp $1/bin/libharfbuzz-0.dll $2/
+  cp $1/bin/libharfbuzz-0.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/
 }
 
 add_sdl2_mixer_env() {
