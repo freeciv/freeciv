@@ -1762,7 +1762,7 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
                             API_TYPE_STRING, unit_loss_reason_name(reason));
 
   script_server_remove_exported_object(punit);
-  game_remove_unit(punit);
+  game_remove_unit(&wld, punit);
   punit = NULL;
 
   if (NULL != ptrans) {

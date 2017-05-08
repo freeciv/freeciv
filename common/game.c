@@ -138,7 +138,7 @@ struct unit *game_unit_by_number(int id)
 /**************************************************************************
   In the server call wipe_unit(), and never this function directly.
 **************************************************************************/
-void game_remove_unit(struct unit *punit)
+void game_remove_unit(struct world *gworld, struct unit *punit)
 {
   struct city *pcity;
 
@@ -181,7 +181,7 @@ void game_remove_unit(struct unit *punit)
   unit_list_remove(unit_tile(punit)->units, punit);
   unit_list_remove(unit_owner(punit)->units, punit);
 
-  idex_unregister_unit(&wld, punit);
+  idex_unregister_unit(gworld, punit);
 
   if (game.callbacks.unit_deallocate) {
     (game.callbacks.unit_deallocate)(punit->id);
@@ -192,7 +192,7 @@ void game_remove_unit(struct unit *punit)
 /**************************************************************************
   Remove city from game.
 **************************************************************************/
-void game_remove_city(struct city *pcity)
+void game_remove_city(struct world *gworld, struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
@@ -220,7 +220,7 @@ void game_remove_city(struct city *pcity)
     } city_tile_iterate_end;
   }
 
-  idex_unregister_city(&wld, pcity);
+  idex_unregister_city(gworld, pcity);
   destroy_city_virtual(pcity);
 }
 

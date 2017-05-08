@@ -94,7 +94,7 @@ void client_remove_unit(struct unit *punit)
   }
 
   control_unit_killed(punit);
-  game_remove_unit(punit);
+  game_remove_unit(&wld, punit);
   punit = NULL;
   if (old > 0 && get_num_units_in_focus() == 0) {
     unit_focus_advance();
@@ -153,7 +153,7 @@ void client_remove_city(struct city *pcity)
   }
 
   popdown_city_dialog(pcity);
-  game_remove_city(pcity);
+  game_remove_city(&wld, pcity);
   city_report_dialog_update();
   refresh_city_mapcanvas(&old_city, ptile, TRUE, FALSE);
 }

@@ -669,11 +669,11 @@ void player_clear(struct player *pplayer, bool full)
       punit->client.transported_by = -1;
     }
 
-    game_remove_unit(punit);
+    game_remove_unit(&wld, punit);
   } unit_list_iterate_end;
 
   city_list_iterate(pplayer->cities, pcity) {
-    game_remove_city(pcity);
+    game_remove_city(&wld, pcity);
   } city_list_iterate_end;
 
   if (full) {

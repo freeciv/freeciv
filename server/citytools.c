@@ -1780,7 +1780,7 @@ void remove_city(struct city *pcity)
   } players_iterate_end;
 
   fc_allocate_mutex(&game.server.mutexes.city_list);
-  game_remove_city(pcity);
+  game_remove_city(&wld, pcity);
   fc_release_mutex(&game.server.mutexes.city_list);
 
   /* Remove any extras that were only there because the city was there. */
