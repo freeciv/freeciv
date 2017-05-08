@@ -53,6 +53,7 @@
 #include "climisc.h"
 #include "connectdlg_common.h"
 #include "global_worklist.h"
+#include "mapctrl_common.h"
 #include "mapview_common.h"
 #include "music.h"
 #include "overview_common.h"
@@ -1848,6 +1849,7 @@ static const struct copt_val_name
 /* Some changed callbacks. */
 static void reqtree_show_icons_callback(struct option *poption);
 static void view_option_changed_callback(struct option *poption);
+static void manual_turn_done_callback(struct option *poption);
 static void voteinfo_bar_callback(struct option *poption);
 static void font_changed_callback(struct option *poption);
 static void mapimg_changed_callback(struct option *poption);
@@ -2172,7 +2174,7 @@ static struct client_option client_options[] = {
                   N_("Disable this option if you do not want to "
                      "press the Turn Done button manually when watching "
                      "an AI player."),
-                  COC_INTERFACE, GUI_STUB, TRUE, NULL),
+                  COC_INTERFACE, GUI_STUB, TRUE, manual_turn_done_callback),
   GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto center on units"),
                   N_("Set this option to have the active unit centered "
                      "automatically when the unit focus changes."),
@@ -6288,6 +6290,19 @@ static void view_option_changed_callback(struct option *poption)
 {
   menus_init();
   update_map_canvas_visible();
+}
+
+/****************************************************************************
+  Callback for when ai_manual_turn_done is changed.
+****************************************************************************/
+static void manual_turn_done_callback(struct option *poption)
+{
+  update_turn_done_button_state();
+  if (!gui_options.ai_manual_turn_done && is_ai(client.conn.playing)) {
+    if (can_end_turn()) {
+      user_ended_turn();
+    }
+  }
 }
 
 /****************************************************************************
