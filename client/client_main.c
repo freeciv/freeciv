@@ -726,12 +726,12 @@ void user_ended_turn(void)
 **************************************************************************/
 void send_turn_done(void)
 {
-  log_debug("send_turn_done() turn_done_button_state=%d",
-            get_turn_done_button_state());
+  log_debug("send_turn_done() can_end_turn=%d",
+            can_end_turn());
 
-  if (!get_turn_done_button_state()) {
+  if (!can_end_turn()) {
     /*
-     * The turn done button is disabled but the user may have press
+     * The turn done button is disabled but the user may have pressed
      * the return key.
      */
 

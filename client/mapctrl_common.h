@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,6 +57,7 @@ void release_goto_button(int canvas_x, int canvas_y);
 void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y);
 
 bool get_turn_done_button_state(void);
+bool can_end_turn(void);
 void scroll_mapview(enum direction8 gui_dir);
 void action_button_pressed(int canvas_x, int canvas_y,
                 enum quickselect_type qtype);

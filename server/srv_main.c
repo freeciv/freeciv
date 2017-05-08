@@ -1783,7 +1783,8 @@ void check_for_full_turn_done(void)
    * timeout is set to -1 this function call is skipped entirely and the
    * server will run rampant. */
   players_iterate_alive(pplayer) {
-    if (pplayer->is_connected && !pplayer->ai_controlled) {
+    if (pplayer->is_connected
+        && (!pplayer->ai_controlled || pplayer->phase_done)) {
       connected = TRUE;
       break;
     }
@@ -1795,12 +1796,12 @@ void check_for_full_turn_done(void)
 
   phase_players_iterate(pplayer) {
     if (game.server.turnblock && !pplayer->ai_controlled && pplayer->is_alive
-	&& !pplayer->phase_done) {
+        && !pplayer->phase_done) {
       /* If turnblock is enabled check for human players, connected
        * or not. */
       return;
     } else if (pplayer->is_connected && pplayer->is_alive
-	       && !pplayer->phase_done) {
+               && !pplayer->phase_done) {
       /* In all cases, we wait for any connected players. */
       return;
     }
