@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "idex.h"
 #include "map.h"
 #include "world_object.h"
 
@@ -40,6 +41,7 @@ void texai_world_init(void)
 {
   map_init(&(texai_world.map), TRUE);
   map_allocate(&(texai_world.map));
+  idex_init(&texai_world);
 }
 
 /**************************************************************************
@@ -48,6 +50,7 @@ void texai_world_init(void)
 void texai_world_close(void)
 {
   map_free(&(texai_world.map));
+  idex_free(&texai_world);
 }
 
 /**************************************************************************
