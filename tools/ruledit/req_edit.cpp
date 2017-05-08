@@ -121,12 +121,10 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   add_button = new QPushButton(QString::fromUtf8(R__("Add Requirement")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
   reqedit_layout->addWidget(add_button, 0, 0);
-  show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Delete Requirement")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
   reqedit_layout->addWidget(delete_button, 1, 0);
-  show_experimental(delete_button);
 
   close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
   connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));

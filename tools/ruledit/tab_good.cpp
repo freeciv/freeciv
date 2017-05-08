@@ -84,7 +84,6 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
   good_layout->addWidget(reqs_button, 2, 2);
-  show_experimental(reqs_button);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Good")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));

@@ -84,7 +84,6 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
   bldg_layout->addWidget(reqs_button, 2, 2);
-  show_experimental(reqs_button);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
