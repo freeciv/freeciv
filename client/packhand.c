@@ -2255,6 +2255,10 @@ void handle_player_info(const struct packet_player_info *pinfo)
     if (pplayer == my_player)  {
       if (my_player->ai_controlled) {
         output_window_append(ftc_client, _("AI mode is now ON."));
+        if (!gui_options.ai_manual_turn_done && !pplayer->phase_done) {
+          /* End turn immediately */
+          user_ended_turn();
+        }
       } else {
         output_window_append(ftc_client, _("AI mode is now OFF."));
       }

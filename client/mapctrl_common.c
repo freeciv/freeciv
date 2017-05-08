@@ -517,8 +517,16 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 **************************************************************************/
 bool get_turn_done_button_state(void)
 {
+  return can_end_turn()
+    && (!client.conn.playing->ai_controlled || gui_options.ai_manual_turn_done);
+}
+
+/**************************************************************************
+  Return TRUE iff client can end turn.
+**************************************************************************/
+bool can_end_turn(void)
+{
   return (can_client_issue_orders()
-          && !client.conn.playing->ai_controlled
           && client.conn.playing->is_alive
           && !client.conn.playing->phase_done
           && !is_server_busy()
@@ -620,7 +628,7 @@ void recenter_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
- Update the turn done button state.
+  Update the turn done button state.
 **************************************************************************/
 void update_turn_done_button_state(void)
 {
@@ -628,11 +636,8 @@ void update_turn_done_button_state(void)
 
   set_turn_done_button_state(turn_done_state);
 
-  if (turn_done_state) {
-    if (waiting_for_end_turn
-        || (NULL != client.conn.playing
-            && client.conn.playing->ai_controlled
-            && !gui_options.ai_manual_turn_done)) {
+  if (can_end_turn()) {
+    if (waiting_for_end_turn) {
       send_turn_done();
     } else {
       update_turn_done_button(TRUE);

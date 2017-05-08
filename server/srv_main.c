@@ -1954,7 +1954,8 @@ void check_for_full_turn_done(void)
    * timeout is set to -1 this function call is skipped entirely and the
    * server will run rampant. */
   players_iterate_alive(pplayer) {
-    if (pplayer->is_connected && !pplayer->ai_controlled) {
+    if (pplayer->is_connected
+        && (!pplayer->ai_controlled || pplayer->phase_done)) {
       connected = TRUE;
       break;
     }
