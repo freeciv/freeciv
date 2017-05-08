@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2016.Sep.23"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.0-ai-module-2017.May.06"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -112,11 +112,21 @@ struct ai_type
     /* Called for player AI type when player phase ends. */
     void (*phase_finished)(struct player *pplayer);
 
-    /* Called for every AI type when new city is added to game. */
+    /* Called for every AI type when new city is added to game. Called even for
+     * virtual cities. */
     void (*city_alloc)(struct city *pcity);
 
-    /* Called for every AI type when city is removed from game. */
+    /* Called for every AI type when new city is removed from game. Called even for
+     * virtual cities. */
     void (*city_free)(struct city *pcity);
+
+    /* Called for every AI type when new city is added to game. Called for real cities
+     * only. */
+    void (*city_created)(struct city *pcity);
+
+    /* Called for every AI type when new city is removed from game. Called for real
+     * cities only. */
+    void (*city_destroyed)(struct city *pcity);
 
     /* Called for player AI type when player gains control of city. */
     void (*city_got)(struct player *pplayer, struct city *pcity);
@@ -158,11 +168,21 @@ struct ai_type
     /* Called for every AI type before unit ruleset gets reloaded. */
     void (*units_ruleset_close)(void);
 
-    /* Called for every AI type when new unit is added to game. */
+    /* Called for every AI type when new unit is added to game. Called even for
+     * virtual units. */
     void (*unit_alloc)(struct unit *punit);
 
-    /* Called for every AI type when unit is removed from game. */
+    /* Called for every AI type when unit is removed from game. Called even for
+     * virtual units. */
     void (*unit_free)(struct unit *punit);
+
+    /* Called for every AI type when new unit is added to game. Called for real
+     * units only. */
+    void (*unit_created)(struct unit *punit);
+
+    /* Called for every AI type when unit is removed from game. Called for real
+     * units only. */
+    void (*unit_destroyed)(struct unit *punit);
 
     /* Called for player AI type when player gains control of unit. */
     void (*unit_got)(struct unit *punit);
