@@ -1647,6 +1647,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   unit_get_goods(punit);
 
+  CALL_FUNC_EACH_AI(unit_created, punit);
   CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
 
   return punit;
@@ -1698,6 +1699,7 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
 #endif /* FREECIV_DEBUG */
 
   CALL_PLR_AI_FUNC(unit_lost, pplayer, punit);
+  CALL_FUNC_EACH_AI(unit_destroyed, punit);
 
   /* Save transporter for updating below. */
   ptrans = unit_transport_get(punit);

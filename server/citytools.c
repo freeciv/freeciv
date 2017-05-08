@@ -1599,6 +1599,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   script_server_signal_emit("city_built", 1,
                             API_TYPE_CITY, pcity);
 
+  CALL_FUNC_EACH_AI(city_created, pcity);
   CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
 }
 
@@ -1620,6 +1621,7 @@ void remove_city(struct city *pcity)
   const char *ctl = city_tile_link(pcity);
 
   CALL_PLR_AI_FUNC(city_lost, powner, powner, pcity);
+  CALL_FUNC_EACH_AI(city_destroyed, pcity);
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {

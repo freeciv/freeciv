@@ -599,6 +599,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.city_alloc = cai_city_alloc;
   ai->funcs.city_free = cai_city_free;
   /*
+    ai->funcs.city_created = NULL;
+    ai->funcs.city_destroyed = NULL;
     ai->funcs.city_got = NULL;
     ai->funcs.city_lost = NULL;
   */
@@ -622,6 +624,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   /*
     ai->funcs.unit_alloc = NULL;
     ai->funcs.unit_free = NULL;
+    ai->funcs.unit_created = NULL;
+    ai->funcs.unit_destroyed = NULL;
     ai->funcs.unit_got = dai_unit_init;
     ai->funcs.unit_lost = dai_unit_close;
   */
