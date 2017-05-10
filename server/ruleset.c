@@ -1093,6 +1093,7 @@ static bool load_game_names(struct section_file *file,
           }
         } goods_type_iterate_end;
       }
+      section_list_destroy(sec);
     }
   }
 
@@ -6741,6 +6742,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       pgood->helptext = lookup_strvec(file, sec_name, "helptext");
     } goods_type_iterate_end;
+    section_list_destroy(sec);
   }
 
   /* secfile_check_unused() is not here, but only after also settings section
