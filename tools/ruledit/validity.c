@@ -190,6 +190,16 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
     }
   } unit_type_iterate_end;
 
+  extra_type_iterate(pextra) {
+    if (pextra->visibility_req == advance_number(padv)) {
+      char buf[512];
+
+      fc_snprintf(buf, sizeof(buf), "%s visibility",
+                  extra_rule_name(pextra));
+      cb(buf, data);
+    }
+  } extra_type_iterate_end;
+
   needed |= is_universal_needed(&uni, cb, data);
 
   return needed;
