@@ -880,6 +880,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
   const bool is_ai = pplayer->ai_controlled;
+  int mcost;
 
   CHECK_UNIT(punit);
   fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
@@ -912,8 +913,9 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  if (punit->moves_left <= map_move_cost_unit(punit, ptile)
-      && unit_move_rate(punit) > map_move_cost_unit(punit, ptile)
+  mcost = map_move_cost_unit(punit, ptile);
+  if (punit->moves_left <= mcost
+      && unit_move_rate(punit) > mcost
       && adv_danger_at(punit, ptile)
       && !adv_danger_at(punit,  unit_tile(punit))) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
