@@ -143,7 +143,7 @@ if AI_MOD_STATIC_THREADED
 da_libs += $(top_builddir)/ai/threaded/libthreadedai.la
 endif
 if AI_MOD_STATIC_THREXPR
-da_libs += $(top_builddir)/ai/threxpr/libthrexprai.la
+da_libs += $(top_builddir)/ai/tex/libthrexprai.la
 endif
 if AI_MOD_STATIC_STUB
 da_libs += $(top_builddir)/ai/stub/libstubai.la

@@ -1756,7 +1756,7 @@ AC_CONFIG_FILES([Makefile
           ai/classic/Makefile
           ai/stub/Makefile
           ai/threaded/Makefile
-          ai/threxpr/Makefile
+          ai/tex/Makefile
 	  tests/Makefile
   	  windows/Makefile
 	  client/Makefile
