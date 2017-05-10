@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+bool universal_in_req_vec(const struct universal *uni,
+                          const struct requirement_vector *preqs);
+
 typedef void (*requirers_cb)(const char *msg, void *data);
 
 bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data);

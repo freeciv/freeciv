@@ -33,8 +33,8 @@
 /**************************************************************************
   Check if universal is mentioned in the requirement vector.
 **************************************************************************/
-static bool universal_in_req_vec(const struct universal *uni,
-                                 const struct requirement_vector *preqs)
+bool universal_in_req_vec(const struct universal *uni,
+                          const struct requirement_vector *preqs)
 {
   requirement_vector_iterate(preqs, preq) {
     if (are_universals_equal(uni, &preq->source)) {

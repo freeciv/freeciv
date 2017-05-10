@@ -25,6 +25,7 @@ freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = \
             meta_edit_utype.cpp \
+	    meta_effect_edit.cpp \
 	    meta_req_edit.cpp	\
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
@@ -42,6 +43,8 @@ MOC_FILES = \
 freeciv_ruledit_SOURCES =	\
 		edit_utype.cpp	\
 		edit_utype.h	\
+		effect_edit.cpp	\
+		effect_edit.h	\
 		tab_building.cpp \
 		tab_building.h	\
 		tab_enablers.cpp \

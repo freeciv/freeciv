@@ -11,51 +11,60 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__TAB_BUILDING_H
-#define FC__TAB_BUILDING_H
+#ifndef FC__EFFECT_EDIT_H
+#define FC__EFFECT_EDIT_H
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
 
 // Qt
-#include <QWidget>
+#include <QDialog>
+#include <QListWidget>
+#include <QToolButton>
 
-class QLineEdit;
-class QListWidget;
-class QRadioButton;
+// common
+#include "requirements.h"
 
 class ruledit_gui;
 
-class tab_building : public QWidget
+struct effect_list_fill_data
+{
+  struct universal *filter;
+  class effect_edit *edit;
+  int num;
+};
+
+class effect_edit : public QDialog
 {
   Q_OBJECT
 
   public:
-    explicit tab_building(ruledit_gui *ui_in);
+    explicit effect_edit(ruledit_gui *ui_in, QString target,
+                         struct universal *filter_in);
+    ~effect_edit();
     void refresh();
+    void add(const char *msg);
+    void add_effect_to_list(struct effect *peffect,
+                            struct effect_list_fill_data *data);
 
   private:
     ruledit_gui *ui;
-    void update_bldg_info(struct impr_type *pimpr);
-    bool initialize_new_bldg(struct impr_type *pimpr);
 
-    QLineEdit *name;
-    QLineEdit *rname;
-    QListWidget *bldg_list;
-    QRadioButton *same_name;
+    QListWidget *list_widget;
+    struct universal filter;
+    struct effect_list *effects;
 
-    struct impr_type *selected;
+    struct effect *selected;
+
+    QToolButton *edit_type_button;
 
   private slots:
-    void name_given();
-    void select_bldg();
-    void add_now2();   // "2" in name to workaround segfault on program start. Due to compiler bug?
-    void delete_now();
-    void same_name_toggle(bool checked);
-    void edit_reqs();
-    void edit_effects();
+    void select_effect();
+    void fill_active();
+    void close_now();
+
+    void effect_type_menu(QAction *action);
 };
 
-
-#endif // FC__TAB_BUILDING_H
+#endif // FC__EFFECT_EDIT_H
