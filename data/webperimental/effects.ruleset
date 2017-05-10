@@ -2145,7 +2145,7 @@ type    = "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
+      "Building", "Sun Tzu's War Academy", "Alliance", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "NonMil", "Local", FALSE
       "UnitFlag", "NoVeteran", "Local", FALSE
@@ -2156,7 +2156,7 @@ type    = "Veteran_Combat"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
-      "Building", "Sun Tzu's War Academy", "Player", TRUE
+      "Building", "Sun Tzu's War Academy", "Alliance", TRUE
       "UnitClass", "Land", "Local", TRUE
       "UnitFlag", "Diplomat", "Local", FALSE
     }

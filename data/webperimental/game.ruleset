@@ -91,7 +91,10 @@ position islands for all players.\n\
 - Railroads can't be used by enemy units by default. Regular roads can be \
 used by the enemy even if the restrictinfra server setting is enabled. \
 (The restrictinfra server setting is enabled by default.)\n\
-- Caravan and Freight can help allies to complete wonders.\n\
+- An alliance has more in game consequences:\n\
+  - Caravan and Freight can help allies to complete wonders.\n\
+  - Sun Tzu's War Academy gives its veteran bonus (combat and production) \
+to both its owner and to all his allies.\n\
 \n\
 This ruleset is still in development. If playing it makes you think that \
 a rule should change go to the Freeciv-web board at \
