@@ -946,10 +946,15 @@ bool dio_get_estring_json(json_t *json_packet,
   FC_FREE(escaped_value);
 
   /* Copy the unescaped value so CURL can free its own copy. */
-  memcpy(dest, unescaped_value, max_dest_size);
+  memcpy(dest, unescaped_value,
+         /* Don't copy the memory following unescaped_value. */
+         MIN(max_dest_size, strlen(unescaped_value) + 1));
 
   /* CURL's memory management wants to free this it self. */
   curl_free(unescaped_value);
+
+  /* Make sure that the string is terminated. */
+  dest[max_dest_size - 1] = '\0';
 
   return TRUE;
 }
