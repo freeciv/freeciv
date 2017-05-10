@@ -2382,6 +2382,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        " defenders on a tile, and have no risk for the"
                        " attacker.\n"));
         break;
+      case ACTION_UPGRADE_UNIT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a unit type. */
+                     _("  * upgraded to %s or, when possible, to the unit "
+                       "type it upgrades to.\n"),
+                     utype_name_translation(utype->obsoleted_by));
+        break;
       default:
         /* No action specific details. */
         break;
