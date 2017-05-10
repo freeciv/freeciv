@@ -35407,14 +35407,16 @@ msgstr ""
 
 #: data/helpdata.txt:2314
 msgid ""
-"    freeciv-dev@gna.org         - public development mailing\n"
+"    freeciv-dev@freelists.org   - public development mailing\n"
 "                                  list (archives are public)\n"
-"    freeciv-maintainers@gna.org - private project administration\n"
+"    freeciv-maintainers@lists.sourceforge.net\n"
+"                                - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
-"    freeciv-dev@gna.org         - публічний список розсилки\n"
+"    freeciv-dev@freelists.org   - публічний список розсилки\n"
 "                                  для розробників (архіви публічні)\n"
-"    freeciv-maintainers@gna.org - приватний список дміністраторів проекту\n"
+"    freeciv-maintainers@lists.sourceforge.net\n"
+"                                - приватний список дміністраторів проекту\n"
 "                                  (для проьлем безпеки тощо)"
 
 #: data/helpdata.txt:2319
