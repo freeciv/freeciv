@@ -15,7 +15,7 @@ module_dirs += threaded
 endif
 
 if AI_MOD_STATIC_THREXPR
-module_dirs += threxpr
+module_dirs += tex
 endif
 
 if AI_MOD_STATIC_STUB
@@ -35,7 +35,7 @@ if !AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 if !AI_MOD_STATIC_THREXPR
-module_dirs += threxpr
+module_dirs += tex
 endif
 if !AI_MOD_STATIC_STUB
 module_dirs += stub
