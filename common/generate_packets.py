@@ -1064,7 +1064,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
         if len(self.fields) != 0:
             faddr = '''#ifdef FREECIV_JSON_CONNECTION
-  struct plocation field_addr = *plocation_field_new(NULL);
+  struct plocation field_addr;
+  {
+    struct plocation *field_addr_tmp = plocation_field_new(NULL);
+    field_addr = *field_addr_tmp;
+    FC_FREE(field_addr_tmp);
+  }
 #endif /* FREECIV_JSON_CONNECTION */
 '''
         else:
@@ -1200,7 +1205,12 @@ static char *stats_%(name)s_names[] = {%(names)s};
 
         if len(self.fields) != 0:
             faddr = '''#ifdef FREECIV_JSON_CONNECTION
-  struct plocation field_addr = *plocation_field_new(NULL);
+  struct plocation field_addr;
+  {
+    struct plocation *field_addr_tmp = plocation_field_new(NULL);
+    field_addr = *field_addr_tmp;
+    FC_FREE(field_addr_tmp);
+  }
 #endif /* FREECIV_JSON_CONNECTION */
 '''
         else:

@@ -26,15 +26,16 @@ void *get_packet_from_connection_json(struct connection *pc,
 
 #define SEND_PACKET_START(packet_type) \
   unsigned char buffer[MAX_LEN_PACKET * 5]; \
-  struct plocation pid_addr; \
+  struct plocation *pid_addr; \
   char *json_buffer = NULL; \
   struct json_data_out dout; \
   dout.json = json_object(); \
   \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer)); \
   dio_put_uint16_raw(&(dout.raw), 0);                   \
-  pid_addr = *plocation_field_new("pid");               \
-  dio_put_uint8_json(&dout, &pid_addr, packet_type);
+  pid_addr = plocation_field_new("pid");               \
+  dio_put_uint8_json(&dout, pid_addr, packet_type);                        \
+  FC_FREE(pid_addr);
 
 #define SEND_PACKET_END(packet_type) \
   { \
