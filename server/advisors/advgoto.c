@@ -129,6 +129,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
 static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
+  int mcost;
 
   /* if enemy, stop and give a chance for the human player to
      handle this case */
@@ -139,8 +140,9 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  if (punit->moves_left <= map_move_cost_unit(punit, ptile)
-      && unit_move_rate(punit) > map_move_cost_unit(punit, ptile)
+  mcost = map_move_cost_unit(punit, ptile);
+  if (punit->moves_left <= mcost
+      && unit_move_rate(punit) > mcost
       && adv_danger_at(punit, ptile)
       && !adv_danger_at(punit, unit_tile(punit))) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
