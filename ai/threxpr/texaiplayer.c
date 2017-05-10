@@ -94,8 +94,6 @@ static void texai_thread_start(void *arg)
   }
   fc_release_mutex(&exthrai.msgs_to.mutex);
 
-  texai_world_close();
-
   log_debug("AI thread exiting");
 }
 
