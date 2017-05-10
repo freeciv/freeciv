@@ -442,7 +442,7 @@ bool dio_get_requirement_json(json_t *json_packet,
   int kind, range, value;
   bool survives, present, quiet;
 
-  struct plocation req_field;
+  struct plocation *req_field;
 
   /* Find the requirement object. */
   json_t *requirement = plocation_read_data(json_packet, location);
@@ -452,47 +452,49 @@ bool dio_get_requirement_json(json_t *json_packet,
   }
 
   /* Find the requirement object fields and translate their values. */
-  req_field = *plocation_field_new("kind");
-  if (!dio_get_uint8_json(requirement, &req_field, &kind)) {
+  req_field = plocation_field_new("kind");
+  if (!dio_get_uint8_json(requirement, req_field, &kind)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  req_field.name = "value";
-  if (!dio_get_sint32_json(requirement, &req_field, &value)) {
+  req_field->name = "value";
+  if (!dio_get_sint32_json(requirement, req_field, &value)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  req_field.name = "range";
-  if (!dio_get_uint8_json(requirement, &req_field, &range)) {
+  req_field->name = "range";
+  if (!dio_get_uint8_json(requirement, req_field, &range)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  req_field.name = "survives";
-  if (!dio_get_bool8_json(requirement, &req_field, &survives)) {
+  req_field->name = "survives";
+  if (!dio_get_bool8_json(requirement, req_field, &survives)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  req_field.name = "present";
-  if (!dio_get_bool8_json(requirement, &req_field, &present)) {
+  req_field->name = "present";
+  if (!dio_get_bool8_json(requirement, req_field, &present)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  req_field.name = "quiet";
-  if (!dio_get_bool8_json(requirement, &req_field, &quiet)) {
+  req_field->name = "quiet";
+  if (!dio_get_bool8_json(requirement, req_field, &quiet)) {
     log_error("ERROR: Unable to get part of requirement from location: %s",
               plocation_name(location));
     return FALSE;
   }
+
+  FC_FREE(req_field);
 
   /* Create a requirement with the values sent over the network. */
   *preq = req_from_values(kind, range, survives, present, quiet, value);
@@ -507,7 +509,7 @@ bool dio_get_action_probability_json(json_t *json_packet,
                                      const struct plocation *location,
                                      struct act_prob *prob)
 {
-  struct plocation ap_field;
+  struct plocation *ap_field;
 
   /* Find the action probability object. */
   json_t *action_probability = plocation_read_data(json_packet, location);
@@ -519,21 +521,23 @@ bool dio_get_action_probability_json(json_t *json_packet,
 
   /* Find the action probability object fields and translate their
    * values. */
-  ap_field = *plocation_field_new("min");
-  if (!dio_get_uint8_json(action_probability, &ap_field, &prob->min)) {
+  ap_field = plocation_field_new("min");
+  if (!dio_get_uint8_json(action_probability, ap_field, &prob->min)) {
     log_error("ERROR: Unable to get part of action probability "
               "from location: %s",
               plocation_name(location));
     return FALSE;
   }
 
-  ap_field.name = "max";
-  if (!dio_get_uint8_json(action_probability, &ap_field, &prob->max)) {
+  ap_field->name = "max";
+  if (!dio_get_uint8_json(action_probability, ap_field, &prob->max)) {
     log_error("ERROR: Unable to get part of action probability "
               "from location: %s",
               plocation_name(location));
     return FALSE;
   }
+
+  FC_FREE(ap_field);
 
   return TRUE;
 }
