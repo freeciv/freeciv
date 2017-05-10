@@ -6639,6 +6639,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         break;
       }
     } achievements_iterate_end;
+    section_list_destroy(sec);
   }
 
   if (ok) {
