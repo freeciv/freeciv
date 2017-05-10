@@ -239,9 +239,9 @@ void dio_put_worklist_json(struct json_data_out *dout,
 
     location->sub_location->number = i;
 
-    json_object_set(universal, "kind", json_integer(pcp->kind));
-    json_object_set(universal, "value",
-                    json_integer(universal_number(pcp)));
+    json_object_set_new(universal, "kind", json_integer(pcp->kind));
+    json_object_set_new(universal, "value",
+                        json_integer(universal_number(pcp)));
 
     plocation_write_data(dout->json, location, universal);
   }
@@ -708,14 +708,14 @@ void dio_put_requirement_json(struct json_data_out *dout,
 
   /* Write the requirement values to the fields of the requirement
    * object. */
-  json_object_set(requirement, "kind", json_integer(kind));
-  json_object_set(requirement, "value", json_integer(value));
+  json_object_set_new(requirement, "kind", json_integer(kind));
+  json_object_set_new(requirement, "value", json_integer(value));
 
-  json_object_set(requirement, "range", json_integer(range));
+  json_object_set_new(requirement, "range", json_integer(range));
 
-  json_object_set(requirement, "survives", json_boolean(survives));
-  json_object_set(requirement, "present", json_boolean(present));
-  json_object_set(requirement, "quiet", json_boolean(quiet));
+  json_object_set_new(requirement, "survives", json_boolean(survives));
+  json_object_set_new(requirement, "present", json_boolean(present));
+  json_object_set_new(requirement, "quiet", json_boolean(quiet));
 
   /* Put the requirement object in the packet. */
   plocation_write_data(dout->json, location, requirement);
@@ -733,8 +733,8 @@ void dio_put_action_probability_json(struct json_data_out *dout,
 
   /* Write the action probability values to the fields of the action
    * probability object. */
-  json_object_set(action_probability, "min", json_integer(prob->min));
-  json_object_set(action_probability, "max", json_integer(prob->max));
+  json_object_set_new(action_probability, "min", json_integer(prob->min));
+  json_object_set_new(action_probability, "max", json_integer(prob->max));
 
   /* Put the action probability object in the packet. */
   plocation_write_data(dout->json, location, action_probability);
