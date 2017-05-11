@@ -47,6 +47,8 @@ void action_success_actor_consume(struct action *paction,
       wipe_unit(actor, ULR_DISBANDED, NULL);
     } else if (action_has_result(paction, ACTION_NUKE)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
+    } else if (action_has_result(paction, ACTION_ATTACK)) {
+      wipe_unit(actor, ULR_MISSILE, NULL);
     } else {
       wipe_unit(actor, ULR_USED, NULL);
     }

@@ -1578,9 +1578,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
   }
-  if (uclass_has_flag(pclass, UCF_MISSILE)) {
-    CATLSTR(buf, bufsz, _("  * Gets used up in making an attack.\n"));
-  }
   if (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
       && !utype_has_flag(utype, UTYF_CANT_FORTIFY)) {
     if (utype->defense_strength > 0) {
@@ -2080,7 +2077,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
             _("* Won't lose all movement when moving from non-native "
               "terrain to native terrain.\n"));
   }
-  if (!uclass_has_flag(utype_class(utype), UCF_MISSILE)
+  if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK), utype)
       && utype_has_flag(utype, UTYF_ONEATTACK)) {
     CATLSTR(buf, bufsz,
 	    _("* Making an attack ends this unit's turn.\n"));
@@ -2472,7 +2469,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     /* Some units can never become veteran through combat in practice. */
     bool veteran_through_combat =
       !((!utype_can_do_action(utype, ACTION_ATTACK)
-         || uclass_has_flag(utype_class(utype), UCF_MISSILE))
+         || utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                        utype))
         && utype->defense_strength == 0);
 #endif
     /* FIXME: if we knew the raise chances on the client, we could be
