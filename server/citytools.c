@@ -1743,7 +1743,11 @@ void remove_city(struct city *pcity)
   }
 
   trade_routes_iterate_safe(pcity, proute) {
-    remove_trade_route(pcity, proute, TRUE, TRUE);
+    struct  trade_route *pback = remove_trade_route(pcity, proute,
+                                                    TRUE, TRUE);
+
+    FC_FREE(proute);
+    FC_FREE(pback);
   } trade_routes_iterate_safe_end;
 
   map_clear_border(pcenter);
