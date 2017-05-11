@@ -1714,7 +1714,11 @@ void server_remove_player(struct player *pplayer)
    * to point to a city removed by player_clear() */
   city_list_iterate(pplayer->cities, pcity) {
     trade_routes_iterate_safe(pcity, proute) {
-      remove_trade_route(pcity, proute, TRUE, TRUE);
+      struct  trade_route *pback = remove_trade_route(pcity, proute,
+                                                      TRUE, TRUE);
+
+      FC_FREE(proute);
+      FC_FREE(pback);
     } trade_routes_iterate_safe_end;
   } city_list_iterate_end;
 
