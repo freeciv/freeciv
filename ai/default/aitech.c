@@ -213,6 +213,7 @@ static adv_want dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
   adv_want orig_want = dai_city_want(pplayer, pcity, adv, NULL);
   adv_want final_want;
   bool world_knew = game.info.global_advances[tech];
+  int world_count = game.info.global_advance_count;
 
   research_invention_set(pres, tech, TECH_KNOWN);
 
@@ -220,6 +221,7 @@ static adv_want dai_tech_base_want(struct ai_type *ait, struct player *pplayer,
 
   research_invention_set(pres, tech, old_state);
   game.info.global_advances[tech] = world_knew;
+  game.info.global_advance_count = world_count;
 
   return final_want - orig_want;
 }
