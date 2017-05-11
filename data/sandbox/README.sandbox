@@ -99,3 +99,7 @@ aggressive military units.
 Opponents not seeing units in fortress or airbase:
 Opponents can't see units that are inside fortress or airbase.
 Units inside fort and airstrip can still be seen.
+
+Buoys visible only once Radio known:
+One can see Buoys only when one knows Radio. The leading player
+may build Buoys that others can't yet see.

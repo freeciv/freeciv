@@ -1493,11 +1493,15 @@ reqs           =
       "UnitFlag", "Airbase", "Local", TRUE
       "CityTile", "Center", "Local", FALSE
     }
+visibility_req = "Radio"
 build_time     = 3
 removal_time   = 0
 flags          = "ShowFlag"
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
+"), _("\
+Only those players that already know Radio can see Buoys of any \
+players.\
 ")
 
 [extra_ruins]
