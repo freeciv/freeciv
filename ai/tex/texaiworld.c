@@ -34,6 +34,18 @@ struct texai_tile_info_msg
   bv_extras extras;
 };
 
+struct texai_city_info_msg
+{
+  int id;
+  int owner;
+  int tindex;
+};
+
+struct texai_city_id_msg
+{
+  int id;
+};
+
 /**************************************************************************
   Initialize world object for texai
 **************************************************************************/
@@ -85,4 +97,75 @@ void texai_tile_info_recv(void *data)
   }
 
   free(info);
+}
+
+/**************************************************************************
+  Send city information to the thread.
+**************************************************************************/
+static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
+{
+  struct texai_city_info_msg *info
+    = fc_malloc(sizeof(struct texai_city_info_msg));
+
+  info->id = pcity->id;
+  info->owner = player_number(city_owner(pcity));
+  info->tindex = tile_index(city_tile(pcity));
+
+  texai_send_msg(msgtype, NULL, info);
+}
+
+/**************************************************************************
+  New city has been added to the main map.
+**************************************************************************/
+void texai_city_created(struct city *pcity)
+{
+  if (texai_thread_running()) {
+    texai_city_update(pcity, TEXAI_MSG_CITY_CREATED);
+  }
+}
+
+/**************************************************************************
+  Receive city update to the thread.
+**************************************************************************/
+void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
+{
+  struct texai_city_info_msg *info = (struct texai_city_info_msg *)data;
+  struct city *pcity;
+  struct player *pplayer = player_by_number(info->owner);
+
+  if (msgtype == TEXAI_MSG_CITY_CREATED) {
+    struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
+
+    pcity = create_city_virtual(pplayer, ptile, "");
+    pcity->id = info->id;
+
+    idex_register_city(&texai_world, pcity);
+  } else {
+    pcity = idex_lookup_city(&texai_world, info->id);
+  }
+}
+  
+/**************************************************************************
+  City has been removed from the main map.
+**************************************************************************/
+void texai_city_destroyed(struct city *pcity)
+{
+  if (texai_thread_running()) {
+    struct texai_city_id_msg *info = fc_malloc(sizeof(struct texai_city_id_msg));
+
+    info->id = pcity->id;
+
+    texai_send_msg(TEXAI_MSG_CITY_DESTROYED, NULL, info);
+  }
+}
+
+/**************************************************************************
+  Receive city destruction to the thread.
+**************************************************************************/
+void texai_city_destruction_recv(void *data)
+{
+  struct texai_city_id_msg *info = (struct texai_city_id_msg *)data;
+  struct city *pcity = idex_lookup_city(&texai_world, info->id);
+
+  idex_unregister_city(&texai_world, pcity);
 }

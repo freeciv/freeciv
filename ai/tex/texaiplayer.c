@@ -178,6 +178,12 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
     case TEXAI_MSG_TILE_INFO:
       texai_tile_info_recv(msg->data);
       break;
+    case TEXAI_MSG_CITY_CREATED:
+      texai_city_info_recv(msg->data, msg->type);
+      break;
+    case TEXAI_MSG_CITY_DESTROYED:
+      texai_city_destruction_recv(msg->data);
+      break;
     case TEXAI_MSG_PHASE_FINISHED:
       new_abort = TEXAI_ABORT_PHASE_END;
       break;

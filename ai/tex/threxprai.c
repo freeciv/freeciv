@@ -604,6 +604,8 @@ bool fc_ai_tex_setup(struct ai_type *ai)
 
   ai->funcs.city_alloc = texwai_city_alloc;
   ai->funcs.city_free = texwai_city_free;
+  ai->funcs.city_created = texai_city_created;
+  ai->funcs.city_destroyed = texai_city_destroyed;
   ai->funcs.city_save = texwai_city_save;
   ai->funcs.city_load = texwai_city_load;
   ai->funcs.choose_building = texwai_build_adv_override;

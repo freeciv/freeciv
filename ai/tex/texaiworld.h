@@ -13,10 +13,17 @@
 #ifndef FC__TEXAIWORLD_H
 #define FC__TEXAIWORLD_H
 
+#include "texaimsg.h"
+
 void texai_world_init(void);
 void texai_world_close(void);
 
 void texai_tile_info(struct tile *ptile);
 void texai_tile_info_recv(void *data);
+
+void texai_city_created(struct city *pcity);
+void texai_city_info_recv(void *data, enum texaimsgtype msgtype);
+void texai_city_destroyed(struct city *pcity);
+void texai_city_destruction_recv(void *data);
 
 #endif /* FC__TEXAIWORLD_H */

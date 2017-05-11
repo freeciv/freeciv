@@ -26,6 +26,10 @@
 #define SPECENUM_VALUE4NAME "GameStart"
 #define SPECENUM_VALUE5 TEXAI_MSG_GAME_END
 #define SPECENUM_VALUE5NAME "GameEnd"
+#define SPECENUM_VALUE6 TEXAI_MSG_CITY_CREATED
+#define SPECENUM_VALUE6NAME "CityCreated"
+#define SPECENUM_VALUE7 TEXAI_MSG_CITY_DESTROYED
+#define SPECENUM_VALUE7NAME "CityDestroyed"
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME texaireqtype
