@@ -34,7 +34,7 @@
 #include "sernet.h"
 #include "settings.h"
 
-/* tools/ruledit */
+/* tools/ruleutil */
 #include "comments.h"
 #include "rulesave.h"
 
