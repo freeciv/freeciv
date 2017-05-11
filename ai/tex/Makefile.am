@@ -1,9 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
-if AI_MOD_STATIC_THREXPR
-noinst_LTLIBRARIES = libthrexprai.la
+if AI_MOD_STATIC_TEX
+noinst_LTLIBRARIES = libtexai.la
 else
-aimodule_LTLIBRARIES = fc_ai_threxpr.la
+aimodule_LTLIBRARIES = fc_ai_tex.la
 endif
 
 AM_CPPFLAGS = \
@@ -27,9 +27,9 @@ da_sources = \
 	texaiworld.h		\
 	threxprai.c
 
-if AI_MOD_STATIC_THREXPR
-libthrexprai_la_SOURCES = $(da_sources)
+if AI_MOD_STATIC_TEX
+libtexai_la_SOURCES = $(da_sources)
 else
-fc_ai_threxpr_la_SOURCES = $(da_sources)
-fc_ai_threxpr_la_LDFLAGS = -module
+fc_ai_tex_la_SOURCES = $(da_sources)
+fc_ai_tex_la_LDFLAGS = -module
 endif

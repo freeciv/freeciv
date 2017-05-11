@@ -14,7 +14,7 @@ if AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
 
-if AI_MOD_STATIC_THREXPR
+if AI_MOD_STATIC_TEX
 module_dirs += tex
 endif
 
@@ -34,7 +34,7 @@ if EXP_AI_MODULES
 if !AI_MOD_STATIC_THREADED
 module_dirs += threaded
 endif
-if !AI_MOD_STATIC_THREXPR
+if !AI_MOD_STATIC_TEX
 module_dirs += tex
 endif
 if !AI_MOD_STATIC_STUB

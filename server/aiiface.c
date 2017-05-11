@@ -38,8 +38,8 @@
 bool fc_ai_threaded_setup(struct ai_type *ai);
 #endif
 
-#ifdef AI_MOD_STATIC_THREXPR
-bool fc_ai_threxpr_setup(struct ai_type *ai);
+#ifdef AI_MOD_STATIC_TEX
+bool fc_ai_tex_setup(struct ai_type *ai);
 #endif
 
 #ifdef AI_MOD_STATIC_STUB
@@ -133,7 +133,7 @@ bool load_ai_module(const char *modname)
 void ai_init(void)
 {
   bool failure = FALSE;
-#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED) || defined(AI_MOD_STATIC_THREXPR) || defined(AI_MOD_STATIC_STUB)
+#if !defined(AI_MODULES) || defined(AI_MOD_STATIC_CLASSIC) || defined(AI_MOD_STATIC_THREADED) || defined(AI_MOD_STATIC_TEX) || defined(AI_MOD_STATIC_STUB)
   /* First !defined(AI_MODULES) case is for default ai support. */
   struct ai_type *ai;
 #endif
@@ -148,7 +148,7 @@ void ai_init(void)
     /* First search ai modules under directory ai/<module> under
        current directory. This allows us to run freeciv without
        installing it. */
-    const char *moduledirs[] = { "classic", "threaded", "threxpr", "stub", NULL };
+    const char *moduledirs[] = { "classic", "threaded", "tex", "stub", NULL };
     int i;
 
     for (i = 0; moduledirs[i] != NULL ; i++) {
@@ -186,16 +186,16 @@ void ai_init(void)
   }
 #endif /* AI_MOD_STATIC_THREADED */
 
-#ifdef AI_MOD_STATIC_THREXPR
+#ifdef AI_MOD_STATIC_TEX
   ai = ai_type_alloc();
   if (ai != NULL) {
     init_ai(ai);
-    if (!fc_ai_threxpr_setup(ai)) {
-      log_error(_("Failed to setup \"%s\" AI module"), "threxpr");
+    if (!fc_ai_tex_setup(ai)) {
+      log_error(_("Failed to setup \"%s\" AI module"), "tex");
       ai_type_dealloc();
     }
   }
-#endif /* AI_MOD_STATIC_THREXPR */
+#endif /* AI_MOD_STATIC_TEX */
 
 #ifdef AI_MOD_STATIC_STUB
   ai = ai_type_alloc();

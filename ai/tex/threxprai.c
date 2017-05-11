@@ -31,14 +31,14 @@
 #include "daidomestic.h"
 #include "daimilitary.h"
 
-/* threxpr ai */
+/* tex ai */
 #include "texaicity.h"
 #include "texaimsg.h"
 #include "texaiplayer.h"
 #include "texaiworld.h"
 
-const char *fc_ai_threxpr_capstr(void);
-bool fc_ai_threxpr_setup(struct ai_type *ai);
+const char *fc_ai_tex_capstr(void);
+bool fc_ai_tex_setup(struct ai_type *ai);
 
 static void texai_init_self(struct ai_type *ai);
 static struct ai_type *texai_get_self(void);
@@ -46,7 +46,7 @@ static struct ai_type *texai_get_self(void);
 static struct ai_type *self = NULL;
 
 /**************************************************************************
-  Set pointer to ai type of the threxpr ai.
+  Set pointer to ai type of the tex ai.
 **************************************************************************/
 static void texai_init_self(struct ai_type *ai)
 {
@@ -56,7 +56,7 @@ static void texai_init_self(struct ai_type *ai)
 }
 
 /**************************************************************************
-  Get pointer to ai type of the threxpr ai.
+  Get pointer to ai type of the tex ai.
 **************************************************************************/
 static struct ai_type *texai_get_self(void)
 {
@@ -68,7 +68,7 @@ static struct ai_type *texai_get_self(void)
 #define TEXAI_DFUNC(_func, ...) _func(ait, ## __VA_ARGS__ );
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_game_start(void)
 {
@@ -78,7 +78,7 @@ static void texwai_game_start(void)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_game_free(void)
 {
@@ -88,7 +88,7 @@ static void texwai_game_free(void)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_player_alloc(struct player *pplayer)
 {
@@ -98,7 +98,7 @@ static void texwai_player_alloc(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_player_free(struct player *pplayer)
 {
@@ -108,7 +108,7 @@ static void texwai_player_free(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_player_save(struct player *pplayer,
                                struct section_file *file, int plrno)
@@ -118,7 +118,7 @@ static void texwai_player_save(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_player_load(struct player *pplayer,
                                const struct section_file *file,
@@ -129,7 +129,7 @@ static void texwai_player_load(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_control_gained(struct player *pplayer)
 {
@@ -139,7 +139,7 @@ static void texwai_control_gained(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_control_lost(struct player *pplayer)
 {
@@ -148,7 +148,7 @@ static void texwai_control_lost(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_split_by_civil_war(struct player *original,
                                       struct player *created)
@@ -158,7 +158,7 @@ static void texwai_split_by_civil_war(struct player *original,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_created_by_civil_war(struct player *original,
                                         struct player *created)
@@ -168,7 +168,7 @@ static void texwai_created_by_civil_war(struct player *original,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_phase_begin(struct player *pplayer, bool is_new_phase)
 {
@@ -177,7 +177,7 @@ static void texwai_phase_begin(struct player *pplayer, bool is_new_phase)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_phase_finished(struct player *pplayer)
 {
@@ -187,7 +187,7 @@ static void texwai_phase_finished(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_city_alloc(struct city *pcity)
 {
@@ -196,7 +196,7 @@ static void texwai_city_alloc(struct city *pcity)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_city_free(struct city *pcity)
 {
@@ -205,7 +205,7 @@ static void texwai_city_free(struct city *pcity)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_city_save(struct section_file *file,
                              const struct city *pcity, const char *citystr)
@@ -215,7 +215,7 @@ static void texwai_city_save(struct section_file *file,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_city_load(const struct section_file *file,
                              struct city *pcity, const char *citystr)
@@ -225,7 +225,7 @@ static void texwai_city_load(const struct section_file *file,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_build_adv_override(struct city *pcity,
                                       struct adv_choice *choice)
@@ -235,7 +235,7 @@ static void texwai_build_adv_override(struct city *pcity,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_wonder_city_distance(struct player *pplayer,
                                         struct adv_data *adv)
@@ -245,7 +245,7 @@ static void texwai_wonder_city_distance(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_build_adv_init(struct player *pplayer)
 {
@@ -254,7 +254,7 @@ static void texwai_build_adv_init(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_build_adv_adjust(struct player *pplayer,
                                     struct city *wonder_city)
@@ -264,7 +264,7 @@ static void texwai_build_adv_adjust(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_gov_value(struct player *pplayer, struct government *gov,
                              adv_want *val, bool *override)
@@ -274,7 +274,7 @@ static void texwai_gov_value(struct player *pplayer, struct government *gov,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_units_ruleset_init(void)
 {
@@ -283,7 +283,7 @@ static void texwai_units_ruleset_init(void)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_units_ruleset_close(void)
 {
@@ -292,7 +292,7 @@ static void texwai_units_ruleset_close(void)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_alloc(struct unit *punit)
 {
@@ -301,7 +301,7 @@ static void texwai_unit_alloc(struct unit *punit)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_free(struct unit *punit)
 {
@@ -310,7 +310,7 @@ static void texwai_unit_free(struct unit *punit)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_ferry_init_ferry(struct unit *ferry)
 {
@@ -319,7 +319,7 @@ static void texwai_ferry_init_ferry(struct unit *ferry)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_ferry_transformed(struct unit *ferry,
                                      struct unit_type *old)
@@ -329,7 +329,7 @@ static void texwai_ferry_transformed(struct unit *ferry,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_ferry_lost(struct unit *punit)
 {
@@ -338,7 +338,7 @@ static void texwai_ferry_lost(struct unit *punit)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_turn_end(struct unit *punit)
 {
@@ -347,7 +347,7 @@ static void texwai_unit_turn_end(struct unit *punit)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_move_or_attack(struct unit *punit,
                                        struct tile *ptile,
@@ -358,7 +358,7 @@ static void texwai_unit_move_or_attack(struct unit *punit,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_new_adv_task(struct unit *punit,
                                      enum adv_unit_task task,
@@ -369,7 +369,7 @@ static void texwai_unit_new_adv_task(struct unit *punit,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_save(struct section_file *file,
                              const struct unit *punit, const char *unitstr)
@@ -379,7 +379,7 @@ static void texwai_unit_save(struct section_file *file,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_load(const struct section_file *file,
                              struct unit *punit, const char *unitstr)
@@ -389,7 +389,7 @@ static void texwai_unit_load(const struct section_file *file,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_auto_settler_reset(struct player *pplayer)
 {
@@ -398,7 +398,7 @@ static void texwai_auto_settler_reset(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_auto_settler_run(struct player *pplayer, struct unit *punit,
                                     struct settlermap *state)
@@ -408,7 +408,7 @@ static void texwai_auto_settler_run(struct player *pplayer, struct unit *punit,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_auto_settler_cont(struct player *pplayer,
                                      struct unit *punit,
@@ -419,7 +419,7 @@ static void texwai_auto_settler_cont(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_switch_to_explore(struct unit *punit, struct tile *target,
                                      enum override_bool *allow)
@@ -429,7 +429,7 @@ static void texwai_switch_to_explore(struct unit *punit, struct tile *target,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_first_activities(struct player *pplayer)
 {
@@ -439,7 +439,7 @@ static void texwai_first_activities(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_diplomacy_actions(struct player *pplayer)
 {
@@ -448,7 +448,7 @@ static void texwai_diplomacy_actions(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_last_activities(struct player *pplayer)
 {
@@ -457,7 +457,7 @@ static void texwai_last_activities(struct player *pplayer)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_treaty_evaluate(struct player *pplayer,
                                    struct player *aplayer,
@@ -468,7 +468,7 @@ static void texwai_treaty_evaluate(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_treaty_accepted(struct player *pplayer,
                                    struct player *aplayer, 
@@ -479,7 +479,7 @@ static void texwai_treaty_accepted(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_diplomacy_first_contact(struct player *pplayer,
                                            struct player *aplayer)
@@ -489,7 +489,7 @@ static void texwai_diplomacy_first_contact(struct player *pplayer,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_incident(enum incident_type type, struct player *violator,
                             struct player *victim)
@@ -499,7 +499,7 @@ static void texwai_incident(enum incident_type type, struct player *violator,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_city_log(char *buffer, int buflength,
                             const struct city *pcity)
@@ -509,7 +509,7 @@ static void texwai_city_log(char *buffer, int buflength,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_unit_log(char *buffer, int buflength,
                             const struct unit *punit)
@@ -519,7 +519,7 @@ static void texwai_unit_log(char *buffer, int buflength,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_consider_plr_dangerous(struct player *plr1,
                                           struct player *plr2,
@@ -530,7 +530,7 @@ static void texwai_consider_plr_dangerous(struct player *plr1,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_consider_tile_dangerous(struct tile *ptile,
                                            struct unit *punit,
@@ -541,7 +541,7 @@ static void texwai_consider_tile_dangerous(struct tile *ptile,
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_consider_wonder_city(struct city *pcity, bool *result)
 {
@@ -550,7 +550,7 @@ static void texwai_consider_wonder_city(struct city *pcity, bool *result)
 }
 
 /**************************************************************************
-  Call default ai with threxpr ai type as parameter.
+  Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_refresh(struct player *pplayer)
 {
@@ -561,7 +561,7 @@ static void texwai_refresh(struct player *pplayer)
 /**************************************************************************
   Return module capability string
 **************************************************************************/
-const char *fc_ai_threxpr_capstr(void)
+const char *fc_ai_tex_capstr(void)
 {
   return FC_AI_MOD_CAPSTR;
 }
@@ -569,17 +569,17 @@ const char *fc_ai_threxpr_capstr(void)
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
-bool fc_ai_threxpr_setup(struct ai_type *ai)
+bool fc_ai_tex_setup(struct ai_type *ai)
 {
   struct dai_private_data *private;
 
   if (!has_thread_cond_impl()) {
     log_error(_("This Freeciv compilation has no full threads "
-                "implementation, threxpr ai cannot be used."));
+                "implementation, tex ai cannot be used."));
     return FALSE;
   }
 
-  strncpy(ai->name, "threxpr", sizeof(ai->name));
+  strncpy(ai->name, "tex", sizeof(ai->name));
 
   private = fc_malloc(sizeof(struct dai_private_data));
   private->contemplace_workers = FALSE; /* We use custom code to set worker want and type */
