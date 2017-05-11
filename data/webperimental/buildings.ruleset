@@ -1428,8 +1428,8 @@ sabotage	= 0
 sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes two unhappy citizens content in every city (including citizens\
- unhappy about military activity).\
+Makes two unhappy citizens content in every city belonging to you or to \
+your allies (including citizens unhappy about military activity).\
 ")
 
 [building_king_richards_crusade]

@@ -1959,7 +1959,7 @@ type    = "Force_Content"
 value	= 2
 reqs	=
     { "type", "name", "range"
-      "Building", "J.S. Bach's Cathedral", "Player"
+      "Building", "J.S. Bach's Cathedral", "Alliance"
     }
 
 [effect_king_richards_crusade]
