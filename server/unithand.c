@@ -133,7 +133,8 @@ static bool do_unit_change_homecity(struct unit *punit,
 static bool do_unit_upgrade(struct player *pplayer,
                             struct unit *punit, struct city *pcity,
                             enum action_requester ordered_by);
-static bool do_attack(struct unit *actor_unit, struct tile *target_tile);
+static bool do_attack(struct unit *actor_unit, struct tile *target_tile,
+                      const struct action *paction);
 static bool do_unit_conquer_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city,
@@ -2503,7 +2504,7 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_ATTACK:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_attack(actor_unit, target_tile));
+                             do_attack(actor_unit, target_tile, paction));
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
@@ -3290,7 +3291,8 @@ static bool unit_do_destroy_city(struct player *act_player,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool do_attack(struct unit *punit, struct tile *def_tile)
+static bool do_attack(struct unit *punit, struct tile *def_tile,
+                      const struct action *paction)
 {
   char loser_link[MAX_LEN_LINK], winner_link[MAX_LEN_LINK];
   struct unit *ploser, *pwinner;
@@ -3341,7 +3343,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
   old_defender_vet = pdefender->veteran;
   unit_versus_unit(punit, pdefender, &att_hp, &def_hp);
 
-  if ((att_hp <= 0 || uclass_has_flag(unit_class_get(punit), UCF_MISSILE))
+  if ((att_hp <= 0 || utype_is_consumed_by_action(paction, punit->utype))
       && unit_transported(punit)) {
     /* Dying attacker must be first unloaded so it doesn't die insider transport */
     unit_transport_unload_send(punit);
@@ -3397,7 +3399,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
 
   /* N.B.: unit_link always returns the same pointer. */
   sz_strlcpy(loser_link, unit_tile_link(ploser));
-  sz_strlcpy(winner_link, uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)
+  sz_strlcpy(winner_link,
+             utype_is_consumed_by_action(paction, pwinner->utype)
              ? unit_tile_link(pwinner) : unit_link(pwinner));
 
   if (punit == ploser) {
@@ -3437,10 +3440,9 @@ static bool do_attack(struct unit *punit, struct tile *def_tile)
 
     punit->moved = TRUE;	/* We moved */
     kill_unit(pwinner, ploser,
-              vet && !uclass_has_flag(unit_class_get(punit), UCF_MISSILE));
+              vet && !utype_is_consumed_by_action(paction, punit->utype));
     if (unit_is_alive(winner_id)) {
-      if (uclass_has_flag(unit_class_get(pwinner), UCF_MISSILE)) {
-        wipe_unit(pwinner, ULR_MISSILE, NULL);
+      if (utype_is_consumed_by_action(paction, pwinner->utype)) {
         return TRUE;
       }
     } else {
