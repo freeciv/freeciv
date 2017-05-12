@@ -29,6 +29,7 @@
 #include "effects.h"
 
 // ruledit
+#include "req_edit.h"
 #include "ruledit.h"
 #include "validity.h"
 
@@ -44,6 +45,7 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   QGridLayout *effect_edit_layout = new QGridLayout();
   QHBoxLayout *active_layout = new QHBoxLayout();
   QPushButton *close_button;
+  QPushButton *reqs_button;
   QMenu *menu;
   QLabel *lbl;
   enum effect_type eff;
@@ -51,6 +53,7 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   ui = ui_in;
   selected = nullptr;
   filter = *filter_in;
+  name = target;
 
   list_widget = new QListWidget(this);
   effects = effect_list_new();
@@ -74,9 +77,13 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
 
   main_layout->addLayout(active_layout);
 
+  reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
+  connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
+  effect_edit_layout->addWidget(reqs_button, 0, 0);
+
   close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
   connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));
-  effect_edit_layout->addWidget(close_button, 0, 0);
+  effect_edit_layout->addWidget(close_button, 1, 0);
 
   refresh();
 
@@ -141,7 +148,7 @@ void effect_edit::add_effect_to_list(struct effect *peffect,
   QListWidgetItem *item;
 
   fc_snprintf(buf, sizeof(buf), _("Effect #%d: %s"),
-              data->num, effect_type_name(peffect->type));
+              data->num + 1, effect_type_name(peffect->type));
 
   item = new QListWidgetItem(QString::fromUtf8(buf));
   list_widget->insertItem(data->num++, item);
@@ -171,6 +178,7 @@ void effect_edit::select_effect()
 
     if (item != nullptr && item->isSelected()) {
       selected = peffect;
+      selected_nbr = i;
       fill_active();
       return;
     }
@@ -200,4 +208,22 @@ void effect_edit::effect_type_menu(QAction *action)
   }
 
   refresh();
+}
+
+/**************************************************************************
+  User wants to edit requirements
+**************************************************************************/
+void effect_edit::edit_reqs()
+{
+  if (selected != nullptr) {
+    char buf[128];
+    req_edit *redit;
+
+    fc_snprintf(buf, sizeof(buf), R__("%s effect #%d"), name.toUtf8().data(),
+                selected_nbr);
+
+    redit = new req_edit(ui, QString::fromUtf8(buf), &selected->reqs);
+
+    redit->show();
+  }
 }

@@ -51,17 +51,20 @@ class effect_edit : public QDialog
   private:
     ruledit_gui *ui;
 
+    QString name;
     QListWidget *list_widget;
     struct universal filter;
     struct effect_list *effects;
 
     struct effect *selected;
+    int selected_nbr;
 
     QToolButton *edit_type_button;
 
   private slots:
     void select_effect();
     void fill_active();
+    void edit_reqs();
     void close_now();
 
     void effect_type_menu(QAction *action);
