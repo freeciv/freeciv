@@ -968,7 +968,7 @@ void handle_unit_get_actions(struct connection *pc,
       }
 
       if (target_city_id != IDENTITY_NUMBER_ZERO
-          && target_unit != IDENTITY_NUMBER_ZERO) {
+          && target_unit_id != IDENTITY_NUMBER_ZERO) {
         /* No need to find out more. */
         break;
       }
