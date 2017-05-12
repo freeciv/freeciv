@@ -1169,7 +1169,7 @@ sound		= "w_asmiths_trading_co"
 sound_alt	= "w_generic"
 helptext	= _("\
 City improvements which would normally have an upkeep of 1 are free\
- of upkeep, for all your cities.\
+ of upkeep, for all cities belonging to you and to your allies.\
 ")
 
 [building_colossus]
