@@ -288,7 +288,7 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
   on the value of card_only.
 ****************************************************************************/
-#define variable_adjc_iterate(center_tile, _tile, card_only)		\
+#define variable_adjc_iterate(nmap, center_tile, _tile, card_only)      \
 {									\
   enum direction8 *_tile##_list;					\
   int _tile##_count;							\
@@ -300,7 +300,7 @@ struct extra_type *resource_extra_get(const struct resource_type *presource)
     _tile##_list = wld.map.valid_dirs;					\
     _tile##_count = wld.map.num_valid_dirs;				\
   }									\
-  adjc_dirlist_iterate(center_tile, _tile, _tile##_dir,			\
+  adjc_dirlist_iterate(nmap, center_tile, _tile, _tile##_dir,           \
                        _tile##_list, _tile##_count) {
 
 #define variable_adjc_iterate_end					\
@@ -318,7 +318,7 @@ bool is_terrain_card_near(const struct tile *ptile,
     return FALSE;
   }
 
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
@@ -338,7 +338,7 @@ bool is_terrain_near_tile(const struct tile *ptile,
     return FALSE;
   }
 
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) == pterrain) {
       return TRUE;
     }
@@ -356,7 +356,7 @@ int count_terrain_near_tile(const struct tile *ptile,
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
     if (pterrain && tile_terrain(adjc_tile) == pterrain) {
       count++;
     }
@@ -378,8 +378,9 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
+
     if (pterrain->property[prop] > 0) {
       count++;
     }
@@ -403,7 +404,7 @@ bool is_resource_card_near(const struct tile *ptile,
     return FALSE;
   }
 
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_resource(adjc_tile) == pres) {
       return TRUE;
     }
@@ -423,7 +424,7 @@ bool is_resource_near_tile(const struct tile *ptile,
     return FALSE;
   }
 
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_resource(adjc_tile) == pres) {
       return TRUE;
     }
@@ -439,8 +440,9 @@ bool is_resource_near_tile(const struct tile *ptile,
 bool is_terrain_flag_card_near(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
+
     if (T_UNKNOWN != pterrain
 	&& terrain_has_flag(pterrain, flag)) {
       return TRUE;
@@ -457,8 +459,9 @@ bool is_terrain_flag_card_near(const struct tile *ptile,
 bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
+
     if (T_UNKNOWN != pterrain
 	&& terrain_has_flag(pterrain, flag)) {
       return TRUE;
@@ -478,8 +481,9 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
+
     if (T_UNKNOWN != pterrain
 	&& terrain_has_flag(pterrain, flag)) {
       count++;
@@ -592,7 +596,7 @@ enum terrain_class terrain_type_terrain_class(const struct terrain *pterrain)
 bool is_terrain_class_card_near(const struct tile *ptile,
                                 enum terrain_class tclass)
 {
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (pterrain != T_UNKNOWN) {
@@ -612,7 +616,7 @@ bool is_terrain_class_card_near(const struct tile *ptile,
 bool is_terrain_class_near_tile(const struct tile *ptile,
                                 enum terrain_class tclass)
 {
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     struct terrain* pterrain = tile_terrain(adjc_tile);
 
     if (pterrain != T_UNKNOWN) {
@@ -635,8 +639,9 @@ int count_terrain_class_near_tile(const struct tile *ptile,
 {
   int count = 0, total = 0;
 
-  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+  variable_adjc_iterate(&(wld.map), ptile, adjc_tile, cardinal_only) {
     struct terrain *pterrain = tile_terrain(adjc_tile);
+
     if (T_UNKNOWN != pterrain
         && terrain_type_terrain_class(pterrain) == tclass) {
       count++;

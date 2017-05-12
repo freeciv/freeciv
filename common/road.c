@@ -250,14 +250,14 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
       /* FIXME: mixing cardinal and non-cardinal roads as integrators is
        * probably not a good idea. */
       if (is_cardinal_only_road(iroad)) {
-        cardinal_adjc_iterate(ptile, adjc_tile) {
+        cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
           if (tile_has_extra(adjc_tile, iroad)) {
             beginning = FALSE;
             break;
           }
         } cardinal_adjc_iterate_end;
       } else {
-        adjc_iterate(ptile, adjc_tile) {
+        adjc_iterate(&(wld.map), ptile, adjc_tile) {
           if (tile_has_extra(adjc_tile, iroad)) {
             beginning = FALSE;
             break;
@@ -326,7 +326,7 @@ int count_road_near_tile(const struct tile *ptile, const struct road_type *proad
     return 0;
   }
 
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_has_road(adjc_tile, proad)) {
       count++;
     }
@@ -343,7 +343,7 @@ int count_river_near_tile(const struct tile *ptile,
 {
   int count = 0;
 
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (priver == NULL && tile_has_river(adjc_tile)) {
       /* Some river */
       count++;
@@ -368,7 +368,7 @@ int count_river_type_tile_card(const struct tile *ptile,
 
   fc_assert(priver != NULL);
 
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, priver)) {
       count++;
     }
@@ -393,7 +393,7 @@ int count_river_type_near_tile(const struct tile *ptile,
 
   fc_assert(priver != NULL);
 
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, priver)) {
       count++;
     }
@@ -422,7 +422,7 @@ bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (road_has_flag(extra_road_get(pextra), flag)) {
-      cardinal_adjc_iterate(ptile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }
@@ -441,7 +441,7 @@ bool is_road_flag_near_tile(const struct tile *ptile, enum road_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (road_has_flag(extra_road_get(pextra), flag)) {
-      adjc_iterate(ptile, adjc_tile) {
+      adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }

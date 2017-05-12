@@ -996,7 +996,7 @@ static void update_unit_activity(struct unit *punit)
         /* Some units nearby may not be able to continue their action,
          * such as building irrigation if we removed the only source
          * of water from them. */
-        adjc_iterate(ptile, ptile2) {
+        adjc_iterate(&(wld.map), ptile, ptile2) {
           unit_activities_cancel_all_illegal(ptile2);
         } adjc_iterate_end;
         break;
@@ -1089,7 +1089,7 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
   int bestvalue = 0;
 
   /* coords of best tile in arg pointers */
-  circle_iterate(pcenter, sq_radius, ptile) {
+  circle_iterate(&(wld.map), pcenter, sq_radius, ptile) {
     int value;
 
     if (!is_native_tile(u_type, ptile)) {
@@ -1207,7 +1207,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   pplayer = unit_owner(punit);
   punit_tile = unit_tile(punit);
 
-  square_iterate(punit_tile, DIST, ptile) {
+  square_iterate(&(wld.map), punit_tile, DIST, ptile) {
     if (count >= ARRAY_SIZE(tiles)) {
       break;
     }
@@ -1450,7 +1450,7 @@ bool is_unit_being_refueled(const struct unit *punit)
     return TRUE;
   }
   if (unit_has_type_flag(punit, UTYF_COAST)) {
-    return is_safe_ocean(unit_tile(punit));
+    return is_safe_ocean(&(wld.map), unit_tile(punit));
   }
 
   return FALSE;
@@ -2270,10 +2270,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
           fc_assert(vunit->hp > 0);
 
-          adjc_iterate(ptile, ptile2) {
+          adjc_iterate(&(wld.map), ptile, ptile2) {
             if (can_exist_at_tile(vunit->utype, ptile2)
                 && NULL == tile_city(ptile2)) {
-              move_cost = map_move_cost_unit(vunit, ptile2);
+              move_cost = map_move_cost_unit(&(wld.map), vunit, ptile2);
               if (pkiller->moves_left <= vunit->moves_left - move_cost
                   && (is_allied_unit_tile(ptile2, pvictim)
                       || unit_list_size(ptile2->units)) == 0) {
@@ -2288,7 +2288,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           } adjc_iterate_end;
 
           if (dsttile != NULL) {
-            move_cost = map_move_cost_unit(vunit, dsttile);
+            move_cost = map_move_cost_unit(&(wld.map), vunit, dsttile);
             unit_move(vunit, dsttile, move_cost, NULL, FALSE);
             num_escaped[player_index(vplayer)]++;
             escaped = TRUE;
@@ -2701,7 +2701,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
-  square_iterate(ptile, 1, ptile1) {
+  square_iterate(&(wld.map), ptile, 1, ptile1) {
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
 
@@ -3105,7 +3105,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   /* Kludge to prevent attack power from dropping to zero during calc */
   punit->moves_left = MAX(punit->moves_left, 1);
 
-  adjc_iterate(unit_tile(punit), ptile) {
+  adjc_iterate(&(wld.map), unit_tile(punit), ptile) {
     /* First add all eligible units to a autoattack list */
     unit_list_iterate(ptile->units, penemy) {
       struct autoattack_prob *probability = fc_malloc(sizeof(*probability));
@@ -3251,7 +3251,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 
   /* There may be sentried units with a sightrange > 3, but we don't
      wake them up if the punit is farther away than 3. */
-  square_iterate(unit_tile(punit), 3, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
       int distance_sq = sq_map_distance(unit_tile(punit), ptile);
       int radius_sq = get_unit_vision_at(penemy, unit_tile(penemy), V_MAIN);
@@ -3273,7 +3273,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 
   /* Wakeup patrolling units we bump into.
      We do not wakeup units further away than 3 squares... */
-  square_iterate(unit_tile(punit), 3, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), 3, ptile) {
     unit_list_iterate(ptile->units, ppatrol) {
       if (punit != ppatrol
 	  && unit_has_orders(ppatrol)
@@ -3576,7 +3576,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   pplayer = unit_owner(punit);
   saved_id = punit->id;
   psrctile = unit_tile(punit);
-  adj = base_get_direction_for_step(psrctile, pdesttile, &facing);
+  adj = base_get_direction_for_step(&(wld.map), psrctile, pdesttile, &facing);
 
   conn_list_do_buffer(game.est_connections);
 
@@ -3977,7 +3977,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   int radius_sq = get_unit_vision_at(punit, unit_tile(punit), V_MAIN);
   struct player *pplayer = unit_owner(punit);
 
-  circle_iterate(unit_tile(punit), radius_sq, ptile) {
+  circle_iterate(&(wld.map), unit_tile(punit), radius_sq, ptile) {
     struct unit *penemy = is_non_allied_unit_tile(ptile, pplayer);
 
     struct vision_site *pdcity = map_get_player_site(ptile, pplayer);
@@ -4208,7 +4208,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
       /* Move unit */
-      if (!(dst_tile = mapstep(unit_tile(punit), order.dir))) {
+      if (!(dst_tile = mapstep(&(wld.map), unit_tile(punit), order.dir))) {
         cancel_orders(punit, "  move order sent us to invalid location");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                       _("Orders for %s aborted since they "
@@ -4282,7 +4282,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         dst_tile = unit_tile(punit);
       } else {
         /* The target of the action is on a tile next to the actor. */
-        dst_tile = mapstep(unit_tile(punit), order.dir);
+        dst_tile = mapstep(&(wld.map), unit_tile(punit), order.dir);
       }
 
       if (dst_tile == NULL) {
@@ -4553,7 +4553,7 @@ void unit_did_action(struct unit *punit)
 bool unit_can_be_retired(struct unit *punit)
 {
   /* check if there is enemy nearby */
-  square_iterate(unit_tile(punit), 3, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), 3, ptile) {
     if (is_enemy_city_tile(ptile, unit_owner(punit))
         || is_enemy_unit_tile(ptile, unit_owner(punit))) {
       return FALSE;

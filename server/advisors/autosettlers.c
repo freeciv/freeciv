@@ -151,7 +151,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 
   index_to_map_pos(&x, &y, tile_index(ptile));
   for (i = 0; i < 12; i++) {
-    struct tile *tile1 = map_pos_to_tile(x + dx[i], y + dy[i]);
+    struct tile *tile1 = map_pos_to_tile(&(wld.map), x + dx[i], y + dy[i]);
 
     if (!tile1) {
       real_road[i] = FALSE;

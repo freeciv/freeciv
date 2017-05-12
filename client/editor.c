@@ -1494,7 +1494,7 @@ void edit_buffer_copy_square(struct edit_buffer *ebuf,
   }
 
   edit_buffer_set_origin(ebuf, center);
-  square_iterate(center, radius - 1, ptile) {
+  square_iterate(&(wld.map), center, radius - 1, ptile) {
     edit_buffer_copy(ebuf, ptile);
   } square_iterate_end;
 }
@@ -1745,7 +1745,7 @@ void edit_buffer_paste(struct edit_buffer *ebuf, const struct tile *dest)
     int virt_x, virt_y;
 
     index_to_map_pos(&virt_x, &virt_y, tile_index(vtile));
-    ptile = map_pos_to_tile(virt_x + dx, virt_y + dy);
+    ptile = map_pos_to_tile(&(wld.map), virt_x + dx, virt_y + dy);
     if (!ptile) {
       continue;
     }
@@ -1940,7 +1940,7 @@ const struct tile *editor_get_selection_center(void)
     return NULL;
   }
 
-  origin = map_pos_to_tile(0, 0);
+  origin = map_pos_to_tile(&(wld.map), 0, 0);
   tile_hash_iterate(editor->selected_tile_table, ptile) {
     map_distance_vector(&dx, &dy, origin, ptile);
     xsum += dx;
@@ -1949,7 +1949,7 @@ const struct tile *editor_get_selection_center(void)
 
   cx = xsum / count;
   cy = ysum / count;
-  center = map_pos_to_tile(cx, cy);
+  center = map_pos_to_tile(&(wld.map), cx, cy);
 
   return center;
 }

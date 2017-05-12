@@ -395,7 +395,7 @@ double unit_win_chance(const struct unit *attacker,
 struct city *sdi_try_defend(const struct player *owner,
                             const struct tile *ptile)
 {
-  square_iterate(ptile, 2, ptile1) {
+  square_iterate(&(wld.map), ptile, 2, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
     if (pcity

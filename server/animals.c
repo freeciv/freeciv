@@ -51,7 +51,7 @@ static struct unit_type *animal_for_terrain(struct terrain *pterr)
 ****************************************************************************/
 static void place_animal(struct player *plr)
 {
-  struct tile *ptile = rand_map_pos();
+  struct tile *ptile = rand_map_pos(&(wld.map));
   struct unit_type *ptype;
 
   extra_type_by_cause_iterate(EC_HUT, pextra) {
@@ -64,7 +64,7 @@ static void place_animal(struct player *plr)
   if (unit_list_size(ptile->units) > 0 || tile_city(ptile)) {
     return;
   }
-  adjc_iterate(ptile, padj) {
+  adjc_iterate(&(wld.map), ptile, padj) {
     if (unit_list_size(padj->units) > 0 || tile_city(padj)) {
       /* No animals next to start units or start city */
       return;

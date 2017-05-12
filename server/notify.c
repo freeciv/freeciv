@@ -804,7 +804,8 @@ void event_cache_load(struct section_file *file, const char *section)
     /* restore packet */
     x = secfile_lookup_int_default(file, -1, "%s.events%d.x", section, i);
     y = secfile_lookup_int_default(file, -1, "%s.events%d.y", section, i);
-    packet.tile = (is_normal_map_pos(x, y) ? map_pos_to_index(x, y) : -1);
+    packet.tile = (is_normal_map_pos(x, y)
+                   ? map_pos_to_index(&(wld.map), x, y) : -1);
     packet.conn_id = -1;
 
     p = secfile_lookup_str(file, "%s.events%d.event", section, i);

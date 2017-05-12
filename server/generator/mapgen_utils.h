@@ -41,9 +41,9 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
  * Note: that the map position is declared as const and can't be changed
  * inside the block.
  */
-#define do_in_map_pos(ptile, nat_x, nat_y)				    \
-{                                                                           \
-  struct tile *ptile = native_pos_to_tile((nat_x), (nat_y));		    \
+#define do_in_map_pos(nmap, ptile, nat_x, nat_y)                         \
+{                                                                        \
+  struct tile *ptile = native_pos_to_tile(nmap, (nat_x), (nat_y));       \
   {
 
 #define do_in_map_pos_end                                                   \
@@ -56,7 +56,7 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
  _index : the position in the interval of iteration (from -dist to dist)
  _tile : the tile pointer
  ***************************************************************************/
-#define axis_iterate(center_tile, _tile, _index, dist, is_X_axis)	\
+#define axis_iterate(nmap, center_tile, _tile, _index, dist, is_X_axis)	\
 {									\
   int _tile##_x, _tile##_y;						\
   struct tile *_tile;							\
@@ -67,10 +67,10 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
 									\
   for (; _index <= _index##_d; _index++) {				\
     int _nat##_x, _nat##_y;                                                    \
-    index_to_native_pos(&_nat##_x, &_nat##_y, tile_index(_tile##_center));     \
+    index_to_native_pos(&_nat##_x, &_nat##_y, tile_index(_tile##_center)); \
     _tile##_x = _nat##_x + (_index##_axis ? _index : 0);                       \
     _tile##_y = _nat##_y + (_index##_axis ? 0 : _index);                       \
-    _tile = native_pos_to_tile(_tile##_x, _tile##_y);			\
+    _tile = native_pos_to_tile(nmap, _tile##_x, _tile##_y);              \
     if (NULL != _tile) {
 
 #define axis_iterate_end						\

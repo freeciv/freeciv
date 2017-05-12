@@ -150,7 +150,8 @@ static struct tile *place_starting_unit(struct tile *starttile,
   bool hut_present = FALSE;
 
   if (utype != NULL) {
-    iterate_outward(starttile, wld.map.xsize + wld.map.ysize, itertile) {
+    iterate_outward(&(wld.map), starttile,
+                    wld.map.xsize + wld.map.ysize, itertile) {
       if (!is_non_allied_unit_tile(itertile, pplayer)
           && is_native_tile(utype, itertile)) {
         ptile = itertile;
@@ -207,7 +208,7 @@ static struct tile *find_dispersed_position(struct player *pplayer,
     index_to_map_pos(&x, &y, tile_index(pcenter));
     x += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
     y += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
-  } while (!((ptile = map_pos_to_tile(x, y))
+  } while (!((ptile = map_pos_to_tile(&(wld.map), x, y))
              && tile_continent(pcenter) == tile_continent(ptile)
              && !is_ocean_tile(ptile)
              && !is_non_allied_unit_tile(ptile, pplayer)));

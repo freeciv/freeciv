@@ -1657,7 +1657,7 @@ void remove_city(struct city *pcity)
 
     unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
-    adjc_iterate(pcenter, tile1) {
+    adjc_iterate(&(wld.map), pcenter, tile1) {
       if (!moved && is_native_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
           /* Move */
@@ -1691,7 +1691,7 @@ void remove_city(struct city *pcity)
     struct tile *ptile = tile_list_front(process_queue);
     tile_list_pop_front(process_queue);
     dbv_set(&tile_processed, tile_index(ptile));
-    adjc_iterate(ptile, piter) {
+    adjc_iterate(&(wld.map), ptile, piter) {
       struct city *other_city;
 
       if (dbv_isset(&tile_processed, tile_index(piter))) {
@@ -3077,7 +3077,7 @@ void city_map_update_all_cities_for_player(struct player *pplayer)
 **************************************************************************/
 void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 {
-  adjc_iterate(ptile, tile1) {
+  adjc_iterate(&(wld.map), ptile, tile1) {
     struct city *pcity = tile_city(tile1);
 
     if (pcity && !is_terrain_class_near_tile(tile1, TC_OCEAN)) {

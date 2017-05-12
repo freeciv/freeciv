@@ -368,12 +368,12 @@ static int avg_benefit(int benefit, int loss, double chance)
   expect any help in our attack. Base function.
 **************************************************************************/
 static void reinforcements_cost_and_value(struct unit *punit,
-					  struct tile *ptile0,
+                                          struct tile *ptile0,
                                           int *value, int *cost)
 {
   *cost = 0;
   *value = 0;
-  square_iterate(ptile0, 1, ptile) {
+  square_iterate(&(wld.map), ptile0, 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
       if (aunit != punit
 	  && pplayers_allied(unit_owner(punit), unit_owner(aunit))) {
@@ -398,7 +398,7 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 
   CHECK_UNIT(punit);
 
-  square_iterate(unit_tile(pdef), 1, ptile) {
+  square_iterate(&(wld.map), unit_tile(pdef), 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
       if (aunit == punit || unit_owner(aunit) != unit_owner(punit)) {
         continue;
@@ -992,7 +992,7 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
     ptile = unit_tile(punit);
   }
 
-  square_iterate(ptile, radius, tile1) {
+  square_iterate(&(wld.map), ptile, radius, tile1) {
     struct city *pcity = tile_city(tile1);
 
     if (pcity
@@ -1032,7 +1032,7 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
       *beachhead_tile = dest_tile;
     }
 
-    adjc_iterate(dest_tile, ptile) {
+    adjc_iterate(&(wld.map), dest_tile, ptile) {
       cost = pf_map_move_cost(ferry_map, ptile);
       if (cost != PF_IMPOSSIBLE_MC
           && (NULL == best_tile || cost < best_cost)) {
@@ -1053,10 +1053,10 @@ bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
     int best_cost = PF_IMPOSSIBLE_MC, cost;
 
     tile_list_append(checked_tiles, dest_tile);
-    adjc_iterate(dest_tile, beach) {
+    adjc_iterate(&(wld.map), dest_tile, beach) {
       if (is_native_tile(cargo_type, beach)) {
         /* Can land there. */
-        adjc_iterate(beach, ptile) {
+        adjc_iterate(&(wld.map), beach, ptile) {
           if (!tile_list_search(checked_tiles, ptile)
               && !is_non_allied_unit_tile(ptile, pplayer)) {
             tile_list_append(checked_tiles, ptile);
@@ -2892,7 +2892,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
     UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: moves left: %d.",
              leader->moves_left);
 
-    adjc_iterate(leader_tile, near_tile) {
+    adjc_iterate(&(wld.map), leader_tile, near_tile) {
       if (adv_could_unit_move_to_tile(leader, near_tile) != 1) {
         continue;
       }
@@ -2966,7 +2966,7 @@ void dai_consider_tile_dangerous(struct ai_type *ait, struct tile *ptile,
   db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_squared(punit) * db;
 
-  adjc_iterate(ptile, ptile1) {
+  adjc_iterate(&(wld.map), ptile, ptile1) {
     if (has_handicap(pplayer, H_FOG)
         && !map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */

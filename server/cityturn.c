@@ -3931,8 +3931,8 @@ static bool check_city_migrations_player(const struct player *pplayer)
 
     /* consider all cities within the maximal possible distance
      * (= CITY_MAP_MAX_RADIUS + GAME_MAX_MGR_DISTANCE) */
-    iterate_outward(city_tile(pcity), CITY_MAP_MAX_RADIUS
-                                      + GAME_MAX_MGR_DISTANCE, ptile) {
+    iterate_outward(&(wld.map), city_tile(pcity),
+                    CITY_MAP_MAX_RADIUS + GAME_MAX_MGR_DISTANCE, ptile) {
       acity = tile_city(ptile);
 
       if (!acity || acity == pcity) {

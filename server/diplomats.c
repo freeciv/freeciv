@@ -1569,10 +1569,10 @@ static bool diplomat_was_caught(struct player *act_player,
 /**************************************************************************
   This subtracts the destination movement cost from a diplomat/spy.
 **************************************************************************/
-static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile)
+static void diplomat_charge_movement(struct unit *pdiplomat, struct tile *ptile)
 {
   pdiplomat->moves_left -=
-    map_move_cost_unit(pdiplomat, ptile);
+    map_move_cost_unit(&(wld.map), pdiplomat, ptile);
   if (pdiplomat->moves_left < 0) {
     pdiplomat->moves_left = 0;
   }

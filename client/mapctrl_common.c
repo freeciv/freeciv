@@ -681,7 +681,7 @@ void overview_update_line(int overview_x, int overview_y)
   case HOVER_PATROL:
   case HOVER_CONNECT:
     overview_to_map_pos(&x, &y, overview_x, overview_y);
-    ptile = map_pos_to_tile(x, y);
+    ptile = map_pos_to_tile(&(wld.map), x, y);
 
     is_valid_goto_draw_line(ptile);
   case HOVER_NONE:

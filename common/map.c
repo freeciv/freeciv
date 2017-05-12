@@ -363,7 +363,8 @@ static void tile_init(struct tile *ptile)
   Step from the given tile in the given direction.  The new tile is returned,
   or NULL if the direction is invalid or leads off the map.
 ****************************************************************************/
-struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
+struct tile *mapstep(const struct civ_map *nmap,
+                     const struct tile *ptile, enum direction8 dir)
 {
   int dx, dy, tile_x, tile_y;
 
@@ -377,7 +378,7 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
   tile_x += dx;
   tile_y += dy;
 
-  return map_pos_to_tile(tile_x, tile_y);
+  return map_pos_to_tile(&(wld.map), tile_x, tile_y);
 }
 
 /****************************************************************************
@@ -386,7 +387,8 @@ struct tile *mapstep(const struct tile *ptile, enum direction8 dir)
   This is a backend function used by map_pos_to_tile and native_pos_to_tile.
   It is called extremely often so it is made inline.
 ****************************************************************************/
-static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
+static inline struct tile *base_native_pos_to_tile(const struct civ_map *nmap,
+                                                   int nat_x, int nat_y)
 {
   /* Wrap in X and Y directions, as needed. */
   /* If the position is out of range in a non-wrapping direction, it is
@@ -403,13 +405,13 @@ static inline struct tile *base_native_pos_to_tile(int nat_x, int nat_y)
   }
 
   /* We already checked legality of native pos above, don't repeat */
-  return wld.map.tiles + native_pos_to_index_nocheck(nat_x, nat_y);
+  return nmap->tiles + native_pos_to_index_nocheck(nat_x, nat_y);
 }
 
 /****************************************************************************
   Return the tile for the given cartesian (map) position.
 ****************************************************************************/
-struct tile *map_pos_to_tile(int map_x, int map_y)
+struct tile *map_pos_to_tile(const struct civ_map *nmap, int map_x, int map_y)
 {
   /* Instead of introducing new variables for native coordinates,
    * update the map coordinate variables = registers already in use.
@@ -418,13 +420,13 @@ struct tile *map_pos_to_tile(int map_x, int map_y)
 #define nat_x map_x
 #define nat_y map_y
 
-  if (!wld.map.tiles) {
+  if (nmap->tiles == NULL) {
     return NULL;
   }
 
   /* Normalization is best done in native coordinates. */
   MAP_TO_NATIVE_POS(&nat_x, &nat_y, map_x, map_y);
-  return base_native_pos_to_tile(nat_x, nat_y);
+  return base_native_pos_to_tile(nmap, nat_x, nat_y);
 
 #undef nat_x
 #undef nat_y
@@ -433,19 +435,20 @@ struct tile *map_pos_to_tile(int map_x, int map_y)
 /****************************************************************************
   Return the tile for the given native position.
 ****************************************************************************/
-struct tile *native_pos_to_tile(int nat_x, int nat_y)
+struct tile *native_pos_to_tile(const struct civ_map *nmap,
+                                int nat_x, int nat_y)
 {
-  if (!wld.map.tiles) {
+  if (nmap->tiles == NULL) {
     return NULL;
   }
 
-  return base_native_pos_to_tile(nat_x, nat_y);
+  return base_native_pos_to_tile(nmap, nat_x, nat_y);
 }
 
 /****************************************************************************
   Return the tile for the given index position.
 ****************************************************************************/
-struct tile *index_to_tile(struct civ_map *imap, int mindex)
+struct tile *index_to_tile(const struct civ_map *imap, int mindex)
 {
   if (!imap->tiles) {
     return NULL;
@@ -646,14 +649,15 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
 /****************************************************************************
   Return TRUE if this ocean terrain is adjacent to a safe coastline.
 ****************************************************************************/
-bool is_safe_ocean(const struct tile *ptile)
+bool is_safe_ocean(struct civ_map *nmap, const struct tile *ptile)
 {
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) != T_UNKNOWN
         && !terrain_has_flag(tile_terrain(adjc_tile), TER_UNSAFE_COAST)) {
       return TRUE;
     }
   } adjc_iterate_end;
+
   return FALSE;
 }
 
@@ -765,7 +769,8 @@ bool terrain_surroundings_allow_change(const struct tile *ptile,
   May also be used with punit == NULL, in which case punit
   tests are not done (for unit-independent results).
 ***************************************************************/
-int tile_move_cost_ptrs(const struct unit *punit,
+int tile_move_cost_ptrs(const struct civ_map *nmap,
+                        const struct unit *punit,
                         const struct unit_type *punittype,
                         const struct player *pplayer,
                         const struct tile *t1, const struct tile *t2)
@@ -833,7 +838,8 @@ int tile_move_cost_ptrs(const struct unit *punit,
             cost = proad->move_cost;
           } else {
             if (!cardinality_checked) {
-              cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
+              cardinal_move = (ALL_DIRECTIONS_CARDINAL()
+                               || is_move_cardinal(nmap, t1, t2));
               cardinality_checked = TRUE;
             }
             if (cardinal_move) {
@@ -844,7 +850,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
                 break;
               case RMM_RELAXED:
                 if (cost > proad->move_cost * 2) {
-                  cardinal_between_iterate(t1, t2, between) {
+                  cardinal_between_iterate(nmap, t1, t2, between) {
                     if (tile_has_extra(between, pextra)
                         || (pextra != iextra && tile_has_extra(between, iextra))) {
                       /* 'pextra != iextra' is there just to avoid tile_has_extra()
@@ -877,7 +883,8 @@ int tile_move_cost_ptrs(const struct unit *punit,
 
   if (terrain_control.pythagorean_diagonal) {
     if (!cardinality_checked) {
-      cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
+      cardinal_move = (ALL_DIRECTIONS_CARDINAL()
+                       || is_move_cardinal(nmap, t1, t2));
     }
     if (!cardinal_move) {
       return (int) (cost * 1.41421356f);
@@ -934,9 +941,9 @@ bool same_pos(const struct tile *tile1, const struct tile *tile2)
 /***************************************************************
   Is given position real position
 ***************************************************************/
-bool is_real_map_pos(int x, int y)
+bool is_real_map_pos(const struct civ_map *nmap, int x, int y)
 {
-  return normalize_map_pos(&x, &y);
+  return normalize_map_pos(nmap, &x, &y);
 }
 
 /**************************************************************************
@@ -961,9 +968,9 @@ bool is_normal_map_pos(int x, int y)
   Note, we need to leave x and y with sane values even in the unreal case.
   Some callers may for instance call nearest_real_pos on these values.
 **************************************************************************/
-bool normalize_map_pos(int *x, int *y)
+bool normalize_map_pos(const struct civ_map *nmap, int *x, int *y)
 {
-  struct tile *ptile = map_pos_to_tile(*x, *y);
+  struct tile *ptile = map_pos_to_tile(nmap, *x, *y);
 
   if (ptile) {
     index_to_map_pos(x, y, tile_index(ptile)); 
@@ -977,7 +984,7 @@ bool normalize_map_pos(int *x, int *y)
 Twiddle *x and *y to point the the nearest real tile, and ensure that the
 position is normalized.
 **************************************************************************/
-struct tile *nearest_real_tile(int x, int y)
+struct tile *nearest_real_tile(const struct civ_map *nmap, int x, int y)
 {
   int nat_x, nat_y;
 
@@ -990,7 +997,7 @@ struct tile *nearest_real_tile(int x, int y)
   }
   NATIVE_TO_MAP_POS(&x, &y, nat_x, nat_y);
 
-  return map_pos_to_tile(x, y);
+  return map_pos_to_tile(nmap, x, y);
 }
 
 /**************************************************************************
@@ -1069,7 +1076,8 @@ void map_distance_vector(int *dx, int *dy,
 /**************************************************************************
 Random neighbouring square.
 **************************************************************************/
-struct tile *rand_neighbour(const struct tile *ptile)
+struct tile *rand_neighbour(const struct civ_map *nmap,
+                            const struct tile *ptile)
 {
   int n;
   struct tile *tile1;
@@ -1088,7 +1096,7 @@ struct tile *rand_neighbour(const struct tile *ptile)
     enum direction8 choice = (enum direction8) fc_rand(n);
 
     /* this neighbour's OK */
-    tile1 = mapstep(ptile, dirs[choice]);
+    tile1 = mapstep(nmap, ptile, dirs[choice]);
     if (tile1) {
       return tile1;
     }
@@ -1106,11 +1114,11 @@ struct tile *rand_neighbour(const struct tile *ptile)
  Random square anywhere on the map.  Only normal positions (for which
  is_normal_map_pos returns true) will be found.
 **************************************************************************/
-struct tile *rand_map_pos(void)
+struct tile *rand_map_pos(const struct civ_map *nmap)
 {
   int nat_x = fc_rand(wld.map.xsize), nat_y = fc_rand(wld.map.ysize);
 
-  return native_pos_to_tile(nat_x, nat_y);
+  return native_pos_to_tile(nmap, nat_x, nat_y);
 }
 
 /**************************************************************************
@@ -1119,9 +1127,9 @@ struct tile *rand_map_pos(void)
   NULL if any position is okay; if non-NULL it shouldn't have any side
   effects.
 **************************************************************************/
-struct tile *rand_map_pos_filtered(void *data,
-				   bool (*filter)(const struct tile *ptile,
-						  const void *data))
+struct tile *rand_map_pos_filtered(const struct civ_map *nmap, void *data,
+                                   bool (*filter)(const struct tile *ptile,
+                                                  const void *data))
 {
   struct tile *ptile;
   int tries = 0;
@@ -1130,7 +1138,7 @@ struct tile *rand_map_pos_filtered(void *data,
   /* First do a few quick checks to find a spot.  The limit on number of
    * tries could use some tweaking. */
   do {
-    ptile = wld.map.tiles + fc_rand(MAP_INDEX_SIZE);
+    ptile = nmap->tiles + fc_rand(MAP_INDEX_SIZE);
   } while (filter && !filter(ptile, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
@@ -1140,7 +1148,7 @@ struct tile *rand_map_pos_filtered(void *data,
 
     positions = fc_calloc(MAP_INDEX_SIZE, sizeof(*positions));
 
-    whole_map_iterate(&(wld.map), check_tile) {
+    whole_map_iterate(nmap, check_tile) {
       if (filter(check_tile, data)) {
 	positions[count] = tile_index(check_tile);
 	count++;
@@ -1155,6 +1163,7 @@ struct tile *rand_map_pos_filtered(void *data,
 
     FC_FREE(positions);
   }
+
   return ptile;
 }
 
@@ -1343,11 +1352,12 @@ Return true and sets dir to the direction of the step if (end_x,
 end_y) can be reached from (start_x, start_y) in one step. Return
 false otherwise (value of dir is unchanged in this case).
 **************************************************************************/
-bool base_get_direction_for_step(const struct tile *start_tile,
-				 const struct tile *end_tile,
-				 enum direction8 *dir)
+bool base_get_direction_for_step(const struct civ_map *nmap,
+                                 const struct tile *start_tile,
+                                 const struct tile *end_tile,
+                                 enum direction8 *dir)
 {
-  adjc_dir_iterate(start_tile, test_tile, test_dir) {
+  adjc_dir_iterate(nmap, start_tile, test_tile, test_dir) {
     if (same_pos(end_tile, test_tile)) {
       *dir = test_dir;
       return TRUE;
@@ -1361,12 +1371,13 @@ bool base_get_direction_for_step(const struct tile *start_tile,
   Return the direction which is needed for a step on the map from
  (start_x, start_y) to (end_x, end_y).
 **************************************************************************/
-int get_direction_for_step(const struct tile *start_tile,
-			   const struct tile *end_tile)
+int get_direction_for_step(const struct civ_map *nmap,
+                           const struct tile *start_tile,
+                           const struct tile *end_tile)
 {
   enum direction8 dir;
 
-  if (base_get_direction_for_step(start_tile, end_tile, &dir)) {
+  if (base_get_direction_for_step(nmap, start_tile, end_tile, &dir)) {
     return dir;
   }
 
@@ -1378,10 +1389,11 @@ int get_direction_for_step(const struct tile *start_tile,
   Returns TRUE iff the move from the position (start_x,start_y) to
   (end_x,end_y) is a cardinal one.
 **************************************************************************/
-bool is_move_cardinal(const struct tile *start_tile,
-		      const struct tile *end_tile)
+bool is_move_cardinal(const struct civ_map *nmap,
+                      const struct tile *start_tile,
+                      const struct tile *end_tile)
 {
-  cardinal_adjc_dir_iterate(start_tile, test_tile, test_dir) {
+  cardinal_adjc_dir_iterate(nmap, start_tile, test_tile, test_dir) {
     if (same_pos(end_tile, test_tile)) {
       return TRUE;
     }

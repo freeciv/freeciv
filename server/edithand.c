@@ -309,7 +309,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
   conn_list_do_buffer(game.est_connections);
   /* This iterates outward, which gives any units that can't survive on
    * changed terrain the best chance of survival. */
-  square_iterate(ptile_center, size - 1, ptile) {
+  square_iterate(&(wld.map), ptile_center, size - 1, ptile) {
     edit_tile_terrain_handling(ptile, pterrain, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
@@ -342,7 +342,7 @@ void handle_edit_tile_extra(struct connection *pc, int tile,
   }
 
   conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
+  square_iterate(&(wld.map), ptile_center, size - 1, ptile) {
     edit_tile_extra_handling(ptile, extra_by_number(id), removal, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
@@ -1154,7 +1154,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
   }
 
   conn_list_do_buffer(game.est_connections);
-  square_iterate(ptile_center, size - 1, ptile) {
+  square_iterate(&(wld.map), ptile_center, size - 1, ptile) {
 
     if (!known) {
       struct city *pcity = tile_city(ptile);

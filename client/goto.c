@@ -658,14 +658,14 @@ static int get_activity_time(const struct tile *ptile,
   nonallied cities
 ****************************************************************************/
 static bool is_non_allied_city_adjacent(const struct player *pplayer,
-					const struct tile *ptile)
+                                        const struct tile *ptile)
 {
-  adjc_iterate(ptile, tile1) {
+  adjc_iterate(&(wld.map), ptile, tile1) {
     if (is_non_allied_city_tile(tile1, pplayer)) {
       return TRUE;
     }
   } adjc_iterate_end;
-  
+
   return FALSE;
 }
 
@@ -1395,7 +1395,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
       p.orders[i] = orders;
-      p.dir[i] = get_direction_for_step(old_tile, new_tile);
+      p.dir[i] = get_direction_for_step(&(wld.map), old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
       p.target[i] = EXTRA_NONE;
       p.action[i] = ACTION_NONE;
@@ -1619,18 +1619,19 @@ void send_connect_route(enum unit_activity activity,
       }
 
       if (i != path->length - 1) {
-	struct tile *new_tile = path->positions[i + 1].tile;
+        struct tile *new_tile = path->positions[i + 1].tile;
 
         fc_assert(!same_pos(new_tile, old_tile));
 
-	p.orders[p.length] = ORDER_MOVE;
-	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
+        p.orders[p.length] = ORDER_MOVE;
+        p.dir[p.length] = get_direction_for_step(&(wld.map),
+                                                 old_tile, new_tile);
         p.activity[p.length] = ACTIVITY_LAST;
         p.target[p.length] = EXTRA_NONE;
         p.action[p.length] = ACTION_NONE;
-	p.length++;
+        p.length++;
 
-	old_tile = new_tile;
+        old_tile = new_tile;
       }
     }
 
@@ -1775,7 +1776,7 @@ void send_goto_route(void)
          * There exists a tile before the target tile to do it from. */
 
         /* Give the last path direction to the final order. */
-        last_order_dir = get_direction_for_step(on_tile, tgt_tile);
+        last_order_dir = get_direction_for_step(&(wld.map), on_tile, tgt_tile);
 
         /* The last path direction is now spent. */
         pf_path_backtrack(path, on_tile);

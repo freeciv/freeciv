@@ -140,7 +140,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  mcost = map_move_cost_unit(punit, ptile);
+  mcost = map_move_cost_unit(&(wld.map), punit, ptile);
   if (punit->moves_left <= mcost
       && unit_move_rate(punit) > mcost
       && adv_danger_at(punit, ptile)
@@ -174,9 +174,9 @@ static bool adv_could_be_my_zoc(struct unit *myunit, struct tile *ptile)
     return FALSE;
   }
 
-  adjc_iterate(ptile, atile) {
+  adjc_iterate(&(wld.map), ptile, atile) {
     if (!terrain_has_flag(tile_terrain(atile), TER_NO_ZOC)
-	&& is_non_allied_unit_tile(atile, unit_owner(myunit))) {
+        && is_non_allied_unit_tile(atile, unit_owner(myunit))) {
       return FALSE;
     }
   } adjc_iterate_end;
@@ -286,7 +286,7 @@ bool adv_danger_at(struct unit *punit, struct tile *ptile)
   db += (db * extras_bonus) / 100;
   d = adv_unit_def_rating_basic_squared(punit) * db;
 
-  adjc_iterate(ptile, ptile1) {
+  adjc_iterate(&(wld.map), ptile, ptile1) {
     if (!map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */
       continue;

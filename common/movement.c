@@ -193,7 +193,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
   dbv_init(&tile_processed, map_num_tiles());
   for (;;) {
     dbv_set(&tile_processed, tile_index(ptile));
-    adjc_iterate(ptile, piter) {
+    adjc_iterate(&(wld.map), ptile, piter) {
       if (dbv_isset(&tile_processed, tile_index(piter))) {
         continue;
       } else if (piter != pexclude
@@ -242,7 +242,8 @@ bool can_exist_at_tile(const struct unit_type *utype,
   }
 
   /* UTYF_COAST_STRICT unit cannot exist in an ocean tile without access to land. */
-  if (utype_has_flag(utype, UTYF_COAST_STRICT) && !is_safe_ocean(ptile)) {
+  if (utype_has_flag(utype, UTYF_COAST_STRICT)
+      && !is_safe_ocean(&(wld.map), ptile)) {
     return FALSE;
   }
 
@@ -369,16 +370,16 @@ bool is_native_move(const struct unit_class *punitclass,
         return TRUE;
       case RMM_CARDINAL:
         /* Road connects source and destination if cardinal move. */
-        if (is_move_cardinal(src_tile, dst_tile)) {
+        if (is_move_cardinal(&(wld.map), src_tile, dst_tile)) {
           return TRUE;
         }
         break;
       case RMM_RELAXED:
-        if (is_move_cardinal(src_tile, dst_tile)) {
+        if (is_move_cardinal(&(wld.map), src_tile, dst_tile)) {
           /* Cardinal moves have no between tiles, so connected. */
           return TRUE;
         }
-        cardinal_between_iterate(src_tile, dst_tile, between) {
+        cardinal_between_iterate(&(wld.map), src_tile, dst_tile, between) {
           if (tile_has_extra(between, iextra)
               || (pextra != iextra && tile_has_extra(between, pextra))) {
             /* We have a link for the connection.
@@ -404,7 +405,7 @@ bool is_native_near_tile(const struct unit_class *uclass, const struct tile *pti
     return TRUE;
   }
 
-  adjc_iterate(ptile, ptile2) {
+  adjc_iterate(&(wld.map), ptile, ptile2) {
     if (is_native_tile_to_class(uclass, ptile2)) {
       return TRUE;
     }
@@ -637,7 +638,8 @@ unit_move_to_tile_test(const struct unit *punit,
   }
 
   /* 9) */
-  if (utype_has_flag(punittype, UTYF_COAST_STRICT) && !is_safe_ocean(dst_tile)) {
+  if (utype_has_flag(punittype, UTYF_COAST_STRICT)
+      && !is_safe_ocean(&(wld.map), dst_tile)) {
     return MR_TRIREME;
   }
 

@@ -462,7 +462,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
         v += ai->threats.ocean[-tile_continent(pcity->tile)]
           ? amount/5 : amount/20;
       } else {
-        adjc_iterate(pcity->tile, tile2) {
+        adjc_iterate(&(wld.map), pcity->tile, tile2) {
           if (is_ocean_tile(tile2)) {
             if (ai->threats.ocean[-tile_continent(tile2)]) {
               v += amount/5;
@@ -561,7 +561,8 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_MIGRATION_PCT:
     /* consider all foreign cities within the set distance */
-    iterate_outward(city_tile(pcity), game.server.mgr_distance + 1, ptile) {
+    iterate_outward(&(wld.map), city_tile(pcity),
+                    game.server.mgr_distance + 1, ptile) {
       struct city *acity = tile_city(ptile);
 
       if (!acity || acity == pcity || city_owner(acity) == pplayer) {

@@ -142,17 +142,17 @@ extern bool can_slide;
 	if (_t##_xi % 2 == 0 && _t##_yi % 2 == 0) {			\
 	  if ((_t##_xi + _t##_yi) % 4 == 0) {				\
 	    /* Tile */							\
-	    _t = map_pos_to_tile(_t##_si / 4 - 1, _t##_di / 4);		\
+	    _t = map_pos_to_tile(&(wld.map), _t##_si / 4 - 1, _t##_di / 4); \
 	  } else {							\
 	    /* Corner */						\
 	    _c = &_t##_c;						\
-	    _c->tile[0] = map_pos_to_tile((_t##_si - 6) / 4,		\
+	    _c->tile[0] = map_pos_to_tile(&(wld.map), (_t##_si - 6) / 4,		\
 					  (_t##_di - 2) / 4);		\
-	    _c->tile[1] = map_pos_to_tile((_t##_si - 2) / 4,		\
+	    _c->tile[1] = map_pos_to_tile(&(wld.map), (_t##_si - 2) / 4,		\
 					  (_t##_di - 2) / 4);		\
-	    _c->tile[2] = map_pos_to_tile((_t##_si - 2) / 4,		\
+	    _c->tile[2] = map_pos_to_tile(&(wld.map), (_t##_si - 2) / 4,		\
 					  (_t##_di + 2) / 4);		\
-	    _c->tile[3] = map_pos_to_tile((_t##_si - 6) / 4,		\
+	    _c->tile[3] = map_pos_to_tile(&(wld.map), (_t##_si - 6) / 4,		\
 					  (_t##_di + 2) / 4);		\
 	    if (tileset_hex_width(tileset) > 0) {			\
 	      _e = &_t##_e;						\
@@ -171,15 +171,15 @@ extern bool can_slide;
 	  _e = &_t##_e;							\
 	  if (_t##_si % 4 == 0) {					\
 	    _e->type = EDGE_NS;						\
-	    _e->tile[0] = map_pos_to_tile((_t##_si - 4) / 4,		\
+	    _e->tile[0] = map_pos_to_tile(&(wld.map), (_t##_si - 4) / 4,		\
 					  (_t##_di - 2) / 4);	/*N*/	\
-	    _e->tile[1] = map_pos_to_tile((_t##_si - 4) / 4,		\
+	    _e->tile[1] = map_pos_to_tile(&(wld.map), (_t##_si - 4) / 4,		\
 					  (_t##_di + 2) / 4);	/*S*/	\
 	  } else {							\
 	    _e->type = EDGE_WE;						\
-	    _e->tile[0] = map_pos_to_tile((_t##_si - 6) / 4,		\
+	    _e->tile[0] = map_pos_to_tile(&(wld.map), (_t##_si - 6) / 4,		\
 					  _t##_di / 4);		/*W*/	\
-	    _e->tile[1] = map_pos_to_tile((_t##_si - 2) / 4,		\
+	    _e->tile[1] = map_pos_to_tile(&(wld.map), (_t##_si - 2) / 4,		\
 					  _t##_di / 4);		/*E*/	\
 	  }								\
 	}								\
@@ -188,17 +188,17 @@ extern bool can_slide;
 	  if (_t##_xi % 2 == 0) {					\
 	    /* Corner. */						\
 	    _c = &_t##_c;						\
-	    _c->tile[0] = map_pos_to_tile(_t##_xi / 2 - 1,		\
+	    _c->tile[0] = map_pos_to_tile(&(wld.map), _t##_xi / 2 - 1,		\
 					  _t##_yi / 2 - 1);	/*NW*/	\
-	    _c->tile[1] = map_pos_to_tile(_t##_xi / 2,			\
+	    _c->tile[1] = map_pos_to_tile(&(wld.map), _t##_xi / 2,			\
 					  _t##_yi / 2 - 1);	/*NE*/	\
-	    _c->tile[2] = map_pos_to_tile(_t##_xi / 2,			\
+	    _c->tile[2] = map_pos_to_tile(&(wld.map), _t##_xi / 2,			\
 					  _t##_yi / 2);		/*SE*/	\
-	    _c->tile[3] = map_pos_to_tile(_t##_xi / 2 - 1,		\
+	    _c->tile[3] = map_pos_to_tile(&(wld.map), _t##_xi / 2 - 1,		\
 					  _t##_yi / 2);		/*SW*/	\
 	  } else {							\
 	    /* Tile. */							\
-	    _t = map_pos_to_tile((_t##_xi - 1) / 2,			\
+	    _t = map_pos_to_tile(&(wld.map), (_t##_xi - 1) / 2,			\
 				 (_t##_yi - 1) / 2);			\
 	  }								\
 	} else {							\
@@ -206,15 +206,15 @@ extern bool can_slide;
 	  _e = &_t##_e;							\
 	  if (_t##_yi % 2 == 0) {					\
 	    _e->type = EDGE_NS;						\
-	    _e->tile[0] = map_pos_to_tile((_t##_xi - 1) / 2,		\
+	    _e->tile[0] = map_pos_to_tile(&(wld.map), (_t##_xi - 1) / 2,		\
 					  _t##_yi / 2 - 1);	/*N*/	\
-	    _e->tile[1] = map_pos_to_tile((_t##_xi - 1) / 2,		\
+	    _e->tile[1] = map_pos_to_tile(&(wld.map), (_t##_xi - 1) / 2,		\
 					  _t##_yi / 2);		/*S*/	\
 	  } else {							\
 	    _e->type = EDGE_WE;						\
-	    _e->tile[0] = map_pos_to_tile(_t##_xi / 2 - 1,		\
+	    _e->tile[0] = map_pos_to_tile(&(wld.map), _t##_xi / 2 - 1,		\
 					  (_t##_yi - 1) / 2);	/*W*/	\
-	    _e->tile[1] = map_pos_to_tile(_t##_xi / 2,			\
+	    _e->tile[1] = map_pos_to_tile(&(wld.map), _t##_xi / 2,			\
 					  (_t##_yi - 1) / 2);	/*E*/	\
 	  }								\
 	}								\

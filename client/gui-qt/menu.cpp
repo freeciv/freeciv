@@ -2724,8 +2724,10 @@ void mr_menu::slot_execute_orders()
       punit->tile = new_tile;
     }
     if (is_tiles_adjacent(punit->tile, fui->ptile)) {
-      request_move_unit_direction(punit, get_direction_for_step(punit->tile,
-                                  fui->ptile));
+      request_move_unit_direction(punit,
+                                  get_direction_for_step(&(wld.map),
+                                                         punit->tile,
+                                                         fui->ptile));
     } else {
       send_attack_tile(punit, fui->ptile);
     }

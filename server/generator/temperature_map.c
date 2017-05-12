@@ -91,11 +91,12 @@ bool tmap_is(const struct tile *ptile, temperature_type tt)
 ****************************************************************/
 bool is_temperature_type_near(const struct tile *ptile, temperature_type tt) 
 {
-  adjc_iterate(ptile, tile1) {
+  adjc_iterate(&(wld.map), ptile, tile1) {
     if (BOOL_VAL(tmap(tile1) & (tt))) {
       return TRUE;
     };
   } adjc_iterate_end;
+
   return FALSE;
 }
 

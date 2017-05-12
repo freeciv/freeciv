@@ -2732,7 +2732,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
-    if (!(ptile = map_pos_to_tile(x, y))) {
+    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }
@@ -2763,7 +2763,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Value 2 & 3 must be integer."));
       goto cleanup;
     }
-    if (!(ptile = map_pos_to_tile(x, y))) {
+    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Bad map coordinates."));
       goto cleanup;
     }

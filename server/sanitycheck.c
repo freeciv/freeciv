@@ -185,14 +185,14 @@ static void check_map(const char *file, const char *function, int line)
 
     if (is_ocean_tile(ptile)) {
       SANITY_TILE(ptile, cont < 0);
-      adjc_iterate(ptile, tile1) {
+      adjc_iterate(&(wld.map), ptile, tile1) {
 	if (is_ocean_tile(tile1)) {
 	  SANITY_TILE(ptile, tile_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     } else {
       SANITY_TILE(ptile, cont > 0);
-      adjc_iterate(ptile, tile1) {
+      adjc_iterate(&(wld.map), ptile, tile1) {
 	if (!is_ocean_tile(tile1)) {
 	  SANITY_TILE(ptile, tile_continent(tile1) == cont);
 	}

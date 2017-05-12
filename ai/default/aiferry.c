@@ -403,7 +403,7 @@ static int combined_land_sea_move(const struct tile *src_tile,
     move_cost = PF_IMPOSSIBLE_MC;
   } else {
     /* Land-to-Land */
-    move_cost = map_move_cost(param->owner, param->utype,
+    move_cost = map_move_cost(&(wld.map), param->owner, param->utype,
                               src_tile, tgt_tile);
   }
 
@@ -539,7 +539,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit,
       break;
     }
     
-    square_iterate(pos.tile, radius, ptile) {
+    square_iterate(&(wld.map), pos.tile, radius, ptile) {
       unit_list_iterate(ptile->units, aunit) {
         if (is_boat_free(ait, aunit, punit, cap)) {
           /* Turns for the unit to get to rendezvous pnt */
@@ -581,7 +581,7 @@ static int aiferry_find_boat_nearby(struct ai_type *ait, struct unit *punit,
 {
   UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked find_ferry_nearby for a boat");
 
-  square_iterate(unit_tile(punit), 1, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
       if (is_boat_free(ait, aunit, punit, cap)) {
         return aunit->id;

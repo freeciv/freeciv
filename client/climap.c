@@ -119,7 +119,7 @@ struct tile *client_city_tile(const struct city *pcity)
   } whole_map_iterate_end;
 
   if (0 < num) {
-    return map_pos_to_tile((int) x, (int) y);
+    return map_pos_to_tile(&(wld.map), (int) x, (int) y);
   } else {
     return NULL;
   }

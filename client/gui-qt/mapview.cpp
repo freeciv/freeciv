@@ -912,7 +912,7 @@ void minimap_view::mousePressEvent(QMouseEvent * event)
     fx = qMin(fx, gui_options.overview.width - 1);
     fy = qMin(fy, gui_options.overview.height - 1);
     overview_to_map_pos(&x, &y, fx, fy);
-    center_tile_mapcanvas(map_pos_to_tile(x, y));
+    center_tile_mapcanvas(map_pos_to_tile(&(wld.map), x, y));
     update_image();
   }
   event->setAccepted(true);

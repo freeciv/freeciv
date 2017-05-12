@@ -1277,7 +1277,7 @@ static int minimap_window_callback(struct widget *pWidget)
         int map_x, map_y;
 
         overview_to_map_pos(&map_x, &map_y, mouse_x, mouse_y);
-        center_tile_mapcanvas(map_pos_to_tile(map_x, map_y));
+        center_tile_mapcanvas(map_pos_to_tile(&(wld.map), map_x, map_y));
       }
 
       break;

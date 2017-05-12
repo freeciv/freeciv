@@ -912,12 +912,14 @@ int api_methods_private_tile_next_outward_index(lua_State *L, Tile *pstart,
     dy = wld.map.iterate_outwards_indices[tindex].dy;
     newx = dx + startx;
     newy = dy + starty;
-    if (!normalize_map_pos(&newx, &newy)) {
+    if (!normalize_map_pos(&(wld.map), &newx, &newy)) {
       tindex++;
       continue;
     }
+
     return tindex;
   }
+
   return -1;
 }
 
@@ -939,10 +941,11 @@ Tile *api_methods_private_tile_for_outward_index(lua_State *L, Tile *pstart,
   newx += wld.map.iterate_outwards_indices[tindex].dx;
   newy += wld.map.iterate_outwards_indices[tindex].dy;
 
-  if (!normalize_map_pos(&newx, &newy)) {
+  if (!normalize_map_pos(&(wld.map), &newx, &newy)) {
     return NULL;
   }
-  return map_pos_to_tile(newx, newy);
+
+  return map_pos_to_tile(&(wld.map), newx, newy);
 }
 
 /*****************************************************************************

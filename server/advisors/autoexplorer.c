@@ -64,7 +64,7 @@ static int likely_native(struct tile *ptile,
 
   /* The central tile is likely to be the same as the
    * nearby tiles. */
-  adjc_dir_iterate(ptile, ptile1, dir) {
+  adjc_dir_iterate(&(wld.map), ptile, ptile1, dir) {
     if (map_is_known(ptile1, pplayer)) {
       if (is_native_tile_to_class(pclass, ptile)) {
         native++;
@@ -215,7 +215,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
     return 0;
   }
 
-  circle_iterate(ptile, radius_sq, ptile1) {
+  circle_iterate(&(wld.map), ptile, radius_sq, ptile1) {
     int native = likely_native(ptile1, pplayer, unit_class_get(punit));
 
     if (!map_is_known(ptile1, pplayer)) {

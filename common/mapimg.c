@@ -2655,7 +2655,7 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
     return pixel;
   }
 
-  pnext = mapstep(ptile, DIR8_NORTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_NORTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2668,7 +2668,7 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
     BV_SET(pixel, 5);
   }
 
-  pnext = mapstep(ptile, DIR8_EAST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_EAST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2681,7 +2681,7 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
     BV_SET(pixel, 35);
   }
 
-  pnext = mapstep(ptile, DIR8_SOUTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_SOUTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2694,7 +2694,7 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
     BV_SET(pixel, 35);
   }
 
-  pnext = mapstep(ptile, DIR8_WEST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_WEST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2879,7 +2879,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
     return pixel;
   }
 
-  pnext = mapstep(ptile, DIR8_WEST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_WEST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2891,7 +2891,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
 
   /* not used: DIR8_NORTHWEST */
 
-  pnext = mapstep(ptile, DIR8_NORTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_NORTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2901,7 +2901,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
     BV_SET(pixel, 11);
   }
 
-  pnext = mapstep(ptile, DIR8_NORTHEAST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_NORTHEAST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2912,7 +2912,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
     BV_SET(pixel, 29);
   }
 
-  pnext = mapstep(ptile, DIR8_EAST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_EAST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2924,7 +2924,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
 
   /* not used. DIR8_SOUTHEAST */
 
-  pnext = mapstep(ptile, DIR8_SOUTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_SOUTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -2934,7 +2934,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
     BV_SET(pixel, 34);
   }
 
-  pnext = mapstep(ptile, DIR8_SOUTHWEST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_SOUTHWEST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3115,7 +3115,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
     return pixel;
   }
 
-  pnext = mapstep(ptile, DIR8_NORTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_NORTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3128,7 +3128,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
 
   /* not used: DIR8_NORTHEAST */
 
-  pnext = mapstep(ptile, DIR8_EAST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_EAST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3138,7 +3138,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
     BV_SET(pixel, 17);
   }
 
-  pnext = mapstep(ptile, DIR8_SOUTHEAST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_SOUTHEAST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3148,7 +3148,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
     BV_SET(pixel, 35);
   }
 
-  pnext = mapstep(ptile, DIR8_SOUTH);
+  pnext = mapstep(&(wld.map), ptile, DIR8_SOUTH);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3161,7 +3161,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
 
   /* not used: DIR8_SOUTHWEST */
 
-  pnext = mapstep(ptile, DIR8_WEST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_WEST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,
@@ -3171,7 +3171,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
     BV_SET(pixel, 32);
   }
 
-  pnext = mapstep(ptile, DIR8_NORTHWEST);
+  pnext = mapstep(&(wld.map), ptile, DIR8_NORTHWEST);
   if (!pnext || (mapimg.mapimg_tile_known(pnext, pplayer,
                                           knowledge) != TILE_UNKNOWN
                  && mapimg.mapimg_tile_owner(pnext, pplayer,

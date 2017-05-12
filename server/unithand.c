@@ -3082,7 +3082,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       enum direction8 facing;
       int att_hp, def_hp;
 
-      adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
+      adj = base_get_direction_for_step(&(wld.map),
+                                        punit->tile, pdefender->tile, &facing);
 
       if (adj) {
         punit->facing = facing;
@@ -3334,7 +3335,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   moves_used = unit_move_rate(punit) - punit->moves_left;
   def_moves_used = unit_move_rate(pdefender) - pdefender->moves_left;
 
-  adj = base_get_direction_for_step(punit->tile, pdefender->tile, &facing);
+  adj = base_get_direction_for_step(&(wld.map),
+                                    punit->tile, pdefender->tile, &facing);
 
   fc_assert(adj);
   if (adj) {
@@ -3512,7 +3514,7 @@ static bool do_unit_conquer_city(struct player *act_player,
 {
   bool success;
   struct tile *tgt_tile = city_tile(tgt_city);
-  int move_cost = map_move_cost_unit(act_unit, tgt_tile);
+  int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
   int tgt_city_id = tgt_city->id;
   struct player *tgt_player = city_owner(tgt_city);
   const char *victim_link = city_link(tgt_city);
@@ -3720,7 +3722,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
                                         embark_to, FALSE)) {
-    int move_cost = map_move_cost_unit(punit, pdesttile);
+    int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
 
     unit_move(punit, pdesttile, move_cost, embark_to,
               FALSE);

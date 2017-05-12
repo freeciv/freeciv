@@ -72,7 +72,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   struct player* pplayer = unit_owner(punit);
 
   /* First, we search for undefended cities in danger */
-  square_iterate(unit_tile(punit), range, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
     if (!map_is_known(ptile, pplayer)) {
       continue;
     }
@@ -98,7 +98,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   }
 
   /* Second, we search for undefended enemy cities */
-  square_iterate(unit_tile(punit), range, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
     acity = tile_city(ptile);
     if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity)) &&
         (unit_list_size(ptile->units) == 0)) {
@@ -125,7 +125,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   }
 
   /* Jump to kill adjacent units */
-  square_iterate(unit_tile(punit), range, ptile) {
+  square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
     struct terrain *pterrain = tile_terrain(ptile);
     if (is_ocean(pterrain)) {
       continue;
@@ -141,7 +141,7 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       continue;
     }
     /* Iterate over adjacent tile to find good victim */
-    adjc_iterate(ptile, target) {
+    adjc_iterate(&(wld.map), ptile, target) {
       if (unit_list_size(target->units) == 0
           || !can_unit_attack_tile(punit, target)
           || is_ocean_tile(target)
@@ -277,7 +277,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
           + u_type->move_rate 
 	  + u_type->attack_strength;
   
-  square_iterate(ptile_city, range, ptile) {
+  square_iterate(&(wld.map), ptile_city, range, ptile) {
     int multiplier;
     struct city *pcity = tile_city(ptile);
     

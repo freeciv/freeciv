@@ -1951,7 +1951,8 @@ is_action_possible(const enum gen_action wanted_action,
         /* No need to check again. */
         return TRI_NO;
       } else {
-        square_iterate(target_tile, game.info.citymindist - 1, otile) {
+        square_iterate(&(wld.map), target_tile,
+                       game.info.citymindist - 1, otile) {
           if (tile_city(otile) != NULL
               && plr_sees_tile(actor_player, otile)) {
             /* Known to be blocked by citymindist */
@@ -1973,7 +1974,8 @@ is_action_possible(const enum gen_action wanted_action,
     if (!omniscient) {
       /* The player may not have enough information to find out if
        * citymindist blocks or not. This doesn't depend on if it blocks. */
-      square_iterate(target_tile, game.info.citymindist - 1, otile) {
+      square_iterate(&(wld.map), target_tile,
+                     game.info.citymindist - 1, otile) {
         if (!plr_sees_tile(actor_player, otile)) {
           /* Could have a city that blocks via citymindist. Even if this
            * tile has TER_NO_CITIES terrain the player don't know that it

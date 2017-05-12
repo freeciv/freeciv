@@ -328,7 +328,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
             return FALSE;
           }
 
-          ptile = map_pos_to_tile(x, y);
+          ptile = map_pos_to_tile(&(wld.map), x, y);
           if (!ptile) {
             log_featured_text("text_tag_init_from_sequence(): "
                               "(%d, %d) are not valid coordinates "

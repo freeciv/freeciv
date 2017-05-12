@@ -463,7 +463,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 static bool is_city_surrounded_by_our_spies(struct player *pplayer,
                                             struct city *enemy_city)
 {
-  adjc_iterate(city_tile(enemy_city), ptile) {
+  adjc_iterate(&(wld.map), city_tile(enemy_city), ptile) {
     if (has_handicap(pplayer, H_FOG)
         && !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       /* We cannot see danger at (ptile) => assume there is none. */
@@ -723,7 +723,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
       struct tile *bribee_tile;
       struct pf_path *path;
 
-      bribee_tile = mapstep(pos.tile, DIR_REVERSE(pos.dir_to_here));
+      bribee_tile = mapstep(&(wld.map), pos.tile, DIR_REVERSE(pos.dir_to_here));
       path = pf_map_path(pfm, bribee_tile);
       if (!path || !adv_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {

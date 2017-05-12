@@ -308,7 +308,7 @@ bool unleash_barbarians(struct tile *ptile)
   /* Get information about surrounding terrains in terrain class level.
    * Only needed if we consider moving units away to random directions. */
   for (dir = 0; dir < 8; dir++) {
-    dir_tiles[dir] = mapstep(ptile, dir);
+    dir_tiles[dir] = mapstep(&(wld.map), ptile, dir);
     if (dir_tiles[dir] == NULL) {
       terrainc[dir] = terrain_class_invalid();
     } else if (!is_non_allied_unit_tile(dir_tiles[dir], barbarians)) {
@@ -452,7 +452,7 @@ bool unleash_barbarians(struct tile *ptile)
 **************************************************************************/
 static bool is_near_land(struct tile *tile0)
 {
-  square_iterate(tile0, 4, ptile) {
+  square_iterate(&(wld.map), tile0, 4, ptile) {
     if (!is_ocean_tile(ptile)) {
       return TRUE;
     }
@@ -466,7 +466,7 @@ static bool is_near_land(struct tile *tile0)
 **************************************************************************/
 static struct tile *find_empty_tile_nearby(struct tile *ptile)
 {
-  square_iterate(ptile, 1, tile1) {
+  square_iterate(&(wld.map), ptile, 1, tile1) {
     if (unit_list_size(tile1->units) == 0) {
       return tile1;
     }
@@ -511,7 +511,7 @@ static void try_summon_barbarians(void)
    * that a particular tile's chance of being summoned on is independent of
    * all the other tiles on the map - which is essential for balanced
    * gameplay. */
-  ptile = rand_map_pos();
+  ptile = rand_map_pos(&(wld.map));
 
   if (terrain_has_flag(tile_terrain(ptile), TER_NO_BARBS)) {
     return;
@@ -625,7 +625,7 @@ static void try_summon_barbarians(void)
     boat = find_a_unit_type(L_BARBARIAN_BOAT,-1);
 
     if (is_native_tile(boat, utile)
-        && (is_safe_ocean(utile)
+        && (is_safe_ocean(&(wld.map), utile)
             || (!utype_has_flag(boat, UTYF_COAST_STRICT)
                 && !utype_has_flag(boat, UTYF_COAST)))) {
       int cap;

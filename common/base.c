@@ -40,7 +40,7 @@ bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     if (base_has_flag(extra_base_get(pextra), flag)) {
-      cardinal_adjc_iterate(ptile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }
@@ -59,7 +59,7 @@ bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
 {
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     if (base_has_flag(extra_base_get(pextra), flag)) {
-      adjc_iterate(ptile, adjc_tile) {
+      adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }

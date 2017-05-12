@@ -1422,8 +1422,9 @@ static int terrain_info_callback(struct widget *pWidget)
 
     popdown_advanced_terrain_dialog();
 
-    popup_terrain_info_dialog(NULL, map_pos_to_tile(x , y));
+    popup_terrain_info_dialog(NULL, map_pos_to_tile(&(wld.map), x , y));
   }
+
   return -1;
 }
 
@@ -1558,8 +1559,10 @@ static int goto_here_callback(struct widget *pWidget)
     popdown_advanced_terrain_dialog();
 
     /* may not work */
-    send_goto_tile(head_of_units_in_focus(), map_pos_to_tile(x, y));
+    send_goto_tile(head_of_units_in_focus(),
+                   map_pos_to_tile(&(wld.map), x, y));
   }
+
   return -1;
 }
 

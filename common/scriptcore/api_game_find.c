@@ -118,7 +118,7 @@ Tile *api_find_tile(lua_State *L, int nat_x, int nat_y)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return native_pos_to_tile(nat_x, nat_y);
+  return native_pos_to_tile(&(wld.map), nat_x, nat_y);
 }
 
 /*****************************************************************************

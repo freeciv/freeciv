@@ -949,7 +949,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  mcost = map_move_cost_unit(punit, ptile);
+  mcost = map_move_cost_unit(&(wld.map), punit, ptile);
   if (punit->moves_left <= mcost
       && unit_move_rate(punit) > mcost
       && adv_danger_at(punit, ptile)

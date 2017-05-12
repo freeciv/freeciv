@@ -382,7 +382,7 @@ bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
   resulting position is unwrapped and may be unreal.
 ****************************************************************************/
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
-				   float canvas_x, float canvas_y)
+                                   float canvas_x, float canvas_y)
 {
   gui_to_map_pos(tileset, map_x, map_y,
                  canvas_x + mapview.gui_x0,
@@ -398,8 +398,8 @@ struct tile *canvas_pos_to_tile(float canvas_x, float canvas_y)
   int map_x, map_y;
 
   base_canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y);
-  if (normalize_map_pos(&map_x, &map_y)) {
-    return map_pos_to_tile(map_x, map_y);
+  if (normalize_map_pos(&(wld.map), &map_x, &map_y)) {
+    return map_pos_to_tile(&(wld.map), map_x, map_y);
   } else {
     return NULL;
   }
@@ -414,7 +414,7 @@ struct tile *canvas_pos_to_nearest_tile(float canvas_x, float canvas_y)
   int map_x, map_y;
 
   base_canvas_to_map_pos(&map_x, &map_y, canvas_x, canvas_y);
-  return nearest_real_tile(map_x, map_y);
+  return nearest_real_tile(&(wld.map), map_x, map_y);
 }
 
 /****************************************************************************
@@ -1403,7 +1403,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
     if (!ptile) {
       continue;
     }
-    adjc_dir_base_iterate(ptile, dir) {
+    adjc_dir_base_iterate(&(wld.map), ptile, dir) {
       if (mapdeco_is_gotoline_set(ptile, dir)) {
         draw_segment(ptile, dir);
       }
@@ -2047,27 +2047,27 @@ bool show_unit_orders(struct unit *punit)
       struct unit_order *order;
 
       if (punit->orders.index + i >= punit->orders.length
-	  && !punit->orders.repeat) {
-	break;
+          && !punit->orders.repeat) {
+        break;
       }
 
       order = &punit->orders.list[idx];
 
       switch (order->order) {
       case ORDER_MOVE:
-	draw_segment(ptile, order->dir);
-	ptile = mapstep(ptile, order->dir);
-	if (!ptile) {
-	  /* This shouldn't happen unless the server gives us invalid
-	   * data.  To avoid disaster we need to break out of the
-	   * switch and the enclosing for loop. */
+        draw_segment(ptile, order->dir);
+        ptile = mapstep(&(wld.map), ptile, order->dir);
+        if (!ptile) {
+          /* This shouldn't happen unless the server gives us invalid
+           * data.  To avoid disaster we need to break out of the
+           * switch and the enclosing for loop. */
           fc_assert(NULL != ptile);
-	  i = punit->orders.length;
-	}
-	break;
+          i = punit->orders.length;
+        }
+        break;
       default:
-	/* TODO: graphics for other orders. */
-	break;
+        /* TODO: graphics for other orders. */
+        break;
       }
     }
     return TRUE;
@@ -2225,7 +2225,7 @@ void move_unit_map_canvas(struct unit *punit,
   index_to_map_pos(&src_x, &src_y, tile_index(src_tile));
   dest_x = src_x + dx;
   dest_y = src_y + dy;
-  dest_tile = map_pos_to_tile(dest_x, dest_y);
+  dest_tile = map_pos_to_tile(&(wld.map), dest_x, dest_y);
   if (!dest_tile) {
     return;
   }
@@ -2956,7 +2956,7 @@ void mapdeco_add_gotoline(const struct tile *ptile, enum direction8 dir)
       || !(0 <= dir && dir <= direction8_max())) {
     return;
   }
-  ptile_dest = mapstep(ptile, dir);
+  ptile_dest = mapstep(&(wld.map), ptile, dir);
   if (!ptile_dest) {
     return;
   }
@@ -3004,7 +3004,7 @@ void mapdeco_remove_gotoline(const struct tile *ptile,
   if (changed) {
     /* FIXME: Remove the casts. */
     refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
-    ptile = mapstep(ptile, dir);
+    ptile = mapstep(&(wld.map), ptile, dir);
     if (ptile != NULL) {
       refresh_tile_mapcanvas((struct tile *) ptile, FALSE, FALSE);
     }
@@ -3043,7 +3043,7 @@ void mapdeco_set_gotoroute(const struct unit *punit)
     }
 
     mapdeco_add_gotoline(ptile, porder->dir);
-    ptile = mapstep(ptile, porder->dir);
+    ptile = mapstep(&(wld.map), ptile, porder->dir);
   }
 }
 
@@ -3080,7 +3080,7 @@ void mapdeco_clear_gotoroutes(void)
 
   gotoline_hash_iterate(mapdeco_gotoline_table, ptile, pglc) {
     refresh_tile_mapcanvas(ptile, FALSE, FALSE);
-    adjc_dir_iterate(ptile, ptile_dest, dir) {
+    adjc_dir_iterate(&(wld.map), ptile, ptile_dest, dir) {
       if (pglc->line_count[dir] > 0) {
         refresh_tile_mapcanvas(ptile_dest, FALSE, FALSE);
       }

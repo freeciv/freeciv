@@ -1643,7 +1643,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     if (unit_list_size(target_tile->units) <= maxUnits) {
       return TRI_YES;
     }
-    cardinal_adjc_iterate(target_tile, adjc_tile) {
+    cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= maxUnits) {
         return TRI_YES;
       }
@@ -1656,7 +1656,7 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     if (unit_list_size(target_tile->units) <= maxUnits) {
       return TRI_YES;
     }
-    adjc_iterate(target_tile, adjc_tile) {
+    adjc_iterate(&(wld.map), target_tile, adjc_tile) {
       if (unit_list_size(adjc_tile->units) <= maxUnits) {
         return TRI_YES;
       }
@@ -2620,7 +2620,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
         if (is_city_in_tile(target_tile, target_city)) {
           return TRI_YES;
         }
-        cardinal_adjc_iterate(target_tile, adjc_tile) {
+        cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
           }
@@ -2631,7 +2631,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
         if (is_city_in_tile(target_tile, target_city)) {
           return TRI_YES;
         }
-        adjc_iterate(target_tile, adjc_tile) {
+        adjc_iterate(&(wld.map), target_tile, adjc_tile) {
           if (is_city_in_tile(adjc_tile, target_city)) {
             return TRI_YES;
           }
@@ -2660,7 +2660,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
         if (target_tile->owner != NULL) {
           return TRI_YES;
         }
-        cardinal_adjc_iterate(target_tile, adjc_tile) {
+        cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
           if (adjc_tile->owner != NULL) {
             return TRI_YES;
           }
@@ -2671,7 +2671,7 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
         if (target_tile->owner != NULL) {
           return TRI_YES;
         }
-        adjc_iterate(target_tile, adjc_tile) {
+        adjc_iterate(&(wld.map), target_tile, adjc_tile) {
           if (adjc_tile->owner != NULL) {
             return TRI_YES;
           }

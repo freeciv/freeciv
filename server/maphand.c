@@ -142,7 +142,7 @@ void climate_change(bool warming, int effect)
 
     do {
       /* We want to transform a tile at most once due to a climate change. */
-      ptile = rand_map_pos();
+      ptile = rand_map_pos(&(wld.map));
     } while (used[tile_index(ptile)]);
     used[tile_index(ptile)] = TRUE;
 
@@ -665,7 +665,7 @@ void map_vision_update(struct player *pplayer, struct tile *ptile,
 #endif /* FREECIV_DEBUG */
 
   buffer_shared_vision(pplayer);
-  circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
+  circle_dxyr_iterate(&(wld.map), ptile, max_radius, tile1, dx, dy, dr) {
     vision_layer_iterate(v) {
       if (dr > old_radius_sq[v] && dr <= new_radius_sq[v]) {
         change[v] = 1;
@@ -813,7 +813,7 @@ void map_show_circle(struct player *pplayer, struct tile *ptile, int radius_sq)
 {
   buffer_shared_vision(pplayer);
 
-  circle_iterate(ptile, radius_sq, tile1) {
+  circle_iterate(&(wld.map), ptile, radius_sq, tile1) {
     map_show_tile(pplayer, tile1);
   } circle_iterate_end;
 
@@ -1649,10 +1649,10 @@ void disable_fog_of_war(void)
 **************************************************************************/
 static void ocean_to_land_fix_rivers(struct tile *ptile)
 {
-  cardinal_adjc_iterate(ptile, tile1) {
+  cardinal_adjc_iterate(&(wld.map), ptile, tile1) {
     bool ocean_near = FALSE;
 
-    cardinal_adjc_iterate(tile1, tile2) {
+    cardinal_adjc_iterate(&(wld.map), tile1, tile2) {
       if (is_ocean_tile(tile2))
         ocean_near = TRUE;
     } cardinal_adjc_iterate_end;
@@ -1683,7 +1683,7 @@ static void check_units_single_tile(struct tile *ptile)
         && !unit_transported(punit)
         && !can_unit_exist_at_tile(punit, ptile)) {
       /* look for a nearby safe tile */
-      adjc_iterate(ptile, ptile2) {
+      adjc_iterate(&(wld.map), ptile, ptile2) {
         if (can_unit_exist_at_tile(punit, ptile2)
             && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
             && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
@@ -1728,7 +1728,7 @@ void bounce_units_on_terrain_change(struct tile *ptile)
   check_units_single_tile(ptile);
   /* We have to check adjacent tiles too, in case units in cities are now
    * illegal (e.g., boat in a city that has become landlocked). */
-  adjc_iterate(ptile, ptile2) {
+  adjc_iterate(&(wld.map), ptile, ptile2) {
     check_units_single_tile(ptile2);
   } adjc_iterate_end;
 }
@@ -1804,7 +1804,8 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
    * In that case, the new terrain is *changed*. */
   if (is_ocean(newter) && terrain_has_flag(newter, TER_FRESHWATER)) {
     bool nonfresh = FALSE;
-    adjc_iterate(ptile, atile) {
+
+    adjc_iterate(&(wld.map), ptile, atile) {
       if (is_ocean(tile_terrain(atile))
           && !terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
         nonfresh = TRUE;
@@ -1827,7 +1828,7 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
   /* Check for saltwater filling freshwater lake */
   if (game.scenario.lake_flooding
       && is_ocean(newter) && !terrain_has_flag(newter, TER_FRESHWATER)) {
-    adjc_iterate(ptile, atile) {
+    adjc_iterate(&(wld.map), ptile, atile) {
       if (terrain_has_flag(tile_terrain(atile), TER_FRESHWATER)) {
         struct terrain *aold = tile_terrain(atile);
 
@@ -1895,7 +1896,7 @@ static bool is_claimable_ocean(struct tile *ptile, struct tile *source,
 
   ocean_tiles = 0;
   other_continent = FALSE;
-  adjc_iterate(ptile, tile2) {
+  adjc_iterate(&(wld.map), ptile, tile2) {
     cont2 = tile_continent(tile2);
     if (tile2 == source) {
       /* Water next to border source is always claimable */
@@ -2017,7 +2018,7 @@ void map_clear_border(struct tile *ptile)
 {
   int radius_sq = tile_border_source_radius_sq(ptile);
 
-  circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
+  circle_dxyr_iterate(&(wld.map), ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *claimer = tile_claimer(dtile);
 
     if (claimer == ptile) {
@@ -2045,7 +2046,7 @@ void map_update_border(struct tile *ptile, struct player *owner,
   if (old_radius_sq < new_radius_sq) {
     map_claim_border(ptile, owner, new_radius_sq);
   } else {
-    circle_dxyr_iterate(ptile, old_radius_sq, dtile, dx, dy, dr) {
+    circle_dxyr_iterate(&(wld.map), ptile, old_radius_sq, dtile, dx, dy, dr) {
       if (dr > new_radius_sq) {
         struct tile *claimer = tile_claimer(dtile);
 
@@ -2081,7 +2082,7 @@ void map_claim_border(struct tile *ptile, struct player *owner,
     radius_sq = tile_border_source_radius_sq(ptile);
   }
 
-  circle_dxyr_iterate(ptile, radius_sq, dtile, dx, dy, dr) {
+  circle_dxyr_iterate(&(wld.map), ptile, radius_sq, dtile, dx, dy, dr) {
     struct tile *dclaimer = tile_claimer(dtile);
 
     if (dclaimer == ptile) {

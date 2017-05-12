@@ -630,17 +630,17 @@ static struct unit *find_best_focus_candidate(bool accept_current)
     }
   }
 
-  iterate_outward(ptile, FC_INFINITY, ptile2) {
+  iterate_outward(&(wld.map), ptile, FC_INFINITY, ptile2) {
     unit_list_iterate(ptile2->units, punit) {
       if ((!unit_is_in_focus(punit) || accept_current)
-	  && unit_owner(punit) == client.conn.playing
-	  && punit->client.focus_status == FOCUS_AVAIL
-	  && punit->activity == ACTIVITY_IDLE
-	  && !unit_has_orders(punit)
-	  && (punit->moves_left > 0 || unit_type_get(punit)->move_rate == 0)
-	  && !punit->done_moving
-	  && !punit->ai_controlled) {
-	return punit;
+          && unit_owner(punit) == client.conn.playing
+          && punit->client.focus_status == FOCUS_AVAIL
+          && punit->activity == ACTIVITY_IDLE
+          && !unit_has_orders(punit)
+          && (punit->moves_left > 0 || unit_type_get(punit)->move_rate == 0)
+          && !punit->done_moving
+          && !punit->ai_controlled) {
+        return punit;
       }
     } unit_list_iterate_end;
   } iterate_outward_end;
@@ -1688,7 +1688,7 @@ void request_unit_non_action_move(struct unit *punit,
   struct packet_unit_orders p;
   int dir;
 
-  dir = get_direction_for_step(unit_tile(punit), dest_tile);
+  dir = get_direction_for_step(&(wld.map), unit_tile(punit), dest_tile);
 
   if (dir == -1) {
     /* The unit isn't located next to the destination tile. */
@@ -1729,7 +1729,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   struct tile *dest_tile;
 
   /* Catches attempts to move off map */
-  dest_tile = mapstep(unit_tile(punit), dir);
+  dest_tile = mapstep(&(wld.map), unit_tile(punit), dir);
   if (!dest_tile) {
     return;
   }

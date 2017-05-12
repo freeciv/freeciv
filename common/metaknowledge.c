@@ -36,7 +36,7 @@ static bool is_tile_seen_cadj(const struct player *pow_player,
   }
 
   /* A cardinally adjacent tile is unseen. */
-  cardinal_adjc_iterate(target_tile, ptile) {
+  cardinal_adjc_iterate(&(wld.map), target_tile, ptile) {
     if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;
     }
@@ -59,7 +59,7 @@ static bool is_tile_seen_adj(const struct player *pow_player,
   }
 
   /* An adjacent tile is unseen. */
-  adjc_iterate(target_tile, ptile) {
+  adjc_iterate(&(wld.map), target_tile, ptile) {
     if (!tile_is_seen(ptile, pow_player)) {
       return FALSE;
     }
@@ -349,7 +349,7 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       /* The player knows its city even if he can't see it */
-      cardinal_adjc_iterate(target_tile, ptile) {
+      cardinal_adjc_iterate(&(wld.map), target_tile, ptile) {
         pcity = tile_city(ptile);
         if (pcity && city_owner(pcity) == pow_player) {
           return TRUE;
@@ -365,7 +365,7 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       /* The player knows its city even if he can't see it */
-      adjc_iterate(target_tile, ptile) {
+      adjc_iterate(&(wld.map), target_tile, ptile) {
         pcity = tile_city(ptile);
         if (pcity && city_owner(pcity) == pow_player) {
           return TRUE;
@@ -503,7 +503,7 @@ static bool is_req_knowable(const struct player *pow_player,
       if (!can_player_see_hypotetic_units_at(pow_player, target_tile)) {
         return FALSE;
       }
-      cardinal_adjc_iterate(target_tile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
         if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
           return FALSE;
         }
@@ -514,7 +514,7 @@ static bool is_req_knowable(const struct player *pow_player,
       if (!can_player_see_hypotetic_units_at(pow_player, target_tile)) {
         return FALSE;
       }
-      adjc_iterate(target_tile, adjc_tile) {
+      adjc_iterate(&(wld.map), target_tile, adjc_tile) {
         if (!can_player_see_hypotetic_units_at(pow_player, adjc_tile)) {
           return FALSE;
         }

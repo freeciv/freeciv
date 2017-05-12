@@ -270,7 +270,7 @@ bool unit_can_do_action(const struct unit *punit,
 bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile, bool omniscient)
 {
-  square_iterate(ptile, 2, ptile1) {
+  square_iterate(&(wld.map), ptile, 2, ptile1) {
     unit_list_iterate(ptile1->units, punit) {
       if ((omniscient
            || can_player_see_unit(pplayer, punit))
@@ -1421,7 +1421,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
   struct terrain *pterrain;
 
-  square_iterate(ptile0, 1, ptile) {
+  square_iterate(&(wld.map), ptile0, 1, ptile) {
     pterrain = tile_terrain(ptile);
     if (T_UNKNOWN == pterrain
         || terrain_has_flag(pterrain, TER_NO_ZOC)) {

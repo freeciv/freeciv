@@ -4183,15 +4183,15 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
     tspecial_near  : specials of all adjacent terrain
 **************************************************************************/
 static void build_tile_data(const struct tile *ptile,
-			    struct terrain *pterrain,
-			    struct terrain **tterrain_near,
-			    bv_extras *textras_near)
+                            struct terrain *pterrain,
+                            struct terrain **tterrain_near,
+                            bv_extras *textras_near)
 {
   enum direction8 dir;
 
   /* Loop over all adjacent tiles.  We should have an iterator for this. */
   for (dir = 0; dir < 8; dir++) {
-    struct tile *tile1 = mapstep(ptile, dir);
+    struct tile *tile1 = mapstep(&(wld.map), ptile, dir);
 
     if (tile1 && client_tile_get_known(tile1) != TILE_UNKNOWN) {
       struct terrain *terrain1 = tile_terrain(tile1);
@@ -4800,14 +4800,14 @@ static int fill_terrain_sprite_blending(const struct tileset *t,
    * get the "unknown" dither along the edge of the map.
    */
   for (; dir < 4; dir++) {
-    struct tile *tile1 = mapstep(ptile, DIR4_TO_DIR8[dir]);
+    struct tile *tile1 = mapstep(&(wld.map), ptile, DIR4_TO_DIR8[dir]);
     struct terrain *other;
 
     if (!tile1
-	|| client_tile_get_known(tile1) == TILE_UNKNOWN
-	|| pterrain == (other = tterrain_near[DIR4_TO_DIR8[dir]])
-	|| (0 == t->sprites.drawing[terrain_index(other)]->blending
-	   &&  NULL == t->sprites.drawing[terrain_index(other)]->blender)) {
+        || client_tile_get_known(tile1) == TILE_UNKNOWN
+        || pterrain == (other = tterrain_near[DIR4_TO_DIR8[dir]])
+        || (0 == t->sprites.drawing[terrain_index(other)]->blending
+            &&  NULL == t->sprites.drawing[terrain_index(other)]->blender)) {
       continue;
     }
 
@@ -5027,16 +5027,16 @@ static int fill_terrain_sprite_array(struct tileset *t,
   Fill in the sprite array of darkness.
 ****************************************************************************/
 static int fill_terrain_sprite_darkness(struct tileset *t,
-				     struct drawn_sprite *sprs,
-				     const struct tile *ptile,
-				     struct terrain **tterrain_near)
+                                        struct drawn_sprite *sprs,
+                                        const struct tile *ptile,
+                                        struct terrain **tterrain_near)
 {
   struct drawn_sprite *saved_sprs = sprs;
   int i, tileno;
   struct tile *adjc_tile;
 
 #define UNKNOWN(dir)                                        \
-    ((adjc_tile = mapstep(ptile, (dir)))		    \
+  ((adjc_tile = mapstep(&(wld.map), ptile, (dir)))          \
      && client_tile_get_known(adjc_tile) == TILE_UNKNOWN)
 
   switch (t->darkness_style) {
@@ -5049,14 +5049,14 @@ static int fill_terrain_sprite_darkness(struct tileset *t,
 
       if (UNKNOWN(DIR4_TO_DIR8[i])) {
 	ADD_SPRITE(t->sprites.tx.darkness[i], TRUE,
-		   offsets[i][0], offsets[i][1]);
+                   offsets[i][0], offsets[i][1]);
       }
     }
     break;
   case DARKNESS_CARD_SINGLE:
     for (i = 0; i < t->num_cardinal_tileset_dirs; i++) {
       if (UNKNOWN(t->cardinal_tileset_dirs[i])) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[i]);
+        ADD_SPRITE_SIMPLE(t->sprites.tx.darkness[i]);
       }
     }
     break;

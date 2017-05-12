@@ -107,7 +107,7 @@ void set_all_ocean_tiles_placed(void)
 ****************************************************************************/
 void set_placed_near_pos(struct tile *ptile, int dist)
 {
-  square_iterate(ptile, dist, tile1) {
+  square_iterate(&(wld.map), ptile, dist, tile1) {
     map_set_placed(tile1);
   } square_iterate_end;
 }
@@ -205,7 +205,7 @@ void smooth_int_map(int *int_map, bool zeroes_at_edges)
     whole_map_iterate(&(wld.map), ptile) {
       float N = 0, D = 0;
 
-      axis_iterate(ptile, pnear, i, 2, axe) {
+      axis_iterate(&(wld.map), ptile, pnear, i, 2, axe) {
         D += weight[i + 2];
         N += weight[i + 2] * source_map[tile_index(pnear)];
       } axis_iterate_end;
@@ -262,8 +262,9 @@ static void recalculate_lake_surrounders(void)
     }
 
     if (terrain_type_terrain_class(pterrain) != TC_OCEAN) {
-      adjc_iterate(ptile, tile2) {
+      adjc_iterate(&(wld.map), ptile, tile2) {
         Continent_id cont2 = tile_continent(tile2);
+
 	if (is_ocean_tile(tile2)) {
 	  if (lake_surrounders[-cont2] == 0) {
 	    lake_surrounders[-cont2] = cont;
@@ -305,7 +306,7 @@ static void assign_continent_flood(struct tile *ptile, bool is_land, int nr)
     /* Iterate over all unchecked tiles. */
     tile_list_iterate(tlist, ptile2) {
       /* Iterate over the adjacent tiles. */
-      adjc_iterate(ptile2, ptile3) {
+      adjc_iterate(&(wld.map), ptile2, ptile3) {
         pterrain = tile_terrain(ptile3);
 
         /* Check if it is a valid tile for continent / ocean. */
@@ -565,11 +566,12 @@ struct terrain *pick_ocean(int depth, bool frozen)
 **************************************************************************/
 static int real_distance_to_land(const struct tile *ptile, int max)
 {
-  square_dxy_iterate(ptile, max, atile, dx, dy) {
+  square_dxy_iterate(&(wld.map), ptile, max, atile, dx, dy) {
     if (terrain_type_terrain_class(tile_terrain(atile)) != TC_OCEAN) {
       return map_vector_to_real_distance(dx, dy);
     }
   } square_dxy_iterate_end;
+
   return max + 1;
 }
 
@@ -588,12 +590,13 @@ static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
     }
 
     count = 0;
-    adjc_iterate(ptile, atile) {
+    adjc_iterate(&(wld.map), ptile, atile) {
       if (pterrain == tile_terrain(atile) && need <= ++count) {
         return pterrain;
       }
     } adjc_iterate_end;
   } terrain_type_iterate_end;
+
   return NULL;
 }
 

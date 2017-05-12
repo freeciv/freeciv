@@ -345,7 +345,7 @@ bool is_extra_removed_by(const struct extra_type *pextra,
 ****************************************************************************/
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra)
 {
-  cardinal_adjc_iterate(ptile, adjc_tile) {
+  cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, pextra)) {
       return TRUE;
     }
@@ -360,7 +360,7 @@ bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextr
 ****************************************************************************/
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra)
 {
-  adjc_iterate(ptile, adjc_tile) {
+  adjc_iterate(&(wld.map), ptile, adjc_tile) {
     if (tile_has_extra(adjc_tile, pextra)) {
       return TRUE;
     }
@@ -682,7 +682,7 @@ bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
 {
   extra_type_iterate(pextra) {
     if (extra_has_flag(pextra, flag)) {
-      cardinal_adjc_iterate(ptile, adjc_tile) {
+      cardinal_adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }
@@ -701,7 +701,7 @@ bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
 {
   extra_type_iterate(pextra) {
     if (extra_has_flag(pextra, flag)) {
-      adjc_iterate(ptile, adjc_tile) {
+      adjc_iterate(&(wld.map), ptile, adjc_tile) {
         if (tile_has_extra(adjc_tile, pextra)) {
           return TRUE;
         }

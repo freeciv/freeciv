@@ -465,16 +465,17 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
 {
   int xtile, ytile;
 
-  if (ev->type != GDK_BUTTON_PRESS)
+  if (ev->type != GDK_BUTTON_PRESS) {
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
+  }
 
   overview_to_map_pos(&xtile, &ytile, ev->x, ev->y);
 
   if (can_client_change_view() && (ev->button == 3)) {
-    center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
+    center_tile_mapcanvas(map_pos_to_tile(&(wld.map), xtile, ytile));
   } else if (can_client_issue_orders() && (ev->button == 1)) {
-    do_map_click(map_pos_to_tile(xtile, ytile),
-		 (ev->state & GDK_SHIFT_MASK) ? SELECT_APPEND : SELECT_POPUP);
+    do_map_click(map_pos_to_tile(&(wld.map), xtile, ytile),
+                 (ev->state & GDK_SHIFT_MASK) ? SELECT_APPEND : SELECT_POPUP);
   }
 
   return TRUE;

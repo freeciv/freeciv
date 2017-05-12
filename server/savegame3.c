@@ -170,7 +170,7 @@ extern bool sg_success;
                                                                             \
   for (_nat_y = 0; _nat_y < wld.map.ysize; _nat_y++) {                      \
     for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
-      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);              \
+      struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       fc_assert_action(ptile != NULL, continue);                            \
       _line[_nat_x] = (GET_XY_CHAR);                                        \
       sg_failure_ret(fc_isprint(_line[_nat_x] & 0x7f),                      \
@@ -233,7 +233,7 @@ extern bool sg_success;
     }                                                                       \
     for (_nat_x = 0; _nat_x < wld.map.xsize; _nat_x++) {                    \
       const char ch = _line[_nat_x];                                        \
-      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);              \
+      struct tile *ptile = native_pos_to_tile(&(wld.map), _nat_x, _nat_y);  \
       (SET_XY_CHAR);                                                        \
     }                                                                       \
   }                                                                         \
@@ -2688,7 +2688,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
       continue;
     }
 
-    ptile = native_pos_to_tile(nat_x, nat_y);
+    ptile = native_pos_to_tile(&(wld.map), nat_x, nat_y);
     if (NULL == ptile) {
       log_error("Start position native coordinates (%d, %d) do not exist "
                 "in this map. Skipping...", nat_x, nat_y);
@@ -2836,7 +2836,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
       int number;
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       scanin(&ptr1, ",", token1, sizeof(token1));
       sg_failure_ret(token1[0] != '\0',
@@ -2900,7 +2900,7 @@ static void sg_save_map_owner(struct savedata *saving)
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       if (!saving->save_players || tile_owner(ptile) == NULL) {
         strcpy(token, "-");
@@ -2922,7 +2922,7 @@ static void sg_save_map_owner(struct savedata *saving)
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       if (ptile->claimer == NULL) {
         strcpy(token, "-");
@@ -2943,7 +2943,7 @@ static void sg_save_map_owner(struct savedata *saving)
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       if (!saving->save_players || extra_owner(ptile) == NULL) {
         strcpy(token, "-");
@@ -2986,7 +2986,7 @@ static void sg_load_map_worked(struct loaddata *loading)
     for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
       int number;
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
       scanin(&ptr, ",", token, sizeof(token));
       sg_failure_ret('\0' != token[0],
@@ -3026,7 +3026,7 @@ static void sg_save_map_worked(struct savedata *saving)
     line[0] = '\0';
     for (x = 0; x < wld.map.xsize; x++) {
       char token[TOKEN_SIZE];
-      struct tile *ptile = native_pos_to_tile(x, y);
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
       struct city *pcity = tile_worked(ptile);
 
       if (pcity == NULL) {
@@ -4475,7 +4475,7 @@ static void sg_load_player_cities(struct loaddata *loading,
       nat_x = secfile_lookup_int_default(loading->file, -1, "player%d.task%d.x", plrno, i);
       nat_y = secfile_lookup_int_default(loading->file, -1, "player%d.task%d.y", plrno, i);
 
-      ptask->ptile = native_pos_to_tile(nat_x, nat_y);
+      ptask->ptile = native_pos_to_tile(&(wld.map), nat_x, nat_y);
 
       str = secfile_lookup_str(loading->file, "player%d.task%d.activity", plrno, i);
       ptask->act = unit_activity_by_name(str, fc_strcasecmp);
@@ -4520,7 +4520,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                   FALSE, "%s", secfile_error());
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y, "%s.y", citystr),
                   FALSE, "%s", secfile_error());
-  pcity->tile = native_pos_to_tile(nat_x, nat_y);
+  pcity->tile = native_pos_to_tile(&(wld.map), nat_x, nat_y);
   sg_warn_ret_val(NULL != pcity->tile, FALSE,
                   "%s has invalid center tile (%d, %d)",
                   citystr, nat_x, nat_y);
@@ -5131,7 +5131,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y, "%s.y", unitstr),
                   FALSE, "%s", secfile_error());
 
-  ptile = native_pos_to_tile(nat_x, nat_y);
+  ptile = native_pos_to_tile(&(wld.map), nat_x, nat_y);
   sg_warn_ret_val(NULL != ptile, FALSE, "%s invalid tile (%d, %d)",
                   unitstr, nat_x, nat_y);
   unit_tile_set(punit, ptile);
@@ -5345,7 +5345,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                        "%s.goto_y", unitstr), FALSE,
                     "%s", secfile_error());
 
-    punit->goto_tile = native_pos_to_tile(gnat_x, gnat_y);
+    punit->goto_tile = native_pos_to_tile(&(wld.map), gnat_x, gnat_y);
   } else {
     punit->goto_tile = NULL;
 
@@ -5415,7 +5415,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
                            "%s.action_decision_tile_x", unitstr)
         && secfile_lookup_int(loading->file, &adwt_y,
                               "%s.action_decision_tile_y", unitstr)) {
-      punit->action_decision_tile = native_pos_to_tile(adwt_x, adwt_y);
+      punit->action_decision_tile = native_pos_to_tile(&(wld.map),
+                                                       adwt_x, adwt_y);
     } else {
       punit->action_decision_want = ACT_DEC_NOTHING;
       punit->action_decision_tile = NULL;
@@ -6160,7 +6161,7 @@ static void sg_load_player_vision(struct loaddata *loading,
         char token[TOKEN_SIZE];
         char token2[TOKEN_SIZE];
         int number;
-        struct tile *ptile = native_pos_to_tile(x, y);
+        struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
         scanin(&ptr, ",", token, sizeof(token));
         sg_failure_ret('\0' != token[0],
@@ -6260,7 +6261,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_y, "%s.y",
                                      citystr),
                   FALSE, "%s", secfile_error());
-  pdcity->location = native_pos_to_tile(nat_x, nat_y);
+  pdcity->location = native_pos_to_tile(&(wld.map), nat_x, nat_y);
   sg_warn_ret_val(NULL != pdcity->location, FALSE,
                   "%s invalid tile (%d,%d)", citystr, nat_x, nat_y);
 
@@ -6367,7 +6368,7 @@ static void sg_save_player_vision(struct savedata *saving,
       line[0] = '\0';
       for (x = 0; x < wld.map.xsize; x++) {
         char token[TOKEN_SIZE];
-        struct tile *ptile = native_pos_to_tile(x, y);
+        struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
 
         if (plrtile == NULL || plrtile->owner == NULL) {
@@ -6391,7 +6392,7 @@ static void sg_save_player_vision(struct savedata *saving,
       line[0] = '\0';
       for (x = 0; x < wld.map.xsize; x++) {
         char token[TOKEN_SIZE];
-        struct tile *ptile = native_pos_to_tile(x, y);
+        struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
         struct player_tile *plrtile = map_get_player_tile(ptile, plr);
 
         if (plrtile == NULL || plrtile->extras_owner == NULL) {

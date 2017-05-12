@@ -98,14 +98,14 @@ void make_fracture_map(void)
     fracture_points[nn].y = fc_rand(wld.map.ysize - 6) + 3;
   }
   for (nn = 0; nn < mm + num_landmass; nn++) {
-    landmass[nn].minX = wld.map.xsize-1;
-    landmass[nn].minY = wld.map.ysize-1;
+    landmass[nn].minX = wld.map.xsize - 1;
+    landmass[nn].minY = wld.map.ysize - 1;
     landmass[nn].maxX = 0;
     landmass[nn].maxY = 0;
     x = fracture_points[nn].x;
     y = fracture_points[nn].y;
-    ptile1 = native_pos_to_tile(x,y);
-    ptile1->continent = nn+1;
+    ptile1 = native_pos_to_tile(&(wld.map), x, y);
+    ptile1->continent = nn + 1;
   }
 
   /* Assign a base elevation to the landmass */
@@ -212,15 +212,15 @@ static void fmfill(int x, int y, int c, int r)
   }
 
   if (y >= 0 && y < wld.map.ysize) {
-    ptileXY = native_pos_to_tile(x, y);
-    ptileX2Y = native_pos_to_tile(x_more, y);
-    ptileX1Y = native_pos_to_tile(x_less, y);
-    ptileXY2 = native_pos_to_tile(x, y_more);
-    ptileXY1 = native_pos_to_tile(x, y_less);
-    ptileX2Y1 = native_pos_to_tile(x_more, y_less);
-    ptileX2Y2 = native_pos_to_tile(x_more, y_more);
-    ptileX1Y2 = native_pos_to_tile(x_less, y_more);
-    ptileX1Y1 = native_pos_to_tile(x_less, y_less);
+    ptileXY = native_pos_to_tile(&(wld.map), x, y);
+    ptileX2Y = native_pos_to_tile(&(wld.map), x_more, y);
+    ptileX1Y = native_pos_to_tile(&(wld.map), x_less, y);
+    ptileXY2 = native_pos_to_tile(&(wld.map), x, y_more);
+    ptileXY1 = native_pos_to_tile(&(wld.map), x, y_less);
+    ptileX2Y1 = native_pos_to_tile(&(wld.map), x_more, y_less);
+    ptileX2Y2 = native_pos_to_tile(&(wld.map), x_more, y_more);
+    ptileX1Y2 = native_pos_to_tile(&(wld.map), x_less, y_more);
+    ptileX1Y1 = native_pos_to_tile(&(wld.map), x_less, y_less);
 
     if (ptileXY->continent == 0 ) {
       ptileXY->continent = c;
@@ -269,7 +269,7 @@ static int local_ave_elevation(struct tile *ptile)
   int n;
 
   n = ele = 0;
-  square_iterate(ptile, 3, tile2) {
+  square_iterate(&(wld.map), ptile, 3, tile2) {
     ele = ele + hmap(tile2);
     n++;
   } square_iterate_end;

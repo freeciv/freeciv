@@ -136,17 +136,17 @@ static void gen5rec(int step, int xl, int yt, int xr, int yb)
     y1wrap = 0;
   }
 
-  val[0][0] = hmap(native_pos_to_tile(xl, yt));
-  val[0][1] = hmap(native_pos_to_tile(xl, y1wrap));
-  val[1][0] = hmap(native_pos_to_tile(x1wrap, yt));
-  val[1][1] = hmap(native_pos_to_tile(x1wrap, y1wrap));
+  val[0][0] = hmap(native_pos_to_tile(&(wld.map), xl, yt));
+  val[0][1] = hmap(native_pos_to_tile(&(wld.map), xl, y1wrap));
+  val[1][0] = hmap(native_pos_to_tile(&(wld.map), x1wrap, yt));
+  val[1][1] = hmap(native_pos_to_tile(&(wld.map), x1wrap, y1wrap));
 
   /* set midpoints of sides to avg of side's vertices plus a random factor */
   /* unset points are zero, don't reset if set */
 #define set_midpoints(X, Y, V)						\
   {									\
-    struct tile *ptile = native_pos_to_tile((X), (Y));			\
-    if (map_colatitude(ptile) <= ICE_BASE_LEVEL/2) {			\
+    struct tile *ptile = native_pos_to_tile(&(wld.map), (X), (Y));	\
+    if (map_colatitude(ptile) <= ICE_BASE_LEVEL / 2) {			\
       /* possibly flatten poles, or possibly not (even at map edge) */	\
       hmap(ptile) = (V) * (100 - wld.map.server.flatpoles) / 100;	\
     } else if (near_singularity(ptile)					\
@@ -225,7 +225,8 @@ void make_pseudofractal1_hmap(int extra_div)
   /* set initial points */
   for (x_current = 0; x_current < xdiv2; x_current++) {
     for (y_current = 0; y_current < ydiv2; y_current++) {
-      do_in_map_pos(ptile, (x_current * xmax / xdiv), (y_current * ymax / ydiv)) {
+      do_in_map_pos(&(wld.map), ptile,
+                    (x_current * xmax / xdiv), (y_current * ymax / ydiv)) {
         /* set initial points */
         hmap(ptile) = fc_rand(2 * step) - (2 * step) / 2;
 
@@ -269,7 +270,7 @@ bool area_is_too_flat(struct tile *ptile, int thill, int my_height)
 {
   int higher_than_me = 0;
 
-  square_iterate(ptile, 2, tile1) {
+  square_iterate(&(wld.map), ptile, 2, tile1) {
     if (hmap(tile1) > thill) {
       return FALSE;
     }

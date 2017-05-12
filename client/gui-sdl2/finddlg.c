@@ -72,7 +72,7 @@ static int exit_find_city_dlg_callback(struct widget *pWidget)
 
     popdown_find_dialog();
 
-    center_tile_mapcanvas(map_pos_to_tile(orginal_x, orginal_y));
+    center_tile_mapcanvas(map_pos_to_tile(&(wld.map), orginal_x, orginal_y));
 
     flush_dirty();
   }

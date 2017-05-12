@@ -140,8 +140,9 @@ static bool check_native_area(const struct unit_type *utype,
 
   while (tile_list_size(tlist) > 0 && tiles < min_area) {
     tile_list_iterate(tlist, ptile2) {
-      adjc_iterate(ptile2, ptile3) {
+      adjc_iterate(&(wld.map), ptile2, ptile3) {
         int idx = tile_index(ptile3);
+
         if (!dbv_isset(&handled, idx) && is_native_tile(utype, ptile3)) {
           tiles++;
           tile_list_append(tlist, ptile3);
@@ -481,7 +482,8 @@ bool create_start_positions(enum map_startpos mode,
 
   /* now search for the best place and set start_positions */
   while (map_startpos_count() < player_count()) {
-    if ((ptile = rand_map_pos_filtered(&data, is_valid_start_pos))) {
+    if ((ptile = rand_map_pos_filtered(&(wld.map), &data,
+                                       is_valid_start_pos))) {
       islands[islands_index[(int) tile_continent(ptile)]].starters--;
       log_debug("Adding (%d, %d) as starting position %d, %d goodies on "
                 "islands.", TILE_XY(ptile), map_startpos_count(),

@@ -1413,7 +1413,7 @@ static void end_turn(void)
         /* Unit activities at the target tile and its neighbors may now
          * be illegal because of present reqs. */
         unit_activities_cancel_all_illegal(ptile);
-        adjc_iterate(ptile, n_tile) {
+        adjc_iterate(&(wld.map), ptile, n_tile) {
           unit_activities_cancel_all_illegal(n_tile);
         } adjc_iterate_end;
       }
@@ -1444,7 +1444,7 @@ static void end_turn(void)
         /* Unit activities at the target tile and its neighbors may now
          * be illegal because of !present reqs. */
         unit_activities_cancel_all_illegal(ptile);
-        adjc_iterate(ptile, n_tile) {
+        adjc_iterate(&(wld.map), ptile, n_tile) {
           unit_activities_cancel_all_illegal(n_tile);
         } adjc_iterate_end;
       }

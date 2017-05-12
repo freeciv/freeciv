@@ -326,18 +326,20 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
         if (unit_type_get(punit)->attack_strength > 1) {
-	  if (is_ocean_tile(unit_tile(punit))) {
-	    Continent_id continent = tile_continent(unit_tile(punit));
-	    adv->threats.ocean[-continent] = TRUE;
-	  } else {
-	    adjc_iterate(unit_tile(punit), tile2) {
-	      if (is_ocean_tile(tile2)) {
-	        Continent_id continent = tile_continent(tile2);
-	        adv->threats.ocean[-continent] = TRUE;
-	      }
-	    } adjc_iterate_end;
-	  }
-        } 
+          if (is_ocean_tile(unit_tile(punit))) {
+            Continent_id continent = tile_continent(unit_tile(punit));
+
+            adv->threats.ocean[-continent] = TRUE;
+          } else {
+            adjc_iterate(&(wld.map), unit_tile(punit), tile2) {
+              if (is_ocean_tile(tile2)) {
+                Continent_id continent = tile_continent(tile2);
+
+                adv->threats.ocean[-continent] = TRUE;
+              }
+            } adjc_iterate_end;
+          }
+        }
         continue;
       }
 
