@@ -6052,8 +6052,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
-          /* TRANS: Establish _Embassy (and stay) (100% chance of success). */
-          N_("Establish %sEmbassy (and stay)%s"),
+          /* TRANS: Becom_e Ambassador (100% chance of success). */
+          N_("Becom%se Ambassador%s"),
           "actions.ui_name_establish_embassy_stay");
       sz_strlcpy(action_by_number(ACTION_ESTABLISH_EMBASSY_STAY)->ui_name,
                  text);
