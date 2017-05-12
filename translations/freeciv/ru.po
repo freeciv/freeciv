@@ -7,7 +7,7 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2016.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
 #
 #  Email all translators at: <freeciv.ru@freelists.org>
 #
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 11:38+0000\n"
-"PO-Revision-Date: 2016-11-18 12:55+0500\n"
+"POT-Creation-Date: 2017-05-10 09:29+0500\n"
+"PO-Revision-Date: 2017-05-10 09:18+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -425,8 +425,8 @@ msgstr "Губернатор запутался, разбираясь с %s.  В
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2784 utility/log.c:516
-#: utility/netintf.c:97 utility/registry_ini.c:745
+#: server/console.c:71 server/srv_main.c:2785 utility/log.c:516
+#: utility/netintf.c:97 utility/registry_ini.c:747
 #, c-format
 msgid "Please report this message at %s"
 msgstr "Пожалуйста отправьте это сообщение на %s"
@@ -675,7 +675,7 @@ msgstr "%+4d : Доход от торговли\n"
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
 #: client/citydlg_common.c:477 client/gui-gtk-2.0/inteldlg.c:388
-#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:450
+#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:455
 #: client/gui-sdl/inteldlg.c:314 client/gui-sdl/inteldlg.c:327
 #: client/gui-xaw/inteldlg.c:281 server/stdinhand.c:326
 msgid "(unknown)"
@@ -828,7 +828,7 @@ msgstr "Название города"
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1409
 #: client/gui-gtk-3.0/pages.c:2776 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
-#: client/gui-qt/pages.cpp:552 client/gui-qt/plrdlg.cpp:442
+#: client/gui-qt/pages.cpp:554 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
@@ -1945,7 +1945,7 @@ msgstr "№"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2774
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:552
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:554
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "Флаг"
@@ -1975,19 +1975,19 @@ msgstr "Торговля:"
 #: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
-#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:451
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "Золото:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:457
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Роскошь:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:455
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Наука:"
 
@@ -2679,7 +2679,7 @@ msgid "What Nation Will You Be?"
 msgstr "Каким народом Вы будете управлять?"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-3.0/dialogs.c:895
-#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:574
+#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:576
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
 msgid "Pick Nation"
 msgstr "Выберите народ"
@@ -3362,7 +3362,7 @@ msgstr "ID"
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
 #: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1406
 #: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:551 data/Freeciv.in:97
+#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:553 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
 #: tools/mpgui_qt.cpp:217
 msgid "Name"
@@ -3534,10 +3534,9 @@ msgstr "Наука"
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
-#: common/city.c:86 data/civ1/terrain.ruleset:637
-#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
-#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
-#: data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
+#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
+#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "Золото"
 
@@ -3651,7 +3650,7 @@ msgstr "Просмотренные (Скрытые)"
 
 #: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
 #: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:741
-#: client/gui-qt/pages.cpp:763 client/gui-sdl/citydlg.c:1985
+#: client/gui-qt/pages.cpp:765 client/gui-sdl/citydlg.c:1985
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "Неизвестно"
@@ -3797,7 +3796,7 @@ msgid "Shift+Return"
 msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1410
-#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:638
+#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:640
 msgid "?noun:View"
 msgstr "Обзор"
 
@@ -3996,7 +3995,7 @@ msgstr "Бонус (Е/П/Т):"
 
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:137 client/gui-gtk-3.0/helpdlg.c:137
-#: client/gui-qt/plrdlg.cpp:522 client/gui-qt/plrdlg.cpp:528
+#: client/gui-qt/plrdlg.cpp:530 client/gui-qt/plrdlg.cpp:536
 #: client/gui-qt/repodlgs.cpp:582 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
@@ -4066,7 +4065,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/helpdlg.c:1153 client/gui-gtk-2.0/helpdlg.c:1240
 #: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1181
 #: client/gui-gtk-3.0/helpdlg.c:1268 client/gui-gtk-3.0/inteldlg.c:407
-#: client/gui-qt/plrdlg.cpp:432 client/gui-xaw/helpdlg.c:1014
+#: client/gui-qt/plrdlg.cpp:437 client/gui-xaw/helpdlg.c:1014
 #: client/gui-xaw/helpdlg.c:1095 common/requirements.c:1958
 #, c-format
 msgid "(none)"
@@ -4115,27 +4114,27 @@ msgid "?bonus:None"
 msgstr "Нет"
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-qt/plrdlg.cpp:444
+#: client/gui-qt/plrdlg.cpp:449
 msgid "Ruler:"
 msgstr "Правитель:"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-qt/plrdlg.cpp:446
+#: client/gui-qt/plrdlg.cpp:451
 msgid "Government:"
 msgstr "Форма правления:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-qt/plrdlg.cpp:448
+#: client/gui-qt/plrdlg.cpp:453
 msgid "Capital:"
 msgstr "Столица:"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-qt/plrdlg.cpp:453
+#: client/gui-qt/plrdlg.cpp:458
 msgid "Tax:"
 msgstr "Налог:"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-qt/plrdlg.cpp:459
+#: client/gui-qt/plrdlg.cpp:464
 msgid "Researching:"
 msgstr "Исследуется:"
 
@@ -4154,7 +4153,7 @@ msgstr "Доклад разведки (народ %s)"
 
 #. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-3.0/inteldlg.c:403
-#: client/gui-qt/plrdlg.cpp:429 common/tech.c:1227
+#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1227
 msgid "(Unknown)"
 msgstr "(Неизвестно)"
 
@@ -4336,14 +4335,12 @@ msgstr "Демография (_D)"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
-#: data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Обзор"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Стратегия и тактика"
 
@@ -4996,7 +4993,7 @@ msgid "_Browse..."
 msgstr "Обзор... (_B)"
 
 #: client/gui-gtk-2.0/pages.c:987 client/gui-gtk-3.0/pages.c:1068
-#: client/gui-qt/pages.cpp:1210 client/gui-sdl/connectdlg.c:937
+#: client/gui-qt/pages.cpp:1212 client/gui-sdl/connectdlg.c:937
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Пароль не подходит, введите верный пароль."
@@ -5112,7 +5109,7 @@ msgid "Toggle player ready"
 msgstr "Изменить готовность игрока"
 
 #: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1831
-#: client/gui-qt/pages.cpp:1575
+#: client/gui-qt/pages.cpp:1577
 msgid "Pick nation"
 msgstr "Выбрать народ"
 
@@ -5121,7 +5118,7 @@ msgid "Observe this player"
 msgstr "Наблюдать за этим игроком"
 
 #: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1846
-#: client/gui-qt/pages.cpp:1565
+#: client/gui-qt/pages.cpp:1567
 msgid "Take this player"
 msgstr "Управлять этим игроком"
 
@@ -5130,12 +5127,12 @@ msgid "Cut connection"
 msgstr "Оборвать подключение"
 
 #: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1869
-#: client/gui-qt/pages.cpp:1637
+#: client/gui-qt/pages.cpp:1639
 msgid "Aitoggle player"
 msgstr "Сменить статус компьютерного управления"
 
 #: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1877
-#: client/gui-qt/pages.cpp:1557
+#: client/gui-qt/pages.cpp:1559
 msgid "Remove player"
 msgstr "Удалить игрока"
 
@@ -5201,19 +5198,19 @@ msgid "<%s AI>"
 msgstr "<Компьютер (%s)>"
 
 #: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2411
-#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1291
+#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1293
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Случайный"
 
 #: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
 #: client/gui-gtk-3.0/pages.c:2485 client/gui-gtk-3.0/pages.c:2542
-#: client/gui-qt/pages.cpp:1362 client/gui-qt/pages.cpp:1392
+#: client/gui-qt/pages.cpp:1364 client/gui-qt/pages.cpp:1394
 msgid "Observer"
 msgstr "Наблюдатель"
 
 #: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2567
-#: client/gui-qt/pages.cpp:1409
+#: client/gui-qt/pages.cpp:1411
 msgid "Detached"
 msgstr "Отсоединён"
 
@@ -5249,7 +5246,7 @@ msgstr "Рейтинг"
 
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2770 client/gui-gtk-3.0/unitselect.c:475
-#: client/gui-qt/pages.cpp:551 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:1467
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "Готов"
@@ -5259,12 +5256,12 @@ msgid "?player:Leader"
 msgstr "Лидер"
 
 #: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2778
-#: client/gui-qt/pages.cpp:552 client/plrdlg_common.c:310
+#: client/gui-qt/pages.cpp:554 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "Команда"
 
 #: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2899
-#: client/gui-qt/pages.cpp:429 client/gui-sdl/chatline.c:197
+#: client/gui-qt/pages.cpp:431 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Выберите сохранённую игру для загрузки"
 
@@ -5273,7 +5270,7 @@ msgid "Choose Saved Game to _Load:"
 msgstr "Выберите сохранённую игру для загрузки (_L):"
 
 #: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3048
-#: client/gui-qt/pages.cpp:490
+#: client/gui-qt/pages.cpp:492
 msgid "Choose a Scenario"
 msgstr "Выберите сценарий"
 
@@ -5876,7 +5873,7 @@ msgid "Change homecity"
 msgstr "Сменить домашний город"
 
 #: client/gui-qt/citydlg.cpp:216 client/gui-qt/menu.cpp:665
-#: client/gui-qt/pages.cpp:470
+#: client/gui-qt/pages.cpp:472
 msgid "Load"
 msgstr "Загрузить"
 
@@ -5926,7 +5923,7 @@ msgstr "План"
 msgid "Show future targets"
 msgstr "Показать будущие цели"
 
-#: client/gui-qt/citydlg.cpp:845 client/options.c:2168
+#: client/gui-qt/citydlg.cpp:845 client/options.c:2170
 msgid "Show units"
 msgstr "Показывать соединения"
 
@@ -6116,8 +6113,8 @@ msgstr ""
 
 #: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
-#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:462
-#: client/gui-qt/pages.cpp:520 client/gui-qt/ratesdlg.cpp:140
+#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:464
+#: client/gui-qt/pages.cpp:522 client/gui-qt/ratesdlg.cpp:140
 #: client/gui-sdl/citydlg.c:526 client/gui-sdl/citydlg.c:1418
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/connectdlg.c:634
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
@@ -6168,7 +6165,7 @@ msgstr "Продать"
 msgid "Select"
 msgstr "Выбрать"
 
-#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:336
+#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:341
 msgid "Column visibility"
 msgstr "Показывать колонки"
 
@@ -6294,7 +6291,7 @@ msgstr[0] "Вы действительно хотите расформирова
 msgstr[1] "Вы действительно хотите расформировать эти %1 соединения?"
 msgstr[2] "Вы действительно хотите расформировать эти %1 соединений?"
 
-#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1327
+#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1329
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1212
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6310,7 +6307,7 @@ msgstr[2] "Вы действительно хотите расформирова
 msgid "Yes"
 msgstr "Да"
 
-#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1329
+#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1331
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1201
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6397,12 +6394,12 @@ msgstr "Добро пожаловать в игру Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Это Qt-клиент для Freeciv."
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1445
+#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1447
 msgid "Don't Observe"
 msgstr "Не наблюдать"
 
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:581
-#: client/gui-qt/pages.cpp:1447 client/gui-qt/pages.cpp:1548
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:583
+#: client/gui-qt/pages.cpp:1449 client/gui-qt/pages.cpp:1550
 msgid "Observe"
 msgstr "Наблюдать"
 
@@ -6629,7 +6626,7 @@ msgstr "Выход"
 msgid "Center View"
 msgstr "В центр карты"
 
-#: client/gui-qt/menu.cpp:459 client/options.c:2592
+#: client/gui-qt/menu.cpp:459 client/options.c:2594
 msgid "Fullscreen"
 msgstr "Полноэкранный режим"
 
@@ -6649,8 +6646,8 @@ msgstr "Сетка на карте"
 msgid "National Borders"
 msgstr "Государственные границы"
 
-#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2370
-#: client/options.c:2573 client/options.c:2677
+#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2372
+#: client/options.c:2575 client/options.c:2679
 msgid "City Names"
 msgstr "Названия городов"
 
@@ -6878,8 +6875,8 @@ msgid "Tax Rates..."
 msgstr "Налоги..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1258
-#: client/gui-qt/plrdlg.cpp:641 client/gui-sdl/plrdlg.c:337
+#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1260
+#: client/gui-qt/plrdlg.cpp:649 client/gui-sdl/plrdlg.c:337
 msgid "?header:Players"
 msgstr "Игроки"
 
@@ -6991,92 +6988,92 @@ msgstr "Пароль"
 msgid "Confirm Password"
 msgstr "Подтвердите пароль"
 
-#: client/gui-qt/pages.cpp:376
+#: client/gui-qt/pages.cpp:378
 msgid "Internet servers:"
 msgstr "Серверы интернет:"
 
-#: client/gui-qt/pages.cpp:379
+#: client/gui-qt/pages.cpp:381
 msgid "Local servers:"
 msgstr "Локальные серверы:"
 
-#: client/gui-qt/pages.cpp:429
+#: client/gui-qt/pages.cpp:431
 msgid "Date"
 msgstr "Дата"
 
-#: client/gui-qt/pages.cpp:456 client/gui-qt/pages.cpp:514
+#: client/gui-qt/pages.cpp:458 client/gui-qt/pages.cpp:516
 msgid "Browse..."
 msgstr "Обзор..."
 
-#: client/gui-qt/pages.cpp:528
+#: client/gui-qt/pages.cpp:530
 msgid "Load Scenario"
 msgstr "Загрузить сценарий"
 
-#: client/gui-qt/pages.cpp:551
+#: client/gui-qt/pages.cpp:553
 msgid "Leader"
 msgstr "Лидер"
 
-#: client/gui-qt/pages.cpp:569 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
+#: client/gui-qt/pages.cpp:571 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
 msgstr "Отключиться"
 
-#: client/gui-qt/pages.cpp:587 client/gui-qt/pages.cpp:1473
+#: client/gui-qt/pages.cpp:589 client/gui-qt/pages.cpp:1475
 #: client/gui-sdl/chatline.c:800 data/Freeciv.in:3444
 msgid "Start"
 msgstr "Начать"
 
-#: client/gui-qt/pages.cpp:691
+#: client/gui-qt/pages.cpp:693
 msgid "Save Files"
 msgstr "Сохранить Файлы"
 
-#: client/gui-qt/pages.cpp:694
+#: client/gui-qt/pages.cpp:696
 msgid "Open Save File"
 msgstr "Открыть файл сохранения"
 
-#: client/gui-qt/pages.cpp:707
+#: client/gui-qt/pages.cpp:709
 msgid "Scenarios Files"
 msgstr "Файлы Сценариев"
 
-#: client/gui-qt/pages.cpp:710
+#: client/gui-qt/pages.cpp:712
 msgid "Open Scenario File"
 msgstr "Открыть файл Сценария"
 
-#: client/gui-qt/pages.cpp:1377
+#: client/gui-qt/pages.cpp:1379
 msgid "Global observers"
 msgstr "Глобальные наблюдатели"
 
-#: client/gui-qt/pages.cpp:1454
+#: client/gui-qt/pages.cpp:1456
 msgid "Not ready"
 msgstr "Не готово"
 
-#: client/gui-qt/pages.cpp:1590
+#: client/gui-qt/pages.cpp:1592
 msgid "Set difficulty"
 msgstr "Установить уровень сложности"
 
-#: client/gui-qt/pages.cpp:1613
+#: client/gui-qt/pages.cpp:1615
 msgid "Put on team"
 msgstr "Включить в команду"
 
-#: client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:501
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Технологии, не известные народу %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:495
+#: client/gui-qt/plrdlg.cpp:503
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Технологии, не известные вам:</b>"
 
-#: client/gui-qt/plrdlg.cpp:535
+#: client/gui-qt/plrdlg.cpp:543
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Технологии, известные народу %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:598 data/Freeciv.in:3286
+#: client/gui-qt/plrdlg.cpp:606 data/Freeciv.in:3286
 msgid "Meet"
 msgstr "Встретить"
 
-#: client/gui-qt/plrdlg.cpp:600 client/gui-sdl/diplodlg.c:1536
+#: client/gui-qt/plrdlg.cpp:608 client/gui-sdl/diplodlg.c:1536
 msgid "Cancel Treaty"
 msgstr "Отменить Договор"
 
-#: client/gui-qt/plrdlg.cpp:602
+#: client/gui-qt/plrdlg.cpp:610
 msgid "Withdraw Vision"
 msgstr "Отозвать видение обстановки"
 
@@ -8418,7 +8415,7 @@ msgstr "Казна: "
 
 #: client/gui-sdl/repodlgs.c:1820
 msgid "Tax Rate: "
-msgstr "Налоги:"
+msgstr "Налоги: "
 
 #: client/gui-sdl/repodlgs.c:1839
 msgid "Total Income: "
@@ -8773,7 +8770,7 @@ msgstr "Вы действительно хотите удалить %s?"
 msgid "LAN Servers"
 msgstr "Серверы локальной сети"
 
-#: client/gui-xaw/connectdlg.c:336 client/options.c:1741 data/Freeciv.in:132
+#: client/gui-xaw/connectdlg.c:336 client/options.c:1743 data/Freeciv.in:132
 msgid "Metaserver"
 msgstr "Метасервер"
 
@@ -11369,40 +11366,40 @@ msgid "Clipboard is empty."
 msgstr "Буфер обмена пуст."
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1683
+#: client/options.c:1684
 msgid "Split"
 msgstr "Отдельные окна"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1685
+#: client/options.c:1686
 msgid "Separate"
 msgstr "Отдельно от карты"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1687
+#: client/options.c:1688
 msgid "Merged"
 msgstr "Вместе с картой"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1703 server/settings.c:316
+#: client/options.c:1704 server/settings.c:316
 msgid "Enabled"
 msgstr "Включены"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1705 server/settings.c:281 server/settings.c:315
+#: client/options.c:1706 server/settings.c:281 server/settings.c:315
 msgid "Disabled"
 msgstr "Отключены"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1707 tools/modinst.h:35
+#: client/options.c:1708 tools/modinst.h:35
 msgid "Ruleset"
 msgstr "Набор правил"
 
-#: client/options.c:1723
+#: client/options.c:1725
 msgid "Login name"
 msgstr "Имя пользователя"
 
-#: client/options.c:1724
+#: client/options.c:1726
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11410,11 +11407,11 @@ msgstr ""
 "Это имя пользователя по умолчанию, которое будет использоваться в диалоге "
 "подключения или при указании ключа '-a' в командной строке."
 
-#: client/options.c:1729
+#: client/options.c:1731
 msgid "Server"
 msgstr "Сервер"
 
-#: client/options.c:1730
+#: client/options.c:1732
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11422,11 +11419,11 @@ msgstr ""
 "Это адрес сервера по умолчанию, который будет использоваться в диалоге "
 "подключения или при указании ключа '-a' в командной строке."
 
-#: client/options.c:1735
+#: client/options.c:1737
 msgid "Server port"
 msgstr "Порт сервера"
 
-#: client/options.c:1736
+#: client/options.c:1738
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -11434,7 +11431,7 @@ msgstr ""
 "Это порт сервера по умолчанию, который будет использоваться в диалоге "
 "подключения или при указании ключа '-a' в командной строке."
 
-#: client/options.c:1742
+#: client/options.c:1744
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -11444,11 +11441,11 @@ msgstr ""
 "информации об играх, ведущихся в Интернете.  Не изменяйте значение этого "
 "параметра, если Вы не знаете точно, что Вы делаете."
 
-#: client/options.c:1748 tools/modinst.h:43
+#: client/options.c:1750 tools/modinst.h:43
 msgid "Soundset"
 msgstr "Набор звуков"
 
-#: client/options.c:1749
+#: client/options.c:1751
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -11456,11 +11453,11 @@ msgstr ""
 "Это набор звуков, который будет использоваться игрой.  Изменить этот "
 "параметр можно и через командную строку, указав при запуске параметр -S."
 
-#: client/options.c:1754
+#: client/options.c:1756
 msgid "Sound plugin"
 msgstr "Звуковой модуль"
 
-#: client/options.c:1755
+#: client/options.c:1757
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -11471,29 +11468,29 @@ msgstr ""
 "перезапуска Freeciv.  Изменить этот параметр можно и через командную строку, "
 "указав при запуске параметр -P. "
 
-#: client/options.c:1761
+#: client/options.c:1763
 msgid "The chat log file"
 msgstr "Журнал истории сообщений чата"
 
-#: client/options.c:1762
+#: client/options.c:1764
 msgid "The name of the chat log file."
 msgstr "Имя файла, в который будет записана история сообщений чата."
 
-#: client/options.c:1767 client/options.c:1772 client/options.c:1777
-#: client/options.c:1782
+#: client/options.c:1769 client/options.c:1774 client/options.c:1779
+#: client/options.c:1784
 msgid "Theme"
 msgstr "Тема"
 
-#: client/options.c:1768 client/options.c:1773 client/options.c:1778
-#: client/options.c:1783
+#: client/options.c:1770 client/options.c:1775 client/options.c:1780
+#: client/options.c:1785
 msgid "By changing this option you change the active theme."
 msgstr "Вы можете поменять используемую тему изменением этого параметра."
 
-#: client/options.c:1793 tools/modinst.h:37
+#: client/options.c:1795 tools/modinst.h:37
 msgid "Tileset"
 msgstr "Набор графики"
 
-#: client/options.c:1794
+#: client/options.c:1796
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
@@ -11502,39 +11499,39 @@ msgstr ""
 "рельефа, соединений и т.п.).  Изменить этот параметр можно и через командную "
 "строку, указав при запуске параметр -t."
 
-#: client/options.c:1800
+#: client/options.c:1802
 msgid "Draw city outlines"
 msgstr "Рисовать границы городов"
 
-#: client/options.c:1801
+#: client/options.c:1803
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 "При включении этого параметра отображаются пределы, внутри которых город "
 "может собирать ресурсы."
 
-#: client/options.c:1805
+#: client/options.c:1807
 msgid "Draw city output"
 msgstr "Показывать сбор ресурсов городами"
 
-#: client/options.c:1806
+#: client/options.c:1808
 msgid "Setting this option will draw city output for every citizen."
 msgstr ""
 "При включении этого параметра ресурсы, собираемые каждым жителем города, "
 "будут показаны на общей карте."
 
-#: client/options.c:1810
+#: client/options.c:1812
 msgid "Draw the map grid"
 msgstr "Показывать сетку на карте"
 
-#: client/options.c:1811
+#: client/options.c:1813
 msgid "Setting this option will draw a grid over the map."
 msgstr "Установка этого параметра позволяет увидеть сетку на карте мира."
 
-#: client/options.c:1814
+#: client/options.c:1816
 msgid "Draw the city bar"
 msgstr "Показывать информационную полосу городов"
 
-#: client/options.c:1815
+#: client/options.c:1817
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -11544,20 +11541,20 @@ msgstr ""
 "информацией о городе. Если параметр отключен, будет показано только название "
 "города и, возможно, производство в нём."
 
-#: client/options.c:1821
+#: client/options.c:1823
 msgid "Draw the city names"
 msgstr "Показывать названия городов"
 
-#: client/options.c:1822
+#: client/options.c:1824
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr ""
 "При включении этого параметра всем городам на карте будут подписаны названия."
 
-#: client/options.c:1826
+#: client/options.c:1828
 msgid "Draw the city growth"
 msgstr "Показывать прирост населения"
 
-#: client/options.c:1827
+#: client/options.c:1829
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
@@ -11565,11 +11562,11 @@ msgstr ""
 "При включении этого параметра на карте будет нарисовано количество ходов, "
 "через которые вырастет или сократится размер города."
 
-#: client/options.c:1831
+#: client/options.c:1833
 msgid "Draw the city productions"
 msgstr "Показывать городское производство"
 
-#: client/options.c:1832
+#: client/options.c:1834
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
@@ -11577,11 +11574,11 @@ msgstr ""
 "Установка этого параметра позволяет увидеть на карте что строится в этом "
 "городе в данный момент."
 
-#: client/options.c:1836
+#: client/options.c:1838
 msgid "Draw the city buy costs"
 msgstr "Показывать стоимость приобретения"
 
-#: client/options.c:1837
+#: client/options.c:1839
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
@@ -11589,11 +11586,11 @@ msgstr ""
 "Установка этого параметра позволяет увидеть на карте количество золота, "
 "требуемого для приобретения строящегося в городе здания или соединения."
 
-#: client/options.c:1841
+#: client/options.c:1843
 msgid "Draw the city trade routes"
 msgstr "Показывать торговые пути"
 
-#: client/options.c:1842
+#: client/options.c:1844
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
@@ -11601,98 +11598,98 @@ msgstr ""
 "Установка этого параметра позволяет увидеть линии между городами, связанными "
 "торговыми путями."
 
-#: client/options.c:1846
+#: client/options.c:1848
 msgid "Draw the terrain"
 msgstr "Показывать рельеф"
 
-#: client/options.c:1847
+#: client/options.c:1849
 msgid "Setting this option will draw the terrain."
 msgstr "При включении этого параметра на карте будет прорисован рельеф."
 
-#: client/options.c:1850
+#: client/options.c:1852
 msgid "Draw the coast line"
 msgstr "Показывать береговую линию"
 
-#: client/options.c:1851
+#: client/options.c:1853
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Установка этого параметра включает отображение линии разделения земли и моря."
 
-#: client/options.c:1855
+#: client/options.c:1857
 msgid "Draw the roads and the railroads"
 msgstr "Показывать дороги и рельсы"
 
-#: client/options.c:1856
+#: client/options.c:1858
 msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "При включении этого параметра на карте будут нарисованы дороги и рельсы."
 
-#: client/options.c:1860
+#: client/options.c:1862
 msgid "Draw the irrigation"
 msgstr "Показывать орошение"
 
-#: client/options.c:1861
+#: client/options.c:1863
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 "Установка данного параметра позволяет отображать на карте орошённые поля."
 
-#: client/options.c:1865
+#: client/options.c:1867
 msgid "Draw the mines"
 msgstr "Показывать шахты"
 
-#: client/options.c:1866
+#: client/options.c:1868
 msgid "Setting this option will draw the mines on the map."
 msgstr "Установка данного параметра позволяет отображать на карте шахты."
 
-#: client/options.c:1869
+#: client/options.c:1871
 msgid "Draw the bases"
 msgstr "Показывать базы"
 
-#: client/options.c:1870
+#: client/options.c:1872
 msgid "Setting this option will draw the bases on the map."
 msgstr "Установка данного параметра позволяет отображать на карте базы."
 
-#: client/options.c:1873
+#: client/options.c:1875
 msgid "Draw the specials"
 msgstr "Показывать специальные ресурсы"
 
-#: client/options.c:1874
+#: client/options.c:1876
 msgid "Setting this option will draw the specials on the map."
 msgstr ""
 "Установка данного параметра позволяет видеть на карте специальные ресурсы."
 
-#: client/options.c:1878
+#: client/options.c:1880
 msgid "Draw the pollution/nuclear fallout"
 msgstr "Показывать загрязнение и радиоактивность"
 
-#: client/options.c:1879
+#: client/options.c:1881
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "При включении этого параметра ка карте будут нарисованы зоны загрязнения и "
 "радиоактивных выбросов."
 
-#: client/options.c:1883
+#: client/options.c:1885
 msgid "Draw the cities"
 msgstr "Показывать города"
 
-#: client/options.c:1884
+#: client/options.c:1886
 msgid "Setting this option will draw the cities on the map."
 msgstr "Установка данного параметра позволяет отображать на карте города."
 
-#: client/options.c:1887
+#: client/options.c:1889
 msgid "Draw the units"
 msgstr "Показывать соединения"
 
-#: client/options.c:1888
+#: client/options.c:1890
 msgid "Setting this option will draw the units on the map."
 msgstr "Установка данного параметра позволяет отображать на карте соединения."
 
-#: client/options.c:1892
+#: client/options.c:1894
 msgid "Solid unit background color"
 msgstr "Сплошной цвет фона соединения"
 
-#: client/options.c:1893
+#: client/options.c:1895
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -11700,11 +11697,11 @@ msgstr ""
 "При включении этого параметра соединения на карте будут нарисованы на "
 "перекрывающей рельеф сплошной заливке цветом границы вместо флага за спиной."
 
-#: client/options.c:1898
+#: client/options.c:1900
 msgid "Draw shield graphics for units"
 msgstr "Флаг соединений в виде щита"
 
-#: client/options.c:1899
+#: client/options.c:1901
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
@@ -11713,11 +11710,11 @@ msgstr ""
 "показана в виде небольшого щита с цветами флага.  При выключении флаг будет "
 "нарисован целиком."
 
-#: client/options.c:1903
+#: client/options.c:1905
 msgid "Draw the units in focus"
 msgstr "Отображение выбранных соединений"
 
-#: client/options.c:1904
+#: client/options.c:1906
 msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
@@ -11727,27 +11724,27 @@ msgstr ""
 "даже если обычно их прорисовки не происходит (в случае выключения параметра "
 "\"Показывать соединения\")."
 
-#: client/options.c:1910
+#: client/options.c:1912
 msgid "Draw the fog of war"
 msgstr "Рисовать туман войны"
 
-#: client/options.c:1911
+#: client/options.c:1913
 msgid "Setting this option will draw the fog of war."
 msgstr "Установка этого параметра включает отображение тумана войны."
 
-#: client/options.c:1914
+#: client/options.c:1916
 msgid "Draw the borders"
 msgstr "Показывать государственные границы"
 
-#: client/options.c:1915
+#: client/options.c:1917
 msgid "Setting this option will draw the national borders."
 msgstr "Установка этого параметра включает отображение государственных границ."
 
-#: client/options.c:1918
+#: client/options.c:1920
 msgid "Draw whether tiles are native to selected unit"
 msgstr "Показывать возможность перехода соединением на поле"
 
-#: client/options.c:1920
+#: client/options.c:1922
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
@@ -11758,11 +11755,11 @@ msgstr ""
 "(Если выбраны соединения разного типа, будут показаны только поля, доступные "
 "всем им.)"
 
-#: client/options.c:1927
+#: client/options.c:1929
 msgid "Show dead players in Nations report"
 msgstr "Включать погибших игроков в отчёт по народам"
 
-#: client/options.c:1928
+#: client/options.c:1930
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
@@ -11770,11 +11767,11 @@ msgstr ""
 "Этот параметр контролирует, разрешено ли показывать погибших игроков на "
 "странице отчёта о народах."
 
-#: client/options.c:1932
+#: client/options.c:1934
 msgid "Sound bell at new turn"
 msgstr "Проигрывать звук при начале хода"
 
-#: client/options.c:1933
+#: client/options.c:1935
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -11784,11 +11781,11 @@ msgstr ""
 "в начале каждого хода.  Вы можете настроить поведение \"звонка\" в "
 "настройках сообщений."
 
-#: client/options.c:1939
+#: client/options.c:1941
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Длительность передвижения соединений (миллисекунды)"
 
-#: client/options.c:1940
+#: client/options.c:1942
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -11797,11 +11794,11 @@ msgstr ""
 "движении соединения на карте.  Если значение равно 0, анимация будет "
 "выключена."
 
-#: client/options.c:1945
+#: client/options.c:1947
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Время прокрутки карты (миллисекунды)"
 
-#: client/options.c:1946
+#: client/options.c:1948
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -11812,11 +11809,11 @@ msgstr ""
 "длительность этого процесса.  Если значение равно 0, то центрирование будет "
 "происходить без прокрутки."
 
-#: client/options.c:1952
+#: client/options.c:1954
 msgid "Combat animation step time (milliseconds)"
 msgstr "Длительность кадра анимации сражения (миллисекунды)"
 
-#: client/options.c:1953
+#: client/options.c:1955
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
@@ -11825,11 +11822,11 @@ msgstr ""
 "сражения между соединениями.  Установите нулевое значение для полного "
 "выключения анимации."
 
-#: client/options.c:1958
+#: client/options.c:1960
 msgid "Show icons in the technology tree"
 msgstr "Показывать иконки в дереве технологий"
 
-#: client/options.c:1959
+#: client/options.c:1961
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -11838,11 +11835,11 @@ msgstr ""
 "исследования технологий. Выключение параметра позволяет сделать дерево "
 "исследований более компактным."
 
-#: client/options.c:1965
+#: client/options.c:1967
 msgid "Use curved lines in the technology tree"
 msgstr "Использовать кривые в диаграмме исследований"
 
-#: client/options.c:1966
+#: client/options.c:1968
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -11852,11 +11849,11 @@ msgstr ""
 "нарисованы в виде кривых. Если параметр отключён, линии будут ломаными "
 "прямыми."
 
-#: client/options.c:1973
+#: client/options.c:1975
 msgid "Color to highlight your player/user name"
 msgstr "Выделять цветом имя Вашего игрока/пользователя"
 
-#: client/options.c:1974
+#: client/options.c:1976
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
@@ -11866,11 +11863,11 @@ msgstr ""
 "пользователя будут выделены заданным цветом.  Если параметр не установлен, "
 "то ничего не будет выделено."
 
-#: client/options.c:1979
+#: client/options.c:1981
 msgid "Manual Turn Done in AI mode"
 msgstr "Ручной конец хода в компьютерном режиме"
 
-#: client/options.c:1980
+#: client/options.c:1982
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -11878,11 +11875,11 @@ msgstr ""
 "Выключите этот параметр, если Вы не хотите вручную нажимать кнопку 'Ход "
 "сделан' при наблюдении за компьютерным игроком."
 
-#: client/options.c:1984
+#: client/options.c:1986
 msgid "Auto center on units"
 msgstr "Авто-центрировать на соединении"
 
-#: client/options.c:1985
+#: client/options.c:1987
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -11890,11 +11887,11 @@ msgstr ""
 "Включите этот параметр, если хотите чтобы при переходе от одного соединения "
 "к другому карта автоматически центрировалась на текущем активном."
 
-#: client/options.c:1988
+#: client/options.c:1990
 msgid "Auto center on combat"
 msgstr "Авто-центрировать на сражении"
 
-#: client/options.c:1989
+#: client/options.c:1991
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabling "
 "this will speed up the time between turns but may cause you to miss combat "
@@ -11904,11 +11901,11 @@ msgstr ""
 "на любом сражении.  Выключение уменьшит задержку игры между ходами, но это "
 "может означать, что Вы полностью пропустите битву."
 
-#: client/options.c:1994
+#: client/options.c:1996
 msgid "Auto center on new turn"
 msgstr "Авто-центрировать в начале хода"
 
-#: client/options.c:1995
+#: client/options.c:1997
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -11916,21 +11913,21 @@ msgstr ""
 "Включите этот параметр, если хотите чтобы в начале каждого хода карта "
 "автоматически центрировалась на подходящем участке."
 
-#: client/options.c:1999
+#: client/options.c:2001
 msgid "Focus on awakened units"
 msgstr "Фокус на разбуженных соединениях"
 
-#: client/options.c:2000
+#: client/options.c:2002
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "Установите данную настройку чтобы карта автоматически фокусировалась на "
 "только что разбуженных соединениях."
 
-#: client/options.c:2003
+#: client/options.c:2005
 msgid "Keyboardless goto"
 msgstr "Команда \"Идти к\" без клавиатуры"
 
-#: client/options.c:2004
+#: client/options.c:2006
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -11938,11 +11935,11 @@ msgstr ""
 "Если этот параметр включен, команда \"Идти к\" может быть инициирована с "
 "помощью перемещения указателя на другое поле при нажатой левой кнопке мыши."
 
-#: client/options.c:2009
+#: client/options.c:2011
 msgid "Allow goto into the unknown"
 msgstr "Разрешать идти на неразведанную местность"
 
-#: client/options.c:2010
+#: client/options.c:2012
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -11951,11 +11948,11 @@ msgstr ""
 "через неоткрытые поля.  В противном случае маршруты будут обходить "
 "неразведанную территорию или блокироваться ею."
 
-#: client/options.c:2014
+#: client/options.c:2016
 msgid "Center map when popup city"
 msgstr "Центрировать карту на диалоге города"
 
-#: client/options.c:2015
+#: client/options.c:2017
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -11963,11 +11960,11 @@ msgstr ""
 "Установите данную настройку чтобы карта автоматически центрировалась на "
 "городе при открытии диалога этого города."
 
-#: client/options.c:2018
+#: client/options.c:2020
 msgid "Concise city production"
 msgstr "Сжато о производстве ресурсов"
 
-#: client/options.c:2019
+#: client/options.c:2021
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -11975,11 +11972,11 @@ msgstr ""
 "Установите этот параметр, чтобы показывать ресурсы, собираемые городом (как "
 "показывается в диалоге города), более компактно."
 
-#: client/options.c:2022
+#: client/options.c:2024
 msgid "End turn when done moving"
 msgstr "Заканчивать ход с окончанием движения"
 
-#: client/options.c:2023
+#: client/options.c:2025
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -11987,11 +11984,11 @@ msgstr ""
 "Установите этот параметр для того, чтобы ход автоматически заканчивался "
 "после окончания движения всех соединений."
 
-#: client/options.c:2026
+#: client/options.c:2028
 msgid "Prompt for city names"
 msgstr "Запрашивать название города"
 
-#: client/options.c:2027
+#: client/options.c:2029
 msgid ""
 "Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
@@ -11999,11 +11996,11 @@ msgstr ""
 "Если этот параметр выключен, названия вновь основанных городов будут "
 "автоматически выбираться сервером."
 
-#: client/options.c:2030
+#: client/options.c:2032
 msgid "Pop up city dialog for new cities"
 msgstr "Открывать городской диалог для новых городов"
 
-#: client/options.c:2031
+#: client/options.c:2033
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -12011,11 +12008,11 @@ msgstr ""
 "Установка этого параметра вызовет автоматическое появление городского "
 "диалога для в только что созданных городов."
 
-#: client/options.c:2034
+#: client/options.c:2036
 msgid "Pop up caravan actions"
 msgstr "Окно действий каравана"
 
-#: client/options.c:2035
+#: client/options.c:2037
 msgid ""
 "If this option is enabled, when caravans or similar units arrive at a city "
 "where they can establish a trade route or help build a wonder, a window will "
@@ -12030,11 +12027,11 @@ msgstr ""
 "нужное действие вручную (нажатием 'r' для торгового пути или 'b' для помощи "
 "в строительстве Чуда), когда соединение находится в нужном городе."
 
-#: client/options.c:2044
+#: client/options.c:2046
 msgid "Enable cursor changing"
 msgstr "Включить изменения вида курсора"
 
-#: client/options.c:2045
+#: client/options.c:2047
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -12044,11 +12041,11 @@ msgstr ""
 "зависимости от того, на что он указывает, или для индикации изменения "
 "состояния клиента или сервера."
 
-#: client/options.c:2050
+#: client/options.c:2052
 msgid "Select cities before units"
 msgstr "Выбирать города перед соединениями"
 
-#: client/options.c:2051
+#: client/options.c:2053
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
@@ -12057,11 +12054,11 @@ msgstr ""
 "города, так и соединения, будут выбраны только города. Смотрите статью "
 "Управление в справке."
 
-#: client/options.c:2056
+#: client/options.c:2058
 msgid "Clear unit orders on selection"
 msgstr "Очищать задания соединения при выборе"
 
-#: client/options.c:2057
+#: client/options.c:2059
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12076,11 +12073,11 @@ msgstr ""
 "соединения от приказов и оставит их выбранными, а повторное нажатие "
 "<пробела> оставит эти соединения в покое на этот ход."
 
-#: client/options.c:2066
+#: client/options.c:2068
 msgid "Enable vote bar"
 msgstr "Включить панель голосования"
 
-#: client/options.c:2067
+#: client/options.c:2069
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
@@ -12088,11 +12085,11 @@ msgstr ""
 "Если данный параметр включен, на панели голосования выводится информация о "
 "текущих голосованиях."
 
-#: client/options.c:2071
+#: client/options.c:2073
 msgid "Always display the vote bar"
 msgstr "Всегда выводить панель голосования"
 
-#: client/options.c:2072
+#: client/options.c:2074
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
@@ -12100,11 +12097,11 @@ msgstr ""
 "Если данный параметр включен, панель голосования никогда не будет спрятана, "
 "даже когда никаких выборов не идёт."
 
-#: client/options.c:2076
+#: client/options.c:2078
 msgid "Do not show vote bar if not a player"
 msgstr "Не показывать панель голосования не-игрокам"
 
-#: client/options.c:2077
+#: client/options.c:2079
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
@@ -12112,22 +12109,22 @@ msgstr ""
 "Если данный параметр включен, клиент не будет показывать панель голосования, "
 "если Вы не являетесь игроком."
 
-#: client/options.c:2080
+#: client/options.c:2082
 msgid "Set new votes at front"
 msgstr "Показывать новые выборы сверху"
 
-#: client/options.c:2081
+#: client/options.c:2083
 msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
 msgstr ""
 "Если данный параметр включен, новые выборы будут появляться наверху списка."
 
-#: client/options.c:2085
+#: client/options.c:2087
 msgid "Autoaccept tileset suggestions"
 msgstr "Автоподтверждение набора графики"
 
-#: client/options.c:2086
+#: client/options.c:2088
 msgid ""
 "If this option is enabled, any tileset suggested by the ruleset is "
 "automatically used; otherwise you are prompted to change tileset."
@@ -12135,11 +12132,11 @@ msgstr ""
 "Если этот параметр включён, предложенный набором правил набор графики будет "
 "использован автоматически; иначе Вам будет предложено изменить набор графики."
 
-#: client/options.c:2091
+#: client/options.c:2093
 msgid "Autoaccept soundset suggestions"
 msgstr "Автоподтверждение набора звуков"
 
-#: client/options.c:2092
+#: client/options.c:2094
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
@@ -12147,36 +12144,36 @@ msgstr ""
 "Если этот параметр включён, предложенный набором правил набор звуков будет "
 "использован автоматически."
 
-#: client/options.c:2097
+#: client/options.c:2099
 msgid "Background layer"
 msgstr "Слой фона"
 
-#: client/options.c:2098
+#: client/options.c:2100
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "Слой фона на мини-карте показывает только океан и сушу."
 
-#: client/options.c:2102
+#: client/options.c:2104
 msgid "Terrain relief map layer"
 msgstr "Слой рельефа местности"
 
-#: client/options.c:2103
+#: client/options.c:2105
 msgid "The relief layer shows all terrains on the map."
 msgstr "Слой рельефа показывает тип местности для всей карты."
 
-#: client/options.c:2106
+#: client/options.c:2108
 msgid "Borders layer"
 msgstr "Слой границ"
 
-#: client/options.c:2107
+#: client/options.c:2109
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr "Слой границ показывает, какому игроку принадлежит каждое поле."
 
-#: client/options.c:2111
+#: client/options.c:2113
 msgid "Borders layer on ocean tiles"
 msgstr "Линии границ на морских полях"
 
-#: client/options.c:2112
+#: client/options.c:2114
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
@@ -12186,89 +12183,89 @@ msgstr ""
 "при наличии множества мелких островов). Этот параметр имеет значение только "
 "если установлен параметр \"Слой границ\"."
 
-#: client/options.c:2118
+#: client/options.c:2120
 msgid "Units layer"
 msgstr "Слой соединений"
 
-#: client/options.c:2119
+#: client/options.c:2121
 msgid "Enabling this will draw units on the overview."
 msgstr "Если включен, на мини-карте будут отображены соединения."
 
-#: client/options.c:2122
+#: client/options.c:2124
 msgid "Cities layer"
 msgstr "Слой городов"
 
-#: client/options.c:2123
+#: client/options.c:2125
 msgid "Enabling this will draw cities on the overview."
 msgstr "Если включено, на мини-карте будут отображены города."
 
-#: client/options.c:2126
+#: client/options.c:2128
 msgid "Overview fog of war"
 msgstr "Туман войны на мини-карте"
 
-#: client/options.c:2127
+#: client/options.c:2129
 msgid "Enabling this will show fog of war on the overview."
 msgstr "При включении на мини-карте будет отображён туман войны."
 
-#: client/options.c:2133
+#: client/options.c:2135
 msgid "Image format"
 msgstr "Формат изображения"
 
-#: client/options.c:2134
+#: client/options.c:2136
 msgid "The image toolkit and file format used for map images."
 msgstr ""
 "Используемый набор инструментов и формат изображения для сохранения карты."
 
-#: client/options.c:2139
+#: client/options.c:2141
 msgid "Zoom factor for map images"
 msgstr "Степень увеличения карты"
 
-#: client/options.c:2140
+#: client/options.c:2142
 msgid "The magnification used for map images."
 msgstr "Используемая обработка изображения карты."
 
-#: client/options.c:2143
+#: client/options.c:2145
 msgid "Show area within borders"
 msgstr "Показывать область внутри границ"
 
-#: client/options.c:2144
+#: client/options.c:2146
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr ""
 "Если включено, на сохранённом изображении будет показана территория каждого "
 "народа."
 
-#: client/options.c:2148
+#: client/options.c:2150
 msgid "Show borders"
 msgstr "Показывать границы"
 
-#: client/options.c:2149
+#: client/options.c:2151
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr ""
 "Если включено, границы каждого народа будут отображены на сохраняемом "
 "изображении."
 
-#: client/options.c:2153
+#: client/options.c:2155
 msgid "Show cities"
 msgstr "Показывать города"
 
-#: client/options.c:2154
+#: client/options.c:2156
 msgid "If set, cities are shown on the saved image."
 msgstr "Если включено, на карте будут показаны города."
 
-#: client/options.c:2157
+#: client/options.c:2159
 msgid "Show fog of war"
 msgstr "Показывать туман войны"
 
-#: client/options.c:2158
+#: client/options.c:2160
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr ""
 "Если включено, пространство, покрытое туманом войны, будет показано на карте."
 
-#: client/options.c:2162
+#: client/options.c:2164
 msgid "Show full terrain"
 msgstr "Показывать полный ландшафт"
 
-#: client/options.c:2163
+#: client/options.c:2165
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
@@ -12276,16 +12273,16 @@ msgstr ""
 "Если установлено, рельеф будет указан в сохраняемом изображении при помощи "
 "разных цветов; если не указан, будут разделены только суша и вода."
 
-#: client/options.c:2169
+#: client/options.c:2171
 msgid "If set, units are shown in the saved image."
 msgstr ""
 "Если этот параметр включен, на изображении карты будет показаны соединения."
 
-#: client/options.c:2172
+#: client/options.c:2174
 msgid "Map image file name"
 msgstr "Имя файла изображения"
 
-#: client/options.c:2173
+#: client/options.c:2175
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
@@ -12293,19 +12290,19 @@ msgstr ""
 "Базовая часть имени файла для сохраняемых карт. К ней будет присоединена "
 "строка, определяющая номер хода и параметры карты."
 
-#: client/options.c:2179 client/options.c:2389
+#: client/options.c:2181 client/options.c:2391
 msgid "Show map scrollbars"
 msgstr "Показывать полосы прокрутки карты"
 
-#: client/options.c:2180 client/options.c:2390
+#: client/options.c:2182 client/options.c:2392
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "Отключите этот параметр, чтобы спрятать полосы прокрутки карты."
 
-#: client/options.c:2183 client/options.c:2393
+#: client/options.c:2185 client/options.c:2395
 msgid "Keep dialogs on top"
 msgstr "Показывать диалоги сверху"
 
-#: client/options.c:2184 client/options.c:2394
+#: client/options.c:2186 client/options.c:2396
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -12314,11 +12311,11 @@ msgstr ""
 "над главным окном Freeciv. Выключение не даёт никакого эффекта в "
 "полноэкранном режиме."
 
-#: client/options.c:2188 client/options.c:2398
+#: client/options.c:2190 client/options.c:2400
 msgid "Show worklist task icons"
 msgstr "Показывать значки в плане производства"
 
-#: client/options.c:2189 client/options.c:2399
+#: client/options.c:2191 client/options.c:2401
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -12326,11 +12323,11 @@ msgstr ""
 "Отключение этого параметра выключит отображение значков соединений и зданий "
 "в плане производства и во вкладке «Производство» в диалоге города."
 
-#: client/options.c:2193 client/options.c:2403
+#: client/options.c:2195 client/options.c:2405
 msgid "Enable status report tabs"
 msgstr "Отчёты во вкладках"
 
-#: client/options.c:2194 client/options.c:2404
+#: client/options.c:2196 client/options.c:2406
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -12338,11 +12335,11 @@ msgstr ""
 "Если этот параметр включен, отчёты будут показываться в дополнительных "
 "вкладках, а не во всплывающих окнах."
 
-#: client/options.c:2199
+#: client/options.c:2201
 msgid "Better fog-of-war drawing"
 msgstr "Улучшенная прорисовка тумана войны"
 
-#: client/options.c:2200
+#: client/options.c:2202
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -12351,11 +12348,11 @@ msgstr ""
 "тумана войны.  Это не медленнее по скорости, но расходуется в два раза "
 "больше памяти."
 
-#: client/options.c:2206 client/options.c:2409
+#: client/options.c:2208 client/options.c:2411
 msgid "Show time for each chat message"
 msgstr "Показывать время для каждого сообщения чата"
 
-#: client/options.c:2207 client/options.c:2410
+#: client/options.c:2209 client/options.c:2412
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
@@ -12363,11 +12360,11 @@ msgstr ""
 "Если установлен данный параметр все сообщения в чате будут предваряться "
 "временем их написания в формате [час:минута:секунда]."
 
-#: client/options.c:2212 client/options.c:2415
+#: client/options.c:2214 client/options.c:2417
 msgid "New message events go to top of list"
 msgstr "Новые сообщения сверху"
 
-#: client/options.c:2213 client/options.c:2416
+#: client/options.c:2215 client/options.c:2418
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
@@ -12375,11 +12372,11 @@ msgstr ""
 "Если этот параметр включен, новые события в окне сообщений будут добавляться "
 "в самый верх списка вместо добавления в конец."
 
-#: client/options.c:2218 client/options.c:2421
+#: client/options.c:2220 client/options.c:2423
 msgid "Show extra message window buttons"
 msgstr "Дополнительные кнопки окна сообщения"
 
-#: client/options.c:2219 client/options.c:2422
+#: client/options.c:2221 client/options.c:2424
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -12394,11 +12391,11 @@ msgstr ""
 "или одиночным — правой). Изменение этого параметра будет учтено только после "
 "закрытия окна сообщений и открытия его заново."
 
-#: client/options.c:2229 client/options.c:2432
+#: client/options.c:2231 client/options.c:2434
 msgid "Metaserver tab first in network page"
 msgstr "Вкладка метасервера на первой сетевой странице"
 
-#: client/options.c:2230 client/options.c:2433
+#: client/options.c:2232 client/options.c:2435
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
@@ -12406,11 +12403,11 @@ msgstr ""
 "Если этот параметр включен, вкладка метасервера будет доступна на первой "
 "сетевой странице. Данная опция требует перезагрузки для применения изменений."
 
-#: client/options.c:2235 client/options.c:2438
+#: client/options.c:2237 client/options.c:2440
 msgid "Plain chat messages are sent to allies only"
 msgstr "Сообщения чата отправляются только союзникам"
 
-#: client/options.c:2236 client/options.c:2439
+#: client/options.c:2238 client/options.c:2441
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -12426,13 +12423,13 @@ msgstr ""
 "переключаться кнопкой около строки сообщения (видимой только в "
 "многопользовательских играх)."
 
-#: client/options.c:2248 client/options.c:2451
+#: client/options.c:2250 client/options.c:2453
 msgid "Messages and Chat reports location"
 msgstr "Положение окон сообщений и общения"
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:2251 client/options.c:2454
+#: client/options.c:2253 client/options.c:2456
 msgid ""
 "Controls where the Messages and Chat reports appear relative to the main "
 "view containing the map.\n"
@@ -12457,11 +12454,11 @@ msgstr ""
 "на экране небольшого размера.\n"
 "Этот параметр требует перезапуска клиента для получения эффекта."
 
-#: client/options.c:2267 client/options.c:2470
+#: client/options.c:2269 client/options.c:2472
 msgid "Arrange widgets for small displays"
 msgstr "Улучшения для небольших экранов"
 
-#: client/options.c:2268 client/options.c:2471
+#: client/options.c:2270 client/options.c:2473
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -12475,11 +12472,11 @@ msgstr ""
 "левый край экрана. Этот параметр требует перезапуска клиента для получения "
 "эффекта."
 
-#: client/options.c:2277 client/options.c:2480
+#: client/options.c:2279 client/options.c:2482
 msgid "Mouse over the map widget selects it automatically"
 msgstr "Перемещение мыши на карту активизирует её"
 
-#: client/options.c:2278 client/options.c:2481
+#: client/options.c:2280 client/options.c:2483
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
@@ -12487,11 +12484,11 @@ msgstr ""
 "Если этот параметр включен, то при перемещении мыши над картой она "
 "автоматически активируется."
 
-#: client/options.c:2282 client/options.c:2485
+#: client/options.c:2284 client/options.c:2487
 msgid "Player or user name autocompletion"
 msgstr "Автодополнение имён пользователей"
 
-#: client/options.c:2283 client/options.c:2486
+#: client/options.c:2285 client/options.c:2488
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
@@ -12499,31 +12496,31 @@ msgstr ""
 "Если этот параметр включен, кнопка <Tab> в окне общения будет использоваться "
 "для автодополнения слов, когда Вы пишете имя игрока или пользователя."
 
-#: client/options.c:2288 client/options.c:2491
+#: client/options.c:2290 client/options.c:2493
 msgid "Width of the city dialog"
 msgstr "Ширина окна городского диалога"
 
-#: client/options.c:2289 client/options.c:2492
+#: client/options.c:2291 client/options.c:2494
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr ""
 "Данное значение используется только если ширина окна городского диалога "
 "сохраняется."
 
-#: client/options.c:2295 client/options.c:2498
+#: client/options.c:2297 client/options.c:2500
 msgid "Height of the city dialog"
 msgstr "Высота окна городского диалога"
 
-#: client/options.c:2296 client/options.c:2499
+#: client/options.c:2298 client/options.c:2501
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr ""
 "Данное значение используется только если высота окна городского диалога "
 "сохраняется."
 
-#: client/options.c:2302 client/options.c:2505
+#: client/options.c:2304 client/options.c:2507
 msgid "Popup tech help when gained"
 msgstr "Открывать справочное окно при получении технологии"
 
-#: client/options.c:2303 client/options.c:2506
+#: client/options.c:2305 client/options.c:2508
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
@@ -12533,19 +12530,19 @@ msgstr ""
 "Значение 'Набор правил' означает, что будет использовано значение, "
 "предложенное текущим набором правил."
 
-#: client/options.c:2310 client/options.c:2513 client/options.c:2611
+#: client/options.c:2312 client/options.c:2515 client/options.c:2613
 msgid "City Label"
 msgstr "Городская информация"
 
-#: client/options.c:2311 client/options.c:2514 client/options.c:2612
+#: client/options.c:2313 client/options.c:2516 client/options.c:2614
 msgid "This font is used to display the city labels on city dialogs."
 msgstr "Этим шрифтом будет написана информация в окне города."
 
-#: client/options.c:2316 client/options.c:2519 client/options.c:2617
+#: client/options.c:2318 client/options.c:2521 client/options.c:2619
 msgid "Notify Label"
 msgstr "Отчёты"
 
-#: client/options.c:2317 client/options.c:2520 client/options.c:2618
+#: client/options.c:2319 client/options.c:2522 client/options.c:2620
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
@@ -12553,59 +12550,59 @@ msgstr ""
 "Этот шрифт будет использоваться для отчётов сервера, таких как "
 "Демографический отчёт или публикации историков."
 
-#: client/options.c:2322 client/options.c:2525 client/options.c:2623
+#: client/options.c:2324 client/options.c:2527 client/options.c:2625
 msgid "Spaceship Label"
 msgstr "Космический корабль"
 
-#: client/options.c:2323 client/options.c:2526 client/options.c:2624
+#: client/options.c:2325 client/options.c:2528 client/options.c:2626
 msgid "This font is used to display the spaceship widgets."
 msgstr "Этим шрифтом будет написана информация в окне космического корабля."
 
-#: client/options.c:2327 client/options.c:2530 client/options.c:2628
+#: client/options.c:2329 client/options.c:2532 client/options.c:2630
 msgid "Help Label"
 msgstr "Справка: заголовок"
 
-#: client/options.c:2328 client/options.c:2531
+#: client/options.c:2330 client/options.c:2533
 msgid "This font is used to display the help headers in the help window."
 msgstr "Этот шрифт будет использоваться для заголовков в окне Справки."
 
-#: client/options.c:2333 client/options.c:2536 client/options.c:2634
+#: client/options.c:2335 client/options.c:2538 client/options.c:2636
 msgid "Help Link"
 msgstr "Справка: ссылки"
 
-#: client/options.c:2334 client/options.c:2537 client/options.c:2635
+#: client/options.c:2336 client/options.c:2539 client/options.c:2637
 msgid "This font is used to display the help links in the help window."
 msgstr "Этот шрифт будет использоваться для ссылок в окне Справки."
 
-#: client/options.c:2339 client/options.c:2542 client/options.c:2640
+#: client/options.c:2341 client/options.c:2544 client/options.c:2642
 msgid "Help Text"
 msgstr "Справка: текст"
 
-#: client/options.c:2340 client/options.c:2543 client/options.c:2641
+#: client/options.c:2342 client/options.c:2545 client/options.c:2643
 msgid "This font is used to display the help body text in the help window."
 msgstr "Этот шрифт будет использоваться для основного текста в окне Справки."
 
-#: client/options.c:2345 client/options.c:2548 client/options.c:2652
+#: client/options.c:2347 client/options.c:2550 client/options.c:2654
 msgid "Chatline Area"
 msgstr "Окно общения"
 
-#: client/options.c:2346 client/options.c:2549 client/options.c:2653
+#: client/options.c:2348 client/options.c:2551 client/options.c:2655
 msgid "This font is used to display the text in the chatline area."
 msgstr "Этот шрифт будет использоваться для текста в окне общения."
 
-#: client/options.c:2351 client/options.c:2554 client/options.c:2658
+#: client/options.c:2353 client/options.c:2556 client/options.c:2660
 msgid "Beta Label"
 msgstr "Тестируемые элементы"
 
-#: client/options.c:2352 client/options.c:2555 client/options.c:2659
+#: client/options.c:2354 client/options.c:2557 client/options.c:2661
 msgid "This font is used to display the beta label."
 msgstr "Этот шрифт будет использоваться для меток вторичных элементов."
 
-#: client/options.c:2356 client/options.c:2559 client/options.c:2663
+#: client/options.c:2358 client/options.c:2561 client/options.c:2665
 msgid "Small Font"
 msgstr "Уменьшенный шрифт"
 
-#: client/options.c:2357 client/options.c:2560 client/options.c:2664
+#: client/options.c:2359 client/options.c:2562 client/options.c:2666
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
@@ -12615,11 +12612,11 @@ msgstr ""
 "он используется в списке строений окна города, в экономическом отчёте или в "
 "отчёте по соединениям."
 
-#: client/options.c:2364 client/options.c:2567 client/options.c:2671
+#: client/options.c:2366 client/options.c:2569 client/options.c:2673
 msgid "Comment Label"
 msgstr "Комментарии"
 
-#: client/options.c:2365 client/options.c:2568 client/options.c:2672
+#: client/options.c:2367 client/options.c:2570 client/options.c:2674
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
@@ -12627,137 +12624,137 @@ msgstr ""
 "Этот шрифт будет использоваться для полей комментариев, таких как страница "
 "Губернатора в окне города."
 
-#: client/options.c:2371 client/options.c:2574 client/options.c:2678
+#: client/options.c:2373 client/options.c:2576 client/options.c:2680
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 "Этот шрифт будет использоваться для отображения названий городов на карте."
 
-#: client/options.c:2376 client/options.c:2579 client/options.c:2683
+#: client/options.c:2378 client/options.c:2581 client/options.c:2685
 msgid "City Productions"
 msgstr "Городское строительство"
 
-#: client/options.c:2377 client/options.c:2580 client/options.c:2684
+#: client/options.c:2379 client/options.c:2582 client/options.c:2686
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 "Данный шрифт используется для отображения текущего строящегося городом "
 "здания или соединения на глобальной карте."
 
-#: client/options.c:2382 client/options.c:2585 client/options.c:2689
+#: client/options.c:2384 client/options.c:2587 client/options.c:2691
 msgid "Requirement Tree"
 msgstr "Дерево зависимостей"
 
-#: client/options.c:2383 client/options.c:2586 client/options.c:2690
+#: client/options.c:2385 client/options.c:2588 client/options.c:2692
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
 msgstr ""
 "Этот шрифт используется для отображения дерева зависимостей в Окне "
 "исследований."
 
-#: client/options.c:2593
+#: client/options.c:2595
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr ""
 "Если этот параметр включен, клиент будет использовать для отображения весь "
 "экран целиком."
 
-#: client/options.c:2596
+#: client/options.c:2598
 msgid "Screen resolution"
 msgstr "Разрешение экрана"
 
-#: client/options.c:2597
+#: client/options.c:2599
 msgid "This option controls the resolution of the selected screen."
 msgstr "Этот параметр определяет разрешение выбранного экрана."
 
-#: client/options.c:2600
+#: client/options.c:2602
 msgid "Do cursor animation"
 msgstr "Анимация курсора"
 
-#: client/options.c:2601
+#: client/options.c:2603
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr "Если этот параметр выключен, курсор мыши будет всегда статическим."
 
-#: client/options.c:2604
+#: client/options.c:2606
 msgid "Use color cursors"
 msgstr "Использовать цветные курсоры"
 
-#: client/options.c:2605
+#: client/options.c:2607
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr "Если этот параметр отключен, курсор всегда будет чёрно-белым."
 
-#: client/options.c:2629
+#: client/options.c:2631
 msgid "This font is used to display the help labels in the help window."
 msgstr "Этот шрифт используется для заголовков в окне Справки."
 
-#: client/options.c:2646
+#: client/options.c:2648
 msgid "Help Title"
 msgstr "Заголовок Справки"
 
-#: client/options.c:2647
+#: client/options.c:2649
 msgid "This font is used to display the help title in the help window."
 msgstr "Этот шрифт используется заголовками в окне Справки."
 
-#: client/options.c:2766
+#: client/options.c:2768
 msgid "Graphics"
 msgstr "Графика"
 
 #. TRANS: Options section for overview map (mini-map)
-#: client/options.c:2769
+#: client/options.c:2771
 msgid "?map:Overview"
 msgstr "Мини-карта"
 
-#: client/options.c:2771
+#: client/options.c:2773
 msgid "Sound"
 msgstr "Звуки"
 
-#: client/options.c:2773
+#: client/options.c:2775
 msgid "Interface"
 msgstr "Интерфейс"
 
-#: client/options.c:2775
+#: client/options.c:2777
 msgid "Map Image"
 msgstr "Изображение карты"
 
-#: client/options.c:2777
+#: client/options.c:2779
 msgid "Network"
 msgstr "Сеть"
 
-#: client/options.c:2779
+#: client/options.c:2781
 msgid "Font"
 msgstr "Шрифты"
 
-#: client/options.c:4606
+#: client/options.c:4608
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Если вы добавили установки вручную, измените также параметр "
 "\"number_of_presets\""
 
-#: client/options.c:4653 client/options.c:4691
+#: client/options.c:4655 client/options.c:4693
 msgid "Cannot find your home directory"
 msgstr "Не могу определить Ваш домашний каталог"
 
-#: client/options.c:4705 client/options.c:4724
+#: client/options.c:4707 client/options.c:4726
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "Не найден файл настройки '%s', загружаем вместо него '%s'."
 
-#: client/options.c:5186
+#: client/options.c:5188
 msgid "Didn't find the option file. Creating a new one."
 msgstr "Не найден файл настроек. Создаём новый."
 
-#: client/options.c:5202 client/options.c:5340
+#: client/options.c:5204 client/options.c:5342
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Сохранение не удалось, невозможно писать в файл %s"
 
-#: client/options.c:5204 client/options.c:5342
+#: client/options.c:5206 client/options.c:5344
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Настройки сохранены в файле %s"
 
-#: client/options.c:5310
+#: client/options.c:5312
 msgid "Save failed, cannot find a filename."
 msgstr "Сохранение не удалось, не могу определить имя файла."
 
@@ -12789,7 +12786,7 @@ msgstr "Добро пожаловать"
 msgid "AI mode is now ON."
 msgstr "Компьютерный режим сейчас ВКЛЮЧЕН."
 
-#: client/packhand.c:2163
+#: client/packhand.c:2167
 msgid "AI mode is now OFF."
 msgstr "Компьютерный режим сейчас ОТКЛЮЧЕН."
 
@@ -16190,10 +16187,9 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070
-#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
-#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
-#: data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
+#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
+#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Университет"
 
@@ -16207,10 +16203,8 @@ msgstr ""
 "городе на 100%"
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038
-#: data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178
-#: data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "Программа «Восток»"
 
@@ -16228,18 +16222,14 @@ msgstr ""
 "обладают всеми необходимыми технологиями)."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081
-#: data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232
-#: data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "Колосс"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095
-#: data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246
-#: data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16248,10 +16238,8 @@ msgstr ""
 "Торговля, производит ещё один дополнительный такой ресурс."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101
-#: data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "Обсерватория Коперника"
 
@@ -16261,10 +16249,8 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Ускоряет развитие науки на 50% в том городе где она построена."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121
-#: data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272
-#: data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "Лекарство от рака"
 
@@ -16279,16 +16265,13 @@ msgstr ""
 "военными действиями)."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145
-#: data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296
-#: data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "Путешествие Дарвина"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159
-#: data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16298,16 +16281,13 @@ msgstr ""
 "прилив доверия к науке. Даёт два немедленных научных открытия."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187
-#: data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342
-#: data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "Великая Библиотека"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201
-#: data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16316,24 +16296,19 @@ msgstr ""
 "имеющуюся хотя бы у двух других команд."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207
-#: data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366
-#: data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "Великая Стена"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221
-#: data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Действует как Городская Стена для всех Ваших городов."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229
-#: data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389
-#: data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Висячие Сады"
 
@@ -16350,10 +16325,8 @@ msgstr ""
 "недовольных военными действиями), делая каждого из них довольным."
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253
-#: data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411
-#: data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "ДнепроГЭС"
 
@@ -16368,26 +16341,21 @@ msgstr ""
 "загрязнение и увеличивает эффект Фабрик и Заводов)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274
-#: data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435
-#: data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "Колледж Исаака Ньютона"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Увеличивает скорость развития науки в построившем Чудо городе на 100%."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295
-#: data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459
-#: data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "Собор Иоганна Себастьяна Баха"
 
@@ -16402,10 +16370,8 @@ msgstr ""
 "недовольных военными действиями)."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354
-#: data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522
-#: data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "Маяк"
 
@@ -16414,10 +16380,8 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375
-#: data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544
-#: data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "Экспедиция Магеллана"
 
@@ -16426,18 +16390,14 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395
-#: data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566
-#: data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "Манхэттенский Проект"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432
-#: data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606
-#: data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "Капелла Микеланджело"
 
@@ -16446,8 +16406,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Удваивает эффект Соборов во всех городах."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457
-#: data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "Оракул"
@@ -16461,10 +16420,8 @@ msgstr ""
 "военными действиями."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478
-#: data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693
-#: data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Пирамиды"
 
@@ -16481,8 +16438,7 @@ msgstr ""
 "Правления, в том числе и тем, которые ещё не были открыты Вашей цивилизацией."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500
-#: data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "Программа S.E.T.I."
 
@@ -16492,16 +16448,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Увеличивает скорость развития науки в каждом Вашем городе на 50%."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520
-#: data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741
-#: data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "Театр Шекспира"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535
-#: data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16511,18 +16464,14 @@ msgstr ""
 "довольными, в том числе и недовольных военными действиями."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584
-#: data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809
-#: data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "ООН"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611
-#: data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837
-#: data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "Женское Избирательное Право"
 
@@ -16708,16 +16657,13 @@ msgid "Team 3"
 msgstr "Команда 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
-#: data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Анархия"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16725,8 +16671,7 @@ msgid "Warlord %s"
 msgstr "Военачальник %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16734,10 +16679,8 @@ msgid "Warlady %s"
 msgstr "Военачальница %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67
-#: data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16759,16 +16702,14 @@ msgstr ""
 "стране немного больше несчастья."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Деспотизм"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16776,8 +16717,7 @@ msgid "Chief %s"
 msgstr "Вождь %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16785,8 +16725,7 @@ msgid "?female:Chief %s"
 msgstr "Владычица %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -19110,7 +19049,7 @@ msgid ""
 msgstr ""
 " — \"Установить Посольство\": Это действие всегда завершается успехом, и "
 "даёт постоянный контакт с народом-владельцем города, а также разведданные об "
-"их бюджете и технологиях."
+"их уровнях налогов и технологиях."
 
 #: data/civ1/units.ruleset:1224 data/civ2/units.ruleset:1935
 #: data/classic/units.ruleset:2021 data/experimental/units.ruleset:2047
@@ -19633,8 +19572,8 @@ msgstr ""
 "СЭС — на 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974
-#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
+#: data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Фондовая Биржа"
 
@@ -19651,8 +19590,8 @@ msgstr ""
 "Вместе с Рынком и Банком — на 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998
-#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
+#: data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Автомагистрали"
 
@@ -19699,8 +19638,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206
-#: data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "Компания Aдама Смита"
 
@@ -19714,8 +19652,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320
-#: data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "Эйфелева башня"
 
@@ -19764,8 +19701,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479
-#: data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "Крестовый поход"
 
@@ -19781,8 +19717,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503
-#: data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "Мастерская Леонардо"
 
@@ -19806,8 +19741,7 @@ msgstr "Даёт всем Водным соединениям 2 дополнит
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "Посольство Марко Поло"
 
@@ -19849,15 +19783,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765
-#: data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Статуя свободы"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788
-#: data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "Военная академия Сунь Цзы"
 
@@ -20583,8 +20515,7 @@ msgid "Airbase"
 msgstr "Авиабаза"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049
-#: data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -21534,8 +21465,7 @@ msgstr ""
 "только с ТЭС; СЭС, Фабрика и Завод вместе дают увеличение производства на "
 "150%, полностью ликвидируя промышленное загрязнение в городе."
 
-#: data/classic/buildings.ruleset:1008
-#: data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21546,8 +21476,7 @@ msgstr ""
 "удваивает этот эффект, ну а строительство Чуда Оракул делает довольными 4-х "
 "жителей.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21557,8 +21486,7 @@ msgstr ""
 "Вместе с Библиотекой Университет увеличивает скорость развития науки в "
 "городе на 250%"
 
-#: data/classic/buildings.ruleset:1075
-#: data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21566,8 +21494,7 @@ msgstr ""
 "Городские здания, обычно требующие 1 единицу золота на поддержку, становятся "
 "бесплатными, для всех городов."
 
-#: data/classic/buildings.ruleset:1181
-#: data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21575,8 +21502,7 @@ msgstr ""
 "Ваша репутация и доброе к Вам отношение других народов восстанавливается в "
 "два раза быстрее."
 
-#: data/classic/buildings.ruleset:1289
-#: data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21585,8 +21511,7 @@ msgstr ""
 "Ускоряет развитие науки на 100% в каждом из ваших городов, где построен "
 "Университет."
 
-#: data/classic/buildings.ruleset:1369
-#: data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21594,13 +21519,11 @@ msgstr ""
 "Даёт всем Водным соединением 1 дополнительный ход. Делает все новые Водные "
 "соединения Ветеранами (во всех городах)."
 
-#: data/classic/buildings.ruleset:1390
-#: data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
-#: data/classic/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21608,8 +21531,7 @@ msgstr ""
 "Дополнительно делает двух недовольных жителей довольными в каждом городе с "
 "Храмом.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1493
-#: data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21620,16 +21542,14 @@ msgstr ""
 "уменьшается на 25%.  Это способствует более быстрому росту города.  Эффект "
 "добавляется к эффекту Амбара."
 
-#: data/classic/buildings.ruleset:1515
-#: data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Увеличивает на 100% научный выход каждого города с Исследовательской "
 "лабораторией."
 
-#: data/classic/buildings.ruleset:1576
-#: data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21641,17 +21561,13 @@ msgstr ""
 "соединения при создании получат ранг Закалённый). Шансы Наземных соединений "
 "на повышение в ранге после битвы увеличиваются в полтора раза."
 
-#: data/classic/buildings.ruleset:1638
-#: data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859
-#: data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Монетный двор"
 
-#: data/classic/buildings.ruleset:1659
-#: data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880
-#: data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -28759,11 +28675,11 @@ msgid ""
 msgstr ""
 "    freeciv-dev@freelists.org   — публичный список рассылки\n"
 "                                  разработки (архивы общедоступны)\n"
-"    freeciv-maintainers@lists.sourceforge.net\n"
-"                                — закрытый список администрирования\n"
+"    freeciv-maintainers@lists.sourceforge.net —\n"
+"                                  закрытый список администрирования\n"
 "                                  проекта (для уязвимостей и т.п.)"
 
-#: data/helpdata.txt:2312
+#: data/helpdata.txt:2313
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
@@ -28771,11 +28687,11 @@ msgstr ""
 "  Первоначальные авторы:\n"
 "    (они больше не занимаются этим, не пишите им!)"
 
-#: data/helpdata.txt:2319
+#: data/helpdata.txt:2320
 msgid "  Present administrators: "
 msgstr "  Нынешние администраторы: "
 
-#: data/helpdata.txt:2326
+#: data/helpdata.txt:2327
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr "За более подробной информацией обращайтесь на сайт Freeciv по адресу:"
 
@@ -35946,8 +35862,8 @@ msgstr ""
 "со старыми сохранёнными играми или может означать, что файл сохранения "
 "испорчен. Используйте на свой страх и риск."
 
-#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2083
-#: server/srv_main.c:2088
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2084
+#: server/srv_main.c:2089
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
@@ -38906,48 +38822,48 @@ msgstr ""
 msgid "You are not allowed to edit."
 msgstr "Вам не разрешено редактирование."
 
-#: server/srv_main.c:1900
+#: server/srv_main.c:1901
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Народ %s недоступен для выбора пользователем."
 
-#: server/srv_main.c:1906
+#: server/srv_main.c:1907
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Народ %s уже занят."
 
-#: server/srv_main.c:1922
+#: server/srv_main.c:1923
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "Пользователь %s руководит народом %s под именем %s."
 
-#: server/srv_main.c:1997
+#: server/srv_main.c:1998
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Ждём начала игры: %d из %d игроков готовы начать."
 
-#: server/srv_main.c:2023
+#: server/srv_main.c:2024
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 "запрошенное количество игроков превышает значение параметра 'maxplayers'"
 
-#: server/srv_main.c:2030
+#: server/srv_main.c:2031
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "недостаточно народов для игры в выбранном наборе народов (см. параметр "
 "'nationset')"
 
-#: server/srv_main.c:2033
+#: server/srv_main.c:2034
 msgid "not enough playable nations"
 msgstr "недостаточно народов для игры"
 
-#: server/srv_main.c:2376 server/srv_main.c:2380
+#: server/srv_main.c:2377 server/srv_main.c:2381
 #, c-format
 msgid "%s rules the %s."
 msgstr "Игрок %s руководит народом %s."
 
-#: server/srv_main.c:2544
+#: server/srv_main.c:2545
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -38955,33 +38871,33 @@ msgstr ""
 "Этот сервер Freeciv поддерживает авторизацию пользователей, но сейчас она не "
 "используется."
 
-#: server/srv_main.c:2613
+#: server/srv_main.c:2614
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Отправляем информацию метасерверу <%s>."
 
-#: server/srv_main.c:2617
+#: server/srv_main.c:2618
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Не запускается без явного запроса соединения с метасервером."
 
-#: server/srv_main.c:2640
+#: server/srv_main.c:2641
 msgid "The game is over..."
 msgstr "Эта игра завершена..."
 
-#: server/srv_main.c:2749
+#: server/srv_main.c:2750
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr "Невозможно создать подходящую карту, пробуем другое начальное зерно"
 
-#: server/srv_main.c:2782
+#: server/srv_main.c:2783
 msgid "Cannot create suitable map with given settings."
 msgstr "Невозможно создать подходящую карту с заданными параметрами."
 
-#: server/srv_main.c:2805 server/srv_main.c:2809
+#: server/srv_main.c:2806 server/srv_main.c:2810
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Значение параметра '%s' (%s) было уточнено и изменено на %s."
 
-#: server/srv_main.c:3003
+#: server/srv_main.c:3004
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Принимаются подключения новых клиентов на порту %d."
@@ -41678,7 +41594,7 @@ msgstr ", %s"
 msgid "?and-list:, and %s"
 msgstr " и %s"
 
-#: utility/fciconv.c:131
+#: utility/fciconv.c:130
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
@@ -41693,7 +41609,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:210
+#: utility/fciconv.c:209
 #, c-format
 msgid "Could not convert text from %s to %s: %s.\n"
 msgstr "Невозможно перекодировать текст из %s в %s: %s.\n"
@@ -41770,7 +41686,7 @@ msgstr[2] " (всего %d повторов)"
 msgid "Failed to fetch %s: %s"
 msgstr "Ошибка загрузки %s: %s"
 
-#: utility/netfile.c:166
+#: utility/netfile.c:166 utility/registry_ini.c:635
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Невозможно открыть %s для записи"
