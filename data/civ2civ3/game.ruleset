@@ -259,8 +259,8 @@ ui_name_incite_city = _("Incite a %sRevolt%s")
 ; /* TRANS: Establish _Embassy (100% chance of success). */
 ui_name_establish_embassy = _("Establish %sEmbassy%s")
 
-; /* TRANS: Establish _Embassy (and stay) (100% chance of success). */
-ui_name_establish_embassy_stay = _("Establish %sEmbassy (and stay)%s")
+; /* TRANS: Becom_e Ambassador (100% chance of success). */
+ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
 
 ; /* TRANS: Steal _Technology (3% chance of success). */
 ui_name_steal_tech = _("Steal %sTechnology%s")
