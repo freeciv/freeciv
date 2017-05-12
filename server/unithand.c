@@ -812,6 +812,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
+  /* Not know yet. (Initialize before the below check.) */
+  explnat->kind = ANEK_UNKNOWN;
+
   if (action_id != ACTION_ANY) {
     /* A specific action should have a suitable target. */
     switch (action_id_get_target_kind(action_id)) {
