@@ -2386,6 +2386,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        "type it upgrades to.\n"),
                      utype_name_translation(utype->obsoleted_by));
         break;
+      case ACTION_ATTACK:
+        if (game.info.tired_attack) {
+          cat_snprintf(buf, bufsz,
+                       _("  * weaker when tired. If performed with less "
+                         "than a single move point left the attack power "
+                         "is reduced accordingly.\n"));
+          break;
+        }
       default:
         /* No action specific details. */
         break;
