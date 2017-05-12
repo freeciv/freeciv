@@ -617,6 +617,12 @@ static bool manual_command(void)
         fprintf(doc, _("Hitpoints: %d"),
                 putype->hp);
         fprintf(doc, SUBITEM_END);
+        fprintf(doc, SUBITEM_BEGIN, "obsolete");
+        fprintf(doc, _("Obsolete by: %s"),
+                U_NOT_OBSOLETED == putype->obsoleted_by ?
+                  Q_("?utype:None") :
+                  utype_name_translation(putype->obsoleted_by));
+        fprintf(doc, SUBITEM_END);
         fprintf(doc, SUBITEM_BEGIN, "helptext");
         helptext_unit(buf, sizeof(buf), NULL, "", putype);
         fprintf(doc, "%s", buf);
