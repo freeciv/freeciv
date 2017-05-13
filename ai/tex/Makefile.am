@@ -25,7 +25,7 @@ da_sources = \
 	texaiplayer.h		\
 	texaiworld.c		\
 	texaiworld.h		\
-	threxprai.c
+	texai.c
 
 if AI_MOD_STATIC_TEX
 libtexai_la_SOURCES = $(da_sources)
