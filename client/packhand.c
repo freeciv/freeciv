@@ -895,8 +895,8 @@ void handle_city_info(const struct packet_city_info *packet)
   for it.
   TODO: Do not generate code calling this in C-client.
 ****************************************************************************/
-void handle_web_city_info_addition(int granary_size, int granary_turns,
-                                   int buy_gold_cost)
+void handle_web_city_info_addition(int id, int granary_size,
+                                   int granary_turns, int buy_gold_cost)
 {
 }
 

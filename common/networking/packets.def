@@ -637,7 +637,7 @@ end
 
 /************** City packets **********************/
 
-PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_CITY_SHORT_INFO)
+PACKET_CITY_REMOVE = 30; sc, dsend, lsend, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION), cancel(PACKET_CITY_SHORT_INFO)
   CITY city_id;
 end
 
@@ -704,7 +704,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   ESTRING name[MAX_LEN_CITYNAME];
 end
 
-PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
+PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
   CITY id; key
   TILE tile;
 
@@ -2223,6 +2223,8 @@ end
 /* Use range 256:511 for these                             */
 
 PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
+  CITY id; key
+
   UINT16 granary_size;
   TURN granary_turns;
   UINT16 buy_gold_cost;
