@@ -3124,6 +3124,16 @@ bool setting_is_changeable(const struct setting *pset,
 }
 
 /****************************************************************************
+  Returns whether the specified server setting (option) can be seen by a
+  caller with the specified access level.
+****************************************************************************/
+bool setting_is_visible_at_level(const struct setting *pset,
+                                 enum cmdlevel plevel)
+{
+  return (plevel >= pset->access_level_read);
+}
+
+/****************************************************************************
   Returns whether the specified server setting (option) can be seen by the
   caller.
 ****************************************************************************/
@@ -3131,7 +3141,7 @@ bool setting_is_visible(const struct setting *pset,
                         struct connection *caller)
 {
   return (!caller
-          || caller->access_level >= pset->access_level_read);
+          || setting_is_visible_at_level(pset, caller->access_level));
 }
 
 /****************************************************************************

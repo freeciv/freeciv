@@ -92,6 +92,8 @@ enum sset_category setting_category(const struct setting *pset);
 bool setting_is_changeable(const struct setting *pset,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
+bool setting_is_visible_at_level(const struct setting *pset,
+                                 enum cmdlevel plevel);
 bool setting_is_visible(const struct setting *pset,
                         struct connection *caller);
 
