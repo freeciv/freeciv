@@ -1,10 +1,76 @@
 ========================
-Welcome to Freeciv 2.5.6
+Welcome to Freeciv 2.5.7
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.6 to 2.5.7
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.7>)
+
+   2.5.7 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * The score list shown when the game is over now includes dead
+       players. GNA#17248
+     * Fix a server crash when the AI could not find a suitable ferryboat
+       unit type. (This was observed with a modified ruleset.) GNA#25628
+     * Fix a typo'd city name in the Newfoundland nation. HRM#658528
+     * Correctly diagnose failure to load a ruleset needed by a saved
+       game. HRM#659503
+     * Improved behavior after failing to write a file such as a saved
+       game. GNAPATCH#8048 GNA#25391
+     * Improved robustness against reading broken savegames. GNA#25416
+
+General
+
+     * Tiny optimization for speed. HRM#658612
+     * Fix a tiny memory leak. GNA#25246
+     * Various internal changes which should only affect developers.
+       GNA#25319 GNA#25508 HRM#655305 GNA#25430
+
+Clients
+
+     * The "Manual Turn Done in AI mode" client option now does something
+       useful. HRM#657412
+     * (Qt) Player dialog now shows whether given nation shares vision to
+       other nations. GNAPATCH#8115
+     * (Qt) In pregame, pressing Enter on the username text box will now
+       initiate a connection. GNAPATCH#8118
+     * (Qt) The player dialog sometimes did not show new players, e.g.
+       after a civil war. GNA#25506
+     * (Qt) Focus might be set incorrectly to map after the selected unit
+       changed. GNA#25505
+     * (Gtk3) Fix some Gtk warnings on the console. GNAPATCH#7163
+
+Help / Documentation
+
+     * Update docs to reflect move away from gna.org. HRM#637952
+       HRM#652494 HRM#655380 HRM#637953 HRM#656595
+     * Refresh some links in INSTALL. HRM#656476
+     * Update the FAQ a bit.
+     * Miscellaneous changes to developer/ruleset docs. GNAPATCH#8109
+
+Translations
+
+     * Updated translations:
+          + Complete translations: French, British English, Russian.
+          + Incomplete translations: Finnish (100% core, 92% nations),
+            Ukrainian (100% core, 79% nations).
+
+Build/portability
+
+     * Fix warning seen with Clang 3.9. Freeciv builds cleanly with Clang
+       4.0. GNA#25314
+     * Fix warnings seen with GCC 7, with which Freeciv builds cleanly.
+       HRM#657309 HRM#657332
 
 
 CHANGES FROM 2.5.5 to 2.5.6
