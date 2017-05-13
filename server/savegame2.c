@@ -1660,7 +1660,7 @@ static void sg_load_savefile(struct loaddata *loading)
   }
   if (!load_rulesets(NULL, TRUE)) {
     /* Failed to load correct ruleset */
-    sg_failure_ret(TRUE, "Failed to load ruleset");
+    sg_failure_ret(FALSE, "Failed to load ruleset");
   }
 
   /* Load improvements. */
