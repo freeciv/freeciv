@@ -1235,7 +1235,7 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
     }
     if (unit_can_take_over(myunit) || acity_data->invasion.occupy > 0) {
       /* bonus for getting the city */
-      benefit += acity_data->worth / 5;
+      benefit += acity_data->worth / 3;
     }
 
     /* end dealing with cities */
