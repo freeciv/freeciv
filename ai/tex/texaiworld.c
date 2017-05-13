@@ -168,4 +168,5 @@ void texai_city_destruction_recv(void *data)
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
   idex_unregister_city(&texai_world, pcity);
+  destroy_city_virtual(pcity);
 }
