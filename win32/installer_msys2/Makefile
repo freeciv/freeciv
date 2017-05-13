@@ -232,7 +232,8 @@ DEFAULT_FCMP_DLLS := \
 	libepoxy-0.dll \
 	libgraphite2.dll \
 	libpangoft2-1.0-0.dll \
-	libpcre-1.dll
+	libpcre-1.dll \
+	libunistring-2.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
@@ -277,7 +278,7 @@ SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libjpeg-8.dll \
 	libtiff-5.dll \
-	libwebp-6.dll
+	libwebp-7.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
@@ -294,7 +295,8 @@ QT_DLLS := \
 	Qt5Gui.dll \
 	Qt5Widgets.dll \
 	libgraphite2.dll \
-	libpcre-1.dll
+	libpcre-1.dll \
+	libunistring-2.dll
 
 install-env-qt: install-env-common
 	# add DLLs
