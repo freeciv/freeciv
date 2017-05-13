@@ -2426,6 +2426,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      astr_build_or_list(&blist, blockers, i));
 
         astr_free(&blist);
+
+        for (; i > 0; i--) {
+          /* The text was copied above. */
+          free((char *)(blockers[i - 1]));
+        }
       }
     }
   } action_iterate_end;
