@@ -5,7 +5,7 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2016.
+# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2016.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-11-19 11:39+0000\n"
 "PO-Revision-Date: 2016-07-07 01:48+0100\n"
-"Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
+"Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
