@@ -5,7 +5,7 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>, 2010-2014.
+# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2014.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2015-12-09 01:02+0200\n"
 "PO-Revision-Date: 2014-09-08 22:21+0100\n"
-"Last-Translator: Jacob Nevins <0jacobnk.gna@chiark.greenend.org.uk>\n"
+"Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
