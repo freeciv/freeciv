@@ -475,11 +475,14 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
 
   if (adv->wonder_city == pcity->id) {
-    settler_want /= 5;
+    if (!settler_type || settler_type->pop_cost > 0) {
+      settler_want /= 5;
+    } else {
+      settler_want /= 2;
+    }
   }
 
   if (settler_type
-      && (pcity->id != adv->wonder_city || settler_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(settler_type,
                                                     pplayer, O_FOOD)) {
     if (settler_want > 0) {
@@ -506,7 +509,11 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
     founder_want = city_data->founder_want;
 
     if (adv->wonder_city == pcity->id) {
-      founder_want /= 5;
+      if (founder_type->pop_cost > 0) {
+        founder_want /= 5;
+      } else {
+        founder_want /= 2;
+      }
     }
     
     if (adv->max_num_cities <= city_list_size(pplayer->cities)) {
@@ -518,8 +525,6 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
       / TRAIT_DEFAULT_VALUE;
 
     if (founder_type
-        && (pcity->id != adv->wonder_city
-            || founder_type->pop_cost == 0)
         && pcity->surplus[O_FOOD] >= utype_upkeep_cost(founder_type,
                                                        pplayer, O_FOOD)) {
 
