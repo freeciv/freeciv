@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 11:38+0000\n"
+"POT-Creation-Date: 2017-05-13 12:12+0100\n"
 "PO-Revision-Date: 2016-07-18 02:12+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -551,8 +551,8 @@ msgstr "総督府は %sの扱いに混乱してしまいました。確認した
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2784 utility/log.c:516
-#: utility/netintf.c:97 utility/registry_ini.c:745
+#: server/console.c:71 server/srv_main.c:2785 utility/log.c:516
+#: utility/netintf.c:97 utility/registry_ini.c:747
 #, c-format
 msgid "Please report this message at %s"
 msgstr "%sにこのメッセージを報告してください"
@@ -812,7 +812,7 @@ msgstr "%+4d : 交易からの徴収\n"
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
 #: client/citydlg_common.c:477 client/gui-gtk-2.0/inteldlg.c:388
-#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:450
+#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:455
 #: client/gui-sdl/inteldlg.c:314 client/gui-sdl/inteldlg.c:327
 #: client/gui-xaw/inteldlg.c:281 server/stdinhand.c:326
 msgid "(unknown)"
@@ -974,7 +974,7 @@ msgstr "都市名"
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1409
 #: client/gui-gtk-3.0/pages.c:2776 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
-#: client/gui-qt/pages.cpp:552 client/gui-qt/plrdlg.cpp:442
+#: client/gui-qt/pages.cpp:554 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
@@ -2133,7 +2133,7 @@ msgstr "数"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2774
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:552
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:554
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "旗"
@@ -2163,19 +2163,19 @@ msgstr "交易:"
 #: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
-#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:451
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "金:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:457
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "贅沢:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:455
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "科学:"
 
@@ -2869,7 +2869,7 @@ msgid "What Nation Will You Be?"
 msgstr "あなたがなりたい民族は?"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-3.0/dialogs.c:895
-#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:574
+#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:576
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
 msgid "Pick Nation"
 msgstr "民族選択"
@@ -3541,7 +3541,7 @@ msgstr "ID"
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
 #: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1406
 #: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:551 data/Freeciv.in:97
+#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:553 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
 #: tools/mpgui_qt.cpp:217
 msgid "Name"
@@ -3843,7 +3843,7 @@ msgstr "Seen (Invis)"
 
 #: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
 #: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:741
-#: client/gui-qt/pages.cpp:763 client/gui-sdl/citydlg.c:1985
+#: client/gui-qt/pages.cpp:765 client/gui-sdl/citydlg.c:1985
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "不明"
@@ -3994,7 +3994,7 @@ msgid "Shift+Return"
 msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1410
-#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:638
+#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:640
 msgid "?noun:View"
 msgstr "ビュー"
 
@@ -4213,7 +4213,7 @@ msgstr "産出ボーナス (食料/生産/交易):"
 # 「with」とセット
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:137 client/gui-gtk-3.0/helpdlg.c:137
-#: client/gui-qt/plrdlg.cpp:522 client/gui-qt/plrdlg.cpp:528
+#: client/gui-qt/plrdlg.cpp:530 client/gui-qt/plrdlg.cpp:536
 #: client/gui-qt/repodlgs.cpp:582 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
@@ -4292,7 +4292,7 @@ msgstr "｣も必要）"
 #: client/gui-gtk-2.0/helpdlg.c:1153 client/gui-gtk-2.0/helpdlg.c:1240
 #: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1181
 #: client/gui-gtk-3.0/helpdlg.c:1268 client/gui-gtk-3.0/inteldlg.c:407
-#: client/gui-qt/plrdlg.cpp:432 client/gui-xaw/helpdlg.c:1014
+#: client/gui-qt/plrdlg.cpp:437 client/gui-xaw/helpdlg.c:1014
 #: client/gui-xaw/helpdlg.c:1095 common/requirements.c:1958
 #, c-format
 msgid "(none)"
@@ -4341,27 +4341,27 @@ msgid "?bonus:None"
 msgstr "なし"
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-qt/plrdlg.cpp:444
+#: client/gui-qt/plrdlg.cpp:449
 msgid "Ruler:"
 msgstr "元首:"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-qt/plrdlg.cpp:446
+#: client/gui-qt/plrdlg.cpp:451
 msgid "Government:"
 msgstr "政治体制:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-qt/plrdlg.cpp:448
+#: client/gui-qt/plrdlg.cpp:453
 msgid "Capital:"
 msgstr "首都:"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-qt/plrdlg.cpp:453
+#: client/gui-qt/plrdlg.cpp:458
 msgid "Tax:"
 msgstr "税:"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-qt/plrdlg.cpp:459
+#: client/gui-qt/plrdlg.cpp:464
 msgid "Researching:"
 msgstr "研究中:"
 
@@ -4381,7 +4381,7 @@ msgstr "諜報: %s"
 
 #. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-3.0/inteldlg.c:403
-#: client/gui-qt/plrdlg.cpp:429 common/tech.c:1227
+#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1227
 msgid "(Unknown)"
 msgstr "(不明)"
 
@@ -5252,7 +5252,7 @@ msgstr "ブラウズ(_B)..."
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:987 client/gui-gtk-3.0/pages.c:1068
-#: client/gui-qt/pages.cpp:1210 client/gui-sdl/connectdlg.c:937
+#: client/gui-qt/pages.cpp:1212 client/gui-sdl/connectdlg.c:937
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "パスワードが一致しません。パスワードを入力してください。"
@@ -5377,7 +5377,7 @@ msgstr "プレイヤーの準備状態を切り替える"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1831
-#: client/gui-qt/pages.cpp:1575
+#: client/gui-qt/pages.cpp:1577
 msgid "Pick nation"
 msgstr "民族選択"
 
@@ -5388,7 +5388,7 @@ msgstr "このプレイヤーを観察する"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1846
-#: client/gui-qt/pages.cpp:1565
+#: client/gui-qt/pages.cpp:1567
 msgid "Take this player"
 msgstr "このプレイヤーを操作する"
 
@@ -5399,13 +5399,13 @@ msgstr "接続切断"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1869
-#: client/gui-qt/pages.cpp:1637
+#: client/gui-qt/pages.cpp:1639
 msgid "Aitoggle player"
 msgstr "プレイヤーのAI状態を切り替える"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1877
-#: client/gui-qt/pages.cpp:1557
+#: client/gui-qt/pages.cpp:1559
 msgid "Remove player"
 msgstr "プレイヤー除去"
 
@@ -5476,7 +5476,7 @@ msgid "<%s AI>"
 msgstr "<%sAI>"
 
 #: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2411
-#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1291
+#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1293
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "ランダム"
@@ -5484,7 +5484,7 @@ msgstr "ランダム"
 # Daniel
 #: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
 #: client/gui-gtk-3.0/pages.c:2485 client/gui-gtk-3.0/pages.c:2542
-#: client/gui-qt/pages.cpp:1362 client/gui-qt/pages.cpp:1392
+#: client/gui-qt/pages.cpp:1364 client/gui-qt/pages.cpp:1394
 msgid "Observer"
 msgstr "観察者"
 
@@ -5492,7 +5492,7 @@ msgstr "観察者"
 # Belgae
 # was 未割り当て
 #: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2567
-#: client/gui-qt/pages.cpp:1409
+#: client/gui-qt/pages.cpp:1411
 msgid "Detached"
 msgstr "解任済"
 
@@ -5534,7 +5534,7 @@ msgstr "レーティング"
 # clefs
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2770 client/gui-gtk-3.0/unitselect.c:475
-#: client/gui-qt/pages.cpp:551 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:1467
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "準備完了"
@@ -5545,12 +5545,12 @@ msgid "?player:Leader"
 msgstr "プレイヤー名"
 
 #: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2778
-#: client/gui-qt/pages.cpp:552 client/plrdlg_common.c:310
+#: client/gui-qt/pages.cpp:554 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "チーム"
 
 #: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2899
-#: client/gui-qt/pages.cpp:429 client/gui-sdl/chatline.c:197
+#: client/gui-qt/pages.cpp:431 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "ロードするセーブファイルを選択"
 
@@ -5561,7 +5561,7 @@ msgstr "ロードするセーブファイルを選択(_L):"
 
 # Daniel
 #: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3048
-#: client/gui-qt/pages.cpp:490
+#: client/gui-qt/pages.cpp:492
 msgid "Choose a Scenario"
 msgstr "ロードするシナリオを選択"
 
@@ -6021,18 +6021,18 @@ msgid "_Focus"
 msgstr "ユニットへ移動"
 
 #. TRANS: used in place of unit home city name
-#: client/gui-gtk-2.0/unitselect.c:809 client/gui-gtk-3.0/unitselect.c:810
+#: client/gui-gtk-2.0/unitselect.c:809 client/gui-gtk-3.0/unitselect.c:806
 msgid "no home city"
 msgstr "都市に所属せず"
 
 #. TRANS: used in place of unit home city name
-#: client/gui-gtk-2.0/unitselect.c:812 client/gui-gtk-3.0/unitselect.c:813
+#: client/gui-gtk-2.0/unitselect.c:812 client/gui-gtk-3.0/unitselect.c:809
 #: client/gui-xaw/repodlgs.c:208 client/gui-xaw/repodlgs.c:484
 msgid "unknown"
 msgstr "不明"
 
 #. TRANS: unit type and home city, e.g. "Transport\n(New Orleans)"
-#: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:830
+#: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:826
 #, c-format
 msgid ""
 "%s\n"
@@ -6182,7 +6182,7 @@ msgid "Change homecity"
 msgstr "この都市に所属させる"
 
 #: client/gui-qt/citydlg.cpp:216 client/gui-qt/menu.cpp:665
-#: client/gui-qt/pages.cpp:470
+#: client/gui-qt/pages.cpp:472
 msgid "Load"
 msgstr "載せる"
 
@@ -6232,7 +6232,7 @@ msgstr "作業リストオプション"
 msgid "Show future targets"
 msgstr "全表示"
 
-#: client/gui-qt/citydlg.cpp:845 client/options.c:2168
+#: client/gui-qt/citydlg.cpp:845 client/options.c:2170
 msgid "Show units"
 msgstr "ユニットの描写"
 
@@ -6426,8 +6426,8 @@ msgstr ""
 
 #: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
-#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:462
-#: client/gui-qt/pages.cpp:520 client/gui-qt/ratesdlg.cpp:140
+#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:464
+#: client/gui-qt/pages.cpp:522 client/gui-qt/ratesdlg.cpp:140
 #: client/gui-sdl/citydlg.c:526 client/gui-sdl/citydlg.c:1418
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/connectdlg.c:634
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
@@ -6481,7 +6481,7 @@ msgstr "売却"
 msgid "Select"
 msgstr "選択"
 
-#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:336
+#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:341
 msgid "Column visibility"
 msgstr ""
 
@@ -6609,7 +6609,7 @@ msgid "Are you sure you want to disband that %1 unit?"
 msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "これらの%1ユニットを解散しますか？"
 
-#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1327
+#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1329
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1212
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6625,7 +6625,7 @@ msgstr[0] "これらの%1ユニットを解散しますか？"
 msgid "Yes"
 msgstr "はい"
 
-#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1329
+#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1331
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1201
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6716,13 +6716,13 @@ msgstr ""
 msgid "This is Qt-client for Freeciv."
 msgstr "これはFreeciv Qtクライアントです。"
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1445
+#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1447
 msgid "Don't Observe"
 msgstr "観察終了"
 
 # Daniel
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:581
-#: client/gui-qt/pages.cpp:1447 client/gui-qt/pages.cpp:1548
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:583
+#: client/gui-qt/pages.cpp:1449 client/gui-qt/pages.cpp:1550
 msgid "Observe"
 msgstr "観察"
 
@@ -6950,7 +6950,7 @@ msgstr "終了"
 msgid "Center View"
 msgstr "中心へ"
 
-#: client/gui-qt/menu.cpp:459 client/options.c:2592
+#: client/gui-qt/menu.cpp:459 client/options.c:2594
 msgid "Fullscreen"
 msgstr "フルスクリーン"
 
@@ -6972,8 +6972,8 @@ msgstr "グリッド"
 msgid "National Borders"
 msgstr "国境線"
 
-#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2370
-#: client/options.c:2573 client/options.c:2677
+#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2372
+#: client/options.c:2575 client/options.c:2679
 msgid "City Names"
 msgstr "都市の名前"
 
@@ -7206,8 +7206,8 @@ msgid "Tax Rates..."
 msgstr "税率..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1258
-#: client/gui-qt/plrdlg.cpp:641 client/gui-sdl/plrdlg.c:337
+#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1260
+#: client/gui-qt/plrdlg.cpp:649 client/gui-sdl/plrdlg.c:337
 msgid "?header:Players"
 msgstr "プレイヤー"
 
@@ -7324,101 +7324,101 @@ msgid "Confirm Password"
 msgstr "パスワードの確認"
 
 # Daniel
-#: client/gui-qt/pages.cpp:376
+#: client/gui-qt/pages.cpp:378
 #, fuzzy
 msgid "Internet servers:"
 msgstr "メタサーバー(_M)"
 
-#: client/gui-qt/pages.cpp:379
+#: client/gui-qt/pages.cpp:381
 #, fuzzy
 msgid "Local servers:"
 msgstr "全体観察者"
 
-#: client/gui-qt/pages.cpp:429
+#: client/gui-qt/pages.cpp:431
 msgid "Date"
 msgstr "更新日時"
 
 # Daniel
-#: client/gui-qt/pages.cpp:456 client/gui-qt/pages.cpp:514
+#: client/gui-qt/pages.cpp:458 client/gui-qt/pages.cpp:516
 #, fuzzy
 msgid "Browse..."
 msgstr "ブラウズ(_B)..."
 
 # Daniel
-#: client/gui-qt/pages.cpp:528
+#: client/gui-qt/pages.cpp:530
 msgid "Load Scenario"
 msgstr "ロード"
 
-#: client/gui-qt/pages.cpp:551
+#: client/gui-qt/pages.cpp:553
 msgid "Leader"
 msgstr "元首"
 
-#: client/gui-qt/pages.cpp:569 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
+#: client/gui-qt/pages.cpp:571 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
 msgstr "切断"
 
 # clefs
-#: client/gui-qt/pages.cpp:587 client/gui-qt/pages.cpp:1473
+#: client/gui-qt/pages.cpp:589 client/gui-qt/pages.cpp:1475
 #: client/gui-sdl/chatline.c:800 data/Freeciv.in:3444
 msgid "Start"
 msgstr "開始"
 
-#: client/gui-qt/pages.cpp:691
+#: client/gui-qt/pages.cpp:693
 msgid "Save Files"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:694
+#: client/gui-qt/pages.cpp:696
 msgid "Open Save File"
 msgstr "ロードするセーブファイルを選択"
 
-#: client/gui-qt/pages.cpp:707
+#: client/gui-qt/pages.cpp:709
 msgid "Scenarios Files"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:710
+#: client/gui-qt/pages.cpp:712
 msgid "Open Scenario File"
 msgstr "ロードするシナリオを選択"
 
-#: client/gui-qt/pages.cpp:1377
+#: client/gui-qt/pages.cpp:1379
 msgid "Global observers"
 msgstr "全体観察者"
 
 # clefs
 # XXX ネット対戦で「まだだよ」と待ってもらうボタン
-#: client/gui-qt/pages.cpp:1454
+#: client/gui-qt/pages.cpp:1456
 msgid "Not ready"
 msgstr "準備中"
 
-#: client/gui-qt/pages.cpp:1590
+#: client/gui-qt/pages.cpp:1592
 msgid "Set difficulty"
 msgstr "AIのレベル"
 
 # clefs
-#: client/gui-qt/pages.cpp:1613
+#: client/gui-qt/pages.cpp:1615
 msgid "Put on team"
 msgstr "チームに加える"
 
-#: client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:501
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>%1が持っていない :</b>"
 
-#: client/gui-qt/plrdlg.cpp:495
+#: client/gui-qt/plrdlg.cpp:503
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>あなたが持っていない :</b>"
 
-#: client/gui-qt/plrdlg.cpp:535
+#: client/gui-qt/plrdlg.cpp:543
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>%1が保有する科学技術:</b>"
 
-#: client/gui-qt/plrdlg.cpp:598 data/Freeciv.in:3286
+#: client/gui-qt/plrdlg.cpp:606 data/Freeciv.in:3286
 msgid "Meet"
 msgstr "会談"
 
-#: client/gui-qt/plrdlg.cpp:600 client/gui-sdl/diplodlg.c:1536
+#: client/gui-qt/plrdlg.cpp:608 client/gui-sdl/diplodlg.c:1536
 msgid "Cancel Treaty"
 msgstr "条約破棄"
 
-#: client/gui-qt/plrdlg.cpp:602
+#: client/gui-qt/plrdlg.cpp:610
 msgid "Withdraw Vision"
 msgstr "視界提供の撤回"
 
@@ -9125,7 +9125,7 @@ msgstr "本当に %sを削除しますか?"
 msgid "LAN Servers"
 msgstr "LAN サーバー"
 
-#: client/gui-xaw/connectdlg.c:336 client/options.c:1741 data/Freeciv.in:132
+#: client/gui-xaw/connectdlg.c:336 client/options.c:1743 data/Freeciv.in:132
 msgid "Metaserver"
 msgstr "メタサーバー"
 
@@ -11625,40 +11625,40 @@ msgid "Clipboard is empty."
 msgstr "クリップボードは空です。"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1683
+#: client/options.c:1684
 msgid "Split"
 msgstr "分割"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1685
+#: client/options.c:1686
 msgid "Separate"
 msgstr "分離"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1687
+#: client/options.c:1688
 msgid "Merged"
 msgstr "併合"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1703 server/settings.c:316
+#: client/options.c:1704 server/settings.c:316
 msgid "Enabled"
 msgstr "有効"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1705 server/settings.c:281 server/settings.c:315
+#: client/options.c:1706 server/settings.c:281 server/settings.c:315
 msgid "Disabled"
 msgstr "無効"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1707 tools/modinst.h:35
+#: client/options.c:1708 tools/modinst.h:35
 msgid "Ruleset"
 msgstr "ルールセット"
 
-#: client/options.c:1723
+#: client/options.c:1725
 msgid "Login name"
 msgstr "接続名"
 
-#: client/options.c:1724
+#: client/options.c:1726
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11666,12 +11666,12 @@ msgstr ""
 "接続ダイアログ，あるいはコマンドラインパラメータに-aを指定した時に使用され"
 "る，既定のログインユーザー名です。"
 
-#: client/options.c:1729
+#: client/options.c:1731
 msgid "Server"
 msgstr "デフォルトサーバー"
 
 # clefs
-#: client/options.c:1730
+#: client/options.c:1732
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11679,12 +11679,12 @@ msgstr ""
 "接続ダイアログ，およびコマンドラインで-aを指定した時に使用されるデフォルトの"
 "サーバー・ホスト名です。"
 
-#: client/options.c:1735
+#: client/options.c:1737
 msgid "Server port"
 msgstr "サーバーのポート番号"
 
 # clefs
-#: client/options.c:1736
+#: client/options.c:1738
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -11693,7 +11693,7 @@ msgstr ""
 "ポート番号です。"
 
 # clefs
-#: client/options.c:1742
+#: client/options.c:1744
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -11704,12 +11704,12 @@ msgstr ""
 "はデフォルトから変更しないでください。[訳註: サーバー一覧が出なくなって慌てる"
 "のがオチです]"
 
-#: client/options.c:1748 tools/modinst.h:43
+#: client/options.c:1750 tools/modinst.h:43
 msgid "Soundset"
 msgstr "サウンドセット"
 
 # clefs
-#: client/options.c:1749
+#: client/options.c:1751
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
@@ -11718,11 +11718,11 @@ msgstr ""
 "指定するのと同じです。"
 
 # このあたりは原語で出てくれた方がわかりやすい気も (clefs)
-#: client/options.c:1754
+#: client/options.c:1756
 msgid "Sound plugin"
 msgstr "サウンドプラグイン"
 
-#: client/options.c:1755
+#: client/options.c:1757
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -11732,34 +11732,34 @@ msgstr ""
 "したプラグインは，Freecivを再起動するまで有効になりません。これを変更するの"
 "は，コマンドラインで -P によって指定するのと同じです。"
 
-#: client/options.c:1761
+#: client/options.c:1763
 msgid "The chat log file"
 msgstr "チャットログファイル"
 
-#: client/options.c:1762
+#: client/options.c:1764
 msgid "The name of the chat log file."
 msgstr "チャットログファイルの名前"
 
-#: client/options.c:1767 client/options.c:1772 client/options.c:1777
-#: client/options.c:1782
+#: client/options.c:1769 client/options.c:1774 client/options.c:1779
+#: client/options.c:1784
 msgid "Theme"
 msgstr "テーマ"
 
 # Daniel
 # Belgae
-#: client/options.c:1768 client/options.c:1773 client/options.c:1778
-#: client/options.c:1783
+#: client/options.c:1770 client/options.c:1775 client/options.c:1780
+#: client/options.c:1785
 msgid "By changing this option you change the active theme."
 msgstr ""
 "このオプションを変更することで，現在表示に使われているテーマを変更できます。"
 
 # ntaka
-#: client/options.c:1793 tools/modinst.h:37
+#: client/options.c:1795 tools/modinst.h:37
 msgid "Tileset"
 msgstr "タイルセット"
 
 # clefs
-#: client/options.c:1794
+#: client/options.c:1796
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
@@ -11769,37 +11769,37 @@ msgstr ""
 
 # clefs
 # これは「概略」ではなく，都市の影響範囲を示すライン
-#: client/options.c:1800
+#: client/options.c:1802
 msgid "Draw city outlines"
 msgstr "都市アウトラインの表示"
 
-#: client/options.c:1801
+#: client/options.c:1803
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr "このオプションを設定すると，都市住民が労働可能な範囲が表示されます。"
 
-#: client/options.c:1805
+#: client/options.c:1807
 msgid "Draw city output"
 msgstr "都市産出物の表示"
 
-#: client/options.c:1806
+#: client/options.c:1808
 msgid "Setting this option will draw city output for every citizen."
 msgstr "このオプションを設定すると，都市住民による産出物が表示されます。"
 
-#: client/options.c:1810
+#: client/options.c:1812
 msgid "Draw the map grid"
 msgstr "グリッドの表示"
 
-#: client/options.c:1811
+#: client/options.c:1813
 msgid "Setting this option will draw a grid over the map."
 msgstr "このオプションを設定すると，マップ上にグリッド(格子)が表示されます。"
 
-#: client/options.c:1814
+#: client/options.c:1816
 msgid "Draw the city bar"
 msgstr "都市情報バーの表示"
 
 # clefs
 # Belgae
-#: client/options.c:1815
+#: client/options.c:1817
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -11809,19 +11809,19 @@ msgstr ""
 "示されます。このオプションを無効にすると，都市の名前（およびオプションで生産"
 "物）のみが表示されます。"
 
-#: client/options.c:1821
+#: client/options.c:1823
 msgid "Draw the city names"
 msgstr "都市名の表示"
 
-#: client/options.c:1822
+#: client/options.c:1824
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr "このオプションを設定すると，都市名がマップ上に表示されます。"
 
-#: client/options.c:1826
+#: client/options.c:1828
 msgid "Draw the city growth"
 msgstr "都市拡大の表示"
 
-#: client/options.c:1827
+#: client/options.c:1829
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
@@ -11829,11 +11829,11 @@ msgstr ""
 "このオプションを設定すると，都市があと何ターンで拡大または縮小するかが表示さ"
 "れます。"
 
-#: client/options.c:1831
+#: client/options.c:1833
 msgid "Draw the city productions"
 msgstr "都市生産物の表示"
 
-#: client/options.c:1832
+#: client/options.c:1834
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
@@ -11841,11 +11841,11 @@ msgstr ""
 "このオプションを設定すると，都市で現在何を生産しているかがマップ上に表示され"
 "ます。"
 
-#: client/options.c:1836
+#: client/options.c:1838
 msgid "Draw the city buy costs"
 msgstr "都市生産物購入費の表示"
 
-#: client/options.c:1837
+#: client/options.c:1839
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
@@ -11853,11 +11853,11 @@ msgstr ""
 "このオプションを設定すると，都市の生産物を購入するにはいくら必要かが表示され"
 "ます。"
 
-#: client/options.c:1841
+#: client/options.c:1843
 msgid "Draw the city trade routes"
 msgstr "交易路の表示"
 
-#: client/options.c:1842
+#: client/options.c:1844
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
@@ -11865,93 +11865,93 @@ msgstr ""
 "このオプションを設定すると，交易路が結ばれている都市間にそれを示す線が表示さ"
 "れます。"
 
-#: client/options.c:1846
+#: client/options.c:1848
 msgid "Draw the terrain"
 msgstr "地形の表示"
 
-#: client/options.c:1847
+#: client/options.c:1849
 msgid "Setting this option will draw the terrain."
 msgstr "このオプションを設定すると，地形が表示されます。"
 
-#: client/options.c:1850
+#: client/options.c:1852
 msgid "Draw the coast line"
 msgstr "海岸線の表示"
 
-#: client/options.c:1851
+#: client/options.c:1853
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr "このオプションを設定すると，海と陸を分ける境界線が表示されます。"
 
-#: client/options.c:1855
+#: client/options.c:1857
 msgid "Draw the roads and the railroads"
 msgstr "道路/鉄道の表示"
 
-#: client/options.c:1856
+#: client/options.c:1858
 msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr "このオプションを設定すると，道路と鉄道がマップ上に表示されます。"
 
-#: client/options.c:1860
+#: client/options.c:1862
 msgid "Draw the irrigation"
 msgstr "灌漑の表示"
 
-#: client/options.c:1861
+#: client/options.c:1863
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "このオプションを設定すると，灌漑がマップ上に表示されます。"
 
-#: client/options.c:1865
+#: client/options.c:1867
 msgid "Draw the mines"
 msgstr "鉱山の表示"
 
-#: client/options.c:1866
+#: client/options.c:1868
 msgid "Setting this option will draw the mines on the map."
 msgstr "このオプションを設定すると，鉱山がマップ上に表示されます。"
 
-#: client/options.c:1869
+#: client/options.c:1871
 msgid "Draw the bases"
 msgstr "基地の表示"
 
-#: client/options.c:1870
+#: client/options.c:1872
 msgid "Setting this option will draw the bases on the map."
 msgstr "このオプションを設定すると，基地がマップ上に表示されます。"
 
-#: client/options.c:1873
+#: client/options.c:1875
 msgid "Draw the specials"
 msgstr "特産物の表示"
 
-#: client/options.c:1874
+#: client/options.c:1876
 msgid "Setting this option will draw the specials on the map."
 msgstr "このオプションを設定すると，特産物がマップ上に表示されます。"
 
-#: client/options.c:1878
+#: client/options.c:1880
 msgid "Draw the pollution/nuclear fallout"
 msgstr "公害/死の灰の表示"
 
-#: client/options.c:1879
+#: client/options.c:1881
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr "このオプションを設定すると，公害と死の灰がマップ上に表示されます。"
 
-#: client/options.c:1883
+#: client/options.c:1885
 msgid "Draw the cities"
 msgstr "都市の表示"
 
-#: client/options.c:1884
+#: client/options.c:1886
 msgid "Setting this option will draw the cities on the map."
 msgstr "このオプションを設定すると，都市がマップ上に表示されます。"
 
-#: client/options.c:1887
+#: client/options.c:1889
 msgid "Draw the units"
 msgstr "ユニットの表示"
 
-#: client/options.c:1888
+#: client/options.c:1890
 msgid "Setting this option will draw the units on the map."
 msgstr "このオプションを設定すると，ユニットがマップ上に表示されます。"
 
-#: client/options.c:1892
+#: client/options.c:1894
 msgid "Solid unit background color"
 msgstr "単一のユニット背景色           "
 
 # clefs
-#: client/options.c:1893
+#: client/options.c:1895
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -11960,12 +11960,12 @@ msgstr ""
 "ようになります。"
 
 # Belgae
-#: client/options.c:1898
+#: client/options.c:1900
 msgid "Draw shield graphics for units"
 msgstr "ユニット所属の盾表示"
 
 # clefs
-#: client/options.c:1899
+#: client/options.c:1901
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
@@ -11973,11 +11973,11 @@ msgstr ""
 "このオプションをセットすると，ユニットに旗印として楯型のアイコンを表示しま"
 "す。セットしなければ，旗そのものが表示されます。"
 
-#: client/options.c:1903
+#: client/options.c:1905
 msgid "Draw the units in focus"
 msgstr "フォーカスの当たっているユニットの表示"
 
-#: client/options.c:1904
+#: client/options.c:1906
 msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
@@ -11987,27 +11987,27 @@ msgstr ""
 "の表示」が非設定）ユニットであっても，フォーカスが当たっていれば常に表示され"
 "るようになります。"
 
-#: client/options.c:1910
+#: client/options.c:1912
 msgid "Draw the fog of war"
 msgstr "戦場の霧の表示"
 
-#: client/options.c:1911
+#: client/options.c:1913
 msgid "Setting this option will draw the fog of war."
 msgstr "このオプションを設定すると，戦場の霧が表示されます。"
 
-#: client/options.c:1914
+#: client/options.c:1916
 msgid "Draw the borders"
 msgstr "国境線の表示"
 
-#: client/options.c:1915
+#: client/options.c:1917
 msgid "Setting this option will draw the national borders."
 msgstr "このオプションを設定すると，国境線が表示されます。"
 
-#: client/options.c:1918
+#: client/options.c:1920
 msgid "Draw whether tiles are native to selected unit"
 msgstr "侵入できないタイルの表示"
 
-#: client/options.c:1920
+#: client/options.c:1922
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
@@ -12017,11 +12017,11 @@ msgstr ""
 "ハイライト表示します。複数のユニットを選択したときは，そのうちのいずれかのユ"
 "ニットが侵入できないタイル全てがハイライト表示されます。"
 
-#: client/options.c:1927
+#: client/options.c:1929
 msgid "Show dead players in Nations report"
 msgstr "民族報告での死亡済みプレイヤーの表示"
 
-#: client/options.c:1928
+#: client/options.c:1930
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
@@ -12029,12 +12029,12 @@ msgstr ""
 "このオプションは，すでに滅亡した民族も民族報告ページに表示するかを制御しま"
 "す。"
 
-#: client/options.c:1932
+#: client/options.c:1934
 msgid "Sound bell at new turn"
 msgstr "新しいターンにベルを鳴らす"
 
 # clefs
-#: client/options.c:1933
+#: client/options.c:1935
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -12044,12 +12044,12 @@ msgstr ""
 "らし方はメッセージオプションから変更できます。"
 
 # clefs
-#: client/options.c:1939
+#: client/options.c:1941
 msgid "Unit movement animation time (milliseconds)"
 msgstr "ユニット移動のアニメーションにかける時間 (ミリ秒)"
 
 # clefs
-#: client/options.c:1940
+#: client/options.c:1942
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -12060,12 +12060,12 @@ msgstr ""
 "くなりますが。]"
 
 # clefs
-#: client/options.c:1945
+#: client/options.c:1947
 msgid "Mapview recentering time (milliseconds)"
 msgstr "マップのセンタリングにかける時間 (ミリ秒)"
 
 # clefs
-#: client/options.c:1946
+#: client/options.c:1948
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -12076,12 +12076,12 @@ msgstr ""
 "効になります。"
 
 # clefs
-#: client/options.c:1952
+#: client/options.c:1954
 msgid "Combat animation step time (milliseconds)"
 msgstr "戦闘アニメーションステップ時間 (ミリ秒)"
 
 # clefs
-#: client/options.c:1953
+#: client/options.c:1955
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
@@ -12091,13 +12091,13 @@ msgstr ""
 "ます）。"
 
 # clefs
-#: client/options.c:1958
+#: client/options.c:1960
 msgid "Show icons in the technology tree"
 msgstr "科学技術ツリーでのアイコン表示"
 
 # clefs
 # Belgae
-#: client/options.c:1959
+#: client/options.c:1961
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -12105,12 +12105,12 @@ msgstr ""
 "このオプションを設定すると，科学技術ツリーの図にアイコンを表示します。無効に"
 "するとツリーはよりコンパクトになります。"
 
-#: client/options.c:1965
+#: client/options.c:1967
 msgid "Use curved lines in the technology tree"
 msgstr "科学技術ツリーに曲線を使用"
 
 # Belgae
-#: client/options.c:1966
+#: client/options.c:1968
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -12119,11 +12119,11 @@ msgstr ""
 "このオプションを設定すると，科学技術ツリーで関連する技術を曲線でつなぎます。"
 "無効にすると，直線でつなぎます。"
 
-#: client/options.c:1973
+#: client/options.c:1975
 msgid "Color to highlight your player/user name"
 msgstr "プレイヤー名/接続名のハイライト色"
 
-#: client/options.c:1974
+#: client/options.c:1976
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
@@ -12133,12 +12133,12 @@ msgstr ""
 "名が指定した色でハイライトされます。無効にすると，ハイライトされません。"
 
 # ama
-#: client/options.c:1979
+#: client/options.c:1981
 msgid "Manual Turn Done in AI mode"
 msgstr "AI モードでの手動ターン終了"
 
 # clefs
-#: client/options.c:1980
+#: client/options.c:1982
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -12146,12 +12146,12 @@ msgstr ""
 "AIプレイヤーを観察する時に，手で「ターン終了」ボタンを押したくない場合はこの"
 "オプションを無効にしてください。"
 
-#: client/options.c:1984
+#: client/options.c:1986
 msgid "Auto center on units"
 msgstr "ユニットを自動的に画面の中心へ"
 
 # clefs
-#: client/options.c:1985
+#: client/options.c:1987
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -12159,12 +12159,12 @@ msgstr ""
 "設定すると，選択されているユニットが代わった時に自動的にそのユニットが画面の"
 "中心になります。"
 
-#: client/options.c:1988
+#: client/options.c:1990
 msgid "Auto center on combat"
 msgstr "戦闘を自動的に画面の中心へ"
 
 # clefs
-#: client/options.c:1989
+#: client/options.c:1991
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabling "
 "this will speed up the time between turns but may cause you to miss combat "
@@ -12174,11 +12174,11 @@ msgstr ""
 "と，ターン間の待ち時間を短縮できますが，戦闘を完全に見落としてしまうかもしれ"
 "ません。"
 
-#: client/options.c:1994
+#: client/options.c:1996
 msgid "Auto center on new turn"
 msgstr "新規ターンに自動的に画面の中心へ"
 
-#: client/options.c:1995
+#: client/options.c:1997
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -12186,35 +12186,35 @@ msgstr ""
 "このオプションを設定すると，各ターンの開始時にマップ上の適切な位置が画面の中"
 "心になります。"
 
-#: client/options.c:1999
+#: client/options.c:2001
 msgid "Focus on awakened units"
 msgstr "起こされたユニットにフォーカス"
 
 # clefs
-#: client/options.c:2000
+#: client/options.c:2002
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "設定すると，[見張り状態から]覚醒したユニットが自動的にフォーカスされます。"
 
-#: client/options.c:2003
+#: client/options.c:2005
 msgid "Keyboardless goto"
 msgstr "キーボードなしでのgotoコマンド"
 
 # clefs
 # Belgae
-#: client/options.c:2004
+#: client/options.c:2006
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 "このオプションを設定すると，左ドラッグするだけでgotoコマンドを実行できます。"
 
-#: client/options.c:2009
+#: client/options.c:2011
 msgid "Allow goto into the unknown"
 msgstr "[gotoコマンドで]未知の領域への移動を許可する"
 
 # clefs
-#: client/options.c:2010
+#: client/options.c:2012
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -12222,46 +12222,46 @@ msgstr ""
 "有効にすると，gotoコマンドでは未知の領域を通ることも考慮に入れられます。無効"
 "にすると，未知の領域は迂回し，できなければ到達不能となります。"
 
-#: client/options.c:2014
+#: client/options.c:2016
 msgid "Center map when popup city"
 msgstr "都市を開く時マップの中心へ"
 
-#: client/options.c:2015
+#: client/options.c:2017
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr "都市ダイアログを開いた時に，その都市をマップの中心にします。"
 
-#: client/options.c:2018
+#: client/options.c:2020
 msgid "Concise city production"
 msgstr "簡潔な都市生産物表示"
 
 # clefs
-#: client/options.c:2019
+#: client/options.c:2021
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 "(都市ダイアログなどに表示される)都市生産物の表示をよりコンパクトにします。"
 
-#: client/options.c:2022
+#: client/options.c:2024
 msgid "End turn when done moving"
 msgstr "移動を終えた時ターンを終了"
 
 # clefs
-#: client/options.c:2023
+#: client/options.c:2025
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr "すべてのユニットの移動が終了した時点で自動的にターンを終了させます。"
 
 # ntaka
-#: client/options.c:2026
+#: client/options.c:2028
 msgid "Prompt for city names"
 msgstr "新たな都市を建設する際に都市名を尋ねる"
 
 # clefs, Belgae
-#: client/options.c:2027
+#: client/options.c:2029
 msgid ""
 "Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
@@ -12270,22 +12270,22 @@ msgstr ""
 "定されます。[訳註:後から変更できます]。"
 
 # ntaka
-#: client/options.c:2030
+#: client/options.c:2032
 msgid "Pop up city dialog for new cities"
 msgstr "新たな都市を建設した際に都市ダイアログを開く"
 
 # clefs
-#: client/options.c:2031
+#: client/options.c:2033
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr "新たに都市を建設したとき，自動的に都市ダイアログを開きます。"
 
-#: client/options.c:2034
+#: client/options.c:2036
 msgid "Pop up caravan actions"
 msgstr "キャラバン活動のポップアップ"
 
-#: client/options.c:2035
+#: client/options.c:2037
 msgid ""
 "If this option is enabled, when caravans or similar units arrive at a city "
 "where they can establish a trade route or help build a wonder, a window will "
@@ -12299,11 +12299,11 @@ msgstr ""
 "定する必要があります。手動で指定するには，ユニットが都市内にいるときに，「r」"
 "（交易路を結ぶ）か「b」（不思議建設を手伝う）を押します。"
 
-#: client/options.c:2044
+#: client/options.c:2046
 msgid "Enable cursor changing"
 msgstr "カーソルの変化を有効にする"
 
-#: client/options.c:2045
+#: client/options.c:2047
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -12312,11 +12312,11 @@ msgstr ""
 "このオプションは，指している対象や，クライアントまたはサーバーの状態変化に応"
 "じて，マウスカーソルの形状を変化させるかどうかを制御します。"
 
-#: client/options.c:2050
+#: client/options.c:2052
 msgid "Select cities before units"
 msgstr "都市をユニットより優先して選択"
 
-#: client/options.c:2051
+#: client/options.c:2053
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
@@ -12324,11 +12324,11 @@ msgstr ""
 "このオプションを有効にすると，選択枠の中に都市とユニットがともに存在する場"
 "合，都市のみが選択されます。ヘルプの「操作」を参照してください。"
 
-#: client/options.c:2056
+#: client/options.c:2058
 msgid "Clear unit orders on selection"
 msgstr "選択でユニットの命令を解除"
 
-#: client/options.c:2057
+#: client/options.c:2059
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12342,21 +12342,21 @@ msgstr ""
 "令が解除されます。まず一度スペースキーを押すと，命令は解除され選択状態はその"
 "ままになります。もう一度スペースキーをおすと，選択状態も解除されます。"
 
-#: client/options.c:2066
+#: client/options.c:2068
 msgid "Enable vote bar"
 msgstr "投票バーの使用"
 
-#: client/options.c:2067
+#: client/options.c:2069
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr "このオプションをオンにすると，投票の状況を示す投票バーが表示されます。"
 
-#: client/options.c:2071
+#: client/options.c:2073
 msgid "Always display the vote bar"
 msgstr "投票バーを常に表示"
 
-#: client/options.c:2072
+#: client/options.c:2074
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
@@ -12364,11 +12364,11 @@ msgstr ""
 "このオプションをオンにすると，進行中の投票がない時にも投票バーが常に表示され"
 "るようになります。"
 
-#: client/options.c:2076
+#: client/options.c:2078
 msgid "Do not show vote bar if not a player"
 msgstr "非プレイヤー時に投票バーを非表示"
 
-#: client/options.c:2077
+#: client/options.c:2079
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
@@ -12376,22 +12376,22 @@ msgstr ""
 "このオプションを有効にすると，あなたがプレイヤーでない時には投票バーを表示し"
 "ません。"
 
-#: client/options.c:2080
+#: client/options.c:2082
 msgid "Set new votes at front"
 msgstr "新しい投票を先頭に表示"
 
-#: client/options.c:2081
+#: client/options.c:2083
 msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
 msgstr ""
 "このオプションを有効にすると，新しい投票は投票リストの先頭に移動します。"
 
-#: client/options.c:2085
+#: client/options.c:2087
 msgid "Autoaccept tileset suggestions"
 msgstr "ルールセットが指定するタイルセットの自動承認"
 
-#: client/options.c:2086
+#: client/options.c:2088
 msgid ""
 "If this option is enabled, any tileset suggested by the ruleset is "
 "automatically used; otherwise you are prompted to change tileset."
@@ -12399,11 +12399,11 @@ msgstr ""
 "このオプションをオンにすると，ルールセットが指定するタイルセットが自動的に使"
 "用されます。オフにすると，タイルセットを変更するように求められます。 "
 
-#: client/options.c:2091
+#: client/options.c:2093
 msgid "Autoaccept soundset suggestions"
 msgstr "ルールセットが指定するサウンドセットの自動承認"
 
-#: client/options.c:2092
+#: client/options.c:2094
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
@@ -12412,43 +12412,43 @@ msgstr ""
 "使用されます。"
 
 # clefs
-#: client/options.c:2097
+#: client/options.c:2099
 msgid "Background layer"
 msgstr "背景レイヤー"
 
 # clefs
-#: client/options.c:2098
+#: client/options.c:2100
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "背景レイヤーには海と陸の違いだけが表示されます。"
 
 # clefs
 # 「地形の起伏の地図レイヤ」じゃくどいかなあと
-#: client/options.c:2102
+#: client/options.c:2104
 msgid "Terrain relief map layer"
 msgstr "地形レイヤー"
 
 # clefs
-#: client/options.c:2103
+#: client/options.c:2105
 msgid "The relief layer shows all terrains on the map."
 msgstr "地形レイヤーにはすべての地形が表示されます。"
 
 # clefs
-#: client/options.c:2106
+#: client/options.c:2108
 msgid "Borders layer"
 msgstr "領土レイヤー"
 
 # clefs
-#: client/options.c:2107
+#: client/options.c:2109
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 "領土レイヤーには各陸地タイルがどのプレイヤーの領土であるかが表示されます。"
 
-#: client/options.c:2111
+#: client/options.c:2113
 msgid "Borders layer on ocean tiles"
 msgstr "　領海レイヤー"
 
-#: client/options.c:2112
+#: client/options.c:2114
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
@@ -12458,89 +12458,89 @@ msgstr ""
 "があります）。このオプションを有効にするには，同時に「領土レイヤー」オプショ"
 "ンを有効にする必要があります。"
 
-#: client/options.c:2118
+#: client/options.c:2120
 msgid "Units layer"
 msgstr "ユニットレイヤー"
 
 # 原文も不統一
-#: client/options.c:2119
+#: client/options.c:2121
 msgid "Enabling this will draw units on the overview."
 msgstr "有効にすると，ユニットを概観マップに表示します。"
 
-#: client/options.c:2122
+#: client/options.c:2124
 msgid "Cities layer"
 msgstr "都市レイヤー"
 
-#: client/options.c:2123
+#: client/options.c:2125
 msgid "Enabling this will draw cities on the overview."
 msgstr "有効にすると，都市を概観マップに表示します。"
 
 # clefs
-#: client/options.c:2126
+#: client/options.c:2128
 msgid "Overview fog of war"
 msgstr "戦場の霧"
 
 # clefs
-#: client/options.c:2127
+#: client/options.c:2129
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 "有効にすると，戦場の霧を概観マップに表示します。[訳註:プレイヤーに「見えな"
 "い」部分をグレイアウトします]"
 
-#: client/options.c:2133
+#: client/options.c:2135
 msgid "Image format"
 msgstr "画像ファイルフォーマット"
 
-#: client/options.c:2134
+#: client/options.c:2136
 msgid "The image toolkit and file format used for map images."
 msgstr "出力する画像ツールキットとファイルフォーマットを設定します。"
 
-#: client/options.c:2139
+#: client/options.c:2141
 msgid "Zoom factor for map images"
 msgstr "拡大倍率"
 
-#: client/options.c:2140
+#: client/options.c:2142
 msgid "The magnification used for map images."
 msgstr "出力する画像の拡大倍率です。"
 
-#: client/options.c:2143
+#: client/options.c:2145
 msgid "Show area within borders"
 msgstr "領域内を塗りつぶす"
 
-#: client/options.c:2144
+#: client/options.c:2146
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr "オンにすると，各国の領域内を塗りつぶして描写します。"
 
-#: client/options.c:2148
+#: client/options.c:2150
 msgid "Show borders"
 msgstr "国境線の描写"
 
-#: client/options.c:2149
+#: client/options.c:2151
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr "オンにすると，各国の国境線が描写されます。"
 
-#: client/options.c:2153
+#: client/options.c:2155
 msgid "Show cities"
 msgstr "都市の描写"
 
-#: client/options.c:2154
+#: client/options.c:2156
 msgid "If set, cities are shown on the saved image."
 msgstr "オンにすると，都市が描写されます。"
 
 # clefs
-#: client/options.c:2157
+#: client/options.c:2159
 msgid "Show fog of war"
 msgstr "戦場の霧の描写"
 
-#: client/options.c:2158
+#: client/options.c:2160
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr "オンにすると，戦場の霧が描写されます。"
 
-#: client/options.c:2162
+#: client/options.c:2164
 msgid "Show full terrain"
 msgstr "全地形の描写"
 
-#: client/options.c:2163
+#: client/options.c:2165
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
@@ -12548,15 +12548,15 @@ msgstr ""
 "オンにすると，全ての地形が異なる色で描写されます。オフの場合は陸地と海洋はそ"
 "れぞれ一色で塗りつぶされます。"
 
-#: client/options.c:2169
+#: client/options.c:2171
 msgid "If set, units are shown in the saved image."
 msgstr "オンにすると，ユニットが描写されます。"
 
-#: client/options.c:2172
+#: client/options.c:2174
 msgid "Map image file name"
 msgstr "ファイル名"
 
-#: client/options.c:2173
+#: client/options.c:2175
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
@@ -12564,20 +12564,20 @@ msgstr ""
 "出力された画像のファイル名の先頭部分です。これにターン数と，オプションが自動"
 "的に追加されます。"
 
-#: client/options.c:2179 client/options.c:2389
+#: client/options.c:2181 client/options.c:2391
 msgid "Show map scrollbars"
 msgstr "マップのスクロールバーを表示する"
 
-#: client/options.c:2180 client/options.c:2390
+#: client/options.c:2182 client/options.c:2392
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "このオプションを無効にすると，マップビューのスクロールバーを隠します。"
 
 # ntaka
-#: client/options.c:2183 client/options.c:2393
+#: client/options.c:2185 client/options.c:2395
 msgid "Keep dialogs on top"
 msgstr "ダイアログをトップレベルに保つ"
 
-#: client/options.c:2184 client/options.c:2394
+#: client/options.c:2186 client/options.c:2396
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -12586,12 +12586,12 @@ msgstr ""
 "ウより前に表示されます。フルスクリーンモードでは，これを無効にしても効果はあ"
 "りません。"
 
-#: client/options.c:2188 client/options.c:2398
+#: client/options.c:2190 client/options.c:2400
 msgid "Show worklist task icons"
 msgstr "作業リストでのアイコン表示"
 
 # clefs
-#: client/options.c:2189 client/options.c:2399
+#: client/options.c:2191 client/options.c:2401
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -12600,13 +12600,13 @@ msgstr ""
 "ニットや建造物のアイコンを表示しなくなります。"
 
 # clefs
-#: client/options.c:2193 client/options.c:2403
+#: client/options.c:2195 client/options.c:2405
 msgid "Enable status report tabs"
 msgstr "状態報告タブを使用する"
 
 # clefs
 # 便利
-#: client/options.c:2194 client/options.c:2404
+#: client/options.c:2196 client/options.c:2406
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -12615,12 +12615,12 @@ msgstr ""
 "く，独立したタブとして表示されるようになります。"
 
 # clefs
-#: client/options.c:2199
+#: client/options.c:2201
 msgid "Better fog-of-war drawing"
 msgstr "改善された戦場の霧表示"
 
 # Belgae
-#: client/options.c:2200
+#: client/options.c:2202
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -12628,11 +12628,11 @@ msgstr ""
 "このオプションを有効にすると，より結果の良い方法を使用して戦場の霧を表示しま"
 "す。これは表示を遅くすることはありませんが，メモリをおよそ2倍消費します。"
 
-#: client/options.c:2206 client/options.c:2409
+#: client/options.c:2208 client/options.c:2411
 msgid "Show time for each chat message"
 msgstr "各チャットメッセージに時刻を表示"
 
-#: client/options.c:2207 client/options.c:2410
+#: client/options.c:2209 client/options.c:2412
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
@@ -12640,11 +12640,11 @@ msgstr ""
 "このオプションが有効の場合，すべてのチャットメッセージの前に時刻を示す文字列"
 "が[時:分:秒]形式で付加されます。"
 
-#: client/options.c:2212 client/options.c:2415
+#: client/options.c:2214 client/options.c:2417
 msgid "New message events go to top of list"
 msgstr "新規メッセージイベントをリストの先頭へ"
 
-#: client/options.c:2213 client/options.c:2416
+#: client/options.c:2215 client/options.c:2418
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
@@ -12652,11 +12652,11 @@ msgstr ""
 "このオプションが有効の場合，メッセージウィンドウの新規メッセージはリストの先"
 "頭に表示されます。無効の場合は最後に表示されます。"
 
-#: client/options.c:2218 client/options.c:2421
+#: client/options.c:2220 client/options.c:2423
 msgid "Show extra message window buttons"
 msgstr "追加メッセージウィンドウボタンの表示"
 
-#: client/options.c:2219 client/options.c:2422
+#: client/options.c:2221 client/options.c:2424
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -12671,11 +12671,11 @@ msgstr ""
 "ることで，ボタンを使用しなくてもそれぞれの機能を利用できます）。このオプショ"
 "ンの効果は，一度メッセージウィンドウを閉じて再び開くまで反映されません。"
 
-#: client/options.c:2229 client/options.c:2432
+#: client/options.c:2231 client/options.c:2434
 msgid "Metaserver tab first in network page"
 msgstr "ネットワークページでメタサーバータブを先頭に"
 
-#: client/options.c:2230 client/options.c:2433
+#: client/options.c:2232 client/options.c:2435
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
@@ -12683,11 +12683,11 @@ msgstr ""
 "このオプションを有効にすると，ネットワークページでメタサーバータブが最初のタ"
 "ブになります。このオプションを適用するには再起動が必要です。"
 
-#: client/options.c:2235 client/options.c:2438
+#: client/options.c:2237 client/options.c:2440
 msgid "Plain chat messages are sent to allies only"
 msgstr "通常のチャットメッセージを同盟のみに送信"
 
-#: client/options.c:2236 client/options.c:2439
+#: client/options.c:2238 client/options.c:2441
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -12703,13 +12703,13 @@ msgstr ""
 "のコロン':'を付加してください。このオプションは，チャット入力欄の横にある切り"
 "替えボタン（マルチプレイヤーゲーム時のみ表示）を使用しても設定できます。"
 
-#: client/options.c:2248 client/options.c:2451
+#: client/options.c:2250 client/options.c:2453
 msgid "Messages and Chat reports location"
 msgstr "メッセージ欄およびチャット欄の配置"
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:2251 client/options.c:2454
+#: client/options.c:2253 client/options.c:2456
 msgid ""
 "Controls where the Messages and Chat reports appear relative to the main "
 "view containing the map.\n"
@@ -12733,11 +12733,11 @@ msgstr ""
 "小さな画面でもマップを大きく表示できます。\n"
 "このオプションを有効にするには，再起動する必要があります。"
 
-#: client/options.c:2267 client/options.c:2470
+#: client/options.c:2269 client/options.c:2472
 msgid "Arrange widgets for small displays"
 msgstr "小型ディスプレイ向けにウィジェットを配置する"
 
-#: client/options.c:2268 client/options.c:2471
+#: client/options.c:2270 client/options.c:2473
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -12750,11 +12750,11 @@ msgstr ""
 "イヤー状態，ユニット情報を収める左パネルが，左端の上下一杯を使用して表示され"
 "ます。このオプションの効果を反映するには，再起動する必要があります。"
 
-#: client/options.c:2277 client/options.c:2480
+#: client/options.c:2279 client/options.c:2482
 msgid "Mouse over the map widget selects it automatically"
 msgstr "マウスオーバーでマップウィジェットを自動選択"
 
-#: client/options.c:2278 client/options.c:2481
+#: client/options.c:2280 client/options.c:2483
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
@@ -12762,11 +12762,11 @@ msgstr ""
 "このオプションが有効の場合，マウスをマップビュー上に移動するとフォーカスが"
 "ビュータブに移ります。"
 
-#: client/options.c:2282 client/options.c:2485
+#: client/options.c:2284 client/options.c:2487
 msgid "Player or user name autocompletion"
 msgstr "プレイヤー名または接続名の自動補完"
 
-#: client/options.c:2283 client/options.c:2486
+#: client/options.c:2285 client/options.c:2488
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
@@ -12774,27 +12774,27 @@ msgstr ""
 "このオプションがオンの場合，チャット行でTabキーを使用すると，入力途中のプレイ"
 "ヤー名または接続名が補完されます。"
 
-#: client/options.c:2288 client/options.c:2491
+#: client/options.c:2290 client/options.c:2493
 msgid "Width of the city dialog"
 msgstr "都市ダイアログの幅"
 
-#: client/options.c:2289 client/options.c:2492
+#: client/options.c:2291 client/options.c:2494
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr "この値は都市ダイアログの幅が保存された場合にのみ使用されます。"
 
-#: client/options.c:2295 client/options.c:2498
+#: client/options.c:2297 client/options.c:2500
 msgid "Height of the city dialog"
 msgstr "都市ダイアログの高さ"
 
-#: client/options.c:2296 client/options.c:2499
+#: client/options.c:2298 client/options.c:2501
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr "この値は都市ダイアログの高さが保存された場合にのみ使用されます。"
 
-#: client/options.c:2302 client/options.c:2505
+#: client/options.c:2304 client/options.c:2507
 msgid "Popup tech help when gained"
 msgstr "新たな科学技術を得たらヘルプを開く"
 
-#: client/options.c:2303 client/options.c:2506
+#: client/options.c:2305 client/options.c:2508
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
@@ -12802,21 +12802,21 @@ msgstr ""
 "新たな科学技術を手に入れたとき，自動的にヘルプがポップアップします。\n"
 "'ルールセット' を指定するとルールセットの推奨設定に従います。"
 
-#: client/options.c:2310 client/options.c:2513 client/options.c:2611
+#: client/options.c:2312 client/options.c:2515 client/options.c:2613
 msgid "City Label"
 msgstr "都市のラベル"
 
 # Belgae
 # 情報欄で使用されます
-#: client/options.c:2311 client/options.c:2514 client/options.c:2612
+#: client/options.c:2313 client/options.c:2516 client/options.c:2614
 msgid "This font is used to display the city labels on city dialogs."
 msgstr "このフォントは，都市ダイアログ内で都市のラベルの表示に使用されます。"
 
-#: client/options.c:2316 client/options.c:2519 client/options.c:2617
+#: client/options.c:2318 client/options.c:2521 client/options.c:2619
 msgid "Notify Label"
 msgstr "通知ラベル"
 
-#: client/options.c:2317 client/options.c:2520 client/options.c:2618
+#: client/options.c:2319 client/options.c:2522 client/options.c:2620
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
@@ -12824,65 +12824,65 @@ msgstr ""
 "このフォントは，人口統計報告や歴史家の発表などのような，サーバーからの報告の"
 "表示に使用されます。"
 
-#: client/options.c:2322 client/options.c:2525 client/options.c:2623
+#: client/options.c:2324 client/options.c:2527 client/options.c:2625
 msgid "Spaceship Label"
 msgstr "宇宙船のラベル"
 
-#: client/options.c:2323 client/options.c:2526 client/options.c:2624
+#: client/options.c:2325 client/options.c:2528 client/options.c:2626
 msgid "This font is used to display the spaceship widgets."
 msgstr "このフォントは，宇宙船ウィジェットの表示に使用されます。"
 
-#: client/options.c:2327 client/options.c:2530 client/options.c:2628
+#: client/options.c:2329 client/options.c:2532 client/options.c:2630
 msgid "Help Label"
 msgstr "ヘルプのラベル"
 
-#: client/options.c:2328 client/options.c:2531
+#: client/options.c:2330 client/options.c:2533
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 "このフォントは，ヘルプウィンドウ内でヘルプのヘッダの表示に使用されます。"
 
-#: client/options.c:2333 client/options.c:2536 client/options.c:2634
+#: client/options.c:2335 client/options.c:2538 client/options.c:2636
 msgid "Help Link"
 msgstr "ヘルプのリンク"
 
-#: client/options.c:2334 client/options.c:2537 client/options.c:2635
+#: client/options.c:2336 client/options.c:2539 client/options.c:2637
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 "このフォントは，ヘルプウィンドウ内でヘルプのリンクの表示に使用されます。"
 
-#: client/options.c:2339 client/options.c:2542 client/options.c:2640
+#: client/options.c:2341 client/options.c:2544 client/options.c:2642
 msgid "Help Text"
 msgstr "ヘルプ本文"
 
-#: client/options.c:2340 client/options.c:2543 client/options.c:2641
+#: client/options.c:2342 client/options.c:2545 client/options.c:2643
 msgid "This font is used to display the help body text in the help window."
 msgstr "このフォントは，ヘルプウィンドウ内でヘルプ本文の表示に使用されます。"
 
-#: client/options.c:2345 client/options.c:2548 client/options.c:2652
+#: client/options.c:2347 client/options.c:2550 client/options.c:2654
 msgid "Chatline Area"
 msgstr "チャット行内"
 
 # Belgae
 # 入力欄ではなくその上の表示欄が変わります。
-#: client/options.c:2346 client/options.c:2549 client/options.c:2653
+#: client/options.c:2348 client/options.c:2551 client/options.c:2655
 msgid "This font is used to display the text in the chatline area."
 msgstr "このフォントは，チャット欄のテキストの表示に使用されます。"
 
-#: client/options.c:2351 client/options.c:2554 client/options.c:2658
+#: client/options.c:2353 client/options.c:2556 client/options.c:2660
 msgid "Beta Label"
 msgstr "ベータラベル"
 
-#: client/options.c:2352 client/options.c:2555 client/options.c:2659
+#: client/options.c:2354 client/options.c:2557 client/options.c:2661
 msgid "This font is used to display the beta label."
 msgstr "このフォントは，ベータラベルの表示に使用されます。"
 
-#: client/options.c:2356 client/options.c:2559 client/options.c:2663
+#: client/options.c:2358 client/options.c:2561 client/options.c:2665
 msgid "Small Font"
 msgstr "小さなフォント"
 
 # Belgae
 # 有効になっているか確認。
-#: client/options.c:2357 client/options.c:2560 client/options.c:2664
+#: client/options.c:2359 client/options.c:2562 client/options.c:2666
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
@@ -12891,11 +12891,11 @@ msgstr ""
 "このフォントは，小さなフォントに使用されます。例えば，都市ダイアログの建造物"
 "リストや，経済報告，ユニット報告などです。"
 
-#: client/options.c:2364 client/options.c:2567 client/options.c:2671
+#: client/options.c:2366 client/options.c:2569 client/options.c:2673
 msgid "Comment Label"
 msgstr "コメントのラベル"
 
-#: client/options.c:2365 client/options.c:2568 client/options.c:2672
+#: client/options.c:2367 client/options.c:2570 client/options.c:2674
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
@@ -12903,135 +12903,135 @@ msgstr ""
 "このフォントは，都市ダイアログの総督府ページのような，コメントラベルの表示に"
 "使用されます。"
 
-#: client/options.c:2371 client/options.c:2574 client/options.c:2678
+#: client/options.c:2373 client/options.c:2576 client/options.c:2680
 msgid "This font is used to the display the city names on the map."
 msgstr "このフォントは，マップ上で都市名の表示に使用されます。"
 
-#: client/options.c:2376 client/options.c:2579 client/options.c:2683
+#: client/options.c:2378 client/options.c:2581 client/options.c:2685
 msgid "City Productions"
 msgstr "都市生産物"
 
-#: client/options.c:2377 client/options.c:2580 client/options.c:2684
+#: client/options.c:2379 client/options.c:2582 client/options.c:2686
 msgid "This font is used to the display the city production names on the map."
 msgstr "このフォントは，マップ上で都市生産物の表示に使用されます。"
 
-#: client/options.c:2382 client/options.c:2585 client/options.c:2689
+#: client/options.c:2384 client/options.c:2587 client/options.c:2691
 msgid "Requirement Tree"
 msgstr "必要条件ツリー"
 
-#: client/options.c:2383 client/options.c:2586 client/options.c:2690
+#: client/options.c:2385 client/options.c:2588 client/options.c:2692
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
 msgstr "このフォントは，研究報告での必要条件ツリーの表示に使用されます。"
 
-#: client/options.c:2593
+#: client/options.c:2595
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr "このオプションを設定すると，クライアントは画面全体を描写に使用します。"
 
-#: client/options.c:2596
+#: client/options.c:2598
 msgid "Screen resolution"
 msgstr "画面解像度"
 
-#: client/options.c:2597
+#: client/options.c:2599
 msgid "This option controls the resolution of the selected screen."
 msgstr "このオプションは，選択した画面の解像度を制御します。"
 
-#: client/options.c:2600
+#: client/options.c:2602
 msgid "Do cursor animation"
 msgstr "カーソルのアニメーションを有効にする"
 
-#: client/options.c:2601
+#: client/options.c:2603
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr ""
 "このオプションを無効にすると，カーソルは常にアニメーションなしで表示されま"
 "す。"
 
-#: client/options.c:2604
+#: client/options.c:2606
 msgid "Use color cursors"
 msgstr "カラーカーソルを使用する"
 
-#: client/options.c:2605
+#: client/options.c:2607
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr "このオプションを無効にすると，カーソルは常に白黒で表示されます。"
 
-#: client/options.c:2629
+#: client/options.c:2631
 msgid "This font is used to display the help labels in the help window."
 msgstr ""
 "このフォントは，ヘルプウィンドウ内でヘルプのラベルの表示に使用されます。"
 
-#: client/options.c:2646
+#: client/options.c:2648
 msgid "Help Title"
 msgstr "ヘルプのタイトル"
 
-#: client/options.c:2647
+#: client/options.c:2649
 msgid "This font is used to display the help title in the help window."
 msgstr ""
 "このフォントは，ヘルプウィンドウ内でヘルプのタイトルの表示に使用されます。"
 
-#: client/options.c:2766
+#: client/options.c:2768
 msgid "Graphics"
 msgstr "グラフィック"
 
 #. TRANS: Options section for overview map (mini-map)
-#: client/options.c:2769
+#: client/options.c:2771
 msgid "?map:Overview"
 msgstr "概観マップ"
 
-#: client/options.c:2771
+#: client/options.c:2773
 msgid "Sound"
 msgstr "サウンド"
 
-#: client/options.c:2773
+#: client/options.c:2775
 msgid "Interface"
 msgstr "インターフェイス"
 
-#: client/options.c:2775
+#: client/options.c:2777
 msgid "Map Image"
 msgstr "マップ画像出力"
 
-#: client/options.c:2777
+#: client/options.c:2779
 msgid "Network"
 msgstr "ネットワーク"
 
-#: client/options.c:2779
+#: client/options.c:2781
 msgid "Font"
 msgstr "フォント"
 
-#: client/options.c:4606
+#: client/options.c:4608
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "手でプリセットを追加する場合は，\"number_of_presets\"もアップデートしてくださ"
 "い"
 
-#: client/options.c:4653 client/options.c:4691
+#: client/options.c:4655 client/options.c:4693
 msgid "Cannot find your home directory"
 msgstr "ホームディレクトリが見つかりません。"
 
-#: client/options.c:4705 client/options.c:4724
+#: client/options.c:4707 client/options.c:4726
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "オプションファイル'%s'が見つかりません。代わりに'%s'をロードします。"
 
-#: client/options.c:5186
+#: client/options.c:5188
 #, fuzzy
 msgid "Didn't find the option file. Creating a new one."
 msgstr "オプションファイルが見つかりません。"
 
-#: client/options.c:5202 client/options.c:5340
+#: client/options.c:5204 client/options.c:5342
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "保存が失敗しました。ファイル %s へ書き込めません"
 
-#: client/options.c:5204 client/options.c:5342
+#: client/options.c:5206 client/options.c:5344
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "設定をファイル %s へ保存しました。"
 
-#: client/options.c:5310
+#: client/options.c:5312
 msgid "Save failed, cannot find a filename."
 msgstr "保存は失敗しました。ファイル名を見つけられません。"
 
@@ -13063,7 +13063,7 @@ msgstr "ようこそ"
 msgid "AI mode is now ON."
 msgstr "現在のAIモードはオンです。"
 
-#: client/packhand.c:2163
+#: client/packhand.c:2167
 msgid "AI mode is now OFF."
 msgstr "現在のAIモードはオフです。"
 
@@ -28941,13 +28941,14 @@ msgstr ""
 
 #: data/helpdata.txt:2307
 msgid ""
-"    freeciv-dev@gna.org         - public development mailing\n"
+"    freeciv-dev@freelists.org   - public development mailing\n"
 "                                  list (archives are public)\n"
-"    freeciv-maintainers@gna.org - private project administration\n"
+"    freeciv-maintainers@lists.sourceforge.net\n"
+"                                - private project administration\n"
 "                                  list (for security issues, etc)"
 msgstr ""
 
-#: data/helpdata.txt:2312
+#: data/helpdata.txt:2313
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
@@ -28955,11 +28956,11 @@ msgstr ""
 "  原作者:\n"
 "    (彼らはもう関与していません。メールを送らないでください。)"
 
-#: data/helpdata.txt:2319
+#: data/helpdata.txt:2320
 msgid "  Present administrators: "
 msgstr "  現在の管理者: "
 
-#: data/helpdata.txt:2326
+#: data/helpdata.txt:2327
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 "さらに詳しい各種の情報については， 下記のFreeciv公式サイトをご覧ください。"
@@ -36200,8 +36201,8 @@ msgstr ""
 "ジョンが古い場合に起きることがあります。また，壊れているセーブファイルを指定"
 "したのかもしれません。続ける場合は自己責任でお願いします。"
 
-#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2083
-#: server/srv_main.c:2088
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2084
+#: server/srv_main.c:2089
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%sは %sレベルのAIプレイヤーとして加わりました（%s）。"
@@ -39158,39 +39159,39 @@ msgid "You are not allowed to edit."
 msgstr "編集する権限はありません。"
 
 # clefs
-#: server/srv_main.c:1900
+#: server/srv_main.c:1901
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr ""
 
-#: server/srv_main.c:1906
+#: server/srv_main.c:1907
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%sはもう他の誰かが選択しています。"
 
-#: server/srv_main.c:1922
+#: server/srv_main.c:1923
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%sは%sの統治者 %sです。"
 
 # clefs
-#: server/srv_main.c:1997
+#: server/srv_main.c:1998
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "ゲームの開始待ち中――%2$d人のうち%1$d人は準備を完了しています。"
 
-#: server/srv_main.c:2023
+#: server/srv_main.c:2024
 msgid "requested more than 'maxplayers' setting"
 msgstr "'maxplayers'の値以下でなければなりません"
 
-#: server/srv_main.c:2030
+#: server/srv_main.c:2031
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "現在の民族セットでは，プレイヤーが操作できる民族の数が少なすぎます"
 "('nationset'設定を確認して下さい)"
 
-#: server/srv_main.c:2033
+#: server/srv_main.c:2034
 #, fuzzy
 msgid "not enough playable nations"
 msgstr ""
@@ -39198,12 +39199,12 @@ msgstr ""
 "る民族セット('nationset')を変更してください。"
 
 # clefs
-#: server/srv_main.c:2376 server/srv_main.c:2380
+#: server/srv_main.c:2377 server/srv_main.c:2381
 #, c-format
 msgid "%s rules the %s."
 msgstr "%sが%sを率います。"
 
-#: server/srv_main.c:2544
+#: server/srv_main.c:2545
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -39211,35 +39212,35 @@ msgstr ""
 "このfreeciv-serverプログラムはプレイヤー認証に対応していますが，現在はその機"
 "能を使用していません。"
 
-#: server/srv_main.c:2613
+#: server/srv_main.c:2614
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "メタサーバー <%s>に情報を送信しています"
 
-#: server/srv_main.c:2617
+#: server/srv_main.c:2618
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "メタサーバーへの接続を明示的に要求しなければ起動しません。"
 
-#: server/srv_main.c:2640
+#: server/srv_main.c:2641
 msgid "The game is over..."
 msgstr "ゲーム終了です！"
 
-#: server/srv_main.c:2749
+#: server/srv_main.c:2750
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 "適切なマップを生成することができませんでした。別のマップシードを試してみてく"
 "ださい。"
 
-#: server/srv_main.c:2782
+#: server/srv_main.c:2783
 msgid "Cannot create suitable map with given settings."
 msgstr "サーバーオプション通りのマップを生成することができませんでした。"
 
-#: server/srv_main.c:2805 server/srv_main.c:2809
+#: server/srv_main.c:2806 server/srv_main.c:2810
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "サーバーオプション '%s' は'%s'から'%s'に変更されました。"
 
-#: server/srv_main.c:3003
+#: server/srv_main.c:3004
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "ポート番号%dで新しいクライアント接続を受け付けています。"
@@ -41941,7 +41942,7 @@ msgstr "，および %s"
 
 # このメッセージに訳を当てるとどういうことになるんだろう?
 # linuxなどでiconvのない環境でコンパイルするとこのエラーが出るようですので、ローマ字で書いてみました。まあいまどきiconvのないディストリビューションはまずないようですが。（Belgae）
-#: utility/fciconv.c:131
+#: utility/fciconv.c:130
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
@@ -41953,7 +41954,7 @@ msgstr ""
 # clefs
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:210
+#: utility/fciconv.c:209
 #, c-format
 msgid "Could not convert text from %s to %s: %s.\n"
 msgstr ""
@@ -42028,7 +42029,7 @@ msgstr[0] " (合計 %d回)"
 msgid "Failed to fetch %s: %s"
 msgstr "SIGPIPEの無視に失敗しました: %s\n"
 
-#: utility/netfile.c:166
+#: utility/netfile.c:166 utility/registry_ini.c:635
 #, c-format
 msgid "Could not open %s for writing"
 msgstr ""

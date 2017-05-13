@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-19 11:38+0000\n"
+"POT-Creation-Date: 2017-05-13 12:12+0100\n"
 "PO-Revision-Date: 2015-05-20 15:46+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
@@ -425,8 +425,8 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2784 utility/log.c:516
-#: utility/netintf.c:97 utility/registry_ini.c:745
+#: server/console.c:71 server/srv_main.c:2785 utility/log.c:516
+#: utility/netintf.c:97 utility/registry_ini.c:747
 #, c-format
 msgid "Please report this message at %s"
 msgstr "Zgłoś tą wiadomość na %s"
@@ -683,7 +683,7 @@ msgstr "%+4d : Podatek z handlu\n"
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
 #: client/citydlg_common.c:477 client/gui-gtk-2.0/inteldlg.c:388
-#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:450
+#: client/gui-gtk-3.0/inteldlg.c:382 client/gui-qt/plrdlg.cpp:455
 #: client/gui-sdl/inteldlg.c:314 client/gui-sdl/inteldlg.c:327
 #: client/gui-xaw/inteldlg.c:281 server/stdinhand.c:326
 msgid "(unknown)"
@@ -836,7 +836,7 @@ msgstr "Nazwa miasta"
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1409
 #: client/gui-gtk-3.0/pages.c:2776 client/gui-qt/citydlg.cpp:1767
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
-#: client/gui-qt/pages.cpp:552 client/gui-qt/plrdlg.cpp:442
+#: client/gui-qt/pages.cpp:554 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
@@ -1948,7 +1948,7 @@ msgstr "#"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2774
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:552
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:554
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "Flaga"
@@ -1978,19 +1978,19 @@ msgstr "Handel:"
 #: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
-#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:451
+#: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "Złoto:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:457
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Luksus:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:455
+#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Nauka:"
 
@@ -2682,7 +2682,7 @@ msgid "What Nation Will You Be?"
 msgstr "Jakim narodem będziesz?"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-3.0/dialogs.c:895
-#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:574
+#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:576
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
 msgid "Pick Nation"
 msgstr "Wybierz naród"
@@ -3366,7 +3366,7 @@ msgstr "Identyfikator"
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
 #: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1406
 #: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:551 data/Freeciv.in:97
+#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:553 data/Freeciv.in:97
 #: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
 #: tools/mpgui_qt.cpp:217
 msgid "Name"
@@ -3655,7 +3655,7 @@ msgstr "Seen (Invis)"
 
 #: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
 #: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:741
-#: client/gui-qt/pages.cpp:763 client/gui-sdl/citydlg.c:1985
+#: client/gui-qt/pages.cpp:765 client/gui-sdl/citydlg.c:1985
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "Nieznane"
@@ -3801,7 +3801,7 @@ msgid "Shift+Return"
 msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1410
-#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:638
+#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:640
 msgid "?noun:View"
 msgstr "?noun:Widok"
 
@@ -4002,7 +4002,7 @@ msgstr "Dodatek (Ż/P/H)"
 # Puste
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:137 client/gui-gtk-3.0/helpdlg.c:137
-#: client/gui-qt/plrdlg.cpp:522 client/gui-qt/plrdlg.cpp:528
+#: client/gui-qt/plrdlg.cpp:530 client/gui-qt/plrdlg.cpp:536
 #: client/gui-qt/repodlgs.cpp:582 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
@@ -4073,7 +4073,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-2.0/helpdlg.c:1153 client/gui-gtk-2.0/helpdlg.c:1240
 #: client/gui-gtk-2.0/inteldlg.c:413 client/gui-gtk-3.0/helpdlg.c:1181
 #: client/gui-gtk-3.0/helpdlg.c:1268 client/gui-gtk-3.0/inteldlg.c:407
-#: client/gui-qt/plrdlg.cpp:432 client/gui-xaw/helpdlg.c:1014
+#: client/gui-qt/plrdlg.cpp:437 client/gui-xaw/helpdlg.c:1014
 #: client/gui-xaw/helpdlg.c:1095 common/requirements.c:1958
 #, c-format
 msgid "(none)"
@@ -4122,27 +4122,27 @@ msgid "?bonus:None"
 msgstr "?bonus:Brak"
 
 #: client/gui-gtk-2.0/inteldlg.c:48 client/gui-gtk-3.0/inteldlg.c:48
-#: client/gui-qt/plrdlg.cpp:444
+#: client/gui-qt/plrdlg.cpp:449
 msgid "Ruler:"
 msgstr "Władca:"
 
 #: client/gui-gtk-2.0/inteldlg.c:49 client/gui-gtk-3.0/inteldlg.c:49
-#: client/gui-qt/plrdlg.cpp:446
+#: client/gui-qt/plrdlg.cpp:451
 msgid "Government:"
 msgstr "Ustrój:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50 client/gui-gtk-3.0/inteldlg.c:50
-#: client/gui-qt/plrdlg.cpp:448
+#: client/gui-qt/plrdlg.cpp:453
 msgid "Capital:"
 msgstr "Stolica:"
 
 #: client/gui-gtk-2.0/inteldlg.c:53 client/gui-gtk-3.0/inteldlg.c:53
-#: client/gui-qt/plrdlg.cpp:453
+#: client/gui-qt/plrdlg.cpp:458
 msgid "Tax:"
 msgstr "Podatek:"
 
 #: client/gui-gtk-2.0/inteldlg.c:57 client/gui-gtk-3.0/inteldlg.c:57
-#: client/gui-qt/plrdlg.cpp:459
+#: client/gui-qt/plrdlg.cpp:464
 msgid "Researching:"
 msgstr "Badania:"
 
@@ -4161,7 +4161,7 @@ msgstr "Raport wywiadu o państwie %sim"
 
 #. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-3.0/inteldlg.c:403
-#: client/gui-qt/plrdlg.cpp:429 common/tech.c:1227
+#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1227
 msgid "(Unknown)"
 msgstr "(Nieznane)"
 
@@ -5008,7 +5008,7 @@ msgid "_Browse..."
 msgstr "Przeglądaj..."
 
 #: client/gui-gtk-2.0/pages.c:987 client/gui-gtk-3.0/pages.c:1068
-#: client/gui-qt/pages.cpp:1210 client/gui-sdl/connectdlg.c:937
+#: client/gui-qt/pages.cpp:1212 client/gui-sdl/connectdlg.c:937
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Nieprawidłowe hasło, wprowadź hasło."
@@ -5125,7 +5125,7 @@ msgid "Toggle player ready"
 msgstr "Przełącz gotowych graczy"
 
 #: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1831
-#: client/gui-qt/pages.cpp:1575
+#: client/gui-qt/pages.cpp:1577
 msgid "Pick nation"
 msgstr "Wybierz naród"
 
@@ -5134,7 +5134,7 @@ msgid "Observe this player"
 msgstr "Obserwuj tego gracza"
 
 #: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1846
-#: client/gui-qt/pages.cpp:1565
+#: client/gui-qt/pages.cpp:1567
 msgid "Take this player"
 msgstr "Przejmij tego gracza"
 
@@ -5143,12 +5143,12 @@ msgid "Cut connection"
 msgstr "Przerwij połączenie"
 
 #: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1869
-#: client/gui-qt/pages.cpp:1637
+#: client/gui-qt/pages.cpp:1639
 msgid "Aitoggle player"
 msgstr "Przełącz AI gracza"
 
 #: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1877
-#: client/gui-qt/pages.cpp:1557
+#: client/gui-qt/pages.cpp:1559
 msgid "Remove player"
 msgstr "Usuń gracza"
 
@@ -5214,19 +5214,19 @@ msgid "<%s AI>"
 msgstr "<%s AI>"
 
 #: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2411
-#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1291
+#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1293
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Losowy"
 
 #: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
 #: client/gui-gtk-3.0/pages.c:2485 client/gui-gtk-3.0/pages.c:2542
-#: client/gui-qt/pages.cpp:1362 client/gui-qt/pages.cpp:1392
+#: client/gui-qt/pages.cpp:1364 client/gui-qt/pages.cpp:1394
 msgid "Observer"
 msgstr "Obserwator"
 
 #: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2567
-#: client/gui-qt/pages.cpp:1409
+#: client/gui-qt/pages.cpp:1411
 msgid "Detached"
 msgstr "Odłączony"
 
@@ -5263,7 +5263,7 @@ msgstr "Ranking"
 
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2770 client/gui-gtk-3.0/unitselect.c:475
-#: client/gui-qt/pages.cpp:551 client/gui-qt/pages.cpp:1465
+#: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:1467
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "Gotowy"
@@ -5273,12 +5273,12 @@ msgid "?player:Leader"
 msgstr "?player:Przywódca"
 
 #: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2778
-#: client/gui-qt/pages.cpp:552 client/plrdlg_common.c:310
+#: client/gui-qt/pages.cpp:554 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "Drużyna"
 
 #: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2899
-#: client/gui-qt/pages.cpp:429 client/gui-sdl/chatline.c:197
+#: client/gui-qt/pages.cpp:431 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "Wybierz zapisaną grę"
 
@@ -5287,7 +5287,7 @@ msgid "Choose Saved Game to _Load:"
 msgstr "Wybierz zapisaną grę:"
 
 #: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3048
-#: client/gui-qt/pages.cpp:490
+#: client/gui-qt/pages.cpp:492
 msgid "Choose a Scenario"
 msgstr "Wybierz scenariusz"
 
@@ -5728,18 +5728,18 @@ msgid "_Focus"
 msgstr "Zaznacz"
 
 #. TRANS: used in place of unit home city name
-#: client/gui-gtk-2.0/unitselect.c:809 client/gui-gtk-3.0/unitselect.c:810
+#: client/gui-gtk-2.0/unitselect.c:809 client/gui-gtk-3.0/unitselect.c:806
 msgid "no home city"
 msgstr "brak miasta pochodzenia"
 
 #. TRANS: used in place of unit home city name
-#: client/gui-gtk-2.0/unitselect.c:812 client/gui-gtk-3.0/unitselect.c:813
+#: client/gui-gtk-2.0/unitselect.c:812 client/gui-gtk-3.0/unitselect.c:809
 #: client/gui-xaw/repodlgs.c:208 client/gui-xaw/repodlgs.c:484
 msgid "unknown"
 msgstr "nieznane"
 
 #. TRANS: unit type and home city, e.g. "Transport\n(New Orleans)"
-#: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:830
+#: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:826
 #, c-format
 msgid ""
 "%s\n"
@@ -5886,7 +5886,7 @@ msgid "Change homecity"
 msgstr "Zmień pochodzenie"
 
 #: client/gui-qt/citydlg.cpp:216 client/gui-qt/menu.cpp:665
-#: client/gui-qt/pages.cpp:470
+#: client/gui-qt/pages.cpp:472
 msgid "Load"
 msgstr "_Załaduj"
 
@@ -5936,7 +5936,7 @@ msgstr "Opcje planu prac"
 msgid "Show future targets"
 msgstr "Pokaż przyszłe cele"
 
-#: client/gui-qt/citydlg.cpp:845 client/options.c:2168
+#: client/gui-qt/citydlg.cpp:845 client/options.c:2170
 msgid "Show units"
 msgstr "Pokaż jednostki"
 
@@ -6125,8 +6125,8 @@ msgstr ""
 
 #: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
-#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:462
-#: client/gui-qt/pages.cpp:520 client/gui-qt/ratesdlg.cpp:140
+#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:464
+#: client/gui-qt/pages.cpp:522 client/gui-qt/ratesdlg.cpp:140
 #: client/gui-sdl/citydlg.c:526 client/gui-sdl/citydlg.c:1418
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/connectdlg.c:634
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
@@ -6177,7 +6177,7 @@ msgstr "Sprzedaj"
 msgid "Select"
 msgstr "Wybierz"
 
-#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:336
+#: client/gui-qt/cityrep.cpp:1106 client/gui-qt/plrdlg.cpp:341
 msgid "Column visibility"
 msgstr "Widoczność kolumny"
 
@@ -6303,7 +6303,7 @@ msgstr[0] "Na pewno chcesz rozwiązać %1 jednostkę?"
 msgstr[1] "Na pewno chcesz rozwiązać %1 jednostki?"
 msgstr[2] "Na pewno chcesz rozwiązać %1 jednostek?"
 
-#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1327
+#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1329
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1212
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6319,7 +6319,7 @@ msgstr[2] "Na pewno chcesz rozwiązać %1 jednostek?"
 msgid "Yes"
 msgstr "Tak"
 
-#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1329
+#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1331
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1201
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6407,12 +6407,12 @@ msgstr "Witamy we Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "To jest klient Qt dla Freeciv"
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1445
+#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1447
 msgid "Don't Observe"
 msgstr "Nie obserwuj"
 
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:581
-#: client/gui-qt/pages.cpp:1447 client/gui-qt/pages.cpp:1548
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:583
+#: client/gui-qt/pages.cpp:1449 client/gui-qt/pages.cpp:1550
 msgid "Observe"
 msgstr "Obserwuj"
 
@@ -6642,7 +6642,7 @@ msgstr "Zakończ"
 msgid "Center View"
 msgstr "Wyśrodkuj widok"
 
-#: client/gui-qt/menu.cpp:459 client/options.c:2592
+#: client/gui-qt/menu.cpp:459 client/options.c:2594
 msgid "Fullscreen"
 msgstr "Pełny ekran"
 
@@ -6662,8 +6662,8 @@ msgstr "Siatka mapy"
 msgid "National Borders"
 msgstr "Granice państw"
 
-#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2370
-#: client/options.c:2573 client/options.c:2677
+#: client/gui-qt/menu.cpp:509 client/gui-xaw/menu.c:145 client/options.c:2372
+#: client/options.c:2575 client/options.c:2679
 msgid "City Names"
 msgstr "Nazwy miast"
 
@@ -6893,8 +6893,8 @@ msgid "Tax Rates..."
 msgstr "Stawki podatkowe..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1258
-#: client/gui-qt/plrdlg.cpp:641 client/gui-sdl/plrdlg.c:337
+#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1260
+#: client/gui-qt/plrdlg.cpp:649 client/gui-sdl/plrdlg.c:337
 #, fuzzy
 msgid "?header:Players"
 msgstr "?show:Martwi gracze"
@@ -7011,96 +7011,96 @@ msgstr "Hasło"
 msgid "Confirm Password"
 msgstr "Potwierdź hasło"
 
-#: client/gui-qt/pages.cpp:376
+#: client/gui-qt/pages.cpp:378
 #, fuzzy
 msgid "Internet servers:"
 msgstr "Metaserwer internetowy"
 
-#: client/gui-qt/pages.cpp:379
+#: client/gui-qt/pages.cpp:381
 #, fuzzy
 msgid "Local servers:"
 msgstr "Obserwator globalny"
 
-#: client/gui-qt/pages.cpp:429
+#: client/gui-qt/pages.cpp:431
 msgid "Date"
 msgstr "Data"
 
-#: client/gui-qt/pages.cpp:456 client/gui-qt/pages.cpp:514
+#: client/gui-qt/pages.cpp:458 client/gui-qt/pages.cpp:516
 #, fuzzy
 msgid "Browse..."
 msgstr "Przeglądaj..."
 
-#: client/gui-qt/pages.cpp:528
+#: client/gui-qt/pages.cpp:530
 msgid "Load Scenario"
 msgstr "Wczytaj scenariusz"
 
-#: client/gui-qt/pages.cpp:551
+#: client/gui-qt/pages.cpp:553
 msgid "Leader"
 msgstr "Przywódca"
 
-#: client/gui-qt/pages.cpp:569 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
+#: client/gui-qt/pages.cpp:571 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
 msgstr "Rozłącz"
 
-#: client/gui-qt/pages.cpp:587 client/gui-qt/pages.cpp:1473
+#: client/gui-qt/pages.cpp:589 client/gui-qt/pages.cpp:1475
 #: client/gui-sdl/chatline.c:800 data/Freeciv.in:3444
 msgid "Start"
 msgstr "Start"
 
-#: client/gui-qt/pages.cpp:691
+#: client/gui-qt/pages.cpp:693
 msgid "Save Files"
 msgstr "Pliki zapisanej gry"
 
-#: client/gui-qt/pages.cpp:694
+#: client/gui-qt/pages.cpp:696
 msgid "Open Save File"
 msgstr "Otwórz pliki zapisanej gry"
 
-#: client/gui-qt/pages.cpp:707
+#: client/gui-qt/pages.cpp:709
 msgid "Scenarios Files"
 msgstr "Pliki scenariuszy"
 
-#: client/gui-qt/pages.cpp:710
+#: client/gui-qt/pages.cpp:712
 msgid "Open Scenario File"
 msgstr "Otwórz pliki scenariuszy"
 
-#: client/gui-qt/pages.cpp:1377
+#: client/gui-qt/pages.cpp:1379
 msgid "Global observers"
 msgstr "Obserwator globalny"
 
-#: client/gui-qt/pages.cpp:1454
+#: client/gui-qt/pages.cpp:1456
 #, fuzzy
 msgid "Not ready"
 msgstr "Nie przygotowany"
 
-#: client/gui-qt/pages.cpp:1590
+#: client/gui-qt/pages.cpp:1592
 msgid "Set difficulty"
 msgstr "Ustaw poziom trudności"
 
-#: client/gui-qt/pages.cpp:1613
+#: client/gui-qt/pages.cpp:1615
 msgid "Put on team"
 msgstr "Umieść w drużynie"
 
-#: client/gui-qt/plrdlg.cpp:493
+#: client/gui-qt/plrdlg.cpp:501
 msgid "<b>Techs unknown by %1:</b>"
 msgstr "<b>Technologie nieznane dla %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:495
+#: client/gui-qt/plrdlg.cpp:503
 msgid "<b>Techs unknown by you :</b>"
 msgstr "<b>Technologie nieznane tobie:</b>"
 
-#: client/gui-qt/plrdlg.cpp:535
+#: client/gui-qt/plrdlg.cpp:543
 msgid "<b>Techs known by %1:</b>"
 msgstr "<b>Technologie znane dla %1:</b>"
 
-#: client/gui-qt/plrdlg.cpp:598 data/Freeciv.in:3286
+#: client/gui-qt/plrdlg.cpp:606 data/Freeciv.in:3286
 msgid "Meet"
 msgstr "Spotkanie"
 
-#: client/gui-qt/plrdlg.cpp:600 client/gui-sdl/diplodlg.c:1536
+#: client/gui-qt/plrdlg.cpp:608 client/gui-sdl/diplodlg.c:1536
 msgid "Cancel Treaty"
 msgstr "Anuluj traktat"
 
-#: client/gui-qt/plrdlg.cpp:602
+#: client/gui-qt/plrdlg.cpp:610
 msgid "Withdraw Vision"
 msgstr "Wycofaj widok dzielony"
 
@@ -8799,7 +8799,7 @@ msgstr "Czy naprawdę chcesz usunąć %s?"
 msgid "LAN Servers"
 msgstr "Serwery LAN"
 
-#: client/gui-xaw/connectdlg.c:336 client/options.c:1741 data/Freeciv.in:132
+#: client/gui-xaw/connectdlg.c:336 client/options.c:1743 data/Freeciv.in:132
 msgid "Metaserver"
 msgstr "Metaserwer"
 
@@ -11323,40 +11323,40 @@ msgid "Clipboard is empty."
 msgstr "Schowek jest pusty."
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1683
+#: client/options.c:1684
 msgid "Split"
 msgstr "Rozdziel"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1685
+#: client/options.c:1686
 msgid "Separate"
 msgstr "Rozłącz"
 
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:1687
+#: client/options.c:1688
 msgid "Merged"
 msgstr "Połącz"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1703 server/settings.c:316
+#: client/options.c:1704 server/settings.c:316
 msgid "Enabled"
 msgstr "Włączone"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1705 server/settings.c:281 server/settings.c:315
+#: client/options.c:1706 server/settings.c:281 server/settings.c:315
 msgid "Disabled"
 msgstr "Wyłączone"
 
 #. TRANS: enum value for 'gui_popup_tech_help'
-#: client/options.c:1707 tools/modinst.h:35
+#: client/options.c:1708 tools/modinst.h:35
 msgid "Ruleset"
 msgstr "Zestaw zasad"
 
-#: client/options.c:1723
+#: client/options.c:1725
 msgid "Login name"
 msgstr "Login"
 
-#: client/options.c:1724
+#: client/options.c:1726
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11364,11 +11364,11 @@ msgstr ""
 "To jest domyślny login używany w oknie połączenia lub przy użyciu opcji -a z "
 "wiersza poleceń."
 
-#: client/options.c:1729
+#: client/options.c:1731
 msgid "Server"
 msgstr "Serwer"
 
-#: client/options.c:1730
+#: client/options.c:1732
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
@@ -11376,11 +11376,11 @@ msgstr ""
 "To jest domyślny serwer używany w oknie połączenia lub przy użyciu opcji -a "
 "z wiersza poleceń."
 
-#: client/options.c:1735
+#: client/options.c:1737
 msgid "Server port"
 msgstr "Port serwera"
 
-#: client/options.c:1736
+#: client/options.c:1738
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
@@ -11388,7 +11388,7 @@ msgstr ""
 "To jest domyślny port serwera używany w oknie połączenia lub przy użyciu "
 "opcji -a z wiersza poleceń."
 
-#: client/options.c:1742
+#: client/options.c:1744
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
@@ -11398,22 +11398,22 @@ msgstr ""
 "(serwery) w Internecie. Tej opcji nie powinieneś/aś zmieniać, chyba że na "
 "prawdę wiesz, co robisz."
 
-#: client/options.c:1748 tools/modinst.h:43
+#: client/options.c:1750 tools/modinst.h:43
 msgid "Soundset"
 msgstr "Zestaw dźwiękowy"
 
-#: client/options.c:1749
+#: client/options.c:1751
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
 "To jest zestaw dźwięków. Działa tak samo jak opcja -S z wiersza poleceń."
 
-#: client/options.c:1754
+#: client/options.c:1756
 msgid "Sound plugin"
 msgstr "Wtyczka dźwiękowa"
 
-#: client/options.c:1755
+#: client/options.c:1757
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
@@ -11423,29 +11423,29 @@ msgstr ""
 "Niestety efekt będzie widoczny dopiero po ponownym włączeniu Freeciv. Tak "
 "samo działa opcja -P z wiersza poleceń."
 
-#: client/options.c:1761
+#: client/options.c:1763
 msgid "The chat log file"
 msgstr "Plik dziennika rozmów"
 
-#: client/options.c:1762
+#: client/options.c:1764
 msgid "The name of the chat log file."
 msgstr "Nazwa pliku dziennika rozmów."
 
-#: client/options.c:1767 client/options.c:1772 client/options.c:1777
-#: client/options.c:1782
+#: client/options.c:1769 client/options.c:1774 client/options.c:1779
+#: client/options.c:1784
 msgid "Theme"
 msgstr "Motyw"
 
-#: client/options.c:1768 client/options.c:1773 client/options.c:1778
-#: client/options.c:1783
+#: client/options.c:1770 client/options.c:1775 client/options.c:1780
+#: client/options.c:1785
 msgid "By changing this option you change the active theme."
 msgstr "Zmieniając tą opcję, zmieniasz obecny motyw."
 
-#: client/options.c:1793 tools/modinst.h:37
+#: client/options.c:1795 tools/modinst.h:37
 msgid "Tileset"
 msgstr "Zestaw graficzny"
 
-#: client/options.c:1794
+#: client/options.c:1796
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
@@ -11453,37 +11453,37 @@ msgstr ""
 "Możesz tutaj zmienić zestaw graficzny. Działa tak samo jak opcja -t w "
 "wierszu poleceń."
 
-#: client/options.c:1800
+#: client/options.c:1802
 msgid "Draw city outlines"
 msgstr "Pokaż zasięg miast"
 
-#: client/options.c:1801
+#: client/options.c:1803
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 "Jeśli ta opcja jest włączona, pokazane zostaną granice pól, na których "
 "pracować mogą mieszkańcy miast."
 
-#: client/options.c:1805
+#: client/options.c:1807
 msgid "Draw city output"
 msgstr "Pokaż produkcję miasta"
 
-#: client/options.c:1806
+#: client/options.c:1808
 msgid "Setting this option will draw city output for every citizen."
 msgstr "Ustawienie tej opcji pokaże produkcję miasta na jednego mieszkańca."
 
-#: client/options.c:1810
+#: client/options.c:1812
 msgid "Draw the map grid"
 msgstr "Pokaż siatkę mapy"
 
-#: client/options.c:1811
+#: client/options.c:1813
 msgid "Setting this option will draw a grid over the map."
 msgstr "Ustawienie tej opcji pokaże siatkę na mapie."
 
-#: client/options.c:1814
+#: client/options.c:1816
 msgid "Draw the city bar"
 msgstr "Pokaż pasek miasta"
 
-#: client/options.c:1815
+#: client/options.c:1817
 msgid ""
 "Setting this option will display a 'city bar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -11494,29 +11494,29 @@ msgstr ""
 "sprawia, że wyświetlana będzie tylko nazwa miasta i, ewentualnie, jego "
 "produkcja."
 
-#: client/options.c:1821
+#: client/options.c:1823
 msgid "Draw the city names"
 msgstr "Pokaż nazwy miast"
 
-#: client/options.c:1822
+#: client/options.c:1824
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr "Ustawienie tej opcji pokaże nazwy miast na mapie."
 
-#: client/options.c:1826
+#: client/options.c:1828
 msgid "Draw the city growth"
 msgstr "Pokaż wzrost miasta"
 
-#: client/options.c:1827
+#: client/options.c:1829
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr "Ustawienie tej opcji pokaże, za ile tur miasto wzrośnie lub zmaleje."
 
-#: client/options.c:1831
+#: client/options.c:1833
 msgid "Draw the city productions"
 msgstr "Pokaż produkcję miasta"
 
-#: client/options.c:1832
+#: client/options.c:1834
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
@@ -11524,11 +11524,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że na mapie pokazane zostanie to, co miasto "
 "obecnie buduje."
 
-#: client/options.c:1836
+#: client/options.c:1838
 msgid "Draw the city buy costs"
 msgstr "Pokaż cenę zakupu produktu"
 
-#: client/options.c:1837
+#: client/options.c:1839
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
@@ -11536,11 +11536,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że pokazany zostanie koszt zakupu rzeczy "
 "obecnie budowanej w mieście."
 
-#: client/options.c:1841
+#: client/options.c:1843
 msgid "Draw the city trade routes"
 msgstr "Pokaż szlaki handlowe"
 
-#: client/options.c:1842
+#: client/options.c:1844
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
@@ -11548,92 +11548,92 @@ msgstr ""
 "Włączenie tej opcji sprawia, że pokazane zostaną szlaki handlowe pomiędzy "
 "miastami, które je mają."
 
-#: client/options.c:1846
+#: client/options.c:1848
 msgid "Draw the terrain"
 msgstr "Pokaż teren"
 
-#: client/options.c:1847
+#: client/options.c:1849
 msgid "Setting this option will draw the terrain."
 msgstr "Ustawienie tej opcji pokaże typy terenu."
 
-#: client/options.c:1850
+#: client/options.c:1852
 msgid "Draw the coast line"
 msgstr "Pokaż linię brzegową"
 
-#: client/options.c:1851
+#: client/options.c:1853
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr "Ustawienie tej opcji pokaże linie oddzielające lądy od oceanów."
 
-#: client/options.c:1855
+#: client/options.c:1857
 msgid "Draw the roads and the railroads"
 msgstr "Pokaż drogi i koleje"
 
-#: client/options.c:1856
+#: client/options.c:1858
 msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą drogi i koleje."
 
-#: client/options.c:1860
+#: client/options.c:1862
 msgid "Draw the irrigation"
 msgstr "Pokaż nawodnienie"
 
-#: client/options.c:1861
+#: client/options.c:1863
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą nawodnienia."
 
-#: client/options.c:1865
+#: client/options.c:1867
 msgid "Draw the mines"
 msgstr "Pokaż kopalnie"
 
-#: client/options.c:1866
+#: client/options.c:1868
 msgid "Setting this option will draw the mines on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą kopalnie."
 
-#: client/options.c:1869
+#: client/options.c:1871
 msgid "Draw the bases"
 msgstr "Pokaż fortece/bazy lotnicze"
 
-#: client/options.c:1870
+#: client/options.c:1872
 msgid "Setting this option will draw the bases on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą bazy wojskowe."
 
-#: client/options.c:1873
+#: client/options.c:1875
 msgid "Draw the specials"
 msgstr "Pokaż zasoby specjalne"
 
-#: client/options.c:1874
+#: client/options.c:1876
 msgid "Setting this option will draw the specials on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą zasoby specjalne."
 
-#: client/options.c:1878
+#: client/options.c:1880
 msgid "Draw the pollution/nuclear fallout"
 msgstr "Pokaż zanieczyszczenie/skażenie"
 
-#: client/options.c:1879
+#: client/options.c:1881
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą skażenia (nuklearne)."
 
-#: client/options.c:1883
+#: client/options.c:1885
 msgid "Draw the cities"
 msgstr "Pokaż miasta"
 
-#: client/options.c:1884
+#: client/options.c:1886
 msgid "Setting this option will draw the cities on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą na miasta."
 
-#: client/options.c:1887
+#: client/options.c:1889
 msgid "Draw the units"
 msgstr "Pokaż jednostki"
 
-#: client/options.c:1888
+#: client/options.c:1890
 msgid "Setting this option will draw the units on the map."
 msgstr "Ta opcja sprawia, że na mapie pokazane będą jednostki."
 
-#: client/options.c:1892
+#: client/options.c:1894
 msgid "Solid unit background color"
 msgstr "Jednolity kolor tła jednostki"
 
-#: client/options.c:1893
+#: client/options.c:1895
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
@@ -11641,11 +11641,11 @@ msgstr ""
 "Ta opcja sprawia, że przy jednostkach będzie widoczne jednokolorowe tło "
 "zamiast flagi."
 
-#: client/options.c:1898
+#: client/options.c:1900
 msgid "Draw shield graphics for units"
 msgstr "Wyświetlaj tarcze dla jednostek"
 
-#: client/options.c:1899
+#: client/options.c:1901
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
@@ -11653,11 +11653,11 @@ msgstr ""
 "Ta opcja sprawia, że przy jednostkach będzie widoczna tarcza w barwach "
 "flagi. W przeciwnym razie, widoczna będzie cała flaga."
 
-#: client/options.c:1903
+#: client/options.c:1905
 msgid "Draw the units in focus"
 msgstr "Pokaż wybrane jednostki"
 
-#: client/options.c:1904
+#: client/options.c:1906
 msgid ""
 "Setting this option will cause the currently focused unit(s) to always be "
 "drawn, even if units are not otherwise being drawn (for instance if 'Draw "
@@ -11667,27 +11667,27 @@ msgstr ""
 "nawet jeśli w normalnych okolicznościach nie zostałaby wyświetlona (np. gdy "
 "wyłączona jest opcja 'Pokaż jednostki')."
 
-#: client/options.c:1910
+#: client/options.c:1912
 msgid "Draw the fog of war"
 msgstr "Pokaż \"mgłę wojny\""
 
-#: client/options.c:1911
+#: client/options.c:1913
 msgid "Setting this option will draw the fog of war."
 msgstr "Ta opcja sprawia, że pokazana zostanie \"mgła wojny\"."
 
-#: client/options.c:1914
+#: client/options.c:1916
 msgid "Draw the borders"
 msgstr "Pokaż granice narodów"
 
-#: client/options.c:1915
+#: client/options.c:1917
 msgid "Setting this option will draw the national borders."
 msgstr "Ta opcja sprawia, że pokazane zostaną granice państw."
 
-#: client/options.c:1918
+#: client/options.c:1920
 msgid "Draw whether tiles are native to selected unit"
 msgstr "Pokaż czy pola są natywne dla wybranych jednostek"
 
-#: client/options.c:1920
+#: client/options.c:1922
 msgid ""
 "Setting this option will highlight tiles that the currently selected unit "
 "cannot enter unaided due to non-native terrain. (If multiple units are "
@@ -11698,22 +11698,22 @@ msgstr ""
 "wybrano kilka jednostek, podświetlone są tylko pola, na które może wejść "
 "każda z nich)."
 
-#: client/options.c:1927
+#: client/options.c:1929
 msgid "Show dead players in Nations report"
 msgstr "Pokaż martwych graczy w raporcie o narodach."
 
-#: client/options.c:1928
+#: client/options.c:1930
 msgid ""
 "This option controls whether defeated nations are shown on the Nations "
 "report page."
 msgstr ""
 "Ta opcja sprawia, że pokonani gracze będą wyświetlani w raporcie o narodach."
 
-#: client/options.c:1932
+#: client/options.c:1934
 msgid "Sound bell at new turn"
 msgstr "Dźwięk przed nową turą"
 
-#: client/options.c:1933
+#: client/options.c:1935
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
@@ -11722,11 +11722,11 @@ msgstr ""
 "Gdy ta opcja jest włączona, będziesz słyszeć \"dzwonek\" na początku każdej "
 "tury. Możesz zmienić zachowanie dzwonka w opcjach powiadomień."
 
-#: client/options.c:1939
+#: client/options.c:1941
 msgid "Unit movement animation time (milliseconds)"
 msgstr "Czas animacji ruchu jednostki (milisekundy)"
 
-#: client/options.c:1940
+#: client/options.c:1942
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
@@ -11734,11 +11734,11 @@ msgstr ""
 "Wyznacza długość trwania animacji podczas ruchu jednostki po mapie. 0 "
 "oznacza brak animacji."
 
-#: client/options.c:1945
+#: client/options.c:1947
 msgid "Mapview recentering time (milliseconds)"
 msgstr "Czas recentrowania mapy (w milisekundach)"
 
-#: client/options.c:1946
+#: client/options.c:1948
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
@@ -11748,11 +11748,11 @@ msgstr ""
 "Możesz tu ustawić czas trwania przesuwania. 0 oznacza brak płynnego "
 "przejścia."
 
-#: client/options.c:1952
+#: client/options.c:1954
 msgid "Combat animation step time (milliseconds)"
 msgstr "Czas animacji walki (milisekundy)"
 
-#: client/options.c:1953
+#: client/options.c:1955
 msgid ""
 "This option controls the speed of combat animation between units on the "
 "mapview.  Set it to 0 to disable animation entirely."
@@ -11760,11 +11760,11 @@ msgstr ""
 "Ta opcja określa szybkość animacji walki w widoku mapy. 0 oznacza brak "
 "animacji."
 
-#: client/options.c:1958
+#: client/options.c:1960
 msgid "Show icons in the technology tree"
 msgstr "Pokaż ikony na diagramie technologii"
 
-#: client/options.c:1959
+#: client/options.c:1961
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -11772,11 +11772,11 @@ msgstr ""
 "Ta opcja sprawia, że na diagramie technologii wyświetlane są ikony. "
 "Wyłączenie tej opcji powoduje, że diagram staje się mniejszy."
 
-#: client/options.c:1965
+#: client/options.c:1967
 msgid "Use curved lines in the technology tree"
 msgstr "Używaj zaokrąglonych linii na diagramie technologi"
 
-#: client/options.c:1966
+#: client/options.c:1968
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
@@ -11786,11 +11786,11 @@ msgstr ""
 "linie łączące różne technologie. Wyłączenie tej opcji powoduje, że linie te "
 "są proste."
 
-#: client/options.c:1973
+#: client/options.c:1975
 msgid "Color to highlight your player/user name"
 msgstr "Kolorowe podświetlenie nazwy gracza/użytkownika"
 
-#: client/options.c:1974
+#: client/options.c:1976
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
@@ -11800,11 +11800,11 @@ msgstr ""
 "wyświetlona na tle podanego tu koloru. Wyłączenie tej opcji sprawia, że "
 "podświetlenie nie pojawi się."
 
-#: client/options.c:1979
+#: client/options.c:1981
 msgid "Manual Turn Done in AI mode"
 msgstr "Ręczne zakończenie tury w trybie AI"
 
-#: client/options.c:1980
+#: client/options.c:1982
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -11812,21 +11812,21 @@ msgstr ""
 "Jeśli ta opcja jest wyłączona, nie musisz naciskać [Koniec tury] podczas "
 "obserwowania gracza AI."
 
-#: client/options.c:1984
+#: client/options.c:1986
 msgid "Auto center on units"
 msgstr "Automatyczne wyśrodkowanie na jednostkę"
 
-#: client/options.c:1985
+#: client/options.c:1987
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr "Włącza automatyczne wyśrodkowanie widoku na aktywną jednostkę."
 
-#: client/options.c:1988
+#: client/options.c:1990
 msgid "Auto center on combat"
 msgstr "Automatyczne wyśrodkowanie na bitwę"
 
-#: client/options.c:1989
+#: client/options.c:1991
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabling "
 "this will speed up the time between turns but may cause you to miss combat "
@@ -11836,11 +11836,11 @@ msgstr ""
 "opcji może przyspieszyć czas pomiędzy turami, ale może sprawić, że nie "
 "zobaczysz niektórych bitew."
 
-#: client/options.c:1994
+#: client/options.c:1996
 msgid "Auto center on new turn"
 msgstr "Automatyczne wyśrodkowanie w nowej turze"
 
-#: client/options.c:1995
+#: client/options.c:1997
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -11848,19 +11848,19 @@ msgstr ""
 "Włącza automatyczne wyśrodkowanie widoku na aktywną jednostkę na początku "
 "nowej tury."
 
-#: client/options.c:1999
+#: client/options.c:2001
 msgid "Focus on awakened units"
 msgstr "Wybierz jednostki uaktywnione"
 
-#: client/options.c:2000
+#: client/options.c:2002
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr "Włącza automatyczne wyśrodkowanie na nowo obudzone jednostki."
 
-#: client/options.c:2003
+#: client/options.c:2005
 msgid "Keyboardless goto"
 msgstr "Bezklawiaturowe 'Idź do'"
 
-#: client/options.c:2004
+#: client/options.c:2006
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -11868,11 +11868,11 @@ msgstr ""
 "Ta opcja pozwala na wydanie rozkazu Idż Do (GOTO) poprzez wciśnięcie lewego "
 "przycisku myszy na jednostce i przeciągnięcia jej na wskazane pole."
 
-#: client/options.c:2009
+#: client/options.c:2011
 msgid "Allow goto into the unknown"
 msgstr "Pozwól na 'Idź do' w nieznany teren"
 
-#: client/options.c:2010
+#: client/options.c:2012
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -11881,11 +11881,11 @@ msgstr ""
 "przechodzenie przez nieznany teren. W przeciwnym razie teren zostanie "
 "ominięty."
 
-#: client/options.c:2014
+#: client/options.c:2016
 msgid "Center map when popup city"
 msgstr "Centrowanie mapy przy wyświetlaniu miasta"
 
-#: client/options.c:2015
+#: client/options.c:2017
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -11893,11 +11893,11 @@ msgstr ""
 "Ta opcja sprawia, że mapa wyśrodkowuje się mieście, gdy pojawia się jego "
 "okno dialogowe."
 
-#: client/options.c:2018
+#: client/options.c:2020
 msgid "Concise city production"
 msgstr "Zwięzła produkcja miasta"
 
-#: client/options.c:2019
+#: client/options.c:2021
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -11905,11 +11905,11 @@ msgstr ""
 "Ta opcja sprawia, że produkcja miasta wyświetlana w oknie miasta ma bardziej "
 "zwięzły układ."
 
-#: client/options.c:2022
+#: client/options.c:2024
 msgid "End turn when done moving"
 msgstr "Zakończ turę, gdy wykonano wszystkie ruchy"
 
-#: client/options.c:2023
+#: client/options.c:2025
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -11917,11 +11917,11 @@ msgstr ""
 "Ta opcja sprawia, że koniec tury następuje automatycznie, gdy wszystkie "
 "twoje jednostki wykonały."
 
-#: client/options.c:2026
+#: client/options.c:2028
 msgid "Prompt for city names"
 msgstr "Zatwierdzanie nazw miast"
 
-#: client/options.c:2027
+#: client/options.c:2029
 msgid ""
 "Disabling this option will make the names of newly founded cities be chosen "
 "automatically by the server."
@@ -11929,11 +11929,11 @@ msgstr ""
 "Wyłączenie tej opcji sprawia, że nazwy nowych miast wybierane są przez "
 "program."
 
-#: client/options.c:2030
+#: client/options.c:2032
 msgid "Pop up city dialog for new cities"
 msgstr "Wyświetlaj okna nowych miast"
 
-#: client/options.c:2031
+#: client/options.c:2033
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -11941,11 +11941,11 @@ msgstr ""
 "Ta opcja sprawia, że po zbudowaniu nowego miasta, pojawi się jego okno "
 "dialogowe."
 
-#: client/options.c:2034
+#: client/options.c:2036
 msgid "Pop up caravan actions"
 msgstr "Wyświetl działania Karawany"
 
-#: client/options.c:2035
+#: client/options.c:2037
 msgid ""
 "If this option is enabled, when caravans or similar units arrive at a city "
 "where they can establish a trade route or help build a wonder, a window will "
@@ -11959,11 +11959,11 @@ msgstr ""
 "Wyłączenie tej opcji sprawi, że trzeba będzie robić to ręcznie, naciskając "
 "'r' (dla szlaku handlowego) lub 'b' (dla budowy cudu)."
 
-#: client/options.c:2044
+#: client/options.c:2046
 msgid "Enable cursor changing"
 msgstr "Włącz zmienianie kursora"
 
-#: client/options.c:2045
+#: client/options.c:2047
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
@@ -11972,11 +11972,11 @@ msgstr ""
 "Ta opcja sprawia, że klient spróbuje zmienić kursor w zależności od tego, "
 "nad czym się znajduje, a także by zasygnalizować stan klienta lub serwera."
 
-#: client/options.c:2050
+#: client/options.c:2052
 msgid "Select cities before units"
 msgstr "Wybierz miasta, nie jednostki"
 
-#: client/options.c:2051
+#: client/options.c:2053
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected. See the help on Controls."
@@ -11985,11 +11985,11 @@ msgstr ""
 "miasta, a nie jednostki, nawet jeśli jednostki znajdują się w zaznaczeniu. "
 "Zobacz sekcja pomocy nt. skrótów klawiszowych."
 
-#: client/options.c:2056
+#: client/options.c:2058
 msgid "Clear unit orders on selection"
 msgstr "Anuluj rozkazy po wyborze"
 
-#: client/options.c:2057
+#: client/options.c:2059
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -12004,11 +12004,11 @@ msgstr ""
 "pozostanie zaznaczona, a drugie naciśnięcie spacji zdejmie również "
 "zaznaczenie."
 
-#: client/options.c:2066
+#: client/options.c:2068
 msgid "Enable vote bar"
 msgstr "Włącz panel głosowania"
 
-#: client/options.c:2067
+#: client/options.c:2069
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
@@ -12016,11 +12016,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że wyświetlony zostanie panel głosowania, "
 "pokazujący bieżące informacje."
 
-#: client/options.c:2071
+#: client/options.c:2073
 msgid "Always display the vote bar"
 msgstr "Zawsze pokazuj panel głosowania"
 
-#: client/options.c:2072
+#: client/options.c:2074
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, even if "
 "there is no running vote."
@@ -12028,11 +12028,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że panel głosowania nie będzie nigdy ukrywany, "
 "nawet gdy nie będą się odbywać żadne głosowania."
 
-#: client/options.c:2076
+#: client/options.c:2078
 msgid "Do not show vote bar if not a player"
 msgstr "Nie pokazuj panelu głosowania"
 
-#: client/options.c:2077
+#: client/options.c:2079
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
@@ -12040,11 +12040,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że klient nigdy nie wyświetla panelu "
 "głosowania, jeśli nie jesteś graczem."
 
-#: client/options.c:2080
+#: client/options.c:2082
 msgid "Set new votes at front"
 msgstr "Przesuń nowe głosowania na początek"
 
-#: client/options.c:2081
+#: client/options.c:2083
 msgid ""
 "If this option is enabled, then new votes will go to the front of the vote "
 "list."
@@ -12052,11 +12052,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że nowe głosowania będą wyświetlane na początku "
 "listy."
 
-#: client/options.c:2085
+#: client/options.c:2087
 msgid "Autoaccept tileset suggestions"
 msgstr "Automatycznie akceptuj sugestie zestawu graficznego"
 
-#: client/options.c:2086
+#: client/options.c:2088
 msgid ""
 "If this option is enabled, any tileset suggested by the ruleset is "
 "automatically used; otherwise you are prompted to change tileset."
@@ -12065,11 +12065,11 @@ msgstr ""
 "automatycznie; w przeciwnym wypadku pojawi się prośba o zmianę zestawu "
 "graficznego."
 
-#: client/options.c:2091
+#: client/options.c:2093
 msgid "Autoaccept soundset suggestions"
 msgstr "Automatycznie akceptuj sugestie zestawu dźwięków"
 
-#: client/options.c:2092
+#: client/options.c:2094
 msgid ""
 "If this option is enabled, any soundset suggested by the ruleset is "
 "automatically used."
@@ -12077,36 +12077,36 @@ msgstr ""
 "Jeśli tak opcja jest włączona, używany jest automatycznie zestaw dźwięków "
 "sugerowany przez zestaw zasad."
 
-#: client/options.c:2097
+#: client/options.c:2099
 msgid "Background layer"
 msgstr "Warstwa tła"
 
-#: client/options.c:2098
+#: client/options.c:2100
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "Warstwa tła zawiera jedynie rozróżnienie między lądem i oceanem."
 
-#: client/options.c:2102
+#: client/options.c:2104
 msgid "Terrain relief map layer"
 msgstr "Warstwa terenu"
 
-#: client/options.c:2103
+#: client/options.c:2105
 msgid "The relief layer shows all terrains on the map."
 msgstr "Warstwa terenu pokazuje wszystkie tereny na mapie."
 
-#: client/options.c:2106
+#: client/options.c:2108
 msgid "Borders layer"
 msgstr "Warstwa granic"
 
-#: client/options.c:2107
+#: client/options.c:2109
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr "Warstwa granic na minimapie pokazuje kto kontroluje różne części mapy."
 
-#: client/options.c:2111
+#: client/options.c:2113
 msgid "Borders layer on ocean tiles"
 msgstr "Warstwa granic na oceanie"
 
-#: client/options.c:2112
+#: client/options.c:2114
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
@@ -12116,90 +12116,90 @@ msgstr ""
 "brzydko na mapach z wieloma wyspami). Ta opcja zadziała jedynie z włączoną "
 "opcją \"Warstwa granic\"."
 
-#: client/options.c:2118
+#: client/options.c:2120
 msgid "Units layer"
 msgstr "Warstwa jednostek"
 
-#: client/options.c:2119
+#: client/options.c:2121
 msgid "Enabling this will draw units on the overview."
 msgstr "Warstwa jednostek pokazuje jednostki na minimapie."
 
-#: client/options.c:2122
+#: client/options.c:2124
 msgid "Cities layer"
 msgstr "Warstwa miast"
 
-#: client/options.c:2123
+#: client/options.c:2125
 msgid "Enabling this will draw cities on the overview."
 msgstr "Warstwa miast pokazuje miasta na minimapie."
 
-#: client/options.c:2126
+#: client/options.c:2128
 msgid "Overview fog of war"
 msgstr "\"Mgła wojny\" na minimapie"
 
-#: client/options.c:2127
+#: client/options.c:2129
 msgid "Enabling this will show fog of war on the overview."
 msgstr "Ta warstwa pokazuje \"mgłę wojny\" na minimapie."
 
-#: client/options.c:2133
+#: client/options.c:2135
 msgid "Image format"
 msgstr "Format obrazu"
 
-#: client/options.c:2134
+#: client/options.c:2136
 msgid "The image toolkit and file format used for map images."
 msgstr "Narzędzia graficzne i format obrazu użyte do tworzenia obrazu mapy."
 
-#: client/options.c:2139
+#: client/options.c:2141
 msgid "Zoom factor for map images"
 msgstr "Powiększenie dla obrazów map"
 
-#: client/options.c:2140
+#: client/options.c:2142
 msgid "The magnification used for map images."
 msgstr "Powiększenie ustawione przy tworzeniu obrazu mapy."
 
-#: client/options.c:2143
+#: client/options.c:2145
 msgid "Show area within borders"
 msgstr "Pokaż obszar w granicach"
 
-#: client/options.c:2144
+#: client/options.c:2146
 msgid "If set, the territory of each nation is shown on the saved image."
 msgstr ""
 "Włączenie tej opcji sprawia, że na zapisanym obrazie będzie widoczne "
 "terytorium każdego narodu."
 
-#: client/options.c:2148
+#: client/options.c:2150
 msgid "Show borders"
 msgstr "Pokaż granice"
 
-#: client/options.c:2149
+#: client/options.c:2151
 msgid "If set, the border of each nation is shown on the saved image."
 msgstr ""
 "Włączenie tej opcji sprawia, że na zapisanym obrazie będą widoczne granice "
 "każdego narodu."
 
-#: client/options.c:2153
+#: client/options.c:2155
 msgid "Show cities"
 msgstr "Pokaż miasta"
 
-#: client/options.c:2154
+#: client/options.c:2156
 msgid "If set, cities are shown on the saved image."
 msgstr ""
 "Włączenie tej opcji sprawia, że na zapisanym obrazie będą widoczne miasta."
 
-#: client/options.c:2157
+#: client/options.c:2159
 msgid "Show fog of war"
 msgstr "Pokaż \"mgłę wojny\""
 
-#: client/options.c:2158
+#: client/options.c:2160
 msgid "If set, the extent of fog of war is shown on the saved image."
 msgstr ""
 "Włączenie tej opcji sprawia, że na zapisanym obrazie będzie widoczna \"mgła "
 "wojny\"."
 
-#: client/options.c:2162
+#: client/options.c:2164
 msgid "Show full terrain"
 msgstr "Pokaż pełny teren"
 
-#: client/options.c:2163
+#: client/options.c:2165
 msgid ""
 "If set, terrain relief is shown with different colors in the saved image; "
 "otherwise, only land and water are distinguished."
@@ -12207,16 +12207,16 @@ msgstr ""
 "Jeśli ustawiono tą opcję, płytki terenu na zapisanym obrazie zaznaczone są "
 "różnymi kolorami. W przeciwnyn wypadku rozróżnia się jedynie wodę i ląd."
 
-#: client/options.c:2169
+#: client/options.c:2171
 msgid "If set, units are shown in the saved image."
 msgstr ""
 "Włączenie tej opcji sprawia, że na zapisanym obrazie będą widoczne jednostki."
 
-#: client/options.c:2172
+#: client/options.c:2174
 msgid "Map image file name"
 msgstr "Nazwa pliku obrazu mapy"
 
-#: client/options.c:2173
+#: client/options.c:2175
 msgid ""
 "The base part of the filename for saved map images. A string identifying the "
 "game turn and map options will be appended."
@@ -12224,19 +12224,19 @@ msgstr ""
 "Bazowa część nazwy pliku z zapisanym obrazem mapy. Dodany do niej zostanie "
 "ciąg znaków określający turę gry i opcje mapy."
 
-#: client/options.c:2179 client/options.c:2389
+#: client/options.c:2181 client/options.c:2391
 msgid "Show map scrollbars"
 msgstr "Pokazuj paski przewijania"
 
-#: client/options.c:2180 client/options.c:2390
+#: client/options.c:2182 client/options.c:2392
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "Wyłączenie tej opcji chowa paski przewijania przy mapie."
 
-#: client/options.c:2183 client/options.c:2393
+#: client/options.c:2185 client/options.c:2395
 msgid "Keep dialogs on top"
 msgstr "Okna dialogowe na wierzchu"
 
-#: client/options.c:2184 client/options.c:2394
+#: client/options.c:2186 client/options.c:2396
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -12245,11 +12245,11 @@ msgstr ""
 "na wierzchu okna głównego. W przypadku trybu pełnoekranowego nie ma ona "
 "znaczenia."
 
-#: client/options.c:2188 client/options.c:2398
+#: client/options.c:2190 client/options.c:2400
 msgid "Show worklist task icons"
 msgstr "Pokazuj ikonki na planie prac"
 
-#: client/options.c:2189 client/options.c:2399
+#: client/options.c:2191 client/options.c:2401
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -12257,11 +12257,11 @@ msgstr ""
 "Wyłączenie tej opcji sprawia, że ikonki budynków i jednostek nie będą "
 "wyświetlane na planie prac."
 
-#: client/options.c:2193 client/options.c:2403
+#: client/options.c:2195 client/options.c:2405
 msgid "Enable status report tabs"
 msgstr "Włącz zakładki statusu"
 
-#: client/options.c:2194 client/options.c:2404
+#: client/options.c:2196 client/options.c:2406
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -12269,11 +12269,11 @@ msgstr ""
 "Ta opcja sprawia, że różne raporty będą pokazane w osobnych zakładkach, a "
 "nie w wyskakujących okienkach."
 
-#: client/options.c:2199
+#: client/options.c:2201
 msgid "Better fog-of-war drawing"
 msgstr "Ładniejsza \"mgła wojny\""
 
-#: client/options.c:2200
+#: client/options.c:2202
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -12282,11 +12282,11 @@ msgstr ""
 "wojny\". Rysowanie \"mgły\" nie trwa dłużej, ale zużywa dwukrotnie więcej "
 "pamięci."
 
-#: client/options.c:2206 client/options.c:2409
+#: client/options.c:2208 client/options.c:2411
 msgid "Show time for each chat message"
 msgstr "Pokaż czas przy wiadomości czatu"
 
-#: client/options.c:2207 client/options.c:2410
+#: client/options.c:2209 client/options.c:2412
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
@@ -12294,11 +12294,11 @@ msgstr ""
 "Ta opcja sprawia, że wszystkie wiadomości czatu będą poprzedzane godziną "
 "zapisaną w formacie [godzina:minuta:sekunda]."
 
-#: client/options.c:2212 client/options.c:2415
+#: client/options.c:2214 client/options.c:2417
 msgid "New message events go to top of list"
 msgstr "Nowe powiadomienia na górze listy"
 
-#: client/options.c:2213 client/options.c:2416
+#: client/options.c:2215 client/options.c:2418
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
@@ -12306,11 +12306,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że nowe powiadomienia o wydarzeniach w oknie "
 "powiadomień pojawiać się będą na górze listy."
 
-#: client/options.c:2218 client/options.c:2421
+#: client/options.c:2220 client/options.c:2423
 msgid "Show extra message window buttons"
 msgstr "Pokaż dodatkowe przyciski okna powiadomień"
 
-#: client/options.c:2219 client/options.c:2422
+#: client/options.c:2221 client/options.c:2424
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -12326,11 +12326,11 @@ msgstr ""
 "powiadomienie, by wyświetlić miasto lub udać się na miejsce zdarzenia. Aby "
 "ta opcja zadziałała, należy zamknąć i ponownie otworzyć okno powiadomień."
 
-#: client/options.c:2229 client/options.c:2432
+#: client/options.c:2231 client/options.c:2434
 msgid "Metaserver tab first in network page"
 msgstr "Zakładka metaserwera pierwsza na stronie sieci"
 
-#: client/options.c:2230 client/options.c:2433
+#: client/options.c:2232 client/options.c:2435
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
@@ -12338,11 +12338,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że zakładka metaserwera będzie pierwsza na "
 "stronie sieci. Wymaga ponownego uruchomienia programu."
 
-#: client/options.c:2235 client/options.c:2438
+#: client/options.c:2237 client/options.c:2440
 msgid "Plain chat messages are sent to allies only"
 msgstr "Wiadomości zwykłym tekstem wysyłane tylko do sojuszników"
 
-#: client/options.c:2236 client/options.c:2439
+#: client/options.c:2238 client/options.c:2441
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -12358,13 +12358,13 @@ msgstr ""
 "publiczną, musisz poprzedzić ją dwukropkiem ':'. Możesz też włączyć tę opcję "
 "przyciskiem obok okna czatu (widoczny tylko w grach wieloosobowych)."
 
-#: client/options.c:2248 client/options.c:2451
+#: client/options.c:2250 client/options.c:2453
 msgid "Messages and Chat reports location"
 msgstr "Położenie powiadomień i czatu"
 
 #. TRANS: The strings used in the UI for 'Split' etc are
 #. * tagged 'gui_gtk2/gtk3_message_chat_location'
-#: client/options.c:2251 client/options.c:2454
+#: client/options.c:2253 client/options.c:2456
 msgid ""
 "Controls where the Messages and Chat reports appear relative to the main "
 "view containing the map.\n"
@@ -12385,11 +12385,11 @@ msgstr ""
 "raportach, co pozwala na wyświetlanie większej mapy na mniejszych ekranach.\n"
 "Wymaga ponownego uruchomienia programu."
 
-#: client/options.c:2267 client/options.c:2470
+#: client/options.c:2269 client/options.c:2472
 msgid "Arrange widgets for small displays"
 msgstr "Zoptymalizuj interfejs pod małe wyświetlacze"
 
-#: client/options.c:2268 client/options.c:2471
+#: client/options.c:2270 client/options.c:2473
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -12402,11 +12402,11 @@ msgstr ""
 "minimapą, statusem gracza oraz informacjami o jednostkach; panel ten zajmie "
 "całą lewą stronę ekranu. Wymaga ponownego uruchomienia programu."
 
-#: client/options.c:2277 client/options.c:2480
+#: client/options.c:2279 client/options.c:2482
 msgid "Mouse over the map widget selects it automatically"
 msgstr "Kursor automatycznie zaznacza mapę"
 
-#: client/options.c:2278 client/options.c:2481
+#: client/options.c:2280 client/options.c:2483
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse "
 "hovers over it."
@@ -12414,11 +12414,11 @@ msgstr ""
 "Włączenie tej opcji sprawia, że najechanie kursorem na mapę zaznacza ją, "
 "nawet jeśli na nią nie kliknięto."
 
-#: client/options.c:2282 client/options.c:2485
+#: client/options.c:2284 client/options.c:2487
 msgid "Player or user name autocompletion"
 msgstr "Autouzupełnianie nazw graczy lub użytkowników"
 
-#: client/options.c:2283 client/options.c:2486
+#: client/options.c:2285 client/options.c:2488
 msgid ""
 "If this option is turned on, the tabulation key will be used in the chatline "
 "to complete the word you are typing with the name of a player or a user."
@@ -12426,31 +12426,31 @@ msgstr ""
 "Włączenie tej opcji sprawia, że naciśnięcie klawisza 'Tab' w obszarze czatu "
 "uzupełni pisane słowo nazwą gracza lub użytkownika."
 
-#: client/options.c:2288 client/options.c:2491
+#: client/options.c:2290 client/options.c:2493
 msgid "Width of the city dialog"
 msgstr "Szerokość okna dialogowego miasta"
 
-#: client/options.c:2289 client/options.c:2492
+#: client/options.c:2291 client/options.c:2494
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr ""
 "Tej wartości używa się tylko wtedy, gdy szerokość okna dialogowego miasta "
 "jest zapisywana."
 
-#: client/options.c:2295 client/options.c:2498
+#: client/options.c:2297 client/options.c:2500
 msgid "Height of the city dialog"
 msgstr "Wysokość okna dialogowego miasta"
 
-#: client/options.c:2296 client/options.c:2499
+#: client/options.c:2298 client/options.c:2501
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr ""
 "Tej wartości używa się tylko wtedy, gdy wysokość okna dialogowego miasta "
 "jest zapisywana."
 
-#: client/options.c:2302 client/options.c:2505
+#: client/options.c:2304 client/options.c:2507
 msgid "Popup tech help when gained"
 msgstr "Okno pomocy przy nowej technologii"
 
-#: client/options.c:2303 client/options.c:2506
+#: client/options.c:2305 client/options.c:2508
 msgid ""
 "Controls if tech help should be opened when new tech has been gained.\n"
 "'Ruleset' means that behavior suggested by current ruleset is used."
@@ -12460,21 +12460,21 @@ msgstr ""
 "'Zestaw zasad' ('ruleset') oznacza, że to ustawienie określane jest użytym "
 "zestawem zasad."
 
-#: client/options.c:2310 client/options.c:2513 client/options.c:2611
+#: client/options.c:2312 client/options.c:2515 client/options.c:2613
 msgid "City Label"
 msgstr "Nazwa miasta"
 
-#: client/options.c:2311 client/options.c:2514 client/options.c:2612
+#: client/options.c:2313 client/options.c:2516 client/options.c:2614
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania nazwy miasta w oknach "
 "dialogowych."
 
-#: client/options.c:2316 client/options.c:2519 client/options.c:2617
+#: client/options.c:2318 client/options.c:2521 client/options.c:2619
 msgid "Notify Label"
 msgstr "Powiadomienia"
 
-#: client/options.c:2317 client/options.c:2520 client/options.c:2618
+#: client/options.c:2319 client/options.c:2522 client/options.c:2620
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
@@ -12482,62 +12482,62 @@ msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania raportów serwera, np. "
 "raportów demograficznych i publikacji historycznych."
 
-#: client/options.c:2322 client/options.c:2525 client/options.c:2623
+#: client/options.c:2324 client/options.c:2527 client/options.c:2625
 msgid "Spaceship Label"
 msgstr "Rakieta"
 
-#: client/options.c:2323 client/options.c:2526 client/options.c:2624
+#: client/options.c:2325 client/options.c:2528 client/options.c:2626
 msgid "This font is used to display the spaceship widgets."
 msgstr "Ta czcionka wykorzystywana jest to wyświetlania elementów Rakiety."
 
-#: client/options.c:2327 client/options.c:2530 client/options.c:2628
+#: client/options.c:2329 client/options.c:2532 client/options.c:2630
 msgid "Help Label"
 msgstr "Nagłówki pomocy"
 
-#: client/options.c:2328 client/options.c:2531
+#: client/options.c:2330 client/options.c:2533
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania nagłówków w oknie pomocy."
 
-#: client/options.c:2333 client/options.c:2536 client/options.c:2634
+#: client/options.c:2335 client/options.c:2538 client/options.c:2636
 msgid "Help Link"
 msgstr "Linki pomocy"
 
-#: client/options.c:2334 client/options.c:2537 client/options.c:2635
+#: client/options.c:2336 client/options.c:2539 client/options.c:2637
 msgid "This font is used to display the help links in the help window."
 msgstr "Ta czcionka wykorzystywana jest to wyświetlania linków pomocy."
 
-#: client/options.c:2339 client/options.c:2542 client/options.c:2640
+#: client/options.c:2341 client/options.c:2544 client/options.c:2642
 msgid "Help Text"
 msgstr "Treść pomocy"
 
-#: client/options.c:2340 client/options.c:2543 client/options.c:2641
+#: client/options.c:2342 client/options.c:2545 client/options.c:2643
 msgid "This font is used to display the help body text in the help window."
 msgstr "Ta czcionka wykorzystywana jest to wyświetlania treści w oknie pomocy."
 
-#: client/options.c:2345 client/options.c:2548 client/options.c:2652
+#: client/options.c:2347 client/options.c:2550 client/options.c:2654
 msgid "Chatline Area"
 msgstr "Czat"
 
-#: client/options.c:2346 client/options.c:2549 client/options.c:2653
+#: client/options.c:2348 client/options.c:2551 client/options.c:2655
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania tekstu w obszarze czatu."
 
-#: client/options.c:2351 client/options.c:2554 client/options.c:2658
+#: client/options.c:2353 client/options.c:2556 client/options.c:2660
 msgid "Beta Label"
 msgstr "Oznakowanie wersji beta"
 
-#: client/options.c:2352 client/options.c:2555 client/options.c:2659
+#: client/options.c:2354 client/options.c:2557 client/options.c:2661
 msgid "This font is used to display the beta label."
 msgstr ""
 "Tą czcionka wykorzystywana jest do wyświetlania oznakowania wersji beta."
 
-#: client/options.c:2356 client/options.c:2559 client/options.c:2663
+#: client/options.c:2358 client/options.c:2561 client/options.c:2665
 msgid "Small Font"
 msgstr "Mała czcionka"
 
-#: client/options.c:2357 client/options.c:2560 client/options.c:2664
+#: client/options.c:2359 client/options.c:2562 client/options.c:2666
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the Economy report or the "
@@ -12547,11 +12547,11 @@ msgstr ""
 "(np. listy budynków w oknach dialogowych miast, raport ekonomicznym, raport "
 "o jednostkach)."
 
-#: client/options.c:2364 client/options.c:2567 client/options.c:2671
+#: client/options.c:2366 client/options.c:2569 client/options.c:2673
 msgid "Comment Label"
 msgstr "Komentarz"
 
-#: client/options.c:2365 client/options.c:2568 client/options.c:2672
+#: client/options.c:2367 client/options.c:2570 client/options.c:2674
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
@@ -12559,134 +12559,134 @@ msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania komentarzy, np. na stronie "
 "zarządcy miasta."
 
-#: client/options.c:2371 client/options.c:2574 client/options.c:2678
+#: client/options.c:2373 client/options.c:2576 client/options.c:2680
 msgid "This font is used to the display the city names on the map."
 msgstr "Ta czcionka wykorzystywana jest to wyświetlania nazw miast na mapie."
 
-#: client/options.c:2376 client/options.c:2579 client/options.c:2683
+#: client/options.c:2378 client/options.c:2581 client/options.c:2685
 msgid "City Productions"
 msgstr "Produkcja miasta"
 
-#: client/options.c:2377 client/options.c:2580 client/options.c:2684
+#: client/options.c:2379 client/options.c:2582 client/options.c:2686
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania produkcji miasta na mapie."
 
-#: client/options.c:2382 client/options.c:2585 client/options.c:2689
+#: client/options.c:2384 client/options.c:2587 client/options.c:2691
 msgid "Requirement Tree"
 msgstr "Drzewo wymagań"
 
-#: client/options.c:2383 client/options.c:2586 client/options.c:2690
+#: client/options.c:2385 client/options.c:2588 client/options.c:2692
 msgid ""
 "This font is used to the display the requirement tree in the Research report."
 msgstr ""
 "Ta czcionka wykorzystywana jest to wyświetlania drzewa wymagań w raporcie "
 "naukowym."
 
-#: client/options.c:2593
+#: client/options.c:2595
 msgid ""
 "If this option is set the client will use the whole screen area for drawing."
 msgstr "Włącza tryb pełnoekranowy."
 
-#: client/options.c:2596
+#: client/options.c:2598
 msgid "Screen resolution"
 msgstr "Rozdzielczość monitora"
 
-#: client/options.c:2597
+#: client/options.c:2599
 msgid "This option controls the resolution of the selected screen."
 msgstr "Ta opcja określa rozdzielczość wybranego monitora."
 
-#: client/options.c:2600
+#: client/options.c:2602
 msgid "Do cursor animation"
 msgstr "Włącz animację kursora"
 
-#: client/options.c:2601
+#: client/options.c:2603
 msgid ""
 "If this option is disabled, the cursor will always be displayed as static."
 msgstr "Wyłączenie tej opcji sprawia, że kursor nie będzie animowany."
 
-#: client/options.c:2604
+#: client/options.c:2606
 msgid "Use color cursors"
 msgstr "Użyj kolorowego kursora"
 
-#: client/options.c:2605
+#: client/options.c:2607
 msgid ""
 "If this option is disabled, the cursor will always be displayed in black and "
 "white."
 msgstr ""
 "Wyłączenie tej opcji sprawia, że kursor będzie wyświetlany w czerni i bieli."
 
-#: client/options.c:2629
+#: client/options.c:2631
 msgid "This font is used to display the help labels in the help window."
 msgstr ""
 "Ta czcionka wykorzystywana jest do wyświetlania etykiet w oknie pomocy."
 
-#: client/options.c:2646
+#: client/options.c:2648
 msgid "Help Title"
 msgstr "Tytuł pomocy"
 
-#: client/options.c:2647
+#: client/options.c:2649
 msgid "This font is used to display the help title in the help window."
 msgstr "Ta czcionka wykorzystywana jest to wyświetlania tytułów pomocy."
 
-#: client/options.c:2766
+#: client/options.c:2768
 msgid "Graphics"
 msgstr "Grafika"
 
 #. TRANS: Options section for overview map (mini-map)
-#: client/options.c:2769
+#: client/options.c:2771
 msgid "?map:Overview"
 msgstr "Minimapa"
 
-#: client/options.c:2771
+#: client/options.c:2773
 msgid "Sound"
 msgstr "Dźwięk"
 
-#: client/options.c:2773
+#: client/options.c:2775
 msgid "Interface"
 msgstr "Interfejs"
 
-#: client/options.c:2775
+#: client/options.c:2777
 msgid "Map Image"
 msgstr "Obraz mapy"
 
-#: client/options.c:2777
+#: client/options.c:2779
 msgid "Network"
 msgstr "Sieć"
 
-#: client/options.c:2779
+#: client/options.c:2781
 msgid "Font"
 msgstr "Czcionka"
 
-#: client/options.c:4606
+#: client/options.c:4608
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr "Jeżeli dodasz ustawienie ręcznie, zmień także \"number_of_presets\""
 
-#: client/options.c:4653 client/options.c:4691
+#: client/options.c:4655 client/options.c:4693
 msgid "Cannot find your home directory"
 msgstr "Nie można odnaleźć katalogu domowego"
 
-#: client/options.c:4705 client/options.c:4724
+#: client/options.c:4707 client/options.c:4726
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "Nie odnaleziono pliku opcji '%s'. Wczytuję '%s'."
 
-#: client/options.c:5186
+#: client/options.c:5188
 #, fuzzy
 msgid "Didn't find the option file. Creating a new one."
 msgstr "Nie odnaleziono pliku opcji."
 
-#: client/options.c:5202 client/options.c:5340
+#: client/options.c:5204 client/options.c:5342
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Zapis nieudany, nie można zapisać do pliku %s"
 
-#: client/options.c:5204 client/options.c:5342
+#: client/options.c:5206 client/options.c:5344
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Zapisano ustawienia w pliku %s"
 
-#: client/options.c:5310
+#: client/options.c:5312
 msgid "Save failed, cannot find a filename."
 msgstr "Zapis nieudany, nie ma nazwy pliku."
 
@@ -12718,7 +12718,7 @@ msgstr "Witaj"
 msgid "AI mode is now ON."
 msgstr "Tryb AI jest teraz włączony."
 
-#: client/packhand.c:2163
+#: client/packhand.c:2167
 msgid "AI mode is now OFF."
 msgstr "Tryb AI jest teraz wyłączony."
 
@@ -28252,7 +28252,7 @@ msgstr ""
 "                                - prywatna lista administratorów\n"
 "                                  (np. na temat bezpieczeństwa)"
 
-#: data/helpdata.txt:2312
+#: data/helpdata.txt:2313
 msgid ""
 "  Original authors:\n"
 "    (they are no longer involved, please don't mail them!)"
@@ -28260,11 +28260,11 @@ msgstr ""
 "  Pierwsi autorzy:\n"
 "    (nie są już zaangażowani, proszę nie wysyłać im e-mailów!)"
 
-#: data/helpdata.txt:2319
+#: data/helpdata.txt:2320
 msgid "  Present administrators: "
 msgstr "  Obecni administratorzy: "
 
-#: data/helpdata.txt:2326
+#: data/helpdata.txt:2327
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr "Więcej informacji znajdziesz na stronie Freeciv:"
 
@@ -35323,8 +35323,8 @@ msgstr ""
 "być za stara wersja pliku lub uszkodzenie. Kontynuuj na własną "
 "odpowiedzialność."
 
-#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2083
-#: server/srv_main.c:2088
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2084
+#: server/srv_main.c:2089
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s został/a dodany jako gracz AI, poziom %s (%s)."
@@ -38219,46 +38219,46 @@ msgstr ""
 msgid "You are not allowed to edit."
 msgstr "Nie możesz zmienić tej opcji."
 
-#: server/srv_main.c:1900
+#: server/srv_main.c:1901
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "Naród %s nie jest dostępny w opcji wybranej przez gracza."
 
-#: server/srv_main.c:1906
+#: server/srv_main.c:1907
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Naród %s jest już używany."
 
-#: server/srv_main.c:1922
+#: server/srv_main.c:1923
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s to %s przywódca %s."
 
-#: server/srv_main.c:1997
+#: server/srv_main.c:1998
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Oczekiwanie na rozpoczęcie gry: %d z %d graczy jest już gotowych."
 
-#: server/srv_main.c:2023
+#: server/srv_main.c:2024
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 
-#: server/srv_main.c:2030
+#: server/srv_main.c:2031
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 
-#: server/srv_main.c:2033
+#: server/srv_main.c:2034
 #, fuzzy
 msgid "not enough playable nations"
 msgstr "Zmniejszam wartość allfill - za mało dostępnych narodów."
 
-#: server/srv_main.c:2376 server/srv_main.c:2380
+#: server/srv_main.c:2377 server/srv_main.c:2381
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s rządzi %s."
 
-#: server/srv_main.c:2544
+#: server/srv_main.c:2545
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -38266,33 +38266,33 @@ msgstr ""
 "Ten serwer wspiera uwierzytelnienie gracza, lecz obecnie nie jest ono w "
 "użyciu."
 
-#: server/srv_main.c:2613
+#: server/srv_main.c:2614
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Wysyłam informację do metaserwera <%s>"
 
-#: server/srv_main.c:2617
+#: server/srv_main.c:2618
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr "Nie zaczynam bez wyraźnego sygnału od metaserwera."
 
-#: server/srv_main.c:2640
+#: server/srv_main.c:2641
 msgid "The game is over..."
 msgstr "Gra skończona..."
 
-#: server/srv_main.c:2749
+#: server/srv_main.c:2750
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr "Nie udało się stworzyć odpowiedniej mapy, próbuję z innym ziarnem mapy"
 
-#: server/srv_main.c:2782
+#: server/srv_main.c:2783
 msgid "Cannot create suitable map with given settings."
 msgstr "Nie można stworzyć mapy przy podanych ustawieniach."
 
-#: server/srv_main.c:2805 server/srv_main.c:2809
+#: server/srv_main.c:2806 server/srv_main.c:2810
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "Opcja %s została zmieniona z %s na %s."
 
-#: server/srv_main.c:3003
+#: server/srv_main.c:3004
 #, fuzzy, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Teraz oczekuję nowych połączeń."
@@ -40940,7 +40940,7 @@ msgstr "?and-list:, %s"
 msgid "?and-list:, and %s"
 msgstr "?and-list: oraz %s"
 
-#: utility/fciconv.c:131
+#: utility/fciconv.c:130
 #, c-format
 msgid ""
 "You are running Freeciv without using iconv. Unless\n"
@@ -40955,7 +40955,7 @@ msgstr ""
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
-#: utility/fciconv.c:210
+#: utility/fciconv.c:209
 #, c-format
 msgid "Could not convert text from %s to %s: %s.\n"
 msgstr "Nie można przekonwertować tekstu z %s do %s: %s.\n"
@@ -41032,7 +41032,7 @@ msgstr[2] " (łącznie %d powtórzeń)"
 msgid "Failed to fetch %s: %s"
 msgstr "Nie udało się pobrać %s"
 
-#: utility/netfile.c:166
+#: utility/netfile.c:166 utility/registry_ini.c:635
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Nie mogę otworzyć pliku %s w trybie zapisu"
