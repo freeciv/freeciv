@@ -39,6 +39,7 @@
 #include "rssanity.h"
 
 // ruledit
+#include "effect_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "rulesave.h"
@@ -56,6 +57,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QLabel *name_label;
   QLabel *version_label;
   QPushButton *save_button;
+  QPushButton *always_active_effects;
   QPushButton *refresh_button;
   int row = 0;
   QTableWidgetItem *item;
@@ -89,6 +91,9 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   save_button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
   main_layout->addWidget(save_button, row++, 1);
+  always_active_effects = new QPushButton(QString::fromUtf8(R__("Always active Effects")), this);
+  connect(always_active_effects, SIGNAL(pressed()), this, SLOT(edit_aae_effects()));
+  main_layout->addWidget(always_active_effects, row++, 1);
 
   stats = new QTableWidget(this);
   stats->setColumnCount(8);
@@ -335,4 +340,17 @@ void tab_misc::refresh_stats()
   stats->item(row++, 7)->setText(QString::number(count));
 
   stats->resizeColumnsToContents();
+}
+
+/**************************************************************************
+  User wants to edit always active effects
+**************************************************************************/
+void tab_misc::edit_aae_effects()
+{
+  effect_edit *e_edit;
+
+  e_edit = new effect_edit(ui, QString::fromUtf8(R__("Always active")),
+                           nullptr);
+
+  e_edit->show();
 }

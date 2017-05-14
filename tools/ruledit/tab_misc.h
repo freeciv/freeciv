@@ -35,6 +35,7 @@ class tab_misc : public QWidget
   private slots:
     void save_now();
     void refresh_stats();
+    void edit_aae_effects();
 
   private:
     ruledit_gui *ui;

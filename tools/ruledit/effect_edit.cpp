@@ -52,7 +52,11 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
 
   ui = ui_in;
   selected = nullptr;
-  filter = *filter_in;
+  if (filter_in == nullptr) {
+    filter.kind = VUT_NONE;
+  } else {
+    filter = *filter_in;
+  }
   name = target;
 
   list_widget = new QListWidget(this);
@@ -108,7 +112,7 @@ static bool effect_list_fill_cb(struct effect *peffect, void *data)
 {
   struct effect_list_fill_data *cbdata = (struct effect_list_fill_data *)data;
 
-  if (cbdata->filter == nullptr) {
+  if (cbdata->filter->kind == VUT_NONE) {
     // Look for empty req lists.
     if (requirement_vector_size(&peffect->reqs) == 0) {
       cbdata->edit->add_effect_to_list(peffect, cbdata);
