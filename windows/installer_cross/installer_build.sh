@@ -32,7 +32,8 @@ add_gtk3_env() {
   cp $1/bin/libxml2-2.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
   mkdir -p $2/bin &&
-  cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/
+  cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
+  cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
 }
 
 add_sdl2_mixer_env() {
@@ -54,7 +55,9 @@ add_qt_env() {
   cp -R $1/plugins $2/ &&
   cp $1/bin/Qt5Core.dll $2/ &&
   cp $1/bin/Qt5Gui.dll $2/ &&
-  cp $1/bin/Qt5Widgets.dll $2/
+  cp $1/bin/Qt5Widgets.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
 
 add_common_env() {

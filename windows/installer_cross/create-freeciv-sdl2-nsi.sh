@@ -57,6 +57,8 @@ Page custom DefaultLanguage DefaultLanguageLeave
 !insertmacro MUI_PAGE_STARTMENU "Application" \$STARTMENU_FOLDER
 !insertmacro MUI_PAGE_INSTFILES
 
+Page custom HelperScriptFunction
+
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_FUNCTION RunFreeciv
 !insertmacro MUI_PAGE_FINISH
@@ -279,6 +281,10 @@ EOF
   done
 
 cat <<EOF
+FunctionEnd
+
+Function HelperScriptFunction
+  nsExec::Exec '"\$INSTDIR\bin\\installer-helper.cmd"'
 FunctionEnd
 
 Function RunFreeciv
