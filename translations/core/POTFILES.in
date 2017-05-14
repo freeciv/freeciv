@@ -3,7 +3,7 @@
 ai/default/aicity.c
 ai/default/daidiplomacy.c
 ai/threaded/threadedai.c
-ai/threxpr/threxprai.c
+ai/tex/texai.c
 client/agents/cma_core.c
 client/agents/cma_fec.c
 client/attribute.c
