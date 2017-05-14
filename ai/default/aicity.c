@@ -744,7 +744,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
     return;
   }
 
-  city_data->settler_want = 0; /* Make sure old want does not stay if we don't want now */
+  city_data->worker_want = 0; /* Make sure old want does not stay if we don't want now */
 
   utype = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS, TC_LAND);
 
@@ -807,8 +807,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 
   fc_assert(want >= 0);
 
-  city_data->settler_want = want;
-  city_data->settler_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
+  city_data->worker_want = want;
+  city_data->worker_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
                                                              TC_LAND);
 }
 
@@ -881,14 +881,14 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     adv_free_choice(choice);
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
     if (dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0) {
-      city_data->settler_want = 0;
+      city_data->worker_want = 0;
       city_data->founder_want = 0;
       city_data->founder_turn = game.info.turn; /* Do not consider zero we set here
                                                  * valid value, if real want is needed.
                                                  * Recalculate immediately in such situation. */
       continue; /* Go, soldiers! */
     }
-    /* Will record its findings in pcity->settler_want */ 
+    /* Will record its findings in pcity->worker_want */ 
     TIMING_LOG(AIT_CITY_TERRAIN, TIMER_START);
     contemplate_terrain_improvements(ait, pcity);
     TIMING_LOG(AIT_CITY_TERRAIN, TIMER_STOP);

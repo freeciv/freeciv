@@ -459,44 +459,44 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
   /* Unit type with certain role */
-  struct unit_type *settler_type;
+  struct unit_type *worker_type;
   struct unit_type *founder_type;
-  adv_want settler_want, founder_want;
+  adv_want worker_want, founder_want;
   struct ai_city *city_data = def_ai_city_data(pcity, ait);
   struct adv_choice *choice = adv_new_choice();
 
   /* Find out desire for workers (terrain improvers) */
-  settler_type = city_data->settler_type;
+  worker_type = city_data->worker_type;
 
   /* The worker want is calculated in aicity.c called from
    * dai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficulty levels)
    * and is set when the difficulty level is changed (difficulty.c). */
-  settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
+  worker_want = city_data->worker_want * pplayer->ai_common.expand / 100;
 
   if (adv->wonder_city == pcity->id) {
-    if (!settler_type || settler_type->pop_cost > 0) {
-      settler_want /= 5;
+    if (!worker_type || worker_type->pop_cost > 0) {
+      worker_want /= 5;
     } else {
-      settler_want /= 2;
+      worker_want /= 2;
     }
   }
 
-  if (settler_type
-      && pcity->surplus[O_FOOD] > utype_upkeep_cost(settler_type,
+  if (worker_type != NULL
+      && pcity->surplus[O_FOOD] > utype_upkeep_cost(worker_type,
                                                     pplayer, O_FOOD)) {
-    if (settler_want > 0) {
+    if (worker_want > 0) {
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion " ADV_WANT_PRINTF, 
-               settler_want);
+               worker_want);
       dai_choose_role_unit(ait, pplayer, pcity, choice, CT_CIVILIAN,
-                           UTYF_SETTLERS, settler_want, FALSE);
+                           UTYF_SETTLERS, worker_want, FALSE);
       adv_choice_set_use(choice, "worker");
     }
     /* Terrain improvers don't use boats (yet) */
 
-  } else if (!settler_type && settler_want > 0) {
-    /* Can't build settlers. Lets stimulate science */
-    dai_wants_role_unit(ait, pplayer, pcity, UTYF_SETTLERS, settler_want);
+  } else if (worker_type == NULL && worker_want > 0) {
+    /* Can't build workers. Lets stimulate science */
+    dai_wants_role_unit(ait, pplayer, pcity, UTYF_SETTLERS, worker_want);
   }
 
   /* Find out desire for city founders */
