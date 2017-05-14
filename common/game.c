@@ -59,7 +59,7 @@ struct world wld;
 
 bool am_i_server = FALSE;
 
-static void game_defaults(void);
+static void game_defaults(bool keep_ruleset_value);
 
 /**************************************************************************
   Is program type server?
@@ -227,7 +227,7 @@ void game_remove_city(struct world *gworld, struct city *pcity)
 /****************************************************************************
   Set default game values.
 ****************************************************************************/
-static void game_defaults(void)
+static void game_defaults(bool keep_ruleset_value)
 {
   int i;
 
@@ -394,7 +394,9 @@ static void game_defaults(void)
     game.server.razechance        = GAME_DEFAULT_RAZECHANCE;
     game.server.revealmap         = GAME_DEFAULT_REVEALMAP;
     game.server.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
-    sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+    if (!keep_ruleset_value) {
+      sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+    }
     game.server.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
     game.server.save_compress_type = GAME_DEFAULT_COMPRESS_TYPE;
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
@@ -432,9 +434,9 @@ static void game_defaults(void)
 
   The variables are listed in alphabetical order.
 ****************************************************************************/
-void game_init(void)
+void game_init(bool keep_ruleset_value)
 {
-  game_defaults();
+  game_defaults(keep_ruleset_value);
   player_slots_init();
   map_init(&wld.map, is_server());
   team_slots_init();
@@ -482,7 +484,7 @@ void game_reset(void)
 {
   if (is_server()) {
     game_free();
-    game_init();
+    game_init(FALSE);
   } else {
     /* Reset the players infos. */
     players_iterate(pplayer) {

@@ -794,7 +794,7 @@ int main(int argc, char **argv)
   fc_interface_init_tool();
 
   /* Initialize game with default values */
-  game_init();
+  game_init(FALSE);
 
   /* Set ruleset user requested in to use */
   if (ruleset != NULL) {

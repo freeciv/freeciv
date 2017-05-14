@@ -126,7 +126,7 @@ int main(int argc, char **argv)
 
   settings_init(FALSE);
 
-  game_init();
+  game_init(FALSE);
   i_am_tool();
 
   rup_parse_cmdline(argc, argv);

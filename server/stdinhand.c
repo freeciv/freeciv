@@ -3726,7 +3726,10 @@ bool load_command(struct connection *caller, const char *filename, bool check,
 
   /* Now free all game data. */
   server_game_free();
-  server_game_init();
+
+  /* Keep old ruleset value. Scenario file will either use the old value,
+   * or to initialize new value itself. */
+  server_game_init(TRUE);
 
   loadtimer = timer_new(TIMER_CPU, TIMER_ACTIVE);
   timer_start(loadtimer);

@@ -249,7 +249,7 @@ static void client_game_init(void)
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
 
-  game_init();
+  game_init(FALSE);
   attribute_init();
   agents_init();
   control_init();
