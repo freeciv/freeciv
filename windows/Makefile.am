@@ -42,7 +42,9 @@ dist_noinst_DATA = \
 		installer_cross/freeciv-mp-qt.cmd		\
 		installer_cross/freeciv-sdl2.cmd		\
 		installer_cross/freeciv-ruledit.cmd		\
-		installer_cross/licenses/COPYING.installer
+		installer_cross/licenses/COPYING.installer	\
+		installer_cross/helpers/installer-helper-gtk3.cmd \
+		installer_cross/helpers/installer-helper-qt.cmd
 
 if MINGW
 nodist_noinst_DATA = 		\
