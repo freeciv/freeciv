@@ -97,7 +97,7 @@ int main(int argc, char **argv)
     /* Reset aifill to zero */
     game.info.aifill = 0;
 
-    game_init();
+    game_init(FALSE);
     i_am_tool();
 
     if (comments_load()) {

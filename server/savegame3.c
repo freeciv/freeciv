@@ -1310,10 +1310,11 @@ static void sg_load_savefile(struct loaddata *loading)
        * are special scenarios. */
       sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     }
-    if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
-      /* Failed to load correct ruleset */
-      sg_failure_ret(FALSE, "Failed to load ruleset");
-    }
+  }
+
+  if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
+    /* Failed to load correct ruleset */
+    sg_failure_ret(FALSE, "Failed to load ruleset");
   }
 
   /* This is in the savegame only if the game has been started before savegame3.c time,

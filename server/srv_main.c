@@ -2745,7 +2745,7 @@ static void srv_prepare(void)
   voting_init();
   ai_timer_init();
 
-  server_game_init();
+  server_game_init(FALSE);
   mapimg_init(mapimg_server_tile_known, mapimg_server_tile_terrain,
               mapimg_server_tile_owner, mapimg_server_tile_city,
               mapimg_server_tile_unit, mapimg_server_plrcolor_count,
@@ -3109,7 +3109,7 @@ static void srv_ready(void)
 /**************************************************************************
   Initialize game data for the server (corresponds to server_game_free).
 **************************************************************************/
-void server_game_init(void)
+void server_game_init(bool keep_ruleset_value)
 {
   /* was redundantly in game_load() */
   server.playable_nations = 0;
@@ -3120,7 +3120,7 @@ void server_game_init(void)
   identity_number_reserve(IDENTITY_NUMBER_ZERO);
 
   event_cache_init();
-  game_init();
+  game_init(keep_ruleset_value);
   /* game_init() set game.server.plr_colors to NULL. So we need to
    * initialize the colors after. */
   playercolor_init();
@@ -3231,7 +3231,7 @@ void srv_main(void)
 
     /* Reset server */
     server_game_free();
-    server_game_init();
+    server_game_init(FALSE);
     mapimg_reset();
     load_rulesets(NULL, FALSE, TRUE, FALSE);
     game.info.is_new_game = TRUE;
