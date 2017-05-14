@@ -1734,7 +1734,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
     return;
   }
 
-  if (!can_unit_exist_at_tile(punit, dest_tile)) {
+  if (!can_unit_exist_at_tile(&(wld.map), punit, dest_tile)) {
     if (request_transport(punit, dest_tile)) {
       return;
     }
@@ -2001,7 +2001,7 @@ void request_unit_unload(struct unit *pcargo)
   if (can_client_issue_orders()
       && ptrans
       && can_unit_unload(pcargo, ptrans)
-      && can_unit_survive_at_tile(pcargo, unit_tile(pcargo))) {
+      && can_unit_survive_at_tile(&(wld.map), pcargo, unit_tile(pcargo))) {
     dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
 
     if (unit_owner(pcargo) == client.conn.playing

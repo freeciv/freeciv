@@ -1681,10 +1681,10 @@ static void check_units_single_tile(struct tile *ptile)
 
     if (unit_tile(punit) == ptile
         && !unit_transported(punit)
-        && !can_unit_exist_at_tile(punit, ptile)) {
+        && !can_unit_exist_at_tile(&(wld.map), punit, ptile)) {
       /* look for a nearby safe tile */
       adjc_iterate(&(wld.map), ptile, ptile2) {
-        if (can_unit_exist_at_tile(punit, ptile2)
+        if (can_unit_exist_at_tile(&(wld.map), punit, ptile2)
             && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
             && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
           log_verbose("Moved %s %s due to changing terrain at (%d,%d).",

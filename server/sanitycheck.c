@@ -439,7 +439,8 @@ static void check_units(const char *file, const char *function, int line)
       SANITY_CHECK(punit->hp > 0);
 
       /* Check for ground units in the ocean. */
-      SANITY_CHECK(can_unit_exist_at_tile(punit, ptile) || ptrans != NULL);
+      SANITY_CHECK(can_unit_exist_at_tile(&(wld.map), punit, ptile)
+                   || ptrans != NULL);
 
       /* Check for over-full transports. */
       SANITY_CHECK(get_transporter_occupancy(punit)
@@ -674,7 +675,7 @@ void real_sanity_check_tile(struct tile *ptile, const char *file,
     /* Check if the units can survive on the tile (terrain). Here only the
      * 'easy' test if the unit is transported is done. A complete check is
      * done by check_units() in real_sanity_check(). */
-    if (!can_unit_exist_at_tile(punit, ptile)
+    if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
         && !unit_transported(punit)) {
       SANITY_FAIL("(%4d,%4d) %s can't survive on %s", TILE_XY(ptile),
                   unit_rule_name(punit), tile_get_info_text(ptile, TRUE, 0));

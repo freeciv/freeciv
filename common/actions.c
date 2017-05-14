@@ -2150,7 +2150,8 @@ is_action_possible(const enum gen_action wanted_action,
 
   case ACTION_CONQUER_CITY:
     /* Reason: "Conquer City" involves moving into the city. */
-    if (!unit_can_move_to_tile(actor_unit, target_tile, FALSE, TRUE)) {
+    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+                               FALSE, TRUE)) {
       return TRI_NO;
     }
 

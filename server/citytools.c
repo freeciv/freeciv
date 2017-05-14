@@ -658,7 +658,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		      nation_plural_for_player(from_player),
 		      nation_plural_for_player(to_player));
       }
-    } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
+    } else if (can_unit_exist_at_tile(&(wld.map), punit, tocity->tile)) {
       log_verbose("Transferred %s from %s to %s",
                   unit_rule_name(punit),
                   nation_rule_name(nation_of_player(from_player)),
@@ -905,7 +905,7 @@ struct city *find_closest_city(const struct tile *ptile,
                   && map_get_player_site(city_tile(pcity), pplayer)->identity
                      > IDENTITY_NUMBER_ZERO))
           && (pclass == NULL
-              || is_native_near_tile(pclass, city_tile(pcity)))) {
+              || is_native_near_tile(&(wld.map), pclass, city_tile(pcity)))) {
         best_dist = city_dist;
         best_city = pcity;
       }

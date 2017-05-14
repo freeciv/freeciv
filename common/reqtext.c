@@ -25,6 +25,7 @@
 #include "calendar.h"
 #include "extras.h"
 #include "government.h"
+#include "map.h"
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"

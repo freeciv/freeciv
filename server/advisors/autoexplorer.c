@@ -23,6 +23,7 @@
 
 /* common */
 #include "ai.h"
+#include "map.h"
 #include "movement.h"
 #include "player.h"
 #include "unit.h"

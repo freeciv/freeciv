@@ -808,7 +808,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct action *blocker;
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
-  bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
+  bool can_exist = can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit));
   bool on_native = is_native_tile(unit_type_get(punit), unit_tile(punit));
   int action_custom;
 
@@ -913,7 +913,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     break;
   case ACTION_CONQUER_CITY:
     if (target_city) {
-      action_custom = unit_move_to_tile_test(punit, punit->activity,
+      action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                             punit->activity,
                                              unit_tile(punit),
                                              city_tile(target_city),
                                              FALSE, NULL, TRUE);
@@ -1241,7 +1242,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
       if (!utype_can_do_act_when_ustate(unit_type_get(punit),
                                         ACTION_ANY, USP_LIVABLE_TILE,
                                         FALSE)
-          && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+          && !can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
         unit_type_iterate(utype) {
           if (utype_can_do_act_when_ustate(utype, ACTION_ANY,
                                            USP_LIVABLE_TILE, FALSE)) {
@@ -1726,7 +1727,7 @@ void illegal_action_msg(struct player *pplayer,
       if (!utype_can_do_act_when_ustate(unit_type_get(actor),
                                         stopped_action, USP_LIVABLE_TILE,
                                         FALSE)
-          && !can_unit_exist_at_tile(actor, unit_tile(actor))) {
+          && !can_unit_exist_at_tile(&(wld.map), actor, unit_tile(actor))) {
         unit_type_iterate(utype) {
           if (utype_can_do_act_when_ustate(utype, stopped_action,
                                            USP_LIVABLE_TILE, FALSE)) {
@@ -3548,9 +3549,9 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 {
   struct tile *src_tile = unit_tile(punit);
   enum unit_move_result reason =
-      unit_move_to_tile_test(punit, punit->activity,
-                             src_tile, dest_tile, igzoc, embark_to,
-                             enter_enemy_city);
+    unit_move_to_tile_test(&(wld.map), punit, punit->activity,
+                           src_tile, dest_tile, igzoc, embark_to,
+                           enter_enemy_city);
 
   switch (reason) {
   case MR_OK:
@@ -3659,7 +3660,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * move_do_not_act tells us to, or if the unit is on goto and the tile
    * is not the final destination. */
   if (!move_do_not_act) {
-    const bool can_not_move = !unit_can_move_to_tile(punit, pdesttile,
+    const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
+                                                     punit, pdesttile,
                                                      igzoc, FALSE);
     struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
 
@@ -4395,7 +4397,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
 
   if (!same_pos(ctile, ttile)) {
     if (pcargo->moves_left <= 0
-        || !unit_can_move_to_tile(pcargo, ttile, FALSE, FALSE)) {
+        || !unit_can_move_to_tile(&(wld.map), pcargo, ttile, FALSE, FALSE)) {
       return;
     }
 
@@ -4464,7 +4466,7 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
     return;
   }
 
-  if (!can_unit_survive_at_tile(pcargo, unit_tile(pcargo))) {
+  if (!can_unit_survive_at_tile(&(wld.map), pcargo, unit_tile(pcargo))) {
     return;
   }
 

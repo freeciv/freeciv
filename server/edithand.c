@@ -446,7 +446,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
     return;
   }
 
-  if (!can_exist_at_tile(punittype, ptile)) {
+  if (!can_exist_at_tile(&(wld.map), punittype, ptile)) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." type <unit-type> on the terrain at
                  * <tile-coordinates>"... */

@@ -1068,7 +1068,7 @@ bool api_methods_unit_type_can_exist_at_tile(lua_State *L,
   LUASCRIPT_CHECK_SELF(L, punit_type, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
 
-  return can_exist_at_tile(punit_type, ptile);
+  return can_exist_at_tile(&(wld.map), punit_type, ptile);
 }
 
 /*****************************************************************************

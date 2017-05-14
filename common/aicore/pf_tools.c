@@ -234,7 +234,7 @@ pf_get_move_scope(const struct tile *ptile,
           || pplayers_allied(param->owner, city_owner(pcity)))
       && ((previous_scope & PF_MS_CITY) /* City channel previously tested */
           || uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(uclass, ptile)
+          || is_native_near_tile(&(wld.map), uclass, ptile)
           || (1 == game.info.citymindist
               && is_city_channel_tile(uclass, ptile, NULL)))) {
     scope |= PF_MS_CITY;

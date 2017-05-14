@@ -309,7 +309,7 @@ static inline int map_move_cost(const struct civ_map *nmap,
                              src_tile, dst_tile);
 }
 
-bool is_safe_ocean(struct civ_map *nmap, const struct tile *ptile);
+bool is_safe_ocean(const struct civ_map *nmap, const struct tile *ptile);
 bv_extras get_tile_infrastructure_set(const struct tile *ptile,
                                       int *count);
 

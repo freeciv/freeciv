@@ -2564,7 +2564,8 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
     return BOOL_TO_TRISTATE(target_unit->transporter != NULL);
   case USP_LIVABLE_TILE:
     return BOOL_TO_TRISTATE(
-        can_unit_exist_at_tile(target_unit, unit_tile(target_unit)));
+          can_unit_exist_at_tile(&(wld.map), target_unit,
+                                 unit_tile(target_unit)));
     break;
   case USP_DOMESTIC_TILE:
     return BOOL_TO_TRISTATE(

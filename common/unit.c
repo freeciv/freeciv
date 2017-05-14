@@ -101,7 +101,7 @@ enum unit_airlift_result
       && (NULL == restriction
           || (tile_get_known(city_tile(pdest_city), restriction)
               == TILE_KNOWN_SEEN))
-      && !can_unit_exist_at_tile(punit, city_tile(pdest_city))) {
+      && !can_unit_exist_at_tile(&(wld.map), punit, city_tile(pdest_city))) {
     /* Can't exist at the destination tile. */
     return AR_BAD_DST_CITY;
   }
@@ -279,7 +279,8 @@ bool is_square_threatened(const struct player *pplayer,
               || (is_military_unit(punit) && is_attack_unit(punit)))
           && (is_native_tile(unit_type_get(punit), ptile)
               || (can_attack_non_native(unit_type_get(punit))
-                  && is_native_near_tile(unit_class_get(punit), ptile)))) {
+                  && is_native_near_tile(&(wld.map),
+                                         unit_class_get(punit), ptile)))) {
 	return TRUE;
       }
     } unit_list_iterate_end;
@@ -947,7 +948,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return can_build_road(extra_road_get(target), punit, ptile);
 
   case ACTIVITY_SENTRY:
-    if (!can_unit_survive_at_tile(punit, unit_tile(punit))
+    if (!can_unit_survive_at_tile(&(wld.map), punit, unit_tile(punit))
         && !unit_transported(punit)) {
       /* Don't let units sentry on tiles they will die on. */
       return FALSE;
@@ -1919,7 +1920,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                  unit_class_get(punit))) {
       return UU_UNSUITABLE_TRANSPORT;
     }
-  } else if (!can_exist_at_tile(to_unittype, unit_tile(punit))) {
+  } else if (!can_exist_at_tile(&(wld.map), to_unittype, unit_tile(punit))) {
     /* The new unit type can't survive on this terrain. */
     return UU_NOT_TERRAIN;
   }
@@ -1942,7 +1943,7 @@ bool unit_can_convert(const struct unit *punit)
     return FALSE;
   }
 
-  if (!can_exist_at_tile(tgt, unit_tile(punit))) {
+  if (!can_exist_at_tile(&(wld.map), tgt, unit_tile(punit))) {
     return FALSE;
   }
 

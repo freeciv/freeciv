@@ -360,7 +360,8 @@ void get_modified_firepower(const struct unit *attacker,
 
   /* In land bombardment both units have their firepower reduced to 1 */
   if (!is_native_tile(unit_type_get(attacker), unit_tile(defender))
-      && !can_exist_at_tile(unit_type_get(defender), unit_tile(attacker))) {
+      && !can_exist_at_tile(&(wld.map),
+                            unit_type_get(defender), unit_tile(attacker))) {
     *att_fp = 1;
     *def_fp = 1;
   }
@@ -566,7 +567,7 @@ int get_virtual_defense_power(const struct unit_type *att_type,
 
   fc_assert_ret_val(def_type != NULL, 0);
 
-  if (!can_exist_at_tile(def_type, ptile)) {
+  if (!can_exist_at_tile(&(wld.map), def_type, ptile)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }
@@ -670,7 +671,7 @@ struct unit *get_defender(const struct unit *attacker,
   unit_list_iterate(ptile->units, defender) {
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
-    if (unit_can_defend_here(defender)
+    if (unit_can_defend_here(&(wld.map), defender)
         && unit_attack_unit_at_tile_result(attacker, defender, ptile) == ATT_OK) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost(defender);

@@ -1011,7 +1011,7 @@ static bool can_create_unit_at_tile(struct tile *ptile)
   pcity = tile_city(ptile);
   pplayer = unit_owner(vunit);
 
-  ret = (can_unit_exist_at_tile(vunit, ptile)
+  ret = (can_unit_exist_at_tile(&(wld.map), vunit, ptile)
          && !is_non_allied_unit_tile(ptile, pplayer)
          && (pcity == NULL
              || pplayers_allied(city_owner(pcity),

@@ -1641,7 +1641,7 @@ static void dai_military_attack_barbarian(struct ai_type *ait,
 
   if ((pc = find_closest_city(unit_tile(punit), NULL, pplayer, FALSE,
                               only_continent, FALSE, FALSE, TRUE, NULL))) {
-    if (can_unit_exist_at_tile(punit, unit_tile(punit))) {
+    if (can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
                city_name_get(pc));
       (void) dai_gothere(ait, pplayer, punit, pc->tile);
@@ -2784,7 +2784,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   CHECK_UNIT(leader);
 
   if (0 == leader->moves_left
-      || (can_unit_survive_at_tile(leader, leader_tile)
+      || (can_unit_survive_at_tile(&(wld.map), leader, leader_tile)
           && 1 < unit_list_size(leader_tile->units))) {
     unit_activity_handling(leader, ACTIVITY_SENTRY);
     return;

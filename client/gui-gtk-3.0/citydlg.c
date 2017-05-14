@@ -2471,7 +2471,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (!can_unit_unload(punit, unit_transport_get(punit))
-        || !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+        || !can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

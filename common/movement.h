@@ -52,7 +52,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
 int unit_move_rate(const struct unit *punit);
 int utype_unknown_move_cost(const struct unit_type *utype);
 
-bool unit_can_defend_here(const struct unit *punit);
+bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit);
 bool can_attack_non_native(const struct unit_type *utype);
 bool can_attack_from_non_native(const struct unit_type *utype);
 
@@ -82,23 +82,30 @@ static inline bool is_native_tile_to_class(const struct unit_class *punitclass,
 bool is_native_move(const struct unit_class *punitclass,
                     const struct tile *src_tile,
                     const struct tile *dst_tile);
-bool is_native_near_tile(const struct unit_class *uclass, const struct tile *ptile);
-bool can_exist_at_tile(const struct unit_type *utype,
+bool is_native_near_tile(const struct civ_map *nmap,
+                         const struct unit_class *uclass,
+                         const struct tile *ptile);
+bool can_exist_at_tile(const struct civ_map *nmap,
+                       const struct unit_type *utype,
                        const struct tile *ptile);
-bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
-bool can_unit_survive_at_tile(const struct unit *punit,
+bool can_unit_exist_at_tile(const struct civ_map *nmap,
+                            const struct unit *punit, const struct tile *ptile);
+bool can_unit_survive_at_tile(const struct civ_map *nmap,
+                              const struct unit *punit,
 			      const struct tile *ptile);
 bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 			       const struct player *unit_owner,
 			       const struct tile *src_tile,
 			       const struct tile *dst_tile);
 bool zoc_ok_move(const struct unit *punit, const struct tile *ptile);
-bool unit_can_move_to_tile(const struct unit *punit,
+bool unit_can_move_to_tile(const struct civ_map *nmap,
+                           const struct unit *punit,
                            const struct tile *ptile,
                            bool igzoc,
                            bool enter_enemy_city);
 enum unit_move_result
-unit_move_to_tile_test(const struct unit *punit,
+unit_move_to_tile_test(const struct civ_map *nmap,
+                       const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile,

@@ -1921,7 +1921,8 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (unit_can_move_to_tile(actor_unit, target_tile, FALSE, FALSE)) {
+  if (unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+                            FALSE, FALSE)) {
     qv2 = target_tile->index;
 
     func = act_sel_keep_moving;

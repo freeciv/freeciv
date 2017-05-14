@@ -412,7 +412,7 @@ static void fill_parameter_part(struct pf_parameter *param,
   param->start_tile = p->end_tile;
   param->moves_left_initially = p->end_moves_left;
   param->fuel_left_initially = p->end_fuel_left;
-  if (can_exist_at_tile(param->utype, param->start_tile)) {
+  if (can_exist_at_tile(&(wld.map), param->utype, param->start_tile)) {
     param->transported_by_initially = NULL;
   } else {
     const struct unit *transporter =

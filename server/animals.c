@@ -76,7 +76,7 @@ static void place_animal(struct player *plr)
   if (ptype != NULL) {
     struct unit *punit;
 
-    fc_assert_ret(can_exist_at_tile(ptype, ptile));
+    fc_assert_ret(can_exist_at_tile(&(wld.map), ptype, ptile));
 
     punit = create_unit(plr, ptile, ptype, 0, 0, -1);
 

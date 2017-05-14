@@ -1216,7 +1216,7 @@ void bounce_unit(struct unit *punit, bool verbose)
       continue;
     }
 
-    if (can_unit_survive_at_tile(punit, ptile)
+    if (can_unit_survive_at_tile(&(wld.map), punit, ptile)
         && !is_non_allied_city_tile(ptile, pplayer)
         && !is_non_allied_unit_tile(ptile, pplayer)) {
       tiles[count++] = ptile;
@@ -1278,7 +1278,7 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
       pcargo_units = unit_transport_cargo(punit);
       unit_list_iterate(pcargo_units, pcargo) {
         if (!pplayers_allied(unit_owner(pcargo), pplayer)) {
-          if (can_unit_exist_at_tile(pcargo, ptile)) {
+          if (can_unit_exist_at_tile(&(wld.map), pcargo, ptile)) {
             unit_transport_unload_send(pcargo);
           }
         }
@@ -1335,7 +1335,7 @@ static void resolve_stack_conflicts(struct player *pplayer,
       unit_list_iterate_safe(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             || unit_owner(aunit) == aplayer
-            || !can_unit_survive_at_tile(aunit, ptile)) {
+            || !can_unit_survive_at_tile(&(wld.map), aunit, ptile)) {
           bounce_unit(aunit, verbose);
         }
       } unit_list_iterate_safe_end;
@@ -1612,7 +1612,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
     /* Set transporter for unit. */
     unit_transport_load_tp_status(punit, ptrans, FALSE);
   } else {
-    fc_assert_ret_val(!ptile || can_unit_exist_at_tile(punit, ptile), NULL);
+    fc_assert_ret_val(!ptile
+                      || can_unit_exist_at_tile(&(wld.map), punit, ptile), NULL);
   }
 
   /* Assume that if moves_left < 0 then the unit is "fresh",
@@ -1858,7 +1859,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
       if (!can_unit_unload(pcargo, punit)) {
         unit_list_prepend(helpless, pcargo);
       } else {
-        if (!can_unit_exist_at_tile(pcargo, ptile)) {
+        if (!can_unit_exist_at_tile(&(wld.map), pcargo, ptile)) {
           unit_list_prepend(imperiled, pcargo);
         } else {
         /* These units do not need to be saved. */
@@ -2271,7 +2272,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           fc_assert(vunit->hp > 0);
 
           adjc_iterate(&(wld.map), ptile, ptile2) {
-            if (can_exist_at_tile(vunit->utype, ptile2)
+            if (can_exist_at_tile(&(wld.map), vunit->utype, ptile2)
                 && NULL == tile_city(ptile2)) {
               move_cost = map_move_cost_unit(&(wld.map), vunit, ptile2);
               if (pkiller->moves_left <= vunit->moves_left - move_cost
@@ -2783,7 +2784,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-    if (!can_unit_exist_at_tile(punit, ptile)
+    if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
         && (!game.info.paradrop_to_transport
             || !unit_could_load_at(punit, ptile))) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
@@ -2847,7 +2848,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     }
 
     /* Safe terrain, really? Not transformed since player last saw it. */
-    if (!can_unit_exist_at_tile(punit, ptile)
+    if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
         && (!game.info.paradrop_to_transport
             || !unit_could_load_at(punit, ptile))) {
       map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
@@ -2892,7 +2893,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                  && !unit_has_type_flag(punit, UTYF_CIVILIAN)
                  && is_non_allied_city_tile(ptile, pplayer)))) {
     /* Ensure we finished on valid state. */
-    fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
+    fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));
   }
   return TRUE;
@@ -3264,7 +3265,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
           && (alone_in_city
               || can_player_see_unit(unit_owner(penemy), punit))
           /* on board transport; don't awaken */
-          && can_unit_exist_at_tile(penemy, unit_tile(penemy))) {
+          && can_unit_exist_at_tile(&(wld.map), penemy, unit_tile(penemy))) {
         set_unit_activity(penemy, ACTIVITY_IDLE);
         send_unit_info(NULL, penemy);
       }
@@ -3805,7 +3806,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   if (unit_lives) {
     /* Special checks for ground units in the ocean. */
-    if (embark_to || !can_unit_survive_at_tile(punit, pdesttile)) {
+    if (embark_to || !can_unit_survive_at_tile(&(wld.map), punit, pdesttile)) {
       if (embark_to != NULL) {
         ptransporter = embark_to;
       } else {
@@ -3818,7 +3819,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
         if (is_human(pplayer)
             && !unit_has_orders(punit)
             && !punit->ai_controlled
-            && !can_unit_exist_at_tile(punit, pdesttile)) {
+            && !can_unit_exist_at_tile(&(wld.map), punit, pdesttile)) {
           set_unit_activity(punit, ACTIVITY_SENTRY);
         }
 

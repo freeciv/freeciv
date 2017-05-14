@@ -383,7 +383,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
       && !can_attack_non_native(punittype)) {
     return 0;
   }
-  if (!is_native_near_tile(unit_class_get(punit), ptile)) {
+  if (!is_native_near_tile(&(wld.map), unit_class_get(punit), ptile)) {
     return 0;
   }
 
@@ -931,7 +931,7 @@ static void process_attacker_want(struct ai_type *ait,
     int tech_dist = research_goal_unknown_techs(presearch, tech_req);
 
     if (dai_can_unit_type_follow_unit_type(punittype, orig_utype, ait)
-        && is_native_near_tile(utype_class(punittype), ptile)
+        && is_native_near_tile(&(wld.map), utype_class(punittype), ptile)
         && (U_NOT_OBSOLETED == punittype->obsoleted_by
             || !can_city_build_unit_direct(pcity, punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */) {

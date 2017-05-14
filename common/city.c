@@ -880,7 +880,8 @@ bool can_city_build_unit_direct(const struct city *pcity,
 
   /* You can't build naval units inland. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(utype_class(punittype), pcity->tile)) {
+      && !is_native_near_tile(&(wld.map), utype_class(punittype),
+                              pcity->tile)) {
     return FALSE;
   }
 
@@ -925,7 +926,8 @@ bool can_city_build_unit_later(const struct city *pcity,
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
   if (!uclass_has_flag(utype_class(punittype), UCF_BUILD_ANYWHERE)
-      && !is_native_near_tile(utype_class(punittype), pcity->tile)) {
+      && !is_native_near_tile(&(wld.map), utype_class(punittype),
+                              pcity->tile)) {
     return FALSE;
   }
 
@@ -1487,7 +1489,7 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
     return CB_BAD_CITY_TERRAIN;
   }
 
-  if (punit && !can_unit_exist_at_tile(punit, ptile)
+  if (punit && !can_unit_exist_at_tile(&(wld.map), punit, ptile)
       /* TODO: remove CB_BAD_UNIT_TERRAIN and CB_BAD_UNIT_TERRAIN when it
        * can be done without regressions. */
       /* The ruleset may allow founding cities on non native terrain. */

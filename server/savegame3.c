@@ -6909,7 +6909,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
   players_iterate(pplayer) {
     unit_list_iterate_safe(pplayer->units, punit) {
       if (!unit_transport_get(punit)
-          && !can_unit_exist_at_tile(punit, unit_tile(punit))) {
+          && !can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))) {
         log_sg("Removing %s unferried %s in %s at (%d, %d)",
                nation_rule_name(nation_of_player(pplayer)),
                unit_rule_name(punit),

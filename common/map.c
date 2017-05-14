@@ -649,7 +649,7 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
 /****************************************************************************
   Return TRUE if this ocean terrain is adjacent to a safe coastline.
 ****************************************************************************/
-bool is_safe_ocean(struct civ_map *nmap, const struct tile *ptile)
+bool is_safe_ocean(const struct civ_map *nmap, const struct tile *ptile)
 {
   adjc_iterate(nmap, ptile, adjc_tile) {
     if (tile_terrain(adjc_tile) != T_UNKNOWN

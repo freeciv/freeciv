@@ -30,6 +30,7 @@
 #include "citizens.h"
 #include "diptreaty.h"
 #include "government.h"
+#include "map.h"
 #include "movement.h"
 #include "multipliers.h"
 #include "nation.h"

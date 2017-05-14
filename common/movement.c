@@ -145,14 +145,14 @@ int utype_unknown_move_cost(const struct unit_type *utype)
   should be checked when looking for a defender - not all units on the
   tile are valid defenders.
 ****************************************************************************/
-bool unit_can_defend_here(const struct unit *punit)
+bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 {
   struct unit *ptrans = unit_transport_get(punit);
 
   /* Do not just check if unit is transported.
    * Even transported units may step out from transport to fight,
    * if this is their native terrain. */
-  return (can_unit_exist_at_tile(punit, unit_tile(punit))
+  return (can_unit_exist_at_tile(nmap, punit, unit_tile(punit))
           && (ptrans == NULL || can_unit_unload(punit, ptrans)));
 }
 
@@ -227,7 +227,8 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
   This means it can physically be present on the tile (without the use of a
   transporter). See also can_unit_survive_at_tile.
 ****************************************************************************/
-bool can_exist_at_tile(const struct unit_type *utype,
+bool can_exist_at_tile(const struct civ_map *nmap,
+                       const struct unit_type *utype,
                        const struct tile *ptile)
 {
   /* Cities are safe havens except for units in the middle of non-native
@@ -235,7 +236,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
    * arrived to city. */
   if (NULL != tile_city(ptile)
       && (uclass_has_flag(utype_class(utype), UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(utype_class(utype), ptile)
+          || is_native_near_tile(nmap, utype_class(utype), ptile)
           || (1 == game.info.citymindist
               && is_city_channel_tile(utype_class(utype), ptile, NULL)))) {
     return TRUE;
@@ -243,7 +244,7 @@ bool can_exist_at_tile(const struct unit_type *utype,
 
   /* UTYF_COAST_STRICT unit cannot exist in an ocean tile without access to land. */
   if (utype_has_flag(utype, UTYF_COAST_STRICT)
-      && !is_safe_ocean(&(wld.map), ptile)) {
+      && !is_safe_ocean(nmap, ptile)) {
     return FALSE;
   }
 
@@ -255,10 +256,11 @@ bool can_exist_at_tile(const struct unit_type *utype,
   physically be present on the tile (without the use of a transporter).  See
   also can_unit_survive_at_tile.
 ****************************************************************************/
-bool can_unit_exist_at_tile(const struct unit *punit,
+bool can_unit_exist_at_tile(const struct civ_map *nmap,
+                            const struct unit *punit,
                             const struct tile *ptile)
 {
-  return can_exist_at_tile(unit_type_get(punit), ptile);
+  return can_exist_at_tile(nmap, unit_type_get(punit), ptile);
 }
 
 /****************************************************************************
@@ -399,13 +401,15 @@ bool is_native_move(const struct unit_class *punitclass,
 /****************************************************************************
   Is there native tile adjacent to given tile
 ****************************************************************************/
-bool is_native_near_tile(const struct unit_class *uclass, const struct tile *ptile)
+bool is_native_near_tile(const struct civ_map *nmap,
+                         const struct unit_class *uclass,
+                         const struct tile *ptile)
 {
   if (is_native_tile_to_class(uclass, ptile)) {
     return TRUE;
   }
 
-  adjc_iterate(&(wld.map), ptile, ptile2) {
+  adjc_iterate(nmap, ptile, ptile2) {
     if (is_native_tile_to_class(uclass, ptile2)) {
       return TRUE;
     }
@@ -419,14 +423,15 @@ bool is_native_near_tile(const struct unit_class *uclass, const struct tile *pti
   not only be physically present at the tile but will be able to survive
   indefinitely on its own (without a transporter).  Units that require fuel
   or have a danger of drowning are examples of non-survivable units.  See
-  also can_unit_exist_at_tile.
+  also can_unit_exist_at_tile().
 
   (This function could be renamed as unit_wants_transporter.)
 ****************************************************************************/
-bool can_unit_survive_at_tile(const struct unit *punit,
+bool can_unit_survive_at_tile(const struct civ_map *nmap,
+                              const struct unit *punit,
                               const struct tile *ptile)
 {
-  if (!can_unit_exist_at_tile(punit, ptile)) {
+  if (!can_unit_exist_at_tile(nmap, punit, ptile)) {
     return FALSE;
   }
 
@@ -520,12 +525,13 @@ bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile)
 
   See unit_move_to_tile_test().
 ****************************************************************************/
-bool unit_can_move_to_tile(const struct unit *punit,
+bool unit_can_move_to_tile(const struct civ_map *nmap,
+                           const struct unit *punit,
                            const struct tile *dst_tile,
                            bool igzoc,
                            bool enter_enemy_city)
 {
-  return (MR_OK == unit_move_to_tile_test(punit,
+  return (MR_OK == unit_move_to_tile_test(nmap, punit,
                                           punit->activity, unit_tile(punit),
                                           dst_tile, igzoc, NULL,
                                           enter_enemy_city));
@@ -554,7 +560,8 @@ bool unit_can_move_to_tile(const struct unit *punit,
    12) The unit is making a non-native move (e.g. lack of road)
 **************************************************************************/
 enum unit_move_result
-unit_move_to_tile_test(const struct unit *punit,
+unit_move_to_tile_test(const struct civ_map *nmap,
+                       const struct unit *punit,
                        enum unit_activity activity,
                        const struct tile *src_tile,
                        const struct tile *dst_tile, bool igzoc,
@@ -597,7 +604,7 @@ unit_move_to_tile_test(const struct unit *punit,
     if (!could_unit_load(punit, embark_to)) {
       return MR_NO_TRANSPORTER_CAPACITY;
     }
-  } else if (!(can_exist_at_tile(punittype, dst_tile)
+  } else if (!(can_exist_at_tile(nmap, punittype, dst_tile)
                || unit_could_load_at(punit, dst_tile))) {
     return MR_NO_TRANSPORTER_CAPACITY;
   }

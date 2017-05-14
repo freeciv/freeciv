@@ -19,6 +19,7 @@
 #include "rand.h"
 
 /* common */
+#include "map.h"
 #include "movement.h"
 #include "research.h"
 #include "unittype.h"
@@ -123,7 +124,7 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
                     utype_rule_name(ptype));
       return NULL;
     }
-  } else if (!can_exist_at_tile(ptype, ptile)) {
+  } else if (!can_exist_at_tile(&(wld.map), ptype, ptile)) {
     luascript_log(fcl, LOG_ERROR, "create_unit_full: '%s' cannot exist at "
                                   "tile", utype_rule_name(ptype));
     return NULL;
@@ -161,7 +162,7 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   if (alive) {
     struct player *owner = unit_owner(punit);
 
-    if (!can_unit_exist_at_tile(punit, dest)) {
+    if (!can_unit_exist_at_tile(&(wld.map), punit, dest)) {
       wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
       return FALSE;
     }
