@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,8 +64,8 @@ struct ai_city {
   bool founder_boat;            /* city founder will need a boat */
   int founder_turn;             /* only recalculate every Nth turn */
   int founder_want;
-  int settler_want;
-  struct unit_type *settler_type;
+  int worker_want;
+  struct unit_type *worker_type;
 };
 
 void dai_manage_cities(struct ai_type *ait, struct player *pplayer);
