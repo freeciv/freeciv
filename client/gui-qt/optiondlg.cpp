@@ -262,7 +262,7 @@ void option_dialog::apply_options()
       option_int_set(poption, get_int(poption));
       break;
     case OT_STRING:
-      option_str_set(poption, get_string(poption).data());
+      option_str_set(poption, get_string(poption).constData());
       break;
     case OT_ENUM:
       option_enum_set_int(poption, get_enum(poption));
@@ -271,7 +271,7 @@ void option_dialog::apply_options()
       option_bitwise_set(poption, get_bitwise(poption));
       break;
     case OT_FONT:
-      option_font_set(poption, get_button_font(poption).data());
+      option_font_set(poption, get_button_font(poption).constData());
       break;
     case OT_COLOR:
       get_color(poption,  ba1,  ba2);
