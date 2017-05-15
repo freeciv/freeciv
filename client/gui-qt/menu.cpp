@@ -1664,8 +1664,6 @@ void mr_menu::set_tile_for_order(tile *ptile)
 void mr_menu::execute_shortcut(int sid)
 {
   QList<QMenu*> menu_list;
-  QMenu *m;
-  QAction* a;
   QKeySequence seq;
   fc_shortcut *fcs;
 
@@ -1678,8 +1676,8 @@ void mr_menu::execute_shortcut(int sid)
   seq = QKeySequence(shortcut_to_string(fcs));
 
   menu_list = findChildren<QMenu*>();
-    foreach (m, menu_list) {
-        foreach (a, m->actions()) {
+    foreach (const QMenu *m, menu_list) {
+        foreach (QAction *a, m->actions()) {
           if (a->shortcut() == seq && a->isEnabled()) {
             a->activate(QAction::Trigger);
             return;
@@ -1694,14 +1692,12 @@ void mr_menu::execute_shortcut(int sid)
 QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 {
   QList<QMenu*> menu_list;
-  QMenu *m;
   QKeySequence seq;
-  QAction* a;
 
   seq = QKeySequence(shortcut_to_string(fcs));
   menu_list = findChildren<QMenu *>();
-  foreach (m, menu_list) {
-    foreach (a, m->actions()) {
+  foreach (const QMenu *m, menu_list) {
+    foreach (QAction *a, m->actions()) {
       if (a->shortcut() == seq && fcs->mouse == Qt::AllButtons) {
         return a->text();
       }
@@ -1717,8 +1713,6 @@ QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 QString mr_menu::shortcut_2_menustring(int sid)
 {
   QList<QMenu *> menu_list;
-  QMenu *m;
-  QAction *a;
   QKeySequence seq;
   fc_shortcut *fcs;
 
@@ -1726,8 +1720,8 @@ QString mr_menu::shortcut_2_menustring(int sid)
   seq = QKeySequence(shortcut_to_string(fcs));
 
   menu_list = findChildren<QMenu *>();
-  foreach (m, menu_list) {
-    foreach (a, m->actions()) {
+  foreach (const QMenu *m, menu_list) {
+    foreach (QAction *a, m->actions()) {
       if (a->shortcut() == seq) {
         return (a->text() + " ("
                 + a->shortcut().toString(QKeySequence::NativeText) + ")");
