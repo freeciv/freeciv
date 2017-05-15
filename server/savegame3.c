@@ -1323,6 +1323,21 @@ static void sg_load_savefile(struct loaddata *loading)
     sg_failure_ret(FALSE, "Failed to load ruleset");
   }
 
+  if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
+    const char *req_caps;
+    req_caps = secfile_lookup_str_default(loading->file, "",
+                                          "scenario.ruleset_caps");
+
+    if (!has_capabilities(req_caps, game.ruleset_capabilities)) {
+      /* Current ruleset lacks required capabilities. */
+      log_normal(_("Scenario requires ruleset capabilities: %s"), req_caps);
+      log_normal(_("Ruleset has capabilities: %s"), game.ruleset_capabilities);
+      log_error(_("Current ruleset not compatible with the scenario."));
+      sg_success = FALSE;
+      return;
+    }
+  }
+
   /* This is in the savegame only if the game has been started before savegame3.c time,
    * and in that case it's TRUE. If it's missing, it's to be considered FALSE. */
   game.server.last_updated_year = secfile_lookup_bool_default(loading->file, FALSE,

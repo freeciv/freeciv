@@ -43,6 +43,9 @@ http://www.cazfi.net/freeciv/alien/ for additional ruleset info.\
 ; When updating this, update also desciption_file in [ruledit] section to match
 description = *alien/README.alien*
 
+; What capabilities ruleset provides for the scenarios.
+capabilities = ""
+
 [options]
 global_init_techs=""
 global_init_buildings="Headquarters", "Basic Infrastructure"

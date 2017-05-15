@@ -860,6 +860,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
   }
 
+  if (game.ruleset_capabilities != NULL) {
+    secfile_insert_str(sfile, game.ruleset_capabilities,
+                       "about.capabilities");
+  } else {
+    secfile_insert_str(sfile, "", "about.capabilities");
+  }
+
   save_tech_list(sfile, game.rgame.global_init_techs,
                  "options", "global_init_techs");
   save_building_list(sfile, game.rgame.global_init_buildings,

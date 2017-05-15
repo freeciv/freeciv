@@ -82,6 +82,7 @@ struct civ_game {
   struct packet_ruleset_control control;
   char *ruleset_summary;
   char *ruleset_description;
+  char *ruleset_capabilities;
   struct packet_scenario_info scenario;
   struct packet_scenario_description scenario_desc;
   struct packet_game_info info;

@@ -39,6 +39,10 @@ You are playing with civ2 style rules. These are\
 ; When updating this, update also desciption_file in [ruledit] section to match
 ; description = ""
 
+; What capabilities ruleset provides for the scenarios.
+; mimimum-default-sets - Default units, terrains, buildings, etc
+capabilities = "minimum-default-sets"
+
 [options]
 global_init_techs=""
 global_init_buildings="Palace"

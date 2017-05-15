@@ -254,6 +254,7 @@ static void game_defaults(bool keep_ruleset_value)
 
   game.ruleset_summary       = NULL;
   game.ruleset_description   = NULL;
+  game.ruleset_capabilities  = NULL;
 
   /* The info packet. */
   game.info.aifill           = GAME_DEFAULT_AIFILL;
@@ -651,6 +652,11 @@ void game_ruleset_free(void)
   if (game.ruleset_description != NULL) {
     free(game.ruleset_description);
     game.ruleset_description = NULL;
+  }
+
+  if (game.ruleset_capabilities != NULL) {
+    free(game.ruleset_capabilities);
+    game.ruleset_capabilities = NULL;
   }
 }
 
