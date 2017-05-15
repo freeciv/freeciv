@@ -405,7 +405,6 @@ bool fc_shortcut_popup::check_if_exist()
 **************************************************************************/
 QString button_name(Qt::MouseButton bt)
 {
-  QString button_name = "";
   switch (bt) {
   case Qt::NoButton:
     return _("NoButton");

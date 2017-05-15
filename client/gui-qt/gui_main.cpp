@@ -442,8 +442,6 @@ static void apply_notify_font(struct option *poption)
 ****************************************************************************/
 void apply_city_font(option *poption)
 {
-  QString s;
-
   if (gui() && qtg_get_current_client_page() == PAGE_GAME) {
     qtg_gui_update_font("city_label", option_font_get(poption));
     city_font_update();
