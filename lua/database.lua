@@ -127,7 +127,7 @@ end
 -- DIRTY: return a string to put in a database query which gets the
 -- current time (in seconds since the epoch, UTC).
 -- (This should be replaced with Lua os.time() once the script has access
--- to this, see <http://gna.org/bugs/?19729>.)
+-- to this, see <https://www.hostedredmine.com/issues/657141>.)
 function sql_time()
   local backend = get_option("backend")
   if backend == 'mysql' then
