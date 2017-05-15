@@ -38,6 +38,10 @@ These were the default rules until Freeciv 2.6.\
 ; When updating this, update also desciption_file in [ruledit] section to match
 description = *classic/README.classic*
 
+; What capabilities ruleset provides for the scenarios.
+; mimimum-default-sets - Default units, terrains, buildings, etc
+capabilities = "minimum-default-sets"
+
 [options]
 global_init_techs=""
 global_init_buildings="Palace"

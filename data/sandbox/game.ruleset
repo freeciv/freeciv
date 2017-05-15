@@ -42,6 +42,10 @@ This ruleset was originally based on current default ruleset, civ2civ3.\
 ; When updating this, update also desciption_file in [ruledit] section to match
 description = *sandbox/README.sandbox*
 
+; What capabilities ruleset provides for the scenarios.
+; mimimum-default-sets - Default units, terrains, buildings, etc
+capabilities = "minimum-default-sets"
+
 [options]
 global_init_techs=""
 global_init_buildings="Palace"

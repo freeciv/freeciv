@@ -5596,6 +5596,17 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.control.desc_length = 0;
   }
 
+  pref_text = secfile_lookup_str_default(file, "", "about.capabilities");
+  if (pref_text[0] != '\0') {
+    int len = strlen(pref_text);
+
+    game.ruleset_capabilities = fc_malloc(len + 1);
+    fc_strlcpy(game.ruleset_capabilities, pref_text, len +1);
+  } else {
+    game.ruleset_capabilities = fc_malloc(1);
+    game.ruleset_capabilities[0] = '\0';
+  }
+
   /* section: options */
   if (!lookup_tech_list(file, "options", "global_init_techs",
                         game.rgame.global_init_techs, filename)) {

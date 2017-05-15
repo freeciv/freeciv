@@ -43,6 +43,10 @@ classic ruleset can be found in README.experimental.\
 ; When updating this, update also desciption_file in [ruledit] section to match
 description = *experimental/README.experimental*
 
+; What capabilities ruleset provides for the scenarios.
+; mimimum-default-sets - Default units, terrains, buildings, etc
+capabilities = "minimum-default-sets"
+
 [options]
 global_init_techs=""
 global_init_buildings="Palace"

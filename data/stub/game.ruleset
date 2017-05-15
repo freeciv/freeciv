@@ -30,6 +30,9 @@ real rulesets, not playable ruleset in itself.\
 ; When updating this, update also desciption_file in [ruledit] section to match
 ; description = ""
 
+; What capabilities ruleset provides for the scenarios.
+capabilities = ""
+
 [options]
 global_init_techs=""
 global_init_buildings=""
