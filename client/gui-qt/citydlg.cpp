@@ -120,7 +120,6 @@ void progress_bar::timerEvent(QTimerEvent *event)
 void progress_bar::paintEvent(QPaintEvent *event)
 {
   QPainter p;
-  QString str;
   QLinearGradient g, gx;
   QColor c;
   QRect r, rx, r2;
@@ -514,7 +513,6 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 {
   hud_message_box ask(city_dlg);
   QString s;
-  QVariant qvar;
   char buf[256];
   int price;
   int ret;
@@ -561,7 +559,6 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   happy_cost = hppy_cost;
   QImage cropped_img;
   QImage img;
-  QPixmap pix;
   QRect crop;
   qunit = punit;
   struct canvas *unit_pixmap;
@@ -2347,7 +2344,6 @@ void city_dialog::cma_slider(int value)
   QVariant qvar;
   QSlider *slider;
   QLabel *label;
-  QString s;
 
   slider = qobject_cast<QSlider *>(sender());
   qvar = slider->property("FC");
@@ -3245,7 +3241,6 @@ void city_dialog::worklist_up()
   QModelIndex index;
   struct worklist queue;
   struct universal *target = new universal;
-  QVariant qvar;
 
   if (selected_row_p < 1 || selected_row_p >= p_table_p->rowCount()) {
     return;
@@ -3287,7 +3282,6 @@ void city_dialog::worklist_down()
   QModelIndex index;
   struct worklist queue;
   struct universal *target = new universal;
-  QVariant qvar;
 
   if (selected_row_p < 0 || selected_row_p >= p_table_p->rowCount() - 1) {
     return;

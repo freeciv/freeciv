@@ -46,7 +46,6 @@ static QString stylestring;
 void qtg_gui_load_theme(const char *directory, const char *theme_name)
 {
   QString name;
-  QString res_name;
   QString path;
   QString fake_dir;
   QDir dir;

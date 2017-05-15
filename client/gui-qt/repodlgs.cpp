@@ -205,7 +205,7 @@ void unittype_item::upgrade_units()
   hud_message_box ask(gui()->central_wdg);
   int price;
   int ret;
-  QString s1, s2;
+  QString s2;
   struct unit_type *upgrade;
 
   upgrade = can_upgrade_unittype(client_player(), utype);

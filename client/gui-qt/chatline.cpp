@@ -444,8 +444,6 @@ void chatwdg::paintEvent(QPaintEvent *event)
 ***************************************************************************/
 bool chatwdg::eventFilter(QObject *obj, QEvent *event)
 {
-  QString message;
-
   if (obj == chat_line) {
     if (event->type() == QEvent::KeyPress) {
       QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);

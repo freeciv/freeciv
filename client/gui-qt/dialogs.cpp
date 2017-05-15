@@ -480,7 +480,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
 {
   char buf[4096];
   QModelIndex index ;
-  QVariant qvar,qvar2;
+  QVariant qvar;
   QModelIndexList indexes = selected.indexes();
   QString str;
   QTableWidgetItem *item;
@@ -1870,7 +1870,7 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
 static void spy_steal(QVariant data1, QVariant data2)
 {
   QString str;
-  QVariant qv1, qv2;
+  QVariant qv1;
   pfcn_void func;
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
@@ -2165,7 +2165,6 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
 {
   hud_message_box ask(gui()->central_wdg);
   int ret;
-  QString str;
   char buf[1024];
   char buf2[1024];
   int diplomat_id = actor->id;

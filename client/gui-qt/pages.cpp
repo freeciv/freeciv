@@ -1405,7 +1405,6 @@ void fc_client::update_scenarios_page(void)
       const char *sname, *sdescription, *sauthors;
       QTableWidgetItem *item;
       QString format;
-      QString str = QString(pfile->name);
       QString st;
       QStringList sl;
       int fcver;

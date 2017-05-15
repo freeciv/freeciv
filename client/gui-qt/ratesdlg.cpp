@@ -119,7 +119,6 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
   QHBoxLayout *some_layout;
   QLabel *label;
   QSlider *slider;
-  QString str;
   QVBoxLayout *main_layout;
   struct player *pplayer = client_player();
 
@@ -168,9 +167,7 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
 void multipler_rates_dialog::slot_set_value(int i)
 {
   QSlider *qo;
-  QString str;
   qo = (QSlider *) QObject::sender();
-  QString sender;
   QVariant qvar;
   QLabel *lab;
 

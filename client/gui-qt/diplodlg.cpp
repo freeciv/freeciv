@@ -55,7 +55,6 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   color *colr;
   QString text;
   QString text2;
-  QString text_color;
   QString text_tooltip;
   QLabel *plr1_label;
   QLabel *plr2_label;
