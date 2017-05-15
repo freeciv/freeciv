@@ -5799,23 +5799,35 @@ int fill_sprite_array(struct tileset *t,
           switch (ptask->act) {
           case ACTIVITY_MINE:
             if (ptask->tgt == NULL) {
-              ADD_SPRITE_SIMPLE(t->sprites.unit.plant);
+              ADD_SPRITE(t->sprites.unit.plant,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
             } else {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+              ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
             }
             break;
           case ACTIVITY_IRRIGATE:
             if (ptask->tgt == NULL) {
-              ADD_SPRITE_SIMPLE(t->sprites.unit.irrigate);
+              ADD_SPRITE(t->sprites.unit.irrigate,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
             } else {
-              ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+              ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
             }
             break;
           case ACTIVITY_GEN_ROAD:
-            ADD_SPRITE_SIMPLE(t->sprites.extras[extra_index(ptask->tgt)].activity);
+            ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
+                       TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;
           case ACTIVITY_TRANSFORM:
-            ADD_SPRITE_SIMPLE(t->sprites.unit.transform);
+            ADD_SPRITE(t->sprites.unit.transform,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;
           default:
             break;
