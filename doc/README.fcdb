@@ -236,10 +236,11 @@ data, etc.
 ================================
 
 * Move password comparison / policy to Lua script
-  <http://gna.org/patch/?3386>
-* Give database.lua access to do more stuff <http://gna.org/bugs/?19729>
-* Allow setting cmdlevel per-user, etc <http://gna.org/patch/?3388>
+  <http://www.hostedredmine.com/issues/660267>
+* Give database.lua access to do more stuff
+  <https://www.hostedredmine.com/issues/657141>
+* Allow setting cmdlevel per-user, etc
+  <https://www.hostedredmine.com/issues/657143>
 * Give database.lua access to game signals and events
-  <http://gna.org/patch/?3385>
-* Lua script for postgres <http://gna.org/patch/?3387>
+  <https://www.hostedredmine.com/issues/657142>
 * Improve this README
