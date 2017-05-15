@@ -127,6 +127,7 @@ public:
 **************************************************************************/
 class line_edit : public QLineEdit
 {
+  Q_OBJECT
 public:
   line_edit();
   fc_shortcut shc;
