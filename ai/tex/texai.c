@@ -621,6 +621,9 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->funcs.unit_alloc = texwai_unit_alloc;
   ai->funcs.unit_free = texwai_unit_free;
 
+  ai->funcs.unit_created = texai_unit_created;
+  ai->funcs.unit_destroyed = texai_unit_destroyed;
+
   ai->funcs.unit_got = texwai_ferry_init_ferry;
   ai->funcs.unit_lost = texwai_ferry_lost;
   ai->funcs.unit_transformed = texwai_ferry_transformed;

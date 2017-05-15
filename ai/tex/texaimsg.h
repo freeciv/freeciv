@@ -30,6 +30,10 @@
 #define SPECENUM_VALUE6NAME "CityCreated"
 #define SPECENUM_VALUE7 TEXAI_MSG_CITY_DESTROYED
 #define SPECENUM_VALUE7NAME "CityDestroyed"
+#define SPECENUM_VALUE8 TEXAI_MSG_UNIT_CREATED
+#define SPECENUM_VALUE8NAME "UnitCreated"
+#define SPECENUM_VALUE9 TEXAI_MSG_UNIT_DESTROYED
+#define SPECENUM_VALUE9NAME "UnitDestroyed"
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME texaireqtype

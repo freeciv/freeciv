@@ -79,8 +79,9 @@ static void texai_thread_start(void *arg)
 
   log_debug("New AI thread launched");
 
+  texai_world_init();
   if (!map_is_empty()) {
-    texai_world_init();
+    texai_map_init();
   }
 
   /* Just wait until we are signaled to shutdown */
@@ -93,6 +94,8 @@ static void texai_thread_start(void *arg)
     }
   }
   fc_release_mutex(&exthrai.msgs_to.mutex);
+
+  texai_world_close();
 
   log_debug("AI thread exiting");
 }
@@ -110,7 +113,7 @@ void texai_game_start(struct ai_type *ait)
 **************************************************************************/
 static void texai_game_start_recv(void)
 {
-  texai_world_init();
+  texai_map_init();
 }
 
 /**************************************************************************
@@ -126,7 +129,7 @@ void texai_game_free(struct ai_type *ait)
 **************************************************************************/
 static void texai_game_free_recv(void)
 {
-  texai_world_close();
+  texai_map_close();
 }
 
 /**************************************************************************
@@ -177,6 +180,12 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       break;
     case TEXAI_MSG_TILE_INFO:
       texai_tile_info_recv(msg->data);
+      break;
+    case TEXAI_MSG_UNIT_CREATED:
+      texai_unit_info_recv(msg->data, msg->type);
+      break;
+    case TEXAI_MSG_UNIT_DESTROYED:
+      texai_unit_destruction_recv(msg->data);
       break;
     case TEXAI_MSG_CITY_CREATED:
       texai_city_info_recv(msg->data, msg->type);
