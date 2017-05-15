@@ -40,4 +40,4 @@ bool server_setting_value_bool_get(server_setting_id id);
 }
 #endif /* __cplusplus */
 
-#endif // FC_SERVER_SETTINGS_H
+#endif /* FC_SERVER_SETTINGS_H */
