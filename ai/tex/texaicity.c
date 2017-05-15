@@ -132,8 +132,8 @@ void texai_city_worker_wants(struct ai_type *ait,
     }
   } unit_type_iterate_end;
 
-  cdata->defai.settler_want = maxwant / 70;
-  cdata->defai.settler_type = type;
+  cdata->defai.worker_want = maxwant / 70;
+  cdata->defai.worker_type = type;
 }
 
 struct texai_tile_state
