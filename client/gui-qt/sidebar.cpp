@@ -696,7 +696,6 @@ void side_right_click_diplomacy(void)
 void side_right_click_science(void)
 {
   QMenu *menu;
-  QString str;
   QAction *act;
   QVariant qvar;
   QList<qlist_item> curr_list;
