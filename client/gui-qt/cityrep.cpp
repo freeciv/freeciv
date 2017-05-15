@@ -1074,6 +1074,8 @@ void city_widget::update_city(city *pcity)
 ***************************************************************************/
 void city_widget::update_model()
 {
+  QFont f = QApplication::font();
+  QFontMetrics fm(f);
   QStringList sl;
   QString s, str;
   int width;
@@ -1088,8 +1090,6 @@ void city_widget::update_model()
       sl = str.split('\n');
       width = 0;
       foreach (s, sl) {
-        QFont f = QApplication::font();
-        QFontMetrics fm(f);
         width = qMax(width, fm.width(s));
       }
       header()->resizeSection(j, width + 10);
