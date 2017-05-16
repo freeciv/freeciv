@@ -1546,7 +1546,7 @@ void dai_diplomacy_actions(struct ai_type *ait, struct player *pplayer)
           remove_shared_vision(pplayer, aplayer);
         }
         /* Never forgive this */
-        pplayer->ai_common.love[player_index(aplayer)] = -(BIG_NUMBER);
+        pplayer->ai_common.love[player_index(aplayer)] = -MAX_AI_LOVE;
       } else if (ship->state == SSHIP_STARTED 
 		 && adip->warned_about_space == 0) {
         pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
