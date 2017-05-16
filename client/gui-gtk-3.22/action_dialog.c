@@ -76,6 +76,7 @@ static GtkWidget  *spy_sabotage_shell;
 /* A structure to hold parameters for actions inside the GUI in stead of
  * storing the needed data in a global variable. */
 struct action_data {
+  int action_id;
   int actor_unit_id;
   int target_city_id;
   int target_unit_id;
@@ -87,7 +88,8 @@ struct action_data {
   Create a new action data structure that can be stored in the
   dialogs.
 *****************************************************************/
-static struct action_data *act_data(int actor_id,
+static struct action_data *act_data(int action_id,
+                                    int actor_id,
                                     int target_city_id,
                                     int target_unit_id,
                                     int target_tile_id,
@@ -95,6 +97,7 @@ static struct action_data *act_data(int actor_id,
 {
   struct action_data *data = fc_malloc(sizeof(*data));
 
+  data->action_id = action_id;
   data->actor_unit_id = actor_id;
   data->target_city_id = target_city_id;
   data->target_unit_id = target_unit_id;
@@ -411,7 +414,7 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_do_action(ACTION_SPY_BRIBE_UNIT, args->actor_unit_id,
+    request_do_action(args->action_id, args->actor_unit_id,
                       args->target_unit_id, 0, "");
   }
 
@@ -476,7 +479,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
-                   act_data(actor->id, 0, punit->id, 0, cost));
+                   act_data(ACTION_SPY_BRIBE_UNIT,
+                            actor->id, 0, punit->id, 0, cost));
 }
 
 /****************************************************************
@@ -768,7 +772,7 @@ static void spy_advances_response(GtkWidget *w, gint response,
                           args->value, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+        request_do_action(args->action_id,
                           args->actor_unit_id, args->target_city_id,
                           args->value, "");
       }
@@ -949,7 +953,7 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
                           args->value + 1, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+        request_do_action(args->action_id,
                           args->actor_unit_id,
                           args->target_city_id,
                           args->value + 1, "");
@@ -1106,6 +1110,8 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
+  args->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+
   struct city *pvcity = game_city_by_number(args->target_city_id);
   struct player *pvictim = NULL;
 
@@ -1164,7 +1170,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
   /* FIXME: Don't discard the second target choice dialog. */
   if (!spy_sabotage_shell) {
     create_improvements_list(client.conn.playing, pcity,
-                             act_data(actor->id, pcity->id, 0, 0, 0));
+                             act_data(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                                      actor->id, pcity->id, 0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
@@ -1198,7 +1205,7 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_do_action(ACTION_SPY_INCITE_CITY, args->actor_unit_id,
+    request_do_action(args->action_id, args->actor_unit_id,
                       args->target_city_id, 0, "");
   }
 
@@ -1250,7 +1257,8 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
-                   act_data(actor->id, pcity->id, 0, 0, cost));
+                   act_data(ACTION_SPY_INCITE_CITY,
+                            actor->id, pcity->id, 0, 0, cost));
 }
 
 /**************************************************************************
@@ -1552,7 +1560,8 @@ void popup_action_selection(struct unit *actor_unit,
   int button_id;
 
   struct action_data *data =
-      act_data(actor_unit->id,
+      act_data(ACTION_ANY, /* Not decided yet */
+               actor_unit->id,
                (target_city) ? target_city->id : 0,
                (target_unit) ? target_unit->id : 0,
                (target_tile) ? target_tile->index : 0,
@@ -1810,7 +1819,8 @@ void action_selection_refresh(struct unit *actor_unit,
     return;
   }
 
-  data = act_data(actor_unit->id,
+  data = act_data(ACTION_ANY, /* Not decided yet */
+                  actor_unit->id,
                   (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
                   (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                   (target_tile) ? target_tile->index : 0,
