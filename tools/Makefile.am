@@ -83,7 +83,9 @@ freeciv_ruleup_LDADD = \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 if FCMANUAL
-freeciv_manual_SOURCES = \
+freeciv_manual_SOURCES =                                                   \
+		tools_fc_interface.c                                       \
+		tools_fc_interface.h                                       \
 		civmanual.c
 
 freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
