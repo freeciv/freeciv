@@ -5,7 +5,7 @@ AC_DEFUN([FC_WEB_CLIENT],
   AM_CONDITIONAL([FREECIV_WEB], [test "x$fcweb" = "xtrue"])
 
   if test "x$fcweb" = "xtrue" ; then
-    AC_DEFINE([FREECIV_WEB], [1], [Build freeciv-web version])
+    AC_DEFINE([FREECIV_WEB], [1], [Build freeciv-web version instead of regular freeciv])
   fi
 ])
 
