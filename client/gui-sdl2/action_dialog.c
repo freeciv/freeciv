@@ -804,6 +804,28 @@ static int diplomat_incite_callback(struct widget *pWidget)
   return -1;
 }
 
+/****************************************************************
+...  Ask the server how much the revolt is going to cost us
+*****************************************************************/
+static int spy_incite_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_action_details(ACTION_SPY_INCITE_CITY_ESC,
+                             pDiplomat_Dlg->actor_unit_id,
+                             pDiplomat_Dlg->target_ids[ATK_CITY]);
+      is_more_user_input_needed = TRUE;
+      popdown_diplomat_dialog();
+    } else {
+      popdown_diplomat_dialog();
+    }
+  }
+
+  return -1;
+}
+
 /********************************************************************
   Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile with an allied city
@@ -1182,6 +1204,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_STEAL_TECH] = diplomat_steal_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal_popup,
   [ACTION_SPY_INCITE_CITY] = diplomat_incite_callback,
+  [ACTION_SPY_INCITE_CITY_ESC] = spy_incite_callback,
   [ACTION_TRADE_ROUTE] = caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = caravan_marketplace_callback,
   [ACTION_HELP_WONDER] = caravan_help_build_wonder_callback,

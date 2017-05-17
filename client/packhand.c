@@ -4451,6 +4451,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     }
     break;
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
     if (pcity && client.conn.playing
         && is_human(client.conn.playing)) {
       /* Focus on the unit so the player knows where it is */
@@ -4519,6 +4520,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SPY_STEAL_TECH:
       case ACTION_SPY_TARGETED_STEAL_TECH:
       case ACTION_SPY_INCITE_CITY:
+      case ACTION_SPY_INCITE_CITY_ESC:
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:

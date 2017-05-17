@@ -6047,6 +6047,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: Incite a Re_volt and Escape (3% chance of success). */
+          N_("Incite a Re%svolt and Escape%s"),
+          "actions.ui_name_incite_city_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_INCITE_CITY_ESC)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Establish _Embassy (100% chance of success). */
           N_("Establish %sEmbassy%s"),
           "actions.ui_name_establish_embassy");

@@ -863,7 +863,6 @@ bool utype_is_consumed_by_action(const struct action *paction,
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_GOLD:

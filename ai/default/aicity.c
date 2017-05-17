@@ -1166,6 +1166,7 @@ static int action_target_neg_util(int action_id,
 {
   switch ((enum gen_action)action_id) {
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
     /* Copied from the evaluation of the No_Incite effect */
     return MAX((game.server.diplchance * 2
                 - game.server.incite_total_factor) / 2

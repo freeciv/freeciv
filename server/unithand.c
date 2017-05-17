@@ -581,6 +581,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
@@ -2125,6 +2126,7 @@ void handle_unit_action_query(struct connection *pc,
     }
     break;
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
@@ -2409,6 +2411,8 @@ bool unit_perform_action(struct player *pplayer,
                                               paction));
     break;
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_incite(pplayer, actor_unit, pcity,
                                              paction));
@@ -4704,6 +4708,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_SABOTAGE_CITY:
       case ACTION_SPY_STEAL_TECH:
       case ACTION_SPY_INCITE_CITY:
+      case ACTION_SPY_INCITE_CITY_ESC:
       case ACTION_TRADE_ROUTE:
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:

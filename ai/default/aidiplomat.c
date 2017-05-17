@@ -224,8 +224,10 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
     incite_cost = city_incite_cost(pplayer, acity);
     if (POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(acity))
-        && is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
-                                      pplayer, acity)
+        && (is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
+                                       pplayer, acity)
+            || is_action_possible_on_city(ACTION_SPY_INCITE_CITY_ESC,
+                                          pplayer, acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
         && (incite_cost < pplayer->economic.gold - expenses)) {
       /* incite gain (FIXME: we should count wonders too but need to
@@ -414,6 +416,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
   if (incite_cost <= pplayer->economic.gold - 2 * expenses) {
+    T(ACTION_SPY_INCITE_CITY_ESC, 0);
     T(ACTION_SPY_INCITE_CITY, 0);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "%s too expensive!",
@@ -490,6 +493,8 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_INCITE_CITY)
               || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_INCITE_CITY_ESC)
+              || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_BRIBE_UNIT)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_SABOTAGE_UNIT))) {
@@ -541,8 +546,10 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 
     incite_cost = city_incite_cost(pplayer, acity);
     can_incite = (incite_cost < INCITE_IMPOSSIBLE_COST)
-        && is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
-                                      pplayer, acity);
+        && (is_action_possible_on_city(ACTION_SPY_INCITE_CITY,
+                                       pplayer, acity)
+            || is_action_possible_on_city(ACTION_SPY_INCITE_CITY_ESC,
+                                          pplayer, acity));
 
     can_steal = is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
                                            pplayer, acity)

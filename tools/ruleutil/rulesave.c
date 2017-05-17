@@ -1060,6 +1060,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      action_by_number(ACTION_SPY_INCITE_CITY)->ui_name,
                      "actions.ui_name_incite_city");
   secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_INCITE_CITY_ESC)->ui_name,
+                     "actions.ui_name_incite_city_escape");
+  secfile_insert_str(sfile,
                      action_by_number(ACTION_ESTABLISH_EMBASSY)->ui_name,
                      "actions.ui_name_establish_embassy");
   secfile_insert_str(sfile,

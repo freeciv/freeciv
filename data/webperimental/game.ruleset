@@ -329,6 +329,9 @@ ui_name_targeted_sabotage_city = _("Industrial %sSabotage%s")
 ; /* TRANS: Incite a _Revolt (3% chance of success). */
 ui_name_incite_city = _("Incite a %sRevolt%s")
 
+; /* TRANS: Incite a _Revolt and Escape (3% chance of success). */
+ui_name_incite_city_escape = _("Incite a Re%svolt and Escape%s")
+
 ; /* TRANS: Establish _Embassy (100% chance of success). */
 ui_name_establish_embassy = _("Establish %sEmbassy%s")
 
@@ -541,18 +544,36 @@ target_reqs  =
 [actionenabler_incite_city]
 action = "Incite City"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "DiplRel", "Alliance", "Local", FALSE
-      "DiplRel", "Team", "Local", FALSE
-      "UnitState", "OnLivableTile", "Local", TRUE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", TRUE
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "UnitFlag",     "Spy",           "Local", FALSE
     }
 target_reqs  =
-    { "type",   "name", "range", "present"
-      "Gov", "Democracy", "Player", FALSE
-      "Building", "Palace", "City", FALSE
+    { "type",     "name",      "range",  "present"
+      "Gov",      "Democracy", "Player", FALSE
+      "Building", "Palace",    "City",   FALSE
+    }
+
+[actionenabler_incite_city_spy]
+action = "Incite City Escape"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+    }
+target_reqs  =
+    { "type",     "name",      "range",  "present"
+      "Gov",      "Democracy", "Player", FALSE
+      "Building", "Palace",    "City",   FALSE
     }
 
 [actionenabler_bribe_unit]

@@ -1203,6 +1203,27 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
+/***************************************************************************
+...  Ask the server how much the revolt is going to cost us
+***************************************************************************/
+static void spy_incite_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_action_details(ACTION_SPY_INCITE_CITY_ESC, args->actor_unit_id,
+                           args->target_city_id);
+  }
+
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
 /************************************************************************
   User has responded to incite dialog
 ************************************************************************/
@@ -1433,6 +1454,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_STEAL_TECH] = (GCallback)diplomat_steal_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
   [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
+  [ACTION_SPY_INCITE_CITY_ESC] = (GCallback)spy_incite_callback,
   [ACTION_TRADE_ROUTE] = (GCallback)caravan_establish_trade_callback,
   [ACTION_MARKETPLACE] = (GCallback)caravan_marketplace_callback,
   [ACTION_HELP_WONDER] = (GCallback)caravan_help_build_wonder_callback,
