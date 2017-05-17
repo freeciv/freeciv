@@ -1619,6 +1619,7 @@ void server_quit(void)
   close_connections_and_socket();
   rulesets_deinit();
   ruleset_choices_free();
+  CALL_FUNC_EACH_AI(module_close);
   timing_log_free();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);

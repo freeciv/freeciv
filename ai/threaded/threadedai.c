@@ -66,6 +66,16 @@ static struct ai_type *tai_get_self(void)
 #define TAI_DFUNC(_func, ...) _func(ait, ## __VA_ARGS__ );
 
 /**************************************************************************
+  Free resources allocated by the threaded AI module
+**************************************************************************/
+static void tai_module_close(void)
+{
+  TAI_AIT;
+
+  FC_FREE(ait->private);
+}
+
+/**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_player_alloc(struct player *pplayer)
@@ -552,6 +562,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
 
   tai_init_self(ai);
 
+  ai->funcs.module_close = tai_module_close;
   ai->funcs.player_alloc = twai_player_alloc;
   ai->funcs.player_free = twai_player_free;
   ai->funcs.player_save = twai_player_save;

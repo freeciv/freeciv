@@ -70,6 +70,16 @@ const char *fc_ai_classic_capstr(void)
 }
 
 /**************************************************************************
+  Free resources allocated by the classic AI module
+**************************************************************************/
+static void cai_module_close(void)
+{
+  struct ai_type *deftype = classic_ai_get_self();
+
+  FC_FREE(deftype->private);
+}
+
+/**************************************************************************
   Call default ai with classic ai type as parameter.
 **************************************************************************/
 static void cai_player_alloc(struct player *pplayer)
@@ -578,6 +588,8 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   private = fc_malloc(sizeof(struct dai_private_data));
   private->contemplace_workers = TRUE;
   ai->private = private;
+
+  ai->funcs.module_close = cai_module_close;
 
   /* ai->funcs.game_start = NULL; */
   /* ai->funcs.game_free = NULL; */

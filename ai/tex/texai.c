@@ -68,6 +68,16 @@ static struct ai_type *texai_get_self(void)
 #define TEXAI_DFUNC(_func, ...) _func(ait, ## __VA_ARGS__ );
 
 /**************************************************************************
+  Free resources allocated by the tex AI module
+**************************************************************************/
+static void texai_module_close(void)
+{
+  TEXAI_AIT;
+
+  FC_FREE(ait->private);
+}
+
+/**************************************************************************
   Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_game_start(void)
@@ -586,6 +596,8 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->private = private;
 
   texai_init_self(ai);
+
+  ai->funcs.module_close = texai_module_close;
 
   ai->funcs.game_start = texwai_game_start;
   ai->funcs.game_free = texwai_game_free;

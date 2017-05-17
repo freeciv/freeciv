@@ -124,6 +124,7 @@ New in Freeciv 3.1:
 New in Freeciv 3.0:
 -------------------
 - Added 'private' pointer for ai module to store data of its own
+- Added 'module_close', called when server quits
 - Added 'player_console', called when user enter aicmd
 - Added 'city_created', 'city_destroyed', 'unit_created', and 'unit_destroyed'
   They are like 'city_alloc', 'city_free', 'unit_alloc', and 'unit_free' but called

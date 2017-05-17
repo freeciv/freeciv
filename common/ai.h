@@ -55,6 +55,9 @@ struct ai_type
   void *private;
 
   struct {
+    /* Called for every AI type when server quits. */
+    void (*module_close)(void);
+
     /* Called for every AI type when game starts. Game is not necessarily new one,
        it can also be an old game loaded from a savegame. */
     void (*game_start)(void);
