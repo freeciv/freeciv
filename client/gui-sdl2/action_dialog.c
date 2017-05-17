@@ -1964,7 +1964,8 @@ void popdown_incite_dialog(void)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
+                         const struct action *paction)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   utf8_str *pstr;
@@ -1979,7 +1980,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
 
-  if (!actor || !unit_can_do_action(actor, ACTION_SPY_INCITE_CITY)) {
+  if (!actor || !unit_can_do_action(actor, paction->id)) {
     act_sel_done_secondary(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
@@ -1989,7 +1990,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
   pIncite_Dlg->actor_unit_id = actor->id;
   pIncite_Dlg->target_id = pCity->id;
-  pIncite_Dlg->action_id = ACTION_SPY_INCITE_CITY;
+  pIncite_Dlg->action_id = paction->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",

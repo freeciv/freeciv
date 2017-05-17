@@ -63,7 +63,7 @@ GUI_FUNC_PROTO(void, action_selection_refresh, struct unit *actor_unit,
                struct tile *target_tile,
                const struct act_prob *act_probs)
 GUI_FUNC_PROTO(void, popup_incite_dialog, struct unit *actor,
-               struct city *pcity, int cost)
+               struct city *pcity, int cost, const struct action *paction)
 GUI_FUNC_PROTO(void, popup_bribe_dialog, struct unit *actor,
                struct unit *punit, int cost)
 GUI_FUNC_PROTO(void, popup_sabotage_dialog, struct unit *actor,
