@@ -2249,7 +2249,8 @@ void popdown_bribe_dialog(void)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
+                        const struct action *paction)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   utf8_str *pstr;
@@ -2264,7 +2265,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
 
-  if (!actor || !unit_can_do_action(actor, ACTION_SPY_BRIBE_UNIT)) {
+  if (!actor || !unit_can_do_action(actor, paction->id)) {
     act_sel_done_secondary(actor ? actor->id : IDENTITY_NUMBER_ZERO);
     return;
   }
@@ -2272,7 +2273,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   is_unit_move_blocked = TRUE;
 
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pBribe_Dlg->action_id = ACTION_SPY_BRIBE_UNIT;
+  pBribe_Dlg->action_id = paction->id;
   pBribe_Dlg->actor_unit_id = actor->id;
   pBribe_Dlg->target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
