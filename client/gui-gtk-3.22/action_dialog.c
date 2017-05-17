@@ -449,7 +449,8 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 /*************************************************************************
   Popup unit bribe dialog
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
+                        const struct action *paction)
 {
   GtkWidget *shell;
   char buf[1024];
@@ -479,8 +480,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
-                   act_data(ACTION_SPY_BRIBE_UNIT,
-                            actor->id, 0, punit->id, 0, cost));
+                   act_data(paction->id, actor->id, 0, punit->id, 0, cost));
 }
 
 /****************************************************************

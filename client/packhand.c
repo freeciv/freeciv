@@ -4442,7 +4442,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pdiplomat);
 
-      popup_bribe_dialog(pdiplomat, punit, cost);
+      popup_bribe_dialog(pdiplomat, punit, cost, paction);
     } else {
       log_debug("Bad target %d.", target_id);
       action_selection_no_longer_in_progress(diplomat_id);

@@ -2584,7 +2584,8 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
+void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
+                        const struct action *paction)
 {
   hud_message_box ask(gui()->central_wdg);
   int ret;
@@ -2613,7 +2614,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost)
     case QMessageBox::Cancel:
       break;
     case QMessageBox::Ok:
-      request_do_action(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+      request_do_action(paction->id, diplomat_id,
                         diplomat_target_id, 0, "");
       break;
     default:
