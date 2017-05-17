@@ -78,6 +78,7 @@ extern void popdown_endgame_report();
 
 static void act_sel_keep_moving(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
+static void diplomat_incite_escape(QVariant data1, QVariant data2);
 static void spy_request_sabotage_list(QVariant data1, QVariant data2);
 static void spy_sabotage(QVariant data1, QVariant data2);
 static void spy_steal(QVariant data1, QVariant data2);
@@ -158,6 +159,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_STEAL_TECH] = diplomat_steal;
   action_function[ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal;
   action_function[ACTION_SPY_INCITE_CITY] = diplomat_incite;
+  action_function[ACTION_SPY_INCITE_CITY_ESC] = diplomat_incite_escape;
   action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
   action_function[ACTION_MARKETPLACE] = caravan_marketplace;
   action_function[ACTION_HELP_WONDER] = caravan_help_build;
@@ -2476,6 +2478,24 @@ static void diplomat_incite(QVariant data1, QVariant data2)
     is_more_user_input_needed = TRUE;
 
     request_action_details(ACTION_SPY_INCITE_CITY, diplomat_id,
+                           diplomat_target_id);
+  }
+}
+
+/***************************************************************************
+  Action incite revolt and escape for choice dialog
+***************************************************************************/
+static void diplomat_incite_escape(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
+    request_action_details(ACTION_SPY_INCITE_CITY_ESC, diplomat_id,
                            diplomat_target_id);
   }
 }

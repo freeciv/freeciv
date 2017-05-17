@@ -183,6 +183,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_SPY_STEAL_TECH,
                           ACTION_SPY_TARGETED_STEAL_TECH,
                           ACTION_SPY_INCITE_CITY,
+                          ACTION_SPY_INCITE_CITY_ESC,
                           ACTION_SPY_BRIBE_UNIT,
                           ACTION_CAPTURE_UNITS,
                           ACTION_CONQUER_CITY,
@@ -344,6 +345,10 @@ static void hard_code_actions(void)
                  0, 1, FALSE);
   actions[ACTION_SPY_INCITE_CITY] =
       action_new(ACTION_SPY_INCITE_CITY, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_INCITE_CITY_ESC] =
+      action_new(ACTION_SPY_INCITE_CITY_ESC, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY] =
@@ -1520,6 +1525,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
@@ -1652,6 +1658,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -2169,6 +2176,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_STEAL_MAPS:
   case ACTION_SPY_NUKE:
@@ -2922,6 +2930,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_INCITE_CITY:
+    /* TODO */
+    break;
+  case ACTION_SPY_INCITE_CITY_ESC:
     /* TODO */
     break;
   case ACTION_ESTABLISH_EMBASSY:

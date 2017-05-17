@@ -217,6 +217,13 @@ Actions done by a unit against a city
 
 "Incite City" - Pay the target city to join the actors owners side.
  * UI name can be set using ui_name_incite_city
+ * spends the actor unit
+ * actor must be aware that the target exists
+ * actor must be on the same tile as the target or on the tile next to it.
+ * target must be foreign. (!)
+
+"Incite City Escape" - Pay the target city to join the actors owners side.
+ * UI name can be set using ui_name_incite_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)

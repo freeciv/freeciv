@@ -417,6 +417,7 @@ void rscompat_postprocess(struct rscompat_info *info)
           || utype_can_do_action(ptype, ACTION_SPY_STEAL_TECH)
           || utype_can_do_action(ptype, ACTION_SPY_TARGETED_STEAL_TECH)
           || utype_can_do_action(ptype, ACTION_SPY_INCITE_CITY)
+          || utype_can_do_action(ptype, ACTION_SPY_INCITE_CITY_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_BRIBE_UNIT)
           || utype_can_do_action(ptype, ACTION_SPY_SABOTAGE_UNIT)
           || 0 < ptype->transport_capacity) {
@@ -1008,6 +1009,33 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* The other allows non spies to do "Establish Embassy Stay". */
         enabler->action = ACTION_ESTABLISH_EMBASSY_STAY;
+        requirement_vector_append(&enabler->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, TRUE,
+                                                  UTYF_SPY));
+
+        /* Add previously implicit obligatory hard requirement(s) to the
+         * newly created copy. (Not done below.) */
+        action_enabler_obligatory_reqs_add(enabler);
+      }
+
+      /* Incite City is split in a unit consuming and a "try to escape"
+       * version. */
+      if (ae->action == ACTION_SPY_INCITE_CITY) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows spies to do "Incite City Escape". */
+        ae->action = ACTION_SPY_INCITE_CITY_ESC;
+        requirement_vector_append(&ae->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, TRUE,
+                                                  UTYF_SPY));
+
+        /* The other allows non spies to do "Incite City". */
         requirement_vector_append(&enabler->actor_reqs,
                                   req_from_values(VUT_UTFLAG,
                                                   REQ_RANGE_LOCAL,
