@@ -4412,6 +4412,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   struct unit *punit = game_unit_by_number(target_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
+  struct action *paction = action_by_number(action_type);
 
   if (ACTION_NONE != action_type
       && !action_id_exists(action_type)) {
@@ -4454,7 +4455,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       /* Focus on the unit so the player knows where it is */
       unit_focus_set(pdiplomat);
 
-      popup_incite_dialog(pdiplomat, pcity, cost);
+      popup_incite_dialog(pdiplomat, pcity, cost, paction);
     } else {
       log_debug("Bad target %d.", target_id);
       action_selection_no_longer_in_progress(diplomat_id);

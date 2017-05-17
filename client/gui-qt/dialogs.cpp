@@ -2501,7 +2501,8 @@ static void act_sel_keep_moving(QVariant data1, QVariant data2)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
+                         const struct action *paction)
 {
   char buf[1024];
   char buf2[1024];
@@ -2539,7 +2540,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost)
     case QMessageBox::Cancel:
       break;
     case QMessageBox::Ok:
-      request_do_action(ACTION_SPY_INCITE_CITY, diplomat_id,
+      request_do_action(paction->id, diplomat_id,
                         diplomat_target_id, 0, "");
       break;
     }

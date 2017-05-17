@@ -1205,7 +1205,8 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
 /*************************************************************************
 Popup the yes/no dialog for inciting, since we know the cost now
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
+                         const struct action *paction)
 {
   GtkWidget *shell;
   char buf[1024];
@@ -1243,8 +1244,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
-                   act_data(ACTION_SPY_INCITE_CITY,
-                            actor->id, pcity->id, 0, 0, cost));
+                   act_data(paction->id, actor->id, pcity->id, 0, 0, cost));
 }
 
 

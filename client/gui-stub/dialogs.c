@@ -128,7 +128,8 @@ void popup_action_selection(struct unit *actor_unit,
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost)
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
+                         const struct action *paction)
 {
   /* PORTME */
 }
