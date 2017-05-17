@@ -58,6 +58,7 @@ struct diplomat_dialog {
 struct small_diplomat_dialog {
   int actor_unit_id;
   int target_id;
+  int action_id;
   struct SMALL_DLG *pdialog;
 };
  
@@ -1911,15 +1912,15 @@ static int incite_dlg_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/****************************************************************
+/**************************************************************************
   User confirmed incite
-*****************************************************************/
+**************************************************************************/
 static int diplomat_incite_yes_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
         && NULL != game_city_by_number(pIncite_Dlg->target_id)) {
-      request_do_action(ACTION_SPY_INCITE_CITY, pIncite_Dlg->actor_unit_id,
+      request_do_action(pIncite_Dlg->action_id, pIncite_Dlg->actor_unit_id,
                         pIncite_Dlg->target_id, 0, "");
     }
 
@@ -1988,6 +1989,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost)
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
   pIncite_Dlg->actor_unit_id = actor->id;
   pIncite_Dlg->target_id = pCity->id;
+  pIncite_Dlg->action_id = ACTION_SPY_INCITE_CITY;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
@@ -2181,7 +2183,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
         && NULL != game_unit_by_number(pBribe_Dlg->target_id)) {
-      request_do_action(ACTION_SPY_BRIBE_UNIT, pBribe_Dlg->actor_unit_id,
+      request_do_action(pBribe_Dlg->action_id, pBribe_Dlg->actor_unit_id,
                         pBribe_Dlg->target_id, 0, "");
     }
     popdown_bribe_dialog();
@@ -2247,6 +2249,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost)
   is_unit_move_blocked = TRUE;
 
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
+  pBribe_Dlg->action_id = ACTION_SPY_BRIBE_UNIT;
   pBribe_Dlg->actor_unit_id = actor->id;
   pBribe_Dlg->target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
