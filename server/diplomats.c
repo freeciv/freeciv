@@ -1391,8 +1391,10 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     }
   }
 
-  /* FIXME: Reason should be ULR_USED for diplomats? */
-  wipe_unit(pdiplomat, ULR_CAUGHT, NULL);
+  wipe_unit(pdiplomat,
+            /* A non Spy can't escape. It is therefore spent, not caught. */
+            unit_has_type_flag(pdiplomat, UTYF_SPY) ? ULR_CAUGHT : ULR_USED,
+            NULL);
 }
 
 /****************************************************************************
