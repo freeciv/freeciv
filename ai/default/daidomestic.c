@@ -460,7 +460,7 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
   settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
 
   if (adv->wonder_city == pcity->id) {
-    if (!settler_type || settler_type->pop_cost > 0) {
+    if (settler_type == NULL || settler_type->pop_cost > 0) {
       settler_want /= 5;
     } else {
       settler_want /= 2;
@@ -492,13 +492,13 @@ void domestic_advisor_choose_build(struct ai_type *ait, struct player *pplayer,
     founder_want = city_data->founder_want;
 
     if (adv->wonder_city == pcity->id) {
-      if (founder_type->pop_cost > 0) {
+      if (founder_type == NULL || founder_type->pop_cost > 0) {
         founder_want /= 5;
       } else {
         founder_want /= 2;
       }
     }
-    
+
     if (adv->max_num_cities <= city_list_size(pplayer->cities)) {
       founder_want /= 100;
     }
