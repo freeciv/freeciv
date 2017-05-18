@@ -101,7 +101,7 @@ CORE CHANGES:
   random technology is lost, and half of its value is restored to the
   count of Bulbs.
 
-- Enabled risk of Plague at cities with pop greater than 4. Chances
+- Enabled risk of Plague at cities with population greater than 4. Chances
   reduced by the buildings Aqueduct and Sewer System, the tech Medicine,
   and the wonder Cure for Cancer.
 
@@ -127,10 +127,6 @@ OPTIONAL RULES:
 
 - Set Occupy Chance to 100%: Units automatically move to the target tile
   if the attack is successful and ZoC rules allow the movement.
-
-- Disabled Happy Borders: Military Units cause unhappiness if they end
-  the turn outside cities or fortresses, no matter if they are inside
-  national borders.
 
 
 FOODBOX:
@@ -798,11 +794,11 @@ FULL LIST OF WONDERS
   periods when government changes.
 - (#)"United Nations" 600:
   +10 to AI love for the owner. Revolution_When_Unhappy and Has_Senate
-  for Every Nation. 
+  for every nation. 
 
 - "Great Wall" 300, Obsolete by Machine Tools (Artillery):
   +50% Defense bonus against Land units in every city, and cities do not
-  lose Population due to attacks.
+  lose population due to attacks.
 - "Leonardo's Workshop" 400, Obsolete by Combustion:
   Upgrades one obsolete unit per game turn.
 - "Hoover Dam" 600, Requires Factory:
@@ -832,9 +828,6 @@ Changes:
 - Large cities (Pop>=8) no longer get extra units free of upkeep or
   military unhappiness. The result is 1, 2, or 3 free units per city,
   depending on the government.
-- Disabled happyborders: Units cause military unhappiness if they end
-  the turn outside cities or fortresses, no matter if they are inside
-  national borders.
 - Readjusted effect of some wonders: Mausoleum of Mausolos, Statue of
   Liberty, and those related to military unhappiness. Marco Polo's
   Embassy obsolete by Democracy.
