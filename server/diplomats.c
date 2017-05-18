@@ -280,6 +280,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
 
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
+  packet.action_id = paction->id;
   send_packet_city_sabotage_list(pc, &packet);
 }
 

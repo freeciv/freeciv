@@ -1165,12 +1165,13 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
+                           const struct action *paction)
 {
   /* FIXME: Don't discard the second target choice dialog. */
   if (!spy_sabotage_shell) {
     create_improvements_list(client.conn.playing, pcity,
-                             act_data(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                             act_data(paction->id,
                                       actor->id, pcity->id, 0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }

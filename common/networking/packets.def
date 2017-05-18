@@ -801,6 +801,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UNIT diplomat_id;
   CITY city_id;
   BV_IMPRS improvements;
+  GEN_ACTION action_id;
 end
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
