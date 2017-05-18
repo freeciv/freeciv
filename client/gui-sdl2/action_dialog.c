@@ -1656,6 +1656,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
     int sabotage_improvement = MAX_ID - pWidget->ID;
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
+    int action_id = pWidget->data.cont->value;
 
     fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
@@ -1673,7 +1674,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
                           sabotage_improvement + 1, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY,
+        request_do_action(action_id,
                           diplomat_id, diplomat_target_id,
                           sabotage_improvement + 1, "");
       }
@@ -1689,7 +1690,8 @@ static int sabotage_impr_callback(struct widget *pWidget)
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
+void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
+                           const struct action *paction)
 {
   struct widget *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
@@ -1717,6 +1719,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity)
   pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pCity->id;
   pCont->id1 = actor->id; /* spy id */
+  pCont->value = paction->id;
 
   pstr = create_utf8_from_char(_("Select Improvement to Sabotage") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;

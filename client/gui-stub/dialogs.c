@@ -148,7 +148,8 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   Popup a dialog asking a diplomatic unit if it wishes to sabotage the
   given enemy city.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *pcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
+                           const struct action *paction)
 {
   /* PORTME */
 }

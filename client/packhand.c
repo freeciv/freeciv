@@ -4660,11 +4660,13 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   Handle list of potenttial buildings to sabotage.
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
-                               bv_imprs improvements)
+                               bv_imprs improvements,
+                               enum gen_action action_id)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
+  struct action *paction = action_by_number(action_id);
 
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
@@ -4693,7 +4695,7 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
     /* Focus on the unit so the player knows where it is */
     unit_focus_set(pdiplomat);
 
-    popup_sabotage_dialog(pdiplomat, pcity);
+    popup_sabotage_dialog(pdiplomat, pcity, paction);
   } else {
     log_debug("Can't issue orders");
     action_selection_no_longer_in_progress(diplomat_id);

@@ -2657,6 +2657,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
+  int action_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
@@ -2666,7 +2667,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
                         diplomat_target_id, data2.toInt() + 1, "");
     } else {
       /* This is the targeted version. */
-      request_do_action(ACTION_SPY_TARGETED_SABOTAGE_CITY, diplomat_id,
+      request_do_action((gen_action)action_id, diplomat_id,
                         diplomat_target_id, data2.toInt() + 1, "");
     }
   }
@@ -2676,9 +2677,9 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   Popup a dialog asking a diplomatic unit if it wishes to sabotage the
   given enemy city.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
+void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
+                           const struct action *paction)
 {
-
   QString str;
   QVariant qv1, qv2;
   int diplomat_id = actor->id;
@@ -2695,9 +2696,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity)
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
 
-  /* Put both actor and target city in qv1 since qv2 is taken */
+  /* Put both actor, target city and action in qv1 since qv2 is taken */
   actor_and_target.append(diplomat_id);
   actor_and_target.append(diplomat_target_id);
+  actor_and_target.append(paction->id);
   qv1 = QVariant::fromValue(actor_and_target);
 
   func = spy_sabotage;
