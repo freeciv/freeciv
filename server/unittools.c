@@ -4453,17 +4453,17 @@ bool execute_orders(struct unit *punit, const bool fresh)
   properly.
 ****************************************************************************/
 int get_unit_vision_at(struct unit *punit, struct tile *ptile,
-		       enum vision_layer vlayer)
+                       enum vision_layer vlayer)
 {
   const int base = (unit_type_get(punit)->vision_radius_sq
-		    + get_unittype_bonus(unit_owner(punit), ptile,
+                    + get_unittype_bonus(unit_owner(punit), ptile,
                                          unit_type_get(punit),
-					 EFT_UNIT_VISION_RADIUS_SQ));
+                                         EFT_UNIT_VISION_RADIUS_SQ));
   switch (vlayer) {
   case V_MAIN:
-    return base;
+    return MAX(0, base);
   case V_INVIS:
-    return MIN(base, 2);
+    return CLIP(0, base, 2);
   case V_COUNT:
     break;
   }
