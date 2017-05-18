@@ -11,7 +11,7 @@
 
 [datafile]
 description="Multiplayer game rules for Freeciv"
-options="+Freeciv-ruleset-Devel-2015.January.14"
+options="+Freeciv-ruleset-Devel-2015.January.14 web-compatible"
 format_version=10
 
 ; This section contains meta information for freeciv-ruledit to recreate the ruleset
