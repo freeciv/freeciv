@@ -1867,19 +1867,26 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
            * We DO want to calculate (tech) wants because of buildings
            * we already have. */
           const bool already = city_has_building(pcity, pimprove);
+          int idx = improvement_index(pimprove);
 
           adjust_improvement_wants_by_effects(ait, pplayer, pcity,
                                               pimprove, already);
 
           fc_assert(!(already
-                      && 0 < pcity->server.adv->building_want[improvement_index(pimprove)]));
+                      && 0 < pcity->server.adv->building_want[idx]));
+
+          if (is_great_wonder(pimprove)) {
+            /* Not only would we get the wonder, but we would also prevent
+             * opponents from getting it. */
+            pcity->server.adv->building_want[idx] *= 1.5;
+          }
 
           /* If I am not an expansionist, I want buildings more than units */
-          if (pcity->server.adv->building_want[improvement_index(pimprove)] > 0) {
-            pcity->server.adv->building_want[improvement_index(pimprove)]
-              = pcity->server.adv->building_want[improvement_index(pimprove)]
-              * TRAIT_DEFAULT_VALUE
-              / ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer);
+          if (pcity->server.adv->building_want[idx] > 0) {
+            pcity->server.adv->building_want[idx]
+              = pcity->server.adv->building_want[idx]
+                  * TRAIT_DEFAULT_VALUE
+                  / ai_trait_get_value(TRAIT_EXPANSIONIST, pplayer);
           }
         }
         /* else wait until a later turn */
