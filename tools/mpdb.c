@@ -135,6 +135,19 @@ void create_mpdb(const char *filename, bool scenario_db)
 {
   sqlite3 **handle;
   int ret;
+  int llen = strlen(filename) + 1;
+  char *local_name = fc_malloc(llen);
+  int i;
+
+  strncpy(local_name, filename, llen);
+  for (i = llen - 1 ; local_name[i] != DIR_SEPARATOR_CHAR ; i--) {
+    /* Nothing */
+  }
+  local_name[i] = '\0';
+  if (!make_dir(local_name)) {
+    log_error(_("Can't create directory \"%s\" for modpack database."), local_name);
+    return;
+  }
 
   if (scenario_db) {
     handle = &scenario_handle;
