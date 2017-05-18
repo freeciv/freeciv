@@ -475,7 +475,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   worker_want = city_data->worker_want * pplayer->ai_common.expand / 100;
 
   if (adv->wonder_city == pcity->id) {
-    if (!worker_type || worker_type->pop_cost > 0) {
+    if (worker_type == NULL || worker_type->pop_cost > 0) {
       worker_want /= 5;
     } else {
       worker_want /= 2;
@@ -509,13 +509,13 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
     founder_want = city_data->founder_want;
 
     if (adv->wonder_city == pcity->id) {
-      if (founder_type->pop_cost > 0) {
+      if (founder_type == NULL || founder_type->pop_cost > 0) {
         founder_want /= 5;
       } else {
         founder_want /= 2;
       }
     }
-    
+
     if (adv->max_num_cities <= city_list_size(pplayer->cities)) {
       founder_want /= 100;
     }
