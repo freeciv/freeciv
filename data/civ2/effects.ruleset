@@ -2329,7 +2329,7 @@ type	= "Casus_Belli_Caught"
 value	= 1000
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Suitcase Nuke", "Local", TRUE
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
       "Gov", "Fundamentalism", "Player", FALSE
     }
 
@@ -2339,7 +2339,7 @@ type   = "Action_Odds_Pct"
 value   = -75
 reqs   =
     { "type", "name", "range"
-      "Action", "Suitcase Nuke", "Local"
+      "Action", "Suitcase Nuke Escape", "Local"
     }
 
 [effect_incident_caught_steal_tech]

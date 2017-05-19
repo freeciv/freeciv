@@ -88,6 +88,7 @@ static void spy_poison(QVariant data1, QVariant data2);
 static void spy_steal_gold(QVariant data1, QVariant data2);
 static void spy_steal_maps(QVariant data1, QVariant data2);
 static void spy_nuke_city(QVariant data1, QVariant data2);
+static void spy_nuke_city_esc(QVariant data1, QVariant data2);
 static void destroy_city(QVariant data1, QVariant data2);
 static void diplomat_embassy(QVariant data1, QVariant data2);
 static void spy_embassy(QVariant data1, QVariant data2);
@@ -166,6 +167,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_JOIN_CITY] = join_city;
   action_function[ACTION_STEAL_MAPS] = spy_steal_maps;
   action_function[ACTION_SPY_NUKE] = spy_nuke_city;
+  action_function[ACTION_SPY_NUKE_ESC] = spy_nuke_city_esc;
   action_function[ACTION_DESTROY_CITY] = destroy_city;
   action_function[ACTION_RECYCLE_UNIT] = unit_recycle;
   action_function[ACTION_HOME_CITY] = unit_home_city;
@@ -2326,6 +2328,21 @@ static void spy_nuke_city(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_NUKE,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***************************************************************************
+  Action suitcase nuke escape for choice dialog
+***************************************************************************/
+static void spy_nuke_city_esc(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    request_do_action(ACTION_SPY_NUKE_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }

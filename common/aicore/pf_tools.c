@@ -707,6 +707,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
         || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_GOLD)
         || utype_can_do_action(parameter->utype, ACTION_STEAL_MAPS)
         || utype_can_do_action(parameter->utype, ACTION_SPY_NUKE)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_NUKE_ESC)
         || utype_can_do_action(parameter->utype,
                                ACTION_SPY_INVESTIGATE_CITY)
         || utype_can_do_action(parameter->utype,

@@ -237,7 +237,7 @@ bombard_max_range = 1
 ui_name_poison_city = _("%sPoison City%s")
 
 ; /* TRANS: Plant _Nuclear Device (3% chance of success). */
-ui_name_suitcase_nuke = _("Plant %sNuclear Device%s")
+ui_name_suitcase_nuke_escape = _("Plant %sNuclear Device%s")
 
 ; /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
 ui_name_sabotage_unit = _("%sSabotage Enemy Unit%s")
@@ -410,7 +410,7 @@ target_reqs    =
 
 ; TODO: Find the exact requirements
 [actionenabler_plant_nuke]
-action = "Suitcase Nuke"
+action = "Suitcase Nuke Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"

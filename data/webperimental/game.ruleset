@@ -650,7 +650,7 @@ target_reqs  =
     }
 
 [actionenabler_suitcase_nuke]
-action = "Suitcase Nuke"
+action = "Suitcase Nuke Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"

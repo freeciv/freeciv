@@ -6174,6 +6174,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: Suitcase _Nuke and Escape (100% chance of success). */
+          N_("Suitcase %sNuke and Escape%s"),
+          "actions.ui_name_suitcase_nuke_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_NUKE_ESC)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Explode _Nuclear (100% chance of success). */
           N_("Explode %sNuclear%s"),
           "actions.ui_name_explode_nuclear");
