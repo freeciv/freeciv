@@ -200,7 +200,7 @@ bool script_client_init(void)
     return TRUE;
   }
 
-  main_fcl = luascript_new(script_client_output);
+  main_fcl = luascript_new(script_client_output, TRUE);
   if (main_fcl == NULL) {
     luascript_destroy(main_fcl); /* TODO: main_fcl is NULL here... */
     main_fcl = NULL;

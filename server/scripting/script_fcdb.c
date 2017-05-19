@@ -193,7 +193,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
     fcdb_luafile = FC_CONF_PATH "/" SCRIPT_FCDB_LUA_FILE;
   }
 
-  fcl = luascript_new(NULL);
+  fcl = luascript_new(NULL, FALSE);
   if (fcl == NULL) {
     log_error("Error loading the Freeciv database lua definition.");
     return FALSE;
