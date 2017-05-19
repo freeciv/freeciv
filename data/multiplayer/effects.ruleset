@@ -2507,6 +2507,15 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
+[effect_incident_success_incite_esc]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Incite City Escape", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
 [effect_incident_success_poison]
 type	= "Casus_Belli_Success"
 value	= 1
