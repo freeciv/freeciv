@@ -90,7 +90,8 @@ static void action_give_casus_belli(struct player *offender,
 static enum incident_type action_to_incident(const int action_id)
 {
   if (action_id == ACTION_NUKE
-      || action_id == ACTION_SPY_NUKE) {
+      || action_id == ACTION_SPY_NUKE
+      || action_id == ACTION_SPY_NUKE_ESC) {
     return INCIDENT_NUCLEAR;
   } else {
     /* FIXME: Some actions are neither nuclear nor diplomat. */

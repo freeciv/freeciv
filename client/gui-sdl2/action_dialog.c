@@ -352,6 +352,26 @@ static int spy_nuke_city_callback(struct widget *pWidget)
   return -1;
 }
 
+/***************************************************************************
+  User clicked "Suitcase Nuke Escape"
+***************************************************************************/
+static int spy_nuke_city_esc_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_NUKE_ESC, pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
 /****************************************************************
   User clicked "Destroy City"
 *****************************************************************/
@@ -1210,6 +1230,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_HELP_WONDER] = caravan_help_build_wonder_callback,
   [ACTION_JOIN_CITY] = join_city_callback,
   [ACTION_SPY_NUKE] = spy_nuke_city_callback,
+  [ACTION_SPY_NUKE_ESC] = spy_nuke_city_esc_callback,
   [ACTION_DESTROY_CITY] = destroy_city_callback,
   [ACTION_RECYCLE_UNIT] = unit_recycle_callback,
   [ACTION_HOME_CITY] = home_city_callback,

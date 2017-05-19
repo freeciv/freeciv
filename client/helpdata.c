@@ -2513,9 +2513,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
               || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY)
               || utype_can_do_action(utype, ACTION_SPY_TARGETED_SABOTAGE_CITY)
               || utype_can_do_action(utype, ACTION_SPY_STEAL_GOLD)
-              || utype_can_do_action(utype, ACTION_STEAL_MAPS)
-              || utype_can_do_action(utype, ACTION_SPY_NUKE)))
-            || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY_ESC)) {
+              || utype_can_do_action(utype, ACTION_STEAL_MAPS)))
+            || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY_ESC)
+            || utype_can_do_action(utype, ACTION_SPY_NUKE_ESC)) {
           CATLSTR(buf, bufsz,
                   _("  * Veterans are more likely to survive missions.\n"));
         }

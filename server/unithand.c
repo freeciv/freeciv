@@ -592,6 +592,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_JOIN_CITY:
   case ACTION_STEAL_MAPS:
   case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
   case ACTION_RECYCLE_UNIT:
@@ -2452,6 +2453,8 @@ bool unit_perform_action(struct player *pplayer,
                                                        actor_unit, pcity));
     break;
   case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_nuke_city(pplayer, actor_unit, pcity,
                                            paction));
@@ -4716,6 +4719,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_STEAL_MAPS:
       case ACTION_BOMBARD:
       case ACTION_SPY_NUKE:
+      case ACTION_SPY_NUKE_ESC:
       case ACTION_NUKE:
       case ACTION_DESTROY_CITY:
       case ACTION_EXPEL_UNIT:

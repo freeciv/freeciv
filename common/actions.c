@@ -431,6 +431,10 @@ static void hard_code_actions(void)
   actions[ACTION_SPY_NUKE] =
       action_new(ACTION_SPY_NUKE, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_NUKE_ESC] =
+      action_new(ACTION_SPY_NUKE_ESC, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_NUKE] =
       action_new(ACTION_NUKE,
@@ -1535,6 +1539,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_FOUND_CITY:
   case ACTION_STEAL_MAPS:
   case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
   case ACTION_NUKE:
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
@@ -1668,6 +1673,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_STEAL_MAPS:
   case ACTION_BOMBARD:
   case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
   case ACTION_NUKE:
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
@@ -2180,6 +2186,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_STEAL_MAPS:
   case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
   case ACTION_DISBAND_UNIT:
@@ -2999,6 +3006,9 @@ action_prob(const enum gen_action wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_NUKE:
+    /* TODO */
+    break;
+  case ACTION_SPY_NUKE_ESC:
     /* TODO */
     break;
   case ACTION_NUKE:

@@ -410,7 +410,7 @@ target_reqs    =
 
 ; TODO: Find the exact requirements
 [actionenabler_plant_nuke]
-action = "Suitcase Nuke"
+action = "Suitcase Nuke Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"

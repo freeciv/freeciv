@@ -862,6 +862,7 @@ void adv_best_government(struct player *pplayer)
           case ACTION_STEAL_MAPS:
           case ACTION_BOMBARD:
           case ACTION_SPY_NUKE:
+          case ACTION_SPY_NUKE_ESC:
           case ACTION_NUKE:
           case ACTION_DESTROY_CITY:
           case ACTION_EXPEL_UNIT:

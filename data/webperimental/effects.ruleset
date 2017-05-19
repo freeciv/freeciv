@@ -2599,5 +2599,5 @@ type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Suitcase Nuke", "Local", TRUE
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
     }
