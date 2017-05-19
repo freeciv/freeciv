@@ -35,11 +35,12 @@ class req_edit : public QDialog
     void refresh();
     void add(const char *msg);
 
+    struct requirement_vector *req_vector;
+
   private:
     ruledit_gui *ui;
 
     QListWidget *req_list;
-    struct requirement_vector *req_vector;
 
     struct requirement *selected;
 
@@ -62,6 +63,9 @@ class req_edit : public QDialog
     void req_present_menu(QAction *action);
     void univ_value_enum_menu(QAction *action);
     void univ_value_edit();
+
+  protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // FC__REQ_EDIT_H

@@ -31,6 +31,7 @@
 
 // ruledit
 #include "ruledit.h"
+#include "ruledit_qt.h"
 #include "univ_value.h"
 
 #include "req_edit.h"
@@ -177,6 +178,7 @@ void req_edit::refresh()
 **************************************************************************/
 void req_edit::close_now()
 {
+  ui->unregister_req_edit(this);
   done(0);
 }
 
@@ -360,4 +362,12 @@ void req_edit::delete_now()
 
     refresh();
   }
+}
+
+/**************************************************************************
+  User clicked windows close button.
+**************************************************************************/
+void req_edit::closeEvent(QCloseEvent *event)
+{
+  ui->unregister_req_edit(this);
 }

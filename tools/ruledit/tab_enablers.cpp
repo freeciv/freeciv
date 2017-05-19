@@ -34,7 +34,6 @@
 #include "government.h"
 
 // ruledit
-#include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -273,10 +272,8 @@ void tab_enabler::edit_type(QAction *action)
 void tab_enabler::edit_target_reqs()
 {
   if (selected != nullptr) {
-    req_edit *redit = new req_edit(ui, QString::fromUtf8(R__("Enabler (target)")),
-                                   &selected->target_reqs);
-
-    redit->show();
+    ui->open_req_edit(QString::fromUtf8(R__("Enabler (target)")),
+                      &selected->target_reqs);
   }
 }
 
@@ -286,10 +283,8 @@ void tab_enabler::edit_target_reqs()
 void tab_enabler::edit_actor_reqs()
 {
   if (selected != nullptr) {
-    req_edit *redit = new req_edit(ui, QString::fromUtf8(R__("Enabler (actor)")),
-                                   &selected->actor_reqs);
-
-    redit->show();
+    ui->open_req_edit(QString::fromUtf8(R__("Enabler (actor)")),
+                      &selected->actor_reqs);
   }
 }
 

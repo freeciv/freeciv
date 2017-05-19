@@ -38,6 +38,7 @@ class tab_nation;
 class tab_enabler;
 class tab_extras;
 class tab_terrains;
+class req_edit;
 
 class ruledit_main : public QMainWindow
 {
@@ -55,6 +56,15 @@ protected:
   void closeEvent(QCloseEvent *cevent);
 };
 
+/* get 'struct req_edit_list' and related functions: */
+#define SPECLIST_TAG req_edit
+#define SPECLIST_TYPE class req_edit
+#include "speclist.h"
+
+#define req_edit_list_iterate(reqeditlist, preqedit) \
+  TYPED_LIST_ITERATE(class req_edit, reqeditlist, preqedit)
+#define req_edit_list_iterate_end LIST_ITERATE_END
+
 class ruledit_gui : public QObject
 {
   Q_OBJECT
@@ -65,6 +75,9 @@ class ruledit_gui : public QObject
     requirers_dlg *create_requirers(const char *title);
     void show_required(requirers_dlg *requirers, const char *msg);
     void flush_widgets();
+
+    void open_req_edit(QString target, struct requirement_vector *preqs);
+    void unregister_req_edit(class req_edit *redit);
 
     struct rule_data data;
 
@@ -85,6 +98,8 @@ class ruledit_gui : public QObject
     tab_extras *extras;
     tab_terrains *terrains;
     tab_nation *nation;
+
+    struct req_edit_list *req_edits;
 
   private slots:
     void launch_now();

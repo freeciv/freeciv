@@ -40,6 +40,7 @@
 
 // ruledit
 #include "requirers_dlg.h"
+#include "req_edit.h"
 #include "ruledit.h"
 #include "tab_building.h"
 #include "tab_enablers.h"
@@ -192,6 +193,8 @@ void ruledit_gui::setup(QWidget *central_in)
   full_layout->addWidget(msg_dspl);
 
   central->setLayout(full_layout);
+
+  req_edits = req_edit_list_new();
 }
 
 /**************************************************************************
@@ -266,6 +269,35 @@ void ruledit_gui::show_required(requirers_dlg *requirers, const char *msg)
 void ruledit_gui::flush_widgets()
 {
   nation->flush_widgets();
+}
+
+/**************************************************************************
+  Open req_edit dialog
+**************************************************************************/
+void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs)
+{
+  req_edit *redit;  
+  
+  req_edit_list_iterate(req_edits, old_edit) {
+    if (old_edit->req_vector == preqs) {
+      // Already open
+      return;
+    }
+  } req_edit_list_iterate_end;
+
+  redit = new req_edit(this, target, preqs);
+
+  redit->show();
+
+  req_edit_list_append(req_edits, redit);
+}
+
+/**************************************************************************
+  Unregisted closed req_edit dialog
+**************************************************************************/
+void ruledit_gui::unregister_req_edit(class req_edit *redit)
+{
+  req_edit_list_remove(req_edits, redit);
 }
 
 /**************************************************************************

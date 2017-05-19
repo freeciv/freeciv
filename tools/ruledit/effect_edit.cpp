@@ -29,8 +29,8 @@
 #include "effects.h"
 
 // ruledit
-#include "req_edit.h"
 #include "ruledit.h"
+#include "ruledit_qt.h"
 #include "validity.h"
 
 #include "effect_edit.h"
@@ -221,13 +221,10 @@ void effect_edit::edit_reqs()
 {
   if (selected != nullptr) {
     char buf[128];
-    req_edit *redit;
 
     fc_snprintf(buf, sizeof(buf), R__("%s effect #%d"), name.toUtf8().data(),
                 selected_nbr);
 
-    redit = new req_edit(ui, QString::fromUtf8(buf), &selected->reqs);
-
-    redit->show();
+    ui->open_req_edit(QString::fromUtf8(buf), &selected->reqs);
   }
 }
