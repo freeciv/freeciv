@@ -33,7 +33,6 @@
 #include "improvement.h"
 
 // ruledit
-#include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -271,9 +270,7 @@ void tab_building::same_name_toggle(bool checked)
 void tab_building::edit_reqs()
 {
   if (selected != nullptr) {
-    req_edit *redit = new req_edit(ui, QString::fromUtf8(improvement_rule_name(selected)),
-                                   &selected->reqs);
-
-    redit->show();
+    ui->open_req_edit(QString::fromUtf8(improvement_rule_name(selected)),
+                      &selected->reqs);
   }
 }
