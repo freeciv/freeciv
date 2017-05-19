@@ -120,6 +120,8 @@ module edit {
   void api_edit_unit_kill
     @ unit_kill(lua_State *L, Unit *self, const char *reason,
                 Player *killer);
+  bool api_edit_change_terrain
+    @ change_terrain(lua_State *L, Tile *ptile, Terrain *pterr);
   void api_edit_create_city
     @ create_city (lua_State *L, Player *pplayer, Tile *ptile,
                    const char *name);
@@ -358,6 +360,10 @@ end
 
 function Tile:remove_extra(name)
   edit.remove_extra(self, name)
+end
+
+function Tile:change_terrain(terrain)
+  edit.change_terrain(self, terrain)
 end
 
 function Tile:unleash_barbarians()
