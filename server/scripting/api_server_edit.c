@@ -44,6 +44,9 @@
 /* server/scripting */
 #include "script_server.h"
 
+/* server/generator */
+#include "mapgen_utils.h"
+
 #include "api_server_edit.h"
 
 
@@ -225,6 +228,36 @@ void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
                       "Invalid unit loss reason");
 
   wipe_unit(punit, loss_reason, killer);
+}
+
+/*****************************************************************************
+  Change terrain on tile
+*****************************************************************************/
+bool api_edit_change_terrain(lua_State *L, Tile *ptile, Terrain *pterr)
+{
+  struct terrain *old_terrain;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, pterr, 3, Terrain, FALSE);
+
+  old_terrain = tile_terrain(ptile);
+
+  if (old_terrain == pterr
+      || (terrain_has_flag(pterr, TER_NO_CITIES) && tile_city(ptile) != NULL)) {
+    return FALSE;
+  }
+  
+  tile_change_terrain(ptile, pterr);
+  fix_tile_on_terrain_change(ptile, old_terrain, FALSE);
+  if (need_to_reassign_continents(old_terrain, pterr)) {
+    assign_continent_numbers();
+    send_all_known_tiles(NULL);
+  }
+
+  update_tile_knowledge(ptile);
+
+  return TRUE;
 }
 
 /*****************************************************************************
