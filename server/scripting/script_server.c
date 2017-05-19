@@ -254,7 +254,7 @@ bool script_server_init(void)
     return TRUE;
   }
 
-  fcl_main = luascript_new(NULL);
+  fcl_main = luascript_new(NULL, TRUE);
   if (fcl_main == NULL) {
     luascript_destroy(fcl_main);
     fcl_main = NULL;

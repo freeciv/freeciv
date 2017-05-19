@@ -62,7 +62,14 @@
 #define LUASCRIPT_SECURE_LUA_VERSION1 502
 #define LUASCRIPT_SECURE_LUA_VERSION2 503
 
-static const char *luascript_unsafe_symbols[] = {
+static const char *luascript_unsafe_symbols_secure[] = {
+  "debug",
+  "dofile",
+  "loadfile",
+  NULL
+};
+
+static const char *luascript_unsafe_symbols_permissive[] = {
   "debug",
   "dofile",
   "loadfile",
@@ -79,7 +86,7 @@ static const char *luascript_unsafe_symbols[] = {
   and library loading modules). See linit.c in Lua 5.1 for the default list.
 *****************************************************************************/
 #if LUA_VERSION_NUM == 502
-static luaL_Reg luascript_lualibs[] = {
+static luaL_Reg luascript_lualibs_secure[] = {
   /* Using default libraries excluding: package, io and os */
   {"_G", luaopen_base},
   {LUA_COLIBNAME, luaopen_coroutine},
@@ -91,7 +98,7 @@ static luaL_Reg luascript_lualibs[] = {
   {NULL, NULL}
 };
 #elif LUA_VERSION_NUM == 503
-static luaL_Reg luascript_lualibs[] = {
+static luaL_Reg luascript_lualibs_secure[] = {
   /* Using default libraries excluding: package, io, os, and bit32 */
   {"_G", luaopen_base},
   {LUA_COLIBNAME, luaopen_coroutine},
@@ -100,6 +107,19 @@ static luaL_Reg luascript_lualibs[] = {
   {LUA_UTF8LIBNAME, luaopen_utf8},
   {LUA_MATHLIBNAME, luaopen_math},
   {LUA_DBLIBNAME, luaopen_debug},
+  {NULL, NULL}
+};
+
+static luaL_Reg luascript_lualibs_permissive[] = {
+  /* Using default libraries excluding: package, io, os, and bit32 */
+  {"_G", luaopen_base},
+  {LUA_COLIBNAME, luaopen_coroutine},
+  {LUA_TABLIBNAME, luaopen_table},
+  {LUA_STRLIBNAME, luaopen_string},
+  {LUA_UTF8LIBNAME, luaopen_utf8},
+  {LUA_MATHLIBNAME, luaopen_math},
+  {LUA_DBLIBNAME, luaopen_debug},
+  {LUA_OSLIBNAME, luaopen_os},
   {NULL, NULL}
 };
 #else  /* LUA_VERSION_NUM */
@@ -316,7 +336,8 @@ int luascript_arg_error(lua_State *L, int narg, const char *msg)
 /*****************************************************************************
   Initialize the scripting state.
 *****************************************************************************/
-struct fc_lua *luascript_new(luascript_log_func_t output_fct)
+struct fc_lua *luascript_new(luascript_log_func_t output_fct,
+                             bool secured_environment)
 {
   struct fc_lua *fcl = fc_calloc(1, sizeof(*fcl));
 
@@ -328,9 +349,15 @@ struct fc_lua *luascript_new(luascript_log_func_t output_fct)
   fcl->output_fct = output_fct;
   fcl->caller = NULL;
 
-  luascript_openlibs(fcl->state, luascript_lualibs);
-  luascript_traceback_func_save(fcl->state);
-  luascript_blacklist(fcl->state, luascript_unsafe_symbols);
+  if (secured_environment) {
+    luascript_openlibs(fcl->state, luascript_lualibs_secure);
+    luascript_traceback_func_save(fcl->state);
+    luascript_blacklist(fcl->state, luascript_unsafe_symbols_secure);
+  } else {
+    luascript_openlibs(fcl->state, luascript_lualibs_permissive);
+    luascript_traceback_func_save(fcl->state);
+    luascript_blacklist(fcl->state, luascript_unsafe_symbols_permissive);
+  }
 
   /* Save the freeciv lua struct in the lua state. */
   lua_pushstring(fcl->state, LUASCRIPT_GLOBAL_VAR_NAME);
