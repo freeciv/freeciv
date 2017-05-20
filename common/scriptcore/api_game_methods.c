@@ -861,6 +861,28 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
 }
 
 /*****************************************************************************
+  Is tile occupied by enemies
+*****************************************************************************/
+bool api_methods_enemy_tile(lua_State *L, Tile *ptile, Player *against)
+{
+  struct city *pcity;
+  
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
+
+  if (is_non_allied_unit_tile(ptile, against)) {
+    return TRUE;
+  }
+
+  pcity = tile_city(ptile);
+  if (ptile != NULL && !pplayers_allied(against, city_owner(pcity))) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/*****************************************************************************
   Return number of units on tile
 *****************************************************************************/
 int api_methods_tile_num_units(lua_State *L, Tile *ptile)
