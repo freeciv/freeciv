@@ -1738,6 +1738,12 @@ static void dai_military_attack(struct ai_type *ait, struct player *pplayer,
          * and on a ferry. This fixes the problem (usually). */
         UNIT_LOG(LOG_DEBUG, punit, "mil att gothere -> (%d, %d)",
                  TILE_XY(dest_tile));
+
+        /* Set ACTIVITY_GOTO more permanently than just inside
+         * adv_follow_path(). This way other units will know we're
+         * on our way even if we don't reach target yet. */
+        punit->goto_tile = dest_tile;
+        unit_activity_handling(punit, ACTIVITY_GOTO);
         if (NULL != path && !adv_follow_path(punit, path, dest_tile)) {
           /* Died. */
           pf_path_destroy(path);
