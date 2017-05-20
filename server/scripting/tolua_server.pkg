@@ -34,6 +34,7 @@ $#include "console.h"
 /* server/scripting */
 $#include "api_server_edit.h"
 $#include "api_server_base.h"
+$#include "api_server_luadata.h"
 $#include "api_server_notify.h"
 $#include "api_server_game_methods.h"
 $#include "script_server.h"
@@ -182,6 +183,12 @@ module edit {
     @ add_city_history(lua_State *L, City *self, int amount);
   void api_edit_player_add_history
     @ add_player_history(lua_State *L, Player *self, int amount);
+}
+
+/* Luadata module. */
+module luadata {
+  const char *api_luadata_get_str
+    @ get_str(lua_State *L, const char *field);
 }
 
 $[

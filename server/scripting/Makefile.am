@@ -25,6 +25,8 @@ dist_libscripting_server_la_SOURCES = \
 	api_server_edit.h	\
 	api_server_game_methods.c	\
 	api_server_game_methods.h	\
+	api_server_luadata.c	\
+	api_server_luadata.h	\
 	api_server_notify.c	\
 	api_server_notify.h	\
 	script_server.c		\

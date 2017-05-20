@@ -530,6 +530,7 @@ void game_ruleset_init(void)
   multipliers_init();
 
   if (is_server()) {
+    game.server.luadata = NULL;
     game.server.ruledit.nationlist = NULL;
     game.server.ruledit.embedded_nations = NULL;
     game.server.ruledit.embedded_nations_count = 0;
@@ -598,6 +599,9 @@ void game_ruleset_free(void)
   }
 
   if (is_server()) {
+    if (game.server.luadata != NULL) {
+      secfile_destroy(game.server.luadata);
+    }
     if (game.server.ruledit.description_file != NULL) {
       free(game.server.ruledit.description_file);
       game.server.ruledit.description_file = NULL;

@@ -221,7 +221,8 @@ void ruleset_error_real(const char *file, const char *function,
 **************************************************************************/
 static const char *valid_ruleset_filename(const char *subdir,
                                           const char *name,
-                                          const char *extension)
+                                          const char *extension,
+                                          bool optional)
 {
   char filename[512];
   const char *dfilename;
@@ -250,7 +251,7 @@ static const char *valid_ruleset_filename(const char *subdir,
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
-  } else {
+  } else if (!optional) {
     ruleset_error(LOG_ERROR,
                   /* TRANS: message about an installation error. */
                   _("Could not find a readable \"%s.%s\" ruleset file."),
@@ -277,7 +278,7 @@ static struct section_file *openload_ruleset_file(const char *whichset,
 {
   char sfilename[512];
   const char *dfilename = valid_ruleset_filename(rsdir, whichset,
-                                                 RULES_SUFFIX);
+                                                 RULES_SUFFIX, FALSE);
   struct section_file *secfile;
 
   if (dfilename == NULL) {
@@ -304,7 +305,7 @@ static bool openload_script_file(const char *whichset, const char *rsdir,
                                  char **buffer)
 {
   const char *dfilename = valid_ruleset_filename(rsdir, whichset,
-                                                 SCRIPT_SUFFIX);
+                                                 SCRIPT_SUFFIX, FALSE);
 
   if (dfilename == NULL) {
     return FALSE;
@@ -322,6 +323,33 @@ static bool openload_script_file(const char *whichset, const char *rsdir,
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Load optional luadata.txt
+**************************************************************************/
+static struct section_file *openload_luadata_file(const char *rsdir)
+{
+  struct section_file *secfile;
+  char sfilename[512];
+  const char *dfilename = valid_ruleset_filename(rsdir, "luadata",
+                                                 "txt", TRUE);
+
+  if (dfilename == NULL) {
+    return NULL;
+  }
+
+  /* Need to save a copy of the filename for following message, since
+     section_file_load() may call datafilename() for includes. */
+  sz_strlcpy(sfilename, dfilename);
+  secfile = secfile_load(sfilename, FALSE);
+
+  if (secfile == NULL) {
+    ruleset_error(LOG_ERROR, "Could not load luadata '%s':\n%s",
+                  sfilename, secfile_error());
+  }
+
+  return secfile;
 }
 
 /**************************************************************************
@@ -8006,6 +8034,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
   gamefile = openload_ruleset_file("game", rsdir);
+  game.server.luadata = openload_luadata_file(rsdir);
 
   if (techfile == NULL
       || buildfile  == NULL

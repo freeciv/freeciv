@@ -233,6 +233,8 @@ struct civ_game {
 
       struct rgbcolor_list *plr_colors;
 
+      struct section_file *luadata;
+
       struct {
         int turns;
         int max_size;
