@@ -173,6 +173,8 @@ struct unit {
   enum action_decision action_decision_want;
   struct tile *action_decision_tile;
 
+  bool stay; /* Unit is prohibited from moving */
+
   union {
     struct {
       /* Only used at the client (the server is omniscient; ./client/). */

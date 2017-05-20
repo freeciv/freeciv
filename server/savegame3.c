@@ -5444,6 +5444,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
     punit->action_decision_tile = NULL;
   }
 
+  punit->stay = secfile_lookup_bool_default(loading->file, FALSE, "%s.stay", unitstr);
+
   /* load the unit orders */
   {
     int len = secfile_lookup_int_default(loading->file, 0,
@@ -5841,6 +5843,9 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_int(saving->file, -1,
                          "%s.action_decision_tile_y", buf);
     }
+
+    secfile_insert_bool(saving->file, punit->stay,
+                        "%s.stay", buf);
 
     if (punit->has_orders) {
       int len = punit->orders.length;
