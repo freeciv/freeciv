@@ -59,9 +59,12 @@ bool adv_follow_path(struct unit *punit, struct pf_path *path,
   unit_activity_handling(punit, ACTIVITY_GOTO);
   alive = adv_unit_execute_path(punit, path);
   if (alive) {
-    unit_activity_handling(punit, ACTIVITY_IDLE);
-    send_unit_info(NULL, punit); /* FIXME: probably duplicate */
-    unit_activity_handling_targeted(punit, activity, &tgt);
+    if (activity != ACTIVITY_GOTO) {
+      /* Only go via ACTIVITY_IDLE if we are actually changing the activity */
+      unit_activity_handling(punit, ACTIVITY_IDLE);
+      send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+      unit_activity_handling_targeted(punit, activity, &tgt);
+    }
     punit->goto_tile = old_tile; /* May be NULL. */
     send_unit_info(NULL, punit);
   }
