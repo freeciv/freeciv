@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = ruleutil
+SUBDIRS = shared ruleutil
 
 if RULEDIT
 SUBDIRS += ruledit
@@ -47,6 +47,7 @@ common_cppflags = \
 	-I$(top_srcdir)/client \
 	-I$(top_srcdir)/client/include \
 	-I$(top_srcdir)/tools/ruleutil \
+	-I$(top_srcdir)/tools/shared \
 	-I$(top_srcdir)/dependencies/tinycthread
 
 AM_CPPFLAGS = $(common_cppflags)
@@ -94,8 +95,6 @@ freeciv_ruleup_LDADD = \
 
 if FCMANUAL
 freeciv_manual_SOURCES =                                                   \
-		tools_fc_interface.c                                       \
-		tools_fc_interface.h                                       \
 		civmanual.c
 
 freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
@@ -106,6 +105,7 @@ freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  ../client/helpdata.lo \
  $(top_builddir)/common/libfreeciv.la \
+ $(top_builddir)/tools/shared/libtoolsshared.la \
  $(INTLLIBS) $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(SERVER_LIBS) $(LIB_GGZDMOD)
 endif
