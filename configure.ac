@@ -1718,6 +1718,7 @@ AC_CONFIG_FILES([Makefile
           tools/Makefile
           tools/ruledit/Makefile
           tools/ruleutil/Makefile
+          tools/shared/Makefile
           gen_headers/Makefile
           translations/Makefile
 	  translations/core/Makefile.in
