@@ -773,33 +773,72 @@ static void update_diplomatics(void)
                     = player_diplstate_get(plr3, plr2);
                 struct player_diplstate *from2
                     = player_diplstate_get(plr2, plr3);
+                const char *plr1name = player_name(plr1);
+                const char *plr2name = player_name(plr2);
+                bool cancel1;
+                bool cancel2;
 
-                notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
-                              _("The cease-fire between %s and %s has run out. "
-                                "They are at war. You cancel your alliance "
-                                "with both."),
-                              player_name(plr1),
-                              player_name(plr2));
+                if (players_on_same_team(plr3, plr1)) {
+                  fc_assert(!players_on_same_team(plr3, plr2));
 
-                /* Cancel the alliance. */
-                to1->has_reason_to_cancel = TRUE;
-                to2->has_reason_to_cancel = TRUE;
-                handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
-                handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
+                  cancel1 = FALSE;
+                  cancel2 = TRUE;
 
-                /* Avoid asymmetric turns_left for the armistice. */
-                to1->auto_cancel_turn = game.info.turn;
-                from1->auto_cancel_turn = game.info.turn;
+                  notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
+                                _("The cease-fire between %s and %s has run out. "
+                                  "They are at war. You cancel your alliance "
+                                  "with %s."),
+                                plr1name, plr2name, plr2name);
+                } else if (players_on_same_team(plr3, plr2)) {
 
-                to2->auto_cancel_turn = game.info.turn;
-                from2->auto_cancel_turn = game.info.turn;
+                  cancel1 = TRUE;
+                  cancel2 = FALSE;
 
-                /* Count down for this turn. */
-                to1->turns_left--;
-                from1->turns_left--;
+                  notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
+                                _("The cease-fire between %s and %s has run out. "
+                                  "They are at war. You cancel your alliance "
+                                  "with %s."),
+                                plr1name, plr2name, plr1name);
+                } else {
 
-                to2->turns_left--;
-                from2->turns_left--;
+                  cancel1 = TRUE;
+                  cancel2 = TRUE;
+
+                  notify_player(plr3, NULL, E_TREATY_BROKEN, ftc_server,
+                                _("The cease-fire between %s and %s has run out. "
+                                  "They are at war. You cancel your alliance "
+                                  "with both."),
+                                player_name(plr1),
+                                player_name(plr2));
+                }
+
+                if (cancel1) {
+                  /* Cancel the alliance. */
+                  to1->has_reason_to_cancel = TRUE;
+                  handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
+
+                  /* Avoid asymmetric turns_left for the armistice. */
+                  to1->auto_cancel_turn = game.info.turn;
+                  from1->auto_cancel_turn = game.info.turn;
+
+                  /* Count down for this turn. */
+                  to1->turns_left--;
+                  from1->turns_left--;
+                }
+
+                if (cancel2) {
+                  /* Cancel the alliance. */
+                  to2->has_reason_to_cancel = TRUE;
+                  handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
+
+                  /* Avoid asymmetric turns_left for the armistice. */
+                  to2->auto_cancel_turn = game.info.turn;
+                  from2->auto_cancel_turn = game.info.turn;
+
+                  /* Count down for this turn. */
+                  to2->turns_left--;
+                  from2->turns_left--;
+                }
               }
             } players_iterate_alive_end;
             break;
