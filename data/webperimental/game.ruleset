@@ -48,6 +48,7 @@ capital if it is communist.\n\
 - The killstack server setting is disabled by default.\n\
 - Spies can steal parts of other player's world map. \n\
 - Spies belonging to the owner of the Manhattan Project can nuke cities.\n\
+  - agents and spymasters may even escape before the nuke detonates.\n\
 - Explorers can establish embassies once Writing is discovered. \
 This action consumes the explorer.\n\
 - Cities can be founded within enemy borders during war and \
@@ -650,14 +651,27 @@ target_reqs  =
     }
 
 [actionenabler_suitcase_nuke]
+action = "Suitcase Nuke"
+actor_reqs    =
+    { "type",         "name",              "range",  "present"
+      "UnitFlag",     "Spy",               "Local",  TRUE
+      "MinVeteran",   "2",                 "Local",  FALSE
+      "DiplRel",      "War",               "Local",  TRUE
+      "UnitState",    "OnLivableTile",     "Local",  TRUE
+      "MinMoveFrags", "1",                 "Local",  TRUE
+      "Building",     "Manhattan Project", "Player", TRUE
+    }
+
+[actionenabler_suitcase_nuke_escape]
 action = "Suitcase Nuke Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
-      "Building", "Manhattan Project", "Player"
+    { "type",         "name",              "range"
+      "UnitFlag",     "Spy",               "Local"
+      "MinVeteran",   "2",                 "Local"
+      "DiplRel",      "War",               "Local"
+      "UnitState",    "OnLivableTile",     "Local"
+      "MinMoveFrags", "1",                 "Local"
+      "Building",     "Manhattan Project", "Player"
     }
 
 [actionenabler_traderoute]
