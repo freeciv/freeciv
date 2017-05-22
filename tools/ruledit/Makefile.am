@@ -18,6 +18,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/common \
 	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/server \
+	-I$(top_builddir)/tools/shared \
 	-I$(top_srcdir)/tools/ruleutil \
 	-I$(top_srcdir)/dependencies/tinycthread
 
@@ -82,6 +83,7 @@ freeciv_ruledit_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/ruleutil/libfcruleutil.la \
+ $(top_builddir)/tools/shared/libtoolsshared.la \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 CLEANFILES = $(MOC_FILES)

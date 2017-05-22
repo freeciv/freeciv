@@ -91,6 +91,7 @@ freeciv_ruleup_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/ruleutil/libfcruleutil.la \
+ $(top_builddir)/tools/shared/libtoolsshared.la \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) $(SERVER_LIBS)
 
 if FCMANUAL
