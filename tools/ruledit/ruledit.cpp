@@ -40,6 +40,9 @@
 #include "sernet.h"
 #include "settings.h"
 
+/* tools/shared */
+#include "tools_fc_interface.h"
+
 /* ruledit */
 #include "comments.h"
 #include "ruledit_qt.h"
@@ -99,6 +102,9 @@ int main(int argc, char **argv)
 
     game_init(FALSE);
     i_am_tool();
+
+    /* Initialize the fc_interface functions needed to understand rules. */
+    fc_interface_init_tool();
 
     if (comments_load()) {
       ruledit_qt_run(ui_options, argv);

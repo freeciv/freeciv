@@ -34,6 +34,9 @@
 #include "sernet.h"
 #include "settings.h"
 
+/* tools/shared */
+#include "tools_fc_interface.h"
+
 /* tools/ruleutil */
 #include "comments.h"
 #include "rulesave.h"
@@ -128,6 +131,9 @@ int main(int argc, char **argv)
 
   game_init(FALSE);
   i_am_tool();
+
+  /* Initialize the fc_interface functions needed to understand rules. */
+  fc_interface_init_tool();
 
   rup_parse_cmdline(argc, argv);
 
