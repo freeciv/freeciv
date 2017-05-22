@@ -71,7 +71,7 @@
 #include "srv_main.h"
 #include "stdinhand.h"
 
-/* tools */
+/* tools/shared */
 #include "tools_fc_interface.h"
 
 enum manuals {
