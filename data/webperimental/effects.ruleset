@@ -2599,5 +2599,13 @@ type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke_veteran]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
       "Action", "Suitcase Nuke Escape", "Local", TRUE
     }
