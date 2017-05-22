@@ -178,6 +178,10 @@ module edit {
     @ player_victory (lua_State *L, Player *self);
   bool api_edit_unit_move
     @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost);
+  void api_edit_unit_moving_disallow
+    @ movement_disallow(lua_State *L, Unit *self);
+  void api_edit_unit_moving_allow
+    @ movement_allow(lua_State *L, Unit *self);
 
   void api_edit_city_add_history
     @ add_city_history(lua_State *L, City *self, int amount);
@@ -340,6 +344,14 @@ end
 
 function Unit:move(moveto, movecost)
   return edit.unit_move(self, moveto, movecost)
+end
+
+function Unit:movement_disallow()
+  edit.movement_disallow(self)
+end
+
+function Unit:movement_allow()
+  edit.movement_allow(self)
 end
 
 -- Server functions for Tile module
