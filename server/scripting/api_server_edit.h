@@ -73,6 +73,8 @@ Player *api_edit_civil_war(lua_State *L, Player *pplayer, int probability);
 void api_edit_player_victory(lua_State *L, Player *pplayer);
 bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                         int movecost);
+void api_edit_unit_moving_disallow(lua_State *L, Unit *punit);
+void api_edit_unit_moving_allow(lua_State *L, Unit *punit);
 
 void api_edit_city_add_history(lua_State *L, City *pcity, int amount);
 void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount);

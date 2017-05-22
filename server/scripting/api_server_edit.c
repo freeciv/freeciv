@@ -591,6 +591,32 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
 }
 
 /*****************************************************************************
+  Prohibit unit from moving
+*****************************************************************************/
+void api_edit_unit_moving_disallow(lua_State *L, Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, punit);
+
+  if (punit != NULL) {
+    punit->stay = TRUE;
+  }
+}
+
+/*****************************************************************************
+  Allow unit to move
+*****************************************************************************/
+void api_edit_unit_moving_allow(lua_State *L, Unit *punit)
+{
+  LUASCRIPT_CHECK_STATE(L);
+  LUASCRIPT_CHECK_SELF(L, punit);
+
+  if (punit != NULL) {
+    punit->stay = FALSE;
+  }
+}
+
+/*****************************************************************************
   Add history to a city
 *****************************************************************************/
 void api_edit_city_add_history(lua_State *L, City *pcity, int amount)
