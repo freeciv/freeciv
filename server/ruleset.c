@@ -194,6 +194,7 @@ static bool load_ruleset_veteran(struct section_file *file,
                                  size_t err_len);
 
 char *script_buffer = NULL;
+char *parser_buffer = NULL;
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
@@ -267,6 +268,14 @@ static const char *valid_ruleset_filename(const char *subdir,
 char *get_script_buffer(void)
 {
   return script_buffer;
+}
+
+/**************************************************************************
+  Return current parser.lua buffer.
+**************************************************************************/
+char *get_parser_buffer(void)
+{
+  return parser_buffer;
 }
 
 /**************************************************************************
@@ -8021,6 +8030,10 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     FC_FREE(script_buffer);
     script_buffer = NULL;
   }
+  if (parser_buffer != NULL) {
+    FC_FREE(parser_buffer);
+    parser_buffer = NULL;
+  }
 
   server.playable_nations = 0;
 
@@ -8158,7 +8171,6 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   }
 
   if (ok) {
-    
     char **buffer = buffer_script ? &script_buffer : NULL;
 
     script_server_free();
@@ -8166,6 +8178,12 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
     script_server_init();
 
     ok = openload_script_file("script", rsdir, buffer);
+  }
+
+  if (ok) {
+    char **buffer = buffer_script ? &parser_buffer : NULL;
+
+    ok = openload_script_file("parser", rsdir, buffer);
   }
 
   if (ok && !buffer_script) {

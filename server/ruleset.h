@@ -55,6 +55,7 @@ void ruleset_error_real(const char *file, const char *function,
   }
 
 char *get_script_buffer(void);
+char *get_parser_buffer(void);
 
 /* Default ruleset values that are not settings (in game.h) */
 

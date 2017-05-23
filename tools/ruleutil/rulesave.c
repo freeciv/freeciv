@@ -2802,10 +2802,9 @@ static bool save_units_ruleset(const char *filename, const char *name)
 /**************************************************************************
   Save script.lua
 **************************************************************************/
-static bool save_script_lua(const char *filename, const char *name)
+static bool save_script_lua(const char *filename, const char *name,
+                            const char *buffer)
 {
-  char *buffer = get_script_buffer();
-
   if (buffer != NULL) {
     FILE *ffile = fc_fopen(filename, "w");
     int full_len = strlen(buffer);
@@ -2888,7 +2887,12 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
 
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/script.lua", path);
-      success = save_script_lua(filename, name);
+      success = save_script_lua(filename, name, get_script_buffer());
+    }
+
+    if (success) {
+      fc_snprintf(filename, sizeof(filename), "%s/parser.lua", path);
+      success = save_script_lua(filename, name, get_parser_buffer());
     }
 
     return success;

@@ -8,6 +8,7 @@ pkgdata_DATA =          \
 	cities.ruleset	\
 	effects.ruleset	\
 	script.lua	\
+	parser.lua	\
 	styles.ruleset	\
 	game.ruleset	\
 	governments.ruleset \
