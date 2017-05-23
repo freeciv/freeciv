@@ -1930,7 +1930,7 @@ static bool worklist_change_build_target(struct player *pplayer,
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),
                               E_CITY_CANTBUILD, ftc_server,
-                              _("%s can't build %s from the workist; "
+                              _("%s can't build %s from the worklist; "
                                 "only available in worlds with %s map."),
                               city_link(pcity),
                               city_improvement_name_translation(pcity, ptarget),
