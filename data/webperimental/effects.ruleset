@@ -2426,6 +2426,46 @@ reqs	=
       "UnitFlag", "Cities", "Local"
     }
 
+; informant (veteran level 0) and handler (veteran level 1) does the
+; non escape version
+[effect_suitcase_nuke_odds_base]
+type	= "Action_Odds_Pct"
+value	= -69
+reqs	=
+    { "type",   "name",          "range"
+      "Action", "Suitcase Nuke", "Local"
+    }
+
+; give handler (veteran leven 2) better odds
+[effect_suitcase_nuke_odds_first_veteran]
+type	= "Action_Odds_Pct"
+value	= 6
+reqs	=
+    { "type",       "name",          "range"
+      "Action",     "Suitcase Nuke", "Local"
+      "MinVeteran", "1",             "Local"
+    }
+
+; agent (veteran level 2) and spymaster (veteran level 3) does the
+; escape version
+[effect_suitcase_nuke_esc_odds_base]
+type	= "Action_Odds_Pct"
+value	= -57
+reqs	=
+    { "type",   "name",                 "range"
+      "Action", "Suitcase Nuke Escape", "Local"
+    }
+
+; give spymaster (veteran leven 3) better odds
+[effect_suitcase_nuke_esc_odds_last_veteran]
+type	= "Action_Odds_Pct"
+value	= 6
+reqs	=
+    { "type",       "name",                 "range"
+      "Action",     "Suitcase Nuke Escape", "Local"
+      "MinVeteran", "3",                    "Local"
+    }
+
 [effect_steal_gold_base]
 type    = "Max_Stolen_Gold_Pm"
 value   = 50
