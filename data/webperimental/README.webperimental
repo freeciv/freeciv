@@ -16,6 +16,7 @@ Differences compared to the classic ruleset are:
   - unit stack blocks bribe/sabotage unit needs killstack.
 - Spies can steal parts of other player's world map.
 - Spies belonging to the owner of the Manhattan Project can nuke cities.
+  - a higher veteran level gives a higher chance of success.
   - agents and spymasters may even escape before the nuke detonates.
 - Explorers can establish embassies once Writing is discovered.
   This action consumes the explorer.
