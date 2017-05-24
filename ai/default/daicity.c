@@ -1202,6 +1202,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_STRIKE_BUILDING:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
     /* TODO: Individual and well balanced values */

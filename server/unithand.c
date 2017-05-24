@@ -143,6 +143,11 @@ static bool do_unit_upgrade(struct player *pplayer,
                             enum action_requester ordered_by);
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile,
                       const struct action *paction);
+static bool do_unit_strike_city_building(const struct player *act_player,
+                                         struct unit *act_unit,
+                                         struct city *tgt_city,
+                                         Impr_type_id tgt_bld_id,
+                                         const struct action *paction);
 static bool do_unit_conquer_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city,
@@ -682,6 +687,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_PARADROP:
   case ACTION_AIRLIFT:
   case ACTION_HEAL_UNIT:
+  case ACTION_STRIKE_BUILDING:
   case ACTION_CONQUER_CITY:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
@@ -2313,6 +2319,7 @@ void handle_unit_action_query(struct connection *pc,
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_STRIKE_BUILDING:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
@@ -2719,6 +2726,14 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_conquer_city(pplayer, actor_unit,
                                                   pcity, paction));
+    break;
+  case ACTION_STRIKE_BUILDING:
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_strike_city_building(pplayer,
+                                                          actor_unit,
+                                                          pcity,
+                                                          sub_tgt_id - 1,
+                                                          paction));
     break;
   case ACTION_AIRLIFT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -3810,6 +3825,133 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   /* The attacker may have died for many reasons */
   if (game_unit_by_number(winner_id) != NULL) {
     send_unit_info(NULL, pwinner);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Have the unit perform a surgical strike against a building in a city.
+
+  This function assumes the attack is legal. The calling function should
+  have already made all necessary checks.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_strike_city_building(const struct player *act_player,
+                                         struct unit *act_unit,
+                                         struct city *tgt_city,
+                                         Impr_type_id tgt_bld_id,
+                                         const struct action *paction)
+{
+  struct player *tgt_player;
+
+  /* Sanity checks */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_city, FALSE);
+  fc_assert_ret_val(paction, FALSE);
+
+  tgt_player = city_owner(tgt_city);
+  fc_assert_ret_val(tgt_player, FALSE);
+
+  /* The surgical strike may miss. */
+  {
+    int odds = 100;
+
+    /* Let the Action_Odds_Pct effect modify the odds. */
+    odds += ((odds
+              * get_target_bonus_effects(NULL,
+                                         act_player, tgt_player,
+                                         tgt_city, NULL, NULL,
+                                         act_unit, unit_type_get(act_unit),
+                                         NULL, NULL, paction,
+                                         EFT_ACTION_ODDS_PCT))
+             / 100);
+
+    /* Roll the dice. */
+    if (fc_rand(100) >= odds) {
+      /* Notify the player. */
+      notify_player(act_player, city_tile(tgt_city),
+                    E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
+                    _("Your %s failed to %s in %s."),
+                    unit_link(act_unit),
+                    action_name_translation(paction),
+                    city_link(tgt_city));
+
+      /* Make the failed attempt cost a single move. */
+      act_unit->moves_left = MAX(0, act_unit->moves_left - SINGLE_MOVE);
+
+      return FALSE;
+    }
+  }
+
+  if (tgt_bld_id < 0) {
+    char prod[256];
+
+    /* Get name of the production */
+    universal_name_translation(&tgt_city->production, prod, sizeof(prod));
+
+    /* Destroy the production */
+    tgt_city->shield_stock = 0;
+    nullify_prechange_production(tgt_city);
+
+    /* Let the players know. */
+    notify_player(act_player, city_tile(tgt_city),
+                  E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
+                  _("Your %s succeeded in destroying"
+                    " the production of %s in %s."),
+                  unit_link(act_unit),
+                  prod,
+                  city_name_get(tgt_city));
+    notify_player(tgt_player, city_tile(tgt_city),
+                  E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
+                  _("The production of %s was destroyed in %s,"
+                    " %s are suspected."),
+                  prod,
+                  city_link(tgt_city),
+                  nation_plural_for_player(tgt_player));
+  } else {
+    struct impr_type *tgt_bld = improvement_by_number(tgt_bld_id);
+
+    if (!city_has_building(tgt_city, tgt_bld)) {
+      /* Noting to destroy here. */
+
+      /* Notify the player. */
+      notify_player(act_player, city_tile(tgt_city),
+                    E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
+                    _("Your %s didn't find a %s to %s in %s."),
+                    unit_link(act_unit),
+                    improvement_name_translation(tgt_bld),
+                    action_name_translation(paction),
+                    city_link(tgt_city));
+
+      /* Punish the player for blindly attacking a building. */
+      act_unit->moves_left = MAX(0, act_unit->moves_left - SINGLE_MOVE);
+
+      return FALSE;
+    }
+
+    /* Destroy the building. */
+    building_lost(tgt_city, tgt_bld, "attacked", act_unit);
+
+    /* Update the player's view of the city. */
+    send_city_info(NULL, tgt_city);
+
+    /* Let the players know. */
+    notify_player(act_player, city_tile(tgt_city),
+                  E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
+                  _("Your %s destroyed the %s in %s."),
+                  unit_link(act_unit),
+                  improvement_name_translation(tgt_bld),
+                  city_link(tgt_city));
+    notify_player(tgt_player, city_tile(tgt_city),
+                  E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
+                  _("The %s destroyed the %s in %s."),
+                  nation_plural_for_player(tgt_player),
+                  improvement_name_translation(tgt_bld),
+                  city_link(tgt_city));
   }
 
   return TRUE;

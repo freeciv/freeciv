@@ -560,6 +560,27 @@ static int spy_steal_maps_esc_callback(struct widget *pWidget)
   Requests up-to-date list of improvements, the return of
   which will trigger the popup_sabotage_dialog() function.
 **************************************************************************/
+static int spy_strike_bld_request(struct widget *pWidget)
+{
+  if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+      && NULL != game_city_by_number(
+              pDiplomat_Dlg->target_ids[ATK_CITY])) {
+    request_action_details(ACTION_STRIKE_BUILDING,
+                           pDiplomat_Dlg->actor_unit_id,
+                           pDiplomat_Dlg->target_ids[ATK_CITY]);
+    is_more_user_input_needed = TRUE;
+    popdown_diplomat_dialog();
+  } else {
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  Requests up-to-date list of improvements, the return of
+  which will trigger the popup_sabotage_dialog() function.
+**************************************************************************/
 static int spy_sabotage_request(struct widget *pWidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -1694,6 +1715,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_UPGRADE_UNIT] = upgrade_callback,
   [ACTION_AIRLIFT] = airlift_callback,
   [ACTION_CONQUER_CITY] = conquer_city_callback,
+  [ACTION_STRIKE_BUILDING] = spy_strike_bld_request,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = diplomat_bribe_callback,

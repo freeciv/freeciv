@@ -419,6 +419,11 @@ Actions done by a unit against a city
  * the target must be foreign (!)
  * the target city contains 0 units (!)
 
+"Surgical Strike Building" - Destroy a specific building or the production.
+ * UI name can be set using ui_name_surgical_strike_building
+ * actor must be aware that the target exists
+ * the actor unit must be on a tile next to the target.
+
 Actions done by a unit against another unit
 ===========================================
 "Sabotage Unit" - Halve the target unit's hit points.

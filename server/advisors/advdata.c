@@ -895,6 +895,7 @@ void adv_best_government(struct player *pplayer)
           case ACTION_NUKE:
           case ACTION_DESTROY_CITY:
           case ACTION_EXPEL_UNIT:
+          case ACTION_STRIKE_BUILDING:
             /* Being a target of this is usually undesireable */
             /* TODO: Individual and well balanced values. */
             bonus += 0.1;

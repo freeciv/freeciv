@@ -77,6 +77,7 @@ extern void popdown_city_report();
 extern void popdown_endgame_report();
 
 static void act_sel_keep_moving(QVariant data1, QVariant data2);
+static void spy_request_strike_bld_list(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
 static void diplomat_incite_escape(QVariant data1, QVariant data2);
 static void spy_request_sabotage_list(QVariant data1, QVariant data2);
@@ -204,6 +205,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_UPGRADE_UNIT] = unit_upgrade;
   action_function[ACTION_AIRLIFT] = airlift;
   action_function[ACTION_CONQUER_CITY] = conquer_city;
+  action_function[ACTION_STRIKE_BUILDING] = spy_request_strike_bld_list;
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
@@ -2700,6 +2702,23 @@ static void spy_steal_something(QVariant data1, QVariant data2)
       request_do_action(act_id, diplomat_id,
                         diplomat_target_id, data2.toInt(), "");
     }
+  }
+}
+
+/***********************************************************************//**
+  Action request "Surgical Strike Building" list for choice dialog
+***************************************************************************/
+static void spy_request_strike_bld_list(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != game_city_by_number(target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
+    request_action_details(ACTION_STRIKE_BUILDING, actor_id, target_id);
   }
 }
 

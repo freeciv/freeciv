@@ -4753,6 +4753,10 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
         /* An interesting non attack action has been found. */
         return ACTION_NONE;
         break;
+      case ACTION_STRIKE_BUILDING:
+        /* Needs a target to be specified. */
+        return ACTION_NONE;
+        break;
       case ACTION_COUNT:
         fc_assert(act != ACTION_COUNT);
         break;
