@@ -44,8 +44,8 @@ Differences compared to the classic ruleset are:\n\
 (unless it's in Anarchy).\n\
 - An even higher percentage of a nation's gold can be stolen from its \
 capital if it is communist.\n\
-- Unit stacks don't protect against spy actions\n\
 - The killstack server setting is disabled by default.\n\
+  - unit stack blocks bribe/sabotage unit needs killstack.\n\
 - Spies can steal parts of other player's world map. \n\
 - Spies belonging to the owner of the Manhattan Project can nuke cities.\n\
   - agents and spymasters may even escape before the nuke detonates.\n\
@@ -580,34 +580,71 @@ target_reqs  =
 [actionenabler_bribe_unit]
 action = "Bribe Unit"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Diplomat", "Local", TRUE
-      "DiplRel", "Alliance", "Local", FALSE
-      "DiplRel", "Team", "Local", FALSE
-      "UnitState", "OnLivableTile", "Local", TRUE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", TRUE
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "ServerSetting", "killstack",    "World", FALSE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Unbribable", "Local", FALSE
-      "CityTile", "Center", "Local", FALSE
-      "Gov", "Democracy", "Player", FALSE
+    { "type",     "name",       "range",  "present"
+      "UnitFlag", "Unbribable", "Local",  FALSE
+      "CityTile", "Center",     "Local",  FALSE
+      "Gov",      "Democracy",  "Player", FALSE
+    }
+
+[actionenabler_bribe_unit_killstack_enabled]
+action = "Bribe Unit"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Diplomat",      "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "DiplRel",      "Foreign",       "Local", TRUE
+    }
+target_reqs    =
+    { "type",           "name",       "range",  "present"
+      "UnitFlag",       "Unbribable", "Local",  FALSE
+      "CityTile",       "Center",     "Local",  FALSE
+      "Gov",            "Democracy",  "Player", FALSE
+      "MaxUnitsOnTile", "1",          "Local",  TRUE
     }
 
 [actionenabler_sabotage_unit]
 action = "Sabotage Unit"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Spy",           "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitState",     "OnLivableTile", "Local", TRUE
+      "MinMoveFrags",  "1",             "Local", TRUE
+      "ServerSetting", "killstack",     "World", FALSE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
-      "CityTile", "Center", "Local", FALSE
-      "MinHitPoints", "2", "Local", TRUE
+    { "type",         "name",   "range", "present"
+      "CityTile",     "Center", "Local", FALSE
+      "MinHitPoints", "2",      "Local", TRUE
+    }
+
+[actionenabler_sabotage_unit_killstack_enabled]
+action = "Sabotage Unit"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+    }
+target_reqs    =
+    { "type",           "name",   "range", "present"
+      "CityTile",       "Center", "Local", FALSE
+      "MinHitPoints",   "2",      "Local", TRUE
+      "MaxUnitsOnTile", "1",      "Local", TRUE
     }
 
 [actionenabler_steal_gold_capital]
