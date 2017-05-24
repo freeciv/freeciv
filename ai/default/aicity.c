@@ -1765,6 +1765,13 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
             /* Not only would we get the wonder, but we would also prevent
              * opponents from getting it. */
             pcity->server.adv->building_want[idx] *= 1.5;
+
+            if (pcity->production.kind == VUT_IMPROVEMENT
+                && is_great_wonder(pcity->production.value.building)) {
+              /* If we already are building a great wonder, prefer continuing
+               * to do so over stopping it */
+              pcity->server.adv->building_want[idx] *= 1.25;
+            }
           }
 
           /* If I am not an expansionist, I want buildings more than units */
