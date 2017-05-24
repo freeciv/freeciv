@@ -47,6 +47,7 @@
 #include "player.h"
 #include "research.h"
 #include "road.h"
+#include "server_settings.h"
 #include "specialist.h"
 #include "tech.h"
 #include "traderoutes.h"
@@ -1939,6 +1940,29 @@ static bool worklist_change_build_target(struct player *pplayer,
                                           API_TYPE_CITY, pcity,
                                           API_TYPE_STRING, "need_topo");
               }
+              success = FALSE;
+              break;
+            case VUT_SERVERSETTING:
+              notify_player(pplayer, city_tile(pcity),
+                            E_CITY_CANTBUILD, ftc_server,
+                            /* TRANS: %s is a server setting, its value and
+                             * if it is required to be present or absent.
+                             * The string's format is specified in
+                             * ssetv_human_readable().
+                             * Example: "killstack is enabled". */
+                            _("%s can't build %s from the worklist; "
+                              "only available when the server setting "
+                              "%s."),
+                            city_link(pcity),
+                            city_improvement_name_translation(pcity,
+                                                              ptarget),
+                            ssetv_human_readable(preq->source.value.ssetval,
+                                                 preq->present));
+              script_server_signal_emit("building_cant_be_built", 3,
+                                        API_TYPE_BUILDING_TYPE, ptarget,
+                                        API_TYPE_CITY, pcity,
+                                        API_TYPE_STRING, "need_setting");
+              /* Don't assume that the server setting will be changed. */
               success = FALSE;
               break;
             case VUT_AGE:

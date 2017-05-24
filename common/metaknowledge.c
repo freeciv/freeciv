@@ -587,6 +587,11 @@ static bool is_req_knowable(const struct player *pow_player,
     return TRUE;
   }
 
+  if (req->source.kind == VUT_SERVERSETTING) {
+    /* Only visible server settings can be requirements. */
+    return TRUE;
+  }
+
   /* Uncertain or no support added yet. */
   return FALSE;
 }

@@ -340,6 +340,9 @@ typedef int Unit_Class_id;
 #define SPECENUM_COUNT  IG_COUNT
 #include "specenum_gen.h"
 
+/* A server setting + its value. */
+typedef int ssetv;
+
 /* Sometimes we don't know (or don't care) if some requirements for effect
  * are currently fulfilled or not. This enum tells lower level functions
  * how to handle uncertain requirements.
@@ -400,6 +403,7 @@ typedef union {
   int min_techs;
 
   enum topo_flag topo_property;
+  ssetv ssetval;
 } universals_u;
 
 /* The kind of universals_u (value_union_type was req_source_type).
@@ -494,6 +498,8 @@ typedef union {
 #define SPECENUM_VALUE40NAME "ExtraFlag"
 #define SPECENUM_VALUE41 VUT_MINCALFRAG
 #define SPECENUM_VALUE41NAME "MinCalFrag"
+#define SPECENUM_VALUE42 VUT_SERVERSETTING
+#define SPECENUM_VALUE42NAME "ServerSetting"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

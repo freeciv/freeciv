@@ -28,6 +28,7 @@
 #include "movement.h"
 #include "player.h"
 #include "requirements.h"
+#include "server_settings.h"
 #include "specialist.h"
 
 #include "reqtext.h"
@@ -2309,6 +2310,20 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                    _("Prevented on %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     }
+    return TRUE;
+
+  case VUT_SERVERSETTING:
+    if (preq->range != REQ_RANGE_WORLD) {
+      break;
+    }
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: %s is a server setting, its value and if it is
+                  * required to be present or absent. The string's format
+                  * is specified in ssetv_human_readable().
+                  * Example: "killstack is enabled". */
+                 _("Requires that the server setting %s."),
+                 ssetv_human_readable(preq->source.value.ssetval,
+                                      preq->present));
     return TRUE;
 
   case VUT_AGE:

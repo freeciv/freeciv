@@ -17,9 +17,14 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "fc_types.h"
+
 bool autoadjust_ruleset_data(void);
 bool autolock_settings(void);
 bool sanity_check_ruleset_data(bool ignore_retired);
+
+bool sanity_check_server_setting_value_in_req(ssetv ssetval);
 
 #ifdef __cplusplus
 }

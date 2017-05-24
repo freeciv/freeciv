@@ -20,9 +20,14 @@
 #include "game.h"
 #include "government.h"
 #include "requirements.h"
+#include "server_settings.h"
 #include "specialist.h"
 #include "tech.h"
 #include "traderoutes.h"
+
+/* server */
+#include "rssanity.h"
+#include "settings.h"
 
 #include "univ_value.h"
 
@@ -184,6 +189,10 @@ bool universal_value_initial(struct universal *src)
     return TRUE;
   case VUT_TOPO:
     src->value.topo_property = TF_ISO;
+    return TRUE;
+  case VUT_SERVERSETTING:
+    src->value.ssetval
+        = ssetv_from_values(server_setting_by_name("killstack"), TRUE);
     return TRUE;
   case VUT_IMPR_GENUS:
     src->value.impr_genus = IG_IMPROVEMENT;
@@ -362,6 +371,18 @@ void universal_kind_values(struct universal *univ,
   case VUT_TOPO:
     for (i = 0; i < TOPO_FLAG_BITS; i++) {
       cb(topo_flag_name(1 << i), univ->value.topo_property == 1 << i, data);
+    }
+    break;
+  case VUT_SERVERSETTING:
+    for (i = 0;
+         /* Only binary settings with the value TRUE are currently
+          * supported. */
+         i < settings_number();
+         i++) {
+      if (sanity_check_server_setting_value_in_req(i)) {
+        cb(ssetv_rule_name(i),
+           univ->value.ssetval == ssetv_from_values(i, TRUE), data);
+      }
     }
     break;
   case VUT_IMPR_GENUS:
