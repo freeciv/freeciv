@@ -71,6 +71,7 @@ Specialist:    Local
 MinYear:       World
 MinCalFrag:    World
 Topology:      World
+ServerSetting: World
 Age:           Local, City
 MinSize:       Traderoute, City
 MinCulture:    World, Alliance, Team, Player, Traderoute, City
@@ -98,6 +99,8 @@ UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
 MinMoveFargs is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
 if enabled (see [calendar].fragments in game.ruleset).
+ServerSetting is if a Boolean server setting is enabled. The setting must be
+visible to all players and affect the game rules.
 
 Effect types
 ============

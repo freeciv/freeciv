@@ -79,6 +79,67 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
 }
 
 /**************************************************************************
+  Returns TRUE iff the given server setting is visible enough to be
+  allowed to appear in ServerSetting requirements.
+**************************************************************************/
+static bool sanity_check_setting_is_seen(struct setting *pset)
+{
+  return setting_is_visible_at_level(pset, ALLOW_INFO);
+}
+
+/**************************************************************************
+  Returns TRUE iff the specified server setting is a game rule and
+ therefore may appear in a requirement.
+**************************************************************************/
+static bool sanity_check_setting_is_game_rule(struct setting *pset)
+{
+  if ((setting_category(pset) == SSET_INTERNAL
+            || setting_category(pset) == SSET_NETWORK)
+           /* White list for SSET_INTERNAL and SSET_NETWORK settings. */
+           && !(pset == setting_by_name("phasemode")
+                || pset == setting_by_name("timeout")
+                || pset == setting_by_name("timeaddenemymove")
+                || pset == setting_by_name("unitwaittime")
+                || pset == setting_by_name("victories"))) {
+    /* The given server setting is a server operator related setting (like
+     * the compression type of savegames), not a game rule. */
+    return FALSE;
+  }
+
+  if (pset == setting_by_name("naturalcitynames")) {
+    /* This setting is about "look", not rules. */
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE iff the given server setting and value combination is
+  allowed to appear in ServerSetting requirements.
+**************************************************************************/
+bool sanity_check_server_setting_value_in_req(ssetv ssetval)
+{
+  server_setting_id id;
+  struct setting *pset;
+
+  /* TODO: use ssetv_setting_get() if setting value becomes multiplexed with
+   * the server setting id. */
+  id = (server_setting_id)ssetval;
+  fc_assert_ret_val(server_setting_exists(id), FALSE);
+
+  if (server_setting_type_get(id) != SST_BOOL) {
+    /* Not supported yet. */
+    return FALSE;
+  }
+
+  pset = setting_by_number(id);
+
+  return (sanity_check_setting_is_seen(pset)
+          && sanity_check_setting_is_game_rule(pset));
+}
+
+/**************************************************************************
   Sanity checks on a requirement in isolation.
   This will generally be things that could only not be checked at
   ruleset load time because they would have referenced things not yet
@@ -120,6 +181,35 @@ static bool sanity_check_req_individual(struct requirement *preq,
                 "this ruleset)", list_for, preq->source.value.mincalfrag,
                 game.calendar.calendar_fragments-1);
       return FALSE;
+    }
+    break;
+  case VUT_SERVERSETTING:
+    /* There is currently no way to check a server setting's category and
+     * access level that works in both the client and the server. */
+    {
+      server_setting_id id;
+      struct setting *pset;
+
+      id = ssetv_setting_get(preq->source.value.ssetval);
+      fc_assert_ret_val(server_setting_exists(id), FALSE);
+      pset = setting_by_number(id);
+
+      if (!sanity_check_setting_is_seen(pset)) {
+        log_error("%s: ServerSetting requirement %s isn't visible enough "
+                  "to appear in a requirement. Everyone should be able to "
+                  "see the value of a server setting that appears in a "
+                  "requirement.", list_for, server_setting_name_get(id));
+        return FALSE;
+      }
+
+      if (!sanity_check_setting_is_game_rule(pset)) {
+        /* This is a server operator related setting (like the compression
+         * type of savegames), not a game rule. */
+        log_error("%s: ServerSetting requirement setting %s isn't about a "
+                  "game rule.",
+                  list_for, server_setting_name_get(id));
+        return FALSE;
+      }
     }
     break;
   default:
@@ -249,6 +339,8 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
       }
       break;
 
+     case VUT_SERVERSETTING:
+       /* Can have multiple, since there are many settings. */
      case VUT_TOPO:
        /* Can have multiple, since it's flag based (iso & wrapx & wrapy & hex) */
      case VUT_EXTRA:

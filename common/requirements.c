@@ -33,6 +33,7 @@
 #include "map.h"
 #include "research.h"
 #include "road.h"
+#include "server_settings.h"
 #include "specialist.h"
 #include "style.h"
 
@@ -314,6 +315,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_SERVERSETTING:
+    source->value.ssetval = ssetv_by_rule_name(value);
+    if (source->value.ssetval != SSETV_NONE) {
+      return;
+    }
+    break;
   case VUT_TERRAINALTER:
     source->value.terrainalter
       = terrain_alteration_by_name(value, fc_strcasecmp);
@@ -509,6 +516,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_TOPO:
     source.value.topo_property = value;
     return source;
+  case VUT_SERVERSETTING:
+    source.value.ssetval = value;
+    return source;
   case VUT_TERRAINALTER:
     source.value.terrainalter = value;
     return source;
@@ -624,6 +634,8 @@ int universal_number(const struct universal *source)
     return source->value.mincalfrag;
   case VUT_TOPO:
     return source->value.topo_property;
+  case VUT_SERVERSETTING:
+    return source->value.ssetval;
   case VUT_TERRAINALTER:
     return source->value.terrainalter;
   case VUT_CITYTILE:
@@ -733,6 +745,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINCALFRAG:
       case VUT_TOPO:
       case VUT_MINTECHS:
+      case VUT_SERVERSETTING:
         req.range = REQ_RANGE_WORLD;
         break;
       }
@@ -825,6 +838,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINYEAR:
     case VUT_MINCALFRAG:
     case VUT_TOPO:
+    case VUT_SERVERSETTING:
       invalid = (req.range != REQ_RANGE_WORLD);
       break;
     case VUT_AGE:
@@ -886,6 +900,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINYEAR:
     case VUT_MINCALFRAG:
     case VUT_TOPO:
+    case VUT_SERVERSETTING:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
     case VUT_TERRFLAG:
@@ -3049,6 +3064,10 @@ bool is_req_active(const struct player *target_player,
   case VUT_TOPO:
     eval = BOOL_TO_TRISTATE(current_topo_has_flag(req->source.value.topo_property));
     break;
+  case VUT_SERVERSETTING:
+    eval = BOOL_TO_TRISTATE(ssetv_setting_has_value(
+                                req->source.value.ssetval));
+    break;
   case VUT_TERRAINALTER:
     if (target_tile == NULL) {
       eval = TRI_MAYBE;
@@ -3145,6 +3164,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_CITYTILE:
   case VUT_STYLE:
   case VUT_TOPO:
+  case VUT_SERVERSETTING:
     return TRUE;
   case VUT_NATION:
   case VUT_NATIONGROUP:
@@ -3304,6 +3324,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.mincalfrag == psource2->value.mincalfrag;
   case VUT_TOPO:
     return psource1->value.topo_property == psource2->value.topo_property;
+  case VUT_SERVERSETTING:
+    return psource1->value.ssetval == psource2->value.ssetval;
   case VUT_TERRAINALTER:
     return psource1->value.terrainalter == psource2->value.terrainalter;
   case VUT_CITYTILE:
@@ -3340,6 +3362,8 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_TOPO:
     return topo_flag_name(psource->value.topo_property);
+  case VUT_SERVERSETTING:
+    return ssetv_rule_name(psource->value.ssetval);
   case VUT_ADVANCE:
     return advance_rule_name(psource->value.advance);
   case VUT_TECHFLAG:
@@ -3666,6 +3690,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_TOPO:
     cat_snprintf(buf, bufsz, _("%s map"),
                  _(topo_flag_name(psource->value.topo_property)));
+    return buf;
+  case VUT_SERVERSETTING:
+    fc_strlcat(buf, ssetv_human_readable(psource->value.ssetval, TRUE),
+               bufsz);
     return buf;
   case VUT_TERRAINALTER:
     /* TRANS: "Irrigation possible" */
