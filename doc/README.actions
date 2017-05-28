@@ -469,7 +469,10 @@ Actions done by a unit against a tile
 
 Actions done by a unit to it self
 =================================
-"Disband Unit" - Disband the unit. Gives nothing in return.
+"Disband Unit" - Disband the unit.
+ * spends the actor unit
+   - gives nothing in return. No shields spent to build the unit is added
+     to the shield stock of any city even if the unit is located inside it.
  * UI name can be set using ui_name_disband_unit
  * "Help Wonder" must be impossible
  * "Recycle Unit" must be impossible
