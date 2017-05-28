@@ -127,7 +127,6 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 static bool unit_do_destroy_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city);
-static bool do_unit_disband(struct player *pplayer, struct unit *punit);
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity);
 static bool do_unit_upgrade(struct player *pplayer,
@@ -2378,8 +2377,8 @@ bool unit_perform_action(struct player *pplayer,
                              do_heal_unit(pplayer, actor_unit, punit));
     break;
   case ACTION_DISBAND_UNIT:
-    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
-                             do_unit_disband(pplayer, actor_unit));
+    /* All consequences are handled by the action system. */
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -2642,25 +2641,6 @@ static bool do_unit_change_homecity(struct unit *punit,
   unit_change_homecity_handling(punit, pcity, TRUE);
 
   return punit->homecity == pcity->id;
-}
-
-/**************************************************************************
-  Disband a unit.
-
-  No shields spent to build the unit is added to the shield stock of any
-  city even if the unit is located inside it.
-
-  Returns TRUE iff the action could be done, FALSE if it couldn't. Even if
-  this returns TRUE, the unit may have died during the action.
-**************************************************************************/
-static bool do_unit_disband(struct player *pplayer, struct unit *punit)
-{
-  /* Sanity check: The actor still exists. */
-  fc_assert_ret_val(pplayer, FALSE);
-  fc_assert_ret_val(punit, FALSE);
-
-  /* The unit is now disbanded. */
-  return TRUE;
 }
 
 /**************************************************************************
