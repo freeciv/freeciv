@@ -483,17 +483,10 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Sanity check: The victim isn't a unique unit the actor player already
    * has. */
-  if (utype_player_already_has_this_unique(pplayer,
-                                           unit_type_get(pvictim))) {
-    log_debug("bribe-unit: already got unique unit");
-    notify_player(pplayer, unit_tile(pdiplomat),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  /* TRANS: You already have a Leader. */
-                  _("You already have a %s."),
-                  unit_link(pvictim));
-
-    return FALSE;
-  }
+  fc_assert_ret_val_msg(!utype_player_already_has_this_unique(pplayer,
+                             unit_type_get(pvictim)),
+                        FALSE,
+                        "bribe-unit: already got unique unit");
 
   log_debug("bribe-unit: unit: %d", pdiplomat->id);
 
