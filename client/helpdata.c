@@ -2265,6 +2265,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(utype));
       }
 
+      if (action_get_battle_kind(paction) != ABK_NONE) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: The %s is a kind of battle defined in
+                      * actions.h. Example: "diplomatic battle". */
+                     _("  * can lead to a %s against a defender.\n"),
+                     action_battle_kind_translated_name(
+                       action_get_battle_kind(paction)));
+      }
+
       if (action_id_get_target_kind(act) != ATK_SELF) {
         /* Distance to target is relevant. */
 
