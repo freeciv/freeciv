@@ -743,6 +743,34 @@ enum action_target_kind action_get_target_kind(
 }
 
 /**************************************************************************
+  Get the battle kind that can prevent an action.
+**************************************************************************/
+enum action_battle_kind action_get_battle_kind(const struct action *pact)
+{
+  switch (pact->id) {
+  case ACTION_ATTACK:
+    return ABK_STANDARD;
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
+  case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
+  case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
+    return ABK_DIPLOMATIC;
+  default:
+    return ABK_NONE;
+  }
+}
+
+/**************************************************************************
   Returns TRUE iff performing the specified action has the specified
   result.
 **************************************************************************/
