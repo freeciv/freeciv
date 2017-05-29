@@ -4466,6 +4466,19 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
       action_selection_next_in_focus(diplomat_id);
     }
     break;
+  case ACTION_UPGRADE_UNIT:
+    if (pcity && client.conn.playing
+        && is_human(client.conn.playing)) {
+      /* TODO: The bundled clients will have to start showing the upgrade
+       * price sent from the server before it can be allowed to rely on
+       * things the player can't see. (Example: it becomes legal to upgrade
+       * a unit in a foreign city.) */
+
+      /* Getting unit upgrade cost from the server is currently only used by
+       * Freeciv-web.  */
+      log_error("Received upgrade unit price but can't forward it.");
+    }
+    break;
   case ACTION_NONE:
     log_debug("Server didn't respond to query.");
     action_selection_no_longer_in_progress(diplomat_id);

@@ -2143,6 +2143,28 @@ void handle_unit_action_query(struct connection *pc,
       return;
     }
     break;
+  case ACTION_UPGRADE_UNIT:
+    if (pcity
+        && is_action_enabled_unit_on_city(action_type,
+                                          pactor, pcity)) {
+      struct unit_type *tgt_utype;
+      int upgr_cost;
+
+      tgt_utype = can_upgrade_unittype(pplayer, unit_type_get(pactor));
+      upgr_cost = unit_upgrade_price(pplayer,
+                                      unit_type_get(pactor), tgt_utype);
+
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      upgr_cost, action_type);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     pcity ? city_owner(pcity) : NULL,
+                     NULL, pcity, NULL, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id);
+      return;
+    }
+    break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
