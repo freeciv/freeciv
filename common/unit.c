@@ -275,8 +275,7 @@ bool is_square_threatened(const struct player *pplayer,
       if ((omniscient
            || can_player_see_unit(pplayer, punit))
           && pplayers_at_war(pplayer, unit_owner(punit))
-          && (utype_acts_hostile(unit_type_get(punit))
-              || (is_military_unit(punit) && is_attack_unit(punit)))
+          && utype_acts_hostile(unit_type_get(punit))
           && (is_native_tile(unit_type_get(punit), ptile)
               || (can_attack_non_native(unit_type_get(punit))
                   && is_native_near_tile(&(wld.map),
