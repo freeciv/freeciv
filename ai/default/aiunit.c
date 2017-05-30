@@ -744,7 +744,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
           || !aiguard_wanted(ait, buddy)
           || unit_move_rate(buddy) > unit_move_rate(punit)
           || DEFENSE_POWER(buddy_type) >= DEFENSE_POWER(ptype)
-          || (is_military_unit(buddy)
+          || (utype_can_do_action_result(buddy_type, ACTRES_ATTACK)
               && 0 == get_transporter_capacity(buddy)
               && ATTACK_POWER(buddy_type) <= ATTACK_POWER(ptype))) {
 
