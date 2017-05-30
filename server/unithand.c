@@ -2524,6 +2524,10 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               unit_bombard(actor_unit, target_tile));
     break;
+  case ACTION_ATTACK:
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              do_attack(actor_unit, target_tile, paction));
+    break;
   case ACTION_FOUND_CITY:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              city_build(pplayer, actor_unit,
@@ -2536,10 +2540,6 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_PARADROP:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_paradrop(actor_unit, target_tile));
-    break;
-  case ACTION_ATTACK:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_attack(actor_unit, target_tile, paction));
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "

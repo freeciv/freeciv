@@ -192,18 +192,18 @@ static void hard_code_oblig_hard_reqs(void)
 
   /* Why this is a hard requirement: there is a hard requirement that
    * the actor player is at war with the owner of any city on the
-   * target tile. It can't move to the ruleset as long as Bombard is
-   * targeted at unit stacks only. Having the same requirement
+   * target tile. It can't move to the ruleset as long as Bombard and Attack
+   * are targeted at unit stacks only. Having the same requirement
    * against each unit in the stack as against any city at the tile
    * ensures compatibility with any future solution that allows the
    * requirement against any city on the target tile to move to the
-   * ruleset. */
+   * ruleset. The Freeciv code assumes that ACTION_ATTACK has this. */
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
                           "All action enablers for %s must require a "
                           "target the actor is at war with.",
-                          ACTION_BOMBARD, ACTION_NONE);
+                          ACTION_BOMBARD, ACTION_ATTACK, ACTION_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
    * out corner cases. */
@@ -494,10 +494,11 @@ static void hard_code_actions(void)
                  FALSE);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
-                 /* FIXME: Target is actually City and, depending on the
-                  * unreachable_protects setting, each unit at the target
-                  * tile (Units) or any unit at the target tile. */
-                 ATK_TILE,
+                 /* FIXME: Target is actually City, each unit at the target
+                  * tile (Units) and, depending on the unreachable_protects
+                  * setting, each or any *non transported* unit at the
+                  * target tile. */
+                 ATK_UNITS,
                  TRUE, FALSE, FALSE, TRUE,
                  1, 1, FALSE);
   actions[ACTION_CONQUER_CITY] =
@@ -2185,11 +2186,6 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_ATTACK:
-    /* Reason: must have a unit to attack. */
-    if (unit_list_size(target_tile->units) <= 0) {
-      return TRI_NO;
-    }
-
     /* Reason: Keep the old rules. */
     if (!can_unit_attack_tile(actor_unit, target_tile)) {
       return TRI_NO;
