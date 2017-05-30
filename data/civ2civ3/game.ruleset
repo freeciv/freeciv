@@ -687,6 +687,7 @@ actor_reqs    =
       "UnitFlag",     "NonMil",       "Local", FALSE
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitState",    "OnNativeTile", "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
     }
 
 [actionenabler_attack_marines]
@@ -696,6 +697,7 @@ actor_reqs    =
       "UnitFlag",     "NonMil",  "Local", FALSE
       "MinMoveFrags", "1",       "Local", TRUE
       "UnitFlag",     "Marines", "Local", TRUE
+      "DiplRel",      "War",     "Local", TRUE
     }
 
 [actionenabler_attack_att_from_non_native]
@@ -705,6 +707,7 @@ actor_reqs    =
       "UnitFlag",      "NonMil",           "Local", FALSE
       "MinMoveFrags",  "1",                "Local", TRUE
       "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
     }
 
 [actionenabler_conquer_city_native]
