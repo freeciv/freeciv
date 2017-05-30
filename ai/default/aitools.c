@@ -583,8 +583,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   } else if (is_losing_hp(punit)) {
     /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */
-  } else if (is_military_unit(punit)
-             || utype_may_act_at_all(unit_type_get(punit))) {
+  } else if (utype_may_act_at_all(unit_type_get(punit))) {
     switch (unit_data->task) {
     case AIUNIT_AUTO_SETTLER:
     case AIUNIT_BUILD_CITY:
