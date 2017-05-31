@@ -41,7 +41,7 @@
   2) the tile contains a non-enemy city or
   3) the tile contains a non-enemy unit
 ***********************************************************************/
-bool can_player_attack_tile(const struct player *pplayer,
+static bool can_player_attack_tile(const struct player *pplayer,
 			    const struct tile *ptile)
 {
   struct city *pcity = tile_city(ptile);
