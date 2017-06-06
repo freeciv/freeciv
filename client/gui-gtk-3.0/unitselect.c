@@ -856,7 +856,14 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
     } unit_list_iterate_end;
   }
 
-  if (!transported && unit_is_in_focus(punit)) {
+  if (!transported && unit_is_in_focus(punit)
+      && get_num_units_in_focus() == 1) {
+    /* Put the keyboard focus on the selected unit. It isn't transported.
+     * Selection maps to keyboard focus since it alone is selected. */
+    fc_assert_action(pdialog->tabs[loc].path == NULL,
+                     /* Don't leak memory. */
+                     gtk_tree_path_free(pdialog->tabs[loc].path));
+
     pdialog->tabs[loc].path
       = gtk_tree_model_get_path(GTK_TREE_MODEL(store), it);
   }
