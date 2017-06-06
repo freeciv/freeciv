@@ -1508,6 +1508,16 @@ bool action_prob_possible(const struct act_prob probability)
 }
 
 /**************************************************************************
+  Returns TRUE iff the given action probability is certain that its action
+  is possible.
+**************************************************************************/
+bool action_prob_certain(const struct act_prob probability)
+{
+  return (ACTPROB_VAL_MAX == probability.min
+          && ACTPROB_VAL_MAX == probability.max);
+}
+
+/**************************************************************************
   Returns TRUE iff the given action probability represents the lack of
   an action probability.
 **************************************************************************/

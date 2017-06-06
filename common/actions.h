@@ -199,6 +199,8 @@ struct act_prob action_prob_vs_unit(const struct unit* actor,
 
 bool action_prob_possible(const struct act_prob probability);
 
+bool action_prob_certain(const struct act_prob probability);
+
 bool are_action_probabilitys_equal(const struct act_prob *ap1,
                                    const struct act_prob *ap2);
 
