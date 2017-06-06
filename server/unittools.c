@@ -2012,8 +2012,8 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   Note that despite being saved from drowning, teleporting the units to
   "safety" may have killed them in the end.
 ****************************************************************************/
-bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
-                      bool helpless, bool teleporting)
+static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
+                             bool helpless, bool teleporting)
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
