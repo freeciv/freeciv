@@ -106,7 +106,7 @@ bool is_unit_reachable_at(const struct unit *defender,
   (assuming it is adjacent and at war).
 
   Unit can NOT attack if:
-  1) it does not have any attack power.
+  1) its unit type is unable to perform any attack action.
   2) it is not a fighter and defender is a flying unit (except city/airbase).
   3) it is a ground unit without marine ability and it attacks from ocean.
   4) it is a ground unit and it attacks a target on an ocean square or
@@ -123,7 +123,10 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
                                                         const struct tile *dest_tile)
 {
   /* 1. Can we attack _anything_ ? */
-  if (!is_military_unit(punit) || !is_attack_unit(punit)) {
+  if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
+        /* Needed because ACTION_NUKE uses this when evaluating its hard
+         * requirements. */
+        || utype_can_do_action(unit_type_get(punit), ACTION_NUKE))) {
     return ATT_NON_ATTACK;
   }
 
