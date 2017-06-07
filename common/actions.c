@@ -3175,6 +3175,14 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  /* Doesn't leak information since it must be 100% certain from the
+   * player's perspective that the blocking action is legal. */
+  if (action_is_blocked_by(action_id, actor_unit,
+                           city_tile(target_city), target_city, NULL)) {
+    /* Don't offer to perform an action known to be blocked. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   if (!player_can_see_city_externals(unit_owner(actor_unit), target_city)) {
     /* The invisible city at this tile may, as far as the player knows, not
      * exist anymore. */
@@ -3305,6 +3313,17 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
      * a city. */
     return ACTPROB_IMPOSSIBLE;
   }
+
+  /* Doesn't leak information since it must be 100% certain from the
+   * player's perspective that the blocking action is legal. */
+  unit_list_iterate(target_tile->units, target_unit) {
+    if (action_is_blocked_by(action_id, actor_unit,
+                             target_tile, tile_city(target_tile),
+                             target_unit)) {
+      /* Don't offer to perform an action known to be blocked. */
+      return ACTPROB_IMPOSSIBLE;
+    }
+  } unit_list_iterate_end;
 
   /* Must be done here since an empty unseen tile will result in
    * ACTPROB_IMPOSSIBLE. */
