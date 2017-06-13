@@ -62,6 +62,8 @@ Differences compared to the classic ruleset are:
   used by the enemy even if the restrictinfra server setting is enabled.
   (The restrictinfra server setting is enabled by default.)
 - An alliance has more in game consequences:
+  - Unit ownership can be transferred by moving a unit to an allied city
+    and ordering it to change home city.
   - Caravan and Freight can help allies to complete wonders.
   - Sun Tzu's War Academy gives its veteran bonus (combat and production)
     to both its owner and to all his allies.
