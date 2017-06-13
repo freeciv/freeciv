@@ -2679,7 +2679,25 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity)
 {
+  const char *giver = NULL;
+
+  if (unit_owner(punit) != city_owner(pcity)) {
+    /* This is a gift. Tell the receiver. */
+    giver = player_name(unit_owner(punit));
+  }
+
   unit_change_homecity_handling(punit, pcity, TRUE);
+
+  if (punit->homecity == pcity->id && giver) {
+    /* Notify the city owner about the gift he received. */
+    notify_player(city_owner(pcity), city_tile(pcity), E_UNIT_BUILT,
+                  ftc_server,
+                  /* TRANS: other player ... unit type ... city name. */
+                  _("%s transferred control over a %s to you in %s."),
+                  giver,
+                  unit_tile_link(punit),
+                  city_link(pcity));;
+  }
 
   return punit->homecity == pcity->id;
 }
