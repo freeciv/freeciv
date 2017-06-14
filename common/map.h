@@ -580,7 +580,7 @@ extern const int DIR_DY[8];
 #ifdef FREECIV_WEB
 #define MAP_DEFAULT_SIZE         3
 #define MAP_MIN_SIZE             0
-#define MAP_MAX_SIZE             18
+#define MAP_MAX_SIZE             38
 #else  /* FREECIV_WEB */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             0
