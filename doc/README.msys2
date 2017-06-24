@@ -106,15 +106,15 @@ using MSYS2 from http://msys2.github.io
 ====================================
 
 Premade msys2 environment is available for download from
-https://sourceforge.net/projects/freeciv/files/dependencies/msys2/
+http://files.freeciv.org/packages/windows/msys2/
 
 Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-170422.7z, based on
+msys2-freeciv-win64-170616.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20161025.exe
-with packages updated to 22-Apr-17 level.
+with packages updated to 16-Jun-17 level.
 
 Only win64 target is included - replace <arch> with 'x86_64' in package names below
 
@@ -181,6 +181,7 @@ somehow. Some options are:
  It's possible to set number of make jobs used in the build by
  setting suitable make parameter to MAKE_PARAMS variable, e,g,
  MAKE_PARAMS="-j3"
+
 
  Problems
 ====================================
