@@ -69,7 +69,7 @@ ruledit-installer:
 # to depend on correct arch version.
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" buildable
+	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev" buildable
 
 
 # build Freeciv

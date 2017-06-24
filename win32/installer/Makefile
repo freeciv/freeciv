@@ -55,7 +55,7 @@ ruledit-installer:
 
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="svn" EXTRA_CONFIG="--enable-svnrev" all
+	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev" all
 
 
 # build Freeciv
