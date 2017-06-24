@@ -1837,6 +1837,8 @@ static void sg_load_map(struct loaddata *loading)
       }
     }
 
+    /* have_resources TRUE only if set so by sg_load_map_tiles_resources() */
+    game.scenario.have_resources = FALSE;
     if (has_capability("specials", loading->secfile_options)) {
       /* Load resources. */
       sg_load_map_tiles_resources(loading);
