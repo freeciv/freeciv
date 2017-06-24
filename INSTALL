@@ -18,7 +18,7 @@ This document contains sections and subsections as follows:
           1d. Prerequisites for the Xaw client:
           1e. Prerequisites for the Qt client:
      2. Generating Makefiles
-          2a. Generating the Makefile for svn versions:
+          2a. Generating the Makefile for git versions:
           2b. Generating the Makefile for release versions:
      3. Compiling Freeciv:
      4. Installation:
@@ -80,13 +80,13 @@ out whether your system is suitable.  If in doubt, just try it.
 
    http://curl.haxx.se/
 
-The svn version has additional requirements. A release version
+The git version has additional requirements. A release version
 contains the generated files.
 
  - The programs from GNU gettext version 0.10.36 or better
 
    Especial the xgettext program is required to create the *.gmo
-   files which aren't included in the svn tree.
+   files which aren't included in the git tree.
 
  - GNU autoconf version 2.61 or better
 
@@ -376,13 +376,13 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
 
 2. Generating Makefiles
 =======================
-This section contains two parts, one for generating makefiles from svn
+This section contains two parts, one for generating makefiles from git
 versions and one for generating makefiles from release versions.
 
-2a. Generating the Makefile for svn versions:
+2a. Generating the Makefile for git versions:
 =============================================
 
-This step is only needed for svn versions.
+This step is only needed for git versions.
 
 To create the makefile just type
 
