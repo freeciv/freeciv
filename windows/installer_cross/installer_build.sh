@@ -106,7 +106,7 @@ fi
 
 SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
-if test -d ../../.git ; then
+if test -d ../../.git || test -f ../../.git ; then
   VERREV="$(../../fc_version)-$(cd ../.. && git rev-parse --short HEAD)"
 elif test -d ../../.svn ; then
   VERREV="$(../../fc_version)-r$(cd ../.. && svn info | grep Revision | sed 's/Revision: //')"
