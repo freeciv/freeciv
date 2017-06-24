@@ -285,9 +285,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin57.dll \
-	libicuuc57.dll \
-	libicudt57.dll \
+	libicuin58.dll \
+	libicuuc58.dll \
+	libicudt58.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
