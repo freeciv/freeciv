@@ -502,8 +502,12 @@ static bool lose_tech(struct player *plr)
     return FALSE;
   }
 
-  if (research->bulbs_researched <
-      -total_bulbs_required(plr) * game.server.techloss_forgiveness / 100) {
+  /* First check is not for optimization only - it protects
+   * total_bulbs_required() from getting called before research
+   * has even been set to value other than A_UNSET. */
+  if (research->bulbs_researched < 0
+      && research->bulbs_researched <
+         -total_bulbs_required(plr) * game.server.techloss_forgiveness / 100) {
     return TRUE;
   }
 
