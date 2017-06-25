@@ -536,8 +536,10 @@ static void check_players(const char *file, const char *function, int line)
         SANITY_CHECK(players_on_same_team(pplayer, pplayer2));
         SANITY_CHECK(player_has_real_embassy(pplayer, pplayer2));
         SANITY_CHECK(player_has_real_embassy(pplayer2, pplayer));
-        SANITY_CHECK(really_gives_vision(pplayer, pplayer2));
-        SANITY_CHECK(really_gives_vision(pplayer2, pplayer));
+        if (pplayer->is_alive && pplayer2->is_alive) {
+          SANITY_CHECK(really_gives_vision(pplayer, pplayer2));
+          SANITY_CHECK(really_gives_vision(pplayer2, pplayer));
+        }
       }
       if (pplayer->is_alive
           && pplayer2->is_alive
