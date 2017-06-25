@@ -123,7 +123,7 @@ freeciv_mp_cli_LDADD = \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_cli_libs)
+		$(mp_cli_libs) -lsqlite3
 endif
 
 if MODINST_GTK3
@@ -138,7 +138,7 @@ freeciv_mp_gtk3_LDADD = \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_gtk3_libs) \
+		$(mp_gtk3_libs) -lsqlite3 \
 		$(MPICON)
 endif
 
@@ -154,7 +154,7 @@ freeciv_mp_gtk3x_LDADD = \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_gtk3x_libs) \
+		$(mp_gtk3x_libs) -lsqlite3 \
 		$(MPICON)
 endif
 
@@ -182,6 +182,6 @@ freeciv_mp_qt_LDADD = \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_qt_libs) \
+		$(mp_qt_libs) -lsqlite3 \
 		$(MPICON)
 endif
