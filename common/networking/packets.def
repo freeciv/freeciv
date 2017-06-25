@@ -1184,7 +1184,7 @@ PACKET_CONN_INFO = 115; sc, lsend, is-info
   BOOL used;
   BOOL established;
   BOOL observer;
-  PLAYER player_num;
+  UINT16 player_num;
   CMDLEVEL access_level;
   STRING username[MAX_LEN_NAME];
   STRING addr[MAX_LEN_ADDR];
