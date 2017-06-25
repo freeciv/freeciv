@@ -501,7 +501,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 granary_food_inc;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
-  PLAYER great_wonder_owners[B_LAST]; diff
+  SINT16 great_wonder_owners[B_LAST]; diff
   UINT8 happy_cost;
   HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
