@@ -1763,6 +1763,8 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   }
 
   cairo_destroy(cr);
+
+  gtk_widget_queue_draw(pdialog->citizen_images);
 }
 
 /****************************************************************
