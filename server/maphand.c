@@ -1289,6 +1289,10 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
 ****************************************************************************/
 void update_tile_knowledge(struct tile *ptile)
 {
+  if (server_state() == S_S_INITIAL) {
+    return;
+  }
+
   /* Players */
   players_iterate(pplayer) {
     if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
