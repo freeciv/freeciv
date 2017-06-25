@@ -223,7 +223,11 @@ static void tai_tile_worker_task_select(struct player *pplayer,
 
       proad = extra_road_get(tgt);
 
-      value = adv_city_worker_extra_get(pcity, cindex, tgt);
+      if (removing) {
+        value = adv_city_worker_rmextra_get(pcity, cindex, tgt);
+      } else {
+        value = adv_city_worker_extra_get(pcity, cindex, tgt);
+      }
 
       if (proad != NULL && road_provides_move_bonus(proad)) {
         int old_move_cost;
