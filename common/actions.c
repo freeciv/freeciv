@@ -3343,6 +3343,16 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     }
   }
 
+  if ((action_id_has_result(action_id, ACTION_ATTACK)
+       || action_id_has_result(action_id, ACTION_BOMBARD))
+      && tile_city(target_tile) != NULL
+      && !pplayers_at_war(city_owner(tile_city(target_tile)),
+                          unit_owner(actor_unit))) {
+    /* Hard coded rule: can't "Bombard" or "Attack" units in non enemy
+       cities. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   /* Invisible units at this tile can make the action legal or illegal.
    * Invisible units can be stacked with visible units. The possible
    * existence of invisible units therefore makes the result uncertain. */
