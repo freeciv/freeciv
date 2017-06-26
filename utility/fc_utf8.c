@@ -175,7 +175,7 @@ static inline size_t base_fc_utf8_strlcpy_rep(char *dest, const char *src,
 
       /* Jump to next character in src. */
       src = fc_utf8_find_next_char(end);
-      if ('\0' == *src) {
+      if (src == NULL || *src == '\0') {
         *dest = '\0';
         return src_len; /* End of 'src' reached. */
       }
