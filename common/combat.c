@@ -36,7 +36,7 @@
 
 /***********************************************************************
   Checks if player is restricted diplomatically from attacking the tile.
-  Returns FLASE if
+  Returns FALSE if
   1) the tile is empty or
   2) the tile contains a non-enemy city or
   3) the tile contains a non-enemy unit
