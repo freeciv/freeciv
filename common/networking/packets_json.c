@@ -113,34 +113,39 @@ void *get_packet_from_connection_json(struct connection *pc,
     return NULL;
   }
 
-  /* Parse JSON packet. Note that json string has '\0' */
-  pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
+  if (json_mode) {
+    /* Parse JSON packet. Note that json string has '\0' */
+    pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
 
-  /* Log errors before we scrap the data */
-  if (!pc->json_packet) {
-    log_error("ERROR: Unable to parse packet: %s", pc->buffer->data + 2);
-    log_error("%s", error.text);
+    /* Log errors before we scrap the data */
+    if (!pc->json_packet) {
+      log_error("ERROR: Unable to parse packet: %s", pc->buffer->data + 2);
+      log_error("%s", error.text);
+    }
+
+    log_packet_json("Json in: %s", pc->buffer->data + 2);
+
+    /* Shift remaining data to the front */
+    pc->buffer->ndata -= whole_packet_len;
+    memmove(pc->buffer->data, pc->buffer->data + whole_packet_len, pc->buffer->ndata);
+
+    if (!pc->json_packet) {
+      return NULL;
+    }
+
+    pint = json_object_get(pc->json_packet, "pid");
+
+    if (!pint) {
+      log_error("ERROR: Unable to get packet type.");
+      return NULL;
+    }
+
+    json_int_t packet_type = json_integer_value(pint);
+    utype.type = packet_type;
+  } else {
+    dio_get_type_raw(&din, pc->packet_header.type, &utype.itype);
+    utype.type = utype.itype;
   }
-
-  log_packet_json("Json in: %s", pc->buffer->data + 2);
-
-  /* Shift remaining data to the front */
-  pc->buffer->ndata -= whole_packet_len;
-  memmove(pc->buffer->data, pc->buffer->data + whole_packet_len, pc->buffer->ndata);
-
-  if (!pc->json_packet) {
-    return NULL;
-  }
-
-  pint = json_object_get(pc->json_packet, "pid");
-
-  if (!pint) {
-    log_error("ERROR: Unable to get packet type.");
-    return NULL;
-  } 
-
-  json_int_t packet_type = json_integer_value(pint);
-  utype.type = packet_type;
 
   if (utype.type < 0
       || utype.type >= PACKET_LAST
