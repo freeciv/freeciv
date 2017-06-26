@@ -5598,6 +5598,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_FOUND_CITY:
           case ACTION_JOIN_CITY:
           case ACTION_STEAL_MAPS:
+          case ACTION_STEAL_MAPS_ESC:
           case ACTION_BOMBARD:
           case ACTION_SPY_NUKE:
           case ACTION_SPY_NUKE_ESC:

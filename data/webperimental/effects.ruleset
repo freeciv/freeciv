@@ -2506,7 +2506,7 @@ type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Steal Maps", "Local", TRUE
+      "Action", "Steal Maps Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 

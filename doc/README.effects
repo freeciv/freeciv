@@ -274,8 +274,8 @@ Action_Odds_Pct
     modifies the actor's odds. A positive value helps him. A negative value
     makes it more probable that he will get caught. Currently supports the
     actions "Incite City", "Incite City Escape", "Steal Gold", "Steal Maps",
-    "Suitcase Nuke", "Suitcase Nuke Escape", "Sabotage City" and
-    "Targeted Sabotage City".
+    "Steal Maps Escape", "Suitcase Nuke", "Suitcase Nuke Escape",
+    "Sabotage City" and "Targeted Sabotage City".
 
 Size_Adj
     Increase maximum size of a city by amount.

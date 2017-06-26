@@ -4273,7 +4273,7 @@ type	= "Casus_Belli_Caught"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Steal Maps", "Local", TRUE
+      "Action", "Steal Maps Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
@@ -4282,7 +4282,7 @@ type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Steal Maps", "Local", TRUE
+      "Action", "Steal Maps Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
@@ -4291,7 +4291,7 @@ type	= "Action_Odds_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Steal Maps", "Local", TRUE
+      "Action", "Steal Maps Escape", "Local", TRUE
     }
 
 [effect_incident_caught_steal_tech]
