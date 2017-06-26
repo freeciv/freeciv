@@ -109,8 +109,8 @@ bool is_unit_reachable_at(const struct unit *defender,
   1) it does not have any attack power.
   2) it is not a fighter and defender is a flying unit (except city/airbase).
   3) it is a ground unit without marine ability and it attacks from ocean.
-  4) it is a ground unit and it attacks a target on an ocean square.
-  5) it is a sailing unit without shore bombardment capability and it
+  4) it is a ground unit and it attacks a target on an ocean square or
+     it is a sailing unit without shore bombardment capability and it
      attempts to attack land.
 
   Does NOT check:
