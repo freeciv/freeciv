@@ -4905,7 +4905,7 @@ void desired_settable_options_update(void)
 
 /****************************************************************
   Update a desired settable option in the hash table from a value
-  which can be different of the current consiguration.
+  which can be different of the current configuration.
 *****************************************************************/
 void desired_settable_option_update(const char *op_name,
                                     const char *op_value,
