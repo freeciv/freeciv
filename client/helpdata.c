@@ -3189,6 +3189,14 @@ void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
+  if (pgood->onetime_pct == 0) {
+    cat_snprintf(buf, bufsz,
+                 _("There's no bonuses paid when traderoute is established.\n\n"));
+  } else if (pgood->onetime_pct != 100) {
+    cat_snprintf(buf, bufsz,
+                 _("When traderoute is established, %d%% of the normal bonus is paid.\n"),
+                 pgood->onetime_pct);
+  }
   cat_snprintf(buf, bufsz, _("Sending city enjoys %d%% income from the route.\n"),
                pgood->from_pct);
   cat_snprintf(buf, bufsz, _("Receiving city enjoys %d%% income from the route.\n\n"),

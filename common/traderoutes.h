@@ -114,6 +114,7 @@ int trade_from_route(const struct city *pc1, const struct trade_route *route,
 int city_num_trade_routes(const struct city *pcity);
 int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const struct city *pc2,
+                                       struct goods_type *pgood,
                                        const bool establish_trade);
 int city_trade_removable(const struct city *pcity,
                          struct trade_route_list *would_remove);
@@ -174,6 +175,7 @@ struct goods_type
 
   int from_pct;
   int to_pct;
+  int onetime_pct;
 
   bv_goods_flags flags;
 

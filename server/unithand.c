@@ -3967,7 +3967,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   /* We now know for sure whether we can establish a trade route. */
 
   /* Calculate and announce initial revenue. */
-  revenue = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest,
+  revenue = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest, goods,
                                                can_establish);
 
   bonus_type = trade_route_settings_by_type(cities_trade_route_type(pcity_homecity, pcity_dest))->bonus_type;

@@ -984,6 +984,7 @@ goods = "\
 ;                           This value is applied to both ends of bidirectional routes.\n\
 ; to_pct                  = Income for the receiving end of the trade route. Default is 100\%\n\
 ;                           This value is not used at all in case of bidirectional routes.\n\
+; onetime_pct             = Onetime bonuses when traderoute is established. Default is 100\%\n\
 ; flags\n\
 ;   - \"Bidirectional\"     = Trade route carrying the goods does not have \"from\" and \"to\"\n\
 ;                           ends, but both ends are considered the same.\n\

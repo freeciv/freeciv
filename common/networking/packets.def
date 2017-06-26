@@ -1699,6 +1699,7 @@ PACKET_RULESET_GOODS = 248; sc, lsend
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   UINT16 from_pct;
   UINT16 to_pct;
+  UINT16 onetime_pct;
   BV_GOODS_FLAGS flags;
   STRVEC helptext[MAX_LEN_PACKET];
 end

@@ -1340,6 +1340,7 @@ static void action_entry(const enum gen_action act,
 **************************************************************************/
 static const char *action_custom_text(const int action_id,
                                       const struct act_prob prob,
+                                      const struct unit *actor_unit,
                                       const struct city *actor_homecity,
                                       const struct city *target_city)
 {
@@ -1355,6 +1356,7 @@ static const char *action_custom_text(const int action_id,
     {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                        target_city,
+                                                       actor_unit->carrying,
                                                        TRUE);
 
       astr_set(&custom,
@@ -1369,6 +1371,7 @@ static const char *action_custom_text(const int action_id,
     {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                        target_city,
+                                                       actor_unit->carrying,
                                                        FALSE);
 
       astr_set(&custom,
@@ -1468,7 +1471,7 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(act, act_probs,
-                   action_custom_text(act, act_probs[act],
+                   action_custom_text(act, act_probs[act], actor_unit,
                                       actor_homecity, target_city),
                    actor_unit, NULL, target_city, NULL,
                    pWindow, &area);
