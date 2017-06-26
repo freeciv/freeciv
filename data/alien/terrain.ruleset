@@ -714,6 +714,15 @@ build_time     = 0
 removal_time   = 0
 conflicts      = "Mine"
 hidden_by      = "Farmland"
+helptext = _("\
+Irrigation can be built on certain terrain types only. In addition to that \
+tile has to have one of the following water sources:\n\
+- Irrigation can be built tiles cardinally adjacent to Oceanic tiles and \
+on river tiles once Manufacturing is known.\n\
+- Once Water Flow is known, Irrigation can be built to tiles cardinally adjacent \
+to river tiles or city center.\n\
+- Deep Pumping technology enables building Irrigation.\
+")
 
 [extra_mine]
 name           = _("Mine")
