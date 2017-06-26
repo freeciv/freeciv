@@ -817,18 +817,6 @@ bool extra_causes_env_upset(struct extra_type *pextra,
 }
 
 /**************************************************************************
-  Is given cause one of the causes for given extra?
-**************************************************************************/
-bool is_extra_caused_by(const struct extra_type *pextra, enum extra_cause cause)
-{
-  /* There's some extra cause lists above EC_COUNT that do not have equivalent
-   * bit in pextra->causes */
-  fc_assert(cause < EC_COUNT);
-
-  return (pextra->causes & (1 << cause));
-}
-
-/**************************************************************************
   Is the extra caused by some kind of worker action?
 **************************************************************************/
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
