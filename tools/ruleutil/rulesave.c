@@ -1360,6 +1360,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
     save_default_int(sfile, pgood->from_pct, 100, path, "from_pct");
     save_default_int(sfile, pgood->to_pct, 100, path, "to_pct");
+    save_default_int(sfile, pgood->onetime_pct, 100, path, "onetime_pct");
 
     set_count = 0;
     for (flagi = 0; flagi < GF_COUNT; flagi++) {

@@ -369,9 +369,12 @@ int city_num_trade_routes(const struct city *pcity)
 
   If you change this calculation remember to also update its duplication
   in dai_choose_trade_route()
+
+  pgood can be NULL for ignoring good's onetime_pct.
 **************************************************************************/
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2,
+                                       struct goods_type *pgood,
                                        const bool establish_trade)
 {
   int tb, bonus;
@@ -379,7 +382,10 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   /* Should this be real_map_distance? */
   tb = map_distance(pc1->tile, pc2->tile) + 10;
   tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
-  
+  if (pgood != NULL) {
+    tb = tb * pgood->onetime_pct / 100;
+  }
+
   /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
   bonus = get_target_bonus_effects(NULL,
                                    city_owner(pc1), city_owner(pc2),
