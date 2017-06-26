@@ -90,6 +90,9 @@ struct ane_expl {
     /* The nation that can't be involved. */
     struct nation_type *no_act_nation;
 
+    /* The unit type that can't be targeted. */
+    struct unit_type *no_tgt_utype;
+
     /* The action that blocks the action. */
     struct action *blocker;
 
@@ -1157,6 +1160,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       explnat->kind = ANEK_UNKNOWN;
       break;
     }
+  } else if (action_id == ACTION_SPY_BRIBE_UNIT
+             && utype_player_already_has_this_unique(unit_owner(punit),
+                 unit_type_get(target_unit))) {
+    explnat->kind = ANEK_TGT_IS_UNIQUE_ACT_HAS;
+    explnat->no_tgt_utype = unit_type_get(target_unit);
   } else if ((game.scenario.prevent_new_cities
               && utype_can_do_action(unit_type_get(punit), ACTION_FOUND_CITY))
              && (action_id == ACTION_FOUND_CITY
@@ -1413,6 +1421,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("%s can't do anything since there is an unreachable "
                     "unit."),
                   unit_name_translation(punit));
+    break;
+  case ANEK_TGT_IS_UNIQUE_ACT_HAS:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s can't do anything since you already have a %s."),
+                  unit_name_translation(punit),
+                  utype_name_translation(explnat->no_tgt_utype));
     break;
   case ANEK_ACTION_BLOCKS:
     /* If an action blocked another action the blocking action must be
@@ -1983,6 +1997,11 @@ void illegal_action_msg(struct player *pplayer,
                     "unreachable unit."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
+    break;
+  case ANEK_TGT_IS_UNIQUE_ACT_HAS:
+    notify_player(pplayer, target_tile, event, ftc_server,
+                  _("You already have a %s."),
+                  utype_name_translation(explnat->no_tgt_utype));
     break;
   case ANEK_ACTION_BLOCKS:
     notify_player(pplayer, unit_tile(actor),

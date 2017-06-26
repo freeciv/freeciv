@@ -82,6 +82,9 @@ enum ane_kind {
   ANEK_CITY_POP_LIMIT,
   /* Explanation: the specified city don't have the needed capacity. */
   ANEK_CITY_NO_CAPACITY,
+  /* Explanation: the target unit can't switch sides because it is unique
+   * and the actor player already has one. */
+  ANEK_TGT_IS_UNIQUE_ACT_HAS,
   /* Explanation: the target tile is unknown. */
   ANEK_TGT_TILE_UNKNOWN,
   /* Explanation: the action is blocked by another action. */
