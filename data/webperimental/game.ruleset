@@ -607,7 +607,7 @@ actor_reqs    =
     }
 
 [actionenabler_steal_maps]
-action = "Steal Maps"
+action = "Steal Maps Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"

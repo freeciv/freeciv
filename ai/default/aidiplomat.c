@@ -443,6 +443,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   T(ACTION_SPY_STEAL_GOLD, 0);
 
+  T(ACTION_STEAL_MAPS_ESC, 0);
   T(ACTION_STEAL_MAPS, 0);
 
   /* last resort */

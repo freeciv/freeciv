@@ -237,6 +237,13 @@ Actions done by a unit against a city
 
 "Steal Maps" - Steal parts of the owner of the target city's map.
  * UI name can be set using ui_name_steal_maps
+ * spends the actor unit
+ * actor must be aware that the target exists
+ * actor must be on the same tile as the target or on the tile next to it.
+ * target must be foreign. (!)
+
+"Steal Maps Escape" - Steal parts of the owner of the target city's map.
+ * UI name can be set using ui_name_steal_maps_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)

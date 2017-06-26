@@ -180,6 +180,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_INV_CITY_SPEND,
                           ACTION_SPY_STEAL_GOLD,
                           ACTION_STEAL_MAPS,
+                          ACTION_STEAL_MAPS_ESC,
                           ACTION_SPY_STEAL_TECH,
                           ACTION_SPY_TARGETED_STEAL_TECH,
                           ACTION_SPY_INCITE_CITY,
@@ -414,6 +415,10 @@ static void hard_code_actions(void)
                  0, 1, TRUE);
   actions[ACTION_STEAL_MAPS] =
       action_new(ACTION_STEAL_MAPS, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_STEAL_MAPS_ESC] =
+      action_new(ACTION_STEAL_MAPS_ESC, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_BOMBARD] =
@@ -1538,6 +1543,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_CAPTURE_UNITS:
   case ACTION_FOUND_CITY:
   case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_NUKE:
@@ -1671,6 +1677,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_FOUND_CITY:
   case ACTION_JOIN_CITY:
   case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
   case ACTION_BOMBARD:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
@@ -2185,6 +2192,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_DESTROY_CITY:
@@ -2920,6 +2928,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_STEAL_MAPS:
+    /* TODO */
+    break;
+  case ACTION_STEAL_MAPS_ESC:
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:

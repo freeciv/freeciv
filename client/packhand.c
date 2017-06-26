@@ -4529,6 +4529,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_FOUND_CITY:
       case ACTION_JOIN_CITY:
       case ACTION_STEAL_MAPS:
+      case ACTION_STEAL_MAPS_ESC:
       case ACTION_SPY_NUKE:
       case ACTION_SPY_NUKE_ESC:
       case ACTION_DESTROY_CITY:

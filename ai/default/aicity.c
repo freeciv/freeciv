@@ -1194,6 +1194,7 @@ static int action_target_neg_util(int action_id,
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
     /* TODO: Individual and well balanced values */
     return 8;
 
