@@ -54,7 +54,7 @@ class tab_good : public QWidget
     void delete_now();
     void same_name_toggle(bool checked);
     void edit_reqs();
+    void edit_effects();
 };
-
 
 #endif // FC__TAB_GOOD_H

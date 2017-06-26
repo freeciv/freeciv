@@ -33,6 +33,7 @@
 #include "unittype.h"
 
 // ruledit
+#include "effect_edit.h"
 #include "edit_utype.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -48,6 +49,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
   QPushButton *edit_button;
@@ -85,14 +87,19 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
   unit_layout->addWidget(edit_button, 2, 2);
 
+  effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
+  connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
+  unit_layout->addWidget(effects_button, 3, 2);
+  show_experimental(effects_button);
+
   add_button = new QPushButton(QString::fromUtf8(R__("Add Unit")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  unit_layout->addWidget(add_button, 5, 0);
+  unit_layout->addWidget(add_button, 4, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Unit")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  unit_layout->addWidget(delete_button, 5, 2);
+  unit_layout->addWidget(delete_button, 4, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -274,5 +281,24 @@ void tab_unit::same_name_toggle(bool checked)
   name->setEnabled(!checked);
   if (checked) {
     name->setText(rname->text());
+  }
+}
+
+/**************************************************************************
+  User wants to edit effects
+**************************************************************************/
+void tab_unit::edit_effects()
+{
+  if (selected != nullptr) {
+    effect_edit *e_edit;
+    struct universal uni;
+
+    uni.value.utype = selected;
+    uni.kind = VUT_UTYPE;
+
+    e_edit = new effect_edit(ui, QString::fromUtf8(utype_rule_name(selected)),
+                             &uni);
+
+    e_edit->show();
   }
 }

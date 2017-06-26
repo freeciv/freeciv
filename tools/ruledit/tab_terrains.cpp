@@ -33,6 +33,7 @@
 #include "terrain.h"
 
 // ruledit
+#include "effect_edit.h"
 #include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -48,6 +49,7 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *terrains_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
 
@@ -80,14 +82,19 @@ tab_terrains::tab_terrains(ruledit_gui *ui_in) : QWidget()
   terrains_layout->addWidget(same_name, 1, 1);
   terrains_layout->addWidget(name, 1, 2);
 
+  effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
+  connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
+  terrains_layout->addWidget(effects_button, 2, 2);
+  show_experimental(effects_button);
+
   add_button = new QPushButton(QString::fromUtf8(R__("Add Terrain")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  terrains_layout->addWidget(add_button, 2, 0);
+  terrains_layout->addWidget(add_button, 3, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Terrain")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  terrains_layout->addWidget(delete_button, 2, 2);
+  terrains_layout->addWidget(delete_button, 3, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -259,5 +266,24 @@ void tab_terrains::same_name_toggle(bool checked)
   name->setEnabled(!checked);
   if (checked) {
     name->setText(rname->text());
+  }
+}
+
+/**************************************************************************
+  User wants to edit effects
+**************************************************************************/
+void tab_terrains::edit_effects()
+{
+  if (selected != nullptr) {
+    effect_edit *e_edit;
+    struct universal uni;
+
+    uni.value.terrain = selected;
+    uni.kind = VUT_TERRAIN;
+
+    e_edit = new effect_edit(ui, QString::fromUtf8(terrain_rule_name(selected)),
+                             &uni);
+
+    e_edit->show();
   }
 }

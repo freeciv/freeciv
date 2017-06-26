@@ -33,6 +33,7 @@
 #include "improvement.h"
 
 // ruledit
+#include "effect_edit.h"
 #include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -48,6 +49,7 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *good_layout = new QGridLayout();
   QLabel *label;
+  QPushButton *effects_button;
   QPushButton *add_button;
   QPushButton *delete_button;
   QPushButton *reqs_button;
@@ -85,14 +87,19 @@ tab_good::tab_good(ruledit_gui *ui_in) : QWidget()
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
   good_layout->addWidget(reqs_button, 2, 2);
 
+  effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
+  connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
+  good_layout->addWidget(effects_button, 3, 2);
+  show_experimental(effects_button);
+
   add_button = new QPushButton(QString::fromUtf8(R__("Add Good")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
-  good_layout->addWidget(add_button, 5, 0);
+  good_layout->addWidget(add_button, 4, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Good")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  good_layout->addWidget(delete_button, 5, 2);
+  good_layout->addWidget(delete_button, 4, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -277,5 +284,24 @@ void tab_good::edit_reqs()
                                    &selected->reqs);
 
     redit->show();
+  }
+}
+
+/**************************************************************************
+  User wants to edit effects
+**************************************************************************/
+void tab_good::edit_effects()
+{
+  if (selected != nullptr) {
+    effect_edit *e_edit;
+    struct universal uni;
+
+    uni.value.good = selected;
+    uni.kind = VUT_GOOD;
+
+    e_edit = new effect_edit(ui, QString::fromUtf8(goods_rule_name(selected)),
+                             &uni);
+
+    e_edit->show();
   }
 }

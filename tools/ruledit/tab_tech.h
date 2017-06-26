@@ -75,6 +75,7 @@ class tab_tech : public QWidget
     void add_now();
     void delete_now();
     void same_name_toggle(bool checked);
+    void edit_effects();
 };
 
 

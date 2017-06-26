@@ -53,7 +53,7 @@ class tab_terrains : public QWidget
     void add_now();
     void delete_now();
     void same_name_toggle(bool checked);
+    void edit_effects();
 };
-
 
 #endif // FC__TAB_TERRAINS_H
