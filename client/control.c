@@ -1033,7 +1033,7 @@ void request_unit_goto(enum unit_orders last_order)
 }
 
 /****************************************************************************
-  Return TRUE if at least one of the untis can do an attack at the tile.
+  Return TRUE if at least one of the units can do an attack at the tile.
 ****************************************************************************/
 static bool can_units_attack_at(struct unit_list *punits,
 				const struct tile *ptile)
