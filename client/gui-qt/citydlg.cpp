@@ -787,7 +787,7 @@ void unit_item::unload_unit()
 }
 
 /****************************************************************************
-  Unloads all untis from transporter
+  Unloads all units from transporter
 ****************************************************************************/
 void unit_item::unload_all()
 {
