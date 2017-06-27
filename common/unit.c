@@ -1420,6 +1420,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 {
   struct terrain *pterrain;
+  bool srv = is_server();
 
   square_iterate(&(wld.map), ptile0, 1, ptile) {
     pterrain = tile_terrain(ptile);
@@ -1437,7 +1438,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
       }
     } unit_list_iterate_end;
 
-    if (!is_server()) {
+    if (!srv) {
       struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
 
       if (pcity 
