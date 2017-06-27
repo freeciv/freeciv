@@ -31,8 +31,10 @@ GdkPixbuf *get_thumb_pixbuf(int onoff);
 
 #define CURSOR_INTERVAL 200 /* milliseconds */
 
-gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
-gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
+void overview_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
+                          int width, int height, gpointer data);
+void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
+                     int width, int height, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
                               gpointer data);
 

@@ -1240,9 +1240,9 @@ static void setup_widgets(void)
 
   gtk_container_add(GTK_CONTAINER(overview_scrolled_window), 
                     overview_canvas);
- 
-  g_signal_connect(overview_canvas, "draw",
-        	   G_CALLBACK(overview_canvas_draw), NULL);
+
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(overview_canvas),
+                                 overview_canvas_draw, NULL, NULL);
 
   g_signal_connect(overview_canvas, "motion_notify_event",
         	   G_CALLBACK(move_overviewcanvas), NULL);
@@ -1516,8 +1516,8 @@ static void setup_widgets(void)
       gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
   gtk_grid_attach(GTK_GRID(map_widget), map_vertical_scrollbar, 1, 0, 1, 1);
 
-  g_signal_connect(map_canvas, "draw",
-                   G_CALLBACK(map_canvas_draw), NULL);
+  gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(map_canvas), map_canvas_draw,
+                                 NULL, NULL);
 
   g_signal_connect(map_canvas, "configure_event",
                    G_CALLBACK(map_canvas_configure), NULL);

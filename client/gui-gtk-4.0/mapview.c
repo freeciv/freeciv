@@ -335,7 +335,8 @@ struct canvas *get_overview_window(void)
 /**************************************************************************
   Redraw overview canvas
 **************************************************************************/
-gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
+void overview_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
+                          int width, int height, gpointer data)
 {
   gpointer source = (can_client_change_view()) ?
                      (gpointer)gui_options.overview.window : NULL;
@@ -346,7 +347,6 @@ gboolean overview_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
     cairo_set_source_surface(cr, surface, 0, 0);
     cairo_paint(cr);
   }
-  return TRUE;
 }
 
 /****************************************************************************
@@ -393,7 +393,8 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
 /**************************************************************************
   Redraw map canvas.
 **************************************************************************/
-gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
+void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
+                     int width, int height, gpointer data)
 {
   if (can_client_change_view() && !map_is_empty() && !mapview_is_frozen()) {
     /* First we mark the area to be updated as dirty.  Then we unqueue
@@ -404,7 +405,6 @@ gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
     cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
     cairo_paint(cr);
   }
-  return TRUE;
 }
 
 /**************************************************************************
