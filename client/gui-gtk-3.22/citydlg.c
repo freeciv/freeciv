@@ -3280,13 +3280,13 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   /* Save size of the city dialog. */
   GUI_GTK_OPTION(citydlg_xsize)
-    = CLIP(GUI_GTK4_CITYDLG_MIN_XSIZE,
+    = CLIP(GUI_GTK3_22_CITYDLG_MIN_XSIZE,
            gtk_widget_get_allocated_width(pdialog->shell),
-           GUI_GTK4_CITYDLG_MAX_XSIZE);
+           GUI_GTK3_22_CITYDLG_MAX_XSIZE);
   GUI_GTK_OPTION(citydlg_ysize)
-    = CLIP(GUI_GTK4_CITYDLG_MIN_XSIZE,
+    = CLIP(GUI_GTK3_22_CITYDLG_MIN_XSIZE,
            gtk_widget_get_allocated_height(pdialog->shell),
-           GUI_GTK4_CITYDLG_MAX_XSIZE);
+           GUI_GTK3_22_CITYDLG_MAX_XSIZE);
 
   last_page
     = gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
