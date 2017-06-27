@@ -2993,7 +2993,7 @@ static void srv_ready(void)
         wld.map.server.have_resources = FALSE;
 
         /* Remove old information already present in tiles */
-        map_free(&(wld.map));
+        main_map_free();
         free_city_map_index();
         /* Restore the settings. */
         for (set = 0; set < ARRAY_SIZE(mapgen_settings); set++) {

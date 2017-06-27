@@ -52,6 +52,7 @@ void map_init_topology(void);
 void map_allocate(struct civ_map *amap);
 void main_map_allocate(void);
 void map_free(struct civ_map *fmap);
+void main_map_free(void);
 
 int map_vector_to_real_distance(int dx, int dy);
 int map_vector_to_sq_distance(int dx, int dy);

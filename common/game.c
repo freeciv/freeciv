@@ -468,7 +468,7 @@ void game_map_init(void)
 void game_free(void)
 {
   player_slots_free();
-  map_free(&(wld.map));
+  main_map_free();
   free_city_map_index();
   idex_free(&wld);
   team_slots_free();
@@ -492,7 +492,7 @@ void game_reset(void)
       player_clear(pplayer, FALSE);
     } players_iterate_end;
 
-    map_free(&(wld.map));
+    main_map_free();
     free_city_map_index();
     idex_free(&wld);
 

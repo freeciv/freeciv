@@ -26,6 +26,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "game.h"
 #include "movement.h"
@@ -516,6 +517,7 @@ void main_map_allocate(void)
   map_allocate(&(wld.map));
   generate_city_map_indices();
   generate_map_indices();
+  CALL_FUNC_EACH_AI(map_alloc);
 }
 
 /***************************************************************
@@ -540,6 +542,15 @@ void map_free(struct civ_map *fmap)
 
     FC_FREE(fmap->iterate_outwards_indices);
   }
+}
+
+/***************************************************************
+  Free main map and related global structures.
+***************************************************************/
+void main_map_free(void)
+{
+  map_free(&(wld.map));
+  CALL_FUNC_EACH_AI(map_free);
 }
 
 /****************************************************************************

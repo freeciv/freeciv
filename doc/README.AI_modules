@@ -119,6 +119,7 @@ it in for custom ai types to use by passing configure option --with-ai-lib
 New in Freeciv 3.1:
 -------------------
 - Added 'tile_info', called when tile has changed
+- Added 'map_alloc' and 'map_free', called when map tiles are allocated or freed
 
 
 New in Freeciv 3.0:
