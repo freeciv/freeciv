@@ -308,7 +308,7 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
       }
     }
 
-    /* Test the possiblity to perform an action. */
+    /* Test the possibility to perform an action. */
     if (NULL != params->get_action) {
       action = params->get_action(ptile, node_known_type, params);
       if (PF_ACTION_IMPOSSIBLE == action) {
@@ -334,7 +334,7 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
 #endif
     }
 
-    /* Test the possiblity to move from/to 'ptile'. */
+    /* Test the possibility to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
     if (PF_MS_NONE == node->move_scope
@@ -1055,7 +1055,7 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
       }
     }
 
-    /* Test the possiblity to perform an action. */
+    /* Test the possibility to perform an action. */
     if (NULL != params->get_action) {
       action = params->get_action(ptile, node_known_type, params);
       if (PF_ACTION_IMPOSSIBLE == action) {
@@ -1081,7 +1081,7 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
 #endif
     }
 
-    /* Test the possiblity to move from/to 'ptile'. */
+    /* Test the possibility to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
     if (PF_MS_NONE == node->move_scope
@@ -2083,7 +2083,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
       }
     }
 
-    /* Test the possiblity to perform an action. */
+    /* Test the possibility to perform an action. */
     if (NULL != params->get_action
         && PF_ACTION_NONE != (action =
                               params->get_action(ptile, node_known_type,
@@ -2124,7 +2124,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
       }
     }
 
-    /* Test the possiblity to move from/to 'ptile'. */
+    /* Test the possibility to move from/to 'ptile'. */
     node->move_scope = params->get_move_scope(ptile, &can_disembark,
                                               previous_scope, params);
     if (PF_MS_NONE == node->move_scope
