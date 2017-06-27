@@ -24,6 +24,7 @@ docs =				\
 	README.ruleset_multiplayer \
 	README.ruleset_civ2civ3	\
 	README.rulesets		\
+	README.tilesets		\
 	README.scorelog		\
 	README.SDLClient	\
 	README.sound		\
