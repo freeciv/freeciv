@@ -38,7 +38,7 @@ a) Install or update your Cygwin using the "Install Cygwin Now!" link
 
   To get and build freeciv development version directly from version control,
   you need also
-   - subversion (Development)
+   - git (Development)
    - automake1.14 (Development)
    - libtool (Development)
 

@@ -149,7 +149,7 @@ Following packages have been installed:
 Launch msys2 shell. Get the freeciv sources there
 somehow. Some options are:
 1) Download freeciv tarball within msys2 shell with wget
-2) Use svn within msys2 shell to get them from version control
+2) Use git within msys2 shell to get them from version control
 3) Copy them from Windows folder where they are to a directory that
    is within msys2
 
@@ -163,7 +163,7 @@ somehow. Some options are:
      - sdl2
      - qt
   - "ruledit-installer"
-  - "snapshot", if your freeciv sources are in svn checkout directory
+  - "snapshot", if your freeciv sources are in git checkout directory
 
  You can also set minimum Windows version targeted. While setting this
  to an older version allows those Windows versions to run the created
