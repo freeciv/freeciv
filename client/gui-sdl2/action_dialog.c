@@ -414,6 +414,27 @@ static int spy_steal_gold_callback(struct widget *pWidget)
 }
 
 /********************************************************************
+  User clicked "Steal Gold Escape"
+********************************************************************/
+static int spy_steal_gold_esc_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+          pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_STEAL_GOLD_ESC,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        0, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/********************************************************************
   User clicked "Steal Maps"
 ********************************************************************/
 static int spy_steal_maps_callback(struct widget *pWidget)
@@ -1239,6 +1260,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_INV_CITY_SPEND] = diplomat_investigate_callback,
   [ACTION_SPY_POISON] = spy_poison_callback,
   [ACTION_SPY_STEAL_GOLD] = spy_steal_gold_callback,
+  [ACTION_SPY_STEAL_GOLD_ESC] = spy_steal_gold_esc_callback,
   [ACTION_STEAL_MAPS] = spy_steal_maps_callback,
   [ACTION_STEAL_MAPS_ESC] = spy_steal_maps_esc_callback,
   [ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage_callback,

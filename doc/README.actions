@@ -230,6 +230,14 @@ Actions done by a unit against a city
 
 "Steal Gold" - Steal some gold from the owner of the target city.
  * UI name can be set using ui_name_steal_gold
+ * spends the actor unit
+ * actor must be aware that the target exists
+ * the targets owner must have more than 0 gold.
+ * actor must be on the same tile as the target or on the tile next to it.
+ * target must be foreign. (!)
+
+"Steal Gold Escape" - Steal some gold from the owner of the target city.
+ * UI name can be set using ui_name_steal_gold_escape
  * actor must be aware that the target exists
  * the targets owner must have more than 0 gold.
  * actor must be on the same tile as the target or on the tile next to it.

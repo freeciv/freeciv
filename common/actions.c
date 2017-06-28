@@ -179,6 +179,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_SPY_INVESTIGATE_CITY,
                           ACTION_INV_CITY_SPEND,
                           ACTION_SPY_STEAL_GOLD,
+                          ACTION_SPY_STEAL_GOLD_ESC,
                           ACTION_STEAL_MAPS,
                           ACTION_STEAL_MAPS_ESC,
                           ACTION_SPY_STEAL_TECH,
@@ -378,6 +379,10 @@ static void hard_code_actions(void)
                  0, 1, TRUE);
   actions[ACTION_SPY_STEAL_GOLD] =
       action_new(ACTION_SPY_STEAL_GOLD, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_STEAL_GOLD_ESC] =
+      action_new(ACTION_SPY_STEAL_GOLD_ESC, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_TRADE_ROUTE] =
@@ -753,6 +758,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
     return ABK_STANDARD;
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_TECH:
@@ -1558,6 +1564,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_TECH:
@@ -1693,6 +1700,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_TECH:
@@ -1918,6 +1926,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
     /* If actor_unit can do the action the actor_player can see how much
      * gold target_player have. Not requireing it is therefore pointless.
      */
@@ -2949,6 +2958,9 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_STEAL_GOLD:
+    /* TODO */
+    break;
+  case ACTION_SPY_STEAL_GOLD_ESC:
     /* TODO */
     break;
   case ACTION_STEAL_MAPS:

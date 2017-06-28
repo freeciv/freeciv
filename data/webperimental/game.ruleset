@@ -287,6 +287,9 @@ ui_name_investigate_city_spend_unit = _("%sInvestigate City (spends the unit)%s"
 ; /* TRANS: Steal _Gold (100% chance of success). */
 ui_name_steal_gold = _("Steal %sGold%s")
 
+; /* TRANS: Steal _Gold and Escape (100% chance of success). */
+ui_name_steal_gold_escape = _("Steal %sGold and Escape%s")
+
 ; /* TRANS: Establish Trade _Route (100% chance of success). */
 ui_name_establish_trade_route = _("Establish Trade %sRoute%s")
 
@@ -583,27 +586,43 @@ target_reqs    =
 [actionenabler_steal_gold_capital]
 action = "Steal Gold"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Diplomat", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
-      "Tech", "Banking", "Player"
-      "DiplRel", "Is foreign", "Local"
+    { "type",         "name",          "range",  "present"
+      "UnitFlag",     "Diplomat",      "Local",  TRUE
+      "UnitFlag",     "Spy",           "Local",  FALSE
+      "UnitState",    "OnLivableTile", "Local",  TRUE
+      "MinMoveFrags", "1",             "Local",  TRUE
+      "Tech",         "Banking",       "Player", TRUE
+      "DiplRel",      "Is foreign",    "Local",  TRUE
     }
 target_reqs  =
-    { "type",   "name", "range"
+    { "type",     "name",   "range"
+      "Building", "Palace", "City"
+    }
+
+[actionenabler_steal_gold_capital_spy]
+action = "Steal Gold Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "Tech",         "Banking",       "Player"
+      "DiplRel",      "Is foreign",    "Local"
+    }
+target_reqs  =
+    { "type",     "name",   "range"
       "Building", "Palace", "City"
     }
 
 [actionenabler_steal_gold_spy]
-action = "Steal Gold"
+action = "Steal Gold Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
-      "Tech", "Banking", "Player"
-      "DiplRel", "Is foreign", "Local"
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "Tech",         "Banking",       "Player"
+      "DiplRel",      "Is foreign",    "Local"
     }
 
 [actionenabler_steal_maps]
