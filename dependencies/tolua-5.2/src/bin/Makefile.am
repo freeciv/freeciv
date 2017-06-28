@@ -37,3 +37,6 @@ EXTRA_tolua_SOURCES = \
 tolua_LDADD = \
 	$(LUA_LIBS) \
 	../lib/libtolua.la
+
+EXTRA_DIST = \
+	tolua.pkg
