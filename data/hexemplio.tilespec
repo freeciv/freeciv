@@ -8,7 +8,7 @@ options = "+Freeciv-tilespec-Devel-2016-Jun-07"
 name = "Hexemplio"
 ; Based on amplio2hexgbig by GriffonSpade
 
-priority = 3
+priority = 30
 
 ; There`s no separate versioning in tilesets part of main freeciv distribution
 ;version = ""
