@@ -112,7 +112,6 @@ contains the generated files.
 =================================
 
 The Freeciv client comes in the following forms:
-* Gtk+ 2.0 widget library ("Gtk+ 2.0").
 * Gtk+ 3.0 widget library ("Gtk+ 3.0").
 * Gtk+ 3.0 widget library, version 3.22 ("Gtk+ 3.22")
 * SDL2
