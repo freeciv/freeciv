@@ -1,3 +1,5 @@
+/Makefile.in
+/Makefile
 /depcomp
 /undep.sh
 /missing
@@ -6,3 +8,4 @@
 /install-sh
 /ltmain.sh
 /compile
+/ar-lib
