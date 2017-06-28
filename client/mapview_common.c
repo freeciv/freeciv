@@ -3159,7 +3159,11 @@ bool map_canvas_resized(int width, int height)
       }
       update_map_canvas_visible();
       center_tile_overviewcanvas();
-      unqueue_mapview_updates(TRUE);
+
+      /* Do not draw to the screen here as that could cause problems
+       * when we are only initially setting up the view and some widgets
+       * are not yet ready. */
+      unqueue_mapview_updates(FALSE);
       redrawn = TRUE;
     }
 
