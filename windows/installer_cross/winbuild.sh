@@ -10,8 +10,8 @@
 # Version 2.3.1 (02-Feb-17)
 
 WINBUILD_VERSION="2.3.1"
-MIN_WINVER=0x0600 # Vista
-CROSSER_FEATURE_LEVEL=1.2
+MIN_WINVER=0x0601 # Windows 7
+CROSSER_FEATURE_LEVEL=1.3
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
