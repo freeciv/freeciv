@@ -18,7 +18,7 @@
 .#*
 .deps
 .libs
-.svn
+.git
 Freeciv.h
 Makefile
 Makefile.in

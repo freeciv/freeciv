@@ -62,7 +62,7 @@ size; they are not necessary to build Freeciv from source, as the
 (manually) derived graphics are also included in the distribution.
 These materials are available in the separate 'graphics-materials'
 distribution (e.g., freeciv-2.4.0-graphics-materials.tar.bz2), or from
-version control (Subversion).
+version control (Git).
 
 
 Compiling and installing:

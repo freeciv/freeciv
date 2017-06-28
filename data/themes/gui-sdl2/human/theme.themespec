@@ -10,8 +10,8 @@ priority = 20
 ; The font to be used:
 font_file         = "themes/gui-sdl2/human/DejaVuSans.ttf"
 ; To use CJK fonts, provide the path to the font below.
-; Fonts recommended for Freeciv can be fetched from svn trunk, e.g.:
-; http://svn.gna.org/viewcvs/freeciv/trunk/data/themes/gui-sdl2/human/
+; Fonts recommended for Freeciv can be fetched from git master, e.g.:
+; https://raw.githubusercontent.com/freeciv/freeciv/master/data/themes/gui-sdl2/human/fireflysung.ttf
 font_file_zh_CN   = "themes/gui-sdl2/human/fireflysung.ttf"
 font_file_ja      = "themes/gui-sdl2/human/sazanami-gothic.ttf"
 font_file_ko      = "themes/gui-sdl2/human/UnDotum.ttf"
