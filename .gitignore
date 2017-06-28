@@ -22,13 +22,9 @@
 /config.cache
 /Makefile
 /Makefile.in
-/fc_config.h
-/fc_config.h.in
 /config.log
 /config.status
 /configure
-/stamp-h
-/stamp-h1
 /civ
 /ser
 /fcgui
@@ -39,6 +35,5 @@
 /*.sav.gz
 /freeciv_user_database
 /manual*.html
-/freeciv.spec
 /core
 /libtool

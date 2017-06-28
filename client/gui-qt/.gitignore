@@ -19,3 +19,6 @@
 /meta_messagedlg.cpp
 /meta_voteinfo_bar.cpp
 /meta_gotodlg.cpp
+/meta_hudwidget.cpp
+/meta_sidebar.cpp
+/meta_shortcuts.cpp
