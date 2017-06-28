@@ -242,13 +242,13 @@ point of view of the target unit, not the briber.
 
 Max_Stolen_Gold_Pm
     The upper limit on the permille of the players gold that may be
-stolen by a unit doing the "Steal Gold" action. Evaluated against the city
-stolen from.
+stolen by a unit doing the "Steal Gold" and the "Steal Gold Escape"
+actions. Evaluated against the city stolen from.
 
 Thiefs_Share_Pm
-    The permille of the gold stolen by a unit doing the "Steal Gold"
-action that is lost before it reaches the player ordering it. Evaluated
-against the actor unit.
+    The permille of the gold stolen by a unit doing the "Steal Gold" and the
+"Steal Gold Escape" actions that is lost before it reaches the player
+ordering it. Evaluated against the actor unit.
 
 Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
@@ -273,9 +273,9 @@ Action_Odds_Pct
     risk: the actor may get caught before he can perform it. This effect
     modifies the actor's odds. A positive value helps him. A negative value
     makes it more probable that he will get caught. Currently supports the
-    actions "Incite City", "Incite City Escape", "Steal Gold", "Steal Maps",
-    "Steal Maps Escape", "Suitcase Nuke", "Suitcase Nuke Escape",
-    "Sabotage City" and "Targeted Sabotage City".
+    actions "Incite City", "Incite City Escape", "Steal Gold",
+    "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
+    "Suitcase Nuke Escape", "Sabotage City" and "Targeted Sabotage City".
 
 Size_Adj
     Increase maximum size of a city by amount.

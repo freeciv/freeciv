@@ -2496,9 +2496,18 @@ value	= 10
 type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Steal Gold", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
+    { "type",    "name",       "range", "present"
+      "Action",  "Steal Gold", "Local", TRUE
+      "DiplRel", "War",        "Local", FALSE
+    }
+
+[effect_incident_success_steal_gold_escape]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type",    "name",              "range", "present"
+      "Action",  "Steal Gold Escape", "Local", TRUE
+      "DiplRel", "War",               "Local", FALSE
     }
 
 [effect_incident_success_steal_maps]

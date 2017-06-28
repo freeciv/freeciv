@@ -578,6 +578,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_STEAL_TECH:
@@ -2470,6 +2471,8 @@ bool unit_perform_action(struct player *pplayer,
                                                value, paction));
     break;
   case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              spy_steal_gold(pplayer, actor_unit, pcity,
                                             paction));
@@ -4750,6 +4753,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_INV_CITY_SPEND:
       case ACTION_SPY_POISON:
       case ACTION_SPY_STEAL_GOLD:
+      case ACTION_SPY_STEAL_GOLD_ESC:
       case ACTION_SPY_SABOTAGE_CITY:
       case ACTION_SPY_STEAL_TECH:
       case ACTION_SPY_INCITE_CITY:

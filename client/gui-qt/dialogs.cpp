@@ -86,6 +86,7 @@ static void spy_steal_something(QVariant data1, QVariant data2);
 static void diplomat_steal(QVariant data1, QVariant data2);
 static void spy_poison(QVariant data1, QVariant data2);
 static void spy_steal_gold(QVariant data1, QVariant data2);
+static void spy_steal_gold_esc(QVariant data1, QVariant data2);
 static void spy_steal_maps(QVariant data1, QVariant data2);
 static void spy_steal_maps_esc(QVariant data1, QVariant data2);
 static void spy_nuke_city(QVariant data1, QVariant data2);
@@ -155,6 +156,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_INV_CITY_SPEND] = diplomat_investigate;
   action_function[ACTION_SPY_POISON] = spy_poison;
   action_function[ACTION_SPY_STEAL_GOLD] = spy_steal_gold;
+  action_function[ACTION_SPY_STEAL_GOLD_ESC] = spy_steal_gold_esc;
   action_function[ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage;
   action_function[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       spy_request_sabotage_list;
@@ -2375,6 +2377,21 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_STEAL_GOLD,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***************************************************************************
+  Action steal gold escape for choice dialog
+***************************************************************************/
+static void spy_steal_gold_esc(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    request_do_action(ACTION_SPY_STEAL_GOLD_ESC,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }
