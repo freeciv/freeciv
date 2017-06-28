@@ -382,12 +382,10 @@ bool mapview_is_frozen(void)
 /**************************************************************************
   Update on canvas widget size change
 **************************************************************************/
-gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
-                              gpointer data)
+void map_canvas_configure(GtkWidget *w, GdkRectangle *allocation,
+                          gpointer data)
 {
-  map_canvas_resized(ev->width, ev->height);
-
-  return TRUE;
+  map_canvas_resized(allocation->width, allocation->height);
 }
 
 /**************************************************************************
