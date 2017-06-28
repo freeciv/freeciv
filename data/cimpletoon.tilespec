@@ -6,7 +6,7 @@ options = "+Freeciv-tilespec-Devel-2016-Jun-07"
 
 ; A simple name for the tileset specified by this file:
 name = "Cimpletoon"
-priority = 30
+priority = 25
 
 ; There`s no separate versioning in tilesets part of main freeciv distribution
 ;version = ""
