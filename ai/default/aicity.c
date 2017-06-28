@@ -798,11 +798,13 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
              ai->stats.workers[place], 
              adv->stats.cities[place]);
   } else {
-    CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d)",
+    CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
+             "we have %d cities on the ocean",
              utype_rule_name(utype),
              want,
              get_activity_text(best_act),
-             TILE_XY(best_tile));
+             TILE_XY(best_tile),
+             adv->stats.ocean_cities[-place]);
   }
 
   fc_assert(want >= 0);

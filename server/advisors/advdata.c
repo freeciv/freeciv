@@ -412,11 +412,15 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   /*** Statistics ***/
 
   adv->stats.cities = fc_calloc(adv->num_continents + 1, sizeof(int));
+  adv->stats.ocean_cities = fc_calloc(adv->num_oceans + 1, sizeof(int));
   adv->stats.average_production = 0;
   city_list_iterate(pplayer->cities, pcity) {
     Continent_id continent = tile_continent(pcity->tile);
+
     if (continent >= 0) {
       adv->stats.cities[continent]++;
+    } else {
+      adv->stats.ocean_cities[-continent]++;
     }
     adv->stats.average_production += pcity->surplus[O_SHIELD];
   } city_list_iterate_end;
@@ -540,6 +544,9 @@ void adv_data_phase_done(struct player *pplayer)
 
   free(adv->stats.cities);
   adv->stats.cities = NULL;
+
+  free(adv->stats.ocean_cities);
+  adv->stats.ocean_cities = NULL;
 
   adv->num_continents = 0;
   adv->num_oceans     = 0;

@@ -84,7 +84,8 @@ struct adv_data {
       /* Upgradeable units */
       int upgradeable;
     } units;
-    int *cities;      /* number of cities we have on continent */
+    int *cities;       /* Number of cities we have on continent */
+    int *ocean_cities; /* Number of cities we have on ocean */
     int average_production;
   } stats;
 
