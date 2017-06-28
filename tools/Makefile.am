@@ -88,8 +88,6 @@ if FCMANUAL
 freeciv_manual_SOURCES =                                                   \
 		civmanual.c
 
-freeciv_manual_LDFLAGS = $(GGZDMOD_LDFLAGS)
-
 # This is a bit of a hack.  The program links in with the server lib
 # but also uses some files from the client.
 freeciv_manual_LDADD = \
@@ -98,7 +96,7 @@ freeciv_manual_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/shared/libtoolsshared.la \
  $(INTLLIBS) $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(SERVER_LIBS) $(LIB_GGZDMOD)
+ $(SERVER_LIBS)
 endif
 
 libfcmp_la_SOURCES = \
