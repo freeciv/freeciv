@@ -5,12 +5,11 @@
 /meta_mpgui_qt_worker.cpp
 /freeciv-manual
 /freeciv-mp-cli
-/freeciv-mp-gtk2
-/freeciv-mp-gtk2.desktop
-/freeciv-mp-gtk2.appdata.xml
 /freeciv-mp-gtk3
 /freeciv-mp-gtk3.desktop
 /freeciv-mp-gtk3.appdata.xml
+/freeciv-mp-gtk3x
 /freeciv-mp-qt
 /freeciv-mp-qt.desktop
 /freeciv-mp-qt.appdata.xml
+/freeciv-ruleup

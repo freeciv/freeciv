@@ -1,9 +1,9 @@
 /Makefile
 /Makefile.in
+/stamp-po
+/remove-potcdate.sed
 /POTFILES
-/freeciv.pot
-/stamp-cat-id
-/cat-id-tbl.c
+/freeciv-core.pot
 /*.mo
 /*.gmo
 /*.pox
