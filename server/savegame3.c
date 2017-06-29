@@ -2058,6 +2058,12 @@ static void sg_save_game(struct savedata *saving)
   secfile_insert_str(saving->file, server_states_name(srv_state),
                      "game.server_state");
 
+  if (game.server.phase_timer != NULL) {
+    secfile_insert_int(saving->file,
+                       timer_read_seconds(game.server.phase_timer),
+                       "game.phase_seconds");
+  }
+
   secfile_insert_str(saving->file, get_meta_patches_string(),
                      "game.meta_patches");
   secfile_insert_str(saving->file, meta_addr_port(), "game.meta_server");
