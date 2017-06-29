@@ -6971,6 +6971,8 @@ static void send_ruleset_units(struct conn_list *dest)
         sz_strlcpy(packet.veteran_name[i], untranslated_name(&vlevel->name));
         packet.power_fact[i] = vlevel->power_fact;
         packet.move_bonus[i] = vlevel->move_bonus;
+        packet.raise_chance[i] = vlevel->raise_chance;
+        packet.work_raise_chance[i] = vlevel->work_raise_chance;
       }
     }
     PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
@@ -7886,6 +7888,8 @@ static void send_ruleset_game(struct conn_list *dest)
     sz_strlcpy(misc_p.veteran_name[i], untranslated_name(&vlevel->name));
     misc_p.power_fact[i] = vlevel->power_fact;
     misc_p.move_bonus[i] = vlevel->move_bonus;
+    misc_p.raise_chance[i] = vlevel->raise_chance;
+    misc_p.work_raise_chance[i] = vlevel->work_raise_chance;
   }
 
   fc_assert(sizeof(misc_p.global_init_techs)
