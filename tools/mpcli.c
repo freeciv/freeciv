@@ -123,21 +123,17 @@ int main(int argc, char *argv[])
   }
 
   if (ui_options != -1) {
-    const char *rev_ver = fc_svn_revision();
+    const char *rev_ver;
 
     load_install_info_lists(&fcmp);
 
     log_normal(_("Freeciv modpack installer (command line version)"));
 
-    if (rev_ver == NULL) {
-      log_normal("%s%s", word_version(), VERSION_STRING);
+    log_normal("%s%s", word_version(), VERSION_STRING);
 
-      rev_ver = fc_git_revision();
-      if (rev_ver != NULL) {
-        log_normal(_("commit: %s"), rev_ver);
-      }
-    } else {
-      log_normal("%s%s (%s)", word_version(), VERSION_STRING, rev_ver);
+    rev_ver = fc_git_revision();
+    if (rev_ver != NULL) {
+      log_normal(_("commit: %s"), rev_ver);
     }
 
     log_normal("%s", "");
