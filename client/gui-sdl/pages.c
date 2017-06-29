@@ -132,15 +132,14 @@ static void show_main_page(void)
 {
   SDL_Color bg_color = {255, 255, 255, 96};
   SDL_Color *line_color = &(SDL_Color){128, 128, 128, 255};
-  
   int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
   SDL_Surface *pBackground;
   int h = 0;
   SDL_Rect area;
   char verbuf[200];
-  const char *rev_ver = fc_svn_revision();
-    
+  const char *rev_ver;
+
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
 
@@ -151,18 +150,13 @@ static void show_main_page(void)
   area = pWindow->area;
 
   /* Freeciv version */
-  if (rev_ver == NULL) {
-    /* TRANS: Freeciv 2.4.0 */
-    fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s"), VERSION_STRING);
-  } else {
-    /* TRANS: Freeciv 2.4.0 (r25000) */
-    fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s (%s)"), VERSION_STRING, rev_ver);
-  }
+  /* TRANS: Freeciv 2.4.0 */
+  fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s"), VERSION_STRING);
   pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
             adj_font(12),
             (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-   
+
   pWidget->string16->style |= SF_CENTER | TTF_STYLE_BOLD;
   
   area.w = MAX(area.w, pWidget->size.w);

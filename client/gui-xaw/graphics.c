@@ -85,7 +85,6 @@ void load_intro_gfx(void)
   int have_face;
   const char *motto = freeciv_motto();
   XFontSetExtents *exts;
-  const char *rev_ver = fc_svn_revision();
 
   /* metrics */
 
@@ -94,8 +93,8 @@ void load_intro_gfx(void)
 
   /* get colors */
 
-  if(XParseColor(display, cmap, COLOR_MOTTO_FACE, &face) &&
-     XAllocColor(display, cmap, &face)) {
+  if (XParseColor(display, cmap, COLOR_MOTTO_FACE, &face)
+      && XAllocColor(display, cmap, &face)) {
     have_face = TRUE;
   } else {
     face.pixel = get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel;
@@ -126,25 +125,22 @@ void load_intro_gfx(void)
 
   w = XmbTextEscapement(main_font_set, word_version(), strlen(word_version()));
   XSetForeground(display, font_gc,
-		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
+                 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-		main_font_set, font_gc,
-		(tot / 2 - w / 2) + 1, y + 1,
-		word_version(), strlen(word_version()));
+                main_font_set, font_gc,
+                (tot / 2 - w / 2) + 1, y + 1,
+                word_version(), strlen(word_version()));
   XSetForeground(display, font_gc,
-		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
+                 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-		main_font_set, font_gc,
-		tot / 2 - w / 2, y,
-		word_version(), strlen(word_version()));
+                main_font_set, font_gc,
+                tot / 2 - w / 2, y,
+                word_version(), strlen(word_version()));
 
   y += lin;
 
-  if (rev_ver != NULL) {
-    fc_snprintf(s, sizeof(s), "%s (%s)", VERSION_STRING, rev_ver);
-  } else {
-    fc_snprintf(s, sizeof(s), "%s", VERSION_STRING);
-  }
+  fc_snprintf(s, sizeof(s), "%s", VERSION_STRING);
+
   w = XmbTextEscapement(main_font_set, s, strlen(s));
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);

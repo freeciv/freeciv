@@ -189,20 +189,15 @@ void mpgui::setup(QWidget *central, struct fcmp_params *fcmp)
   QLabel *URL_label;
   QLabel *version_label;
   char verbuf[2048];
-  const char *rev_ver = fc_svn_revision();
+  const char *rev_ver;
+
+  rev_ver = fc_git_revision();
 
   if (rev_ver == nullptr) {
-    rev_ver = fc_git_revision();
-
-    if (rev_ver == nullptr) {
-      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
-    } else {
-      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
-                  word_version(), VERSION_STRING, rev_ver);
-    }
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
   } else {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
-                rev_ver);
+    fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                word_version(), VERSION_STRING, rev_ver);
   }
 
   version_label = new QLabel(QString::fromUtf8(verbuf));
