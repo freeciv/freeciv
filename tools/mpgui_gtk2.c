@@ -439,22 +439,17 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   GtkTreeSelection *selection;
   const char *errmsg;
   char verbuf[2048];
-  const char *rev_ver = fc_svn_revision();
+  const char *rev_ver;
 
   mbox = gtk_vbox_new(FALSE, 4);
 
-  if (rev_ver == NULL) {
-    rev_ver = fc_git_revision();
+  rev_ver = fc_git_revision();
 
-    if (rev_ver == NULL) {
-      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
-    } else {
-      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
-                  word_version(), VERSION_STRING, rev_ver);
-    }
+  if (rev_ver == NULL) {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
   } else {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
-                rev_ver);
+    fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                word_version(), VERSION_STRING, rev_ver);
   }
 
   version_label = gtk_label_new(verbuf);

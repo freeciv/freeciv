@@ -108,25 +108,20 @@ void ruledit_gui::setup(QWidget *central_in)
   QLabel *rs_label;
   QLabel *version_label;
   char verbuf[2048];
-  const char *rev_ver = fc_svn_revision();
+  const char *rev_ver;
 
   data.nationlist = NULL;
   data.nationlist_saved = NULL;
 
   central = central_in;
 
-  if (rev_ver == NULL) {
-    rev_ver = fc_git_revision();
+  rev_ver = fc_git_revision();
 
-    if (rev_ver == NULL) {
-      fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
-    } else {
-      fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
-                  word_version(), VERSION_STRING, rev_ver);
-    }
+  if (rev_ver == NULL) {
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
   } else {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s (%s)", word_version(), VERSION_STRING,
-                rev_ver);
+    fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+                word_version(), VERSION_STRING, rev_ver);
   }
 
   main_layout = new QStackedLayout();

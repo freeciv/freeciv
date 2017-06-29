@@ -25,10 +25,6 @@
 
 #include "version.h"
 
-#ifdef SVNREV
-#include "fc_svnrev_gen.h"
-#endif /* SVNREV */
-
 #ifdef GITREV
 #include "fc_gitrev_gen.h"
 #endif /* GITREV */
@@ -43,9 +39,6 @@ const char *freeciv_name_version(void)
 #if IS_BETA_VERSION
   fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s %s"),
               VERSION_STRING, _("(beta version)"));
-#elif defined(SVNREV) && !defined(FC_SVNREV_OFF)
-  fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s (%s)"),
-              VERSION_STRING, fc_svn_revision());
 #elif defined(GITREV) && !defined(FC_GITREV_OFF)
   fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s (%s)"),
               VERSION_STRING, fc_git_revision());
@@ -67,25 +60,6 @@ const char *word_version(void)
 #else
   return _("version ");
 #endif
-}
-
-/**********************************************************************
-  Returns string with svn revision information if it is possible to
-  determine. Can return also some fallback string or even NULL.
-***********************************************************************/
-const char *fc_svn_revision(void)
-{
-#if defined(SVNREV) && !defined(FC_SVNREV_OFF)
-  static char buf[100];
-  bool translate = FC_SVNREV1[0] != '\0';
-
-  fc_snprintf(buf, sizeof(buf), "%s%s",
-              translate ? _(FC_SVNREV1) : FC_SVNREV1, FC_SVNREV2);
-
-  return buf; /* Either revision, or modified revision */
-#else  /* FC_SVNREV_OFF */
-  return NULL;
-#endif /* FC_SVNREV_OFF */
 }
 
 /**********************************************************************
@@ -114,12 +88,7 @@ const char *fc_git_revision(void)
 ***********************************************************************/
 const char *fc_comparable_version(void)
 {
-#ifdef FC_SVNREV_ON
-  /* Sane revision number in FC_SVNREV2 */
-  return VERSION_STRING "-" FC_SVNREV2;
-#else  /* FC_SVNREV_ON */
   return VERSION_STRING;
-#endif
 }
 
 /**********************************************************************
@@ -187,10 +156,7 @@ const char *freeciv_datafile_version(void)
   if (buf[0] == '\0') {
     const char *ver_rev;
 
-    ver_rev = fc_svn_revision();
-    if (ver_rev == NULL) {
-      ver_rev = fc_git_revision();
-    }
+    ver_rev = fc_git_revision();
     if (ver_rev != NULL) {
       fc_snprintf(buf, sizeof(buf), "%s (%s)", VERSION_STRING, ver_rev);
     } else {

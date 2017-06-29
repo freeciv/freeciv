@@ -171,31 +171,25 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
 
   if (!layout) {
     char msgbuf[128];
-    const char *rev_ver = fc_svn_revision();
+    const char *rev_ver;
 
     layout = pango_layout_new(gtk_widget_create_pango_context(w));
     pango_layout_set_font_description(layout,
          pango_font_description_from_string("Sans Bold 10"));
 
-    if (rev_ver == NULL) {
-      rev_ver = fc_git_revision();
+    rev_ver = fc_git_revision();
 
-      if (rev_ver == NULL) {
-        /* TRANS: "version 2.6.0, gui-gtk-3.0 client" */
-        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
-                    word_version(), VERSION_STRING, client_string);
-      } else {
-        /* TRANS: "version 2.6.0
-         *         commit: [modified] <git commit id>
-         *         gui-gtk-3.0 client" */
-        fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s\ncommit: %s\n%s client"),
-                    word_version(), VERSION_STRING, rev_ver, client_string);
-        left = TRUE;
-      }
+    if (rev_ver == NULL) {
+      /* TRANS: "version 2.6.0, gui-gtk-3.0 client" */
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s, %s client"),
+                  word_version(), VERSION_STRING, client_string);
     } else {
-      /* TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client" */
-      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s (%s), %s client"),
+      /* TRANS: "version 2.6.0
+       *         commit: [modified] <git commit id>
+       *         gui-gtk-3.0 client" */
+      fc_snprintf(msgbuf, sizeof(msgbuf), _("%s%s\ncommit: %s\n%s client"),
                   word_version(), VERSION_STRING, rev_ver, client_string);
+      left = TRUE;
     }
     pango_layout_set_text(layout, msgbuf, -1);
 
