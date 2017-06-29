@@ -7,8 +7,6 @@
 EXTRA_DIST =    fcgui.in		\
 		fcser.in		\
 		fcruledit.in		\
-		fc_svnrev_gen.h.tmpl	\
-		generate_svnrev.sh	\
 		fc_gitrev_gen.h.tmpl	\
 		generate_gitrev.sh	\
 		generate_langstat.sh	\
