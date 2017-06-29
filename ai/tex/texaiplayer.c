@@ -101,33 +101,33 @@ static void texai_thread_start(void *arg)
 }
 
 /**************************************************************************
-  Game has started
+  Main map has been allocated
 **************************************************************************/
-void texai_game_start(struct ai_type *ait)
+void texai_map_alloc(void)
 {
-  texai_send_msg(TEXAI_MSG_GAME_START, NULL, NULL);
+  texai_send_msg(TEXAI_MSG_MAP_ALLOC, NULL, NULL);
 }
 
 /**************************************************************************
-  Game start message received
+  Map allocation message received
 **************************************************************************/
-static void texai_game_start_recv(void)
+static void texai_map_alloc_recv(void)
 {
   texai_map_init();
 }
 
 /**************************************************************************
-  Game has ended
+  Main map has been freed
 **************************************************************************/
-void texai_game_free(struct ai_type *ait)
+void texai_map_free(void)
 {
-  texai_send_msg(TEXAI_MSG_GAME_END, NULL, NULL);
+  texai_send_msg(TEXAI_MSG_MAP_FREE, NULL, NULL);
 }
 
 /**************************************************************************
-  Game end message received
+  Map free message received
 **************************************************************************/
-static void texai_game_free_recv(void)
+static void texai_map_free_recv(void)
 {
   texai_map_close();
 }
@@ -199,11 +199,11 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
     case TEXAI_MSG_THR_EXIT:
       new_abort = TEXAI_ABORT_EXIT;
       break;
-    case TEXAI_MSG_GAME_START:
-      texai_game_start_recv();
+    case TEXAI_MSG_MAP_ALLOC:
+      texai_map_alloc_recv();
       break;
-    case TEXAI_MSG_GAME_END:
-      texai_game_free_recv();
+    case TEXAI_MSG_MAP_FREE:
+      texai_map_free_recv();
       break;
     default:
       log_error("Illegal message type %s (%d) for threaded ai!",

@@ -80,26 +80,6 @@ static void texai_module_close(void)
 /**************************************************************************
   Call default ai with tex ai type as parameter.
 **************************************************************************/
-static void texwai_game_start(void)
-{
-  TEXAI_AIT;
-  TEXAI_TFUNC(texai_game_start);
-  /* Do not call default AI here, texai_player_alloc() does necessary parts */
-}
-
-/**************************************************************************
-  Call default ai with tex ai type as parameter.
-**************************************************************************/
-static void texwai_game_free(void)
-{
-  TEXAI_AIT;
-  TEXAI_TFUNC(texai_game_free);
-  /* Do not call default AI here, texai_player_alloc() does necessary parts */
-}
-
-/**************************************************************************
-  Call default ai with tex ai type as parameter.
-**************************************************************************/
 static void texwai_player_alloc(struct player *pplayer)
 {
   TEXAI_AIT;
@@ -599,8 +579,8 @@ bool fc_ai_tex_setup(struct ai_type *ai)
 
   ai->funcs.module_close = texai_module_close;
 
-  ai->funcs.game_start = texwai_game_start;
-  ai->funcs.game_free = texwai_game_free;
+  ai->funcs.map_alloc = texai_map_alloc;
+  ai->funcs.map_free = texai_map_free;
 
   ai->funcs.player_alloc = texwai_player_alloc;
   ai->funcs.player_free = texwai_player_free;
