@@ -159,7 +159,12 @@ fi
   exit 1
 fi
 
-if ! 7z a -r freeciv-${VERREV}${GUIP}.7z freeciv-${VERREV}${GUIP}
+if ! mkdir -p Output ; then
+  echo "Creating Output directory failed" >&2
+  exit 1
+fi
+
+if ! 7z a -r Output/freeciv-${VERREV}${GUIP}.7z freeciv-${VERREV}${GUIP}
 then
   echo "7z failed" >&2
   exit 1
