@@ -156,7 +156,7 @@ signal.connect("hut_enter", "default_hut_enter_callback")
 --[[
   Make partisans around conquered city
 
-  if requirements to make partisans when a city is conquered is fullfilled
+  if requirements to make partisans when a city is conquered is fulfilled
   this routine makes a lot of partisans based on the city`s size.
   To be candidate for partisans the following things must be satisfied:
   1) The loser of the city is the original owner.
