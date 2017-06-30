@@ -117,7 +117,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     if (utype_has_flag(ut, UTYF_IGTER)) {
       desire += desire / 2;
     }
-    if (utype_has_flag(ut, UTYF_PARTIAL_INVIS)) {
+    if (ut->vlayer == V_INVIS) {
       desire += desire / 4;
     }
     if (!can_attack_non_native(ut)) {

@@ -233,6 +233,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; disembarks    = list of unit classes this unit may unload from while not in
 ;                 native base or city even if transporter has Unreachable unit
 ;                 class flag
+; vision_layer  = At which layer this unit is visible; "Main" or "Stealth"
 ; bonuses       = definitions of combat bonuses against specific other units
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
@@ -1766,7 +1767,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
-flags         = "Partial_Invis", "BadCityDefender",
+vision_layer  = "Stealth"
+flags         = "BadCityDefender",
 	        "Only_Native_Attack", "Provoking"
 roles         = "Hunter"
 helptext      = _("\

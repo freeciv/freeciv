@@ -72,11 +72,6 @@ extern "C" {
 
 /* Invariants: V_MAIN vision ranges must always be more than V_INVIS
  * ranges. */
-enum vision_layer {
-  V_MAIN,
-  V_INVIS,
-  V_COUNT
-};
 
 #define vision_layer_iterate(v) {                                           \
   enum vision_layer v;                                                      \

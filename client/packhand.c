@@ -3300,6 +3300,7 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->targets            = p->targets;
   u->embarks            = p->embarks;
   u->disembarks         = p->disembarks;
+  u->vlayer             = p->vlayer;
 
   if (p->veteran_levels == 0) {
     u->veteran = NULL;

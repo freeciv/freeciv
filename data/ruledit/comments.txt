@@ -340,6 +340,7 @@ utypes = "\
 ; disembarks    = list of unit classes this unit may unload from while not in\n\
 ;                 native base or city even if transporter has Unreachable unit\n\
 ;                 class flag\n\
+; vision_layer  = At which layer this unit is visible; \"Main\" or \"Stealth\"\n\
 ; bonuses       = definitions of combat bonuses against specific other units\n\
 ; bonuses.flag  = flag of the unit that bonus applies against\n\
 ; bonuses.type  = type of the bonus. See below\n\
@@ -398,8 +399,6 @@ utypes = "\
 ; \"FieldUnit\"	= cause unhappiness even when not being aggressive\n\
 ; \"BeachLander\" = won\'t lose all its movement when moving from non-native\n\
 ;                 terrain to native terrain even if slow_invasions is on.\n\
-; \"Partial_Invis\" = visible only to adjancent units; does not hide transported\n\
-;		  units other than missiles\n\
 ; \"Settlers\"	= can irrigate and build roads\n\
 ; \"Diplomat\"	= can defend against diplomat actions (see diplchance\n\
 ;                 server option)\n\

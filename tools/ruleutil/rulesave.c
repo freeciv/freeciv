@@ -2724,6 +2724,11 @@ static bool save_units_ruleset(const char *filename, const char *name)
       save_uclass_vec(sfile, &(put->embarks), path, "embarks", TRUE);
       save_uclass_vec(sfile, &(put->disembarks), path, "disembarks", TRUE);
 
+      if (put->vlayer != V_MAIN) {
+        secfile_insert_str(sfile, vision_layer_name(put->vlayer),
+                           "%s.vision_layer", path);
+      }
+
       secfile_insert_int(sfile, put->hp, "%s.hitpoints", path);
       secfile_insert_int(sfile, put->firepower, "%s.firepower", path);
       secfile_insert_int(sfile, put->fuel, "%s.fuel", path);

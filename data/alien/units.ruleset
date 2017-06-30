@@ -241,6 +241,7 @@ flags         = "Missile", "DoesntOccupyTile"
 ; disembarks    = list of unit classes this unit may unload from while not in
 ;                 native base or city even if transporter has Unreachable unit
 ;                 class flag
+; vision_layer  = At which layer this unit is visible; "Main" or "Stealth"
 ; bonuses       = definitions of combat bonuses against specific other units
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
@@ -300,8 +301,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ; "AttackAny"   = can attack unreachable units
 ; "BeachLander" = won't lose all its movement when moving from non-native
 ;                 terrain to native terrain even if slow_invasions is on.
-; "Partial_Invis" = visible only to adjancent units; does not hide transported
-;		  units other than missiles
 ; "Settlers"	= can irrigate and build roads
 ; "Diplomat"	= can defend against diplomat actions (see diplchance
 ;                 server option)
@@ -1390,7 +1389,8 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Diplomat", "IgZOC", "NonMil", "Partial_Invis", "Provoking"
+vision_layer  = "Stealth"
+flags         = "Diplomat", "IgZOC", "NonMil", "Provoking"
 veteran_names = _("Regular"), _("Elite"), _("Superb")
 veteran_raise_chance = 10, 0, 0
 veteran_work_raise_chance = 0, 0, 0

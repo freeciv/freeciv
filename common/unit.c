@@ -302,13 +302,14 @@ bool is_field_unit(const struct unit *punit)
   Is the unit one that is invisible on the map. A unit is invisible if
   it has the UTYF_PARTIAL_INVIS flag or if it transported by a unit with
   this flag.
+
+  FIXME: Should the transports recurse all the way?
 **************************************************************************/
 bool is_hiding_unit(const struct unit *punit)
 {
-  return (unit_has_type_flag(punit, UTYF_PARTIAL_INVIS)
+  return (unit_type_get(punit)->vlayer == V_INVIS
           || (unit_transported(punit)
-              && unit_has_type_flag(unit_transport_get(punit),
-                                    UTYF_PARTIAL_INVIS)));
+              && unit_type_get(unit_transport_get(punit))->vlayer == V_INVIS));
 }
 
 /**************************************************************************

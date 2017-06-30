@@ -2062,7 +2062,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       && utype_has_flag(utype, UTYF_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will always survive a spy mission.\n"));
   }
-  if (utype_has_flag(utype, UTYF_PARTIAL_INVIS)) {
+  if (utype->vlayer == V_INVIS) {
     CATLSTR(buf, bufsz,
             _("* Is invisible except when next to an enemy unit or city.\n"));
   }

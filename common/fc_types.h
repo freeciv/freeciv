@@ -922,6 +922,15 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE2NAME "Nation"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME vision_layer
+#define SPECENUM_VALUE0 V_MAIN
+#define SPECENUM_VALUE0NAME "Main"
+#define SPECENUM_VALUE1 V_INVIS
+#define SPECENUM_VALUE1NAME "Stealth"
+#define SPECENUM_COUNT V_COUNT
+#include "specenum_gen.h"
+
 typedef float adv_want;
 #define ADV_WANT_PRINTF "%f"
 

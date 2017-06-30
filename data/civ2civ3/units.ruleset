@@ -271,6 +271,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ; disembarks    = list of unit classes this unit may unload from while not in
 ;                 native base or city even if transporter has Unreachable unit
 ;                 class flag
+; vision_layer  = At which layer this unit is visible; "Main" or "Stealth"
 ; bonuses       = definitions of combat bonuses against specific other units
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below
@@ -329,8 +330,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "BeachLander" = won't lose all its movement when moving from non-native
 ;                 terrain to native terrain even if slow_invasions is on.
-; "Partial_Invis" = visible only to adjancent units; does not hide transported
-;		  units other than missiles
 ; "Settlers"	= can irrigate and build roads
 ; "Diplomat"	= can defend against diplomat actions (see diplchance
 ;                 server option)
@@ -1635,7 +1634,8 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "Partial_Invis", "AirAttacker", "HasNoZOC"
+vision_layer  = "Stealth"
+flags         = "AirAttacker", "HasNoZOC"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1667,7 +1667,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
+vision_layer  = "Stealth"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -2006,7 +2007,8 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Missile"
-flags         = "Partial_Invis", "BadCityDefender", "Only_Native_Attack",
+vision_layer  = "Stealth"
+flags         = "BadCityDefender", "Only_Native_Attack",
                 "Submarine", "Provoking"
 roles         = "Hunter"
 helptext      = _("\
@@ -2218,7 +2220,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "Partial_Invis", "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
+vision_layer  = "Stealth"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
                 "Provoking"
 veteran_names =
 ; /* TRANS: diplomatic rank. */
@@ -2330,7 +2333,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "Partial_Invis", "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
+vision_layer  = "Stealth"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
                 "Spy", "Provoking"
 veteran_names =
 ; /* TRANS: Spy veteran level */

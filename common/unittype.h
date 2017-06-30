@@ -189,8 +189,8 @@ struct unit_class {
 #define SPECENUM_VALUE7 UTYF_PROVOKING
 #define SPECENUM_VALUE7NAME N_("?unitflag:Provoking")
 /* Invisible except when adjacent (Submarine) */
-#define SPECENUM_VALUE8 UTYF_PARTIAL_INVIS
-#define SPECENUM_VALUE8NAME N_("?unitflag:Partial_Invis")
+#define SPECENUM_VALUE8 UTYF_RESERVED_1
+#define SPECENUM_VALUE8NAME "RESERVED"
 /* Does not include ability to found cities */
 #define SPECENUM_VALUE9 UTYF_SETTLERS
 #define SPECENUM_VALUE9NAME N_("?unitflag:Settlers")
@@ -538,6 +538,8 @@ struct unit_type {
   /* Can unload from these class transports at any location,
    * even if they are otherwise "Unreachable". */
   bv_unit_classes disembarks;
+
+  enum vision_layer vlayer;
 
   struct strvec *helptext;
 

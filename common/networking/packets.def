@@ -260,6 +260,7 @@ type GOLD_UPKEEP_STYLE  = uint8(enum gold_upkeep_style)
 type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
 type GOODS_SELECTION    = uint8(enum goods_selection_method)
 type EUS                = uint8(enum extra_unit_seen_type)
+type VLAYER             = uint8(enum vision_layer)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -1342,6 +1343,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   BV_UNIT_CLASSES targets;
   BV_UNIT_CLASSES embarks;
   BV_UNIT_CLASSES disembarks;
+
+  VLAYER vlayer;
 
   STRVEC helptext[MAX_LEN_PACKET];
 

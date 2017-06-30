@@ -2094,6 +2094,21 @@ static bool load_ruleset_units(struct section_file *file,
         }
       } unit_class_iterate_end;
 
+      u->vlayer = vision_layer_by_name(secfile_lookup_str_default(file, "Main",
+                                                                  "%s.vision_layer",
+                                                                  sec_name),
+                                       fc_strcasecmp);
+      if (!vision_layer_is_valid(u->vlayer)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" unit_type \"%s\":"
+                      "has unknown vision layer %s.",
+                      filename,
+                      utype_rule_name(u),
+                      slist[j]);
+        ok = FALSE;
+        break;
+      }
+
       u->helptext = lookup_strvec(file, sec_name, "helptext");
 
       u->paratroopers_range = secfile_lookup_int_default(file,
@@ -2126,24 +2141,28 @@ static bool load_ruleset_units(struct section_file *file,
         if (0 == strcmp(sval, "")) {
           continue;
         }
-        ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
-                                         fc_strcasecmp);
-        if (!unit_type_flag_id_is_valid(ival)) {
-          ok = FALSE;
-          ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
-          if (unit_class_flag_id_is_valid(ival)) {
-            ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": unit_class flag!",
-                          filename, utype_rule_name(u));
-          } else {
-            ruleset_error(LOG_ERROR,
-                          "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
-                          filename, utype_rule_name(u),  sval);
-          }
-          break;
+        if (compat->compat_mode && !fc_strcasecmp("Partial_Invis", sval)) {
+          u->vlayer = V_INVIS;
         } else {
-          BV_SET(u->flags, ival);
+          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
+                                           fc_strcasecmp);
+          if (!unit_type_flag_id_is_valid(ival)) {
+            ok = FALSE;
+            ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
+            if (unit_class_flag_id_is_valid(ival)) {
+              ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": unit_class flag!",
+                            filename, utype_rule_name(u));
+            } else {
+              ruleset_error(LOG_ERROR,
+                            "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
+                            filename, utype_rule_name(u),  sval);
+            }
+            break;
+          } else {
+            BV_SET(u->flags, ival);
+          }
+          fc_assert(utype_has_flag(u, ival));
         }
-        fc_assert(utype_has_flag(u, ival));
       }
       free(slist);
 
@@ -6957,6 +6976,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.targets = u->targets;
     packet.embarks = u->embarks;
     packet.disembarks = u->disembarks;
+    packet.vlayer = u->vlayer;
 
     if (u->veteran == NULL) {
       /* Use the default veteran system. */
