@@ -250,7 +250,7 @@ struct unit_class {
 /* Only barbarians can build this unit */
 #define SPECENUM_VALUE27 UTYF_BARBARIAN_ONLY
 #define SPECENUM_VALUE27NAME N_("?unitflag:BarbarianOnly")
-/* Unit won't lose all its movement when moving from non-nantive terrain to
+/* Unit won't lose all its movement when moving from non-native terrain to
  * native terrain even if slow_invasions is turned on. */
 #define SPECENUM_VALUE28 UTYF_BEACH_LANDER
 #define SPECENUM_VALUE28NAME N_("?unitflag:BeachLander")
