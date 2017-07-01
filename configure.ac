@@ -462,18 +462,6 @@ AC_ARG_WITH([zoom],
   [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-clients to user])],
   [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
 
-AC_ARG_ENABLE([svnrev],
-  AS_HELP_STRING([--enable-svnrev], [get svn revision to version information]),
-[case "${enableval}" in
-  yes) svnrev=true  ;;
-  no)  svnrev=false ;;
-  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-svnrev]) ;;
-esac], [svnrev=false])
-AM_CONDITIONAL([SVNREV], [test x$svnrev = xtrue])
-if test x$svnrev = xtrue ; then
-  AC_DEFINE([SVNREV], [1], [Get svn revision information to version number])
-fi
-
 AC_ARG_ENABLE([gitrev],
   AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
 [case "${enableval}" in

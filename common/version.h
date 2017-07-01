@@ -31,7 +31,6 @@ extern "C" {
 /* version informational strings */
 const char *freeciv_name_version(void);
 const char *word_version(void);
-const char *fc_svn_revision(void);
 const char *fc_git_revision(void);
 const char *fc_comparable_version(void);
 const char *freeciv_datafile_version(void);
