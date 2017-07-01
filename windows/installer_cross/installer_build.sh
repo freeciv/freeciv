@@ -33,6 +33,7 @@ add_gtk3_env() {
   cp $1/bin/libharfbuzz-0.dll $2/ &&
   mkdir -p $2/bin &&
   cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
+  cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
 }
 
