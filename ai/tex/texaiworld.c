@@ -162,6 +162,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     pcity->id = info->id;
 
     idex_register_city(&texai_world, pcity);
+    tile_set_worked(ptile, pcity);
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
   }
@@ -189,6 +190,7 @@ void texai_city_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
+  tile_set_worked(city_tile(pcity), NULL);
   idex_unregister_city(&texai_world, pcity);
   destroy_city_virtual(pcity);
 }
@@ -235,11 +237,20 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
     punit->id = info->id;
 
     idex_register_unit(&texai_world, punit);
+    unit_list_prepend(ptile->units, punit);
   } else {
+    struct tile *old_tile;
+
     punit = idex_lookup_unit(&texai_world, info->id);
+
+    old_tile = punit->tile;
+    if (old_tile != ptile) {
+      unit_list_remove(old_tile->units, punit);
+      unit_list_prepend(ptile->units, punit);
+    }
   }
 
-  punit->tile = ptile;
+  unit_tile_set(punit, ptile);
 }
 
 /**************************************************************************
@@ -251,6 +262,8 @@ void texai_unit_destroyed(struct unit *punit)
     struct texai_id_msg *info = fc_malloc(sizeof(struct texai_id_msg));
 
     info->id = punit->id;
+
+    unit_list_remove(punit->tile->units, punit);
 
     texai_send_msg(TEXAI_MSG_UNIT_DESTROYED, NULL, info);
   }
