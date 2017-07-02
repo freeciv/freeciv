@@ -799,11 +799,12 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
              adv->stats.cities[place]);
   } else {
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
-             "we have %d cities on the ocean",
+             "we have %d workers and %d cities on the ocean",
              utype_rule_name(utype),
              want,
              get_activity_text(best_act),
              TILE_XY(best_tile),
+             ai->stats.ocean_workers[-place],
              adv->stats.ocean_cities[-place]);
   }
 
@@ -811,7 +812,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 
   city_data->worker_want = want;
   city_data->worker_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
-                                                             TC_LAND);
+                                                            TC_LAND);
 }
 
 /**************************************************************************

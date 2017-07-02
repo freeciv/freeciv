@@ -82,6 +82,7 @@ struct ai_plr
     int available_boats;
 
     int *workers;     /* cities to workers on continent */
+    int *ocean_workers;
 
     bv_id diplomat_reservations;
   } stats;
