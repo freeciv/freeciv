@@ -165,6 +165,44 @@ static void diplomat_queue_handle_secondary(void)
   diplomat_queue_handle_primary();
 }
 
+/***************************************************************************
+  Get the non targeted version of an action so it, if enabled, can appear
+  in the target selection dialog.
+***************************************************************************/
+static int get_non_targeted_action_id(int tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY;
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    return ACTION_SPY_STEAL_TECH;
+  }
+
+  /* No non targeted version found. */
+  return ACTION_NONE;
+}
+
+/***************************************************************************
+  Get the targeted version of an action so it, if enabled, can hide the
+  non targeted action in the action selection dialog.
+***************************************************************************/
+static int get_targeted_action_id(int non_tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (non_tgt_action_id) {
+  case ACTION_SPY_SABOTAGE_CITY:
+    return ACTION_SPY_TARGETED_SABOTAGE_CITY;
+  case ACTION_SPY_STEAL_TECH:
+    return ACTION_SPY_TARGETED_STEAL_TECH;
+  }
+
+  /* No targeted version found. */
+  return ACTION_NONE;
+}
+
 /****************************************************************
   User selected build city from the choice dialog
 *****************************************************************/
@@ -819,7 +857,7 @@ static void spy_advances_response(GtkWidget *w, gint response,
         && NULL != game_city_by_number(args->target_city_id)) {
       if (args->value == A_UNSET) {
         /* This is the untargeted version. */
-        request_do_action(ACTION_SPY_STEAL_TECH,
+        request_do_action(get_non_targeted_action_id(args->action_id),
                           args->actor_unit_id, args->target_city_id,
                           args->value, "");
       } else {
@@ -956,8 +994,8 @@ static void create_advances_list(struct player *pplayer,
       }
     } advance_index_iterate_end;
 
-    if (action_prob_possible(
-          actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
+    if (action_prob_possible(actor_unit->client.act_prob_cache[
+                             get_non_targeted_action_id(args->action_id)])) {
       gtk_list_store_append(store, &it);
 
       g_value_init(&value, G_TYPE_STRING);
@@ -1002,7 +1040,7 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
         && NULL != game_city_by_number(args->target_city_id)) {
       if (args->value == B_LAST) {
         /* This is the untargeted version. */
-        request_do_action(ACTION_SPY_SABOTAGE_CITY,
+        request_do_action(get_non_targeted_action_id(args->action_id),
                           args->actor_unit_id,
                           args->target_city_id,
                           args->value + 1, "");
@@ -1132,8 +1170,8 @@ static void create_improvements_list(struct player *pplayer,
     }  
   } city_built_iterate_end;
 
-  if (action_prob_possible(
-        actor_unit->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
+  if (action_prob_possible(actor_unit->client.act_prob_cache[
+                           get_non_targeted_action_id(args->action_id)])) {
     struct astring str = ASTRING_INIT;
 
     gtk_list_store_append(store, &it);
@@ -1555,19 +1593,11 @@ static void action_entry(GtkWidget *shl,
   const gchar *label;
   const gchar *tooltip;
 
-  if (action_id == ACTION_SPY_SABOTAGE_CITY
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
-    /* The player can select Sabotage City from the target selection dialog
-     * of Targeted Sabotage City. */
-    return;
-  }
-
-  if (action_id == ACTION_SPY_STEAL_TECH
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
-    /* The player can select Steal Tech from the target selection dialog of
-     * Targeted Steal Tech. */
+  if (get_targeted_action_id(action_id) != ACTION_NONE
+      && action_prob_possible(act_probs[
+                              get_targeted_action_id(action_id)])) {
+    /* The player can select the untargeted version from the target
+     * selection dialog. */
     return;
   }
 
