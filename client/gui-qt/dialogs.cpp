@@ -1958,6 +1958,44 @@ void popup_action_selection(struct unit *actor_unit,
   astr_free(&text);
 }
 
+/***************************************************************************
+  Get the non targeted version of an action so it, if enabled, can appear
+  in the target selection dialog.
+***************************************************************************/
+static int get_non_targeted_action_id(int tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY;
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    return ACTION_SPY_STEAL_TECH;
+  }
+
+  /* No non targeted version found. */
+  return ACTION_NONE;
+}
+
+/***************************************************************************
+  Get the targeted version of an action so it, if enabled, can hide the
+  non targeted action in the action selection dialog.
+***************************************************************************/
+static int get_targeted_action_id(int non_tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (non_tgt_action_id) {
+  case ACTION_SPY_SABOTAGE_CITY:
+    return ACTION_SPY_TARGETED_SABOTAGE_CITY;
+  case ACTION_SPY_STEAL_TECH:
+    return ACTION_SPY_TARGETED_STEAL_TECH;
+  }
+
+  /* No targeted version found. */
+  return ACTION_NONE;
+}
+
 /**********************************************************************
   Show the user the action if it is enabled.
 **********************************************************************/
@@ -1970,19 +2008,10 @@ static void action_entry(choice_dialog *cd,
   QString title;
   QString tool_tip;
 
-  if (act == ACTION_SPY_SABOTAGE_CITY
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
-    /* The player can select Sabotage City from the target selection dialog
-     * of Targeted Sabotage City. */
-    return;
-  }
-
-  if (act == ACTION_SPY_STEAL_TECH
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
-    /* The player can select Steal Tech from the target selection dialog of
-     * Targeted Steal Tech. */
+  if (get_targeted_action_id(act) != ACTION_NONE
+      && action_prob_possible(act_probs[get_targeted_action_id(act)])) {
+    /* The player can select the untargeted version from the target
+     * selection dialog. */
     return;
   }
 
@@ -2208,6 +2237,7 @@ static void spy_steal(QVariant data1, QVariant data2)
   pfcn_void func;
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
+  int action_id = ACTION_SPY_TARGETED_STEAL_TECH;
   struct unit *actor_unit = game_unit_by_number(diplomat_id);
   struct city *pvcity = game_city_by_number(diplomat_target_id);
   struct player *pvictim = NULL;
@@ -2232,6 +2262,7 @@ static void spy_steal(QVariant data1, QVariant data2)
   /* Put both actor and target city in qv1 since qv2 is taken */
   actor_and_target.append(diplomat_id);
   actor_and_target.append(diplomat_target_id);
+  actor_and_target.append(action_id);
   qv1 = QVariant::fromValue(actor_and_target);
 
   struct player *pplayer = client.conn.playing;
@@ -2250,8 +2281,8 @@ static void spy_steal(QVariant data1, QVariant data2)
       }
     } advance_index_iterate_end;
 
-    if (action_prob_possible(
-          actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
+    if (action_prob_possible(actor_unit->client.act_prob_cache[
+                             get_non_targeted_action_id(action_id)])) {
       astr_set(&stra, _("At %s's Discretion"),
                unit_name_translation(actor_unit));
       func = spy_steal_something;
@@ -2272,16 +2303,17 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
+  int action_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == A_UNSET) {
       /* This is the untargeted version. */
-      request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
-                        diplomat_target_id, data2.toInt(), "");
+      request_do_action((gen_action)get_non_targeted_action_id(action_id),
+                        diplomat_id, diplomat_target_id, data2.toInt(), "");
     } else {
       /* This is the targeted version. */
-      request_do_action(ACTION_SPY_TARGETED_STEAL_TECH, diplomat_id,
+      request_do_action((gen_action)action_id, diplomat_id,
                         diplomat_target_id, data2.toInt(), "");
     }
   }
@@ -2714,8 +2746,9 @@ static void spy_sabotage(QVariant data1, QVariant data2)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == B_LAST) {
       /* This is the untargeted version. */
-      request_do_action(ACTION_SPY_SABOTAGE_CITY, diplomat_id,
-                        diplomat_target_id, data2.toInt() + 1, "");
+      request_do_action((gen_action)get_non_targeted_action_id(action_id),
+                        diplomat_id, diplomat_target_id, data2.toInt() + 1,
+                        "");
     } else {
       /* This is the targeted version. */
       request_do_action((gen_action)action_id, diplomat_id,
@@ -2765,8 +2798,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
     }
   } city_built_iterate_end;
 
-  if (action_prob_possible(
-        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
+  if (action_prob_possible(actor->client.act_prob_cache[
+                           get_non_targeted_action_id(paction->id)])) {
     astr_set(&stra, _("At %s's Discretion"),
              unit_name_translation(actor));
     func = spy_sabotage;
