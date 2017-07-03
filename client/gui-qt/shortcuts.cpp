@@ -52,7 +52,7 @@ enum {
   RESPONSE_SAVE
 };
 
-static int num_shortcuts = 52;
+static int num_shortcuts = 54;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
   {SC_CENTER_VIEW, Qt::Key_C, Qt::AllButtons, Qt::NoModifier,
@@ -155,7 +155,11 @@ fc_shortcut default_shortcuts[] = {
   {SC_ZOOM_IN, Qt::Key_Plus, Qt::AllButtons, Qt::NoModifier,
     _("Reload zoomed in tileset") },
   {SC_ZOOM_OUT, Qt::Key_Minus, Qt::AllButtons, Qt::NoModifier,
-    _("Reload zoomed out tileset") }
+    _("Reload zoomed out tileset") },
+  {SC_LOAD_LUA, Qt::Key_J, Qt::AllButtons, Qt::ControlModifier
+    | Qt::ShiftModifier, _("Load lua script") },
+  {SC_RELOAD_LUA, Qt::Key_K, Qt::AllButtons, Qt::ControlModifier
+    | Qt::ShiftModifier, _("Load last loaded lua script") }
 };
 
 

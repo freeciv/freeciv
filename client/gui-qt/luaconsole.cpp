@@ -14,32 +14,40 @@
 #include <fc_config.h>
 #endif
 
+// Qt
+#include <QFileDialog>
+#include <QString>
+
 // utility
 #include "shared.h"
 
 // common
 #include "featured_text.h"
 
+/* client/luascript */
+#include "script_client.h"
+
 // gui-qt
+#include "fc_client.h"
 #include "luaconsole.h"
 #include "qtg_cxxside.h"
+
+QString qlua_filename;
 
 /*****************************************************************************
   Popup the lua console inside the main-window, and optionally raise it.
 *****************************************************************************/
 void luaconsole_dialog_popup(bool raise)
 {
-  /* PORTME */
+  /* lua output is in chat */
 }
 
 /*****************************************************************************
-  Return true iff the lua console is open.
+  Return true if the lua console is open.
 *****************************************************************************/
 bool luaconsole_dialog_is_open(void)
 {
-  /* PORTME */
-
-  return false;
+  return true;
 }
 
 /*****************************************************************************
@@ -47,7 +55,6 @@ bool luaconsole_dialog_is_open(void)
 *****************************************************************************/
 void real_luaconsole_dialog_update(void)
 {
-  /* PORTME */
 }
 
 /*****************************************************************************
@@ -57,5 +64,31 @@ void real_luaconsole_dialog_update(void)
 void real_luaconsole_append(const char *astring,
                             const struct text_tag_list *tags)
 {
-  /* PORTME */
+  qtg_real_output_window_append(astring, tags, 0);
+}
+
+
+/***************************************************************************
+  Load and execute lua script
+***************************************************************************/
+void qload_lua_script()
+{
+  QString str;
+  str = QString(_("Lua scripts")) + QString(" (*.lua)");
+  qlua_filename = QFileDialog::getOpenFileName(gui()->central_wdg,
+                                              _("Load lua script"),
+                                              QDir::homePath(), str);
+  if (qlua_filename.isEmpty() == false) {
+    script_client_do_file(qlua_filename.toLocal8Bit().constData());
+  }
+}
+
+/***************************************************************************
+  Reload last lua script
+***************************************************************************/
+void qreload_lua_script()
+{
+  if (qlua_filename.isEmpty() == false) {
+    script_client_do_file(qlua_filename.toLocal8Bit().constData());
+  }
 }

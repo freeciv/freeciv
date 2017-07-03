@@ -11,6 +11,8 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/../include \
 	-I$(top_srcdir)/utility \
         -I$(top_srcdir)/common \
+        -I$(top_srcdir)/common/scriptcore \
+        -I$(srcdir)/../luascript \
 	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/common/networking \
 	-I$(srcdir)/../agents \
