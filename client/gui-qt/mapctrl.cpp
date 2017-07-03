@@ -40,6 +40,8 @@
 #include "shortcuts.h"
 
 extern void side_disable_endturn(bool do_restore);
+extern void qload_lua_script();
+extern void qreload_lua_script();
 extern "C" int city_buy_production(struct city *pcity);
 
 /**************************************************************************
@@ -342,6 +344,19 @@ void map_view::shortcut_pressed(int key)
       tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
       return;
     }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_LOAD_LUA);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      qload_lua_script();
+      return;
+    }
+
+    sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_LUA);
+    if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      qreload_lua_script();
+      return;
+    }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_HIDE_WORKERS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       key_city_overlay(pos.x(), pos.y());

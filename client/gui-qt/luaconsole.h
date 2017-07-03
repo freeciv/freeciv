@@ -17,4 +17,7 @@ extern "C" {
 #include "luaconsole_g.h"
 }
 
+void qload_lua_script();
+void qreload_lua_script();
+
 #endif  /* FC__LUACONSOLE_H */
