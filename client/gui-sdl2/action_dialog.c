@@ -52,6 +52,7 @@ typedef int (*act_func)(struct widget *);
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
+  int action_id;
   struct ADVANCED_DLG *pdialog;
 };
 
@@ -120,6 +121,44 @@ static void act_sel_done_secondary(int actor_unit_id)
   /* Stop blocking. */
   is_more_user_input_needed = FALSE;
   act_sel_done_primary(actor_unit_id);
+}
+
+/***************************************************************************
+  Get the non targeted version of an action so it, if enabled, can appear
+  in the target selection dialog.
+***************************************************************************/
+static int get_non_targeted_action_id(int tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY;
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    return ACTION_SPY_STEAL_TECH;
+  }
+
+  /* No non targeted version found. */
+  return ACTION_NONE;
+}
+
+/***************************************************************************
+  Get the targeted version of an action so it, if enabled, can hide the
+  non targeted action in the action selection dialog.
+***************************************************************************/
+static int get_targeted_action_id(int non_tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch (non_tgt_action_id) {
+  case ACTION_SPY_SABOTAGE_CITY:
+    return ACTION_SPY_TARGETED_SABOTAGE_CITY;
+  case ACTION_SPY_STEAL_TECH:
+    return ACTION_SPY_TARGETED_STEAL_TECH;
+  }
+
+  /* No targeted version found. */
+  return ACTION_NONE;
 }
 
 /* ====================================================================== */
@@ -562,13 +601,14 @@ static int spy_steal_callback(struct widget *pWidget)
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
       if (steal_advance == A_UNSET) {
         /* This is the untargeted version. */
-        request_do_action(ACTION_SPY_STEAL_TECH,
+        request_do_action(get_non_targeted_action_id(
+                            pDiplomat_Dlg->action_id),
                           pDiplomat_Dlg->actor_unit_id,
                           pDiplomat_Dlg->target_ids[ATK_CITY],
                           steal_advance, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(ACTION_SPY_TARGETED_STEAL_TECH,
+        request_do_action(pDiplomat_Dlg->action_id,
                           pDiplomat_Dlg->actor_unit_id,
                           pDiplomat_Dlg->target_ids[ATK_CITY],
                           steal_advance, "");
@@ -602,6 +642,7 @@ static int spy_steal_popup(struct widget *pWidget)
   SDL_Rect area;
 
   struct unit *actor_unit = game_unit_by_number(id);
+  int action_id = ACTION_SPY_TARGETED_STEAL_TECH;
 
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
@@ -634,7 +675,7 @@ static int spy_steal_popup(struct widget *pWidget)
      * send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_do_action(ACTION_SPY_STEAL_TECH,
+    request_do_action(get_non_targeted_action_id(action_id),
                       id, target_id, A_UNSET, "");
 
     act_sel_done_secondary(id);
@@ -647,6 +688,7 @@ static int spy_steal_popup(struct widget *pWidget)
   pCont->id1 = id;/* spy id */
 
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
+  pDiplomat_Dlg->action_id = action_id;
   pDiplomat_Dlg->actor_unit_id = id;
   pDiplomat_Dlg->target_ids[ATK_CITY] = pVcity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -679,8 +721,8 @@ static int spy_steal_popup(struct widget *pWidget)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ------------------------- */
 
-  if (action_prob_possible(
-        actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
+  if (action_prob_possible(actor_unit->client.act_prob_cache[
+                           get_non_targeted_action_id(action_id)])) {
      /* count + at Spy's Discretion */
     count++;
   }
@@ -741,8 +783,8 @@ static int spy_steal_popup(struct widget *pWidget)
    * side effect of displaying the unit's icon */
   tech = advance_number(unit_type_get(actor_unit)->require_advance);
 
-  if (action_prob_possible(
-        actor_unit->client.act_prob_cache[ACTION_SPY_STEAL_TECH])) {
+  if (action_prob_possible(actor_unit->client.act_prob_cache[
+                           get_non_targeted_action_id(action_id)])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
@@ -1319,19 +1361,10 @@ static void action_entry(const enum gen_action act,
   utf8_str *pstr;
   const char *ui_name;
 
-  if (act == ACTION_SPY_SABOTAGE_CITY
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
-    /* The player can select Sabotage City from the target selection dialog
-     * of Targeted Sabotage City. */
-    return;
-  }
-
-  if (act == ACTION_SPY_STEAL_TECH
-      && action_prob_possible(
-        act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
-    /* The player can select Steal Tech from the target selection dialog of
-     * Targeted Steal Tech. */
+  if (get_targeted_action_id(act) != ACTION_NONE
+      && action_prob_possible(act_probs[get_targeted_action_id(act)])) {
+    /* The player can select the untargeted version from the target
+     * selection dialog. */
     return;
   }
 
@@ -1738,7 +1771,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
         && NULL != game_city_by_number(diplomat_target_id)) {
       if (sabotage_improvement == B_LAST) {
         /* This is the untargeted version. */
-        request_do_action(ACTION_SPY_SABOTAGE_CITY,
+        request_do_action(get_non_targeted_action_id(action_id),
                           diplomat_id, diplomat_target_id,
                           sabotage_improvement + 1, "");
       } else {
@@ -1862,8 +1895,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
 
-  if (n > 0 && action_prob_possible(
-        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
+  if (n > 0
+      && action_prob_possible(actor->client.act_prob_cache[
+                              get_non_targeted_action_id(paction->id)])) {
     /* separator */
     pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
 
@@ -1872,8 +1906,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   /* ------------------ */
   }
 
-  if (action_prob_possible(
-        actor->client.act_prob_cache[ACTION_SPY_SABOTAGE_CITY])) {
+  if (action_prob_possible(actor->client.act_prob_cache[
+                           get_non_targeted_action_id(paction->id)])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
