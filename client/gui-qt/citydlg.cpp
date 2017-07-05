@@ -1770,6 +1770,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 
     if (i != str_list.count() - 1) {
       slider = new QSlider(Qt::Horizontal);
+      slider->setPageStep(1);
       slider->setFocusPolicy(Qt::TabFocus);
       slider_tab[2 * i] = slider;
       slider->setRange(-20, 20);
@@ -2141,12 +2142,12 @@ void city_dialog::cma_double_clicked(int row, int column)
   const struct cm_parameter *param;
 
   param = cmafec_preset_get_parameter(row);
-
   if (cma_is_city_under_agent(pcity, NULL)) {
     cma_release_city(pcity);
   }
 
   cma_put_city_under_agent(pcity, param);
+  update_cma_tab();
 }
 
 /****************************************************************************
