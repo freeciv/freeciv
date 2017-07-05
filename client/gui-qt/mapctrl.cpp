@@ -204,6 +204,7 @@ void map_view::shortcut_pressed(int key)
   Qt::MouseButtons bt;
   QPoint pos;
   fc_shortcut *sc;
+  fc_shortcut *sc_sec;
   Qt::KeyboardModifiers md;
   production_widget *pw;
   struct tile *ptile = nullptr;
@@ -394,7 +395,11 @@ void map_view::shortcut_pressed(int key)
   }
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_SCROLL_MAP);
-  if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+  sc_sec = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
+  if ((((key && key == sc->key) || (bt == sc->mouse
+      /* check if keyboardless goto active and its shortcut if pressed */
+      || (goto_is_active() && (bt == (sc->mouse | sc_sec->mouse)))))
+      && md == sc->mod)) {
     recenter_button_pressed(pos.x(), pos.y());
     return;
   }
