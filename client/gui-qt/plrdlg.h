@@ -24,6 +24,7 @@ extern "C" {
 
 //common
 #include "colors.h"
+#include "player.h"
 #include "research.h"
 
 // gui-qt
@@ -149,6 +150,7 @@ class plr_report: public QWidget
   QPushButton *meet_but;
   QPushButton *cancel_but;
   QPushButton *withdraw_but;
+  QPushButton *toggle_ai_but;
   QVBoxLayout *layout;
   QHBoxLayout *hlayout;
 public:
@@ -166,6 +168,7 @@ private slots:
                                *  here and names are bit odd to cheat 
                                *  autoconnect */
   void req_wiithdrw_vision();
+  void toggle_ai_mode();
 };
 
 void popup_players_dialog(bool raise);

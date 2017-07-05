@@ -621,9 +621,12 @@ plr_report::plr_report():QWidget()
   cancel_but->setText(_("Cancel Treaty"));
   withdraw_but = new QPushButton;
   withdraw_but->setText(_("Withdraw Vision"));
+  toggle_ai_but = new QPushButton;
+  toggle_ai_but->setText(_("Toggle AI Mode"));
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
+  toggle_ai_but->setDisabled(true);
   v_splitter->addWidget(plr_wdg);
   h_splitter->addWidget(plr_label);
   h_splitter->addWidget(ally_label);
@@ -633,11 +636,13 @@ plr_report::plr_report():QWidget()
   hlayout->addWidget(meet_but);
   hlayout->addWidget(cancel_but);
   hlayout->addWidget(withdraw_but);
+  hlayout->addWidget(toggle_ai_but);
   hlayout->addStretch();
   layout->addLayout(hlayout);
   connect(meet_but, SIGNAL(pressed()), SLOT(req_meeeting()));
   connect(cancel_but, SIGNAL(pressed()), SLOT(req_caancel_threaty()));
   connect(withdraw_but, SIGNAL(pressed()), SLOT(req_wiithdrw_vision()));
+  connect(toggle_ai_but, SIGNAL(pressed()), SLOT(toggle_ai_mode()));
   setLayout(layout);
   if (gui()->qt_settings.player_repo_sort_col != -1) {
     plr_wdg->sortByColumn(gui()->qt_settings.player_repo_sort_col,
@@ -705,6 +710,45 @@ void plr_report::req_wiithdrw_vision()
 }
 
 /**************************************************************************
+  Slot for changing AI mode
+**************************************************************************/
+void plr_report::toggle_ai_mode()
+{
+  QAction *act;
+  QAction *toggle_ai_act;
+  QAction *ai_level_act;
+  QMenu ai_menu(this);
+  int level;
+
+  toggle_ai_act = new QAction(_("Toggle AI Mode"));
+  ai_menu.addAction(toggle_ai_act);
+  ai_menu.addSeparator();
+  for (level = 0; level < AI_LEVEL_COUNT; level++) {
+    if (is_settable_ai_level(static_cast<ai_level>(level))) {
+      QString ln = ai_level_translated_name(static_cast<ai_level>(level));
+      ai_level_act = new QAction(ln);
+      ai_level_act->setData(QVariant::fromValue(level));
+      ai_menu.addAction(ai_level_act);
+    }
+  }
+  act = 0;
+  act = ai_menu.exec(QCursor::pos());
+  if (act == toggle_ai_act) {
+    send_chat_printf("/aitoggle \"%s\"", player_name(plr_wdg->other_player));
+    return;
+  }
+  if (act && act->isVisible()) {
+    level = act->data().toInt();
+    if (is_human(plr_wdg->other_player)) {
+      send_chat_printf("/aitoggle \"%s\"", player_name(plr_wdg->other_player));
+    }
+    send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(level)),
+                     player_name(plr_wdg->other_player));
+  }
+
+}
+
+/**************************************************************************
   Handle mouse click
 **************************************************************************/
 void plr_widget::mousePressEvent(QMouseEvent *event)
@@ -749,6 +793,7 @@ void plr_report::update_report(bool update_selection)
   meet_but->setDisabled(true);
   cancel_but->setDisabled(true);
   withdraw_but->setDisabled(true);
+  toggle_ai_but->setDisabled(true);
   plr_label->setText(plr_wdg->intel_str);
   ally_label->setText(plr_wdg->ally_str);
   tech_label->setText(plr_wdg->tech_str);
@@ -764,6 +809,7 @@ void plr_report::update_report(bool update_selection)
     if (pplayer_can_cancel_treaty(client_player(), other_player) != DIPL_ERROR) {
       cancel_but->setEnabled(true);
     }
+    toggle_ai_but->setEnabled(true);
   }
   if (gives_shared_vision(client_player(), other_player)
       && !players_on_same_team(client_player(), other_player)) {
