@@ -213,6 +213,7 @@ private:
   bool more;
   int show_line;
   int highligh_num;
+  int unit_count;
 };
 
 /**************************************************************************

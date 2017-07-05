@@ -3343,16 +3343,16 @@ void units_select::create_pixmap()
   }
   h_pix = new QPixmap(item_size.width(), item_size.height());
   h_pix->fill(palette().color(QPalette::HighlightedText));
-  if (unit_list.size() < 5) {
+  if (unit_count < 5) {
     row_count = 1;
     pix = new QPixmap((unit_list.size()) * item_size.width(),
                       item_size.height());
-  } else if (unit_list.size() < 9) {
+  } else if (unit_count < 9) {
     row_count = 2;
     pix = new QPixmap(4 * item_size.width(), 2 * item_size.height());
   } else {
     row_count = 3;
-    if (unit_list_size(utile->units) > unit_list.size() - 1) {
+    if (unit_count > 12) {
       more = true;
     }
     pix = new QPixmap(4 * item_size.width(), 3 * item_size.height());
@@ -3488,6 +3488,7 @@ void units_select::update_img()
   update();
 }
 
+
 /****************************************************************
   Redirected paint event
 *****************************************************************/
@@ -3538,6 +3539,20 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
     if (highligh_num != -1 && highligh_num < unit_list.count()) {
       painter->drawText(10, height() - 5, str2);
     }
+    /* draw scroll */
+    if (more == true) {
+      int maxl = ((unit_count - 1) / 4) + 1;
+      float page_height = 3.0f / maxl;
+      float page_start = (static_cast<float>(show_line)) / maxl;
+      pen.setColor(palette().color(QPalette::HighlightedText));
+      painter->setBrush(palette().color(QPalette::HighlightedText).darker());
+      painter->setPen(palette().color(QPalette::HighlightedText).darker());
+      painter->drawRect(pix->width() + 10, h, 8, h + pix->height());
+      painter->setPen(pen);
+      painter->drawRoundedRect(pix->width() + 10,
+                               h + page_start * pix->height(),
+                               8, h + page_height * pix->height(), 2, 2);
+    }
   }
   if (point_size < 0) {
     info_font.setPixelSize(*f_size);
@@ -3577,6 +3592,7 @@ void units_select::update_units()
   int i = 1;
   struct unit_list *punit_list;
 
+  unit_count = 0;
   if (utile == NULL) {
     struct unit *punit = head_of_units_in_focus();
     if (punit) {
@@ -3588,6 +3604,7 @@ void units_select::update_units()
     punit_list = utile->units;
     if (punit_list != nullptr) {
       unit_list_iterate(utile->units, punit) {
+        unit_count++;
         if (i > show_line * 4)
           unit_list.push_back(punit);
         i++;
