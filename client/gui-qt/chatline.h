@@ -25,6 +25,7 @@ extern "C" {
 // Qt
 #include <QEvent>
 #include <QLineEdit>
+#include <QTextBrowser>
 
 // gui-qt
 #include "fonts.h"
@@ -32,8 +33,9 @@ extern "C" {
 
 class chat_listener;
 class QCheckBox;
+class QMouseEvent;
 class QPushButton;
-class QTextBrowser;
+
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    QColor bg_color);
 template<> std::set<chat_listener *> listener<chat_listener>::instances;
@@ -91,6 +93,22 @@ public:
 };
 
 /***************************************************************************
+  Text browser with mouse double click signal
+***************************************************************************/
+class text_browser_dblclck : public QTextBrowser
+{
+  Q_OBJECT
+public:
+  explicit text_browser_dblclck(QWidget *parent = NULL): QTextBrowser(parent) {}
+signals:
+  void dbl_clicked();
+protected:
+  void mouseDoubleClickEvent(QMouseEvent *event) {
+    emit dbl_clicked();
+  }
+};
+
+/***************************************************************************
   Class for chat widget
 ***************************************************************************/
 class chatwdg : public QWidget, private chat_listener
@@ -109,6 +127,7 @@ private slots:
   void state_changed(int state);
   void rm_links();
   void anchor_clicked(const QUrl &link);
+  void toggle_size();
 protected:
   void paint(QPainter *painter, QPaintEvent *event);
   void paintEvent(QPaintEvent *event);
@@ -117,7 +136,7 @@ private:
   void chat_message_received(const QString &message,
                              const struct text_tag_list *tags);
 
-  QTextBrowser *chat_output;
+  text_browser_dblclck *chat_output;
   QPushButton *remove_links;
   QCheckBox *cb;
 

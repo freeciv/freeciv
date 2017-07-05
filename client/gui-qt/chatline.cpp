@@ -277,7 +277,7 @@ chatwdg::chatwdg(QWidget *parent)
   cb->setChecked(gui_options.gui_qt_allied_chat_only);
   gl = new QGridLayout;
   chat_line = new chat_input;
-  chat_output = new QTextBrowser;
+  chat_output = new text_browser_dblclck(this);
   chat_output->setFont(*fc_font::instance()->get_font(fonts::chatline));
   remove_links = new QPushButton("");
   remove_links->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
@@ -297,6 +297,10 @@ chatwdg::chatwdg(QWidget *parent)
   chat_output->setReadOnly(true);
   connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
           this, SLOT(anchor_clicked(const QUrl)));
+  connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
+          this, SLOT(anchor_clicked(const QUrl)));
+  connect(chat_output, SIGNAL(dbl_clicked()),
+          this, SLOT(toggle_size()));
   connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
   connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
   setMouseTracking(true);
@@ -316,6 +320,20 @@ void chatwdg::state_changed(int state)
   }
 }
 
+/***************************************************************************
+  Toggle chat size
+***************************************************************************/
+void chatwdg::toggle_size()
+{
+  if (gui()->infotab->chat_maximized == true) {
+    gui()->infotab->restore_chat();
+    return;
+  }
+  if (gui()->infotab->chat_maximized == false) {
+    gui()->infotab->maximize_chat();
+    chat_line->setFocus();
+  }
+}
 
 /***************************************************************************
   Scrolls chat to bottom
