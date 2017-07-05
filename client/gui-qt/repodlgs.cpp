@@ -983,6 +983,7 @@ void science_report::update_report()
   progress->setFormat(str);
   progress->setMinimum(0);
   progress->setMaximum(total);
+  progress->set_pixmap(static_cast<int>(research->researching));
 
   if (done <= total) {
     progress->setValue(done);

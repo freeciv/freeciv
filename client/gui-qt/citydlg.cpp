@@ -84,6 +84,7 @@ progress_bar::progress_bar(QWidget *parent): QProgressBar(parent)
   create_region();
   sfont = new QFont;
   m_animate_step = 0;
+  pix = nullptr;
 }
 
 /****************************************************************************
@@ -91,6 +92,9 @@ progress_bar::progress_bar(QWidget *parent): QProgressBar(parent)
 ****************************************************************************/
 progress_bar::~progress_bar()
 {
+  if (pix != nullptr) {
+    delete pix;
+  }
   delete sfont;
 }
 
@@ -100,6 +104,55 @@ progress_bar::~progress_bar()
 void progress_bar::resizeEvent(QResizeEvent *event)
 {
   create_region();
+}
+
+/****************************************************************************
+  Sets pixmap from given universal for custom progressbar
+****************************************************************************/
+void progress_bar::set_pixmap(struct universal *target)
+{
+  struct sprite *sprite;
+
+  if (VUT_UTYPE == target->kind) {
+    sprite = get_unittype_sprite(tileset, target->value.utype,
+                                 direction8_invalid(), true);
+  } else {
+    sprite = get_building_sprite(tileset, target->value.building);
+  }
+  if (pix != nullptr) {
+    delete pix;
+  }
+  if (sprite == nullptr) {
+    pix = nullptr;
+    return;
+  }
+  pix = new QPixmap(sprite->pm->width(),
+                    sprite->pm->height());
+  pix->fill(Qt::transparent);
+  pixmap_copy(pix, sprite->pm, 0 , 0, 0, 0,
+              sprite->pm->width(), sprite->pm->height());
+}
+
+/****************************************************************************
+  Sets pixmap from given tech number for custom progressbar
+****************************************************************************/
+void progress_bar::set_pixmap(int n)
+{
+  struct sprite *sprite;
+
+  sprite = get_tech_sprite(tileset, n);
+  if (pix != nullptr) {
+    delete pix;
+  }
+  if (sprite == nullptr) {
+    pix = nullptr;
+    return;
+  }
+  pix = new QPixmap(sprite->pm->width(),
+                    sprite->pm->height());
+  pix->fill(Qt::transparent);
+  pixmap_copy(pix, sprite->pm, 0 , 0, 0, 0,
+              sprite->pm->width(), sprite->pm->height());
 }
 
 /****************************************************************************
@@ -125,9 +178,13 @@ void progress_bar::paintEvent(QPaintEvent *event)
   QRect r, rx, r2;
   int max;
   int f_size;
+  int pix_width = 0;
   int point_size = sfont->pointSize();
   int pixel_size = sfont->pixelSize();
 
+  if (pix != nullptr) {
+    pix_width = height() - 4;
+  }
   if (point_size < 0) {
     f_size = pixel_size;
   } else {
@@ -201,7 +258,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
       s1 = fm.elidedText(s1, Qt::ElideRight, rx.width());
     }
 
-    i = rx.width() - fm.width(s1);
+    i = rx.width() - fm.width(s1) + pix_width;
     i = qMax(0, i);
     p.drawText(i / 2, j / 3 + f_size, s1);
 
@@ -209,7 +266,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
       s2 = fm.elidedText(s2, Qt::ElideRight, rx.width());
     }
 
-    i = rx.width() - fm.width(s2);
+    i = rx.width() - fm.width(s2) + pix_width;
     i = qMax(0, i);
 
     p.drawText(i / 2, height() - j / 3, s2);
@@ -225,11 +282,15 @@ void progress_bar::paintEvent(QPaintEvent *event)
       s = fm.elidedText(s, Qt::ElideRight, rx.width());
     }
 
-    i = rx.width() - fm.width(s);
+    i = rx.width() - fm.width(s) + pix_width;
     i = qMax(0, i);
     p.drawText(i / 2, j / 2 + f_size, s);
   }
-
+  if (pix != nullptr) {
+    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    p.drawPixmap(2 , 2, pix_width, pix_width, *pix, 0, 0,
+                 pix->width(), pix->height());
+  }
   p.end();
 }
 
@@ -3013,6 +3074,7 @@ void city_dialog::update_building()
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
   production_combo_p->setRange(0, cost);
+  production_combo_p->set_pixmap(&pcity->production);
 
   if (pcity->shield_stock >= cost) {
     production_combo_p->setValue(cost);
