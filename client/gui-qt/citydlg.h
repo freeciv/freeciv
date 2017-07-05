@@ -92,7 +92,9 @@ public:
   void mousePressEvent(QMouseEvent *event) {
     emit clicked();
   }
-  
+  void set_pixmap(struct universal *target);
+  void set_pixmap(int n);
+
 protected:
   void paintEvent(QPaintEvent *event);
   void timerEvent(QTimerEvent *event);
@@ -100,6 +102,7 @@ protected:
 private:
   void create_region();
   int m_animate_step;
+  QPixmap *pix;
   QRegion reg;
   QFont *sfont;
 };
