@@ -813,6 +813,7 @@ void help_widget::set_topic_unit(const help_item *topic,
   struct canvas *canvas;
   struct unit_type *obsolete, *utype, *max_utype;
   QList<int> list;
+  QString str;
 
   utype = unit_type_by_translated_name(title);
   if (utype) {
@@ -866,9 +867,20 @@ void help_widget::set_topic_unit(const help_item *topic,
     // Tech requirement
     tech = utype->require_advance;
     if (tech && tech != advance_by_number(0)) {
-      // TRANS: Unit requires technology
-      add_info_label(QString(_("Requires %1."))
-                     .arg(advance_name_translation(tech)));
+      QLabel *tb;
+
+      tb = new QLabel(this);
+      str = _("Requires");
+      str = "<b>" + str + "</b> "
+            + link_me(advance_name_translation(tech), HELP_TECH);
+
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
     } else {
       add_info_label(_("No technology required."));
     }
@@ -878,11 +890,21 @@ void help_widget::set_topic_unit(const help_item *topic,
     if (obsolete) {
       tech = obsolete->require_advance;
       if (tech && tech != advance_by_number(0)) {
-        // TRANS: Current unit obsoleted by other unit (technology
-        //        required to build other unit)
-        add_info_label(QString(_("Obsoleted by %1 (%2)."))
-                       .arg(utype_name_translation(obsolete))
-                       .arg(advance_name_translation(tech)));
+        QLabel *tb;
+
+        tb = new QLabel(this);
+        str = _("Obsoleted by");
+        str = "<b>" + str + "</b> "
+              + link_me(utype_name_translation(obsolete), HELP_UNIT)
+              + "("  + link_me(advance_name_translation(tech), HELP_TECH)
+              + ")";
+        tb->setProperty(fonts::help_label, "true");
+        tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+        tb->setTextFormat(Qt::RichText);
+        tb->setText(str.trimmed());
+        connect(tb, SIGNAL(linkActivated(const QString)),
+                this, SLOT(anchor_clicked(const QString)));
+        info_layout->addWidget(tb);
       } else {
         add_info_label(
           // TRANS: Current unit obsoleted by other unit
@@ -910,9 +932,9 @@ void help_widget::set_topic_building(const help_item *topic,
   char buffer[MAX_HELP_TEXT_SIZE];
   struct sprite *spr;
   struct impr_type *itype = improvement_by_translated_name(title);
-  const char *req = skip_intl_qualifier_prefix(REQ_LABEL_NONE);
   char req_buf[512];
-  QString str , s1, s2;
+  QString str, s1, s2;
+  QLabel *tb;
 
   if (itype) {
     helptext_building(buffer, sizeof(buffer), client.conn.playing,
@@ -938,27 +960,43 @@ void help_widget::set_topic_building(const help_item *topic,
       if (!preq->present) {
         continue;
       }
-      req = universal_name_translation(&preq->source, req_buf, 
-                                       sizeof(req_buf));
+      s1 = link_me(universal_name_translation(&preq->source, req_buf,
+                                       sizeof(req_buf)), HELP_TECH);
       break;
     } requirement_vector_iterate_end;
-    s1 = QString(req);
-    str = _("Requirement:");
-    str = "<b>" + str + "</b>" + " " + s1;
-    add_info_label(str);
+
+    if (s1.isEmpty() == false) {
+      tb = new QLabel(this);
+      str = _("Requirement:");
+      str = "<b>" + str + "</b> " + s1;
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
+    }
 
     requirement_vector_iterate(&itype->obsolete_by, pobs) {
       if (pobs->source.kind == VUT_ADVANCE) {
-        req = advance_name_translation(pobs->source.value.advance);
+        s2 = link_me(advance_name_translation(pobs->source.value.advance),
+                     HELP_TECH);
         break;
       }
     } requirement_vector_iterate_end;
 
-    s2 = QString(req);
     str = _("Obsolete by:");
-    str = "<b>" + str + "</b>" + " " + s2;
-    if (s1.compare(s2) != 0) {
-      add_info_label(str);
+    str = "<b>" + str + "</b> " + s2;
+    if (s2.isEmpty() == false) {
+      tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
     }
     info_panel_done();
   } else {
@@ -1172,7 +1210,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
   bool show_panel = false;
   QScrollArea *area;
   QWidget *panel;
-  char buf[8192];
   QString str;
 
   pterrain = terrain_by_translated_name(title);
@@ -1215,30 +1252,72 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
         && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
-      str = N_("Irrig. Rslt/Time:");
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->irrigation_result),
-              pterrain->irrigation_time);
-        add_info_label(str + " " + QString(buf));
-      }
+      QLabel *tb;
+      char buffer[1024];
+
+      tb = new QLabel(this);
+      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
+                                              pterrain->irrigation_time),
+                  pterrain->transform_time);
+      str = N_("Irrig. Rslt/Time:");;
+      str = str + link_me(terrain_name_translation(pterrain->irrigation_result),
+                          HELP_TERRAIN)
+            + QString(buffer);
+      tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
+    }
 
     if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
         && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
-      str = N_("Mine Rslt/Time:");
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->mining_result),
-              pterrain->mining_time);
-      add_info_label(str + " " + QString(buf));
+      QLabel *tb;
+      char buffer[1024];
+
+      tb = new QLabel(this);
+      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
+                                              pterrain->mining_time),
+                  pterrain->transform_time);
+      str = N_("Irrig. Rslt/Time:");;
+      str = str + link_me(terrain_name_translation(pterrain->mining_result),
+                          HELP_TERRAIN)
+            + QString(buffer);
+      tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
     }
 
     if (pterrain->transform_result != T_NONE
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+      QLabel *tb;
+      char buffer[1024];
+
+      tb = new QLabel(this);
+      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
+                                              pterrain->transform_time),
+                  pterrain->transform_time);
       str = N_("Trans. Rslt/Time:");
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->transform_result),
-              pterrain->transform_time);
-      add_info_label(str + " " + QString(buf));
-     }
+      str = str + link_me(terrain_name_translation(pterrain->transform_result),
+                          HELP_TERRAIN)
+            + QString(buffer);
+      tb = new QLabel(this);
+      tb->setProperty(fonts::help_label, "true");
+      tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+      tb->setTextFormat(Qt::RichText);
+      tb->setText(str.trimmed());
+      connect(tb, SIGNAL(linkActivated(const QString)),
+              this, SLOT(anchor_clicked(const QString)));
+      info_layout->addWidget(tb);
+    }
 
     if (pterrain->irrigation_result == pterrain
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
