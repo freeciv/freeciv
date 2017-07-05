@@ -45,18 +45,22 @@ class help_dialog : public QDialog
   Q_OBJECT
   QTreeWidget *tree_wdg;
   help_widget *help_wdg;
+  QList<QTreeWidgetItem *> item_history;
   QHash<QTreeWidgetItem *, const help_item *> topics_map;
-
+  int history_pos;
   void make_tree();
 public:
   help_dialog(QWidget *parent = 0);
   void update_fonts();
+  bool update_history;
 
 public slots:
   void set_topic(const help_item *item);
+  void history_forward();
+  void history_back();
 
 private slots:
-  void item_changed(QTreeWidgetItem *item);
+  void item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev);
 };
 
 class help_widget : public QWidget
