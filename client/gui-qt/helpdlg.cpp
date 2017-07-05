@@ -17,7 +17,6 @@
 
 // Qt
 #include <QApplication>
-#include <QDialogButtonBox>
 #include <QGraphicsDropShadowEffect>
 #include <QGroupBox>
 #include <QProgressBar>
@@ -118,19 +117,23 @@ void update_help_fonts()
 help_dialog::help_dialog(QWidget *parent) :
   QDialog(parent)
 {
-  QSplitter *splitter;
+  QHBoxLayout *hbox;
   QList<int> sizes;
+  QPushButton *but;
+  QSplitter *splitter;
   QTreeWidgetItem *first;
   QVBoxLayout *layout;
-  QDialogButtonBox *box;
+  QWidget *buttons;
 
   setWindowTitle(_("Freeciv Help Browser"));
   setWindowFlags(Qt::WindowStaysOnTopHint);
   resize(750, 450);
+  history_pos = -1;
+  update_history = true;
   layout = new QVBoxLayout(this);
 
   splitter = new QSplitter(this);
-  layout->addWidget(splitter);
+  layout->addWidget(splitter, 10);
 
   tree_wdg = new QTreeWidget();
   tree_wdg->setHeaderHidden(true);
@@ -141,7 +144,7 @@ help_dialog::help_dialog(QWidget *parent) :
   connect(
     tree_wdg,
     SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-    this, SLOT(item_changed(QTreeWidgetItem *))
+    this, SLOT(item_changed(QTreeWidgetItem *, QTreeWidgetItem *))
   );
   help_wdg->layout()->setContentsMargins(0, 0, 0, 0);
   splitter->addWidget(help_wdg);
@@ -149,12 +152,28 @@ help_dialog::help_dialog(QWidget *parent) :
   sizes << 150 << 600;
   splitter->setSizes(sizes);
 
-  box = new QDialogButtonBox(QDialogButtonBox::Close);
-  layout->addWidget(box);
-  box->addButton(_("About Qt"), QDialogButtonBox::HelpRole);
-  box->button(QDialogButtonBox::Close)->setDefault(true);
-  connect(box, &QDialogButtonBox::rejected, this, &QWidget::close);
-  connect(box, &QDialogButtonBox::helpRequested, &QApplication::aboutQt);
+  buttons = new QWidget;
+  hbox = new QHBoxLayout;
+  but = new QPushButton(style()->standardIcon(
+                        QStyle::QStyle::SP_ArrowLeft), (""));
+  connect(but, SIGNAL(clicked()), SLOT(history_back()));
+  hbox->addWidget(but);
+  but = new QPushButton(style()->standardIcon(
+                        QStyle::QStyle::SP_ArrowRight), (""));
+  connect(but, SIGNAL(clicked()), SLOT(history_forward()));
+  hbox->addWidget(but);
+  hbox->addStretch(20);
+  but = new QPushButton(style()->standardIcon(
+                        QStyle::SP_DialogHelpButton), _("About Qt"));
+  connect(but, &QPushButton::pressed, &QApplication::aboutQt);
+  hbox->addWidget(but, Qt::AlignRight);
+  but = new QPushButton(style()->standardIcon(
+                        QStyle::SP_DialogDiscardButton), _("Close"));
+  connect(but, &QPushButton::pressed, this, &QWidget::close);
+  hbox->addWidget(but, Qt::AlignRight);
+  buttons->setLayout(hbox);
+  layout->addWidget(buttons, 0, Qt::AlignBottom);
+
 
   first = tree_wdg->topLevelItem(0);
   if (first) {
@@ -302,11 +321,57 @@ void help_dialog::set_topic(const help_item *topic)
 }
 
 /**************************************************************************
+  Goes to next topic in history
+**************************************************************************/
+void help_dialog::history_forward()
+{
+  QTreeWidgetItem *i;
+
+  update_history = false;
+  if (history_pos < item_history.count()) {
+    history_pos++;
+  }
+  i = item_history.value(history_pos);
+  if (i != nullptr) {
+    tree_wdg->setCurrentItem(i);
+  }
+}
+
+/**************************************************************************
+  Backs in history to previous topic
+**************************************************************************/
+void help_dialog::history_back()
+{
+  QTreeWidgetItem *i;
+
+  update_history = false;
+  if (history_pos > 0) {
+    history_pos--;
+  }
+  i = item_history.value(history_pos);
+  if (i != nullptr) {
+    tree_wdg->setCurrentItem(i);
+  }
+}
+
+/**************************************************************************
   Called when a tree item is activated.
 **************************************************************************/
-void help_dialog::item_changed(QTreeWidgetItem *item)
+void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
 {
+
+  if (prev == item) {
+    return;
+  }
+
   help_wdg->set_topic(topics_map[item]);
+
+  if (update_history == true) {
+    history_pos++;
+    item_history.append(item);
+  } else {
+    update_history = true;
+  }
 }
 
 /**************************************************************************
