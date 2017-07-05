@@ -3523,18 +3523,33 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity)
 {
   QString def_str;
   QString upkeep;
+  QString s1, s2, str;
+  const char *req = skip_intl_qualifier_prefix(_("?tech:None"));
 
   if (pcity !=  nullptr) {
     upkeep = QString::number(city_improvement_upkeep(pcity, building));
   } else {
     upkeep = QString::number(building->upkeep);
   }
+  requirement_vector_iterate(&building->obsolete_by, pobs) {
+    if (pobs->source.kind == VUT_ADVANCE) {
+      req = advance_name_translation(pobs->source.value.advance);
+      break;
+    }
+  } requirement_vector_iterate_end;
+  s2 = QString(req);
+  str = _("Obsolete by:");
+  str = str + " " + s2;
   def_str = "<p style='white-space:pre'><b>"
             + QString(improvement_name_translation(building))
             + "</b>\n";
-  def_str += QString(_("Cost: %1, Upkeep: %2\n\n"))
+  def_str += QString(_("Cost: %1, Upkeep: %2\n"))
              .arg(impr_build_shield_cost(building))
              .arg(upkeep);
+  if (s1.compare(s2) != 0) {
+    def_str = def_str + str + "\n";
+  }
+  def_str = def_str + "\n";
   return def_str;
 }
 
@@ -3544,9 +3559,26 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity)
 QString get_tooltip_unit(struct unit_type *unit)
 {
   QString def_str;
+  QString obsolete_str;
+  struct unit_type *obsolete;
+  struct advance *tech;
 
   def_str = "<b>" + QString(utype_name_translation(unit)) + "</b>\n";
-  def_str += "<table><tr><td>" + bold(QString(_("Attack:"))) + " "
+  obsolete = unit->obsoleted_by;
+  if (obsolete) {
+    tech = obsolete->require_advance;
+    obsolete_str = QString("</td></tr><tr><td colspan=\"3\">");
+    if (tech && tech != advance_by_number(0)) {
+      obsolete_str = obsolete_str + QString(_("Obsoleted by %1 (%2)."))
+                                      .arg(utype_name_translation(obsolete))
+                                      .arg(advance_name_translation(tech));
+    } else {
+      obsolete_str = obsolete_str + QString(_("Obsoleted by %1."))
+                     .arg(utype_name_translation(obsolete));
+    }
+  }
+  def_str += "<table width=\"100\%\"><tr><td>"
+             + bold(QString(_("Attack:"))) + " "
              + QString::number(unit->attack_strength)
              + QString("</td><td>") + bold(QString(_("Defense:"))) + " "
              + QString::number(unit->defense_strength)
@@ -3555,7 +3587,8 @@ QString get_tooltip_unit(struct unit_type *unit)
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Cost:"))) + " "
              + QString::number(utype_build_shield_cost(unit))
-             + QString("</td><td>") + bold(QString(_("Basic Upkeep:")))
+             + QString("</td><td colspan=\"2\">")
+             + bold(QString(_("Basic Upkeep:")))
              + " " + QString(helptext_unit_upkeep_str(unit))
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Hitpoints:"))) + " "
@@ -3564,6 +3597,7 @@ QString get_tooltip_unit(struct unit_type *unit)
              + QString::number(unit->firepower)
              + QString("</td><td>") + bold(QString(_("Vision:"))) + " "
              + QString::number((int) sqrt((double) unit->vision_radius_sq))
+             + obsolete_str
              + QString("</td></tr></table><p style='white-space:pre'>");
   return def_str;
 };
