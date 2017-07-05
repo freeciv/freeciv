@@ -85,6 +85,7 @@ private:
 private slots:
   void slot_ok_button_pressed();
   void slot_cancel_button_pressed();
+  void slot_apply_button_pressed();
 };
 
 /**************************************************************************
