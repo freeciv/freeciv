@@ -720,13 +720,13 @@ void plr_report::toggle_ai_mode()
   QMenu ai_menu(this);
   int level;
 
-  toggle_ai_act = new QAction(_("Toggle AI Mode"));
+  toggle_ai_act = new QAction(_("Toggle AI Mode"), nullptr);
   ai_menu.addAction(toggle_ai_act);
   ai_menu.addSeparator();
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(static_cast<ai_level>(level))) {
       QString ln = ai_level_translated_name(static_cast<ai_level>(level));
-      ai_level_act = new QAction(ln);
+      ai_level_act = new QAction(ln, nullptr);
       ai_level_act->setData(QVariant::fromValue(level));
       ai_menu.addAction(ai_level_act);
     }
