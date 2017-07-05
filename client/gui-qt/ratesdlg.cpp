@@ -47,6 +47,7 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   QVBoxLayout *main_layout;
   QPushButton *cancel_button;
   QPushButton *ok_button;
+  QPushButton *apply_button;
   QLabel *l1, *l2;
   QString str;
   int max;
@@ -75,12 +76,16 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
 
   cancel_button = new QPushButton(_("Cancel"));
   ok_button = new QPushButton(_("Ok"));
+  apply_button = new QPushButton(_("Apply"));
   some_layout = new QHBoxLayout;
   connect(cancel_button, SIGNAL(pressed()),
           SLOT(slot_cancel_button_pressed()));
+  connect(apply_button, SIGNAL(pressed()),
+          SLOT(slot_apply_button_pressed()));
   connect(ok_button, SIGNAL(pressed()),
           SLOT(slot_ok_button_pressed()));
   some_layout->addWidget(cancel_button);
+  some_layout->addWidget(apply_button);
   some_layout->addWidget(ok_button);
   fcde = new fc_double_edge(this);
   main_layout->addWidget(fcde);
@@ -106,6 +111,16 @@ void tax_rates_dialog::slot_ok_button_pressed()
                             10 * (10 - fcde->current_max),
                             10 * (fcde->current_max - fcde->current_min));
   delete this;
+}
+
+/***************************************************************************
+  Pressed "apply" in tax rates dialog.
+***************************************************************************/
+void tax_rates_dialog::slot_apply_button_pressed()
+{
+  dsend_packet_player_rates(&client.conn, 10 * fcde->current_min,
+                            10 * (10 - fcde->current_max),
+                            10 * (fcde->current_max - fcde->current_min));
 }
 
 /**************************************************************************
