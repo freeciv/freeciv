@@ -168,7 +168,7 @@ name          = _("?unitclass:Sea")
 min_speed     = 2
 hp_loss_pct   = 0
 non_native_def_pct = 25
-flags         = "ZOC", "DamageSlows", "AttackNonNative", "AttFromNonNative"
+flags         = "DamageSlows", "AttackNonNative", "AttFromNonNative"
 
 [unitclass_trireme]
 ; /* TRANS: Unit class: used adjectivally */
