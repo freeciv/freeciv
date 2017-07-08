@@ -1198,11 +1198,13 @@ act_gfx_alt2   = "unit.plant"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "TerrainClass", "Oceanic", "Local"
+    { "type", "name", "range", "present"
+      "Tech", "Miniaturization", "Player", TRUE
+      "Terrain", "Deep Ocean", "Local", TRUE
     }
 build_time     = 0
 removal_time   = 0
+conflicts      = "Buoy"
 
 [extra_pollution]
 name           = _("Pollution")
@@ -1473,6 +1475,7 @@ reqs           =
     }
 build_time     = 3
 removal_time   = 0
+conflicts      = "Oil Platform"
 flags          = "ShowFlag"
 helptext       = _("\
 Buoys may be built in the ocean (by units on a sea-going vessel).\
