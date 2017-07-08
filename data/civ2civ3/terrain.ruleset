@@ -1528,7 +1528,7 @@ build_time     = 0
 removal_time   = 0
 native_to      = "Land", "Small Land", "Big Land", "Merchant"
 hidden_by      = "Railroad", "Maglev"
-flags          = "NativeTile", "AutoOnCityCenter"
+flags          = "NativeTile", "AlwaysOnCityCenter"
 helptext       = _("\
 Roads allow your land units to move more quickly, and allow wheeled\
  Big Land units such as Chariots and Catapults to travel through\
@@ -1537,8 +1537,7 @@ Roads allow your land units to move more quickly, and allow wheeled\
 On some terrains, roads also provide a trade bonus.\
 "), _("\
 Building roads on river tiles requires knowledge of Bridge Building.\
- City center tiles automatically get roads (unless they are on a river\
- tile and you do not yet know Bridge Building).\
+ City center tiles automatically get roads (even on a river tile).\
 ")
 
 [extra_railroad]
