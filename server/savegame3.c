@@ -5541,6 +5541,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
         if (order->order == ORDER_PERFORM_ACTION) {
           switch ((enum gen_action)order->action) {
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
             /* Sabotage target is production (-1) or a building. */
             if (!(order_tgt - 1 == -1
                   || improvement_by_number(order_tgt - 1))) {
@@ -5572,6 +5573,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_STEAL_GOLD:
           case ACTION_SPY_STEAL_GOLD_ESC:
           case ACTION_SPY_SABOTAGE_CITY:
+          case ACTION_SPY_SABOTAGE_CITY_ESC:
           case ACTION_SPY_STEAL_TECH:
           case ACTION_SPY_INCITE_CITY:
           case ACTION_SPY_INCITE_CITY_ESC:

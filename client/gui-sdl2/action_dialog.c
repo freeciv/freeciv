@@ -134,6 +134,8 @@ static int get_non_targeted_action_id(int tgt_action_id)
   switch (tgt_action_id) {
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     return ACTION_SPY_SABOTAGE_CITY;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_SABOTAGE_CITY_ESC;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     return ACTION_SPY_STEAL_TECH;
   }
@@ -153,6 +155,8 @@ static int get_targeted_action_id(int non_tgt_action_id)
   switch (non_tgt_action_id) {
   case ACTION_SPY_SABOTAGE_CITY:
     return ACTION_SPY_TARGETED_SABOTAGE_CITY;
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
   case ACTION_SPY_STEAL_TECH:
     return ACTION_SPY_TARGETED_STEAL_TECH;
   }
@@ -537,6 +541,28 @@ static int spy_sabotage_request(struct widget *pWidget)
 }
 
 /****************************************************************
+  Requests up-to-date list of improvements, the return of
+  which will trigger the popup_sabotage_dialog() function.
+  (Escape version)
+*****************************************************************/
+static int spy_sabotage_esc_request(struct widget *pWidget)
+{
+  if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+      && NULL != game_city_by_number(
+              pDiplomat_Dlg->target_ids[ATK_CITY])) {
+    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
+                           pDiplomat_Dlg->actor_unit_id,
+                           pDiplomat_Dlg->target_ids[ATK_CITY]);
+    is_more_user_input_needed = TRUE;
+    popdown_diplomat_dialog();
+  } else {
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
   User clicked "Sabotage City" for diplomat (not spy)
 *****************************************************************/
 static int diplomat_sabotage_callback(struct widget *pWidget)
@@ -546,6 +572,27 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_do_action(ACTION_SPY_SABOTAGE_CITY,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        B_LAST + 1, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
+  User clicked "Sabotage City Escape" for diplomat (not spy)
+*****************************************************************/
+static int diplomat_sabotage_esc_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_SABOTAGE_CITY_ESC,
                         pDiplomat_Dlg->actor_unit_id,
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         B_LAST + 1, "");
@@ -1306,7 +1353,9 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_STEAL_MAPS] = spy_steal_maps_callback,
   [ACTION_STEAL_MAPS_ESC] = spy_steal_maps_esc_callback,
   [ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage_callback,
+  [ACTION_SPY_SABOTAGE_CITY_ESC] = diplomat_sabotage_esc_callback,
   [ACTION_SPY_TARGETED_SABOTAGE_CITY] = spy_sabotage_request,
+  [ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] = spy_sabotage_esc_request,
   [ACTION_SPY_STEAL_TECH] = diplomat_steal_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal_popup,
   [ACTION_SPY_INCITE_CITY] = diplomat_incite_callback,

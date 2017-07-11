@@ -4384,12 +4384,21 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
+[effect_incident_success_sabotage_city_esc]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Sabotage City Escape", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
 [effect_incident_success_tgt_sabotage_city]
 type	= "Casus_Belli_Success"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Targeted Sabotage City", "Local", TRUE
+      "Action", "Targeted Sabotage City Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
@@ -4398,7 +4407,7 @@ type	= "Action_Odds_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range", "present"
-      "Action", "Targeted Sabotage City", "Local", TRUE
+      "Action", "Targeted Sabotage City Escape", "Local", TRUE
     }
 
 [effect_incident_success_explode_nuke]

@@ -428,6 +428,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   }
 
   if (count_impr > 0) {
+    T(ACTION_SPY_SABOTAGE_CITY_ESC, 0);
     T(ACTION_SPY_SABOTAGE_CITY, 0);
   }
 
@@ -438,6 +439,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
      * the current production. */
     int tgt_impr = -1;
 
+    T(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC, tgt_impr + 1);
     T(ACTION_SPY_TARGETED_SABOTAGE_CITY, tgt_impr + 1);
   }
 
@@ -490,7 +492,11 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_SABOTAGE_CITY)
               || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_SABOTAGE_CITY_ESC)
+              || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_TARGETED_SABOTAGE_CITY)
+              || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_STEAL_TECH)
               || utype_can_do_action(unit_type_get(punit),

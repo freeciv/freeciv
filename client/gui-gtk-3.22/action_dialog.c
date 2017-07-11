@@ -176,6 +176,8 @@ static int get_non_targeted_action_id(int tgt_action_id)
   switch (tgt_action_id) {
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     return ACTION_SPY_SABOTAGE_CITY;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_SABOTAGE_CITY_ESC;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     return ACTION_SPY_STEAL_TECH;
   }
@@ -195,6 +197,8 @@ static int get_targeted_action_id(int non_tgt_action_id)
   switch (non_tgt_action_id) {
   case ACTION_SPY_SABOTAGE_CITY:
     return ACTION_SPY_TARGETED_SABOTAGE_CITY;
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
   case ACTION_SPY_STEAL_TECH:
     return ACTION_SPY_TARGETED_STEAL_TECH;
   }
@@ -531,6 +535,23 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
     request_do_action(ACTION_SPY_SABOTAGE_CITY, args->actor_unit_id,
+                      args->target_city_id, B_LAST + 1, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
+  User selected sabotaging (and escape) from choice dialog
+*****************************************************************/
+static void diplomat_sabotage_esc_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_SPY_SABOTAGE_CITY_ESC, args->actor_unit_id,
                       args->target_city_id, B_LAST + 1, "");
   }
 
@@ -1251,6 +1272,30 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
   free(args);
 }
 
+/****************************************************************
+ Requests up-to-date list of improvements, the return of
+ which will trigger the popup_sabotage_dialog() function.
+ (Escape version)
+*****************************************************************/
+static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
+                           args->actor_unit_id,
+                           args->target_city_id);
+  }
+
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
 /*************************************************************************
  Pops-up the Spy sabotage dialog, upon return of list of
  available improvements requested by the above function.
@@ -1536,8 +1581,12 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_STEAL_MAPS] = (GCallback)spy_steal_maps_callback,
   [ACTION_STEAL_MAPS_ESC] = (GCallback)spy_steal_maps_esc_callback,
   [ACTION_SPY_SABOTAGE_CITY] = (GCallback)diplomat_sabotage_callback,
+  [ACTION_SPY_SABOTAGE_CITY_ESC] =
+  (GCallback)diplomat_sabotage_esc_callback,
   [ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       (GCallback)spy_request_sabotage_list,
+  [ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
+      (GCallback)spy_request_sabotage_esc_list,
   [ACTION_SPY_STEAL_TECH] = (GCallback)diplomat_steal_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
   [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,

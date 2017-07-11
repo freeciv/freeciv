@@ -991,7 +991,8 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
-  if (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY)) {
+  if (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY)
+      || action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_ESC)) {
     /*
      * Pick random:
      * 50/50 chance to pick production or some improvement.

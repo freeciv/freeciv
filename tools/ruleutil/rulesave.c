@@ -1053,8 +1053,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      action_by_number(ACTION_SPY_SABOTAGE_CITY)->ui_name,
                      "actions.ui_name_sabotage_city");
   secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_SABOTAGE_CITY_ESC)->ui_name,
+                     "actions.ui_name_sabotage_city_escape");
+  secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY)->ui_name,
                      "actions.ui_name_targeted_sabotage_city");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)->ui_name,
+                     "actions.ui_name_targeted_sabotage_city_escape");
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_INCITE_CITY)->ui_name,
                      "actions.ui_name_incite_city");

@@ -275,7 +275,8 @@ Action_Odds_Pct
     makes it more probable that he will get caught. Currently supports the
     actions "Incite City", "Incite City Escape", "Steal Gold",
     "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
-    "Suitcase Nuke Escape", "Sabotage City" and "Targeted Sabotage City".
+    "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
+    "Targeted Sabotage City" and "Targeted Sabotage City Escape".
 
 Size_Adj
     Increase maximum size of a city by amount.

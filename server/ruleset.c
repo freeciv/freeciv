@@ -6041,11 +6041,26 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: _Sabotage City and Escape (3% chance of success). */
+          N_("%sSabotage City and Escape%s"),
+          "actions.ui_name_sabotage_city_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_CITY_ESC)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Industria_l Sabotage (3% chance of success). */
           N_("Industria%sl Sabotage%s"),
           "actions.ui_name_targeted_sabotage_city");
       sz_strlcpy(
             action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY)->ui_name,
+            text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Industria_l Sabotage and Escape (3% chance of success). */
+          N_("Industria%sl Sabotage and Escape%s"),
+          "actions.ui_name_targeted_sabotage_city_escape");
+      sz_strlcpy(
+            action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)->ui_name,
             text);
 
       text = secfile_lookup_str_default(file,
