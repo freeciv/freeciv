@@ -340,9 +340,17 @@ static void hard_code_actions(void)
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_SABOTAGE_CITY_ESC] =
+      action_new(ACTION_SPY_SABOTAGE_CITY_ESC, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY, ATK_CITY,
+                 TRUE, TRUE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
+      action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC, ATK_CITY,
                  TRUE, TRUE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_SPY_INCITE_CITY] =
@@ -760,7 +768,9 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
@@ -1566,7 +1576,9 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
@@ -1702,7 +1714,9 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
@@ -2222,7 +2236,9 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
@@ -2983,7 +2999,13 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_SPY_SABOTAGE_CITY:
     /* TODO */
     break;
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    /* TODO */
+    break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    /* TODO */
+    break;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
     /* TODO */
     break;
   case ACTION_SPY_INCITE_CITY:

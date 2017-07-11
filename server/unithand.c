@@ -580,7 +580,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_TARGETED_STEAL_TECH:
   case ACTION_SPY_INCITE_CITY:
@@ -2186,6 +2188,7 @@ void handle_unit_action_query(struct connection *pc,
     }
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
@@ -2424,11 +2427,15 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
   case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                B_LAST, paction));
     break;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
                                                value - 1, paction));
@@ -4720,6 +4727,7 @@ void handle_unit_orders(struct player *pplayer,
       /* Validate individual actions. */
       switch ((enum gen_action) packet->action[i]) {
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
         /* Sabotage target is production (-1) or a building. */
         if (!(packet->target[i] - 1 == -1
               || improvement_by_number(packet->target[i] - 1))) {
@@ -4755,6 +4763,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_STEAL_GOLD:
       case ACTION_SPY_STEAL_GOLD_ESC:
       case ACTION_SPY_SABOTAGE_CITY:
+      case ACTION_SPY_SABOTAGE_CITY_ESC:
       case ACTION_SPY_STEAL_TECH:
       case ACTION_SPY_INCITE_CITY:
       case ACTION_SPY_INCITE_CITY_ESC:

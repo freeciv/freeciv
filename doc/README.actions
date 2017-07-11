@@ -190,11 +190,23 @@ Actions done by a unit against a city
 
 "Sabotage City" - Destroy a building or the production in the target city.
  * UI name can be set using ui_name_sabotage_city
+ * spends the actor unit
+ * actor must be aware that the target exists
+ * actor must be on the same tile as the target or on the tile next to it.
+
+"Sabotage City Escape" - Destroy a building or the production in the target city.
+ * UI name can be set using ui_name_sabotage_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 
 "Targeted Sabotage City" - Targeted version of the above.
  * UI name can be set using ui_name_targeted_sabotage_city
+ * spends the actor unit
+ * actor must be aware that the target exists
+ * actor must be on the same tile as the target or on the tile next to it.
+
+"Targeted Sabotage City Escape" - Targeted version of the above.
+ * UI name can be set using ui_name_targeted_sabotage_city_escape
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
 

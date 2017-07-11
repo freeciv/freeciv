@@ -1628,8 +1628,10 @@ void request_unit_select(struct unit_list *punits,
   - action    : The action to be requested.
   - actor_id  : The unit ID of the actor unit.
   - target_id : The ID of the target unit, city or tile.
-  - value     : For ACTION_SPY_TARGETED_STEAL_TECH or
-                ACTION_SPY_TARGETED_SABOTAGE_CITY, the technology or
+  - value     : For ACTION_SPY_TARGETED_STEAL_TECH,
+                ACTION_SPY_TARGETED_STEAL_TECH_ESC,
+                ACTION_SPY_TARGETED_SABOTAGE_CITY or
+                ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC, the technology or
                 building to aim for.
   - name      : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
