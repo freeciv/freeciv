@@ -127,7 +127,6 @@ install-ruledit: install-ruledit-dir
 	make -C build-ruledit DESTDIR=`pwd`/install-ruledit install
 	# reorder directory layout
 	mv install-ruledit/usr/local/bin/* install-ruledit/
-	mv install-ruledit/usr/local/etc install-ruledit/
 	mv install-ruledit/usr/local/share/freeciv install-ruledit/data
 	mv install-ruledit/usr/local/share/locale install-ruledit/share/
 	mv install-ruledit/usr/local/share/doc install-ruledit/doc
