@@ -301,7 +301,7 @@ type GOVERNMENT         = sint8(Government_type_id)
 type IMPROVEMENT        = uint8(Impr_type_id)
 type MULTIPLIER         = uint8(Multiplier_type_id)
 type NATION             = sint16(Nation_type_id)
-type PLAYER             = UINT8
+type PLAYER             = UINT16
 type RESEARCH           = UINT8
 type RESOURCE           = uint8(Resource_type_id)
 type SPECIALIST         = uint8(Specialist_type_id)
@@ -419,7 +419,7 @@ PACKET_ENDGAME_REPORT = 12; sc, lsend, no-delta, handle-via-packet
   UINT8 category_num;
   STRING category_name[32:category_num][MAX_LEN_NAME];
 
-  UINT8 player_num;
+  PLAYER player_num;
 end
 
 PACKET_ENDGAME_PLAYER = 223; sc, lsend, no-delta, handle-via-packet
@@ -502,7 +502,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 granary_food_inc;
   UINT8 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
-  SINT16 great_wonder_owners[B_LAST]; diff
+  PLAYER great_wonder_owners[B_LAST]; diff
   UINT8 happy_cost;
   HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
@@ -1185,7 +1185,7 @@ PACKET_CONN_INFO = 115; sc, lsend, is-info
   BOOL used;
   BOOL established;
   BOOL observer;
-  UINT16 player_num;
+  PLAYER player_num;
   CMDLEVEL access_level;
   STRING username[MAX_LEN_NAME];
   STRING addr[MAX_LEN_ADDR];
