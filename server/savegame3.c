@@ -1877,6 +1877,9 @@ static void sg_load_game(struct loaddata *loading)
     loading->server_state = S_S_INITIAL;
   }
 
+  game.server.additional_phase_seconds
+    = secfile_lookup_int_default(loading->file, 0, "game.phase_seconds");
+
   str = secfile_lookup_str_default(loading->file,
                                    default_meta_patches_string(),
                                    "game.meta_patches");
@@ -2060,7 +2063,8 @@ static void sg_save_game(struct savedata *saving)
 
   if (game.server.phase_timer != NULL) {
     secfile_insert_int(saving->file,
-                       timer_read_seconds(game.server.phase_timer),
+                       timer_read_seconds(game.server.phase_timer)
+                       + game.server.additional_phase_seconds,
                        "game.phase_seconds");
   }
 

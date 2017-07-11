@@ -881,7 +881,8 @@ void send_game_info(struct conn_list *dest)
      * (and game.tinfo.seconds_to_phasedone is relative to this).
      * Account for the difference. */
     tinfo.seconds_to_phasedone = game.tinfo.seconds_to_phasedone
-        - timer_read_seconds(game.server.phase_timer);
+      - timer_read_seconds(game.server.phase_timer)
+      - game.server.additional_phase_seconds;
   } else {
     /* unused but at least initialized */
     tinfo.seconds_to_phasedone = -1.0;
