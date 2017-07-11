@@ -389,6 +389,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.netwait           = GAME_DEFAULT_NETWAIT;
     game.server.occupychance      = GAME_DEFAULT_OCCUPYCHANCE;
     game.server.onsetbarbarian    = GAME_DEFAULT_ONSETBARBARIAN;
+    game.server.additional_phase_seconds = 0;
     game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
     game.server.pingtime          = GAME_DEFAULT_PINGTIME;
     game.server.pingtimeout       = GAME_DEFAULT_PINGTIMEOUT;

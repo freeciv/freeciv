@@ -2707,6 +2707,7 @@ static void srv_running(void)
       if (S_S_OVER == server_state()) {
 	break;
       }
+      game.server.additional_phase_seconds = 0;
     }
     end_turn();
     log_debug("Sendinfotometaserver");

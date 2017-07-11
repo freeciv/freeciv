@@ -202,7 +202,8 @@ struct civ_game {
       int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
 
       time_t last_ping;
-      struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
+      struct timer *phase_timer;   /* Time since seconds_to_phase_done was set. */
+      int additional_phase_seconds;
       /* The game.info.phase_mode value indicates the phase mode currently in
        * use. The "stored" value is a value the player can change; it won't
        * take effect until the next turn. */
