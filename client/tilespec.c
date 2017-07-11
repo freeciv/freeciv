@@ -3281,14 +3281,8 @@ static bool load_river_sprites(struct tileset *t,
                 tag_pfx, dir_get_tileset_name(t->cardinal_tileset_dirs[i]));
     store->outlet[i] = load_sprite(t, buffer, TRUE, TRUE);
     if (store->outlet[i] == NULL) {
-      if (t->cardinal_tileset_dirs[i] == DIR8_NORTHWEST
-          || t->cardinal_tileset_dirs[i] == DIR8_NORTHEAST
-          || t->cardinal_tileset_dirs[i] == DIR8_SOUTHEAST
-          || t->cardinal_tileset_dirs[i] == DIR8_SOUTHWEST) {
-        log_debug("Missing \"%s\", support for this is deprecated.", buffer);
-      } else {
-        return FALSE;
-      }
+      log_error("Missing \"%s\" for \"%s\".", buffer, tag_pfx);
+      return FALSE;
     }
   }
 
@@ -5550,10 +5544,7 @@ int fill_sprite_array(struct tileset *t,
             int idx = extra_index(priver);
 
             if (BV_ISSET(textras_near[didx], idx)) {
-              if (t->sprites.extras[idx].u.road.ru.rivers.outlet[dir] != NULL) {
-                ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
-              }
-              break;
+              ADD_SPRITE_SIMPLE(t->sprites.extras[idx].u.road.ru.rivers.outlet[dir]);
             }
           } extra_type_list_iterate_end;
 	}
