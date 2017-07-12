@@ -1141,12 +1141,12 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
 ***************************************************************************/
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
-#ifdef WIN32_NATIVE
-  char fnbuf[strlen(filename) + 1];
+#ifndef DIR_SEPARATOR_IS_DEFAULT
+  char fnbuf[filename != NULL ? strlen(filename) + 1 : 1];
   int i;
-#else  /* WIN32_NATIVE */
+#else  /* DIR_SEPARATOR_IS_DEFAULT */
   const char *fnbuf = filename;
-#endif /* WIN32_NATIVE */
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
 
   if (NULL == dirs) {
     return NULL;
