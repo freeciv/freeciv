@@ -116,8 +116,6 @@ set={"name","value","gamestart"
 "citymindist",2,2
 "citynames","PLAYER_UNIQUE","PLAYER_UNIQUE"
 "civilwarsize",10,10
-"compress",6,6
-"compresstype","BZIP2","BZIP2"
 "conquercost",0,0
 "contactturns",20,20
 "demography","NASRLPEMOqrb","NASRLPEMOqrb"
@@ -224,7 +222,7 @@ set={"name","value","gamestart"
 "xsize",78,78
 "ysize",52,52
 }
-set_count=121
+set_count=119
 gamestart_valid=TRUE
 
 [ruledata]
