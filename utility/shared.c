@@ -1063,12 +1063,12 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
 ***************************************************************************/
 const char *fileinfoname(const struct strvec *dirs, const char *filename)
 {
-#ifdef FREECIV_MSWINDOWS
-  char fnbuf[strlen(filename) + 1];
+#ifndef DIR_SEPARATOR_IS_DEFAULT
+  char fnbuf[filename != NULL ? strlen(filename) + 1 : 1];
   int i;
-#else  /* FREECIV_MSWINDOWS */
+#else  /* DIR_SEPARATOR_IS_DEFAULT */
   const char *fnbuf = filename;
-#endif /* FREECIV_MSWINDOWS */
+#endif /* DIR_SEPARATOR_IS_DEFAULT */
 
   if (NULL == dirs) {
     return NULL;
