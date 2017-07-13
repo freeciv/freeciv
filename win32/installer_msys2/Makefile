@@ -233,7 +233,8 @@ DEFAULT_FCMP_DLLS := \
 	libgraphite2.dll \
 	libpangoft2-1.0-0.dll \
 	libpcre-1.dll \
-	libunistring-2.dll
+	libunistring-2.dll \
+	librsvg-2-2.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
