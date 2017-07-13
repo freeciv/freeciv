@@ -116,13 +116,18 @@ void qtg_gui_clear_theme()
 char **qtg_get_gui_specific_themes_directories(int *count)
 {
   char **array;
-  char *persistent = static_cast<char*>(fc_malloc(256));
+  char *persistent;
+  const char *data_dir;
+  size_t ddname_len;
 
   *count = 1;
   /* array is deleted in C client code and shouln't
      be allocated with new[] */
   array = static_cast<char **>(fc_malloc((*count) * sizeof(char *)));
-  strncpy(persistent, fileinfoname(get_data_dirs(),""), 256);
+  data_dir = fileinfoname(get_data_dirs(), NULL);
+  ddname_len = strlen(data_dir) + 1;
+  persistent = static_cast<char*>(fc_malloc(ddname_len));
+  strncpy(persistent, data_dir, ddname_len);
   array[0] = persistent;
   return array;
 }
