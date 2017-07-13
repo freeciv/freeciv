@@ -124,7 +124,8 @@ char **qtg_get_gui_specific_themes_directories(int *count)
   /* array is deleted in C client code and shouln't
      be allocated with new[] */
   array = static_cast<char **>(fc_malloc((*count) * sizeof(char *)));
-  data_dir = fileinfoname(get_data_dirs(), NULL);
+  data_dir = fileinfoname(get_data_dirs(),
+                          "themes" DIR_SEPARATOR "gui-qt");
   ddname_len = strlen(data_dir) + 1;
   persistent = static_cast<char*>(fc_malloc(ddname_len));
   strncpy(persistent, data_dir, ddname_len);
@@ -142,22 +143,20 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   QStringList sl, theme_list;
   char **array;
   char *data;
-  QByteArray qba;;
+  QByteArray qba;
   QString str;
   QString name;
   QString qtheme_name;
   QDir dir;
   QFile f;
 
-  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
-  name = fileinfoname(get_data_dirs(), str.toLocal8Bit().data());
-
-  dir.setPath(name);
+  dir.setPath(directory);
   sl << dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-  name = name;
+  name = QString(directory);
 
   foreach(str, sl) {
-    f.setFileName(name + str + DIR_SEPARATOR + "resource.qss");
+    f.setFileName(name + DIR_SEPARATOR + str
+                  + DIR_SEPARATOR + "resource.qss");
     if (f.exists() == false) {
       continue;
     }
