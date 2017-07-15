@@ -596,7 +596,7 @@ static const char *showname_help(enum show_player showplr)
 /****************************************************************************
   Return a help string for the 'mapimg' command.
 ****************************************************************************/
-char *mapimg_help(void)
+char *mapimg_help(const char *cmdname)
 {
   enum imagetool tool;
   enum show_player showplr;

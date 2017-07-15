@@ -26,6 +26,9 @@
 #include "commands.h"
 #include "voting.h"
 
+/* ai */
+#include "difficulty.h"
+
 /* Set the synopsis text to don't be translated. */
 #define SYN_ORIG_(String) "*" String
 /* Test if the synopsis should be translated or not. */
@@ -37,7 +40,7 @@ struct command {
   const char *synopsis;   /* one or few-line summary of usage */
   const char *short_help; /* one line (about 70 chars) description */
   const char *extra_help; /* extra help information; will be line-wrapped */
-  char *(*extra_help_func)(void);
+  char *(*extra_help_func)(const char *cmdname);
                           /* dynamically generated help; if non-NULL,
                            * extra_help is ignored. Must be pre-translated. */
   enum cmd_echo echo;     /* Who will be notified when used. */
@@ -341,67 +344,55 @@ static struct command commands[] = {
    /* no translatable parameters */
    SYN_ORIG_("away"),
    N_("Set yourself in away mode. The AI will watch your back."),
-   N_("The AI will govern your nation but do minimal changes."), NULL,
+   NULL, ai_level_help,
    CMD_ECHO_NONE, VCF_NONE, 50
   },
   {"handicapped",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("handicapped\n"
       "handicapped <player-name>"),
-   N_("Set one or all AI players to 'handicapped'."),
-   N_("With no arguments, sets all AI players to skill level 'handicapped', "
-      "and sets the default level for any new AI players to 'handicapped'. "
-      "With an argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Handicapped' as AI skill level */
+   N_("Set one or all AI players to 'Handicapped'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"novice",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("novice\n"
       "novice <player-name>"),
-   N_("Set one or all AI players to 'novice'."),
-   N_("With no arguments, sets all AI players to skill level 'novice', and "
-      "sets the default level for any new AI players to 'novice'. With an "
-      "argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Novice' as AI skill level */
+   N_("Set one or all AI players to 'Novice'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"easy",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("easy\n"
       "easy <player-name>"),
-   N_("Set one or all AI players to 'easy'."),
-   N_("With no arguments, sets all AI players to skill level 'easy', and "
-      "sets the default level for any new AI players to 'easy'. With an "
-      "argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Easy' as AI skill level */
+   N_("Set one or all AI players to 'Easy'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"normal",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("normal\n"
       "normal <player-name>"),
-   N_("Set one or all AI players to 'normal'."),
-   N_("With no arguments, sets all AI players to skill level 'normal', and "
-      "sets the default level for any new AI players to 'normal'. With an "
-      "argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Normal' as AI skill level */
+   N_("Set one or all AI players to 'Normal'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"hard",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("hard\n"
       "hard <player-name>"),
-   N_("Set one or all AI players to 'hard'."),
-   N_("With no arguments, sets all AI players to skill level 'hard', and "
-      "sets the default level for any new AI players to 'hard'. With an "
-      "argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Hard' as AI skill level */
+   N_("Set one or all AI players to 'Hard'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"cheating",  ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("cheating\n"
       "cheating <player-name>"),
-   N_("Set one or all AI players to 'cheating'."),
-   N_("With no arguments, sets all AI players to skill level 'cheating', and "
-      "sets the default level for any new AI players to 'cheating'. With an "
-      "argument, sets the skill level for that player only."), NULL,
+   /* TRANS: translate 'Cheating' as AI skill level */
+   N_("Set one or all AI players to 'Cheating'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
 #ifdef FREECIV_DEBUG
@@ -409,12 +400,8 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("experimental\n"
       "experimental <player-name>"),
-   N_("Set one or all AI players to 'experimental'."),
-   N_("With no arguments, sets all AI players to skill 'experimental', and "
-      "sets the default level for any new AI players to this. With an "
-      "argument, sets the skill level for that player only. THIS IS ONLY "
-      "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
-      "has no effect."), NULL,
+   /* TRANS: translate 'Experimental' as AI skill level */
+   N_("Set one or all AI players to 'Experimental'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
 #endif /* FREECIV_DEBUG */
@@ -753,7 +740,7 @@ char *command_extra_help(const struct command *pcommand)
 {
   if (pcommand->extra_help_func) {
     fc_assert(pcommand->extra_help == NULL);
-    return pcommand->extra_help_func();
+    return pcommand->extra_help_func(pcommand->name);
   } else if (pcommand->extra_help) {
     return fc_strdup(_(pcommand->extra_help));
   } else {
