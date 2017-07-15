@@ -2,6 +2,8 @@
 # (Filenames are sorted alphabetically and relative to top-level directory.)
 ai/default/aicity.c
 ai/default/daidiplomacy.c
+ai/difficulty.c
+ai/handicaps.c
 ai/threaded/threadedai.c
 ai/tex/texai.c
 client/agents/cma_core.c
