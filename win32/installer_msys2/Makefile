@@ -218,6 +218,7 @@ COMMON_DLLS := \
 	zlib1.dll \
 	libwinpthread-1.dll \
 	libsqlite3-0.dll \
+	exchndl.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
