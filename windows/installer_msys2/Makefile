@@ -215,6 +215,7 @@ COMMON_DLLS := \
 	libicuuc58.dll \
 	libicudt58.dll \
 	libsqlite3-0.dll \
+	exchndl.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
