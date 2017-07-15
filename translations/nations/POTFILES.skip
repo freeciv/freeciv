@@ -1,8 +1,10 @@
 # List of source files containing translatable strings that will be
 # ignored.
-# (Filenames relative to top-level directory
+# (Filenames relative to top-level directory.)
 ai/default/aicity.c
 ai/default/daidiplomacy.c
+ai/difficulty.c
+ai/handicaps.c
 ai/threaded/threadedai.c
 client/agents/cma_core.c
 client/agents/cma_fec.c

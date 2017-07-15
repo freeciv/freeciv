@@ -13,23 +13,24 @@
 #ifndef FC__HANDICAPS_H
 #define FC__HANDICAPS_H
 
+/* See handicap_desc() for what these do. */
 enum handicap_type {
-  H_DIPLOMAT = 0,     /* Can't build offensive diplomats */
-  H_AWAY,             /* Away mode */
-  H_LIMITEDHUTS,      /* Can get only 25 gold and barbs from huts */
-  H_DEFENSIVE,        /* Build defensive buildings without calculating need */
-  H_EXPERIMENTAL,     /* Enable experimental AI features (for testing) */
-  H_RATES,            /* Can't set its rates beyond government limits */
-  H_TARGETS,          /* Can't target anything it doesn't know exists */
-  H_HUTS,             /* Doesn't know which unseen tiles have huts on them */
-  H_FOG,              /* Can't see through fog of war */
-  H_NOPLANES,         /* Doesn't build air units */
-  H_MAP,              /* Only knows map_is_known tiles */
-  H_DIPLOMACY,        /* Not very good at diplomacy */
-  H_REVOLUTION,       /* Cannot skip anarchy */
-  H_EXPANSION,        /* Don't like being much larger than human */
-  H_DANGER,           /* Always thinks its city is in danger */
-  H_CEASEFIRE,        /* Has to offer cease-fire on first contact */
+  H_DIPLOMAT = 0,
+  H_AWAY,
+  H_LIMITEDHUTS,
+  H_DEFENSIVE,
+  H_EXPERIMENTAL,
+  H_RATES,
+  H_TARGETS,
+  H_HUTS,
+  H_FOG,
+  H_NOPLANES,
+  H_MAP,
+  H_DIPLOMACY,
+  H_REVOLUTION,
+  H_EXPANSION,
+  H_DANGER,
+  H_CEASEFIRE,
   H_LAST
 };
 
@@ -40,5 +41,7 @@ void handicaps_close(struct player *pplayer);
 
 void handicaps_set(struct player *pplayer, bv_handicap handicaps);
 bool has_handicap(const struct player *pplayer, enum handicap_type htype);
+
+const char *handicap_desc(enum handicap_type htype, bool *inverted);
 
 #endif /* FC__HANDICAPS_H */

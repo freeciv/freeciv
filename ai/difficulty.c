@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "astring.h"
 #include "bitvector.h"
 #include "rand.h"
 
@@ -156,7 +157,7 @@ static int fuzzy_of_skill_level(enum ai_level level)
   Return the AI's science development cost; a science development cost of 100
   means that the AI develops science at the same speed as a human; a science
   development cost of 200 means that the AI develops science at half the speed
-  of a human, and a sceence development cost of 50 means that the AI develops
+  of a human, and a science development cost of 50 means that the AI develops
   science twice as fast as the human.
 **************************************************************************/
 static int science_cost_of_skill_level(enum ai_level level)
@@ -214,6 +215,95 @@ static int expansionism_of_skill_level(enum ai_level level)
   }
 
   return 100;
+}
+
+/**************************************************************************
+  Helper function for skill level command help.
+  'cmdname' is a server command name.
+  Caller must free returned string.
+**************************************************************************/
+char *ai_level_help(const char *cmdname)
+{
+  /* Translate cmdname to AI level. */
+  enum ai_level level = ai_level_by_name(cmdname, fc_strcasecmp);
+  struct astring help = ASTRING_INIT, features = ASTRING_INIT;
+  bv_handicap handicaps;
+  enum handicap_type h;
+
+  fc_assert(ai_level_is_valid(level));
+
+  if (level == AI_LEVEL_AWAY) {
+    /* Special case */
+    astr_add_line(&help,
+                  _("Toggles 'away' mode for your nation. In away mode, "
+                    "the AI will govern your nation but make only minimal "
+                    "changes."));
+  } else {
+    /* TRANS: %s is a (translated) skill level ('Novice', 'Hard', etc) */
+    astr_add_line(&help,
+                  _("With no arguments, sets all AI players to skill level "
+                    "'%s', and sets the default level for any new AI "
+                    "players to '%s'. With an argument, sets the skill "
+                    "level for the specified player only."),
+                  _(ai_level_name(level)), _(ai_level_name(level)));
+  }
+
+  handicaps = handicap_of_skill_level(level);
+  for (h = 0; h < H_LAST; h++) {
+    bool inverted;
+    const char *desc = handicap_desc(h, &inverted);
+
+    if (desc && BV_ISSET(handicaps, h) != inverted) {
+      astr_add_line(&features, "%s", desc);
+    }
+  }
+
+  if (fuzzy_of_skill_level(level) > 0) {
+    astr_add_line(&features, _("Has erratic decision-making."));
+  }
+  {
+    int science = science_cost_of_skill_level(level);
+
+    if (science != 100) {
+      astr_add_line(&features,
+                    _("Research takes %d%% as long as usual."), science);
+    }
+  }
+  if (expansionism_of_skill_level(level) < 100) {
+    astr_add_line(&features, _("Has reduced appetite for expansion."));
+  } /* no level currently has >100, so no string yet */
+
+  switch (level) {
+  case AI_LEVEL_HANDICAPPED:
+    /* TRANS: describing an AI skill level */
+    astr_add_line(&help,
+                  _("\nThis skill level has the same features as 'Novice', "
+                    "but may suffer additional ruleset-defined penalties."));
+    break;
+  case AI_LEVEL_CHEATING:
+    /* TRANS: describing an AI skill level */
+    astr_add_line(&help,
+                  _("\nThis skill level has the same features as 'Hard', "
+                    "but may enjoy additional ruleset-defined bonuses."));
+    break;
+  default:
+    /* In principle this text should vary, but all current skill levels
+     * have _some_ feature text */
+    fc_assert(!astr_empty(&features));
+    /* TRANS: describing an AI skill level */
+    astr_add_line(&help,
+                  _("\nThis skill level's features include the following. "
+                    "(Some rulesets may define extra level-specific "
+                    "behavior.)"));
+    break;
+  }
+
+  if (!astr_empty(&features)) {
+    astr_add_line(&help, "\n%s", astr_str(&features));
+  }
+
+  astr_free(&features);
+  return astr_to_str(&help);
 }
 
 /**************************************************************************
