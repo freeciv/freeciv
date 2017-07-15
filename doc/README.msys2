@@ -78,6 +78,9 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
 
+2.1.2.1.2) Arch-specific optional packages for building common parts
+ - mingw-w64-i686-drmingw / mingw-w64-x86_64-drmingw
+
 2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
@@ -112,9 +115,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-170707.7z, based on
+msys2-freeciv-win64-170714.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20161025.exe
-with packages updated to 07-Jul-17 level.
+with packages updated to 14-Jul-2017 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
@@ -147,6 +150,7 @@ Following packages have been installed:
 - mingw-w64-<arch>-SDL2_gfx
 - mingw-w64-<arch>-imagemagick
 - mingw-w64-<arch>-qt5
+- mingw-w64-<arch>-drmingw
 
 
  Build
