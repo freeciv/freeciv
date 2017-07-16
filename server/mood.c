@@ -29,11 +29,14 @@ enum mood_type player_mood(struct player *pplayer)
 {
   if (pplayer->last_war_action >= 0 && pplayer->last_war_action + 10 >= game.info.turn) {
     players_iterate(other) {
-      struct player_diplstate *state;
+      struct player_diplstate *us, *them;
 
-      state = player_diplstate_get(pplayer, other);
+      us = player_diplstate_get(pplayer, other);
+      them = player_diplstate_get(other, pplayer);
 
-      if (state->type == DS_WAR) {
+      if (us->type == DS_WAR
+          || us->has_reason_to_cancel > 0
+          || them->has_reason_to_cancel > 0) {
         return MOOD_COMBAT;
       }
     } players_iterate_end;
