@@ -71,6 +71,7 @@ static void action_give_casus_belli(struct player *offender,
     players_iterate(oplayer) {
       if (oplayer != offender) {
         player_diplstate_get(oplayer, offender)->has_reason_to_cancel = 2;
+        player_update_last_war_action(oplayer);
       }
     } players_iterate_end;
   } else if (victim_player && offender != victim_player) {
@@ -81,7 +82,9 @@ static void action_give_casus_belli(struct player *offender,
     /* Give the victim player a casus belli. */
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel =
         2;
+    player_update_last_war_action(victim_player);
   }
+  player_update_last_war_action(offender);
 }
 
 /**************************************************************************
