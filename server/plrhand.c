@@ -839,6 +839,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                       player_name(pplayer),
                       player_name(pplayer2));
         player_diplstate_get(other, pplayer)->has_reason_to_cancel = 1;
+        player_update_last_war_action(other);
         handle_diplomacy_cancel_pact(other, player_number(pplayer),
                                      CLAUSE_ALLIANCE);
       } else {

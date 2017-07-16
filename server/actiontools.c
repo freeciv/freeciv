@@ -133,6 +133,8 @@ static void maybe_cause_incident(const enum gen_action action,
     }
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;
     call_incident(INCIDENT_DIPLOMAT, offender, victim_player);
+    player_update_last_war_action(offender);
+    player_update_last_war_action(victim_player);
     send_player_all_c(offender, NULL);
     send_player_all_c(victim_player, NULL);
   }
