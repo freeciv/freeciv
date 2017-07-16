@@ -81,7 +81,13 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   if (QString(theme_name) == QString("System")) {
     QApplication::setStyle(QStyleFactory::create(def_app_style));
   } else {
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    QStyle *fstyle = QStyleFactory::create("Fusion");
+
+    if (fstyle != nullptr) {
+      QApplication::setStyle(fstyle);
+    } else {
+      QApplication::setStyle(QStyleFactory::create(def_app_style));
+    }
   }
 
   current_theme = theme_name;
