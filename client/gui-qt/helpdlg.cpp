@@ -637,10 +637,8 @@ void help_widget::add_info_progress(const QString &text, int progress,
 **************************************************************************/
 void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
                                                 enum unit_activity act,
-                                                char *label)
+                                                const char *label)
 {
-
-
   struct universal for_terr;
   enum extra_cause cause = activity_to_extra_cause(act);
 
