@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-13 11:56+0300\n"
-"PO-Revision-Date: 2017-07-13 12:04+0300\n"
+"POT-Creation-Date: 2017-07-17 00:52+0300\n"
+"PO-Revision-Date: 2017-07-17 00:59+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -18170,18 +18170,18 @@ msgstr ""
 #: data/civ2/units.ruleset:1994 data/classic/units.ruleset:38
 #: data/classic/units.ruleset:406 data/classic/units.ruleset:451
 #: data/classic/units.ruleset:513 data/classic/units.ruleset:1915
-#: data/classic/units.ruleset:2269 data/classic/units.ruleset:2307
+#: data/classic/units.ruleset:2269 data/classic/units.ruleset:2309
 #: data/experimental/units.ruleset:41 data/experimental/units.ruleset:420
 #: data/experimental/units.ruleset:1941 data/experimental/units.ruleset:2296
-#: data/experimental/units.ruleset:2334 data/civ2civ3/units.ruleset:37
+#: data/experimental/units.ruleset:2336 data/civ2civ3/units.ruleset:37
 #: data/civ2civ3/units.ruleset:429 data/civ2civ3/units.ruleset:473
 #: data/civ2civ3/units.ruleset:512 data/civ2civ3/units.ruleset:575
 #: data/civ2civ3/units.ruleset:2023 data/civ2civ3/units.ruleset:2100
-#: data/civ2civ3/units.ruleset:2455 data/civ2civ3/units.ruleset:2493
+#: data/civ2civ3/units.ruleset:2455 data/civ2civ3/units.ruleset:2495
 #: data/multiplayer/units.ruleset:38 data/multiplayer/units.ruleset:406
 #: data/multiplayer/units.ruleset:452 data/multiplayer/units.ruleset:513
 #: data/multiplayer/units.ruleset:2013 data/multiplayer/units.ruleset:2355
-#: data/multiplayer/units.ruleset:2393
+#: data/multiplayer/units.ruleset:2395
 msgid "green"
 msgstr "kokematon"
 
@@ -18961,14 +18961,14 @@ msgstr ""
 "valmiiksi yhden vuoron aikana!"
 
 #: data/civ1/units.ruleset:1307 data/civ2/units.ruleset:2141
-#: data/classic/units.ruleset:2280 data/experimental/units.ruleset:2307
-#: data/civ2civ3/units.ruleset:2466 data/multiplayer/units.ruleset:2366
+#: data/classic/units.ruleset:2282 data/experimental/units.ruleset:2309
+#: data/civ2civ3/units.ruleset:2468 data/multiplayer/units.ruleset:2368
 msgid "Barbarian Leader"
 msgstr "Barbaarijohtaja"
 
 #: data/civ1/units.ruleset:1333 data/civ2/units.ruleset:2167
-#: data/classic/units.ruleset:2313 data/experimental/units.ruleset:2340
-#: data/civ2civ3/units.ruleset:2499 data/multiplayer/units.ruleset:2399
+#: data/classic/units.ruleset:2315 data/experimental/units.ruleset:2342
+#: data/civ2civ3/units.ruleset:2501 data/multiplayer/units.ruleset:2401
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -20957,9 +20957,9 @@ msgstr ""
 "Seikkailijat ovat rohkeita yksilöitä, jotka ovat erittäin hyödyllisiä "
 "tuntemattomien alueiden kartoituksessa."
 
-#: data/civ2/units.ruleset:2170 data/classic/units.ruleset:2316
-#: data/experimental/units.ruleset:2343 data/civ2civ3/units.ruleset:2502
-#: data/multiplayer/units.ruleset:2402
+#: data/civ2/units.ruleset:2170 data/classic/units.ruleset:2318
+#: data/experimental/units.ruleset:2345 data/civ2civ3/units.ruleset:2504
+#: data/multiplayer/units.ruleset:2404
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -21826,13 +21826,18 @@ msgstr ""
 "Tämä yksikkö edustaa sinua. Häviät pelin jos menetät tämän yksikön; "
 "ymmärtänet miksi."
 
-#: data/classic/units.ruleset:2322 data/experimental/units.ruleset:2349
-#: data/civ2civ3/units.ruleset:2508 data/multiplayer/units.ruleset:2408
+#: data/classic/units.ruleset:2277 data/experimental/units.ruleset:2304
+#: data/civ2civ3/units.ruleset:2463 data/multiplayer/units.ruleset:2363
+msgid "Won't unleash barbarians from huts."
+msgstr "Ei koskaan löydä majoista barbaareita."
+
+#: data/classic/units.ruleset:2324 data/experimental/units.ruleset:2351
+#: data/civ2civ3/units.ruleset:2510 data/multiplayer/units.ruleset:2410
 msgid "AWACS"
 msgstr "Tutkakone"
 
-#: data/classic/units.ruleset:2348 data/experimental/units.ruleset:2375
-#: data/civ2civ3/units.ruleset:2534 data/multiplayer/units.ruleset:2434
+#: data/classic/units.ruleset:2350 data/experimental/units.ruleset:2377
+#: data/civ2civ3/units.ruleset:2536 data/multiplayer/units.ruleset:2436
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -31970,78 +31975,79 @@ msgstr ""
 msgid "The %s have started building a spaceship!"
 msgstr "%s rakentavat jo avaruusalusta!"
 
-#: server/cityturn.c:1781
+#. TRANS: city ... utype ... size ... pop_cost
+#: server/cityturn.c:1782
 #, c-format
-msgid "%s can't build %s yet."
-msgstr "%s ei voi vielä saada hanketta %s valmiiksi."
+msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
+msgstr "%s ei voi vielä valmistaa yksikköä %s. (kaupungin koko: %d, yksikköön kuluva väkiluku: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1820
+#: server/cityturn.c:1823
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:1829
+#: server/cityturn.c:1832
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:1914
+#: server/cityturn.c:1917
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:1997
+#: server/cityturn.c:2000
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:2240 server/cityturn.c:2979
+#: server/cityturn.c:2243 server/cityturn.c:2982
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:2405
+#: server/cityturn.c:2408
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:2411
+#: server/cityturn.c:2414
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
-#: server/cityturn.c:2428
+#: server/cityturn.c:2431
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
 
-#: server/cityturn.c:2474
+#: server/cityturn.c:2477
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "%s kärsii levottomuuksista."
 
-#: server/cityturn.c:2478
+#: server/cityturn.c:2481
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "%s: LEVOTTOMUUDET JATKUVAT."
 
-#: server/cityturn.c:2484
+#: server/cityturn.c:2487
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
-#: server/cityturn.c:2495
+#: server/cityturn.c:2498
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:2537
+#: server/cityturn.c:2540
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -32049,13 +32055,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2566
+#: server/cityturn.c:2569
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2763
+#: server/cityturn.c:2766
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -32064,7 +32070,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2770
+#: server/cityturn.c:2773
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -32074,7 +32080,7 @@ msgstr ""
 "(%s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2775
+#: server/cityturn.c:2778
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -32084,7 +32090,7 @@ msgstr ""
 "%s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2790
+#: server/cityturn.c:2793
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -32093,7 +32099,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2797
+#: server/cityturn.c:2800
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -32102,7 +32108,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2802
+#: server/cityturn.c:2805
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -32110,71 +32116,71 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:2844
+#: server/cityturn.c:2847
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2882
+#: server/cityturn.c:2885
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2888
+#: server/cityturn.c:2891
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2893
+#: server/cityturn.c:2896
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:2973
+#: server/cityturn.c:2976
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%2$s iski kaupunkiin %1$s."
 
-#: server/cityturn.c:2986
+#: server/cityturn.c:2989
 #, c-format
 msgid "Fallout near %s."
 msgstr "Ydinlaskeumaa lähellä kaupunkia %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:2998
+#: server/cityturn.c:3001
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s vähensi väkilukua kaupungissa %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3020
+#: server/cityturn.c:3023
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3033
+#: server/cityturn.c:3036
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Kaikki ruokavarastot tuhoutuivat kaupungissa %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3047
+#: server/cityturn.c:3050
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Kohteen %s tuotanto tuhoutui kaupungissa %s."
 
-#: server/cityturn.c:3215
+#: server/cityturn.c:3218
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3237
+#: server/cityturn.c:3240
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -38297,7 +38303,9 @@ msgstr ""
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with %s."
-msgstr "%s ja %s ovat nyt sodassa tulitauon päätyttyä. Et voi olla liittolainen ystäväsi vihollisen kanssa. Sinun ja %s liitto puretaan."
+msgstr ""
+"%s ja %s ovat nyt sodassa tulitauon päätyttyä. Et voi olla liittolainen "
+"ystäväsi vihollisen kanssa. Sinun ja %s liitto puretaan."
 
 #: server/srv_main.c:808
 #, c-format
@@ -41282,6 +41290,9 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid "%s can't build %s yet."
+#~ msgstr "%s ei voi vielä saada hanketta %s valmiiksi."
 
 #~ msgid "%s%s (%s), %s client"
 #~ msgstr "%s%s (%s), käyttöliittymä %s"
