@@ -6,7 +6,7 @@
 
 
 QMainWindow {
-  border-image:url(LittleFingerpattern.png);
+  background-image:url(LittleFingerpattern.png);
 }
 
 *[doomed="true"] {
