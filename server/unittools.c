@@ -289,8 +289,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
               "defense firepower:%d", attackpower, defensepower,
               attack_firepower, defense_firepower);
 
-  plr1->last_war_action = game.info.turn;
-  plr2->last_war_action = game.info.turn;
+  player_update_last_war_action(plr1);
+  player_update_last_war_action(plr2);
 
   if (attackpower == 0) {
     *att_hp = 0; 
@@ -338,8 +338,8 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
               "defense firepower:%d", attackpower, defensepower,
               attack_firepower, defense_firepower);
 
-  plr1->last_war_action = game.info.turn;
-  plr2->last_war_action = game.info.turn;
+  player_update_last_war_action(plr1);
+  player_update_last_war_action(plr2);
 
   for (i = 0; i < rate; i++) {
     if (fc_rand(attackpower + defensepower) >= defensepower) {
