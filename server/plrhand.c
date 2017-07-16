@@ -670,6 +670,15 @@ void enter_war(struct player *pplayer, struct player *pplayer2)
 }
 
 /**************************************************************************
+  Update last war action timestamp (affects player mood).
+**************************************************************************/
+void player_update_last_war_action(struct player *pplayer)
+{
+  pplayer->last_war_action = game.info.turn;
+  send_player_info_c(pplayer, NULL);
+}
+
+/**************************************************************************
   Handles a player cancelling a "pact" with another player.
 
   packet.id is id of player we want to cancel a pact with
@@ -747,8 +756,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   ds_plrplr2->turns_left = ds_plr2plr->turns_left = 16;
 
   if (new_type == DS_WAR) {
-    pplayer->last_war_action = game.info.turn;
-    pplayer2->last_war_action = game.info.turn;
+    player_update_last_war_action(pplayer);
+    player_update_last_war_action(pplayer2);
   }
 
   /* If the old state was alliance, the players' units can share tiles

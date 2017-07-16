@@ -269,8 +269,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
               "defense firepower:%d", attackpower, defensepower,
               attack_firepower, defense_firepower);
 
-  plr1->last_war_action = game.info.turn;
-  plr2->last_war_action = game.info.turn;
+  player_update_last_war_action(plr1);
+  player_update_last_war_action(plr2);
 
   if (bombard) {
     int i;
