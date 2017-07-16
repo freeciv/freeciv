@@ -90,7 +90,8 @@ class help_widget : public QWidget
                          int min, int max,
                          const QString& value = QString());
   void add_extras_of_act_for_terrain(struct terrain *pterr,
-                                     enum unit_activity act, char *label);
+                                     enum unit_activity act,
+                                     const char *label);
   void add_info_separator();
   void add_info_widget(QWidget *widget);
   void info_panel_done();
