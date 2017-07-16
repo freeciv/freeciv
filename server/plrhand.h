@@ -76,6 +76,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile);
 void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 void enter_war(struct player *pplayer, struct player *pplayer2);
+void player_update_last_war_action(struct player *pplayer);
 
 void player_info_freeze(void);
 void player_info_thaw(void);
