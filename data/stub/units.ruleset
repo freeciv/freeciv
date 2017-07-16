@@ -181,7 +181,8 @@ flags         = ""
 ; disembarks    = list of unit classes this unit may unload from while not in
 ;                 native base or city even if transporter has Unreachable unit
 ;                 class flag
-; vision_layer  = At which layer this unit is visible; "Main" or "Stealth"
+; vision_layer  = At which layer this unit is visible; "Main", "Stealth",
+;                 or "Subsurface"
 ; bonuses       = definitions of combat bonuses against specific other units
 ; bonuses.flag  = flag of the unit that bonus applies against
 ; bonuses.type  = type of the bonus. See below

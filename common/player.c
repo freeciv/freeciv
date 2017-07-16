@@ -907,7 +907,8 @@ bool player_can_trust_tile_has_no_units(const struct player *pplayer,
                                         const struct tile *ptile)
 {
   /* Can't see invisible units. */
-  if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS)) {
+  if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS)
+      || !fc_funcs->player_tile_vision_get(ptile, pplayer, V_SUBSURFACE)) {
     return FALSE;
   }
 
@@ -970,7 +971,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
   (e) the unit isn't in a transporter, or we can see the transporter
 ****************************************************************************/
 bool can_player_see_unit_at(const struct player *pplayer,
-			    const struct unit *punit,
+                            const struct unit *punit,
                             const struct tile *ptile,
                             bool is_transported)
 {

@@ -17,9 +17,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"
 
-#include "improvement.h"		/* bv_imprs */
+#include "improvement.h" /* bv_imprs */
 
 /****************************************************************************
   Vision for cities and units:
@@ -92,11 +93,12 @@ struct vision {
 };
 
 /* Initialize a vision radius array. */
-#define V_RADIUS(main_sq, invis_sq) { (main_sq), (invis_sq) }
+#define V_RADIUS(main_sq, invis_sq, subs_sq) { (main_sq), (invis_sq), (subs_sq) }
 
 #define ASSERT_VISION(v)						\
  do {									\
    fc_assert((v)->radius_sq[V_MAIN] >= (v)->radius_sq[V_INVIS]);	\
+   fc_assert((v)->radius_sq[V_MAIN] >= (v)->radius_sq[V_SUBSURFACE]);   \
  } while (FALSE);
 
 struct vision *vision_new(struct player *pplayer, struct tile *ptile);

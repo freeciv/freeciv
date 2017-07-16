@@ -3460,7 +3460,8 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
   struct player *powner = unit_owner(punit);
   const v_radius_t radius_sq =
         V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
-                 get_unit_vision_at(punit, pdesttile, V_INVIS));
+                 get_unit_vision_at(punit, pdesttile, V_INVIS),
+                 get_unit_vision_at(punit, pdesttile, V_SUBSURFACE));
   struct vision *new_vision;
   bool success;
 
@@ -4452,7 +4453,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
   Note that vision MUST be independent of transported_by for this to work
   properly.
 ****************************************************************************/
-int get_unit_vision_at(struct unit *punit, struct tile *ptile,
+int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
                        enum vision_layer vlayer)
 {
   const int base = (unit_type_get(punit)->vision_radius_sq
@@ -4463,6 +4464,7 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
   case V_MAIN:
     return MAX(0, base);
   case V_INVIS:
+  case V_SUBSURFACE:
     return CLIP(0, base, 2);
   case V_COUNT:
     break;
@@ -4481,9 +4483,11 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 void unit_refresh_vision(struct unit *punit)
 {
   struct vision *uvision = punit->server.vision;
+  const struct tile *utile = unit_tile(punit);
   const v_radius_t radius_sq =
-      V_RADIUS(get_unit_vision_at(punit, unit_tile(punit), V_MAIN),
-               get_unit_vision_at(punit, unit_tile(punit), V_INVIS));
+      V_RADIUS(get_unit_vision_at(punit, utile, V_MAIN),
+               get_unit_vision_at(punit, utile, V_INVIS),
+               get_unit_vision_at(punit, utile, V_SUBSURFACE));
 
   vision_change_sight(uvision, radius_sq);
   ASSERT_VISION(uvision);

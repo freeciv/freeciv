@@ -340,7 +340,8 @@ utypes = "\
 ; disembarks    = list of unit classes this unit may unload from while not in\n\
 ;                 native base or city even if transporter has Unreachable unit\n\
 ;                 class flag\n\
-; vision_layer  = At which layer this unit is visible; \"Main\" or \"Stealth\"\n\
+; vision_layer  = At which layer this unit is visible; \"Main\", \"Stealth\",\n\
+;                 or \"Subsurface\"\n\
 ; bonuses       = definitions of combat bonuses against specific other units\n\
 ; bonuses.flag  = flag of the unit that bonus applies against\n\
 ; bonuses.type  = type of the bonus. See below\n\

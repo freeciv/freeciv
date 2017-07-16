@@ -39,6 +39,7 @@ struct vision *vision_new(struct player *pplayer, struct tile *ptile)
   vision->can_reveal_tiles = TRUE;
   vision->radius_sq[V_MAIN] = -1;
   vision->radius_sq[V_INVIS] = -1;
+  vision->radius_sq[V_SUBSURFACE] = -1;
 
   return vision;
 }
@@ -50,6 +51,7 @@ void vision_free(struct vision *vision)
 {
   fc_assert(-1 == vision->radius_sq[V_MAIN]);
   fc_assert(-1 == vision->radius_sq[V_INVIS]);
+  fc_assert(-1 == vision->radius_sq[V_SUBSURFACE]);
   free(vision);
 }
 

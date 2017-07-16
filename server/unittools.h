@@ -106,8 +106,8 @@ struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
 void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
                               const struct unit_list *seen_units);
 void give_allied_visibility(struct player *pplayer, struct player *aplayer);
-int get_unit_vision_at(struct unit *punit, struct tile *ptile,
-		       enum vision_layer vlayer);
+int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
+                       enum vision_layer vlayer);
 void unit_refresh_vision(struct unit *punit);
 void unit_list_refresh_vision(struct unit_list *punitlist);
 void bounce_unit(struct unit *punit, bool verbose);

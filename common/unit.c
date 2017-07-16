@@ -307,9 +307,20 @@ bool is_field_unit(const struct unit *punit)
 **************************************************************************/
 bool is_hiding_unit(const struct unit *punit)
 {
-  return (unit_type_get(punit)->vlayer == V_INVIS
-          || (unit_transported(punit)
-              && unit_type_get(unit_transport_get(punit))->vlayer == V_INVIS));
+  enum vision_layer vl = unit_type_get(punit)->vlayer;
+
+  if (vl == V_INVIS || vl == V_SUBSURFACE) {
+    return TRUE;
+  }
+
+  if (unit_transported(punit)) {
+    vl = unit_type_get(unit_transport_get(punit))->vlayer;
+    if (vl == V_INVIS || vl == V_SUBSURFACE) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /**************************************************************************

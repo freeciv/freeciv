@@ -928,6 +928,8 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE0NAME "Main"
 #define SPECENUM_VALUE1 V_INVIS
 #define SPECENUM_VALUE1NAME "Stealth"
+#define SPECENUM_VALUE2 V_SUBSURFACE
+#define SPECENUM_VALUE2NAME "Subsurface"
 #define SPECENUM_COUNT V_COUNT
 #include "specenum_gen.h"
 

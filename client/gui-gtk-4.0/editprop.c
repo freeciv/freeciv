@@ -6555,6 +6555,9 @@ const char *vision_layer_get_name(enum vision_layer vl)
   case V_INVIS:
     /* TRANS: Vision layer name. Feel free to leave untranslated. */
     return _("Seen (Invis)");
+  case V_SUBSURFACE:
+    /* TRANS: Vision layer name. Feel free to leave untranslated. */
+    return _("Seen (Subsurface)");
   case V_COUNT:
     break;
   }
