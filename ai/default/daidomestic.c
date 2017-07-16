@@ -544,7 +544,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
         struct ai_plr *ai = dai_plr_data_get(ait, pplayer, NULL);
 
         CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion " ADV_WANT_PRINTF
-                 "and asks for a new boat (%d of %d free)",
+                 " and asks for a new boat (%d of %d free)",
                  -founder_want, ai->stats.available_boats, ai->stats.boats);
 
         /* First fill choice with founder information */
