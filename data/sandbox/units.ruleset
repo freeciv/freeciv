@@ -2505,8 +2505,9 @@ helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
 "), _("\
-Explorers can also perform some actions in another player's city, although\
- the unit disappears after the action is complete.\
+Explorers can also perform some actions in another player's city,\
+ and like Diplomats and Spies, the unit is not consumed by these\
+ harmless actions:\
 "), _("\
  - \"Establish Embassy\": This action always succeeds, and gives\
  permanent contact with the city's owner, as well as intelligence\

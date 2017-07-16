@@ -386,7 +386,7 @@ actor_reqs    =
     }
 
 [actionenabler_establish_embassy]
-action       = "Establish Embassy Stay"
+action       = "Establish Embassy"
 actor_reqs    =
     { "type",         "name",       "range", "present"
       "UnitFlag",     "Diplomat",   "Local", TRUE
@@ -413,7 +413,7 @@ target_reqs  =
     }
 
 [actionenabler_establish_embassy_explorer]
-action       = "Establish Embassy Stay"
+action       = "Establish Embassy"
 actor_reqs    =
     { "type",         "name",       "range"
       "UnitType",     "Explorer",   "Local"
@@ -426,7 +426,7 @@ target_reqs  =
     }
 
 [actionenabler_investigate_city]
-action       = "Investigate City Spend Unit"
+action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Diplomat", "Local", TRUE
@@ -445,7 +445,7 @@ actor_reqs    =
     }
 
 [actionenabler_investigate_city_explorer]
-action       = "Investigate City Spend Unit"
+action       = "Investigate City"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitType", "Explorer", "Local"
