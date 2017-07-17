@@ -1391,6 +1391,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
   /* don't generate tiles with mapgen==0 as we've loaded them from file */
   /* also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (map.server.generator != MAPGEN_SCENARIO) {
+    map.server.have_huts = FALSE;
     river_types_init();
 
     generator_init_topology(autosize);
