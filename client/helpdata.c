@@ -3079,8 +3079,13 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     }
     if (pbase->vision_invis_sq >= 0) {
       CATLSTR(buf, bufsz,
-              _("* Allows the owner to see normally invisible units in an "
-                "area around the tile.\n"));
+              _("* Allows the owner to see normally invisible stealth units "
+                "in an area around the tile.\n"));
+    }
+    if (pbase->vision_subs_sq >= 0) {
+      CATLSTR(buf, bufsz,
+              _("* Allows the owner to see normally invisible subsurface units "
+                "in an area around the tile.\n"));
     }
   }
   for (flagid = EF_USER_FLAG_1; flagid <= EF_LAST_USER_FLAG; flagid++) {

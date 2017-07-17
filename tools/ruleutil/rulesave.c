@@ -2419,6 +2419,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       if (pbase->vision_invis_sq >= 0) {
         secfile_insert_int(sfile, pbase->vision_invis_sq, "%s.vision_invis_sq", path);
       }
+      if (pbase->vision_subs_sq >= 0) {
+        secfile_insert_int(sfile, pbase->vision_subs_sq, "%s.vision_subs_sq", path);
+      }
 
       set_count = 0;
       for (flagi = 0; flagi < BF_COUNT; flagi++) {

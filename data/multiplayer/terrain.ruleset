@@ -1700,6 +1700,7 @@ rmact_gfx_alt  = "-"
 ;                           -1 to disable. If enabled, base cannot exist in city tile.
 ; vision_main_sq          = Base will have main layer vision to this radius
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
+; vision_subs_sq          = Base will have subsurface layer vision to this radius
 ; flags
 ;   - "NoAggressive"      = Units inside are not considered aggressive if there`s
 ;                           friendly city within 3 tiles

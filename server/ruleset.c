@@ -3436,6 +3436,9 @@ static bool load_ruleset_terrain(struct section_file *file,
       pbase->vision_invis_sq  = secfile_lookup_int_default(file, -1,
                                                            "%s.vision_invis_sq",
                                                            section);
+      pbase->vision_subs_sq  = secfile_lookup_int_default(file, -1,
+                                                          "%s.vision_subs_sq",
+                                                          section);
 
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
       BV_CLR_ALL(pbase->flags);
@@ -7442,6 +7445,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.border_sq = b->border_sq;
     packet.vision_main_sq = b->vision_main_sq;
     packet.vision_invis_sq = b->vision_invis_sq;
+    packet.vision_subs_sq = b->vision_subs_sq;
 
     packet.flags = b->flags;
 

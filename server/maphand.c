@@ -2251,7 +2251,7 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
     const v_radius_t old_radius_sq = V_RADIUS(-1, -1, -1);
     const v_radius_t new_radius_sq = V_RADIUS(pbase->vision_main_sq,
                                               pbase->vision_invis_sq,
-                                              0);
+                                              pbase->vision_subs_sq);
 
     map_vision_update(powner, ptile, old_radius_sq, new_radius_sq,
                       game.server.vision_reveal_tiles);
@@ -2260,7 +2260,7 @@ void map_claim_base(struct tile *ptile, struct extra_type *pextra,
   if (ploser != NULL) {
     const v_radius_t old_radius_sq = V_RADIUS(pbase->vision_main_sq,
                                               pbase->vision_invis_sq,
-                                              0);
+                                              pbase->vision_subs_sq);
     const v_radius_t new_radius_sq = V_RADIUS(-1, -1, -1);
 
     map_vision_update(ploser, ptile, old_radius_sq, new_radius_sq,
@@ -2432,7 +2432,7 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
       const v_radius_t old_radius_sq =
         V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
                  0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1,
-                 0);
+                 0 <= pbase->vision_subs_sq ? pbase->vision_subs_sq : -1);
       const v_radius_t new_radius_sq = V_RADIUS(-1, -1, -1);
 
       map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,

@@ -68,6 +68,7 @@ struct base_type {
   int border_sq;
   int vision_main_sq;
   int vision_invis_sq;
+  int vision_subs_sq;
 
   bv_base_flags flags;
 

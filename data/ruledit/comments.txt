@@ -786,6 +786,7 @@ bases = "\
 ;                           -1 to disable. If enabled, base cannot exist in city tile.\n\
 ; vision_main_sq          = Base will have main layer vision to this radius\n\
 ; vision_invis_sq         = Base will have invisible layer vision to this radius\n\
+; vision_subs_sq          = Base will have subsurface layer vision to this radius\n\
 ; flags\n\
 ;   - \"NoAggressive\"      = Units inside are not considered aggressive if there`s\n\
 ;                           friendly city within 3 tiles\n\

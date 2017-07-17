@@ -3908,6 +3908,7 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   pbase->border_sq  = p->border_sq;
   pbase->vision_main_sq = p->vision_main_sq;
   pbase->vision_invis_sq = p->vision_invis_sq;
+  pbase->vision_subs_sq = p->vision_subs_sq;
 
   pbase->flags = p->flags;
 }
