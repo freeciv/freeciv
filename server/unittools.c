@@ -3660,7 +3660,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (adj) {
     /*  Main unit for adjacent move: the move is visible for every player
      * able to see on the matching unit layer. */
-    enum vision_layer vlayer = is_hiding_unit(punit) ? V_INVIS : V_MAIN;
+    enum vision_layer vlayer = unit_type_get(punit)->vlayer;
 
     players_iterate(oplayer) {
       if (map_is_known_and_seen(psrctile, oplayer, vlayer)

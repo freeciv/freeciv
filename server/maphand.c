@@ -895,7 +895,7 @@ void map_change_seen(struct player *pplayer,
   } vision_layer_iterate_end;
 #endif /* FREECIV_DEBUG */
 
-  /* Removes units out of vision. First, check V_INVIS layer because
+  /* Removes units out of vision. First, check invisible layers because
    * we must remove all units before fog of war because clients expect
    * the tile is empty when it is fogged. */
   if (0 > change[V_INVIS]
@@ -905,6 +905,18 @@ void map_change_seen(struct player *pplayer,
 
     unit_list_iterate(ptile->units, punit) {
       if (unit_is_visible_on_layer(punit, V_INVIS)
+          && can_player_see_unit(pplayer, punit)) {
+        unit_goes_out_of_sight(pplayer, punit);
+      }
+    } unit_list_iterate_end;
+  }
+  if (0 > change[V_SUBSURFACE]
+      && plrtile->seen_count[V_SUBSURFACE] == -change[V_SUBSURFACE]) {
+    log_debug("(%d, %d): hiding subsurface units to player %s (nb %d).",
+              TILE_XY(ptile), player_name(pplayer), player_number(pplayer));
+
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_is_visible_on_layer(punit, V_SUBSURFACE)
           && can_player_see_unit(pplayer, punit)) {
         unit_goes_out_of_sight(pplayer, punit);
       }
@@ -930,12 +942,14 @@ void map_change_seen(struct player *pplayer,
     plrtile->seen_count[v] += change[v];
   } vision_layer_iterate_end;
 
-  /* V_MAIN vision ranges must always be more than V_INVIS ranges
+  /* V_MAIN vision ranges must always be more than invisible ranges
    * (see comment in common/vision.h), so we assume that the V_MAIN
-   * seen count cannot be inferior to V_INVIS seen count.
+   * seen count cannot be inferior to V_INVIS or V_SUBSURFACE seen count.
    * Moreover, when the fog of war is disabled, V_MAIN has an extra
    * seen count point. */
   fc_assert(plrtile->seen_count[V_INVIS] + !game.info.fogofwar
+            <= plrtile->seen_count[V_MAIN]);
+  fc_assert(plrtile->seen_count[V_SUBSURFACE] + !game.info.fogofwar
             <= plrtile->seen_count[V_MAIN]);
 
   if (!map_is_known(ptile, pplayer)) {
@@ -1003,9 +1017,22 @@ void map_change_seen(struct player *pplayer,
     log_debug("(%d, %d): revealing invisible units to player %s (nb %d).",
               TILE_XY(ptile), player_name(pplayer),
               player_number(pplayer));
-     /* Discover units. */
+    /* Discover units. */
     unit_list_iterate(ptile->units, punit) {
       if (unit_is_visible_on_layer(punit, V_INVIS)) {
+        send_unit_info(pplayer->connections, punit);
+      }
+    } unit_list_iterate_end;
+  }
+  if ((revealing_tile && 0 < plrtile->seen_count[V_SUBSURFACE])
+      || (0 < change[V_SUBSURFACE]
+          && change[V_SUBSURFACE] == plrtile->seen_count[V_SUBSURFACE])) {
+    log_debug("(%d, %d): revealing subsurface units to player %s (nb %d).",
+              TILE_XY(ptile), player_name(pplayer),
+              player_number(pplayer));
+    /* Discover units. */
+    unit_list_iterate(ptile->units, punit) {
+      if (unit_is_visible_on_layer(punit, V_SUBSURFACE)) {
         send_unit_info(pplayer->connections, punit);
       }
     } unit_list_iterate_end;
