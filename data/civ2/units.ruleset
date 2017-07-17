@@ -1768,7 +1768,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
-vision_layer  = "Stealth"
+vision_layer  = "Subsurface"
 flags         = "BadCityDefender",
 	        "Only_Native_Attack", "Provoking"
 roles         = "Hunter"
