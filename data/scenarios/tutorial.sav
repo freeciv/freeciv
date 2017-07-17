@@ -387,9 +387,6 @@ government={"name","changes"
 "Democracy",0
 }
 
-[map]
-have_huts=FALSE
-
 [history]
 turn=-2
 
