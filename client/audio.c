@@ -410,34 +410,36 @@ static int audio_play_tag(struct section_file *sfile,
     soundfile = secfile_lookup_str(sfile, "files.%s", tag);
     if (soundfile == NULL) {
       const char *files[MAX_ALT_AUDIO_FILES];
-      bool excluded = FALSE;
+      int excluded = -1;
       int i;
       int j;
 
       j = 0;
       for (i = 0; i < MAX_ALT_AUDIO_FILES; i++) {
-        files[j] = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
-        if (files[j] == NULL) {
+        const char *ftmp = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
+
+        if (ftmp == NULL) {
+          if (excluded && j == 0) {
+            /* Cannot exclude the only track */
+            excluded = -1;
+            j++;
+          }
+          files[j] = NULL;
           break;
         }
+        files[j] = ftmp;
         if (i != exclude) {
           j++;
         } else {
-          excluded = TRUE;
+          excluded = j;
         }
-      }
-
-      if (j == 0 && excluded) {
-        /* Cannot exclude the only track */
-        excluded = FALSE;
-        j++;
       }
 
       if (j > 0) {
         ret = fc_rand(j);
 
         soundfile = files[ret];
-        if (excluded) {
+        if (excluded != -1 && excluded < ret) {
           /* Exclude track was skipped earlier, include it to track number to return */
           ret++;
         }
