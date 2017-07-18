@@ -1435,30 +1435,30 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
   bool srv = is_server();
 
   square_iterate(&(wld.map), ptile0, 1, ptile) {
+    struct city *pcity;
+
     pterrain = tile_terrain(ptile);
     if (T_UNKNOWN == pterrain
         || terrain_has_flag(pterrain, TER_NO_ZOC)) {
       continue;
     }
 
-    /* Note: in the client, this loop will not check units
-       inside city that might be there. */
-    unit_list_iterate(ptile->units, punit) {
-      if (!pplayers_allied(unit_owner(punit), pplayer)
-          && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+    pcity = is_non_allied_city_tile(ptile, pplayer);
+    if (pcity != NULL) {
+      if ((srv && unit_list_size(ptile->units) > 0)
+          || (!srv && (pcity->client.occupied
+                       || TILE_KNOWN_UNSEEN == tile_get_known(ptile, pplayer)))) {
+        /* Occupied enemy city, it doesn't matter if units inside have
+         * UTYF_NOZOC or not. Fogged city is assumed to be occupied. */
         return FALSE;
       }
-    } unit_list_iterate_end;
-
-    if (!srv) {
-      struct city *pcity = is_non_allied_city_tile(ptile, pplayer);
-
-      if (pcity 
-          && (pcity->client.occupied 
-              || TILE_KNOWN_UNSEEN == tile_get_known(ptile, pplayer))) {
-        /* If the city is fogged, we assume it's occupied */
-        return FALSE;
-      }
+    } else {
+      unit_list_iterate(ptile->units, punit) {
+        if (!pplayers_allied(unit_owner(punit), pplayer)
+            && !unit_has_type_flag(punit, UTYF_NOZOC)) {
+          return FALSE;
+        }
+      } unit_list_iterate_end;
     }
   } square_iterate_end;
 
