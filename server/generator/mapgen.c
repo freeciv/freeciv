@@ -1286,6 +1286,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
      them from file.
      Also, don't delete (the handcrafted!) tiny islands in a scenario */
   if (wld.map.server.generator != MAPGEN_SCENARIO) {
+    wld.map.server.have_huts = FALSE;
     river_types_init();
 
     generator_init_topology(autosize);
