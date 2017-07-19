@@ -216,6 +216,7 @@ COMMON_DLLS := \
 	libicudt58.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
+	mgwhelp.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -232,7 +233,8 @@ DEFAULT_FCMP_DLLS := \
 	libpangoft2-1.0-0.dll \
 	libpcre-1.dll \
 	libunistring-2.dll \
-	librsvg-2-2.dll
+	librsvg-2-2.dll \
+	libcroco-0.6-3.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
