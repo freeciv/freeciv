@@ -117,6 +117,7 @@ partisans_pct = 0               ; percentage of own nationality to inspire parti
 ;                        is omitted, same graphics as for land cities is used
 ; citizens_graphic     = group of citizens tiles to use, see citizens/small
 ;                        spec for more info on citizens tiles
+;                        FIXME: this and _alt not currently used!
 ; reqs        = requirements for this city style (see README.effects)
 ; replaced_by = which style replaced this one
 ;
