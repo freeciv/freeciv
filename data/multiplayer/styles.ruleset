@@ -52,6 +52,7 @@ name = _("?style:Celtic")
 ;                    more info on city tiles
 ; citizens_graphic = group of citizens tiles to use, see citizens/small
 ;                    spec for more info on citizens tiles
+;                    FIXME: this and _alt not currently used!
 ; reqs             = requirements for this city style (see README.effects)
 ;
 ; */ <-- avoid gettext warnings
