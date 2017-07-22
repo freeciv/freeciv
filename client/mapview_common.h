@@ -354,7 +354,12 @@ void link_marks_decrease_turn_counters(void);
 void link_mark_add_new(enum text_link_type type, int id);
 void link_mark_restore(enum text_link_type type, int id);
 
-bool tileset_map_topo_compatible(int topology_id, struct tileset *tset);
+enum topo_comp_lvl { TOPO_COMPATIBLE = 0,
+                     TOPO_INCOMP_SOFT = 1,
+                     TOPO_INCOMP_HARD = 2};
+
+enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
+                                               struct tileset *tset);
 
 #ifdef __cplusplus
 }
