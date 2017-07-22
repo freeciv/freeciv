@@ -1927,7 +1927,7 @@ void handle_set_topology(int topology_id)
   game.map.topology_id = topology_id;
 
   if (forced_tileset_name[0] == '\0'
-      && !tileset_map_topo_compatible(topology_id, tileset)) {
+      && tileset_map_topo_compatible(topology_id, tileset) != TOPO_COMPATIBLE) {
     const char *ts_to_load;
 
     ts_to_load = tileset_name_for_topology(topology_id);
@@ -1951,7 +1951,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   game.map.xsize = xsize;
   game.map.ysize = ysize;
 
-  if (!tileset_map_topo_compatible(topology_id, tileset)) {
+  if (tileset_map_topo_compatible(topology_id, tileset) == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
