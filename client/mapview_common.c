@@ -3515,7 +3515,8 @@ void link_mark_restore(enum text_link_type type, int id)
 /********************************************************************** 
   Are the topology and tileset compatible?
 ***********************************************************************/
-bool tileset_map_topo_compatible(int topology_id, struct tileset *tset)
+enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
+                                               struct tileset *tset)
 {
   int tileset_topology;
 
@@ -3531,5 +3532,23 @@ bool tileset_map_topo_compatible(int topology_id, struct tileset *tset)
     tileset_topology = 0;
   }
 
-  return ((topology_id & (TF_HEX | TF_ISO)) == tileset_topology);
+  if (tileset_topology & TF_HEX) {
+    if ((topology_id & (TF_HEX | TF_ISO)) == tileset_topology) {
+      return TOPO_COMPATIBLE;
+    }
+
+    /* Hex topology must match for both hexness and iso/non-iso */
+    return TOPO_INCOMP_HARD;
+  }
+
+  if (topology_id & TF_HEX) {
+    return TOPO_INCOMP_HARD;
+  }
+
+  if ((topology_id & TF_ISO) != (tileset_topology & TF_ISO)) {
+    /* Non-hex iso/non-iso incompatibility is a soft one */
+    return TOPO_INCOMP_SOFT;
+  }
+
+  return TOPO_COMPATIBLE;
 }

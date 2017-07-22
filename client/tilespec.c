@@ -1337,7 +1337,8 @@ void tilespec_reread(const char *new_tileset_name,
     return;
   }
 
-  if (!tileset_map_topo_compatible(wld.map.topology_id, tileset)) {
+  if (tileset_map_topo_compatible(wld.map.topology_id, tileset)
+      == TOPO_INCOMP_HARD) {
     tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
   }
 
