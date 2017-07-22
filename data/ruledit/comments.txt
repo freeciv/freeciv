@@ -880,6 +880,7 @@ citystyles = "\
 ;                    more info on city tiles\n\
 ; citizens_graphic = group of citizens tiles to use, see citizens/small\n\
 ;                    spec for more info on citizens tiles\n\
+;                    FIXME: this and _alt not currently used!\n\
 ; reqs             = requirements for this city style (see README.effects)\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
