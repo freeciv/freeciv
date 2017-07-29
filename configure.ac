@@ -1730,19 +1730,19 @@ AC_MSG_NOTICE([
   Build freeciv client:  $client
 
   Maintained client frontends:
-    Gtk-3.0: $gui_gtk3
-    Gtk-2.0: $gui_gtk2
-    SDL:     $gui_sdl
-    QT:      $gui_qt
-    Stub:    $gui_stub
+    Gtk-3.0:  $gui_gtk3
+    Gtk-2.0:  $gui_gtk2
+    Gtk-3.22: $gui_gtk3_22
+    SDL:      $gui_sdl
+    QT:       $gui_qt
+    Stub:     $gui_stub
 
   In-development client frontends:
   (these are not yet ready for general use)
-    Gtk-3.22: $gui_gtk3_22
     SDL2:     $gui_sdl2
 
   Not maintained client frontends:
-    Xaw:     $gui_xaw
+    Xaw:      $gui_xaw
 
   == Server ==
   Build freeciv server:  $server
