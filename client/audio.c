@@ -419,7 +419,7 @@ static int audio_play_tag(struct section_file *sfile,
         const char *ftmp = secfile_lookup_str(sfile, "files.%s_%d", tag, i);
 
         if (ftmp == NULL) {
-          if (excluded && j == 0) {
+          if (excluded != -1 && j == 0) {
             /* Cannot exclude the only track */
             excluded = -1;
             j++;
