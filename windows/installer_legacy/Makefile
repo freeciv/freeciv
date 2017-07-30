@@ -5,7 +5,7 @@
 #
 # 1. download and extract the MinGW build environment from
 #    https://sourceforge.net/projects/freeciv/files/dependencies/gnuwin32/
-#    Current version is gnuwin32-2017-06-25.
+#    Current version is gnuwin32-2017-07-30.
 # 2. double click on "gnuwin32/msys.bat"
 # 3. install the development packages:
 #    $ hg qpush -a
@@ -188,6 +188,7 @@ COMMON_DLLS := \
 	libvorbis-0.dll \
 	libvorbisfile-3.dll \
 	libxml2-2.dll \
+	mgwhelp.dll \
 	pthreadGC2.dll \
 	ssleay32.dll \
 	zlib1.dll \
