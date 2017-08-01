@@ -84,7 +84,8 @@ enum shortcut_id {
   SC_ZOOM_IN = 51,
   SC_ZOOM_OUT = 52,
   SC_LOAD_LUA = 53,
-  SC_RELOAD_LUA = 54
+  SC_RELOAD_LUA = 54,
+  SC_ZOOM_RESET = 55
 };
 
 
