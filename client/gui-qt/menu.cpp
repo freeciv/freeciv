@@ -1056,6 +1056,10 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                           fc_shortcuts::sc()->get_shortcut(SC_ZOOM_IN))));
   connect(act, SIGNAL(triggered()), this, SLOT(zoom_in()));
+  act = menu->addAction(_("Zoom default"));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                          fc_shortcuts::sc()->get_shortcut(SC_ZOOM_RESET))));
+  connect(act, SIGNAL(triggered()), this, SLOT(zoom_reset()));
   act = menu->addAction(_("Zoom out"));
   act->setShortcut(QKeySequence(shortcut_to_string(
                           fc_shortcuts::sc()->get_shortcut(SC_ZOOM_OUT))));
@@ -2967,6 +2971,15 @@ void mr_menu::slot_city_growth()
 void mr_menu::zoom_in()
 {
   gui()->map_scale = gui()->map_scale * 1.2f;
+  tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
+}
+
+/***************************************************************************
+  Action "RESET ZOOM TO DEFAULT"
+***************************************************************************/
+void mr_menu::zoom_reset()
+{
+  gui()->map_scale = 1.0f;
   tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
 }
 
