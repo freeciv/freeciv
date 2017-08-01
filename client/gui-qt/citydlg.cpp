@@ -1708,10 +1708,10 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   qgbprod->setTitle(_("Worklist"));
   vbox_layout->setSpacing(0);
   vbox_layout->addWidget(prod_options);
-  vbox_layout->addWidget(production_combo_p);
   vbox_layout->addWidget(buy_button);
-  vbox_layout->addWidget(p_table_p);
+  vbox_layout->addWidget(production_combo_p);
   vbox_layout->addLayout(work_but_layout);
+  vbox_layout->addWidget(p_table_p);
   qgbprod->setLayout(vbox_layout);
 
   but_menu_worklist->setText(_("Worklist menu"));
