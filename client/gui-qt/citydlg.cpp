@@ -288,8 +288,9 @@ void progress_bar::paintEvent(QPaintEvent *event)
   }
   if (pix != nullptr) {
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    p.drawPixmap(2 , 2, pix_width, pix_width, *pix, 0, 0,
-                 pix->width(), pix->height());
+    p.drawPixmap(2 , 2, (pix->height() - 4)
+                 * static_cast<float>(pix->width()) / pix->height(),
+                 pix_width, *pix, 0, 0, pix->width(), pix->height());
   }
   p.end();
 }
