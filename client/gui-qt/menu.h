@@ -350,6 +350,7 @@ private slots:
   void slot_city_traderoutes();
   void slot_city_names();
   void zoom_in();
+  void zoom_reset();
   void zoom_out();
 
   /*used by select menu */
