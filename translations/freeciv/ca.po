@@ -33115,7 +33115,7 @@ msgstr ""
 
 #: server/commands.c:349
 msgid "Set one or all AI players to 'novice'."
-msgstr "Estableix un o tots el jugadors d'IA a 'principiant'."
+msgstr "Estableix un o tots els jugadors d'IA a 'principiant'."
 
 #: server/commands.c:350
 msgid ""
