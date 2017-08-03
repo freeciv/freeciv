@@ -33139,7 +33139,7 @@ msgstr ""
 
 #: server/commands.c:359
 msgid "Set one or all AI players to 'easy'."
-msgstr "Estableix un o tots el jugadors a 'fàcil'."
+msgstr "Estableix un o tots els jugadors a 'fàcil'."
 
 #: server/commands.c:360
 msgid ""
@@ -33162,7 +33162,7 @@ msgstr ""
 
 #: server/commands.c:369
 msgid "Set one or all AI players to 'normal'."
-msgstr "Estableix un o tots el jugadors a 'normal'."
+msgstr "Estableix un o tots els jugadors a 'normal'."
 
 #: server/commands.c:370
 msgid ""
@@ -33185,7 +33185,7 @@ msgstr ""
 
 #: server/commands.c:379
 msgid "Set one or all AI players to 'hard'."
-msgstr "Estableix un o tots el jugadors a 'difícil'."
+msgstr "Estableix un o tots els jugadors a 'difícil'."
 
 #: server/commands.c:380
 msgid ""
@@ -33209,7 +33209,7 @@ msgstr ""
 
 #: server/commands.c:389
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Assigna un o tots el jugadors IA a 'trampós'."
+msgstr "Assigna un o tots els jugadors IA a 'trampós'."
 
 #: server/commands.c:390
 msgid ""
@@ -33233,7 +33233,7 @@ msgstr ""
 
 #: server/commands.c:399
 msgid "Set one or all AI players to 'experimental'."
-msgstr "Estableix un o tots el jugadors a 'experimental'."
+msgstr "Estableix un o tots els jugadors a 'experimental'."
 
 #: server/commands.c:400
 msgid ""
