@@ -64,4 +64,5 @@ tiles = { "row", "column", "tag"
   2, 5, "unit.connect"
   2, 6, "unit.auto_attack"
   2, 6, "unit.auto_settler"
+  2, 7, "unit.patrol"                   ;[?]
 }
