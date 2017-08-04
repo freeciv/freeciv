@@ -18,7 +18,7 @@ echo basedir  $basedir
 echo logfile $logfile
 
 # Based on fresh install of Ubuntu 14.04
-dependencies="libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev"
+dependencies="libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev"
 
 ## Dependencies
 echo "==== Installing Updates and Dependencies ===="
@@ -26,8 +26,6 @@ echo "apt-get update"
 apt-get -y update
 echo "apt-get install dependencies"
 apt-get -y install ${dependencies}
-
-cd freeciv && sudo -u travis make install
 
 ./autogen.sh CFLAGS="-O3" --disable-nls --disable-fcmp --enable-freeciv-manual=html --enable-ai-static=classic,threaded --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 
