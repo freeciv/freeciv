@@ -32,7 +32,7 @@ tiles = { "row", "column", "tag"
   0, 2, "unit.auto_explore"	        ;[?]
   0, 3, "unit.sentry"                   ;[?]
   0, 4, "unit.goto"                     ;[?]
-  0, 5, "unit.patrol"                   ;[?]
+;  0, 5, "unit.patrol"                   ;[?]
   0, 6, "unit.convert"                  ;[?][GS]
 
 ; Unit activity letters: tile commands
