@@ -99,7 +99,7 @@ set={"name","value","gamestart"
 "landmass",30,30
 "mapseed",0,0
 "mapsize","FULLSIZE","FULLSIZE"
-"maxplayers",39,39
+"maxplayers",89,89
 "metamessage","Scenario: Earth(Large)",""
 "revolentype","RANDOM","RANDOM"
 "separatepoles",TRUE,TRUE
