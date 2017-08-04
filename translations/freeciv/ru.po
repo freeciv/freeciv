@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-05 01:10+0500\n"
-"PO-Revision-Date: 2017-08-05 00:15+0500\n"
+"PO-Revision-Date: 2017-08-05 02:29+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -6889,7 +6889,7 @@ msgstr "Космический корабль"
 #: client/gui-qt/menu.cpp:1077 client/gui-qt/menu.cpp:1096
 #: client/gui-qt/menu.cpp:1124
 msgid "Transform to %1"
-msgstr "Преобразовать в %s"
+msgstr "Преобразовать в %1"
 
 #: client/gui-qt/menu.cpp:1104 client/gui-xaw/menu.c:172
 msgid "Build Farmland"
