@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
 "POT-Creation-Date: 2017-01-01 22:01+0200\n"
-"PO-Revision-Date: 2016-07-19 12:06+0200\n"
+"PO-Revision-Date: 2017-08-07 23:29+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
 "Language: es\n"
@@ -28121,7 +28121,7 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:502 data/civ2civ3/units.ruleset:492
 msgid "Migrants"
-msgstr " Migrantes"
+msgstr "Migrantes"
 
 #: data/sandbox/units.ruleset:534 data/civ2civ3/units.ruleset:524
 msgid ""
