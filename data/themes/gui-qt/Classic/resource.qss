@@ -38,12 +38,25 @@ resize_widget
 
 QPushButton {
   color: black;
+  border-image: url(LittleFingerbutton-default.png) 3 3 3 3;
   border-top: 3px transparent;
   border-bottom: 3px transparent;
   border-right: 3px transparent;
   border-left: 3px transparent;
   border-radius: 2px;
   padding: 2px;
+}
+
+QPushButton:hover {
+  border-image: url(LittleFingerbutton-prelight.png) 3 3 3 3;
+}
+
+QPushButton:pressed {
+  border-image: url(LittleFingerbutton-pressed.png) 3 3 3 3;
+}
+
+QPushButton:disabled {
+  border-image: url(LittleFingerbutton-insensitive.png) 3 3 3 3;
 }
 
 QLabel {
@@ -100,6 +113,7 @@ QLineEdit:disabled, QComboBox:disabled, QSpinBox:disabled , QComboBox:disabled{
 
 QComboBox {
   color: black;
+  border-image: url(LittleFingercombo-normal.png) 3 3 3 3;
   background-color: #e5d7a1;
   text-align: left;
   padding-left: 10px;
