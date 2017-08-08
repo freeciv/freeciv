@@ -37,11 +37,12 @@ function alien_hut_get_tech(unit)
                  _("There was a datapod containing research info about %s."),
                  tech:name_translation())
     notify.research(owner, false, E.TECH_GAIN,
-                 _("%s found datapod containing research info about %s."),
+                 _("The %s found datapod containing research info about %s."),
                  owner.nation:plural_translation(),
                  tech:name_translation())
     notify.research_embassies(owner, E.HUT_TECH,
-                 _("The %s have acquired %s from Space Capsule they found."),
+                 -- /* TRANS: first %s is leader or team name */
+                 _("%s has acquired %s from Space Capsule they found."),
                  owner:research_name_translation(),
                  tech:name_translation())
     return true
