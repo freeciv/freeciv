@@ -40,12 +40,13 @@ function _deflua_hut_get_tech(unit)
                  _("You found %s in ancient scrolls of wisdom."),
                  tech:name_translation())
     notify.research(owner, false, E.TECH_GAIN,
-                 -- TRANS: One player got tech for the whole team.
-                 _("%s found %s in ancient scrolls of wisdom for you."),
+                 -- /* TRANS: One player got tech for the whole team. */
+                 _("The %s found %s in ancient scrolls of wisdom for you."),
                  owner.nation:plural_translation(),
                  tech:name_translation())
     notify.research_embassies(owner, E.TECH_EMBASSY,
-                 _("The %s have acquired %s from ancient scrolls of wisdom."),
+                 -- /* TRANS: first %s is leader or team name */
+                 _("%s has acquired %s from ancient scrolls of wisdom."),
                  owner:research_name_translation(),
                  tech:name_translation())
     return true
