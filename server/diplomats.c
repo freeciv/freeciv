@@ -579,7 +579,8 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
 /****************************************************************************
   Try to steal a technology from an enemy city.
-  If paction results in ACTION_SPY_STEAL_TECH, steal a random technology.
+  If paction results in ACTION_SPY_STEAL_TECH or ACTION_SPY_STEAL_TECH_ESC,
+  steal a random technology.
   Otherwise, steal the technology whose ID is "technology".
   (Note: Only Spies can select what to steal.)
 
@@ -625,7 +626,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return FALSE;
   }
 
-  if (action_has_result(paction, ACTION_SPY_STEAL_TECH)) {
+  if (action_has_result(paction, ACTION_SPY_STEAL_TECH)
+      || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)) {
     /* Can't choose target. Will steal a random tech. */
     technology = A_UNSET;
   }
@@ -635,7 +637,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   if (technology == A_NONE
       || (technology != A_FUTURE
           && !(technology == A_UNSET
-               && action_has_result(paction, ACTION_SPY_STEAL_TECH))
+               && (action_has_result(paction, ACTION_SPY_STEAL_TECH)
+                   || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)))
           && !valid_advance_by_number(technology))) {
     return FALSE;
   }
@@ -693,7 +696,8 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH)) {
+    if (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH)
+        || action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)) {
       /* Targeted steal tech is more difficult. */
       count++;
     }

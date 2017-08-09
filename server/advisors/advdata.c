@@ -869,7 +869,9 @@ void adv_best_government(struct player *pplayer)
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
           case ACTION_SPY_STEAL_TECH:
+          case ACTION_SPY_STEAL_TECH_ESC:
           case ACTION_SPY_TARGETED_STEAL_TECH:
+          case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
           case ACTION_SPY_SABOTAGE_UNIT:
           case ACTION_CAPTURE_UNITS:
           case ACTION_STEAL_MAPS:

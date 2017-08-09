@@ -138,6 +138,8 @@ static int get_non_targeted_action_id(int tgt_action_id)
     return ACTION_SPY_SABOTAGE_CITY_ESC;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     return ACTION_SPY_STEAL_TECH;
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    return ACTION_SPY_STEAL_TECH_ESC;
   }
 
   /* No non targeted version found. */
@@ -159,6 +161,8 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
   case ACTION_SPY_STEAL_TECH:
     return ACTION_SPY_TARGETED_STEAL_TECH;
+  case ACTION_SPY_STEAL_TECH_ESC:
+    return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   }
 
   /* No targeted version found. */
@@ -673,7 +677,7 @@ static int spy_steal_callback(struct widget *pWidget)
 /**************************************************************************
   Popup spy tech stealing dialog.
 **************************************************************************/
-static int spy_steal_popup(struct widget *pWidget)
+static int spy_steal_popup_shared(struct widget *pWidget)
 {
   const struct research *presearch, *vresearch;
   struct city *pVcity = pWidget->data.city;
@@ -689,7 +693,7 @@ static int spy_steal_popup(struct widget *pWidget)
   SDL_Rect area;
 
   struct unit *actor_unit = game_unit_by_number(id);
-  int action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  int action_id = pDiplomat_Dlg->action_id;
 
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
@@ -912,6 +916,24 @@ static int spy_steal_popup(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Popup spy tech stealing dialog for "Targeted Steal Tech".
+**************************************************************************/
+static int spy_steal_popup(struct widget *pWidget)
+{
+  pDiplomat_Dlg->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  return spy_steal_popup_shared(pWidget);
+}
+
+/**************************************************************************
+  Popup spy tech stealing dialog for "Targeted Steal Tech Escape".
+**************************************************************************/
+static int spy_steal_esc_popup(struct widget *pWidget)
+{
+  pDiplomat_Dlg->action_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  return spy_steal_popup_shared(pWidget);
+}
+
 /****************************************************************
   Technology stealing dialog, diplomat (not spy) version
 *****************************************************************/
@@ -922,6 +944,27 @@ static int diplomat_steal_callback(struct widget *pWidget)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
       request_do_action(ACTION_SPY_STEAL_TECH,
+                        pDiplomat_Dlg->actor_unit_id,
+                        pDiplomat_Dlg->target_ids[ATK_CITY],
+                        A_UNSET, "");
+    }
+
+    popdown_diplomat_dialog();
+  }
+
+  return -1;
+}
+
+/****************************************************************
+  User clicked "Steal Tech Escape"
+*****************************************************************/
+static int diplomat_steal_esc_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
+        && NULL != game_city_by_number(
+                pDiplomat_Dlg->target_ids[ATK_CITY])) {
+      request_do_action(ACTION_SPY_STEAL_TECH_ESC,
                         pDiplomat_Dlg->actor_unit_id,
                         pDiplomat_Dlg->target_ids[ATK_CITY],
                         A_UNSET, "");
@@ -1357,7 +1400,9 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_SPY_TARGETED_SABOTAGE_CITY] = spy_sabotage_request,
   [ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] = spy_sabotage_esc_request,
   [ACTION_SPY_STEAL_TECH] = diplomat_steal_callback,
+  [ACTION_SPY_STEAL_TECH_ESC] = diplomat_steal_esc_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal_popup,
+  [ACTION_SPY_TARGETED_STEAL_TECH_ESC] = spy_steal_esc_popup,
   [ACTION_SPY_INCITE_CITY] = diplomat_incite_callback,
   [ACTION_SPY_INCITE_CITY_ESC] = spy_incite_callback,
   [ACTION_TRADE_ROUTE] = caravan_establish_trade_callback,

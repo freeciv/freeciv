@@ -270,7 +270,7 @@ ui_name_establish_embassy_stay = _("Becom%se Ambassador%s")
 ui_name_steal_tech = _("Steal %sTechnology%s")
 
 ; /* TRANS: Indus_trial Espionage (3% chance of success). */
-ui_name_targeted_steal_tech = _("Indus%strial Espionage%s")
+ui_name_targeted_steal_tech_escape = _("Indus%strial Espionage%s")
 
 ; /* TRANS: _Investigate City (100% chance of success). */
 ui_name_investigate_city = _("%sInvestigate City%s")
@@ -436,26 +436,40 @@ actor_reqs    =
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Diplomat", "Local"
-      "MinMoveFrags", "1", "Local"
-      "DiplRel", "Foreign", "Local"
+    { "type",         "name",     "range", "present"
+      "UnitFlag",     "Diplomat", "Local", TRUE
+      "UnitFlag",     "Spy",      "Local", FALSE
+      "MinMoveFrags", "1",        "Local", TRUE
+      "DiplRel",      "Foreign",  "Local", TRUE
     }
 target_reqs  =
-    { "type",   "name", "range", "present"
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+[actionenabler_steal_tech_random_esc]
+action = "Steal Tech Escape"
+actor_reqs    =
+    { "type",         "name      "range"
+      "UnitFlag",     "Spy",     "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "Foreign", "Local"
+    }
+target_reqs  =
+    { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
 [actionenabler_steal_tech_target]
-action = "Targeted Steal Tech"
+action = "Targeted Steal Tech Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "MinMoveFrags", "1", "Local"
-      "DiplRel", "Foreign", "Local"
+    { "type",         "name",    "range"
+      "UnitFlag",     "Spy",     "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "Foreign", "Local"
     }
 target_reqs  =
-    { "type",   "name", "range", "present"
+    { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 

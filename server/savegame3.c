@@ -5579,6 +5579,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
             }
             break;
           case ACTION_SPY_TARGETED_STEAL_TECH:
+          case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
             if (order_tgt == A_NONE
                 || (!valid_advance_by_number(order_tgt)
                     && order_tgt != A_FUTURE)) {
@@ -5600,6 +5601,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_SABOTAGE_CITY:
           case ACTION_SPY_SABOTAGE_CITY_ESC:
           case ACTION_SPY_STEAL_TECH:
+          case ACTION_SPY_STEAL_TECH_ESC:
           case ACTION_SPY_INCITE_CITY:
           case ACTION_SPY_INCITE_CITY_ESC:
           case ACTION_TRADE_ROUTE:
