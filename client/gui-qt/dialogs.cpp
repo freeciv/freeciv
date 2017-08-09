@@ -83,8 +83,10 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2);
 static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2);
 static void spy_sabotage(QVariant data1, QVariant data2);
 static void spy_steal(QVariant data1, QVariant data2);
+static void spy_steal_esc(QVariant data1, QVariant data2);
 static void spy_steal_something(QVariant data1, QVariant data2);
 static void diplomat_steal(QVariant data1, QVariant data2);
+static void diplomat_steal_esc(QVariant data1, QVariant data2);
 static void spy_poison(QVariant data1, QVariant data2);
 static void spy_steal_gold(QVariant data1, QVariant data2);
 static void spy_steal_gold_esc(QVariant data1, QVariant data2);
@@ -166,7 +168,9 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
       spy_request_sabotage_esc_list;
   action_function[ACTION_SPY_STEAL_TECH] = diplomat_steal;
+  action_function[ACTION_SPY_STEAL_TECH_ESC] = diplomat_steal_esc;
   action_function[ACTION_SPY_TARGETED_STEAL_TECH] = spy_steal;
+  action_function[ACTION_SPY_TARGETED_STEAL_TECH_ESC] = spy_steal_esc;
   action_function[ACTION_SPY_INCITE_CITY] = diplomat_incite;
   action_function[ACTION_SPY_INCITE_CITY_ESC] = diplomat_incite_escape;
   action_function[ACTION_TRADE_ROUTE] = caravan_establish_trade;
@@ -1978,6 +1982,8 @@ static int get_non_targeted_action_id(int tgt_action_id)
     return ACTION_SPY_SABOTAGE_CITY_ESC;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     return ACTION_SPY_STEAL_TECH;
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    return ACTION_SPY_STEAL_TECH_ESC;
   }
 
   /* No non targeted version found. */
@@ -1999,6 +2005,8 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
   case ACTION_SPY_STEAL_TECH:
     return ACTION_SPY_TARGETED_STEAL_TECH;
+  case ACTION_SPY_STEAL_TECH_ESC:
+    return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   }
 
   /* No targeted version found. */
@@ -2239,14 +2247,13 @@ static void join_city(QVariant data1, QVariant data2)
 /***************************************************************************
   Action steal tech with spy for choice dialog
 ***************************************************************************/
-static void spy_steal(QVariant data1, QVariant data2)
+static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
 {
   QString str;
   QVariant qv1;
   pfcn_void func;
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
-  int action_id = ACTION_SPY_TARGETED_STEAL_TECH;
   struct unit *actor_unit = game_unit_by_number(diplomat_id);
   struct city *pvcity = game_city_by_number(diplomat_target_id);
   struct player *pvictim = NULL;
@@ -2303,6 +2310,22 @@ static void spy_steal(QVariant data1, QVariant data2)
     cd->show_me();
   }
   astr_free(&stra);
+}
+
+/***************************************************************************
+  Action "Targeted Steal Tech" for choice dialog
+***************************************************************************/
+static void spy_steal(QVariant data1, QVariant data2)
+{
+  spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH);
+}
+
+/***************************************************************************
+  Action "Targeted Steal Tech Escape" for choice dialog
+***************************************************************************/
+static void spy_steal_esc(QVariant data1, QVariant data2)
+{
+  spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH_ESC);
 }
 
 /***************************************************************************
@@ -2586,6 +2609,21 @@ static void diplomat_steal(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_SPY_STEAL_TECH, diplomat_id,
+                      diplomat_target_id, A_UNSET, "");
+  }
+}
+
+/***************************************************************************
+  Action "Steal Tech Escape" for choice dialog
+***************************************************************************/
+static void diplomat_steal_esc(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != game_city_by_number(diplomat_target_id)) {
+    request_do_action(ACTION_SPY_STEAL_TECH_ESC, diplomat_id,
                       diplomat_target_id, A_UNSET, "");
   }
 }

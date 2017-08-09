@@ -584,7 +584,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_TRADE_ROUTE:
@@ -2467,11 +2469,15 @@ bool unit_perform_action(struct player *pplayer,
                                              paction));
     break;
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
                                                A_UNSET, paction));
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
                                                value, paction));
@@ -4738,6 +4744,7 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTION_SPY_TARGETED_STEAL_TECH:
+      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
         if (packet->target[i] == A_NONE
             || (!valid_advance_by_number(packet->target[i])
                 && packet->target[i] != A_FUTURE)) {
@@ -4761,6 +4768,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_SABOTAGE_CITY:
       case ACTION_SPY_SABOTAGE_CITY_ESC:
       case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_STEAL_TECH_ESC:
       case ACTION_SPY_INCITE_CITY:
       case ACTION_SPY_INCITE_CITY_ESC:
       case ACTION_TRADE_ROUTE:

@@ -183,7 +183,9 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_STEAL_MAPS,
                           ACTION_STEAL_MAPS_ESC,
                           ACTION_SPY_STEAL_TECH,
+                          ACTION_SPY_STEAL_TECH_ESC,
                           ACTION_SPY_TARGETED_STEAL_TECH,
+                          ACTION_SPY_TARGETED_STEAL_TECH_ESC,
                           ACTION_SPY_INCITE_CITY,
                           ACTION_SPY_INCITE_CITY_ESC,
                           ACTION_SPY_BRIBE_UNIT,
@@ -372,9 +374,17 @@ static void hard_code_actions(void)
   actions[ACTION_SPY_STEAL_TECH] =
       action_new(ACTION_SPY_STEAL_TECH, ATK_CITY,
                  TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_STEAL_TECH_ESC] =
+      action_new(ACTION_SPY_STEAL_TECH_ESC, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       action_new(ACTION_SPY_TARGETED_STEAL_TECH, ATK_CITY,
+                 TRUE, TRUE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_TARGETED_STEAL_TECH_ESC] =
+      action_new(ACTION_SPY_TARGETED_STEAL_TECH_ESC, ATK_CITY,
                  TRUE, TRUE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
@@ -772,7 +782,9 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_BRIBE_UNIT:
@@ -1580,7 +1592,9 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_TRADE_ROUTE:
@@ -1718,7 +1732,9 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_HELP_WONDER:
@@ -1930,6 +1946,7 @@ is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns who's techs he can see. */
@@ -2237,6 +2254,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -3018,6 +3036,7 @@ action_prob(const enum gen_action wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
                             tech_can_be_stolen(actor_player,
@@ -3027,6 +3046,7 @@ action_prob(const enum gen_action wanted_action,
 
     break;
   case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
                             tech_can_be_stolen(actor_player,

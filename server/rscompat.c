@@ -418,7 +418,9 @@ void rscompat_postprocess(struct rscompat_info *info)
           || utype_can_do_action(ptype, ACTION_SPY_TARGETED_SABOTAGE_CITY)
           || utype_can_do_action(ptype, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_STEAL_TECH)
+          || utype_can_do_action(ptype, ACTION_SPY_STEAL_TECH_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_TARGETED_STEAL_TECH)
+          || utype_can_do_action(ptype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_INCITE_CITY)
           || utype_can_do_action(ptype, ACTION_SPY_INCITE_CITY_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_BRIBE_UNIT)
@@ -1131,6 +1133,60 @@ void rscompat_postprocess(struct rscompat_info *info)
         action_enabler_obligatory_reqs_add(enabler);
       }
 
+      /* "Steal Tech" is split in a unit consuming and a "try to escape"
+       * version. */
+      if (ae->action == ACTION_SPY_STEAL_TECH) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows spies to do "Steal Tech Escape". */
+        ae->action = ACTION_SPY_STEAL_TECH_ESC;
+        requirement_vector_append(&ae->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, TRUE,
+                                                  UTYF_SPY));
+
+        /* The other allows non spies to do "Steal Tech". */
+        requirement_vector_append(&enabler->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, TRUE,
+                                                  UTYF_SPY));
+
+        /* Add previously implicit obligatory hard requirement(s) to the
+         * newly created copy. (Not done below.) */
+        action_enabler_obligatory_reqs_add(enabler);
+      }
+
+      /* "Targeted Steal Tech" is split in a unit consuming and a "try to
+       * escape" version. */
+      if (ae->action == ACTION_SPY_TARGETED_STEAL_TECH) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows spies to do "Targeted Steal Tech Escape". */
+        ae->action = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+        requirement_vector_append(&ae->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, TRUE,
+                                                  UTYF_SPY));
+
+        /* The other allows non spies to do "Targeted Steal Tech". */
+        requirement_vector_append(&enabler->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, TRUE,
+                                                  UTYF_SPY));
+
+        /* Add previously implicit obligatory hard requirement(s) to the
+         * newly created copy. (Not done below.) */
+        action_enabler_obligatory_reqs_add(enabler);
+      }
+
       if (action_enabler_obligatory_reqs_missing(ae)) {
         /* Add previously implicit obligatory hard requirement(s). */
         action_enabler_obligatory_reqs_add(ae);
@@ -1175,6 +1231,18 @@ void rscompat_postprocess(struct rscompat_info *info)
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                              FALSE, TRUE, "War"));
 
+     /* Same for escape version */
+     peffect = effect_new(EFT_CASUS_BELLI_CAUGHT, 1, NULL);
+
+     /* Should only apply to the targeted steal tech action. */
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, TRUE,
+                                             "Targeted Steal Tech Escape"));
+
+     /* No incident if stolen during war. */
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                             FALSE, TRUE, "War"));
+
      /* Getting caught trying to do the untargeted steal tech action would
       * also cause an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_CAUGHT, 1, NULL);
@@ -1182,6 +1250,17 @@ void rscompat_postprocess(struct rscompat_info *info)
      /* Should only apply to the untargeted steal tech action. */
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, TRUE, "Steal Tech"));
+
+     /* No incident if stolen during war. */
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                             FALSE, TRUE, "War"));
+
+     /* Same for escape version */
+     peffect = effect_new(EFT_CASUS_BELLI_CAUGHT, 1, NULL);
+
+     /* Should only apply to the untargeted steal tech action. */
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, TRUE, "Steal Tech Escape"));
 
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
@@ -1198,10 +1277,26 @@ void rscompat_postprocess(struct rscompat_info *info)
                                              FALSE, TRUE,
                                              "War"));
 
+     /* Same for escape version */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, TRUE,
+                                             "Targeted Steal Tech Escape"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                             FALSE, TRUE,
+                                             "War"));
+
      /* Stealing a random tech during peace causes an incident. */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, TRUE, "Steal Tech"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                             FALSE, TRUE, "War"));
+
+     /* Same for escape version */
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, TRUE, "Steal Tech Escape"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                              FALSE, TRUE, "War"));
 

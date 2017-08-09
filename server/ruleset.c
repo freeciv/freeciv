@@ -6099,10 +6099,24 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: Steal _Technology and Escape (3% chance of success). */
+          N_("Steal %sTechnology and Escape%s"),
+          "actions.ui_name_steal_tech_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_TECH_ESC)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: In_dustrial Espionage (3% chance of success). */
           N_("In%sdustrial Espionage%s"),
           "actions.ui_name_targeted_steal_tech");
       sz_strlcpy(action_by_number(ACTION_SPY_TARGETED_STEAL_TECH)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: In_dustrial Espionage and Escape (3% chance of success). */
+          N_("In%sdustrial Espionage and Escape%s"),
+          "actions.ui_name_targeted_steal_tech_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_TARGETED_STEAL_TECH_ESC)->ui_name,
                  text);
 
       text = secfile_lookup_str_default(file,

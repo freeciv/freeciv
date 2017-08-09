@@ -242,10 +242,14 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     }
     if ((research_get(city_owner(acity))->techs_researched
          > presearch->techs_researched)
-	&& (is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
-				       pplayer, acity)
-	    || is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
-					  pplayer, acity))
+        && (is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
+                                       pplayer, acity)
+            || is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH_ESC,
+                                          pplayer, acity)
+            || is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
+                                          pplayer, acity)
+            || is_action_possible_on_city(ACTION_SPY_STEAL_TECH_ESC,
+                                          pplayer, acity))
 	&& !pplayers_allied(pplayer, city_owner(acity))) {
       /* tech theft gain */
       /* FIXME: this value is right only when
@@ -399,12 +403,14 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     Tech_type_id tgt_tech;
 
     /* Picking a random tech has better odds. */
+    T(ACTION_SPY_STEAL_TECH_ESC, 0);
     T(ACTION_SPY_STEAL_TECH, 0);
 
     /* Not able to steal a random tech. This means worse odds. */
     tgt_tech = choose_tech_to_steal(pplayer, tplayer);
     if (tgt_tech != A_UNSET) {
       /* A tech target can be identified. */
+      T(ACTION_SPY_TARGETED_STEAL_TECH_ESC, tgt_tech);
       T(ACTION_SPY_TARGETED_STEAL_TECH, tgt_tech);
     }
   } else {
@@ -500,7 +506,11 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_STEAL_TECH)
               || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_STEAL_TECH_ESC)
+              || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_TARGETED_STEAL_TECH)
+              || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_TARGETED_STEAL_TECH_ESC)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_INCITE_CITY)
               || utype_can_do_action(unit_type_get(punit),
@@ -564,7 +574,11 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 
     can_steal = is_action_possible_on_city(ACTION_SPY_STEAL_TECH,
                                            pplayer, acity)
+        || is_action_possible_on_city(ACTION_SPY_STEAL_TECH_ESC,
+                                      pplayer, acity)
         || is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH,
+                                      pplayer, acity)
+        || is_action_possible_on_city(ACTION_SPY_TARGETED_STEAL_TECH_ESC,
                                       pplayer, acity);
 
     dipldef = (count_diplomats_on_tile(acity->tile) > 0);

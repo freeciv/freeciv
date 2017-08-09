@@ -861,8 +861,6 @@ bool utype_is_consumed_by_action(const struct action *paction,
   switch (paction->id) {
   case ACTION_SPY_POISON:
   case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH:
     /* A Spy has a chance to escape after performing the action. */
     return !utype_has_flag(utype, UTYF_SPY);
   case ACTION_ATTACK:

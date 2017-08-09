@@ -180,6 +180,8 @@ static int get_non_targeted_action_id(int tgt_action_id)
     return ACTION_SPY_SABOTAGE_CITY_ESC;
   case ACTION_SPY_TARGETED_STEAL_TECH:
     return ACTION_SPY_STEAL_TECH;
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    return ACTION_SPY_STEAL_TECH_ESC;
   }
 
   /* No non targeted version found. */
@@ -201,6 +203,8 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
   case ACTION_SPY_STEAL_TECH:
     return ACTION_SPY_TARGETED_STEAL_TECH;
+  case ACTION_SPY_STEAL_TECH_ESC:
+    return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   }
 
   /* No targeted version found. */
@@ -866,6 +870,23 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Steal Tech Escape" from choice dialog
+*****************************************************************/
+static void diplomat_steal_esc_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_SPY_STEAL_TECH_ESC, args->actor_unit_id,
+                      args->target_city_id, A_UNSET, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User responded to steal advances dialog
 *****************************************************************/
 static void spy_advances_response(GtkWidget *w, gint response,
@@ -1217,11 +1238,11 @@ static void create_improvements_list(struct player *pplayer,
 /****************************************************************
   Popup tech stealing dialog with list of possible techs
 *****************************************************************/
-static void spy_steal_popup(GtkWidget *w, gpointer data)
+static void spy_steal_popup_shared(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  args->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  args->action_id = args->action_id;
 
   struct city *pvcity = game_city_by_number(args->target_city_id);
   struct player *pvictim = NULL;
@@ -1247,6 +1268,26 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   is_more_user_input_needed = TRUE;
 
   gtk_widget_destroy(act_sel_dialog);
+}
+
+/***************************************************************************
+  Popup tech stealing dialog with list of possible techs for
+  "Targeted Steal Tech"
+***************************************************************************/
+static void spy_steal_popup(GtkWidget *w, gpointer data)
+{
+  ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  spy_steal_popup_shared(w, data);
+}
+
+/***************************************************************************
+  Popup tech stealing dialog with list of possible techs for
+  "Targeted Steal Tech Escape"
+***************************************************************************/
+static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
+{
+  ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  spy_steal_popup_shared(w, data);
 }
 
 /****************************************************************
@@ -1588,7 +1629,9 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
       (GCallback)spy_request_sabotage_esc_list,
   [ACTION_SPY_STEAL_TECH] = (GCallback)diplomat_steal_callback,
+  [ACTION_SPY_STEAL_TECH_ESC] = (GCallback)diplomat_steal_esc_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
+  [ACTION_SPY_TARGETED_STEAL_TECH_ESC] = (GCallback)spy_steal_esc_popup,
   [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
   [ACTION_SPY_INCITE_CITY_ESC] = (GCallback)spy_incite_callback,
   [ACTION_TRADE_ROUTE] = (GCallback)caravan_establish_trade_callback,

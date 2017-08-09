@@ -1077,8 +1077,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      action_by_number(ACTION_SPY_STEAL_TECH)->ui_name,
                      "actions.ui_name_steal_tech");
   secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_STEAL_TECH_ESC)->ui_name,
+                     "actions.ui_name_steal_tech_escape");
+  secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_TARGETED_STEAL_TECH)->ui_name,
                      "actions.ui_name_targeted_steal_tech");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_TARGETED_STEAL_TECH_ESC)->ui_name,
+                     "actions.ui_name_targeted_steal_tech_escape");
   secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_INVESTIGATE_CITY)->ui_name,
                      "actions.ui_name_investigate_city");
