@@ -29,5 +29,10 @@ apt-get -y install ${dependencies}
 ./autogen.sh CFLAGS="-O3" --disable-nls --disable-fcmp --enable-freeciv-manual=html --enable-ai-static=classic,threaded --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 sudo -u travis make install
 
-#echo "=============================="
 echo "Freeciv build successful!"
+
+echo "Running Freeciv server autogame"
+cd ${HOME}/freeciv/bin/
+sudo -u travis ./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv
+
+echo "Freeciv server autogame successful!"
