@@ -1410,6 +1410,13 @@ void mr_menu::setup_menus()
   action_vs_unit->addAction(act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_unit()));
 
+  act = action_unit_menu->addAction(_("Sabotage Unit Escape"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_SABOTAGE_UNIT_ESC);
+  action_vs_unit->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_unit()));
+
   action_city_menu = multiplayer_menu->addMenu(_("Default action vs city"));
   act = action_city_menu->addAction(_("Ask"));
   act->setCheckable(true);

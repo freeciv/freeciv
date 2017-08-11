@@ -611,6 +611,20 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
+/****************************************************************
+  User selected "Sabotage Unit Escape" from choice dialog
+*****************************************************************/
+static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_SPY_SABOTAGE_UNIT_ESC, args->actor_unit_id,
+                    args->target_unit_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
 /*****************************************************************
   User selected "Heal Unit" from choice dialog
 *****************************************************************/
@@ -1650,6 +1664,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
   [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback,
+  [ACTION_SPY_SABOTAGE_UNIT_ESC] = (GCallback)spy_sabotage_unit_esc_callback,
   [ACTION_EXPEL_UNIT] = (GCallback)expel_unit_callback,
   [ACTION_HEAL_UNIT] = (GCallback)heal_unit_callback,
 

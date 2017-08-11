@@ -518,6 +518,8 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_BRIBE_UNIT)
               || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_SABOTAGE_UNIT_ESC)
+              || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_SABOTAGE_UNIT))) {
         return TRUE;
       }
@@ -778,13 +780,13 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
         return FALSE;
       }
     } else if (action_prob_possible(action_prob_vs_unit(punit,
-                                        ACTION_SPY_SABOTAGE_UNIT,
+                                        ACTION_SPY_SABOTAGE_UNIT_ESC,
                                         pvictim))
                && threat) {
       /* don't stand around waiting for the final blow */
       handle_unit_do_action(pplayer, punit->id,
                             pvictim->id, -1, "",
-                            ACTION_SPY_SABOTAGE_UNIT);
+                            ACTION_SPY_SABOTAGE_UNIT_ESC);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;

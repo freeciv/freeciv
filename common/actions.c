@@ -334,6 +334,10 @@ static void hard_code_actions(void)
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
                  TRUE, FALSE, FALSE, TRUE,
+                 0, 1, TRUE);
+  actions[ACTION_SPY_SABOTAGE_UNIT_ESC] =
+      action_new(ACTION_SPY_SABOTAGE_UNIT_ESC, ATK_UNIT,
+                 TRUE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT,
@@ -789,6 +793,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
@@ -1602,6 +1607,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS:
   case ACTION_FOUND_CITY:
   case ACTION_STEAL_MAPS:
@@ -1740,6 +1746,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS:
   case ACTION_FOUND_CITY:
   case ACTION_JOIN_CITY:
@@ -2261,6 +2268,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
@@ -3007,6 +3015,7 @@ action_prob(const enum gen_action wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit);
     break;
