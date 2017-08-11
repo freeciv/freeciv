@@ -240,7 +240,7 @@ ui_name_poison_city = _("%sPoison City%s")
 ui_name_suitcase_nuke = _("Plant %sNuclear Device%s")
 
 ; /* TRANS: _Sabotage Enemy Unit (3% chance of success). */
-ui_name_sabotage_unit = _("%sSabotage Enemy Unit%s")
+ui_name_sabotage_unit_escape = _("%sSabotage Enemy Unit%s")
 
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
@@ -527,7 +527,7 @@ target_reqs    =
     }
 
 [actionenabler_sabotage_unit]
-action = "Sabotage Unit"
+action = "Sabotage Unit Escape"
 actor_reqs    =
     { "type",   "name", "range"
       "UnitFlag", "Spy", "Local"

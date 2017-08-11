@@ -1047,6 +1047,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      action_by_number(ACTION_SPY_SABOTAGE_UNIT)->ui_name,
                      "actions.ui_name_sabotage_unit");
   secfile_insert_str(sfile,
+                     action_by_number(ACTION_SPY_SABOTAGE_UNIT_ESC)->ui_name,
+                     "actions.ui_name_sabotage_unit_escape");
+  secfile_insert_str(sfile,
                      action_by_number(ACTION_SPY_BRIBE_UNIT)->ui_name,
                      "actions.ui_name_bribe_unit");
   secfile_insert_str(sfile,

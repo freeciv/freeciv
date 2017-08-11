@@ -6027,6 +6027,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  text);
 
       text = secfile_lookup_str_default(file,
+          /* TRANS: S_abotage Enemy Unit and Escape (3% chance of success). */
+          N_("S%sabotage Enemy Unit and Escape%s"),
+          "actions.ui_name_sabotage_unit_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_UNIT_ESC)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
           /* TRANS: Bribe Enemy _Unit (3% chance of success). */
           N_("Bribe Enemy %sUnit%s"),
           "actions.ui_name_bribe_unit");

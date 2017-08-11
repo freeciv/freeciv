@@ -2515,8 +2515,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
         if ((utype_has_flag(utype, UTYF_SPY) &&
-             (utype_can_do_action(utype, ACTION_SPY_POISON)
-              || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT)))
+             utype_can_do_action(utype, ACTION_SPY_POISON))
+            || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
             || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
             || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
             || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_ESC)

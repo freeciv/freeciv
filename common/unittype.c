@@ -860,7 +860,6 @@ bool utype_is_consumed_by_action(const struct action *paction,
    * be split in an actor consuming and a non actor consuming version. */
   switch (paction->id) {
   case ACTION_SPY_POISON:
-  case ACTION_SPY_SABOTAGE_UNIT:
     /* A Spy has a chance to escape after performing the action. */
     return !utype_has_flag(utype, UTYF_SPY);
   case ACTION_ATTACK:

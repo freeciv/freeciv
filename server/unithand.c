@@ -594,6 +594,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS: /* Only foreign is a hard req. */
   case ACTION_FOUND_CITY:
   case ACTION_JOIN_CITY:
@@ -2411,6 +2412,8 @@ bool unit_perform_action(struct player *pplayer,
                                             paction));
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              spy_sabotage_unit(pplayer, actor_unit,
                                                punit, paction));
@@ -4776,6 +4779,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_HELP_WONDER:
       case ACTION_SPY_BRIBE_UNIT:
       case ACTION_SPY_SABOTAGE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT_ESC:
       case ACTION_CAPTURE_UNITS:
       case ACTION_FOUND_CITY:
       case ACTION_JOIN_CITY:
