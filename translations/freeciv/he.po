@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 12:12+0100\n"
+"POT-Creation-Date: 2017-08-05 12:43+0100\n"
 "PO-Revision-Date: 2007-08-12 15:15+0300\n"
 "Last-Translator: Chen Levy <contrib@chenlevy.com>\n"
 "Language-Team: Hebrew <kde-il@yahoogroups.com>\n"
@@ -288,12 +288,12 @@ msgid ""
 "our glorious alliance and your name will never be forgotten!"
 msgstr ""
 
-#: ai/default/aicity.c:317 server/citytools.c:2804
+#: ai/default/aicity.c:317 server/citytools.c:2808
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "ה%s הפסיקו לבנות את %s ב%s."
 
-#: ai/default/aicity.c:328 server/citytools.c:2844
+#: ai/default/aicity.c:328 server/citytools.c:2848
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "ה%s התחילו לבנות את %s ב%s."
@@ -325,7 +325,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:158
-#: server/console.c:71 server/srv_main.c:2785 utility/log.c:516
+#: server/console.c:71 server/srv_main.c:2824 utility/log.c:516
 #: utility/netintf.c:97 utility/registry_ini.c:747
 #, c-format
 msgid "Please report this message at %s"
@@ -715,13 +715,13 @@ msgstr ""
 
 #: client/cityrepdata.c:641 client/gui-gtk-2.0/citizensinfo.c:65
 #: client/gui-gtk-2.0/editprop.c:3485 client/gui-gtk-2.0/editprop.c:4271
-#: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1326
-#: client/gui-gtk-2.0/pages.c:2709 client/gui-gtk-3.0/citizensinfo.c:65
+#: client/gui-gtk-2.0/gotodlg.c:213 client/gui-gtk-2.0/pages.c:1320
+#: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-3.0/citizensinfo.c:65
 #: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
-#: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1409
-#: client/gui-gtk-3.0/pages.c:2776 client/gui-qt/citydlg.cpp:1767
-#: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:283
-#: client/gui-qt/pages.cpp:554 client/gui-qt/plrdlg.cpp:447
+#: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1403
+#: client/gui-gtk-3.0/pages.c:2770 client/gui-qt/citydlg.cpp:1767
+#: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:276
+#: client/gui-qt/pages.cpp:547 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
 #: client/plrdlg_common.c:307
 msgid "Nation"
@@ -1824,10 +1824,10 @@ msgid "#"
 msgstr ""
 
 #: client/gui-gtk-2.0/citizensinfo.c:64 client/gui-gtk-2.0/editprop.c:3516
-#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2707
+#: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2701
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
-#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2774
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:554
+#: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2768
+#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:547
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "דגל"
@@ -2566,7 +2566,7 @@ msgid "What Nation Will You Be?"
 msgstr "איזה אומה תהייה?"
 
 #: client/gui-gtk-2.0/dialogs.c:883 client/gui-gtk-3.0/dialogs.c:895
-#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:576
+#: client/gui-qt/dialogs.cpp:262 client/gui-qt/pages.cpp:569
 #: client/gui-sdl/chatline.c:810 data/Freeciv.in:3428
 msgid "Pick Nation"
 msgstr "בחר אומה"
@@ -3214,16 +3214,16 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:3503 client/gui-gtk-2.0/editprop.c:3518
 #: client/gui-gtk-2.0/editprop.c:3530 client/gui-gtk-2.0/editprop.c:3540
 #: client/gui-gtk-2.0/editprop.c:4244 client/gui-gtk-2.0/editprop.c:4265
-#: client/gui-gtk-2.0/pages.c:1323 client/gui-gtk-2.0/pages.c:2697
+#: client/gui-gtk-2.0/pages.c:1317 client/gui-gtk-2.0/pages.c:2691
 #: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/editprop.c:3509
 #: client/gui-gtk-3.0/editprop.c:3518 client/gui-gtk-3.0/editprop.c:3534
 #: client/gui-gtk-3.0/editprop.c:3549 client/gui-gtk-3.0/editprop.c:3561
 #: client/gui-gtk-3.0/editprop.c:3571 client/gui-gtk-3.0/editprop.c:4274
-#: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1406
-#: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/pages.cpp:553 data/Freeciv.in:97
-#: tools/civmanual.c:424 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
-#: tools/mpgui_qt.cpp:217
+#: client/gui-gtk-3.0/editprop.c:4295 client/gui-gtk-3.0/pages.c:1400
+#: client/gui-gtk-3.0/pages.c:2758 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-qt/pages.cpp:276 client/gui-qt/pages.cpp:546 data/Freeciv.in:97
+#: tools/civmanual.c:424 tools/mpgui_gtk2.c:460 tools/mpgui_gtk3.c:463
+#: tools/mpgui_qt.cpp:212
 msgid "Name"
 msgstr "שם"
 
@@ -3342,11 +3342,11 @@ msgid "Nations"
 msgstr "אומות"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:4220 client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/editprop.c:4220 client/gui-gtk-2.0/pages.c:1318
 #: client/gui-gtk-2.0/repodlgs.c:758 client/gui-gtk-2.0/wldlg.c:998
-#: client/gui-gtk-3.0/editprop.c:4250 client/gui-gtk-3.0/pages.c:1407
+#: client/gui-gtk-3.0/editprop.c:4250 client/gui-gtk-3.0/pages.c:1401
 #: client/gui-gtk-3.0/repodlgs.c:786 client/gui-gtk-3.0/wldlg.c:1001
-#: client/gui-qt/pages.cpp:283 client/gui-qt/repodlgs.cpp:1054
+#: client/gui-qt/pages.cpp:276 client/gui-qt/repodlgs.cpp:1054
 msgid "Type"
 msgstr "סוג"
 
@@ -3519,9 +3519,9 @@ msgstr ""
 msgid "Seen (Invis)"
 msgstr "בחר יחידה/ות"
 
-#: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:667
-#: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:741
-#: client/gui-qt/pages.cpp:765 client/gui-sdl/citydlg.c:1985
+#: client/gui-gtk-2.0/editprop.c:6254 client/gui-gtk-2.0/pages.c:661
+#: client/gui-gtk-3.0/editprop.c:6301 client/gui-gtk-3.0/pages.c:735
+#: client/gui-qt/pages.cpp:758 client/gui-sdl/citydlg.c:1985
 #: client/gui-xaw/citydlg.c:1481 client/text.c:166 common/unit.c:800
 msgid "Unknown"
 msgstr "לא ידוע"
@@ -3644,7 +3644,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:297 client/gui-gtk-3.0/gui_main.c:289
 #: client/gui-qt/gui_main.cpp:127 client/gui-sdl/gui_main.c:183
 #: client/gui-xaw/gui_main.c:265 common/fc_cmdhelp.c:139 tools/mpcli.c:115
-#: tools/mpgui_gtk2.c:581 tools/mpgui_gtk3.c:587 tools/mpgui_qt.cpp:101
+#: tools/mpgui_gtk2.c:576 tools/mpgui_gtk3.c:582 tools/mpgui_qt.cpp:101
 #, c-format
 msgid "Report bugs at %s\n"
 msgstr ""
@@ -3668,7 +3668,7 @@ msgid "Shift+Return"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1410
-#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:640
+#: client/gui-qt/menu.cpp:791 client/gui-qt/pages.cpp:633
 msgid "?noun:View"
 msgstr ""
 
@@ -4048,12 +4048,12 @@ msgstr ""
 msgid "Load Lua Script"
 msgstr "_הטען יחידה"
 
-#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:192
+#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:191
 #: client/gui-qt/mapctrl.cpp:51
 msgid "Build New City"
 msgstr "בנה עיר חדשה"
 
-#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:193
+#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:192
 #: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2633
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
@@ -4082,8 +4082,8 @@ msgstr ""
 msgid "Set local options"
 msgstr "קבע אפשרויות מקומיות"
 
-#: client/gui-gtk-2.0/menu.c:131 client/gui-gtk-2.0/pages.c:1493
-#: client/gui-gtk-3.0/menu.c:131 client/gui-gtk-3.0/pages.c:1577
+#: client/gui-gtk-2.0/menu.c:131 client/gui-gtk-2.0/pages.c:1487
+#: client/gui-gtk-3.0/menu.c:131 client/gui-gtk-3.0/pages.c:1571
 #: client/gui-xaw/menu.c:575 data/Freeciv.in:3455 data/Freeciv.in:3464
 msgid "Game Settings"
 msgstr "הגדרות משחק"
@@ -4493,8 +4493,8 @@ msgstr "ערפל קרב"
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1555 client/gui-gtk-2.0/pages.c:3307
-#: client/gui-gtk-3.0/menu.c:1543 client/gui-gtk-3.0/pages.c:3398
+#: client/gui-gtk-2.0/menu.c:1555 client/gui-gtk-2.0/pages.c:3301
+#: client/gui-gtk-3.0/menu.c:1543 client/gui-gtk-3.0/pages.c:3392
 #, fuzzy
 msgid "Save Scenario"
 msgstr "התחל משחק לפי _תסריט"
@@ -4888,7 +4888,7 @@ msgstr ""
 
 #. TRANS: "version 2.6.0, gui-gtk-2.0 client"
 #. TRANS: "version 2.6.0, gui-gtk-3.0 client"
-#: client/gui-gtk-2.0/pages.c:175 client/gui-gtk-3.0/pages.c:180
+#: client/gui-gtk-2.0/pages.c:174 client/gui-gtk-3.0/pages.c:179
 #, fuzzy, c-format
 msgid "%s%s, %s client"
 msgstr "%s - %s אזרחים%s"
@@ -4899,7 +4899,7 @@ msgstr "%s - %s אזרחים%s"
 #. TRANS: "version 2.6.0
 #. *         commit: [modified] <git commit id>
 #. *         gui-gtk-3.0 client"
-#: client/gui-gtk-2.0/pages.c:181 client/gui-gtk-3.0/pages.c:186
+#: client/gui-gtk-2.0/pages.c:180 client/gui-gtk-3.0/pages.c:185
 #, fuzzy, c-format
 msgid ""
 "%s%s\n"
@@ -4907,374 +4907,367 @@ msgid ""
 "%s client"
 msgstr "%s - %s אזרחים%s"
 
-#. TRANS: "version 2.6.0 (r25000), gui-gtk-2.0 client"
-#. TRANS: "version 2.6.0 (r25000), gui-gtk-3.0 client"
-#: client/gui-gtk-2.0/pages.c:187 client/gui-gtk-3.0/pages.c:192
-#, fuzzy, c-format
-msgid "%s%s (%s), %s client"
-msgstr "%s - %s אזרחים%s"
-
-#: client/gui-gtk-2.0/pages.c:261 client/gui-gtk-3.0/pages.c:323
+#: client/gui-gtk-2.0/pages.c:255 client/gui-gtk-3.0/pages.c:317
 msgid "Start _New Game"
 msgstr "התחל משחק _חדש"
 
-#: client/gui-gtk-2.0/pages.c:267 client/gui-gtk-3.0/pages.c:329
+#: client/gui-gtk-2.0/pages.c:261 client/gui-gtk-3.0/pages.c:323
 msgid "Start _Scenario Game"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-gtk-2.0/pages.c:273 client/gui-gtk-3.0/pages.c:335
+#: client/gui-gtk-2.0/pages.c:267 client/gui-gtk-3.0/pages.c:329
 msgid "_Load Saved Game"
 msgstr "_טען משחק שמור"
 
-#: client/gui-gtk-2.0/pages.c:279 client/gui-gtk-3.0/pages.c:341
+#: client/gui-gtk-2.0/pages.c:273 client/gui-gtk-3.0/pages.c:335
 msgid "C_onnect to Network Game"
 msgstr "הת_חבר למשחק רשת"
 
-#: client/gui-gtk-2.0/pages.c:286 client/gui-gtk-3.0/pages.c:348
+#: client/gui-gtk-2.0/pages.c:280 client/gui-gtk-3.0/pages.c:342
 msgid "Connect to Gaming _Zone"
 msgstr "התחבר אל Gaming _Zone"
 
-#: client/gui-gtk-2.0/pages.c:427 client/gui-gtk-3.0/pages.c:490
+#: client/gui-gtk-2.0/pages.c:421 client/gui-gtk-3.0/pages.c:484
 msgid "Select Location to Save"
 msgstr "בחר מיקום לשמירה"
 
-#: client/gui-gtk-2.0/pages.c:531 client/gui-gtk-2.0/pages.c:2906
-#: client/gui-gtk-2.0/pages.c:3107 client/gui-gtk-3.0/pages.c:594
-#: client/gui-gtk-3.0/pages.c:2981 client/gui-gtk-3.0/pages.c:3198
+#: client/gui-gtk-2.0/pages.c:525 client/gui-gtk-2.0/pages.c:2900
+#: client/gui-gtk-2.0/pages.c:3101 client/gui-gtk-3.0/pages.c:588
+#: client/gui-gtk-3.0/pages.c:2975 client/gui-gtk-3.0/pages.c:3192
 msgid "_Browse..."
 msgstr "_עיין..."
 
-#: client/gui-gtk-2.0/pages.c:987 client/gui-gtk-3.0/pages.c:1068
-#: client/gui-qt/pages.cpp:1212 client/gui-sdl/connectdlg.c:937
+#: client/gui-gtk-2.0/pages.c:981 client/gui-gtk-3.0/pages.c:1062
+#: client/gui-qt/pages.cpp:1205 client/gui-sdl/connectdlg.c:937
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "ססמאות אינן תואמות, הזן ססמה."
 
-#: client/gui-gtk-2.0/pages.c:1149 client/gui-gtk-2.0/pages.c:1192
-#: client/gui-gtk-3.0/pages.c:1234 client/gui-gtk-3.0/pages.c:1279
-#: client/gui-qt/pages.cpp:280
+#: client/gui-gtk-2.0/pages.c:1143 client/gui-gtk-2.0/pages.c:1186
+#: client/gui-gtk-3.0/pages.c:1228 client/gui-gtk-3.0/pages.c:1273
+#: client/gui-qt/pages.cpp:273
 msgid "Server Name"
 msgstr "שם שרת"
 
-#: client/gui-gtk-2.0/pages.c:1150 client/gui-gtk-2.0/pages.c:1193
-#: client/gui-gtk-3.0/pages.c:1235 client/gui-gtk-3.0/pages.c:1280
-#: client/gui-qt/pages.cpp:280 client/gui-qt/pages.cpp:337
+#: client/gui-gtk-2.0/pages.c:1144 client/gui-gtk-2.0/pages.c:1187
+#: client/gui-gtk-3.0/pages.c:1229 client/gui-gtk-3.0/pages.c:1274
+#: client/gui-qt/pages.cpp:273 client/gui-qt/pages.cpp:330
 #: client/gui-sdl/mapview.c:637 data/Freeciv.in:89
 msgid "Port"
 msgstr "פורט"
 
-#: client/gui-gtk-2.0/pages.c:1151 client/gui-gtk-2.0/pages.c:1194
-#: client/gui-gtk-3.0/pages.c:1236 client/gui-gtk-3.0/pages.c:1281
-#: client/gui-qt/pages.cpp:280 tools/mpgui_gtk2.c:470 tools/mpgui_gtk3.c:473
-#: tools/mpgui_qt.cpp:217
+#: client/gui-gtk-2.0/pages.c:1145 client/gui-gtk-2.0/pages.c:1188
+#: client/gui-gtk-3.0/pages.c:1230 client/gui-gtk-3.0/pages.c:1275
+#: client/gui-qt/pages.cpp:273 tools/mpgui_gtk2.c:465 tools/mpgui_gtk3.c:468
+#: tools/mpgui_qt.cpp:212
 msgid "Version"
 msgstr "גרסה"
 
-#: client/gui-gtk-2.0/pages.c:1152 client/gui-gtk-2.0/pages.c:1195
-#: client/gui-gtk-3.0/pages.c:1237 client/gui-gtk-3.0/pages.c:1282
-#: client/gui-qt/pages.cpp:281
+#: client/gui-gtk-2.0/pages.c:1146 client/gui-gtk-2.0/pages.c:1189
+#: client/gui-gtk-3.0/pages.c:1231 client/gui-gtk-3.0/pages.c:1276
+#: client/gui-qt/pages.cpp:274
 msgid "Status"
 msgstr "מצב"
 
-#: client/gui-gtk-2.0/pages.c:1153 client/gui-gtk-2.0/pages.c:1196
-#: client/gui-gtk-3.0/pages.c:1238 client/gui-gtk-3.0/pages.c:1283
-#: client/gui-qt/pages.cpp:281 client/gui-sdl/connectdlg.c:330
+#: client/gui-gtk-2.0/pages.c:1147 client/gui-gtk-2.0/pages.c:1190
+#: client/gui-gtk-3.0/pages.c:1232 client/gui-gtk-3.0/pages.c:1277
+#: client/gui-qt/pages.cpp:274 client/gui-sdl/connectdlg.c:330
 #, fuzzy
 msgid "?count:Players"
 msgstr "שחקנים"
 
-#: client/gui-gtk-2.0/pages.c:1154 client/gui-gtk-2.0/pages.c:1197
-#: client/gui-gtk-3.0/pages.c:1239 client/gui-gtk-3.0/pages.c:1284
+#: client/gui-gtk-2.0/pages.c:1148 client/gui-gtk-2.0/pages.c:1191
+#: client/gui-gtk-3.0/pages.c:1233 client/gui-gtk-3.0/pages.c:1278
 #, fuzzy
 msgid "Humans"
 msgstr "מחשב־מארח: %s"
 
-#: client/gui-gtk-2.0/pages.c:1155 client/gui-gtk-2.0/pages.c:1198
-#: client/gui-gtk-3.0/pages.c:1240 client/gui-gtk-3.0/pages.c:1285
-#: client/gui-qt/pages.cpp:281
+#: client/gui-gtk-2.0/pages.c:1149 client/gui-gtk-2.0/pages.c:1192
+#: client/gui-gtk-3.0/pages.c:1234 client/gui-gtk-3.0/pages.c:1279
+#: client/gui-qt/pages.cpp:274
 msgid "Comment"
 msgstr "הערה"
 
-#: client/gui-gtk-2.0/pages.c:1157 client/gui-gtk-3.0/pages.c:1242
+#: client/gui-gtk-2.0/pages.c:1151 client/gui-gtk-3.0/pages.c:1236
 msgid "Local _Area Network"
 msgstr "_רשת תקשורת מקומית"
 
-#: client/gui-gtk-2.0/pages.c:1200 client/gui-gtk-3.0/pages.c:1287
+#: client/gui-gtk-2.0/pages.c:1194 client/gui-gtk-3.0/pages.c:1281
 msgid "Internet _Metaserver"
 msgstr "_מטה־שרת אינטרנט"
 
-#: client/gui-gtk-2.0/pages.c:1237 client/gui-gtk-3.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1231 client/gui-gtk-3.0/pages.c:1320
 msgid "_Host:"
 msgstr "_שרת:"
 
-#: client/gui-gtk-2.0/pages.c:1254 client/gui-gtk-3.0/pages.c:1341
+#: client/gui-gtk-2.0/pages.c:1248 client/gui-gtk-3.0/pages.c:1335
 msgid "_Port:"
 msgstr "_פורט:"
 
-#: client/gui-gtk-2.0/pages.c:1271 client/gui-gtk-3.0/pages.c:1357
+#: client/gui-gtk-2.0/pages.c:1265 client/gui-gtk-3.0/pages.c:1351
 msgid "_Login:"
 msgstr "_כניסה:"
 
-#: client/gui-gtk-2.0/pages.c:1289 client/gui-gtk-3.0/pages.c:937
-#: client/gui-gtk-3.0/pages.c:967 client/gui-gtk-3.0/pages.c:979
-#: client/gui-gtk-3.0/pages.c:1374
+#: client/gui-gtk-2.0/pages.c:1283 client/gui-gtk-3.0/pages.c:931
+#: client/gui-gtk-3.0/pages.c:961 client/gui-gtk-3.0/pages.c:973
+#: client/gui-gtk-3.0/pages.c:1368
 msgid "Pass_word:"
 msgstr "_ססמה:"
 
-#: client/gui-gtk-2.0/pages.c:1307 client/gui-gtk-3.0/pages.c:1390
+#: client/gui-gtk-2.0/pages.c:1301 client/gui-gtk-3.0/pages.c:1384
 msgid "Conf_irm Password:"
 msgstr "_אישור ססמה:"
 
-#: client/gui-gtk-2.0/pages.c:1325 client/gui-gtk-3.0/pages.c:1408
-#: client/gui-qt/pages.cpp:283 data/Freeciv.in:81
+#: client/gui-gtk-2.0/pages.c:1319 client/gui-gtk-3.0/pages.c:1402
+#: client/gui-qt/pages.cpp:276 data/Freeciv.in:81
 msgid "Host"
 msgstr "מחשב מארח"
 
-#: client/gui-gtk-2.0/pages.c:1354 client/gui-gtk-3.0/pages.c:1438
+#: client/gui-gtk-2.0/pages.c:1348 client/gui-gtk-3.0/pages.c:1432
 msgid "C_onnect"
 msgstr "הת_חבר"
 
-#: client/gui-gtk-2.0/pages.c:1697 client/gui-gtk-3.0/pages.c:1767
+#: client/gui-gtk-2.0/pages.c:1691 client/gui-gtk-3.0/pages.c:1761
 #, c-format
 msgid "Connection name: %s"
 msgstr "שם חיבור: %s"
 
-#: client/gui-gtk-2.0/pages.c:1700 client/gui-gtk-3.0/pages.c:1770
+#: client/gui-gtk-2.0/pages.c:1694 client/gui-gtk-3.0/pages.c:1764
 #, c-format
 msgid "Player name: %s"
 msgstr "שם שחקן: %s"
 
-#: client/gui-gtk-2.0/pages.c:1705 client/gui-gtk-3.0/pages.c:1775
+#: client/gui-gtk-2.0/pages.c:1699 client/gui-gtk-3.0/pages.c:1769
 #, c-format
 msgid "Host: %s"
 msgstr "מחשב־מארח: %s"
 
-#: client/gui-gtk-2.0/pages.c:1713 client/gui-gtk-3.0/pages.c:1783
+#: client/gui-gtk-2.0/pages.c:1707 client/gui-gtk-3.0/pages.c:1777
 msgid "Player/conn info"
 msgstr "מידע שחקן/חיבור"
 
-#: client/gui-gtk-2.0/pages.c:1746 client/gui-gtk-3.0/pages.c:1816
+#: client/gui-gtk-2.0/pages.c:1740 client/gui-gtk-3.0/pages.c:1810
 #, c-format
 msgid "%s info"
 msgstr "מידע %s"
 
-#: client/gui-gtk-2.0/pages.c:1755 client/gui-gtk-3.0/pages.c:1825
+#: client/gui-gtk-2.0/pages.c:1749 client/gui-gtk-3.0/pages.c:1819
 msgid "Toggle player ready"
 msgstr "הפעל/בטל מוכנות שחקן"
 
-#: client/gui-gtk-2.0/pages.c:1761 client/gui-gtk-3.0/pages.c:1831
-#: client/gui-qt/pages.cpp:1577
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-gtk-3.0/pages.c:1825
+#: client/gui-qt/pages.cpp:1570
 msgid "Pick nation"
 msgstr "בחר אומה"
 
-#: client/gui-gtk-2.0/pages.c:1769 client/gui-gtk-3.0/pages.c:1839
+#: client/gui-gtk-2.0/pages.c:1763 client/gui-gtk-3.0/pages.c:1833
 msgid "Observe this player"
 msgstr "השקף על שחקן זה"
 
-#: client/gui-gtk-2.0/pages.c:1776 client/gui-gtk-3.0/pages.c:1846
-#: client/gui-qt/pages.cpp:1567
+#: client/gui-gtk-2.0/pages.c:1770 client/gui-gtk-3.0/pages.c:1840
+#: client/gui-qt/pages.cpp:1560
 msgid "Take this player"
 msgstr "קח שחקן זה"
 
-#: client/gui-gtk-2.0/pages.c:1788 client/gui-gtk-3.0/pages.c:1858
+#: client/gui-gtk-2.0/pages.c:1782 client/gui-gtk-3.0/pages.c:1852
 msgid "Cut connection"
 msgstr "חתוך חיבור"
 
-#: client/gui-gtk-2.0/pages.c:1799 client/gui-gtk-3.0/pages.c:1869
-#: client/gui-qt/pages.cpp:1639
+#: client/gui-gtk-2.0/pages.c:1793 client/gui-gtk-3.0/pages.c:1863
+#: client/gui-qt/pages.cpp:1632
 msgid "Aitoggle player"
 msgstr "הפעל/בטל א\"מ לשחקן"
 
-#: client/gui-gtk-2.0/pages.c:1807 client/gui-gtk-3.0/pages.c:1877
-#: client/gui-qt/pages.cpp:1559
+#: client/gui-gtk-2.0/pages.c:1801 client/gui-gtk-3.0/pages.c:1871
+#: client/gui-qt/pages.cpp:1552
 msgid "Remove player"
 msgstr "הסר שחקן"
 
 #. TRANS: Give access level to a connection.
-#: client/gui-gtk-2.0/pages.c:1823 client/gui-gtk-3.0/pages.c:1893
+#: client/gui-gtk-2.0/pages.c:1817 client/gui-gtk-3.0/pages.c:1887
 #, fuzzy, c-format
 msgid "Give %s access"
 msgstr "תן מידע לגישה"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1878 client/gui-gtk-3.0/pages.c:1948
+#: client/gui-gtk-2.0/pages.c:1872 client/gui-gtk-3.0/pages.c:1942
 #, c-format
 msgid "Put on %s"
 msgstr "שים על %s"
 
-#: client/gui-gtk-2.0/pages.c:2137 client/gui-gtk-3.0/pages.c:2207
+#: client/gui-gtk-2.0/pages.c:2131 client/gui-gtk-3.0/pages.c:2201
 msgid "Not _ready"
 msgstr "_לא מוכן"
 
-#: client/gui-gtk-2.0/pages.c:2148 client/gui-gtk-2.0/pages.c:2776
-#: client/gui-gtk-3.0/pages.c:2218 client/gui-gtk-3.0/pages.c:2845
+#: client/gui-gtk-2.0/pages.c:2142 client/gui-gtk-2.0/pages.c:2770
+#: client/gui-gtk-3.0/pages.c:2212 client/gui-gtk-3.0/pages.c:2839
 msgid "_Ready"
 msgstr "_מוכן"
 
-#: client/gui-gtk-2.0/pages.c:2152 client/gui-gtk-2.0/pages.c:2156
-#: client/gui-gtk-3.0/pages.c:2222 client/gui-gtk-3.0/pages.c:2226
+#: client/gui-gtk-2.0/pages.c:2146 client/gui-gtk-2.0/pages.c:2150
+#: client/gui-gtk-3.0/pages.c:2216 client/gui-gtk-3.0/pages.c:2220
 msgid "_Start"
 msgstr "_התחל"
 
-#: client/gui-gtk-2.0/pages.c:2176 client/gui-gtk-3.0/pages.c:2246
+#: client/gui-gtk-2.0/pages.c:2170 client/gui-gtk-3.0/pages.c:2240
 #, fuzzy, c-format
 msgid "_Take %s"
 msgstr "קח שחקן זה"
 
-#: client/gui-gtk-2.0/pages.c:2180 client/gui-gtk-2.0/pages.c:2766
-#: client/gui-gtk-3.0/pages.c:2250 client/gui-gtk-3.0/pages.c:2835
+#: client/gui-gtk-2.0/pages.c:2174 client/gui-gtk-2.0/pages.c:2760
+#: client/gui-gtk-3.0/pages.c:2244 client/gui-gtk-3.0/pages.c:2829
 msgid "Pick _Nation"
 msgstr "בחר _אומה"
 
-#: client/gui-gtk-2.0/pages.c:2183 client/gui-gtk-3.0/pages.c:2253
+#: client/gui-gtk-2.0/pages.c:2177 client/gui-gtk-3.0/pages.c:2247
 #, fuzzy
 msgid "_Take a Player"
 msgstr "קח שחקן זה"
 
-#: client/gui-gtk-2.0/pages.c:2191 client/gui-gtk-3.0/pages.c:2261
+#: client/gui-gtk-2.0/pages.c:2185 client/gui-gtk-3.0/pages.c:2255
 #, fuzzy, c-format
 msgid "_Observe %s"
 msgstr "משקיף: %s"
 
-#: client/gui-gtk-2.0/pages.c:2196 client/gui-gtk-2.0/pages.c:2771
-#: client/gui-gtk-3.0/pages.c:2266 client/gui-gtk-3.0/pages.c:2840
+#: client/gui-gtk-2.0/pages.c:2190 client/gui-gtk-2.0/pages.c:2765
+#: client/gui-gtk-3.0/pages.c:2260 client/gui-gtk-3.0/pages.c:2834
 msgid "_Observe"
 msgstr "_השקף"
 
-#: client/gui-gtk-2.0/pages.c:2199 client/gui-gtk-3.0/pages.c:2269
+#: client/gui-gtk-2.0/pages.c:2193 client/gui-gtk-3.0/pages.c:2263
 #, fuzzy
 msgid "Do not _observe"
 msgstr "_אל תשקיף"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/pages.c:2329 client/gui-gtk-3.0/pages.c:2399
+#: client/gui-gtk-2.0/pages.c:2323 client/gui-gtk-3.0/pages.c:2393
 #: client/gui-xaw/pages.c:248
 #, c-format
 msgid "<%s AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2341 client/gui-gtk-3.0/pages.c:2411
-#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1293
+#: client/gui-gtk-2.0/pages.c:2335 client/gui-gtk-3.0/pages.c:2405
+#: client/gui-qt/dialogs.cpp:233 client/gui-qt/pages.cpp:1286
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "אקראי"
 
-#: client/gui-gtk-2.0/pages.c:2415 client/gui-gtk-2.0/pages.c:2472
-#: client/gui-gtk-3.0/pages.c:2485 client/gui-gtk-3.0/pages.c:2542
-#: client/gui-qt/pages.cpp:1364 client/gui-qt/pages.cpp:1394
+#: client/gui-gtk-2.0/pages.c:2409 client/gui-gtk-2.0/pages.c:2466
+#: client/gui-gtk-3.0/pages.c:2479 client/gui-gtk-3.0/pages.c:2536
+#: client/gui-qt/pages.cpp:1357 client/gui-qt/pages.cpp:1387
 msgid "Observer"
 msgstr "השקף"
 
-#: client/gui-gtk-2.0/pages.c:2497 client/gui-gtk-3.0/pages.c:2567
-#: client/gui-qt/pages.cpp:1411
+#: client/gui-gtk-2.0/pages.c:2491 client/gui-gtk-3.0/pages.c:2561
+#: client/gui-qt/pages.cpp:1404
 msgid "Detached"
 msgstr "התנתק"
 
 #. TRANS: Keep individual lines short
-#: client/gui-gtk-2.0/pages.c:2621 client/gui-gtk-3.0/pages.c:2696
+#: client/gui-gtk-2.0/pages.c:2615 client/gui-gtk-3.0/pages.c:2690
 #, fuzzy
 msgid ""
 "Number of _Players\n"
 "(including AI):"
 msgstr "_מספר שחקים (כולל א\"מ):"
 
-#: client/gui-gtk-2.0/pages.c:2646 client/gui-gtk-3.0/pages.c:2722
+#: client/gui-gtk-2.0/pages.c:2640 client/gui-gtk-3.0/pages.c:2716
 #, fuzzy
 msgid "AI Skill _Level:"
 msgstr "רמת ה_מיומנות של א\"מ:"
 
-#: client/gui-gtk-2.0/pages.c:2672 client/gui-gtk-3.0/pages.c:2737
+#: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2731
 #: client/gui-qt/fc_client.cpp:886
 #, fuzzy
 msgid "Ruleset:"
 msgstr "מדבר"
 
-#: client/gui-gtk-2.0/pages.c:2680 client/gui-gtk-3.0/pages.c:2744
+#: client/gui-gtk-2.0/pages.c:2674 client/gui-gtk-3.0/pages.c:2738
 msgid "_More Game Options..."
 msgstr "_אפשרויות משחק נספות..."
 
-#: client/gui-gtk-2.0/pages.c:2699 client/gui-gtk-3.0/pages.c:2766
+#: client/gui-gtk-2.0/pages.c:2693 client/gui-gtk-3.0/pages.c:2760
 msgid "Record"
 msgstr "רשומה"
 
-#: client/gui-gtk-2.0/pages.c:2701 client/gui-gtk-3.0/pages.c:2768
+#: client/gui-gtk-2.0/pages.c:2695 client/gui-gtk-3.0/pages.c:2762
 msgid "Rating"
 msgstr "דרוג"
 
-#: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-2.0/unitselect.c:473
-#: client/gui-gtk-3.0/pages.c:2770 client/gui-gtk-3.0/unitselect.c:475
-#: client/gui-qt/pages.cpp:553 client/gui-qt/pages.cpp:1467
+#: client/gui-gtk-2.0/pages.c:2697 client/gui-gtk-2.0/unitselect.c:473
+#: client/gui-gtk-3.0/pages.c:2764 client/gui-gtk-3.0/unitselect.c:475
+#: client/gui-qt/pages.cpp:546 client/gui-qt/pages.cpp:1460
 #: tools/mpgui_gtk2.c:267 tools/mpgui_gtk3.c:265 tools/mpgui_qt_worker.cpp:52
 msgid "Ready"
 msgstr "מוכן"
 
-#: client/gui-gtk-2.0/pages.c:2705 client/gui-gtk-3.0/pages.c:2772
+#: client/gui-gtk-2.0/pages.c:2699 client/gui-gtk-3.0/pages.c:2766
 #, fuzzy
 msgid "?player:Leader"
 msgstr "?שחקן:שם"
 
-#: client/gui-gtk-2.0/pages.c:2711 client/gui-gtk-3.0/pages.c:2778
-#: client/gui-qt/pages.cpp:554 client/plrdlg_common.c:310
+#: client/gui-gtk-2.0/pages.c:2705 client/gui-gtk-3.0/pages.c:2772
+#: client/gui-qt/pages.cpp:547 client/plrdlg_common.c:310
 msgid "Team"
 msgstr "צוות"
 
-#: client/gui-gtk-2.0/pages.c:2830 client/gui-gtk-3.0/pages.c:2899
-#: client/gui-qt/pages.cpp:431 client/gui-sdl/chatline.c:197
+#: client/gui-gtk-2.0/pages.c:2824 client/gui-gtk-3.0/pages.c:2893
+#: client/gui-qt/pages.cpp:424 client/gui-sdl/chatline.c:197
 msgid "Choose Saved Game to Load"
 msgstr "בחר משחק שמור לטעינה"
 
-#: client/gui-gtk-2.0/pages.c:2886 client/gui-gtk-3.0/pages.c:2960
+#: client/gui-gtk-2.0/pages.c:2880 client/gui-gtk-3.0/pages.c:2954
 msgid "Choose Saved Game to _Load:"
 msgstr "בחר משחק שמור ל_טעינה:"
 
-#: client/gui-gtk-2.0/pages.c:2973 client/gui-gtk-3.0/pages.c:3048
-#: client/gui-qt/pages.cpp:492
+#: client/gui-gtk-2.0/pages.c:2967 client/gui-gtk-3.0/pages.c:3042
+#: client/gui-qt/pages.cpp:485
 msgid "Choose a Scenario"
 msgstr "בחר בתסריט"
 
-#: client/gui-gtk-2.0/pages.c:3054 client/gui-gtk-3.0/pages.c:3131
+#: client/gui-gtk-2.0/pages.c:3048 client/gui-gtk-3.0/pages.c:3125
 msgid "Choose a _Scenario:"
 msgstr "בחר ב_תסריט"
 
-#: client/gui-gtk-2.0/pages.c:3087 client/gui-gtk-3.0/pages.c:3172
+#: client/gui-gtk-2.0/pages.c:3081 client/gui-gtk-3.0/pages.c:3166
 #, fuzzy
 msgid "Filename:"
 msgstr "שמור שם־_קובץ:"
 
-#: client/gui-gtk-2.0/pages.c:3272 client/gui-gtk-3.0/pages.c:3363
+#: client/gui-gtk-2.0/pages.c:3266 client/gui-gtk-3.0/pages.c:3357
 #: client/gui-qt/menu.cpp:436 client/gui-sdl/optiondlg.c:845
 msgid "Save Game"
 msgstr "שמור משחק"
 
-#: client/gui-gtk-2.0/pages.c:3272 client/gui-gtk-3.0/pages.c:3363
+#: client/gui-gtk-2.0/pages.c:3266 client/gui-gtk-3.0/pages.c:3357
 msgid "Saved _Games:"
 msgstr "_משחקים שמורים:"
 
-#: client/gui-gtk-2.0/pages.c:3273 client/gui-gtk-3.0/pages.c:3364
+#: client/gui-gtk-2.0/pages.c:3267 client/gui-gtk-3.0/pages.c:3358
 msgid "Save _Filename:"
 msgstr "שמור שם־_קובץ:"
 
-#: client/gui-gtk-2.0/pages.c:3307 client/gui-gtk-3.0/pages.c:3398
+#: client/gui-gtk-2.0/pages.c:3301 client/gui-gtk-3.0/pages.c:3392
 #, fuzzy
 msgid "Saved Sce_narios:"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-gtk-2.0/pages.c:3308 client/gui-gtk-3.0/pages.c:3399
+#: client/gui-gtk-2.0/pages.c:3302 client/gui-gtk-3.0/pages.c:3393
 #, fuzzy
 msgid "Save Sc_enario:"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-gtk-2.0/pages.c:3336 client/gui-gtk-3.0/pages.c:3427
+#: client/gui-gtk-2.0/pages.c:3330 client/gui-gtk-3.0/pages.c:3421
 #, fuzzy
 msgid "Save Map Image"
 msgstr "שמור משחק"
 
-#: client/gui-gtk-2.0/pages.c:3336 client/gui-gtk-3.0/pages.c:3427
+#: client/gui-gtk-2.0/pages.c:3330 client/gui-gtk-3.0/pages.c:3421
 #, fuzzy
 msgid "Saved Map _Images:"
 msgstr "_משחקים שמורים:"
 
-#: client/gui-gtk-2.0/pages.c:3337 client/gui-gtk-3.0/pages.c:3428
+#: client/gui-gtk-2.0/pages.c:3331 client/gui-gtk-3.0/pages.c:3422
 #, fuzzy
 msgid "Save _Map Images:"
 msgstr "_משחקים שמורים:"
@@ -5808,7 +5801,7 @@ msgstr ""
 msgid "Additional information is available%svia left click on the citizens."
 msgstr ""
 
-#: client/gui-gtk-3.0/pages.c:951
+#: client/gui-gtk-3.0/pages.c:945
 #, fuzzy
 msgid "New Pass_word:"
 msgstr "_ססמה:"
@@ -5848,7 +5841,7 @@ msgid "Change homecity"
 msgstr "הפוך לעיר־בית חדשה"
 
 #: client/gui-qt/citydlg.cpp:216 client/gui-qt/menu.cpp:665
-#: client/gui-qt/pages.cpp:472
+#: client/gui-qt/pages.cpp:465
 msgid "Load"
 msgstr "קרקע"
 
@@ -6124,8 +6117,8 @@ msgstr ""
 
 #: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
-#: client/gui-qt/pages.cpp:358 client/gui-qt/pages.cpp:464
-#: client/gui-qt/pages.cpp:522 client/gui-qt/ratesdlg.cpp:140
+#: client/gui-qt/pages.cpp:351 client/gui-qt/pages.cpp:457
+#: client/gui-qt/pages.cpp:515 client/gui-qt/ratesdlg.cpp:140
 #: client/gui-sdl/citydlg.c:526 client/gui-sdl/citydlg.c:1418
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/connectdlg.c:634
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
@@ -6314,7 +6307,7 @@ msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "האם אתה בטוח שברצונך לצאת?"
 msgstr[1] "האם אתה בטוח שברצונך לצאת?"
 
-#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1329
+#: client/gui-qt/dialogs.cpp:1848 client/gui-qt/pages.cpp:1322
 #: client/gui-qt/voteinfo_bar.cpp:36 client/gui-sdl/citydlg.c:1212
 #: client/gui-sdl/cma_fe.c:344 client/gui-sdl/diplodlg.c:1401
 #: client/gui-sdl/diplomat_dialog.c:1236 client/gui-sdl/diplomat_dialog.c:1460
@@ -6330,7 +6323,7 @@ msgstr[1] "האם אתה בטוח שברצונך לצאת?"
 msgid "Yes"
 msgstr "כן"
 
-#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1331
+#: client/gui-qt/dialogs.cpp:1849 client/gui-qt/pages.cpp:1324
 #: client/gui-qt/voteinfo_bar.cpp:37 client/gui-sdl/citydlg.c:1201
 #: client/gui-sdl/cma_fe.c:353 client/gui-sdl/diplodlg.c:1391
 #: client/gui-sdl/diplomat_dialog.c:1247 client/gui-sdl/diplomat_dialog.c:1470
@@ -6418,13 +6411,13 @@ msgstr "ברוך בואך ל־ Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "לקוח עבור Freeciv"
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1447
+#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1440
 #, fuzzy
 msgid "Don't Observe"
 msgstr "_אל תשקיף"
 
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:583
-#: client/gui-qt/pages.cpp:1449 client/gui-qt/pages.cpp:1550
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:576
+#: client/gui-qt/pages.cpp:1442 client/gui-qt/pages.cpp:1543
 #, fuzzy
 msgid "Observe"
 msgstr "_השקף"
@@ -6458,7 +6451,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-qt/gui_main.cpp:473 tools/mpgui_qt.cpp:482
+#: client/gui-qt/gui_main.cpp:473 tools/mpgui_qt.cpp:477
 #, fuzzy
 msgid "Quit?"
 msgstr "יציאה"
@@ -6628,9 +6621,9 @@ msgstr "_מהפכה..."
 msgid "Game"
 msgstr "משחק"
 
-#: client/gui-qt/menu.cpp:421 client/gui-qt/pages.cpp:168
+#: client/gui-qt/menu.cpp:421 client/gui-qt/pages.cpp:161
 #: client/gui-sdl/mapctrl.c:1655 client/gui-sdl/optiondlg.c:782
-#: client/gui-sdl/optiondlg.c:1348 client/gui-sdl/pages.c:260
+#: client/gui-sdl/optiondlg.c:1348 client/gui-sdl/pages.c:254
 #: data/Freeciv.in:1235
 msgid "Options"
 msgstr "אפשריות"
@@ -6659,8 +6652,8 @@ msgstr "שמור משחק _בשם..."
 msgid "Leave game"
 msgstr "שמור משחק"
 
-#: client/gui-qt/menu.cpp:449 client/gui-qt/pages.cpp:168
-#: client/gui-sdl/optiondlg.c:877 client/gui-sdl/pages.c:274
+#: client/gui-qt/menu.cpp:449 client/gui-qt/pages.cpp:161
+#: client/gui-sdl/optiondlg.c:877 client/gui-sdl/pages.c:268
 #: client/gui-xaw/connectdlg.c:341 client/gui-xaw/menu.c:123
 #: data/Freeciv.in:136 data/Freeciv.in:3228
 msgid "Quit"
@@ -6948,7 +6941,7 @@ msgid "Tax Rates..."
 msgstr "שיעור מס"
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1260
+#: client/gui-qt/menu.cpp:800 client/gui-qt/pages.cpp:1253
 #: client/gui-qt/plrdlg.cpp:649 client/gui-sdl/plrdlg.c:337
 #, fuzzy
 msgid "?header:Players"
@@ -7001,7 +6994,7 @@ msgstr ""
 msgid "... read more in help"
 msgstr ""
 
-#: client/gui-qt/optiondlg.cpp:143 client/gui-qt/pages.cpp:353
+#: client/gui-qt/optiondlg.cpp:143 client/gui-qt/pages.cpp:346
 #: data/Freeciv.in:1671 data/Freeciv.in:1818 data/Freeciv.in:1977
 msgid "Refresh"
 msgstr "רענן"
@@ -7012,143 +7005,137 @@ msgid "Apply"
 msgstr "החל הפעם"
 
 #. TRANS: "version 2.6.0, Qt client"
-#: client/gui-qt/pages.cpp:128
+#: client/gui-qt/pages.cpp:126
 #, fuzzy, c-format
 msgid "%s%s, Qt client"
 msgstr "%s - %s אזרחים%s"
 
 #. TRANS: "commit: [modified] <git commit id>"
-#: client/gui-qt/pages.cpp:138 tools/mpcli.c:137
+#: client/gui-qt/pages.cpp:136 tools/mpcli.c:136
 #, fuzzy, c-format
 msgid "commit: %s"
 msgstr "יחידה %s"
 
-#: client/gui-qt/pages.cpp:143
+#: client/gui-qt/pages.cpp:141
 #, fuzzy
 msgid "Qt client"
 msgstr "%s - %s אזרחים%s"
 
-#. TRANS: "version 2.6.0 (r25000), Qt client"
-#: client/gui-qt/pages.cpp:147
-#, fuzzy, c-format
-msgid "%s%s (%s), Qt client"
-msgstr "%s - %s אזרחים%s"
-
-#: client/gui-qt/pages.cpp:166
+#: client/gui-qt/pages.cpp:159
 #, fuzzy
 msgid "Start new game"
 msgstr "התחל משחק חדש"
 
-#: client/gui-qt/pages.cpp:166
+#: client/gui-qt/pages.cpp:159
 #, fuzzy
 msgid "Start scenario game"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-qt/pages.cpp:167
+#: client/gui-qt/pages.cpp:160
 #, fuzzy
 msgid "Load saved game"
 msgstr "טען משחק שמור"
 
-#: client/gui-qt/pages.cpp:167
+#: client/gui-qt/pages.cpp:160
 #, fuzzy
 msgid "Connect to network game"
 msgstr "הת_חבר למשחק רשת"
 
-#: client/gui-qt/pages.cpp:337 client/gui-qt/pages.cpp:364
+#: client/gui-qt/pages.cpp:330 client/gui-qt/pages.cpp:357
 #: client/gui-sdl/connectdlg.c:626 client/gui-xaw/connectdlg.c:326
 #: data/Freeciv.in:125 data/Freeciv.in:2555
 msgid "Connect"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:337
+#: client/gui-qt/pages.cpp:330
 #, fuzzy
 msgid "Login"
 msgstr "_כניסה:"
 
-#: client/gui-qt/pages.cpp:338 data/Freeciv.in:105
+#: client/gui-qt/pages.cpp:331 data/Freeciv.in:105
 #, fuzzy
 msgid "Password"
 msgstr "ססמה:"
 
-#: client/gui-qt/pages.cpp:338
+#: client/gui-qt/pages.cpp:331
 #, fuzzy
 msgid "Confirm Password"
 msgstr "_אישור ססמה:"
 
-#: client/gui-qt/pages.cpp:378
+#: client/gui-qt/pages.cpp:371
 #, fuzzy
 msgid "Internet servers:"
 msgstr "_מטה־שרת אינטרנט"
 
-#: client/gui-qt/pages.cpp:381
+#: client/gui-qt/pages.cpp:374
 #, fuzzy
 msgid "Local servers:"
 msgstr "השקף"
 
-#: client/gui-qt/pages.cpp:431
+#: client/gui-qt/pages.cpp:424
 msgid "Date"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:458 client/gui-qt/pages.cpp:516
+#: client/gui-qt/pages.cpp:451 client/gui-qt/pages.cpp:509
 #, fuzzy
 msgid "Browse..."
 msgstr "_עיין..."
 
-#: client/gui-qt/pages.cpp:530
+#: client/gui-qt/pages.cpp:523
 #, fuzzy
 msgid "Load Scenario"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-qt/pages.cpp:553
+#: client/gui-qt/pages.cpp:546
 #, fuzzy
 msgid "Leader"
 msgstr "מנהיג:"
 
-#: client/gui-qt/pages.cpp:571 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
+#: client/gui-qt/pages.cpp:564 client/gui-xaw/menu.c:122 data/Freeciv.in:3226
 msgid "Disconnect"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:589 client/gui-qt/pages.cpp:1475
+#: client/gui-qt/pages.cpp:582 client/gui-qt/pages.cpp:1468
 #: client/gui-sdl/chatline.c:800 data/Freeciv.in:3444
 msgid "Start"
 msgstr "התחל"
 
-#: client/gui-qt/pages.cpp:693
+#: client/gui-qt/pages.cpp:686
 #, fuzzy
 msgid "Save Files"
 msgstr "קח שחקן זה"
 
-#: client/gui-qt/pages.cpp:696
+#: client/gui-qt/pages.cpp:689
 #, fuzzy
 msgid "Open Save File"
 msgstr "שמור שם־_קובץ:"
 
-#: client/gui-qt/pages.cpp:709
+#: client/gui-qt/pages.cpp:702
 #, fuzzy
 msgid "Scenarios Files"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-qt/pages.cpp:712
+#: client/gui-qt/pages.cpp:705
 #, fuzzy
 msgid "Open Scenario File"
 msgstr "התחל משחק לפי _תסריט"
 
-#: client/gui-qt/pages.cpp:1379
+#: client/gui-qt/pages.cpp:1372
 #, fuzzy
 msgid "Global observers"
 msgstr "השקף"
 
-#: client/gui-qt/pages.cpp:1456
+#: client/gui-qt/pages.cpp:1449
 #, fuzzy
 msgid "Not ready"
 msgstr "_לא מוכן"
 
-#: client/gui-qt/pages.cpp:1592
+#: client/gui-qt/pages.cpp:1585
 #, fuzzy
 msgid "Set difficulty"
 msgstr ", רמת קושי %s"
 
-#: client/gui-qt/pages.cpp:1615
+#: client/gui-qt/pages.cpp:1608
 #, fuzzy
 msgid "Put on team"
 msgstr "שים על %s"
@@ -7260,7 +7247,7 @@ msgstr ""
 msgid "Back"
 msgstr "אחורה"
 
-#: client/gui-sdl/chatline.c:821 client/gui-sdl/pages.c:204
+#: client/gui-sdl/chatline.c:821 client/gui-sdl/pages.c:198
 msgid "Load Game"
 msgstr "טען משחק"
 
@@ -8403,47 +8390,41 @@ msgid "Add new worklist"
 msgstr "הוסף רשימת־עבודה חדשה"
 
 #. TRANS: Freeciv 2.4.0
-#: client/gui-sdl/pages.c:156
+#: client/gui-sdl/pages.c:154
 #, fuzzy, c-format
 msgid "Freeciv %s"
 msgstr "Freeciv גרסה %s"
 
-#. TRANS: Freeciv 2.4.0 (r25000)
-#: client/gui-sdl/pages.c:159
-#, fuzzy, c-format
-msgid "Freeciv %s (%s)"
-msgstr "ראשי"
-
 #. TRANS: gui-sdl client
-#: client/gui-sdl/pages.c:175
+#: client/gui-sdl/pages.c:169
 #, fuzzy, c-format
 msgid "%s client"
 msgstr "%s - %s אזרחים%s"
 
-#: client/gui-sdl/pages.c:189
+#: client/gui-sdl/pages.c:183
 msgid "Start New Game"
 msgstr "התחל משחק חדש"
 
-#: client/gui-sdl/pages.c:218
+#: client/gui-sdl/pages.c:212
 #, fuzzy
 msgid "Join Game"
 msgstr "שם כניסה"
 
-#: client/gui-sdl/pages.c:232
+#: client/gui-sdl/pages.c:226
 #, fuzzy
 msgid "Join Pubserver"
 msgstr "(משקיף)"
 
-#: client/gui-sdl/pages.c:246
+#: client/gui-sdl/pages.c:240
 #, fuzzy
 msgid "Join LAN Server"
 msgstr "שרתי רת\"מ"
 
-#: client/gui-sdl/pages.c:327
+#: client/gui-sdl/pages.c:321
 msgid "SDLClient welcomes you..."
 msgstr ""
 
-#: client/gui-sdl/pages.c:333 client/gui-xaw/gui_main.c:535
+#: client/gui-sdl/pages.c:327 client/gui-xaw/gui_main.c:535
 #, fuzzy, c-format
 msgid "Commit: %s"
 msgstr "עיר %s"
@@ -15388,83 +15369,83 @@ msgstr "מנהיג ברברי"
 msgid "?unitflag:Hunter"
 msgstr "מסוק"
 
-#: common/version.c:44
+#: common/version.c:40
 #, c-format
 msgid "Freeciv version %s %s"
 msgstr "Freeciv גרסה %s %s"
 
-#: common/version.c:45
+#: common/version.c:41
 msgid "(beta version)"
 msgstr "(גרסת ביתא)"
 
-#: common/version.c:47 common/version.c:50
+#: common/version.c:43
 #, fuzzy, c-format
 msgid "Freeciv version %s (%s)"
 msgstr "ראשי"
 
-#: common/version.c:53
+#: common/version.c:46
 #, c-format
 msgid "Freeciv version %s"
 msgstr "Freeciv גרסה %s"
 
-#: common/version.c:66
+#: common/version.c:59
 msgid "betatest version "
 msgstr "גרסה ביתא־ניסיונית"
 
-#: common/version.c:68
+#: common/version.c:61
 msgid "version "
 msgstr "גרסה"
 
-#: common/version.c:136
+#: common/version.c:105
 msgid "January"
 msgstr "ינואר"
 
-#: common/version.c:137
+#: common/version.c:106
 msgid "February"
 msgstr "פברואר"
 
-#: common/version.c:138
+#: common/version.c:107
 msgid "March"
 msgstr "מרץ"
 
-#: common/version.c:139
+#: common/version.c:108
 msgid "April"
 msgstr "אפריל"
 
-#: common/version.c:140
+#: common/version.c:109
 msgid "May"
 msgstr "מאי"
 
-#: common/version.c:141
+#: common/version.c:110
 msgid "June"
 msgstr "יוני"
 
-#: common/version.c:142
+#: common/version.c:111
 msgid "July"
 msgstr "יולי"
 
-#: common/version.c:143
+#: common/version.c:112
 msgid "August"
 msgstr "אוגוסט"
 
-#: common/version.c:144
+#: common/version.c:113
 msgid "September"
 msgstr "ספטמבר"
 
-#: common/version.c:145
+#: common/version.c:114
 msgid "October"
 msgstr "אוקטובר"
 
-#: common/version.c:146
+#: common/version.c:115
 msgid "November"
 msgstr "נובמבר"
 
-#: common/version.c:147
+#: common/version.c:116
 msgid "December"
 msgstr "דצמבר"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: common/version.c:153
+#: common/version.c:122
 #, fuzzy, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -15474,7 +15455,7 @@ msgstr ""
 "הגרסה %s תשתחרר ב־\n"
 "%s, ב%s"
 
-#: common/version.c:158
+#: common/version.c:127
 #, fuzzy, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -15484,7 +15465,7 @@ msgstr ""
 "הגרסה %s תשתחרר ב־\n"
 "%s, ב%s"
 
-#: common/version.c:176
+#: common/version.c:145
 msgid "'Cause civilization should be free!"
 msgstr "כי על הציביליזציה להיות חופשית!"
 
@@ -16341,61 +16322,61 @@ msgstr ""
 msgid "Each tax collector produces two extra gold for your treasury per turn."
 msgstr ""
 
-#: data/civ1/cities.ruleset:127 data/civ2/cities.ruleset:127
-#: data/classic/cities.ruleset:126 data/experimental/cities.ruleset:128
-#: data/civ2civ3/cities.ruleset:129 data/multiplayer/cities.ruleset:125
+#: data/civ1/cities.ruleset:128 data/civ2/cities.ruleset:128
+#: data/classic/cities.ruleset:127 data/experimental/cities.ruleset:129
+#: data/civ2civ3/cities.ruleset:130 data/multiplayer/cities.ruleset:126
 msgid "?citystyle:European"
 msgstr "?סגנון־עיר:ארופאי"
 
-#: data/civ1/cities.ruleset:136 data/civ2/cities.ruleset:136
-#: data/classic/cities.ruleset:135 data/experimental/cities.ruleset:137
-#: data/civ2civ3/cities.ruleset:138 data/multiplayer/cities.ruleset:134
+#: data/civ1/cities.ruleset:137 data/civ2/cities.ruleset:137
+#: data/classic/cities.ruleset:136 data/experimental/cities.ruleset:138
+#: data/civ2civ3/cities.ruleset:139 data/multiplayer/cities.ruleset:135
 msgid "?citystyle:Classical"
 msgstr "?סגנון־עיר:קלאסי"
 
-#: data/civ1/cities.ruleset:145 data/civ2/cities.ruleset:145
-#: data/classic/cities.ruleset:144 data/experimental/cities.ruleset:146
-#: data/civ2civ3/cities.ruleset:147 data/multiplayer/cities.ruleset:143
+#: data/civ1/cities.ruleset:146 data/civ2/cities.ruleset:146
+#: data/classic/cities.ruleset:145 data/experimental/cities.ruleset:147
+#: data/civ2civ3/cities.ruleset:148 data/multiplayer/cities.ruleset:144
 msgid "?citystyle:Tropical"
 msgstr "?סגנון־עיר:טרופי"
 
-#: data/civ1/cities.ruleset:154 data/civ2/cities.ruleset:154
-#: data/classic/cities.ruleset:153 data/experimental/cities.ruleset:155
-#: data/civ2civ3/cities.ruleset:156 data/multiplayer/cities.ruleset:152
+#: data/civ1/cities.ruleset:155 data/civ2/cities.ruleset:155
+#: data/classic/cities.ruleset:154 data/experimental/cities.ruleset:156
+#: data/civ2civ3/cities.ruleset:157 data/multiplayer/cities.ruleset:153
 msgid "?citystyle:Asian"
 msgstr "?סגנון־עיר:אסיאתי"
 
-#: data/civ1/cities.ruleset:163 data/civ2/cities.ruleset:163
-#: data/classic/cities.ruleset:162 data/experimental/cities.ruleset:164
-#: data/civ2civ3/cities.ruleset:165 data/multiplayer/cities.ruleset:161
+#: data/civ1/cities.ruleset:164 data/civ2/cities.ruleset:164
+#: data/classic/cities.ruleset:163 data/experimental/cities.ruleset:165
+#: data/civ2civ3/cities.ruleset:166 data/multiplayer/cities.ruleset:162
 msgid "?citystyle:Babylonian"
 msgstr "?סגנון־עיר:בבלי"
 
-#: data/civ1/cities.ruleset:172 data/civ2/cities.ruleset:172
-#: data/classic/cities.ruleset:171 data/experimental/cities.ruleset:173
-#: data/civ2civ3/cities.ruleset:174 data/multiplayer/cities.ruleset:170
+#: data/civ1/cities.ruleset:173 data/civ2/cities.ruleset:173
+#: data/classic/cities.ruleset:172 data/experimental/cities.ruleset:174
+#: data/civ2civ3/cities.ruleset:175 data/multiplayer/cities.ruleset:171
 msgid "?citystyle:Celtic"
 msgstr "?סגנון־עיר:קלטי"
 
-#: data/civ1/cities.ruleset:181 data/civ2/cities.ruleset:181
+#: data/civ1/cities.ruleset:182 data/civ2/cities.ruleset:182
 msgid "?citystyle:Renaissance"
 msgstr "?סגנון־עיר:רנסאנס"
 
-#: data/civ1/cities.ruleset:192 data/civ2/cities.ruleset:192
-#: data/classic/cities.ruleset:180 data/experimental/cities.ruleset:182
-#: data/civ2civ3/cities.ruleset:183 data/multiplayer/cities.ruleset:179
+#: data/civ1/cities.ruleset:193 data/civ2/cities.ruleset:193
+#: data/classic/cities.ruleset:181 data/experimental/cities.ruleset:183
+#: data/civ2civ3/cities.ruleset:184 data/multiplayer/cities.ruleset:180
 msgid "?citystyle:Industrial"
 msgstr "?סגנון־עיר:תעשייתי"
 
-#: data/civ1/cities.ruleset:203 data/civ2/cities.ruleset:203
-#: data/classic/cities.ruleset:202 data/experimental/cities.ruleset:204
-#: data/civ2civ3/cities.ruleset:205 data/multiplayer/cities.ruleset:201
+#: data/civ1/cities.ruleset:204 data/civ2/cities.ruleset:204
+#: data/classic/cities.ruleset:203 data/experimental/cities.ruleset:205
+#: data/civ2civ3/cities.ruleset:206 data/multiplayer/cities.ruleset:202
 msgid "?citystyle:Modern"
 msgstr "?סגנון־עיר:מודרני"
 
-#: data/civ1/cities.ruleset:214 data/civ2/cities.ruleset:214
-#: data/classic/cities.ruleset:213 data/experimental/cities.ruleset:215
-#: data/civ2civ3/cities.ruleset:216 data/multiplayer/cities.ruleset:212
+#: data/civ1/cities.ruleset:215 data/civ2/cities.ruleset:215
+#: data/classic/cities.ruleset:214 data/experimental/cities.ruleset:216
+#: data/civ2civ3/cities.ruleset:217 data/multiplayer/cities.ruleset:213
 msgid "?citystyle:PostModern"
 msgstr "?סגנון־עיר:פוסט־מודרני"
 
@@ -18084,18 +18065,18 @@ msgstr ""
 #: data/civ2/units.ruleset:1994 data/classic/units.ruleset:38
 #: data/classic/units.ruleset:406 data/classic/units.ruleset:451
 #: data/classic/units.ruleset:513 data/classic/units.ruleset:1915
-#: data/classic/units.ruleset:2269 data/classic/units.ruleset:2307
+#: data/classic/units.ruleset:2269 data/classic/units.ruleset:2309
 #: data/experimental/units.ruleset:41 data/experimental/units.ruleset:420
 #: data/experimental/units.ruleset:1941 data/experimental/units.ruleset:2296
-#: data/experimental/units.ruleset:2334 data/civ2civ3/units.ruleset:37
+#: data/experimental/units.ruleset:2336 data/civ2civ3/units.ruleset:37
 #: data/civ2civ3/units.ruleset:429 data/civ2civ3/units.ruleset:473
 #: data/civ2civ3/units.ruleset:512 data/civ2civ3/units.ruleset:575
 #: data/civ2civ3/units.ruleset:2023 data/civ2civ3/units.ruleset:2100
-#: data/civ2civ3/units.ruleset:2455 data/civ2civ3/units.ruleset:2493
+#: data/civ2civ3/units.ruleset:2455 data/civ2civ3/units.ruleset:2495
 #: data/multiplayer/units.ruleset:38 data/multiplayer/units.ruleset:406
 #: data/multiplayer/units.ruleset:452 data/multiplayer/units.ruleset:513
 #: data/multiplayer/units.ruleset:2013 data/multiplayer/units.ruleset:2355
-#: data/multiplayer/units.ruleset:2393
+#: data/multiplayer/units.ruleset:2395
 msgid "green"
 msgstr "ירוק"
 
@@ -18726,14 +18707,14 @@ msgid ""
 msgstr ""
 
 #: data/civ1/units.ruleset:1307 data/civ2/units.ruleset:2141
-#: data/classic/units.ruleset:2280 data/experimental/units.ruleset:2307
-#: data/civ2civ3/units.ruleset:2466 data/multiplayer/units.ruleset:2366
+#: data/classic/units.ruleset:2282 data/experimental/units.ruleset:2309
+#: data/civ2civ3/units.ruleset:2468 data/multiplayer/units.ruleset:2368
 msgid "Barbarian Leader"
 msgstr "מנהיג ברברי"
 
 #: data/civ1/units.ruleset:1333 data/civ2/units.ruleset:2167
-#: data/classic/units.ruleset:2313 data/experimental/units.ruleset:2340
-#: data/civ2civ3/units.ruleset:2499 data/multiplayer/units.ruleset:2399
+#: data/classic/units.ruleset:2315 data/experimental/units.ruleset:2342
+#: data/civ2civ3/units.ruleset:2501 data/multiplayer/units.ruleset:2401
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -20514,9 +20495,9 @@ msgid ""
 "territory."
 msgstr ""
 
-#: data/civ2/units.ruleset:2170 data/classic/units.ruleset:2316
-#: data/experimental/units.ruleset:2343 data/civ2civ3/units.ruleset:2502
-#: data/multiplayer/units.ruleset:2402
+#: data/civ2/units.ruleset:2170 data/classic/units.ruleset:2318
+#: data/experimental/units.ruleset:2345 data/civ2civ3/units.ruleset:2504
+#: data/multiplayer/units.ruleset:2404
 #, fuzzy
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
@@ -20908,8 +20889,8 @@ msgid ""
 "Each tax collector produces three extra gold for your treasury per turn."
 msgstr ""
 
-#: data/classic/cities.ruleset:191 data/experimental/cities.ruleset:193
-#: data/civ2civ3/cities.ruleset:194 data/multiplayer/cities.ruleset:190
+#: data/classic/cities.ruleset:192 data/experimental/cities.ruleset:194
+#: data/civ2civ3/cities.ruleset:195 data/multiplayer/cities.ruleset:191
 #, fuzzy
 msgid "?citystyle:ElectricAge"
 msgstr "?סגנון־עיר:קלטי"
@@ -21308,13 +21289,18 @@ msgstr "מנהיג"
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr "זה אתה. אם אתה מאבד יחידה זו, אתה מפסיד את המשחק. אז אל תעשה זאת."
 
-#: data/classic/units.ruleset:2322 data/experimental/units.ruleset:2349
-#: data/civ2civ3/units.ruleset:2508 data/multiplayer/units.ruleset:2408
+#: data/classic/units.ruleset:2277 data/experimental/units.ruleset:2304
+#: data/civ2civ3/units.ruleset:2463 data/multiplayer/units.ruleset:2363
+msgid "Won't unleash barbarians from huts."
+msgstr ""
+
+#: data/classic/units.ruleset:2324 data/experimental/units.ruleset:2351
+#: data/civ2civ3/units.ruleset:2510 data/multiplayer/units.ruleset:2410
 msgid "AWACS"
 msgstr ""
 
-#: data/classic/units.ruleset:2348 data/experimental/units.ruleset:2375
-#: data/civ2civ3/units.ruleset:2534 data/multiplayer/units.ruleset:2434
+#: data/classic/units.ruleset:2350 data/experimental/units.ruleset:2377
+#: data/civ2civ3/units.ruleset:2536 data/multiplayer/units.ruleset:2436
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -28183,20 +28169,20 @@ msgstr ""
 
 #. TRANS: Unknown modpack type
 #: tools/mpcli.c:67 tools/mpgui_gtk2.c:381 tools/mpgui_gtk3.c:381
-#: tools/mpgui_qt.cpp:379
+#: tools/mpgui_qt.cpp:374
 msgid "?"
 msgstr ""
 
 #. TRANS: License of modpack is not known
 #: tools/mpcli.c:74 tools/mpgui_gtk2.c:388 tools/mpgui_gtk3.c:388
-#: tools/mpgui_qt.cpp:386
+#: tools/mpgui_qt.cpp:381
 #, fuzzy
 msgid "?license:Unknown"
 msgstr "לא ידוע"
 
 #: tools/mpcli.c:79 tools/mpgui_gtk2.c:235 tools/mpgui_gtk2.c:393
-#: tools/mpgui_gtk3.c:234 tools/mpgui_gtk3.c:393 tools/mpgui_qt.cpp:344
-#: tools/mpgui_qt.cpp:391
+#: tools/mpgui_gtk3.c:234 tools/mpgui_gtk3.c:393 tools/mpgui_qt.cpp:339
+#: tools/mpgui_qt.cpp:386
 msgid "Not installed"
 msgstr ""
 
@@ -28251,11 +28237,11 @@ msgstr "שם שחקן: %s"
 msgid "Freeciv modpack installer (command line version)"
 msgstr "בחר התקדמות לגנוב"
 
-#: tools/mpcli.c:153
+#: tools/mpcli.c:149
 msgid "Modpack installed successfully"
 msgstr ""
 
-#: tools/mpcli.c:155
+#: tools/mpcli.c:151
 #, c-format
 msgid "Modpack install failed: %s"
 msgstr ""
@@ -28287,14 +28273,14 @@ msgstr ""
 msgid "Automatically install modpack from a given URL"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:106 tools/mpgui_gtk3.c:106 tools/mpgui_qt.cpp:478
+#: tools/mpgui_gtk2.c:106 tools/mpgui_gtk3.c:106 tools/mpgui_qt.cpp:473
 #, fuzzy
 msgid ""
 "Modpack installation in progress.\n"
 "Are you sure you want to quit?"
 msgstr "האם אתה בטוח שברצונך לצאת?"
 
-#: tools/mpgui_gtk2.c:291 tools/mpgui_gtk3.c:289 tools/mpgui_qt.cpp:309
+#: tools/mpgui_gtk2.c:291 tools/mpgui_gtk3.c:289 tools/mpgui_qt.cpp:304
 msgid "Another download already active"
 msgstr ""
 
@@ -28302,60 +28288,60 @@ msgstr ""
 msgid "Failed to start downloader"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:451 tools/mpgui_gtk3.c:454 tools/mpgui_qt.cpp:200
+#: tools/mpgui_gtk2.c:450 tools/mpgui_gtk3.c:453 tools/mpgui_qt.cpp:199
 #, c-format
 msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:475 tools/mpgui_gtk3.c:478 tools/mpgui_qt.cpp:218
+#: tools/mpgui_gtk2.c:470 tools/mpgui_gtk3.c:473 tools/mpgui_qt.cpp:213
 msgid "Installed"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:480 tools/mpgui_gtk3.c:483 tools/mpgui_qt.cpp:218
+#: tools/mpgui_gtk2.c:475 tools/mpgui_gtk3.c:478 tools/mpgui_qt.cpp:213
 msgid "?modpack:Type"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:486 tools/mpgui_gtk3.c:489 tools/mpgui_qt.cpp:219
+#: tools/mpgui_gtk2.c:481 tools/mpgui_gtk3.c:484 tools/mpgui_qt.cpp:214
 msgid "Subtype"
 msgstr ""
 
 #. TRANS: noun
-#: tools/mpgui_gtk2.c:493 tools/mpgui_gtk3.c:496 tools/mpgui_qt.cpp:219
+#: tools/mpgui_gtk2.c:488 tools/mpgui_gtk3.c:491 tools/mpgui_qt.cpp:214
 msgid "License"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:498 tools/mpgui_gtk3.c:501 tools/mpgui_qt.cpp:220
+#: tools/mpgui_gtk2.c:493 tools/mpgui_gtk3.c:496 tools/mpgui_qt.cpp:215
 msgid "URL"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:504 tools/mpgui_gtk3.c:507 tools/mpgui_qt.cpp:187
+#: tools/mpgui_gtk2.c:499 tools/mpgui_gtk3.c:502 tools/mpgui_qt.cpp:187
 msgid "Install modpack"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:510 tools/mpgui_gtk3.c:515 tools/mpgui_qt.cpp:184
+#: tools/mpgui_gtk2.c:505 tools/mpgui_gtk3.c:510 tools/mpgui_qt.cpp:184
 msgid "Modpack URL"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:527 tools/mpgui_gtk3.c:532 tools/mpgui_qt.cpp:259
+#: tools/mpgui_gtk2.c:522 tools/mpgui_gtk3.c:527 tools/mpgui_qt.cpp:254
 #, fuzzy
 msgid "Select modpack to install"
 msgstr "בחר התקדמות לגנוב"
 
-#: tools/mpgui_gtk2.c:577 tools/mpgui_gtk3.c:583
+#: tools/mpgui_gtk2.c:572 tools/mpgui_gtk3.c:578
 msgid ""
 "This modpack installer accepts the standard Gtk command-line options\n"
 "after '--'. See the Gtk documentation.\n"
 "\n"
 msgstr ""
 
-#: tools/mpgui_gtk2.c:600
+#: tools/mpgui_gtk2.c:595
 #, fuzzy
 msgid "Freeciv modpack installer (gtk2)"
 msgstr "בחר התקדמות לגנוב"
 
-#: tools/mpgui_gtk3.c:606
+#: tools/mpgui_gtk3.c:601
 #, fuzzy
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "בחר התקדמות לגנוב"
@@ -28626,204 +28612,204 @@ msgstr "עיר מס' %d"
 msgid "A poorly-named city"
 msgstr "ניתן שם עלוב לעיר"
 
-#: server/citytools.c:599
+#: server/citytools.c:603
 #, c-format
 msgid "Changed homecity of %s to %s."
 msgstr "עיר הבית הוחלפה מ%s ל%s"
 
 #. TRANS: Americans ... Leader
-#: server/citytools.c:628
+#: server/citytools.c:632
 #, c-format
 msgid "The %s already have a %s. Can't transfer yours."
 msgstr ""
 
-#: server/citytools.c:647
+#: server/citytools.c:651
 #, c-format
 msgid "Transferred %s in %s from %s to %s."
 msgstr "הועבר %s ב־ %s מ־ %s אל %s."
 
-#: server/citytools.c:661
+#: server/citytools.c:665
 #, c-format
 msgid "Transferred %s from %s to %s."
 msgstr "הועבר %s מ־ %s אל %s."
 
 #. TRANS: Polish Destroyer ... German <city>
-#: server/citytools.c:675
+#: server/citytools.c:679
 #, c-format
 msgid "%s %s lost in transfer to %s %s"
 msgstr ""
 
-#: server/citytools.c:805
+#: server/citytools.c:809
 #, c-format
 msgid "%s lost along with control of %s."
 msgstr ""
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:1024
+#: server/citytools.c:1028
 #, c-format
 msgid "A replacement %s was built in %s."
 msgstr ""
 
-#: server/citytools.c:1142
+#: server/citytools.c:1146
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 
-#: server/citytools.c:1246
+#: server/citytools.c:1250
 #, c-format
 msgid "The people in %s are stunned by your technological insight!"
 msgstr ""
 
-#: server/citytools.c:1252 server/citytools.c:1265
+#: server/citytools.c:1256 server/citytools.c:1269
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s with %s."
 msgstr ""
 
-#: server/citytools.c:1257
+#: server/citytools.c:1261
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s roads."
 msgstr ""
 
-#: server/citytools.c:1270
+#: server/citytools.c:1274
 #, c-format
 msgid "Workers spontaneously gather and upgrade %s bases."
 msgstr ""
 
-#: server/citytools.c:1586
+#: server/citytools.c:1590
 #, c-format
 msgid "You have founded %s."
 msgstr ""
 
-#: server/citytools.c:1673
+#: server/citytools.c:1677
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 
-#: server/citytools.c:1685
+#: server/citytools.c:1689
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1718
+#: server/citytools.c:1722
 #, c-format
 msgid ""
 "When %s was disbanded your %s in %s was trapped, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1903
+#: server/citytools.c:1907
 #, c-format
 msgid "You destroy %s completely."
 msgstr ""
 
-#: server/citytools.c:1906
+#: server/citytools.c:1910
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr ""
 
-#: server/citytools.c:1934
+#: server/citytools.c:1938
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1941
+#: server/citytools.c:1945
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1950
+#: server/citytools.c:1954
 #, fuzzy, c-format
 msgid "You conquer %s."
 msgstr "%s כבש %s."
 
-#: server/citytools.c:1953
+#: server/citytools.c:1957
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s כבש %s."
 
-#: server/citytools.c:1960
+#: server/citytools.c:1964
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1967
+#: server/citytools.c:1971
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1976
+#: server/citytools.c:1980
 #, c-format
 msgid "You have liberated %s!"
 msgstr ""
 
-#: server/citytools.c:1979
+#: server/citytools.c:1983
 #, c-format
 msgid "%s liberated %s."
 msgstr ""
 
-#: server/citytools.c:2550
+#: server/citytools.c:2554
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 
-#: server/citytools.c:2555
+#: server/citytools.c:2559
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr ""
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2563
+#: server/citytools.c:2567
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 
-#: server/citytools.c:2571
+#: server/citytools.c:2575
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr ""
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2577
+#: server/citytools.c:2581
 #, fuzzy, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "נתיבי הסחר הללו נקבעו עם  %s:\n"
 
-#: server/citytools.c:2823
+#: server/citytools.c:2827
 msgid " from the worklist"
 msgstr ""
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2835
+#: server/citytools.c:2839
 #, c-format
 msgid "%s is building %s%s."
 msgstr ""
 
-#: server/citytools.c:3004
+#: server/citytools.c:3008
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:3138
+#: server/citytools.c:3142
 #, fuzzy, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "עיר הבית הוחלפה מ%s ל%s"
 
-#: server/citytools.c:3140
+#: server/citytools.c:3144
 #, fuzzy
 msgid "increased"
 msgstr "בסיס תעופה"
 
-#: server/citytools.c:3141
+#: server/citytools.c:3145
 msgid "reduced"
 msgstr ""
 
@@ -29071,96 +29057,97 @@ msgstr "הועבר %s ב־ %s מ־ %s אל %s."
 msgid "The %s have started building a spaceship!"
 msgstr ""
 
-#: server/cityturn.c:1781
-#, c-format
-msgid "%s can't build %s yet."
-msgstr ""
+#. TRANS: city ... utype ... size ... pop_cost
+#: server/cityturn.c:1782
+#, fuzzy, c-format
+msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
+msgstr "* יכולים לבנות ערים חדשות.\n"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1820
+#: server/cityturn.c:1823
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s סיימו לבנות את %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:1829
+#: server/cityturn.c:1832
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/cityturn.c:1914
+#: server/cityturn.c:1917
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "אין אפשרות לקיים את תחזוקת %s ב%s, הבניין נמכר!"
 
-#: server/cityturn.c:1997
+#: server/cityturn.c:2000
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr ""
 
-#: server/cityturn.c:2240 server/cityturn.c:2979
+#: server/cityturn.c:2243 server/cityturn.c:2982
 #, c-format
 msgid "Pollution near %s."
 msgstr "זיהום בקרבת %s."
 
-#: server/cityturn.c:2405
+#: server/cityturn.c:2408
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr ""
 
-#: server/cityturn.c:2411
+#: server/cityturn.c:2414
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr ""
 
-#: server/cityturn.c:2428
+#: server/cityturn.c:2431
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
-#: server/cityturn.c:2474
+#: server/cityturn.c:2477
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "הפרות סדר ב%s."
 
-#: server/cityturn.c:2478
+#: server/cityturn.c:2481
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "*מהומות נמשכות* ב%s."
 
-#: server/cityturn.c:2484
+#: server/cityturn.c:2487
 #, c-format
 msgid "Order restored in %s."
 msgstr "הסדר הושב ל%s."
 
-#: server/cityturn.c:2495
+#: server/cityturn.c:2498
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 
-#: server/cityturn.c:2537
+#: server/cityturn.c:2540
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2566
+#: server/cityturn.c:2569
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2763
+#: server/cityturn.c:2766
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2770
+#: server/cityturn.c:2773
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -29168,7 +29155,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2775
+#: server/cityturn.c:2778
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -29176,91 +29163,91 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2790
+#: server/cityturn.c:2793
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2797
+#: server/cityturn.c:2800
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2802
+#: server/cityturn.c:2805
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2844
+#: server/cityturn.c:2847
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2882
+#: server/cityturn.c:2885
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2888
+#: server/cityturn.c:2891
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2893
+#: server/cityturn.c:2896
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:2973
+#: server/cityturn.c:2976
 #, c-format
 msgid "%s was hit by %s."
 msgstr ""
 
-#: server/cityturn.c:2986
+#: server/cityturn.c:2989
 #, fuzzy, c-format
 msgid "Fallout near %s."
 msgstr "זיהום בקרבת %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:2998
+#: server/cityturn.c:3001
 #, fuzzy, c-format
 msgid "%s causes population loss in %s."
 msgstr "אוכלוסייה: %s"
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3020
+#: server/cityturn.c:3023
 #, fuzzy, c-format
 msgid "%s destroys %s in %s."
 msgstr "משחתת"
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3033
+#: server/cityturn.c:3036
 #, fuzzy, c-format
 msgid "All stored food destroyed in %s."
 msgstr "הסדר הושב ל%s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3047
+#: server/cityturn.c:3050
 #, fuzzy, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "ייצור הושלם:"
 
-#: server/cityturn.c:3215
+#: server/cityturn.c:3218
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3237
+#: server/cityturn.c:3240
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -30926,32 +30913,32 @@ msgstr ""
 msgid "Your %s was captured after completing the mission."
 msgstr ""
 
-#: server/diplomats.c:1413
+#: server/diplomats.c:1415
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr ""
 
-#: server/diplomats.c:1418
+#: server/diplomats.c:1420
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr ""
 
-#: server/diplomats.c:1424
+#: server/diplomats.c:1426
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr ""
 
-#: server/diplomats.c:1428
+#: server/diplomats.c:1430
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr ""
 
-#: server/diplomats.c:1434
+#: server/diplomats.c:1436
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr ""
 
-#: server/diplomats.c:1438
+#: server/diplomats.c:1440
 #, c-format
 msgid "The %s have caused an incident while inciting a revolt in %s."
 msgstr ""
@@ -31270,19 +31257,19 @@ msgstr ""
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr ""
 
-#: server/generator/mapgen.c:1552
+#: server/generator/mapgen.c:1553
 msgid "The server couldn't allocate starting positions."
 msgstr ""
 
-#: server/generator/mapgen.c:2192
+#: server/generator/mapgen.c:2193
 msgid "High landmass - this may take a few seconds."
 msgstr ""
 
-#: server/generator/mapgen.c:2472
+#: server/generator/mapgen.c:2473
 msgid "Generator 3 didn't place all big islands."
 msgstr ""
 
-#: server/generator/mapgen.c:2501
+#: server/generator/mapgen.c:2502
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
@@ -31442,12 +31429,12 @@ msgid ""
 "bases."
 msgstr ""
 
-#: server/maphand.c:1746
+#: server/maphand.c:1750
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr ""
 
-#: server/maphand.c:1763
+#: server/maphand.c:1767
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr ""
@@ -32110,8 +32097,8 @@ msgid ""
 "risk."
 msgstr ""
 
-#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2084
-#: server/srv_main.c:2089
+#: server/savegame2.c:3509 server/savegame.c:4290 server/srv_main.c:2123
+#: server/srv_main.c:2128
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
@@ -34466,137 +34453,144 @@ msgstr ""
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 
-#: server/srv_main.c:778
+#: server/srv_main.c:788 server/srv_main.c:798
+#, c-format
+msgid ""
+"The cease-fire between %s and %s has run out. They are at war. You cancel "
+"your alliance with %s."
+msgstr ""
+
+#: server/srv_main.c:808
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with both."
 msgstr ""
 
-#: server/srv_main.c:1100
+#: server/srv_main.c:1139
 msgid "Automatically placed spaceship parts that were still not placed."
 msgstr ""
 
-#: server/srv_main.c:1328 server/srv_main.c:1331
+#: server/srv_main.c:1367 server/srv_main.c:1370
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr ""
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1400
 #, c-format
 msgid "Failed saving game as %s"
 msgstr ""
 
-#: server/srv_main.c:1364
+#: server/srv_main.c:1403
 #, c-format
 msgid "Game saved as %s"
 msgstr ""
 
-#: server/srv_main.c:1420
+#: server/srv_main.c:1459
 msgid "The game is already running."
 msgstr ""
 
-#: server/srv_main.c:1428
+#: server/srv_main.c:1467
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1436
+#: server/srv_main.c:1475
 msgid "Starting game."
 msgstr ""
 
-#: server/srv_main.c:1536
+#: server/srv_main.c:1575
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr ""
 
-#: server/srv_main.c:1626
+#: server/srv_main.c:1665
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr ""
 
-#: server/srv_main.c:1636
+#: server/srv_main.c:1675
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1694
+#: server/srv_main.c:1733
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "שם זה אסור."
 
-#: server/srv_main.c:1901
+#: server/srv_main.c:1940
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr ""
 
-#: server/srv_main.c:1907
+#: server/srv_main.c:1946
 #, c-format
 msgid "%s nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1923
+#: server/srv_main.c:1962
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr ""
 
-#: server/srv_main.c:1998
+#: server/srv_main.c:2037
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 
-#: server/srv_main.c:2024
+#: server/srv_main.c:2063
 msgid "requested more than 'maxplayers' setting"
 msgstr ""
 
-#: server/srv_main.c:2031
+#: server/srv_main.c:2070
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 
-#: server/srv_main.c:2034
+#: server/srv_main.c:2073
 msgid "not enough playable nations"
 msgstr ""
 
-#: server/srv_main.c:2377 server/srv_main.c:2381
+#: server/srv_main.c:2416 server/srv_main.c:2420
 #, c-format
 msgid "%s rules the %s."
 msgstr ""
 
-#: server/srv_main.c:2545
+#: server/srv_main.c:2584
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
 msgstr ""
 
-#: server/srv_main.c:2614
+#: server/srv_main.c:2653
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr ""
 
-#: server/srv_main.c:2618
+#: server/srv_main.c:2657
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2641
+#: server/srv_main.c:2680
 msgid "The game is over..."
 msgstr ""
 
-#: server/srv_main.c:2750
+#: server/srv_main.c:2789
 msgid "Failed to create suitable map, retrying with another mapseed"
 msgstr ""
 
-#: server/srv_main.c:2783
+#: server/srv_main.c:2822
 msgid "Cannot create suitable map with given settings."
 msgstr ""
 
-#: server/srv_main.c:2806 server/srv_main.c:2810
+#: server/srv_main.c:2845 server/srv_main.c:2849
 #, fuzzy, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "אוכלוסיה: %s  -  %s"
 
-#: server/srv_main.c:3004
+#: server/srv_main.c:3043
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr ""
@@ -36384,56 +36378,56 @@ msgstr ""
 msgid "%s acquire %s as a result of learning %s."
 msgstr ""
 
-#: server/techtools.c:546
+#: server/techtools.c:550
 #, c-format
 msgid "Insufficient science output. We lost Future Tech. %d."
 msgstr ""
 
-#: server/techtools.c:558
+#: server/techtools.c:562
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr ""
 
-#: server/techtools.c:699
+#: server/techtools.c:703
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
 "started a revolution into '%s'."
 msgstr ""
 
-#: server/techtools.c:714
+#: server/techtools.c:718
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
 "chose '%s' as new target government."
 msgstr ""
 
-#: server/techtools.c:741 server/techtools.c:754
+#: server/techtools.c:745 server/techtools.c:758
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr ""
 
-#: server/techtools.c:923
+#: server/techtools.c:927
 #, c-format
 msgid "Technology goal is %s."
 msgstr ""
 
-#: server/techtools.c:1136
+#: server/techtools.c:1140
 #, c-format
 msgid "You steal %s from the %s."
 msgstr ""
 
-#: server/techtools.c:1141
+#: server/techtools.c:1145
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr ""
 
-#: server/techtools.c:1146
+#: server/techtools.c:1150
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 
-#: server/techtools.c:1264
+#: server/techtools.c:1268
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
@@ -37322,6 +37316,18 @@ msgstr "שגיאה %ld (הודעת תבנית נכשלה)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "שגיאה %d (הודר ללא strerror)"
+
+#, fuzzy
+#~ msgid "%s%s (%s), %s client"
+#~ msgstr "%s - %s אזרחים%s"
+
+#, fuzzy
+#~ msgid "%s%s (%s), Qt client"
+#~ msgstr "%s - %s אזרחים%s"
+
+#, fuzzy
+#~ msgid "Freeciv %s (%s)"
+#~ msgstr "ראשי"
 
 #, fuzzy
 #~ msgid ""

@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-25 21:49+0300\n"
+"POT-Creation-Date: 2017-07-15 10:42+0100\n"
 "PO-Revision-Date: 2017-08-11 23:20+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -1000,7 +1000,8 @@ msgstr "Vouti %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34
+#: data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1020,13 +1021,13 @@ msgstr "Vouti %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
-#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
-#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
-#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
-#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
-#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
-#: data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27
+#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
+#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
+#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
+#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
+#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
+#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Piispa %s"
@@ -2387,7 +2388,11 @@ msgid ""
 "the 19th century. Dahomey became independent in 1960. Marxists seized power "
 "in 1972 and renamed the country Benin three years later. Multiparty rule "
 "returned in 1990."
-msgstr "Tämä maa oli aikoinaan Dahomeyn kuningaskunnan aluetta, ja Ranskan siirtomaa 1800-luvulla. Dahomey itsenäistyi 1960. Marxilaiset nousivat valtaan 1972 ja nimesivät maan uudelleen Beniniksi kolme vuotta myöhemmin. Valta palasi monipuoluejärjestelmälle 1990."
+msgstr ""
+"Tämä maa oli aikoinaan Dahomeyn kuningaskunnan aluetta, ja Ranskan siirtomaa "
+"1800-luvulla. Dahomey itsenäistyi 1960. Marxilaiset nousivat valtaan 1972 ja "
+"nimesivät maan uudelleen Beniniksi kolme vuotta myöhemmin. Valta palasi "
+"monipuoluejärjestelmälle 1990."
 
 #: data/nation/benin.ruleset:3
 msgid "Benin"
@@ -3072,7 +3077,18 @@ msgid ""
 "their second kingdom. Eventually they were subordinated by the Frankish "
 "Kingdom. The Burgundians gave their name to the later Romance nation and "
 "region of Burgundy."
-msgstr "Burgundit olivat ikivanha itägermaaninen kansa joka todennäköisesti on lähtöisin Bornholmin saarelta. Bornholmilta lähdettyään burgundit elivät Oder- ja Vistula-jokien välimaastossa. Kansainvaellusaikaan burgundit liittyivät muiden germaanisten kansojen joukkoon valloittamaan Rooman keisarikuntaa, ja 472 jaa. jotkut heistä ryöstivät Rooman. Ensimmäinen burgundien kuningaskunta perustettiin Wormsiin, mutta hunnien tuhon jäljiltä burgundit siirtyivät alueelle joka nykyään tunnetaan nimellä nykyisen Ranskan alueelle nimeltä Savoiji ja Burgundi, jonne toinen kuningaskunta perustettiin. Lopulta kuningaskunta alistettiin osaksi Frankkien valtakuntaa. Burgundit antoivat sittemmin nimensä myös myöhemmälle Burgundin (ransk. Bourgogne) romaaniselle kansakunnalle ja alueelle."
+msgstr ""
+"Burgundit olivat ikivanha itägermaaninen kansa joka todennäköisesti on "
+"lähtöisin Bornholmin saarelta. Bornholmilta lähdettyään burgundit elivät "
+"Oder- ja Vistula-jokien välimaastossa. Kansainvaellusaikaan burgundit "
+"liittyivät muiden germaanisten kansojen joukkoon valloittamaan Rooman "
+"keisarikuntaa, ja 472 jaa. jotkut heistä ryöstivät Rooman. Ensimmäinen "
+"burgundien kuningaskunta perustettiin Wormsiin, mutta hunnien tuhon jäljiltä "
+"burgundit siirtyivät alueelle joka nykyään tunnetaan nimellä nykyisen "
+"Ranskan alueelle nimeltä Savoiji ja Burgundi, jonne toinen kuningaskunta "
+"perustettiin. Lopulta kuningaskunta alistettiin osaksi Frankkien "
+"valtakuntaa. Burgundit antoivat sittemmin nimensä myös myöhemmälle Burgundin "
+"(ransk. Bourgogne) romaaniselle kansakunnalle ja alueelle."
 
 #. TRANS: The last letter in "Burkinabe" should be
 #. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
@@ -3372,7 +3388,16 @@ msgid ""
 "Ljudevit Posavski. After its fall in 822 the state was abolished and "
 "incorporated directly into the realm of the Franks. Slovenians are the "
 "modern descendants of the Carantanians."
-msgstr "Karantanialaiset tai Alppien slaavit olivat varhaiskeskiaikainen, nykyisen Itävallan alueetta asuttaneiden lounaisten slaaviheimojen liittouma. Karantanian herttuakunta oli yksi varhaisimmista slaavivaltioista; se perustettiin 600-luvulla jaa. 700-luvulla sillä oli riippuvuussuhde Frankkien kuningaskuntaan, mikä johti siihen että herttua Gorazd kastettiin kristinuskoon latinalaisessa riitissä. 819 vuodessa Karantania liittyi kapinaan jota johti Kroatian herttua Ljudevit Posavski. Kaatumisensa jälkeen 822 valtio lakkautettiin ja liitettiin suoraan osaksi Frankkien valtakuntaa. Nykyiset slovenialaiset ovat polveutuneet karantanialaisista."
+msgstr ""
+"Karantanialaiset tai Alppien slaavit olivat varhaiskeskiaikainen, nykyisen "
+"Itävallan alueetta asuttaneiden lounaisten slaaviheimojen liittouma. "
+"Karantanian herttuakunta oli yksi varhaisimmista slaavivaltioista; se "
+"perustettiin 600-luvulla jaa. 700-luvulla sillä oli riippuvuussuhde "
+"Frankkien kuningaskuntaan, mikä johti siihen että herttua Gorazd kastettiin "
+"kristinuskoon latinalaisessa riitissä. 819 vuodessa Karantania liittyi "
+"kapinaan jota johti Kroatian herttua Ljudevit Posavski. Kaatumisensa jälkeen "
+"822 valtio lakkautettiin ja liitettiin suoraan osaksi Frankkien valtakuntaa. "
+"Nykyiset slovenialaiset ovat polveutuneet karantanialaisista."
 
 #: data/nation/castilian.ruleset:3
 msgid "Castilian"
@@ -3679,7 +3704,15 @@ msgid ""
 "indigenous peasants and the mostly Ladino elite. The state's colonial "
 "cities, Mayan peoples and natural wealth have made it one of Mexico's major "
 "tourist destinations."
-msgstr "Chiapas on eteläisen Meksikon osavaltio. Sitä hallittiin Guatemalasta käsin siirtomaavallan aikaan, mutta 1824, lyhyen itsenäisyyden ajan jälkeen, se päätti liittyä osaksi Meksikoa. Chiapasissa asuu huomattavan kokoinen alkuperäisväestö (enimmäkseen mayoja). Suurta osa Chiapasin historiaa värittävät kahnaukset alkuperäiskansaan kuuluvien maanviljelijöiden ja enimmäkseen ladinoista koostuvan eliitin välillä. Chiapasin siirtomaavallan aikaiset kaupungit, mayat ja luonnonrikkaudet ovat tehneet siitä yhden Meksikon keskeisistä turistikohteista."
+msgstr ""
+"Chiapas on eteläisen Meksikon osavaltio. Sitä hallittiin Guatemalasta käsin "
+"siirtomaavallan aikaan, mutta 1824, lyhyen itsenäisyyden ajan jälkeen, se "
+"päätti liittyä osaksi Meksikoa. Chiapasissa asuu huomattavan kokoinen "
+"alkuperäisväestö (enimmäkseen mayoja). Suurta osa Chiapasin historiaa "
+"värittävät kahnaukset alkuperäiskansaan kuuluvien maanviljelijöiden ja "
+"enimmäkseen ladinoista koostuvan eliitin välillä. Chiapasin siirtomaavallan "
+"aikaiset kaupungit, mayat ja luonnonrikkaudet ovat tehneet siitä yhden "
+"Meksikon keskeisistä turistikohteista."
 
 #: data/nation/chickasaw.ruleset:3
 msgid "Chickasaw"
@@ -3780,7 +3813,14 @@ msgid ""
 "pidgin language for trade and communication between Native Americans and "
 "Whites throughout Oregon, Washington, British Columbia and all the way to "
 "Alaska."
-msgstr "Chinookien liittovaltio oli ryhmä yhteisöjä joilla oli yhteiset tavat ja kieli. Chinookit pysyttelivät aloillaan Columbia-joen varrella nykyisen Yhdysvaltain Oregonin ja Washingtonin osavaltioiden alueella. Chinookien alueellinen vaikutus näkyy siinä, että heidän kielestään muodostui Amerikan alkuperäiskansojen ja valkoisten välisen kaupankäyntikielen pidginin pohja. Pidgin oli käytössä Oregonin, Washingtonin, Brittiläisen Kolumbian ja jopa Alaskan alueelle asti."
+msgstr ""
+"Chinookien liittovaltio oli ryhmä yhteisöjä joilla oli yhteiset tavat ja "
+"kieli. Chinookit pysyttelivät aloillaan Columbia-joen varrella nykyisen "
+"Yhdysvaltain Oregonin ja Washingtonin osavaltioiden alueella. Chinookien "
+"alueellinen vaikutus näkyy siinä, että heidän kielestään muodostui Amerikan "
+"alkuperäiskansojen ja valkoisten välisen kaupankäyntikielen pidginin pohja. "
+"Pidgin oli käytössä Oregonin, Washingtonin, Brittiläisen Kolumbian ja jopa "
+"Alaskan alueelle asti."
 
 #: data/nation/choctaw.ruleset:3
 msgid "Choctaw"
@@ -3801,7 +3841,17 @@ msgid ""
 "but there is also a vibrant band in Mississippi made up of Choctaw who "
 "managed to escape removal and stay behind. The word \"Oklahoma\" itself is "
 "derived from a Choctaw language term meaning \"red people\"."
-msgstr "Choctawit olivat yksi nk. \"Viidestä sivistyneestä heimosta\", ja asuttivat alunperin nykyisen USA:n Missisippin osavaltion keski- ja eteläosia. Choctawit kohtasivat ensimmäisenä espanjalaiset tutkimusmatkailijat 1500-luvulla, ja heistä tuli pitkäaikaisia Ranskan liittolaisia kunnes Amerikan sisällissodan aikaan heimo liittyi Etelävaltioiden puolelle. Valtaosa nykychoctaweista elää Oklahoman alueella, jonne heidät poistettiin kotimaastaan väkisin presidentti Andrew Jacksonin valtakaudella 1831. Tämän lisäksi Missisippin alueella elää choctaweja jotka onnistuivat pakenemaan pakkosiirtoa ja jäämään Missisippin alueelle. Osavaltion nimi \"Oklahoma\" on johdettu choctawin kielen termistä joka tarkoittaa \"punaista kansaa\"."
+msgstr ""
+"Choctawit olivat yksi nk. \"Viidestä sivistyneestä heimosta\", ja asuttivat "
+"alunperin nykyisen USA:n Missisippin osavaltion keski- ja eteläosia. "
+"Choctawit kohtasivat ensimmäisenä espanjalaiset tutkimusmatkailijat 1500-"
+"luvulla, ja heistä tuli pitkäaikaisia Ranskan liittolaisia kunnes Amerikan "
+"sisällissodan aikaan heimo liittyi Etelävaltioiden puolelle. Valtaosa "
+"nykychoctaweista elää Oklahoman alueella, jonne heidät poistettiin "
+"kotimaastaan väkisin presidentti Andrew Jacksonin valtakaudella 1831. Tämän "
+"lisäksi Missisippin alueella elää choctaweja jotka onnistuivat pakenemaan "
+"pakkosiirtoa ja jäämään Missisippin alueelle. Osavaltion nimi \"Oklahoma\" "
+"on johdettu choctawin kielen termistä joka tarkoittaa \"punaista kansaa\"."
 
 #: data/nation/chola.ruleset:3
 msgid "Chola"
@@ -3846,7 +3896,14 @@ msgid ""
 "is a mention by the Byzantine Emperor Constantine VII Porphyrogennetos. "
 "White Croatia is sometimes associated with a prince Slavnik, lord of Libice, "
 "whose influence extended to the region of Silesia and the land of Krakow."
-msgstr "Chrobatia oli varhaiskeskiaikainen, osin tarunomainen slaavivaltio jonka valkoiset kroaatit rakensivat osaan Keski-Eurooppaa. Valtion historia ja sijainti ovat hämärän peitossa; pääasiallinen lähde valkokroaattisen valtion olemassaololle on maininta bysanttilaiskeisari Konstantinos VII purppurasyntyneen teoksessa. Valkoinen Kroatia liitetään joskus prinssi Slavníkiin, Libicen hallitsijaan, jonka vaikutus ylsi Sleesian alueelle ja Krakowin maille."
+msgstr ""
+"Chrobatia oli varhaiskeskiaikainen, osin tarunomainen slaavivaltio jonka "
+"valkoiset kroaatit rakensivat osaan Keski-Eurooppaa. Valtion historia ja "
+"sijainti ovat hämärän peitossa; pääasiallinen lähde valkokroaattisen valtion "
+"olemassaololle on maininta bysanttilaiskeisari Konstantinos VII "
+"purppurasyntyneen teoksessa. Valkoinen Kroatia liitetään joskus prinssi "
+"Slavníkiin, Libicen hallitsijaan, jonka vaikutus ylsi Sleesian alueelle ja "
+"Krakowin maille."
 
 #: data/nation/chrobatian.ruleset:29 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:23
@@ -4078,7 +4135,19 @@ msgid ""
 "their claims of independence; much of their territory laid in ruins. "
 "Furthermore, the Union victory in the Civil War opened the way for the "
 "abolition of slavery in the United States."
-msgstr "Amerikan valtioliitto eli Etelävaltiot oli Yhdysvalloista irtautunut pala joka koostui yhdestätoista eteläisestä osavaltiosta ja jonka olemassaolo kesti vuodesta 1861 vuoteen 1865. Osavaltiot irtautuivat Yhdysvalloista poliittisista ja kulttuurisista erimielisyyksistä Pohjoisen kanssa, mihin kuului näkyvimmin suhtautuminen orjuuteen, minkä lakkauttamista Etelävaltiot pelkäsivät presidentti Abraham Lincolnin tultua juuri valituksi. Etelävaltioiden pääkaupunki oli Richmond Virginiassa, ja maan ainoa presidentti oli Jefferson Davis. Amerikan sisällissodassa Etelävaltiot taisteli Yhdysvaltoja vastaan. Hävittyään taisteluissa useita kertoja pohjoisvaltojen eli unionin joukoille Etelävaltioiden oli pakko luopua itsenäisyysvaatimuksistaan: huomattava osa niiden alueesta oli raunioina. Pohjoisvaltojen voitettua sisällissodan orjuus kiellettiin Yhdysvalloissa."
+msgstr ""
+"Amerikan valtioliitto eli Etelävaltiot oli Yhdysvalloista irtautunut pala "
+"joka koostui yhdestätoista eteläisestä osavaltiosta ja jonka olemassaolo "
+"kesti vuodesta 1861 vuoteen 1865. Osavaltiot irtautuivat Yhdysvalloista "
+"poliittisista ja kulttuurisista erimielisyyksistä Pohjoisen kanssa, mihin "
+"kuului näkyvimmin suhtautuminen orjuuteen, minkä lakkauttamista Etelävaltiot "
+"pelkäsivät presidentti Abraham Lincolnin tultua juuri valituksi. "
+"Etelävaltioiden pääkaupunki oli Richmond Virginiassa, ja maan ainoa "
+"presidentti oli Jefferson Davis. Amerikan sisällissodassa Etelävaltiot "
+"taisteli Yhdysvaltoja vastaan. Hävittyään taisteluissa useita kertoja "
+"pohjoisvaltojen eli unionin joukoille Etelävaltioiden oli pakko luopua "
+"itsenäisyysvaatimuksistaan: huomattava osa niiden alueesta oli raunioina. "
+"Pohjoisvaltojen voitettua sisällissodan orjuus kiellettiin Yhdysvalloissa."
 
 #: data/nation/congolesebrazzaville.ruleset:3
 msgid "Brazzaville-Congolese"
@@ -7523,7 +7592,10 @@ msgid ""
 "The Ligures were a pre-Roman tribal complex in what is now Northwestern "
 "Italy and Southern France. Their language is of uncertain origin, perhaps "
 "Para-Celtic or Pre-Indo-European."
-msgstr "Liguurit olivat Roomaa edeltävä heimokompleksi nykyisen Luoteis-Italian ja Etelä-Ranskan alueella. Liguurien kielen alkuperästä ei olla varmoja, mutta sitä on arveltu parakelttiläiseksi tai esi-indoeurooppalaiseksi."
+msgstr ""
+"Liguurit olivat Roomaa edeltävä heimokompleksi nykyisen Luoteis-Italian ja "
+"Etelä-Ranskan alueella. Liguurien kielen alkuperästä ei olla varmoja, mutta "
+"sitä on arveltu parakelttiläiseksi tai esi-indoeurooppalaiseksi."
 
 # Paramount Chief on pikkupomo muiden pikkupomojen joukossa
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
@@ -8088,7 +8160,12 @@ msgid ""
 "primarily by Micronesians, the islands became an independent republic in "
 "free association with the United States in 1986. In the mid-20th the United "
 "States carried out numerous nuclear tests on the islands."
-msgstr "Marshallinsaaret on maa Länsi-Tyynellämerellä, juuri päiväntasaajan pohjoispuolella. Siihen kuuluu suuri joukko saaria ja atolleja. Saaria asuttavat lähinnä mikronesialaiset, ja niistä tuli itsenäinen tasavalta joka on osa Yhdysvaltoja liitännäisvaltiosopimuksella vuonna 1986. 1900-luvun puolivälissä Yhdysvallat teki saarilla useita ydinkokeita."
+msgstr ""
+"Marshallinsaaret on maa Länsi-Tyynellämerellä, juuri päiväntasaajan "
+"pohjoispuolella. Siihen kuuluu suuri joukko saaria ja atolleja. Saaria "
+"asuttavat lähinnä mikronesialaiset, ja niistä tuli itsenäinen tasavalta joka "
+"on osa Yhdysvaltoja liitännäisvaltiosopimuksella vuonna 1986. 1900-luvun "
+"puolivälissä Yhdysvallat teki saarilla useita ydinkokeita."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -8646,7 +8723,12 @@ msgid ""
 "power through alliances with the Golden Horde and the Orthodox Church, "
 "eventually subduing surrounding cities and principalities including the "
 "Novgorod Republic."
-msgstr "Moskova nousi alueelliseksi vallaksi ja Kiovan Venäjän seuraajaksi 1100-luvulla jaa. Rudrikid-hallitsijasuvun aikana moskovalaiset keskittivät valtaa liittoutumalla Kultaisen ordan ja ortodoksikirkon kanssa, ja myöhemmin valtasi ympäröiviä kaupunkeja ja ruhtinaskuntia kuten Novgorodin tasavallan."
+msgstr ""
+"Moskova nousi alueelliseksi vallaksi ja Kiovan Venäjän seuraajaksi 1100-"
+"luvulla jaa. Rudrikid-hallitsijasuvun aikana moskovalaiset keskittivät "
+"valtaa liittoutumalla Kultaisen ordan ja ortodoksikirkon kanssa, ja "
+"myöhemmin valtasi ympäröiviä kaupunkeja ja ruhtinaskuntia kuten Novgorodin "
+"tasavallan."
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -9094,7 +9176,10 @@ msgid ""
 "The Novgorod Republic was was a large Medieval Russian state that stretched "
 "from the Baltic Sea to the Ural Mountains. It existed between the 12th and "
 "15th centuries and was centered on the city of Novgorod."
-msgstr "Novrogodin tasavalta oli suuri keskiaikainen venäläinen valtio joka ylsi Itämereltä Uralvuorille. Se oli olemassa 1136-1478 ja rakentui Novrogodin kaupungin ympärille."
+msgstr ""
+"Novrogodin tasavalta oli suuri keskiaikainen venäläinen valtio joka ylsi "
+"Itämereltä Uralvuorille. Se oli olemassa 1136-1478 ja rakentui Novrogodin "
+"kaupungin ympärille."
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
@@ -9692,7 +9777,12 @@ msgid ""
 "inhabited the Parthia region of the Seleucid Empire. Under the leadership of "
 "the satrap Arsakes they drove the Seleucids from Iran, where they created "
 "their own strong empire. Their culture was Hellenistic."
-msgstr "Parthialaiset olivat alunperin keskiaasialainen paimentolaiskansa jotka asuttivat Parthian aluetta Seleukidien kuningaskunnasta. Satraappi Arsakeksen johdolla parthialaiset ajoivat seleukidit Iranista, ja loivat sinne oman vahvan kuningaskunnan. Parthialaisten kulttuuri oli helleeniläinen."
+msgstr ""
+"Parthialaiset olivat alunperin keskiaasialainen paimentolaiskansa jotka "
+"asuttivat Parthian aluetta Seleukidien kuningaskunnasta. Satraappi "
+"Arsakeksen johdolla parthialaiset ajoivat seleukidit Iranista, ja loivat "
+"sinne oman vahvan kuningaskunnan. Parthialaisten kulttuuri oli "
+"helleeniläinen."
 
 #: data/nation/parthian.ruleset:35
 #, c-format
@@ -10240,7 +10330,11 @@ msgid ""
 "colony. Morocco currently controls most of the area, which is considered an "
 "illegal occupation by most of the international community. The Moroccan Army "
 "and Sahrawi Polisario rebels have been fighting each other since 1975."
-msgstr "Länsi-Sahara oli aikoinaan Espanjan siirtokunta. Marokko hallitsee tällä hetkellä suurta osaa alueesta, ja valtaosa kansainvälisestä yhteisöstä pitää tätä laittomana miehityksenä. Marokon armeija ja Saharan demokraattisen arabitasavallan Polisario ovat taistelleet keskenään vuodesta 1975."
+msgstr ""
+"Länsi-Sahara oli aikoinaan Espanjan siirtokunta. Marokko hallitsee tällä "
+"hetkellä suurta osaa alueesta, ja valtaosa kansainvälisestä yhteisöstä pitää "
+"tätä laittomana miehityksenä. Marokon armeija ja Saharan demokraattisen "
+"arabitasavallan Polisario ovat taistelleet keskenään vuodesta 1975."
 
 #: data/nation/saintlucian.ruleset:3
 msgid "Saint Lucian"
@@ -10278,7 +10372,10 @@ msgid ""
 "The Saka were an ancient Iranian tribe from the Central Asian steppes. They "
 "were very closely related to the European Scythians, and were probably "
 "descendants of the Andronovo culture."
-msgstr "Sakat olivat antiikinaikainen iranilainen heimo Keski-Aasian aroilta. Sakat olivat läheistä sukua Euroopan skyyteille, ja todennäköisesti polveutuivat Andronovon kulttuurista."
+msgstr ""
+"Sakat olivat antiikinaikainen iranilainen heimo Keski-Aasian aroilta. Sakat "
+"olivat läheistä sukua Euroopan skyyteille, ja todennäköisesti polveutuivat "
+"Andronovon kulttuurista."
 
 #: data/nation/salishan.ruleset:3
 msgid "Salishan"
@@ -10519,7 +10616,11 @@ msgid ""
 "Siberia. They were closely related to the Saka and the Scythians. The myth "
 "of the origin from the Sarmatians formed the basis of the Polish culture "
 "from the 15th to the 18th century."
-msgstr "Sarmaatit olivat Iranilaisia paimenheimoja Keski-Aasiassa ja lounaisessa Siperiassa. Sarmaatit olivat läheistä sukua sakoille ja skyyteille. Sarmaattien alkuperän myytti pohjusti puolalaista kulttuuria 1400-1700-luvuilla."
+msgstr ""
+"Sarmaatit olivat Iranilaisia paimenheimoja Keski-Aasiassa ja lounaisessa "
+"Siperiassa. Sarmaatit olivat läheistä sukua sakoille ja skyyteille. "
+"Sarmaattien alkuperän myytti pohjusti puolalaista kulttuuria 1400-1700-"
+"luvuilla."
 
 #: data/nation/saudi.ruleset:3
 msgid "Saudi"
@@ -13042,7 +13143,17 @@ msgid ""
 "Zhigao was crushed, many Zhuang migrated southward forming the basis of the "
 "Lao, Thai, and Shan nations. After the Han, the Zhuang are the most populous "
 "ethnic group of the People's Republic of China."
-msgstr "Zhuangit elävät Kiinan lounaisosissa ikivanhalla raja-alueella joka on pitkään erottanut siniittien kansan Kaakkois-Aasian alkuperäiskansoista. Zhuangit tunnetaan ainutlaatuisista kastelujärjestelmistään sekä luonnonkauniista porrastetuista riisiviljelmistään. Useat kiinalaiset hallitsijasuvut painostivat zhuangeja melko jatkuvasti antiikin aikaan. 900-luvulle jaa. tultaessa aluetta hallitsi rautanyrkillä kiinalainen Song-hallitsijasuku. Kansansankari Nong Zhigao johti kapinaa 1052, mutta se murskattiin. Tämän jälkeen moni zhuangeista muutti etelään ja loi sinn eperustan Lao, Thai ja Shan-kansakunnille. Hanien jälkeen zhuangit ovat väkiluvultaan toiseksi suurin etninen ryhmä Kiinan kansantasavallassa."
+msgstr ""
+"Zhuangit elävät Kiinan lounaisosissa ikivanhalla raja-alueella joka on "
+"pitkään erottanut siniittien kansan Kaakkois-Aasian alkuperäiskansoista. "
+"Zhuangit tunnetaan ainutlaatuisista kastelujärjestelmistään sekä "
+"luonnonkauniista porrastetuista riisiviljelmistään. Useat kiinalaiset "
+"hallitsijasuvut painostivat zhuangeja melko jatkuvasti antiikin aikaan. 900-"
+"luvulle jaa. tultaessa aluetta hallitsi rautanyrkillä kiinalainen Song-"
+"hallitsijasuku. Kansansankari Nong Zhigao johti kapinaa 1052, mutta se "
+"murskattiin. Tämän jälkeen moni zhuangeista muutti etelään ja loi sinn "
+"eperustan Lao, Thai ja Shan-kansakunnille. Hanien jälkeen zhuangit ovat "
+"väkiluvultaan toiseksi suurin etninen ryhmä Kiinan kansantasavallassa."
 
 #: data/nation/zimbabwean.ruleset:3
 msgid "Zimbabwean"
