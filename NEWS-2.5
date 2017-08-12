@@ -1,10 +1,107 @@
 ========================
-Welcome to Freeciv 2.5.7
+Welcome to Freeciv 2.5.8
 ========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.7 to 2.5.8
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.8>)
+
+   2.5.8 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Fix trouble loading certain compressed savegames. HRM#679197
+     * Used diplomat units no longer increase the target's score.
+       HRM#657298
+     * Fixed a warning when a player on your team goes to war with an ally
+       of yours. HRM#662059
+     * Fixed an assertion failure when losing a tech while no tech goal is
+       selected. HRM#664286
+     * Fixed an assertion failure when a player on your team is about to
+       die. HRM#662701
+     * Fixed a bug that could lead to no huts when loading from a game or
+       scenario that was saved in the pregame state. HRM#682576
+     * Fixed a typo'd leader name in the American nation. HRM#681847
+     * When a city can't build a unit with a population cost, this is
+       explained better. GNAPATCH#7707
+
+Changes affecting other rulesets / modders
+
+     * Fix a crash when a unit has a zero activity rate. HRM#660342
+     * Fix a crash when a unit has negative vision radius. HRM#661313
+     * Avoids warnings and incorrect behavior when a unit's initial
+       veterancy turns out negative. HRM#661193
+     * Prevent the scripting API from creating a stack of illegally mixed
+       nationality when adding a unit to a tile. HRM#661533
+     * Using a script to modify the map in certain ways in response to the
+       'map_generated' signal could cause an assertion failure. HRM#673767
+
+General
+
+     * Various internal changes which should only affect developers.
+       HRM#678452 HRM#654689 HRM#675955 HRM#679223 HRM#679917 HRM#674435
+       HRM#660908 HRM#678446
+
+Clients
+
+     * Fix a possible assertion failure when a spaceship launched (or at
+       other times when an AI's mood changed suddenly). HRM#660363
+     * (Gtk) Fix a possible Gtk warning before the map is set up.
+       HRM#678972
+     * (Gtk) Fix a minor memory leak in the unit selection dialog.
+       HRM#674321
+     * (Gtk3) Fix the middle-click tile info box having a transparent
+       background and thus being unreadable on some installations.
+       HRM#656549
+
+Tilesets / Art
+
+     * Updated Isophex tileset. Adds distinct Lake terrain, various other
+       cosmetic changes, and some extra resource types that are not used
+       in the supplied rulesets. HRM#680743
+
+Help / Documentation
+
+     * The civ2civ3 online help claimed Forest, Jungle, and Swamp gave a
+       25% defense bonus, but in reality they only give 20% due to a game
+       engine limitation. The help now reflects this. (The 25% bonus will
+       be implemented in 2.6.) HRM#682494
+     * Corrections in README.ruleset_civ2civ3. HRM#657562
+     * Online help documents that Leader units entering huts won't unleash
+       barbarians. GNAPATCH#7545
+     * doc/README.tilesets was accidentally left out of the tarball.
+       HRM#678449
+     * Update the FAQ a bit.
+     * Update docs to reflect move away from gna.org. HRM#660271
+       HRM#654670 HRM#664195
+     * Minor update to ruleset comments. HRM#685211
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Catalan, Russian, French, British
+            English.
+          + Incomplete translations: Finnish (100% core, 93% nations).
+     * Fix a help glitch for Migrants when using the Spanish translation.
+       HRM#662732
+
+Build/portability
+
+     * The Windows package uses a new package of libraries. This is mainly
+       expected to improve debugging. HRM#681643 HRM#681877
+     * Work around a binutils bug that stops --enable-gprof working on
+       some distributions (notably, Debian Stretch -- Debian bug #854704).
+       HRM#675699
+     * tolua.pkg, a source file not needed to build from tarballs, was
+       inadvertently not included in them. HRM#678447
 
 
 CHANGES FROM 2.5.6 to 2.5.7
