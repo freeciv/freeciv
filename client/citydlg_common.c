@@ -709,6 +709,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
                                   char *buf, size_t bufsz)
 {
   struct effect_list *plist;
+  int total_performance = 0;
 
   buf[0] = '\0';
 
@@ -722,6 +723,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
   effect_list_iterate(plist, peffect) {
     char buf2[512];
     int mul = 100;
+    int value;
 
     get_effect_req_text(peffect, buf2, sizeof(buf2));
 
@@ -737,10 +739,23 @@ void get_city_dialog_culture_text(const struct city *pcity,
       }
     }
 
-    cat_snprintf(buf, bufsz,
-                 _("%4d : %s\n"), (peffect->value * mul) / 100, buf2);
+    value = (peffect->value * mul) / 100;
+    cat_snprintf(buf, bufsz, _("%4d : %s\n"), value, buf2);
+    total_performance += value;
   } effect_list_iterate_end;
   effect_list_destroy(plist);
+
+  /* This probably ought not to happen in well-designed rulesets, but it's
+   * possible for incomplete client knowledge to give an inaccurate
+   * breakdown. If it does happen, at least acknowledge to the user that
+   * we are confused, rather than displaying an incorrect sum. */
+  if (total_performance != pcity->client.culture - pcity->history) {
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: City culture that we cannot explain.
+                  * Unlikely to happen. */
+                 _("%4d : (unknown)\n"),
+                 pcity->client.culture - pcity->history - total_performance);
+  }
 
   cat_snprintf(buf, bufsz,
 	       _("==== : Adds up to\n"));

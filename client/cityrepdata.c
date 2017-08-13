@@ -144,7 +144,7 @@ static const char *cr_entry_happy(const struct city *pcity,
 }
 
 /************************************************************************
-  Returns city culture written to string
+  Returns city total culture written to string
 *************************************************************************/
 static const char *cr_entry_culture(const struct city *pcity,
                                     const void *data)
@@ -155,13 +155,31 @@ static const char *cr_entry_culture(const struct city *pcity,
 }
 
 /************************************************************************
-  Returns city history written to string
+  Returns city history culture value written to string
 *************************************************************************/
 static const char *cr_entry_history(const struct city *pcity,
                                     const void *data)
 {
   static char buf[8];
   fc_snprintf(buf, sizeof(buf), "%3d", pcity->history);
+  return buf;
+}
+
+/************************************************************************
+  Returns city performance culture value written to string
+*************************************************************************/
+static const char *cr_entry_performance(const struct city *pcity,
+                                        const void *data)
+{
+  static char buf[8];
+
+  /*
+   * Infer the actual performance component of culture from server-supplied
+   * values, rather than using the client's guess at EFT_PERFORMANCE.
+   * XXX: if culture ever gets more complicated than history+performance,
+   * this will need revising, possibly to use a server-supplied value.
+   */
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->client.culture - pcity->history);
   return buf;
 }
 
@@ -736,10 +754,12 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(luxury) },
   { FALSE, 3, 1, NULL, N_("?Science:S"), N_("Economy: Science"),
     NULL, FUNC_TAG(science) },
-  { FALSE, 3, 1, NULL, N_("?Culture:Clt"), N_("Culture"),
+  { FALSE, 3, 1, NULL, N_("?Culture:Clt"), N_("Culture (History+Performance)"),
     NULL, FUNC_TAG(culture) },
-  { FALSE, 3, 1, NULL, N_("?History:Hst"), N_("History"),
+  { FALSE, 3, 1, NULL, N_("?History:Hst"), N_("Culture: History"),
     NULL, FUNC_TAG(history) },
+  { FALSE, 3, 1, NULL, N_("?Performance:Prf"), N_("Culture: Performance"),
+    NULL, FUNC_TAG(performance) },
   { FALSE, 3, 1, NULL, N_("?Continent:C"), N_("Continent number"),
     NULL, FUNC_TAG(continent) },
   { FALSE,  1, 1, N_("?number_trade_routes:n"), N_("?number_trade_routes:R"),
