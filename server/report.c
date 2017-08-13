@@ -1071,7 +1071,7 @@ static bool scan_score_log(char *id)
 {
   int line_nr, turn, plr_no, spaces;
   struct plrdata_slot *plrdata;
-  char plr_name[MAX_LEN_NAME], line[80], *ptr;
+  char plr_name[MAX_LEN_NAME], line[120], *ptr;
 
   fc_assert_ret_val(score_log != NULL, FALSE);
   fc_assert_ret_val(score_log->fp != NULL, FALSE);
