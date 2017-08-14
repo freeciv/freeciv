@@ -2,7 +2,7 @@
 
 name=_("Muskogee")
 plural=_("?plural:Muskogee")
-groups=_("American")
+groups="American"
 legend=_("The Muskogee was a confederacy of North American tribes,\
  including the Creek, Seminole, Choctaw, and Chickasaw. They were based in\
  the area now encompassed by the U.S. states of Georgia and Alabama. Creek\
