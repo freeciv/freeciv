@@ -17821,7 +17821,7 @@ msgstr "Reciclatge"
 #: data/classic/techs.ruleset:619 data/experimental/techs.ruleset:680
 #: data/civ2civ3/techs.ruleset:700 data/multiplayer/techs.ruleset:625
 msgid "Refining"
-msgstr "Refinat"
+msgstr "Refinació"
 
 #: data/civ1/techs.ruleset:495
 msgid "Religion"
