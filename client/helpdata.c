@@ -2508,8 +2508,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Veterans have increased strength in combat.\n"));
       }
       /* SUPERSPY always wins/escapes */
-      if ((utype_has_flag(utype, UTYF_DIPLOMAT)
-           || utype_has_flag(utype, UTYF_SPY))
+      if (utype_has_flag(utype, UTYF_DIPLOMAT)
           && !utype_has_flag(utype, UTYF_SUPERSPY)) {
         CATLSTR(buf, bufsz,
                 _("  * Veterans have improved chances in diplomatic "

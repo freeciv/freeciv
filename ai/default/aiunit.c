@@ -2554,8 +2554,7 @@ void dai_manage_unit(struct ai_type *ait, struct player *pplayer,
 
   is_ferry = dai_is_ferry(punit, ait);
 
-  if ((unit_has_type_flag(punit, UTYF_DIPLOMAT))
-      || (unit_has_type_flag(punit, UTYF_SPY))) {
+  if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
     TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
     dai_manage_diplomat(ait, pplayer, punit);
     TIMING_LOG(AIT_DIPLOMAT, TIMER_STOP);
