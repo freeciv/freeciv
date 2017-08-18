@@ -227,7 +227,7 @@ force_explode_nuclear = FALSE
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
 ; will empty the food stock.
-poison_empties_food_stock = FALSE
+;poison_empties_food_stock = FALSE
 
 ; The maximum distance from the actor unit to the target of the "Bombard"
 ; action. The value 1 means that the targets must be on a tile adjacent to
@@ -241,9 +241,6 @@ bombard_max_range = 1
 ; that supports mnemonics will replace it with the in-band signal that marks
 ; the following character as a mnemonic in its graphical toolkit.
 ; The second %s marks where extra details should be inserted.
-
-; /* TRANS: _Poison City (3% chance of success). */
-ui_name_poison_city = _("%sPoison City%s")
 
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
