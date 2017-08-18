@@ -203,9 +203,6 @@ force_trade_route = TRUE
 ; the following character as a mnemonic in its graphical toolkit.
 ; The second %s marks where extra details should be inserted.
 
-; /* TRANS: _Poison City (3% chance of success). */
-ui_name_poison_city = _("%sPoison City%s")
-
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
