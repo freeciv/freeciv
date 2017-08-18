@@ -7,16 +7,16 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2016.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
 #
 #  Email all translators at: <freeciv.ru@freelists.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-10-11 12:52+0500\n"
-"PO-Revision-Date: 2016-11-18 12:55+0500\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-18 14:15+0500\n"
+"PO-Revision-Date: 2017-08-18 13:31+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -9043,10 +9043,6 @@ msgstr "Маскоги"
 #: data/nation/muskogee.ruleset:4
 msgid "?plural:Muskogee"
 msgstr "Маскоги"
-
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Американцы"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""

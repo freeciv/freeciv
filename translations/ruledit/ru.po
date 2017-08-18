@@ -7,338 +7,259 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2015, 2016.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
 #
 #  Email all translators at: <freeciv.ru@freelists.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-11 12:49+0500\n"
-"PO-Revision-Date: 2016-10-11 13:00+0500\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-18 14:16+0500\n"
+"PO-Revision-Date: 2017-08-18 12:32+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
-"=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: S2_6/tools/ruledit/requirers_dlg.cpp:43 trunk/tools/ruledit/req_edit.cpp:131
-#: trunk/tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
 msgstr "Закрыть"
 
 #. TRANS: %s could be any of a number of ruleset items (e.g., tech,
 #. * unit type, ...
-#: S2_6/tools/ruledit/requirers_dlg.cpp:68
-#: trunk/tools/ruledit/requirers_dlg.cpp:72
+#: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
 msgstr "Требуется для %s"
 
-#: S2_6/tools/ruledit/ruledit.cpp:135 trunk/tools/ruledit/ruledit.cpp:142
+#: tools/ruledit/ruledit.cpp:135
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных ключей командной строки"
 
-#: S2_6/tools/ruledit/ruledit.cpp:137 trunk/tools/ruledit/ruledit.cpp:144
+#: tools/ruledit/ruledit.cpp:137
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: S2_6/tools/ruledit/ruledit.cpp:140 trunk/tools/ruledit/ruledit.cpp:147
+#: tools/ruledit/ruledit.cpp:140
 msgid "ruleset RULESET"
 msgstr "ruleset НАБОРПРАВИЛ"
 
-#: S2_6/tools/ruledit/ruledit.cpp:141 trunk/tools/ruledit/ruledit.cpp:148
+#: tools/ruledit/ruledit.cpp:141
 msgid "Ruleset to use as the starting point."
 msgstr "Набор правил, который будет стартовым."
 
-#: S2_6/tools/ruledit/ruledit.cpp:154 trunk/tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:154
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "В одно время можно редактировать только один набор правил.\n"
 
-#: S2_6/tools/ruledit/ruledit.cpp:161 trunk/tools/ruledit/ruledit.cpp:168
+#: tools/ruledit/ruledit.cpp:161
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:131 trunk/tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:115
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s"
+msgstr ""
+"%s%s\n"
+"commit: %s"
+
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "Give ruleset to use as starting point."
 msgstr "Выберите набор правил, который будет стартовым."
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:143 trunk/tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:138
 msgid "Start editing"
 msgstr "Начать редактирование"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:153 trunk/tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Misc"
 msgstr "Параметры"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:155 trunk/tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Tech"
 msgstr "Открытия"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:157 trunk/tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:152
 msgid "Buildings"
 msgstr "Здания"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:159 trunk/tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:154
 msgid "Units"
 msgstr "Соединения"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:161 trunk/tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:156
 msgid "Nations"
 msgstr "Народы"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:170 trunk/tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Welcome to freeciv-ruledit"
 msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:190 trunk/tools/ruledit/ruledit_qt.cpp:199
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Ruleset loaded"
 msgstr "Набор правил загружен"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:206 trunk/tools/ruledit/ruledit_qt.cpp:218
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:250 trunk/tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:245
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:266 trunk/tools/ruledit/ruledit_qt.cpp:284
+#: tools/ruledit/ruledit_qt.cpp:261
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: S2_6/tools/ruledit/ruledit_qt.cpp:270 trunk/tools/ruledit/ruledit_qt.cpp:288
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Quit?"
 msgstr "Выйти?"
 
-#: S2_6/tools/ruledit/tab_building.cpp:63 S2_6/tools/ruledit/tab_tech.cpp:63
-#: S2_6/tools/ruledit/tab_unit.cpp:63 trunk/tools/ruledit/tab_building.cpp:65
-#: trunk/tools/ruledit/tab_good.cpp:65 trunk/tools/ruledit/tab_gov.cpp:65
-#: trunk/tools/ruledit/tab_tech.cpp:63 trunk/tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:61 tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_unit.cpp:61
 msgid "Rule Name"
 msgstr "Название Правила"
 
-#: S2_6/tools/ruledit/tab_building.cpp:71 S2_6/tools/ruledit/tab_tech.cpp:71
-#: S2_6/tools/ruledit/tab_unit.cpp:71 trunk/tools/ruledit/tab_building.cpp:73
-#: trunk/tools/ruledit/tab_good.cpp:73 trunk/tools/ruledit/tab_gov.cpp:73
-#: trunk/tools/ruledit/tab_tech.cpp:71 trunk/tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_unit.cpp:69
 msgid "Name"
 msgstr "Название"
 
-#: S2_6/tools/ruledit/tab_building.cpp:82
-#: trunk/tools/ruledit/tab_building.cpp:89
-msgid "Add Building"
-msgstr "Добавить Здание"
-
-#: S2_6/tools/ruledit/tab_building.cpp:87
-#: trunk/tools/ruledit/tab_building.cpp:94
-msgid "Remove this Building"
-msgstr "Удалить это Здание"
-
-#: S2_6/tools/ruledit/tab_building.cpp:164
-#: trunk/tools/ruledit/tab_building.cpp:171
-msgid "Building with that rule name already exist!"
+#: tools/ruledit/tab_building.cpp:152
+msgid "A building with that rule name already exists!"
 msgstr "Здание с этим названием правила уже существует!"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:62 trunk/tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:61
 msgid "Ruleset name"
 msgstr "Название набора правил"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:67 trunk/tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:66
 msgid "Ruleset version"
 msgstr "Версия набора правил"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:72 trunk/tools/ruledit/tab_misc.cpp:77
+#: tools/ruledit/tab_misc.cpp:71
 msgid "Save to directory"
 msgstr "Сохранить в каталог"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:79 trunk/tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Save now"
 msgstr "Сохранить"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:150 trunk/tools/ruledit/tab_misc.cpp:168
-msgid "Refresh Stats"
-msgstr "Обновить статистику"
+#: tools/ruledit/tab_misc.cpp:85
+msgid "?stat:Terrains"
+msgstr "Рельефы"
 
-#: S2_6/tools/ruledit/tab_misc.cpp:206 trunk/tools/ruledit/tab_misc.cpp:231
+#: tools/ruledit/tab_misc.cpp:89
+msgid "?stat:Resources"
+msgstr "Ресурсы"
+
+#: tools/ruledit/tab_misc.cpp:93
+msgid "?stat:Techs"
+msgstr "Технологии"
+
+#: tools/ruledit/tab_misc.cpp:97
+msgid "?stat:Unit Classes"
+msgstr "Классы Соединений"
+
+#: tools/ruledit/tab_misc.cpp:101
+msgid "?stat:Unit Types"
+msgstr "Соединения"
+
+#: tools/ruledit/tab_misc.cpp:105
+msgid "?stat:Buildings"
+msgstr "Здания"
+
+#: tools/ruledit/tab_misc.cpp:109
+msgid "?stat:Nations"
+msgstr "Народы"
+
+#: tools/ruledit/tab_misc.cpp:113
+msgid "?stat:Styles"
+msgstr "Стили"
+
+#: tools/ruledit/tab_misc.cpp:117
+msgid "?stat:Specialists"
+msgstr "Специалисты"
+
+#: tools/ruledit/tab_misc.cpp:121
+msgid "?stat:Governments"
+msgstr "Формы Правления"
+
+#: tools/ruledit/tab_misc.cpp:125
+msgid "?stat:Disasters"
+msgstr "Бедствия"
+
+#: tools/ruledit/tab_misc.cpp:129
+msgid "?stat:Achievements"
+msgstr "Достижения"
+
+#: tools/ruledit/tab_misc.cpp:133
+msgid "?stat:Extras"
+msgstr "Сооружения"
+
+#: tools/ruledit/tab_misc.cpp:137
+msgid "?stat:Bases"
+msgstr "Базы"
+
+#: tools/ruledit/tab_misc.cpp:141
+msgid "?stat:Roads"
+msgstr "Дороги"
+
+#: tools/ruledit/tab_misc.cpp:198
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
-#: S2_6/tools/ruledit/tab_nation.cpp:49 trunk/tools/ruledit/tab_nation.cpp:49
+#: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
 msgstr "Использовать набор народов"
 
-#: S2_6/tools/ruledit/tab_nation.cpp:53 trunk/tools/ruledit/tab_nation.cpp:53
+#: tools/ruledit/tab_nation.cpp:53
 msgid "Nationlist"
 msgstr "Набор Народов"
 
-#: S2_6/tools/ruledit/tab_tech.cpp:82 trunk/tools/ruledit/tab_tech.cpp:82
+#: tools/ruledit/tab_tech.cpp:80
 msgid "Req1"
 msgstr "Требует (Req1)"
 
-#: S2_6/tools/ruledit/tab_tech.cpp:91 trunk/tools/ruledit/tab_tech.cpp:91
+#: tools/ruledit/tab_tech.cpp:89
 msgid "Req2"
 msgstr "Требует (Req2)"
 
-#: S2_6/tools/ruledit/tab_tech.cpp:99 trunk/tools/ruledit/tab_tech.cpp:99
+#: tools/ruledit/tab_tech.cpp:97
 msgid "Root Req"
 msgstr "Базовое требование (Root Req)"
 
-#: S2_6/tools/ruledit/tab_tech.cpp:108 trunk/tools/ruledit/tab_tech.cpp:108
-msgid "Add tech"
-msgstr "Добавить технологию"
-
-#: S2_6/tools/ruledit/tab_tech.cpp:113 trunk/tools/ruledit/tab_tech.cpp:113
-msgid "Remove this tech"
-msgstr "Удалить эту технологию"
-
-#: S2_6/tools/ruledit/tab_tech.cpp:194 trunk/tools/ruledit/tab_tech.cpp:194
+#: tools/ruledit/tab_tech.cpp:182
 msgid "Never"
 msgstr "Никогда"
 
-#: S2_6/tools/ruledit/tab_tech.cpp:330 trunk/tools/ruledit/tab_tech.cpp:330
-msgid "Tech with that rule name already exist!"
+#: tools/ruledit/tab_tech.cpp:318
+msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 
-#: S2_6/tools/ruledit/tab_unit.cpp:82 trunk/tools/ruledit/tab_unit.cpp:88
-msgid "Add Unit"
-msgstr "Добавить Соединение"
-
-#: S2_6/tools/ruledit/tab_unit.cpp:87 trunk/tools/ruledit/tab_unit.cpp:93
-msgid "Remove this Unit"
-msgstr "Удалить это Соединение"
-
-#: S2_6/tools/ruledit/tab_unit.cpp:164 trunk/tools/ruledit/tab_unit.cpp:170
-msgid "Unit type with that rule name already exist!"
+#: tools/ruledit/tab_unit.cpp:152
+msgid "A unit type with that rule name already exists!"
 msgstr "Соединение с этим названием правила уже существует!"
 
-#: S2_6/tools/ruledit/validity.c:64 trunk/tools/ruledit/validity.c:65
+#: tools/ruledit/validity.c:64
 msgid "Effect"
 msgstr "Эффект"
 
-#: S2_6/tools/ruledit/validity.c:125 trunk/tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:125
 msgid "Action Enabler"
 msgstr "Включатель Действия"
 
-#: S2_6/tools/ruledit/validity.c:145 trunk/tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:145
 msgid "Music Style"
 msgstr "Стиль музыки"
-
-#: trunk/tools/ruledit/edit_utype.cpp:48
-msgid "Requirement"
-msgstr "Требования"
-
-#: trunk/tools/ruledit/req_edit.cpp:62
-msgid "Type:"
-msgstr "Тип:"
-
-#: trunk/tools/ruledit/req_edit.cpp:80
-msgid "Value:"
-msgstr "Значение:"
-
-#: trunk/tools/ruledit/req_edit.cpp:96
-msgid "Range:"
-msgstr "Диапазон:"
-
-#: trunk/tools/ruledit/req_edit.cpp:121
-msgid "Add Requirement"
-msgstr "Добавить Требование"
-
-#: trunk/tools/ruledit/req_edit.cpp:126
-msgid "Delete Requirement"
-msgstr "Удалить Требование"
-
-#: trunk/tools/ruledit/requirers_dlg.cpp:57
-#, c-format
-msgid "Removing %s"
-msgstr "Удаляем %s"
-
-#: trunk/tools/ruledit/ruledit.cpp:108
-msgid "Failed to load comments.txt"
-msgstr "Ошибка загрузки файла comments.txt"
-
-#: trunk/tools/ruledit/ruledit_qt.cpp:166
-msgid "Goods"
-msgstr "Товары"
-
-#: trunk/tools/ruledit/ruledit_qt.cpp:168
-msgid "Governments"
-msgstr "Формы Правления"
-
-#: trunk/tools/ruledit/ruledit_qt.cpp:170
-msgid "Enablers"
-msgstr "Включатели"
-
-#: trunk/tools/ruledit/tab_building.cpp:84 trunk/tools/ruledit/tab_good.cpp:84
-#: trunk/tools/ruledit/tab_gov.cpp:84
-msgid "Requirements"
-msgstr "Требования"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:65
-msgid "Type"
-msgstr "Тип"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:86
-msgid "Actor Requirements"
-msgstr "Требования к Деятелю"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:91
-msgid "Target Requirements"
-msgstr "Требования к цели"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:96
-msgid "Add Enabler"
-msgstr "Добавить Включатель"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:101
-msgid "Remove this Enabler"
-msgstr "Удалить этот Включатель"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:246
-msgid "Enabler (target)"
-msgstr "Включатель (цель)"
-
-#: trunk/tools/ruledit/tab_enablers.cpp:259
-msgid "Enabler (actor)"
-msgstr "Включатель (деятель)"
-
-#: trunk/tools/ruledit/tab_good.cpp:89
-msgid "Add Good"
-msgstr "Добавить товар"
-
-#: trunk/tools/ruledit/tab_good.cpp:94
-msgid "Remove this Good"
-msgstr "Удалить этот товар"
-
-#: trunk/tools/ruledit/tab_good.cpp:172
-msgid "Good with that rule name already exist!"
-msgstr "Товар с этим названием правила уже существует!"
-
-#: trunk/tools/ruledit/tab_gov.cpp:89
-msgid "Add Government"
-msgstr "Добавить Форму правления"
-
-#: trunk/tools/ruledit/tab_gov.cpp:94
-msgid "Remove this Government"
-msgstr "Удалить эту Форму правления"
-
-#: trunk/tools/ruledit/tab_gov.cpp:172
-msgid "Government with that rule name already exist!"
-msgstr "Форма правления с этим названием правила уже существует!"
-
-#: trunk/tools/ruledit/tab_misc.cpp:84
-msgid "Version suffix to directory name"
-msgstr "Суффикс версии для наименования каталога"
-
-#: trunk/tools/ruledit/tab_unit.cpp:84
-msgid "Edit Unit"
-msgstr "Редактировать Соединение"
-
