@@ -1488,6 +1488,13 @@ void mr_menu::setup_menus()
   action_vs_city->addAction(act);
   connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
 
+  act = action_city_menu->addAction(_("Poison City Escape"));
+  act->setCheckable(true);
+  act->setChecked(false);
+  act->setData(ACTION_SPY_POISON_ESC);
+  action_vs_city->addAction(act);
+  connect(act, SIGNAL(triggered()), this, SLOT(slot_action_vs_city()));
+
   /* Civilization menu */
   menu = this->addMenu(_("Civilization"));
   act = menu->addAction(_("Tax Rates..."));

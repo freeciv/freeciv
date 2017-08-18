@@ -330,7 +330,11 @@ static void hard_code_actions(void)
 {
   actions[ACTION_SPY_POISON] = action_new(ACTION_SPY_POISON, ATK_CITY,
                                           TRUE, FALSE, FALSE, TRUE,
-                                          0, 1, FALSE);
+                                          0, 1, TRUE);
+  actions[ACTION_SPY_POISON_ESC] =
+      action_new(ACTION_SPY_POISON_ESC, ATK_CITY,
+                 TRUE, FALSE, FALSE, TRUE,
+                 0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       action_new(ACTION_SPY_SABOTAGE_UNIT, ATK_UNIT,
                  TRUE, FALSE, FALSE, TRUE,
@@ -779,6 +783,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_ATTACK:
     return ABK_STANDARD;
   case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
@@ -1590,6 +1595,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
@@ -1731,6 +1737,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
@@ -2259,6 +2266,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -3000,6 +3008,9 @@ action_prob(const enum gen_action wanted_action,
 
   switch (wanted_action) {
   case ACTION_SPY_POISON:
+    /* TODO */
+    break;
+  case ACTION_SPY_POISON_ESC:
     /* TODO */
     break;
   case ACTION_SPY_STEAL_GOLD:

@@ -2513,8 +2513,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         CATLSTR(buf, bufsz,
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
-        if ((utype_has_flag(utype, UTYF_SPY) &&
-             utype_can_do_action(utype, ACTION_SPY_POISON))
+        if (utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
             || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
             || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
             || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
