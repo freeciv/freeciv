@@ -411,6 +411,7 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (utype_can_do_action(ptype, ACTION_SPY_INVESTIGATE_CITY)
           || utype_can_do_action(ptype, ACTION_INV_CITY_SPEND)
           || utype_can_do_action(ptype, ACTION_SPY_POISON)
+          || utype_can_do_action(ptype, ACTION_SPY_POISON_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_STEAL_GOLD)
           || utype_can_do_action(ptype, ACTION_SPY_STEAL_GOLD_ESC)
           || utype_can_do_action(ptype, ACTION_SPY_SABOTAGE_CITY)
@@ -1215,6 +1216,33 @@ void rscompat_postprocess(struct rscompat_info *info)
         action_enabler_obligatory_reqs_add(enabler);
       }
 
+      /* "Poison City" is split in a unit consuming and a "try to
+       * escape" version. */
+      if (ae->action == ACTION_SPY_POISON) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+        action_enabler_add(enabler);
+
+        /* One allows spies to do "Poison City Escape". */
+        ae->action = ACTION_SPY_POISON_ESC;
+        requirement_vector_append(&ae->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, TRUE,
+                                                  UTYF_SPY));
+
+        /* The other allows non spies to do "Poison City". */
+        requirement_vector_append(&enabler->actor_reqs,
+                                  req_from_values(VUT_UTFLAG,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, TRUE,
+                                                  UTYF_SPY));
+
+        /* Add previously implicit obligatory hard requirement(s) to the
+         * newly created copy. (Not done below.) */
+        action_enabler_obligatory_reqs_add(enabler);
+      }
+
       if (action_enabler_obligatory_reqs_missing(ae)) {
         /* Add previously implicit obligatory hard requirement(s). */
         action_enabler_obligatory_reqs_add(ae);
@@ -1365,6 +1393,11 @@ void rscompat_postprocess(struct rscompat_info *info)
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, TRUE, "Poison City"));
+     effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
+                                             FALSE, TRUE, "War"));
+     peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
+     effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                             TRUE, TRUE, "Poison City Escape"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                              FALSE, TRUE, "War"));
 

@@ -456,6 +456,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   T(ACTION_STEAL_MAPS, 0);
 
   /* last resort */
+  T(ACTION_SPY_POISON_ESC, 0);
   T(ACTION_SPY_POISON, 0);
 
    /* absolutely last resort */
@@ -491,6 +492,8 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
                                      ACTION_INV_CITY_SPEND)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_POISON)
+              || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_POISON_ESC)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_STEAL_GOLD)
               || utype_can_do_action(unit_type_get(punit),

@@ -815,6 +815,23 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
+  User selected "Poison City Escape" from choice dialog
+*****************************************************************/
+static void spy_poison_esc_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_SPY_POISON_ESC, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/****************************************************************
   User selected suitcase nuke from choice dialog
 *****************************************************************/
 static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
@@ -1631,6 +1648,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SPY_INVESTIGATE_CITY] = (GCallback)spy_investigate_callback,
   [ACTION_INV_CITY_SPEND] = (GCallback)diplomat_investigate_callback,
   [ACTION_SPY_POISON] = (GCallback)spy_poison_callback,
+  [ACTION_SPY_POISON_ESC] = (GCallback)spy_poison_esc_callback,
   [ACTION_SPY_STEAL_GOLD] = (GCallback)spy_steal_gold_callback,
   [ACTION_SPY_STEAL_GOLD_ESC] = (GCallback)spy_steal_gold_esc_callback,
   [ACTION_STEAL_MAPS] = (GCallback)spy_steal_maps_callback,

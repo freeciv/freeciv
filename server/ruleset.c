@@ -5965,7 +5965,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_NUKE);
       }
 
-      /* If the poison city action should empty the granary. */
+      /* If the "Poison City" action or the "Poison City Escape" action
+       * should empty the granary. */
       /* TODO: empty granary and reduce population should become separate
        * action effect flags when actions are generalized. */
       game.info.poison_empties_food_stock
@@ -6017,6 +6018,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           N_("%sPoison City%s"),
           "actions.ui_name_poison_city");
       sz_strlcpy(action_by_number(ACTION_SPY_POISON)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Poison City and Escape (3% chance of success). */
+          N_("%sPoison City and Escape%s"),
+          "actions.ui_name_poison_city_escape");
+      sz_strlcpy(action_by_number(ACTION_SPY_POISON_ESC)->ui_name,
                  text);
 
       text = secfile_lookup_str_default(file,

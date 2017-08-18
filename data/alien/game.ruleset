@@ -226,7 +226,7 @@ force_bombard = TRUE
 force_explode_nuclear = FALSE
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
-; will empty the food stock.
+; or "Poison City Escape" will empty the food stock.
 ;poison_empties_food_stock = FALSE
 
 ; The maximum distance from the actor unit to the target of the "Bombard"

@@ -5575,6 +5575,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_INVESTIGATE_CITY:
           case ACTION_INV_CITY_SPEND:
           case ACTION_SPY_POISON:
+          case ACTION_SPY_POISON_ESC:
           case ACTION_SPY_STEAL_GOLD:
           case ACTION_SPY_STEAL_GOLD_ESC:
           case ACTION_SPY_SABOTAGE_CITY:

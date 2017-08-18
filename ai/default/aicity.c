@@ -1184,6 +1184,7 @@ static int action_target_neg_util(int action_id,
 
   /* Bad for the city owner. */
   case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
