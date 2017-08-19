@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-19 10:11+0100\n"
-"PO-Revision-Date: 2017-08-11 15:05+0200\n"
+"PO-Revision-Date: 2017-08-19 22:56+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -6515,7 +6515,7 @@ msgstr "%1 (Tour: %2)"
 
 #: client/gui-qt/mapview.cpp:1345
 msgid "Gold:%1 (+%2)"
-msgstr "Or : %1 (%+2)"
+msgstr "Or : %1 (+%2)"
 
 #: client/gui-qt/mapview.cpp:1349
 msgid "Gold:%1 (%2)"
