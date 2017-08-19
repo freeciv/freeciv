@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2016-11-19 1:27+0300\n"
 "Last-Translator: Swiatoslav Golda <swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -7728,10 +7728,6 @@ msgstr "Мускогі"
 msgid "?plural:Muskogee"
 msgstr "Мускогі"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Американці"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -11680,6 +11676,9 @@ msgstr ""
 "чорних  з влади. Громадянська війна змусила Сміта правління білої меншості у "
 "1979. З 1980 країною правив Роберт Мугабе, погана репутація якого стала "
 "такою ж як і в попереднього режиму."
+
+#~ msgid "American"
+#~ msgstr "Американці"
 
 #~ msgid "Преподобний %s"
 #~ msgstr "Президент %s"

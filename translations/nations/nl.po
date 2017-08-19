@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2013-09-09 10:52+0300\n"
 "Last-Translator: Jos Maalderink <josmaalderink@hotmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -8680,10 +8680,6 @@ msgstr "Musketiers"
 msgid "?plural:Muskogee"
 msgstr "?plural:Birmezen"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Amerikaanse"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -12987,6 +12983,9 @@ msgstr ""
 "waren van de macht. Een burgeroorlog dwong Smith in 1979 een einde te maken "
 "aan het blanke minderheidsbestuur. Since 1980 wordt het land bestuurd door "
 "Robert Mugabe, die net zo'n slechte reputatie heeft als het vorige regime."
+
+#~ msgid "American"
+#~ msgstr "Amerikaanse"
 
 #, fuzzy
 #~ msgid "?female:Mother Superior %s"

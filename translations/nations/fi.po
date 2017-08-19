@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2017-08-11 23:20+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -8738,10 +8738,6 @@ msgstr "muskogeitten"
 msgid "?plural:Muskogee"
 msgstr "muskogeet"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "amerikkalaisten"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -13181,3 +13177,6 @@ msgstr ""
 "päättämään valkoisen vähemmistövallan 1979. Vuodesta 1980 maata on hallinnut "
 "Robert Mugabe, jonka maine kansainvälisesti on ollut yhtä huono kuin "
 "aiemmallakin hallinnolla."
+
+#~ msgid "American"
+#~ msgstr "amerikkalaisten"

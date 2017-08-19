@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2016-07-16 16:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -9067,10 +9067,6 @@ msgstr "マスコギー"
 msgid "?plural:Muskogee"
 msgstr "マスコギー"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "アメリカ人"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -13862,3 +13858,6 @@ msgstr ""
 "アン・スミスは黒人を権力から除外する人種差別政策を推し進めました。内戦を受け"
 "てスミスは1979年に少数白人支配を終わらせました。1980年からこの国はロバート・"
 "ムガベが統治していますが，彼は以前の政権と同様の悪評を国際的に受けています。"
+
+#~ msgid "American"
+#~ msgstr "アメリカ人"

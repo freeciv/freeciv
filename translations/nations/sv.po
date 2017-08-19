@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2010-06-20 19:43+0200\n"
 "Last-Translator: Jon Severinsson <jon@severinsson.net>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -8061,10 +8061,6 @@ msgstr "muskogee-indianska"
 msgid "?plural:Muskogee"
 msgstr "muskogee-indianerna"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "amerikanska"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -12232,6 +12228,9 @@ msgid ""
 "1980 the country has been governed by Robert Mugabe, who has received an "
 "equally poor reputation internationally as the previous regime."
 msgstr ""
+
+#~ msgid "American"
+#~ msgstr "amerikanska"
 
 #, fuzzy
 #~ msgid "?female:Mother Superior %s"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2016-07-19 12:09+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <>\n"
@@ -9075,10 +9075,6 @@ msgstr "Maskoki"
 msgid "?plural:Muskogee"
 msgstr "Maskokis"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Estadounidense"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -14035,6 +14031,9 @@ msgstr ""
 "a poner fin al régimen de minoría blanca en 1979. Desde 1980 el país ha sido "
 "gobernado por Robert Mugabe, que ha recibido una reputación igualmente pobre "
 "a nivel internacional como el régimen anterior."
+
+#~ msgid "American"
+#~ msgstr "Estadounidense"
 
 #~ msgid "?female:Mother Superior %s"
 #~ msgstr "La Madre Superiora %s"

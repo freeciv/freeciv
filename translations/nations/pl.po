@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2015-02-09 15:05+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
@@ -8987,10 +8987,6 @@ msgstr "Muskogeński"
 msgid "?plural:Muskogee"
 msgstr "?plural:Muskogee"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Amerykański"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -13899,6 +13895,9 @@ msgstr ""
 "zmusiła Smitha to zakończenia rządów mniejszości w 1979. Od 1980 roku "
 "Zimbabwe rządzone jest przez Roberta Mugabe, który wśród wspólnoty "
 "międzynarodowej ma równie niskie notowania jak poprzedni reżim."
+
+#~ msgid "American"
+#~ msgstr "Amerykański"
 
 #~ msgid "?female:Mother Superior %s"
 #~ msgstr "?female:Najwyższa Matka %s"

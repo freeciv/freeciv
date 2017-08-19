@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-15 10:42+0100\n"
+"POT-Creation-Date: 2017-08-19 10:11+0100\n"
 "PO-Revision-Date: 2014-08-08 08:40+0100\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Akerbeltz\n"
@@ -8699,10 +8699,6 @@ msgstr "Muinntir nam Muskogee"
 msgid "?plural:Muskogee"
 msgstr "?plural:Muinntir nam Muskogee"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Muinntir Aimeireaga"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -13398,3 +13394,6 @@ msgstr ""
 "daoine geala ann an 1979 an dèidh cogaidh chatharra. Tha an dùthaich air a "
 "bhith fo smachd Robert Mugabe a-mach o 1980 agus tha cliù eadar-nàiseanta a "
 "cheart cho bochd aige 's a bha aig an fhear roimhe."
+
+#~ msgid "American"
+#~ msgstr "Muinntir Aimeireaga"
