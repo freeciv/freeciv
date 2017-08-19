@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: http://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2017-04-24 19:30+0200\n"
-"PO-Revision-Date: 2017-04-24 20:22+0200\n"
+"PO-Revision-Date: 2017-08-19 23:16+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -7931,7 +7931,7 @@ msgstr ""
 
 #: client/gui-qt/mapview.cpp:1000
 msgid "%1 (+%2)"
-msgstr "%1 (%+2)"
+msgstr "%1 (+%2)"
 
 #: client/gui-qt/mapview.cpp:1004
 msgid "%1 (%2)"
