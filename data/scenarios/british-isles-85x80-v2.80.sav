@@ -3,7 +3,8 @@
 is_scenario=TRUE
 game_version=20600
 name=_("British Isles (classic/medium)")
-description=_("Classic-style 85x80 map of the British Isles.")
+description=_("Overhead 73x81 map of the British Isles.")
+authors=_("Map: Martin McMahon, Daniel Markstedt\nStart positions: Mateusz Stefek")
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

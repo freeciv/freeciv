@@ -3,7 +3,8 @@
 is_scenario=TRUE
 game_version=20600
 name=_("North America (classic/medium)")
-description=_("Classic-style 116x100 map of North America.")
+description=_("Overhead 116x100 map of North America (conical projection).")
+authors="Robert Michael Best"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

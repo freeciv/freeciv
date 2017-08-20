@@ -3,7 +3,8 @@
 is_scenario=TRUE
 game_version=20600
 name=_("Japan (classic/medium)")
-description=_("Classic-style 88x100 map of Japan.")
+description=_("Overhead 88x100 map of Japan (Mercator projection).")
+authors="Robert Michael Best"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

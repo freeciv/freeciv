@@ -3,7 +3,8 @@
 is_scenario=TRUE
 game_version=20600
 name=_("France (classic/large)")
-description=_("Classic-style 140x90 map of France.")
+description=_("Overhead 140x90 map of France.")
+authors="Mathieu Roy"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

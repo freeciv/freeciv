@@ -4,7 +4,8 @@ is_scenario=TRUE
 game_version=20600
 name=_("Tutorial")
 description=_("Play this tutorial scenario to get an introduction to Freeciv.\
- This is intended for single-player games.")
+ This is intended for single-player games. It uses the default (classic)\
+ rules.")
 save_random=FALSE
 players=TRUE
 startpos_nations=FALSE
