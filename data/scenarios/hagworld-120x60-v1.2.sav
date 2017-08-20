@@ -3,7 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Earth (classic/medium)")
-description=_("Classic-style 120x60 map of the Earth.")
+description=_("Overhead 120x60 map of the Earth.")
+authors="Helge Arne Gudmestad, Daniel Markstedt"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

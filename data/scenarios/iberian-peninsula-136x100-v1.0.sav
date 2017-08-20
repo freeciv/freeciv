@@ -3,7 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Iberian Peninsula (classic/large)")
-description=_("Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and Portugal).")
+description=_("Overhead 136x100 map of the Iberian Peninsula (modern-day Spain and Portugal).")
+authors="Miguel Farah, Daniel Markstedt"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

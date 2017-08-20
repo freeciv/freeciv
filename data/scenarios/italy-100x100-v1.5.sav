@@ -3,7 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Italy (classic/medium)")
-description=_("Classic-style 100x100 map of Italy.")
+description=_("Overhead 100x100 map of Italy.")
+authors="Paolo Sammicheli"
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE

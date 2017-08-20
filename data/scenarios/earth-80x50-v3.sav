@@ -3,7 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Earth (classic/small)")
-description=_("Classic-style 80x50 map of the Earth.")
+description=_("Overhead 80x50 map of the Earth.")
+authors=_("Map: Daniel Gudlat, Daniel Markstedt\nStart positions: Jason Dorje Short, Mateusz Stefek, David Fernandez")
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE
