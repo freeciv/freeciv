@@ -265,7 +265,10 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.server.diplchance;
     /* Probability to lose our unit */
-    p_failure = (utype_has_flag(ut, UTYF_SPY) ? 100 - p_success : 100);
+    p_failure = (utype_can_do_action(ut, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
+                 || utype_can_do_action(ut, ACTION_SPY_STEAL_TECH_ESC) ?
+                   100 - p_success :
+                   100);
 
     /* Get the time to dest in turns (minimum 1 turn) */
     time_to_dest = (time_to_dest + ut->move_rate - 1) / ut->move_rate;
