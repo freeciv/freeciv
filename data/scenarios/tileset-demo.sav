@@ -3,6 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Tileset Demo")
+description=_("Map for demonstrating square tilesets. Not intended for playing.")
+authors="Daniel Markstedt"
 save_random=TRUE
 players=TRUE
 startpos_nations=FALSE

@@ -3,7 +3,8 @@
 game_version=2939900
 is_scenario=TRUE
 name=_("Europe (classic/giant)")
-description=_("Classic-style 200x100 map of Europe.")
+description=_("Overhead 177x100 map of Europe.")
+authors=_("Map: Christian Grothoff, Jerzy Klek, Mateusz Stefek, Daniel Markstedt\nStart positions: Jason Dorje Short, Mateusz Stefek")
 save_random=FALSE
 players=FALSE
 startpos_nations=FALSE
