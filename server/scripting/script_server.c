@@ -52,9 +52,10 @@
 #include "script_server.h"
 
 /*****************************************************************************
-  Lua virtual machine state.
+  Lua virtual machine states.
 *****************************************************************************/
 static struct fc_lua *fcl_main = NULL;
+static struct fc_lua *fcl_unsafe = NULL;
 
 /*****************************************************************************
   Optional game script code (useful for scenarios).
@@ -77,10 +78,13 @@ static void script_server_cmd_reply(struct fc_lua *fcl, enum log_level level,
                                     const char *format, ...)
             fc__attribute((__format__ (__printf__, 3, 4)));
 
-/*****************************************************************************
-  Parse and execute the script in str
-*****************************************************************************/
-bool script_server_do_string(struct connection *caller, const char *str)
+/***************************************************************************
+  Parse and execute the script in str in the context of the specified
+  instance.
+***************************************************************************/
+static bool script_server_do_string_shared(struct fc_lua *fcl,
+                                           struct connection *caller,
+                                           const char *str)
 {
   int status;
   struct connection *save_caller;
@@ -88,18 +92,35 @@ bool script_server_do_string(struct connection *caller, const char *str)
 
   /* Set a log callback function which allows to send the results of the
    * command to the clients. */
-  save_caller = fcl_main->caller;
-  save_output_fct = fcl_main->output_fct;
-  fcl_main->output_fct = script_server_cmd_reply;
-  fcl_main->caller = caller;
+  save_caller = fcl->caller;
+  save_output_fct = fcl->output_fct;
+  fcl->output_fct = script_server_cmd_reply;
+  fcl->caller = caller;
 
-  status = luascript_do_string(fcl_main, str, "cmd");
+  status = luascript_do_string(fcl, str, "cmd");
 
   /* Reset the changes. */
-  fcl_main->caller = save_caller;
-  fcl_main->output_fct = save_output_fct;
+  fcl->caller = save_caller;
+  fcl->output_fct = save_output_fct;
 
   return (status == 0);
+}
+
+/***************************************************************************
+  Parse and execute the script in str in the same instance as the ruleset
+***************************************************************************/
+bool script_server_do_string(struct connection *caller, const char *str)
+{
+  return script_server_do_string_shared(fcl_main, caller, str);
+}
+
+/***************************************************************************
+  Parse and execute the script in str in an unsafe instance
+***************************************************************************/
+bool script_server_unsafe_do_string(struct connection *caller,
+                                    const char *str)
+{
+  return script_server_do_string_shared(fcl_unsafe, caller, str);
 }
 
 /*****************************************************************************
@@ -132,10 +153,13 @@ bool script_server_load_file(const char *filename, char **buf)
   return 1;
 }  
 
-/*****************************************************************************
-  Parse and execute the script at filename.
-*****************************************************************************/
-bool script_server_do_file(struct connection *caller, const char *filename)
+/***************************************************************************
+  Parse and execute the script at filename in the context of the specified
+  instance.
+***************************************************************************/
+static bool script_server_do_file_shared(struct fc_lua *fcl,
+                                         struct connection *caller,
+                                         const char *filename)
 {
   int status = 1;
   struct connection *save_caller;
@@ -143,18 +167,36 @@ bool script_server_do_file(struct connection *caller, const char *filename)
 
   /* Set a log callback function which allows to send the results of the
    * command to the clients. */
-  save_caller = fcl_main->caller;
-  save_output_fct = fcl_main->output_fct;
-  fcl_main->output_fct = script_server_cmd_reply;
-  fcl_main->caller = caller;
+  save_caller = fcl->caller;
+  save_output_fct = fcl->output_fct;
+  fcl->output_fct = script_server_cmd_reply;
+  fcl->caller = caller;
 
-  status = luascript_do_file(fcl_main, filename);
+  status = luascript_do_file(fcl, filename);
 
   /* Reset the changes. */
-  fcl_main->caller = save_caller;
-  fcl_main->output_fct = save_output_fct;
+  fcl->caller = save_caller;
+  fcl->output_fct = save_output_fct;
 
   return (status == 0);
+}
+
+/***************************************************************************
+  Parse and execute the script at filename in the same instance as the
+  ruleset.
+***************************************************************************/
+bool script_server_do_file(struct connection *caller, const char *filename)
+{
+  return script_server_do_file_shared(fcl_main, caller, filename);
+}
+
+/***************************************************************************
+  Parse and execute the script at filename in an unsafe instance.
+***************************************************************************/
+bool script_server_unsafe_do_file(struct connection *caller,
+                                  const char *filename)
+{
+  return script_server_do_file_shared(fcl_unsafe, caller, filename);
 }
 
 /*****************************************************************************
@@ -165,6 +207,7 @@ bool script_server_do_file(struct connection *caller, const char *filename)
 void script_server_remove_exported_object(void *object)
 {
   luascript_remove_exported_object(fcl_main, object);
+  luascript_remove_exported_object(fcl_unsafe, object);
 }
 
 /*****************************************************************************
@@ -278,6 +321,24 @@ bool script_server_init(void)
   luascript_func_init(fcl_main);
   script_server_functions_define();
 
+  /* Add the unsafe instance. */
+  fcl_unsafe = luascript_new(NULL, FALSE);
+  if (fcl_unsafe == NULL) {
+    luascript_destroy(fcl_unsafe);
+    fcl_unsafe = NULL;
+
+    return FALSE;
+  }
+
+  tolua_common_a_open(fcl_unsafe->state);
+  api_specenum_open(fcl_unsafe->state);
+  tolua_game_open(fcl_unsafe->state);
+  tolua_server_open(fcl_unsafe->state);
+  tolua_common_z_open(fcl_unsafe->state);
+
+  luascript_signal_init(fcl_unsafe);
+  luascript_func_init(fcl_unsafe);
+
   return TRUE;
 }
 
@@ -293,6 +354,12 @@ void script_server_free(void)
     /* luascript_signal_free() is called by luascript_destroy(). */
     luascript_destroy(fcl_main);
     fcl_main = NULL;
+  }
+
+  if (fcl_unsafe != NULL) {
+    /* luascript_signal_free() is called by luascript_destroy(). */
+    luascript_destroy(fcl_unsafe);
+    fcl_unsafe = NULL;
   }
 }
 
