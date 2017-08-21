@@ -28,8 +28,11 @@ apt-get -y install ${dependencies}
 # Configure and build Freeciv
 ./autogen.sh CFLAGS="-O3" --disable-nls --disable-fcmp --enable-freeciv-manual=html --enable-ai-static=classic,threaded --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 sudo -u travis make install
-
 echo "Freeciv build successful!"
+
+# Check that each ruleset loads
+echo "Checking rulesets"
+sudo -u travis ./tests/rulesets_not_broken.sh
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/bin/
