@@ -1523,6 +1523,26 @@ static bool help_is_extra_cleanable(struct extra_type *pextra,
                          RPT_POSSIBLE);
 }
 
+/***************************************************************************
+  Returns TRUE iff the specified unit type is able to perform an action
+  that allows it to escape to the closest closest domestic city once done.
+
+  See diplomat_escape() for more.
+***************************************************************************/
+static bool utype_may_do_escape_action(struct unit_type *utype)
+{
+  return utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_STEAL_GOLD_ESC)
+      || utype_can_do_action(utype, ACTION_STEAL_MAPS_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY_ESC)
+      || utype_can_do_action(utype, ACTION_SPY_NUKE_ESC);
+}
+
 /****************************************************************
   Append misc dynamic text for units.
   Transport capacity, unit flags, fuel.
@@ -2058,7 +2078,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will never lose a diplomat-versus-diplomat fight.\n"));
   }
-  if (utype_has_flag(utype, UTYF_SPY)
+  if (utype_may_do_escape_action(utype)
       && utype_has_flag(utype, UTYF_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will always survive a spy mission.\n"));
   }
@@ -2513,16 +2533,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         CATLSTR(buf, bufsz,
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
-        if (utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_STEAL_GOLD_ESC)
-            || utype_can_do_action(utype, ACTION_STEAL_MAPS_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY_ESC)
-            || utype_can_do_action(utype, ACTION_SPY_NUKE_ESC)) {
+        if (utype_may_do_escape_action(utype)) {
           CATLSTR(buf, bufsz,
                   _("  * Veterans are more likely to survive missions.\n"));
         }
