@@ -39,6 +39,7 @@
 #include "srv_main.h" /* game_was_started() */
 #include "stdinhand.h"
 #include "techtools.h"
+#include "unithand.h"
 #include "unittools.h"
 
 /* server/scripting */
@@ -204,6 +205,239 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   }
 
   return alive;
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a city.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_city(lua_State *L, Unit *punit,
+                                          Action *paction, City *tgt)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
+  fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
+  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tgt->id, IDENTITY_NUMBER_ZERO, "",
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a city and a building.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_city_impr(lua_State *L, Unit *punit,
+                                               Action *paction, City *tgt,
+                                               Building_Type *sub_tgt)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Building_Type, FALSE);
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
+  fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
+  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tgt->id, sub_tgt->item_number, "",
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a city and a tech.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_city_tech(lua_State *L, Unit *punit,
+                                               Action *paction, City *tgt,
+                                               Tech_Type *sub_tgt)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Tech_Type, FALSE);
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
+  fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
+  if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tgt->id, sub_tgt->item_number, "",
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a unit.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_unit(lua_State *L, Unit *punit,
+                                          Action *paction, Unit *tgt)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Unit, FALSE);
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_UNIT, FALSE);
+  fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
+  if (is_action_enabled_unit_on_unit(paction->id, punit, tgt)) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tgt->id, IDENTITY_NUMBER_ZERO, "",
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a tile.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_tile(lua_State *L, Unit *punit,
+                                          Action *paction, Tile *tgt)
+{
+  bool enabled = FALSE;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Tile, FALSE);
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_UNITS:
+    enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
+    break;
+  case ATK_TILE:
+    enabled = is_action_enabled_unit_on_tile(paction->id, punit,
+                                             tgt, NULL);
+    break;
+  case ATK_EXTRAS:
+    enabled = is_action_enabled_unit_on_extras(paction->id, punit,
+                                               tgt, NULL);
+    break;
+  case ATK_CITY:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_CITY);
+    break;
+  case ATK_UNIT:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_UNIT);
+    break;
+  case ATK_SELF:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_SELF);
+    break;
+  case ATK_COUNT:
+    /* Should not exist */
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    break;
+  }
+
+  if (enabled) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tile_index(tgt), IDENTITY_NUMBER_ZERO,
+                               city_name_suggestion(unit_owner(punit), tgt),
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against a tile and an extra.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_tile_extra(lua_State *L, Unit *punit,
+                                                Action *paction, Tile *tgt,
+                                                const char *sub_tgt)
+{
+  struct extra_type *sub_target;
+  bool enabled = FALSE;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Tile, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, string, FALSE);
+
+  sub_target = extra_type_by_rule_name(sub_tgt);
+  LUASCRIPT_CHECK_ARG(L, sub_target != NULL, 5, "No such extra", FALSE);
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_UNITS:
+    enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
+    break;
+  case ATK_TILE:
+    enabled = is_action_enabled_unit_on_tile(paction->id, punit,
+                                             tgt, sub_target);
+    break;
+  case ATK_EXTRAS:
+    enabled = is_action_enabled_unit_on_extras(paction->id, punit,
+                                               tgt, sub_target);
+    break;
+  case ATK_CITY:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_CITY);
+    break;
+  case ATK_UNIT:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_UNIT);
+    break;
+  case ATK_SELF:
+    /* Not handled here. */
+    fc_assert(action_get_target_kind(paction) != ATK_SELF);
+    break;
+  case ATK_COUNT:
+    /* Should not exist */
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    break;
+  }
+
+  if (enabled) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               tile_index(tgt), sub_target->id,
+                               city_name_suggestion(unit_owner(punit), tgt),
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
+}
+
+/***********************************************************************//**
+  Force a unit to perform an action against it self.
+***************************************************************************/
+bool api_edit_unit_perform_action_vs_self(lua_State *L, Unit *punit,
+                                          Action *paction)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_SELF, FALSE);
+  fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
+  if (is_action_enabled_unit_on_self(paction->id, punit)) {
+    return unit_perform_action(unit_owner(punit), punit->id,
+                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+                               "",
+                               paction->id, ACT_REQ_RULES);
+  } else {
+    /* Action not enabled */
+    return FALSE;
+  }
 }
 
 /*************************************************************************//**
