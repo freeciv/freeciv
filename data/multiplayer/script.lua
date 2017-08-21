@@ -38,7 +38,7 @@ function building_built_handler(btype, city)
     -- This also prevents those they share research with from getting two
     -- free advances from building Darwin`s Voyage themselves.
     if player:give_tech(find.tech_type("Theory of Evolution"),
-                        0, "researched") then
+                        0, false, "researched") then
       -- Give the player two free advances.
       gained[0] = player:give_tech(nil, 0, false, "researched")
       gained[1] = player:give_tech(nil, 0, false, "researched")
