@@ -37,6 +37,24 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
                                 Unit *ptransport);
 bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest);
 
+bool api_edit_unit_perform_action_vs_city(lua_State *L, Unit *punit,
+                                          Action *paction, City *tgt);
+bool api_edit_unit_perform_action_vs_city_impr(lua_State *L, Unit *punit,
+                                               Action *paction, City *tgt,
+                                               Building_Type *sub_tgt);
+bool api_edit_unit_perform_action_vs_city_tech(lua_State *L, Unit *punit,
+                                               Action *paction, City *tgt,
+                                               Tech_Type *sub_tgt);
+bool api_edit_unit_perform_action_vs_unit(lua_State *L, Unit *punit,
+                                          Action *paction, Unit *tgt);
+bool api_edit_unit_perform_action_vs_tile(lua_State *L, Unit *punit,
+                                          Action *paction, Tile *tgt);
+bool api_edit_unit_perform_action_vs_tile_extra(lua_State *L, Unit *punit,
+                                                Action *paction, Tile *tgt,
+                                                const char *sub_tgt);
+bool api_edit_unit_perform_action_vs_self(lua_State *L, Unit *punit,
+                                          Action *paction);
+
 void api_edit_unit_turn(lua_State *L, Unit *punit, Direction dir);
 
 void api_edit_unit_kill(lua_State *L, Unit *punit, const char *reason,
