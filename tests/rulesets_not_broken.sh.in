@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# rulesets_not_broken.sh [ruleset]...
+# Exits with 0 when each specified ruleset or, if no rulesets are specified,
+# each ruleset that is developed with Freeciv, are able to load. Exits with
+# 1 if any ruleset fails to load.
+
+if test x$1 = x ; then
+  # Try to load all rulesets that are developed with Freeciv
+  rulesets="alien civ1 civ2 civ2civ3 classic experimental multiplayer sandbox stub webperimental"
+else
+  # Try to load the specified ruleset(s)
+  rulesets=$@
+fi
+
+for ruleset in $rulesets; do
+  echo "Loading $ruleset"
+  (echo "lua unsafe-file @abs_top_srcdir@/tests/ruleset_is.lua" \
+   | (EXPECTED_RULESET=$ruleset @abs_top_builddir@/fcser \
+        --Announce none --ruleset $ruleset)) \
+  || exit 1
+done
+
+echo "No broken rulesets detected."
+exit 0
