@@ -16,6 +16,7 @@
 #endif
 
 #include <math.h> /* ceil, floor */
+#include <stdarg.h>
 
 /* utility */
 #include "astring.h"
