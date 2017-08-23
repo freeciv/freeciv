@@ -93,17 +93,4 @@ tiles = { "row", "column", "tag"
   5, 9, "city.t_trade_9"
   5, 10, "city.t_trade_X"
 
-; Nuclear explosion: this could maybe now be handled as one 
-; big graphic (?), but for now is done old way as 3 by 3:
-
-  2,  10, "explode.nuke_00"
-  2,  10, "explode.nuke_01"
-  2,  10, "explode.nuke_02"
-  2,  10, "explode.nuke_10"
-  2,  10, "explode.nuke_11"
-  2,  10, "explode.nuke_12"
-  2,  10, "explode.nuke_20"
-  2,  10, "explode.nuke_21"
-  2,  10, "explode.nuke_22"
-
 }
