@@ -5543,6 +5543,14 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check)
   return FALSE;
 #endif
 
+  if (!srvarg.fcdb_enabled) {
+    /* Not supposed to be used. It isn't initialized. */
+    cmd_reply(CMD_FCDB, caller, C_FAIL,
+              _("Freeciv database script not activated at server start. "
+                "See the Freeciv server's --auth command line option."));
+    return FALSE;
+  }
+
   ntokens = get_tokens(arg, token, 1, TOKEN_DELIMITERS);
 
   if (ntokens > 0) {
