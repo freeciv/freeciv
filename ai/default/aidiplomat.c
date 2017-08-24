@@ -401,7 +401,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   }
 
   if (count_tech > 0 
-      && (ctarget->server.steal == 0
+      && (diplomats_unignored_tech_stealings(punit, ctarget) == 0
           || unit_has_type_flag(punit, UTYF_SPY))) {
     Tech_type_id tgt_tech;
 
@@ -599,7 +599,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                         pplayer, acity)
              || is_action_possible_on_city(ACTION_ESTABLISH_EMBASSY_STAY,
                                            pplayer, acity)))
-        || (acity->server.steal == 0
+        || (diplomats_unignored_tech_stealings(punit, acity) == 0
             && !dipldef && can_steal
             && (research_get(pplayer)->techs_researched
                 < research_get(aplayer)->techs_researched))

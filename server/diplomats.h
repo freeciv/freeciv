@@ -30,6 +30,8 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                        const struct action *paction);
 bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                     struct unit *pvictim, const struct action *paction);
+int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
+                                       struct city *pcity);
 bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                        struct city  *pcity, int technology,
                        const struct action *paction);
