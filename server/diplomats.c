@@ -577,6 +577,29 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
+/***************************************************************************
+  Returns the amount of tech thefts from a city not ignored by the
+  EFT_STEALINGS_IGNORE effect.
+***************************************************************************/
+int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
+                                       struct city *pcity)
+{
+  int times;
+  int bonus = get_unit_bonus(pdiplomat, EFT_STEALINGS_IGNORE);
+
+  if (bonus < 0) {
+    /* Negative effect value means infinite bonus */
+    times = 0;
+  } else {
+    times = pcity->server.steal - bonus;
+    if (times < 0) {
+      times = 0;
+    }
+  }
+
+  return times;
+}
+
 /****************************************************************************
   Try to steal a technology from an enemy city.
   If paction results in ACTION_SPY_STEAL_TECH or ACTION_SPY_STEAL_TECH_ESC,
@@ -606,7 +629,6 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   struct research *presearch, *cresearch;
   struct player *cplayer;
   int count;
-  int bonus;
   int times;
   Tech_type_id tech_stolen;
 
@@ -675,16 +697,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("steal-tech: infiltrated");
 
-  bonus = get_unit_bonus(pdiplomat, EFT_STEALINGS_IGNORE);
-  if (bonus < 0) {
-    /* Negative effect value means infinite bonus */
-    times = 0;
-  } else {
-    times = pcity->server.steal - bonus;
-    if (times < 0) {
-      times = 0;
-    }
-  }
+  times = diplomats_unignored_tech_stealings(pdiplomat, pcity);
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
