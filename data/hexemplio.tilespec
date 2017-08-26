@@ -326,7 +326,7 @@ styles =
       "tx.village",    "Single1"
       "base.outpost",  "3Layer"
       "base.fortress", "3Layer"
-      "base.airfield", "3Layer"
+      "base.airstrip", "3Layer"
       "base.airbase",  "3layer"
       "base.buoy",     "3layer"
       "extra.ruins",   "3layer"
