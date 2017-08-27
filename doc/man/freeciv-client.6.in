@@ -339,8 +339,9 @@ A colon separated list of directories to look for various files.
 This variable has no effect if \fBFREECIV_DATA_PATH\fP,
 \fBFREECIV_SAVE_PATH\fP and \fBFREECIV_SCENARIO_PATH\fP are defined
 together; those variables are the recommended way to override paths, with
-\fBFREECIV_PATH\fP provided for backward compatibility with older versions
-of Freeciv. The precise search path depends on the type of file being
+\fBFREECIV_PATH\fP provided only for backward compatibility with older
+versions of Freeciv; \fBFREECIV_PATH\fP will be removed in a future
+release. The precise search path depends on the type of file being
 searched for.
 .TP
 .BI FREECIV_OPT

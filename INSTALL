@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 30-Apr-17.
+Last minor update was 27-Aug-17.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -620,15 +620,15 @@ in the following directories, in order, for any data files: the current
 directory; the "data" subdirectory of the current directory; the 
 subdirectory ".freeciv" in the user's home directory; and the directory
 where the files are placed by running "make install".  You can override
-this search patch by setting the FREECIV_PATH environment variable, to
+this search patch by setting the FREECIV_DATA_PATH environment variable, to
 a single directory or a list of directories separated by colons.
 
 For example:
 
-  % setenv FREECIV_PATH "/usr/games/freeciv/data:./data"
+  % setenv FREECIV_DATA_PATH "/usr/games/freeciv/data:./data"
   (for users of csh, tcsh, etc.)
 
-  % FREECIV_PATH="/usr/games/freeciv/data:./data"; export FREECIV_PATH
+  % FREECIV_DATA_PATH="/usr/games/freeciv/data:./data"; export FREECIV_DATA_PATH
   (for users of sh, bash, ksh, zsh, etc.)
 
 Also, note that you generally must install Freeciv if you wish to use
