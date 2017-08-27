@@ -25,6 +25,8 @@ Updating from 2.5 to 2.6
   --enable-client=sdl2
 * Development of ruleset editor, freeciv-ruledit, has begun.
   It has same Qt5 dependencies as other Qt programs in Freeciv distribution.
+  It is not very usable in 2.6 and should probably not be packaged by
+  distributions.
 * Lua version to use is 5.3 now.
 * System lua library is now used by default. Copy of lua distributed
   with freeciv is used only if system lua is not found, or it's
