@@ -6,21 +6,21 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-12-09 01:02+0200\n"
-"PO-Revision-Date: 2016-05-22 18:00+0200\n"
-"Last-Translator: \n"
-"Language-Team: Catalan <kde-i18n-doc@kde.org>\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-27 09:12+0200\n"
+"PO-Revision-Date: 2017-08-27 09:14+0100\n"
+"Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
@@ -33,39 +33,33 @@ msgstr "Tancar"
 msgid "Needed by %s"
 msgstr "El necessita %s"
 
-#: tools/ruledit/ruledit.cpp:132
+#: tools/ruledit/ruledit.cpp:135
 msgid "Print a summary of the options"
 msgstr "Mostrar un resum de les opcions"
 
-#: tools/ruledit/ruledit.cpp:134
+#: tools/ruledit/ruledit.cpp:137
 msgid "Print the version number"
 msgstr "Mostrar la versió"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:140
 msgid "ruleset RULESET"
 msgstr "ruleset JOC_DE_REGLES"
 
-#: tools/ruledit/ruledit.cpp:138
-#| msgid "Give ruleset to use as starting point."
+#: tools/ruledit/ruledit.cpp:141
 msgid "Ruleset to use as the starting point."
 msgstr "Joc de regles a utilitzar com a punt de partida."
 
-#: tools/ruledit/ruledit.cpp:151
+#: tools/ruledit/ruledit.cpp:154
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Només es pot editar un joc de regles alhora.\n"
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:161
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:62
-#| msgid "Freeciv ruleset editor"
-msgid "Freeciv Ruleset Editor"
-msgstr "Editor de jocs de regles de Freeciv"
-
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:115
 #, c-format
 msgid ""
 "%s%s\n"
@@ -74,159 +68,150 @@ msgstr ""
 "%s%s\n"
 "validar: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:144
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "Give ruleset to use as starting point."
 msgstr "Donar un joc de regles per utilitzar com a punt de partida."
 
-#: tools/ruledit/ruledit_qt.cpp:156
+#: tools/ruledit/ruledit_qt.cpp:138
 msgid "Start editing"
 msgstr "Començar a editar"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Misc"
 msgstr "Diversos"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Tech"
 msgstr "Tecnologia"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:152
 msgid "Buildings"
 msgstr "Edificis"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:154
 msgid "Units"
 msgstr "Unitats"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:156
 msgid "Nations"
 msgstr "Nacions"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Welcome to freeciv-ruledit"
 msgstr "Benvingut a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Ruleset loaded"
 msgstr "Joc de regles carregat"
 
-#: tools/ruledit/ruledit_qt.cpp:219
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
 msgstr "Ha fallat la càrrega del joc de regles!"
 
-#: tools/ruledit/ruledit_qt.cpp:275
+#: tools/ruledit/ruledit_qt.cpp:245
+msgid "Freeciv Ruleset Editor"
+msgstr "Editor de jocs de regles de Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:261
 msgid "Are you sure you want to quit?"
 msgstr "Segur que voleu sortir?"
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Quit?"
 msgstr "Sortir?"
 
-#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:62
-msgid "Name"
-msgstr "Nom"
-
-#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:70
+#: tools/ruledit/tab_building.cpp:61 tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_unit.cpp:61
 msgid "Rule Name"
 msgstr "Nom de Regla"
 
-#: tools/ruledit/tab_building.cpp:78
-msgid "Add Building"
-msgstr "Afegir Edifici"
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_unit.cpp:69
+msgid "Name"
+msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:83
-#| msgid "Remove this tech"
-msgid "Remove this Building"
-msgstr "Treure aquest Edifici"
-
-#: tools/ruledit/tab_building.cpp:148
-msgid "Building with that rule name already exist!"
+#: tools/ruledit/tab_building.cpp:152
+#| msgid "Building with that rule name already exist!"
+msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
 
-#: tools/ruledit/tab_misc.cpp:62
+#: tools/ruledit/tab_misc.cpp:61
 msgid "Ruleset name"
 msgstr "Nom del Joc de Regles"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:66
 msgid "Ruleset version"
 msgstr "Versió del Joc de Regles:"
 
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:71
 msgid "Save to directory"
 msgstr "Desar al directori"
 
-#: tools/ruledit/tab_misc.cpp:79
+#: tools/ruledit/tab_misc.cpp:78
 msgid "Save now"
 msgstr "Desar ara"
 
-#: tools/ruledit/tab_misc.cpp:86
+#: tools/ruledit/tab_misc.cpp:85
 msgid "?stat:Terrains"
 msgstr "Terrenys"
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:89
 msgid "?stat:Resources"
 msgstr "Recursos"
 
-#: tools/ruledit/tab_misc.cpp:94
-#| msgid "Tech"
+#: tools/ruledit/tab_misc.cpp:93
 msgid "?stat:Techs"
 msgstr "Tecnologies"
 
-#: tools/ruledit/tab_misc.cpp:98
+#: tools/ruledit/tab_misc.cpp:97
 msgid "?stat:Unit Classes"
 msgstr "Classes d'Unitats"
 
-#: tools/ruledit/tab_misc.cpp:102
+#: tools/ruledit/tab_misc.cpp:101
 msgid "?stat:Unit Types"
 msgstr "Tipus d'Unitats"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:105
 msgid "?stat:Buildings"
 msgstr "Edificis"
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:109
 msgid "?stat:Nations"
 msgstr "Nacions"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:113
 msgid "?stat:Styles"
 msgstr "Estils"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:117
 msgid "?stat:Specialists"
 msgstr "Especialistes"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:121
 msgid "?stat:Governments"
 msgstr "Governs"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:125
 msgid "?stat:Disasters"
 msgstr "Desastres"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:129
 msgid "?stat:Achievements"
 msgstr "Fites"
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:133
 msgid "?stat:Extras"
 msgstr "Extres"
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:137
 msgid "?stat:Bases"
 msgstr "Bases"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:141
 msgid "?stat:Roads"
 msgstr "Camins"
 
-#: tools/ruledit/tab_misc.cpp:150
-msgid "Refresh Stats"
-msgstr "Refrescar Estadístiques"
-
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:198
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 
@@ -238,46 +223,30 @@ msgstr "Utilitzar llista de nacions"
 msgid "Nationlist"
 msgstr "Llista de nacions"
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:80
 msgid "Req1"
 msgstr "Req1"
 
-#: tools/ruledit/tab_tech.cpp:87
+#: tools/ruledit/tab_tech.cpp:89
 msgid "Req2"
 msgstr "Req2"
 
-#: tools/ruledit/tab_tech.cpp:95
+#: tools/ruledit/tab_tech.cpp:97
 msgid "Root Req"
 msgstr "Req Arrel"
 
-#: tools/ruledit/tab_tech.cpp:104
-msgid "Add tech"
-msgstr "Afegir tecnologia"
-
-#: tools/ruledit/tab_tech.cpp:109
-msgid "Remove this tech"
-msgstr "Treure aquesta tecnologia"
-
-#: tools/ruledit/tab_tech.cpp:189
+#: tools/ruledit/tab_tech.cpp:182
 msgid "Never"
 msgstr "Mai"
 
-#: tools/ruledit/tab_tech.cpp:311
-msgid "Tech with that rule name already exist!"
+#: tools/ruledit/tab_tech.cpp:318
+#| msgid "Tech with that rule name already exist!"
+msgid "A tech with that rule name already exists!"
 msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
 
-#: tools/ruledit/tab_unit.cpp:78
-#| msgid "Add tech"
-msgid "Add Unit"
-msgstr "Afegir Unitat"
-
-#: tools/ruledit/tab_unit.cpp:83
-#| msgid "Remove this tech"
-msgid "Remove this Unit"
-msgstr "Treure aquesta Unitat"
-
-#: tools/ruledit/tab_unit.cpp:148
-msgid "Unit type with that rule name already exist!"
+#: tools/ruledit/tab_unit.cpp:152
+#| msgid "Unit type with that rule name already exist!"
+msgid "A unit type with that rule name already exists!"
 msgstr "Ja existeix un tipus d'unitat amb aquest nom de regla!"
 
 #: tools/ruledit/validity.c:64
@@ -292,4 +261,26 @@ msgstr "Habilitador d'Accions"
 msgid "Music Style"
 msgstr "Estil Musical"
 
+#~ msgid "Add Building"
+#~ msgstr "Afegir Edifici"
 
+#~| msgid "Remove this tech"
+#~ msgid "Remove this Building"
+#~ msgstr "Treure aquest Edifici"
+
+#~ msgid "Refresh Stats"
+#~ msgstr "Refrescar Estadístiques"
+
+#~ msgid "Add tech"
+#~ msgstr "Afegir tecnologia"
+
+#~ msgid "Remove this tech"
+#~ msgstr "Treure aquesta tecnologia"
+
+#~| msgid "Add tech"
+#~ msgid "Add Unit"
+#~ msgstr "Afegir Unitat"
+
+#~| msgid "Remove this tech"
+#~ msgid "Remove this Unit"
+#~ msgstr "Treure aquesta Unitat"
