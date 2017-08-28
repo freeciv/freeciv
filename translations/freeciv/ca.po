@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-19 10:11+0100\n"
-"PO-Revision-Date: 2017-08-05 21:24-0800\n"
+"PO-Revision-Date: 2017-08-28 17:57+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1408,7 +1408,7 @@ msgstr "Els %s donen una ambaixada"
 
 #: client/climisc.c:1025
 msgid "Popup Request"
-msgstr "Sol·licitud en popup"
+msgstr "Sol·licitud en finestra emergent"
 
 #: client/climisc.c:1129
 #, c-format
@@ -12123,7 +12123,7 @@ msgid ""
 "rather than in popup dialogs."
 msgstr ""
 "Si aquesta opció és permesa, els diàlegs d'informe es mostraran com a "
-"pestanyes separades en comptes de finestres individuals."
+"pestanyes separades en comptes de finestres emergents."
 
 #: client/options.c:2201
 msgid "Better fog-of-war drawing"
@@ -12308,7 +12308,8 @@ msgstr ""
 
 #: client/options.c:2304 client/options.c:2507
 msgid "Popup tech help when gained"
-msgstr "Obrir finestra amb ajuda sobre la tecnologia quan s'aconsegueixi"
+msgstr ""
+"Obrir finestra emergent amb ajuda sobre la tecnologia quan s'aconsegueixi"
 
 #: client/options.c:2305 client/options.c:2508
 msgid ""
@@ -24253,12 +24254,12 @@ msgid ""
 "Pop = Popup individual window"
 msgstr ""
 "Sor = Finestra sortida, Mis = Finestra missatges,\n"
-"Ind = Finestra individual"
+"Emg = Finestra emergent"
 
 #. TRANS: the space prepending "Out" is necessary
 #: data/Freeciv.in:1294
 msgid " Out Mes Pop"
-msgstr "Sor Mis Ind"
+msgstr " Sor Mis Emg"
 
 #: data/Freeciv.in:1305
 msgid "Rates"
@@ -24334,7 +24335,7 @@ msgstr "Auto-atac contra helicòpters:  "
 
 #: data/Freeciv.in:1639
 msgid "Popup"
-msgstr "Obrir"
+msgstr "Finestra Emergent"
 
 #: data/Freeciv.in:1663
 msgid "Change All..."
