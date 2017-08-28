@@ -1544,9 +1544,54 @@ static void compat_load_dev(struct loaddata *loading)
       }
     } player_slots_iterate_end;
   }
+
+  /* Renamed actions. */
+  loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                    "savefile.action_size");
+  if (loading->action.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                     "savefile.action_vector");
+
+    for (j = 0; j < loading->action.size; j++) {
+      if (fc_strcasecmp(modname[j], "Targeted Steal Tech Escape") == 0) {
+        secfile_replace_str(loading->file, "Targeted Steal Tech Escape Expected",
+                            "savefile.action_vector,%d", j);
+      } else if (fc_strcasecmp(modname[j], "Steal Tech Escape") == 0) {
+        secfile_replace_str(loading->file, "Steal Tech Escape Expected",
+                            "savefile.action_vector,%d", j);
+      }
+    }
+
+    free(modname);
+  }
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_1
+  /* Renamed actions. */
+  loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                    "savefile.action_size");
+  if (loading->action.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                     "savefile.action_vector");
+
+    for (j = 0; j < loading->action.size; j++) {
+      if (fc_strcasecmp(modname[j], "Targeted Steal Tech Escape") == 0) {
+        secfile_replace_str(loading->file, "Targeted Steal Tech Escape Expected",
+                            "savefile.action_vector,%d", j);
+      } else if (fc_strcasecmp(modname[j], "Steal Tech Escape") == 0) {
+        secfile_replace_str(loading->file, "Steal Tech Escape Expected",
+                            "savefile.action_vector,%d", j);
+      }
+    }
+
+    free(modname);
+  }
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */

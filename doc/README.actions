@@ -224,12 +224,18 @@ Actions done by a unit against a city
 "Steal Tech" - Steal a random tech from the targets owner.
  * UI name can be set using ui_name_steal_tech
  * spends the actor unit
+ * will always fail when the tech theft is expected. Tech theft is expected
+   when the number of previous tech thefts from the target city is above the
+   limit set by the "Stealings_Ignore" effect.
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
-"Steal Tech Escape" - Escape version of the above.
+"Steal Tech Escape Expected" - Escape version of the above.
  * UI name can be set using ui_name_steal_tech_escape
+ * more likely to fail when the tech theft is expected. Tech theft is
+   expected when the number of previous tech thefts from the target city is
+   above the limit set by the "Stealings_Ignore" effect.
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
@@ -237,12 +243,18 @@ Actions done by a unit against a city
 "Targeted Steal Tech" - Steal a specific tech from the targets owner.
  * UI name can be set using ui_name_targeted_steal_tech
  * spends the actor unit
+ * will always fail when the tech theft is expected. Tech theft is expected
+   when the number of previous tech thefts from the target city is above the
+   limit set by the "Stealings_Ignore" effect.
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
-"Targeted Steal Tech Escape" - Escape version of the above.
+"Targeted Steal Tech Escape Expected" - Escape version of the above.
  * UI name can be set using ui_name_targeted_steal_tech_escape
+ * more likely to fail when the tech theft is expected. Tech theft is
+   expected when the number of previous tech thefts from the target city is
+   above the limit set by the "Stealings_Ignore" effect.
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
