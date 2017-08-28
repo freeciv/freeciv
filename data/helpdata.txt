@@ -1144,7 +1144,9 @@ The description below is for the classic ruleset, but the principles \
 are similar for any ruleset. Notice that many bonuses are possible \
 for defenders, but few for attackers, aside from veteran status; an \
 attacking unit can mostly expect circumstance to work against it.\
-"), _("\
+"),
+; base_get_attack_power()
+_("\
 First, the attacker's strength is modified.\
 "), _("\
  - If the attacker is a veteran, its strength is multiplied by the \
@@ -1153,61 +1155,91 @@ bonus associated with its veteran level.\
  - Some rulesets (but not the classic rules) have 'tired attacks': \
 a unit that attacks with less than a full movement point will have \
 its strength proportionally reduced.\
-"), _("\
+"),
+; get_defense_power(), base_get_defense_power(), defense_multiplication()
+_("\
 Next, the defender's strength is modified.\
 "), _("\
  - If the defender is a veteran, then its strength is multiplied by \
 the bonus associated with its veteran level.\
-"), _("\
+"),
+; "TerrainDefense" unit class flag
+_("\
  - Then the defender's strength is multiplied by the defense factor \
 of the terrain it occupies.\
-"), _("\
+"),
+; hardcoded in defense_multiplication(); unit "CanFortify" / "Cant_Fortify"
+_("\
  - If the defender is a land unit, and is either fortified or \
 inside a city, its strength is multiplied by 1.5.\
 "), _("\
  - Ruleset-specific bonuses are applied:\
-"), _("\
+"),
+; "DefenseMultiplier" combat bonus
+_("\
    - The defender's strength is doubled if it is a Pikeman unit \
 defending against a mounted unit.\
-"), _("\
+"),
+; "DefenseMultiplier" combat bonus
+_("\
    - If the defender is an AEGIS Cruiser defending against airborne \
 units (including missiles and Helicopters), the defense is \
 quintupled.\
-"), _("\
+"),
+; "Defend_Bonus" effect
+_("\
    - The defender's strength is doubled again if it is in a city with \
 a SAM Battery and the attacker is an air unit (other than a \
 Helicopter or a missile).\
-"), _("\
+"),
+; "Defend_Bonus" effect
+_("\
    - An SDI Defense doubles the defender's strength against \
 missile attacks.\
-"), _("\
+"),
+; "Defend_Bonus" effect
+_("\
    - If the attacker is a ship and the defender is in a city with a \
 Coastal Defense, the defender's strength is doubled.\
-"), _("\
+"),
+; "Defend_Bonus" effect
+_("\
    - Against land units (other than Howitzers) and Helicopters, \
 defending units in a city with City Walls have their strength \
 tripled.\
-"), _("\
+"),
+; defense_bonus of the extra
+_("\
    - If the defender is in a fortress (and not a city), its strength \
 is doubled.\
-"), _("\
+"),
+; "DefenseDivider" combat bonus
+_("\
    - Finally, if the attacker is a fighter and the defender is a \
 helicopter, the defender's strength is halved.\
 "), _("\
 If, after these modifications, the attacker has a strength of 0, it \
 automatically loses. Otherwise, if the defender has a strength of \
 0, the defender loses.\
-"), _("\
+"),
+; get_modified_firepower()
+_("\
 The firepower of the attacker and defender are also modified.\
-"), _("\
+"),
+; "BadCityDefender" unit type flag
+_("\
  - If the defender is a ship and is inside a city the firepower of \
 the attacker is doubled and the firepower of the ship is set to 1.\
-"), _("\
+"),
+; "FirePower1" combat bonus
+_("\
  - If a fighter is attacking a helicopter the firepower of the \
 helicopter is set to 1.\
-"), _("\
- - If a ship is attacking a land unit on land the firepower of both \
-is set to 1.\
+"),
+; Hardcoded in get_modified_firepower()
+_("\
+ - If neither unit could move to where the other is, such as a ship \
+attacking a land unit on land, the firepower of both is set to 1.\
 "), _("\
 After these preliminaries, combat occurs, as long as both units are \
 still alive (i.e., hit points are greater than 0). Each round, a \
@@ -1228,10 +1260,15 @@ Whichever unit survives the fight has a chance of being promoted \
 a veteran level. In the classic ruleset, if the winner's \
 civilization has the Sun Tzu's War Academy (and if it isn't \
 obsolete), the chance is increased by half in case of land units.\
-"), _("\
+"),
+; "KillCitizen" unit class flag, "Unit_No_Lose_Pop" effect
+_("\
 If the attacker is a land unit and wins, and the defender is in a \
-city without City Walls, the city is reduced in size by 1.\
-"), _("\
+city without City Walls, the city is reduced in size by 1. (This can \
+be changed with the 'killcitizen' server option.)\
+"),
+; "NoStackDeath" base flag
+_("\
 If the defender loses, and is not inside a city, fortress, or \
 airbase, all other units at the defender's location may be destroyed \
 along with the defender. (This can be changed with the 'killstack' \
