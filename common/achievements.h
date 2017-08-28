@@ -70,6 +70,8 @@ bool achievement_claimed(const struct achievement *pach);
   }                                                          \
 }
 
+int get_literacy(const struct player *pplayer);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
