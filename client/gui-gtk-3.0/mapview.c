@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -713,7 +713,15 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
   cairo_set_line_width(cr, 2.0);
   cairo_set_dash(cr, dashes, 2, 0);
-  cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
+#ifdef FREECIV_MSWINDOWS
+  if (cairo_version() < CAIRO_VERSION_ENCODE(1, 12, 0)) {
+    /* Cairo has crashing CAIRO_OPERATOR_DIFFERENCE on win32 surface */
+    cairo_set_operator(cr, CAIRO_OPERATOR_XOR);
+  } else
+#endif /* FREECIV_MSWINDOWS */
+  {
+    cairo_set_operator(cr, CAIRO_OPERATOR_DIFFERENCE);
+  }
   cairo_rectangle(cr, canvas_x, canvas_y, w, h);
   cairo_stroke(cr);
   cairo_destroy(cr);
