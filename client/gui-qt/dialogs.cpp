@@ -2337,7 +2337,7 @@ static void spy_steal(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
-  Action "Targeted Steal Tech Escape" for choice dialog
+  Action "Targeted Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
 static void spy_steal_esc(QVariant data1, QVariant data2)
 {
@@ -2645,7 +2645,7 @@ static void diplomat_steal(QVariant data1, QVariant data2)
 }
 
 /***************************************************************************
-  Action "Steal Tech Escape" for choice dialog
+  Action "Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
 static void diplomat_steal_esc(QVariant data1, QVariant data2)
 {

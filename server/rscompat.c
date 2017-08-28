@@ -1142,7 +1142,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         enabler = action_enabler_copy(ae);
         action_enabler_add(enabler);
 
-        /* One allows spies to do "Steal Tech Escape". */
+        /* One allows spies to do "Steal Tech Escape Expected". */
         ae->action = ACTION_SPY_STEAL_TECH_ESC;
         requirement_vector_append(&ae->actor_reqs,
                                   req_from_values(VUT_UTFLAG,
@@ -1169,7 +1169,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         enabler = action_enabler_copy(ae);
         action_enabler_add(enabler);
 
-        /* One allows spies to do "Targeted Steal Tech Escape". */
+        /* One allows spies to do "Targeted Steal Tech Escape Expected". */
         ae->action = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
         requirement_vector_append(&ae->actor_reqs,
                                   req_from_values(VUT_UTFLAG,
@@ -1293,7 +1293,7 @@ void rscompat_postprocess(struct rscompat_info *info)
      /* Should only apply to the targeted steal tech action. */
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, TRUE,
-                                             "Targeted Steal Tech Escape"));
+                                             "Targeted Steal Tech Escape Expected"));
 
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
@@ -1316,7 +1316,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
      /* Should only apply to the untargeted steal tech action. */
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, TRUE, "Steal Tech Escape"));
+                                             TRUE, TRUE, "Steal Tech Escape Expected"));
 
      /* No incident if stolen during war. */
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
@@ -1337,7 +1337,7 @@ void rscompat_postprocess(struct rscompat_info *info)
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                              TRUE, TRUE,
-                                             "Targeted Steal Tech Escape"));
+                                             "Targeted Steal Tech Escape Expected"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                              FALSE, TRUE,
                                              "War"));
@@ -1352,7 +1352,7 @@ void rscompat_postprocess(struct rscompat_info *info)
      /* Same for escape version */
      peffect = effect_new(EFT_CASUS_BELLI_SUCCESS, 1, NULL);
      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
-                                             TRUE, TRUE, "Steal Tech Escape"));
+                                             TRUE, TRUE, "Steal Tech Escape Expected"));
      effect_req_append(peffect, req_from_str("DiplRel", "Local", FALSE,
                                              FALSE, TRUE, "War"));
 

@@ -901,7 +901,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 }
 
 /****************************************************************
-  User selected "Steal Tech Escape" from choice dialog
+  User selected "Steal Tech Escape Expected" from choice dialog
 *****************************************************************/
 static void diplomat_steal_esc_callback(GtkWidget *w, gpointer data)
 {
@@ -1313,7 +1313,7 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
 
 /***************************************************************************
   Popup tech stealing dialog with list of possible techs for
-  "Targeted Steal Tech Escape"
+  "Targeted Steal Tech Escape Expected"
 ***************************************************************************/
 static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 {

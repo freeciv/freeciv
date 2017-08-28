@@ -702,7 +702,9 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (times > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+  if (times > 0
+      && !(action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
+           || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     log_debug("steal-tech: difficulty: impossible");
@@ -726,7 +728,10 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
 
   if (count > 0) {
-    if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, UTYF_SPY)) {
+    /* Failed to steal a tech. */
+    if (pcity->server.steal > 0
+        && !(action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
+             || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("%s was expecting your attempt to steal technology "

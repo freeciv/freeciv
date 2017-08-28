@@ -946,7 +946,7 @@ static int spy_steal_popup(struct widget *pWidget)
 }
 
 /**************************************************************************
-  Popup spy tech stealing dialog for "Targeted Steal Tech Escape".
+  Popup spy tech stealing dialog for "Targeted Steal Tech Escape Expected".
 **************************************************************************/
 static int spy_steal_esc_popup(struct widget *pWidget)
 {
@@ -976,7 +976,7 @@ static int diplomat_steal_callback(struct widget *pWidget)
 }
 
 /****************************************************************
-  User clicked "Steal Tech Escape"
+  User clicked "Steal Tech Escape Expected"
 *****************************************************************/
 static int diplomat_steal_esc_callback(struct widget *pWidget)
 {

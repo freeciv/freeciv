@@ -402,7 +402,10 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 
   if (count_tech > 0 
       && (diplomats_unignored_tech_stealings(punit, ctarget) == 0
-          || unit_has_type_flag(punit, UTYF_SPY))) {
+          || (action_prob_possible(action_prob_vs_city(punit,
+                  ACTION_SPY_TARGETED_STEAL_TECH_ESC, ctarget))
+              || action_prob_possible(action_prob_vs_city(punit,
+                     ACTION_SPY_STEAL_TECH_ESC, ctarget))))) {
     Tech_type_id tgt_tech;
 
     /* Picking a random tech has better odds. */
