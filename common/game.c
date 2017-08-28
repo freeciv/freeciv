@@ -779,7 +779,7 @@ static char *year_suffix(void)
 int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason)
 {
-  struct cf_sequence sequences[] = {
+  struct cf_sequence sequences[5] = {
     cf_str_seq('R', (reason == NULL) ? "auto" : reason),
     cf_str_seq('S', year_suffix()),
     { 0 }, { 0 }, /* Works for both gcc and tcc */
