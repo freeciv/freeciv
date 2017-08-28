@@ -134,7 +134,6 @@ static int get_population(const struct player *pplayer);
 static int get_landarea(const struct player *pplayer);
 static int get_settledarea(const struct player *pplayer);
 static int get_research(const struct player *pplayer);
-static int get_literacy(const struct player *pplayer);
 static int get_production(const struct player *pplayer);
 static int get_economics(const struct player *pplayer);
 static int get_pollution(const struct player *pplayer);
@@ -515,23 +514,6 @@ static int get_settledarea(const struct player *pplayer)
 static int get_research(const struct player *pplayer)
 {
   return pplayer->score.techout;
-}
-
-/****************************************************************************
-  Literacy score calculated one way. See also get_literacy2() for
-  alternative way.
-****************************************************************************/
-static int get_literacy(const struct player *pplayer)
-{
-  int pop = civ_population(pplayer);
-
-  if (pop <= 0) {
-    return 0;
-  } else if (pop >= 10000) {
-    return pplayer->score.literacy / (pop / 100);
-  } else {
-    return (pplayer->score.literacy * 100) / pop;
-  }
 }
 
 /****************************************************************************

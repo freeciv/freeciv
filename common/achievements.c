@@ -285,7 +285,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
 
     return FALSE;
   case ACHIEVEMENT_LITERATE:
-    return pplayer->score.literacy >= ach->value;
+    return get_literacy(pplayer) >= ach->value;
   case ACHIEVEMENT_LAND_AHOY:
     {
       bool *seen = fc_calloc(wld.map.num_continents, sizeof(bool));
@@ -369,4 +369,21 @@ bool achievement_player_has(const struct achievement *pach,
 bool achievement_claimed(const struct achievement *pach)
 {
   return pach->first != NULL;
+}
+
+/****************************************************************************
+  Literacy score calculated one way. See also get_literacy2() for
+  alternative way.
+****************************************************************************/
+int get_literacy(const struct player *pplayer)
+{
+  int pop = civ_population(pplayer);
+
+  if (pop <= 0) {
+    return 0;
+  } else if (pop >= 10000) {
+    return pplayer->score.literacy / (pop / 100);
+  } else {
+    return (pplayer->score.literacy * 100) / pop;
+  }
 }
