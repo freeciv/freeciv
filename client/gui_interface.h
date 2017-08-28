@@ -45,6 +45,7 @@ struct gui_funcs {
                                     int conn_id);
 
   bool (*is_view_supported)(enum ts_type type);
+  void (*tileset_type_set)(enum ts_type type);
   void (*free_intro_radar_sprites)(void);
   struct sprite * (*load_gfxfile)(const char *filename);
   struct sprite * (*create_sprite)(int width, int height, struct color *pcolor);

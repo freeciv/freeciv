@@ -118,6 +118,14 @@ bool is_view_supported(enum ts_type type)
 }
 
 /**************************************************************************
+  Call tileset_type_set callback
+**************************************************************************/
+void tileset_type_set(enum ts_type type)
+{
+  funcs.tileset_type_set(type);
+}
+
+/**************************************************************************
   Call free_intro_radar_sprites callback
 **************************************************************************/
 void free_intro_radar_sprites(void)

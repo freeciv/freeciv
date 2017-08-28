@@ -1881,6 +1881,8 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     goto ON_ERROR;
   }
 
+  tileset_type_set(t->type);
+
   /* Create arrays of valid and cardinal tileset dirs.  These depend
    * entirely on the tileset, not the topology.  They are also in clockwise
    * rotational ordering. */

@@ -63,6 +63,13 @@ bool is_view_supported(enum ts_type type)
   return FALSE;
 }
 
+/***************************************************************************
+  Loading tileset of the specified type
+***************************************************************************/
+void tileset_type_set(enum ts_type type)
+{
+}
+
 #define COLOR_MOTTO_FACE_R    0x2D
 #define COLOR_MOTTO_FACE_G    0x71
 #define COLOR_MOTTO_FACE_B    0xE3
