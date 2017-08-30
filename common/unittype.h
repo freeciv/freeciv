@@ -205,7 +205,7 @@ struct unit_class {
 /* upkeep can switch from shield to gold */
 #define SPECENUM_VALUE13 UTYF_SHIELD2GOLD
 #define SPECENUM_VALUE13NAME N_("?unitflag:Shield2Gold")
-/* Enhanced spy abilities */
+/* Strong in diplomatic battles. */
 #define SPECENUM_VALUE14 UTYF_SPY
 #define SPECENUM_VALUE14NAME N_("?unitflag:Spy")
 /* Cannot attack vs non-native tiles even if class can */

@@ -2069,7 +2069,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   if (utype_has_flag(utype, UTYF_SPY)) {
-    CATLSTR(buf, bufsz, _("* Performs better diplomatic actions.\n"));
+    CATLSTR(buf, bufsz, _("* Strong in diplomatic battles.\n"));
   }
   if (utype_has_flag(utype, UTYF_DIPLOMAT)
       || utype_has_flag(utype, UTYF_SUPERSPY)) {
