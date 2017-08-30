@@ -118,11 +118,11 @@ enum fc_addr_family {
   FC_ADDR_ANY
 };
 
-#ifdef FREECIV_MSWINDOWS
+#ifdef WIN32_NATIVE
 typedef TIMEVAL fc_timeval;
-#else  /* FREECIV_MSWINDOWS */
+#else  /* WIN32_NATIVE */
 typedef struct timeval fc_timeval;
-#endif /* FREECIV_MSWINDOWS */
+#endif /* WIN32_NATIVE */
 
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
