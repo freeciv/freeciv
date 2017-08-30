@@ -313,7 +313,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "Settlers"	= can irrigate and build roads
 ; "Diplomat"	= can defend against diplomat actions (see diplchance
 ;                 server option)
-; "Spy"		= enhanced diplomat actions. _Must_ be "Diplomat" also
+; "Spy"         = strong in diplomatic battles. _Must_ be "Diplomat" also
 ; "CoastStrict" = (sea only) cannot leave coast
 ; "Coast"       = (sea only) can refuel on coast. Set fuel to force unit
 ;                 to regularly end turn on coast
