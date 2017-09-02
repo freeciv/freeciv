@@ -490,9 +490,10 @@ tiles = { "row", "column", "tag"
  16,  0, "tx.farmland"
  16,  1, "tx.irrigation"
  16,  2, "tx.mine"
- 16,  3, "tx.oil_mine", "tx.oil_rig"
+ 16,  3, "tx.oil_mine"
  16,  4, "tx.pollution"
  16,  5, "tx.fallout"
+ 16, 13, "tx.oil_rig"
 
 ; Bases
  16,  6, "base.buoy_mg"

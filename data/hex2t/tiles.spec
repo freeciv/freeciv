@@ -11,6 +11,7 @@ artists = "
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
     Tommy <yobbo3@hotmail.com> (hex mode)
     Daniel Markstedt <himasaram@spray.se> (added dithering)
+    GriffonSpade (oil_rig)
 "
 
 [file]
@@ -127,7 +128,8 @@ tiles = { "row", "column","tag"
 
 ; extras
 
-  6, 0, "tx.oil_mine", "tx.oil_rig"
+  6, 0, "tx.oil_mine"
+  6, 10, "tx.oil_rig"
   6, 1, "tx.mine"
   6, 2, "tx.irrigation"
   6, 3, "tx.farmland"
