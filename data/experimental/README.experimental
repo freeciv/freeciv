@@ -111,7 +111,8 @@ this file.
 
 - Several achievements are enabled.
 
-- Some buildings accumulate culture
+- Some buildings accumulate culture. Cultural victory is enabled by
+  default (can be changed with 'victories' setting).
 
 - An explorer can establish an embassy to another player
 
