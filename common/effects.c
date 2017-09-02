@@ -626,12 +626,15 @@ int get_city_specialist_output_bonus(const struct city *pcity,
 
 /**************************************************************************
   Returns the effect bonus at a city tile.
+  pcity must be supplied.
 
   FIXME: this is now used both for tile bonuses, tile-output bonuses,
   and city-output bonuses.  Thus ptile or poutput may be NULL for
   certain callers.  This could be changed by adding 2 new functions to
   the interface but they'd be almost identical and their likely names
   would conflict with functions already in city.c.
+  It's also very similar to get_tile_output_bonus(); it should be
+  called when the city is mandatory.
 **************************************************************************/
 int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct tile *ptile,
@@ -643,6 +646,26 @@ int get_city_tile_output_bonus(const struct city *pcity,
                                   city_owner(pcity), NULL, pcity, NULL,
                                   ptile, NULL, NULL, poutput, NULL, NULL,
 				  effect_type);
+}
+
+/**************************************************************************
+  Returns the effect bonus at a tile for given output type (or NULL for
+  output-type-independent bonus).
+  If pcity is supplied, it's the bonus for that particular city, otherwise
+  it's the player/city-independent bonus (and any city on the tile is
+  ignored).
+**************************************************************************/
+int get_tile_output_bonus(const struct city *pcity,
+                          const struct tile *ptile,
+                          const struct output_type *poutput,
+                          enum effect_type effect_type)
+{
+  const struct player *pplayer = pcity ? city_owner(pcity) : NULL;
+
+  return get_target_bonus_effects(NULL,
+                                  pplayer, NULL, pcity, NULL,
+                                  ptile, NULL, NULL, poutput, NULL, NULL,
+                                  effect_type);
 }
 
 /**************************************************************************

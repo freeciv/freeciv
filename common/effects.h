@@ -362,6 +362,10 @@ int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct tile *ptile,
 			       const struct output_type *poutput,
 			       enum effect_type effect_type);
+int get_tile_output_bonus(const struct city *pcity,
+                          const struct tile *ptile,
+                          const struct output_type *poutput,
+                          enum effect_type effect_type);
 int get_player_output_bonus(const struct player *pplayer,
                             const struct output_type *poutput,
                             enum effect_type effect_type);
