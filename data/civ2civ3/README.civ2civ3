@@ -222,8 +222,8 @@ TERRAIN:
   without the need of Workers/Engineers. Jungles and Forests are not
   affected by Pollution nor by Global Warming.
 
-- Minimum city output = 1/0/0 (was 1/1/0). City central tile now
-  produces +1 Shield.
+- No minimum city output (was 1/1/0). City central tile simply gets
+  +1 Shield.
   This way, no matter the tile where you place your city, you never
   waste any resource (for example, with classic rules, a city placed
   over bonused Grassland was wasting the Shield bonus).
@@ -938,6 +938,8 @@ Terrain:
   shield bonus from Offshore Platforms (buoys are no longer needed).
 - Readjusted transformations caused by global warming and nuclear
   winter. Ocean can no longer change to deep ocean.
+- Disabled the minimum food output in the city tile. It only affects
+  cities on Desert, that now will lose the food if they are mined.
 
 Units:
 - Units automatically move to the target tile after a successful attack.

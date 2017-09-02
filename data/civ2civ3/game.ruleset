@@ -75,7 +75,7 @@ granary_food_ini = 20, 20, 20, 20, 20, 30, 30, 40
 granary_food_inc = 0
 
 ; City center minimum outputs
-min_city_center_food    = 1
+min_city_center_food    = 0
 min_city_center_shield  = 0
 min_city_center_trade   = 0
 
