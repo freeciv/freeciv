@@ -741,4 +741,5 @@ set =
       "ec_info", TRUE, FALSE
       "techlossforgiveness", 15, FALSE
       "traitdistribution", "EVEN", FALSE
+      "victories", "SPACERACE|ALLIED|CULTURE", FALSE
     }
