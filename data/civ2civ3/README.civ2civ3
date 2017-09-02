@@ -219,8 +219,8 @@ TERRAIN:
   take advantage of the shield bonus from Offshore Platforms.
 
 - Pollution may appear in Ocean tiles, and Transports can clean it
-  without the need of Workers/Engineers. Jungles and Forests are not
-  affected by Pollution nor by Global Warming.
+  without the need of Workers/Engineers. Jungles and Forests are less
+  affected by global warming.
 
 - No minimum city output (was 1/1/0). City central tile simply gets
   +1 Shield.
@@ -938,6 +938,7 @@ Terrain:
   shield bonus from Offshore Platforms (buoys are no longer needed).
 - Readjusted transformations caused by global warming and nuclear
   winter. Ocean can no longer change to deep ocean.
+- Pollution and Fallout are possible in forests and jungles again.
 - Disabled the minimum food output in the city tile. It only affects
   cities on Desert, that now will lose the food if they are mined.
 
