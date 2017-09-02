@@ -1259,34 +1259,30 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   prod += tile_roads_output_incr(ptile, otype);
   prod += (prod * tile_roads_output_bonus(ptile, otype) / 100);
 
-  if (pcity) {
-    prod += get_city_tile_output_bonus(pcity, ptile, output,
-				       EFT_OUTPUT_ADD_TILE);
-    if (prod > 0) {
-      int penalty_limit = get_city_tile_output_bonus(pcity, ptile, output,
-                                                   EFT_OUTPUT_PENALTY_TILE);
+  prod += get_tile_output_bonus(pcity, ptile, output, EFT_OUTPUT_ADD_TILE);
+  if (prod > 0) {
+    int penalty_limit = get_tile_output_bonus(pcity, ptile, output,
+                                              EFT_OUTPUT_PENALTY_TILE);
 
-      if (is_celebrating) {
-        prod += get_city_tile_output_bonus(pcity, ptile, output,
-                                           EFT_OUTPUT_INC_TILE_CELEBRATE);
-        penalty_limit = 0; /* no penalty if celebrating */
-      }
-      prod += get_city_tile_output_bonus(pcity, ptile, output,
-                                         EFT_OUTPUT_INC_TILE);
-      prod += (prod 
-               * get_city_tile_output_bonus(pcity, ptile, output,
-                                            EFT_OUTPUT_PER_TILE)) 
-              / 100;
-      if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
-        prod--;
-      }
+    if (is_celebrating) {
+      prod += get_tile_output_bonus(pcity, ptile, output,
+                                    EFT_OUTPUT_INC_TILE_CELEBRATE);
+      penalty_limit = 0; /* no penalty if celebrating */
+    }
+    prod += get_tile_output_bonus(pcity, ptile, output,
+                                  EFT_OUTPUT_INC_TILE);
+    prod += (prod 
+             * get_tile_output_bonus(pcity, ptile, output,
+                                     EFT_OUTPUT_PER_TILE)) 
+            / 100;
+    if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
+      prod--;
     }
   }
 
   prod -= (prod
-           * get_target_bonus_effects(NULL, pplayer, NULL, pcity, NULL,
-                                      ptile, NULL, NULL, output, NULL,
-                                      EFT_OUTPUT_TILE_PUNISH_PCT))
+           * get_tile_output_bonus(pcity, ptile, output,
+                                   EFT_OUTPUT_TILE_PUNISH_PCT))
            / 100;
 
   if (NULL != pcity && is_city_center(pcity, ptile)) {
