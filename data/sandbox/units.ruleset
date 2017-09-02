@@ -1607,10 +1607,11 @@ helptext      = _("\
 A Helicopter's attack against units on land is a bombard attack; against \
 units on water it has a regular attack.\
 "), _("\
-Helicopters can also transport one unit of infantry; while most troops \
-must load or unload in a city or airbase units specializing in mobility \
-(Paratroopers, Alpine Troops, Marines, Partisans, and Fanatics) can \
-embark or disembark at any time.\
+Helicopters can also transport one military land unit; while most troops \
+must load or unload in a city, airstrip, or airbase (and not in the field \
+or onboard a Carrier), units specializing in mobility (Paratroopers, \
+Alpine Troops, Marines, Partisans, and Fanatics) can embark or disembark \
+at any time.\
 "), _("\
 Unlike other aircraft, Helicopters are not required to return to a city, \
 base, or Carrier to refuel after a set number of turns; however, care \
@@ -2053,13 +2054,17 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-cargo         = "Air", "Missile", "Helicopter"
+cargo         = "Land", "Air", "Missile", "Helicopter"
 ; Consensus historical article: Julian Borger. "Wake-up call"
 ; The Guardian, Sep. 6, 2002.
 flags         = "BadCityDefender", "HasNoZOC", "Consensus", "Provoking"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 The Carrier is a mobile airport.\
+"), _("\
+It can transport aircraft and military land units (not wheeled),\
+ although land units cannot always be transferred to and from Helicopters\
+ while onboard (see Helicopter help).\
 "), _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
  battleship, as losing a fully-equipped Carrier is VERY\
