@@ -228,8 +228,10 @@ tiles = { "row", "column", "tag"
   1, 13, "unit.road"
   1, 14, "unit.irrigate"
   1, 15, "unit.fortifying",
-         "unit.fortress"
-  1, 16, "unit.airbase"
+         "unit.fortress",
+         "unit.outpost"
+  1, 16, "unit.airbase",
+         "unit.airstrip"
   1, 17, "unit.pillage"
   1, 18, "unit.fortified"
   1, 19, "unit.fallout"
