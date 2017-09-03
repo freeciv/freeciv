@@ -1,31 +1,31 @@
 ## Process this file with automake to produce Makefile.in
 
 zipped_files =					\
-	british-isles-85x80-v2.80.sav.gz	\
-	earth-160x90-v2.sav.gz			\
-	earth-80x50-v3.sav.gz			\
-	europe-200x100-v2.sav.gz		\
-	france-140x90-v2.sav.gz			\
-	hagworld-120x60-v1.2.sav.gz		\
-	iberian-peninsula-136x100-v1.0.sav.gz	\
-	italy-100x100-v1.5.sav.gz		\
-	japan-88x100-v1.3.sav.gz		\
-	north_america_116x100-v1.2.sav.gz	\
-	europe_1901.sav.gz			\
+	british-isles.sav.gz		\
+	earth-large.sav.gz		\
+	earth-small.sav.gz		\
+	europe.sav.gz			\
+	france.sav.gz			\
+	hagworld.sav.gz			\
+	iberian-peninsula.sav.gz	\
+	italy.sav.gz			\
+	japan.sav.gz			\
+	north_america.sav.gz		\
+	europe_1901.sav.gz		\
 	tutorial.sav.gz
 
-unzipped_files =				\
-	british-isles-85x80-v2.80.sav		\
-	earth-160x90-v2.sav			\
-	earth-80x50-v3.sav			\
-	europe-200x100-v2.sav			\
-	france-140x90-v2.sav			\
-	hagworld-120x60-v1.2.sav		\
-	iberian-peninsula-136x100-v1.0.sav	\
-	italy-100x100-v1.5.sav			\
-	japan-88x100-v1.3.sav			\
-	north_america_116x100-v1.2.sav		\
-	europe_1901.sav				\
+unzipped_files =			\
+	british-isles.sav		\
+	earth-large.sav			\
+	earth-small.sav			\
+	europe.sav			\
+	france.sav			\
+	hagworld.sav			\
+	iberian-peninsula.sav		\
+	italy.sav			\
+	japan.sav			\
+	north_america.sav		\
+	europe_1901.sav			\
 	tutorial.sav
 
 
