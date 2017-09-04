@@ -4095,32 +4095,20 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
-[effect_river_food_desert]
-type    = "Output_Inc_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Desert", "Local", TRUE
-      "Extra", "River", "Local", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "Extra", "Oasis", "Local", FALSE
-    }
-
-[effect_oil_well]
-type    = "Output_Inc_Tile"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Oil Well", "Local"
-      "OutputType", "Shield", "Local"
-    }
-
 [effect_mine]
 type    = "Mining_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range"
       "Extra", "Mine", "Local"
+    }
+
+[effect_oil_well]
+type    = "Mining_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Oil Well", "Local"
     }
 
 [effect_irrigation]
@@ -4132,15 +4120,26 @@ reqs    =
       "CityTile", "Center", "Local", FALSE
     }
 
-[effect_irrigation_2]
+[effect_irrigation_1]
 type    = "Irrigation_Pct"
-value	= 100
-reqs	=
+value   = 100
+reqs    =
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
       "Extra", "Oil Well", "Local", FALSE
+    }
+
+; Desert with river (and no Oasis) gets 1 extra food
+[effect_irrigation_2]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "River", "Local", TRUE
+      "Extra", "Oasis", "Local", FALSE
     }
 
 ; "Sea" nreq is for Transports, which are only supposed to clean pollution
