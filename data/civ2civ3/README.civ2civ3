@@ -41,14 +41,15 @@ INFO:
 
 - I suggest new players to start a game with 6 players or so, AI skill
   level Normal, and default ruleset options (Small continental map with
-  100 land tiles per player). This way AI will progress at similar pace
-  than real history.
+  100 land tiles per player).
+
+- For challenging games, you may place several AI players in the same
+  team. For example, one team with 5 AIs together against you.
 
 - Cheating AI level was adjusted for these rules, I suggest experienced
   players to use it.
-  CHEATING AI: +40% Science, Luxury, Gold and Shield production,
-  +50% unit Defense in land (outside cities), -20% Pollution,
-  +20 AI love, +20% Veteran chance, +20% Incite and Bribe costs,
+  CHEATING AI: +40% Science, Luxury, Gold and Production, +40 AI love,
+  +40% Veteran chance, +40% Bribe and Incite costs, -20% Pollution,
   +1 Content per city.
 
 The following is a full list of changes compared to classic ruleset...
