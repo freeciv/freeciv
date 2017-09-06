@@ -2998,7 +2998,13 @@ void mr_menu::zoom_in()
 ***************************************************************************/
 void mr_menu::zoom_reset()
 {
+  QFont *qf;
+
   gui()->map_scale = 1.0f;
+  qf = fc_font::instance()->get_font(fonts::city_names);
+  qf->setPointSize(fc_font::instance()->city_fontsize);
+  qf = fc_font::instance()->get_font(fonts::city_productions);
+  qf->setPointSize(fc_font::instance()->prod_fontsize);
   tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
 }
 
