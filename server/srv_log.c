@@ -91,7 +91,7 @@ void real_city_log(const char *file, const char *function, int line,
 
   CALL_PLR_AI_FUNC(log_fragment_city, city_owner(pcity), aibuf, sizeof(aibuf), pcity);
 
-  fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d] {%s} ",
+  fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) (s%d) {%s} ",
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), city_size_get(pcity),
@@ -133,13 +133,13 @@ void real_unit_log(const char *file, const char *function, int line,
   }
 
   fc_snprintf(buffer, sizeof(buffer),
-	      "%s %s[%d] %s (%d,%d)->(%d,%d){%s} ",
+              "%s %s(%d) %s (%d,%d)->(%d,%d){%s} ",
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
               punit->id,
-	      get_activity_text(punit->activity),
-	      TILE_XY(unit_tile(punit)),
-	      gx, gy, aibuf);
+              get_activity_text(punit->activity),
+              TILE_XY(unit_tile(punit)),
+              gx, gy, aibuf);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
