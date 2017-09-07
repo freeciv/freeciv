@@ -729,7 +729,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   if (count > 0) {
     /* Failed to steal a tech. */
-    if (pcity->server.steal > 0
+    if (times > 0
         && !(action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
              || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
       notify_player(pplayer, city_tile(pcity),
