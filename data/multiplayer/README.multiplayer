@@ -56,7 +56,7 @@ now-small wonders have been adjusted or completely changed:
 
 - Apollo Program: Does not reveal the map.
 - A.Smith's Trading Co.: Costs 300 (was 400).
-- Darwin's Voyage: Costs 400 (was 300).
+- Darwin's Voyage: Costs 400 (was 300). Gives only one advance.
 - Eiffel Tower: You get one unit free of shield upkeep per city,
   instead of "AI love".
 - Great Library: Reduces city corruption by 50%, instead of the
