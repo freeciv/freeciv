@@ -25,47 +25,43 @@ end
 signal.connect("city_destroyed", "city_destroyed_callback")
 
 
--- Grant two techs when the wonder Darwin`s Voyage is built.
+-- Grant tech when the wonder Darwin`s Voyage is built.
 function building_built_handler(btype, city)
   local darw_btype = find.building_type("Darwin's Voyage")
   local darw_id = darw_btype.id
   local player, id = city.owner, btype.id
-  local gained = {}
+  local gained
 
   if id == darw_id then
     -- Block the player from destroying the wonder, rebuilding it and
-    -- getting two free advances again.
-    -- This also prevents those they share research with from getting two
-    -- free advances from building Darwin`s Voyage themselves.
+    -- getting free advance again.
+    -- This also prevents those they share research with from getting
+    -- free advance from building Darwin`s Voyage themselves.
     if player:give_tech(find.tech_type("Theory of Evolution"),
                         0, false, "researched") then
-      -- Give the player two free advances.
-      gained[0] = player:give_tech(nil, 0, false, "researched")
-      gained[1] = player:give_tech(nil, 0, false, "researched")
+      -- Give the player free advance.
+      gained = player:give_tech(nil, 0, false, "researched")
 
-      -- Notify the player. Include the tech names in a way that makes it
-      -- look natural no matter if each tech is announced or not.
+      -- Notify the player. Include the tech name in a way that makes it
+      -- look natural no matter if tech is announced or not.
       notify.event(player, NIL, E.TECH_GAIN,
-        _("%s boosts research; you gain the immediate advances %s and %s."),
+        _("%s boosts research; you gain the immediate advance %s."),
         darw_btype:name_translation(),
-        gained[0]:name_translation(),
-        gained[1]:name_translation())
+        gained:name_translation())
 
       notify.research(player, false, E.TECH_GAIN,
-        _("%s boosts %s research; you gain the immediate advances %s and %s."),
+        _("%s boosts %s research; you gain the immediate advance %s."),
         darw_btype:name_translation(),
         player.nation:plural_translation(),
-        gained[0]:name_translation(),
-        gained[1]:name_translation())
+        gained:name_translation())
 
       -- default.lua informs the embassies when the tech source is a hut.
       -- They should therefore be informed about the source here too.
       notify.research_embassies(player, E.TECH_EMBASSY,
                                 -- /* TRANS: 1st %s is leader or team name */
-                                _("%s gains %s and %s from %s."),
+                                _("%s gains %s from %s."),
                                 player:research_name_translation(),
-                                gained[0]:name_translation(),
-                                gained[1]:name_translation(),
+                                gained:name_translation(),
                                 darw_btype:name_translation())
     end
   end
