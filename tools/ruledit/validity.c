@@ -255,6 +255,22 @@ bool is_extra_needed(struct extra_type *pextra, requirers_cb cb,
 {
   struct universal uni = { .value.extra = pextra, .kind = VUT_EXTRA };
   bool needed = FALSE;
+  bool conflicts = FALSE;
+  bool hides = FALSE;
+  int id = extra_index(pextra);
+
+  extra_type_iterate(requirer) {
+    conflicts |= BV_ISSET(requirer->conflicts, id);
+    hides     |= BV_ISSET(requirer->hidden_by, id);
+  } extra_type_iterate_end;
+
+  if (conflicts) {
+    cb(R__("Conflicting extra"), data);
+  }
+  if (hides) {
+    cb(R__("Hidden extra"), data);
+  }
+  needed |= conflicts | hides;
 
   needed |= is_universal_needed(&uni, cb, data);
 
