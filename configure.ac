@@ -405,10 +405,6 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   fi
 done
 
-AC_ARG_WITH([zoom],
-  [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-client to user])],
-  [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
-
 AC_ARG_WITH([xaw],
   [AS_HELP_STRING([--with-xaw], [use the Xaw widget set for the xaw client])],
   [WITH_XAW=1])

@@ -25,7 +25,7 @@ float map_zoom = 1.0;
 bool zoom_enabled = FALSE;
 
 static float zoom_steps[] = {
-  -1.0, 0.13, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 2.0, 2.5, 3.0, 4.0, -1.0
+  -1.0, 1.0, 2.0, -1.0
 };
 
 static struct zoom_data
