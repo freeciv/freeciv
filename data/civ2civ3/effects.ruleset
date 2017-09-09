@@ -3988,6 +3988,7 @@ reqs    =
       "OutputType", "Shield", "Local"
     }
 
+; Make Mine extra do something
 [effect_mine]
 type    = "Mining_Pct"
 value   = 100
@@ -4004,6 +4005,7 @@ reqs    =
       "Extra", "Oil Well", "Local"
     }
 
+; Make Irrigation extra do something
 [effect_irrigation]
 type    = "Irrigation_Pct"
 value   = 100
@@ -4013,6 +4015,7 @@ reqs    =
       "CityTile", "Center", "Local", FALSE
     }
 
+; Simulate presence of irrigation extra in city centers
 [effect_irrigation_1]
 type    = "Irrigation_Pct"
 value   = 100
@@ -4021,10 +4024,11 @@ reqs    =
       "CityTile", "Center", "Local", TRUE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
+      ; Oil Well also prevents irrigation, but requires Mine so not needed here
     }
 
-; Desert with river (and no Oasis) gets 1 extra food
+; Desert with river (and no Oasis) gets 1 extra food from irrigation (total 2)
+; ("Nile floods" effect)
 [effect_irrigation_2]
 type    = "Irrigation_Pct"
 value   = 100
@@ -4033,6 +4037,23 @@ reqs    =
       "Terrain", "Desert", "Local", TRUE
       "Extra", "River", "Local", TRUE
       "Resource", "Oasis", "Local", FALSE
+      "Extra", "Irrigation", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
+    }
+
+; ...same for city centers
+[effect_irrigation_3]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range", "present"
+      "Terrain", "Desert", "Local", TRUE
+      "Extra", "River", "Local", TRUE
+      "Resource", "Oasis", "Local", FALSE
+      "CityTile", "Center", "Local", TRUE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
+      "Extra", "Mine", "Local", FALSE
+      ; Oil Well also prevents irrigation, but requires Mine so not needed here
     }
 
 ; "Sea" nreq is for Transports, which are only supposed to clean pollution
