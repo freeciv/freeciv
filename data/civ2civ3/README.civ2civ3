@@ -570,12 +570,12 @@ Solar plant    320   4       +25%/+50%    25% (0%)
 UNITS:
 ------
 
-- Settlers pop cost increased to 2 and removed Food upkeep. New unit
+- Settlers pop cost increased to 2 and removed the upkeep. New unit
   Migrants available to work, or to migrate 1 pop, they can't create
   cities and can be captured. Costs more similar to civ3:
 
-Settlers:  pop_cost = 2, cost = 30, upkeep = 1
-Migrants:  pop_cost = 1, cost = 10, upkeep = 1
+Settlers:  pop_cost = 2, cost = 30, upkeep = 0
+Migrants:  pop_cost = 1, cost = 10, upkeep = 0
 Workers:   pop_cost = 0, cost = 20, upkeep = 1
 
 - Non-military units now belongs to a new unit class ("Small land") that
