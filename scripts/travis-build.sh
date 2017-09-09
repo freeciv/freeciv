@@ -16,7 +16,7 @@ set -e
 uname -a
 
 # Based on fresh install of Ubuntu 14.04
-dependencies="libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev qt5-default"
+dependencies="libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev qt5-default libsdl2-mixer-dev"
 
 ## Dependencies
 echo "==== Installing Updates and Dependencies ===="
