@@ -195,8 +195,9 @@ TERRAIN:
   (to 2/0/0). Tundras can be mined for +1 Shield (instead of irrigated)
   and receive +1 Trade when roaded (up to 1/1/1).
 
-- Deserts with a river receive 1 extra Food (to boost growth at
-  terrains like Nile flood), unless they have an Oasis.
+- Deserts with a river receive 1 extra Food from irrigation (total 2),
+  unless they have an Oasis; this simulates a growth boost like Nile
+  floods.
 
 - Reduced Food bonus by 1 to Swamp/Spice; the original bonus can be
   obtained by irrigating the Swamp.
