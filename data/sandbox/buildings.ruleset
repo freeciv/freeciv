@@ -1213,8 +1213,10 @@ sabotage	= 100
 sound		= "b_super_highways"
 sound_alt	= "b_generic"
 helptext	= _("\
-Each tile around the city with roads, and without farmlands, that\
+Each tile around the city with roads and without farmland, that\
  is already generating some trade, produces one extra trade resource.\
+ The same applies to the city center tile (even if it is receiving a\
+ farmland bonus).\
 "),
 ; /* xgettext:no-c-format */
 _("\

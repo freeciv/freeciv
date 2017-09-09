@@ -540,7 +540,8 @@ BUILDINGS:
 - Super Highways double the effect of Stock Exchange (+50% to
   Gold/Luxuries), and they produce extra Trade at tiles with roads but
   without farmlands (the classic effect was overpowered under
-  Democracy/Republic).
+  Democracy/Republic). The city center tile can still have both farmland
+  and Super Highways bonuses.
 
 - Doubled costs of all Spaceship parts. All them require Library,
   University, Research Lab and Factory present in the city in order to
