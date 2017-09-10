@@ -1202,7 +1202,7 @@ reqs    =
 
 [effect_empire_size_base_tribal]
 type    = "Empire_Size_Base"
-value   = 14
+value   = 12
 reqs    =
     { "type", "name", "range"
       "Gov", "Tribal", "Player"
@@ -1218,7 +1218,7 @@ reqs    =
 
 [effect_empire_size_base_monarchy]
 type    = "Empire_Size_Base"
-value   = 12
+value   = 14
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -1266,7 +1266,7 @@ reqs    =
 
 [effect_empire_size_step_tribal]
 type    = "Empire_Size_Step"
-value   = 14
+value   = 12
 reqs    =
     { "type", "name", "range"
       "Gov", "Tribal", "Player"
@@ -1282,7 +1282,7 @@ reqs    =
 
 [effect_empire_size_step_monarchy]
 type    = "Empire_Size_Step"
-value   = 12
+value   = 14
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -1424,14 +1424,6 @@ reqs    =
       "Gov", "Monarchy", "Player"
     }
 
-[effect_martial_law_each_tribal]
-type    = "Martial_Law_Each"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
-    }
-
 [effect_martial_law_each_communism]
 type    = "Martial_Law_Each"
 value   = 2
@@ -1446,7 +1438,7 @@ value   = 3
 reqs    =
     { "type", "name", "range", "present"
 ;      "Gov", "Anarchy", "Player", FALSE
-;      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
 ;      "Gov", "Communism", "Player", FALSE
 ;      "Gov", "Despotism", "Player", FALSE
 ;      "Gov", "Monarchy", "Player", FALSE
@@ -1522,6 +1514,14 @@ reqs    =
 ;      "Gov", "Federation", "Player", FALSE
 ;      "Gov", "Republic", "Player", FALSE
 ;      "Gov", "Democracy", "Player", FALSE
+    }
+
+[effect_content_tribal]
+type    = "Make_Content"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Tribal", "Player"
     }
 
 [effect_combat_tribal]
@@ -1613,7 +1613,7 @@ reqs    =
 
 [effect_lux_federation]
 type    = "Output_Add_Tile"
-value   = 3
+value   = 2
 reqs    =
     { "type", "name", "range"
       "Gov", "Federation", "Player"
