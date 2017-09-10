@@ -7,8 +7,12 @@ options = "+Freeciv-2.6-spec"
 [info]
 
 artists = "
-   feler404
+    feler404
+    (WT-en) SONORAMA at English Wikivoyage (Own work) [Public domain],
+      via Wikimedia Commons:
+      https://commons.wikimedia.org/wiki/File:Tibet_Potala_Palace.JPG
 "
+
 [extra]
 sprites =
 	{	"tag", "file"
@@ -24,6 +28,7 @@ sprites =
 		"b.coastal_defense", "buildings/coastal_defense"
 		"b.colosseum", "buildings/colosseum"
 		"b.courthouse", "buildings/courthouse"
+		"b.ecclesiastical_palace", "buildings/ecclesiastical_palace"
 		"b.factory", "buildings/factory"
 		"b.granary", "buildings/granary"
 		"b.harbour", "buildings/harbor"

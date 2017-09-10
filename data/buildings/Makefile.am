@@ -16,6 +16,7 @@ pkgdata_DATA =          	\
 	coastal_defense.png	\
 	colosseum.png		\
 	courthouse.png		\
+	ecclesiastical_palace.png \
 	factory.png		\
 	granary.png		\
 	harbor.png		\
