@@ -338,11 +338,11 @@ Celebration Bonus (no -1)  (no -1)  (no -1) (+1Trade) 0       (+1Trade)(+1Trade)
                                                                                 
 Unit Upkeep       Shield   Shield   Gold     Gold     Gold(x2) Shield   Gold(x2) Gold(x2) Shield   
 Free Units        2\2      2\2      2\2      3\3      2\2      1\1      1\1      2\2      3\3      
-Mil Unhappiness   0        0        0        -1       -1       -1       -2       -1       -1       
-Martial Law       +1       +2       +1       +1       0        0        0        0        +2       
+Mil Unhappiness   0        0        0       -1       -1       -1       -2       -1       -1       
+Martial Law      +1        0       +1       +1        0        0        0        0       +2       
                                                                                 
 Civil war %       99       90       80       70       60       40       30       20       50       
-Empire Size       0        /14      /10      /12      /20      /16      /32      /24      /28      
+Empire Size       0        /12      /10      /14      /20      /16      /32      /24      /28      
 Special          +NoUpkeep +Veteran +75%Gold +50%Gold +Tithes  +Bribe  +Brib/Sub +Subvert +NoUpkeep
                  -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1) 
                  -NoTaxes                             +Fanatic         +Partisan +Luxury  +Partisan 
@@ -396,7 +396,7 @@ start) and Federation (available with Economics).
   receives all them).
 
 - Spies built under Communism or Federation will start at the first
-  veteran level. Federation grants +3 Luxury per city.
+  veteran level. Federation grants +2 Luxury per city.
 
 - Under Communism you do not pay upkeep for buildings that cost 1 Gold.
   Communism cancels the bonus from Mysticism and Theology (to Temples
@@ -409,8 +409,8 @@ start) and Federation (available with Economics).
   switched from Shields to Gold.
 
 - Tribal government increases by half the chance of land units getting
-  the next veteran level after a battle. They are tribal warriors,
-  maintained with Shields instead of Gold.
+  the next veteran level after a battle. Every city gets 1 extra content
+  citizen, but units can't apply Martial Law.
 
 TIP: There is some hurry to get Monarchy or Republic (or to build
      Pyramids), in order to avoid the initial penalty to output per

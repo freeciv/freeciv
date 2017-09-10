@@ -91,6 +91,7 @@ name        = _("Tribal")
 ; No reqs
 graphic     = "gov.tribal"
 graphic_alt = "s.tax_luxury"
+ai_better   = "Republic"
 
 ruler_male_title = _("Warlord %s")
 ruler_female_title = _("Warlady %s")
@@ -100,13 +101,13 @@ Under a Tribal government, you are part ruler of your people. Your\
  control over your citizens is maintained largely by spiritual counsel.\
 "), _("\
 Compared to Despotism, a Tribal economy is more shield-oriented. Its\
- bonuses to veterancy and strong martial law can be an advantage in\
- wartime.\
+ bonuses to veterancy can be an advantage in wartime.\
 "),
 ; /* xgettext:no-c-format */
 _("\
 * Increases by half the chance of land units getting the next veteran level\
  after a battle.\n\
+* Each city gets 1 extra content citizen.\n\
 * Each city can support up to 2 units for free; further units each cost\
  1 shield per turn.\n\
 * Unlike later governments, military units do not cause unhappiness even\
@@ -125,6 +126,7 @@ name        = _("Despotism")
 ; No reqs
 graphic     = "gov.despotism"
 graphic_alt = "-"
+ai_better   = "Monarchy"
 
 ruler_male_title = _("Chief %s")
 ruler_female_title = _("?female:Chief %s")
@@ -284,7 +286,7 @@ Federalism is a system in which the power to govern is shared between\
 "),
 ; /* xgettext:no-c-format */
 _("\
-* Each city receives 3 extra luxury points.\n\
+* Each city gets 2 extra luxury points.\n\
 * Celebrating cities produce one extra trade point for every tile which is\
  already producing trade. (Cities below size 3 will not celebrate.)\n\
 * Each city can support up to 2 units for free; further units each cost\
