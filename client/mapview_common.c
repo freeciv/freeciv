@@ -1259,6 +1259,8 @@ static void draw_trade_route_line(const struct tile *ptile1,
 
   line_count = trade_route_to_canvas_lines(ptile1, ptile2, lines);
   for (i = 0; i < line_count; i++) {
+    /* XXX: canvas_put_line doesn't currently take map_zoom into account
+     * itself, but it probably should? */
     canvas_put_line(mapview.store, pcolor, LINE_BORDER,
                     lines[i].x + tileset_tile_width(tileset) / 2 * map_zoom,
                     lines[i].y + tileset_tile_height(tileset) / 2 * map_zoom,
@@ -1473,7 +1475,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   static char name[512], growth[32], prod[512], size[32], trade_routes[32];
   enum color_std growth_color;
   enum color_std production_color;
-  /* trade_routes_color initialized just to get rid off gcc warning
+  /* trade_routes_color initialized just to get rid of gcc warning
    * on optimization level 3 when it misdiagnoses that it would be used
    * uninitialized otherwise. Funny thing here is that warning would
    * go away also by *not* setting it to values other than
@@ -1526,6 +1528,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   /* First: calculate rect dimensions (but not positioning). */
 
   get_sprite_dimensions(bg, &bg_w, &bg_h);
+  bg_w *= map_zoom; bg_h *= map_zoom;
   get_city_mapview_name_and_growth(pcity, name, sizeof(name),
 				   growth, sizeof(growth), &growth_color, &production_color);
 
@@ -1549,7 +1552,9 @@ static void show_full_citybar(struct canvas *pcanvas,
     }
 
     get_sprite_dimensions(flag, &flag_rect.w, &flag_rect.h);
+    flag_rect.w *= map_zoom; flag_rect.h *= map_zoom;
     get_sprite_dimensions(occupy, &occupy_rect.w, &occupy_rect.h);
+    occupy_rect.w *= map_zoom; occupy_rect.h *= map_zoom;
 
     width1 = (flag_rect.w + occupy_rect.w + name_rect.w
 	      + 2 * border + size_rect.w);
@@ -1568,6 +1573,7 @@ static void show_full_citybar(struct canvas *pcanvas,
       get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
       get_sprite_dimensions(citybar->shields, &shield_rect.w, &shield_rect.h);
+      shield_rect.w *= map_zoom; shield_rect.h *= map_zoom;
       width2 += shield_rect.w + prod_rect.w + border;
       height2 = MAX(height2, shield_rect.h);
       height2 = MAX(height2, prod_rect.h + border);
@@ -1576,6 +1582,7 @@ static void show_full_citybar(struct canvas *pcanvas,
     if (should_draw_growth) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
       get_sprite_dimensions(citybar->food, &food_rect.w, &food_rect.h);
+      food_rect.w *= map_zoom; food_rect.h *= map_zoom;
       width2 += food_rect.w + growth_rect.w + border;
       height2 = MAX(height2, food_rect.h);
       height2 = MAX(height2, growth_rect.h + border);
@@ -1588,6 +1595,7 @@ static void show_full_citybar(struct canvas *pcanvas,
       get_text_size(&trade_routes_rect.w, &trade_routes_rect.h,
                     FONT_CITY_PROD, trade_routes);
       get_sprite_dimensions(citybar->trade, &trade_rect.w, &trade_rect.h);
+      trade_rect.w *= map_zoom; trade_rect.h *= map_zoom;
       width2 += trade_rect.w + trade_routes_rect.w + border;
       height2 = MAX(height2, trade_rect.h);
       height2 = MAX(height2, trade_routes_rect.h + border);
@@ -1656,18 +1664,25 @@ static void show_full_citybar(struct canvas *pcanvas,
     for (y = 0; y < *height; y += bg_h) {
       canvas_put_sprite(pcanvas, (canvas_x - *width / 2 + x) / map_zoom,
                         (canvas_y + y) / map_zoom,
-			bg, 0, 0, *width - x, *height - y);
+			bg, 0, 0,
+                        (*width - x) / map_zoom, (*height - y) / map_zoom);
     }
   }
 
   owner_color = get_player_color(tileset, city_owner(pcity));
 
   if (gui_options.draw_city_names) {
-    canvas_put_sprite_full(pcanvas, flag_rect.x / map_zoom, flag_rect.y / map_zoom,
+    canvas_put_sprite_full(pcanvas,
+                           flag_rect.x / map_zoom, flag_rect.y / map_zoom,
                            flag);
+    /* XXX: canvas_put_line() doesn't currently take map_zoom into account.
+     * Should it?
+     * In the meantime, don't compensate with '/ map_zoom' here, unlike
+     * for canvas_put_sprite/text/rectangle */
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		    (flag_rect.x + flag_rect.w) / map_zoom - 1, canvas_y / map_zoom,
-		    0, height1);
+		    (flag_rect.x + flag_rect.w) /* / map_zoom */ - 1,
+                    canvas_y /* / map_zoom */,
+		    0, height1 /* / map_zoom */);
     canvas_put_sprite_full(pcanvas,
                            occupy_rect.x / map_zoom, occupy_rect.y / map_zoom,
                            occupy);
@@ -1677,7 +1692,8 @@ static void show_full_citybar(struct canvas *pcanvas,
     canvas_put_rectangle(pcanvas, owner_color,
 			 (size_rect.x - border / 2) / map_zoom,
                          canvas_y / map_zoom,
-			 size_rect.w + border, height1);
+			 (size_rect.w + border) / map_zoom,
+                         height1 / map_zoom);
     {
       /* Try to pick a color for city size text that contrasts with
        * player color */
@@ -1725,28 +1741,31 @@ static void show_full_citybar(struct canvas *pcanvas,
   }
 
   /* Draw the city bar's outline. */
+  /* XXX not scaling by map_zoom, see above */
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		  (canvas_x - *width / 2) / map_zoom, canvas_y / map_zoom,
-		  *width, 0);
+		  (canvas_x - *width / 2) /* / map_zoom */,
+                  canvas_y /* / map_zoom */,
+		  *width /* / map_zoom */, 0);
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		  (canvas_x - *width / 2) / map_zoom, canvas_y / map_zoom,
-		  0, *height);
+		  (canvas_x - *width / 2) /* / map_zoom */,
+                  canvas_y /* / map_zoom */,
+		  0, *height /* / map_zoom */);
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		  (canvas_x - *width / 2) / map_zoom,
-                  (canvas_y + *height) / map_zoom - 1,
-		  *width, 0);
+		  (canvas_x - *width / 2) /* / map_zoom */,
+                  (canvas_y + *height) /* / map_zoom */ - 1,
+		  *width /* / map_zoom */, 0);
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		  (canvas_x - *width / 2 + *width) / map_zoom,
-                  canvas_y / map_zoom,
-		  0, *height);
+		  (canvas_x - *width / 2 + *width) /* / map_zoom */,
+                  canvas_y /* / map_zoom */,
+		  0, *height /* / map_zoom */);
   
   /* Draw the dividing line if we drew both the
    * upper and lower parts. */
   if (gui_options.draw_city_names && should_draw_lower_bar) {
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
-		    (canvas_x - *width / 2) / map_zoom,
-                    (canvas_y + height1) / map_zoom - 1,
-		    *width, 0);
+		    (canvas_x - *width / 2) /* / map_zoom */,
+                    (canvas_y + height1) /* / map_zoom */ - 1,
+		    *width /* / map_zoom */, 0);
   }
 }
 
@@ -2095,6 +2114,8 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
                     DIR_DX[dir], DIR_DY[dir]);
 
   /* Draw the segment. */
+  /* XXX: canvas_put_line doesn't currently take map_zoom into account
+   * itself, but it probably should? If so this will need adjusting */
   canvas_put_line(mapview.store,
 		  get_color(tileset, COLOR_MAPVIEW_GOTO), LINE_GOTO,
 		  canvas_x, canvas_y, canvas_dx, canvas_dy);
@@ -3407,6 +3428,8 @@ static void link_mark_draw(const struct link_mark *pmark)
   y_top = canvas_y + yd;
   y_bottom = canvas_y + height - yd;
 
+  /* XXX: canvas_put_line doesn't currently take map_zoom into account
+   * itself, but it probably should? If so these will need adjusting */
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_top, xlen, 0);
   canvas_put_line(mapview.store, pcolor, LINE_TILE_FRAME, x_left, y_top, 0, ylen);
   
