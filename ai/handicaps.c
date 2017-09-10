@@ -126,6 +126,10 @@ const char *handicap_desc(enum handicap_type htype, bool *inverted)
   case H_PRODCHGPEN:
     *inverted = TRUE;
     return _("Can change city production type without penalty.");
+#ifdef FREECIV_WEB
+  case H_ASSESS_DANGER_LIMITED:
+    return _("Limits the distance to search for threatening enemy units.");    
+#endif
   case H_LAST:
     break; /* fall through -- should never see this */
   }

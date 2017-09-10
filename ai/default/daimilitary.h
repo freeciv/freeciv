@@ -20,6 +20,11 @@
 /* server/advisors */
 #include "advchoice.h"
 
+#ifdef FREECIV_WEB
+#define ASSESS_DANGER_MAX_DISTANCE         40
+#define AI_HANDICAP_DISTANCE_LIMIT         6  //TODO: 20 for non-web
+#endif /* FREECIV_WEB */
+
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
