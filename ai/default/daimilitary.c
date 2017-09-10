@@ -140,13 +140,18 @@ void military_advisor_choose_tech(struct player *pplayer,
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
 static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *pcity,
-                                             enum terrain_class tc)
+                                             enum terrain_class tc, bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
   int best = -1;
   int cur;
+  struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(putype) {
+    if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
+      continue;
+    }
+
     cur = dai_unit_attack_desirability(ait, putype);
     if ((tc == TC_LAND && utype_class(putype)->adv.land_move != MOVE_NONE)
         || (tc == TC_OCEAN
@@ -176,10 +181,12 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *p
 static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
                                               struct city *pcity,
                                               enum terrain_class tc,
-                                              enum unit_role_id role)
+                                              enum unit_role_id role,
+                                              bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
   int best = 0;
+  struct player *pplayer = city_owner(pcity);
 
   simple_ai_unit_type_iterate(putype) {
     /* Only consider units of given role, or any if invalid given */
@@ -187,6 +194,10 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
       if (!utype_has_role(putype, role)) {
         continue;
       }
+    }
+
+    if (!allow_gold_upkeep && utype_upkeep_cost(putype, pplayer, O_GOLD) > 0) {
+      continue;
     }
 
     /* Only consider units of same move type */
@@ -1399,6 +1410,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   adv_want martial_value = 0;
   bool martial_need = FALSE;
   struct adv_choice *choice = adv_new_choice();
+  bool allow_gold_upkeep;
 
   urgency = assess_danger(ait, pcity);
   /* Changing to quadratic to stop AI from building piles 
@@ -1558,8 +1570,17 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
     return choice;
   }
 
+  if (pplayer->economic.tax <= 50 || city_total_unit_gold_upkeep(pcity) <= 0) {
+    /* Always allow one unit with real gold upkeep (after EFT_UNIT_UPKEEP_FREE_PER_CITY)
+     * Allow more if economics is so strong that we have not increased taxes. */
+    allow_gold_upkeep = TRUE;
+  } else {
+    allow_gold_upkeep = FALSE;
+  }
+
   /* Consider making a land bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, TC_LAND, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, TC_LAND, L_DEFEND_GOOD,
+                                   allow_gold_upkeep);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
@@ -1578,20 +1599,21 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   dai_choose_diplomat_offensive(ait, pplayer, pcity, choice);
 
   /* Consider making a sea bodyguard */
-  punittype = dai_choose_bodyguard(ait, pcity, TC_OCEAN, L_DEFEND_GOOD);
+  punittype = dai_choose_bodyguard(ait, pcity, TC_OCEAN, L_DEFEND_GOOD,
+                                   allow_gold_upkeep);
   if (punittype) {
     dai_unit_consider_bodyguard(ait, pcity, punittype, choice);
   }
 
   /* Consider making an airplane */
-  (void) dai_choose_attacker_air(ait, pplayer, pcity, choice);
+  (void) dai_choose_attacker_air(ait, pplayer, pcity, choice, allow_gold_upkeep);
 
   /* Consider making a paratrooper */
-  dai_choose_paratrooper(ait, pplayer, pcity, choice);
+  dai_choose_paratrooper(ait, pplayer, pcity, choice, allow_gold_upkeep);
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
-  punittype = dai_choose_attacker(ait, pcity, TC_LAND);
+  punittype = dai_choose_attacker(ait, pcity, TC_LAND, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
@@ -1602,7 +1624,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   /* Consider a land attacker or a ferried land attacker
    * (in which case, we might want a ferry before an attacker)
    */
-  punittype = dai_choose_attacker(ait, pcity, TC_LAND);
+  punittype = dai_choose_attacker(ait, pcity, TC_LAND, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype, 1);
     choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
@@ -1610,7 +1632,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   }
 
   /* Consider a hunter */
-  dai_hunter_choice(ait, pplayer, pcity, choice);
+  dai_hunter_choice(ait, pplayer, pcity, choice, allow_gold_upkeep);
 
   /* Consider veteran level enhancing buildings before non-urgent units */
   adjust_ai_unit_choice(pcity, choice);

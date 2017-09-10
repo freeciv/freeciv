@@ -336,7 +336,7 @@ static int calculate_want_for_paratrooper(struct unit *punit,
 *******************************************************************/
 void dai_choose_paratrooper(struct ai_type *ait,
                             struct player *pplayer, struct city *pcity,
-                            struct adv_choice *choice)
+                            struct adv_choice *choice, bool allow_gold_upkeep)
 {
   const struct research *presearch;
   int profit;
@@ -359,6 +359,10 @@ void dai_choose_paratrooper(struct ai_type *ait,
       continue;
     }
     if (A_NEVER == u_type->require_advance) {
+      continue;
+    }
+
+    if (!allow_gold_upkeep && utype_upkeep_cost(u_type, pplayer, O_GOLD) > 0) {
       continue;
     }
 
