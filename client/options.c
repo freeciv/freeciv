@@ -1895,7 +1895,7 @@ static struct client_option client_options[] = {
                      "to make sure that the connection is still up. This "
                      "can be useful if the client otherwise may sit for a "
                      "long time with no data being sent or received at all."),
-                  COC_NETWORK, GUI_STUB, NULL, NULL),
+                  COC_NETWORK, GUI_STUB, TRUE, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),
                       N_("This is the soundset that will be used.  Changing "
