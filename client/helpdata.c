@@ -1873,7 +1873,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   if (utype_has_flag(utype, UTYF_COAST_STRICT)) {
-    CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
+    CATLSTR(buf, bufsz, _("* Must stay next to safe coast.\n"));
   }
   {
     /* Document exceptions to embark/disembark restrictions that we
@@ -2182,16 +2182,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       if (utype_has_flag(utype, UTYF_COAST)) {
         if (fuel == 1) {
           cat_snprintf(buf, bufsz,
-                       _("* Unit has to end each turn next to coast or"
+                       _("* Unit has to end each turn next to safe coast or"
                          " in a city or a base.\n"));
         } else {
           cat_snprintf(buf, bufsz,
                        /* Pluralization for the benefit of languages with
                         * duals etc */
                        /* TRANS: Never called for 'turns = 1' case */
-                       PL_("* Unit has to be next to coast, in a city or a base"
+                       PL_("* Unit has to be next to safe coast, in a city or a base"
                            " after %d turn.\n",
-                           "* Unit has to be next to coast, in a city or a base"
+                           "* Unit has to be next to safe coast, in a city or a base"
                            " after %d turns.\n",
                            fuel),
                      fuel);
@@ -2211,9 +2211,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       if (utype_has_flag(utype, UTYF_COAST)) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a list of unit types separated by "or" */
-                     PL_("* Unit has to be next to coast, in a city, a base, or on a %s"
+                     PL_("* Unit has to be next to safe coast, in a city, a base, or on a %s"
                          " after %d turn.\n",
-                         "* Unit has to be next to coast, in a city, a base, or on a %s"
+                         "* Unit has to be next to safe coast, in a city, a base, or on a %s"
                          " after %d turns.\n",
                          fuel),
                      astr_build_or_list(&list, types, i), fuel);
