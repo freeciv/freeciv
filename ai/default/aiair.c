@@ -429,7 +429,8 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
   that's what it should be like, I believe -- GB
 ******************************************************************/
 bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
-                             struct city *pcity, struct adv_choice *choice)
+                             struct city *pcity, struct adv_choice *choice,
+                             bool allow_gold_upkeep)
 {
   bool want_something = FALSE;
 
@@ -456,6 +457,10 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
         || uclass_has_flag(pclass, UCF_TERRAIN_SPEED)
         || unit_type_is_losing_hp(pplayer, punittype)) {
       /* We don't consider this a plane */
+      continue;
+    }
+
+    if (!allow_gold_upkeep && utype_upkeep_cost(punittype, pplayer, O_GOLD) > 0) {
       continue;
     }
 

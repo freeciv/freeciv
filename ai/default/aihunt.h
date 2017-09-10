@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -13,12 +13,15 @@
 #ifndef FC__AIHUNT_H
 #define FC__AIHUNT_H
 
+/* utility */
 #include "support.h"            /* bool type */
 
+/* common */
 #include "fc_types.h"
 
 void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
-                       struct city *pcity, struct adv_choice *choice);
+                       struct city *pcity, struct adv_choice *choice,
+                       bool allow_gold_upkeep);
 bool dai_hunter_qualify(struct player *pplayer, struct unit *punit);
 int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
                       struct unit *punit);

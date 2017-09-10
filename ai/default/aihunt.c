@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -82,14 +82,20 @@ static struct unit *dai_hunter_find(struct player *pplayer,
 **************************************************************************/
 static struct unit_type *dai_hunter_guess_best(struct city *pcity,
                                                enum terrain_class tc,
-                                               struct ai_type *ait)
+                                               struct ai_type *ait,
+                                               bool allow_gold_upkeep)
 {
   struct unit_type *bestid = NULL;
   int best = 0;
+  struct player *pplayer = city_owner(pcity);
 
   unit_type_iterate(ut) {
     struct unit_type_ai *utai = utype_ai_data(ut, ait);
     int desire;
+
+    if (!allow_gold_upkeep && utype_upkeep_cost(ut, pplayer, O_GOLD) > 0) {
+      continue;
+    }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
     if (!uclass_has_flag(utype_class(ut), UCF_MISSILE)
@@ -249,12 +255,13 @@ static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
   Check if we want to build a hunter.
 **************************************************************************/
 void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
-                       struct city *pcity, struct adv_choice *choice)
+                       struct city *pcity, struct adv_choice *choice,
+                       bool allow_gold_upkeep)
 {
   struct unit_type *best_land_hunter
-    = dai_hunter_guess_best(pcity, TC_LAND, ait);
+    = dai_hunter_guess_best(pcity, TC_LAND, ait, allow_gold_upkeep);
   struct unit_type *best_sea_hunter
-    = dai_hunter_guess_best(pcity, TC_OCEAN, ait);
+    = dai_hunter_guess_best(pcity, TC_OCEAN, ait, allow_gold_upkeep);
   struct unit *hunter = dai_hunter_find(pplayer, pcity);
 
   if ((!best_land_hunter && !best_sea_hunter)

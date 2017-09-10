@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ struct unit;
 void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                             struct unit *punit);
 void dai_choose_paratrooper(struct ai_type *ait, struct player *pplayer,
-                            struct city *pcity, struct adv_choice *choice);
+                            struct city *pcity, struct adv_choice *choice,
+                            bool allow_gold_upkeep);
 
 #endif /* FC__AIPARATROOPER_H */
