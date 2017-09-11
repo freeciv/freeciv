@@ -688,7 +688,7 @@ unit_item::~unit_item()
 ****************************************************************************/
 void unit_item::contextMenuEvent(QContextMenuEvent *event)
 {
-  QMenu *menu = new QMenu(gui()->central_wdg);
+  QMenu *menu;
 
   if (!can_client_issue_orders()) {
     return;
@@ -698,6 +698,7 @@ void unit_item::contextMenuEvent(QContextMenuEvent *event)
     return;
   }
 
+  menu = new QMenu(gui()->central_wdg);
   menu->addAction(activate);
   menu->addAction(activate_and_close);
 
@@ -3302,12 +3303,13 @@ void city_dialog::worklist_up()
 {
   QModelIndex index;
   struct worklist queue;
-  struct universal *target = new universal;
+  struct universal *target;
 
   if (selected_row_p < 1 || selected_row_p >= p_table_p->rowCount()) {
     return;
   }
 
+  target = new universal;
   city_get_queue(pcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
@@ -3343,12 +3345,13 @@ void city_dialog::worklist_down()
 {
   QModelIndex index;
   struct worklist queue;
-  struct universal *target = new universal;
+  struct universal *target;
 
   if (selected_row_p < 0 || selected_row_p >= p_table_p->rowCount() - 1) {
     return;
   }
 
+  target = new universal;
   city_get_queue(pcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
