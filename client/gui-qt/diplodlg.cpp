@@ -138,7 +138,6 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   text = "<b><center>" + text + "</center></b>";
   label->setText(text);
   plr1_accept = new QLabel;
-  sprite = get_treaty_thumb_sprite(tileset, false);
   layout->addWidget(plr1_label, 1, 0);
   layout->addWidget(label, 1, 5);
   layout->addWidget(plr1_accept, 1, 10);
@@ -175,7 +174,6 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   }
   connect(gold_edit1, SIGNAL(valueChanged(int)), SLOT(gold_changed1(int)));
   connect(gold_edit2, SIGNAL(valueChanged(int)), SLOT(gold_changed2(int)));
-  pix = get_arrow_sprite(tileset, ARROW_PLUS)->pm;
   add_clause1 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
                                 _("Add Clause..."));
   add_clause2 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
