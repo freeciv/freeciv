@@ -582,7 +582,6 @@ void races_dialog::nation_selected(const QItemSelection &selected,
 
   style = style_number(style_of_nation(nation_by_number(selected_nation)));
   qvar = qvar.fromValue<int>(style);
-  item = new QTableWidgetItem;
 
   for (ind = 0; ind < styles->rowCount(); ind++) {
     item = styles->item(ind, 0);
@@ -3474,7 +3473,6 @@ void units_select::create_pixmap()
 
   update_units();
   if (unit_list.count() > 0) {
-  punit = unit_list.at(0);
   if (tileset_is_isometric(tileset) == false) {
     item_size.setWidth(tileset_unit_width(tileset));
     item_size.setHeight(tileset_unit_width(tileset));

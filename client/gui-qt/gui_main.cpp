@@ -167,7 +167,7 @@ void qtg_ui_main(int argc, char *argv[])
 {
   if (parse_options(argc, argv)) {
     qapp = new QApplication(argc, argv);
-    QPixmap *qpm = new QPixmap;
+    QPixmap *qpm;
     QIcon app_icon;
 
     tileset_init(tileset);

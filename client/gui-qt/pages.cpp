@@ -1127,7 +1127,6 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   if (indexes.isEmpty()) {
     return;
   }
-  k = 0;
 
   switch (i) {
   case PAGE_NETWORK:
