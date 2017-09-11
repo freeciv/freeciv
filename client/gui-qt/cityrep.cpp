@@ -1251,6 +1251,10 @@ void city_report_dialog_popup(bool raise)
     i = gui()->gimme_index_of("CTS");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
+    if (w->isVisible() == true) {
+      gui()->game_tab_widget->setCurrentIndex(0);
+      return;
+    }
     cr = reinterpret_cast<city_report*>(w);
     gui()->game_tab_widget->setCurrentWidget(cr);
     cr->update_report();
