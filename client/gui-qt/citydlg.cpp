@@ -112,6 +112,10 @@ void progress_bar::resizeEvent(QResizeEvent *event)
 void progress_bar::set_pixmap(struct universal *target)
 {
   struct sprite *sprite;
+  QImage cropped_img;
+  QImage img;
+  QPixmap tpix;
+  QRect crop;
 
   if (VUT_UTYPE == target->kind) {
     sprite = get_unittype_sprite(tileset, target->value.utype,
@@ -126,11 +130,13 @@ void progress_bar::set_pixmap(struct universal *target)
     pix = nullptr;
     return;
   }
-  pix = new QPixmap(sprite->pm->width(),
-                    sprite->pm->height());
+  img = sprite->pm->toImage();
+  crop = zealous_crop_rect(img);
+  cropped_img = img.copy(crop);
+  tpix = QPixmap::fromImage(cropped_img);
+  pix = new QPixmap(tpix.width(), tpix.height());
   pix->fill(Qt::transparent);
-  pixmap_copy(pix, sprite->pm, 0 , 0, 0, 0,
-              sprite->pm->width(), sprite->pm->height());
+  pixmap_copy(pix, &tpix, 0 , 0, 0, 0, tpix.width(), tpix.height());
 }
 
 /****************************************************************************
@@ -288,7 +294,7 @@ void progress_bar::paintEvent(QPaintEvent *event)
   }
   if (pix != nullptr) {
     p.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    p.drawPixmap(2 , 2, (pix->height() - 4)
+    p.drawPixmap(2 , 2, pix_width
                  * static_cast<float>(pix->width()) / pix->height(),
                  pix_width, *pix, 0, 0, pix->width(), pix->height());
   }
