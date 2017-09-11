@@ -454,7 +454,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   adv->shield_priority = SHIELD_WEIGHTING;
   if (adv_wants_science(pplayer)) {
     adv->luxury_priority = 1;
-    adv->science_priority = TRADE_WEIGHTING;
+    adv->science_priority = TRADE_WEIGHTING * 1.2;
   } else {
     adv->luxury_priority = TRADE_WEIGHTING;
     adv->science_priority = 1;
