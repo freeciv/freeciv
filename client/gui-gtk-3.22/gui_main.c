@@ -285,14 +285,7 @@ static void print_usage(void)
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
                "screen\n"));
 
-#ifdef GTK3_ZOOM_ENABLED
-  fc_fprintf(stderr,
-             /* TRANS: Keep word 'default' untranslated */
-             _("-z, --zoom LEVEL\tSet zoom level; use value 'default' "
-               "to reset\n\n"));
-#else
   fc_fprintf(stderr, "\n");
-#endif /* GTK3_ZOOM_ENABLED */
 
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
@@ -312,20 +305,6 @@ static void parse_options(int argc, char **argv)
     if (is_option("--help", argv[i])) {
       print_usage();
       exit(EXIT_SUCCESS);
-
-#ifdef GTK3_ZOOM_ENABLED
-    } else if ((option = get_option_malloc("--zoom", argv, &i, argc, FALSE))) {
-      char *endptr;
-
-      if (strcmp("default", option)) {
-        gui_options.zoom_set = TRUE;
-        gui_options.zoom_default_level = strtof(option, &endptr);
-      } else {
-        gui_options.zoom_set = FALSE;
-      }
-      free(option);
-#endif /* GTK3_ZOOM_ENABLED */
-
     } else if ((option = get_option_malloc("--resolution", argv, &i, argc, FALSE))) {
       if (!string_to_video_mode(option, &vmode)) {
         fc_fprintf(stderr, _("Illegal video mode '%s'"), option);
@@ -476,7 +455,6 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     }
   }
 
-#ifdef GTK3_ZOOM_ENABLED
   if (!(ev->state & GDK_CONTROL_MASK)) {
     switch (ev->keyval) {
     case GDK_KEY_plus:
@@ -491,7 +469,6 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
       break;
     }
   }
-#endif /* GTK3_ZOOM_ENABLED */
 
   /* Return here if observer */
   if (client_is_observer()) {
