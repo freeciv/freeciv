@@ -1539,7 +1539,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   scroll3->setProperty("city_scroll", true);
 
   lefttop_layout = new QVBoxLayout();
-  units_layout = new QVBoxLayout();
   worklist_layout = new QVBoxLayout();
   right_layout = new QVBoxLayout();
   leftbot_layout = new QHBoxLayout();
@@ -1752,7 +1751,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   info_list.clear();
   info_list << _("Cities:") << _("Luxuries:") << _("Buildings:")
             << _("Nationality:") << _("Units:") <<  _("Wonders:");
-  info_nr = info_list.count();
 
   for (int i = 0; i < info_list.count(); i++) {
     lab_table[i] = new city_label(1 + i, this);
