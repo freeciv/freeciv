@@ -1636,6 +1636,10 @@ void science_report_dialog_popup(bool raise)
   } else {
     i = gui()->gimme_index_of("SCI");
     w = gui()->game_tab_widget->widget(i);
+    if (w->isVisible() == true) {
+      gui()->game_tab_widget->setCurrentIndex(0);
+      return;
+    }
     sci_rep = reinterpret_cast<science_report*>(w);
     if (gui()->game_tab_widget->currentIndex() == i) {
       sci_rep->redraw();
@@ -1682,6 +1686,10 @@ void economy_report_dialog_popup(bool raise)
     i = gui()->gimme_index_of("ECO");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
+    if (w->isVisible() == true) {
+      gui()->game_tab_widget->setCurrentIndex(0);
+      return;
+    }
     eco_rep = reinterpret_cast<eco_report *>(w);
     eco_rep->update_report();
     gui()->game_tab_widget->setCurrentWidget(eco_rep);
