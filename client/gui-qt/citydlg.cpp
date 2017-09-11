@@ -3799,7 +3799,7 @@ void city_production_delegate::paint(QPainter *painter,
 
   if (sprite != NULL) {
     pix = sprite->pm;
-    pix_scaled = pix->scaledToHeight(item_height - 2);
+    pix_scaled = pix->scaledToHeight(item_height - 2, Qt::SmoothTransformation);
 
     if (useless) {
       pixmap_put_x(&pix_scaled);
