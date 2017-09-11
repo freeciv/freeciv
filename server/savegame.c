@@ -105,6 +105,7 @@ static void save_thread_run(void *arg)
                     stdata->save_compress_type)) {
     con_write(C_FAIL, _("Failed saving game as %s"), stdata->filepath);
     log_error("Game saving failed: %s", secfile_error());
+    notify_conn(NULL, NULL, E_LOG_ERROR, ftc_warning, _("Failed saving game."));
   } else {
     con_write(C_OK, _("Game saved as %s"), stdata->filepath);
   }
