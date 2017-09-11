@@ -839,6 +839,10 @@ void popup_players_dialog(bool raise)
 
     i = gui()->gimme_index_of("PLR");
     w = gui()->game_tab_widget->widget(i);
+    if (w->isVisible() == true) {
+      gui()->game_tab_widget->setCurrentIndex(0);
+      return;
+    }
     pr = reinterpret_cast<plr_report*>(w);
     gui()->game_tab_widget->setCurrentWidget(pr);
     pr->update_report();
