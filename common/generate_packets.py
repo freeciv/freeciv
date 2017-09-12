@@ -78,11 +78,7 @@ def get_choices(all):
     return result
 
 def without(all,part):
-    result=[]
-    for i in all:
-        if i not in part:
-            result.append(i)
-    return result
+    return list(filter(lambda x: x not in part, all))
     
 # A simple container for a type alias
 class Type:
