@@ -272,14 +272,13 @@ Server:
 
 And the game is on!
 
-  NOTE: In this version of Freeciv, the GTK, Qt, and SDL2 clients have the
-  capability to automagically start a freeciv-server session when the user
-  selects "Start New Game" from the main menu. This reduces the steps
-  needed to get started playing a game of Freeciv. On the other hand,
-  it also means that if the client crashes for some reason or becomes
-  unavailable, the freeciv-server session will also be lost. So starting a
-  separate freeciv-server session and then connect to it with the client is
-  generally the recommended method.
+  NOTE: Clients have the capability to automagically start a freeciv-server
+  session when the user selects "Start New Game" from the main menu.
+  This reduces the steps needed to get started playing a game of Freeciv.
+  On the other hand, it also means that if the client crashes for some
+  reason or becomes unavailable, the freeciv-server session will also
+  be lost. So starting a separate freeciv-server session and then connect
+  to it with the client is generally the recommended method.
 
 
 Announcing the game:
