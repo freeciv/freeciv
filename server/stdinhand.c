@@ -4619,7 +4619,8 @@ static bool default_command(struct connection *caller, char *arg, bool check)
   if (!check) {
     setting_set_to_default(pset);
     cmd_reply(CMD_DEFAULT, caller, C_OK,
-              _("Option '%s' reset to default value."), arg);
+              _("Option '%s' reset to default value, and will track any "
+                "default changes."), arg);
   }
 
   return TRUE;

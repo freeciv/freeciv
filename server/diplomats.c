@@ -1194,12 +1194,11 @@ void spy_steal_gold(struct player *act_player, struct unit *act_unit,
                     "Your %s stole %d gold from %s.", gold_give),
                 unit_link(act_unit), gold_give, tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
-                /* TRANS: nation, gold, city */
-                PL_("The %s are suspected of stealing %d gold from %s.",
-                    "The %s are suspected of stealing %d gold from %s.",
-                    gold_take),
-                nation_plural_for_player(act_player),
-                gold_take, tgt_city_link);
+                /* TRANS: gold, city, nation */
+                PL_("%d gold stolen from %s, %s suspected.",
+                    "%d gold stolen from %s, %s suspected.", gold_take),
+                gold_take, tgt_city_link,
+                nation_plural_for_player(act_player));
 
   /* This may cause a diplomatic incident. */
   action_consequence_success(ACTION_SPY_STEAL_GOLD, act_player,

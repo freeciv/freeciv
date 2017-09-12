@@ -323,13 +323,14 @@ static struct command commands[] = {
   },
   {"create",	ALLOW_CTRL,
    /* TRANS: translate text between <> and [] only */
-   N_("create <player name> [ai type]"),
+   N_("create <player-name> [ai type]"),
    N_("Create an AI player with a given name."),
    /* TRANS: don't translate text between single quotes */
    N_("With the 'create' command a new player with the given name is "
       "created.\n"
-      "If 'player name' is empty, random name will be assigned when the game "
-      "begins. Until then player will be known by id derived from its type.\n"
+      "If 'player-name' is empty, a random name will be assigned when the "
+      "game begins. Until then the player will be known by a name derived "
+      "from its type.\n"
       "The 'ai type' parameter can be used to select which AI module will be "
       "used for the created player. This requires that Freeciv has been "
       "compiled with loadable AI module support and that the respective module "
@@ -599,8 +600,9 @@ static struct command commands[] = {
    /* no translatable parameters */
    SYN_ORIG_("default <option name>"),
    N_("Set option to its default value"),
-   N_("Set option to its default value, and track it as 'default' instead\n"
-      "of real value."), NULL,
+   N_("Reset the option to its default value. If the default ever changes "
+      "in a future version, the option's value will follow that change."),
+      NULL,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"lua", ALLOW_ADMIN,

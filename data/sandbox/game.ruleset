@@ -671,9 +671,9 @@ unique         = FALSE
 value          = 100
 culture        = 100
 ; /* xgettext:no-c-format */
-first_msg      = _("You're the first one to achieve 100% of literacy!")
+first_msg      = _("Your nation is the first to reach 100% literacy!")
 ; /* xgettext:no-c-format */
-cons_msg       = _("You have achieved 100% of literacy!")
+cons_msg       = _("Your nation has reached 100% literacy!")
 
 [achievement_multicultural]
 name           = _("Multicultural")
@@ -681,8 +681,8 @@ type           = "Multicultural"
 unique         = FALSE
 value          = 2
 culture        = 100
-first_msg      = _("You're the first nation with citizens of 2 different nationalities!")
-cons_msg       = _("In your nation there are citizens of 2 different nationalities!")
+first_msg      = _("You're the first nation with a city containing 2 different nationalities!")
+cons_msg       = _("One of your cities has 2 different nationalities!")
 
 [achievement_metropolis]
 name           = _("Metropolis")
@@ -690,8 +690,8 @@ type           = "Metropolis"
 unique         = FALSE
 value          = 20
 culture        = 100
-first_msg      = _("Your city is the first one to reach population 20!")
-cons_msg       = _("Your city has reached population 20!")
+first_msg      = _("Your nation is the first with a city of population 20!")
+cons_msg       = _("One of your cities has reached population 20!")
 
 [achievement_cultured_city]
 name           = _("Cultured City")
@@ -699,8 +699,8 @@ type           = "Cultured_City"
 unique         = FALSE
 value          = 1000
 culture        = 100
-first_msg      = _("Your city is the first one to achieve 1000 culture points!")
-cons_msg       = _("Your city has achieved 1000 culture points!")
+first_msg      = _("Your nation is the first with a city of 1000 culture points!")
+cons_msg       = _("One of your cities has 1000 culture points!")
 
 [achievement_cultured_nation]
 name           = _("Cultured Nation")

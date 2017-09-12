@@ -1854,10 +1854,11 @@ static struct client_option client_options[] = {
                     "you're doing."),
                  COC_NETWORK, GUI_STUB, DEFAULT_METASERVER_OPTION, NULL, 0),
   GEN_BOOL_OPTION(heartbeat_enabled, N_("Send heartbeat messages to server"),
-                  N_("Regularly send empty heartbeat message to the server "
-                     "to make sure that the connection is still up. This "
-                     "can be useful if the client otherwise may sit for a "
-                     "long time with no data being sent or received at all."),
+                  N_("Periodically send an empty heartbeat message to the "
+                     "server to probe whether the connection is still up. "
+                     "This can help to make it obvious when the server has "
+                     "cut the connection due to a connectivity outage, if "
+                     "the client would otherwise sit idle for a long period."),
                   COC_NETWORK, GUI_STUB, TRUE, NULL),
   GEN_STR_LIST_OPTION(default_sound_set_name,
                       N_("Soundset"),

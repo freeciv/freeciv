@@ -52,7 +52,7 @@ function building_built_handler(btype, city)
       notify.research(player, false, E.TECH_GAIN,
         _("%s boosts %s research; you gain the immediate advance %s."),
         darw_btype:name_translation(),
-        player.nation:plural_translation(),
+        player.nation:name_translation(),
         gained:name_translation())
 
       -- default.lua informs the embassies when the tech source is a hut.
