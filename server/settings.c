@@ -585,9 +585,10 @@ static const char *huts_help(const struct setting *pset)
     /* Translated here */
     fc_snprintf(hutshelp, sizeof(hutshelp),
                 _("%s\n"
-                  "Currently this is being overridden by absolute "
-                  "number of huts set to %d. Explicitly set this "
-                  "setting again to make it take effect instead."),
+                  "Currently this setting is being overridden by an "
+                  "old scenario or savegame, which has set the absolute "
+                  "number of huts to %d. Explicitly set this setting "
+                  "again to make it take effect instead."),
                 _(pset->extra_help), wld.map.server.huts_absolute);
 
     return hutshelp;
@@ -1653,17 +1654,16 @@ static struct setting settings[] = {
   GEN_INT("huts", wld.map.server.huts,
           SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
           N_("Amount of huts (bonus extras)"),
-          N_("This setting gives number of huts that will be "
-             "placed on every one thousand tiles. Huts are "
-             "tile extras that may be investigated by units."),
+          N_("Huts are tile extras that may be investigated by units. "
+             "The server variable's scale is huts per thousand tiles."),
           huts_help, NULL, huts_action,
           MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
 
   GEN_INT("animals", wld.map.server.animals,
           SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
           N_("Amount of animals"),
-          N_("Amount of animals initially created to terrains "
-             "defined for them in the ruleset. "
+          N_("Number of animals initially created on terrains "
+             "defined for them in the ruleset (if the ruleset supports it). "
              "The server variable's scale is animals per "
              "thousand tiles."), NULL, NULL, NULL,
           MAP_MIN_ANIMALS, MAP_MAX_ANIMALS, MAP_DEFAULT_ANIMALS)
