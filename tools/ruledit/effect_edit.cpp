@@ -21,6 +21,7 @@
 #include <QLineEdit>
 #include <QMenu>
 #include <QPushButton>
+#include <QSpinBox>
 
 // utility
 #include "fcintl.h"
@@ -67,7 +68,7 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
 
   lbl = new QLabel(R__("Type:"));
   active_layout->addWidget(lbl, 0, 0);
-  edit_type_button = new QToolButton();
+  edit_type_button = new QToolButton(this);
   menu = new QMenu();
   edit_type_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
   edit_type_button->setPopupMode(QToolButton::MenuButtonPopup);
@@ -78,6 +79,12 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
     menu->addAction(effect_type_name(eff));
   }
   active_layout->addWidget(edit_type_button, 1, 0);
+
+  lbl = new QLabel(R__("Value:"));
+  active_layout->addWidget(lbl, 2, 0);
+  value_box = new QSpinBox(this);
+  active_layout->addWidget(value_box, 3, 0);
+  connect(value_box, SIGNAL(valueChanged(int)), this, SLOT(set_value(int)));
 
   main_layout->addLayout(active_layout);
 
@@ -196,6 +203,7 @@ void effect_edit::fill_active()
 {
   if (selected != nullptr) {
     edit_type_button->setText(effect_type_name(selected->type));
+    value_box->setValue(selected->value);
   }
 }
 
@@ -209,6 +217,18 @@ void effect_edit::effect_type_menu(QAction *action)
 
   if (selected != nullptr) {
     selected->type = type;
+  }
+
+  refresh();
+}
+
+/**************************************************************************
+  Read value from spinbox to effect
+**************************************************************************/
+void effect_edit::set_value(int value)
+{
+  if (selected != nullptr) {
+    selected->value = value;
   }
 
   refresh();

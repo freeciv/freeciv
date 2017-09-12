@@ -26,6 +26,8 @@
 // common
 #include "requirements.h"
 
+class QSpinBox;
+
 class ruledit_gui;
 
 struct effect_list_fill_data
@@ -60,6 +62,7 @@ class effect_edit : public QDialog
     int selected_nbr;
 
     QToolButton *edit_type_button;
+    QSpinBox *value_box;
 
   private slots:
     void select_effect();
@@ -68,6 +71,7 @@ class effect_edit : public QDialog
     void close_now();
 
     void effect_type_menu(QAction *action);
+    void set_value(int value);
 };
 
 #endif // FC__EFFECT_EDIT_H
