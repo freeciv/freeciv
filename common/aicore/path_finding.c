@@ -460,7 +460,7 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
       break;
     }
 
-    ptile = mapstep(&(wld.map), ptile, DIR_REVERSE(node->dir_to_here));
+    ptile = mapstep(params->map, ptile, DIR_REVERSE(node->dir_to_here));
     node = pfnm->lattice + tile_index(ptile);
   }
 
@@ -481,7 +481,7 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
 
     if (i > 0) {
       /* Step further back, if we haven't finished yet */
-      ptile = mapstep(&(wld.map), ptile, DIR_REVERSE(dir_next));
+      ptile = mapstep(params->map, ptile, DIR_REVERSE(dir_next));
       node = pfnm->lattice + tile_index(ptile);
     }
   }
@@ -530,7 +530,7 @@ static bool pf_jumbo_map_iterate(struct pf_map *pfm)
    * (the data of the tile for the pf_map), and index (the index of the
    * position in the Freeciv map). */
 
-  adjc_dir_iterate(&(wld.map), tile, tile1, dir) {
+  adjc_dir_iterate(params->map, tile, tile1, dir) {
     /* Calculate the cost of every adjacent position and set them in the
      * priority queue for next call to pf_jumbo_map_iterate(). */
     int tindex1 = tile_index(tile1);
@@ -628,7 +628,7 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
      * (the data of the tile for the pf_map), and index (the index of the
      * position in the Freeciv map). */
 
-    adjc_dir_iterate(&(wld.map), tile, tile1, dir) {
+    adjc_dir_iterate(params->map, tile, tile1, dir) {
       /* Calculate the cost of every adjacent position and set them in the
        * priority queue for next call to pf_normal_map_iterate(). */
       int tindex1 = tile_index(tile1);
@@ -1251,7 +1251,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     }
 
     /* Step backward. */
-    iter_tile = mapstep(&(wld.map), iter_tile, DIR_REVERSE(dir_next));
+    iter_tile = mapstep(params->map, iter_tile, DIR_REVERSE(dir_next));
     node = pfdm->lattice + tile_index(iter_tile);
   }
 
@@ -1342,7 +1342,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     }
 
     /* 5: Step further back. */
-    iter_tile = mapstep(&(wld.map), iter_tile, DIR_REVERSE(dir_next));
+    iter_tile = mapstep(params->map, iter_tile, DIR_REVERSE(dir_next));
     node = pfdm->lattice + tile_index(iter_tile);
   }
 
@@ -1375,6 +1375,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
   struct pf_danger_node *node = pfdm->lattice + tile_index(ptile);
   struct pf_danger_pos *pos;
   int length = 0, i;
+  const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfdm));
 
 #ifdef PF_DEBUG
   if (NULL != node1->danger_segment) {
@@ -1385,7 +1386,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
   /* First iteration for determining segment length */
   while (node->is_dangerous && direction8_is_valid(node->dir_to_here)) {
     length++;
-    ptile = mapstep(&(wld.map), ptile, DIR_REVERSE(node->dir_to_here));
+    ptile = mapstep(params->map, ptile, DIR_REVERSE(node->dir_to_here));
     node = pfdm->lattice + tile_index(ptile);
   }
 
@@ -1408,7 +1409,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
     }
 
     /* Step further down the tree */
-    ptile = mapstep(&(wld.map), ptile, DIR_REVERSE(node->dir_to_here));
+    ptile = mapstep(params->map, ptile, DIR_REVERSE(node->dir_to_here));
     node = pfdm->lattice + tile_index(ptile);
   }
 
@@ -1520,7 +1521,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
                                                           node->cost);
       }
 
-      adjc_dir_iterate(&(wld.map), tile, tile1, dir) {
+      adjc_dir_iterate(params->map, tile, tile1, dir) {
         /* Calculate the cost of every adjacent position and set them in
          * the priority queues for next call to pf_danger_map_iterate(). */
         int tindex1 = tile_index(tile1);
@@ -2388,7 +2389,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     }
 
     /* Step backward. */
-    iter_tile = mapstep(&(wld.map), iter_tile,
+    iter_tile = mapstep(params->map, iter_tile,
                         DIR_REVERSE(segment->dir_to_here));
     node = pffm->lattice + tile_index(iter_tile);
     segment = segment->prev;
@@ -2459,7 +2460,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     dir_next = segment->dir_to_here;
 
     /* 5: Step further back. */
-    iter_tile = mapstep(&(wld.map), iter_tile, DIR_REVERSE(dir_next));
+    iter_tile = mapstep(params->map, iter_tile, DIR_REVERSE(dir_next));
     node = pffm->lattice + tile_index(iter_tile);
     segment = segment->prev;
 #ifdef PF_DEBUG
@@ -2493,6 +2494,7 @@ static inline void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
                                               struct pf_fuel_node *node)
 {
   struct pf_fuel_pos *pos, *next;
+  const struct pf_parameter *params = pf_map_parameter(PF_MAP(pffm));
 
   pos = pf_fuel_pos_replace(node->pos, node);
   node->pos = pos;
@@ -2500,7 +2502,7 @@ static inline void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
    /* Iterate until we reach any built segment. */
   do {
     next = pos;
-    ptile = mapstep(&(wld.map), ptile, DIR_REVERSE(node->dir_to_here));
+    ptile = mapstep(params->map, ptile, DIR_REVERSE(node->dir_to_here));
     node = pffm->lattice + tile_index(ptile);
     pos = node->pos;
     if (NULL != pos) {
@@ -2653,7 +2655,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         node->moves_left = loc_moves_left;
       }
 
-      adjc_dir_iterate(&(wld.map), tile, tile1, dir) {
+      adjc_dir_iterate(params->map, tile, tile1, dir) {
         /* Calculate the cost of every adjacent position and set them in
          * the priority queues for next call to pf_fuel_map_iterate(). */
         int tindex1 = tile_index(tile1);

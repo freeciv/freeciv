@@ -225,7 +225,7 @@ pf_get_move_scope(const struct tile *ptile,
 
   if ((is_native_tile_to_class(uclass, ptile)
        && (!utype_has_flag(param->utype, UTYF_COAST_STRICT)
-           || is_safe_ocean(&(wld.map), ptile)))) {
+           || is_safe_ocean(param->map, ptile)))) {
     scope |= PF_MS_NATIVE;
   }
 
@@ -234,7 +234,7 @@ pf_get_move_scope(const struct tile *ptile,
           || pplayers_allied(param->owner, city_owner(pcity)))
       && ((previous_scope & PF_MS_CITY) /* City channel previously tested */
           || uclass_has_flag(uclass, UCF_BUILD_ANYWHERE)
-          || is_native_near_tile(&(wld.map), uclass, ptile)
+          || is_native_near_tile(param->map, uclass, ptile)
           || (1 == game.info.citymindist
               && is_city_channel_tile(uclass, ptile, NULL)))) {
     scope |= PF_MS_CITY;
@@ -351,7 +351,7 @@ static int normal_move(const struct tile *src,
                        const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
-    return map_move_cost(&(wld.map), param->owner, param->utype, src, dst);
+    return map_move_cost(param->map, param->owner, param->utype, src, dst);
   }
   return PF_IMPOSSIBLE_MC;
 }
@@ -370,7 +370,7 @@ static int overlap_move(const struct tile *src,
                         const struct pf_parameter *param)
 {
   if (pf_move_possible(src, src_scope, dst, dst_scope, param)) {
-    return map_move_cost(&(wld.map), param->owner, param->utype, src, dst);
+    return map_move_cost(param->map, param->owner, param->utype, src, dst);
   } else if (!(PF_MS_NATIVE & dst_scope)) {
     /* This should always be the last tile reached. */
     return param->move_rate;
@@ -558,7 +558,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
   } extra_type_list_iterate_end;
 
   if (utype_has_flag(param->utype, UTYF_COAST)) {
-    return is_safe_ocean(&(wld.map), ptile);
+    return is_safe_ocean(param->map, ptile);
   }
 
   if (tile_known == TILE_KNOWN_UNSEEN) {
@@ -590,7 +590,7 @@ static int get_closest_safe_tile_distance(const struct tile *src_tile,
   /* This iteration should, according to the documentation in map.h iterate
    * tiles from the center tile, so we stop the iteration to the first found
    * refuel point (as it should be the closest). */
-  iterate_outward_dxy(&(wld.map), src_tile, max_distance, ptile, x, y) {
+  iterate_outward_dxy(param->map, src_tile, max_distance, ptile, x, y) {
     if (tile_get_known(ptile, param->owner) == TILE_UNKNOWN) {
       /* Cannot guess if the tile is safe */
       continue;
