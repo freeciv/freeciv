@@ -877,12 +877,14 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     struct ai_city *city_data = def_ai_city_data(pcity, ait);
     struct adv_choice *choice;
 
-    /* Note that this function mungs the seamap, but we don't care */
-    TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
-    choice = military_advisor_choose_build(ait, pplayer, pcity);
-    adv_choice_copy(&(city_data->choice), choice);
-    adv_free_choice(choice);
-    TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
+    if (city_data->choice.want <= 0) {
+      /* Note that this function mungs the seamap, but we don't care */
+      TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
+      choice = military_advisor_choose_build(ait, pplayer, pcity);
+      adv_choice_copy(&(city_data->choice), choice);
+      adv_free_choice(choice);
+      TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
+    }
     if (dai_on_war_footing(ait, pplayer) && city_data->choice.want > 0) {
       city_data->worker_want = 0;
       city_data->founder_want = 0;
@@ -917,6 +919,9 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
 
   city_list_iterate(pplayer->cities, pcity) {
     dai_city_choose_build(ait, pplayer, pcity);
+
+    /* Initialize for next turn */
+    def_ai_city_data(pcity, ait)->choice.want = -1;
   } city_list_iterate_end;
 
   dai_spend_gold(ait, pplayer);
