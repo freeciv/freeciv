@@ -460,6 +460,17 @@ AC_ARG_WITH([zoom],
   [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-clients to user])],
   [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
 
+AC_ARG_WITH([3d],
+  [AS_HELP_STRING([--with-3d], [build WIP 3D support to gtk3.22-client])],
+  [AC_DEFINE([GTK3_3D_ENABLED], [1], [3D support built to gtk3.22-client])
+   enable_3d=true])
+
+gui_3d_libs=""
+if test x$enable_3d = xtrue ; then
+  AC_CHECK_LIB([GL], [glBegin], [gui_3d_libs="-lGL"],
+               [AC_MSG_ERROR([libGL needed for 3D support not found])])
+fi
+
 AC_ARG_ENABLE([gitrev],
   AS_HELP_STRING([--enable-gitrev], [get git revision to version information]),
 [case "${enableval}" in
@@ -1201,6 +1212,7 @@ if test "x$ruledit" = "xtest" ; then
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
+AC_SUBST([gui_3d_libs])
 AC_SUBST([gui_gtk3_cflags])
 AC_SUBST([gui_gtk3_libs])
 AC_SUBST([gui_gtk3_ldflags])

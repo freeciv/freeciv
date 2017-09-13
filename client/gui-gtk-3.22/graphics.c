@@ -59,7 +59,11 @@ bool is_view_supported(enum ts_type type)
   case TS_OVERHEAD:
     return TRUE;
   case TS_3D:
+#ifdef GTK3_3D_ENABLED
+    return TRUE;
+#else  /* GTK3_3D_ENABLED */
     return FALSE;
+#endif /* GTK3_3D_ENABLED */
   }
 
   return FALSE;
