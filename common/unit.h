@@ -26,6 +26,7 @@ extern "C" {
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 #include "vision.h"
+#include "world_object.h"
 
 struct road_type;
 struct unit_move_data; /* Actually defined in "server/unittools.c". */
@@ -345,7 +346,8 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
 struct unit *unit_occupies_tile(const struct tile *ptile,
 				const struct player *pplayer);
 
-bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
+bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
+               const struct civ_map *zmap);
 bool unit_being_aggressive(const struct unit *punit);
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 

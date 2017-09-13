@@ -400,7 +400,7 @@ static int stack_risk(const struct tile *ptile,
    * if we enter or try to enter the tile. */
   if (risk_cost->enemy_zoc_cost != 0
       && (is_non_allied_city_tile(ptile, param->owner)
-	  || !is_my_zoc(param->owner, ptile)
+	  || !is_my_zoc(param->owner, ptile, param->map)
 	  || is_non_allied_unit_tile(ptile, param->owner))) {
     /* We could become stuck. */
     risk += risk_cost->enemy_zoc_cost;

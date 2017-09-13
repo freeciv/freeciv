@@ -360,7 +360,7 @@ static inline bool pf_normal_node_init(struct pf_normal_map *pfnm,
     if (NULL != params->get_zoc
         && NULL == tile_city(ptile)
         && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
-        && !params->get_zoc(params->owner, ptile)) {
+        && !params->get_zoc(params->owner, ptile, params->map)) {
       node->zoc_number = (0 < unit_list_size(ptile->units)
                           ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
@@ -1107,7 +1107,7 @@ static inline bool pf_danger_node_init(struct pf_danger_map *pfdm,
     if (NULL != params->get_zoc
         && NULL == tile_city(ptile)
         && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
-        && !params->get_zoc(params->owner, ptile)) {
+        && !params->get_zoc(params->owner, ptile, params->map)) {
       node->zoc_number = (0 < unit_list_size(ptile->units)
                           ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
@@ -2151,7 +2151,7 @@ static inline bool pf_fuel_node_init(struct pf_fuel_map *pffm,
     if (NULL != params->get_zoc
         && NULL == tile_city(ptile)
         && !terrain_has_flag(tile_terrain(ptile), TER_NO_ZOC)
-        && !params->get_zoc(params->owner, ptile)) {
+        && !params->get_zoc(params->owner, ptile, params->map)) {
       node->zoc_number = (0 < unit_list_size(ptile->units)
                           ? ZOC_ALLIED : ZOC_NO);
 #ifdef ZERO_VARIABLES_FOR_SEARCHING

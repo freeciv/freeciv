@@ -473,7 +473,8 @@ bool can_unit_survive_at_tile(const struct civ_map *nmap,
 bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
                                const struct player *unit_owner,
                                const struct tile *src_tile,
-                               const struct tile *dst_tile)
+                               const struct tile *dst_tile,
+                               const struct civ_map *zmap)
 {
   if (unit_type_really_ignores_zoc(punittype)) {
     return TRUE;
@@ -489,8 +490,8 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
     return TRUE;
   }
 
-  return (is_my_zoc(unit_owner, src_tile)
-	  || is_my_zoc(unit_owner, dst_tile));
+  return (is_my_zoc(unit_owner, src_tile, zmap)
+	  || is_my_zoc(unit_owner, dst_tile, zmap));
 }
 
 
@@ -500,10 +501,11 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 ****************************************************************************/
 static bool zoc_ok_move_gen(const struct unit *punit,
                             const struct tile *src_tile,
-                            const struct tile *dst_tile)
+                            const struct tile *dst_tile,
+                            const struct civ_map *zmap)
 {
   return can_step_taken_wrt_to_zoc(unit_type_get(punit), unit_owner(punit),
-				   src_tile, dst_tile);
+				   src_tile, dst_tile, zmap);
 }
 
 
@@ -513,9 +515,10 @@ static bool zoc_ok_move_gen(const struct unit *punit,
 
   See can_step_taken_wrt_to_zoc().
 ****************************************************************************/
-bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile)
+bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile,
+                 const struct civ_map *zmap)
 {
-  return zoc_ok_move_gen(punit, unit_tile(punit), dst_tile);
+  return zoc_ok_move_gen(punit, unit_tile(punit), dst_tile, zmap);
 }
 
 
@@ -644,7 +647,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
 
   /* 9) */
   zoc = igzoc
-    || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile);
+    || can_step_taken_wrt_to_zoc(punittype, puowner, src_tile, dst_tile, nmap);
   if (!zoc) {
     /* The move is illegal because of zones of control. */
     return MR_ZOC;

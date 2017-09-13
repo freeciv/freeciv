@@ -1429,12 +1429,13 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
   client-specific features, like FoW and the fact that the client cannot 
   see units inside enemy cities.
 **************************************************************************/
-bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
+bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0,
+               const struct civ_map *zmap)
 {
   struct terrain *pterrain;
   bool srv = is_server();
 
-  square_iterate(&(wld.map), ptile0, 1, ptile) {
+  square_iterate(zmap, ptile0, 1, ptile) {
     struct city *pcity;
 
     pterrain = tile_terrain(ptile);
