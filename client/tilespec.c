@@ -2033,6 +2033,12 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
                                                        "tilespec.unit_upkeep_offset_y");
   t->unit_upkeep_small_offset_y = secfile_lookup_int_default(file, t->unit_upkeep_offset_y,
                                                              "tilespec.unit_upkeep_small_offset_y");
+  t->city_size_offset_x = t->scale * t->city_size_offset_x;
+  t->city_size_offset_y = t->scale * t->city_size_offset_y;
+  t->select_offset_x = t->scale * t->select_offset_x;
+  t->select_offset_y = t->scale * t->select_offset_y;
+  t->activity_offset_x = t->scale * t->activity_offset_x;
+  t->activity_offset_y = t->scale * t->activity_offset_y;
   t->unit_flag_offset_x = t->scale * t->unit_flag_offset_x;
   t->unit_flag_offset_y = t->scale * t->unit_flag_offset_y;
   t->city_flag_offset_x = t->scale * t->city_flag_offset_x;
