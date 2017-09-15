@@ -109,6 +109,7 @@ client/gui-gtk-3.22/gui_main.c
 client/gui-gtk-3.22/gui_stuff.c
 client/gui-gtk-3.22/happiness.c
 client/gui-gtk-3.22/helpdlg.c
+client/gui-gtk-3.22/inputdlg.c
 client/gui-gtk-3.22/inteldlg.c
 client/gui-gtk-3.22/luaconsole.c
 client/gui-gtk-3.22/mapctrl.c
@@ -139,6 +140,8 @@ client/gui-qt/fc_client.cpp
 client/gui-qt/gotodlg.cpp
 client/gui-qt/gui_main.cpp
 client/gui-qt/helpdlg.cpp
+client/gui-qt/hudwidget.cpp
+client/gui-qt/luaconsole.cpp
 client/gui-qt/mapctrl.cpp
 client/gui-qt/mapview.cpp
 client/gui-qt/menu.cpp
@@ -150,6 +153,7 @@ client/gui-qt/plrdlg.cpp
 client/gui-qt/ratesdlg.cpp
 client/gui-qt/repodlgs.cpp
 client/gui-qt/shortcuts.cpp
+client/gui-qt/sidebar.cpp
 client/gui-qt/spaceshipdlg.cpp
 client/gui-qt/voteinfo_bar.cpp
 client/gui-sdl/action_dialog.c
