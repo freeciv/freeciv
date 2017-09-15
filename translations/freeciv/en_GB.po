@@ -66,8 +66,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-14 00:18+0100\n"
-"PO-Revision-Date: 2017-09-14 00:19+0100\n"
+"POT-Creation-Date: 2017-09-16 00:49+0100\n"
+"PO-Revision-Date: 2017-09-16 00:53+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -6672,7 +6672,8 @@ msgstr "Units Filter"
 
 #: client/gui-gtk-3.0/action_dialog.c:1001
 #: client/gui-gtk-3.22/action_dialog.c:995 client/gui-gtk-3.22/menu.c:438
-#: client/gui-qt/cityrep.cpp:541 client/gui-qt/menu.cpp:955
+#: client/gui-qt/cityrep.cpp:541 client/gui-qt/hudwidget.cpp:1368
+#: client/gui-qt/menu.cpp:955
 msgid "Select"
 msgstr "Select"
 
@@ -6815,13 +6816,14 @@ msgstr "Close"
 #: client/gui-gtk-3.22/dialogs.c:364 client/gui-gtk-3.22/dialogs.c:864
 #: client/gui-gtk-3.22/editgui.c:1055 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
-#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/luaconsole.c:317
-#: client/gui-gtk-3.22/messagedlg.c:73 client/gui-gtk-3.22/optiondlg.c:328
-#: client/gui-gtk-3.22/optiondlg.c:360 client/gui-gtk-3.22/pages.c:453
-#: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
-#: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
-#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3772
-#: client/gui-qt/dialogs.cpp:291 client/gui-qt/messagedlg.cpp:65
+#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:72
+#: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:73
+#: client/gui-gtk-3.22/optiondlg.c:328 client/gui-gtk-3.22/optiondlg.c:360
+#: client/gui-gtk-3.22/pages.c:453 client/gui-gtk-3.22/pages.c:583
+#: client/gui-gtk-3.22/pages.c:1420 client/gui-gtk-3.22/pages.c:2772
+#: client/gui-gtk-3.22/pages.c:2929 client/gui-gtk-3.22/pages.c:3263
+#: client/gui-qt/citydlg.cpp:3772 client/gui-qt/dialogs.cpp:291
+#: client/gui-qt/hudwidget.cpp:1369 client/gui-qt/messagedlg.cpp:65
 #: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:389
 #: client/gui-qt/pages.cpp:524 client/gui-qt/pages.cpp:592
 #: client/gui-qt/ratesdlg.cpp:77 client/gui-qt/ratesdlg.cpp:166
@@ -6861,13 +6863,13 @@ msgstr "Clear"
 
 #: client/gui-gtk-3.22/chatline.c:1138 client/gui-gtk-3.22/chatline.c:1428
 #: client/gui-gtk-3.22/editgui.c:1054 client/gui-gtk-3.22/gamedlgs.c:319
-#: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/messagedlg.c:72
-#: client/gui-gtk-3.22/optiondlg.c:330 client/gui-gtk-3.22/optiondlg.c:365
-#: client/gui-gtk-3.22/pages.c:2934 client/gui-gtk-3.22/pages.c:3268
-#: client/gui-sdl/dialogs.c:3007 client/gui-sdl/dialogs.c:3459
-#: client/gui-sdl/mapctrl.c:2621 client/gui-sdl2/dialogs.c:2995
-#: client/gui-sdl2/dialogs.c:3440 client/gui-sdl2/mapctrl.c:2807
-#: common/mapimg.c:300
+#: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/inputdlg.c:73
+#: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
+#: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2934
+#: client/gui-gtk-3.22/pages.c:3268 client/gui-sdl/dialogs.c:3007
+#: client/gui-sdl/dialogs.c:3459 client/gui-sdl/mapctrl.c:2621
+#: client/gui-sdl2/dialogs.c:2995 client/gui-sdl2/dialogs.c:3440
+#: client/gui-sdl2/mapctrl.c:2807 common/mapimg.c:300
 msgid "OK"
 msgstr "OK"
 
@@ -7887,7 +7889,7 @@ msgstr "MP:"
 msgid "%1 HP:%2/%3"
 msgstr "%1 HP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:3023
+#: client/gui-qt/dialogs.cpp:3023 client/gui-qt/hudwidget.cpp:1455
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 unit"
@@ -8061,6 +8063,168 @@ msgstr "Tile output becomes %1, %2, %3."
 #: client/gui-qt/helpdlg.cpp:1350
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
 msgstr "Output (Food, Shields, Trade) of a tile where the resource is present."
+
+#. TRANS: MP = Movement points
+#: client/gui-qt/hudwidget.cpp:624
+msgid "MP: "
+msgstr "MP: "
+
+#: client/gui-qt/hudwidget.cpp:626
+#, fuzzy
+msgid "HP:%1/%2"
+msgstr "%1 HP:%2/%3"
+
+#: client/gui-qt/hudwidget.cpp:632
+#, fuzzy
+msgid " (Selected %1 units)"
+msgstr "Select Unit(s)"
+
+#: client/gui-qt/hudwidget.cpp:635
+#, fuzzy
+msgid " +%1 units"
+msgstr "%1 unit"
+
+#: client/gui-qt/hudwidget.cpp:638
+#, fuzzy
+msgid " +1 unit"
+msgstr "%1 unit"
+
+#: client/gui-qt/hudwidget.cpp:1213
+#, fuzzy
+msgid "MP"
+msgstr "MP:"
+
+#: client/gui-qt/hudwidget.cpp:1287
+#, fuzzy
+msgid "Unit type"
+msgstr "Unit Type"
+
+#: client/gui-qt/hudwidget.cpp:1288
+#, fuzzy
+msgid "Selected type"
+msgstr "Selected New Goal"
+
+#: client/gui-qt/hudwidget.cpp:1290
+#, fuzzy
+msgid "All types"
+msgstr "All Cities"
+
+#: client/gui-qt/hudwidget.cpp:1304
+#, fuzzy
+msgid "Unit activity"
+msgstr "Any activity"
+
+#: client/gui-qt/hudwidget.cpp:1305
+msgid "Any activity"
+msgstr "Any activity"
+
+#: client/gui-qt/hudwidget.cpp:1307 common/unit.c:626
+msgid "Fortified"
+msgstr "Fortified"
+
+#: client/gui-qt/hudwidget.cpp:1308 common/unit.c:615
+msgid "Idle"
+msgstr "Idle"
+
+#: client/gui-qt/hudwidget.cpp:1309
+msgid "Sentried"
+msgstr "Sentried"
+
+#: client/gui-qt/hudwidget.cpp:1324
+#, fuzzy
+msgid "Unit HP and MP"
+msgstr "Full HP and MP"
+
+#: client/gui-qt/hudwidget.cpp:1325
+msgid "Any unit"
+msgstr "Any unit"
+
+#: client/gui-qt/hudwidget.cpp:1326
+msgid "Full HP"
+msgstr "Full HP"
+
+#: client/gui-qt/hudwidget.cpp:1327
+msgid "Full MP"
+msgstr "Full MP"
+
+#: client/gui-qt/hudwidget.cpp:1328
+msgid "Full HP and MP"
+msgstr "Full HP and MP"
+
+#: client/gui-qt/hudwidget.cpp:1344
+#, fuzzy
+msgid "Location"
+msgstr "Show Location"
+
+#: client/gui-qt/hudwidget.cpp:1345
+#, fuzzy
+msgid "Everywhere"
+msgstr "Same Type Everywhere"
+
+#: client/gui-qt/hudwidget.cpp:1346
+#, fuzzy
+msgid "Current tile"
+msgstr "Keep current tileset"
+
+#: client/gui-qt/hudwidget.cpp:1347
+#, fuzzy
+msgid "Current continent"
+msgstr "Continent"
+
+#: client/gui-qt/hudwidget.cpp:1348
+#, fuzzy
+msgid "Main continent"
+msgstr "Continent"
+
+#: client/gui-qt/hudwidget.cpp:1578
+#, fuzzy
+msgid "Terrain: %1\n"
+msgstr "Terrain: %s"
+
+#: client/gui-qt/hudwidget.cpp:1579
+#, fuzzy
+msgid "Food/Prod/Trade: %1\n"
+msgstr "Food/Prod/Trade: %s"
+
+#: client/gui-qt/hudwidget.cpp:1583
+#, fuzzy
+msgid "Infrastructure: %1\n"
+msgstr "Infrastructure: %s"
+
+#: client/gui-qt/hudwidget.cpp:1585
+#, fuzzy
+msgid "Defense bonus: %1%\n"
+msgstr "Defence bonus:"
+
+#: client/gui-qt/hudwidget.cpp:1601 client/gui-qt/hudwidget.cpp:1603
+#, fuzzy
+msgid "Movement cost: %1"
+msgstr "Move cost:"
+
+#: client/gui-qt/hudwidget.cpp:1630
+#, fuzzy
+msgid "Year: %1 (Turn: %2)"
+msgstr "%1 (Turn:%2)"
+
+#: client/gui-qt/hudwidget.cpp:1633
+#, fuzzy
+msgid "Population: %1"
+msgstr "Population: %s"
+
+#: client/gui-qt/hudwidget.cpp:1644
+#, fuzzy
+msgid "Gold: %1 (+%2)"
+msgstr "Gold: %d (%+d)"
+
+#: client/gui-qt/luaconsole.cpp:77
+#, fuzzy
+msgid "Lua scripts"
+msgstr "Load Lua Script"
+
+#: client/gui-qt/luaconsole.cpp:79
+#, fuzzy
+msgid "Load lua script"
+msgstr "Load Lua Script"
 
 #: client/gui-qt/mapctrl.cpp:246
 #, fuzzy, c-format
@@ -8795,6 +8959,16 @@ msgstr "%s is already observing %s."
 #, fuzzy
 msgid "Shortcuts options"
 msgstr "Local options"
+
+#: client/gui-qt/sidebar.cpp:664
+#, fuzzy
+msgid "Observe %1"
+msgstr "_Observe %s"
+
+#: client/gui-qt/sidebar.cpp:675
+#, fuzzy
+msgid "Observe globally"
+msgstr "Observe this player"
 
 #: client/gui-qt/spaceshipdlg.cpp:57 client/gui-sdl/spaceshipdlg.c:177
 #: client/gui-sdl2/spaceshipdlg.c:189 data/Freeciv.in:1727
@@ -16623,79 +16797,79 @@ msgstr "Client does not support isometric tilesets."
 msgid "Using default tileset instead."
 msgstr "Using default tileset instead."
 
-#: client/tilespec.c:2058
+#: client/tilespec.c:2060
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 msgstr "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 
-#: client/tilespec.c:2070
+#: client/tilespec.c:2072
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
 msgstr "No [%s] sections supported by tileset \"%s\"."
 
-#: client/tilespec.c:2090
+#: client/tilespec.c:2092
 #, c-format
 msgid "No terrain tag given in section [%s]."
 msgstr "No terrain tag given in section [%s]."
 
-#: client/tilespec.c:2443
+#: client/tilespec.c:2445
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr "Couldn't load gfx file \"%s\" for sprite '%s'."
 
-#: client/tilespec.c:2453
+#: client/tilespec.c:2455
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Sprite '%s' in file \"%s\" isn't within the image!"
 
-#: client/tilespec.c:2525 client/tilespec.c:2533 client/tilespec.c:2541
+#: client/tilespec.c:2527 client/tilespec.c:2535 client/tilespec.c:2543
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Sprite for tag '%s' missing."
 
-#: client/tilespec.c:2553 client/tilespec.c:3475
+#: client/tilespec.c:2555 client/tilespec.c:3477
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr "Sprite for tags '%s' and alternate '%s' are both missing."
 
-#: client/tilespec.c:2605
+#: client/tilespec.c:2607
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "No graphics for specialist \"%s\"."
 
-#: client/tilespec.c:2630
+#: client/tilespec.c:2632
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "No graphics for citizen \"%s\"."
 
-#: client/tilespec.c:2922
+#: client/tilespec.c:2924
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Missing necessary citybar.occupancy_N sprites."
 
-#: client/tilespec.c:3042
+#: client/tilespec.c:3044
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Missing overlay-colour sprite colors.overlay_0."
 
-#: client/tilespec.c:3115
+#: client/tilespec.c:3117
 msgid "Sprite tx.darkness missing."
 msgstr "Sprite tx.darkness missing."
 
-#: client/tilespec.c:3262
+#: client/tilespec.c:3264
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 
-#: client/tilespec.c:3343
+#: client/tilespec.c:3345
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 
-#: client/tilespec.c:3415
+#: client/tilespec.c:3417
 #, c-format
 msgid "No extrastyle for \"%s\" or \"%s\"."
 msgstr "No extrastyle for \"%s\" or \"%s\"."
 
-#: client/tilespec.c:3501
+#: client/tilespec.c:3503
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -16704,40 +16878,40 @@ msgstr ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
 "and \"%s\"."
 
-#: client/tilespec.c:3516
+#: client/tilespec.c:3518
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
 
-#: client/tilespec.c:3617
+#: client/tilespec.c:3619
 #, c-format
 msgid "Cannot load river \"%s\" or \"%s\""
 msgstr "Cannot load river \"%s\" or \"%s\""
 
-#: client/tilespec.c:3701
+#: client/tilespec.c:3703
 #, c-format
 msgid "No graphics for extra \"%s\" at all!"
 msgstr "No graphics for extra \"%s\" at all!"
 
-#: client/tilespec.c:3725
+#: client/tilespec.c:3727
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3760
+#: client/tilespec.c:3762
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Missing base sprite for tag \"%s\"."
 
-#: client/tilespec.c:4013
+#: client/tilespec.c:4015
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Nation %s: no national flag."
 
-#: client/tilespec.c:5227
+#: client/tilespec.c:5229
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -16746,7 +16920,7 @@ msgstr ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 
-#: client/tilespec.c:5762
+#: client/tilespec.c:5764
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -16755,12 +16929,12 @@ msgstr ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
 "displayed as expected."
 
-#: client/tilespec.c:5898
+#: client/tilespec.c:5900
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "City style \"%s\": no city graphics."
 
-#: client/tilespec.c:5902
+#: client/tilespec.c:5904
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "City style \"%s\": no occupied graphics."
@@ -18321,17 +18495,9 @@ msgstr "NoFortify"
 msgid "Frozen"
 msgstr "Frozen"
 
-#: common/unit.c:615
-msgid "Idle"
-msgstr "Idle"
-
 #: common/unit.c:624
 msgid "Fortifying"
 msgstr "Fortifying"
-
-#: common/unit.c:626
-msgid "Fortified"
-msgstr "Fortified"
 
 #: common/unit.c:632 data/Freeciv.in:1141
 msgid "Goto"
@@ -25072,19 +25238,19 @@ msgstr "Industrial Accident"
 msgid "Nuclear Accident"
 msgstr "Nuclear Accident"
 
-#: data/classic/script.lua:75 data/civ2civ3/script.lua:75
+#: data/classic/script.lua:75 data/civ2civ3/script.lua:325
 msgid "Highest Peak"
 msgstr "Highest Peak"
 
-#: data/classic/script.lua:80 data/civ2civ3/script.lua:80
+#: data/classic/script.lua:80 data/civ2civ3/script.lua:191
 msgid "Deep Trench"
 msgstr "Deep Trench"
 
-#: data/classic/script.lua:85 data/civ2civ3/script.lua:85
+#: data/classic/script.lua:85
 msgid "Scorched Spot"
 msgstr "Scorched Spot"
 
-#: data/classic/script.lua:90 data/civ2civ3/script.lua:90
+#: data/classic/script.lua:90 data/civ2civ3/script.lua:237
 msgid "Frozen Lake"
 msgstr "Frozen Lake"
 
@@ -27235,6 +27401,178 @@ msgstr ""
 "as fast with knowledge of The Corporation).\n"
 "* Base production waste is 25%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
+
+#: data/civ2civ3/script.lua:176
+msgid "Grand Canyon"
+msgstr "Grand Canyon"
+
+#: data/civ2civ3/script.lua:178
+msgid "Deep Gorge"
+msgstr "Deep Gorge"
+
+#: data/civ2civ3/script.lua:180
+msgid "Fjords"
+msgstr "Fjords"
+
+#: data/civ2civ3/script.lua:182
+msgid "Waterfalls"
+msgstr "Waterfalls"
+
+#: data/civ2civ3/script.lua:184
+msgid "Travertine Terraces"
+msgstr "Travertine Terraces"
+
+#: data/civ2civ3/script.lua:193
+msgid "Thermal Vent"
+msgstr "Thermal Vent"
+
+#: data/civ2civ3/script.lua:200
+msgid "Atoll Chain"
+msgstr "Atoll Chain"
+
+#: data/civ2civ3/script.lua:202
+msgid "Great Barrier Reef"
+msgstr "Great Barrier Reef"
+
+#: data/civ2civ3/script.lua:205
+msgid "Great Blue Hole"
+msgstr "Great Blue Hole"
+
+#: data/civ2civ3/script.lua:212
+msgid "Great Lakes"
+msgstr "Great Lakes"
+
+#: data/civ2civ3/script.lua:215
+msgid "Dead Sea"
+msgstr "Dead Sea"
+
+#: data/civ2civ3/script.lua:217
+msgid "Rift Lake"
+msgstr "Rift Lake"
+
+#: data/civ2civ3/script.lua:224
+msgid "Grand Prismatic Spring"
+msgstr "Grand Prismatic Spring"
+
+#: data/civ2civ3/script.lua:226
+msgid "Mangrove Forest"
+msgstr "Mangrove Forest"
+
+#: data/civ2civ3/script.lua:228
+msgid "Cenotes"
+msgstr "Cenotes"
+
+#: data/civ2civ3/script.lua:235
+msgid "Ice Sheet"
+msgstr "Ice Sheet"
+
+#: data/civ2civ3/script.lua:239
+msgid "Glacier Bay"
+msgstr "Glacier Bay"
+
+#: data/civ2civ3/script.lua:241
+msgid "Advancing Glacier"
+msgstr "Advancing Glacier"
+
+#: data/civ2civ3/script.lua:247
+msgid "Geothermal Area"
+msgstr "Geothermal Area"
+
+#: data/civ2civ3/script.lua:253
+msgid "Sand Sea"
+msgstr "Sand Sea"
+
+#: data/civ2civ3/script.lua:255
+msgid "Salt Flat"
+msgstr "Salt Flat"
+
+#: data/civ2civ3/script.lua:257
+msgid "Singing Dunes"
+msgstr "Singing Dunes"
+
+#: data/civ2civ3/script.lua:259
+msgid "White Desert"
+msgstr "White Desert"
+
+#: data/civ2civ3/script.lua:266
+msgid "Long Beach"
+msgstr "Long Beach"
+
+#: data/civ2civ3/script.lua:268
+msgid "Mud Volcanoes"
+msgstr "Mud Volcanoes"
+
+#: data/civ2civ3/script.lua:270
+msgid "Rock Pillars"
+msgstr "Rock Pillars"
+
+#: data/civ2civ3/script.lua:277
+msgid "White Cliffs"
+msgstr "White Cliffs"
+
+#: data/civ2civ3/script.lua:279
+msgid "Giant Cave"
+msgstr "Giant Cave"
+
+#: data/civ2civ3/script.lua:281
+msgid "Rock Formation"
+msgstr "Rock Formation"
+
+#: data/civ2civ3/script.lua:288
+msgid "Rainforest"
+msgstr "Rainforest"
+
+#: data/civ2civ3/script.lua:290
+msgid "Subterranean River"
+msgstr "Subterranean River"
+
+#: data/civ2civ3/script.lua:292
+msgid "Sinkholes"
+msgstr "Sinkholes"
+
+#: data/civ2civ3/script.lua:299
+msgid "Stone Forest"
+msgstr "Stone Forest"
+
+#: data/civ2civ3/script.lua:301
+msgid "Sequoia Forest"
+msgstr "Sequoia Forest"
+
+#: data/civ2civ3/script.lua:303
+msgid "Millenary Trees"
+msgstr "Millenary Trees"
+
+#: data/civ2civ3/script.lua:311
+msgid "Table Mountain"
+msgstr "Table Mountain"
+
+#: data/civ2civ3/script.lua:313
+msgid "Inselberg"
+msgstr "Inselberg"
+
+#: data/civ2civ3/script.lua:316
+msgid "Karst Landscape"
+msgstr "Karst Landscape"
+
+#: data/civ2civ3/script.lua:318
+msgid "Valley of Geysers"
+msgstr "Valley of Geysers"
+
+#: data/civ2civ3/script.lua:327
+msgid "Sacred Mount"
+msgstr "Sacred Mount"
+
+#: data/civ2civ3/script.lua:329
+msgid "Cliff Coast"
+msgstr "Cliff Coast"
+
+#: data/civ2civ3/script.lua:331
+msgid "Active Volcano"
+msgstr "Active Volcano"
+
+#: data/civ2civ3/script.lua:333
+msgid "High Summit"
+msgstr "High Summit"
 
 #: data/civ2civ3/techs.ruleset:81
 msgid "Enables movement of nuclear units."
@@ -45994,10 +46332,6 @@ msgstr "error %d (compiled without strerror)"
 #~ msgid "Classic-style 88x100 map of Japan."
 #~ msgstr "Classic-style 88x100 map of Japan."
 
-#, fuzzy
-#~ msgid "Load lua script"
-#~ msgstr "Load Lua Script"
-
 #~ msgid ""
 #~ "With no arguments, sets all AI players to skill level 'handicapped', and "
 #~ "sets the default level for any new AI players to 'handicapped'. With an "
@@ -46111,24 +46445,6 @@ msgstr "error %d (compiled without strerror)"
 #~ msgid "Units Filter"
 #~ msgstr "Units Filter"
 
-#~ msgid "Any activity"
-#~ msgstr "Any activity"
-
-#~ msgid "Sentried"
-#~ msgstr "Sentried"
-
-#~ msgid "Any unit"
-#~ msgstr "Any unit"
-
-#~ msgid "Full HP"
-#~ msgstr "Full HP"
-
-#~ msgid "Full MP"
-#~ msgstr "Full MP"
-
-#~ msgid "Full HP and MP"
-#~ msgstr "Full HP and MP"
-
 #~ msgid "%s can't build %s yet."
 #~ msgstr "%s can't build %s yet."
 
@@ -46151,9 +46467,6 @@ msgstr "error %d (compiled without strerror)"
 #~ msgstr ""
 #~ "Shows your current luxury/science/tax rates. Use mouse wheel to change "
 #~ "them"
-
-#~ msgid "%1 (Turn:%2)"
-#~ msgstr "%1 (Turn:%2)"
 
 #~ msgid "%1 from %2"
 #~ msgstr "%1 from %2"
@@ -48310,9 +48623,6 @@ msgstr "error %d (compiled without strerror)"
 
 #~ msgid "Mirza %s"
 #~ msgstr "Mirza %s"
-
-#~ msgid "Great Duke %s"
-#~ msgstr "Great Duke %s"
 
 #~ msgid "Great Duchess %s"
 #~ msgstr "Great Duchess %s"
