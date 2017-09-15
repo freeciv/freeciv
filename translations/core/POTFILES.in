@@ -106,6 +106,8 @@ client/gui-qt/fc_client.cpp
 client/gui-qt/gotodlg.cpp
 client/gui-qt/gui_main.cpp
 client/gui-qt/helpdlg.cpp
+client/gui-qt/hudwidget.cpp
+client/gui-qt/luaconsole.cpp
 client/gui-qt/mapctrl.cpp
 client/gui-qt/mapview.cpp
 client/gui-qt/menu.cpp
@@ -117,6 +119,7 @@ client/gui-qt/plrdlg.cpp
 client/gui-qt/ratesdlg.cpp
 client/gui-qt/repodlgs.cpp
 client/gui-qt/shortcuts.cpp
+client/gui-qt/sidebar.cpp
 client/gui-qt/spaceshipdlg.cpp
 client/gui-qt/voteinfo_bar.cpp
 client/gui-sdl2/action_dialog.c
@@ -177,6 +180,7 @@ common/player.h
 common/research.c
 common/reqtext.c
 common/requirements.c
+common/server_settings.c
 common/team.c
 common/tech.c
 common/tech.h
@@ -347,7 +351,9 @@ tools/modinst.c
 tools/modinst.h
 tools/mpcli.c
 tools/mpcmdline.c
+tools/mpdb.c
 tools/mpgui_gtk3.c
+tools/mpgui_gtk4.c
 tools/mpgui_qt.cpp
 tools/mpgui_qt_worker.cpp
 tools/ruleup.c
