@@ -1,6 +1,8 @@
 #  Russian translation of Freeciv.
 #  This translation is covered by the GNU General Public License Version 2.
 #
+#  Team mailing list: <freeciv.ru@freelists.org>
+#
 #  Translators:
 #
 #   Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
@@ -8,15 +10,12 @@
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
 #   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
-#
-#  Email all translators at: <freeciv.ru@freelists.org>
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-18 14:16+0500\n"
-"PO-Revision-Date: 2017-08-18 12:32+0500\n"
+"POT-Creation-Date: 2017-09-16 05:44+0500\n"
+"PO-Revision-Date: 2017-09-15 20:48+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
