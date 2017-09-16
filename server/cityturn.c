@@ -372,14 +372,14 @@ void auto_arrange_workers(struct city *pcity)
   /* This must be after city_refresh() so that the result gets created for the right
    * city radius */
   cmr = cm_result_new(pcity);
-  cm_query_result(pcity, &cmp, cmr);
+  cm_query_result(pcity, &cmp, cmr, FALSE);
 
   if (!cmr->found_a_valid) {
     /* Drop surpluses and try again. */
     cmp.minimal_surplus[O_FOOD] = 0;
     cmp.minimal_surplus[O_SHIELD] = 0;
     cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
-    cm_query_result(pcity, &cmp, cmr);
+    cm_query_result(pcity, &cmp, cmr, FALSE);
   }
   if (!cmr->found_a_valid) {
     /* Emergency management.  Get _some_ result.  This doesn't use
@@ -391,13 +391,12 @@ void auto_arrange_workers(struct city *pcity)
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
     cmp.allow_disorder = city_owner(pcity)->ai_controlled ? FALSE : TRUE;
-    cm_query_result(pcity, &cmp, cmr);
+    cm_query_result(pcity, &cmp, cmr, FALSE);
   }
   if (!cmr->found_a_valid) {
-    /* Should never happen. */
     CITY_LOG(LOG_DEBUG, pcity, "emergency management");
     cm_init_emergency_parameter(&cmp);
-    cm_query_result(pcity, &cmp, cmr);
+    cm_query_result(pcity, &cmp, cmr, TRUE);
   }
   fc_assert_ret(cmr->found_a_valid);
 
