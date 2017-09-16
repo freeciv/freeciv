@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2017-09-16 08:08+0200\n"
-"PO-Revision-Date: 2017-09-16 12:00+0200\n"
+"PO-Revision-Date: 2017-09-16 14:06+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -8145,7 +8145,7 @@ msgstr "Population : %1"
 
 #: client/gui-qt/hudwidget.cpp:1644
 msgid "Gold: %1 (+%2)"
-msgstr "Lingots : %1 (%+1)"
+msgstr "Lingots : %1 (+%2)"
 
 #: client/gui-qt/luaconsole.cpp:77
 msgid "Lua scripts"
@@ -8185,7 +8185,7 @@ msgstr ""
 
 #: client/gui-qt/mapview.cpp:1000
 msgid "%1 (+%2)"
-msgstr "%1 (%+2)"
+msgstr "%1 (+%2)"
 
 #: client/gui-qt/mapview.cpp:1004
 msgid "%1 (%2)"
