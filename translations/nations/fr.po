@@ -13,10 +13,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 2.4\n"
-"Report-Msgid-Bugs-To: http://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-03-11 20:24+0100\n"
-"PO-Revision-Date: 2016-10-11 08:56+0200\n"
+"Project-Id-Version: Freeciv 2.6\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-09-16 08:10+0200\n"
+"PO-Revision-Date: 2017-05-04 22:34+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -9070,10 +9070,6 @@ msgstr "Muscogee"
 msgid "?plural:Muskogee"
 msgstr "Muscogees"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Américain"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -14007,6 +14003,9 @@ msgstr ""
 "mettre fin à la loi de minorité blanche en 1979. Depuis 1980, le pays a été "
 "gouverné par Robert Mugabe, qui a reçu une réputation internationale aussi "
 "pauvre que le régime précédent."
+
+#~ msgid "American"
+#~ msgstr "Américain"
 
 #~ msgid "Canari"
 #~ msgstr "Cañari"
