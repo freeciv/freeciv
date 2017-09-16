@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-12-09 01:02+0200\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-13 09:47+0100\n"
 "PO-Revision-Date: 2013-09-12 07:21+0300\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
@@ -41,208 +41,195 @@ msgstr ""
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:132
+#: tools/ruledit/ruledit.cpp:135
 #, fuzzy
 msgid "Print a summary of the options"
 msgstr "  -h, --help\t\tSkriv ut sammendrag av alternativene\n"
 
-#: tools/ruledit/ruledit.cpp:134
+#: tools/ruledit/ruledit.cpp:137
 #, fuzzy
 msgid "Print the version number"
 msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:140
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:138
+#: tools/ruledit/ruledit.cpp:141
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:151
+#: tools/ruledit/ruledit.cpp:154
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:161
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Ukjent alternativ: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:62
-#, fuzzy
-msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv Server Liste"
-
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:115
 #, c-format
 msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:144
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:156
+#: tools/ruledit/ruledit_qt.cpp:138
 #, fuzzy
 msgid "Start editing"
 msgstr "Startposisjon"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:150
 #, fuzzy
 msgid "Tech"
 msgstr "_Teknologier"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:152
 msgid "Buildings"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:154
 msgid "Units"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:156
 msgid "Nations"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:165
 #, fuzzy
 msgid "Welcome to freeciv-ruledit"
 msgstr "Velkommen til Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:185
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "Ørken"
 
-#: tools/ruledit/ruledit_qt.cpp:219
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:275
+#: tools/ruledit/ruledit_qt.cpp:245
+#, fuzzy
+msgid "Freeciv Ruleset Editor"
+msgstr "Freeciv Server Liste"
+
+#: tools/ruledit/ruledit_qt.cpp:261
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:62
-msgid "Name"
-msgstr "Navn"
-
-#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:70
+#: tools/ruledit/tab_building.cpp:61 tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_unit.cpp:61
 #, fuzzy
 msgid "Rule Name"
 msgstr "Spiller Navn:"
 
-#: tools/ruledit/tab_building.cpp:78
-msgid "Add Building"
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_unit.cpp:69
+msgid "Name"
+msgstr "Navn"
+
+#: tools/ruledit/tab_building.cpp:152
+msgid "A building with that rule name already exists!"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:83
-#, fuzzy
-msgid "Remove this Building"
-msgstr "Fjern denne innstillingen?"
-
-#: tools/ruledit/tab_building.cpp:148
-msgid "Building with that rule name already exist!"
-msgstr ""
-
-#: tools/ruledit/tab_misc.cpp:62
+#: tools/ruledit/tab_misc.cpp:61
 #, fuzzy
 msgid "Ruleset name"
 msgstr "Ørken"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:66
 #, fuzzy
 msgid "Ruleset version"
 msgstr "Regelsett _Versjon:"
 
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:71
 #, fuzzy
 msgid "Save to directory"
 msgstr "  -s, --saves DIR\tLagre spill til katalogen DIR\n"
 
-#: tools/ruledit/tab_misc.cpp:79
+#: tools/ruledit/tab_misc.cpp:78
 #, fuzzy
 msgid "Save now"
 msgstr "Lagre Scenario"
 
-#: tools/ruledit/tab_misc.cpp:86
+#: tools/ruledit/tab_misc.cpp:85
 msgid "?stat:Terrains"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:89
 msgid "?stat:Resources"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:93
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "_Teknologier"
 
-#: tools/ruledit/tab_misc.cpp:98
+#: tools/ruledit/tab_misc.cpp:97
 msgid "?stat:Unit Classes"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:102
+#: tools/ruledit/tab_misc.cpp:101
 msgid "?stat:Unit Types"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:105
 msgid "?stat:Buildings"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:109
 msgid "?stat:Nations"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:113
 msgid "?stat:Styles"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:117
 msgid "?stat:Specialists"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:121
 msgid "?stat:Governments"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:125
 msgid "?stat:Disasters"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:129
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:133
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:137
 msgid "?stat:Bases"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:141
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:150
-msgid "Refresh Stats"
-msgstr ""
-
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:198
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Ørken"
@@ -255,47 +242,29 @@ msgstr ""
 msgid "Nationlist"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:80
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:87
+#: tools/ruledit/tab_tech.cpp:89
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:95
+#: tools/ruledit/tab_tech.cpp:97
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:104
-msgid "Add tech"
-msgstr ""
-
-#: tools/ruledit/tab_tech.cpp:109
-#, fuzzy
-msgid "Remove this tech"
-msgstr "Fjern denne innstillingen?"
-
-#: tools/ruledit/tab_tech.cpp:189
+#: tools/ruledit/tab_tech.cpp:182
 #, fuzzy
 msgid "Never"
 msgstr "Aldri"
 
-#: tools/ruledit/tab_tech.cpp:311
-msgid "Tech with that rule name already exist!"
+#: tools/ruledit/tab_tech.cpp:318
+msgid "A tech with that rule name already exists!"
 msgstr ""
 
-#: tools/ruledit/tab_unit.cpp:78
-msgid "Add Unit"
-msgstr ""
-
-#: tools/ruledit/tab_unit.cpp:83
-#, fuzzy
-msgid "Remove this Unit"
-msgstr "Fjern denne innstillingen?"
-
-#: tools/ruledit/tab_unit.cpp:148
-msgid "Unit type with that rule name already exist!"
+#: tools/ruledit/tab_unit.cpp:152
+msgid "A unit type with that rule name already exists!"
 msgstr ""
 
 #: tools/ruledit/validity.c:64
@@ -310,3 +279,15 @@ msgstr ""
 #, fuzzy
 msgid "Music Style"
 msgstr "_Bystil:"
+
+#, fuzzy
+#~ msgid "Remove this Building"
+#~ msgstr "Fjern denne innstillingen?"
+
+#, fuzzy
+#~ msgid "Remove this tech"
+#~ msgstr "Fjern denne innstillingen?"
+
+#, fuzzy
+#~ msgid "Remove this Unit"
+#~ msgstr "Fjern denne innstillingen?"

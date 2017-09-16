@@ -155,8 +155,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2015-12-09 01:02+0200\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-13 09:47+0100\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -179,227 +179,214 @@ msgstr "閉じる"
 msgid "Needed by %s"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:132
+#: tools/ruledit/ruledit.cpp:135
 msgid "Print a summary of the options"
 msgstr "オプションの一覧を表示する"
 
-#: tools/ruledit/ruledit.cpp:134
+#: tools/ruledit/ruledit.cpp:137
 msgid "Print the version number"
 msgstr "バージョンを表示する"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:137
+#: tools/ruledit/ruledit.cpp:140
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:138
+#: tools/ruledit/ruledit.cpp:141
 msgid "Ruleset to use as the starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:151
+#: tools/ruledit/ruledit.cpp:154
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:158
+#: tools/ruledit/ruledit.cpp:161
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "認識できないオプション: \"%s\"\n"
 
-# Daniel
-#: tools/ruledit/ruledit_qt.cpp:62
-#, fuzzy
-msgid "Freeciv Ruleset Editor"
-msgstr "Freeciv サーバー一覧"
-
-#: tools/ruledit/ruledit_qt.cpp:129
+#: tools/ruledit/ruledit_qt.cpp:115
 #, c-format
 msgid ""
 "%s%s\n"
 "commit: %s"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:144
+#: tools/ruledit/ruledit_qt.cpp:126
 msgid "Give ruleset to use as starting point."
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:156
+#: tools/ruledit/ruledit_qt.cpp:138
 #, fuzzy
 msgid "Start editing"
 msgstr "開始位置"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Misc"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:150
 #, fuzzy
 msgid "Tech"
 msgstr "技術(_T)"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:152
 msgid "Buildings"
 msgstr "建造物"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:154
 msgid "Units"
 msgstr "ユニット"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:156
 msgid "Nations"
 msgstr "民族"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Welcome to freeciv-ruledit"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:185
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "ルールセット"
 
-#: tools/ruledit/ruledit_qt.cpp:219
+#: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:275
+# Daniel
+#: tools/ruledit/ruledit_qt.cpp:245
+#, fuzzy
+msgid "Freeciv Ruleset Editor"
+msgstr "Freeciv サーバー一覧"
+
+#: tools/ruledit/ruledit_qt.cpp:261
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:279
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:62 tools/ruledit/tab_tech.cpp:62
-#: tools/ruledit/tab_unit.cpp:62
-msgid "Name"
-msgstr "名前"
-
 # Daniel
-#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_tech.cpp:70
-#: tools/ruledit/tab_unit.cpp:70
+#: tools/ruledit/tab_building.cpp:61 tools/ruledit/tab_tech.cpp:61
+#: tools/ruledit/tab_unit.cpp:61
 #, fuzzy
 msgid "Rule Name"
 msgstr "プレイヤー名 :"
 
-#: tools/ruledit/tab_building.cpp:78
+#: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_tech.cpp:69
+#: tools/ruledit/tab_unit.cpp:69
+msgid "Name"
+msgstr "名前"
+
+# Daniel
+#: tools/ruledit/tab_building.cpp:152
 #, fuzzy
-msgid "Add Building"
-msgstr "建造物"
+msgid "A building with that rule name already exists!"
+msgstr "%sと呼ばれる都市は既に存在します。"
 
-#: tools/ruledit/tab_building.cpp:83
-#, fuzzy
-msgid "Remove this Building"
-msgstr "このプリセットを削除していいですか?"
-
-#: tools/ruledit/tab_building.cpp:148
-msgid "Building with that rule name already exist!"
-msgstr ""
-
-#: tools/ruledit/tab_misc.cpp:62
+#: tools/ruledit/tab_misc.cpp:61
 #, fuzzy
 msgid "Ruleset name"
 msgstr "ルールセット"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:66
 #, fuzzy
 msgid "Ruleset version"
 msgstr "ルールセット(_V):"
 
 # clefs
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:71
 #, fuzzy
 msgid "Save to directory"
 msgstr "ディレクトリDIRにゲームを保存する"
 
 # Daniel
-#: tools/ruledit/tab_misc.cpp:79
+#: tools/ruledit/tab_misc.cpp:78
 #, fuzzy
 msgid "Save now"
 msgstr "シナリオの保存"
 
-#: tools/ruledit/tab_misc.cpp:86
+#: tools/ruledit/tab_misc.cpp:85
 #, fuzzy
 msgid "?stat:Terrains"
 msgstr "地形"
 
-#: tools/ruledit/tab_misc.cpp:90
+#: tools/ruledit/tab_misc.cpp:89
 #, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "資源"
 
-#: tools/ruledit/tab_misc.cpp:94
+#: tools/ruledit/tab_misc.cpp:93
 #, fuzzy
 msgid "?stat:Techs"
 msgstr "技術(_T)"
 
-#: tools/ruledit/tab_misc.cpp:98
+#: tools/ruledit/tab_misc.cpp:97
 #, fuzzy
 msgid "?stat:Unit Classes"
 msgstr "ユニット被撃破数\n"
 
-#: tools/ruledit/tab_misc.cpp:102
+#: tools/ruledit/tab_misc.cpp:101
 #, fuzzy
 msgid "?stat:Unit Types"
 msgstr "ユニット名"
 
-#: tools/ruledit/tab_misc.cpp:106
+#: tools/ruledit/tab_misc.cpp:105
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "建造物"
 
-#: tools/ruledit/tab_misc.cpp:110
+#: tools/ruledit/tab_misc.cpp:109
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "民族"
 
-#: tools/ruledit/tab_misc.cpp:114
+#: tools/ruledit/tab_misc.cpp:113
 #, fuzzy
 msgid "?stat:Styles"
 msgstr "建築様式(_S):"
 
-#: tools/ruledit/tab_misc.cpp:118
+#: tools/ruledit/tab_misc.cpp:117
 #, fuzzy
 msgid "?stat:Specialists"
 msgstr " 専門家"
 
-#: tools/ruledit/tab_misc.cpp:122
+#: tools/ruledit/tab_misc.cpp:121
 #, fuzzy
 msgid "?stat:Governments"
 msgstr "政治体制"
 
-#: tools/ruledit/tab_misc.cpp:126
+#: tools/ruledit/tab_misc.cpp:125
 #, fuzzy
 msgid "?stat:Disasters"
 msgstr "環境災害"
 
-#: tools/ruledit/tab_misc.cpp:130
+#: tools/ruledit/tab_misc.cpp:129
 msgid "?stat:Achievements"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:134
+#: tools/ruledit/tab_misc.cpp:133
 msgid "?stat:Extras"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:138
+#: tools/ruledit/tab_misc.cpp:137
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "基地"
 
-#: tools/ruledit/tab_misc.cpp:142
+#: tools/ruledit/tab_misc.cpp:141
 #, fuzzy
 msgid "?stat:Roads"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:150
-#, fuzzy
-msgid "Refresh Stats"
-msgstr "再表示"
-
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:198
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "ルールセット"
@@ -414,50 +401,33 @@ msgstr "国際連合"
 msgid "Nationlist"
 msgstr "民族"
 
-#: tools/ruledit/tab_tech.cpp:78
+#: tools/ruledit/tab_tech.cpp:80
 msgid "Req1"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:87
+#: tools/ruledit/tab_tech.cpp:89
 msgid "Req2"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:95
+#: tools/ruledit/tab_tech.cpp:97
 msgid "Root Req"
 msgstr ""
 
-#: tools/ruledit/tab_tech.cpp:104
-msgid "Add tech"
-msgstr ""
-
-#: tools/ruledit/tab_tech.cpp:109
-#, fuzzy
-msgid "Remove this tech"
-msgstr "このプリセットを削除していいですか?"
-
-#: tools/ruledit/tab_tech.cpp:189
+#: tools/ruledit/tab_tech.cpp:182
 msgid "Never"
 msgstr "なし"
 
 # Daniel
-#: tools/ruledit/tab_tech.cpp:311
+#: tools/ruledit/tab_tech.cpp:318
 #, fuzzy
-msgid "Tech with that rule name already exist!"
+msgid "A tech with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
 
-#: tools/ruledit/tab_unit.cpp:78
+# Daniel
+#: tools/ruledit/tab_unit.cpp:152
 #, fuzzy
-msgid "Add Unit"
-msgstr "積載する"
-
-#: tools/ruledit/tab_unit.cpp:83
-#, fuzzy
-msgid "Remove this Unit"
-msgstr "このプリセットを削除していいですか?"
-
-#: tools/ruledit/tab_unit.cpp:148
-msgid "Unit type with that rule name already exist!"
-msgstr ""
+msgid "A unit type with that rule name already exists!"
+msgstr "%sと呼ばれる都市は既に存在します。"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
@@ -470,3 +440,27 @@ msgstr ""
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Add Building"
+#~ msgstr "建造物"
+
+#, fuzzy
+#~ msgid "Remove this Building"
+#~ msgstr "このプリセットを削除していいですか?"
+
+#, fuzzy
+#~ msgid "Refresh Stats"
+#~ msgstr "再表示"
+
+#, fuzzy
+#~ msgid "Remove this tech"
+#~ msgstr "このプリセットを削除していいですか?"
+
+#, fuzzy
+#~ msgid "Add Unit"
+#~ msgstr "積載する"
+
+#, fuzzy
+#~ msgid "Remove this Unit"
+#~ msgstr "このプリセットを削除していいですか?"

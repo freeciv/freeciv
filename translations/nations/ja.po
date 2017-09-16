@@ -155,8 +155,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2016-07-19 23:03+0100\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-22 22:36+0100\n"
 "PO-Revision-Date: 2016-07-16 16:36+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -241,7 +241,7 @@ msgstr ""
 #: data/nation/chumash.ruleset:25 data/nation/hasinay.ruleset:27
 #: data/nation/hopi.ruleset:25 data/nation/inuit.ruleset:24
 #: data/nation/maori.ruleset:25 data/nation/mikmaq.ruleset:20
-#: data/nation/muskogee.ruleset:32 data/nation/navajo.ruleset:29
+#: data/nation/muskogee.ruleset:32 data/nation/navajo.ruleset:26
 #: data/nation/nuu-chah-nulth.ruleset:22 data/nation/ohlone.ruleset:25
 #: data/nation/salishan.ruleset:26 data/nation/seminole.ruleset:36
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:23
@@ -255,7 +255,7 @@ msgstr "首長 %s"
 #: data/nation/chumash.ruleset:25 data/nation/hasinay.ruleset:27
 #: data/nation/hopi.ruleset:25 data/nation/inuit.ruleset:24
 #: data/nation/maori.ruleset:25 data/nation/mikmaq.ruleset:20
-#: data/nation/muskogee.ruleset:32 data/nation/navajo.ruleset:29
+#: data/nation/muskogee.ruleset:32 data/nation/navajo.ruleset:26
 #: data/nation/nuu-chah-nulth.ruleset:22 data/nation/ohlone.ruleset:25
 #: data/nation/salishan.ruleset:26 data/nation/seminole.ruleset:36
 #: data/nation/shawnee.ruleset:24 data/nation/swazi.ruleset:23
@@ -291,9 +291,9 @@ msgstr "長老 %s"
 #: data/nation/hasinay.ruleset:29 data/nation/hopi.ruleset:27
 #: data/nation/inuit.ruleset:22 data/nation/kuna.ruleset:22
 #: data/nation/mikmaq.ruleset:22 data/nation/muskogee.ruleset:30
-#: data/nation/navajo.ruleset:31 data/nation/nimiipuu.ruleset:67
+#: data/nation/navajo.ruleset:28 data/nation/nimiipuu.ruleset:63
 #: data/nation/nuu-chah-nulth.ruleset:24 data/nation/ohlone.ruleset:27
-#: data/nation/otomi.ruleset:35 data/nation/salishan.ruleset:25
+#: data/nation/otomi.ruleset:28 data/nation/salishan.ruleset:25
 #: data/nation/seminole.ruleset:34 data/nation/shawnee.ruleset:22
 #, c-format
 msgid "Great Chief %s"
@@ -306,9 +306,9 @@ msgstr "大族長 %s"
 #: data/nation/hasinay.ruleset:29 data/nation/hopi.ruleset:27
 #: data/nation/inuit.ruleset:22 data/nation/kuna.ruleset:22
 #: data/nation/mikmaq.ruleset:22 data/nation/muskogee.ruleset:30
-#: data/nation/navajo.ruleset:31 data/nation/nimiipuu.ruleset:67
+#: data/nation/navajo.ruleset:28 data/nation/nimiipuu.ruleset:63
 #: data/nation/nuu-chah-nulth.ruleset:24 data/nation/ohlone.ruleset:27
-#: data/nation/otomi.ruleset:35 data/nation/salishan.ruleset:25
+#: data/nation/otomi.ruleset:28 data/nation/salishan.ruleset:25
 #: data/nation/seminole.ruleset:34 data/nation/shawnee.ruleset:22
 #, c-format
 msgid "?female:Great Chief %s"
@@ -424,14 +424,14 @@ msgstr ""
 "信を呼び，1755年に彼らを強制的に追放しました。その後アカディア人は彼らの地に"
 "帰還し，地域を再興しました。"
 
-#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:27
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, c-format
 msgid "Premier %s"
 msgstr "%s首相"
 
 # clefs
-#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
+#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:27
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, fuzzy, c-format
 msgid "Premiere %s"
@@ -446,20 +446,20 @@ msgstr "大修道院長 %s"
 # 「女子修道院長」だそうだけど，本当にそれでいいのかしらん (clefs)
 # Happiness is a warm gun?
 #: data/nation/acadian.ruleset:32 data/nation/aragonese.ruleset:30
-#: data/nation/argentine.ruleset:30 data/nation/asturian.ruleset:30
+#: data/nation/argentine.ruleset:27 data/nation/asturian.ruleset:30
 #: data/nation/badian.ruleset:24 data/nation/bavarian.ruleset:24
-#: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:41
+#: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:38
 #: data/nation/brandenburgian.ruleset:28 data/nation/burgundian.ruleset:30
 #: data/nation/canadian.ruleset:26 data/nation/castilian.ruleset:32
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
-#: data/nation/centrallithuanian.ruleset:47 data/nation/chiapanec.ruleset:34
+#: data/nation/centrallithuanian.ruleset:41 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
 #: data/nation/cuyavian.ruleset:27 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
-#: data/nation/ecuadorian.ruleset:37 data/nation/filipino.ruleset:22
+#: data/nation/ecuadorian.ruleset:34 data/nation/filipino.ruleset:22
 #: data/nation/flemish.ruleset:31 data/nation/franconian.ruleset:25
 #: data/nation/galician.ruleset:22 data/nation/genoese.ruleset:50
 #: data/nation/germanbelgian.ruleset:27 data/nation/greaterpolish.ruleset:21
@@ -474,11 +474,11 @@ msgstr "大修道院長 %s"
 #: data/nation/peruvian.ruleset:27 data/nation/piedmontese.ruleset:33
 #: data/nation/quebecois.ruleset:21 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
-#: data/nation/salvadoran.ruleset:41 data/nation/sammarinese.ruleset:25
+#: data/nation/salvadoran.ruleset:35 data/nation/sammarinese.ruleset:25
 #: data/nation/sardinian.ruleset:33 data/nation/savoyard.ruleset:32
 #: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
 #: data/nation/teutonic.ruleset:29 data/nation/uruguayan.ruleset:24
-#: data/nation/venezuelan.ruleset:34 data/nation/yucatecan.ruleset:31
+#: data/nation/venezuelan.ruleset:31 data/nation/yucatecan.ruleset:28
 #, c-format
 msgid "Mother Superior %s"
 msgstr "女子修道院長 %s"
@@ -530,7 +530,7 @@ msgstr "スルターナ %s"
 
 # Daniel
 # 入れ替えあり
-#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
+#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
@@ -543,7 +543,7 @@ msgstr "%s総督"
 
 # Daniel
 # 入れ替えあり
-#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
+#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
@@ -590,7 +590,7 @@ msgstr " %s男爵"
 #: data/nation/acrean.ruleset:32 data/nation/bissauguinean.ruleset:23
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
 #: data/nation/mexican.ruleset:52 data/nation/nicaraguan.ruleset:33
-#: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:35
+#: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:26
 #, c-format
 msgid "Padre %s"
 msgstr "%s神父"
@@ -599,7 +599,7 @@ msgstr "%s神父"
 #: data/nation/californian.ruleset:35 data/nation/capeverdean.ruleset:25
 #: data/nation/florentine.ruleset:40 data/nation/mexican.ruleset:52
 #: data/nation/neapolitan.ruleset:26 data/nation/nicaraguan.ruleset:33
-#: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:35
+#: data/nation/puertorican.ruleset:29 data/nation/santomean.ruleset:26
 #: data/nation/sicilian.ruleset:30 data/nation/southamerican.ruleset:21
 #, c-format
 msgid "Madre %s"
@@ -850,24 +850,33 @@ msgstr "ワズィール %s"
 msgid "?female:Vizier %s"
 msgstr "ワズィール %s"
 
-#. TRANS: The first letter in "Aland" should be
-#. TRANS: U+00C5 LATIN CAPITAL A WITH RING if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 197.
+#: data/nation/alander.ruleset:3
+#, fuzzy
+#| msgid "Alander"
+msgid "Ålander"
+msgstr "オーランド人"
+
 #: data/nation/alander.ruleset:6
-msgid "Alander"
+#, fuzzy
+#| msgid "?plural:Alanders"
+msgid "?plural:Ålanders"
 msgstr "オーランド人"
 
-#: data/nation/alander.ruleset:7
-msgid "?plural:Alanders"
-msgstr "オーランド人"
-
-#: data/nation/alander.ruleset:9
+#: data/nation/alander.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "Aland is an archipelago in the Baltic Sea, located between Sweden and "
+#| "Finland. The islands' inhabitants are Swedish speaking, but Aland is an "
+#| "autonomous province in Finland, a status that was reached in 1921 after a "
+#| "long period in which the islands were contested between Sweden and "
+#| "Finland. Aland's special and demilitarized status is protected by "
+#| "international law."
 msgid ""
-"Aland is an archipelago in the Baltic Sea, located between Sweden and "
-"Finland. The islands' inhabitants are Swedish speaking, but Aland is an "
+"Åland is an archipelago in the Baltic Sea, located between Sweden and "
+"Finland. The islands' inhabitants are Swedish speaking, but Åland is an "
 "autonomous province in Finland, a status that was reached in 1921 after a "
 "long period in which the islands were contested between Sweden and Finland. "
-"Aland's special and demilitarized status is protected by international law."
+"Åland's special and demilitarized status is protected by international law."
 msgstr ""
 "オーランド諸島はバルト海に浮かぶ島々で，スウェーデンとフィンランドの間に位置"
 "します。公用語はスウェーデン語ですが，両国の間で長きにわたって領有が争われた"
@@ -875,28 +884,28 @@ msgstr ""
 "非武装地帯に指定されています。"
 
 # clefs
-#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
+#: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
 #, c-format
 msgid "Earl %s"
 msgstr " %s伯爵"
 
-#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
+#: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
 #, c-format
 msgid "?female:Earl %s"
 msgstr " %s伯爵"
 
-#: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
+#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:32
 #, c-format
 msgid "Vicar %s"
 msgstr "司教代理 %s"
 
 # Belgae
 # 夫人はDatinが正しいらしい
-#: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
+#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:32
 #, c-format
 msgid "?female:Vicar %s"
 msgstr "司教代理 %s"
@@ -909,16 +918,21 @@ msgstr "アルバニア人"
 msgid "?plural:Albanians"
 msgstr "アルバニア人"
 
-#. TRANS: The fourth letter in "Enver" should be
-#. TRANS: U+00EB LATIN SMALL LETTER E WITH DIAERESIS if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00EB.
-#: data/nation/albanian.ruleset:9
+#: data/nation/albanian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians "
+#| "are uncertain, though it has been suggested they descend from the "
+#| "Illyrians of Classical Antiquity. Albania changed hands several times "
+#| "during its  history. It has been an independent state again since 1912. "
+#| "For much of the 20th century Albania was ruled by communist dictator "
+#| "Enver Hoxha."
 msgid ""
 "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians are "
 "uncertain, though it has been suggested they descend from the Illyrians of "
-"Classical Antiquity. Albania changed hands several times during its  "
-"history. It has been an independent state again since 1912. For much of the "
-"20th century Albania was ruled by communist dictator Enver Hoxha."
+"Classical Antiquity. Albania changed hands several times during its history. "
+"It has been an independent state again since 1912. For much of the 20th "
+"century Albania was ruled by communist dictator Envër Hoxha."
 msgstr ""
 "バルカン半島に暮らすアルバニア人の民族的起源については明らかになっていません"
 "が，古代民族イリュリア人の末裔とされています。歴史上，アルバニア人を支配する"
@@ -928,7 +942,7 @@ msgstr ""
 
 # Belgae
 # 「王子」ではなく爵位・君主号のprince
-#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
+#: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
@@ -946,7 +960,7 @@ msgstr ""
 msgid "Prince %s"
 msgstr "公 %s"
 
-#: data/nation/albanian.ruleset:30 data/nation/asturian.ruleset:29
+#: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
@@ -965,7 +979,7 @@ msgid "Princess %s"
 msgstr "女公 %s"
 
 # 入れ替えあり
-#: data/nation/albanian.ruleset:31 data/nation/anhaltian.ruleset:30
+#: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
 #: data/nation/brandenburgian.ruleset:26 data/nation/catalan.ruleset:31
 #: data/nation/eastgerman.ruleset:28 data/nation/greaterpolish.ruleset:23
 #: data/nation/karabakhi.ruleset:28 data/nation/kazakh.ruleset:26
@@ -978,7 +992,7 @@ msgid "First Secretary %s"
 msgstr "%s第一書記"
 
 # 入れ替えあり
-#: data/nation/albanian.ruleset:31 data/nation/anhaltian.ruleset:30
+#: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
 #: data/nation/brandenburgian.ruleset:26 data/nation/catalan.ruleset:31
 #: data/nation/eastgerman.ruleset:28 data/nation/greaterpolish.ruleset:23
 #: data/nation/karabakhi.ruleset:28 data/nation/kazakh.ruleset:26
@@ -1025,7 +1039,7 @@ msgstr ""
 #: data/nation/hopi.ruleset:26 data/nation/inuit.ruleset:21
 #: data/nation/kuna.ruleset:21 data/nation/mikmaq.ruleset:21
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:26
-#: data/nation/otomi.ruleset:36 data/nation/raramuri.ruleset:26
+#: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
 #: data/nation/shawnee.ruleset:25 data/nation/yakut.ruleset:30
 #, c-format
@@ -1038,7 +1052,7 @@ msgstr "シャーマン %s"
 #: data/nation/hopi.ruleset:26 data/nation/inuit.ruleset:21
 #: data/nation/kuna.ruleset:21 data/nation/mikmaq.ruleset:21
 #: data/nation/nuu-chah-nulth.ruleset:23 data/nation/ohlone.ruleset:26
-#: data/nation/otomi.ruleset:36 data/nation/raramuri.ruleset:26
+#: data/nation/otomi.ruleset:29 data/nation/raramuri.ruleset:25
 #: data/nation/sami.ruleset:22 data/nation/seminole.ruleset:37
 #: data/nation/shawnee.ruleset:25 data/nation/yakut.ruleset:30
 #, c-format
@@ -1063,13 +1077,13 @@ msgstr ""
 "ころです。"
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
-#: data/nation/santomean.ruleset:33
+#: data/nation/santomean.ruleset:24
 #, c-format
 msgid "Secretary General %s"
 msgstr " %s事務総長"
 
 #: data/nation/algerian.ruleset:21 data/nation/lebanese.ruleset:27
-#: data/nation/santomean.ruleset:33
+#: data/nation/santomean.ruleset:24
 #, c-format
 msgid "?female:Secretary General %s"
 msgstr " %s事務総長"
@@ -1167,7 +1181,7 @@ msgstr "代官 %s"
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
-#: data/nation/ecuadorian.ruleset:37 data/nation/flemish.ruleset:31
+#: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
 #: data/nation/galician.ruleset:22 data/nation/greenlander.ruleset:26
 #: data/nation/grenadian.ruleset:21 data/nation/hansa.ruleset:28
 #: data/nation/hessian.ruleset:28 data/nation/honduran.ruleset:30
@@ -1186,10 +1200,10 @@ msgstr "代官 %s"
 #: data/nation/schleswig-holsteinian.ruleset:27
 #: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
 #: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
+#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:31
 #: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
 #: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/yucatecan.ruleset:28 data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr " %s司教"
@@ -1399,7 +1413,7 @@ msgstr " %s伯"
 
 # clefs
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:40
 #: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
 #: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
 #: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
@@ -1413,7 +1427,7 @@ msgstr " %s大公"
 
 # clefs
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:46
+#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:40
 #: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
 #: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
 #: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
@@ -1446,16 +1460,16 @@ msgstr ""
 "うちで最大級の人口を持つ民族集団です。"
 
 # clefs
-#: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:46
-#: data/nation/komi.ruleset:26 data/nation/navajo.ruleset:30
+#: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:42
+#: data/nation/komi.ruleset:26 data/nation/navajo.ruleset:27
 #: data/nation/tuvan.ruleset:33
 #, c-format
 msgid "Great Shaman %s"
 msgstr "大シャーマン %s"
 
 # clefs
-#: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:46
-#: data/nation/komi.ruleset:26 data/nation/navajo.ruleset:30
+#: data/nation/anishinaabe.ruleset:29 data/nation/gokturk.ruleset:42
+#: data/nation/komi.ruleset:26 data/nation/navajo.ruleset:27
 #: data/nation/tuvan.ruleset:33
 #, c-format
 msgid "?female:Great Shaman %s"
@@ -1568,39 +1582,43 @@ msgstr "アルゼンチン人"
 
 # clefs
 # カタカナにしちゃえば関係な〜し
-#. TRANS: The fourth letter in "Peron" should be
-#. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
-#: data/nation/argentine.ruleset:9
+#: data/nation/argentine.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Argentina is located on the south-eastern coast of South America. Since "
+#| "independence from Spain in 1816, it has been plagued by several internal "
+#| "and external conflicts. In the decades after World War II, the country's "
+#| "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
+#| "\" Peron."
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
 "external conflicts. In the decades after World War II, the country's "
-"politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" "
-"Peron."
+"politics was dominated by Juan Perón and his charismatic wife Eva \"Evita\" "
+"Perón."
 msgstr ""
 "アルゼンチンは南米大陸の南東岸に位置しています。1816年にスペインから独立して"
 "以来，アルゼンチンは数々の内憂外患に苦しめられてきました。第二次世界大戦後の"
 "数十年間，アルゼンチンの政治はユアン・ペロンとそのカリスマ的な妻エヴァ「エ"
 "ヴィータ」ペロンによって支配されていました。"
 
-#: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
+#: data/nation/argentine.ruleset:25 data/nation/bolivian.ruleset:36
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
 #: data/nation/cuban.ruleset:22 data/nation/guatemalan.ruleset:32
 #: data/nation/mexican.ruleset:50 data/nation/miskito.ruleset:32
 #: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
-#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:40
+#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:34
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandante %s"
 msgstr " %s司令官"
 
-#: data/nation/argentine.ruleset:28 data/nation/bolivian.ruleset:39
+#: data/nation/argentine.ruleset:25 data/nation/bolivian.ruleset:36
 #: data/nation/chiapanec.ruleset:33 data/nation/colombian.ruleset:27
 #: data/nation/cuban.ruleset:22 data/nation/guatemalan.ruleset:32
 #: data/nation/mexican.ruleset:50 data/nation/miskito.ruleset:32
 #: data/nation/nicaraguan.ruleset:31 data/nation/paraguayan.ruleset:36
-#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:40
+#: data/nation/peruvian.ruleset:24 data/nation/salvadoran.ruleset:34
 #: data/nation/southamerican.ruleset:19 data/nation/uruguayan.ruleset:21
 #, c-format
 msgid "Comandanta %s"
@@ -1608,34 +1626,34 @@ msgstr " %s司令官"
 
 # clefs
 # "大統領""独裁者"
-#: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:23
+#: data/nation/argentine.ruleset:26 data/nation/cuban.ruleset:23
 #: data/nation/southamerican.ruleset:20
 #, c-format
 msgid "Caudillo %s"
 msgstr " %s総統"
 
 # clefs
-#: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:23
+#: data/nation/argentine.ruleset:26 data/nation/cuban.ruleset:23
 #: data/nation/southamerican.ruleset:20
 #, c-format
 msgid "Caudilla %s"
 msgstr " %s総統"
 
-#: data/nation/argentine.ruleset:30 data/nation/castilian.ruleset:32
+#: data/nation/argentine.ruleset:27 data/nation/castilian.ruleset:32
 #: data/nation/cuban.ruleset:24 data/nation/filipino.ruleset:22
 #: data/nation/neapolitan.ruleset:26
 #, c-format
 msgid "Cardinal %s"
 msgstr "枢機卿 %s"
 
-#: data/nation/argentine.ruleset:31 data/nation/colombian.ruleset:30
+#: data/nation/argentine.ruleset:28 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
 #, c-format
 msgid "Viceroy %s"
 msgstr "副王 %s"
 
-#: data/nation/argentine.ruleset:31 data/nation/colombian.ruleset:30
+#: data/nation/argentine.ruleset:28 data/nation/colombian.ruleset:30
 #: data/nation/dominicano.ruleset:28 data/nation/peruvian.ruleset:26
 #: data/nation/venetian.ruleset:29
 #, c-format
@@ -1821,7 +1839,7 @@ msgid "The mythical continent of Atlantis"
 msgstr "伝説の大陸アトランティス。"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
-#: data/nation/canari.ruleset:30 data/nation/cornish.ruleset:21
+#: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
 #: data/nation/etruscan.ruleset:32 data/nation/gaelic.ruleset:26
 #: data/nation/irish.ruleset:41 data/nation/pictish.ruleset:26
 #, c-format
@@ -1830,7 +1848,7 @@ msgstr "上王 %s"
 
 # Daniel
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
-#: data/nation/canari.ruleset:30 data/nation/cornish.ruleset:21
+#: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
 #: data/nation/etruscan.ruleset:32 data/nation/gaelic.ruleset:26
 #: data/nation/irish.ruleset:41 data/nation/pictish.ruleset:26
 #, c-format
@@ -1883,7 +1901,7 @@ msgstr ""
 # Despotism用なのでカガンやハーンではなく下位の君主号であるカン，ハンの方ですね。
 #: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
-#: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
+#: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:40
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mughal.ruleset:19
@@ -1897,7 +1915,7 @@ msgstr "%s ハン"
 
 #: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
-#: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:44
+#: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:40
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
 #: data/nation/kalmyk.ruleset:24 data/nation/kazakh.ruleset:24
 #: data/nation/kyrgyz.ruleset:22 data/nation/mughal.ruleset:19
@@ -1910,7 +1928,7 @@ msgid "%s Khatan"
 msgstr "%s ハトン"
 
 #: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
-#: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:45
+#: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
 #: data/nation/goldenhorde.ruleset:37 data/nation/hephthalite.ruleset:31
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
@@ -1921,7 +1939,7 @@ msgid "%s Khagan"
 msgstr "%s ハーン"
 
 #: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
-#: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:45
+#: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
 #: data/nation/goldenhorde.ruleset:37 data/nation/hephthalite.ruleset:31
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
 #: data/nation/kyrgyz.ruleset:23 data/nation/tatar.ruleset:29
@@ -2233,13 +2251,13 @@ msgstr ""
 "で，起源もわかっていません。"
 
 # イメージはスターリン? (clefs)
-#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:39
 #: data/nation/iranian.ruleset:40
 #, c-format
 msgid "Leader %s"
 msgstr "指導者 %s"
 
-#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:45
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:39
 #: data/nation/iranian.ruleset:40
 #, c-format
 msgid "?female:Leader %s"
@@ -2742,33 +2760,33 @@ msgstr ""
 "共和国・トランスヴァール共和国・オレンジ自由国を建国しましたが，結局19世紀末"
 "のボーア戦争で敗れ，イギリスに併合されました。"
 
-#: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:40
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
+#: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
-#: data/nation/ecuadorian.ruleset:36 data/nation/guatemalan.ruleset:31
-#: data/nation/guinean.ruleset:20 data/nation/honduran.ruleset:29
+#: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
+#: data/nation/guinean.ruleset:17 data/nation/honduran.ruleset:29
 #: data/nation/israeli.ruleset:23 data/nation/lebanese.ruleset:28
 #: data/nation/mexican.ruleset:51 data/nation/nicaraguan.ruleset:32
-#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:39
+#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:33
 #: data/nation/siberian.ruleset:22 data/nation/southvietnamese.ruleset:23
-#: data/nation/uruguayan.ruleset:23 data/nation/venezuelan.ruleset:33
+#: data/nation/uruguayan.ruleset:23 data/nation/venezuelan.ruleset:30
 #: data/nation/westernroman.ruleset:30
 #, c-format
 msgid "General %s"
 msgstr "%s将軍"
 
-#: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:40
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:20
+#: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
-#: data/nation/ecuadorian.ruleset:36 data/nation/guatemalan.ruleset:31
-#: data/nation/guinean.ruleset:20 data/nation/honduran.ruleset:29
+#: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
+#: data/nation/guinean.ruleset:17 data/nation/honduran.ruleset:29
 #: data/nation/israeli.ruleset:23 data/nation/lebanese.ruleset:28
 #: data/nation/mexican.ruleset:51 data/nation/nicaraguan.ruleset:32
-#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:39
+#: data/nation/panamanian.ruleset:29 data/nation/salvadoran.ruleset:33
 #: data/nation/siberian.ruleset:22 data/nation/uruguayan.ruleset:23
-#: data/nation/venezuelan.ruleset:33 data/nation/westernroman.ruleset:30
+#: data/nation/venezuelan.ruleset:30 data/nation/westernroman.ruleset:30
 #, c-format
 msgid "?female:General %s"
 msgstr "%s将軍"
@@ -2829,13 +2847,20 @@ msgstr "ボリビア人"
 msgid "?plural:Bolivians"
 msgstr "ボリビア人"
 
-#. TRANS: The fourth letter in "Simon" should be
-#. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
-#: data/nation/bolivian.ruleset:9
+#: data/nation/bolivian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Bolivia is a landlocked country in South America with a large indigenous "
+#| "heritage. The country is named after Simon Bolivar. Independent since "
+#| "1825, the country was wrecked by instability and lost its Pacific coast "
+#| "to Chile. The 1932-1936 Chaco war against Paraguay led to another "
+#| "humiliating defeat. Discontent with Bolivia's oligarchic regime led to a "
+#| "revolution in 1952. After a series of military coups in the 1970s the "
+#| "country returned to democratic rule in the 1980s. In 2006 Evo Morales "
+#| "became the country's first indigenous president."
 msgid ""
 "Bolivia is a landlocked country in South America with a large indigenous "
-"heritage. The country is named after Simon Bolivar. Independent since 1825, "
+"heritage. The country is named after Simón Bolivar. Independent since 1825, "
 "the country was wrecked by instability and lost its Pacific coast to Chile. "
 "The 1932-1936 Chaco war against Paraguay led to another humiliating defeat. "
 "Discontent with Bolivia's oligarchic regime led to a revolution in 1952. "
@@ -2852,9 +2877,9 @@ msgstr ""
 "統領となりました。"
 
 # clefs
-#: data/nation/bolivian.ruleset:41 data/nation/brandenburgian.ruleset:28
+#: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:28
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
-#: data/nation/centrallithuanian.ruleset:47 data/nation/chilean.ruleset:31
+#: data/nation/centrallithuanian.ruleset:41 data/nation/chilean.ruleset:31
 #: data/nation/chrobatian.ruleset:30 data/nation/colombian.ruleset:29
 #: data/nation/cypriot.ruleset:24 data/nation/dominicano.ruleset:27
 #: data/nation/finnish.ruleset:28 data/nation/genoese.ruleset:50
@@ -2862,7 +2887,7 @@ msgstr ""
 #: data/nation/kashubian.ruleset:29 data/nation/latin.ruleset:44
 #: data/nation/mazovian.ruleset:24 data/nation/northumbrian.ruleset:39
 #: data/nation/peruvian.ruleset:27 data/nation/prussian.ruleset:29
-#: data/nation/quebecois.ruleset:21 data/nation/salvadoran.ruleset:41
+#: data/nation/quebecois.ruleset:21 data/nation/salvadoran.ruleset:35
 #: data/nation/southafrican.ruleset:24 data/nation/southamerican.ruleset:21
 #: data/nation/southvietnamese.ruleset:24 data/nation/teutonic.ruleset:29
 #: data/nation/westernpomeranian.ruleset:30
@@ -3076,8 +3101,8 @@ msgstr "王位僭称者 %s"
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
 #: data/nation/hansa.ruleset:27 data/nation/manx.ruleset:36
-#: data/nation/mixtec.ruleset:34 data/nation/toltec.ruleset:32
-#: data/nation/zapotec.ruleset:28
+#: data/nation/mixtec.ruleset:31 data/nation/toltec.ruleset:32
+#: data/nation/zapotec.ruleset:24
 #, c-format
 msgid "Lord %s"
 msgstr "領主 %s"
@@ -3085,8 +3110,8 @@ msgstr "領主 %s"
 #: data/nation/british.ruleset:24 data/nation/chimu.ruleset:26
 #: data/nation/frisian.ruleset:36 data/nation/galician.ruleset:21
 #: data/nation/hansa.ruleset:27 data/nation/manx.ruleset:36
-#: data/nation/mixtec.ruleset:34 data/nation/toltec.ruleset:32
-#: data/nation/zapotec.ruleset:28
+#: data/nation/mixtec.ruleset:31 data/nation/toltec.ruleset:32
+#: data/nation/zapotec.ruleset:24
 #, c-format
 msgid "Lady %s"
 msgstr "領主 %s"
@@ -3175,7 +3200,7 @@ msgstr ""
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
 #: data/nation/djiboutian.ruleset:21 data/nation/gambian.ruleset:18
 #: data/nation/ghaznavid.ruleset:33 data/nation/goldenhorde.ruleset:38
-#: data/nation/guinean.ruleset:21 data/nation/lipkatatar.ruleset:30
+#: data/nation/guinean.ruleset:18 data/nation/lipkatatar.ruleset:30
 #: data/nation/mughal.ruleset:21 data/nation/nigerien.ruleset:24
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:18 data/nation/tatar.ruleset:30
@@ -3188,7 +3213,7 @@ msgstr "大ムフティー %s"
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
 #: data/nation/djiboutian.ruleset:21 data/nation/gambian.ruleset:18
 #: data/nation/ghaznavid.ruleset:33 data/nation/goldenhorde.ruleset:38
-#: data/nation/guinean.ruleset:21 data/nation/lipkatatar.ruleset:30
+#: data/nation/guinean.ruleset:18 data/nation/lipkatatar.ruleset:30
 #: data/nation/mughal.ruleset:21 data/nation/nigerien.ruleset:24
 #: data/nation/palestinian.ruleset:21 data/nation/qatari.ruleset:21
 #: data/nation/senegalese.ruleset:18 data/nation/tatar.ruleset:30
@@ -3290,18 +3315,19 @@ msgid ""
 "region of Burgundy."
 msgstr ""
 
-#. TRANS: The last letter in "Burkinabe" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
+#: data/nation/burkinabe.ruleset:3
+#, fuzzy
+#| msgid "Burkinabe"
+msgid "Burkinabé"
+msgstr "ブルキナファソ人"
+
 #: data/nation/burkinabe.ruleset:6
-msgid "Burkinabe"
+#, fuzzy
+#| msgid "?plural:Burkinabes"
+msgid "?plural:Burkinabés"
 msgstr "ブルキナファソ人"
 
-#: data/nation/burkinabe.ruleset:7
-msgid "?plural:Burkinabes"
-msgstr "ブルキナファソ人"
-
-#: data/nation/burkinabe.ruleset:9
+#: data/nation/burkinabe.ruleset:8
 msgid ""
 "Formerly Upper Volta, Burkina Faso is a country in inland West Africa. It "
 "achieved its independence from France in 1960."
@@ -3466,24 +3492,23 @@ msgid ""
 msgstr ""
 "カナダは世界で2番目に面積の広い国です。現在，北磁極はカナダ領にあります。"
 
-#. TRANS: The third letter in "Canari" should be
-#. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
+#: data/nation/canari.ruleset:3
+msgid "Cañari"
+msgstr ""
+
 #: data/nation/canari.ruleset:6
-msgid "Canari"
+#, fuzzy
+#| msgid "?plural:Canaris"
+msgid "?plural:Cañaris"
 msgstr "カニャーリ族"
 
-#: data/nation/canari.ruleset:7
-msgid "?plural:Canaris"
-msgstr "カニャーリ族"
-
-#: data/nation/canari.ruleset:9
+#: data/nation/canari.ruleset:8
 msgid ""
-"The Canaris were a Pre-Columbian civilization in what is now Ecuador, whose "
+"The Cañaris were a pre-Columbian civilization in what is now Ecuador, whose "
 "existence can be traced from the 6th century onwards. They were one of the "
-"few Andean cultures not to worship the sun. The Canari language was probably "
+"few Andean cultures not to worship the sun. The Cañari language was probably "
 "related to the Mochica language of Peru, but by the time of the Spanish "
-"conquest the Canaris had mostly switched to Quechua. The Canaris formed a "
+"conquest the Cañaris had mostly switched to Quechua. The Cañaris formed a "
 "loose confederation with their main political center in Guapdondelig, "
 "currently the city of Cuenca, capital of the province of Azuay. They were "
 "subjugated by the Incas in the late 15th century, though they put up a "
@@ -3534,12 +3559,12 @@ msgstr ""
 "たしました。カーボベルデ人はその多くがヨーロッパ系白人とアフリカ系黒人の混血"
 "(ムラート)です。"
 
-#: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
+#: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:25
 #, c-format
 msgid "Admiral %s"
 msgstr "%s提督"
 
-#: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:34
+#: data/nation/capeverdean.ruleset:24 data/nation/santomean.ruleset:25
 #, c-format
 msgid "?female:Admiral %s"
 msgstr "%s提督"
@@ -3696,39 +3721,33 @@ msgstr "中部リトアニア人"
 msgid "?plural:Central Lithuanians"
 msgstr "中部リトアニア人"
 
-#. TRANS: The second and seventh letter in "Wladyslaw" should be
-#. TRANS: U+0142 LATIN SMALL LETTER L WITH STROKE if available in
-#. TRANS: your charset.
-#. TRANS: The first letter in "Zeligowski" should be
-#. TRANS: U+017B LATIN CAPITAL LETTER Z WITH DOT ABOVE if available in
-#. TRANS: your charset.
-#: data/nation/centrallithuanian.ruleset:12
+#: data/nation/centrallithuanian.ruleset:6
 msgid ""
 "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
 "Aukshtota region. They are a remnant of the Polish-Lithuanian Commonwealth - "
 "the Commonwealth of Two Nations, which was founded with the Union of Lublin "
 "in 1569. This state united the Kingdom of Poland with the Grand Duchy of "
 "Lithuania and was founded by the Lithuanian grand duke Jogaila, who was "
-"baptized with the name Wladyslaw. The presence of the first Polish community "
+"baptized with the name Władysław. The presence of the first Polish community "
 "in Lithuania dates back to duke Mindaugas of Lithuania. The first Poles came "
 "to Lithuania as prisoners of war taken during raids on the frontier lands "
 "(mainly to Mazovia). After uniting the two countries there was a very strong "
 "Polonization of the Lithuanian nobility. The Polish-speaking community in "
 "Lithuania survived the collapse and partition of the Polish state, co-"
 "existing with Lithuanian-speaking people. In 1920, the rebellious general "
-"Zeligowski announced the creation of a Republic of Central Lithuania, which "
+"Żeligowski announced the creation of a Republic of Central Lithuania, which "
 "was then incorporated into Poland. After World War II most of the Lithuanian "
 "Poles were displaced to Poland's new western territories."
 msgstr ""
 
 # clefs
-#: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
+#: data/nation/centrallithuanian.ruleset:38 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "People's Commissar %s"
 msgstr "人民委員 %s"
 
-#: data/nation/centrallithuanian.ruleset:44 data/nation/chuvash.ruleset:28
+#: data/nation/centrallithuanian.ruleset:38 data/nation/chuvash.ruleset:28
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "?female:People's Commissar %s"
@@ -3742,15 +3761,18 @@ msgstr "チャド人"
 msgid "?plural:Chadians"
 msgstr "チャド人"
 
-#. TRANS: The last letter in "Habre" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
-#: data/nation/chadian.ruleset:9
+#: data/nation/chadian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
+#| "Empire, Chad was colonized by France in 1900. Independent since 1960, "
+#| "Chad remains one of the poorest countries of the world. From 1982 to 1990 "
+#| "Hissene Habre led a notoriously brutal dictatorship."
 msgid ""
 "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
 "Empire, Chad was colonized by France in 1900. Independent since 1960, Chad "
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
-"Habre led a notoriously brutal dictatorship."
+"Habré led a notoriously brutal dictatorship."
 msgstr ""
 "チャド共和国は中部アフリカ諸国の中で最も北に位置する内陸国です。7世紀頃から19"
 "世紀末までカネム・ボルヌ帝国の支配下にありましたが，1900年にフランスの植民地"
@@ -3914,13 +3936,13 @@ msgstr ""
 
 # ntaka
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
-#: data/nation/yucatecan.ruleset:30
+#: data/nation/yucatecan.ruleset:27
 #, c-format
 msgid "Captain General %s"
 msgstr " %s総司令官"
 
 #: data/nation/chilean.ruleset:30 data/nation/puertorican.ruleset:28
-#: data/nation/yucatecan.ruleset:30
+#: data/nation/yucatecan.ruleset:27
 #, c-format
 msgid "?female:Captain General %s"
 msgstr " %s総司令官"
@@ -4253,7 +4275,7 @@ msgstr ""
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
 #: data/nation/guyanese.ruleset:25 data/nation/han.ruleset:28
 #: data/nation/iraqi.ruleset:21 data/nation/kyrgyz.ruleset:24
-#: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:68
+#: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:64
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
@@ -4265,7 +4287,7 @@ msgstr "議長 %s"
 #: data/nation/egyptianarab.ruleset:25 data/nation/finnish.ruleset:26
 #: data/nation/guyanese.ruleset:25 data/nation/han.ruleset:28
 #: data/nation/iraqi.ruleset:21 data/nation/kyrgyz.ruleset:24
-#: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:68
+#: data/nation/nepali.ruleset:28 data/nation/nimiipuu.ruleset:64
 #: data/nation/palestinian.ruleset:23 data/nation/sammarinese.ruleset:23
 #: data/nation/southvietnamese.ruleset:22 data/nation/taiwanese.ruleset:25
 #: data/nation/tuvan.ruleset:30 data/nation/walloon.ruleset:25
@@ -4330,14 +4352,23 @@ msgstr "コンゴ・キンシャサ人"
 msgid "?plural:Congolese"
 msgstr "コンゴ・キンシャサ人"
 
-#. TRANS: The second letter in "Leopold" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
-#: data/nation/congolese.ruleset:10
+#: data/nation/congolese.ruleset:7
+#, fuzzy
+#| msgid ""
+#| "The Democratic Republic of the Congo is a big country in Central Africa. "
+#| "Despite (or because of) its wealth of natural resources it has been in "
+#| "ruins for most of its modern history. In 1885 Congo was awarded to "
+#| "Leopold II of Belgium as his personal possession, the Congo Free State, "
+#| "which turned the country into a slaughterhouse. At least twenty per cent "
+#| "of the population perished and after an international outcry it became a "
+#| "Belgian colony in 1906. It achieved independence in 1960. The Mobutu "
+#| "dictatorship started a new round of pillaging. When Mobutu was toppled "
+#| "the country sank into a civil war, causing five million deaths, the "
+#| "bloodiest event since World War II."
 msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
-"for most of its modern history. In 1885 Congo was awarded to Leopold II of "
+"for most of its modern history. In 1885 Congo was awarded to Léopold II of "
 "Belgium as his personal possession, the Congo Free State, which turned the "
 "country into a slaughterhouse. At least twenty per cent of the population "
 "perished and after an international outcry it became a Belgian colony in "
@@ -4959,14 +4990,21 @@ msgstr "エクアドル人"
 msgid "?plural:Ecuadorians"
 msgstr "エクアドル人"
 
-#. TRANS: The fourth letter in "Galapagos" should be
-#. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
-#: data/nation/ecuadorian.ruleset:9
+#: data/nation/ecuadorian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Ecuador is a country in western South America. It is divided into three "
+#| "very distinct geographic regions: the coastal lowlands, the mountains of "
+#| "the Andes and the jungles of the Oriente. The Galapagos islands are also "
+#| "part of Ecuador. The country gained independence from Spain in 1821 and "
+#| "from Colombia in 1830. Ecuador's history has been marked by rivalry "
+#| "between the coast (Guayaquil) and the mountains (Quito). It also fought "
+#| "numerous border wars with both Colombia and Peru. Nowadays Ecuador is one "
+#| "of the main oil producing countries of South America."
 msgid ""
 "Ecuador is a country in western South America. It is divided into three very "
 "distinct geographic regions: the coastal lowlands, the mountains of the "
-"Andes and the jungles of the Oriente. The Galapagos islands are also part of "
+"Andes and the jungles of the Oriente. The Galápagos islands are also part of "
 "Ecuador. The country gained independence from Spain in 1821 and from "
 "Colombia in 1830. Ecuador's history has been marked by rivalry between the "
 "coast (Guayaquil) and the mountains (Quito). It also fought numerous border "
@@ -5956,23 +5994,26 @@ msgstr ""
 "で及びました。1186年にゴール朝によって滅ぼされました。"
 
 #: data/nation/gokturk.ruleset:3
-msgid "Gokturk"
+msgid "Göktürk"
+msgstr ""
+
+#: data/nation/gokturk.ruleset:6
+#, fuzzy
+#| msgid "?plural:Gokturks"
+msgid "?plural:Göktürks"
 msgstr "突厥人"
 
-#: data/nation/gokturk.ruleset:4
-msgid "?plural:Gokturks"
-msgstr "突厥人"
-
-#. TRANS: The second letter in "Gokturk" should be
-#. TRANS: U+00F6 LATIN SMALL LETTER O WITH DIAERESIS if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 246.
-#. TRANS: The fifth letter in "Gokturk" should be
-#. TRANS: U+00FC LATIN SMALL LETTER U WITH DIAERESIS if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 252.
-#: data/nation/gokturk.ruleset:12
+#: data/nation/gokturk.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "The Gokturk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
+#| "derived its legendary origins from the red she-wolf. The Gokturks were "
+#| "ancestors of the modern Turkic nations in Asia and Eastern Europe. They "
+#| "were the creators of a vast military empire, which covered the steppe "
+#| "areas from the Kuban river in the West to Korea in the East."
 msgid ""
-"The Gokturk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
-"derived its legendary origins from the red she-wolf. The Gokturks were "
+"The Göktürk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
+"derived its legendary origins from the red she-wolf. The Göktürks were "
 "ancestors of the modern Turkic nations in Asia and Eastern Europe. They were "
 "the creators of a vast military empire, which covered the steppe areas from "
 "the Kuban river in the West to Korea in the East."
@@ -6144,13 +6185,15 @@ msgstr "ギニア人"
 msgid "?plural:Guinean"
 msgstr "ギニア人"
 
-#. TRANS: The second letter in "Sekou" and last in "Toure" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
-#: data/nation/guinean.ruleset:9
+#: data/nation/guinean.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Guinea declared independence from France in 1958. Its first president "
+#| "Ahmed Sekou Toure continued to rule the country until his death in 1984. "
+#| "Guinea is not to be confused with neighboring Guinea-Bissau."
 msgid ""
 "Guinea declared independence from France in 1958. Its first president Ahmed "
-"Sekou Toure continued to rule the country until his death in 1984. Guinea is "
+"Sékou Touré continued to rule the country until his death in 1984. Guinea is "
 "not to be confused with neighboring Guinea-Bissau."
 msgstr ""
 "ギニア共和国は西アフリカに位置し，大西洋に面しています。19世紀末にフランスの"
@@ -6441,13 +6484,23 @@ msgid "?plural:Hephthalites"
 msgstr "エフタル"
 
 #: data/nation/hephthalite.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Hephthalites were a Central Asian nomadic confederation of the 5th "
+#| "and 6th centuries CE. Their precise origins and composition remain "
+#| "obscure. They may have been of mixed Iranic, Tocharian and Turkic origin, "
+#| "but their main language is unknown. Although they were also known as the "
+#| "White Huns, a connection with the Huns is considered unlikely. The "
+#| "Hephthalites were crushed by the Gokturks and Sassanids in the 6th "
+#| "century, but on the Indian subcontinent some Hephthalite successor "
+#| "kingdoms survived until the late 7th century."
 msgid ""
 "The Hephthalites were a Central Asian nomadic confederation of the 5th and "
 "6th centuries CE. Their precise origins and composition remain obscure. They "
 "may have been of mixed Iranic, Tocharian and Turkic origin, but their main "
 "language is unknown. Although they were also known as the White Huns, a "
 "connection with the Huns is considered unlikely. The Hephthalites were "
-"crushed by the Gokturks and Sassanids in the 6th century, but on the Indian "
+"crushed by the Göktürks and Sassanids in the 6th century, but on the Indian "
 "subcontinent some Hephthalite successor kingdoms survived until the late 7th "
 "century."
 msgstr ""
@@ -6949,12 +7002,14 @@ msgstr "コートジボワール人"
 msgid "?plural:Ivoirian"
 msgstr "コートジボワール人"
 
-#. TRANS: The second letter in "Cote" should be
-#. TRANS: U+00F4 LATIN SMALL LETTER O WITH CIRCUMFLEX if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00F4.
-#: data/nation/ivoirian.ruleset:9
+#: data/nation/ivoirian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
+#| "relatively stable compared to other West African countries, but in the "
+#| "2000s it lived through a civil war."
 msgid ""
-"Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
+"Ivory Coast or Côte d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
 msgstr ""
@@ -8618,23 +8673,30 @@ msgstr ""
 "ヨーロッパ語族に属するメサピ語を話していました。後に古代ローマに征服されまし"
 "た。"
 
-#. TRANS: The second letter in "Metis" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233.
+#: data/nation/metis.ruleset:3
+msgid "Métis"
+msgstr ""
+
 #: data/nation/metis.ruleset:6
-msgid "Metis"
+#, fuzzy
+#| msgid "?plural:Metis"
+msgid "?plural:Métis"
 msgstr "メティ"
 
-#: data/nation/metis.ruleset:7
-msgid "?plural:Metis"
-msgstr "メティ"
-
-#: data/nation/metis.ruleset:9
+#: data/nation/metis.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "The Metis are a people of mixed First Nations (Native American) and "
+#| "European (mostly French) descendance living mainly in the Canadian "
+#| "prairie provinces. Together with the First Nations and the Inuit they "
+#| "form one of the three indigenous groups of Canada. In the 19th century "
+#| "the Metis repeatedly rebelled against the British and Canadian "
+#| "authorities."
 msgid ""
-"The Metis are a people of mixed First Nations (Native American) and European "
-"(mostly French) descendance living mainly in the Canadian prairie provinces. "
+"The Métis are a people of mixed First Nations (Native American) and European "
+"(mostly French) descent living mainly in the Canadian prairie provinces. "
 "Together with the First Nations and the Inuit they form one of the three "
-"indigenous groups of Canada. In the 19th century the Metis repeatedly "
+"indigenous groups of Canada. In the 19th century the Métis repeatedly "
 "rebelled against the British and Canadian authorities."
 msgstr ""
 "メティはファースト・ネーション(イヌイット以外のカナダ先住民)とヨーロッパ人(大"
@@ -8652,6 +8714,21 @@ msgid "?plural:Mexicans"
 msgstr "メキシコ人"
 
 #: data/nation/mexican.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Mexico borrows its name from the Mexica people, another name for the "
+#| "Aztecs. It achieved independence from Spain in 1821. For most of the 19th "
+#| "century the country was wrecked by rebellions and foreign invasions "
+#| "losing more than half of its territory to the United States. A liberal "
+#| "constitution was proclaimed in 1857, leading to ten years of civil war "
+#| "between liberals and conservatives, in which the latter crowned "
+#| "Maximilian of Austria as emperor under French occupation. The French and "
+#| "conservatives were ultimately defeated by the liberals of Benito Juarez "
+#| "in 1867. Mexico entered the modern era under Porifirio Diaz (1876-1911) "
+#| "but social inequality and political repression led to the Mexican "
+#| "Revolution of 1910 which left more than a million dead. The Revolution "
+#| "led to the establishment of a corporatist one party state in 1929. Only "
+#| "in 2000 did Mexico see its first democratic transfer of power."
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs. "
 "It achieved independence from Spain in 1821. For most of the 19th century "
@@ -8660,8 +8737,8 @@ msgid ""
 "proclaimed in 1857, leading to ten years of civil war between liberals and "
 "conservatives, in which the latter crowned Maximilian of Austria as emperor "
 "under French occupation. The French and conservatives were ultimately "
-"defeated by the liberals of Benito Juarez in 1867. Mexico entered the modern "
-"era under Porifirio Diaz (1876-1911) but social inequality and political "
+"defeated by the liberals of Benito Juárez in 1867. Mexico entered the modern "
+"era under Porfirio Díaz (1876-1911) but social inequality and political "
 "repression led to the Mexican Revolution of 1910 which left more than a "
 "million dead. The Revolution led to the establishment of a corporatist one "
 "party state in 1929. Only in 2000 did Mexico see its first democratic "
@@ -8814,12 +8891,19 @@ msgstr "ミシュテカ人"
 msgid "?plural:Mixtecs"
 msgstr "ミシュテカ人"
 
-#. TRANS: The first letter in "Nuu" should be
-#. TRANS: U+00D1 LATIN CAPITAL LETTER N WITH TILDE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
-#: data/nation/mixtec.ruleset:9
+#: data/nation/mixtec.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
+#| "The Mixtec territory was formed by a large number of city states. The "
+#| "Mixtec ruler Eight Deer 'Jaguar Claw', who ruled Tilantongo around 1100 "
+#| "CE, was famous in all of ancient Mexico. In the late 15th century most of "
+#| "the Mixtec territory was occupied by the Aztecs, though parts remained "
+#| "independent until the arrival of the Spanish. Nowadays there are about "
+#| "700,000 Mixtecs living in the Mexican states of Oaxaca, Guerrero and "
+#| "Puebla, as well as in emigrant communities in Northern Mexico and the US."
 msgid ""
-"The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
+"The Mixtecs or Ñuu Savi were one of the major Mesoamerican civilizations. "
 "The Mixtec territory was formed by a large number of city states. The Mixtec "
 "ruler Eight Deer 'Jaguar Claw', who ruled Tilantongo around 1100 CE, was "
 "famous in all of ancient Mexico. In the late 15th century most of the Mixtec "
@@ -9067,10 +9151,6 @@ msgstr "マスコギー"
 msgid "?plural:Muskogee"
 msgstr "マスコギー"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "アメリカ人"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -9186,12 +9266,14 @@ msgstr "ナバホ族"
 
 # Belgae
 # Dineは南北アサバスカ語族全体を指すようです。
-#. TRANS: The last letter in "Dine" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233.
-#: data/nation/navajo.ruleset:9
+#: data/nation/navajo.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Navajo or Dine are the most populous Native American nation of the "
+#| "United States. They are closely related to the Apache. Their language is "
+#| "famous for being one of the world's most complex."
 msgid ""
-"The Navajo or Dine are the most populous Native American nation of the "
+"The Navajo or Diné are the most populous Native American nation of the "
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
@@ -9398,28 +9480,35 @@ msgstr ""
 
 # Belgae
 # 一般には「ネズ・パース族」と書かれるようですが。
-#. TRANS: The fourth letter in "Nimiipuu" should be
-#. TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00ED.
+#: data/nation/nimiipuu.ruleset:3
+#, fuzzy
+#| msgid "Nimiipuu"
+msgid "Nimíipuu"
+msgstr "ネズ・パース族"
+
 #: data/nation/nimiipuu.ruleset:6
-msgid "Nimiipuu"
+#, fuzzy
+#| msgid "?plural:Nimiipuu"
+msgid "?plural:Nimíipuu"
 msgstr "ネズ・パース族"
 
-#: data/nation/nimiipuu.ruleset:7
-msgid "?plural:Nimiipuu"
-msgstr "ネズ・パース族"
-
-#. TRANS: The last letter in "Perce" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER E WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E9.
-#: data/nation/nimiipuu.ruleset:12
+#: data/nation/nimiipuu.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "The Nimiipuu, or the 'Real People', in their own language, are better "
+#| "known as the 'Nez Perce'. This Native American nation covered parts of "
+#| "Washington, Oregon, Montana and Idaho and consisted of more than 70 "
+#| "permanent villages in 1800. At this time the population numbered about "
+#| "6,000. After a defeat by the American cavalry on October 5, 1877, the "
+#| "Nimiipuu were moved to reservations. The elected Nez Perce Tribal "
+#| "Executive Committee now governs tribal affairs."
 msgid ""
-"The Nimiipuu, or the 'Real People', in their own language, are better known "
-"as the 'Nez Perce'. This Native American nation covered parts of Washington, "
+"The Nimíipuu, or the 'Real People', in their own language, are better known "
+"as the 'Nez Percé'. This Native American nation covered parts of Washington, "
 "Oregon, Montana and Idaho and consisted of more than 70 permanent villages "
 "in 1800. At this time the population numbered about 6,000. After a defeat by "
-"the American cavalry on October 5, 1877, the Nimiipuu were moved to "
-"reservations. The elected Nez Perce Tribal Executive Committee now governs "
+"the American cavalry on October 5, 1877, the Nimíipuu were moved to "
+"reservations. The elected Nez Percé Tribal Executive Committee now governs "
 "tribal affairs."
 msgstr ""
 "ネズ・パース族はインディアンの一部族で，自らをニミプー(真の人)と呼びます。ア"
@@ -9852,32 +9941,36 @@ msgstr ""
 "し，そこに彼らの王国を建設しました。5世紀に東ゴート王国はビザンツとの戦争で崩"
 "壊し，その際にイタリアの人口は大きく減少しました。"
 
-#. TRANS: The fifth letter in "Otomi" and "Otomies" should be
-#. TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237.
+#: data/nation/otomi.ruleset:3
+#, fuzzy
+#| msgid "Otomi"
+msgid "Otomí"
+msgstr "オトミ族"
+
 #: data/nation/otomi.ruleset:6
-msgid "Otomi"
+#, fuzzy
+#| msgid "?plural:Otomies"
+msgid "?plural:Otomíes"
 msgstr "オトミ族"
 
-#: data/nation/otomi.ruleset:7
-msgid "?plural:Otomies"
-msgstr "オトミ族"
-
-#. TRANS: The second and fifth letters in "Hnahnu" should be
-#. TRANS: U+00F1 LATIN SMALL LETTER N WITH TILDE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 241.
-#. TRANS: The third letter in "Hnahnu" should be
-#. TRANS: U+00E4 LATIN SMALL LETTER A WITH DIAERESIS if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 228.
-#: data/nation/otomi.ruleset:16
+#: data/nation/otomi.ruleset:9
+#, fuzzy
+#| msgid ""
+#| "The Otomi are one of the most ancient peoples of Mexico. They have lived "
+#| "in Central Mexico ever since the development of agriculture or even "
+#| "longer. A warlike people, they served as mercenaries in the armies of "
+#| "many Mesoamerican civilizations and got their name from the otmitl, the "
+#| "crack military order of the Aztecs, in which many of them served. In "
+#| "their own language they are called Hnahnu. With more than half a million "
+#| "people the Otomi are still one of the biggest indigenous groups of Mexico."
 msgid ""
-"The Otomi are one of the most ancient peoples of Mexico. They have lived in "
+"The Otomí are one of the most ancient peoples of Mexico. They have lived in "
 "Central Mexico ever since the development of agriculture or even longer. A "
 "warlike people, they served as mercenaries in the armies of many "
 "Mesoamerican civilizations and got their name from the otmitl, the crack "
 "military order of the Aztecs, in which many of them served. In their own "
-"language they are called Hnahnu. With more than half a million people the "
-"Otomi are still one of the biggest indigenous groups of Mexico."
+"language they are called Hñähñu. With more than half a million people the "
+"Otomí are still one of the biggest indigenous groups of Mexico."
 msgstr ""
 "オトミ族はメキシコに古代から居住する民族です。彼らは農業技術が開発されたこ"
 "ろ，あるいはそれ以前から中央メキシコに暮らしてきました。好戦的な彼らは，多数"
@@ -10455,13 +10548,24 @@ msgstr "プレペチャ人"
 msgid "?plural:P'urhepecha"
 msgstr "プレペチャ人"
 
-#. TRANS: The eighth letter in "Michoacan" should be
-#. TRANS: 00E1 LATIN SMALL LETTER O WITH ACUTE if available in
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is E1.
-#: data/nation/purhepecha.ruleset:10
+#: data/nation/purhepecha.ruleset:7
+#, fuzzy
+#| msgid ""
+#| "The P'urhepecha or Tarascans are a people native to the modern Mexican "
+#| "state of Michoacan, the heart of a former empire known to them as "
+#| "Irechikua Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their "
+#| "capital city. Their kings were the perennial enemy of the Aztec empire, "
+#| "who attempted an unsuccessful invasion of the P'urhepecha lands. When the "
+#| "Spanish arrived and began their conquest of Mexico in 1519, the Aztecs "
+#| "sent an embassy seeking the support of the P'urhepecha, but were "
+#| "rebuffed. The conquistadores' reputation preceded them and the "
+#| "P'urhepecha offered to become a subject state of the King of Spain rather "
+#| "than meet the same fate as their former enemies, the Aztecs. "
+#| "Nevertheless, the transition to Spanish rule was not smooth and devolved "
+#| "into violence. The empire, founded around 1450 CE, collapsed in 1530."
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
-"of Michoacan, the heart of a former empire known to them as Irechikua "
+"of Michoacán, the heart of a former empire known to them as Irechikua "
 "Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their capital city. "
 "Their kings were the perennial enemy of the Aztec empire, who attempted an "
 "unsuccessful invasion of the P'urhepecha lands. When the Spanish arrived and "
@@ -10543,23 +10647,31 @@ msgstr ""
 "んど滅びてしまいました。その後イースター島は1888年にチリに併合されました。彼"
 "らの用いたロンゴロンゴという文字らしき記号は，未だ解読されていません。"
 
-#. TRANS: The fourth letter in "Raramuri" should be
-#. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
+#: data/nation/raramuri.ruleset:3
+#, fuzzy
+#| msgid "Raramuri"
+msgid "Rarámuri"
+msgstr "タラフマラ族"
+
 #: data/nation/raramuri.ruleset:6
-msgid "Raramuri"
+#, fuzzy
+#| msgid "?plural:Raramuris"
+msgid "?plural:Rarámuris"
 msgstr "タラフマラ族"
 
-#: data/nation/raramuri.ruleset:7
-msgid "?plural:Raramuris"
-msgstr "タラフマラ族"
-
-#: data/nation/raramuri.ruleset:9
+#: data/nation/raramuri.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "The Raramuri or Tarahumara live in the canyons of the Sierra Madre "
+#| "Occidental in the north of Mexico. They are well known for their "
+#| "endurance; their traditions include running long distances while kicking "
+#| "wooden balls in races that last up to several days. In 1891 a Raramuri "
+#| "uprising in Tomochi was brutally repressed by the Mexican authorities."
 msgid ""
-"The Raramuri or Tarahumara live in the canyons of the Sierra Madre "
+"The Rarámuri or Tarahumara live in the canyons of the Sierra Madre "
 "Occidental in the north of Mexico. They are well known for their endurance; "
 "their traditions include running long distances while kicking wooden balls "
-"in races that last up to several days. In 1891 a Raramuri uprising in "
+"in races that last up to several days. In 1891 a Rarámuri uprising in "
 "Tomochi was brutally repressed by the Mexican authorities."
 msgstr ""
 "タラフマラ族，またはララムリはメキシコ北部，西シエラマドレ山脈の峡谷地帯に住"
@@ -10866,13 +10978,19 @@ msgstr "エルサルバドル人"
 msgid "?plural:Salvadorans"
 msgstr "エルサルバドル人"
 
-#. TRANS: The fifth letter in "Hernandez" should be
-#. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 225.
-#. TRANS: The fifth letter in "Martinez" should be
-#. TRANS: U+00EC LATIN SMALL LETTER I WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237.
-#: data/nation/salvadoran.ruleset:12
+#: data/nation/salvadoran.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Originally inhabited by Pipil Indians, in the 16th century El Salvador "
+#| "was conquered by the Spanish. It joined the Central American federation "
+#| "upon independence and became a fully independent republic in 1840. "
+#| "Although formally El Salvador has been a democracy for most of its "
+#| "independence, in reality the country's government is highly oligarchic, "
+#| "the 'fourteen families' having dominated the country's political and "
+#| "economic life since independence. In the 1930s general Hernandez Martinez "
+#| "established a dictatorship. A nonviolent revolution overthrew Hernandez "
+#| "in 1944 but the country remained unstable and from 1979-1992 the country "
+#| "lived through another bloody civil war."
 msgid ""
 "Originally inhabited by Pipil Indians, in the 16th century El Salvador was "
 "conquered by the Spanish. It joined the Central American federation upon "
@@ -10880,8 +10998,8 @@ msgid ""
 "formally El Salvador has been a democracy for most of its independence, in "
 "reality the country's government is highly oligarchic, the 'fourteen "
 "families' having dominated the country's political and economic life since "
-"independence. In the 1930s general Hernandez Martinez established a "
-"dictatorship. A nonviolent revolution overthrew Hernandez in 1944 but the "
+"independence. In the 1930s general Hernández Martínez established a "
+"dictatorship. A nonviolent revolution overthrew Hernández in 1944 but the "
 "country remained unstable and from 1979-1992 the country lived through "
 "another bloody civil war."
 msgstr ""
@@ -11021,18 +11139,18 @@ msgstr "サントメ・プリンシペ人"
 msgid "?plural:Santomeans"
 msgstr "サントメ・プリンシペ人"
 
-#. TRANS: The second letter in "Sao" should be
-#. TRANS: U+00E3 LATIN SMALL LETTER A WITH TILDE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 227.
-#. TRANS: The last letter in "Tome" should be
-#. TRANS: U+00E9 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 233.
-#. TRANS: The third letter in "Principe" should be
-#. TRANS: U+00ED LATIN SMALL LETTER I WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 237.
-#: data/nation/santomean.ruleset:15
+#: data/nation/santomean.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Sao Tome and Principe are two islands in the Atlantic Ocean off the coast "
+#| "of Africa. The main island was named after Saint Thomas by the Portuguese "
+#| "sailors who first discovered the island on the saint's feast day around "
+#| "1470. The islands turned into the first major European plantation colony. "
+#| "Slavery was abolished in the 19th century and the country became "
+#| "independent in 1975. The islands' economy remains dependent on the export "
+#| "of cocoa."
 msgid ""
-"Sao Tome and Principe are two islands in the Atlantic Ocean off the coast of "
+"São Tomé and Príncipe are two islands in the Atlantic Ocean off the coast of "
 "Africa. The main island was named after Saint Thomas by the Portuguese "
 "sailors who first discovered the island on the saint's feast day around "
 "1470. The islands turned into the first major European plantation colony. "
@@ -13225,14 +13343,20 @@ msgid "?plural:Venezuelans"
 msgstr "ベネズエラ人"
 
 # clefs
-#. TRANS: The fourth letter in "Simon" should be
-#. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
-#. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
-#: data/nation/venezuelan.ruleset:9
+#: data/nation/venezuelan.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Venezuela is the northernmost country in South America. Having been a "
+#| "Spanish colony since the 16th century, the country gained independence on "
+#| "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
+#| "Liberator. Venezuela has one of the largest proven oil and gas reserves "
+#| "of the world; during the oil boom of the 1970s it was the wealthiest "
+#| "country of Latin America. The country is known for its varied landscapes "
+#| "and high biodiversity."
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
-"July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
+"July 5th 1811 under the leadership of El Libertador Simón Bolivar - The "
 "Liberator. Venezuela has one of the largest proven oil and gas reserves of "
 "the world; during the oil boom of the 1970s it was the wealthiest country of "
 "Latin America. The country is known for its varied landscapes and high "
@@ -13357,24 +13481,33 @@ msgid ""
 "Polonians, who formed the first Polish state in the 10th century."
 msgstr ""
 
-#. TRANS: The sixth letter in "Volapuk" should be
-#. TRANS: U+00FC LATIN SMALL LETTER U WITH DIAERESIS if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 252.
+#: data/nation/volapuk.ruleset:3
+#, fuzzy
+#| msgid "Volapukan"
+msgid "Volapükan"
+msgstr "ヴォラピュカン"
+
 #: data/nation/volapuk.ruleset:6
-msgid "Volapukan"
+#, fuzzy
+#| msgid "?plural:Volapukans"
+msgid "?plural:Volapükans"
 msgstr "ヴォラピュカン"
 
-#: data/nation/volapuk.ruleset:7
-msgid "?plural:Volapukans"
-msgstr "ヴォラピュカン"
-
-#: data/nation/volapuk.ruleset:9
+#: data/nation/volapuk.ruleset:8
+#, fuzzy
+#| msgid ""
+#| "Volapuk is an international auxiliary language constructed by the German "
+#| "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in "
+#| "the late 19th century. The language is often considered unnecessarily "
+#| "complex when compared with alternatives like Esperanto, which had almost "
+#| "completely displaced Volapuk by the turn of the century. Today only a few "
+#| "dozen Volapuk speakers remain."
 msgid ""
-"Volapuk is an international auxiliary language constructed by the German "
+"Volapük is an international auxiliary language constructed by the German "
 "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in the "
 "late 19th century. The language is often considered unnecessarily complex "
 "when compared with alternatives like Esperanto, which had almost completely "
-"displaced Volapuk by the turn of the century. Today only a few dozen Volapuk "
+"displaced Volapük by the turn of the century. Today only a few dozen Volapük "
 "speakers remain."
 msgstr ""
 "ヴォラピュクは1879年に，ドイツの神父であるヨハン・マルティン・シュライヤーに"
@@ -13615,11 +13748,18 @@ msgid "?plural:amaXhosa"
 msgstr "コーサ族"
 
 #: data/nation/xhosa.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Xhosa are Bantu people in South Africa, having arrived there from the "
+#| "Great Lakes region by the 17th century. During the apartheid era there "
+#| "were two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
+#| "apartheid activists, including Nelson Mandela and Desmond Tutu, where "
+#| "Xhosa."
 msgid ""
 "The Xhosa are Bantu people in South Africa, having arrived there from the "
 "Great Lakes region by the 17th century. During the apartheid era there were "
 "two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
-"apartheid activists, including Nelson Mandela and Desmond Tutu, where Xhosa."
+"apartheid activists, including Nelson Mandela and Desmond Tutu, were Xhosa."
 msgstr ""
 "コーサ族はバントゥー系民族の中で最も南に位置する民族で，現在は南アフリカ共和"
 "国に800万人以上が住んでいます。彼らの祖先は17世紀にアフリカ大湖沼地域(タンザ"
@@ -13709,16 +13849,20 @@ msgstr "ユカタン人"
 msgid "?plural:Yucatecans"
 msgstr "ユカタン人"
 
-#. TRANS: The sixth letter in "Yucatan" should be
-#. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
-#: data/nation/yucatecan.ruleset:9
+#: data/nation/yucatecan.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
+#| "white beaches. Its name is often claimed to mean \"we don't understand you"
+#| "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
+#| "independence from Mexico. Currently it is divided into three states: "
+#| "Yucatan, Campeche and Quintana Roo."
 msgid ""
-"Yucatan is a peninsula of Mexico, famous for its Maya heritage and its white "
+"Yucatán is a peninsula of Mexico, famous for its Maya heritage and its white "
 "beaches. Its name is often claimed to mean \"we don't understand you\" in "
-"Yucatec Maya. On two occasions in the 19th century Yucatan declared "
+"Yucatec Maya. On two occasions in the 19th century Yucatán declared "
 "independence from Mexico. Currently it is divided into three states: "
-"Yucatan, Campeche and Quintana Roo."
+"Yucatán, Campeche and Quintana Roo."
 msgstr ""
 "ユカタンはメキシコの半島で，マヤ遺跡と白い砂浜で有名です。この地名は，ユカタ"
 "ン・マヤの言葉で「お前たちの言っていることが理解できない」という意味だとよく"
@@ -13801,16 +13945,18 @@ msgid "?plural:Zapotecs"
 msgstr "サポテカ族"
 
 # razedをraisedのスペリングミスと解釈しました（Belgae）
-#. TRANS: The last letter in "Binniza", the fourth letter in
-#. TRANS: "Alban" and and the third letter in "Juarez" should be
-#. TRANS: U+00E1 LATIN SMALL LETTER A WITH ACUTE if available in
-#. TRANS: your charset. In ISO-8859-1 (ISO Latin 1) this is 00E1.
-#: data/nation/zapotec.ruleset:10
+#: data/nation/zapotec.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "The Zapotecs or Binniza live in the Mexican state of Oaxaca. They formed "
+#| "one of the oldest and most resilient Mesoamerican civilizations. The most "
+#| "notable Zapotec center, Monte Alban, was built on a razed mountain top. "
+#| "Benito Juarez, Mexico's first indigenous president, was a Zapotec."
 msgid ""
-"The Zapotecs or Binniza live in the Mexican state of Oaxaca. They formed one "
+"The Zapotecs or Binnizá live in the Mexican state of Oaxaca. They formed one "
 "of the oldest and most resilient Mesoamerican civilizations. The most "
-"notable Zapotec center, Monte Alban, was built on a razed mountain top. "
-"Benito Juarez, Mexico's first indigenous president, was a Zapotec."
+"notable Zapotec center, Monte Albán, was built on a razed mountain top. "
+"Benito Juárez, Mexico's first indigenous president, was a Zapotec."
 msgstr ""
 "サポテカ族はBinnizaとも言い，メキシコのオアハカ州に暮らしています。彼らはかつ"
 "てメソアメリカの中でも特に古く活発であった文明を築きました。とりわけ有名なサ"
@@ -13862,3 +14008,15 @@ msgstr ""
 "アン・スミスは黒人を権力から除外する人種差別政策を推し進めました。内戦を受け"
 "てスミスは1979年に少数白人支配を終わらせました。1980年からこの国はロバート・"
 "ムガベが統治していますが，彼は以前の政権と同様の悪評を国際的に受けています。"
+
+#~ msgid "Canari"
+#~ msgstr "カニャーリ族"
+
+#~ msgid "Gokturk"
+#~ msgstr "突厥人"
+
+#~ msgid "Metis"
+#~ msgstr "メティ"
+
+#~ msgid "American"
+#~ msgstr "アメリカ人"

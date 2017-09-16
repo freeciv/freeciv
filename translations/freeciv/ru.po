@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-16 05:42+0500\n"
+"POT-Creation-Date: 2017-09-16 00:49+0100\n"
 "PO-Revision-Date: 2017-09-16 05:40+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -801,8 +801,8 @@ msgstr "Устарело"
 #: client/citydlg_common.c:384 client/citydlg_common.c:394
 #: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1393
 #: client/gui-sdl/wldlg.c:1401 client/gui-sdl2/repodlgs.c:2102
-#: client/gui-sdl2/wldlg.c:1408 client/gui-sdl2/wldlg.c:1416 common/events.c:93
-#: common/events.c:166
+#: client/gui-sdl2/wldlg.c:1408 client/gui-sdl2/wldlg.c:1416
+#: common/events.c:93 common/events.c:166
 msgid "Built"
 msgstr "Построено"
 
@@ -3985,8 +3985,8 @@ msgstr "Запас щитов"
 #: client/gui-gtk-3.0/editprop.c:4517 client/gui-gtk-3.0/menu.c:1471
 #: client/gui-gtk-3.22/editprop.c:4516 client/gui-gtk-3.22/menu.c:327
 #: client/gui-gtk-3.22/menu.c:525 client/gui-qt/menu.cpp:608
-#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:52 data/Freeciv.in:2045
-#: data/helpdata.txt:1383
+#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:52
+#: data/Freeciv.in:2045 data/helpdata.txt:1383
 msgid "Government"
 msgstr "Формы правления"
 
@@ -4010,10 +4010,11 @@ msgstr "Наука"
 #: client/gui-gtk-2.0/editprop.c:4461 client/gui-gtk-2.0/repodlgs.c:1250
 #: client/gui-gtk-3.0/editprop.c:4527 client/gui-gtk-3.0/repodlgs.c:1287
 #: client/gui-gtk-3.22/editprop.c:4526 client/gui-gtk-3.22/repodlgs.c:1287
-#: client/gui-qt/citydlg.cpp:1823 client/gui-qt/pages.cpp:1271 common/city.c:86
-#: data/civ1/terrain.ruleset:668 data/civ2/terrain.ruleset:662
-#: data/classic/terrain.ruleset:842 data/experimental/terrain.ruleset:818
-#: data/civ2civ3/terrain.ruleset:853 data/multiplayer/terrain.ruleset:816
+#: client/gui-qt/citydlg.cpp:1823 client/gui-qt/pages.cpp:1271
+#: common/city.c:86 data/civ1/terrain.ruleset:668
+#: data/civ2/terrain.ruleset:662 data/classic/terrain.ruleset:842
+#: data/experimental/terrain.ruleset:818 data/civ2civ3/terrain.ruleset:853
+#: data/multiplayer/terrain.ruleset:816
 msgid "Gold"
 msgstr "Золото"
 
@@ -6802,15 +6803,18 @@ msgstr "(_w) Новый пароль:"
 msgid "Can't load %s: %s"
 msgstr "Невозможно загрузить %s: %s"
 
-#: client/gui-gtk-3.0/transportdlg.c:113 client/gui-gtk-3.22/transportdlg.c:113
+#: client/gui-gtk-3.0/transportdlg.c:113
+#: client/gui-gtk-3.22/transportdlg.c:113
 msgid "Transport selection"
 msgstr "Выбор транспорта"
 
-#: client/gui-gtk-3.0/transportdlg.c:114 client/gui-gtk-3.22/transportdlg.c:114
+#: client/gui-gtk-3.0/transportdlg.c:114
+#: client/gui-gtk-3.22/transportdlg.c:114
 msgid "Looking for transport:"
 msgstr "Выберите транспорт:"
 
-#: client/gui-gtk-3.0/transportdlg.c:115 client/gui-gtk-3.22/transportdlg.c:115
+#: client/gui-gtk-3.0/transportdlg.c:115
+#: client/gui-gtk-3.22/transportdlg.c:115
 msgid "Transports available:"
 msgstr "Доступный транспорт:"
 
@@ -6830,55 +6834,56 @@ msgstr "Загрузить"
 #: client/gui-gtk-3.22/messagewin.c:379 client/gui-gtk-3.22/plrdlg.c:428
 #: client/gui-gtk-3.22/repodlgs.c:556 client/gui-gtk-3.22/repodlgs.c:1154
 #: client/gui-gtk-3.22/repodlgs.c:1676 client/gui-gtk-3.22/spaceshipdlg.c:231
-#: client/gui-gtk-3.22/unitselect.c:281 client/gui-gtk-3.22/unitselunitdlg.c:93
-#: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
-#: client/gui-qt/helpdlg.cpp:171 client/gui-xaw/connectdlg.c:680
-#: data/Freeciv.in:180 data/Freeciv.in:230 data/Freeciv.in:255
-#: data/Freeciv.in:559 data/Freeciv.in:578 data/Freeciv.in:623
-#: data/Freeciv.in:1467 data/Freeciv.in:1485 data/Freeciv.in:1624
-#: data/Freeciv.in:1720 data/Freeciv.in:1751 data/Freeciv.in:1887
-#: data/Freeciv.in:1962 data/Freeciv.in:2007 data/Freeciv.in:2358
-#: data/Freeciv.in:2400 data/Freeciv.in:3061 data/Freeciv.in:3231
-#: data/Freeciv.in:3315
+#: client/gui-gtk-3.22/unitselect.c:281
+#: client/gui-gtk-3.22/unitselunitdlg.c:93 client/gui-gtk-3.22/wldlg.c:228
+#: client/gui-gtk-3.22/wldlg.c:404 client/gui-qt/helpdlg.cpp:171
+#: client/gui-xaw/connectdlg.c:680 data/Freeciv.in:180 data/Freeciv.in:230
+#: data/Freeciv.in:255 data/Freeciv.in:559 data/Freeciv.in:578
+#: data/Freeciv.in:623 data/Freeciv.in:1467 data/Freeciv.in:1485
+#: data/Freeciv.in:1624 data/Freeciv.in:1720 data/Freeciv.in:1751
+#: data/Freeciv.in:1887 data/Freeciv.in:1962 data/Freeciv.in:2007
+#: data/Freeciv.in:2358 data/Freeciv.in:2400 data/Freeciv.in:3061
+#: data/Freeciv.in:3231 data/Freeciv.in:3315
 msgid "Close"
 msgstr "Закрыть"
 
 #: client/gui-gtk-3.22/action_dialog.c:500
 #: client/gui-gtk-3.22/action_dialog.c:682
-#: client/gui-gtk-3.22/action_dialog.c:1328 client/gui-gtk-3.22/chatline.c:1136
-#: client/gui-gtk-3.22/citydlg.c:2929 client/gui-gtk-3.22/dialogs.c:364
-#: client/gui-gtk-3.22/dialogs.c:864 client/gui-gtk-3.22/editgui.c:1055
-#: client/gui-gtk-3.22/finddlg.c:77 client/gui-gtk-3.22/gamedlgs.c:317
-#: client/gui-gtk-3.22/gamedlgs.c:409 client/gui-gtk-3.22/gotodlg.c:144
-#: client/gui-gtk-3.22/inputdlg.c:72 client/gui-gtk-3.22/luaconsole.c:317
-#: client/gui-gtk-3.22/messagedlg.c:73 client/gui-gtk-3.22/optiondlg.c:328
-#: client/gui-gtk-3.22/optiondlg.c:360 client/gui-gtk-3.22/pages.c:453
-#: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
-#: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
-#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3772
-#: client/gui-qt/dialogs.cpp:291 client/gui-qt/hudwidget.cpp:1369
-#: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
-#: client/gui-qt/pages.cpp:389 client/gui-qt/pages.cpp:524
-#: client/gui-qt/pages.cpp:592 client/gui-qt/ratesdlg.cpp:77
-#: client/gui-qt/ratesdlg.cpp:166 client/gui-qt/shortcuts.cpp:581
-#: client/gui-sdl/action_dialog.c:1050 client/gui-sdl/citydlg.c:527
-#: client/gui-sdl/citydlg.c:1419 client/gui-sdl/connectdlg.c:319
-#: client/gui-sdl/connectdlg.c:636 client/gui-sdl/connectdlg.c:829
-#: client/gui-sdl/connectdlg.c:1002 client/gui-sdl/dialogs.c:708
-#: client/gui-sdl/dialogs.c:902 client/gui-sdl/dialogs.c:2578
-#: client/gui-sdl/dialogs.c:3449 client/gui-sdl/mapctrl.c:2631
-#: client/gui-sdl2/action_dialog.c:1054 client/gui-sdl2/citydlg.c:528
-#: client/gui-sdl2/citydlg.c:1417 client/gui-sdl2/connectdlg.c:323
-#: client/gui-sdl2/connectdlg.c:633 client/gui-sdl2/connectdlg.c:829
-#: client/gui-sdl2/connectdlg.c:1001 client/gui-sdl2/dialogs.c:713
-#: client/gui-sdl2/dialogs.c:909 client/gui-sdl2/dialogs.c:2566
-#: client/gui-sdl2/dialogs.c:3430 client/gui-sdl2/mapctrl.c:2817
-#: client/gui-xaw/inputdlg.c:110 data/Freeciv.in:1110 data/Freeciv.in:1166
-#: data/Freeciv.in:1208 data/Freeciv.in:1228 data/Freeciv.in:1265
-#: data/Freeciv.in:1298 data/Freeciv.in:1376 data/Freeciv.in:1571
-#: data/Freeciv.in:1826 data/Freeciv.in:2120 data/Freeciv.in:2201
-#: data/Freeciv.in:2326 data/Freeciv.in:2509 data/Freeciv.in:2519
-#: data/Freeciv.in:3381 data/Freeciv.in:3447
+#: client/gui-gtk-3.22/action_dialog.c:1328
+#: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/citydlg.c:2929
+#: client/gui-gtk-3.22/dialogs.c:364 client/gui-gtk-3.22/dialogs.c:864
+#: client/gui-gtk-3.22/editgui.c:1055 client/gui-gtk-3.22/finddlg.c:77
+#: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
+#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:72
+#: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:73
+#: client/gui-gtk-3.22/optiondlg.c:328 client/gui-gtk-3.22/optiondlg.c:360
+#: client/gui-gtk-3.22/pages.c:453 client/gui-gtk-3.22/pages.c:583
+#: client/gui-gtk-3.22/pages.c:1420 client/gui-gtk-3.22/pages.c:2772
+#: client/gui-gtk-3.22/pages.c:2929 client/gui-gtk-3.22/pages.c:3263
+#: client/gui-qt/citydlg.cpp:3772 client/gui-qt/dialogs.cpp:291
+#: client/gui-qt/hudwidget.cpp:1369 client/gui-qt/messagedlg.cpp:65
+#: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:389
+#: client/gui-qt/pages.cpp:524 client/gui-qt/pages.cpp:592
+#: client/gui-qt/ratesdlg.cpp:77 client/gui-qt/ratesdlg.cpp:166
+#: client/gui-qt/shortcuts.cpp:581 client/gui-sdl/action_dialog.c:1050
+#: client/gui-sdl/citydlg.c:527 client/gui-sdl/citydlg.c:1419
+#: client/gui-sdl/connectdlg.c:319 client/gui-sdl/connectdlg.c:636
+#: client/gui-sdl/connectdlg.c:829 client/gui-sdl/connectdlg.c:1002
+#: client/gui-sdl/dialogs.c:708 client/gui-sdl/dialogs.c:902
+#: client/gui-sdl/dialogs.c:2578 client/gui-sdl/dialogs.c:3449
+#: client/gui-sdl/mapctrl.c:2631 client/gui-sdl2/action_dialog.c:1054
+#: client/gui-sdl2/citydlg.c:528 client/gui-sdl2/citydlg.c:1417
+#: client/gui-sdl2/connectdlg.c:323 client/gui-sdl2/connectdlg.c:633
+#: client/gui-sdl2/connectdlg.c:829 client/gui-sdl2/connectdlg.c:1001
+#: client/gui-sdl2/dialogs.c:713 client/gui-sdl2/dialogs.c:909
+#: client/gui-sdl2/dialogs.c:2566 client/gui-sdl2/dialogs.c:3430
+#: client/gui-sdl2/mapctrl.c:2817 client/gui-xaw/inputdlg.c:110
+#: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
+#: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
+#: data/Freeciv.in:1376 data/Freeciv.in:1571 data/Freeciv.in:1826
+#: data/Freeciv.in:2120 data/Freeciv.in:2201 data/Freeciv.in:2326
+#: data/Freeciv.in:2509 data/Freeciv.in:2519 data/Freeciv.in:3381
+#: data/Freeciv.in:3447
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -7853,10 +7858,11 @@ msgstr[2] "Вы действительно хотите расформирова
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
-#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1216 client/text.c:648
-#: data/Freeciv.in:1511 data/Freeciv.in:2233 data/Freeciv.in:2247
-#: data/Freeciv.in:2266 data/Freeciv.in:2419 data/Freeciv.in:2430
-#: data/Freeciv.in:2449 data/Freeciv.in:2460 data/Freeciv.in:2479
+#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1216
+#: client/text.c:648 data/Freeciv.in:1511 data/Freeciv.in:2233
+#: data/Freeciv.in:2247 data/Freeciv.in:2266 data/Freeciv.in:2419
+#: data/Freeciv.in:2430 data/Freeciv.in:2449 data/Freeciv.in:2460
+#: data/Freeciv.in:2479
 msgid "Yes"
 msgstr "Да"
 
@@ -9841,19 +9847,23 @@ msgstr "%s Население: %s  Год: %s  Золото: %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Население: %s  Год: %s  Золото: %d  Нал: %d Роск: %d Наука: %d "
 
-#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:598 client/text.c:145
+#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:598
+#: client/text.c:145
 msgid "?nation:Hostile"
 msgstr "Враждебные"
 
-#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600 client/text.c:147
+#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600
+#: client/text.c:147
 msgid "?nation:Peaceful"
 msgstr "Мирные"
 
-#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600 client/text.c:147
+#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600
+#: client/text.c:147
 msgid "?nation:Friendly"
 msgstr "Дружественные"
 
-#: client/gui-sdl/mapview.c:584 client/gui-sdl2/mapview.c:601 client/text.c:148
+#: client/gui-sdl/mapview.c:584 client/gui-sdl2/mapview.c:601
+#: client/text.c:148
 msgid "?nation:Mysterious"
 msgstr "Таинственные"
 
@@ -9923,19 +9933,23 @@ msgstr ""
 msgid "?city:Neutral"
 msgstr "Нейтральный"
 
-#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:643 client/text.c:150
+#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:643
+#: client/text.c:150
 msgid "?city:Hostile"
 msgstr "Враждебный"
 
-#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644 client/text.c:152
+#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644
+#: client/text.c:152
 msgid "?city:Peaceful"
 msgstr "Мирный"
 
-#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645 client/text.c:152
+#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645
+#: client/text.c:152
 msgid "?city:Friendly"
 msgstr "Дружественный"
 
-#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645 client/text.c:152
+#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645
+#: client/text.c:152
 msgid "?city:Mysterious"
 msgstr "Таинственный"
 
@@ -19898,8 +19912,10 @@ msgstr ""
 "можете построить до 32 Структур."
 
 #: data/civ1/buildings.ruleset:683 data/civ2/buildings.ruleset:996
-#: data/classic/buildings.ruleset:1073 data/experimental/buildings.ruleset:1132
-#: data/civ2civ3/buildings.ruleset:1248 data/multiplayer/buildings.ruleset:1048
+#: data/classic/buildings.ruleset:1073
+#: data/experimental/buildings.ruleset:1132
+#: data/civ2civ3/buildings.ruleset:1248
+#: data/multiplayer/buildings.ruleset:1048
 msgid "Temple"
 msgstr "Храм"
 
@@ -19925,9 +19941,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:710 data/civ1/techs.ruleset:593
 #: data/civ2/buildings.ruleset:1020 data/civ2/techs.ruleset:761
 #: data/classic/buildings.ruleset:1097 data/classic/techs.ruleset:770
-#: data/experimental/buildings.ruleset:1158 data/experimental/techs.ruleset:851
-#: data/civ2civ3/buildings.ruleset:1272 data/civ2civ3/techs.ruleset:889
-#: data/multiplayer/buildings.ruleset:1072 data/multiplayer/techs.ruleset:775
+#: data/experimental/buildings.ruleset:1158
+#: data/experimental/techs.ruleset:851 data/civ2civ3/buildings.ruleset:1272
+#: data/civ2civ3/techs.ruleset:889 data/multiplayer/buildings.ruleset:1072
+#: data/multiplayer/techs.ruleset:775
 msgid "University"
 msgstr "Университет"
 
@@ -19941,8 +19958,10 @@ msgstr ""
 "городе на 100%"
 
 #: data/civ1/buildings.ruleset:734 data/civ2/buildings.ruleset:1044
-#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1183
-#: data/civ2civ3/buildings.ruleset:1302 data/multiplayer/buildings.ruleset:1096
+#: data/classic/buildings.ruleset:1121
+#: data/experimental/buildings.ruleset:1183
+#: data/civ2civ3/buildings.ruleset:1302
+#: data/multiplayer/buildings.ruleset:1096
 msgid "Apollo Program"
 msgstr "Программа «Восток»"
 
@@ -19960,14 +19979,18 @@ msgstr ""
 "обладают всеми необходимыми технологиями)."
 
 #: data/civ1/buildings.ruleset:757 data/civ2/buildings.ruleset:1091
-#: data/classic/buildings.ruleset:1168 data/experimental/buildings.ruleset:1230
-#: data/civ2civ3/buildings.ruleset:1360 data/multiplayer/buildings.ruleset:1143
+#: data/classic/buildings.ruleset:1168
+#: data/experimental/buildings.ruleset:1230
+#: data/civ2civ3/buildings.ruleset:1360
+#: data/multiplayer/buildings.ruleset:1143
 msgid "Colossus"
 msgstr "Колосс"
 
 #: data/civ1/buildings.ruleset:774 data/civ2/buildings.ruleset:1108
-#: data/classic/buildings.ruleset:1185 data/experimental/buildings.ruleset:1247
-#: data/civ2civ3/buildings.ruleset:1377 data/multiplayer/buildings.ruleset:1161
+#: data/classic/buildings.ruleset:1185
+#: data/experimental/buildings.ruleset:1247
+#: data/civ2civ3/buildings.ruleset:1377
+#: data/multiplayer/buildings.ruleset:1161
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -19976,8 +19999,10 @@ msgstr ""
 "Торговля, производит ещё один дополнительный такой ресурс."
 
 #: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:1114
-#: data/classic/buildings.ruleset:1191 data/experimental/buildings.ruleset:1253
-#: data/civ2civ3/buildings.ruleset:1383 data/multiplayer/buildings.ruleset:1167
+#: data/classic/buildings.ruleset:1191
+#: data/experimental/buildings.ruleset:1253
+#: data/civ2civ3/buildings.ruleset:1383
+#: data/multiplayer/buildings.ruleset:1167
 msgid "Copernicus' Observatory"
 msgstr "Обсерватория Коперника"
 
@@ -19987,8 +20012,10 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Ускоряет развитие науки на 50% в том городе где она построена."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1136
-#: data/classic/buildings.ruleset:1213 data/experimental/buildings.ruleset:1275
-#: data/civ2civ3/buildings.ruleset:1406 data/multiplayer/buildings.ruleset:1190
+#: data/classic/buildings.ruleset:1213
+#: data/experimental/buildings.ruleset:1275
+#: data/civ2civ3/buildings.ruleset:1406
+#: data/multiplayer/buildings.ruleset:1190
 msgid "Cure For Cancer"
 msgstr "Лекарство от рака"
 
@@ -20003,13 +20030,16 @@ msgstr ""
 "военными действиями)."
 
 #: data/civ1/buildings.ruleset:826 data/civ2/buildings.ruleset:1159
-#: data/classic/buildings.ruleset:1239 data/experimental/buildings.ruleset:1301
-#: data/civ2civ3/buildings.ruleset:1432 data/multiplayer/buildings.ruleset:1216
+#: data/classic/buildings.ruleset:1239
+#: data/experimental/buildings.ruleset:1301
+#: data/civ2civ3/buildings.ruleset:1432
+#: data/multiplayer/buildings.ruleset:1216
 msgid "Darwin's Voyage"
 msgstr "Путешествие Дарвина"
 
 #: data/civ1/buildings.ruleset:842 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1255 data/experimental/buildings.ruleset:1317
+#: data/classic/buildings.ruleset:1255
+#: data/experimental/buildings.ruleset:1317
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -20019,13 +20049,16 @@ msgstr ""
 "прилив доверия к науке. Даёт два немедленных научных открытия."
 
 #: data/civ1/buildings.ruleset:849 data/civ2/buildings.ruleset:1205
-#: data/classic/buildings.ruleset:1285 data/experimental/buildings.ruleset:1347
-#: data/civ2civ3/buildings.ruleset:1482 data/multiplayer/buildings.ruleset:1263
+#: data/classic/buildings.ruleset:1285
+#: data/experimental/buildings.ruleset:1347
+#: data/civ2civ3/buildings.ruleset:1482
+#: data/multiplayer/buildings.ruleset:1263
 msgid "Great Library"
 msgstr "Великая Библиотека"
 
 #: data/civ1/buildings.ruleset:866 data/civ2/buildings.ruleset:1222
-#: data/classic/buildings.ruleset:1302 data/experimental/buildings.ruleset:1364
+#: data/classic/buildings.ruleset:1302
+#: data/experimental/buildings.ruleset:1364
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -20034,19 +20067,24 @@ msgstr ""
 "имеющуюся хотя бы у двух других команд."
 
 #: data/civ1/buildings.ruleset:872 data/civ2/buildings.ruleset:1228
-#: data/classic/buildings.ruleset:1308 data/experimental/buildings.ruleset:1370
-#: data/civ2civ3/buildings.ruleset:1508 data/multiplayer/buildings.ruleset:1286
+#: data/classic/buildings.ruleset:1308
+#: data/experimental/buildings.ruleset:1370
+#: data/civ2civ3/buildings.ruleset:1508
+#: data/multiplayer/buildings.ruleset:1286
 msgid "Great Wall"
 msgstr "Великая Стена"
 
 #: data/civ1/buildings.ruleset:889 data/civ2/buildings.ruleset:1245
-#: data/classic/buildings.ruleset:1325 data/experimental/buildings.ruleset:1387
+#: data/classic/buildings.ruleset:1325
+#: data/experimental/buildings.ruleset:1387
 msgid "Works as a City Wall in all your cities."
 msgstr "Действует как Городская Стена для всех Ваших городов."
 
 #: data/civ1/buildings.ruleset:896 data/civ2/buildings.ruleset:1252
-#: data/classic/buildings.ruleset:1333 data/experimental/buildings.ruleset:1395
-#: data/civ2civ3/buildings.ruleset:1534 data/multiplayer/buildings.ruleset:1309
+#: data/classic/buildings.ruleset:1333
+#: data/experimental/buildings.ruleset:1395
+#: data/civ2civ3/buildings.ruleset:1534
+#: data/multiplayer/buildings.ruleset:1309
 msgid "Hanging Gardens"
 msgstr "Висячие Сады"
 
@@ -20063,8 +20101,10 @@ msgstr ""
 "недовольных военными действиями), делая каждого из них довольным."
 
 #: data/civ1/buildings.ruleset:921 data/civ2/buildings.ruleset:1279
-#: data/classic/buildings.ruleset:1360 data/experimental/buildings.ruleset:1422
-#: data/civ2civ3/buildings.ruleset:1559 data/multiplayer/buildings.ruleset:1336
+#: data/classic/buildings.ruleset:1360
+#: data/experimental/buildings.ruleset:1422
+#: data/civ2civ3/buildings.ruleset:1559
+#: data/multiplayer/buildings.ruleset:1336
 msgid "Hoover Dam"
 msgstr "ДнепроГЭС"
 
@@ -20079,21 +20119,26 @@ msgstr ""
 "загрязнение и увеличивает эффект Фабрик и Заводов)."
 
 #: data/civ1/buildings.ruleset:945 data/civ2/buildings.ruleset:1301
-#: data/classic/buildings.ruleset:1383 data/experimental/buildings.ruleset:1445
-#: data/civ2civ3/buildings.ruleset:1585 data/multiplayer/buildings.ruleset:1361
+#: data/classic/buildings.ruleset:1383
+#: data/experimental/buildings.ruleset:1445
+#: data/civ2civ3/buildings.ruleset:1585
+#: data/multiplayer/buildings.ruleset:1361
 msgid "Isaac Newton's College"
 msgstr "Колледж Исаака Ньютона"
 
 #: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1318
-#: data/classic/buildings.ruleset:1208 data/experimental/buildings.ruleset:1270
+#: data/classic/buildings.ruleset:1208
+#: data/experimental/buildings.ruleset:1270
 #: data/multiplayer/buildings.ruleset:1185
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Увеличивает скорость развития науки в построившем Чудо городе на 100%."
 
 #: data/civ1/buildings.ruleset:968 data/civ2/buildings.ruleset:1323
-#: data/classic/buildings.ruleset:1406 data/experimental/buildings.ruleset:1468
-#: data/civ2civ3/buildings.ruleset:1611 data/multiplayer/buildings.ruleset:1385
+#: data/classic/buildings.ruleset:1406
+#: data/experimental/buildings.ruleset:1468
+#: data/civ2civ3/buildings.ruleset:1611
+#: data/multiplayer/buildings.ruleset:1385
 msgid "J.S. Bach's Cathedral"
 msgstr "Собор Иоганна Себастьяна Баха"
 
@@ -20108,8 +20153,10 @@ msgstr ""
 "недовольных военными действиями)."
 
 #: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1390
-#: data/classic/buildings.ruleset:1473 data/experimental/buildings.ruleset:1535
-#: data/civ2civ3/buildings.ruleset:1682 data/multiplayer/buildings.ruleset:1455
+#: data/classic/buildings.ruleset:1473
+#: data/experimental/buildings.ruleset:1535
+#: data/civ2civ3/buildings.ruleset:1682
+#: data/multiplayer/buildings.ruleset:1455
 msgid "Lighthouse"
 msgstr "Маяк"
 
@@ -20118,8 +20165,10 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1413
-#: data/classic/buildings.ruleset:1497 data/experimental/buildings.ruleset:1559
-#: data/civ2civ3/buildings.ruleset:1707 data/multiplayer/buildings.ruleset:1479
+#: data/classic/buildings.ruleset:1497
+#: data/experimental/buildings.ruleset:1559
+#: data/civ2civ3/buildings.ruleset:1707
+#: data/multiplayer/buildings.ruleset:1479
 msgid "Magellan's Expedition"
 msgstr "Экспедиция Магеллана"
 
@@ -20128,14 +20177,18 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1434
-#: data/classic/buildings.ruleset:1519 data/experimental/buildings.ruleset:1581
-#: data/civ2civ3/buildings.ruleset:1732 data/multiplayer/buildings.ruleset:1504
+#: data/classic/buildings.ruleset:1519
+#: data/experimental/buildings.ruleset:1581
+#: data/civ2civ3/buildings.ruleset:1732
+#: data/multiplayer/buildings.ruleset:1504
 msgid "Manhattan Project"
 msgstr "Манхэттенский Проект"
 
 #: data/civ1/buildings.ruleset:1054 data/civ2/buildings.ruleset:1476
-#: data/classic/buildings.ruleset:1561 data/experimental/buildings.ruleset:1623
-#: data/civ2civ3/buildings.ruleset:1777 data/multiplayer/buildings.ruleset:1548
+#: data/classic/buildings.ruleset:1561
+#: data/experimental/buildings.ruleset:1623
+#: data/civ2civ3/buildings.ruleset:1777
+#: data/multiplayer/buildings.ruleset:1548
 msgid "Michelangelo's Chapel"
 msgstr "Капелла Микеланджело"
 
@@ -20144,7 +20197,8 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Удваивает эффект Соборов во всех городах."
 
 #: data/civ1/buildings.ruleset:1076 data/civ2/buildings.ruleset:1503
-#: data/classic/buildings.ruleset:1588 data/experimental/buildings.ruleset:1650
+#: data/classic/buildings.ruleset:1588
+#: data/experimental/buildings.ruleset:1650
 #: data/multiplayer/buildings.ruleset:1576
 msgid "Oracle"
 msgstr "Оракул"
@@ -20158,8 +20212,10 @@ msgstr ""
 "военными действиями."
 
 #: data/civ1/buildings.ruleset:1099 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1612 data/experimental/buildings.ruleset:1674
-#: data/civ2civ3/buildings.ruleset:1875 data/multiplayer/buildings.ruleset:1601
+#: data/classic/buildings.ruleset:1612
+#: data/experimental/buildings.ruleset:1674
+#: data/civ2civ3/buildings.ruleset:1875
+#: data/multiplayer/buildings.ruleset:1601
 msgid "Pyramids"
 msgstr "Пирамиды"
 
@@ -20176,7 +20232,8 @@ msgstr ""
 "Правления, в том числе и тем, которые ещё не были открыты Вашей цивилизацией."
 
 #: data/civ1/buildings.ruleset:1123 data/civ2/buildings.ruleset:1547
-#: data/classic/buildings.ruleset:1636 data/experimental/buildings.ruleset:1698
+#: data/classic/buildings.ruleset:1636
+#: data/experimental/buildings.ruleset:1698
 msgid "SETI Program"
 msgstr "Программа S.E.T.I."
 
@@ -20186,13 +20243,16 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Увеличивает скорость развития науки в каждом Вашем городе на 50%."
 
 #: data/civ1/buildings.ruleset:1145 data/civ2/buildings.ruleset:1570
-#: data/classic/buildings.ruleset:1658 data/experimental/buildings.ruleset:1720
-#: data/civ2civ3/buildings.ruleset:1928 data/multiplayer/buildings.ruleset:1649
+#: data/classic/buildings.ruleset:1658
+#: data/experimental/buildings.ruleset:1720
+#: data/civ2civ3/buildings.ruleset:1928
+#: data/multiplayer/buildings.ruleset:1649
 msgid "Shakespeare's Theater"
 msgstr "Театр Шекспира"
 
 #: data/civ1/buildings.ruleset:1163 data/civ2/buildings.ruleset:1587
-#: data/classic/buildings.ruleset:1675 data/experimental/buildings.ruleset:1737
+#: data/classic/buildings.ruleset:1675
+#: data/experimental/buildings.ruleset:1737
 #: data/multiplayer/buildings.ruleset:1667
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -20202,14 +20262,18 @@ msgstr ""
 "довольными, в том числе и недовольных военными действиями."
 
 #: data/civ1/buildings.ruleset:1169 data/civ2/buildings.ruleset:1641
-#: data/classic/buildings.ruleset:1729 data/experimental/buildings.ruleset:1791
-#: data/civ2civ3/buildings.ruleset:2003 data/multiplayer/buildings.ruleset:1722
+#: data/classic/buildings.ruleset:1729
+#: data/experimental/buildings.ruleset:1791
+#: data/civ2civ3/buildings.ruleset:2003
+#: data/multiplayer/buildings.ruleset:1722
 msgid "United Nations"
 msgstr "ООН"
 
 #: data/civ1/buildings.ruleset:1197 data/civ2/buildings.ruleset:1670
-#: data/classic/buildings.ruleset:1758 data/experimental/buildings.ruleset:1820
-#: data/civ2civ3/buildings.ruleset:2033 data/multiplayer/buildings.ruleset:1745
+#: data/classic/buildings.ruleset:1758
+#: data/experimental/buildings.ruleset:1820
+#: data/civ2civ3/buildings.ruleset:2033
+#: data/multiplayer/buildings.ruleset:1745
 msgid "Women's Suffrage"
 msgstr "Женское Избирательное Право"
 
@@ -20413,13 +20477,16 @@ msgid "Team 3"
 msgstr "Команда 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59
+#: data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59
+#: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Анархия"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64
+#: data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:97
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -20427,7 +20494,8 @@ msgid "Warlord %s"
 msgstr "Военачальник %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65
+#: data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:98
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -20435,8 +20503,10 @@ msgid "Warlady %s"
 msgstr "Военачальница %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67
+#: data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67
+#: data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -20458,14 +20528,16 @@ msgstr ""
 "стране немного больше несчастья."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80
+#: data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:126
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Деспотизм"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86
+#: data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -20473,7 +20545,8 @@ msgid "Chief %s"
 msgstr "Вождь %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87
+#: data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:133
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -20481,7 +20554,8 @@ msgid "?female:Chief %s"
 msgstr "Владычица %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89
+#: data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:135
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -23151,7 +23225,8 @@ msgstr ""
 "полностью восстановят уровень здоровья."
 
 #: data/civ2/buildings.ruleset:48 data/classic/buildings.ruleset:80
-#: data/experimental/buildings.ruleset:82 data/multiplayer/buildings.ruleset:79
+#: data/experimental/buildings.ruleset:82
+#: data/multiplayer/buildings.ruleset:79
 msgid ""
 "Two cities with Airports can airlift one unit per turn.  Airlifting "
 "instantly transports the unit from one city to another and will use all of "
@@ -23460,8 +23535,8 @@ msgstr ""
 "Ракет."
 
 #: data/civ2/buildings.ruleset:783 data/classic/buildings.ruleset:849
-#: data/experimental/buildings.ruleset:905 data/civ2civ3/buildings.ruleset:1004
-#: data/multiplayer/buildings.ruleset:826
+#: data/experimental/buildings.ruleset:905
+#: data/civ2civ3/buildings.ruleset:1004 data/multiplayer/buildings.ruleset:826
 msgid "Sewer System"
 msgstr "Канализация"
 
@@ -23475,8 +23550,8 @@ msgstr ""
 "уровень, городу потребуется Акведук."
 
 #: data/civ2/buildings.ruleset:806 data/classic/buildings.ruleset:874
-#: data/experimental/buildings.ruleset:930 data/civ2civ3/buildings.ruleset:1028
-#: data/multiplayer/buildings.ruleset:851
+#: data/experimental/buildings.ruleset:930
+#: data/civ2civ3/buildings.ruleset:1028 data/multiplayer/buildings.ruleset:851
 msgid "Solar Plant"
 msgstr "СЭС"
 
@@ -23513,7 +23588,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:949 data/classic/buildings.ruleset:1024
 #: data/experimental/buildings.ruleset:1080
-#: data/civ2civ3/buildings.ruleset:1192 data/multiplayer/buildings.ruleset:1001
+#: data/civ2civ3/buildings.ruleset:1192
+#: data/multiplayer/buildings.ruleset:1001
 msgid "Super Highways"
 msgstr "Автомагистрали"
 
@@ -23527,7 +23603,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:972 data/classic/buildings.ruleset:1049
 #: data/experimental/buildings.ruleset:1108
-#: data/civ2civ3/buildings.ruleset:1224 data/multiplayer/buildings.ruleset:1024
+#: data/civ2civ3/buildings.ruleset:1224
+#: data/multiplayer/buildings.ruleset:1024
 msgid "Supermarket"
 msgstr "Супермаркет"
 
@@ -23560,7 +23637,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1069 data/classic/buildings.ruleset:1146
 #: data/experimental/buildings.ruleset:1208
-#: data/civ2civ3/buildings.ruleset:1332 data/multiplayer/buildings.ruleset:1120
+#: data/civ2civ3/buildings.ruleset:1332
+#: data/multiplayer/buildings.ruleset:1120
 msgid "A.Smith's Trading Co."
 msgstr "Компания Aдама Смита"
 
@@ -23574,7 +23652,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1182 data/classic/buildings.ruleset:1262
 #: data/experimental/buildings.ruleset:1324
-#: data/civ2civ3/buildings.ruleset:1458 data/multiplayer/buildings.ruleset:1239
+#: data/civ2civ3/buildings.ruleset:1458
+#: data/multiplayer/buildings.ruleset:1239
 msgid "Eiffel Tower"
 msgstr "Эйфелева башня"
 
@@ -23623,7 +23702,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1345 data/classic/buildings.ruleset:1428
 #: data/experimental/buildings.ruleset:1490
-#: data/civ2civ3/buildings.ruleset:1633 data/multiplayer/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1633
+#: data/multiplayer/buildings.ruleset:1408
 msgid "King Richard's Crusade"
 msgstr "Крестовый поход"
 
@@ -23639,7 +23719,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1368 data/classic/buildings.ruleset:1451
 #: data/experimental/buildings.ruleset:1513
-#: data/civ2civ3/buildings.ruleset:1660 data/multiplayer/buildings.ruleset:1432
+#: data/civ2civ3/buildings.ruleset:1660
+#: data/multiplayer/buildings.ruleset:1432
 msgid "Leonardo's Workshop"
 msgstr "Мастерская Леонардо"
 
@@ -23663,7 +23744,8 @@ msgstr "Даёт всем Водным соединениям 2 дополнит
 
 #: data/civ2/buildings.ruleset:1454 data/classic/buildings.ruleset:1539
 #: data/experimental/buildings.ruleset:1601
-#: data/civ2civ3/buildings.ruleset:1752 data/multiplayer/buildings.ruleset:1524
+#: data/civ2civ3/buildings.ruleset:1752
+#: data/multiplayer/buildings.ruleset:1524
 msgid "Marco Polo's Embassy"
 msgstr "Посольство Марко Поло"
 
@@ -23705,13 +23787,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1593 data/classic/buildings.ruleset:1681
 #: data/experimental/buildings.ruleset:1743
-#: data/civ2civ3/buildings.ruleset:1954 data/multiplayer/buildings.ruleset:1673
+#: data/civ2civ3/buildings.ruleset:1954
+#: data/multiplayer/buildings.ruleset:1673
 msgid "Statue of Liberty"
 msgstr "Статуя свободы"
 
 #: data/civ2/buildings.ruleset:1616 data/classic/buildings.ruleset:1704
 #: data/experimental/buildings.ruleset:1766
-#: data/civ2civ3/buildings.ruleset:1979 data/multiplayer/buildings.ruleset:1697
+#: data/civ2civ3/buildings.ruleset:1979
+#: data/multiplayer/buildings.ruleset:1697
 msgid "Sun Tzu's War Academy"
 msgstr "Военная академия Сунь Цзы"
 
@@ -24501,7 +24585,8 @@ msgid "Airbase"
 msgstr "Авиабаза"
 
 #: data/civ2/terrain.ruleset:1092 data/classic/terrain.ruleset:1315
-#: data/experimental/terrain.ruleset:1291 data/multiplayer/terrain.ruleset:1289
+#: data/experimental/terrain.ruleset:1291
+#: data/multiplayer/terrain.ruleset:1289
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -25463,7 +25548,8 @@ msgstr ""
 "только с ТЭС; СЭС, Фабрика и Завод вместе дают увеличение производства на "
 "150%, полностью ликвидируя промышленное загрязнение в городе."
 
-#: data/classic/buildings.ruleset:1089 data/experimental/buildings.ruleset:1148
+#: data/classic/buildings.ruleset:1089
+#: data/experimental/buildings.ruleset:1148
 #: data/multiplayer/buildings.ruleset:1064
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -25474,7 +25560,8 @@ msgstr ""
 "удваивает этот эффект, ну а строительство Чуда Оракул делает довольными 4-х "
 "жителей.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1115 data/experimental/buildings.ruleset:1176
+#: data/classic/buildings.ruleset:1115
+#: data/experimental/buildings.ruleset:1176
 #: data/multiplayer/buildings.ruleset:1090
 #, no-c-format
 msgid ""
@@ -25484,7 +25571,8 @@ msgstr ""
 "Вместе с Библиотекой Университет увеличивает скорость развития науки в "
 "городе на 250%"
 
-#: data/classic/buildings.ruleset:1162 data/experimental/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1162
+#: data/experimental/buildings.ruleset:1224
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -25492,7 +25580,8 @@ msgstr ""
 "Городские здания, обычно требующие 1 единицу золота на поддержку, становятся "
 "бесплатными, для всех городов."
 
-#: data/classic/buildings.ruleset:1279 data/experimental/buildings.ruleset:1341
+#: data/classic/buildings.ruleset:1279
+#: data/experimental/buildings.ruleset:1341
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -25500,7 +25589,8 @@ msgstr ""
 "Ваша репутация и доброе к Вам отношение других народов восстанавливается в "
 "два раза быстрее."
 
-#: data/classic/buildings.ruleset:1400 data/experimental/buildings.ruleset:1462
+#: data/classic/buildings.ruleset:1400
+#: data/experimental/buildings.ruleset:1462
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -25509,7 +25599,8 @@ msgstr ""
 "Ускоряет развитие науки на 100% в каждом из ваших городов, где построен "
 "Университет."
 
-#: data/classic/buildings.ruleset:1491 data/experimental/buildings.ruleset:1553
+#: data/classic/buildings.ruleset:1491
+#: data/experimental/buildings.ruleset:1553
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -25517,11 +25608,13 @@ msgstr ""
 "Даёт всем Водным соединением 1 дополнительный ход. Делает все новые Водные "
 "соединения Ветеранами (во всех городах)."
 
-#: data/classic/buildings.ruleset:1514 data/experimental/buildings.ruleset:1576
+#: data/classic/buildings.ruleset:1514
+#: data/experimental/buildings.ruleset:1576
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
-#: data/classic/buildings.ruleset:1605 data/experimental/buildings.ruleset:1667
+#: data/classic/buildings.ruleset:1605
+#: data/experimental/buildings.ruleset:1667
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -25529,7 +25622,8 @@ msgstr ""
 "Дополнительно делает двух недовольных жителей довольными в каждом городе с "
 "Храмом.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1629 data/experimental/buildings.ruleset:1691
+#: data/classic/buildings.ruleset:1629
+#: data/experimental/buildings.ruleset:1691
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -25540,14 +25634,16 @@ msgstr ""
 "уменьшается на 25%.  Это способствует более быстрому росту города.  Эффект "
 "добавляется к эффекту Амбара."
 
-#: data/classic/buildings.ruleset:1653 data/experimental/buildings.ruleset:1715
+#: data/classic/buildings.ruleset:1653
+#: data/experimental/buildings.ruleset:1715
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Увеличивает на 100% научный выход каждого города с Исследовательской "
 "лабораторией."
 
-#: data/classic/buildings.ruleset:1721 data/experimental/buildings.ruleset:1783
+#: data/classic/buildings.ruleset:1721
+#: data/experimental/buildings.ruleset:1783
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -25559,13 +25655,17 @@ msgstr ""
 "соединения при создании получат ранг Закалённый). Шансы Наземных соединений "
 "на повышение в ранге после битвы увеличиваются в полтора раза."
 
-#: data/classic/buildings.ruleset:1787 data/experimental/buildings.ruleset:1849
-#: data/civ2civ3/buildings.ruleset:2057 data/multiplayer/buildings.ruleset:1772
+#: data/classic/buildings.ruleset:1787
+#: data/experimental/buildings.ruleset:1849
+#: data/civ2civ3/buildings.ruleset:2057
+#: data/multiplayer/buildings.ruleset:1772
 msgid "Coinage"
 msgstr "Монетный двор"
 
-#: data/classic/buildings.ruleset:1810 data/experimental/buildings.ruleset:1872
-#: data/civ2civ3/buildings.ruleset:2080 data/multiplayer/buildings.ruleset:1787
+#: data/classic/buildings.ruleset:1810
+#: data/experimental/buildings.ruleset:1872
+#: data/civ2civ3/buildings.ruleset:2080
+#: data/multiplayer/buildings.ruleset:1787
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
