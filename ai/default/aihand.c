@@ -475,7 +475,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
       struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
       cm_clear_cache(pcity);
-      cm_query_result(pcity, &cmp, cmr); /* burn some CPU */
+      cm_query_result(pcity, &cmp, cmr, FALSE); /* burn some CPU */
 
       total_cities++;
 
@@ -653,7 +653,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 
       if (def_ai_city_data(pcity, ait)->celebrate == TRUE) {
         log_base(LOGLEVEL_TAX, "setting %s to celebrate", city_name_get(pcity));
-        cm_query_result(pcity, &cmp, cmr);
+        cm_query_result(pcity, &cmp, cmr, FALSE);
         if (cmr->found_a_valid) {
           apply_cmresult_to_city(pcity, cmr);
           city_refresh_from_main_map(pcity, NULL);

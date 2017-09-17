@@ -278,7 +278,8 @@ static void cm_result_copy(struct cm_result *result,
 
 static double estimate_fitness(const struct cm_state *state,
 			       const int production[]);
-static bool choice_is_promising(struct cm_state *state, int newchoice);
+static bool choice_is_promising(struct cm_state *state, int newchoice,
+                                bool negative_ok);
 
 /****************************************************************************
   Initialize the CM data at the start of each game.  Note the citymap
@@ -621,17 +622,23 @@ static struct cm_fitness compute_fitness(const int surplus[],
   Allocate and initialize an empty solution.
 ****************************************************************************/
 static void init_partial_solution(struct partial_solution *into,
-                                  int ntypes, int idle)
+                                  int ntypes, int idle, bool negative_ok)
 {
   into->worker_counts = fc_calloc(ntypes, sizeof(*into->worker_counts));
   into->prereqs_filled = fc_calloc(ntypes, sizeof(*into->prereqs_filled));
-  memset(into->production, 0, sizeof(into->production));
+  if (negative_ok) {
+    output_type_iterate(otype) {
+      into->production[otype] = -FC_INFINITY;
+    } output_type_iterate_end;
+  } else {
+    memset(into->production, 0, sizeof(into->production));
+  }
   into->idle = idle;
 }
 
 /****************************************************************************
   Free all storage associated with the solution.  This is basically the
-  opposite of init_partial_solution.
+  opposite of init_partial_solution().
 ****************************************************************************/
 static void destroy_partial_solution(struct partial_solution *into)
 {
@@ -1305,7 +1312,6 @@ static void add_workers(struct partial_solution *soln,
   /* update production */
   output_type_iterate(stat_index) {
     newcount = soln->production[stat_index] + number * ptype->production[stat_index];
-    fc_assert_ret(newcount >= 0);
     soln->production[stat_index] = newcount;
   } output_type_iterate_end;
 }
@@ -1360,7 +1366,7 @@ static bool prereqs_filled(const struct partial_solution *soln, int type,
     solution so far.
   If oldchoice == -1 then we return the first possible choice.
 ****************************************************************************/
-static int next_choice(struct cm_state *state, int oldchoice)
+static int next_choice(struct cm_state *state, int oldchoice, bool negative_ok)
 {
   int newchoice;
 
@@ -1377,7 +1383,7 @@ static int next_choice(struct cm_state *state, int oldchoice)
       /* we could use a strictly better tile instead */
       continue;
     }
-    if (!choice_is_promising(state, newchoice)) {
+    if (!choice_is_promising(state, newchoice, negative_ok)) {
       /* heuristic says we can't beat the best going this way */
       log_base(LOG_PRUNE_BRANCH, "--- pruning branch ---");
       print_partial_solution(LOG_PRUNE_BRANCH, &state->current, state);
@@ -1398,14 +1404,14 @@ static int next_choice(struct cm_state *state, int oldchoice)
   Pick a sibling choice to the last choice.  This works down the branch to
   see if a choice that actually looks worse may actually be better.
 ****************************************************************************/
-static bool take_sibling_choice(struct cm_state *state)
+static bool take_sibling_choice(struct cm_state *state, bool negative_ok)
 {
   int oldchoice = last_choice(state);
   int newchoice;
 
   /* need to remove first, to run the heuristic */
   remove_worker(&state->current, oldchoice, state);
-  newchoice = next_choice(state, oldchoice);
+  newchoice = next_choice(state, oldchoice, negative_ok);
 
   if (newchoice == num_types(state)) {
     /* add back in so the caller can then remove it again. */
@@ -1426,7 +1432,7 @@ static bool take_sibling_choice(struct cm_state *state)
   last_choice - 1.  This keeps us from trying out all permutations of the
   same combination.
 ****************************************************************************/
-static bool take_child_choice(struct cm_state *state)
+static bool take_child_choice(struct cm_state *state, bool negative_ok)
 {
   int oldchoice, newchoice;
 
@@ -1441,7 +1447,7 @@ static bool take_child_choice(struct cm_state *state)
   }
 
   /* oldchoice-1 because we can use oldchoice again */
-  newchoice = next_choice(state, oldchoice - 1);
+  newchoice = next_choice(state, oldchoice - 1, negative_ok);
 
   /* did we fail? */
   if (newchoice == num_types(state)) {
@@ -1540,7 +1546,7 @@ static int specialists_in_solution(const struct cm_state *state,
 static void compute_max_stats_heuristic(const struct cm_state *state,
 					const struct partial_solution *soln,
 					int production[],
-					int check_choice)
+					int check_choice, bool negative_ok)
 {
   struct partial_solution solnplus; /* will be soln, plus some tiles */
 
@@ -1562,7 +1568,8 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
 
     /* initialize solnplus here, after the shortcut check */
     init_partial_solution(&solnplus, num_types(state),
-                          city_size_get(state->pcity));
+                          city_size_get(state->pcity),
+                          negative_ok);
 
     output_type_iterate(stat_index) {
       /* compute the solution that has soln, then the check_choice,
@@ -1607,7 +1614,8 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   A choice is also unpromising if any of the stats is less than the
   absolute minimum (in practice, this matters a lot more).
 ****************************************************************************/
-static bool choice_is_promising(struct cm_state *state, int newchoice)
+static bool choice_is_promising(struct cm_state *state, int newchoice,
+                                bool negative_ok)
 {
   int production[O_LAST];
   bool beats_best = FALSE;
@@ -1615,7 +1623,8 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
   /* this computes an upper bound (componentwise) for the current branch,
      if it is worse in every component than the best, or still unsufficient,
      then we can prune the whole branch */
-  compute_max_stats_heuristic(state, &state->current, production, newchoice);
+  compute_max_stats_heuristic(state, &state->current, production, newchoice,
+                              negative_ok);
 
   output_type_iterate(stat_index) {
     if (production[stat_index] < state->min_production[stat_index]) {
@@ -1769,7 +1778,7 @@ static double estimate_fitness(const struct cm_state *state,
   in the lattice.  If there are no idle workers left, then we pop out
   until we can make another choice.
 ****************************************************************************/
-static bool bb_next(struct cm_state *state)
+static bool bb_next(struct cm_state *state, bool negative_ok)
 {
   /* if no idle workers, then look at our solution. */
   if (state->current.idle == 0) {
@@ -1785,10 +1794,11 @@ static bool bb_next(struct cm_state *state)
 
   /* try to move to a child branch, if we can.  If not (including if we're
      at a leaf), then move to a sibling. */
-  if (!take_child_choice(state)) {
+  if (!take_child_choice(state, negative_ok)) {
     /* keep trying to move to a sibling branch, or popping out a level if
        we're stuck (fully examined the current branch) */
-    while ((!choice_stack_empty(state)) && !take_sibling_choice(state)) {
+    while ((!choice_stack_empty(state))
+           && !take_sibling_choice(state, negative_ok)) {
       pop_choice(state);
     }
 
@@ -1805,7 +1815,7 @@ static bool bb_next(struct cm_state *state)
 /****************************************************************************
   Initialize the state for the branch-and-bound algorithm.
 ****************************************************************************/
-static struct cm_state *cm_state_init(struct city *pcity)
+static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
 {
   const int SCIENCE = 0, TAX = 1, LUXURY = 2;
   const struct player *pplayer = city_owner(pcity);
@@ -1854,11 +1864,13 @@ static struct cm_state *cm_state_init(struct city *pcity)
   state->min_luxury = - FC_INFINITY;
 
   /* We have no best solution yet, so its value is the worst possible. */
-  init_partial_solution(&state->best, numtypes, city_size_get(pcity));
+  init_partial_solution(&state->best, numtypes, city_size_get(pcity),
+                        negative_ok);
   state->best_value = worst_fitness();
 
   /* Initialize the current solution and choice stack to empty */
-  init_partial_solution(&state->current, numtypes, city_size_get(pcity));
+  init_partial_solution(&state->current, numtypes, city_size_get(pcity),
+                        negative_ok);
   state->choice.stack = fc_malloc(city_size_get(pcity)
 				  * sizeof(*state->choice.stack));
   state->choice.size = 0;
@@ -1875,7 +1887,8 @@ static struct cm_state *cm_state_init(struct city *pcity)
   solving anything.
 ****************************************************************************/
 static void begin_search(struct cm_state *state,
-			 const struct cm_parameter *parameter)
+			 const struct cm_parameter *parameter,
+                         bool negative_ok)
 {
 #ifdef GATHER_TIME_STATS
   timer_start(performance.current->wall_timer);
@@ -1891,7 +1904,8 @@ static void begin_search(struct cm_state *state,
   state->best_value = worst_fitness();
   destroy_partial_solution(&state->current);
   init_partial_solution(&state->current, num_types(state),
-			city_size_get(state->pcity));
+			city_size_get(state->pcity),
+                        negative_ok);
   state->choice.size = 0;
 }
 
@@ -1936,7 +1950,7 @@ static void cm_state_free(struct cm_state *state)
 ****************************************************************************/
 static void cm_find_best_solution(struct cm_state *state,
                                   const struct cm_parameter *const parameter,
-                                  struct cm_result *result)
+                                  struct cm_result *result, bool negative_ok)
 {
   int loop_count = 0;
   int max_count;
@@ -1946,7 +1960,7 @@ static void cm_find_best_solution(struct cm_state *state,
   performance.current = &performance.opt;
 #endif
 
-  begin_search(state, parameter);
+  begin_search(state, parameter, negative_ok);
   
   /* make a backup of the city to restore at the very end */
   memcpy(&backup, state->pcity, sizeof(backup));
@@ -1960,7 +1974,7 @@ static void cm_find_best_solution(struct cm_state *state,
   result->aborted = FALSE;
 
   /* search until we find a feasible solution */
-  while (!bb_next(state)) {
+  while (!bb_next(state, negative_ok)) {
     /* Limit the number of loops. */
     loop_count++;
 
@@ -1986,16 +2000,16 @@ static void cm_find_best_solution(struct cm_state *state,
  ***************************************************************************/
 void cm_query_result(struct city *pcity,
                      const struct cm_parameter *param,
-                     struct cm_result *result)
+                     struct cm_result *result, bool negative_ok)
 {
-  struct cm_state *state = cm_state_init(pcity);
+  struct cm_state *state = cm_state_init(pcity, negative_ok);
 
   /* Refresh the city.  Otherwise the CM can give wrong results or just be
    * slower than necessary.  Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
   city_refresh_from_main_map(pcity, NULL);
 
-  cm_find_best_solution(state, param, result);
+  cm_find_best_solution(state, param, result, negative_ok);
   cm_state_free(state);
 }
 
