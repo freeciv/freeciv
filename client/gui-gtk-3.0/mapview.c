@@ -315,7 +315,9 @@ struct canvas *get_overview_window(void)
 
   return &store;
 #endif /* 0 */
-
+  if (can_client_change_view()) {
+    gtk_widget_queue_draw(overview_canvas);
+  }
   return NULL;
 }
 
