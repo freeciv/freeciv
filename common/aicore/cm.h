@@ -69,16 +69,16 @@ void cm_result_destroy(struct cm_result *result);
 
 /*
  * Will try to meet the requirements and fill out the result. Caller
- * should test result->found_a_valid. cm_query_result will not change
+ * should test result->found_a_valid. cm_query_result() will not change
  * the actual city setting.
  */
 void cm_query_result(struct city *pcity,
 		     const struct cm_parameter *const parameter,
-		     struct cm_result *result);
+		     struct cm_result *result, bool negative_ok);
 
 /*
  * Call this function if the city has changed. To be safe call it
- * everytime before you call cm_query_result.
+ * everytime before you call cm_query_result().
  */
 void cm_clear_cache(struct city *pcity);
 

@@ -378,7 +378,7 @@ static void handle_city(struct city *pcity)
       break;
     }
 
-    cm_query_result(pcity, &parameter, result);
+    cm_query_result(pcity, &parameter, result, FALSE);
     if (!result->found_a_valid) {
       log_handle_city2("  no valid found result");
 
