@@ -1532,11 +1532,12 @@ if test "x$sys_tolua_cmd" = "xtrue" || test "x$sys_tolua_cmd" = "xtest" ; then
   if test "x$TOLUA" = "xnotfound" ; then
     if test "x$sys_tolua_cmd" = "xtest" ; then
       TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
-      feature_systolua_cmd=missing
       sys_tolua_cmd=false
     else
-      AC_MSG_ERROR([tolua command not found from the system])
+      AC_MSG_WARN([tolua command not found])
+      TOLUA="unavailable"
     fi
+    feature_systolua_cmd=missing
   else
     sys_tolua_cmd="true"
   fi
