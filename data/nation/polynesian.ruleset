@@ -3,7 +3,7 @@
 translation_domain="freeciv"
 
 name=_("Polynesian")
-plural=_("?plural:Polynesian")
+plural=_("?plural:Polynesians")
 groups= "Oceanian", "Core"
 legend=_("Polynesian culture stretches from Hawaii to New Zealand to\
  Easter Island and covers all the islands in between.")
