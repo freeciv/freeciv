@@ -869,7 +869,7 @@ static const char *pollution_to_text(int value)
 static const char *culture_to_text(int value)
 {
   /* TRANS: Unit(s) of culture */
-  return value_units(value, PL_(" act", " acts", value));
+  return value_units(value, PL_(" point", " points", value));
 }
 
 /**************************************************************************
