@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 02-May-17.
+Last minor update was 20-Sep-17.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -24,10 +24,9 @@ This document contains sections and subsections as follows:
      5. Native Language Support:
      6. Readline Support:
      7. Reinier's Solaris Installation Notes:
-     8. Reinier's libXpm Solaris Installation Notes:
-     9. Mac OS X and Darwin notes:
-    10. Debian GNU/Linux notes:
-    11. Windows notes:
+     8. Mac OS X and Darwin notes:
+     9. Debian GNU/Linux notes:
+    10. Windows notes:
 
 
 0. Prerequisites:
@@ -532,52 +531,7 @@ certain combinations of GNU and Sun tools.  The exact recipes depend on your
 local installation.
 
 
-8. Reinier's libXpm Solaris Installation Notes:
-===============================================
-
-When I was root on my Solaris system, I *still* didn't want to install
-third-party software as root.  It's bad practice.
-
-Unfortunately, the libXpm installation procedure assumes installation
-in /usr/openwin, which is owned by root.  But it's not all that hard to
-get around that.
-
-Caveats:
-
- - Make sure /usr/ucb/install is in your $PATH before /usr/bin/install,
-   otherwise 'make install' will break with strange error messages.
-
- - The destination you want to install to can be specified with $DESTDIR;
-   however, installation will actually take place in $DESTDIR/$OPENWINDIR,
-   so the additional $OPENWINDIR subdir must be stripped afterwards
-   (changing the value of $OPENWINHOME doesn't work).
-
-The Procedure:
-
- - Get the source from somewhere, untar it, cd into the source directory,
-   and issue:
-
-     % setenv MYXPMDEST /usr/local   # or wherever you want to install it
-     % xmkmf; make Makefiles includes depend; make
-     % setenv PATH /usr/local/bin:/usr/ucb:$PATH
-     % make DESTDIR=$MYXPMDEST install
-     % make DESTDIR=$MYXPMDEST install.man
-     % cd $MYXPMDEST; mv ./$OPENWINHOME/* .; rm -rf ./$OPENWINHOME
-
-   (If you use sh, bash, ksh, zsh, etc., the "setenv"s above should be:
-     % MYXPMDEST=/usr/local; export MYXPMDEST
-     % PATH=/usr/local/bin:/usr/ucb:$PATH
-   .)
-
- - You can now configure Freeciv with
-
-     % ./configure --with-xpm-prefix=$MYXPMDEST
-
-   which will add the proper -I/-L/-R options to the compile and link
-   commands.
-
-
-9. Mac OS X and Darwin notes:
+8. Mac OS X and Darwin notes:
 =============================
 
 Apple's version of GCC uses precompiled headers that does not support
@@ -604,7 +558,7 @@ Replace <...> with whatever additional arguments you want to give to
 configure.
 
 
-10. Debian GNU/Linux notes:
+9. Debian GNU/Linux notes:
 ===========================
 
 To compile freeciv on a debian system you need the following packages:
@@ -622,7 +576,8 @@ AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
 in gdk-imlib-dev, and it will hopefully be fixed in future debian
 releases.
 
-11. Windows notes:
+
+10. Windows notes:
 ==================
 
 Windows version of Freeciv can be built either with MinGW or Cygwin.
