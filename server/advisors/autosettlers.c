@@ -157,77 +157,92 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
     }
   }
 
-  /*
-   * Consider the following tile arrangement (numbered in hex):
-   *
-   *   8
-   *  012
-   * 93 4A
-   *  567
-   *   B
-   *
-   * these are the tiles defined by the (dx,dy) arrays above.
-   *
-   * Then the following algorithm is supposed to determine if it's a good
-   * idea to build a road here.  Note this won't work well for hex maps
-   * since the (dx,dy) arrays will not cover the same tiles.
-   *
-   * FIXME: if you can understand the algorithm below please rewrite this
-   * explanation!
-   */
-  if (potential_road[0]
-      && !real_road[1] && !real_road[3]
-      && (!real_road[2] || !real_road[8])
-      && (!is_slow[2] || !is_slow[4] || !is_slow[7]
-	  || !is_slow[6] || !is_slow[5])) {
-    bonus++;
-  }
-  if (potential_road[2]
-      && !real_road[1] && !real_road[4]
-      && (!real_road[7] || !real_road[10])
-      && (!is_slow[0] || !is_slow[3] || !is_slow[7]
-	  || !is_slow[6] || !is_slow[5])) {
-    bonus++;
-  }
-  if (potential_road[5]
-      && !real_road[6] && !real_road[3]
-      && (!real_road[5] || !real_road[11])
-      && (!is_slow[2] || !is_slow[4] || !is_slow[7]
-	  || !is_slow[1] || !is_slow[0])) {
-    bonus++;
-  }
-  if (potential_road[7]
-      && !real_road[6] && !real_road[4]
-      && (!real_road[0] || !real_road[9])
-      && (!is_slow[2] || !is_slow[3] || !is_slow[0]
-	  || !is_slow[1] || !is_slow[5])) {
-    bonus++;
-  }
+  if (current_topo_has_flag(TF_HEX)) {
+    /* On hex map, road is always a benefit */
+    bonus += 2; /* Later divided by 2 */
 
-  /*   A
-   *  B*B
-   *  CCC
-   *
-   * We are at tile *.  If tile A has a road, and neither B tile does, and
-   * one C tile is a valid destination, then we might want a road here.
-   *
-   * Of course the same logic applies if you rotate the diagram.
-   */
-  if (potential_road[1] && !real_road[4] && !real_road[3]
-      && (!is_slow[5] || !is_slow[6] || !is_slow[7])) {
-    bonus++;
-  }
-  if (potential_road[3] && !real_road[1] && !real_road[6]
-      && (!is_slow[2] || !is_slow[4] || !is_slow[7])) {
-    bonus++;
-  }
-  if (potential_road[4] && !real_road[1] && !real_road[6]
-      && (!is_slow[0] || !is_slow[3] || !is_slow[5])) {
-    bonus++;
-  }
-  if (potential_road[6] && !real_road[4] && !real_road[3]
-      && (!is_slow[0] || !is_slow[1] || !is_slow[2])) {
-    bonus++;
+    /* Road is more valuable when even longer road around does not exist. */
+    for (i = 0; i < 12; i++) {
+      if (!real_road[i]) {
+        bonus++;
+      }
+    }
+
+    /* Scale down the bonus. */
+    bonus /= 2;
+  } else {
+    /*
+     * Consider the following tile arrangement (numbered in hex):
+     *
+     *   8
+     *  012
+     * 93 4A
+     *  567
+     *   B
+     *
+     * these are the tiles defined by the (dx,dy) arrays above.
+     *
+     * Then the following algorithm is supposed to determine if it's a good
+     * idea to build a road here.  Note this won't work well for hex maps
+     * since the (dx,dy) arrays will not cover the same tiles.
+     *
+     * FIXME: if you can understand the algorithm below please rewrite this
+     * explanation!
+     */
+    if (potential_road[0]
+        && !real_road[1] && !real_road[3]
+        && (!real_road[2] || !real_road[8])
+        && (!is_slow[2] || !is_slow[4] || !is_slow[7]
+            || !is_slow[6] || !is_slow[5])) {
+      bonus++;
+    }
+    if (potential_road[2]
+        && !real_road[1] && !real_road[4]
+        && (!real_road[7] || !real_road[10])
+        && (!is_slow[0] || !is_slow[3] || !is_slow[7]
+            || !is_slow[6] || !is_slow[5])) {
+      bonus++;
+    }
+    if (potential_road[5]
+        && !real_road[6] && !real_road[3]
+        && (!real_road[5] || !real_road[11])
+        && (!is_slow[2] || !is_slow[4] || !is_slow[7]
+            || !is_slow[1] || !is_slow[0])) {
+      bonus++;
+    }
+    if (potential_road[7]
+        && !real_road[6] && !real_road[4]
+        && (!real_road[0] || !real_road[9])
+        && (!is_slow[2] || !is_slow[3] || !is_slow[0]
+            || !is_slow[1] || !is_slow[5])) {
+      bonus++;
+    }
+
+    /*   A
+     *  B*B
+     *  CCC
+     *
+     * We are at tile *.  If tile A has a road, and neither B tile does, and
+     * one C tile is a valid destination, then we might want a road here.
+     *
+     * Of course the same logic applies if you rotate the diagram.
+     */
+    if (potential_road[1] && !real_road[4] && !real_road[3]
+        && (!is_slow[5] || !is_slow[6] || !is_slow[7])) {
+      bonus++;
+    }
+    if (potential_road[3] && !real_road[1] && !real_road[6]
+        && (!is_slow[2] || !is_slow[4] || !is_slow[7])) {
+      bonus++;
+    }
+    if (potential_road[4] && !real_road[1] && !real_road[6]
+        && (!is_slow[0] || !is_slow[3] || !is_slow[5])) {
+      bonus++;
+    }
+    if (potential_road[6] && !real_road[4] && !real_road[3]
+        && (!is_slow[0] || !is_slow[1] || !is_slow[2])) {
+      bonus++;
+    }
   }
 
   return bonus;
