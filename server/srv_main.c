@@ -1762,7 +1762,7 @@ int identity_number(void)
   Returns TRUE if the packet type is an edit packet sent by the client.
 
   NB: The first and last client edit packets here must match those
-  defined in common/packets.def.
+  defined in common/networking/packets.def.
 **************************************************************************/
 static bool is_client_edit_packet(int type)
 {

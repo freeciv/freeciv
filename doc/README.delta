@@ -68,7 +68,7 @@ FREECIV_COMPRESSION_LEVEL environment variable.
 =========================================================================
 
 There are four file/filesets involved in the delta protocol:
- 1) the definition file (common/packets.def).
+ 1) the definition file (common/networking/packets.def).
  2) the generator (common/generate_packets.py).
  3) the generated files (*/*_gen.[ch] or as a list
  client/civclient_gen.c, client/packhand_gen.h, common/packets_gen.c,
@@ -97,7 +97,8 @@ Adding a packet:
  3) decide if this packet goes from server to client or client to server
  4) choose the field names and types
  5) choose packet and field flags
- 6) write the entry into the corresponding section of common/packets.def
+ 6) write the entry into the corresponding section of
+    common/networking/packets.def
 
 If you add a field which is a struct (say "foobar") you have to write
 the following functions: dio_get_foobar, dio_put_foobar and
@@ -105,7 +106,7 @@ are_foobars_equal.
 
 Removing a packet:
  1) add a mandatory capability
- 2) remove the entry from common/packets.def
+ 2) remove the entry from common/networking/packets.def
 
 Adding a field:
  Option A:
