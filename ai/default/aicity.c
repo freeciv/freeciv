@@ -880,7 +880,7 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
     if (city_data->choice.want <= 0) {
       /* Note that this function mungs the seamap, but we don't care */
       TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
-      choice = military_advisor_choose_build(ait, pplayer, pcity);
+      choice = military_advisor_choose_build(ait, pplayer, pcity, &(wld.map));
       adv_choice_copy(&(city_data->choice), choice);
       adv_free_choice(choice);
       TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);

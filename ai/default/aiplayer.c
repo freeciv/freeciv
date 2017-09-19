@@ -18,6 +18,7 @@
 /* common */
 #include "ai.h"
 #include "city.h"
+#include "game.h"
 #include "unit.h"
 
 /* server */
@@ -182,5 +183,5 @@ void dai_gained_control(struct ai_type *ait, struct player *pplayer)
     clear_worker_tasks(pcity);
   } city_list_iterate_end;
 
-  dai_assess_danger_player(ait, pplayer);
+  dai_assess_danger_player(ait, pplayer, &(wld.map));
 }

@@ -142,7 +142,7 @@ static void twai_split_by_civil_war(struct player *original,
                                     struct player *created)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_assess_danger_player, original);
+  TAI_DFUNC(dai_assess_danger_player, original, &(wld.map));
 }
 
 /**************************************************************************

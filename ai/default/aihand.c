@@ -736,7 +736,7 @@ static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
 void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);
-  dai_assess_danger_player(ait, pplayer);
+  dai_assess_danger_player(ait, pplayer, &(wld.map));
   /* TODO: Make assess_danger save information on what is threatening
    * us and make dai_manage_units and Co act upon this information, trying
    * to eliminate the source of danger */

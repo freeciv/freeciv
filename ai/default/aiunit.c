@@ -2859,7 +2859,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
 
   /* Check for units we could fear. */
   pfrm = pf_reverse_map_new(pplayer, leader_tile, 3,
-                            !has_handicap(pplayer, H_MAP));
+                            !has_handicap(pplayer, H_MAP), &(wld.map));
   worst_danger = NULL;
   best_move_cost = FC_INFINITY;
 

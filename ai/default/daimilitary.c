@@ -69,7 +69,8 @@
 
 #include "daimilitary.h"
 
-static unsigned int assess_danger(struct ai_type *ait, struct city *pcity);
+static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
+                                  const struct civ_map *dmap);
 
 /**************************************************************************
   Choose the best unit the city can build to defend against attacker v.
@@ -409,12 +410,13 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 
   This is necessary to initialize some ai data before some ai calculations.
 ****************************************************************************/
-void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer)
+void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer,
+                              const struct civ_map *dmap)
 {
   /* Do nothing if game is not running */
   if (S_S_RUNNING == server_state()) {
     city_list_iterate(pplayer->cities, pcity) {
-      (void) assess_danger(ait, pcity);
+      (void) assess_danger(ait, pcity, dmap);
     } city_list_iterate_end;
   }
 }
@@ -473,7 +475,8 @@ static void dai_reevaluate_building(struct city *pcity, adv_want *value,
   afraid of a boat laden with enemies if it stands on the coast (i.e.
   is directly reachable by this boat).
 ****************************************************************************/
-static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
+static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
+                                  const struct civ_map *dmap)
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = city_tile(pcity);
@@ -557,7 +560,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity)
      * at war with. */
 
     pcity_map = pf_reverse_map_new_for_city(pcity, aplayer, assess_turns,
-                                            omnimap);
+                                            omnimap, dmap);
 
     unit_list_iterate(aplayer->units, punit) {
       int move_time;
@@ -1412,7 +1415,8 @@ static void adjust_ai_unit_choice(struct city *pcity,
 ****************************************************************************/
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
                                                  struct player *pplayer,
-                                                 struct city *pcity)
+                                                 struct city *pcity,
+                                                 const struct civ_map *mamap)
 {
   struct adv_data *ai = adv_data_get(pplayer, NULL);
   struct unit_type *punittype;
@@ -1425,7 +1429,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
   struct adv_choice *choice = adv_new_choice();
   bool allow_gold_upkeep;
 
-  urgency = assess_danger(ait, pcity);
+  urgency = assess_danger(ait, pcity, mamap);
   /* Changing to quadratic to stop AI from building piles 
    * of small units -- Syela */
   /* It has to be AFTER assess_danger thanks to wallvalue. */

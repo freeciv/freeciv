@@ -144,7 +144,7 @@ static void cai_split_by_civil_war(struct player *original,
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_assess_danger_player(deftype, original);
+  dai_assess_danger_player(deftype, original, &(wld.map));
 }
 
 /**************************************************************************

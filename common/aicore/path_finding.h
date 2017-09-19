@@ -344,7 +344,7 @@ struct pf_path {
  * Examples of callbacks can be found in "pf_tools.c"
  * NB: It should be safe to struct copy pf_parameter. */
 struct pf_parameter {
-  struct civ_map *map;
+  const struct civ_map *map;
   struct tile *start_tile;      /* Initial position */
 
   int moves_left_initially;
@@ -514,11 +514,13 @@ void pf_path_print_real(const struct pf_path *path, enum log_level level,
 /* Reverse map functions (Costs to go to start tile). */
 struct pf_reverse_map *pf_reverse_map_new(const struct player *pplayer,
                                           struct tile *start_tile,
-                                          int max_turns, bool omniscient)
+                                          int max_turns, bool omniscient,
+                                          const struct civ_map *map)
                        fc__warn_unused_result;
 struct pf_reverse_map *pf_reverse_map_new_for_city(const struct city *pcity,
                                                    const struct player *attacker,
-                                                   int max_turns, bool omniscient)
+                                                   int max_turns, bool omniscient,
+                                                   const struct civ_map *map)
                        fc__warn_unused_result;
 void pf_reverse_map_destroy(struct pf_reverse_map *prfm);
 
