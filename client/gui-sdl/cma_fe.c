@@ -639,10 +639,11 @@ static int run_cma_once_callback(struct widget *pWidget)
     update_city_cma_dialog();
     /* fill in result label */
     result = cm_result_new(pCma->pCity);
-    cm_query_result(pCma->pCity, &pCma->edited_cm_parm, result);
+    cm_query_result(pCma->pCity, &pCma->edited_cm_parm, result, FALSE);
     cma_apply_result(pCma->pCity, result);
     cm_result_destroy(result);
   }
+
   return -1;
 }
 

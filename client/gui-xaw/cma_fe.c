@@ -857,7 +857,7 @@ static void change_callback(Widget w, XtPointer client_data,
 
   result = cm_result_new(current_city);
   cmafec_get_fe_parameter(current_city, &param);
-  cm_query_result(current_city, &param, result);
+  cm_query_result(current_city, &param, result, FALSE);
   cma_apply_result(current_city, result);
   refresh_city_dialog(current_city);
 
