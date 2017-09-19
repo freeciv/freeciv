@@ -1037,7 +1037,7 @@ found in these files:
 
 client/connectdlg_common.[ch]
 client/gui-*/connectdlg.[ch]
-common/packets.def
+common/networking/packets.def
 server/gamehand.[ch]
 server/stdinhand.[ch]
 

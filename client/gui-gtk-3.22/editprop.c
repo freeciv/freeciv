@@ -157,7 +157,7 @@ static void property_filter_free(struct property_filter *pf);
       if applicable.
 
   Furthermore, if the object type is to be editable:
-  11. Define its edit packet in common/packets.def.
+  11. Define its edit packet in common/networking/packets.def.
   12. Add the packet handler in server/edithand.c.
   13. Add its edit packet type to union packetdata.
   14. Add an if-block in objbind_pack_current_values.
@@ -284,7 +284,7 @@ static struct propval *propstate_get_value(struct propstate *ps);
 
   Furthermore, if the property is editable:
   5. Add a field for this property in the edit
-     packet for this object type in common/packets.def.
+     packet for this object type in common/networking/packets.def.
   6. Add a case handler in objbind_pack_modified_value.
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!! 7. Add code to set the packet field in  !!!
