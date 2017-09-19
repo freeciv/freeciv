@@ -2886,7 +2886,7 @@ static void sg_save_map(struct savedata *saving)
   sg_save_map_tiles(saving);
   sg_save_map_startpos(saving);
   sg_save_map_tiles_extras(saving);
-  if (game.scenario.have_resources) {
+  if (!saving->scenario || game.scenario.have_resources) {
     sg_save_savefile_options(saving, " specials");
     sg_save_map_tiles_resources(saving);
   }
@@ -3095,7 +3095,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
 }
 
 /****************************************************************************
-  Load information about resources on map.
+  Save information about resources on map.
 ****************************************************************************/
 static void sg_save_map_tiles_resources(struct savedata *saving)
 {
