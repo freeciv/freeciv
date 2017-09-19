@@ -32,7 +32,7 @@ VERSION_LABEL="-alpha"
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=0
 # (and update DEFAULT_FOLLOW_TAG to "stable", and also
-# win32/installer/Makefile --follow-tag to "win32")
+# windows/installer_msys2/Makefile --follow-tag to "win32")
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
