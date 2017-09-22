@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-12 11:27+0300\n"
-"PO-Revision-Date: 2017-08-14 01:49+0300\n"
+"POT-Creation-Date: 2017-09-22 22:48+0300\n"
+"PO-Revision-Date: 2017-09-22 22:52+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -29,9 +29,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
+#: tools/ruledit/effect_edit.cpp:69 tools/ruledit/req_edit.cpp:63
+msgid "Type:"
+msgstr "Tyyppi:"
+
+#: tools/ruledit/effect_edit.cpp:83 tools/ruledit/req_edit.cpp:81
+msgid "Value:"
+msgstr "Arvo:"
+
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/tab_building.cpp:85
+#: tools/ruledit/tab_good.cpp:86
+msgid "Requirements"
+msgstr "Vaadittavat"
+
+#: tools/ruledit/effect_edit.cpp:95 tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/req_edit.cpp:130
 msgid "Close"
 msgstr "Sulje"
+
+#: tools/ruledit/effect_edit.cpp:161
+#, c-format
+msgid "Effect #%d: %s"
+msgstr "Vaikutus #%d: %s"
+
+#: tools/ruledit/effect_edit.cpp:245
+#, c-format
+msgid "%s effect #%d"
+msgstr "%s: Vaikutus #%d"
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -167,10 +191,6 @@ msgstr "Sääntönimi"
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:85 tools/ruledit/tab_good.cpp:86
-msgid "Requirements"
-msgstr "Vaadittavat"
-
 #: tools/ruledit/tab_building.cpp:89 tools/ruledit/tab_good.cpp:90
 #: tools/ruledit/tab_tech.cpp:110 tools/ruledit/tab_unit.cpp:90
 msgid "Effects"
@@ -187,6 +207,42 @@ msgstr "Poista tämä rakennus"
 #: tools/ruledit/tab_building.cpp:176
 msgid "A building with that rule name already exists!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_enablers.cpp:65
+msgid "Type"
+msgstr "Tyyppi"
+
+#: tools/ruledit/tab_enablers.cpp:86
+msgid "Actor Requirements"
+msgstr "Toimijalta vaadittavat"
+
+#: tools/ruledit/tab_enablers.cpp:90
+msgid "Target Requirements"
+msgstr "Kohteelta vaadittavat"
+
+#: tools/ruledit/tab_enablers.cpp:94
+msgid "Add Enabler"
+msgstr "Lisää mahdollistin"
+
+#: tools/ruledit/tab_enablers.cpp:99
+msgid "Remove this Enabler"
+msgstr "Poista tämä mahdollistin"
+
+#: tools/ruledit/tab_enablers.cpp:238
+msgid "Obligatory hard requirements"
+msgstr "Pakolliset vaatimukset"
+
+#: tools/ruledit/tab_enablers.cpp:241
+msgid "Changing action to %1 will modify enabler requirements. Continue?"
+msgstr "Jos toiminnaksi vaihdetaan %1, myös mahdollistimien vaatimuksia muutetaan. Tehdäänkö näin?"
+
+#: tools/ruledit/tab_enablers.cpp:275
+msgid "Enabler (target)"
+msgstr "Mahdollistin (kohde)"
+
+#: tools/ruledit/tab_enablers.cpp:286
+msgid "Enabler (actor)"
+msgstr "Mahdollistin (toimija)"
 
 #: tools/ruledit/tab_good.cpp:95
 msgid "Add Good"
@@ -356,14 +412,6 @@ msgstr "Poista tämä yksikkö"
 msgid "A unit type with that rule name already exists!"
 msgstr "Yksikkötyyppi samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/req_edit.cpp:63
-msgid "Type:"
-msgstr "Tyyppi:"
-
-#: tools/ruledit/req_edit.cpp:81
-msgid "Value:"
-msgstr "Arvo:"
-
 #: tools/ruledit/req_edit.cpp:97
 msgid "Range:"
 msgstr "Etäisyys:"
@@ -387,3 +435,11 @@ msgstr "Toiminnan mahdollistin"
 #: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Musiikkityyli"
+
+#: tools/ruledit/validity.c:268
+msgid "Conflicting extra"
+msgstr "Konfliktaava ruutulisä"
+
+#: tools/ruledit/validity.c:271
+msgid "Hidden extra"
+msgstr "Kätketty ruutulisä"
