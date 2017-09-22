@@ -757,7 +757,8 @@ INPUT                  = $(doxy_srcdir)utility \
                          $(doxy_srcdir)common \
                          $(doxy_srcdir)server \
                          $(doxy_srcdir)client \
-                         $(doxy_srcdir)ai
+                         $(doxy_srcdir)ai     \
+                         $(doxy_srcdir)tools
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
