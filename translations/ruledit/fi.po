@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-12 11:01+0300\n"
-"PO-Revision-Date: 2017-08-14 01:44+0300\n"
+"POT-Creation-Date: 2017-09-16 02:20+0300\n"
+"PO-Revision-Date: 2017-09-22 22:48+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -182,6 +182,42 @@ msgstr "Poista tämä rakennus"
 #: tools/ruledit/tab_building.cpp:169
 msgid "A building with that rule name already exists!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_enablers.cpp:65
+msgid "Type"
+msgstr "Tyyppi"
+
+#: tools/ruledit/tab_enablers.cpp:86
+msgid "Actor Requirements"
+msgstr "Toimijalta vaadittavat"
+
+#: tools/ruledit/tab_enablers.cpp:90
+msgid "Target Requirements"
+msgstr "Kohteelta vaadittavat"
+
+#: tools/ruledit/tab_enablers.cpp:94
+msgid "Add Enabler"
+msgstr "Lisää mahdollistin"
+
+#: tools/ruledit/tab_enablers.cpp:99
+msgid "Remove this Enabler"
+msgstr "Poista tämä mahdollistin"
+
+#: tools/ruledit/tab_enablers.cpp:238
+msgid "Obligatory hard requirements"
+msgstr "Pakolliset vaatimukset"
+
+#: tools/ruledit/tab_enablers.cpp:241
+msgid "Changing action to %1 will modify enabler requirements. Continue?"
+msgstr "Jos toiminnaksi vaihdetaan %1, myös mahdollistimien vaatimuksia muutetaan. Tehdäänkö näin?"
+
+#: tools/ruledit/tab_enablers.cpp:275
+msgid "Enabler (target)"
+msgstr "Mahdollistin (kohde)"
+
+#: tools/ruledit/tab_enablers.cpp:286
+msgid "Enabler (actor)"
+msgstr "Mahdollistin (toimija)"
 
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
@@ -374,3 +410,11 @@ msgstr "Toiminnan mahdollistin"
 #: tools/ruledit/validity.c:154
 msgid "Music Style"
 msgstr "Musiikkityyli"
+
+#: tools/ruledit/validity.c:268
+msgid "Conflicting extra"
+msgstr "Konfliktaava ruutulisä"
+
+#: tools/ruledit/validity.c:271
+msgid "Hidden extra"
+msgstr "Kätketty ruutulisä"
