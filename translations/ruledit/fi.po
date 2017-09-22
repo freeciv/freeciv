@@ -13,21 +13,21 @@
 # NOTE: Ruledit strings are independent from pre-2.6 versions, no need to merge
 # from below.
 #
-# Merging translations upwards to e.g. TRUNK is fine, do not merge downwards
+# Merging translations upwards to e.g. master is fine, do not merge downwards
 # by default.
 #
 # Prioritizing stable branch S2_6 for translations (February 2016), merge
-# to trunk when feeling like it with:
-#   msgmerge --compendium=fi.po.trunk fi.po.s2_6 freeciv-ruledit.pot -o fi.po.newtrunk
-# where fi.po.trunk is current trunk version, fi.po.s2_6 the improved branch
-# version, freeciv-ruledit.pot an up-to-date POT for the trunk.
-# Then upload the resulting  fi.po.newtrunk to trunk.
+# to master when feeling like it with:
+#   msgmerge --compendium=fi.po.master fi.po.s2_6 freeciv-ruledit.pot -o fi.po.newmaster
+# where fi.po.master is current master version, fi.po.s2_6 the improved branch
+# version, freeciv-ruledit.pot an up-to-date POT for the master.
+# Then upload the resulting  fi.po.newmaster to master.
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-13 09:47+0100\n"
-"PO-Revision-Date: 2017-08-14 01:37+0300\n"
+"POT-Creation-Date: 2017-09-22 22:40+0300\n"
+"PO-Revision-Date: 2017-09-22 22:42+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
