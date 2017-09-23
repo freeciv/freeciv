@@ -11,7 +11,7 @@ zipped_files =					\
 	italy-100x100-v1.5.sav.gz		\
 	japan-88x100-v1.3.sav.gz		\
 	north_america_116x100-v1.2.sav.gz	\
-	europe_1901.sav.gz			\
+	europe_1900_WWI.sav.gz			\
 	tutorial.sav.gz
 
 unzipped_files =				\
@@ -25,7 +25,7 @@ unzipped_files =				\
 	italy-100x100-v1.5.sav			\
 	japan-88x100-v1.3.sav			\
 	north_america_116x100-v1.2.sav		\
-	europe_1901.sav				\
+	europe_1900_WWI.sav			\
 	tutorial.sav
 
 
