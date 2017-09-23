@@ -386,7 +386,7 @@ data/scenarios/iberian-peninsula.sav
 data/scenarios/italy.sav
 data/scenarios/japan.sav
 data/scenarios/north_america.sav
-data/scenarios/europe_1901.sav
+data/scenarios/europe_1900_WWI.sav
 data/scenarios/tutorial.sav
 translations/Strings.txt
 tools/civmanual.c
