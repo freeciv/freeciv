@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-16 00:26+0300\n"
-"PO-Revision-Date: 2017-09-16 00:38+0300\n"
+"POT-Creation-Date: 2017-09-24 01:07+0300\n"
+"PO-Revision-Date: 2017-09-24 01:54+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -29692,7 +29692,7 @@ msgid "Polynesian"
 msgstr "polynesialaisten"
 
 #: data/nation/polynesian.ruleset:6
-msgid "?plural:Polynesian"
+msgid "?plural:Polynesians"
 msgstr "polynesialaiset"
 
 #: data/nation/polynesian.ruleset:8
@@ -39934,7 +39934,9 @@ msgstr "Freecivin database-skriptiä ei ole aktivoitu käännösvaiheessa."
 msgid ""
 "Freeciv database script not activated at server start. See the Freeciv "
 "server's --auth command line option."
-msgstr "Freecivin database-skriptiä ei ole aktivoitu palvelinta käynnistettäessä. Tutustu freeciv-palvelimen --auth komentoriviparametriin."
+msgstr ""
+"Freecivin database-skriptiä ei ole aktivoitu palvelinta käynnistettäessä. "
+"Tutustu freeciv-palvelimen --auth komentoriviparametriin."
 
 #: server/stdinhand.c:5571
 msgid "Ambiguous fcdb command."
