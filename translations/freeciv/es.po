@@ -10,15 +10,15 @@
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
+# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-19 10:11+0100\n"
-"PO-Revision-Date: 2017-08-07 23:13+0100\n"
+"POT-Creation-Date: 2017-09-24 01:07+0300\n"
+"PO-Revision-Date: 2017-09-24 13:11+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
-"Language-Team: Spanish <>\n"
+"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3486,10 +3486,9 @@ msgstr "Ciencia"
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
-#: common/city.c:86 data/civ1/terrain.ruleset:637
-#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
-#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
-#: data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
+#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
+#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "Oro"
 
@@ -3769,7 +3768,7 @@ msgstr "Sólo aliados"
 msgid "Clear links"
 msgstr "Borrar enlaces"
 
-#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2162
+#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2161
 #: client/gui-qt/gui_main.cpp:469
 msgid "Are you sure you want to quit?"
 msgstr "Seguro que quiere salir?"
@@ -4292,14 +4291,12 @@ msgstr "Informe _demográfico"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
-#: data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Ayuda"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Estrategia y Tácticas"
 
@@ -8257,7 +8254,7 @@ msgid "R.I.P."
 msgstr "R.I.P."
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:311
-#: server/stdinhand.c:3528 server/stdinhand.c:6328
+#: server/stdinhand.c:3528 server/stdinhand.c:6336
 msgid "AI"
 msgstr "Ordenador"
 
@@ -15975,10 +15972,9 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070
-#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
-#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
-#: data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
+#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
+#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Universidad"
 
@@ -15992,10 +15988,8 @@ msgstr ""
 "de la ciudad en un 100%."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038
-#: data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178
-#: data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "El Proyecto Apolo"
 
@@ -16013,18 +16007,14 @@ msgstr ""
 "espacial."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081
-#: data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232
-#: data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "El Coloso"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095
-#: data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246
-#: data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16033,10 +16023,8 @@ msgstr ""
 "que ya generen comercio pasarán a generar una unidad más de comercio."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101
-#: data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "El Observatorio de Copérnico"
 
@@ -16048,10 +16036,8 @@ msgstr ""
 "construye."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121
-#: data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272
-#: data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "La Cura del Cáncer"
 
@@ -16066,16 +16052,13 @@ msgstr ""
 "descontentos por la actividad militar)."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145
-#: data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296
-#: data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "El Viaje de Darwin"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159
-#: data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16086,16 +16069,13 @@ msgstr ""
 "dos avances tecnológicos inmediatamente."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187
-#: data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342
-#: data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "La Gran Biblioteca"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201
-#: data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16104,24 +16084,19 @@ msgstr ""
 "que hayan conseguido al menos otros dos equipos."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207
-#: data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366
-#: data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "La Gran Muralla"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221
-#: data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Opera como si todas las ciudades estuvieran provistas de Murallas."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229
-#: data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389
-#: data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Los Jardines Colgantes"
 
@@ -16138,10 +16113,8 @@ msgstr ""
 "actividad militar), haciéndolos conformes."
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253
-#: data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411
-#: data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "La Presa de Hoover"
 
@@ -16156,16 +16129,13 @@ msgstr ""
 "incrementa los efectos de las Fábricas y las Plantas Industriales)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274
-#: data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435
-#: data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "La Cátedra de Isaac Newton"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
@@ -16174,10 +16144,8 @@ msgstr ""
 "encuentra."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295
-#: data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459
-#: data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "La Catedral de J.S. Bach"
 
@@ -16192,10 +16160,8 @@ msgstr ""
 "(incluyendo los ciudadanos descontentos con la actividad militar)."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354
-#: data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522
-#: data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "El Faro"
 
@@ -16204,10 +16170,8 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Otorga a todas las unidades marítimas 1 punto de movimiento adicional."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375
-#: data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544
-#: data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "La Expedición de Magallanes"
 
@@ -16217,18 +16181,14 @@ msgstr ""
 "Proporciona 1 punto de movimiento adicional a todas las unidades marítimas."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395
-#: data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566
-#: data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "El Proyecto Manhattan"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432
-#: data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606
-#: data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "La Capilla Sixtina"
 
@@ -16237,8 +16197,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Duplica el efecto de las Catedrales en todas las ciudades."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457
-#: data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "El Oráculo"
@@ -16252,10 +16211,8 @@ msgstr ""
 "descontentos con la actividad militar."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478
-#: data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693
-#: data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Las Pirámides"
 
@@ -16272,8 +16229,7 @@ msgstr ""
 "has descubierto, y sin el periodo intermedio de Anarquía."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500
-#: data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "El Proyecto SETI"
 
@@ -16283,16 +16239,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Impulsa en un 50% la producción científica de todas tus ciudades."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520
-#: data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741
-#: data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "El Teatro de Shakespeare"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535
-#: data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16303,18 +16256,14 @@ msgstr ""
 "actividad militar."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584
-#: data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809
-#: data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "Las Naciones Unidas"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611
-#: data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837
-#: data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "El Sufragio Femenino"
 
@@ -16500,16 +16449,13 @@ msgid "Team 3"
 msgstr "Equipo 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
-#: data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarquía"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16517,8 +16463,7 @@ msgid "Warlord %s"
 msgstr "Señor de la Guerra %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16526,10 +16471,8 @@ msgid "Warlady %s"
 msgstr "Señora de la Guerra %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67
-#: data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16551,16 +16494,14 @@ msgstr ""
 "poco más de descontento general."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Despotismo"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16568,8 +16509,7 @@ msgid "Chief %s"
 msgstr "Jefe %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16577,8 +16517,7 @@ msgid "?female:Chief %s"
 msgstr "Jefa %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -17466,7 +17405,7 @@ msgstr "Gran Jefa %s"
 
 #: data/civ1/nations.ruleset:1471 data/civ2/nations.ruleset:2038
 #: data/nation/barbarian.ruleset:5 server/stdinhand.c:3526
-#: server/stdinhand.c:6326
+#: server/stdinhand.c:6334
 msgid "Barbarian"
 msgstr "Bárbaro"
 
@@ -19414,8 +19353,8 @@ msgstr ""
 "la producción en un 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974
-#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
+#: data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Bolsa"
 
@@ -19433,8 +19372,8 @@ msgstr ""
 "aumenta la producción de impuestos y lujos en una ciudad en un 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998
-#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
+#: data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Autopistas"
 
@@ -19482,8 +19421,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206
-#: data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "La Compañía de Adam Smith"
 
@@ -19497,8 +19435,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320
-#: data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "La Torre Eiffel"
 
@@ -19548,8 +19485,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479
-#: data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "La Cruzada del Rey Ricardo"
 
@@ -19565,8 +19501,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503
-#: data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "El Taller de Leonardo"
 
@@ -19592,8 +19527,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "La Embajada de Marco Polo"
 
@@ -19638,15 +19572,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765
-#: data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Estatua de la Libertad"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788
-#: data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "La Academia Militar de Sun Tzu"
 
@@ -20373,8 +20305,7 @@ msgid "Airbase"
 msgstr "Base aérea"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049
-#: data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -21333,8 +21264,7 @@ msgstr ""
 "150% de la producción, y eliminan toda la contaminación generada por la "
 "producción de esa ciudad."
 
-#: data/classic/buildings.ruleset:1008
-#: data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21346,8 +21276,7 @@ msgstr ""
 "se transforman en conformes.  No afecta a los ciudadanos descontentos por la "
 "actividad militar."
 
-#: data/classic/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21357,8 +21286,7 @@ msgstr ""
 "Junto con la Biblioteca, la Universidad aumenta la investigación científica "
 "de la ciudad en un 250%."
 
-#: data/classic/buildings.ruleset:1075
-#: data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21366,8 +21294,7 @@ msgstr ""
 "Las instalaciones urbanas por las que normalmente se pagaría un sustento de "
 "1 pasan a no necesitar sustento, en todas las ciudades."
 
-#: data/classic/buildings.ruleset:1181
-#: data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21375,8 +21302,7 @@ msgstr ""
 "Tu reputación y buena voluntad entre las naciones se incrementa al doble de "
 "velocidad."
 
-#: data/classic/buildings.ruleset:1289
-#: data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21385,8 +21311,7 @@ msgstr ""
 "Impulsa en un 100% la producción científica de las ciudades que posees que "
 "tienen una Universidad."
 
-#: data/classic/buildings.ruleset:1369
-#: data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21395,14 +21320,12 @@ msgstr ""
 "que todas las unidades marítimas que se produzcan (en cualquier ciudad) sean "
 "veteranas."
 
-#: data/classic/buildings.ruleset:1390
-#: data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr ""
 "Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
 
-#: data/classic/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21411,8 +21334,7 @@ msgstr ""
 "ciudades con un Templo. No afecta a los ciudadanos descontentos con la "
 "actividad militar."
 
-#: data/classic/buildings.ruleset:1493
-#: data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21423,16 +21345,14 @@ msgstr ""
 "decrece será reducido en un 25%. Esto ayuda a que la ciudad crezca más "
 "rápidamente o que resista mejor a las hambrunas. Acumulativo con Granero."
 
-#: data/classic/buildings.ruleset:1515
-#: data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Impulsa en un 100% la producción científica de todas tus ciudades que tengan "
 "un Laboratorio."
 
-#: data/classic/buildings.ruleset:1576
-#: data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21444,17 +21364,13 @@ msgstr ""
 "las unidades se crean como difíciles). Además, la probabilidad de que una "
 "unidad se vuelva más veterana tras una batalla aumenta en un 50%."
 
-#: data/classic/buildings.ruleset:1638
-#: data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859
-#: data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Acuñación"
 
-#: data/classic/buildings.ruleset:1659
-#: data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880
-#: data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -21945,9 +21861,8 @@ msgstr "Pues esto. Si pierdes esta unidad, tu pierdes la partida. Ten cuidado."
 
 #: data/classic/units.ruleset:2277 data/experimental/units.ruleset:2304
 #: data/civ2civ3/units.ruleset:2463 data/multiplayer/units.ruleset:2363
-#, fuzzy
 msgid "Won't unleash barbarians from huts."
-msgstr "* Sólo los bárbaros pueden construir esto.\n"
+msgstr "No se liberará a bárbaros desde las chozas."
 
 #: data/classic/units.ruleset:2324 data/experimental/units.ruleset:2351
 #: data/civ2civ3/units.ruleset:2510 data/multiplayer/units.ruleset:2410
@@ -25411,7 +25326,7 @@ msgid ""
 "technology, a military unit (occasionally a settler; and sometimes a unit "
 "that the player cannot yet create), or even a new city."
 msgstr ""
-"Pueblos (también llamado \"chocas\") son las comunidades primitivas "
+"Pueblos (también llamadas \"chozas\") son las comunidades primitivas "
 "repartidas en todo el mundo al comienzo del juego. Cualquier unidad de "
 "tierra puede entrar en un pueblo, haciendo desaparecer el pueblo y dando una "
 "respuesta al azar. Si el pueblo resulta hostil, podría producir bárbaros o "
@@ -30022,7 +29937,7 @@ msgid "Polynesian"
 msgstr "Polinesio"
 
 #: data/nation/polynesian.ruleset:6
-msgid "?plural:Polynesian"
+msgid "?plural:Polynesians"
 msgstr "Polinesios"
 
 #: data/nation/polynesian.ruleset:8
@@ -32366,9 +32281,11 @@ msgstr "¡Los %s han empezado a construir una nave espacial!"
 
 #. TRANS: city ... utype ... size ... pop_cost
 #: server/cityturn.c:1782
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
-msgstr "* Puede construir nuevas ciudades(población inicial %d).\n"
+msgstr ""
+"%s no puede construir %s aún. (tamaño de la ciudad: %d, coste de la unidad en "
+"población: %d)."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1823
@@ -38783,13 +38700,13 @@ msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr "La tregua con %s se ha acabado. Ahora estás en guerra con los %s."
 
 #: server/srv_main.c:788 server/srv_main.c:798
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
 "your alliance with %s."
 msgstr ""
 "La tregua entre %s y %s se ha acabado. Se han declarado la guerra. Así que "
-"tu cancelas la alianza con ellos dos."
+"tu cancelas la alianza con %s."
 
 #: server/srv_main.c:808
 #, c-format
@@ -39332,7 +39249,7 @@ msgstr "Opción: %s  -  %s"
 msgid "Option: %s"
 msgstr "Opción: %s"
 
-#: server/stdinhand.c:1783 server/stdinhand.c:5996
+#: server/stdinhand.c:1783 server/stdinhand.c:6004
 msgid "Description:"
 msgstr "Descripción:"
 
@@ -39884,7 +39801,7 @@ msgstr "Ha sido reasignada la nación a %s por %s."
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s ahora controla %s (%s, %s)."
 
-#: server/stdinhand.c:3529 server/stdinhand.c:6330
+#: server/stdinhand.c:3529 server/stdinhand.c:6338
 msgid "Human"
 msgstr "Humano"
 
@@ -39970,7 +39887,7 @@ msgstr ""
 "Fallo cargando los conjuntos de reglas des del directorio \"%s\", utilizando "
 "\"%s\""
 
-#: server/stdinhand.c:3922 server/stdinhand.c:3958 server/stdinhand.c:6246
+#: server/stdinhand.c:3922 server/stdinhand.c:3958 server/stdinhand.c:6254
 msgid "That would be rather silly, since you are not a player."
 msgstr "Eso sería bastante tonto, ya que no eres un jugador."
 
@@ -39984,7 +39901,7 @@ msgstr "%s. Prueba /help ignore"
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr "Añadido patrón %s en la entrada %d de tu lista de ignorar ."
 
-#: server/stdinhand.c:3967 server/stdinhand.c:6251
+#: server/stdinhand.c:3967 server/stdinhand.c:6259
 msgid "Your ignore list is empty."
 msgstr "La lista de ignorar está vacía."
 
@@ -40373,7 +40290,7 @@ msgstr "ninguno"
 msgid "Ambiguous 'mapimg' command."
 msgstr "Comando 'mapimg' ambiguo."
 
-#: server/stdinhand.c:5339 server/stdinhand.c:5593
+#: server/stdinhand.c:5339 server/stdinhand.c:5601
 #, c-format
 msgid "The valid arguments are: %s."
 msgstr "Los argumento válidos son: %s."
@@ -40449,11 +40366,20 @@ msgstr ""
 "El fichero de comandos de base de datos Freeciv ha sido desactivado en "
 "tiempo de compilación."
 
-#: server/stdinhand.c:5563
+#: server/stdinhand.c:5552
+msgid ""
+"Freeciv database script not activated at server start. See the Freeciv "
+"server's --auth command line option."
+msgstr ""
+"No se ha activado el script de la base de datos de Freeciv durante el inicio "
+"del "
+"servidor. Mira la opción de linea de comandos del servidor de Freeciv --auth."
+
+#: server/stdinhand.c:5571
 msgid "Ambiguous fcdb command."
 msgstr "Comando de fcdb ambiguo."
 
-#: server/stdinhand.c:5697
+#: server/stdinhand.c:5705
 #, c-format
 msgid ""
 "Not enough human players ('minplayers' server setting has value %d); game "
@@ -40462,11 +40388,11 @@ msgstr ""
 "No hay suficientes jugadores humanos (el ajuste 'minplayers' del servidor "
 "tiene el valor de %d); la partida no puede empezar."
 
-#: server/stdinhand.c:5704
+#: server/stdinhand.c:5712
 msgid "No players; game will not start."
 msgstr "No hay jugadores; la partida no se puede empezar."
 
-#: server/stdinhand.c:5709
+#: server/stdinhand.c:5717
 msgid ""
 "Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
@@ -40474,17 +40400,17 @@ msgstr ""
 "No hay suficientes naciones para todos los jugadores en el conjunto de "
 "naciones actual; la partida no se puede empezar. (mira el ajuste 'nationset')"
 
-#: server/stdinhand.c:5714
+#: server/stdinhand.c:5722
 msgid "Not enough nations for all players; game will not start."
 msgstr ""
 "No hay naciones para todos los jugadores; la partida no se puede empezar."
 
-#: server/stdinhand.c:5725
+#: server/stdinhand.c:5733
 msgid "All players are ready; starting game."
 msgstr "Todos los jugadores están preparados; comenzando la partida."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5741
+#: server/stdinhand.c:5749
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
@@ -40493,24 +40419,24 @@ msgstr ""
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5748
+#: server/stdinhand.c:5756
 msgid "Cannot start the game: it is already running."
 msgstr "No se puede empezar la partida: ya está en marcha."
 
-#: server/stdinhand.c:5779
+#: server/stdinhand.c:5787
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Cortando la conexión %s."
 
-#: server/stdinhand.c:5780
+#: server/stdinhand.c:5788
 msgid "connection cut"
 msgstr "conexión cortada"
 
-#: server/stdinhand.c:5868
+#: server/stdinhand.c:5876
 msgid "You may not kick yourself."
 msgstr "No te puedes expulsar a tu mismo."
 
-#: server/stdinhand.c:5891
+#: server/stdinhand.c:5899
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
@@ -40519,11 +40445,11 @@ msgstr ""
 "Debe haber al menos %d conexiones únicas con el servidor para que este "
 "comando sea válido."
 
-#: server/stdinhand.c:5917
+#: server/stdinhand.c:5925
 msgid "kicked"
 msgstr "expulsado"
 
-#: server/stdinhand.c:5933
+#: server/stdinhand.c:5941
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -40562,179 +40488,179 @@ msgstr ""
 "  quit   - para salir"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5970
+#: server/stdinhand.c:5978
 #, c-format
 msgid "Command: %s  -  %s"
 msgstr "Comando: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5976
+#: server/stdinhand.c:5984
 #, c-format
 msgid "Command: %s"
 msgstr "Comando: %s"
 
-#: server/stdinhand.c:5981
+#: server/stdinhand.c:5989
 msgid "Synopsis: "
 msgstr "Resumen: "
 
-#: server/stdinhand.c:5990
+#: server/stdinhand.c:5998
 #, c-format
 msgid "Level: %s"
 msgstr "Nivel: %s"
 
-#: server/stdinhand.c:6014
+#: server/stdinhand.c:6022
 msgid "The following server commands are available:"
 msgstr "Puedes usar los siguientes comandos del servidor:"
 
-#: server/stdinhand.c:6075
+#: server/stdinhand.c:6083
 #, c-format
 msgid "Possible matches: %s"
 msgstr "Coincidencias posibles: %s"
 
-#: server/stdinhand.c:6137
+#: server/stdinhand.c:6145
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "El tema de ayuda '%s' es ambiguo."
 
-#: server/stdinhand.c:6144
+#: server/stdinhand.c:6152
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "No hay ningún tema de ayuda llamado '%s'."
 
-#: server/stdinhand.c:6185
+#: server/stdinhand.c:6193
 msgid "List of connections to server:"
 msgstr "Lista de conexiones del servidor:"
 
-#: server/stdinhand.c:6189
+#: server/stdinhand.c:6197
 msgid "<no connections>"
 msgstr "<no hay conexiones>"
 
-#: server/stdinhand.c:6210
+#: server/stdinhand.c:6218
 msgid "List of all delegations:"
 msgstr "Lista de todas las delegaciones:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6222
+#: server/stdinhand.c:6230
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr "%s delega el control del jugador '%s' al usuario %s%s."
 
-#: server/stdinhand.c:6224
+#: server/stdinhand.c:6232
 msgid " (active)"
 msgstr " (activa)"
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6238
 msgid "No delegations defined."
 msgstr "No se han definido delegaciones."
 
-#: server/stdinhand.c:6255
+#: server/stdinhand.c:6263
 msgid "Your ignore list:"
 msgstr "Tu lista de ignorar:"
 
-#: server/stdinhand.c:6271
+#: server/stdinhand.c:6279
 msgid "List of players:"
 msgstr "Lista de jugadores:"
 
-#: server/stdinhand.c:6275 server/stdinhand.c:6479
+#: server/stdinhand.c:6283 server/stdinhand.c:6487
 msgid "<no players>"
 msgstr "<no hay jugadores>"
 
-#: server/stdinhand.c:6305
+#: server/stdinhand.c:6313
 #, c-format
 msgid ", user %s"
 msgstr ", usuario %s"
 
-#: server/stdinhand.c:6309
+#: server/stdinhand.c:6317
 msgid ", ready"
 msgstr ", preparado"
 
-#: server/stdinhand.c:6313
+#: server/stdinhand.c:6321
 msgid ", not ready"
 msgstr ", no preparado"
 
-#: server/stdinhand.c:6319
+#: server/stdinhand.c:6327
 msgid ", Dead"
 msgstr ", Muerto"
 
-#: server/stdinhand.c:6333
+#: server/stdinhand.c:6341
 #, c-format
 msgid ", %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:6334
+#: server/stdinhand.c:6342
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivel de dificultad %s"
 
-#: server/stdinhand.c:6340
+#: server/stdinhand.c:6348
 #, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] ", %d conexión:"
 msgstr[1] ", %d conexiones:"
 
-#: server/stdinhand.c:6347
+#: server/stdinhand.c:6355
 #, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "%s de %s (nivel de acceso a comandos %s), bufsize=%dkb"
 
-#: server/stdinhand.c:6352
+#: server/stdinhand.c:6360
 msgid " (observer mode)"
 msgstr " (modo observador)"
 
-#: server/stdinhand.c:6369
+#: server/stdinhand.c:6377
 msgid "List of scenarios available:"
 msgstr "Lista de escenarios disponibles:"
 
 #. TRANS: don't translate text between ''
-#: server/stdinhand.c:6390
+#: server/stdinhand.c:6398
 msgid "List of nation sets available for 'nationset' option:"
 msgstr "Lista de conjuntos de naciones disponibles para la opción 'nationset':"
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
-#: server/stdinhand.c:6404
+#: server/stdinhand.c:6412
 #, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
 msgstr[0] " %-10s  %s (%d jugable)"
 msgstr[1] " %-10s  %s (%d jugables)"
 
-#: server/stdinhand.c:6427
+#: server/stdinhand.c:6435
 msgid "List of teams:"
 msgstr "Lista de equipos:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6437
+#: server/stdinhand.c:6445
 #, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d jugador :"
 msgstr[1] "%2d : '%s' : %d jugadores :"
 
-#: server/stdinhand.c:6458
+#: server/stdinhand.c:6466
 msgid "No map image definitions."
 msgstr "No hay definiciones de imagen de mapa."
 
-#: server/stdinhand.c:6460
+#: server/stdinhand.c:6468
 msgid "List of map image definitions:"
 msgstr "Lista de definiciones de imagen de mapa:"
 
-#: server/stdinhand.c:6465
+#: server/stdinhand.c:6473
 #, c-format
 msgid "[%2d] %s"
 msgstr "[%2d] %s"
 
-#: server/stdinhand.c:6476
+#: server/stdinhand.c:6484
 msgid "List of player colors:"
 msgstr "Lista de colores de jugadores:"
 
-#: server/stdinhand.c:6482
+#: server/stdinhand.c:6490
 #, c-format
 msgid "%s (user %s): [%s]"
 msgstr "%s (usuario %s): [%s]"
 
-#: server/stdinhand.c:6541
+#: server/stdinhand.c:6549
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Parámetro inválido para list: '%s'.  Prueba con '%shelp list'."
