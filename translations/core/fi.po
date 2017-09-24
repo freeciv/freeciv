@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2017-09-22 00:30+0300\n"
-"PO-Revision-Date: 2017-09-24 00:13+0300\n"
+"PO-Revision-Date: 2017-09-25 02:19+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -8005,10 +8005,8 @@ msgid "Infrastructure: %1\n"
 msgstr "Infrastruktuuri: %1\n"
 
 #: client/gui-qt/hudwidget.cpp:1585
-#, fuzzy
-#| msgid "Defense bonus:"
 msgid "Defense bonus: %1%\n"
-msgstr "Puolustusbonus:"
+msgstr "Puolustusbonus: %1%\n"
 
 #: client/gui-qt/hudwidget.cpp:1601 client/gui-qt/hudwidget.cpp:1603
 msgid "Movement cost: %1"
@@ -8118,26 +8116,20 @@ msgid "Minimap"
 msgstr "Minikartta"
 
 #: client/gui-qt/menu.cpp:1038
-#, fuzzy
-#| msgid "Show happiness information"
 msgid "Show new turn information"
-msgstr "Näytä tyytyväisyys"
+msgstr "Näytä uuden kierroksen tiedot"
 
 #: client/gui-qt/menu.cpp:1043
-#, fuzzy
-#| msgid "Show savegame information"
 msgid "Show combat detailed information"
-msgstr "Näytä talletuksen tiedot"
+msgstr "Näytä yksityiskohtaiset taistelutiedot"
 
 #: client/gui-qt/menu.cpp:1047
 msgid "Lock interface"
 msgstr "Lukitse käyttöliittymä"
 
 #: client/gui-qt/menu.cpp:1059
-#, fuzzy
-#| msgid " (default)"
 msgid "Zoom default"
-msgstr " (oletus)"
+msgstr "Oletuszoomauskerroin"
 
 #: client/gui-qt/menu.cpp:1166
 msgid "Advanced unit selection"
@@ -8314,16 +8306,12 @@ msgid "Auto Worker"
 msgstr "Työstä maastoa itsenäisesti"
 
 #: client/gui-qt/menu.cpp:2650
-#, fuzzy
-#| msgid "Didn't find a route to the destination!"
 msgid "Didn't find any trade route to establish"
-msgstr "Kohteeseen ei löytynyt käyttökelpoista reittiä!"
+msgstr "Ei löytynyt kauppareittiä perustettavaksi"
 
 #: client/gui-qt/menu.cpp:3202
-#, fuzzy
-#| msgid "Available targets"
 msgid "Available tilesets"
-msgstr "Mahdolliset tavoitteet"
+msgstr "Saatavilla olevat kuvitukset"
 
 #: client/gui-qt/menu.cpp:3204
 msgid "Some tilesets might not be compatible with current map topology!"
@@ -8408,10 +8396,8 @@ msgid "Local servers:"
 msgstr "Paikalliset palvelimet:"
 
 #: client/gui-qt/pages.cpp:458
-#, fuzzy
-#| msgid "Loading ..."
 msgid "Loading..."
-msgstr "Ladataan ..."
+msgstr "Ladataan..."
 
 #: client/gui-qt/pages.cpp:479
 msgid "Show preview"
@@ -8579,8 +8565,6 @@ msgid "Show/hide workers"
 msgstr "Näytä tai kätke kaupunkilaiset"
 
 #: client/gui-qt/shortcuts.cpp:93
-#, fuzzy
-#| msgid "Units selection(for tile under mouse position)"
 msgid "Units selection (for tile under mouse position)"
 msgstr "Valitse yksiköt (hiiren osoittamasta ruudusta)"
 
@@ -8589,10 +8573,8 @@ msgid "Explode Nuclear"
 msgstr "Räjäytä ydinlataus"
 
 #: client/gui-qt/shortcuts.cpp:140
-#, fuzzy
-#| msgid "Quick production select from map"
 msgid "Quick buy current production from map"
-msgstr "Tuotannon pikavalinta kartalta"
+msgstr "Tuotannon pikaosto kartalta"
 
 #: client/gui-qt/shortcuts.cpp:142
 msgid "Lock/unlock interface"
@@ -8607,10 +8589,8 @@ msgid "Paradrop/clean pollution"
 msgstr "Laskuvarjohyppy/Siivoa saasteita"
 
 #: client/gui-qt/shortcuts.cpp:148
-#, fuzzy
-#| msgid "Popup tile info"
 msgid "Popup combat information"
-msgstr "Avaa ruudun tiedot"
+msgstr "Avaa taistelutiedot"
 
 #: client/gui-qt/shortcuts.cpp:150
 msgid "Reload theme"
@@ -8637,14 +8617,8 @@ msgid "Load Lua script"
 msgstr "Lataa Lua-skripti"
 
 #: client/gui-qt/shortcuts.cpp:162
-#, fuzzy
-#| msgid ""
-#| "fcdb reload\n"
-#| "fcdb lua <script>"
 msgid "Load last loaded Lua script"
-msgstr ""
-"fcdb reload\n"
-"fcdb lua <skripti"
+msgstr "Lataa viimeksi ladattu Lua-skripti"
 
 #: client/gui-qt/shortcuts.cpp:164
 msgid "Reload tileset with default scale"
@@ -8764,26 +8738,20 @@ msgstr "LisäNappi24"
 
 #. TRANS: Given shortcut(%1) is already assigned
 #: client/gui-qt/shortcuts.cpp:524
-#, fuzzy
-#| msgid "%s is already observing %s."
 msgid "%1 is already assigned to"
-msgstr "%s tarkkailee jo pelaajaa %s."
+msgstr "%1 on jo käytössä"
 
 #: client/gui-qt/shortcuts.cpp:537
 msgid "Shortcuts options"
 msgstr "Pikavalinta-asetukset"
 
 #: client/gui-qt/sidebar.cpp:664
-#, fuzzy
-#| msgid "_Observe %s"
 msgid "Observe %1"
-msgstr "Tarkkaile pelaajaa %s"
+msgstr "Tarkkaile pelaajaa %1"
 
 #: client/gui-qt/sidebar.cpp:675
-#, fuzzy
-#| msgid "Observe this player"
 msgid "Observe globally"
-msgstr "Tarkkaile tätä pelaajaa"
+msgstr "Tarkkaile kaikkea"
 
 #: client/gui-qt/spaceshipdlg.cpp:57 client/gui-sdl2/spaceshipdlg.c:189
 msgid "Launch"
@@ -10653,16 +10621,14 @@ msgstr "· %d-kertainen puolustusbonus jos hyökkääjä on %s.\n"
 
 #. TRANS: defense divider ... or-list of unit types
 #: client/helpdata.c:1678
-#, fuzzy, c-format
-#| msgid "* reduces target's defense to 1 / %d when attacking %s.\n"
+#, c-format
 msgid "* Reduces target's defense to 1 / %d when attacking %s.\n"
 msgstr ""
 "· kun hyökkäyksen kohteena %2$s, sen puolustusarvo on 1 / %1$d normaalista.\n"
 
 #. TRANS: or-list of unit types
 #: client/helpdata.c:1686
-#, fuzzy, c-format
-#| msgid "* reduces target's fire power to 1 when attacking %s.\n"
+#, c-format
 msgid "* Reduces target's fire power to 1 when attacking %s.\n"
 msgstr "· kun hyökkäyksen kohteena %s, sen tulivoima on vain 1.\n"
 
@@ -10935,7 +10901,10 @@ msgid ""
 "* An enemy unit considering to auto attack this unit will choose to do so "
 "even if it has better odds when defending against it than when attacking "
 "it.\n"
-msgstr "· Automaattinen hyökkäys tätä yksikköä vastaan tehdään vaikka hyökkääjällä olisikin paremmat voittomahdollisuudet puolustautuessaan tätä yksikköä vastaan.\n"
+msgstr ""
+"· Automaattinen hyökkäys tätä yksikköä vastaan tehdään vaikka hyökkääjällä "
+"olisikin paremmat voittomahdollisuudet puolustautuessaan tätä yksikköä "
+"vastaan.\n"
 
 #: client/helpdata.c:2156
 msgid ""
@@ -12691,16 +12660,10 @@ msgid "Show automated units"
 msgstr "Näytä automatisoidut yksiköt"
 
 #: client/options.c:2148
-#, fuzzy
-#| msgid ""
-#| "Disable this option if you do not want to press the Turn Done button "
-#| "manually when watching an AI player."
 msgid ""
 "Disable this option if you do not want to see automated units autocentered "
 "and animated."
-msgstr ""
-"Jos asetus ei ole käytössä, sinun ei tarvitse painaa nappia \"Vuoro valmis\" "
-"seuratessasi AI-pelaajaa."
+msgstr "Laita tämä asetus pois päältä mikäli et halua nähdä näytön keskittyvän automatisoituihin yksiköihin, ja niiden liikkumista."
 
 #: client/options.c:2151
 msgid "Auto center on combat"
@@ -13670,24 +13633,16 @@ msgid "Show savegame information"
 msgstr "Näytä talletuksen tiedot"
 
 #: client/options.c:3167
-#, fuzzy
-#| msgid ""
-#| "If this option is set the client will use the whole screen area for "
-#| "drawing."
 msgid ""
 "If this option is set the client will show information and map preview of "
 "current savegame."
-msgstr "Jos asetus on käytössä, asiakasohjelma käyttää koko ruudun aluetta"
+msgstr "Jos asetus on käytössä, asiakasohjelma näyttää tietoja ja kartan esikatselun talletetusta pelistä."
 
 #: client/options.c:3170
 msgid "Sidebar position"
 msgstr "Sivupalkin sijainti"
 
 #: client/options.c:3171
-#, fuzzy
-#| msgid ""
-#| "If this option is set sidebar will be on left, otherwise it will on right "
-#| "side of map"
 msgid ""
 "If this option is set, the sidebar will be to the left of the map, otherwise "
 "to the right."
@@ -13700,8 +13655,6 @@ msgid "Wake up sequence"
 msgstr "Herätysmerkkijono"
 
 #: client/options.c:3176
-#, fuzzy
-#| msgid "String which will trigger sound in pregame page, %1 stands for nick"
 msgid ""
 "String which will trigger sound in pregame page; %1 stands for username."
 msgstr ""
@@ -15067,11 +15020,9 @@ msgstr "Onnistumistodennäköisyys on %.1f%%."
 #. * rounding. It explains that the interval is imprecise because
 #. * the player doesn't have enough information.
 #: common/actions.c:1087
-#, fuzzy, c-format
-#| msgid ""
-#| "The probability of success is %.1f%%, %.1f%% or somewhere in between."
+#, c-format
 msgid "The probability of success is %.1f%%, %.1f%% or somewhere in between.%s"
-msgstr "Onnistumistodennäköisyys on %.1f%%, %.1f%% tai jotain siltä väliltä."
+msgstr "Onnistumistodennäköisyys on %.1f%%, %.1f%% tai jotain siltä väliltä.%s"
 
 #. TRANS: explanation used in the action probability tooltip
 #. * above.
@@ -25348,16 +25299,14 @@ msgstr ""
 
 #. TRANS: One player got tech for the whole team.
 #: data/default/default.lua:44
-#, fuzzy, c-format
-#| msgid "%s found %s in ancient scrolls of wisdom for you."
+#, c-format
 msgid "The %s found %s in ancient scrolls of wisdom for you."
 msgstr ""
 "%s löysi muinaiskääröjä, joita lukemalla %s avautui ymmärrettävään muotoon."
 
 #. TRANS: first %s is leader or team name
 #: data/default/default.lua:49
-#, fuzzy, c-format
-#| msgid "The %s have acquired %s from ancient scrolls of wisdom."
+#, c-format
 msgid "%s has acquired %s from ancient scrolls of wisdom."
 msgstr "%s ovat oppineet teknologian %s muinaiskääröistä."
 
@@ -25392,8 +25341,6 @@ msgid "The loss of %s has inspired partisans!"
 msgstr "Sissiryhmiä on muodostunut %s menetyksen jälkeen sen ympäristöön!"
 
 #: data/default/default.lua:204
-#, fuzzy
-#| msgid "We survived the disaster without serious damages."
 msgid "We survived the disaster without serious damage."
 msgstr "Onnettomuus ei saanut aikaan merkittäviä tuhoja."
 
@@ -26583,10 +26530,6 @@ msgstr ""
 "turvataksesi sille mahdollisimman nopean kasvun."
 
 #: data/sandbox/buildings.ruleset:522 data/civ2civ3/buildings.ruleset:519
-#, fuzzy
-#| msgid ""
-#| "Gives one extra food resource on all Ocean or Deep Ocean tiles (but not "
-#| "Lakes). The city needs to be coastal to build this improvement."
 msgid ""
 "Gives one extra food resource on all Ocean or Deep Ocean tiles (but not "
 "Lakes). The city needs to be coastal (next to one of these tiles) to build "
@@ -26688,19 +26631,11 @@ msgstr ""
 "kanssa (sama vaikutus kuin vesivoimalalla)"
 
 #: data/sandbox/buildings.ruleset:735 data/civ2civ3/buildings.ruleset:732
-#, fuzzy
-#| msgid ""
-#| "Every Ocean tile worked by the city yields one extra shield resource, as "
-#| "well as any Deep Ocean tile containing an oil platform. The city needs to "
-#| "be coastal to build this improvement."
 msgid ""
 "Every Ocean or Lake tile worked by the city yields one extra shield "
 "resource, as well as any Deep Ocean tile containing an oil platform. The "
 "city needs to be next to a water tile to build this improvement."
-msgstr ""
-"Kaikkien kaupungin työstämien matalan meren ruutujen, kuten myös "
-"porauslautoin varustettujen syvänmeren ruutujen, tuotanto lisääntyy yhdellä. "
-"Parannus voidaan rakentaa vain rannikkokaupunkeihin."
+msgstr "Kaikkien kaupungin työstämien matalan meren ja järviruutujen, kuten myös porauslautoin varustettujen syvänmeren ruutujen, tuotanto lisääntyy yhdellä. Parannus voidaan rakentaa vain rannikkokaupunkeihin."
 
 #: data/sandbox/buildings.ruleset:739 data/civ2civ3/buildings.ruleset:736
 msgid ""
@@ -26865,18 +26800,11 @@ msgstr ""
 "antavat 150% kokonaisbonuksen, 200% mikäli kaupungissa on myös moottoritie."
 
 #: data/sandbox/buildings.ruleset:1215 data/civ2civ3/buildings.ruleset:1212
-#, fuzzy
-#| msgid ""
-#| "Each tile around the city with roads, and without farmlands, that is "
-#| "already generating some trade, produces one extra trade resource."
 msgid ""
 "Each tile around the city with roads and without farmland, that is already "
 "generating some trade, produces one extra trade resource. The same applies "
 "to the city center tile (even if it is receiving a farmland bonus)."
-msgstr ""
-"Kaikki kauppaa tuottavat tiellä, mutta ei peltomaalla, varustetut ruudut "
-"tämän ihmeen rakentaneen kaupungin ympärillä tuottavat yhden yksikön enemmän "
-"kauppaa."
+msgstr "Kaikki kauppaa tuottavat tiellä, mutta ei peltomaalla, varustetut ruudut tämän ihmeen rakentaneen kaupungin ympärillä tuottavat yhden yksikön enemmän kauppaa. Keskusruutu saa kauppabonuksen vaikka siellä olisi peltomaakin."
 
 #: data/sandbox/buildings.ruleset:1222 data/civ2civ3/buildings.ruleset:1219
 #, no-c-format
@@ -27437,14 +27365,12 @@ msgid "Literate"
 msgstr "Lukutaitoisuus"
 
 #: data/sandbox/game.ruleset:1219 data/civ2civ3/game.ruleset:1060
-#, fuzzy, no-c-format
-#| msgid "You're the first one to achieve 100% of literacy!"
+#, no-c-format
 msgid "Your nation is the first to reach 100% literacy!"
 msgstr "Kansasi on ensimmäisenä saavuttanut 100% lukutaidon!"
 
 #: data/sandbox/game.ruleset:1221 data/civ2civ3/game.ruleset:1062
-#, fuzzy, no-c-format
-#| msgid "You have achieved 100% of literacy!"
+#, no-c-format
 msgid "Your nation has reached 100% literacy!"
 msgstr "Kansasi on saavuttanut 100% lukutaidon!"
 
@@ -27476,26 +27402,20 @@ msgid "Your nation is the first with a city of population 20!"
 msgstr "Kaupunkisi saavuttaa ensimmäisenä koon 20!"
 
 #: data/sandbox/game.ruleset:1239 data/civ2civ3/game.ruleset:1080
-#, fuzzy
-#| msgid "Your city has reached population 20!"
 msgid "One of your cities has reached population 20!"
-msgstr "Kaupunkisi on saavuttanut koon 20!"
+msgstr "Yksi kaupungeistasi on saavuttanut koon 20!"
 
 #: data/sandbox/game.ruleset:1242 data/civ2civ3/game.ruleset:1083
 msgid "Cultured City"
 msgstr "Kulttuurikaupunki"
 
 #: data/sandbox/game.ruleset:1247 data/civ2civ3/game.ruleset:1088
-#, fuzzy
-#| msgid "Your nation is the first one to achieve 10000 culture points!"
 msgid "Your nation is the first with a city of 1000 culture points!"
-msgstr "Valtiosi on ensimmäinen 10000 kultturipistettä saavuttanut valtio!"
+msgstr "Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut kaupunki maailmassa!"
 
 #: data/sandbox/game.ruleset:1248 data/civ2civ3/game.ruleset:1089
-#, fuzzy
-#| msgid "Your city has achieved 1000 culture points!"
 msgid "One of your cities has 1000 culture points!"
-msgstr "Kaupunkisi on saavuttanut 1000 kulttuuripistettä!"
+msgstr "Yksi kaupungeistasi on saavuttanut 1000 kulttuuripistettä!"
 
 #: data/sandbox/game.ruleset:1251 data/civ2civ3/game.ruleset:1092
 msgid "Cultured Nation"
@@ -27569,18 +27489,10 @@ msgstr ""
 "sinuun. Valtasi perustuu pääosin henkiseen neuvonantoon."
 
 #: data/sandbox/governments.ruleset:102 data/civ2civ3/governments.ruleset:102
-#, fuzzy
-#| msgid ""
-#| "Compared to Despotism, a Tribal economy is more shield-oriented. Its "
-#| "bonuses to veterancy and strong martial law can be an advantage in "
-#| "wartime."
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy can be an advantage in wartime."
-msgstr ""
-"Yksinvaltaan verrattuna heimojärjestelmä on enemmän tuotantoon suuntautunut. "
-"Bonukset yksiköiden kokemukseen ja erinomainen kyky pitää kansa kurissa ovat "
-"etu sota-aikana."
+msgstr "Yksinvaltaan verrattuna heimojärjestelmä on enemmän tuotantoon suuntautunut. Bonukset yksiköiden ylenemiseen ovat etu sota-aikana."
 
 #: data/sandbox/governments.ruleset:107 data/civ2civ3/governments.ruleset:107
 #, fuzzy, no-c-format
@@ -27904,10 +27816,8 @@ msgid "You found Hermit's Place."
 msgstr "Löysit %d kullan."
 
 #: data/sandbox/script.lua:194 data/civ2civ3/script.lua:176
-#, fuzzy
-#| msgid "Granary"
 msgid "Grand Canyon"
-msgstr "Viljasiilo"
+msgstr "Suuri kanjoni"
 
 #: data/sandbox/script.lua:196 data/civ2civ3/script.lua:178
 #, fuzzy
@@ -27930,11 +27840,11 @@ msgstr ""
 #: data/sandbox/script.lua:211 data/civ2civ3/script.lua:193
 #: data/alien/terrain.ruleset:1171
 msgid "Thermal Vent"
-msgstr ""
+msgstr "Hydroterminen purkausaukko"
 
 #: data/sandbox/script.lua:218 data/civ2civ3/script.lua:200
 msgid "Atoll Chain"
-msgstr ""
+msgstr "Atolliketju"
 
 #: data/sandbox/script.lua:220 data/civ2civ3/script.lua:202
 #, fuzzy
@@ -27992,7 +27902,7 @@ msgstr "Etenevä jäätikkö"
 
 #: data/sandbox/script.lua:265 data/civ2civ3/script.lua:247
 msgid "Geothermal Area"
-msgstr ""
+msgstr "Geoterminen alue"
 
 #: data/sandbox/script.lua:271 data/civ2civ3/script.lua:253
 #, fuzzy
@@ -28006,7 +27916,7 @@ msgstr ""
 
 #: data/sandbox/script.lua:275 data/civ2civ3/script.lua:257
 msgid "Singing Dunes"
-msgstr ""
+msgstr "Laulavat dyynit"
 
 #: data/sandbox/script.lua:277 data/civ2civ3/script.lua:259
 #, fuzzy
@@ -28024,7 +27934,7 @@ msgstr "Mutatulivuoria"
 
 #: data/sandbox/script.lua:288 data/civ2civ3/script.lua:270
 msgid "Rock Pillars"
-msgstr ""
+msgstr "Kivipilarit"
 
 #: data/sandbox/script.lua:295 data/civ2civ3/script.lua:277
 msgid "White Cliffs"
@@ -28032,7 +27942,7 @@ msgstr ""
 
 #: data/sandbox/script.lua:297 data/civ2civ3/script.lua:279
 msgid "Giant Cave"
-msgstr ""
+msgstr "Jättiläisluola"
 
 #: data/sandbox/script.lua:299 data/civ2civ3/script.lua:281
 msgid "Rock Formation"
@@ -28051,10 +27961,8 @@ msgid "Sinkholes"
 msgstr ""
 
 #: data/sandbox/script.lua:317 data/civ2civ3/script.lua:299
-#, fuzzy
-#| msgid "Strong Force"
 msgid "Stone Forest"
-msgstr "Vahva voima"
+msgstr "Kivimetsä"
 
 #: data/sandbox/script.lua:319 data/civ2civ3/script.lua:301
 #, fuzzy
@@ -28067,10 +27975,8 @@ msgid "Millenary Trees"
 msgstr ""
 
 #: data/sandbox/script.lua:329 data/civ2civ3/script.lua:311
-#, fuzzy
-#| msgid "Mountains"
 msgid "Table Mountain"
-msgstr "vuoristo"
+msgstr "Pöytävuori"
 
 #: data/sandbox/script.lua:331 data/civ2civ3/script.lua:313
 #, fuzzy
@@ -28109,10 +28015,8 @@ msgid "Enables movement of nuclear units."
 msgstr "Mahdollistaa ydinaseiden liikkumisen."
 
 #: data/sandbox/techs.ruleset:114
-#, fuzzy
-#| msgid "Enables movement of nuclear units."
 msgid "Enables airlift of medium weight units."
-msgstr "Mahdollistaa ydinaseiden liikkumisen."
+msgstr "Mahdollistaa keskipainoisten yksiköiden lennättämisen ilmasiltaa pitkin."
 
 #: data/sandbox/techs.ruleset:280 data/civ2civ3/techs.ruleset:279
 msgid ""
@@ -28132,26 +28036,20 @@ msgstr ""
 "näkökykyä."
 
 #: data/sandbox/techs.ruleset:323
-#, fuzzy
-#| msgid "Can't build a city inside foreign borders."
 msgid "Grants you vision inside your borders."
-msgstr "Kaupunkia ei voi perustaa toisen rajojen sisäpuolelle."
+msgstr "Antaa täyden näkökyvyn rajojesi sisällä."
 
 #: data/sandbox/techs.ruleset:389
-#, fuzzy
-#| msgid "Enables movement of nuclear units."
 msgid "Enables airlift of light weight units."
-msgstr "Mahdollistaa ydinaseiden liikkumisen."
+msgstr "Mahdollistaa keveiden yksiköiden lennättämisen ilmasiltaa pitkin."
 
 #: data/sandbox/techs.ruleset:399 data/civ2civ3/techs.ruleset:395
 msgid "Makes it possible for Engineers to transform terrains."
 msgstr "Tekee maastonmuokkauksen mahdolliseksi teknikoille."
 
 #: data/sandbox/techs.ruleset:400
-#, fuzzy
-#| msgid "Enables movement of nuclear units."
 msgid "Enables airlift of heavy weight units."
-msgstr "Mahdollistaa ydinaseiden liikkumisen."
+msgstr "Mahdollistaa raskaiden yksiköiden lennättämisen ilmasiltaa pitkin."
 
 #: data/sandbox/techs.ruleset:453 data/civ2civ3/techs.ruleset:448
 msgid "Halves the upgrade cost of your units."
@@ -28259,10 +28157,8 @@ msgid "DifficultLanding"
 msgstr ""
 
 #: data/sandbox/terrain.ruleset:29
-#, fuzzy
-#| msgid "* Units can paradrop from this tile.\n"
 msgid "Only veterans can paradrop here."
-msgstr "· Tästä ruudusta voi lähteä maahanlaskutehtäviin.\n"
+msgstr "Vain veteraanit voivat tiputtautua tänne."
 
 #: data/sandbox/terrain.ruleset:40 data/civ2civ3/terrain.ruleset:39
 #: server/rscompat.c:267
@@ -28382,7 +28278,13 @@ msgid ""
 "and do not count as aggressive if near a friendly city. Any kind of land "
 "unit remaining in a fortress for a whole turn without moving recovers a "
 "quarter of its hit points."
-msgstr "Linnakkeeseen verrattuna linnoitus antaa sisällä oleville yksiköille +50% puolustusbonuksen maayksiköitä ja laivoja vastaan (kaikkiaan puolustus tuplaantuu). Yksiköt kuolevat yksitellen, eikä kansa pidä niitä aggressiivisesti sijoitettuna, mikäli linnoitus on ystävällismielisen kaupungin lähellä. Maayksiköt, jotka pysyvät liikkumattomina linnoituksessa kierroksen ajan, paranevat neljänneksen osumapisteitään."
+msgstr ""
+"Linnakkeeseen verrattuna linnoitus antaa sisällä oleville yksiköille +50% "
+"puolustusbonuksen maayksiköitä ja laivoja vastaan (kaikkiaan puolustus "
+"tuplaantuu). Yksiköt kuolevat yksitellen, eikä kansa pidä niitä "
+"aggressiivisesti sijoitettuna, mikäli linnoitus on ystävällismielisen "
+"kaupungin lähellä. Maayksiköt, jotka pysyvät liikkumattomina linnoituksessa "
+"kierroksen ajan, paranevat neljänneksen osumapisteitään."
 
 #: data/sandbox/terrain.ruleset:1393 data/civ2civ3/terrain.ruleset:1364
 msgid ""
@@ -28435,14 +28337,21 @@ msgstr ""
 "sellaista voi rakentaa jokiruutuun."
 
 #: data/sandbox/terrain.ruleset:1471 data/civ2civ3/terrain.ruleset:1441
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
 "against all units (in total, their defense against air units and missiles is "
 "doubled), and do not count as aggressive if near a friendly city. Also, air "
 "units recover more hit points (a third per turn, the same as in a city "
 "without an Airport)."
-msgstr "Lentotukikohdassa yksiköt ovat paremmassa turvassa kuin pelkällä kiitotiellä. Ne saavat 50% suuremman puolustusbonuksen (kaikkiaan niiden puolustus ilmayksiköitä ja ohjuksia vastaan on kaksinkertainen), eikä niitä katsota tyytymättömyyttä aiheuttavan aggressiivisiksi mikäli lentotukikohta on ystävällismielisen kaupungin lähellä. Ilmayksiköt myös palautuvat nopeammin (kolmanneksen kierroksessa, saman määrän kuin lentokentättömässä kaupungissa)."
+msgstr ""
+"Lentotukikohdassa yksiköt ovat paremmassa turvassa kuin pelkällä "
+"kiitotiellä. Ne saavat 50% suuremman puolustusbonuksen (kaikkiaan niiden "
+"puolustus ilmayksiköitä ja ohjuksia vastaan on kaksinkertainen), eikä niitä "
+"katsota tyytymättömyyttä aiheuttavan aggressiivisiksi mikäli lentotukikohta "
+"on ystävällismielisen kaupungin lähellä. Ilmayksiköt myös palautuvat "
+"nopeammin (kolmanneksen kierroksessa, saman määrän kuin lentokentättömässä "
+"kaupungissa)."
 
 #: data/sandbox/terrain.ruleset:1505
 msgid ""
@@ -28644,10 +28553,8 @@ msgid "Can peacefully expel certain foreign units."
 msgstr ""
 
 #: data/sandbox/units.ruleset:60
-#, fuzzy
-#| msgid "Enable"
 msgid "Expellable"
-msgstr "Ota käyttöön"
+msgstr "Karkoitettava"
 
 #: data/sandbox/units.ruleset:60
 msgid "Can be peacefully expelled from foreign tiles."
@@ -28970,7 +28877,13 @@ msgid ""
 "onboard a Carrier), units specializing in mobility (Paratroopers, Alpine "
 "Troops, Marines, Partisans, and Fanatics) can embark or disembark at any "
 "time."
-msgstr "Helikopterit voivat kuljettaa yhden sotilaallisen maayksikön. Normaalisti yksiköitä voidaan lastata tai purkaa vain kaupungeissa, kiitotiellä tai lentotukikohdissa (ei kentällä tai lentotukialuksen kannella), mutta erityisen liikkumiskykyisille yksiköille (laskuvarjojääkäreille, alppijääkäreille, merijalkaväelle, sissijoukoille ja fanaatikoille) se voidaan tehdä missä vain."
+msgstr ""
+"Helikopterit voivat kuljettaa yhden sotilaallisen maayksikön. Normaalisti "
+"yksiköitä voidaan lastata tai purkaa vain kaupungeissa, kiitotiellä tai "
+"lentotukikohdissa (ei kentällä tai lentotukialuksen kannella), mutta "
+"erityisen liikkumiskykyisille yksiköille (laskuvarjojääkäreille, "
+"alppijääkäreille, merijalkaväelle, sissijoukoille ja fanaatikoille) se "
+"voidaan tehdä missä vain."
 
 #: data/sandbox/units.ruleset:1615 data/civ2civ3/units.ruleset:1605
 msgid ""
@@ -29045,7 +28958,10 @@ msgid ""
 "It can transport aircraft and military land units (not wheeled), although "
 "land units cannot always be transferred to and from Helicopters while "
 "onboard (see Helicopter help)."
-msgstr "Se voi kuljettaa ilmayksiköitä ja sotilaallisia maayksiköitä (ei pyörin varustettuja), vaikkakaan yksköitä ei aina voi siirtää kannelle laskeutuneesta helikopterista tai helikopteriin (Ks. Helikopteri)"
+msgstr ""
+"Se voi kuljettaa ilmayksiköitä ja sotilaallisia maayksiköitä (ei pyörin "
+"varustettuja), vaikkakaan yksköitä ei aina voi siirtää kannelle "
+"laskeutuneesta helikopterista tai helikopteriin (Ks. Helikopteri)"
 
 #: data/sandbox/units.ruleset:2111 data/civ2civ3/units.ruleset:2095
 msgid ""
@@ -29363,8 +29279,7 @@ msgstr ""
 "sääntöihin on tiedostossa \"README.experimental\"."
 
 #: data/experimental/game.ruleset:969
-#, fuzzy, no-c-format
-#| msgid "Map Known 20 pct"
+#, no-c-format
 msgid "Map Known 20%"
 msgstr "Kartasta 20% tunnettu"
 
@@ -34026,7 +33941,10 @@ msgstr ""
 msgid ""
 " - If neither unit could move to where the other is, such as a ship "
 "attacking a land unit on land, the firepower of both is set to 1."
-msgstr " – Jos kumpikaan yksikkö ei voi liikkuen toisen ruutuun, kuten laivan hyökkätessä maalla olevan maayksikön kimppuun, molempien tulivoimaksi tulee 1."
+msgstr ""
+" – Jos kumpikaan yksikkö ei voi liikkuen toisen ruutuun, kuten laivan "
+"hyökkätessä maalla olevan maayksikön kimppuun, molempien tulivoimaksi tulee "
+"1."
 
 #: data/helpdata.txt:1243
 msgid ""
@@ -34064,7 +33982,10 @@ msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1. (This can be changed "
 "with the 'killcitizen' server option.)"
-msgstr "Jos voittava hyökkääjä on maavoimien yksikkö ja häviävä puolustaja on kaupungissa, jonka suojana ei ole muureja, kaupungin koko pienenee yhdellä. (Tätä sääntöä voidaan muuttaa 'killcitizen' palvelinasetuksella.)"
+msgstr ""
+"Jos voittava hyökkääjä on maavoimien yksikkö ja häviävä puolustaja on "
+"kaupungissa, jonka suojana ei ole muureja, kaupungin koko pienenee yhdellä. "
+"(Tätä sääntöä voidaan muuttaa 'killcitizen' palvelinasetuksella.)"
 
 #: data/helpdata.txt:1271
 msgid ""
@@ -34289,7 +34210,9 @@ msgstr ""
 msgid ""
 "- An enemy city counts as an enemy occupied tile if there are any units "
 "inside the city, but not if the city is empty."
-msgstr "- Tyhjät viholliskaupungit eivät saa aikaan valvonta-alueita, mutta mikä hyvänsä yksikkö niiden sisällä saa."
+msgstr ""
+"- Tyhjät viholliskaupungit eivät saa aikaan valvonta-alueita, mutta mikä "
+"hyvänsä yksikkö niiden sisällä saa."
 
 #: data/helpdata.txt:1394
 msgid ""
@@ -35651,7 +35574,9 @@ msgstr ""
 #: data/multiplayer/buildings.ruleset:1237
 msgid ""
 "Gives immediate technology advance the first time it is built by each player."
-msgstr "Antaa ensi kerran rakennettaessa kullekin sen rakentaneelle pelaajalle välittömän edistysaskeleen."
+msgstr ""
+"Antaa ensi kerran rakennettaessa kullekin sen rakentaneelle pelaajalle "
+"välittömän edistysaskeleen."
 
 #: data/multiplayer/buildings.ruleset:1261
 #, no-c-format
@@ -35818,7 +35743,12 @@ msgid ""
 "disabled, and that most wonders can be built once by each player, and affect "
 "only cities on the same continent. A full description of the differences can "
 "be found in README.multiplayer."
-msgstr "Pelaat Freeciviä moninpeliin suunnitelluilla säännöillä. Klassisiin sääntöihin nähden ne eroavat eniten siinä, että kauppareitit on poistettu käytöstä, useimmat ihmeet ovat jokaisen pelaajan rakennettavissa ja että ihmeiden vaikutus rajoittuu yhteen maanosaan. Täysi kuvaus sääntöjen eroista löytyy tiedostosta \"README.multiplayer\"."
+msgstr ""
+"Pelaat Freeciviä moninpeliin suunnitelluilla säännöillä. Klassisiin "
+"sääntöihin nähden ne eroavat eniten siinä, että kauppareitit on poistettu "
+"käytöstä, useimmat ihmeet ovat jokaisen pelaajan rakennettavissa ja että "
+"ihmeiden vaikutus rajoittuu yhteen maanosaan. Täysi kuvaus sääntöjen eroista "
+"löytyy tiedostosta \"README.multiplayer\"."
 
 #. TRANS: Name of a color; used as unique identifier for a team
 #. TRANS: With this and other color team names, uniqueness is more
@@ -39978,7 +39908,9 @@ msgstr "%s rakentavat jo avaruusalusta!"
 #: server/cityturn.c:2469
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
-msgstr "%s ei voi vielä rakentaa yksikköä %s. (Kaupungin koko: %d, yksikön väkilukukustannus: %d)"
+msgstr ""
+"%s ei voi vielä rakentaa yksikköä %s. (Kaupungin koko: %d, yksikön "
+"väkilukukustannus: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:2510
@@ -40922,9 +40854,16 @@ msgid ""
 "player can be reused (removing all record of that player from the running "
 "game)."
 msgstr ""
-"'create' komento luo uuden pelaajan annetulla nimellä. Jos 'player name' parametri on tyhjä, pelaajalle annetaan satunnainen nimi pelin alkaessa. Siihen asti pelaaja tunnetaan pelaajan tyypistä johdetulla nimellä.\n"
-"'ai type' parametrin voi antaa valitsemaan mitä AI modulia luodulle pelaajalle käytetään. Tämä vaatii että Freeciv on käännetty tukemaan ladattavia AI moduleita ja että vastaava moduli on ladattu.\n"
-"Jos peli on jo alkanut, luodulla pelaajalla ei ole yksiköitä eikä kaupunkeja. Jos vapaita pelaajapaikkoja ei ole jäljellä, voidaan hävitetyn pelaajan paikka ottaa uudelleen käyttöön (poistaen kaikki tiedot hävinneestä pelaajasta)."
+"'create' komento luo uuden pelaajan annetulla nimellä. Jos 'player name' "
+"parametri on tyhjä, pelaajalle annetaan satunnainen nimi pelin alkaessa. "
+"Siihen asti pelaaja tunnetaan pelaajan tyypistä johdetulla nimellä.\n"
+"'ai type' parametrin voi antaa valitsemaan mitä AI modulia luodulle "
+"pelaajalle käytetään. Tämä vaatii että Freeciv on käännetty tukemaan "
+"ladattavia AI moduleita ja että vastaava moduli on ladattu.\n"
+"Jos peli on jo alkanut, luodulla pelaajalla ei ole yksiköitä eikä "
+"kaupunkeja. Jos vapaita pelaajapaikkoja ei ole jäljellä, voidaan hävitetyn "
+"pelaajan paikka ottaa uudelleen käyttöön (poistaen kaikki tiedot hävinneestä "
+"pelaajasta)."
 
 #: server/commands.c:347
 msgid "Set yourself in away mode. The AI will watch your back."
@@ -41816,7 +41755,9 @@ msgstr "Saat uutta tietoa: %s opittu."
 #: server/diplhand.c:463
 #, c-format
 msgid "You have acquired %s thanks to the %s treaty with the %s."
-msgstr "Joukkueestasi %2$s harjoitti teknologiakauppaa %3$s kanssa. Saitte edistysaskelen %1$s."
+msgstr ""
+"Joukkueestasi %2$s harjoitti teknologiakauppaa %3$s kanssa. Saitte "
+"edistysaskelen %1$s."
 
 #. TRANS: Tech from another player
 #: server/diplhand.c:471
@@ -44200,7 +44141,10 @@ msgid ""
 "again to make it take effect instead."
 msgstr ""
 "%s\n"
-"Tällä hetkellä tämän asetuksen sijasta käytössä on vanhan skenaarion tai talleutksen asettama kiinteä määrä majoja: %d. Tämän asetuksen asettaminen mihin hyvänsä arvoon vaihtaa käyttöön kartan kokoon suhteutettavan laskentavan."
+"Tällä hetkellä tämän asetuksen sijasta käytössä on vanhan skenaarion tai "
+"talleutksen asettama kiinteä määrä majoja: %d. Tämän asetuksen asettaminen "
+"mihin hyvänsä arvoon vaihtaa käyttöön kartan kokoon suhteutettavan "
+"laskentavan."
 
 #: server/settings.c:623 server/settings.c:625
 #, c-format
@@ -44867,7 +44811,9 @@ msgstr "Majojen (bonus-tyyppisten ruutulisien) määrä"
 msgid ""
 "Huts are tile extras that may be investigated by units. The server "
 "variable's scale is huts per thousand tiles."
-msgstr "Majat ovat ruutulisiä, joita yksiköt voivat käydä tutkimassa. Tämä palvelinasetus kertoo montako majaa kartalla on tuhatta ruutua kohden."
+msgstr ""
+"Majat ovat ruutulisiä, joita yksiköt voivat käydä tutkimassa. Tämä "
+"palvelinasetus kertoo montako majaa kartalla on tuhatta ruutua kohden."
 
 #: server/settings.c:1664
 msgid "Amount of animals"
@@ -44878,7 +44824,9 @@ msgid ""
 "Number of animals initially created on terrains defined for them in the "
 "ruleset (if the ruleset supports it). The server variable's scale is animals "
 "per thousand tiles."
-msgstr "Pelin alussa luotujen eläinten määrä tuhatta ruutua kohti, maastotyypeille joille niitä on sääntökokoelmassa määritelty, jos ollenkaan."
+msgstr ""
+"Pelin alussa luotujen eläinten määrä tuhatta ruutua kohti, maastotyypeille "
+"joille niitä on sääntökokoelmassa määritelty, jos ollenkaan."
 
 #: server/settings.c:1677
 msgid "Minimum number of players"
@@ -48294,7 +48242,9 @@ msgstr "Asetukset palautettu alkuarvoihinsa."
 #: server/stdinhand.c:4644
 #, c-format
 msgid "Option '%s' reset to default value, and will track any default changes."
-msgstr "Asetus '%s' palautettu oletusarvoonsa, ja se tulee seuraamaan oletusarvon muutoksia."
+msgstr ""
+"Asetus '%s' palautettu oletusarvoonsa, ja se tulee seuraamaan oletusarvon "
+"muutoksia."
 
 #: server/stdinhand.c:4708
 #, c-format
@@ -49381,7 +49331,8 @@ msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 #: server/unithand.c:1831
 #, c-format
 msgid "Your %s can't do %s because it is homeless."
-msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s koska sillä ei ole kotikaupunkia."
+msgstr ""
+"Yksikkösi %s ei voi suorittaa toimintoa %s koska sillä ei ole kotikaupunkia."
 
 #: server/unithand.c:1838
 #, c-format
