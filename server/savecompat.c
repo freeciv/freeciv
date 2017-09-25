@@ -610,7 +610,10 @@ static void compat_load_020600(struct loaddata *loading)
           if (secfile_lookup_bool(loading->file, &value,
                                   "settings.set%d.value", i)) {
             if (value) {
-              sz_strlcat(value_buffer, "|SPACERACE");
+              if (value_buffer[0] != '\0') {
+                sz_strlcat(value_buffer, "|");
+              }
+              sz_strlcat(value_buffer, "SPACERACE");
             }
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
@@ -618,7 +621,10 @@ static void compat_load_020600(struct loaddata *loading)
           if (secfile_lookup_bool(loading->file, &value,
                                   "settings.set%d.gamestart", i)) {
             if (value) {
-              sz_strlcat(gamestart_buffer, "|SPACERACE");
+              if (gamestart_buffer[0] != '\0') {
+                sz_strlcat(gamestart_buffer, "|");
+              }
+              sz_strlcat(gamestart_buffer, "SPACERACE");
             }
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
@@ -634,7 +640,10 @@ static void compat_load_020600(struct loaddata *loading)
           if (secfile_lookup_bool(loading->file, &value,
                                   "settings.set%d.value", i)) {
             if (value) {
-              sz_strlcat(value_buffer, "|ALLIED");
+              if (value_buffer[0] != '\0') {
+                sz_strlcat(value_buffer, "|");
+              }
+              sz_strlcat(value_buffer, "ALLIED");
             }
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
@@ -642,7 +651,10 @@ static void compat_load_020600(struct loaddata *loading)
           if (secfile_lookup_bool(loading->file, &value,
                                   "settings.set%d.gamestart", i)) {
             if (value) {
-              sz_strlcat(gamestart_buffer, "|ALLIED");
+              if (gamestart_buffer[0] != '\0') {
+                sz_strlcat(gamestart_buffer, "|");
+              }
+              sz_strlcat(gamestart_buffer, "ALLIED");
             }
           } else {
             log_sg("Setting '%s': %s", name, secfile_error());
