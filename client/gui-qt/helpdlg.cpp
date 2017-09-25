@@ -1123,7 +1123,6 @@ canvas *terrain_canvas(struct terrain *terrain,
   struct drawn_sprite sprs[80];
   int canvas_y, count, i, width, height;
   struct extra_type *pextra;
-  struct sprite *sprite;
 
   width = tileset_full_tile_width(tileset);
   height = tileset_full_tile_height(tileset);
@@ -1149,8 +1148,8 @@ canvas *terrain_canvas(struct terrain *terrain,
   }
 
   if (resource != NULL) {
-    sprite = get_resource_sprite(tileset, extra_resource_get(resource));
-    qtg_canvas_put_sprite(canvas, 0, canvas_y, sprite, 0, 0, width, height);
+    count = fill_basic_extra_sprite_array(tileset, sprs, resource);
+    put_drawn_sprites(canvas, 1.0f, 0, canvas_y, count, sprs, false);
   }
 
   return canvas;
