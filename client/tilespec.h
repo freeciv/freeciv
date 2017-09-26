@@ -400,8 +400,6 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      const struct unit *punit,
 				      const int *upkeep_cost);
 struct sprite *get_basic_fog_sprite(const struct tileset *t);
-struct sprite *get_resource_sprite(const struct tileset *t,
-                                   const struct resource_type *presouce);
 int fill_basic_extra_sprite_array(const struct tileset *t,
                                   struct drawn_sprite *sprs,
                                   const struct extra_type *pextra);

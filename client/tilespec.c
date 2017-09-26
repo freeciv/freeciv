@@ -3530,13 +3530,6 @@ void tileset_setup_extra(struct tileset *t,
                     pextra->graphic_alt);
     }
 
-    if (is_extra_caused_by(pextra, EC_RESOURCE) && extrastyle != ESTYLE_SINGLE1) {
-      tileset_error(LOG_FATAL,
-                    /* Not translated as this should go away before next release. */
-                    "Extrastyle \"%s\" given for resource \"%s\", only \"Single1\" supported.",
-                    extrastyle_id_name(extrastyle));
-    }
-
     t->sprites.extras[id].extrastyle = extrastyle;
 
     extra_type_list_append(t->style_lists[extrastyle], pextra);
@@ -6665,19 +6658,6 @@ int fill_basic_terrain_layer_sprite_array(struct tileset *t,
                                     pterrain, tterrain_near, draw);
 
   return sprs - save_sprs;
-}
-
-/****************************************************************************
-  Return the sprite for the given resource type.
-****************************************************************************/
-struct sprite *get_resource_sprite(const struct tileset *t,
-                                   const struct resource_type *presource)
-{
-  if (presource == NULL) {
-    return NULL;
-  }
-
-  return t->sprites.extras[presource->self->id].u.single;
 }
 
 /****************************************************************************
