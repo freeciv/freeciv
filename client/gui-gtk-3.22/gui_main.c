@@ -2007,6 +2007,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
