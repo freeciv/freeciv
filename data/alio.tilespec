@@ -141,7 +141,8 @@ files =
   "alio/riversbrown.spec",
   "alio/riversgreen.spec",
   "alio/terrain.spec",
-  "alio/tunnels.spec"
+  "alio/tunnels.spec",
+  "alio/burrowtubes.spec"
 
 
 ; Include color definitions
@@ -292,6 +293,7 @@ styles =
       "road.maglev",   "RoadAllCombined"
       "road.pave",     "RoadAllSeparate"
       "road.river",    "River"
+      "road.burrow_tube", "RoadAllCombined"
       "tx.irrigation", "River"
       "tx.farmland",   "River"
       "tx.mine",       "Single1"
