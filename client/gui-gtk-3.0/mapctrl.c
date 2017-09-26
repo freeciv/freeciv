@@ -119,6 +119,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
     gtk_container_add(GTK_CONTAINER(p), gtk_label_new(popup_info_text(ptile)));
 
     punit = find_visible_unit(ptile);

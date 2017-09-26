@@ -1984,17 +1984,18 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpoin
 **************************************************************************/
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
-  if(ev->button == 1) {
+  if (ev->button == 1) {
     GtkWidget *p;
 
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
+    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
-		   "GtkLabel::label", get_info_label_text_popup(),
-				   "GtkWidget::visible", TRUE,
-        			   NULL);
+                   "GtkLabel::label", get_info_label_text_popup(),
+                   "GtkWidget::visible", TRUE,
+                   NULL);
     gtk_widget_show(p);
 
     gdk_device_grab(ev->device, gtk_widget_get_window(p),
@@ -2005,6 +2006,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
     g_signal_connect_after(p, "button_release_event",
                            G_CALLBACK(show_info_button_release), NULL);
   }
+
   return TRUE;
 }
 
