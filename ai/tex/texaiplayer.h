@@ -49,6 +49,7 @@ void texai_init_threading(void);
 bool texai_thread_running(void);
 
 void texai_map_alloc(void);
+void texai_whole_map_copy(void);
 void texai_map_free(void);
 void texai_player_alloc(struct ai_type *ait, struct player *pplayer);
 void texai_player_free(struct ai_type *ait, struct player *pplayer);

@@ -109,6 +109,16 @@ void texai_map_alloc(void)
 }
 
 /**************************************************************************
+  Send all tiles to tex thread
+**************************************************************************/
+void texai_whole_map_copy(void)
+{
+  whole_map_iterate(&(wld.map), ptile) {
+    texai_tile_info(ptile);
+  } whole_map_iterate_end;
+}
+
+/**************************************************************************
   Map allocation message received
 **************************************************************************/
 static void texai_map_alloc_recv(void)

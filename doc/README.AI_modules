@@ -120,6 +120,7 @@ New in Freeciv 3.1:
 -------------------
 - Added 'tile_info', called when tile has changed
 - Added 'map_alloc' and 'map_free', called when map tiles are allocated or freed
+- Added 'map_ready', called when map has been generated or, in case of scenario, loaded
 
 
 New in Freeciv 3.0:

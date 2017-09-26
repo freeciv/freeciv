@@ -580,6 +580,7 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->funcs.module_close = texai_module_close;
 
   ai->funcs.map_alloc = texai_map_alloc;
+  ai->funcs.map_ready = texai_whole_map_copy;
   ai->funcs.map_free = texai_map_free;
 
   ai->funcs.player_alloc = texwai_player_alloc;

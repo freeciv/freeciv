@@ -3052,6 +3052,8 @@ static void srv_ready(void)
     }
   }
 
+  CALL_FUNC_EACH_AI(map_ready);
+
   /* start the game */
   set_server_state(S_S_RUNNING);
   (void) send_server_info_to_metaserver(META_INFO);

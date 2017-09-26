@@ -592,6 +592,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
   ai->funcs.module_close = cai_module_close;
 
   /* ai->funcs.map_alloc = NULL; */
+  /* ai->funcs.map_ready = NULL; */
   /* ai->funcs.map_free = NULL; */
   /* ai->funcs.game_start = NULL; */
   /* ai->funcs.game_free = NULL; */

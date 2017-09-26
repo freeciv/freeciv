@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.1-ai-module-2017.May.26"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.1-ai-module-2017.Sep.26"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -67,6 +67,10 @@ struct ai_type
 
     /* Called for every AI type when map tiles are allocated. */
     void (*map_alloc)(void);
+
+    /* Called for every AI type when the game map is ready, either generated
+     * or, in case of scenario, loaded. */
+    void (*map_ready)(void);
 
     /* Called for every AI type when map tiles are freed. */
     void (*map_free)(void);
