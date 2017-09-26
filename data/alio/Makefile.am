@@ -4,6 +4,8 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/alio
 
 pkgdata_DATA =          \
+	burrowtubes.png \
+	burrowtubes.spec \
 	riversbrown.png	\
 	riversbrown.spec \
 	riversgreen.png	\
