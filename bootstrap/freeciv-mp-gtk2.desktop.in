@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=Freeciv modpack installer (gtk2)
+Name[ru]=Установщик модпаков Freeciv (gtk2)
 Comment=Download and install add-ons for Freeciv
+Comment[ru]=Скачивайте и устанавливайте дополнения для Freeciv
 Exec=freeciv-mp-gtk2
 Icon=freeciv-modpack
 StartupNotify=true
