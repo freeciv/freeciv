@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-22 00:24+0300\n"
-"PO-Revision-Date: 2017-09-25 02:13+0300\n"
+"POT-Creation-Date: 2017-09-28 01:39+0300\n"
+"PO-Revision-Date: 2017-09-28 02:15+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -4337,13 +4337,13 @@ msgid "Migrating gtk2-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-2.0/gui_main.c:2033 client/gui-gtk-3.0/gui_main.c:2136
-#: client/gui-gtk-3.22/gui_main.c:2126 client/gui-qt/gui_main.cpp:537
+#: client/gui-gtk-2.0/gui_main.c:2033 client/gui-gtk-3.0/gui_main.c:2138
+#: client/gui-gtk-3.22/gui_main.c:2128 client/gui-qt/gui_main.cpp:537
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-2.0/gui_main.c:2202 client/gui-gtk-3.0/gui_main.c:2305
-#: client/gui-gtk-3.22/gui_main.c:2295
+#: client/gui-gtk-2.0/gui_main.c:2202 client/gui-gtk-3.0/gui_main.c:2307
+#: client/gui-gtk-3.22/gui_main.c:2297
 #, c-format
 msgid ""
 "\n"
@@ -4766,13 +4766,13 @@ msgstr "Asiakasohjelman Lua-konsoli"
 msgid "Load Lua Script"
 msgstr "Lataa Lua-skripti"
 
-#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:195
-#: client/gui-gtk-3.22/mapctrl.c:196 client/gui-qt/mapctrl.cpp:56
+#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:196
+#: client/gui-gtk-3.22/mapctrl.c:197 client/gui-qt/mapctrl.cpp:56
 msgid "Build New City"
 msgstr "Perusta uusi kaupunki"
 
-#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:196
-#: client/gui-gtk-3.22/mapctrl.c:197 client/gui-qt/mapctrl.cpp:55
+#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:197
+#: client/gui-gtk-3.22/mapctrl.c:198 client/gui-qt/mapctrl.cpp:55
 #: client/gui-sdl/mapctrl.c:2641 client/gui-sdl2/mapctrl.c:2827
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
@@ -14258,11 +14258,6 @@ msgid "Send heartbeat messages to server"
 msgstr "Lähetä palvelimelle säännöllisesti elonmerkki"
 
 #: client/options.c:1857
-#, fuzzy
-#| msgid ""
-#| "Regularly send empty heartbeat message to the server to make sure that "
-#| "the connection is still up. This can be useful if the client otherwise "
-#| "may sit for a long time with no data being sent or received at all."
 msgid ""
 "Periodically send an empty heartbeat message to the server to probe whether "
 "the connection is still up. This can help to make it obvious when the server "
@@ -14784,7 +14779,9 @@ msgstr "Näytä automatisoidut yksiköt"
 msgid ""
 "Disable this option if you do not want to see automated units autocentered "
 "and animated."
-msgstr "Laita tämä asetus pois päältä mikäli et halua nähdä näytön keskittyvän automatisoituihin yksiköihin, ja niiden liikkumista."
+msgstr ""
+"Laita tämä asetus pois päältä mikäli et halua nähdä näytön keskittyvän "
+"automatisoituihin yksiköihin, ja niiden liikkumista."
 
 #: client/options.c:2156
 msgid "Auto center on combat"
@@ -15729,7 +15726,9 @@ msgstr "Näytä talletuksen tiedot"
 msgid ""
 "If this option is set the client will show information and map preview of "
 "current savegame."
-msgstr "Jos asetus on käytössä, asiakasohjelma näyttää tietoja ja kartan esikatselun talletetusta pelistä."
+msgstr ""
+"Jos asetus on käytössä, asiakasohjelma näyttää tietoja ja kartan esikatselun "
+"talletetusta pelistä."
 
 #: client/options.c:3169
 msgid "Sidebar position"
@@ -26495,7 +26494,10 @@ msgid ""
 "Every Ocean or Lake tile worked by the city yields one extra shield "
 "resource, as well as any Deep Ocean tile containing an oil platform. The "
 "city needs to be next to a water tile to build this improvement."
-msgstr "Kaikkien kaupungin työstämien matalan meren ja järviruutujen, kuten myös porauslautoin varustettujen syvänmeren ruutujen, tuotanto lisääntyy yhdellä. Parannus voidaan rakentaa vain rannikkokaupunkeihin."
+msgstr ""
+"Kaikkien kaupungin työstämien matalan meren ja järviruutujen, kuten myös "
+"porauslautoin varustettujen syvänmeren ruutujen, tuotanto lisääntyy yhdellä. "
+"Parannus voidaan rakentaa vain rannikkokaupunkeihin."
 
 #: data/civ2civ3/buildings.ruleset:732
 msgid ""
@@ -26663,7 +26665,10 @@ msgid ""
 "Each tile around the city with roads and without farmland, that is already "
 "generating some trade, produces one extra trade resource. The same applies "
 "to the city center tile (even if it is receiving a farmland bonus)."
-msgstr "Kaikki kauppaa tuottavat tiellä, mutta ei peltomaalla, varustetut ruudut tämän ihmeen rakentaneen kaupungin ympärillä tuottavat yhden yksikön enemmän kauppaa. Keskusruutu saa kauppabonuksen vaikka siellä olisi peltomaakin."
+msgstr ""
+"Kaikki kauppaa tuottavat tiellä, mutta ei peltomaalla, varustetut ruudut "
+"tämän ihmeen rakentaneen kaupungin ympärillä tuottavat yhden yksikön enemmän "
+"kauppaa. Keskusruutu saa kauppabonuksen vaikka siellä olisi peltomaakin."
 
 #: data/civ2civ3/buildings.ruleset:1215
 #, no-c-format
@@ -27164,27 +27169,21 @@ msgid "Multicultural"
 msgstr "Monikulttuurinen"
 
 #: data/civ2civ3/game.ruleset:676
-#, fuzzy
-#| msgid "You're the first nation with citizens of 2 different nationalities!"
 msgid ""
 "You're the first nation with a city containing 2 different nationalities!"
-msgstr "Olette ensimmäisiä, joiden valtakunnassa on kahta eri kansalaisuutta!"
+msgstr "Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
 
 #: data/civ2civ3/game.ruleset:677
-#, fuzzy
-#| msgid "In your nation there are citizens of 2 different nationalities!"
 msgid "One of your cities has 2 different nationalities!"
-msgstr "Valtakunnassasi on kahta eri kansalaisuutta!"
+msgstr "Yhdessä kaupungissasi on kahta eri kansalaisuutta!"
 
 #: data/civ2civ3/game.ruleset:680
 msgid "Metropolis"
 msgstr "Metropoli"
 
 #: data/civ2civ3/game.ruleset:685
-#, fuzzy
-#| msgid "Your city is the first one to reach population 20!"
 msgid "Your nation is the first with a city of population 20!"
-msgstr "Kaupunkisi saavuttaa ensimmäisenä koon 20!"
+msgstr "Yksi kaupungeistasi saavuttaa ensimmäisenä maailmassa koon 20!"
 
 #: data/civ2civ3/game.ruleset:686
 msgid "One of your cities has reached population 20!"
@@ -27196,7 +27195,9 @@ msgstr "Kulttuurikaupunki"
 
 #: data/civ2civ3/game.ruleset:694
 msgid "Your nation is the first with a city of 1000 culture points!"
-msgstr "Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut kaupunki maailmassa!"
+msgstr ""
+"Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut "
+"kaupunki maailmassa!"
 
 #: data/civ2civ3/game.ruleset:695
 msgid "One of your cities has 1000 culture points!"
@@ -27257,22 +27258,12 @@ msgstr ""
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy can be an advantage in wartime."
-msgstr "Yksinvaltaan verrattuna heimojärjestelmä on enemmän tuotantoon suuntautunut. Bonukset yksiköiden ylenemiseen ovat etu sota-aikana."
+msgstr ""
+"Yksinvaltaan verrattuna heimojärjestelmä on enemmän tuotantoon suuntautunut. "
+"Bonukset yksiköiden ylenemiseen ovat etu sota-aikana."
 
 #: data/civ2civ3/governments.ruleset:108
-#, fuzzy, no-c-format
-#| msgid ""
-#| "* Increases by half the chance of land units getting the next veteran "
-#| "level after a battle.\n"
-#| "* Each city can support up to 2 units for free; further units each cost 1 "
-#| "shield per turn.\n"
-#| "* Unlike later governments, military units do not cause unhappiness even "
-#| "when deployed aggressively.\n"
-#| "* Base corruption is 30% (the highest under any government). This "
-#| "increases with distance from the capital (half as fast with knowledge of "
-#| "The Corporation).\n"
-#| "* There is no base level of production waste, but an increasing amount "
-#| "with distance from the capital (half as fast with knowledge of Trade)."
+#, no-c-format
 msgid ""
 "* Increases by half the chance of land units getting the next veteran level "
 "after a battle.\n"
@@ -27287,17 +27278,12 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle "
-"kokeneisuustasolle voittoisan taistelun jälkeen.\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
-"ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
-"eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
-"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa "
-"sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos "
-"tunnetaan osakeyhtiöt)\n"
-"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
-"pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
+"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle kokeneisuustasolle voittoisan taistelun jälkeen.\n"
+"· Kussakin kaupungissa yksi asukas enemmän on tyytyväinen.\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
+"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
+"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/civ2civ3/governments.ruleset:138
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
@@ -27440,20 +27426,7 @@ msgstr ""
 "provosoi alueiden eroamista ajavien liikkeiden syntymistä."
 
 #: data/civ2civ3/governments.ruleset:288
-#, fuzzy, no-c-format
-#| msgid ""
-#| "* Each city receives 3 extra luxury points.\n"
-#| "* Celebrating cities produce one extra trade point for every tile which "
-#| "is already producing trade. (Cities below size 3 will not celebrate.)\n"
-#| "* Each city can support up to 2 units for free; further units each cost 2 "
-#| "gold per turn.\n"
-#| "* Each city tolerates up to 2 aggressively deployed military units; each "
-#| "further unit causes 1 unhappy citizen.\n"
-#| "* There is no base level of corruption, but an increasing amount with "
-#| "distance from the capital (half as much as with most other governments). "
-#| "Knowledge of The Corporation eliminates this corruption.\n"
-#| "* Base production waste is 30%, but is not affected by distance to the "
-#| "capital."
+#, no-c-format
 msgid ""
 "* Each city gets 2 extra luxury points.\n"
 "* Celebrating cities produce one extra trade point for every tile which is "
@@ -27468,18 +27441,12 @@ msgid ""
 "* Base production waste is 30%, but is not affected by distance to the "
 "capital."
 msgstr ""
-"· Jokainen kaupunki saa 3 pistettä luksusta yksistään hallitusmuodosta.\n"
-"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
-"joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
-"ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
-"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
-"tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas "
-"pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. "
-"Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
-"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta "
-"siihen."
+"· Jokainen kaupunki saa 2 pistettä luksusta yksistään hallitusmuodosta.\n"
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
+"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
+"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
+"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta siihen."
 
 #: data/civ2civ3/governments.ruleset:325
 #, no-c-format
@@ -27556,10 +27523,8 @@ msgid "Grand Canyon"
 msgstr "Suuri kanjoni"
 
 #: data/civ2civ3/script.lua:178
-#, fuzzy
-#| msgid "Deep Trench"
 msgid "Deep Gorge"
-msgstr "Pohjaton hauta"
+msgstr "Syvä kuilu"
 
 #: data/civ2civ3/script.lua:180
 msgid "Fjords"
@@ -27571,7 +27536,7 @@ msgstr "Vesiputouksia"
 
 #: data/civ2civ3/script.lua:184
 msgid "Travertine Terraces"
-msgstr ""
+msgstr "Marmoritasanteet"
 
 #: data/civ2civ3/script.lua:193
 msgid "Thermal Vent"
@@ -27582,16 +27547,12 @@ msgid "Atoll Chain"
 msgstr "Atolliketju"
 
 #: data/civ2civ3/script.lua:202
-#, fuzzy
-#| msgid "Great Warrior %s"
 msgid "Great Barrier Reef"
-msgstr "Suuri soturi %s"
+msgstr "Suuri valliriutta"
 
 #: data/civ2civ3/script.lua:205
-#, fuzzy
-#| msgid "Great Wall"
 msgid "Great Blue Hole"
-msgstr "Suuri muuri"
+msgstr "Suuri sininen aukko"
 
 #: data/civ2civ3/script.lua:212
 msgid "Great Lakes"
@@ -27602,34 +27563,28 @@ msgid "Dead Sea"
 msgstr "Kuollutmeri"
 
 #: data/civ2civ3/script.lua:217
-#, fuzzy
-#| msgid "Lake"
 msgid "Rift Lake"
-msgstr "järvi"
+msgstr "Kuilujärvi"
 
 #: data/civ2civ3/script.lua:224
 msgid "Grand Prismatic Spring"
-msgstr ""
+msgstr "Suuri sininen lähde"
 
 #: data/civ2civ3/script.lua:226
 msgid "Mangrove Forest"
 msgstr "Mangrovemetsä"
 
 #: data/civ2civ3/script.lua:228
-#, fuzzy
-#| msgid "Notes:"
 msgid "Cenotes"
-msgstr "Huomioita:"
+msgstr "Sortumakaivoja"
 
 #: data/civ2civ3/script.lua:235
 msgid "Ice Sheet"
-msgstr ""
+msgstr "Jääpeite"
 
 #: data/civ2civ3/script.lua:239
-#, fuzzy
-#| msgid "Glacier"
 msgid "Glacier Bay"
-msgstr "jäätikkö"
+msgstr "Jäätikkölahti"
 
 #: data/civ2civ3/script.lua:241
 msgid "Advancing Glacier"
@@ -27640,28 +27595,24 @@ msgid "Geothermal Area"
 msgstr "Geoterminen alue"
 
 #: data/civ2civ3/script.lua:253
-#, fuzzy
-#| msgid "Land Area"
 msgid "Sand Sea"
-msgstr "Pinta-ala"
+msgstr "Hiekkameri"
 
 #: data/civ2civ3/script.lua:255
 msgid "Salt Flat"
-msgstr ""
+msgstr "Suolatasanko"
 
 #: data/civ2civ3/script.lua:257
 msgid "Singing Dunes"
 msgstr "Laulavat dyynit"
 
 #: data/civ2civ3/script.lua:259
-#, fuzzy
-#| msgid "Desert"
 msgid "White Desert"
-msgstr "autiomaa"
+msgstr "Valkoinen autiomaa"
 
 #: data/civ2civ3/script.lua:266
 msgid "Long Beach"
-msgstr ""
+msgstr "Pitkä ranta"
 
 #: data/civ2civ3/script.lua:268
 msgid "Mud Volcanoes"
@@ -27673,7 +27624,7 @@ msgstr "Kivipilarit"
 
 #: data/civ2civ3/script.lua:277
 msgid "White Cliffs"
-msgstr ""
+msgstr "Valkoiset kielekkeet"
 
 #: data/civ2civ3/script.lua:279
 msgid "Giant Cave"
@@ -27693,49 +27644,43 @@ msgstr "Maanalainen joki"
 
 #: data/civ2civ3/script.lua:292
 msgid "Sinkholes"
-msgstr ""
+msgstr "Vajoamia"
 
 #: data/civ2civ3/script.lua:299
 msgid "Stone Forest"
 msgstr "Kivimetsä"
 
 #: data/civ2civ3/script.lua:301
-#, fuzzy
-#| msgid "Plant Forest"
 msgid "Sequoia Forest"
-msgstr "Istuta metsää"
+msgstr "Punapuumetsä"
 
 #: data/civ2civ3/script.lua:303
 msgid "Millenary Trees"
-msgstr ""
+msgstr "Tuhatvuotisia puita"
 
 #: data/civ2civ3/script.lua:311
 msgid "Table Mountain"
 msgstr "Pöytävuori"
 
 #: data/civ2civ3/script.lua:313
-#, fuzzy
-#| msgid "Insert"
 msgid "Inselberg"
-msgstr "Lisää"
+msgstr "Yksinäinen vuori"
 
 #: data/civ2civ3/script.lua:316
 msgid "Karst Landscape"
-msgstr ""
+msgstr "Karstimaastoa"
 
 #: data/civ2civ3/script.lua:318
 msgid "Valley of Geysers"
-msgstr ""
+msgstr "Geysirilaakso"
 
 #: data/civ2civ3/script.lua:327
-#, fuzzy
-#| msgid "Shared Vision"
 msgid "Sacred Mount"
-msgstr "Jaettu näkymä"
+msgstr "Pyhä vuori"
 
 #: data/civ2civ3/script.lua:329
 msgid "Cliff Coast"
-msgstr ""
+msgstr "Kielekerannikko"
 
 #: data/civ2civ3/script.lua:331
 msgid "Active Volcano"
@@ -27743,7 +27688,7 @@ msgstr "Aktiivinen tulivuori"
 
 #: data/civ2civ3/script.lua:333
 msgid "High Summit"
-msgstr ""
+msgstr "Korkealaki"
 
 #: data/civ2civ3/techs.ruleset:81
 msgid "Enables movement of nuclear units."
@@ -34792,28 +34737,31 @@ msgstr ""
 "Ylhäältä kuvattu 116×100-kokoinen kartta Pohjois-Amerikasta "
 "(kartioprojektio)."
 
-#: data/scenarios/europe_1901.sav:5
-msgid "Europe 1901"
-msgstr "Eurooppa 1901"
+#: data/scenarios/europe_1900_WWI.sav:5
+msgid "Europe 1900"
+msgstr "Eurooppa 1900"
 
-#: data/scenarios/europe_1901.sav:6
+#: data/scenarios/europe_1900_WWI.sav:6
 msgid ""
-"Europe 1901\n"
+"Europe 1900\n"
 "\n"
 "An attempt at an historically accurate recreation of the Great Powers of "
 "Europe just prior to the outbreak of the First World War.\n"
 "\n"
 "WARNING: Each AI controlled player will spend a long time on its moves "
-"during turn change."
+"during turn change.\n"
+"\n"
+"(update: 28.07.2016) "
 msgstr ""
-"Eurooppa 1901\n"
+"Eurooppa 1900\n"
 "\n"
-"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri "
-"ennen ensimmäisen maailmansodan syttymistä.\n"
+"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri ennen ensimmäisen maailmansodan syttymistä.\n"
 "\n"
-"VAROITUS: Tekoälyltä kuluu erittäin pitkä aika vuorojensa pelaamiseen."
+"VAROITUS: Tekoälyltä kuluu erittäin pitkä aika vuorojensa pelaamiseen.\n"
+"\n"
+"(päivitetty 28.07.2016)"
 
-#: data/scenarios/europe_1901.sav:7
+#: data/scenarios/europe_1900_WWI.sav:7
 msgid "Ferdinand Steinkrüger (a.k.a. XYZ) and Jamie Troini (a.k.a. Nimrod)."
 msgstr ""
 "Ferdinand Steinkrüger (nimimerkki XYZ) ja Jamie Troini (nimimerkki Nimrod)."
@@ -40547,7 +40495,7 @@ msgstr ""
 "Suoritetaan yhteensopivuustoiminto versiolle: <%d (tiedosto: %d, palvelin: "
 "%d)."
 
-#: server/savecompat.c:1109
+#: server/savecompat.c:1121
 #, c-format
 msgid ""
 "The save game is wrong about what the closest relationship %s (player %d) "
