@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=Freeciv Ruleset Editor
+Name[ru]=Редактор наборов правил Freeciv
 Comment=Edit Freeciv game rules
+Comment[ru]=Меняйте любые правила Freeciv и создавайте новые
 Exec=freeciv-ruledit
 Icon=freeciv-modpack
 StartupNotify=true
