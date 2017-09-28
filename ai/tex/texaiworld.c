@@ -263,8 +263,6 @@ void texai_unit_destroyed(struct unit *punit)
 
     info->id = punit->id;
 
-    unit_list_remove(punit->tile->units, punit);
-
     texai_send_msg(TEXAI_MSG_UNIT_DESTROYED, NULL, info);
   }
 }
@@ -277,6 +275,7 @@ void texai_unit_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct unit *punit = idex_lookup_unit(&texai_world, info->id);
 
+  unit_list_remove(punit->tile->units, punit);
   idex_unregister_unit(&texai_world, punit);
   unit_virtual_destroy(punit);
 }
