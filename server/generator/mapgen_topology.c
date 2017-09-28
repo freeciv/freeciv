@@ -355,7 +355,7 @@ void generator_init_topology(bool autosize)
    * (less playables than island poles)
    *   5% for little maps
    *   2% for big ones, if map.server.temperature == 50
-   * exept if separate poles is set */
+   * except if separate poles is set */
   if (game.map.server.separatepoles) {
     /* with separatepoles option strip poles are useless */
     ice_base_colatitude =
