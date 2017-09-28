@@ -171,7 +171,6 @@ files =
   "hexemplio/terrain.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",
-  "hexemplio/hills.spec",
   "hexemplio/mountains.spec",
   "hexemplio/tiles.spec",
   "hexemplio/grid.spec",
@@ -189,7 +188,8 @@ files =
   "alio/riversgreen.spec",
   "alio/terrain.spec",
   "alio/tunnels.spec",
-  "alio/burrowtubes.spec"
+  "alio/burrowtubes.spec",
+  "alio/hills.spec"
 
 
 ; Include color definitions
