@@ -27,7 +27,7 @@
 
 #include "borders.h"
 
-/*************************************************************************
+/*********************************************************************//**
   Border radius sq from given border source tile.
 *************************************************************************/
 int tile_border_source_radius_sq(struct tile *ptile)
@@ -61,7 +61,7 @@ int tile_border_source_radius_sq(struct tile *ptile)
   return radius_sq;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Border source strength
 *************************************************************************/
 int tile_border_source_strength(struct tile *ptile)
@@ -91,7 +91,7 @@ int tile_border_source_strength(struct tile *ptile)
   return strength;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Border source strength at tile
 *************************************************************************/
 int tile_border_strength(struct tile *ptile, struct tile *source)
@@ -106,7 +106,7 @@ int tile_border_strength(struct tile *ptile, struct tile *source)
   }
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Is given tile source to borders.
 *************************************************************************/
 bool is_border_source(struct tile *ptile)

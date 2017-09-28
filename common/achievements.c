@@ -34,9 +34,9 @@
 
 static struct achievement achievements[MAX_ACHIEVEMENT_TYPES];
 
-/****************************************************************
+/************************************************************************//**
   Initialize achievements.
-****************************************************************/
+****************************************************************************/
 void achievements_init(void)
 {
   int i;
@@ -53,7 +53,7 @@ void achievements_init(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with achievements
 ****************************************************************************/
 void achievements_free(void)
@@ -70,7 +70,7 @@ void achievements_free(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the achievement id.
 **************************************************************************/
 int achievement_number(const struct achievement *pach)
@@ -80,7 +80,7 @@ int achievement_number(const struct achievement *pach)
   return pach->id;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the achievement index.
 **************************************************************************/
 int achievement_index(const struct achievement *pach)
@@ -90,9 +90,9 @@ int achievement_index(const struct achievement *pach)
   return pach - achievements;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return achievements of given id.
-****************************************************************************/
+**************************************************************************/
 struct achievement *achievement_by_number(int id)
 {
   fc_assert_ret_val(id >= 0 && id < game.control.num_achievement_types, NULL);
@@ -100,23 +100,23 @@ struct achievement *achievement_by_number(int id)
   return &achievements[id];
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return translated name of this achievement type.
-****************************************************************************/
+**************************************************************************/
 const char *achievement_name_translation(struct achievement *pach)
 {
   return name_translation_get(&pach->name);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return untranslated name of this achievement type.
-****************************************************************************/
+**************************************************************************/
 const char *achievement_rule_name(struct achievement *pach)
 {
   return rule_name_get(&pach->name);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns achievement matching rule name or NULL if there is no achievement
   with such name.
 **************************************************************************/
@@ -133,10 +133,10 @@ struct achievement *achievement_by_rule_name(const char *name)
   return NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Check if some player has now achieved the achievement and return the player
   in question.
-****************************************************************************/
+**************************************************************************/
 struct player *achievement_plr(struct achievement *ach,
                                struct player_list *achievers)
 {
@@ -172,9 +172,9 @@ struct player *achievement_plr(struct achievement *ach,
   return credited;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Check if player has now achieved the achievement.
-****************************************************************************/
+**************************************************************************/
 bool achievement_check(struct achievement *ach, struct player *pplayer)
 {
   if ((ach->unique && ach->first != NULL)
@@ -330,9 +330,9 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return message to send to first player gaining the achievement.
-****************************************************************************/
+**************************************************************************/
 const char *achievement_first_msg(struct achievement *pach)
 {
   fc_assert(pach->first_msg != NULL);
@@ -340,9 +340,9 @@ const char *achievement_first_msg(struct achievement *pach)
   return _(pach->first_msg);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return message to send to other players gaining the achievement.
-****************************************************************************/
+**************************************************************************/
 const char *achievement_later_msg(struct achievement *pach)
 {
   fc_assert(pach->cons_msg != NULL);
@@ -350,9 +350,9 @@ const char *achievement_later_msg(struct achievement *pach)
   return _(pach->cons_msg);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Has the given player got the achievement?
-****************************************************************************/
+**************************************************************************/
 bool achievement_player_has(const struct achievement *pach,
                             const struct player *pplayer)
 {
@@ -363,18 +363,18 @@ bool achievement_player_has(const struct achievement *pach,
   return BV_ISSET(pach->achievers, player_index(pplayer));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Has anybody got the achievement?
-****************************************************************************/
+**************************************************************************/
 bool achievement_claimed(const struct achievement *pach)
 {
   return pach->first != NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Literacy score calculated one way. See also get_literacy2() for
   alternative way.
-****************************************************************************/
+**************************************************************************/
 int get_literacy(const struct player *pplayer)
 {
   int pop = civ_population(pplayer);

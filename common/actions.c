@@ -119,7 +119,7 @@ action_prob_not_impl(const struct act_prob probability);
 FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
 
-/**************************************************************************
+/**********************************************************************//**
   Register an obligatory hard requirement for the actions it applies to.
 
   The vararg parameter is a list of action ids it applies to terminated
@@ -157,7 +157,7 @@ static void oblig_hard_req_register(struct requirement contradiction,
   va_end(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Hard code the obligatory hard requirements that don't depend on the rest
   of the ruleset. They are sorted by requirement to make it easy to read,
   modify and explain them.
@@ -303,7 +303,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_PARADROP, ACTION_AIRLIFT, ACTION_NONE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Hard code the obligatory hard requirements that needs access to the
   ruleset before they can be generated.
 **************************************************************************/
@@ -324,7 +324,7 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
   } nations_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Hard code the actions.
 **************************************************************************/
 static void hard_code_actions(void)
@@ -543,7 +543,7 @@ static void hard_code_actions(void)
                  0, 1, FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize the actions and the action enablers.
 **************************************************************************/
 void actions_init(void)
@@ -589,7 +589,7 @@ void actions_init(void)
   actions_initialized = TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Generate action related data based on the currently loaded ruleset. Done
   before ruleset sanity checking and ruleset compatibility post
   processing.
@@ -601,7 +601,7 @@ void actions_rs_pre_san_gen(void)
   hard_code_oblig_hard_reqs_ruleset();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free the actions and the action enablers.
 **************************************************************************/
 void actions_free(void)
@@ -634,7 +634,7 @@ void actions_free(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the actions are initialized.
 
   Doesn't care about action enablers.
@@ -660,7 +660,7 @@ bool actions_are_ready(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a new action.
 **************************************************************************/
 static struct action *action_new(enum gen_action id,
@@ -704,7 +704,7 @@ static struct action *action_new(enum gen_action id,
   return action;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified action ID refers to a valid action.
 **************************************************************************/
 bool action_id_exists(const int action_id)
@@ -713,7 +713,7 @@ bool action_id_exists(const int action_id)
   return gen_action_is_valid(action_id) && actions[action_id];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the action with the given id.
 
   Returns NULL if no action with the given id exists.
@@ -733,7 +733,7 @@ struct action *action_by_number(int action_id)
   return actions[action_id];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the action with the given name.
 
   Returns NULL if no action with the given name exists.
@@ -754,7 +754,7 @@ struct action *action_by_rule_name(const char *name)
   return action_by_number(action_id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor kind of an action.
 **************************************************************************/
 enum action_actor_kind action_get_actor_kind(const struct action *paction)
@@ -764,7 +764,7 @@ enum action_actor_kind action_get_actor_kind(const struct action *paction)
   return paction->actor_kind;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the target kind of an action.
 **************************************************************************/
 enum action_target_kind action_get_target_kind(
@@ -775,7 +775,7 @@ enum action_target_kind action_get_target_kind(
   return paction->target_kind;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the battle kind that can prevent an action.
 **************************************************************************/
 enum action_battle_kind action_get_battle_kind(const struct action *pact)
@@ -810,7 +810,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff performing the specified action has the specified
   result.
 **************************************************************************/
@@ -821,7 +821,7 @@ bool action_has_result(const struct action *paction,
   return paction->id == result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified action is hostile.
 **************************************************************************/
 bool action_is_hostile(int action_id)
@@ -831,7 +831,7 @@ bool action_is_hostile(int action_id)
   return actions[action_id]->hostile;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified action REQUIRES the player to provide
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details or if they can be set by Freeciv
@@ -844,7 +844,7 @@ bool action_requires_details(int action_id)
   return actions[action_id]->requires_details;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff a unit's ability to perform this action will pop up the
   action selection dialog before the player asks for it only in exceptional
   cases.
@@ -860,7 +860,7 @@ bool action_id_is_rare_pop_up(int action_id)
   return actions[action_id]->rare_pop_up;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified distance between actor and target is
   sm,aller or equal to the max range accepted by the specified action.
 **************************************************************************/
@@ -871,7 +871,7 @@ bool action_distance_inside_max(const struct action *action,
           || action->max_distance == ACTION_DISTANCE_UNLIMITED);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified distance between actor and target is
   within the range acceptable to the specified action.
 **************************************************************************/
@@ -884,7 +884,7 @@ bool action_distance_accepted(const struct action *action,
           && action_distance_inside_max(action, distance));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff blocked will be illegal if blocker is legal.
 **************************************************************************/
 bool action_would_be_blocked_by(const struct action *blocked,
@@ -896,7 +896,7 @@ bool action_would_be_blocked_by(const struct action *blocked,
   return BV_ISSET(blocked->blocked_by, action_number(blocker));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the universal number of the action.
 **************************************************************************/
 int action_number(const struct action *action)
@@ -904,7 +904,7 @@ int action_number(const struct action *action)
   return action->id;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the rule name of the action.
 **************************************************************************/
 const char *action_rule_name(const struct action *action)
@@ -913,7 +913,7 @@ const char *action_rule_name(const struct action *action)
   return action_id_rule_name(action->id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the action name used when displaying the action in the UI. Nothing
   is added to the UI name.
 **************************************************************************/
@@ -923,7 +923,7 @@ const char *action_name_translation(const struct action *action)
   return action_id_name_translation(action->id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the rule name of the action.
 **************************************************************************/
 const char *action_id_rule_name(int action_id)
@@ -933,7 +933,7 @@ const char *action_id_rule_name(int action_id)
   return gen_action_name(action_id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the action name used when displaying the action in the UI. Nothing
   is added to the UI name.
 **************************************************************************/
@@ -942,7 +942,7 @@ const char *action_id_name_translation(int action_id)
   return action_prepare_ui_name(action_id, "", ACTPROB_NA, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the action name with a mnemonic ready to display in the UI.
 **************************************************************************/
 const char *action_get_ui_name_mnemonic(int action_id,
@@ -951,7 +951,7 @@ const char *action_get_ui_name_mnemonic(int action_id,
   return action_prepare_ui_name(action_id, mnemonic, ACTPROB_NA, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the UI name ready to show the action in the UI. It is possible to
   add a client specific mnemonic. Success probability information is
   interpreted and added to the text. A custom text can be inserted before
@@ -1058,7 +1058,7 @@ const char *action_prepare_ui_name(int action_id, const char* mnemonic,
   return astr_str(&str);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get information about starting the action in the current situation.
   Suitable for a tool tip for the button that starts it.
 **************************************************************************/
@@ -1099,7 +1099,7 @@ const char *action_get_tool_tip(const int action_id,
   return astr_str(&tool_tip);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the unit type role corresponding to the ability to do the specified
   action.
 **************************************************************************/
@@ -1112,7 +1112,7 @@ int action_get_role(const struct action *paction)
   return paction->id + L_LAST;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a new action enabler.
 **************************************************************************/
 struct action_enabler *action_enabler_new(void)
@@ -1131,7 +1131,7 @@ struct action_enabler *action_enabler_new(void)
   return enabler;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a new copy of an existing action enabler.
 **************************************************************************/
 struct action_enabler *
@@ -1147,7 +1147,7 @@ action_enabler_copy(const struct action_enabler *original)
   return enabler;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Add an action enabler to the current ruleset.
 **************************************************************************/
 void action_enabler_add(struct action_enabler *enabler)
@@ -1162,7 +1162,7 @@ void action_enabler_add(struct action_enabler *enabler)
         enabler);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove an action enabler from the current ruleset.
 
   Returns TRUE on success.
@@ -1179,7 +1179,7 @@ bool action_enabler_remove(struct action_enabler *enabler)
         enabler);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get all enablers for an action in the current ruleset.
 **************************************************************************/
 struct action_enabler_list *
@@ -1191,7 +1191,7 @@ action_enablers_for_action(enum gen_action action)
   return action_enablers_by_action[action];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns an error message text if the action enabler is missing at least
   one of its action's obligatory hard requirement. Returns NULL if all
   obligatory hard requirements are there.
@@ -1236,7 +1236,7 @@ action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Inserts any missing obligatory hard requirements in the action enabler
   based on its action.
 
@@ -1285,7 +1285,7 @@ void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
   fc_assert(action_enabler_obligatory_reqs_missing(enabler) == NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified player knows (has seen) the specified
   tile.
 **************************************************************************/
@@ -1295,7 +1295,7 @@ static bool plr_knows_tile(const struct player *plr,
   return plr && ttile && (tile_get_known(ttile, plr) != TILE_UNKNOWN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified player can see the specified tile.
 **************************************************************************/
 static bool plr_sees_tile(const struct player *plr,
@@ -1304,7 +1304,7 @@ static bool plr_sees_tile(const struct player *plr,
   return plr && ttile && (tile_get_known(ttile, plr) == TILE_KNOWN_SEEN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the local building type of a city target.
 
   target_city can't be NULL
@@ -1327,7 +1327,7 @@ tgt_city_local_building(const struct city *target_city)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the local unit type of a city target.
 
   target_city can't be NULL
@@ -1349,7 +1349,7 @@ tgt_city_local_utype(const struct city *target_city)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the target tile for actions that may block the specified action.
   This is needed because some actions can be blocked by an action with a
   different target kind. The target tile could therefore be missing.
@@ -1398,7 +1398,7 @@ blocked_find_target_tile(const int action_id,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the target city for actions that may block the specified action.
   This is needed because some actions can be blocked by an action with a
   different target kind. The target city argument could therefore be
@@ -1451,7 +1451,7 @@ blocked_find_target_city(const int action_id,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the action that blocks the specified action or NULL if the
   specified action isn't blocked.
 
@@ -1538,7 +1538,7 @@ struct action *action_is_blocked_by(const int action_id,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the specified unit type can perform the wanted action
   given that an action enabler later will enable it.
 
@@ -1642,7 +1642,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the wanted action is possible as far as the actor is
   concerned given that an action enabler later will enable it. Will, unlike
   action_actor_utype_hard_reqs_ok(), check the actor unit's current state.
@@ -1784,7 +1784,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   return TRI_YES;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns if the wanted action is possible given that an action enabler
   later will enable it.
 
@@ -2295,7 +2295,7 @@ is_action_possible(const enum gen_action wanted_action,
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the action enabler is active
 **************************************************************************/
 static bool is_enabler_active(const struct action_enabler *enabler,
@@ -2328,7 +2328,7 @@ static bool is_enabler_active(const struct action_enabler *enabler,
                          &enabler->target_reqs, RPT_CERTAIN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the wanted action is enabled.
 
   Note that the action may disable it self because of hard requirements
@@ -2393,7 +2393,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to target_city as far as
   action enablers are concerned.
 
@@ -2409,7 +2409,7 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                              FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to target_city as far as
   action enablers are concerned.
 
@@ -2464,7 +2464,7 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                            ignore_dist);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to target_unit as far as
   action enablers are concerned.
 
@@ -2515,7 +2515,7 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to all units on the
   target_tile as far as action enablers are concerned.
 
@@ -2576,7 +2576,7 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to the target_tile as far
   as action enablers are concerned.
 
@@ -2624,7 +2624,7 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                            FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to itself as far as
   action enablers are concerned.
 
@@ -2670,7 +2670,7 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                            game_city_by_number(actor_unit->homecity), FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find out if the action is enabled, may be enabled or isn't enabled given
   what the player owning the actor knowns.
 
@@ -2733,7 +2733,7 @@ action_enabled_local(const enum gen_action wanted_action,
   return result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find out if the effect value is known
 
   The knowledge of the actor is assumed to be given in the parameters.
@@ -2765,7 +2765,7 @@ static bool is_effect_val_known(enum effect_type effect_type,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does the target has any techs the actor don't?
 **************************************************************************/
 static enum fc_tristate
@@ -2797,7 +2797,7 @@ tech_can_be_stolen(const struct player *actor_player,
   return TRI_NO;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   The action probability that pattacker will win a diplomatic battle.
 
   It is assumed that pattacker and pdefender have different owners and that
@@ -2872,7 +2872,7 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   The action probability that pattacker will win a diplomatic battle.
 
   See diplomat_infiltrate_tile() in server/diplomats.c
@@ -2909,9 +2909,9 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
   return ACTPROB_CERTAIN;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the action probability for when a target is unseen.
-***************************************************************************/
+**************************************************************************/
 static struct act_prob act_prob_unseen_target(int action_id,
                                               const struct unit *actor_unit)
 {
@@ -2924,7 +2924,7 @@ static struct act_prob act_prob_unseen_target(int action_id,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   An action's probability of success.
 
   "Success" indicates that the action achieves its goal, not that the
@@ -3206,7 +3206,7 @@ action_prob(const enum gen_action wanted_action,
                         "Should be yes, maybe or no");
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
@@ -3279,7 +3279,7 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
                      NULL, target_utype, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
@@ -3334,7 +3334,7 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
                      target_unit, NULL, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on all units at the target tile.
 **************************************************************************/
@@ -3483,7 +3483,7 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
   return prob_all;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on the target tile.
 **************************************************************************/
@@ -3536,7 +3536,7 @@ struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
                      target_tile, NULL, NULL, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on itself.
 **************************************************************************/
@@ -3580,7 +3580,7 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the impossible action probability.
 **************************************************************************/
 struct act_prob action_prob_new_impossible(void)
@@ -3590,7 +3590,7 @@ struct act_prob action_prob_new_impossible(void)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the certain action probability.
 **************************************************************************/
 struct act_prob action_prob_new_certain(void)
@@ -3600,7 +3600,7 @@ struct act_prob action_prob_new_certain(void)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the n/a action probability.
 **************************************************************************/
 struct act_prob action_prob_new_not_relevant(void)
@@ -3610,7 +3610,7 @@ struct act_prob action_prob_new_not_relevant(void)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the "not implemented" action probability.
 **************************************************************************/
 struct act_prob action_prob_new_not_impl(void)
@@ -3620,7 +3620,7 @@ struct act_prob action_prob_new_not_impl(void)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the "user don't know" action probability.
 **************************************************************************/
 struct act_prob action_prob_new_unknown(void)
@@ -3630,7 +3630,7 @@ struct act_prob action_prob_new_unknown(void)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given action probability belongs to an action that
   may be possible.
 **************************************************************************/
@@ -3640,7 +3640,7 @@ bool action_prob_possible(const struct act_prob probability)
           || action_prob_not_impl(probability));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given action probability is certain that its action
   is possible.
 **************************************************************************/
@@ -3650,7 +3650,7 @@ bool action_prob_certain(const struct act_prob probability)
           && ACTPROB_VAL_MAX == probability.max);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given action probability represents the lack of
   an action probability.
 **************************************************************************/
@@ -3661,7 +3661,7 @@ action_prob_not_relevant(const struct act_prob probability)
          && probability.max == ACTPROB_VAL_MIN;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given action probability represents that support
   for finding this action probability currently is missing from Freeciv.
 **************************************************************************/
@@ -3672,7 +3672,7 @@ action_prob_not_impl(const struct act_prob probability)
          && probability.max == ACTPROB_VAL_MIN;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given action probability represents a special
   signal value rather than a regular action probability value.
 **************************************************************************/
@@ -3682,7 +3682,7 @@ action_prob_is_signal(const struct act_prob probability)
   return probability.max < probability.min;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff ap1 and ap2 are equal.
 **************************************************************************/
 bool are_action_probabilitys_equal(const struct act_prob *ap1,
@@ -3691,7 +3691,7 @@ bool are_action_probabilitys_equal(const struct act_prob *ap1,
   return ap1->min == ap2->min && ap1->max == ap2->max;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Compare action probabilities. Prioritize the lowest possible value.
 **************************************************************************/
 int action_prob_cmp_pessimist(const struct act_prob ap1,
@@ -3741,7 +3741,7 @@ int action_prob_cmp_pessimist(const struct act_prob ap1,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns double in the range [0-1] representing the minimum of the given
   action probability.
 **************************************************************************/
@@ -3768,7 +3768,7 @@ double action_prob_to_0_to_1_pessimist(const struct act_prob ap)
   return (double)my_ap.min / (double) ACTPROB_VAL_MAX;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns ap1 with ap2 as fall back in cases where ap1 doesn't happen.
   Said in math that is: P(A) + P(A') * P(B)
 
@@ -3836,7 +3836,7 @@ struct act_prob action_prob_fall_back(const struct act_prob *ap1,
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Will a player with the government gov be immune to the action act?
 **************************************************************************/
 bool action_immune_government(struct government *gov, int act)
@@ -3855,7 +3855,7 @@ bool action_immune_government(struct government *gov, int act)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the specified action never can be performed when the
   situation requirement is fulfilled for the actor.
 **************************************************************************/
@@ -3872,7 +3872,7 @@ bool action_blocked_by_situation_act(const struct action *paction,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the specified action never can be performed when the
   situation requirement is fulfilled for the target.
 **************************************************************************/
@@ -3889,7 +3889,7 @@ bool action_blocked_by_situation_tgt(const struct action *paction,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the wanted action can be done to the target.
 **************************************************************************/
 static bool is_target_possible(const enum gen_action wanted_action,
@@ -3917,7 +3917,7 @@ static bool is_target_possible(const enum gen_action wanted_action,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the wanted action can be done to the target city.
 **************************************************************************/
 bool is_action_possible_on_city(const enum gen_action action_id,
@@ -3936,7 +3936,7 @@ bool is_action_possible_on_city(const enum gen_action action_id,
                             NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the wanted action (as far as the player knows) can be
   performed right now by the specified actor unit if an approriate target
   is provided.
@@ -3991,7 +3991,7 @@ bool action_maybe_possible_actor_unit(const int action_id,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the specified action can't be done now but would have
   been legal if the unit had full movement.
 **************************************************************************/
@@ -4009,7 +4009,7 @@ bool action_mp_full_makes_legal(const struct unit *actor,
                                   unit_move_rate(actor));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns action auto performer rule slot number num so it can be filled.
 **************************************************************************/
 struct action_auto_perf *action_auto_perf_slot_number(const int num)
@@ -4020,7 +4020,7 @@ struct action_auto_perf *action_auto_perf_slot_number(const int num)
   return &auto_perfs[num];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns action auto performer rule number num.
 
   Used in action_auto_perf_iterate()

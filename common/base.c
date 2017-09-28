@@ -24,7 +24,7 @@
 
 #include "base.h"
 
-/****************************************************************************
+/************************************************************************//**
   Check if base provides effect
 ****************************************************************************/
 bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
@@ -32,7 +32,7 @@ bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag)
   return BV_ISSET(pbase->flags, flag);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any cardinally adjacent tile contains a base with
   the given flag (does not check ptile itself)
 ****************************************************************************/
@@ -51,7 +51,7 @@ bool is_base_flag_card_near(const struct tile *ptile, enum base_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any adjacent tile contains a base with the given flag
   (does not check ptile itself)
 ****************************************************************************/
@@ -70,19 +70,19 @@ bool is_base_flag_near_tile(const struct tile *ptile, enum base_flag_id flag)
   return FALSE;
 }
 
-/***************************************************************************
+/************************************************************************//**
   Returns TRUE iff the given flag is retired.
 
   If a base flag is retired without being replaced by an extra flag before
   3.0 is released rscompat_req_type_name_3_0() must be updated.
-***************************************************************************/
+****************************************************************************/
 bool base_flag_is_retired(enum base_flag_id flag)
 {
   /* All base flags after BF_RETIRED_NO_STACK_DEATH are retired. */
   return flag >= BF_RETIRED_NO_STACK_DEATH;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is tile native to base?
 ****************************************************************************/
 bool is_native_tile_to_base(const struct base_type *pbase,
@@ -97,7 +97,7 @@ bool is_native_tile_to_base(const struct base_type *pbase,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Base provides base flag for unit? Checks if base provides flag and if
   base is native to unit.
 ****************************************************************************/
@@ -109,9 +109,9 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
     && is_native_extra_to_utype(base_extra_get(pbase), punittype);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Can unit build base to given tile?
-**************************************************************************/
+****************************************************************************/
 bool base_can_be_built(const struct base_type *pbase,
                        const struct tile *ptile)
 {
@@ -137,7 +137,7 @@ bool base_can_be_built(const struct base_type *pbase,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if player can build base to tile with suitable unit.
 ****************************************************************************/
 bool player_can_build_base(const struct base_type *pbase,
@@ -157,9 +157,9 @@ bool player_can_build_base(const struct base_type *pbase,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Can unit build base to given tile?
-**************************************************************************/
+****************************************************************************/
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile)
 {
@@ -176,7 +176,7 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                          &pextra->reqs, RPT_CERTAIN);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns base_type entry for an ID value.
 ****************************************************************************/
 struct base_type *base_by_number(const Base_type_id id)
@@ -192,32 +192,32 @@ struct base_type *base_by_number(const Base_type_id id)
   return extra_base_get(extra_type_list_get(bases, id));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the base index.
-**************************************************************************/
+****************************************************************************/
 Base_type_id base_number(const struct base_type *pbase)
 {
   fc_assert_ret_val(NULL != pbase, -1);
   return pbase->item_number;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return extra that base is.
-**************************************************************************/
+****************************************************************************/
 struct extra_type *base_extra_get(const struct base_type *pbase)
 {
   return pbase->self;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the number of base_types.
-**************************************************************************/
+****************************************************************************/
 Base_type_id base_count(void)
 {
   return game.control.num_base_types;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize base_type structures.
 ****************************************************************************/
 void base_type_init(struct extra_type *pextra, int idx)
@@ -232,16 +232,16 @@ void base_type_init(struct extra_type *pextra, int idx)
   pbase->self = pextra;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with base types
 ****************************************************************************/
 void base_types_free(void)
 {
 }
 
-/**************************************************************************
+/************************************************************************//**
   Get best gui_type base for given parameters
-**************************************************************************/
+****************************************************************************/
 struct base_type *get_base_by_gui_type(enum base_gui_type type,
                                        const struct unit *punit,
                                        const struct tile *ptile)
@@ -258,9 +258,9 @@ struct base_type *get_base_by_gui_type(enum base_gui_type type,
   return NULL;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Does this base type claim territory?
-**************************************************************************/
+****************************************************************************/
 bool territory_claiming_base(const struct base_type *pbase)
 {
   return pbase->border_sq >= 0;
