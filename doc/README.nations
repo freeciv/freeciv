@@ -31,7 +31,7 @@ data/nation/<nationname>.ruleset
   ruleset file.
   - The file must be encoded in UTF-8.
 
-data/default/nations.ruleset
+data/default/nationlist.ruleset
 
   This lists all nation files. Add your nation
   (data/nation/<nationname>.ruleset) to this list.
@@ -41,7 +41,7 @@ data/flags/*
   This is the flags directory. You will have to add a flag-file
   (see below) for your nation to work (see below).
 
-data/scenario/* 
+data/scenarios/*
 
   You can add starting position for your nation on a scenario map.
 
@@ -62,7 +62,7 @@ translations/nations/POTFILES.in
 
   Here is yet another list of nations files; again add your nation
   (data/nation/<nationname>.ruleset) to it.
-  Nations part of the "core" group go to tranlations/freeciv/POTFILES.in
+  Nations part of the "core" group go to translations/freeciv/POTFILES.in
   instead.
 
 
