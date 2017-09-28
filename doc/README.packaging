@@ -31,9 +31,8 @@ Updating from 2.6 to 3.0
 * Minimum libcurl version is now 7.15.4
 * Minimum libtool version is now 2.2
 * Minimum gtk3 requirement for building gtk3-client is now 3.10
-* Added gtk3x-client. The difference between gtk3-client and gtk3x-client is
-  that latter is adjusted for, and depends on, as new gtk3 version as
-  possible. Once gtk4 gets released, this client is turned to gtk4-client.
+* Added gtk3x modpack installer. It's a development version of future
+  gtk4 modpack installer.
 * Gtk2-client is no longer considered maintained client
 * --enable-ipv6 now defaults to strict 'yes' (it used to just 'test')
   One has to explicitly allow IPv4-only builds with --enable-ipv6=test or
