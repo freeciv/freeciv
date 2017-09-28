@@ -154,9 +154,10 @@ but wars are fought over the silliest things ...
 
 - Every function should have a comment header. The comment should look like
   the example below, indented by two spaces. It should be above the
-  function's implementation, not the prototype:
+  function's implementation, not the prototype. Note "*//**" in the end
+  of the beginning line for the doxygen.
 
-/****************************************************************************
+/************************************************************************//**
   The description of the function should be here. Also describe what is
   expected of the arguments if it is not obvious. Especially note down any
   non-trivial assumptions that the function makes.
