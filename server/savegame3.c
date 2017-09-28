@@ -2126,6 +2126,19 @@ static void sg_save_game(struct savedata *saving)
   }
   secfile_insert_bool(saving->file, saving->save_players,
                       "game.save_players");
+
+  if (srv_state != S_S_INITIAL) {
+    const char *ainames[ai_type_get_count()];
+
+    i = 0;
+    ai_type_iterate(ait) {
+      ainames[i] = ait->name;
+      i++;
+    } ai_type_iterate_end;
+
+    secfile_insert_str_vec(saving->file, ainames, i,
+                           "game.ai_types");
+  }
 }
 
 /* =======================================================================
