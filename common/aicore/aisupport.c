@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 #include "aisupport.h"
 
-/**********************************************************************
+/*******************************************************************//**
   Find who is leading the space race. Returns NULL if nobody is.
 ***********************************************************************/
 struct player *player_leading_spacerace(void)
@@ -68,7 +68,7 @@ struct player *player_leading_spacerace(void)
   return best;
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Calculate average distances to other players. We calculate the 
   average distance from all of our cities to the closest enemy city.
 ***********************************************************************/
@@ -103,7 +103,7 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
   return MAX(dists / cities, 1);
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Rough calculation of the worth of pcity in gold.
 ***********************************************************************/
 int city_gold_worth(struct city *pcity)

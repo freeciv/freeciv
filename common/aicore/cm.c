@@ -68,7 +68,7 @@
  */
 
 
-/****************************************************************************
+/*****************************************************************************
  defines, structs, globals, forward declarations
 *****************************************************************************/
 
@@ -281,7 +281,7 @@ static double estimate_fitness(const struct cm_state *state,
 static bool choice_is_promising(struct cm_state *state, int newchoice,
                                 bool negative_ok);
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the CM data at the start of each game.  Note the citymap
   indices will not have been initialized yet (cm_init_citymap is called
   when they are).
@@ -300,7 +300,7 @@ void cm_init(void)
 #endif /* GATHER_TIME_STATS */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the CM citymap data.  This function is called when the
   city map indices are generated (basically when the topology is set,
   shortly after the start of the game).
@@ -310,7 +310,7 @@ void cm_init_citymap(void)
   /* In the B&B algorithm there's not really anything to initialize. */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Clear the cache for a city.
 ****************************************************************************/
 void cm_clear_cache(struct city *pcity)
@@ -318,7 +318,7 @@ void cm_clear_cache(struct city *pcity)
   /* The B&B algorithm doesn't have city caches so there's nothing to do. */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called at the end of a game to free any CM data.
 ****************************************************************************/
 void cm_free(void)
@@ -333,7 +333,7 @@ void cm_free(void)
 #endif /* GATHER_TIME_STATS */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new cm_result.
 ****************************************************************************/
 struct cm_result *cm_result_new(struct city *pcity)
@@ -356,7 +356,7 @@ struct cm_result *cm_result_new(struct city *pcity)
   return result;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy a cm_result.
 ****************************************************************************/
 void cm_result_destroy(struct cm_result *result)
@@ -373,7 +373,7 @@ void cm_result_destroy(struct cm_result *result)
   Functions of tile-types.
  ***************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Set all production to zero and initialize the vectors for this tile type.
 ****************************************************************************/
 static void tile_type_init(struct cm_tile_type *type)
@@ -384,7 +384,7 @@ static void tile_type_init(struct cm_tile_type *type)
   tile_type_vector_init(&type->worse_types);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Duplicate a tile type, except for the vectors - the vectors of the new tile
   type will be empty.
 ****************************************************************************/
@@ -399,7 +399,7 @@ static struct cm_tile_type *tile_type_dup(const struct cm_tile_type *oldtype)
   return newtype;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all the storage in the tile type (but don't free the type itself).
 ****************************************************************************/
 static void tile_type_destroy(struct cm_tile_type *type)
@@ -411,7 +411,7 @@ static void tile_type_destroy(struct cm_tile_type *type)
   tile_type_vector_free(&type->worse_types);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy and free all types in the vector, and the vector itself.  This
   will free all memory associated with the vector.
 ****************************************************************************/
@@ -426,7 +426,7 @@ static void tile_type_vector_free_all(struct tile_type_vector *vec)
   tile_type_vector_free(vec);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff all categories of the two types are equal.  This means
   all production outputs are equal and the is_specialist fields are also
   equal.
@@ -447,7 +447,7 @@ static bool tile_type_equal(const struct cm_tile_type *a,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if tile a is better or equal to tile b in all categories.
 
   Specialists are considered better than workers (all else being equal)
@@ -475,7 +475,7 @@ static bool tile_type_better(const struct cm_tile_type *a,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   If there is a tile type in the vector that is equivalent to the given
   type, return its index.  If not, return -1.
 
@@ -496,7 +496,7 @@ static int tile_type_vector_find_equivalent(
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of tiles of this type that can be worked.  For
   is_specialist types this will always be infinite but for other types of
   tiles it is limited by what's available in the citymap.
@@ -510,7 +510,7 @@ static int tile_type_num_tiles(const struct cm_tile_type *type)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of tile types that are better than this type.
 
   Note this isn't the same as the number of *tiles* that are better.  There
@@ -521,7 +521,7 @@ static int tile_type_num_prereqs(const struct cm_tile_type *ptype)
   return ptype->better_types.size;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Retrieve a tile type by index.  For a given state there are a certain
   number of tile types, which may be iterated over using this function
   as a lookup.
@@ -535,7 +535,7 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
   return state->lattice.p[type];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Retrieve a tile of a particular type by index.  For a given tile type
   there are a certain number of tiles (1 or more), which may be iterated
   over using this function for index.  Don't call this for is_specialist
@@ -554,7 +554,7 @@ static const struct cm_tile *tile_get(const struct cm_tile_type *ptype, int j)
   Functions on the cm_fitness struct.
 **************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff fitness A is strictly better than fitness B.
 ****************************************************************************/
 static bool fitness_better(struct cm_fitness a, struct cm_fitness b)
@@ -565,7 +565,7 @@ static bool fitness_better(struct cm_fitness a, struct cm_fitness b)
   return a.weighted > b.weighted;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a fitness struct that is the worst possible result we can
   represent.
 ****************************************************************************/
@@ -578,7 +578,7 @@ static struct cm_fitness worst_fitness(void)
   return f;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Compute the fitness of the given surplus (and disorder/happy status)
   according to the weights and minimums given in the parameter.
 ****************************************************************************/
@@ -618,7 +618,7 @@ static struct cm_fitness compute_fitness(const int surplus[],
   - convert to cm_result
  ***************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Allocate and initialize an empty solution.
 ****************************************************************************/
 static void init_partial_solution(struct partial_solution *into,
@@ -636,7 +636,7 @@ static void init_partial_solution(struct partial_solution *into,
   into->idle = idle;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all storage associated with the solution.  This is basically the
   opposite of init_partial_solution().
 ****************************************************************************/
@@ -646,7 +646,7 @@ static void destroy_partial_solution(struct partial_solution *into)
   free(into->prereqs_filled);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copy the source solution into the destination one (the destination
   solution must already be allocated).
 ****************************************************************************/
@@ -667,7 +667,7 @@ static void copy_partial_solution(struct partial_solution *dst,
   Evaluating a completed solution.
 **************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Apply the solution to state->workers_map.
 ****************************************************************************/
 static void apply_solution(struct cm_state *state,
@@ -729,7 +729,7 @@ static void apply_solution(struct cm_state *state,
   fc_assert_ret(citizen_count == city_size_get(pcity));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Convert the city's surplus numbers into an array.  Get the happy/disorder
   values, too.  This fills in the surplus array and disorder and happy 
   values based on the city's data.
@@ -746,7 +746,7 @@ static void get_city_surplus(const struct city *pcity,
   *happy = city_happy(pcity);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Compute the fitness of the solution.  This is a fairly expensive operation.
 ****************************************************************************/
 static struct cm_fitness evaluate_solution(struct cm_state *state,
@@ -784,7 +784,7 @@ static struct cm_fitness evaluate_solution(struct cm_state *state,
   return compute_fitness(surplus, disorder, happy, &state->parameter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Convert the solution into a cm_result.  This is a fairly expensive
   operation.
 ****************************************************************************/
@@ -816,7 +816,7 @@ static void convert_solution_to_result(struct cm_state *state,
   Compare functions to allow sorting lattice vectors.
  ***************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   All the sorting in this code needs to respect the partial order
   in the lattice: if a is a parent of b, then a must sort before b.
   This routine enforces that relatively cheaply (without looking through
@@ -847,7 +847,7 @@ static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
   return 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sort by fitness.  Since fitness is monotone in the production,
   if a has higher fitness than b, then a cannot be a child of b, so
   this respects the partial order -- unless a and b have equal fitness.
@@ -879,7 +879,7 @@ static int compare_tile_type_by_fitness(const void *va, const void *vb)
 static Output_type_id compare_key;
 static double compare_key_trade_bonus;
 
-/****************************************************************************
+/************************************************************************//**
   Compare by the production of type compare_key.
   If a produces more food than b, then a cannot be a child of b, so
   this respects the partial order -- unless a and b produce equal food.
@@ -919,7 +919,7 @@ static int compare_tile_type_by_stat(const void *va, const void *vb)
   Compute the tile-type lattice.
  ***************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Compute the production of tile [x,y] and stuff it into the tile type.
   Doesn't touch the other fields.
 ****************************************************************************/
@@ -934,7 +934,7 @@ static void compute_tile_production(const struct city *pcity,
   } output_type_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the tile [x,y], with production indicated by type, to
   the tile-type lattice.  'newtype' can be on the stack.
   x/y are ignored if the type is a specialist.
@@ -987,7 +987,7 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
  * Add the specialist types to the lattice.
  */
 
-/****************************************************************************
+/************************************************************************//**
   Create lattice nodes for each type of specialist.  This adds a new
   tile_type for each specialist type.
 ****************************************************************************/
@@ -1013,7 +1013,7 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
   } specialist_type_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Topologically sort the lattice.
   Sets the lattice_depth field.
   Important assumption in this code: we've computed the transitive
@@ -1101,7 +1101,7 @@ static void top_sort_lattice(struct tile_type_vector *lattice)
   tile_type_vector_free(&vectors[1]);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove unreachable lattice nodes to speed up processing later.
   This doesn't reduce the number of evaluations we do, it just
   reduces the number of times we loop over and reject tile types
@@ -1166,7 +1166,7 @@ static void clean_lattice(struct tile_type_vector *lattice,
   tile_type_vector_free_all(&tofree);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determine the estimated_fitness fields, and sort by that.
   estimate_fitness is later, in a section of code that isolates
   much of the domain-specific knowledge.
@@ -1194,7 +1194,7 @@ static void sort_lattice_by_fitness(const struct cm_state *state,
   print_lattice(LOG_LATTICE, lattice);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the lattice.
 ****************************************************************************/
 static void init_tile_lattice(struct city *pcity,
@@ -1235,7 +1235,7 @@ static void init_tile_lattice(struct city *pcity,
 ****************************************************************************/
 
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the stack is empty.
 ****************************************************************************/
 static bool choice_stack_empty(struct cm_state *state)
@@ -1243,7 +1243,7 @@ static bool choice_stack_empty(struct cm_state *state)
   return state->choice.size == 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the last choice in the stack.
 ****************************************************************************/
 static int last_choice(struct cm_state *state)
@@ -1252,7 +1252,7 @@ static int last_choice(struct cm_state *state)
   return state->choice.stack[state->choice.size - 1];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of different tile types.  There is one tile type for
   each type specialist, plus one for each distinct (different amounts of
   production) citymap tile.
@@ -1262,7 +1262,7 @@ static int num_types(const struct cm_state *state)
   return tile_type_vector_size(&state->lattice);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the solution to assign 'number' more workers on to tiles of the
   given type.  'number' may be negative, in which case we're removing
   workers.
@@ -1316,7 +1316,7 @@ static void add_workers(struct partial_solution *soln,
   } output_type_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add just one worker to the solution.
 ****************************************************************************/
 static void add_worker(struct partial_solution *soln,
@@ -1325,7 +1325,7 @@ static void add_worker(struct partial_solution *soln,
   add_workers(soln, itype, 1, state);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove just one worker from the solution.
 ****************************************************************************/
 static void remove_worker(struct partial_solution *soln,
@@ -1334,7 +1334,7 @@ static void remove_worker(struct partial_solution *soln,
   add_workers(soln, itype, -1, state);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove a worker from the current solution, and pop once off the
   choice stack.
 ****************************************************************************/
@@ -1345,7 +1345,7 @@ static void pop_choice(struct cm_state *state)
   state->choice.size--;
 }
 
-/****************************************************************************
+/************************************************************************//**
   True if all tiles better than this type have been used.
 ****************************************************************************/
 static bool prereqs_filled(const struct partial_solution *soln, int type,
@@ -1357,7 +1357,7 @@ static bool prereqs_filled(const struct partial_solution *soln, int type,
   return soln->prereqs_filled[type] == prereqs;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the next choice to make after oldchoice.
   A choice can be made if:
   - we haven't used all the tiles
@@ -1400,7 +1400,7 @@ static int next_choice(struct cm_state *state, int oldchoice, bool negative_ok)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Pick a sibling choice to the last choice.  This works down the branch to
   see if a choice that actually looks worse may actually be better.
 ****************************************************************************/
@@ -1425,7 +1425,7 @@ static bool take_sibling_choice(struct cm_state *state, bool negative_ok)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Go down from the current branch, if we can.
   Thanks to the fact that the lattice is sorted by depth, we can keep the
   choice stack sorted -- that is, we can start our next choice as
@@ -1462,7 +1462,7 @@ static bool take_child_choice(struct cm_state *state, bool negative_ok)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Complete the solution by choosing tiles in order off the given
   tile lattice.
 ****************************************************************************/
@@ -1515,7 +1515,7 @@ static void complete_solution(struct partial_solution *soln,
   } tile_type_vector_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   return number of specialists used in partial solution
 ****************************************************************************/
 static int specialists_in_solution(const struct cm_state *state,
@@ -1533,7 +1533,7 @@ static int specialists_in_solution(const struct cm_state *state,
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   The heuristic:
   A partial solution cannot produce more food than the amount of food it
   currently generates plus then placing all its workers on the best food
@@ -1608,7 +1608,7 @@ static void compute_max_stats_heuristic(const struct cm_state *state,
   memcpy(production, pcity->prod, sizeof(pcity->prod));
 }
 
-/****************************************************************************
+/************************************************************************//**
   A choice is unpromising if isn't better than the best in at least
   one way.
   A choice is also unpromising if any of the stats is less than the
@@ -1674,7 +1674,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice,
   return beats_best;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize minimal production needed to be sufficient
 ****************************************************************************/
 static void init_min_production(struct cm_state *state)
@@ -1689,7 +1689,7 @@ static void init_min_production(struct cm_state *state)
    * needed to make us content. */
 }
 
-/****************************************************************************
+/************************************************************************//**
   get the tax rates, see city.c
 ****************************************************************************/
 static void get_tax_rates(const struct player *pplayer, int rates[])
@@ -1714,7 +1714,7 @@ static void get_tax_rates(const struct player *pplayer, int rates[])
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Estimate the fitness of a tile.  Tiles are put into the lattice in
   fitness order, so that we start off choosing better tiles.
   The estimate MUST be monotone in the inputs; if it isn't, then
@@ -1766,7 +1766,7 @@ static double estimate_fitness(const struct cm_state *state,
 
 
 
-/****************************************************************************
+/************************************************************************//**
   The high-level algorithm is:
 
   for each idle worker,
@@ -1812,7 +1812,7 @@ static bool bb_next(struct cm_state *state, bool negative_ok)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the state for the branch-and-bound algorithm.
 ****************************************************************************/
 static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
@@ -1882,7 +1882,7 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
   return state;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the parameter for the state.  This is the first step in actually
   solving anything.
 ****************************************************************************/
@@ -1910,7 +1910,7 @@ static void begin_search(struct cm_state *state,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Clean up after a search.
   Currently, does nothing except stop the timer and output.
 ****************************************************************************/
@@ -1927,7 +1927,7 @@ static void end_search(struct cm_state *state)
 #endif /* GATHER_TIME_STATS */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Release all the memory allocated by the state.
 ****************************************************************************/
 static void cm_state_free(struct cm_state *state)
@@ -1945,7 +1945,7 @@ static void cm_state_free(struct cm_state *state)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Run B&B until we find the best solution.
 ****************************************************************************/
 static void cm_find_best_solution(struct cm_state *state,
@@ -1994,10 +1994,10 @@ static void cm_find_best_solution(struct cm_state *state,
   end_search(state);
 }
 
-/***************************************************************************
+/************************************************************************//**
   Wrapper that actually runs the branch & bound, and returns the best
   solution.
- ***************************************************************************/
+****************************************************************************/
 void cm_query_result(struct city *pcity,
                      const struct cm_parameter *param,
                      struct cm_result *result, bool negative_ok)
@@ -2013,9 +2013,9 @@ void cm_query_result(struct city *pcity,
   cm_state_free(state);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns true if the two cm_parameters are equal.
-**************************************************************************/
+****************************************************************************/
 bool cm_are_parameter_equal(const struct cm_parameter *const p1,
 			    const struct cm_parameter *const p2)
 {
@@ -2043,18 +2043,18 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Copy the parameter from the source to the destination field.
-**************************************************************************/
+****************************************************************************/
 void cm_copy_parameter(struct cm_parameter *dest,
 		       const struct cm_parameter *const src)
 {
   memcpy(dest, src, sizeof(struct cm_parameter));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Initialize the parameter to sane default values.
-**************************************************************************/
+****************************************************************************/
 void cm_init_parameter(struct cm_parameter *dest)
 {
   output_type_iterate(stat_index) {
@@ -2068,10 +2068,10 @@ void cm_init_parameter(struct cm_parameter *dest)
   dest->allow_specialists = TRUE;
 }
 
-/***************************************************************************
+/************************************************************************//**
   Initialize the parameter to sane default values that will always produce
   a result.
-***************************************************************************/
+****************************************************************************/
 void cm_init_emergency_parameter(struct cm_parameter *dest)
 {
   output_type_iterate(stat_index) {
@@ -2085,7 +2085,7 @@ void cm_init_emergency_parameter(struct cm_parameter *dest)
   dest->allow_specialists = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count the total number of workers in the result.
 ****************************************************************************/
 int cm_result_workers(const struct cm_result *result)
@@ -2105,7 +2105,7 @@ int cm_result_workers(const struct cm_result *result)
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count the total number of specialists in the result.
 ****************************************************************************/
 int cm_result_specialists(const struct cm_result *result)
@@ -2119,7 +2119,7 @@ int cm_result_specialists(const struct cm_result *result)
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count the total number of citizens in the result.
 ****************************************************************************/
 int cm_result_citizens(const struct cm_result *result)
@@ -2127,7 +2127,7 @@ int cm_result_citizens(const struct cm_result *result)
   return cm_result_workers(result) + cm_result_specialists(result);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copy the city's current setup into the cm result structure. Wrapper for
   cm_result_main().
 ****************************************************************************/
@@ -2137,7 +2137,7 @@ void cm_result_from_main_map(struct cm_result *result,
   cm_result_copy(result, pcity, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copy the city's current setup into the cm result structure. 'workers_map'
   is a bool array with the size city_map_tiles_from_city(pcity). It is TRUE
   for tiles worked by the city.
@@ -2176,7 +2176,7 @@ static void cm_result_copy(struct cm_result *result,
   result->found_a_valid = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Debugging routines.
 ****************************************************************************/
 #ifdef CM_DEBUG
@@ -2189,7 +2189,7 @@ static void snprint_production(char *buffer, size_t bufsz,
               production[O_LUXURY], production[O_SCIENCE]);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Print debugging data about a particular tile type.
 ****************************************************************************/
 static void real_print_tile_type(enum log_level level, const char *file,
@@ -2206,7 +2206,7 @@ static void real_print_tile_type(enum log_level level, const char *file,
          ptype->lattice_index, tile_type_num_tiles(ptype));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Print debugging data about a whole B&B lattice.
 ****************************************************************************/
 static void real_print_lattice(enum log_level level, const char *file,
@@ -2221,7 +2221,7 @@ static void real_print_lattice(enum log_level level, const char *file,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Print debugging data about a partial CM solution.
 ****************************************************************************/
 static void real_print_partial_solution(enum log_level level,
@@ -2275,7 +2275,7 @@ static void real_print_partial_solution(enum log_level level,
 #endif /* CM_DEBUG */
 
 #ifdef GATHER_TIME_STATS
-/****************************************************************************
+/************************************************************************//**
   Print debugging performance data.
 ****************************************************************************/
 static void print_performance(struct one_perf *counts)
@@ -2298,7 +2298,7 @@ static void print_performance(struct one_perf *counts)
 }
 #endif /* GATHER_TIME_STATS */
 
-/****************************************************************************
+/************************************************************************//**
   Print debugging information about one city.
 ****************************************************************************/
 void cm_print_city(const struct city *pcity)
@@ -2334,7 +2334,7 @@ void cm_print_city(const struct city *pcity)
   log_test("  science = %3d", pcity->prod[O_SCIENCE]);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Print debugging information about a full CM result.
 ****************************************************************************/
 void cm_print_result(const struct cm_result *result)

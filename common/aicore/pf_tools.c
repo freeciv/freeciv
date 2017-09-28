@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 /* ===================== Capability Functions ======================== */
 
-/****************************************************************************
+/************************************************************************//**
   Can we attack 'ptile'? At this point, it assumes there are non-allied
   units on the tile.
 ****************************************************************************/
@@ -74,7 +74,7 @@ static inline bool pf_attack_possible(const struct tile *ptile,
   return attack_any;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determines if a path to 'ptile' would be considered as action rather than
   normal move: attack, diplomat action, caravan action.
 
@@ -120,7 +120,7 @@ static enum pf_action pf_get_action(const struct tile *ptile,
   return PF_ACTION_NONE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determines if an action is possible from 'src' to 'dst': attack, diplomat
   action, or caravan action.
 ****************************************************************************/
@@ -148,7 +148,7 @@ static bool pf_action_possible(const struct tile *src,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Special case for reverse maps. Always consider the target tile as
   attackable, notably for transports.
 ****************************************************************************/
@@ -159,7 +159,7 @@ static enum pf_action pf_reverse_get_action(const struct tile *ptile,
   return (ptile == param->data ? PF_ACTION_ATTACK : PF_ACTION_NONE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determine if we could load into 'ptrans' and its parents.
 ****************************************************************************/
 static inline bool pf_transport_check(const struct pf_parameter *param,
@@ -209,7 +209,7 @@ static inline bool pf_transport_check(const struct pf_parameter *param,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determine how it is possible to move from/to 'ptile'. The checks for
   specific move from tile to tile is done in pf_move_possible().
 ****************************************************************************/
@@ -280,7 +280,7 @@ pf_get_move_scope(const struct tile *ptile,
   return scope;
 }
 
-/****************************************************************************
+/************************************************************************//**
   A cost function for amphibious movement.
 ****************************************************************************/
 static enum pf_move_scope
@@ -307,7 +307,7 @@ amphibious_move_scope(const struct tile *ptile,
   return ~PF_MS_TRANSPORT & land_scope;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Determines if the move between two tiles is possible.
   Do not use this function as part of a test of whether a unit may attack a
   tile: many tiles that pass this test may be unsuitable for some units to
@@ -339,7 +339,7 @@ static inline bool pf_move_possible(const struct tile *src,
 
 /* ===================== Move Cost Callbacks ========================= */
 
-/****************************************************************************
+/************************************************************************//**
   A cost function for regular movement. Permits attacks.
   Use with a TB callback to prevent passing through occupied tiles.
   Does not permit passing through non-native tiles without transport.
@@ -356,7 +356,7 @@ static int normal_move(const struct tile *src,
   return PF_IMPOSSIBLE_MC;
 }
 
-/****************************************************************************
+/************************************************************************//**
   A cost function for overlap movement. Do not consider enemy units and
   attacks.
   Permits moves one step into non-native terrain (for ferries, etc.)
@@ -378,7 +378,7 @@ static int overlap_move(const struct tile *src,
   return PF_IMPOSSIBLE_MC;
 }
 
-/****************************************************************************
+/************************************************************************//**
   A cost function for amphibious movement.
 ****************************************************************************/
 static int amphibious_move(const struct tile *ptile,
@@ -426,7 +426,7 @@ static int amphibious_move(const struct tile *ptile,
 
 /* ===================== Extra Cost Callbacks ======================== */
 
-/****************************************************************************
+/************************************************************************//**
   Extra cost call back for amphibious movement
 ****************************************************************************/
 static int amphibious_extra_cost(const struct tile *ptile,
@@ -463,10 +463,10 @@ static int amphibious_extra_cost(const struct tile *ptile,
 
 /* ===================== Tile Behaviour Callbacks ==================== */
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback to prohibit going into the unknown.  Also makes sure we 
   don't plan to attack anyone.
-***********************************************************************/
+****************************************************************************/
 enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
                                         enum known_type known,
                                         const struct pf_parameter *param)
@@ -480,9 +480,9 @@ enum tile_behavior no_fights_or_unknown(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback to prohibit attacking anyone.
-***********************************************************************/
+****************************************************************************/
 enum tile_behavior no_fights(const struct tile *ptile,
                              enum known_type known,
                              const struct pf_parameter *param)
@@ -495,7 +495,7 @@ enum tile_behavior no_fights(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   PF callback to prohibit attacking anyone, except at the destination.
 ****************************************************************************/
 enum tile_behavior no_intermediate_fights(const struct tile *ptile,
@@ -509,9 +509,9 @@ enum tile_behavior no_intermediate_fights(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/*********************************************************************
+/************************************************************************//**
   A callback for amphibious movement
-*********************************************************************/
+****************************************************************************/
 static enum tile_behavior
 amphibious_behaviour(const struct tile *ptile, enum known_type known,
                      const struct pf_parameter *param)
@@ -530,7 +530,7 @@ amphibious_behaviour(const struct tile *ptile, enum known_type known,
 
 /* ===================== Required Moves Lefts Callbacks ================= */
 
-/****************************************************************************
+/************************************************************************//**
   Refueling base for air units.
 ****************************************************************************/
 static bool is_possible_base_fuel(const struct tile *ptile,
@@ -580,7 +580,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if there is a safe position to move.
 ****************************************************************************/
 static int get_closest_safe_tile_distance(const struct tile *src_tile,
@@ -605,7 +605,7 @@ static int get_closest_safe_tile_distance(const struct tile *src_tile,
 
 /* ====================  Postion Dangerous Callbacks =================== */
 
-/****************************************************************************
+/************************************************************************//**
   Position-dangerous callback for air units.
 ****************************************************************************/
 static int get_fuel_moves_left_req(const struct tile *ptile,
@@ -629,7 +629,7 @@ static int get_fuel_moves_left_req(const struct tile *ptile,
   return dist != -1 ? dist * SINGLE_MOVE : PF_IMPOSSIBLE_MC;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Position-dangerous callback for amphibious movement.
 ****************************************************************************/
 static bool amphibious_is_pos_dangerous(const struct tile *ptile,
@@ -650,7 +650,7 @@ static bool amphibious_is_pos_dangerous(const struct tile *ptile,
 
 /* =======================  Tools for filling parameters ================= */
 
-/****************************************************************************
+/************************************************************************//**
   Fill general use parameters to defaults.
 ****************************************************************************/
 static inline void
@@ -672,7 +672,7 @@ pft_fill_default_parameter(struct pf_parameter *parameter,
   parameter->utype = punittype;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Enable default actions.
 ****************************************************************************/
 static inline void
@@ -734,7 +734,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill general use parameters to defaults for an unit type.
 ****************************************************************************/
 static inline void
@@ -771,7 +771,7 @@ pft_fill_utype_default_parameter(struct pf_parameter *parameter,
   parameter->omniscience = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill general use parameters to defaults for an unit.
 ****************************************************************************/
 static inline void
@@ -805,7 +805,7 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->omniscience = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Base function to fill classic parameters.
 ****************************************************************************/
 static inline void pft_fill_parameter(struct pf_parameter *parameter,
@@ -827,9 +827,9 @@ static inline void pft_fill_parameter(struct pf_parameter *parameter,
   }
 }
 
-/**********************************************************************
+/************************************************************************//**
   Fill classic parameters for an unit type.
-***********************************************************************/
+****************************************************************************/
 void pft_fill_utype_parameter(struct pf_parameter *parameter,
                               const struct unit_type *punittype,
                               struct tile *pstart_tile,
@@ -840,9 +840,9 @@ void pft_fill_utype_parameter(struct pf_parameter *parameter,
   pft_fill_parameter(parameter, punittype);
 }
 
-/**********************************************************************
+/************************************************************************//**
   Fill classic parameters for an unit.
-***********************************************************************/
+****************************************************************************/
 void pft_fill_unit_parameter(struct pf_parameter *parameter,
 			     const struct unit *punit)
 {
@@ -850,12 +850,12 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   pft_fill_parameter(parameter, unit_type_get(punit));
 }
 
-/**********************************************************************
+/************************************************************************//**
   pft_fill_*_overlap_param() base function.
 
   Switch on one tile overlapping into the non-native terrain.
   For sea/land bombardment and for ferries.
-**********************************************************************/
+****************************************************************************/
 static void pft_fill_overlap_param(struct pf_parameter *parameter,
                                    const struct unit_type *punittype)
 {
@@ -874,10 +874,10 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
   }
 }
 
-/**********************************************************************
+/************************************************************************//**
   Switch on one tile overlapping into the non-native terrain.
   For sea/land bombardment and for ferry types.
-**********************************************************************/
+****************************************************************************/
 void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
                                   const struct unit_type *punittype,
                                   struct tile *pstart_tile,
@@ -888,11 +888,10 @@ void pft_fill_utype_overlap_param(struct pf_parameter *parameter,
   pft_fill_overlap_param(parameter, punittype);
 }
 
-
-/**********************************************************************
+/************************************************************************//**
   Switch on one tile overlapping into the non-native terrain.
   For sea/land bombardment and for ferries.
-**********************************************************************/
+****************************************************************************/
 void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 				 const struct unit *punit)
 {
@@ -900,11 +899,11 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
   pft_fill_overlap_param(parameter, unit_type_get(punit));
 }
 
-/**********************************************************************
+/************************************************************************//**
   pft_fill_*_attack_param() base function.
 
   Consider attacking and non-attacking possibilities properly.
-**********************************************************************/
+****************************************************************************/
 static void pft_fill_attack_param(struct pf_parameter *parameter,
                                   const struct unit_type *punittype)
 {
@@ -929,11 +928,11 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
   }
 }
 
-/**********************************************************************
+/************************************************************************//**
   pft_fill_*_attack_param() base function.
 
   Consider attacking and non-attacking possibilities properly.
-**********************************************************************/
+****************************************************************************/
 void pft_fill_utype_attack_param(struct pf_parameter *parameter,
                                  const struct unit_type *punittype,
                                  struct tile *pstart_tile,
@@ -944,11 +943,11 @@ void pft_fill_utype_attack_param(struct pf_parameter *parameter,
   pft_fill_attack_param(parameter, punittype);
 }
 
-/**********************************************************************
+/************************************************************************//**
   pft_fill_*_attack_param() base function.
 
   Consider attacking and non-attacking possibilities properly.
-**********************************************************************/
+****************************************************************************/
 void pft_fill_unit_attack_param(struct pf_parameter *parameter,
                                 const struct unit *punit)
 {
@@ -956,7 +955,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   pft_fill_attack_param(parameter, unit_type_get(punit));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill default parameters for reverse map.
 ****************************************************************************/
 void pft_fill_reverse_parameter(struct pf_parameter *parameter,
@@ -980,7 +979,7 @@ void pft_fill_reverse_parameter(struct pf_parameter *parameter,
   /* Other data may stay at zero. */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill parameters for combined sea-land movement.
   This is suitable for the case of a land unit riding a ferry.
   The starting position of the ferry is taken to be the starting position for
