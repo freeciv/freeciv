@@ -2569,7 +2569,7 @@ static void sg_load_players(struct loaddata *loading)
     sg_load_player_units(loading, pplayer);
     sg_load_player_attributes(loading, pplayer);
 
-    /* Check the sucess of the functions above. */
+    /* Check the success of the functions above. */
     sg_check_ret();
 
     /* print out some informations */
@@ -2654,7 +2654,7 @@ static void sg_load_players(struct loaddata *loading)
      player map we do this afterwards */
   players_iterate(pplayer) {
     sg_load_player_vision(loading, pplayer);
-    /* Check the sucess of the function above. */
+    /* Check the success of the function above. */
     sg_check_ret();
   } players_iterate_end;
 
