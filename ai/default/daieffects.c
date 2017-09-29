@@ -303,9 +303,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_ENABLE_SPACE:
     if (victory_enabled(VC_SPACERACE)) {
-      v += 5;
+      v += 10;
       if (ai->dipl.production_leader == pplayer) {
-	v += 100;
+	v += 150;
       }
     }
     break;
@@ -387,7 +387,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
 	 * we have chance to win a spacerace */
 	&& (ai->dipl.spacerace_leader
 	    || ai->dipl.production_leader == pplayer)) {
-      v += 95;
+      v += 140;
     }
     break;
   case EFT_SPY_RESISTANT:
