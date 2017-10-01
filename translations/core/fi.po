@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-28 01:40+0300\n"
-"PO-Revision-Date: 2017-09-28 02:36+0300\n"
+"POT-Creation-Date: 2017-10-02 00:42+0300\n"
+"PO-Revision-Date: 2017-10-02 01:23+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -538,7 +538,9 @@ msgstr ""
 msgid ""
 "This Freeciv compilation has no full threads implementation, tex ai cannot "
 "be used."
-msgstr "Tässä Freeciv-käännöksessä ei ole täyttä säikeiden tukea, säikeistettyä tekoälymodulia (AI) 'tex' ei voida käyttää."
+msgstr ""
+"Tässä Freeciv-käännöksessä ei ole täyttä säikeiden tukea, säikeistettyä "
+"tekoälymodulia (AI) 'tex' ei voida käyttää."
 
 #: client/agents/cma_core.c:388
 #, c-format
@@ -10414,7 +10416,9 @@ msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
 msgid ""
 "* Makes it possible to target all cities with its owner on its continent "
 "with the action '%s'.\n"
-msgstr "· Tekee mahdolliseksi kohdistaa toiminto %s kaikkiin omistajansa kaupunkeihin samalla mantereella.\n"
+msgstr ""
+"· Tekee mahdolliseksi kohdistaa toiminto %s kaikkiin omistajansa "
+"kaupunkeihin samalla mantereella.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1284
@@ -10440,7 +10444,9 @@ msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
 msgid ""
 "* Makes it possible to target all cities owned by or allied to its owner "
 "with the action '%s'.\n"
-msgstr "· Tekee mahdolliseksi kohdistaa toiminto %s kaikkiin omistajansa tai hänen liittolaistensa kaupunkeihin.\n"
+msgstr ""
+"· Tekee mahdolliseksi kohdistaa toiminto %s kaikkiin omistajansa tai hänen "
+"liittolaistensa kaupunkeihin.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1311
@@ -11060,8 +11066,10 @@ msgstr[1] "· Voi puhdistaa lisän \"%s\" ruuduista.\n"
 #, c-format
 msgid "  * target must be between %d and %d tile away.\n"
 msgid_plural "  * target must be between %d and %d tiles away.\n"
-msgstr[0] "  · Kohteen täytyy olla vähintään %d ja korkeintaan %d ruudun päässä.\n"
-msgstr[1] "  · Kohteen täytyy olla vähintään %d ja korkeintaan %d ruudun päässä.\n"
+msgstr[0] ""
+"  · Kohteen täytyy olla vähintään %d ja korkeintaan %d ruudun päässä.\n"
+msgstr[1] ""
+"  · Kohteen täytyy olla vähintään %d ja korkeintaan %d ruudun päässä.\n"
 
 #. TRANS: the %d is the number of shields the unit can
 #. * contribute.
@@ -11092,8 +11100,8 @@ msgstr[1] "· Voi perustaa uusia kaupunkeja (aloituskoko on %d).\n"
 #, c-format
 msgid "  * max target size: %d.\n"
 msgid_plural "  * max target size: %d.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "  · Kohteen suurin mahdollinen koko: %d.\n"
+msgstr[1] "  · Kohteen suurin mahdollinen koko: %d.\n"
 
 #. TRANS: the %d is the population added.
 #: client/helpdata.c:2394
@@ -11131,7 +11139,7 @@ msgstr ""
 #, c-format
 msgid ""
 "  * upgraded to %s or, when possible, to the unit type it upgrades to.\n"
-msgstr ""
+msgstr "  · ajanmukaistuu yksiköksi %s, mahdollisuuksien mukaan ajanmukaistusketjussa ylemmäksikin.\n"
 
 #: client/helpdata.c:2421
 msgid ""
@@ -11486,12 +11494,12 @@ msgstr ""
 msgid ""
 "There's no bonuses paid when traderoute is established.\n"
 "\n"
-msgstr ""
+msgstr "Uuden kauppareitin perustamisen yhteydessä ei makseta bonusta.\n"
 
 #: client/helpdata.c:3215
 #, c-format
 msgid "When traderoute is established, %d%% of the normal bonus is paid.\n"
-msgstr "Uusi kauppareitti on perustettu. %d%% normaalista bonuksesta maksettu.\n"
+msgstr "Perustettaessa uusi kauppareitti, maksetaan %d%% normaalista bonuksesta.\n"
 
 #: client/helpdata.c:3218
 #, c-format
@@ -15047,7 +15055,7 @@ msgstr "itse"
 
 #: common/actions.h:159
 msgid "no battle"
-msgstr ""
+msgstr "ei taistelua"
 
 #: common/actions.h:161
 msgid "battle"
@@ -27362,7 +27370,8 @@ msgstr "Monikulttuurinen"
 #: data/sandbox/game.ruleset:1229 data/civ2civ3/game.ruleset:1070
 msgid ""
 "You're the first nation with a city containing 2 different nationalities!"
-msgstr "Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
+msgstr ""
+"Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
 
 #: data/sandbox/game.ruleset:1230 data/civ2civ3/game.ruleset:1071
 msgid "One of your cities has 2 different nationalities!"
@@ -27489,12 +27498,18 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle kokeneisuustasolle voittoisan taistelun jälkeen.\n"
+"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle "
+"kokeneisuustasolle voittoisan taistelun jälkeen.\n"
 "· Kussakin kaupungissa yksi asukas enemmän on tyytyväinen.\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
-"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
+"eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
+"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa "
+"sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos "
+"tunnetaan osakeyhtiöt)\n"
+"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
+"pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/sandbox/governments.ruleset:137 data/civ2civ3/governments.ruleset:137
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
@@ -27658,11 +27673,17 @@ msgid ""
 "capital."
 msgstr ""
 "· Jokainen kaupunki saa 2 pistettä luksusta yksistään hallitusmuodosta.\n"
-"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
-"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
-"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta siihen."
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
+"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
+"tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
+"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas "
+"pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. "
+"Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
+"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta "
+"siihen."
 
 #: data/sandbox/governments.ruleset:325 data/civ2civ3/governments.ruleset:324
 #, no-c-format
@@ -28163,7 +28184,7 @@ msgid ""
 "most cases one can learn some of the wisdom of the former inhabitant, with "
 "the cost of 20% of the normal price. After year 1000 there's no more such "
 "individuals figuring entire technologies out in the solitude. "
-msgstr ""
+msgstr "Erakon majan voi tutkia erakkofilosofin hylättyä sen. Useimmissa tapauksissa niistä tehtävistä löydöistä voi oppia osan asukkaan viisaudesta. Näin saaduista teknologioista maksetaan vain 20% niiden normaalista tutkimushinnasta. Vuoden 1000 jälkeen kokonaisten uusien teknologioiden keksiminen on mahdotonta yksittäisille erakoille."
 
 #: data/sandbox/terrain.ruleset:1322 data/civ2civ3/terrain.ruleset:1293
 msgid "Fort"
@@ -28276,7 +28297,7 @@ msgstr ""
 #: data/sandbox/terrain.ruleset:1506
 msgid ""
 "Only those players that already know Radio can see Buoys of any players."
-msgstr ""
+msgstr "Vain ne pelaajat, jotka tuntevat radion, voivat nähdä kenenkään poijuja."
 
 #: data/sandbox/terrain.ruleset:1559
 #, fuzzy
@@ -28446,7 +28467,7 @@ msgstr "Kevyt"
 
 #: data/sandbox/units.ruleset:56
 msgid "Airliftable once you learn Flight."
-msgstr ""
+msgstr "Lennätettävissä kun lentokoneet tunnetaan."
 
 #: data/sandbox/units.ruleset:57
 msgid "MediumWeight"
@@ -28661,7 +28682,7 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:1057
 msgid "Veteran Paratroopers can land on forest and jungle tiles."
-msgstr ""
+msgstr "Konkarilaskuvarjojääkärit voivat hypätä metsä- ja viidakkoruutuihin."
 
 #: data/sandbox/units.ruleset:1089 data/civ2civ3/units.ruleset:1079
 msgid ""
@@ -29444,22 +29465,17 @@ msgid ""
 msgstr ""
 
 #: data/alien/buildings.ruleset:87
-#, fuzzy
-#| msgid "Archers"
 msgid "Archive"
-msgstr "Jousimiespartio"
+msgstr "Arkisto"
 
 #: data/alien/buildings.ruleset:104
-#, fuzzy, no-c-format
-#| msgid "Increases the science output in a city by 50%."
+#, no-c-format
 msgid "Increases the science production of a city by 75%."
-msgstr "Kasvattaa kaupungin tutkimustulosta 50%."
+msgstr "Kasvattaa kaupungin tutkimustulosta 75%."
 
 #: data/alien/buildings.ruleset:108
-#, fuzzy
-#| msgid "Infrastructure: %s"
 msgid "Basic Infrastructure"
-msgstr "Infrastruktuuri: %s"
+msgstr "Perusinfrastruktuuri"
 
 #: data/alien/buildings.ruleset:121
 #, no-c-format
@@ -29714,10 +29730,8 @@ msgstr ""
 "pelivuoroa kohti."
 
 #: data/alien/buildings.ruleset:693
-#, fuzzy
-#| msgid "Oceanic"
 msgid "Oceanic Downtown"
-msgstr "meri"
+msgstr "Merikeskusta"
 
 #: data/alien/buildings.ruleset:710
 msgid "Each oceanic city center generates 3 points more trade and production."
@@ -30115,20 +30129,16 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:223
-#, fuzzy
-#| msgid "Computers"
 msgid "Composites"
-msgstr "Tietokone"
+msgstr "Komposiitit"
 
 #: data/alien/techs.ruleset:229
 msgid "Stronger materials mean stronger armors."
 msgstr ""
 
 #: data/alien/techs.ruleset:232
-#, fuzzy
-#| msgid "Controls"
 msgid "Controlled Biomass"
-msgstr "Ohjauskomennot"
+msgstr "Ohjattu biomassa"
 
 #: data/alien/techs.ruleset:238
 msgid ""
@@ -30381,10 +30391,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:488
-#, fuzzy
-#| msgid "Population"
 msgid "Mood Manipulation"
-msgstr "Väkiluku"
+msgstr "Mielialamuokkaus"
 
 #: data/alien/techs.ruleset:494
 msgid "People are happy if they believe that they are happy."
@@ -30401,10 +30409,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:507
-#, fuzzy
-#| msgid "New vote"
 msgid "New Frontier"
-msgstr "Uusi äänestys"
+msgstr "Rajaseutuasenne"
 
 #: data/alien/techs.ruleset:514
 #, no-c-format
@@ -30424,10 +30430,8 @@ msgid "Cities on ocean. Why not?"
 msgstr ""
 
 #: data/alien/techs.ruleset:528
-#, fuzzy
-#| msgid "Space Structural"
 msgid "Organic Structures"
-msgstr "Avaruusaluksen runko-osa"
+msgstr "Orgaaniset rakenteet"
 
 #: data/alien/techs.ruleset:534
 msgid ""
@@ -30449,10 +30453,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:549
-#, fuzzy
-#| msgid "First Contact"
 msgid "Personal Contact"
-msgstr "Ensimmäinen yhteys"
+msgstr "Henkilökohtainen yhteys"
 
 #: data/alien/techs.ruleset:555
 #, no-c-format
@@ -30501,10 +30503,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:594
-#, fuzzy
-#| msgid "Research Speed"
 msgid "Research Methods"
-msgstr "Tutkimuksen nopeus"
+msgstr "Tutkimusmenetelmät"
 
 #: data/alien/techs.ruleset:601
 #, no-c-format
@@ -30517,7 +30517,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:606
 msgid "Smart Aliens"
-msgstr ""
+msgstr "Älykkäät olennot"
 
 #: data/alien/techs.ruleset:612
 msgid ""
@@ -30587,7 +30587,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:672
 msgid "Strong Resistance"
-msgstr ""
+msgstr "Vahva vastustus"
 
 #: data/alien/techs.ruleset:678
 msgid ""
@@ -30675,10 +30675,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:757
-#, fuzzy
-#| msgid "Entertainers"
 msgid "Virtual Entertainment"
-msgstr "Viihdyttäjiä"
+msgstr "Virtuaaliviihde"
 
 #: data/alien/techs.ruleset:763
 msgid "Another tech that Earth has long been close to mastering."
@@ -30695,10 +30693,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:776
-#, fuzzy
-#| msgid "Prime Minister %s"
 msgid "War Monsters"
-msgstr "Pääministeri %s"
+msgstr "Sotahirviöt"
 
 #: data/alien/techs.ruleset:782
 msgid ""
@@ -30790,10 +30786,8 @@ msgid "This is normal oceanic terrain."
 msgstr "Asetus ei ole merkkijono."
 
 #: data/alien/terrain.ruleset:500
-#, fuzzy
-#| msgid "Building Unit"
 msgid "Boiling Ocean"
-msgstr "Tekee yksikköä"
+msgstr "Kiehuva meri"
 
 #: data/alien/terrain.ruleset:536
 msgid ""
@@ -30832,17 +30826,15 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:846
 msgid "Tower"
-msgstr ""
+msgstr "Torni"
 
 #: data/alien/terrain.ruleset:872
-#, fuzzy
-#| msgid "Fortress"
 msgid "Force Fortress"
-msgstr "linnoitus"
+msgstr "Voimalinnoitus"
 
 #: data/alien/terrain.ruleset:897
 msgid "Antigrav Base"
-msgstr ""
+msgstr "Antigravitaatiotukikohta"
 
 #: data/alien/terrain.ruleset:944
 msgid ""
@@ -30874,7 +30866,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1010
 msgid "Tunnel"
-msgstr ""
+msgstr "Tunneli"
 
 #: data/alien/terrain.ruleset:1034
 #, no-c-format
@@ -30895,10 +30887,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1069
-#, fuzzy
-#| msgid "River"
 msgid "Green River"
-msgstr "joki"
+msgstr "Vihreä joki"
 
 #: data/alien/terrain.ruleset:1085 data/alien/terrain.ruleset:1109
 #, fuzzy, no-c-format
@@ -30921,10 +30911,8 @@ msgid "Green River increases also tile's food production by 1."
 msgstr ""
 
 #: data/alien/terrain.ruleset:1093
-#, fuzzy
-#| msgid "River"
 msgid "Brown River"
-msgstr "joki"
+msgstr "Ruskea joki"
 
 #: data/alien/terrain.ruleset:1112
 msgid "Brown River increases also tile's shield production by 1."
@@ -30950,10 +30938,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1153
-#, fuzzy
-#| msgid "Mfg. Plant"
 msgid "Huge Plant"
-msgstr "Teollisuuskompleksi"
+msgstr "Valtava kasvi"
 
 #: data/alien/terrain.ruleset:1165
 #, no-c-format
@@ -31103,7 +31089,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:608
 msgid "Cyborgs"
-msgstr ""
+msgstr "Cyborgit"
 
 #: data/alien/units.ruleset:634
 msgid "Attack power to the early game."
@@ -31111,7 +31097,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:639
 msgid "Tank"
-msgstr ""
+msgstr "Tankki"
 
 #: data/alien/units.ruleset:665
 msgid "This is the most powerful Earth technology unit."
@@ -31119,7 +31105,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:670
 msgid "War Monster"
-msgstr ""
+msgstr "Sotahirviö"
 
 #: data/alien/units.ruleset:696
 msgid "As a native unit, this can move and fight on radiating areas too."
@@ -37237,7 +37223,8 @@ msgid ""
 msgstr ""
 "Eurooppa 1900\n"
 "\n"
-"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri ennen ensimmäisen maailmansodan syttymistä.\n"
+"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri "
+"ennen ensimmäisen maailmansodan syttymistä.\n"
 "\n"
 "VAROITUS: Tekoälyltä kuluu erittäin pitkä aika vuorojensa pelaamiseen.\n"
 "\n"
@@ -42584,29 +42571,29 @@ msgstr ""
 msgid "Saved game is too old, at least version 2.0.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 2.0.0."
 
-#: server/legacysave.c:4088 server/savegame2.c:2577 server/savegame3.c:3417
+#: server/legacysave.c:4088 server/savegame2.c:2597 server/savegame3.c:3430
 #: server/srv_main.c:2261 server/srv_main.c:2266
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/legacysave.c:4093 server/savegame2.c:2582 server/savegame3.c:3422
+#: server/legacysave.c:4093 server/savegame2.c:2602 server/savegame3.c:3435
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
-#: server/legacysave.c:4146 server/savegame2.c:5088 server/savegame3.c:6952
+#: server/legacysave.c:4146 server/savegame2.c:5108 server/savegame3.c:6965
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/legacysave.c:4157 server/savegame2.c:5098 server/savegame3.c:6962
+#: server/legacysave.c:4157 server/savegame2.c:5118 server/savegame3.c:6975
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/legacysave.c:4175 server/savegame2.c:2606 server/savegame3.c:3446
+#: server/legacysave.c:4175 server/savegame2.c:2626 server/savegame3.c:3459
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
@@ -43602,11 +43589,11 @@ msgstr "Peli tallennettu tiedostoon %s"
 msgid "Unsupported compression type %d."
 msgstr "Pakkaustyyppiä %d ei tueta"
 
-#: server/savegame2.c:1096
+#: server/savegame2.c:1116
 msgid "Failed to load ruleset"
 msgstr "Virhe sääntökokoelman lataamisessa"
 
-#: server/savegame2.c:5123 server/savegame3.c:6980
+#: server/savegame2.c:5143 server/savegame3.c:6993
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -49491,13 +49478,13 @@ msgstr ""
 "Kaupungissa %2$s %1$s valmistuu nopeammin kun %4$s, jonka %3$s lähettivät "
 "auttaa (%5$d %6$s)."
 
-#: server/unithand.c:3925
+#: server/unithand.c:3924
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:3938
+#: server/unithand.c:3937
 #, fuzzy, c-format
 #| msgid ""
 #| "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -49506,66 +49493,71 @@ msgid ""
 "goods."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:3949
+#: server/unithand.c:3948
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille."
 
-#: server/unithand.c:3985 server/unithand.c:4009
+#: server/unithand.c:3984 server/unithand.c:4008
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:3991 server/unithand.c:4015
+#: server/unithand.c:3990 server/unithand.c:4014
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
 msgstr[0] "      Kaupungilla %s on jo %d parempi kauppareitti!"
 msgstr[1] "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
-#. TRANS: used as part of caravan revenue sentence.
-#: server/unithand.c:4041
-msgid "?tradebonustype:gold"
-msgstr "kultaa"
-
-#. TRANS: used as part of caravan revenue sentence.
+#. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
 #: server/unithand.c:4045
-msgid "?tradebonustype:research"
-msgstr "tutkimusta"
+#, c-format
+msgid "Your %s from %s has arrived in %s carrying %s."
+msgstr "Kaupungista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s muassaan %4$s-lasti."
 
-#. TRANS: used as part of caravan revenue sentence.
-#: server/unithand.c:4049
-msgid "?tradebonustype:gold and research"
-msgstr "kultaa ja tutkimusta"
-
-#. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... gold and research.
-#: server/unithand.c:4061
-#, fuzzy, c-format
-#| msgid "Your %s from %s has arrived in %s, and revenues amount to %d in %s."
-#| msgid_plural ""
-#| "Your %s from %s has arrived in %s, and revenues amount to %d in %s."
+#. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
+#: server/unithand.c:4055
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
-"%s."
+"gold."
 msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
-"%s."
-msgstr[0] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d %s."
-msgstr[1] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d %s."
+"gold."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa."
 
-#. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
-#: server/unithand.c:4076
-#, fuzzy, c-format
-#| msgid "Your %s from %s has arrived in %s."
-msgid "Your %s from %s has arrived in %s carrying %s."
-msgstr "Kaupngista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s"
+#. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
+#: server/unithand.c:4070
+#, c-format
+msgid ""
+"Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
+"research."
+msgid_plural ""
+"Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
+"research."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d pisteen tutkimusta."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d pistettä tutkimusta."
 
-#: server/unithand.c:4109
+#. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
+#: server/unithand.c:4085
+#, c-format
+msgid ""
+"Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
+"gold and research."
+msgid_plural ""
+"Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
+"gold and research."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa ja tutkimusta."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa ja tutkimusta."
+
+#: server/unithand.c:4124
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:4115
+#: server/unithand.c:4130
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
@@ -50206,6 +50198,15 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid "?tradebonustype:gold"
+#~ msgstr "kultaa"
+
+#~ msgid "?tradebonustype:research"
+#~ msgstr "tutkimusta"
+
+#~ msgid "?tradebonustype:gold and research"
+#~ msgstr "kultaa ja tutkimusta"
 
 #~ msgid ""
 #~ "Fortresses are more permanent forts; construction on them can only begin "
