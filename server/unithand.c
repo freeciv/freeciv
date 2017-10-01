@@ -3911,7 +3911,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct trade_route_list *routes_out_of_dest;
   struct trade_route_list *routes_out_of_home;
   enum traderoute_bonus_type bonus_type;
-  const char *bonus_str;
   struct goods_type *goods;
   const char *goods_str;
 
@@ -4035,45 +4034,15 @@ static bool do_unit_establish_trade(struct player *pplayer,
                                                can_establish);
 
   bonus_type = trade_route_settings_by_type(cities_trade_route_type(pcity_homecity, pcity_dest))->bonus_type;
-  bonus_str = NULL;
-
-  switch (bonus_type) {
-  case TBONUS_NONE:
-    break;
-  case TBONUS_GOLD:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:gold");
-    break;
-  case TBONUS_SCIENCE:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:research");
-    break;
-  case TBONUS_BOTH:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:gold and research");
-    break;
-  }
 
   conn_list_do_buffer(pplayer->connections);
 
   goods_str = goods_name_translation(goods);
 
-  if (bonus_str != NULL) {
-    notify_player(pplayer, city_tile(pcity_dest),
-                  E_CARAVAN_ACTION, ftc_server,
-                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... gold and research. */
-                  PL_("Your %s from %s has arrived in %s carrying %s,"
-                      " and revenues amount to %d in %s.",
-                      "Your %s from %s has arrived in %s carrying %s,"
-                      " and revenues amount to %d in %s.",
-                      revenue),
-                  punit_link,
-                  homecity_link,
-                  destcity_link,
-                  goods_str,
-                  revenue,
-                  bonus_str);
-  } else {
+  /* We want to keep the bonus type string as the part of the format of the PL_() strings
+   * for supporting proper pluralization for it. */
+  switch (bonus_type) {
+  case TBONUS_NONE:
     notify_player(pplayer, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
                   /* TRANS: ... Caravan ... Paris ... Stockholm ... Goods */
@@ -4082,6 +4051,52 @@ static bool do_unit_establish_trade(struct player *pplayer,
                   homecity_link,
                   destcity_link,
                   goods_str);
+    break;
+  case TBONUS_GOLD:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... */
+                  PL_("Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in gold.",
+                      "Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in gold.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  goods_str,
+                  revenue);
+    break;
+  case TBONUS_SCIENCE:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... */
+                  PL_("Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in research.",
+                      "Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in research.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  goods_str,
+                  revenue);
+    break;
+  case TBONUS_BOTH:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... Goods... */
+                  PL_("Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in gold and research.",
+                      "Your %s from %s has arrived in %s carrying %s,"
+                      " and revenues amount to %d in gold and research.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  goods_str,
+                  revenue);
+    break;
   }
 
   if (bonus_type == TBONUS_GOLD || bonus_type == TBONUS_BOTH) {
