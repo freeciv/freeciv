@@ -901,6 +901,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
 
         if (cause != EC_COUNT) {
           struct tile *vtile = tile_virtual_new(ptile);
+          struct terrain *pterr = tile_terrain(vtile);
 
           /* Do not let the extras already set to the real tile mess with setup
            * of the player tiles if that's what we're doing. */
@@ -909,7 +910,26 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
           /* It's ok not to know which player or which unit originally built the extra -
            * in the rules used when specials were saved these could not have made any
            * difference. */
-          pextra = next_extra_for_tile(vtile, cause, NULL, NULL);
+          /* Can't use next_extra_for_tile() as it works for buildable extras only. */
+
+          if ((cause != EC_IRRIGATION || pterr->irrigation_result == pterr)
+              && (cause != EC_MINE || pterr->mining_result == pterr)
+              && (cause != EC_BASE || pterr->base_time != 0)
+              && (cause != EC_ROAD || pterr->road_time != 0)) {
+            extra_type_by_cause_iterate(cause, candidate) {
+              if (!tile_has_extra(vtile, candidate)) {
+                if ((!is_extra_caused_by(candidate, EC_BASE)
+                     || tile_city(vtile) != NULL
+                     || extra_base_get(candidate)->border_sq <= 0)
+                    && are_reqs_active(NULL, tile_owner(vtile), NULL, NULL, vtile,
+                                       NULL, NULL, NULL, NULL, NULL, &candidate->reqs,
+                                       RPT_POSSIBLE)) {
+                  pextra = candidate;
+                  break;
+                }
+              }
+            } extra_type_by_cause_iterate_end;
+          }
 
           tile_virtual_destroy(vtile);
         }
