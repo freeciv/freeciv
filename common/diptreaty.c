@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@
 
 #include "diptreaty.h"
 
-/****************************************************************************
+/**********************************************************************//**
   Returns TRUE iff pplayer could do diplomancy in the game at all.
-****************************************************************************/
+**************************************************************************/
 bool diplomacy_possible(const struct player *pplayer1,
                         const struct player *pplayer2)
 {
@@ -53,11 +53,11 @@ bool diplomacy_possible(const struct player *pplayer1,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff pplayer could do diplomatic meetings with aplayer.
 **************************************************************************/
 bool could_meet_with_player(const struct player *pplayer,
-			    const struct player *aplayer)
+                            const struct player *aplayer)
 {
   return (pplayer->is_alive
           && aplayer->is_alive
@@ -73,11 +73,11 @@ bool could_meet_with_player(const struct player *pplayer,
                  > 0));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff pplayer can get intelligence about aplayer.
 **************************************************************************/
 bool could_intel_with_player(const struct player *pplayer,
-			     const struct player *aplayer)
+                             const struct player *aplayer)
 {
   return (pplayer->is_alive
           && aplayer->is_alive
@@ -88,11 +88,11 @@ bool could_intel_with_player(const struct player *pplayer,
               || player_has_embassy(pplayer, aplayer)));
 }
 
-/****************************************************************
+/**********************************************************************//**
   Initialize treaty structure between two players.
-*****************************************************************/
+**************************************************************************/
 void init_treaty(struct Treaty *ptreaty, 
-		 struct player *plr0, struct player *plr1)
+                 struct player *plr0, struct player *plr1)
 {
   ptreaty->plr0=plr0;
   ptreaty->plr1=plr1;
@@ -101,9 +101,9 @@ void init_treaty(struct Treaty *ptreaty,
   ptreaty->clauses = clause_list_new();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Free the clauses of a treaty.
-*****************************************************************/
+**************************************************************************/
 void clear_treaty(struct Treaty *ptreaty)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
@@ -112,11 +112,11 @@ void clear_treaty(struct Treaty *ptreaty)
   clause_list_destroy(ptreaty->clauses);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Remove clause from treaty
-*****************************************************************/
+**************************************************************************/
 bool remove_clause(struct Treaty *ptreaty, struct player *pfrom, 
-		  enum clause_type type, int val)
+                   enum clause_type type, int val)
 {
   clause_list_iterate(ptreaty->clauses, pclause) {
     if (pclause->type == type && pclause->from == pfrom
@@ -134,12 +134,11 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
   return FALSE;
 }
 
-
-/****************************************************************
+/**********************************************************************//**
   Add clause to treaty.
-*****************************************************************/
+**************************************************************************/
 bool add_clause(struct Treaty *ptreaty, struct player *pfrom, 
-		enum clause_type type, int val)
+                enum clause_type type, int val)
 {
   struct player *pto = (pfrom == ptreaty->plr0
                         ? ptreaty->plr1 : ptreaty->plr0);

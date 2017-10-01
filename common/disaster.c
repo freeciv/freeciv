@@ -27,7 +27,7 @@
 
 static struct disaster_type disaster_types[MAX_DISASTER_TYPES];
 
-/****************************************************************************
+/************************************************************************//**
   Initialize disaster_type structures.
 ****************************************************************************/
 void disaster_types_init(void)
@@ -40,7 +40,7 @@ void disaster_types_init(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with disaster types
 ****************************************************************************/
 void disaster_types_free(void)
@@ -50,9 +50,9 @@ void disaster_types_free(void)
   } disaster_type_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the disaster id.
-**************************************************************************/
+****************************************************************************/
 Disaster_type_id disaster_number(const struct disaster_type *pdis)
 {
   fc_assert_ret_val(NULL != pdis, -1);
@@ -60,12 +60,12 @@ Disaster_type_id disaster_number(const struct disaster_type *pdis)
   return pdis->id;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the disaster index.
 
   Currently same as disaster_number(), paired with disaster_count()
   indicates use as an array index.
-**************************************************************************/
+****************************************************************************/
 Disaster_type_id disaster_index(const struct disaster_type *pdis)
 {
   fc_assert_ret_val(NULL != pdis, -1);
@@ -73,15 +73,15 @@ Disaster_type_id disaster_index(const struct disaster_type *pdis)
   return pdis - disaster_types;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the number of disaster_types.
-**************************************************************************/
+****************************************************************************/
 Disaster_type_id disaster_count(void)
 {
   return game.control.num_disaster_types;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return disaster type of given id.
 ****************************************************************************/
 struct disaster_type *disaster_by_number(Disaster_type_id id)
@@ -91,7 +91,7 @@ struct disaster_type *disaster_by_number(Disaster_type_id id)
   return &disaster_types[id];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return translated name of this disaster type.
 ****************************************************************************/
 const char *disaster_name_translation(struct disaster_type *pdis)
@@ -99,7 +99,7 @@ const char *disaster_name_translation(struct disaster_type *pdis)
   return name_translation_get(&pdis->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return untranslated name of this disaster type.
 ****************************************************************************/
 const char *disaster_rule_name(struct disaster_type *pdis)
@@ -107,7 +107,7 @@ const char *disaster_rule_name(struct disaster_type *pdis)
   return rule_name_get(&pdis->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if disaster provides effect
 ****************************************************************************/
 bool disaster_has_effect(const struct disaster_type *pdis,
@@ -116,7 +116,7 @@ bool disaster_has_effect(const struct disaster_type *pdis,
   return BV_ISSET(pdis->effects, effect);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Whether disaster can happen in given city.
 ****************************************************************************/
 bool can_disaster_happen(const struct disaster_type *pdis,
