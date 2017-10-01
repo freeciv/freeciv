@@ -2830,12 +2830,16 @@ void handle_tile_info(const struct packet_tile_info *packet)
   bool tile_changed = FALSE;
   struct player *powner = player_by_number(packet->owner);
   struct player *eowner = player_by_number(packet->extras_owner);
-  struct extra_type *presource = extra_by_number(packet->resource);
+  struct extra_type *presource = NULL;
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
 
   fc_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
+
+  if (packet->resource != MAX_EXTRA_TYPES) {
+    presource = extra_by_number(packet->resource);
+  }
 
   if (NULL == tile_terrain(ptile) || pterrain != tile_terrain(ptile)) {
     tile_changed = TRUE;
