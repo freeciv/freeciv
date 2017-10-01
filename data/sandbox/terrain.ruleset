@@ -1268,6 +1268,7 @@ appearance_reqs  =
       "Extra", "Hut", "Local", FALSE
     }
 appearance_chance = 1
+; /* xgettext:no-c-format */
 helptext = _("\
 One can explore Hermit's Places once the philosopher has abandoned them. In most \
 cases one can learn some of the wisdom of the former inhabitant, with the cost \
