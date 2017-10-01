@@ -74,6 +74,8 @@ struct gotoline_hash *mapdeco_gotoline_table;
 struct view mapview;
 bool can_slide = TRUE;
 
+static bool frame_by_frame_animation = FALSE;
+
 struct tile *center_tile = NULL;
 
 static void base_canvas_to_map_pos(int *map_x, int *map_y,
@@ -638,63 +640,68 @@ void set_mapview_origin(float gui_x0, float gui_y0)
   }
 
   if (can_slide && gui_options.smooth_center_slide_msec > 0) {
-    int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
-    float diff_x, diff_y;
-    double timing_sec = (double)gui_options.smooth_center_slide_msec / 1000.0;
-    double currtime;
-    static struct timer *anim_timer;
-    int frames = 0;
+    if (frame_by_frame_animation) {
+      /* TODO: Implement animation */
+      base_set_mapview_origin(gui_x0, gui_y0);
+    } else {
+      int start_x = mapview.gui_x0, start_y = mapview.gui_y0;
+      float diff_x, diff_y;
+      double timing_sec = (double)gui_options.smooth_center_slide_msec / 1000.0;
+      double currtime;
+      static struct timer *anim_timer;
+      int frames = 0;
 
-    /* We track the average FPS, which is used to predict how long the
-     * next draw will take.  We start with a 100 FPS estimate - this
-     * value will quickly become irrelevant as the correct value is
-     * calculated, but it's needed to give an estimate of the FPS for
-     * the first draw.
-     *
-     * Note that the initial value shouldn't be larger than the sliding
-     * time, or we'll jump straight to the last frame.  The FPS should
-     * therefore be a "high" estimate. */
-    static double total_frames = 0.01;
-    static double total_time = 0.0001;
+      /* We track the average FPS, which is used to predict how long the
+       * next draw will take.  We start with a 100 FPS estimate - this
+       * value will quickly become irrelevant as the correct value is
+       * calculated, but it's needed to give an estimate of the FPS for
+       * the first draw.
+       *
+       * Note that the initial value shouldn't be larger than the sliding
+       * time, or we'll jump straight to the last frame.  The FPS should
+       * therefore be a "high" estimate. */
+      static double total_frames = 0.01;
+      static double total_time = 0.0001;
 
-    gui_distance_vector(tileset,
-			&diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
-    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    timer_start(anim_timer);
+      gui_distance_vector(tileset,
+                          &diff_x, &diff_y, start_x, start_y, gui_x0, gui_y0);
+      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      timer_start(anim_timer);
 
-    unqueue_mapview_updates(TRUE);
+      unqueue_mapview_updates(TRUE);
 
-    do {
-      double mytime;
+      do {
+        double mytime;
 
-      /* Get the current time, and add on the average 1/FPS, which is the
-       * expected time this frame will take.  This is done so that the
-       * frame's position is calculated from the expected time when the
-       * frame will complete, rather than the time when the frame drawing
-       * is started. */
+        /* Get the current time, and add on the average 1/FPS, which is the
+         * expected time this frame will take.  This is done so that the
+         * frame's position is calculated from the expected time when the
+         * frame will complete, rather than the time when the frame drawing
+         * is started. */
+        currtime = timer_read_seconds(anim_timer);
+        currtime += total_time / total_frames;
+
+        mytime = MIN(currtime, timing_sec);
+        base_set_mapview_origin(start_x + diff_x * (mytime / timing_sec),
+                                start_y + diff_y * (mytime / timing_sec));
+        flush_dirty();
+        gui_flush();
+        frames++;
+      } while (currtime < timing_sec);
+
       currtime = timer_read_seconds(anim_timer);
-      currtime += total_time / total_frames;
+      total_frames += frames;
+      total_time += currtime;
+      log_debug("Got %d frames in %f seconds: %f FPS (avg %f).",
+                frames, currtime, (double)frames / currtime,
+                total_frames / total_time);
 
-      mytime = MIN(currtime, timing_sec);
-      base_set_mapview_origin(start_x + diff_x * (mytime / timing_sec),
-			      start_y + diff_y * (mytime / timing_sec));
-      flush_dirty();
-      gui_flush();
-      frames++;
-    } while (currtime < timing_sec);
-
-    currtime = timer_read_seconds(anim_timer);
-    total_frames += frames;
-    total_time += currtime;
-    log_debug("Got %d frames in %f seconds: %f FPS (avg %f).",
-              frames, currtime, (double)frames / currtime,
-              total_frames / total_time);
-
-    /* A very small decay factor to make things more accurate when something
-     * changes (mapview size, tileset change, etc.).  This gives a
-     * half-life of 68 slides. */
-    total_frames *= 0.99;
-    total_time *= 0.99;
+      /* A very small decay factor to make things more accurate when something
+       * changes (mapview size, tileset change, etc.).  This gives a
+       * half-life of 68 slides. */
+      total_frames *= 0.99;
+      total_time *= 0.99;
+    }
   } else {
     base_set_mapview_origin(gui_x0, gui_y0);
   }
@@ -2156,66 +2163,71 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
   punit1->hp = MAX(punit1->hp, hp1);
 
   unqueue_mapview_updates(TRUE);
-  while (punit0->hp > hp0 || punit1->hp > hp1) {
-    const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
-    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    timer_start(anim_timer);
+  if (!frame_by_frame_animation) {
+    /* TODO: Implement frame_by_frame animation */
 
-    if (fc_rand(diff0 + diff1) < diff0) {
-      punit0->hp--;
-      refresh_unit_mapcanvas(punit0, unit_tile(punit0), FALSE, FALSE);
-    } else {
-      punit1->hp--;
-      refresh_unit_mapcanvas(punit1, unit_tile(punit1), FALSE, FALSE);
-    }
+    while (punit0->hp > hp0 || punit1->hp > hp1) {
+      const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
 
-    unqueue_mapview_updates(TRUE);
-    gui_flush();
-
-    timer_usleep_since_start(anim_timer,
-                             gui_options.smooth_combat_step_msec * 1000ul);
-  }
-
-  if (num_tiles_explode_unit > 0
-      && tile_to_canvas_pos(&canvas_x, &canvas_y,
-                            unit_tile(losing_unit))) {
-    refresh_unit_mapcanvas(losing_unit, unit_tile(losing_unit), FALSE, FALSE);
-    unqueue_mapview_updates(FALSE);
-    canvas_copy(mapview.tmp_store, mapview.store,
-		canvas_x, canvas_y, canvas_x, canvas_y,
-		tileset_tile_width(tileset) * map_zoom,
-                tileset_tile_height(tileset) * map_zoom);
-
-    for (i = 0; i < num_tiles_explode_unit; i++) {
-      int w, h;
-      struct sprite *sprite = *sprite_vector_get(anim, i);
-
-      get_sprite_dimensions(sprite, &w, &h);
       anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
       timer_start(anim_timer);
 
-      /* We first draw the explosion onto the unit and draw draw the
-       * complete thing onto the map canvas window. This avoids
-       * flickering. */
-      canvas_copy(mapview.store, mapview.tmp_store,
-		  canvas_x, canvas_y, canvas_x, canvas_y,
-		  tileset_tile_width(tileset) * map_zoom,
-                  tileset_tile_height(tileset) * map_zoom);
-      canvas_put_sprite_full(mapview.store,
-			     canvas_x + tileset_tile_width(tileset) / 2 * map_zoom
-                             - w / 2,
-			     canvas_y + tileset_tile_height(tileset) / 2 * map_zoom
-                             - h / 2,
-			     sprite);
-      dirty_rect(canvas_x, canvas_y, tileset_tile_width(tileset) * map_zoom,
-                 tileset_tile_height(tileset) * map_zoom);
+      if (fc_rand(diff0 + diff1) < diff0) {
+        punit0->hp--;
+        refresh_unit_mapcanvas(punit0, unit_tile(punit0), FALSE, FALSE);
+      } else {
+        punit1->hp--;
+        refresh_unit_mapcanvas(punit1, unit_tile(punit1), FALSE, FALSE);
+      }
 
-      flush_dirty();
+      unqueue_mapview_updates(TRUE);
       gui_flush();
 
       timer_usleep_since_start(anim_timer,
-                               gui_options.smooth_combat_step_msec * 2 * 1000ul);
+                               gui_options.smooth_combat_step_msec * 1000ul);
+    }
+
+    if (num_tiles_explode_unit > 0
+        && tile_to_canvas_pos(&canvas_x, &canvas_y,
+                              unit_tile(losing_unit))) {
+      refresh_unit_mapcanvas(losing_unit, unit_tile(losing_unit), FALSE, FALSE);
+      unqueue_mapview_updates(FALSE);
+      canvas_copy(mapview.tmp_store, mapview.store,
+                  canvas_x, canvas_y, canvas_x, canvas_y,
+                  tileset_tile_width(tileset) * map_zoom,
+                  tileset_tile_height(tileset) * map_zoom);
+
+      for (i = 0; i < num_tiles_explode_unit; i++) {
+        int w, h;
+        struct sprite *sprite = *sprite_vector_get(anim, i);
+
+        get_sprite_dimensions(sprite, &w, &h);
+        anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+        timer_start(anim_timer);
+
+        /* We first draw the explosion onto the unit and draw draw the
+         * complete thing onto the map canvas window. This avoids
+         * flickering. */
+        canvas_copy(mapview.store, mapview.tmp_store,
+                    canvas_x, canvas_y, canvas_x, canvas_y,
+                    tileset_tile_width(tileset) * map_zoom,
+                    tileset_tile_height(tileset) * map_zoom);
+        canvas_put_sprite_full(mapview.store,
+                               canvas_x + tileset_tile_width(tileset) / 2 * map_zoom
+                               - w / 2,
+                               canvas_y + tileset_tile_height(tileset) / 2 * map_zoom
+                               - h / 2,
+                               sprite);
+        dirty_rect(canvas_x, canvas_y, tileset_tile_width(tileset) * map_zoom,
+                   tileset_tile_height(tileset) * map_zoom);
+
+        flush_dirty();
+        gui_flush();
+
+        timer_usleep_since_start(anim_timer,
+                                 gui_options.smooth_combat_step_msec * 2 * 1000ul);
+      }
     }
   }
 
@@ -2279,40 +2291,47 @@ void move_unit_map_canvas(struct unit *punit,
     tuw = tileset_unit_width(tileset) * map_zoom;
     tuh = tileset_unit_height(tileset) * map_zoom;
 
-    do {
-      int new_x, new_y;
+    if (frame_by_frame_animation) {
+      /* TODO: Implement animation */
+      put_unit(punit, mapview.store, map_zoom,
+               start_x + canvas_dx,
+               start_y + canvas_dy);
+    } else {
+      do {
+        int new_x, new_y;
 
-      mytime = MIN(timer_read_seconds(anim_timer), timing_sec);
+        mytime = MIN(timer_read_seconds(anim_timer), timing_sec);
 
-      new_x = start_x + canvas_dx * (mytime / timing_sec);
-      new_y = start_y + canvas_dy * (mytime / timing_sec);
+        new_x = start_x + canvas_dx * (mytime / timing_sec);
+        new_y = start_y + canvas_dy * (mytime / timing_sec);
 
-      if (new_x != prev_x || new_y != prev_y) {
-        /* Backup the canvas store to the temp store. */
-        canvas_copy(mapview.tmp_store, mapview.store,
-                    new_x, new_y, new_x, new_y,
-                    tuw, tuh);
+        if (new_x != prev_x || new_y != prev_y) {
+          /* Backup the canvas store to the temp store. */
+          canvas_copy(mapview.tmp_store, mapview.store,
+                      new_x, new_y, new_x, new_y,
+                      tuw, tuh);
 
-        /* Draw */
-        put_unit(punit, mapview.store, map_zoom, new_x, new_y);
-        dirty_rect(new_x, new_y, tuw, tuh);
+          /* Draw */
+          put_unit(punit, mapview.store, map_zoom, new_x, new_y);
+          dirty_rect(new_x, new_y, tuw, tuh);
 
-        /* Flush. */
-        flush_dirty();
-        gui_flush();
+          /* Flush. */
+          flush_dirty();
+          gui_flush();
 
-        /* Restore the backup.  It won't take effect until the next flush. */
-        canvas_copy(mapview.store, mapview.tmp_store,
-                    new_x, new_y, new_x, new_y,
-                    tuw, tuh);
-        dirty_rect(new_x, new_y, tuw, tuh);
+          /* Restore the backup.  It won't take effect until the next flush. */
+          canvas_copy(mapview.store, mapview.tmp_store,
+                      new_x, new_y, new_x, new_y,
+                      tuw, tuh);
+          dirty_rect(new_x, new_y, tuw, tuh);
 
-        prev_x = new_x;
-        prev_y = new_y;
-      } else {
-        fc_usleep(500);
-      }
-    } while (mytime < timing_sec);
+          prev_x = new_x;
+          prev_y = new_y;
+        } else {
+          fc_usleep(500);
+        }
+      } while (mytime < timing_sec);
+    }
   }
 }
 
@@ -3582,4 +3601,12 @@ enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
   }
 
   return TOPO_COMPATIBLE;
+}
+
+/********************************************************************** 
+  Set frame by frame animation mode on.
+***********************************************************************/
+void set_frame_by_frame_animation(void)
+{
+  frame_by_frame_animation = TRUE;
 }

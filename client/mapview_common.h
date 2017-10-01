@@ -361,6 +361,8 @@ enum topo_comp_lvl { TOPO_COMPATIBLE = 0,
 enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
                                                struct tileset *tset);
 
+void set_frame_by_frame_animation(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
