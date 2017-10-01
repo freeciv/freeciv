@@ -20,6 +20,9 @@
 #include "map.h"
 #include "world_object.h"
 
+/* server/advisors */
+#include "infracache.h"
+
 /* threxpr */
 #include "texaiplayer.h"
 
@@ -159,6 +162,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
     pcity = create_city_virtual(pplayer, ptile, "");
+    adv_city_alloc(pcity);
     pcity->id = info->id;
 
     idex_register_city(&texai_world, pcity);
@@ -190,6 +194,7 @@ void texai_city_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
+  adv_city_free(pcity);
   tile_set_worked(city_tile(pcity), NULL);
   idex_unregister_city(&texai_world, pcity);
   destroy_city_virtual(pcity);
