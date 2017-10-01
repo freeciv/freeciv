@@ -1361,7 +1361,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    * drawing that was done there. */
   canvas_put_rectangle(mapview.store,
 		       get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
-		       canvas_x, canvas_y, width, height);
+		       canvas_x, canvas_y, width / map_zoom, height / map_zoom);
 
   mapview_layer_iterate(layer) {
     if (layer == LAYER_TILELABEL) {
@@ -3163,7 +3163,7 @@ bool map_canvas_resized(int width, int height)
     canvas_set_zoom(mapview.store, map_zoom);
     canvas_put_rectangle(mapview.store,
                          get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
-                         0, 0, full_width, full_height);
+                         0, 0, full_width / map_zoom, full_height / map_zoom);
 
     mapview.tmp_store = canvas_create(full_width, full_height);
     canvas_set_zoom(mapview.tmp_store, map_zoom);
