@@ -22,7 +22,7 @@
 
 #include "culture.h"
 
-/****************************************************************************
+/************************************************************************//**
   Return current culture score of the city.
 ****************************************************************************/
 int city_culture(const struct city *pcity)
@@ -30,7 +30,7 @@ int city_culture(const struct city *pcity)
   return pcity->history + get_city_bonus(pcity, EFT_PERFORMANCE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   How much history city gains this turn.
 ****************************************************************************/
 int city_history_gain(const struct city *pcity)
@@ -38,7 +38,7 @@ int city_history_gain(const struct city *pcity)
   return get_city_bonus(pcity, EFT_HISTORY);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return current culture score of the player.
 ****************************************************************************/
 int player_culture(const struct player *plr)
@@ -52,7 +52,7 @@ int player_culture(const struct player *plr)
   return culture;
 }
 
-/****************************************************************************
+/************************************************************************//**
   How much nation-wide history player gains this turn. Does NOT include
   history gains of individual cities.
 ****************************************************************************/

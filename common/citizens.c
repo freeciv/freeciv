@@ -26,7 +26,7 @@
 
 #include "citizens.h"
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialise citizens data.
 *****************************************************************************/
 void citizens_init(struct city *pcity)
@@ -52,7 +52,7 @@ void citizens_init(struct city *pcity)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free citizens data.
 *****************************************************************************/
 void citizens_free(struct city *pcity)
@@ -65,7 +65,7 @@ void citizens_free(struct city *pcity)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the number of citizens with the given nationality.
 
   The player_slot has to be used as the client does not has the exact
@@ -85,7 +85,7 @@ citizens citizens_nation_get(const struct city *pcity,
   return *(pcity->nationality + player_slot_index(pslot));
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the number of foreign citizens.
 *****************************************************************************/
 citizens citizens_nation_foreign(const struct city *pcity)
@@ -94,7 +94,7 @@ citizens citizens_nation_foreign(const struct city *pcity)
          - citizens_nation_get(pcity, city_owner(pcity)->slot);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a (positive or negative) value to the citizens of the given nationality.
   As citizens is an unsigned value use int for the parameter 'add'.
 
@@ -120,7 +120,7 @@ void citizens_nation_add(struct city *pcity, const struct player_slot *pslot,
   citizens_nation_set(pcity, pslot, nationality + add);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Convert a (positive or negative) value to the citizens from one nation to
   another. As citizens is an unsigned value use int for the parameter 'move'.
 
@@ -136,7 +136,7 @@ void citizens_nation_move(struct city *pcity,
   citizens_nation_add(pcity, pslot_to, move);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Set the number of citizens with the given nationality.
 
   The player_slot has to be used as the client does not has the exact
@@ -156,7 +156,7 @@ void citizens_nation_set(struct city *pcity, const struct player_slot *pslot,
   *(pcity->nationality + player_slot_index(pslot)) = count;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return the number of citizens in a city.
 *****************************************************************************/
 citizens citizens_count(const struct city *pcity)
@@ -184,7 +184,7 @@ citizens citizens_count(const struct city *pcity)
   return (citizens)count;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return random citizen from city.
 *****************************************************************************/
 struct player_slot *citizens_random(const struct city *pcity)
