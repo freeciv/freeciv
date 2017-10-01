@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-28 01:39+0300\n"
-"PO-Revision-Date: 2017-09-28 02:15+0300\n"
+"POT-Creation-Date: 2017-10-02 00:41+0300\n"
+"PO-Revision-Date: 2017-10-02 00:46+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -27171,7 +27171,8 @@ msgstr "Monikulttuurinen"
 #: data/civ2civ3/game.ruleset:676
 msgid ""
 "You're the first nation with a city containing 2 different nationalities!"
-msgstr "Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
+msgstr ""
+"Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
 
 #: data/civ2civ3/game.ruleset:677
 msgid "One of your cities has 2 different nationalities!"
@@ -27278,12 +27279,18 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle kokeneisuustasolle voittoisan taistelun jälkeen.\n"
+"· Lisää puolella maayksiköiden mahdollisuutta päästä seuraavalle "
+"kokeneisuustasolle voittoisan taistelun jälkeen.\n"
 "· Kussakin kaupungissa yksi asukas enemmän on tyytyväinen.\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
-"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos tunnetaan osakeyhtiöt)\n"
-"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Toisin kuin myöhemmissä valtiomuodoissa, aggressiivisetkaan sotilasyksiköt "
+"eivät aiheuta tyytymättömyyttä kotirintamalla.\n"
+"· Korruption perustaso on 30% (korkein minkään valtiomuodon alla). Se kasvaa "
+"sitä mukaa mitä kauemmas pääkaupungista mennään (puolta hitaammin jos "
+"tunnetaan osakeyhtiöt)\n"
+"· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
+"pääkaupungista (puolta hitaammin jos tunnetaan kauppa)"
 
 #: data/civ2civ3/governments.ruleset:138
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
@@ -27442,11 +27449,17 @@ msgid ""
 "capital."
 msgstr ""
 "· Jokainen kaupunki saa 2 pistettä luksusta yksistään hallitusmuodosta.\n"
-"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
-"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
-"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta siihen."
+"· Juhlivat kaupungit saavat yhden lisäpisteen rahaa jokaisesta ruudusta, "
+"joka muutenkin tuottaa rahaa (alle koon 3 kaupungit eivät voi juhlia)\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
+"ylläpito maksaa 2 kultaa kierroksessa kukin.\n"
+"· Kukin kaupunki sietää 2 aggressiivista sotilasyksikköä; lisäyksiköt "
+"tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
+"· Korruption perustaso on 0. Se kasvaa sitä mukaa mitä kauemmas "
+"pääkaupungista mennään, puolta hitaammin kuin muiden valtiomuotojen alla. "
+"Osakeyhtiöiden tunteminen eliminoi koruuption kokonaan.\n"
+"· Tuotantohävikin perustaso on 30%, mutta etäisyys pääkaupunkiin ei vaikuta "
+"siihen."
 
 #: data/civ2civ3/governments.ruleset:325
 #, no-c-format
@@ -34755,7 +34768,8 @@ msgid ""
 msgstr ""
 "Eurooppa 1900\n"
 "\n"
-"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri ennen ensimmäisen maailmansodan syttymistä.\n"
+"Yritys luoda historiallisesti tarkka asetelma Euroopan suurvalloista juuri "
+"ennen ensimmäisen maailmansodan syttymistä.\n"
 "\n"
 "VAROITUS: Tekoälyltä kuluu erittäin pitkä aika vuorojensa pelaamiseen.\n"
 "\n"
@@ -46082,65 +46096,72 @@ msgstr ""
 "Kaupungissa %2$s %1$s valmistuu nopeammin kun %4$s, jonka %3$s lähettivät "
 "auttaa (%5$d %6$s)."
 
-#: server/unithand.c:2828
+#: server/unithand.c:2827
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:2840
+#: server/unithand.c:2839
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille."
 
-#: server/unithand.c:2876 server/unithand.c:2900
+#: server/unithand.c:2875 server/unithand.c:2899
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:2882 server/unithand.c:2906
+#: server/unithand.c:2881 server/unithand.c:2905
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
 msgstr[0] "      Kaupungilla %s on jo %d parempi kauppareitti!"
 msgstr[1] "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
-#. TRANS: used as part of caravan revenue sentence.
-#: server/unithand.c:2932
-msgid "?tradebonustype:gold"
-msgstr "kultaa"
-
-#. TRANS: used as part of caravan revenue sentence.
-#: server/unithand.c:2936
-msgid "?tradebonustype:research"
-msgstr "tutkimusta"
-
-#. TRANS: used as part of caravan revenue sentence.
-#: server/unithand.c:2940
-msgid "?tradebonustype:gold and research"
-msgstr "kultaa ja tutkimusta"
-
-#. TRANS: ... Caravan ... Paris ... Stockholm, ... gold and research.
-#: server/unithand.c:2950
-#, c-format
-msgid "Your %s from %s has arrived in %s, and revenues amount to %d in %s."
-msgid_plural ""
-"Your %s from %s has arrived in %s, and revenues amount to %d in %s."
-msgstr[0] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d %s."
-msgstr[1] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d %s."
-
-#. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:2964
+#. TRANS: ... Caravan ... Paris ... Stockholm.
+#: server/unithand.c:2934
 #, c-format
 msgid "Your %s from %s has arrived in %s."
-msgstr "Kaupngista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s"
+msgstr "Kaupungista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s."
 
-#: server/unithand.c:2994
+#. TRANS: ... Caravan ... Paris ... Stockholm, ...
+#: server/unithand.c:2943
+#, c-format
+msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
+msgid_plural ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa."
+
+#. TRANS: ... Caravan ... Paris ... Stockholm, ...
+#: server/unithand.c:2957
+#, c-format
+msgid ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in research."
+msgid_plural ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in research."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d pisteen tutkimusta."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d pistettä tutkimusta."
+
+#. TRANS: ... Caravan ... Paris ... Stockholm, ...
+#: server/unithand.c:2971
+#, c-format
+msgid ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
+"research."
+msgid_plural ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
+"research."
+msgstr[0] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa ja tutkimusta."
+msgstr[1] "%s kaupungista %s saapui kaupunkiin %s. Matka tuotti %d kultaa ja tutkimusta."
+
+#: server/unithand.c:3008
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:3000
+#: server/unithand.c:3014
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
@@ -46816,6 +46837,15 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid "?tradebonustype:gold"
+#~ msgstr "kultaa"
+
+#~ msgid "?tradebonustype:research"
+#~ msgstr "tutkimusta"
+
+#~ msgid "?tradebonustype:gold and research"
+#~ msgstr "kultaa ja tutkimusta"
 
 #~ msgid " act"
 #~ msgid_plural " acts"
