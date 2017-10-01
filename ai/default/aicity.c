@@ -784,7 +784,8 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
     want /= MAX(1, ai->stats.workers[place] / (adv->stats.cities[place] + 1));
     want -= ai->stats.workers[place];
   } else {
-    /* TODO: Handle Oceans with cities sensibly */
+    want /= MAX(1, ai->stats.ocean_workers[-place] / (adv->stats.ocean_cities[-place] + 1));
+    want -= ai->stats.ocean_workers[-place];
   }
   want = MAX(want, 0);
 
@@ -812,7 +813,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
 
   city_data->worker_want = want;
   city_data->worker_type = dai_role_utype_for_terrain_class(pcity, UTYF_SETTLERS,
-                                                            TC_LAND);
+                                                            place >= 0 ? TC_LAND : TC_OCEAN);
 }
 
 /**************************************************************************
