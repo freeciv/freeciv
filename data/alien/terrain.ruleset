@@ -715,16 +715,17 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;
 ; */ <-- avoid gettext warnings
 
-[extra_irrigation]
-name           = _("Irrigation")
+[extra_greenhouses]
+name           = _("Greenhouses")
+rule_name      = "Irrigation"
 category       = "Infra"
 causes         = "Irrigation"
 rmcauses       = "Pillage"
-graphic        = "tx.irrigation"
-graphic_alt    = "-"
-activity_gfx   = "unit.irrigation"
-act_gfx_alt    = "unit.irrigate"
-act_gfx_alt2   = "-"
+graphic        = "tx.greenhouses"
+graphic_alt    = "tx.irrigation"
+activity_gfx   = "unit.greenhouses"
+act_gfx_alt    = "unit.irrigation"
+act_gfx_alt2   = "unit.irrigate"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 build_time     = 0
@@ -732,13 +733,13 @@ removal_time   = 0
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 helptext = _("\
-Irrigation can be built on certain terrain types only. In addition to that \
+Greenhouses can be built on certain terrain types only. In addition to that \
 tile has to have one of the following water sources:\n\
-- Irrigation can be built tiles cardinally adjacent to Oceanic tiles and \
+- Greenhouses can be built tiles cardinally adjacent to Oceanic tiles and \
 on river tiles once Manufacturing is known.\n\
-- Once Water Flow is known, Irrigation can be built to tiles cardinally adjacent \
+- Once Water Flow is known, Greenhouses can be built to tiles cardinally adjacent \
 to river tiles or city center.\n\
-- Deep Pumping technology enables building Irrigation.\
+- Deep Pumping technology enables building Greenhouses anywhere.\
 ")
 
 [extra_mine]
@@ -802,15 +803,16 @@ Unfortunately it's also possible that Madmen or Lunatics have already \
 found the capsule, and are there ready to kill anybody who enters.\
 ")
 
-[extra_farmland]
-name           = _("Farmland")
+[extra_protein_houses]
+name           = _("Protein Houses")
+rule_name      = "Farmland"
 category       = "Infra"
 causes         = "Irrigation"
 rmcauses       = "Pillage"
-graphic        = "tx.farmland"
-graphic_alt    = "-"
-activity_gfx   = "unit.farmland"
-act_gfx_alt    = "unit.irrigation"
+graphic        = "tx.protein_houses"
+graphic_alt    = "tx.farmland"
+activity_gfx   = "unit.protein_houses"
+act_gfx_alt    = "unit.farmland"
 act_gfx_alt2   = "unit.irrigate"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"

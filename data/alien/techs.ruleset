@@ -293,8 +293,8 @@ req2        = "Crust Defense"
 flags       = ""
 graphic     = "a.deep_pumping"
 graphic_alt = "-"
-helptext    = _("We can pump water from the depths of the crust. We no longer\
-need any of the adjacent tiles to have water in order to build irrigation.")
+helptext    = _("We can pump water from the depths of the crust. We no longer \
+need any of the adjacent tiles to have water in order to build Greenhouses.")
 
 [advance_deneb_radar]
 name        = _("Deneb Radar")
@@ -357,7 +357,7 @@ graphic_alt = "-"
 ; /* xgettext:no-c-format */
 helptext    = _("If what we harvest grows back faster, we get more food. \
 It's simple as that.\n\n\
-Farmland tiles get additional 50% food production bonus.")
+Protein Houses tiles get additional 50% food production bonus.")
 
 [advance_force_channeling]
 name        = _("Force Channeling")
@@ -566,7 +566,7 @@ graphic     = "a.protein_mod"
 graphic_alt = "-"
 ; /* xgettext:no-c-format */
 helptext    = _("Turns out we can make alien lifeforms edible.\n\n\
-Engineers can build Farmland, which increases tile food production by 50%.")
+Engineers can build Protein Houses, which increases tile food production by 50%.")
 flags       = ""
 
 [advance_radiation_resistance]
@@ -791,4 +791,5 @@ flags       = ""
 graphic     = "a.water_flow"
 graphic_alt = "-"
 helptext    = _("We understand Deneb 7 fluid dynamics and can get water to flow \
-where we want. Irrigation becomes possible in tiles adjacent to cities and rivers.")
+where we want. Building Greenhouses becomes possible in tiles adjacent to cities \
+and rivers.")
