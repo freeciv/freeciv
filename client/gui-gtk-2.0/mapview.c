@@ -381,6 +381,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
+    update_animation();
     unqueue_mapview_updates(FALSE);
     gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
                       ev->area.x, ev->area.y, ev->area.x, ev->area.y,

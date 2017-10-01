@@ -261,6 +261,7 @@ static void client_game_init(void)
               mapimg_client_tile_owner, mapimg_client_tile_city,
               mapimg_client_tile_unit, mapimg_client_plrcolor_count,
               mapimg_client_plrcolor_get);
+  animations_init();
 }
 
 /**************************************************************************
@@ -270,6 +271,7 @@ static void client_game_free(void)
 {
   editgui_popdown_all();
 
+  animations_free();
   mapimg_free();
   packhand_free();
   server_options_free();
