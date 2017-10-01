@@ -518,7 +518,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                       : terrain_count();
       info.resource = (NULL != tile_resource(ptile))
                        ? extra_number(tile_resource(ptile))
-                       : extra_count();
+                       : MAX_EXTRA_TYPES;
 
       if (pplayer != NULL) {
 	info.extras = map_get_player_tile(ptile, pplayer)->extras;
@@ -554,7 +554,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
                       : terrain_count();
       info.resource = (NULL != plrtile->resource)
                        ? extra_number(plrtile->resource)
-                       : extra_count();
+                       : MAX_EXTRA_TYPES;
 
       info.extras = plrtile->extras;
 
@@ -574,7 +574,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.worked = IDENTITY_NUMBER_ZERO;
 
       info.terrain = terrain_count();
-      info.resource = extra_count();
+      info.resource = MAX_EXTRA_TYPES;
 
       BV_CLR_ALL(info.extras);
 
