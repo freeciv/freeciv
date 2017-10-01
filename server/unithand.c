@@ -2812,7 +2812,6 @@ static bool do_unit_establish_trade(struct player *pplayer,
   struct city *pcity_homecity;
   struct city_list *cities_out_of_home, *cities_out_of_dest;
   enum traderoute_bonus_type bonus_type;
-  const char *bonus_str;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -2922,50 +2921,65 @@ static bool do_unit_establish_trade(struct player *pplayer,
                                                can_establish);
 
   bonus_type = trade_route_settings_by_type(cities_trade_route_type(pcity_homecity, pcity_dest))->bonus_type;
-  bonus_str = NULL;
-
-  switch (bonus_type) {
-  case TBONUS_NONE:
-    break;
-  case TBONUS_GOLD:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:gold");
-    break;
-  case TBONUS_SCIENCE:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:research");
-    break;
-  case TBONUS_BOTH:
-    /* TRANS: used as part of caravan revenue sentence. */
-    bonus_str = Q_("?tradebonustype:gold and research");
-    break;
-  }
 
   conn_list_do_buffer(pplayer->connections);
 
-  if (bonus_str != NULL) {
+  /* We want to keep the bonus type string as the part of the format of the PL_() strings
+   * for supporting proper pluralization for it. */
+  switch (bonus_type) {
+  case TBONUS_NONE:
     notify_player(pplayer, city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
-                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... gold and research. */
-                  PL_("Your %s from %s has arrived in %s,"
-                      " and revenues amount to %d in %s.",
-                      "Your %s from %s has arrived in %s,"
-                      " and revenues amount to %d in %s.",
-                      revenue),
-                  punit_link,
-                  homecity_link,
-                  destcity_link,
-                  revenue,
-                  bonus_str);
-  } else {
-    notify_player(pplayer, city_tile(pcity_dest),
-                  E_CARAVAN_ACTION, ftc_server,
-                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                  /* TRANS: ... Caravan ... Paris ... Stockholm. */
                   _("Your %s from %s has arrived in %s."),
                   punit_link,
                   homecity_link,
                   destcity_link);
+    break;
+  case TBONUS_GOLD:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                  PL_("Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in gold.",
+                      "Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in gold.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  revenue);
+    break;
+  case TBONUS_SCIENCE:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                  PL_("Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in research.",
+                      "Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in research.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  revenue);
+    break;
+  case TBONUS_BOTH:
+    notify_player(pplayer, city_tile(pcity_dest),
+                  E_CARAVAN_ACTION, ftc_server,
+                  /* TRANS: ... Caravan ... Paris ... Stockholm, ... */
+                  PL_("Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in gold and research.",
+                      "Your %s from %s has arrived in %s,"
+                      " and revenues amount to %d in gold and research.",
+                      revenue),
+                  punit_link,
+                  homecity_link,
+                  destcity_link,
+                  revenue);
+    break;
   }
+
   wipe_unit(punit, ULR_USED, NULL);
 
   if (bonus_type == TBONUS_GOLD || bonus_type == TBONUS_BOTH) {
