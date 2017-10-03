@@ -994,10 +994,16 @@ bool city_change_size(struct city *pcity, citizens size,
     real_change = city_size_get(pcity) - old_size;
 
     if (real_change != 0 && reason != NULL) {
+      int id = pcity->id;
+
       script_server_signal_emit("city_size_change", 3,
                                 API_TYPE_CITY, pcity,
                                 API_TYPE_INT, real_change,
                                 API_TYPE_STRING, reason);
+
+      if (!city_exist(id)) {
+        return FALSE;
+      }
     }
   } else if (change < 0) {
     /* We assume that city_change_size() is never called because
@@ -3501,6 +3507,7 @@ static bool do_city_migration(struct city *pcity_from,
   const char *nation_from, *nation_to;
   struct city *rcity = NULL;
   bool incr_success;
+  int to_id = pcity_to->id;
 
   if (!pcity_from || !pcity_to) {
     return FALSE;
@@ -3616,6 +3623,8 @@ static bool do_city_migration(struct city *pcity_from,
                               FALSE, FALSE, TRUE, FALSE, NULL);
 
     if (rcity) {
+      int id = pcity_from->id;
+
       /* transfer all units to the closest city */
       transfer_city_units(pplayer_from, pplayer_from,
                           pcity_from->units_supported, rcity, pcity_from,
@@ -3626,12 +3635,17 @@ static bool do_city_migration(struct city *pcity_from,
                             API_TYPE_CITY, pcity_from,
                             API_TYPE_INT, -1,
                             API_TYPE_STRING, "migration_from");
-      script_server_signal_emit("city_destroyed", 3,
-                                API_TYPE_CITY, pcity_from,
-                                API_TYPE_PLAYER, pcity_from->owner,
-                                API_TYPE_PLAYER, NULL);
 
-      remove_city(pcity_from);
+      if (city_exist(id)) {
+        script_server_signal_emit("city_destroyed", 3,
+                                  API_TYPE_CITY, pcity_from,
+                                  API_TYPE_PLAYER, pcity_from->owner,
+                                  API_TYPE_PLAYER, NULL);
+
+        if (city_exist(id)) {
+          remove_city(pcity_from);
+        }
+      }
 
       notify_player(pplayer_from, ptile_from, E_CITY_LOST, ftc_server,
                     _("%s was disbanded by its citizens."),
@@ -3689,16 +3703,20 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   /* raise size of receiver city */
-  incr_success = city_increase_size(pcity_to, pplayer_citizen);
-  city_refresh_vision(pcity_to);
-  if (city_refresh(pcity_to)) {
-    auto_arrange_workers(pcity_to);
-  }
-  if (incr_success) {
-    script_server_signal_emit("city_size_change", 3,
-                              API_TYPE_CITY, pcity_to,
-                              API_TYPE_INT, 1,
-                              API_TYPE_STRING, "migration_to");
+  if (city_exist(to_id)) {
+    incr_success = city_increase_size(pcity_to, pplayer_citizen);
+    if (city_exist(to_id)) {
+      city_refresh_vision(pcity_to);
+      if (city_refresh(pcity_to)) {
+        auto_arrange_workers(pcity_to);
+      }
+      if (incr_success) {
+        script_server_signal_emit("city_size_change", 3,
+                                  API_TYPE_CITY, pcity_to,
+                                  API_TYPE_INT, 1,
+                                  API_TYPE_STRING, "migration_to");
+      }
+    }
   }
 
   log_debug("[M] T%d migration successful (%s -> %s)",
