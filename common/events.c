@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -230,7 +230,7 @@ static int event_to_index[E_COUNT];
 enum event_type sorted_events[E_COUNT];
 
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the translated description of the given event.
 **************************************************************************/
 const char *get_event_message_text(enum event_type event)
@@ -246,7 +246,7 @@ const char *get_event_message_text(enum event_type event)
                            * we get non-translated in log message. */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Comparison function for qsort; i1 and i2 are pointers to an event
   (enum event_type).
 **************************************************************************/
@@ -259,9 +259,9 @@ static int compar_event_message_texts(const void *i1, const void *i2)
                        get_event_message_text(*j2));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns a string for the sound to be used for this message type.
-****************************************************************************/
+**************************************************************************/
 const char *get_event_tag(enum event_type event)
 {
   fc_assert_ret_val(event_type_is_valid(event), NULL);
@@ -273,10 +273,10 @@ const char *get_event_tag(enum event_type event)
   return NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
  If is_city_event is FALSE this event doesn't effect a city even if
  there is a city at the event location.
-****************************************************************************/
+**************************************************************************/
 bool is_city_event(enum event_type event)
 {
   switch (event) {
@@ -313,10 +313,10 @@ bool is_city_event(enum event_type event)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize events. 
   Now also initialise sorted_events[].
-****************************************************************************/
+**************************************************************************/
 void events_init(void)
 {
   int i;
@@ -360,9 +360,9 @@ void events_init(void)
         compar_event_message_texts);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Free events. 
-****************************************************************************/
+**************************************************************************/
 void events_free(void)
 {
   int i;

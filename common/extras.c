@@ -37,7 +37,7 @@ static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
 static struct extra_type_list *unit_hidden;
 
-/****************************************************************************
+/************************************************************************//**
   Initialize extras structures.
 ****************************************************************************/
 void extras_init(void)
@@ -74,7 +74,7 @@ void extras_init(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with extras
 ****************************************************************************/
 void extras_free(void)
@@ -138,17 +138,17 @@ void extras_free(void)
   } extra_type_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the number of extra_types.
-**************************************************************************/
+****************************************************************************/
 int extra_count(void)
 {
   return game.control.num_extra_types;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the extra id.
-**************************************************************************/
+****************************************************************************/
 int extra_number(const struct extra_type *pextra)
 {
   fc_assert_ret_val(NULL != pextra, -1);
@@ -157,9 +157,9 @@ int extra_number(const struct extra_type *pextra)
 }
 
 #ifndef extra_index
-/**************************************************************************
+/************************************************************************//**
   Return the extra index.
-**************************************************************************/
+****************************************************************************/
 int extra_index(const struct extra_type *pextra)
 {
   fc_assert_ret_val(NULL != pextra, -1);
@@ -168,7 +168,7 @@ int extra_index(const struct extra_type *pextra)
 }
 #endif /* extra_index */
 
-/****************************************************************************
+/************************************************************************//**
   Return extras type of given id.
 ****************************************************************************/
 struct extra_type *extra_by_number(int id)
@@ -178,28 +178,28 @@ struct extra_type *extra_by_number(int id)
   return &extras[id];
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the (translated) name of the extra type.
   You don't have to free the return pointer.
-**************************************************************************/
+****************************************************************************/
 const char *extra_name_translation(const struct extra_type *pextra)
 {
   return name_translation_get(&pextra->name);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the (untranslated) rule name of the extra type.
   You don't have to free the return pointer.
-**************************************************************************/
+****************************************************************************/
 const char *extra_rule_name(const struct extra_type *pextra)
 {
   return rule_name_get(&pextra->name);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra type matching rule name or NULL if there is no extra type
   with such name.
-**************************************************************************/
+****************************************************************************/
 struct extra_type *extra_type_by_rule_name(const char *name)
 {
   const char *qs;
@@ -219,10 +219,10 @@ struct extra_type *extra_type_by_rule_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra type matching the translated name, or NULL if there is no
   extra type with that name.
-**************************************************************************/
+****************************************************************************/
 struct extra_type *extra_type_by_translated_name(const char *name)
 {
   extra_type_iterate(pextra) {
@@ -234,9 +234,9 @@ struct extra_type *extra_type_by_translated_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra type for given cause.
-**************************************************************************/
+****************************************************************************/
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 {
   fc_assert(cause < EC_LAST);
@@ -244,9 +244,9 @@ struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
   return caused_by[cause];
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra types of the category.
-**************************************************************************/
+****************************************************************************/
 struct extra_type_list *extra_type_list_for_category(enum extra_category cat)
 {
   fc_assert(cat < ECAT_LAST);
@@ -254,17 +254,17 @@ struct extra_type_list *extra_type_list_for_category(enum extra_category cat)
   return category_extra[cat];
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra types that hide units.
-**************************************************************************/
+****************************************************************************/
 struct extra_type_list *extra_type_list_of_unit_hiders(void)
 {
   return unit_hidden;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return random extra type for given cause that is native to the tile.
-**************************************************************************/
+****************************************************************************/
 struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause)
 {
   struct extra_type_list *full_list = extra_type_list_by_cause(cause);
@@ -289,9 +289,9 @@ struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause caus
   return selected;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Add extra type to list of extra caused by given cause.
-**************************************************************************/
+****************************************************************************/
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
 {
   fc_assert(cause < EC_LAST);
@@ -299,9 +299,9 @@ void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
   extra_type_list_append(caused_by[cause], pextra);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Add extra type to list of extras of a category
-**************************************************************************/
+****************************************************************************/
 void extra_to_category_list(struct extra_type *pextra, enum extra_category cat)
 {
   fc_assert(cat < ECAT_LAST);
@@ -309,9 +309,9 @@ void extra_to_category_list(struct extra_type *pextra, enum extra_category cat)
   extra_type_list_append(category_extra[cat], pextra);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns extra type for given rmcause.
-**************************************************************************/
+****************************************************************************/
 struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause)
 {
   fc_assert(rmcause < ERM_COUNT);
@@ -319,9 +319,9 @@ struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause)
   return removed_by[rmcause];
 }
 
-/**************************************************************************
+/************************************************************************//**
   Add extra type to list of extra removed by given cause.
-**************************************************************************/
+****************************************************************************/
 void extra_to_removed_by_list(struct extra_type *pextra,
                               enum extra_rmcause rmcause)
 {
@@ -330,16 +330,16 @@ void extra_to_removed_by_list(struct extra_type *pextra,
   extra_type_list_append(removed_by[rmcause], pextra);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Is given cause one of the removal causes for given extra?
-**************************************************************************/
+****************************************************************************/
 bool is_extra_removed_by(const struct extra_type *pextra,
                          enum extra_rmcause rmcause)
 {
   return (pextra->rmcauses & (1 << rmcause));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is there extra of the given type cardinally near tile?
   (Does not check ptile itself.)
 ****************************************************************************/
@@ -354,7 +354,7 @@ bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextr
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is there extra of the given type near tile?
   (Does not check ptile itself.)
 ****************************************************************************/
@@ -369,7 +369,7 @@ bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextr
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if extra can build to tile if all other requirements are met.
 ****************************************************************************/
 bool extra_can_be_built(const struct extra_type *pextra,
@@ -388,7 +388,7 @@ bool extra_can_be_built(const struct extra_type *pextra,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if player can build extra to tile with suitable unit.
 ****************************************************************************/
 static bool can_build_extra_base(const struct extra_type *pextra,
@@ -412,7 +412,7 @@ static bool can_build_extra_base(const struct extra_type *pextra,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if player can build extra to tile with suitable unit.
 ****************************************************************************/
 bool player_can_build_extra(const struct extra_type *pextra,
@@ -428,7 +428,7 @@ bool player_can_build_extra(const struct extra_type *pextra,
                          RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if unit can build extra on tile.
 ****************************************************************************/
 bool can_build_extra(struct extra_type *pextra,
@@ -446,7 +446,7 @@ bool can_build_extra(struct extra_type *pextra,
                          RPT_CERTAIN);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is it possible at all to remove this extra now
 ****************************************************************************/
 static bool can_extra_be_removed(const struct extra_type *pextra,
@@ -479,7 +479,7 @@ static bool can_extra_be_removed(const struct extra_type *pextra,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if player can remove extra from tile with suitable unit.
 ****************************************************************************/
 bool player_can_remove_extra(const struct extra_type *pextra,
@@ -495,7 +495,7 @@ bool player_can_remove_extra(const struct extra_type *pextra,
                          RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if unit can remove extra from tile.
 ****************************************************************************/
 bool can_remove_extra(struct extra_type *pextra,
@@ -515,7 +515,7 @@ bool can_remove_extra(struct extra_type *pextra,
                          &pextra->rmreqs, RPT_CERTAIN);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is tile native to extra?
 ****************************************************************************/
 bool is_native_tile_to_extra(const struct extra_type *pextra,
@@ -563,7 +563,7 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff an extra that conflicts with pextra exists at ptile.
 ****************************************************************************/
 bool extra_conflicting_on_tile(const struct extra_type *pextra,
@@ -579,7 +579,7 @@ bool extra_conflicting_on_tile(const struct extra_type *pextra,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns next extra by cause that unit or player can build to tile.
 ****************************************************************************/
 struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_cause cause,
@@ -621,7 +621,7 @@ struct extra_type *next_extra_for_tile(const struct tile *ptile, enum extra_caus
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns prev extra by cause that unit or player can remove from tile.
 ****************************************************************************/
 struct extra_type *prev_extra_in_tile(const struct tile *ptile,
@@ -648,7 +648,7 @@ struct extra_type *prev_extra_in_tile(const struct tile *ptile,
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is extra native to unit class?
 ****************************************************************************/
 bool is_native_extra_to_uclass(const struct extra_type *pextra,
@@ -657,7 +657,7 @@ bool is_native_extra_to_uclass(const struct extra_type *pextra,
   return BV_ISSET(pextra->native_to, uclass_index(pclass));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is extra native to unit type?
 ****************************************************************************/
 bool is_native_extra_to_utype(const struct extra_type *pextra,
@@ -666,7 +666,7 @@ bool is_native_extra_to_utype(const struct extra_type *pextra,
   return is_native_extra_to_uclass(pextra, utype_class(punittype));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if extra has given flag
 ****************************************************************************/
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
@@ -674,7 +674,7 @@ bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag)
   return BV_ISSET(pextra->flags, flag);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any cardinally adjacent tile contains an extra with
   the given flag (does not check ptile itself).
 ****************************************************************************/
@@ -693,7 +693,7 @@ bool is_extra_flag_card_near(const struct tile *ptile, enum extra_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any adjacent tile contains an extra with the given flag
   (does not check ptile itself).
 ****************************************************************************/
@@ -712,9 +712,9 @@ bool is_extra_flag_near_tile(const struct tile *ptile, enum extra_flag_id flag)
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Initialize user extra flags.
-**************************************************************************/
+****************************************************************************/
 void user_extra_flags_init(void)
 {
   int i;
@@ -724,9 +724,9 @@ void user_extra_flags_init(void)
   }
 }
 
-/***************************************************************
+/************************************************************************//**
   Frees the memory associated with all extra flags
-***************************************************************/
+****************************************************************************/
 void extra_flags_free(void)
 {
   int i;
@@ -736,9 +736,9 @@ void extra_flags_free(void)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Sets user defined name for extra flag.
-**************************************************************************/
+****************************************************************************/
 void set_user_extra_flag_name(enum extra_flag_id id, const char *name,
                               const char *helptxt)
 {
@@ -765,9 +765,9 @@ void set_user_extra_flag_name(enum extra_flag_id id, const char *name,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Extra flag name callback, called from specenum code.
-**************************************************************************/
+****************************************************************************/
 const char *extra_flag_id_name_cb(enum extra_flag_id flag)
 {
   if (flag < EF_USER_FLAG_1 || flag > EF_LAST_USER_FLAG) {
@@ -777,9 +777,9 @@ const char *extra_flag_id_name_cb(enum extra_flag_id flag)
   return user_extra_flags[flag - EF_USER_FLAG_1].name;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the (untranslated) help text of the user extra flag.
-**************************************************************************/
+****************************************************************************/
 const char *extra_flag_helptxt(enum extra_flag_id id)
 {
   fc_assert(id >= EF_USER_FLAG_1 && id <= EF_LAST_USER_FLAG);
@@ -787,9 +787,9 @@ const char *extra_flag_helptxt(enum extra_flag_id id)
   return user_extra_flags[id - EF_USER_FLAG_1].helptxt;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Can two extras coexist in same tile?
-**************************************************************************/
+****************************************************************************/
 bool can_extras_coexist(const struct extra_type *pextra1,
                         const struct extra_type *pextra2)
 {
@@ -800,9 +800,9 @@ bool can_extras_coexist(const struct extra_type *pextra1,
   return !BV_ISSET(pextra1->conflicts, extra_index(pextra2));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Does the extra count toward environment upset?
-**************************************************************************/
+****************************************************************************/
 bool extra_causes_env_upset(struct extra_type *pextra,
                             enum environment_upset_type upset)
 {
@@ -816,9 +816,9 @@ bool extra_causes_env_upset(struct extra_type *pextra,
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Is the extra caused by some kind of worker action?
-**************************************************************************/
+****************************************************************************/
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
 {
   /* Is any of the worker build action bits set? */
@@ -829,9 +829,9 @@ bool is_extra_caused_by_worker_action(const struct extra_type *pextra)
              | 1 << EC_ROAD));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Is the extra removed by some kind of worker action?
-**************************************************************************/
+****************************************************************************/
 bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
 {
   /* Is any of the worker remove action bits set? */
@@ -841,27 +841,27 @@ bool is_extra_removed_by_worker_action(const struct extra_type *pextra)
              | 1 << ERM_PILLAGE));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Is the extra caused by specific worker action?
-**************************************************************************/
+****************************************************************************/
 bool is_extra_caused_by_action(const struct extra_type *pextra,
                                enum unit_activity act)
 {
   return is_extra_caused_by(pextra, activity_to_extra_cause(act));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Is the extra removed by specific worker action?
-**************************************************************************/
+****************************************************************************/
 bool is_extra_removed_by_action(const struct extra_type *pextra,
                                 enum unit_activity act)
 {
   return is_extra_removed_by(pextra, activity_to_extra_rmcause(act));
 }
 
-/**************************************************************************
+/************************************************************************//**
   What extra cause activity is considered to be?
-**************************************************************************/
+****************************************************************************/
 enum extra_cause activity_to_extra_cause(enum unit_activity act)
 {
   switch(act) {
@@ -880,9 +880,9 @@ enum extra_cause activity_to_extra_cause(enum unit_activity act)
   return EC_NONE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   What extra rmcause activity is considered to be?
-**************************************************************************/
+****************************************************************************/
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
 {
   switch(act) {
@@ -899,17 +899,17 @@ enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
   return ERM_NONE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Who owns extras on tile
-**************************************************************************/
+****************************************************************************/
 struct player *extra_owner(const struct tile *ptile)
 {
   return ptile->extras_owner;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Are all the requirements for extra to appear on tile fulfilled.
-**************************************************************************/
+****************************************************************************/
 bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
 {
   return !tile_has_extra(ptile, pextra)
@@ -921,9 +921,9 @@ bool can_extra_appear(const struct extra_type *pextra, const struct tile *ptile)
                        &pextra->appearance_reqs, RPT_CERTAIN);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Are all the requirements for extra to disappear from tile fulfilled.
-**************************************************************************/
+****************************************************************************/
 bool can_extra_disappear(const struct extra_type *pextra, const struct tile *ptile)
 {
   return tile_has_extra(ptile, pextra)
@@ -934,9 +934,9 @@ bool can_extra_disappear(const struct extra_type *pextra, const struct tile *pti
                        &pextra->disappearance_reqs, RPT_CERTAIN);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Extra is not hidden from the user.
-**************************************************************************/
+****************************************************************************/
 bool player_knows_extra_exist(const struct player *pplayer,
                               const struct extra_type *pextra,
                               const struct tile *ptile)
