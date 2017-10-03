@@ -222,7 +222,8 @@ end
 citiesbuilt = 0
 signal.connect('city_built', 'city_built_callback')
 
-function city_growth_callback(city, size)
+function city_growth_callback(city, change, reason)
+  size = city.size
   if city.owner:is_human() then
     if size == 2 and not growth2msg then
       notify.event(city.owner, city.tile, E.SCRIPT,
@@ -257,7 +258,7 @@ growth5msg = false
 growth8msg = false
 growth16msg = false
 growth13msg = false
-signal.connect('city_growth', 'city_growth_callback')
+signal.connect('city_size_change', 'city_growth_callback')
 
 function unit_built_callback(unit)
   if not unit.owner:is_human() then
