@@ -1813,10 +1813,6 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 
   fc_assert_ret(amount > 0);
 
-  script_server_signal_emit("city_size_change", 3,
-                            API_TYPE_CITY, pcity,
-                            API_TYPE_INT, amount,
-                            API_TYPE_STRING, "unit_added");
   city_size_add(pcity, amount);
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += amount;
@@ -1832,6 +1828,11 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   sanity_check_city(pcity);
 
   send_city_info(NULL, pcity);
+
+  script_server_signal_emit("city_size_change", 3,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_INT, amount,
+                            API_TYPE_STRING, "unit_added");
 }
 
 /**************************************************************************

@@ -688,13 +688,6 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
     return TRUE;
   }
 
-  if (reason != NULL) {
-    script_server_signal_emit("city_size_change", 3,
-                              API_TYPE_CITY, pcity,
-                              API_TYPE_INT, -pop_loss,
-                              API_TYPE_STRING, reason);
-  }
-
   if (city_size_get(pcity) <= pop_loss) {
 
     script_server_signal_emit("city_destroyed", 3,
@@ -751,6 +744,18 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   } trade_routes_iterate_end;
 
   sanity_check_city(pcity);
+
+  if (reason != NULL) {
+    int id = pcity->id;
+
+    script_server_signal_emit("city_size_change", 3,
+                              API_TYPE_CITY, pcity,
+                              API_TYPE_INT, -pop_loss,
+                              API_TYPE_STRING, reason);
+
+    return city_exist(id);
+  }
+
   return TRUE;
 }
 
