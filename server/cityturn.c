@@ -914,24 +914,29 @@ bool city_change_size(struct city *pcity, citizens size,
 {
   int change = size - city_size_get(pcity);
 
-  if (change != 0 && reason != NULL) {
-    script_server_signal_emit("city_size_change", 3,
-                              API_TYPE_CITY, pcity,
-                              API_TYPE_INT, size - city_size_get(pcity),
-                              API_TYPE_STRING, reason);
-  }
-
   if (change > 0) {
+    int old_size = city_size_get(pcity);
+    int real_change;
+
     /* Increase city size until size reached, or increase fails */
     while (size > city_size_get(pcity)
            && city_increase_size(pcity, nationality)) {
       /* city_increase_size() does all the work. */
     }
+
+    real_change = city_size_get(pcity) - old_size;
+
+    if (real_change != 0 && reason != NULL) {
+      script_server_signal_emit("city_size_change", 3,
+                                API_TYPE_CITY, pcity,
+                                API_TYPE_INT, real_change,
+                                API_TYPE_STRING, reason);
+    }
   } else if (change < 0) {
     /* We assume that city_change_size() is never called because
      * of enemy actions. If that changes, enemy must be passed
      * to city_reduce_size() */
-    return city_reduce_size(pcity, -change, NULL, NULL);
+    return city_reduce_size(pcity, -change, NULL, reason);
   }
 
   map_claim_border(pcity->tile, pcity->owner, -1);
@@ -958,12 +963,17 @@ static void city_populate(struct city *pcity, struct player *nationality)
       /* Lose excess food */
       pcity->food_stock = MIN(pcity->food_stock, granary_size);
     } else {
-      city_increase_size(pcity, nationality);
+      bool success;
+
+      success = city_increase_size(pcity, nationality);
       map_claim_border(pcity->tile, pcity->owner, -1);
-      script_server_signal_emit("city_size_change", 3,
-                            API_TYPE_CITY, pcity,
-                            API_TYPE_INT, 1,
-                            API_TYPE_STRING, "growth");
+
+      if (success) {
+        script_server_signal_emit("city_size_change", 3,
+                                  API_TYPE_CITY, pcity,
+                                  API_TYPE_INT, 1,
+                                  API_TYPE_STRING, "growth");
+      }
     }
   } else if (pcity->food_stock < 0) {
     /* FIXME: should this depend on units with ability to build
@@ -3258,6 +3268,7 @@ static bool do_city_migration(struct city *pcity_from,
   char name_from[MAX_LEN_LINK], name_to[MAX_LEN_LINK];
   const char *nation_from, *nation_to;
   struct city *rcity = NULL;
+  bool incr_success;
 
   if (!pcity_from || !pcity_to) {
     return FALSE;
@@ -3446,15 +3457,17 @@ static bool do_city_migration(struct city *pcity_from,
   }
 
   /* raise size of receiver city */
-  city_increase_size(pcity_to, pplayer_citizen);
+  incr_success = city_increase_size(pcity_to, pplayer_citizen);
   city_refresh_vision(pcity_to);
   if (city_refresh(pcity_to)) {
     auto_arrange_workers(pcity_to);
   }
-  script_server_signal_emit("city_size_change", 3,
-                            API_TYPE_CITY, pcity_to,
-                            API_TYPE_INT, 1,
-                            API_TYPE_STRING, "migration_to");
+  if (incr_success) {
+    script_server_signal_emit("city_size_change", 3,
+                              API_TYPE_CITY, pcity_to,
+                              API_TYPE_INT, 1,
+                              API_TYPE_STRING, "migration_to");
+  }
 
   log_debug("[M] T%d migration successful (%s -> %s)",
             game.info.turn, name_from, name_to);
