@@ -20,6 +20,7 @@ void texai_world_close(void);
 
 void texai_map_init(void);
 void texai_map_close(void);
+struct civ_map *texai_map_get(void);
 
 void texai_tile_info(struct tile *ptile);
 void texai_tile_info_recv(void *data);
@@ -28,6 +29,7 @@ void texai_city_created(struct city *pcity);
 void texai_city_info_recv(void *data, enum texaimsgtype msgtype);
 void texai_city_destroyed(struct city *pcity);
 void texai_city_destruction_recv(void *data);
+struct city *texai_map_city(int city_id);
 
 void texai_unit_created(struct unit *punit);
 void texai_unit_info_recv(void *data, enum texaimsgtype msgtype);

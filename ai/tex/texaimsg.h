@@ -41,6 +41,8 @@
 #define SPECENUM_VALUE0NAME "WorkerTask"
 #define SPECENUM_VALUE1 TEXAI_REQ_TURN_DONE
 #define SPECENUM_VALUE1NAME "TurnDone"
+#define SPECENUM_VALUE2 TEXAI_BUILD_CHOICE
+#define SPECENUM_VALUE2NAME "BuildChoice"
 #include "specenum_gen.h"
 
 struct texai_msg

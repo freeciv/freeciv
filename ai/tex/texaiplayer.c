@@ -26,10 +26,12 @@
 #include "unit.h"
 
 /* server/advisors */
+#include "advchoice.h"
 #include "infracache.h"
 
 /* ai/default */
 #include "aiplayer.h"
+#include "daimilitary.h"
 
 /* ai/threxpr */
 #include "texaicity.h"
@@ -58,6 +60,12 @@ struct texai_thr
   bool thread_running;
   fc_thread ait;
 } exthrai;
+
+struct texai_build_choice_req
+{
+  int city_id;
+  struct adv_choice choice;
+};
 
 /**************************************************************************
   Initialize ai thread.
@@ -169,8 +177,22 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       /* Use _safe iterate in case the main thread
        * destroyes cities while we are iterating through these. */
       city_list_iterate_safe(msg->plr->cities, pcity) {
+        struct adv_choice *choice;
+        struct texai_build_choice_req *choice_req
+          = fc_malloc(sizeof(struct texai_build_choice_req));
+        struct city *tex_city = texai_map_city(pcity->id);
+
         texai_city_worker_requests_create(ait, msg->plr, pcity);
         texai_city_worker_wants(ait, msg->plr, pcity);
+
+        if (tex_city != NULL) {
+          choice = military_advisor_choose_build(ait, msg->plr, tex_city,
+                                                 texai_map_get());
+          choice_req->city_id = tex_city->id;
+          adv_choice_copy(&(choice_req->choice), choice);
+          adv_free_choice(choice);
+          texai_send_req(TEXAI_BUILD_CHOICE, msg->plr, choice_req);
+        }
 
         /* Release mutex for a second in case main thread
          * wants to do something to city list. */
@@ -328,6 +350,19 @@ void texai_refresh(struct ai_type *ait, struct player *pplayer)
        switch(req->type) {
        case TEXAI_REQ_WORKER_TASK:
          texai_req_worker_task_rcv(req);
+         break;
+       case TEXAI_BUILD_CHOICE:
+         {
+           struct texai_build_choice_req *choice_req
+             = (struct texai_build_choice_req *)(req->data);
+           struct city *pcity = game_city_by_number(choice_req->city_id);
+
+           if (pcity != NULL && city_owner(pcity) == req->plr) {
+             adv_choice_copy(&(def_ai_city_data(pcity, ait)->choice),
+                             &(choice_req->choice));
+             FC_FREE(choice_req);
+           }
+         }
          break;
        case TEXAI_REQ_TURN_DONE:
          req->plr->ai_phase_done = TRUE;

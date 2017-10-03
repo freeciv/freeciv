@@ -83,6 +83,14 @@ void texai_map_init(void)
 }
 
 /**************************************************************************
+  Return tex worldmap
+**************************************************************************/
+struct civ_map *texai_map_get(void)
+{
+  return &(texai_world.map);
+}
+
+/**************************************************************************
   Free resources allocated for texai world map
 **************************************************************************/
 void texai_map_close(void)
@@ -91,7 +99,7 @@ void texai_map_close(void)
 }
 
 /**************************************************************************
-  Tile info updated on main map. Send update to threxpr map.
+  Tile info updated on main map. Send update to tex map.
 **************************************************************************/
 void texai_tile_info(struct tile *ptile)
 {
@@ -170,6 +178,14 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
   }
+}
+
+/**************************************************************************
+  Get city from the tex map
+**************************************************************************/
+struct city *texai_map_city(int city_id)
+{
+  return idex_lookup_city(&texai_world, city_id);
 }
   
 /**************************************************************************
