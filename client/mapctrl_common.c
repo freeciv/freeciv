@@ -521,6 +521,13 @@ bool get_turn_done_button_state(void)
 **************************************************************************/
 bool can_end_turn(void)
 {
+  struct option *opt;
+
+  opt = optset_option_by_name(server_optset, "fixedlength");
+  if (opt != NULL && option_bool_get(opt)) {
+    return FALSE;
+  }
+
   return (can_client_issue_orders()
           && client.conn.playing->is_alive
           && !client.conn.playing->phase_done
