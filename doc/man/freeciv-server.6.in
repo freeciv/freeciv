@@ -272,37 +272,43 @@ which is
 by default:
 
 \(bu
-.I default/buildings.ruleset
+.I classic/buildings.ruleset
 
 \(bu
-.I default/cities.ruleset
+.I classic/cities.ruleset
 
 \(bu
-.I default/effects.ruleset
+.I classic/effects.ruleset
 
 \(bu
-.I default/game.ruleset
+.I classic/game.ruleset
 
 \(bu
-.I default/governments.ruleset
+.I classic/governments.ruleset
 
 \(bu
-.I default/nations.ruleset
+.I classic/nations.ruleset
 
 \(bu
-.I default/techs.ruleset
+.I classic/styles.ruleset
 
 \(bu
-.I default/terrain.ruleset
+.I classic/techs.ruleset
 
 \(bu
-.I default/units.ruleset
+.I classic/terrain.ruleset
+
+\(bu
+.I classic/units.ruleset
+
+\(bu
+.I classic/script.lua
 
 \(bu
 .I default/default.lua
 
 \(bu
-.I default/script.lua
+.I default/nationlist.ruleset
 
 These are the default rule sets used for the game. Alternate sets of rules can
 be used by placing them in a separate directory and using the \fBrulesetdir\fP
