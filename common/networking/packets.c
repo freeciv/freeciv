@@ -89,9 +89,9 @@ static int stat_size_uncompressed = 0;
 static int stat_size_compressed = 0;
 static int stat_size_no_compression = 0;
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the compression level. Initilialize it if needed.
-****************************************************************************/
+**************************************************************************/
 static inline int get_compression_level(void)
 {
   static int level = -2;        /* Magic not initialized, see below. */
@@ -107,9 +107,9 @@ static inline int get_compression_level(void)
   return level;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Send all waiting data. Return TRUE on success.
-****************************************************************************/
+**************************************************************************/
 static bool conn_compression_flush(struct connection *pconn)
 {
   int compression_level = get_compression_level();
@@ -178,11 +178,11 @@ static bool conn_compression_flush(struct connection *pconn)
 }
 #endif /* USE_COMPRESSION */
 
-/****************************************************************************
+/**********************************************************************//**
   Thaw the connection. Then maybe compress the data waiting to send them
   to the connection. Returns TRUE on success. See also
   conn_compression_freeze().
-****************************************************************************/
+**************************************************************************/
 bool conn_compression_thaw(struct connection *pconn)
 {
 #ifdef USE_COMPRESSION
@@ -199,7 +199,7 @@ bool conn_compression_thaw(struct connection *pconn)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   It returns the request id of the outgoing packet (or 0 if is_server()).
 **************************************************************************/
 int send_packet_data(struct connection *pc, unsigned char *data, int len,
@@ -358,7 +358,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
   return result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Read and return a packet from the connection 'pc'. The type of the
   packet is written in 'ptype'. On error, the connection is closed and
   the function returns NULL.
@@ -576,7 +576,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove the packet from the buffer
 **************************************************************************/
 void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
@@ -592,22 +592,22 @@ void remove_packet_from_buffer(struct socket_packet_buffer *buffer)
             len, buffer->ndata);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set the packet header field lengths used for the login protocol,
   before the capability of the connection could be checked.
 
   NB: These values cannot be changed for backward compatibility reasons.
-****************************************************************************/
+**************************************************************************/
 void packet_header_init(struct packet_header *packet_header)
 {
   packet_header->length = DIOT_UINT16;
   packet_header->type = DIOT_UINT8;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set the packet header field lengths used after the login protocol,
   after the capability of the connection could be checked.
-****************************************************************************/
+**************************************************************************/
 static inline void packet_header_set(struct packet_header *packet_header)
 {
   /* Ensure we have values initialized in packet_header_init(). */
@@ -618,9 +618,9 @@ static inline void packet_header_set(struct packet_header *packet_header)
   packet_header->type = DIOT_UINT16;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Modify if needed the packet header field lengths.
-****************************************************************************/
+**************************************************************************/
 void post_send_packet_server_join_reply(struct connection *pconn,
                                         const struct packet_server_join_reply
                                         *packet)
@@ -630,9 +630,9 @@ void post_send_packet_server_join_reply(struct connection *pconn,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Modify if needed the packet header field lengths.
-****************************************************************************/
+**************************************************************************/
 void post_receive_packet_server_join_reply(struct connection *pconn,
                                            const struct
                                            packet_server_join_reply *packet)
@@ -643,7 +643,7 @@ void post_receive_packet_server_join_reply(struct connection *pconn,
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check packet
 **************************************************************************/
 bool packet_check(struct data_in *din, struct connection *pc)
@@ -667,7 +667,7 @@ bool packet_check(struct data_in *din, struct connection *pc)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Updates pplayer->attribute_block according to the given packet.
 **************************************************************************/
 void generic_handle_player_attribute_chunk(struct player *pplayer,
@@ -723,7 +723,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Split the attribute block into chunks and send them over pconn.
 **************************************************************************/
 void send_attribute_block(const struct player *pplayer,
@@ -770,7 +770,7 @@ void send_attribute_block(const struct player *pplayer,
   connection_do_unbuffer(pconn);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Test and log for sending player attribute_block
 **************************************************************************/
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
@@ -790,9 +790,9 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Destroy the packet handler hash table.
-****************************************************************************/
+**************************************************************************/
 static void packet_handlers_free(void)
 {
   if (packet_handlers != NULL) {
@@ -801,9 +801,9 @@ static void packet_handlers_free(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the packet handlers variant with no special capability.
-****************************************************************************/
+**************************************************************************/
 const struct packet_handlers *packet_handlers_initial(void)
 {
   static struct packet_handlers default_handlers;
@@ -818,9 +818,9 @@ const struct packet_handlers *packet_handlers_initial(void)
   return &default_handlers;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the packet handlers variant for 'capability'.
-****************************************************************************/
+**************************************************************************/
 const struct packet_handlers *packet_handlers_get(const char *capability)
 {
   struct packet_handlers *phandlers;
@@ -864,10 +864,10 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
   return phandlers;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Call when there is no longer a requirement for protocol processing.
   All connections must have been closed.
-****************************************************************************/
+**************************************************************************/
 void packets_deinit(void)
 {
   packet_handlers_free();

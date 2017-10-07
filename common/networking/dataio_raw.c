@@ -92,7 +92,7 @@ static DIO_GET_CONV_FUN get_conv_callback = get_conv;
   }
 #endif /* FIELD_RANGE_ASSERT */
 
-/**************************************************************************
+/**********************************************************************//**
   Sets string conversion callback to be used when putting text.
 **************************************************************************/
 void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun)
@@ -100,7 +100,7 @@ void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun)
   put_conv_callback = fun;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Returns FALSE if the destination isn't large enough or the source was
  bad. This is default get_conv_callback.
 **************************************************************************/
@@ -121,7 +121,7 @@ static bool get_conv(char *dst, size_t ndst, const char *src,
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets string conversion callback to use when getting text.
 **************************************************************************/
 void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun)
@@ -129,7 +129,7 @@ void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun)
   get_conv_callback = fun;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call the get_conv callback.
 **************************************************************************/
 bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
@@ -138,7 +138,7 @@ bool dataio_get_conv_callback(char *dst, size_t ndst, const char *src,
   return get_conv_callback(dst, ndst, src, nsrc);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the output has size bytes available.
 **************************************************************************/
 static bool enough_space(struct raw_data_out *dout, size_t size)
@@ -152,7 +152,7 @@ static bool enough_space(struct raw_data_out *dout, size_t size)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the input contains size unread bytes.
 **************************************************************************/
 static bool enough_data(struct data_in *din, size_t size)
@@ -160,7 +160,7 @@ static bool enough_data(struct data_in *din, size_t size)
   return dio_input_remaining(din) >= size;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initializes the output to the given output buffer and the given
   buffer size.
 **************************************************************************/
@@ -174,7 +174,7 @@ void dio_output_init(struct raw_data_out *dout, void *destination,
   dout->too_short = FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the maximum number of bytes used.
 **************************************************************************/
 size_t dio_output_used(struct raw_data_out *dout)
@@ -182,7 +182,7 @@ size_t dio_output_used(struct raw_data_out *dout)
   return dout->used;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rewinds the stream so that the put-functions start from the
   beginning.
 **************************************************************************/
@@ -191,7 +191,7 @@ void dio_output_rewind(struct raw_data_out *dout)
   dout->current = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initializes the input to the given input buffer and the given
   number of valid input bytes.
 **************************************************************************/
@@ -202,7 +202,7 @@ void dio_input_init(struct data_in *din, const void *src, size_t src_size)
   din->current = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rewinds the stream so that the get-functions start from the
   beginning.
 **************************************************************************/
@@ -211,7 +211,7 @@ void dio_input_rewind(struct data_in *din)
   din->current = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the number of unread bytes.
 **************************************************************************/
 size_t dio_input_remaining(struct data_in *din)
@@ -219,7 +219,7 @@ size_t dio_input_remaining(struct data_in *din)
   return din->src_size - din->current;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the size of the data_type in bytes.
 **************************************************************************/
 size_t data_type_size(enum data_type type)
@@ -242,7 +242,7 @@ size_t data_type_size(enum data_type type)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
    Skips 'n' bytes.
 **************************************************************************/
 bool dio_input_skip(struct data_in *din, size_t size)
@@ -255,7 +255,7 @@ bool dio_input_skip(struct data_in *din, size_t size)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 8 bits. May overflow.
 **************************************************************************/
 void dio_put_uint8_raw(struct raw_data_out *dout, int value)
@@ -274,7 +274,7 @@ void dio_put_uint8_raw(struct raw_data_out *dout, int value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 16 bits. May overflow.
 **************************************************************************/
 void dio_put_uint16_raw(struct raw_data_out *dout, int value)
@@ -293,7 +293,7 @@ void dio_put_uint16_raw(struct raw_data_out *dout, int value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 32 bits. May overflow.
 **************************************************************************/
 void dio_put_uint32_raw(struct raw_data_out *dout, int value)
@@ -312,7 +312,7 @@ void dio_put_uint32_raw(struct raw_data_out *dout, int value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 'size' bits. May overflow.
 **************************************************************************/
 void dio_put_type_raw(struct raw_data_out *dout, enum data_type type, int value)
@@ -343,7 +343,7 @@ void dio_put_type_raw(struct raw_data_out *dout, enum data_type type, int value)
   fc_assert_msg(FALSE, "data_type %d not handled.", type);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 8 bits. May overflow.
 **************************************************************************/
 void dio_put_sint8_raw(struct raw_data_out *dout, int value)
@@ -351,7 +351,7 @@ void dio_put_sint8_raw(struct raw_data_out *dout, int value)
   dio_put_uint8_raw(dout, 0 <= value ? value : value + 0x100);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 16 bits. May overflow.
 **************************************************************************/
 void dio_put_sint16_raw(struct raw_data_out *dout, int value)
@@ -359,7 +359,7 @@ void dio_put_sint16_raw(struct raw_data_out *dout, int value)
   dio_put_uint16_raw(dout, 0 <= value ? value : value + 0x10000);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value using 32 bits. May overflow.
 **************************************************************************/
 void dio_put_sint32_raw(struct raw_data_out *dout, int value)
@@ -371,7 +371,7 @@ void dio_put_sint32_raw(struct raw_data_out *dout, int value)
 #endif
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value 0 or 1 using 8 bits.
 **************************************************************************/
 void dio_put_bool8_raw(struct raw_data_out *dout, bool value)
@@ -383,7 +383,7 @@ void dio_put_bool8_raw(struct raw_data_out *dout, bool value)
   dio_put_uint8_raw(dout, value ? 1 : 0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert value 0 or 1 using 32 bits.
 **************************************************************************/
 void dio_put_bool32_raw(struct raw_data_out *dout, bool value)
@@ -396,10 +396,10 @@ void dio_put_bool32_raw(struct raw_data_out *dout, bool value)
   dio_put_uint32_raw(dout, value ? 1 : 0);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Insert a float number, which is multiplied by 'float_factor' before
   being encoded into an uint32.
-****************************************************************************/
+**************************************************************************/
 void dio_put_ufloat_raw(struct raw_data_out *dout, float value, int float_factor)
 {
   uint32_t v = value * float_factor;
@@ -413,10 +413,10 @@ void dio_put_ufloat_raw(struct raw_data_out *dout, float value, int float_factor
   dio_put_uint32_raw(dout, v);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Insert a float number, which is multiplied by 'float_factor' before
   being encoded into a sint32.
-****************************************************************************/
+**************************************************************************/
 void dio_put_sfloat_raw(struct raw_data_out *dout, float value, int float_factor)
 {
   int32_t v = value * float_factor;
@@ -430,7 +430,7 @@ void dio_put_sfloat_raw(struct raw_data_out *dout, float value, int float_factor
   dio_put_sint32_raw(dout, v);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert number of values brefore stop_value using 8 bits. Then
   insert values using 8 bits for each. stop_value is not required to
   fit in 8 bits. Actual values may overflow.
@@ -454,7 +454,7 @@ void dio_put_uint8_vec8_raw(struct raw_data_out *dout, int *values, int stop_val
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert number of values brefore stop_value using 8 bits. Then
   insert values using 16 bits for each. stop_value is not required to
   fit in 16 bits. Actual values may overflow.
@@ -478,7 +478,7 @@ void dio_put_uint16_vec8_raw(struct raw_data_out *dout, int *values, int stop_va
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert block directly from memory.
 **************************************************************************/
 void dio_put_memory_raw(struct raw_data_out *dout, const void *value, size_t size)
@@ -489,7 +489,7 @@ void dio_put_memory_raw(struct raw_data_out *dout, const void *value, size_t siz
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert NULL-terminated string. Conversion callback is used if set.
 **************************************************************************/
 void dio_put_string_raw(struct raw_data_out *dout, const char *value)
@@ -507,7 +507,7 @@ void dio_put_string_raw(struct raw_data_out *dout, const char *value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert tech numbers from value array as 8 bit values until there is value
   A_LAST or MAX_NUM_TECH_LIST tech numbers have been inserted.
 **************************************************************************/
@@ -523,7 +523,7 @@ void dio_put_tech_list_raw(struct raw_data_out *dout, const int *value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert unit type numbers from value array as 8 bit values until there is
   value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
 **************************************************************************/
@@ -539,7 +539,7 @@ void dio_put_unit_list_raw(struct raw_data_out *dout, const int *value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert building type numbers from value array as 8 bit values until there
   is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
 **************************************************************************/
@@ -555,7 +555,7 @@ void dio_put_building_list_raw(struct raw_data_out *dout, const int *value)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Insert number of worklist items as 8 bit value and then insert
   8 bit kind and 8 bit number for each worklist item.
 **************************************************************************/
@@ -572,7 +572,7 @@ void dio_put_worklist_raw(struct raw_data_out *dout, const struct worklist *pwl)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Receive uint8 value to dest.
 **************************************************************************/
 bool dio_get_uint8_raw(struct data_in *din, int *dest)
@@ -593,7 +593,7 @@ bool dio_get_uint8_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Receive uint16 value to dest.
 **************************************************************************/
 bool dio_get_uint16_raw(struct data_in *din, int *dest)
@@ -614,7 +614,7 @@ bool dio_get_uint16_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Receive uint32 value to dest.
 **************************************************************************/
 bool dio_get_uint32_raw(struct data_in *din, int *dest)
@@ -635,7 +635,7 @@ bool dio_get_uint32_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive value using 'size' bits to dest.
 **************************************************************************/
 bool dio_get_type_raw(struct data_in *din, enum data_type type, int *dest)
@@ -661,7 +661,7 @@ bool dio_get_type_raw(struct data_in *din, enum data_type type, int *dest)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take boolean value from 8 bits.
 **************************************************************************/
 bool dio_get_bool8_raw(struct data_in *din, bool *dest)
@@ -681,7 +681,7 @@ bool dio_get_bool8_raw(struct data_in *din, bool *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take boolean value from 32 bits.
 **************************************************************************/
 bool dio_get_bool32_raw(struct data_in *din, bool * dest)
@@ -701,10 +701,10 @@ bool dio_get_bool32_raw(struct data_in *din, bool * dest)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Get an unsigned float number, which have been multiplied by 'float_factor'
   and encoded into an uint32 by dio_put_ufloat_raw().
-****************************************************************************/
+**************************************************************************/
 bool dio_get_ufloat_raw(struct data_in *din, float *dest, int float_factor)
 {
   int ival;
@@ -717,10 +717,10 @@ bool dio_get_ufloat_raw(struct data_in *din, float *dest, int float_factor)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Get a signed float number, which have been multiplied by 'float_factor'
   and encoded into a sint32 by dio_put_sfloat().
-****************************************************************************/
+**************************************************************************/
 bool dio_get_sfloat_raw(struct data_in *din, float *dest, int float_factor)
 {
   int ival;
@@ -733,7 +733,7 @@ bool dio_get_sfloat_raw(struct data_in *din, float *dest, int float_factor)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take value from 8 bits.
 **************************************************************************/
 bool dio_get_sint8_raw(struct data_in *din, int *dest)
@@ -751,7 +751,7 @@ bool dio_get_sint8_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take value from 16 bits.
 **************************************************************************/
 bool dio_get_sint16_raw(struct data_in *din, int *dest)
@@ -769,7 +769,7 @@ bool dio_get_sint16_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take value from 32 bits.
 **************************************************************************/
 bool dio_get_sint32_raw(struct data_in *din, int *dest)
@@ -790,7 +790,7 @@ bool dio_get_sint32_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take memory block directly.
 **************************************************************************/
 bool dio_get_memory_raw(struct data_in *din, void *dest, size_t dest_size)
@@ -805,7 +805,7 @@ bool dio_get_memory_raw(struct data_in *din, void *dest, size_t dest_size)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take string. Conversion callback is used.
 **************************************************************************/
 bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size)
@@ -842,7 +842,7 @@ bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take tech numbers until A_LAST encountered, or MAX_NUM_TECH_LIST techs
   retrieved.
 **************************************************************************/
@@ -867,7 +867,7 @@ bool dio_get_tech_list_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take unit type numbers until U_LAST encountered, or MAX_NUM_UNIT_LIST
   types retrieved.
 **************************************************************************/
@@ -892,7 +892,7 @@ bool dio_get_unit_list_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take building type numbers until B_LAST encountered, or
   MAX_NUM_BUILDING_LIST types retrieved.
 **************************************************************************/
@@ -917,7 +917,7 @@ bool dio_get_building_list_raw(struct data_in *din, int *dest)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take worklist item count and then kind and number for each item, and
   put them to provided worklist.
 **************************************************************************/
@@ -953,7 +953,7 @@ bool dio_get_worklist_raw(struct data_in *din, struct worklist *pwl)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take vector of 8 bit values and insert stop_value after them. stop_value
   does not need to fit in 8 bits.
 **************************************************************************/
@@ -979,7 +979,7 @@ bool dio_get_uint8_vec8_raw(struct data_in *din, int **values, int stop_value)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive vector of uint16 values.
 **************************************************************************/
 bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
@@ -1004,7 +1004,7 @@ bool dio_get_uint16_vec8_raw(struct data_in *din, int **values, int stop_value)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   De-serialize an action probability.
 **************************************************************************/
 bool dio_get_action_probability_raw(struct data_in *din,
@@ -1024,7 +1024,7 @@ bool dio_get_action_probability_raw(struct data_in *din,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Serialize an action probability.
 **************************************************************************/
 void dio_put_action_probability_raw(struct raw_data_out *dout,
@@ -1034,7 +1034,7 @@ void dio_put_action_probability_raw(struct raw_data_out *dout,
   dio_put_uint8_raw(dout, aprob->max);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   De-serialize a requirement.
 **************************************************************************/
 bool dio_get_requirement_raw(struct data_in *din, struct requirement *preq)
@@ -1060,7 +1060,7 @@ bool dio_get_requirement_raw(struct data_in *din, struct requirement *preq)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Serialize a requirement.
 **************************************************************************/
 void dio_put_requirement_raw(struct raw_data_out *dout,
@@ -1079,7 +1079,7 @@ void dio_put_requirement_raw(struct raw_data_out *dout,
   dio_put_bool8_raw(dout, quiet);
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Create a new address of the location of a field inside a packet.
 **************************************************************************/
 struct plocation *plocation_field_new(char *name)
@@ -1093,7 +1093,7 @@ struct plocation *plocation_field_new(char *name)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Create a new address of the location of an array element inside a packet.
 **************************************************************************/
 struct plocation *plocation_elem_new(int number)
@@ -1107,7 +1107,7 @@ struct plocation *plocation_elem_new(int number)
   return out;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give textual description of the location. This might return address of
   a static buffer next call reuses, so don't expect result to be valid
   over another call to this.
