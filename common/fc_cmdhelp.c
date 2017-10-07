@@ -54,7 +54,7 @@ static void cmdarg_destroy(struct cmdarg *pcmdarg);
 static int cmdarg_compare(const struct cmdarg *const *pcmdarg0,
                           const struct cmdarg *const *pcmdarg1);
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a new command help struct.
 *****************************************************************************/
 struct cmdhelp *cmdhelp_new(const char *cmdname)
@@ -67,7 +67,7 @@ struct cmdhelp *cmdhelp_new(const char *cmdname)
   return pcmdhelp;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Destroy a command help struct.
 *****************************************************************************/
 void cmdhelp_destroy(struct cmdhelp *pcmdhelp)
@@ -83,7 +83,7 @@ void cmdhelp_destroy(struct cmdhelp *pcmdhelp)
   free(pcmdhelp);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a command help moption.
 *****************************************************************************/
 void cmdhelp_add(struct cmdhelp *pcmdhelp, const char *shortarg,
@@ -101,7 +101,7 @@ void cmdhelp_add(struct cmdhelp *pcmdhelp, const char *shortarg,
   cmdarg_list_append(pcmdhelp->cmdarglist, pcmdarg);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Display the help for the command.
 *****************************************************************************/
 void cmdhelp_display(struct cmdhelp *pcmdhelp, bool sort, bool gui_options,
@@ -140,7 +140,7 @@ void cmdhelp_display(struct cmdhelp *pcmdhelp, bool sort, bool gui_options,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a new command argument struct.
 *****************************************************************************/
 static struct cmdarg *cmdarg_new(const char *shortarg, const char *longarg,
@@ -160,7 +160,7 @@ static struct cmdarg *cmdarg_new(const char *shortarg, const char *longarg,
   return pcmdarg;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Destroy a command argument struct.
 *****************************************************************************/
 static void cmdarg_destroy(struct cmdarg *pcmdarg)
@@ -176,7 +176,7 @@ static void cmdarg_destroy(struct cmdarg *pcmdarg)
   free(pcmdarg);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Compare two command argument definitions.
 *****************************************************************************/
 static int cmdarg_compare(const struct cmdarg *const *pp0,
