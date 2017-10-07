@@ -401,6 +401,7 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
+    update_animation();
     unqueue_mapview_updates(FALSE);
     cairo_set_source_surface(cr, mapview.store->surface, 0, 0);
     cairo_paint(cr);

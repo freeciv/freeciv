@@ -112,6 +112,147 @@ struct trade_route_line {
 /* A trade route line might need to be drawn in two parts. */
 static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
+static struct timer *anim_timer = NULL;
+
+enum animation_type { ANIM_MOVEMENT };
+
+struct animation
+{
+  enum animation_type type;
+  int id1;
+  int id2;
+  bool finished;
+  int old_x;
+  int old_y;
+  int width;
+  int height;
+  union {
+    struct {
+      struct tile *src;
+      struct tile *dest;
+      float canvas_dx;
+      float canvas_dy;
+    } movement;
+  };
+};
+
+#define SPECLIST_TAG animation
+#define SPECLIST_TYPE struct animation
+#include "speclist.h"
+
+struct animation_list *animations = NULL;
+
+/************************************************************************//**
+  Initialize animations system
+****************************************************************************/
+void animations_init(void)
+{
+  animations = animation_list_new();
+}
+
+/************************************************************************//**
+  Clean up animations system
+****************************************************************************/
+void animations_free(void)
+{
+  if (animations != NULL) {
+    animation_list_destroy(animations);
+  }
+}
+
+/************************************************************************//**
+  Add new animation to the queue
+****************************************************************************/
+static void animation_add(struct animation *anim)
+{
+  if (animation_list_size(animations) == 0) {
+    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+    timer_start(anim_timer);
+  }
+
+  anim->finished = FALSE;
+  anim->old_x = -1; /* Initial frame */
+  animation_list_append(animations, anim);
+}
+
+/************************************************************************//**
+  Progress animation of type 'movement'
+****************************************************************************/
+static bool movement_animation(struct animation *anim, double time_gone)
+{
+  float start_x, start_y;
+  int new_x, new_y;
+  double timing_sec = (double)gui_options.smooth_move_unit_msec / 1000.0;
+  double mytime = MIN(time_gone, timing_sec);
+  struct unit *punit = game_unit_by_number(anim->id1);
+
+  if (punit != NULL) {
+    tile_to_canvas_pos(&start_x, &start_y, anim->movement.src);
+    if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
+      start_y -= tileset_tile_height(tileset) / 2 * map_zoom;
+      start_y -= (tileset_unit_height(tileset) - tileset_full_tile_height(tileset)) * map_zoom;
+    }
+    new_x = start_x + anim->movement.canvas_dx * (mytime / timing_sec);
+    new_y = start_y + anim->movement.canvas_dy * (mytime / timing_sec);
+
+    if (anim->old_x >= 0) {
+      update_map_canvas(anim->old_x, anim->old_y,
+                        anim->width, anim->height);
+    }
+    put_unit(punit, mapview.store, map_zoom, new_x, new_y);
+    dirty_rect(new_x, new_y, anim->width, anim->height);
+    anim->old_x = new_x;
+    anim->old_y = new_y;
+
+    if (time_gone >= timing_sec) {
+      /* Animation over */
+      return TRUE;
+    }
+  } else {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/************************************************************************//**
+  Progress current animation
+****************************************************************************/
+void update_animation(void)
+{
+  if (animation_list_size(animations) > 0) {
+    struct animation *anim = animation_list_get(animations, 0);
+
+    if (anim->finished) {
+      /* Animation over */
+
+      anim->id1 = -1;
+      anim->id2 = -1;
+      update_map_canvas(anim->old_x, anim->old_y, anim->width, anim->height);
+      animation_list_remove(animations, anim);
+      free(anim);
+
+      if (animation_list_size(animations) > 0) {
+        /* Start next */
+        anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+        timer_start(anim_timer);
+      }
+    } else {
+      double time_gone = timer_read_seconds(anim_timer);
+      bool finished = FALSE;
+
+      switch (anim->type) {
+      case ANIM_MOVEMENT:
+        finished = movement_animation(anim, time_gone);
+        break;
+      }
+
+      if (finished) {
+        anim->finished = TRUE;
+      }
+    }
+  }
+}
 
 /****************************************************************************
   Create a new goto line counter.
@@ -647,7 +788,6 @@ void set_mapview_origin(float gui_x0, float gui_y0)
       float diff_x, diff_y;
       double timing_sec = (double)gui_options.smooth_center_slide_msec / 1000.0;
       double currtime;
-      static struct timer *anim_timer;
       int frames = 0;
 
       /* We track the average FPS, which is used to predict how long the
@@ -1189,8 +1329,20 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 {
   if (client_tile_get_known(ptile) != TILE_UNKNOWN
       || (editor_is_active() && editor_tile_is_selected(ptile))) {
-    put_one_element(pcanvas, map_zoom, layer, ptile, NULL, NULL,
-                    get_drawable_unit(tileset, ptile, citymode),
+    struct unit *punit = get_drawable_unit(tileset, ptile, citymode);
+    struct animation *anim = NULL;
+
+    if (animation_list_size(animations) > 0) {
+      anim = animation_list_get(animations, 0);
+    }
+
+    if (anim != NULL && punit != NULL
+        && (punit->id == anim->id1
+            || punit->id == anim->id2)){
+      punit = NULL;
+    }
+
+    put_one_element(pcanvas, map_zoom, layer, ptile, NULL, NULL, punit,
                     tile_city(ptile), canvas_x, canvas_y, citymode, NULL);
   }
 }
@@ -2147,7 +2299,6 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1)
 {
-  static struct timer *anim_timer = NULL; 
   const struct sprite_vector *anim = get_unit_explode_animation(tileset);
   const int num_tiles_explode_unit = sprite_vector_size(anim);
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
@@ -2242,7 +2393,6 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 void move_unit_map_canvas(struct unit *punit,
                           struct tile *src_tile, int dx, int dy)
 {
-  static struct timer *anim_timer = NULL;
   struct tile *dest_tile;
   int dest_x, dest_y, src_x, src_y;
   int prev_x = -1;
@@ -2283,19 +2433,28 @@ void move_unit_map_canvas(struct unit *punit,
     /* Bring the backing store up to date, but don't flush. */
     unqueue_mapview_updates(FALSE);
 
-    /* Start the timer (AFTER the unqueue above). */
-    anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
-    timer_start(anim_timer);
-
     tuw = tileset_unit_width(tileset) * map_zoom;
     tuh = tileset_unit_height(tileset) * map_zoom;
 
     if (frame_by_frame_animation) {
-      /* TODO: Implement animation */
-      put_unit(punit, mapview.store, map_zoom,
-               start_x + canvas_dx,
-               start_y + canvas_dy);
+      struct animation *anim = fc_malloc(sizeof(struct animation));
+
+      anim->type = ANIM_MOVEMENT;
+      anim->id1 = punit->id;
+      anim->id2 = -1;
+      anim->movement.src = src_tile;
+      anim->movement.dest = dest_tile;
+      anim->movement.canvas_dx = canvas_dx;
+      anim->movement.canvas_dy = canvas_dy;
+      anim->width = tuw;
+      anim->height = tuh;
+      animation_add(anim);
     } else {
+
+      /* Start the timer (AFTER the unqueue above). */
+      anim_timer = timer_renew(anim_timer, TIMER_USER, TIMER_ACTIVE);
+      timer_start(anim_timer);
+
       do {
         int new_x, new_y;
 
