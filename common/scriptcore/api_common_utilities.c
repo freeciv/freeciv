@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 
 #include "api_common_utilities.h"
 
-/************************************************************************
+/********************************************************************//**
   Generate random number.
 ************************************************************************/
 int api_utilities_random(lua_State *L, int min, int max)
@@ -45,7 +45,7 @@ int api_utilities_random(lua_State *L, int min, int max)
   return (min + floor(roll * (max - min + 1)));
 }
 
-/************************************************************************
+/********************************************************************//**
   Return the version of freeciv lua script
 ************************************************************************/
 const char *api_utilities_fc_version(lua_State *L)
@@ -53,9 +53,9 @@ const char *api_utilities_fc_version(lua_State *L)
   return freeciv_name_version();
 }
 
-/**************************************************************************
+/********************************************************************//**
   One log message. This module is used by script_game and script_auth.
-**************************************************************************/
+************************************************************************/
 void api_utilities_log_base(lua_State *L, int level, const char *message)
 {
   struct fc_lua *fcl;
@@ -70,9 +70,9 @@ void api_utilities_log_base(lua_State *L, int level, const char *message)
   luascript_log(fcl, level, "%s", message);
 }
 
-/**************************************************************************
+/********************************************************************//**
   Convert text describing direction into direction
-**************************************************************************/
+************************************************************************/
 Direction api_utilities_str2dir(lua_State *L, const char *dir)
 {
   LUASCRIPT_CHECK_STATE(L, direction8_invalid());
@@ -81,9 +81,9 @@ Direction api_utilities_str2dir(lua_State *L, const char *dir)
   return direction8_by_name(dir, fc_strcasecmp);
 }
 
-/**************************************************************************
+/********************************************************************//**
   Previous (counter-clockwise) valid direction
-**************************************************************************/
+************************************************************************/
 Direction api_utilities_dir_ccw(lua_State *L, Direction dir)
 {
   Direction new_dir = dir;
@@ -97,9 +97,9 @@ Direction api_utilities_dir_ccw(lua_State *L, Direction dir)
   return new_dir;
 }
 
-/**************************************************************************
+/********************************************************************//**
   Next (clockwise) valid direction
-**************************************************************************/
+************************************************************************/
 Direction api_utilities_dir_cw(lua_State *L, Direction dir)
 {
   Direction new_dir = dir;
@@ -113,10 +113,10 @@ Direction api_utilities_dir_cw(lua_State *L, Direction dir)
   return new_dir;
 }
 
-/**************************************************************************
+/********************************************************************//**
   Opposite direction - validity not checked, but it's valid iff
   original direction is.
-**************************************************************************/
+************************************************************************/
 Direction api_utilities_opposite_dir(lua_State *L, Direction dir)
 {
   LUASCRIPT_CHECK_STATE(L, direction8_invalid());
@@ -124,9 +124,9 @@ Direction api_utilities_opposite_dir(lua_State *L, Direction dir)
   return opposite_direction(dir);
 }
 
-/**************************************************************************
+/********************************************************************//**
   Lua script wants to warn about use of deprecated construct.
-**************************************************************************/
+************************************************************************/
 void api_utilities_deprecation_warning(lua_State *L, char *method,
                                        char *replacement,
                                        char *deprecated_since)
