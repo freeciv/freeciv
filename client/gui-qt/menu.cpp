@@ -558,6 +558,9 @@ void qfc_units_list::clear()
 **************************************************************************/
 void real_menus_init(void)
 {
+  if (game.client.ruleset_ready == false) {
+    return;
+  }
   gui()->menu_bar->clear();
   gui()->menu_bar->setup_menus();
 
