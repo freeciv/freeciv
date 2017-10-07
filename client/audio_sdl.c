@@ -115,7 +115,6 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
     for (j = 0; j < MIX_CHANNELS; j++) {
       if (samples[j].tag && (strcmp(samples[j].tag, tag) == 0)) {
         log_debug("Playing file \"%s\" from cache (slot %d)", fullpath, j);
-        i = Mix_PlayChannel(-1, samples[j].wave, 0);
         return TRUE;
       }
     }                           /* guess not */

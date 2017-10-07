@@ -1836,12 +1836,6 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     topo = 0;
   }
 
-  if (t->type == TS_ISOMETRIC) {
-    topo = TF_ISO;
-  } else {
-    topo = 0;
-  }
-
   /* Read hex-tileset information. */
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
