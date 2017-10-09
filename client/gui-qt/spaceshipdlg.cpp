@@ -55,7 +55,7 @@ ss_report::ss_report(struct player *pplayer)
   ss_label = new QLabel;
   layout->addWidget(ss_label, 0, 3, 3, 1);
   launch_button = new QPushButton(_("Launch"));
-  connect(launch_button, SIGNAL(clicked()), SLOT(launch()));
+  connect(launch_button, &QAbstractButton::clicked, this, &ss_report::launch);
   layout->addWidget(launch_button, 4, 3, 1, 1);
   setLayout(layout);
   update_report();

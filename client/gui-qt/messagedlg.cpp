@@ -63,11 +63,11 @@ message_dlg::message_dlg()
 
   but1 = new QPushButton(style()->standardIcon(
                          QStyle::SP_DialogCancelButton), _("Cancel"));
-  connect(but1, SIGNAL(clicked()), SLOT(cancel_changes()));
+  connect(but1, &QAbstractButton::clicked, this, &message_dlg::cancel_changes);
   layout->addWidget(but1, 1, 1, 1, 1);
   but2 = new QPushButton(style()->standardIcon(QStyle::SP_DialogOkButton),
                          _("Ok"));
-  connect(but2, SIGNAL(clicked()), SLOT(apply_changes()));
+  connect(but2, &QAbstractButton::clicked, this, &message_dlg::apply_changes);
   layout->addWidget(but2, 1, 2, 1, 1, Qt::AlignRight);
   layout->addWidget(empty1, 0, 0, 1, 1);
   layout->addWidget(msgtab, 0, 1, 1, 2);

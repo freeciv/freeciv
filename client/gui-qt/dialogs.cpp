@@ -344,8 +344,8 @@ races_dialog::races_dialog(struct player *pplayer,
                               const QItemSelection &)));
   connect(leader_name, SIGNAL(currentIndexChanged(int)),
           SLOT(leader_selected(int)));
-  connect(leader_name->lineEdit(), SIGNAL(returnPressed()),
-          SLOT(ok_pressed()));
+  connect(leader_name->lineEdit(), &QLineEdit::returnPressed,
+          this, &races_dialog::ok_pressed);
   connect(qnation_set, SIGNAL(currentIndexChanged(int)),
           SLOT(nationset_changed(int)));
   connect(nation_tabs->selectionModel(),
@@ -356,15 +356,15 @@ races_dialog::races_dialog(struct player *pplayer,
 
   ok_button = new QPushButton;
   ok_button->setText(_("Cancel"));
-  connect(ok_button, SIGNAL(pressed()), SLOT(cancel_pressed()));
+  connect(ok_button, &QAbstractButton::pressed, this, &races_dialog::cancel_pressed);
   main_layout->addWidget(ok_button, 8, 2, 1, 1);
   random_button = new QPushButton;
   random_button->setText(_("Random"));
-  connect(random_button, SIGNAL(pressed()), SLOT(random_pressed()));
+  connect(random_button, &QAbstractButton::pressed, this, &races_dialog::random_pressed);
   main_layout->addWidget(random_button, 8, 0, 1, 1);
   ok_button = new QPushButton;
   ok_button->setText(_("Ok"));
-  connect(ok_button, SIGNAL(pressed()), SLOT(ok_pressed()));
+  connect(ok_button, &QAbstractButton::pressed, this, &races_dialog::ok_pressed);
   main_layout->addWidget(ok_button, 8, 3, 1, 1);
   main_layout->addWidget(no_name, 0, 3, 2, 1);
   if (nation_set_count() > 1) {
@@ -921,9 +921,9 @@ notify_goto::notify_goto(const char *headline, const char *lines,
   qlines = lines;
   qlines.replace("\n", " ");
   setText(qlines);
-  connect(goto_but, SIGNAL(pressed()), SLOT(goto_tile()));
-  connect(inspect_but, SIGNAL(pressed()), SLOT(inspect_city()));
-  connect(close_but, SIGNAL(pressed()), SLOT(close()));
+  connect(goto_but, &QAbstractButton::pressed, this, &notify_goto::goto_tile);
+  connect(inspect_but, &QAbstractButton::pressed, this, &notify_goto::inspect_city);
+  connect(close_but, &QAbstractButton::pressed, this, &QWidget::close);
   show();
 }
 
@@ -1248,8 +1248,8 @@ void choice_dialog::set_layout()
     unit_skip->addWidget(next, Qt::AlignCenter);
     layout->addLayout(unit_skip);
     unit_skip->addStretch(100);
-    connect(prev, SIGNAL(clicked()), SLOT(prev_unit()));
-    connect(next, SIGNAL(clicked()), SLOT(next_unit()));
+    connect(prev, &QAbstractButton::clicked, this, &choice_dialog::prev_unit);
+    connect(next, &QAbstractButton::clicked, this, &choice_dialog::next_unit);
   }
 
   connect(signal_mapper, SIGNAL(mapped(const int &)),
@@ -2980,7 +2980,7 @@ disband_box::disband_box(struct unit_list *punits,
   addButton(_("No"), QMessageBox::RejectRole);
   set_text_title(str, _("Disband units"));
   setDefaultButton(pb);
-  connect(pb, SIGNAL(clicked()), this, SLOT(disband_clicked()));
+  connect(pb, &QAbstractButton::clicked, this, &disband_box::disband_clicked);
 }
 
 /***************************************************************************
@@ -3432,7 +3432,7 @@ units_select::units_select(tile *ptile, QWidget *parent)
   }
   move(final_p.x(), final_p.y() - height());
   setFocus();
-  QTimer::singleShot(10, this, SLOT(update_img()));
+  QTimer::singleShot(10, this, &units_select::update_img);
 }
 /****************************************************************
   Destructor for unit select

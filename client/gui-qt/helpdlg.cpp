@@ -143,8 +143,8 @@ help_dialog::help_dialog(QWidget *parent) :
   help_wdg = new help_widget(splitter);
   connect(
     tree_wdg,
-    SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
-    this, SLOT(item_changed(QTreeWidgetItem *, QTreeWidgetItem *))
+    &QTreeWidget::currentItemChanged,
+    this, &help_dialog::item_changed
   );
   help_wdg->layout()->setContentsMargins(0, 0, 0, 0);
   splitter->addWidget(help_wdg);
@@ -156,11 +156,11 @@ help_dialog::help_dialog(QWidget *parent) :
   hbox = new QHBoxLayout;
   but = new QPushButton(style()->standardIcon(
                         QStyle::QStyle::SP_ArrowLeft), (""));
-  connect(but, SIGNAL(clicked()), SLOT(history_back()));
+  connect(but, &QAbstractButton::clicked, this, &help_dialog::history_back);
   hbox->addWidget(but);
   but = new QPushButton(style()->standardIcon(
                         QStyle::QStyle::SP_ArrowRight), (""));
-  connect(but, SIGNAL(clicked()), SLOT(history_forward()));
+  connect(but, &QAbstractButton::clicked, this, &help_dialog::history_forward);
   hbox->addWidget(but);
   hbox->addStretch(20);
   but = new QPushButton(style()->standardIcon(
@@ -663,8 +663,8 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
             + link_me(extra_name_translation(pextra), HELP_EXTRA)
             + QString(buffer) + "\n";
             tb->setText(str.trimmed());
-            connect(tb, SIGNAL(linkActivated(const QString)),
-                    this, SLOT(anchor_clicked(const QString)));
+            connect(tb, &QLabel::linkActivated,
+                    this, &help_widget::anchor_clicked);
             info_layout->addWidget(tb);
     }
   } extra_type_by_cause_iterate_end;
@@ -877,8 +877,8 @@ void help_widget::set_topic_unit(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     } else {
       add_info_label(_("No technology required."));
@@ -901,8 +901,8 @@ void help_widget::set_topic_unit(const help_item *topic,
         tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
         tb->setTextFormat(Qt::RichText);
         tb->setText(str.trimmed());
-        connect(tb, SIGNAL(linkActivated(const QString)),
-                this, SLOT(anchor_clicked(const QString)));
+        connect(tb, &QLabel::linkActivated,
+                this, &help_widget::anchor_clicked);
         info_layout->addWidget(tb);
       } else {
         add_info_label(
@@ -972,8 +972,8 @@ void help_widget::set_topic_building(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     }
 
@@ -993,8 +993,8 @@ void help_widget::set_topic_building(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     }
     info_panel_done();
@@ -1037,8 +1037,8 @@ void help_widget::set_topic_tech(const help_item *topic,
             str = "<b>" + str + "</b> "
                + link_me(government_name_translation(pgov), HELP_GOVERNMENT);
             tb->setText(str.trimmed());
-            connect(tb, SIGNAL(linkActivated(const QString)),
-                    this, SLOT(anchor_clicked(const QString)));
+            connect(tb, &QLabel::linkActivated,
+                    this, &help_widget::anchor_clicked);
             info_layout->addWidget(tb);
           }
         } requirement_vector_iterate_end;
@@ -1058,8 +1058,8 @@ void help_widget::set_topic_tech(const help_item *topic,
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
-            connect(tb, SIGNAL(linkActivated(const QString)),
-                    this, SLOT(anchor_clicked(const QString)));
+            connect(tb, &QLabel::linkActivated,
+                    this, &help_widget::anchor_clicked);
             info_layout->addWidget(tb);
           }
         } requirement_vector_iterate_end;
@@ -1077,8 +1077,8 @@ void help_widget::set_topic_tech(const help_item *topic,
             tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
             tb->setTextFormat(Qt::RichText);
             tb->setText(str.trimmed());
-            connect(tb, SIGNAL(linkActivated(const QString)),
-                    this, SLOT(anchor_clicked(const QString)));
+            connect(tb, &QLabel::linkActivated,
+                    this, &help_widget::anchor_clicked);
             info_layout->addWidget(tb);
           }
         } requirement_vector_iterate_end;
@@ -1096,8 +1096,8 @@ void help_widget::set_topic_tech(const help_item *topic,
         tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
         tb->setTextFormat(Qt::RichText);
         tb->setText(str.trimmed());
-        connect(tb, SIGNAL(linkActivated(const QString)),
-                this, SLOT(anchor_clicked(const QString)));
+        connect(tb, &QLabel::linkActivated,
+                this, &help_widget::anchor_clicked);
         info_layout->addWidget(tb);
       } unit_type_iterate_end;
 
@@ -1266,8 +1266,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     }
 
@@ -1289,8 +1289,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     }
 
@@ -1312,8 +1312,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
       tb->setText(str.trimmed());
-      connect(tb, SIGNAL(linkActivated(const QString)),
-              this, SLOT(anchor_clicked(const QString)));
+      connect(tb, &QLabel::linkActivated,
+              this, &help_widget::anchor_clicked);
       info_layout->addWidget(tb);
     }
 

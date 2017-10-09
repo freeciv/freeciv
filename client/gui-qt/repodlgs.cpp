@@ -129,7 +129,7 @@ unittype_item::unittype_item(QWidget *parent,
   hbox_top = new QHBoxLayout();
   upgrade_button.setText("★");
   upgrade_button.setVisible(false);
-  connect(&upgrade_button, SIGNAL(pressed()), SLOT(upgrade_units()));
+  connect(&upgrade_button, &QAbstractButton::pressed, this, &unittype_item::upgrade_units);
   hbox_top->addWidget(&upgrade_button, 0, Qt::AlignLeft);
   hbox_top->addWidget(&label_info_unit);
   vbox_main->addLayout(hbox_top);
@@ -801,7 +801,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tooltip_pos = event->globalPos();
       if (QToolTip::isVisible() == false && timer_active == false) {
         timer_active = true;
-        QTimer::singleShot(500, this, SLOT(show_tooltip()));
+        QTimer::singleShot(500, this, &research_diagram::show_tooltip);
       }
     }
   }
@@ -1211,9 +1211,9 @@ eco_report::eco_report(): QWidget()
   eco_layout->addWidget(sell_redun_button, 0, 2, 1, 1);
   eco_layout->addWidget(eco_label, 6, 0, 1, 5);
 
-  connect(disband_button, SIGNAL(pressed()), SLOT(disband_units()));
-  connect(sell_button, SIGNAL(pressed()), SLOT(sell_buildings()));
-  connect(sell_redun_button, SIGNAL(pressed()), SLOT(sell_redundant()));
+  connect(disband_button, &QAbstractButton::pressed, this, &eco_report::disband_units);
+  connect(sell_button, &QAbstractButton::pressed, this, &eco_report::sell_buildings);
+  connect(sell_redun_button, &QAbstractButton::pressed, this, &eco_report::sell_redundant);
   connect(eco_widget->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),

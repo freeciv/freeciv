@@ -78,12 +78,12 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   ok_button = new QPushButton(_("Ok"));
   apply_button = new QPushButton(_("Apply"));
   some_layout = new QHBoxLayout;
-  connect(cancel_button, SIGNAL(pressed()),
-          SLOT(slot_cancel_button_pressed()));
-  connect(apply_button, SIGNAL(pressed()),
-          SLOT(slot_apply_button_pressed()));
-  connect(ok_button, SIGNAL(pressed()),
-          SLOT(slot_ok_button_pressed()));
+  connect(cancel_button, &QAbstractButton::pressed,
+          this, &tax_rates_dialog::slot_cancel_button_pressed);
+  connect(apply_button, &QAbstractButton::pressed,
+          this, &tax_rates_dialog::slot_apply_button_pressed);
+  connect(ok_button, &QAbstractButton::pressed,
+          this, &tax_rates_dialog::slot_ok_button_pressed);
   some_layout->addWidget(cancel_button);
   some_layout->addWidget(apply_button);
   some_layout->addWidget(ok_button);
@@ -151,8 +151,8 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
     slider->setMinimum(mult_to_scale(pmul, pmul->start));
     slider->setMaximum(mult_to_scale(pmul, pmul->stop));
     slider->setValue(val);
-    connect(slider, SIGNAL(valueChanged(int)),
-            SLOT(slot_set_value(int)));
+    connect(slider, &QAbstractSlider::valueChanged,
+            this, &multipler_rates_dialog::slot_set_value);
     slider_list.append(slider);
     label = new QLabel(QString::number(val));
     hb->addWidget(slider);
@@ -165,10 +165,10 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
   some_layout = new QHBoxLayout;
   cancel_button->setText(_("Cancel"));
   ok_button->setText(_("Ok"));
-  connect(cancel_button, SIGNAL(pressed()),
-          SLOT(slot_cancel_button_pressed()));
-  connect(ok_button, SIGNAL(pressed()),
-          SLOT(slot_ok_button_pressed()));
+  connect(cancel_button, &QAbstractButton::pressed,
+          this, &multipler_rates_dialog::slot_cancel_button_pressed);
+  connect(ok_button, &QAbstractButton::pressed,
+          this, &multipler_rates_dialog::slot_ok_button_pressed);
   some_layout->addWidget(cancel_button);
   some_layout->addWidget(ok_button);
   main_layout->addSpacing(20);
