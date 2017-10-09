@@ -206,7 +206,7 @@ void fc_client::create_main_page(void)
     switch (iter) {
     case 0:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 0);
-      connect(button, SIGNAL(clicked()), this, SLOT(start_new_game()));
+      connect(button, &QAbstractButton::clicked, this, &fc_client::start_new_game);
       break;
     case 1:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 0);
@@ -225,11 +225,11 @@ void fc_client::create_main_page(void)
       break;
     case 4:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 1);
-      connect(button, SIGNAL(clicked()), this, SLOT(popup_client_options()));
+      connect(button, &QAbstractButton::clicked, this, &fc_client::popup_client_options);
       break;
     case 5:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 1);
-      QObject::connect(button, SIGNAL(clicked()), this, SLOT(quit()));
+      QObject::connect(button, &QAbstractButton::clicked, this, &fc_client::quit);
       break;
     default:
       break;
@@ -340,12 +340,12 @@ void fc_client::create_network_page(void)
   wan_widget->setSelectionMode(QAbstractItemView::SingleSelection);
 
   connect(wan_widget->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
+          &QItemSelectionModel::selectionChanged, this,
+          &fc_client::slot_selection_changed);
 
   connect(lan_widget->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
+          &QItemSelectionModel::selectionChanged, this,
+          &fc_client::slot_selection_changed);
 
   info_widget->setHorizontalHeaderLabels(server_info);
   info_widget->setProperty("selectionBehavior", "SelectRows");
@@ -382,8 +382,8 @@ void fc_client::create_network_page(void)
   page_network_grid_layout->addWidget(info_widget, 0, 2, 5, 4);
 
   network_button = new QPushButton(_("Refresh"));
-  QObject::connect(network_button, SIGNAL(clicked()), this,
-                   SLOT(update_network_lists()));
+  QObject::connect(network_button, &QAbstractButton::clicked, this,
+                   &fc_client::update_network_lists);
   page_network_grid_layout->addWidget(network_button, 5, 0);
 
   network_button = new QPushButton(_("Cancel"));
@@ -394,13 +394,13 @@ void fc_client::create_network_page(void)
 
   network_button = new QPushButton(_("Connect"));
   page_network_grid_layout->addWidget(network_button, 5, 5, 1, 1);
-  connect(network_button, SIGNAL(clicked()), this, SLOT(slot_connect()));
-  connect(connect_login_edit, SIGNAL(returnPressed()),
-          this, SLOT(slot_connect()));
-  connect(connect_password_edit, SIGNAL(returnPressed()),
-          this, SLOT(slot_connect()));
-  connect(connect_confirm_password_edit, SIGNAL(returnPressed()),
-          this, SLOT(slot_connect()));
+  connect(network_button, &QAbstractButton::clicked, this, &fc_client::slot_connect);
+  connect(connect_login_edit, &QLineEdit::returnPressed,
+          this, &fc_client::slot_connect);
+  connect(connect_password_edit, &QLineEdit::returnPressed,
+          this, &fc_client::slot_connect);
+  connect(connect_confirm_password_edit, &QLineEdit::returnPressed,
+          this, &fc_client::slot_connect);
 
   connect_lan->setLayout(page_network_lan_layout);
   connect_metaserver->setLayout(page_network_wan_layout);
@@ -425,7 +425,7 @@ void fc_client::set_status_bar(QString message, int timeout)
 {
   if (status_bar_label->text().isEmpty()) {
     status_bar_label->setText(message);
-    QTimer::singleShot(timeout, this, SLOT(clear_status_bar()));
+    QTimer::singleShot(timeout, this, &fc_client::clear_status_bar);
   } else {
     status_bar_queue.append(message);
     while (status_bar_queue.count() > 3){
@@ -443,7 +443,7 @@ void fc_client::clear_status_bar()
   if (status_bar_queue.isEmpty() == false) {
     str = status_bar_queue.takeFirst();
     status_bar_label->setText(str);
-    QTimer::singleShot(2000, this, SLOT(clear_status_bar()));
+    QTimer::singleShot(2000, this, &fc_client::clear_status_bar);
   } else {
     status_bar_label->setText("");
   }
@@ -506,10 +506,10 @@ void fc_client::create_load_page()
 
   pages_layout[PAGE_LOAD]->addWidget(saves_load, 0, 0, 1, 4);
   connect(saves_load->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
-  connect(show_preview, SIGNAL(stateChanged(int)), this, 
-          SLOT(state_preview(int)));
+          &QItemSelectionModel::selectionChanged, this,
+          &fc_client::slot_selection_changed);
+  connect(show_preview, &QCheckBox::stateChanged, this, 
+          &fc_client::state_preview);
   pages_layout[PAGE_LOAD]->addWidget(wdg, 1, 0);
   pages_layout[PAGE_LOAD]->addWidget(load_save_text, 2, 0, 1, 2);
   pages_layout[PAGE_LOAD]->addWidget(load_pix, 2, 2, 1, 2);
@@ -517,14 +517,14 @@ void fc_client::create_load_page()
   but = new QPushButton;
   but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
-  connect(but, SIGNAL(clicked()), this, SLOT(browse_saves()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::browse_saves);
   pages_layout[PAGE_LOAD]->addWidget (but, 3, 0);
 
   but = new QPushButton;
   but->setText(_("Cancel"));
   but->setIcon(QApplication::style()->standardIcon(
                                       QStyle::SP_DialogCancelButton));
-  connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::slot_disconnect);
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_LOAD]->addWidget(but, 3, 2);
 
@@ -532,7 +532,7 @@ void fc_client::create_load_page()
   but->setText(_("Load"));
   but->setIcon(QApplication::style()->standardIcon(
                                       QStyle::SP_DialogOkButton));
-  connect(but, SIGNAL(clicked()), this, SLOT(start_from_save()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::start_from_save);
   pages_layout[PAGE_LOAD]->addWidget(but, 3, 3);
   pages_layout[PAGE_LOAD]->setColumnStretch(3, 10);
   pages_layout[PAGE_LOAD]->setColumnStretch(2, 10);
@@ -579,20 +579,20 @@ void fc_client::create_scenario_page()
   header->setSectionResizeMode(0, QHeaderView::Stretch);
   header->setStretchLastSection(true);
   connect(scenarios_load->selectionModel(),
-          SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this,
-          SLOT(slot_selection_changed(const QItemSelection &, const QItemSelection &)));
+          &QItemSelectionModel::selectionChanged, this,
+          &fc_client::slot_selection_changed);
 
   but = new QPushButton;
   but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
-  connect(but, SIGNAL(clicked()), this, SLOT(browse_scenarios()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::browse_scenarios);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 0);
 
   but = new QPushButton;
   but->setText(_("Cancel"));
   but->setIcon(QApplication::style()->standardIcon(
                                         QStyle::SP_DialogCancelButton));
-  connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::slot_disconnect);
   switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
@@ -604,7 +604,7 @@ void fc_client::create_scenario_page()
   but->setText(_("Load Scenario"));
   but->setIcon(QApplication::style()->standardIcon(
                                         QStyle::SP_DialogOkButton));
-  connect(but, SIGNAL(clicked()), this, SLOT(start_scenario()));
+  connect(but, &QAbstractButton::clicked, this, &fc_client::start_scenario);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 4);
 }
 
@@ -655,27 +655,27 @@ void fc_client::create_start_page()
   but = new QPushButton;
   but->setText(_("Disconnect"));
   but->setIcon(style()->standardPixmap(QStyle::SP_DialogCancelButton));
-  QObject::connect(but, SIGNAL(clicked()), this, SLOT(slot_disconnect()));
+  QObject::connect(but, &QAbstractButton::clicked, this, &fc_client::slot_disconnect);
   down_layout->addWidget(but, 5, 4);
   nation_button = new QPushButton;
   nation_button->setText(_("Pick Nation"));
   nation_button->setIcon(fc_icons::instance()->get_icon("flag"));
   down_layout->addWidget(nation_button, 5, 5);
-  QObject::connect(nation_button, SIGNAL(clicked()), this,
-                   SLOT(slot_pick_nation()));
+  QObject::connect(nation_button, &QAbstractButton::clicked, this,
+                   &fc_client::slot_pick_nation);
 
   obs_button = new QPushButton;
   obs_button->setText(_("Observe"));
   obs_button->setIcon(fc_icons::instance()->get_icon("meeting-observer"));
   down_layout->addWidget(obs_button, 5, 6);
-  QObject::connect(obs_button, SIGNAL(clicked()), this,
-                   SLOT(slot_pregame_observe()));
+  QObject::connect(obs_button, &QAbstractButton::clicked, this,
+                   &fc_client::slot_pregame_observe);
   start_button = new QPushButton;
   start_button->setText(_("Start"));
   start_button->setIcon(style()->standardPixmap(QStyle::SP_DialogOkButton));
   down_layout->addWidget(start_button, 5, 7);
-  QObject::connect(start_button, SIGNAL(clicked()), this,
-                   SLOT(slot_pregame_start()));
+  QObject::connect(start_button, &QAbstractButton::clicked, this,
+                   &fc_client::slot_pregame_start);
   pre_vote = new pregamevote;
 
   down_layout->addWidget(pre_vote, 4, 0, 1, 4);
@@ -995,12 +995,12 @@ void fc_client::update_network_lists(void)
 
   lan_scan_timer = new QTimer(this);
   lan_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
-  connect(lan_scan_timer, SIGNAL(timeout()), this, SLOT(slot_lan_scan()));
+  connect(lan_scan_timer, &QTimer::timeout, this, &fc_client::slot_lan_scan);
   lan_scan_timer->start(500);
 
   meta_scan_timer = new QTimer(this);
   meta_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
-  connect(meta_scan_timer, SIGNAL(timeout()), this, SLOT(slot_meta_scan()));
+  connect(meta_scan_timer, &QTimer::timeout, this, &fc_client::slot_meta_scan);
   meta_scan_timer->start(800);
 
 }

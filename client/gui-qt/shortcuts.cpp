@@ -516,7 +516,7 @@ void fc_sc_button::popup_error()
   /* wait until shortcut popup is destroyed */
   fsb_list = findChildren<fc_shortcut_popup *>();
   if (fsb_list.count() > 0) {
-    QTimer::singleShot(20, this, SLOT(popup_error()));
+    QTimer::singleShot(20, this, &fc_sc_button::popup_error);
     return;
   }
 
@@ -629,7 +629,7 @@ void fc_shortcuts_dialog::add_option(fc_shortcut *sc)
   hb = new QHBoxLayout();
 
   fc_sc_button *fb = new fc_sc_button(sc);
-  connect(fb, SIGNAL(clicked()), this, SLOT(edit_shortcut()));
+  connect(fb, &QAbstractButton::clicked, this, &fc_shortcuts_dialog::edit_shortcut);
 
   hb->addWidget(l, 1, Qt::AlignLeft);
   hb->addStretch();

@@ -368,17 +368,17 @@ city_widget::city_widget(city_report *ctr): QTreeView()
   header()->setMinimumSectionSize(10);
   setContextMenuPolicy(Qt::CustomContextMenu);
   hide_columns();
-  connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)),
-          this, SLOT(display_header_menu(const QPoint &)));
+  connect(header(), &QWidget::customContextMenuRequested,
+          this, &city_widget::display_header_menu);
   connect(selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
           SLOT(cities_selected(const QItemSelection &,
                                const QItemSelection &)));
-  connect(this, SIGNAL(doubleClicked(QModelIndex)), this, 
-          SLOT(city_doubleclick(QModelIndex)));
-  connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), 
-          this, SLOT(display_list_menu(const QPoint&)));
+  connect(this, &QAbstractItemView::doubleClicked, this, 
+          &city_widget::city_doubleclick);
+  connect(this, &QWidget::customContextMenuRequested, 
+          this, &city_widget::display_list_menu);
 }
 
 /***************************************************************************
@@ -516,7 +516,7 @@ void city_widget::display_list_menu(const QPoint &)
 
     tmp_menu = some_menu->addMenu(_("Worklist"));
     tmp_menu->addAction(&wl_clear);
-    connect(&wl_clear, SIGNAL(triggered()), this, SLOT(clear_worlist()));
+    connect(&wl_clear, &QAction::triggered, this, &city_widget::clear_worlist);
     tmp2_menu = tmp_menu->addMenu(_("Add"));
     gen_worklist_labels(cma_labels);
     if (cma_labels.count() == 0) {
@@ -542,11 +542,11 @@ void city_widget::display_list_menu(const QPoint &)
   gen_select_labels(some_menu);
   if (select_only == false) {
     list_menu.addAction(&cty_view);
-    connect(&cty_view, SIGNAL(triggered()), this, SLOT(city_view()));
+    connect(&cty_view, &QAction::triggered, this, &city_widget::city_view);
     list_menu.addAction(&cty_buy);
-    connect(&cty_buy, SIGNAL(triggered()), this, SLOT(buy()));
+    connect(&cty_buy, &QAction::triggered, this, &city_widget::buy);
     list_menu.addAction(&cty_center);
-    connect(&cty_center, SIGNAL(triggered()), this, SLOT(center()));
+    connect(&cty_center, &QAction::triggered, this, &city_widget::center);
   }
   act = 0;
   sell_count = 0;
@@ -934,29 +934,29 @@ void city_widget::gen_select_labels(QMenu *menu)
   QMap<QString, cid> custom_labels;
 
   act = menu->addAction(_("All Cities"));
-  connect(act, SIGNAL(triggered()), this, SLOT(select_all()));
+  connect(act, &QAction::triggered, this, &city_widget::select_all);
   act = menu->addAction(_("No Cities"));
-  connect(act, SIGNAL(triggered()), this, SLOT(select_none()));
+  connect(act, &QAction::triggered, this, &city_widget::select_none);
   act = menu->addAction(_("Invert Selection"));
-  connect(act, SIGNAL(triggered()), this, SLOT(invert_selection()));
+  connect(act, &QAction::triggered, this, &city_widget::invert_selection);
   menu->addSeparator();
   act = menu->addAction(_("Coastal Cities"));
-  connect(act, SIGNAL(triggered()), this, SLOT(select_coastal()));
+  connect(act, &QAction::triggered, this, &city_widget::select_coastal);
   act = menu->addAction(_("Same Island"));
-  connect(act, SIGNAL(triggered()), this, SLOT(select_same_island()));
+  connect(act, &QAction::triggered, this, &city_widget::select_same_island);
   if (selected_cities.isEmpty()){
     act->setDisabled(true);
   }
   menu->addSeparator();
   act = menu->addAction(_("Building Units"));
   act->setData("unit");
-  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  connect(act, &QAction::triggered, this, &city_widget::select_building_something);
   act = menu->addAction(_("Building Improvements"));
   act->setData("impr");
-  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  connect(act, &QAction::triggered, this, &city_widget::select_building_something);
   act = menu->addAction(_("Building Wonders"));
   act->setData("wonder");
-  connect(act, SIGNAL(triggered()), this, SLOT(select_building_something()));
+  connect(act, &QAction::triggered, this, &city_widget::select_building_something);
   menu->addSeparator();
   tmp_menu = menu->addMenu(_("Improvements in City"));
   gen_production_labels(SELECT_IMPR, custom_labels, false, false,

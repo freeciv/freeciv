@@ -295,14 +295,14 @@ chatwdg::chatwdg(QWidget *parent)
   chat_output->setAcceptRichText(true);
   chat_output->setOpenLinks(false);
   chat_output->setReadOnly(true);
-  connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
-          this, SLOT(anchor_clicked(const QUrl)));
-  connect(chat_output, SIGNAL(anchorClicked(const QUrl)),
-          this, SLOT(anchor_clicked(const QUrl)));
-  connect(chat_output, SIGNAL(dbl_clicked()),
-          this, SLOT(toggle_size()));
-  connect(remove_links, SIGNAL(clicked()), this, SLOT(rm_links()));
-  connect(cb, SIGNAL(stateChanged(int)), this, SLOT(state_changed(int)));
+  connect(chat_output, &QTextBrowser::anchorClicked,
+          this, &chatwdg::anchor_clicked);
+  connect(chat_output, &QTextBrowser::anchorClicked,
+          this, &chatwdg::anchor_clicked);
+  connect(chat_output, &text_browser_dblclck::dbl_clicked,
+          this, &chatwdg::toggle_size);
+  connect(remove_links, &QAbstractButton::clicked, this, &chatwdg::rm_links);
+  connect(cb, &QCheckBox::stateChanged, this, &chatwdg::state_changed);
   setMouseTracking(true);
 
   chat_listener::listen();

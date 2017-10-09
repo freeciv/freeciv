@@ -299,8 +299,8 @@ plr_widget::plr_widget(plr_report *pr): QTreeView()
   setAlternatingRowColors(true);
   header()->setContextMenuPolicy(Qt::CustomContextMenu);
   hide_columns();
-  connect(header(), SIGNAL(customContextMenuRequested(const QPoint &)),
-          this, SLOT(display_header_menu(const QPoint &)));
+  connect(header(), &QWidget::customContextMenuRequested,
+          this, &plr_widget::display_header_menu);
   connect(selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
@@ -637,10 +637,10 @@ plr_report::plr_report():QWidget()
   hlayout->addWidget(toggle_ai_but);
   hlayout->addStretch();
   layout->addLayout(hlayout);
-  connect(meet_but, SIGNAL(pressed()), SLOT(req_meeeting()));
-  connect(cancel_but, SIGNAL(pressed()), SLOT(req_caancel_threaty()));
-  connect(withdraw_but, SIGNAL(pressed()), SLOT(req_wiithdrw_vision()));
-  connect(toggle_ai_but, SIGNAL(pressed()), SLOT(toggle_ai_mode()));
+  connect(meet_but, &QAbstractButton::pressed, this, &plr_report::req_meeeting);
+  connect(cancel_but, &QAbstractButton::pressed, this, &plr_report::req_caancel_threaty);
+  connect(withdraw_but, &QAbstractButton::pressed, this, &plr_report::req_wiithdrw_vision);
+  connect(toggle_ai_but, &QAbstractButton::pressed, this, &plr_report::toggle_ai_mode);
   setLayout(layout);
   if (gui()->qt_settings.player_repo_sort_col != -1) {
     plr_wdg->sortByColumn(gui()->qt_settings.player_repo_sort_col,

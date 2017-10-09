@@ -757,63 +757,63 @@ void unit_item::create_actions()
   qunits = unit_list_new();
   unit_list_append(qunits, qunit);
   activate = new QAction(_("Activate unit"), this);
-  connect(activate, SIGNAL(triggered()), this, SLOT(activate_unit()));
+  connect(activate, &QAction::triggered, this, &unit_item::activate_unit);
   activate_and_close = new QAction(_("Activate and close dialog"), this);
-  connect(activate_and_close, SIGNAL(triggered()), this,
-          SLOT(activate_and_close_dialog()));
+  connect(activate_and_close, &QAction::triggered, this,
+          &unit_item::activate_and_close_dialog);
 
   if (can_unit_do_activity(qunit, ACTIVITY_SENTRY)) {
     sentry = new QAction(_("Sentry unit"), this);
-    connect(sentry, SIGNAL(triggered()), this, SLOT(sentry_unit()));
+    connect(sentry, &QAction::triggered, this, &unit_item::sentry_unit);
   } else {
     sentry = NULL;
   }
 
   if (can_unit_do_activity(qunit, ACTIVITY_FORTIFYING)) {
     fortify = new QAction(_("Fortify unit"), this);
-    connect(fortify, SIGNAL(triggered()), this, SLOT(fortify_unit()));
+    connect(fortify, &QAction::triggered, this, &unit_item::fortify_unit);
   } else {
     fortify = NULL;
   }
 
   if (!unit_has_type_flag(qunit, UTYF_UNDISBANDABLE)) {
     disband_action = new QAction(_("Disband unit"), this);
-    connect(disband_action, SIGNAL(triggered()), this, SLOT(disband()));
+    connect(disband_action, &QAction::triggered, this, &unit_item::disband);
   } else {
     disband_action = NULL;
   }
 
   if (can_unit_change_homecity(qunit)) {
     change_home = new QAction(_("Change homecity"), this);
-    connect(change_home, SIGNAL(triggered()), this, SLOT(change_homecity()));
+    connect(change_home, &QAction::triggered, this, &unit_item::change_homecity);
   } else {
     change_home = NULL;
   }
 
   if (units_can_load(qunits)) {
     load = new QAction(_("Load"), this);
-    connect(load, SIGNAL(triggered()), this, SLOT(load_unit()));
+    connect(load, &QAction::triggered, this, &unit_item::load_unit);
   } else {
     load = NULL;
   }
 
   if (units_can_unload(qunits)) {
     unload = new QAction(_("Unload"), this);
-    connect(unload, SIGNAL(triggered()), this, SLOT(unload_unit()));
+    connect(unload, &QAction::triggered, this, &unit_item::unload_unit);
   } else {
     unload = NULL;
   }
 
   if (units_are_occupied(qunits)) {
     unload_trans = new QAction(_("Unload All From Transporter"), this);
-    connect(unload_trans, SIGNAL(triggered()), this, SLOT(unload_all()));
+    connect(unload_trans, &QAction::triggered, this, &unit_item::unload_all);
   } else {
     unload_trans = NULL;
   }
 
   if (units_can_upgrade(qunits)) {
     upgrade = new QAction(_("Upgrade Unit"), this);
-    connect(upgrade, SIGNAL(triggered()), this, SLOT(upgrade_unit()));
+    connect(upgrade, &QAction::triggered, this, &unit_item::upgrade_unit);
   } else {
     upgrade = NULL;
   }
@@ -1476,9 +1476,9 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   /* Buy button */
   buy_button = new QPushButton();
   buy_button->setIcon(fc_icons::instance()->get_icon("help-donate"));
-  connect(buy_button, SIGNAL(clicked()), SLOT(buy()));
+  connect(buy_button, &QAbstractButton::clicked, this, &city_dialog::buy);
 
-  connect(lcity_name, SIGNAL(clicked()), SLOT(city_rename()));
+  connect(lcity_name, &QAbstractButton::clicked, this, &city_dialog::city_rename);
   citizens_label = new city_label(FEELING_FINAL, this);
   citizen_pixmap = NULL;
   view = new city_map(this);
@@ -1489,13 +1489,13 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   zoom_in_button->setIconSize(QSize(16, 16));
   zoom_in_button->setFixedSize(QSize(20, 20));
   zoom_in_button->setToolTip(_("Zoom in"));
-  connect(zoom_in_button, SIGNAL(clicked()), SLOT(zoom_in()));
+  connect(zoom_in_button, &QAbstractButton::clicked, this, &city_dialog::zoom_in);
   zoom_out_button = new QPushButton();
   zoom_out_button->setIcon(fc_icons::instance()->get_icon("minus"));
   zoom_out_button->setIconSize(QSize(16, 16));
   zoom_out_button->setFixedSize(QSize(20, 20));
   zoom_out_button->setToolTip(_("Zoom out"));
-  connect(zoom_out_button, SIGNAL(clicked()), SLOT(zoom_out()));
+  connect(zoom_out_button, &QAbstractButton::clicked, this, &city_dialog::zoom_out);
   zoom_vbox->addWidget(zoom_in_button);
   zoom_vbox->addWidget(zoom_out_button);
 
@@ -1598,16 +1598,16 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   button->setIcon(fc_icons::instance()->get_icon("city-close"));
   button->setIconSize(QSize(56, 56));
   button->setToolTip(_("Close city dialog"));
-  connect(button, SIGNAL(clicked()), SLOT(hide()));
+  connect(button, &QAbstractButton::clicked, this, &QWidget::hide);
 
   next_city_but = new QPushButton();
   next_city_but->setIcon(fc_icons::instance()->get_icon("city-right"));
   next_city_but->setIconSize(QSize(56, 56));
   next_city_but->setToolTip(_("Show next city"));
-  connect(next_city_but, SIGNAL(clicked()), SLOT(next_city()));
+  connect(next_city_but, &QAbstractButton::clicked, this, &city_dialog::next_city);
 
   prev_city_but = new QPushButton();
-  connect(prev_city_but, SIGNAL(clicked()), SLOT(prev_city()));
+  connect(prev_city_but, &QAbstractButton::clicked, this, &city_dialog::prev_city);
   prev_city_but->setIcon(fc_icons::instance()->get_icon("city-left"));
   prev_city_but->setIconSize(QSize(56, 56));
   prev_city_but->setToolTip(_("Show previous city"));
@@ -1615,7 +1615,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   happiness_button = new QPushButton();
   happiness_button->setIcon(fc_icons::instance()->get_icon("city-switch"));
   happiness_button->setIconSize(QSize(56, 28));
-  connect(happiness_button, SIGNAL(clicked()), SLOT(show_happiness()));
+  connect(happiness_button, &QAbstractButton::clicked, this, &city_dialog::show_happiness);
   update_happiness_button();
 
   button->setFixedSize(64, 64);
@@ -1727,17 +1727,17 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   worklist_layout->setSpacing(0);
   worklist_layout->addWidget(qgbprod);
   connect(p_table_p,
-          SIGNAL(customContextMenuRequested(const QPoint &)), this,
-          SLOT(display_worklist_menu(const QPoint &)));
-  connect(but_menu_worklist, SIGNAL(clicked()), SLOT(delete_prod()));
-  connect(production_combo_p, SIGNAL(clicked()), SLOT(show_targets()));
-  connect(work_add_but, SIGNAL(clicked()), SLOT(show_targets_worklist()));
-  connect(work_prev_but, SIGNAL(clicked()), SLOT(worklist_up()));
-  connect(work_next_but, SIGNAL(clicked()), SLOT(worklist_down()));
-  connect(work_rem_but, SIGNAL(clicked()), SLOT(worklist_del()));
+          &QWidget::customContextMenuRequested, this,
+          &city_dialog::display_worklist_menu);
+  connect(but_menu_worklist, &QAbstractButton::clicked, this, &city_dialog::delete_prod);
+  connect(production_combo_p, &progress_bar::clicked, this, &city_dialog::show_targets);
+  connect(work_add_but, &QAbstractButton::clicked, this, &city_dialog::show_targets_worklist);
+  connect(work_prev_but, &QAbstractButton::clicked, this, &city_dialog::worklist_up);
+  connect(work_next_but, &QAbstractButton::clicked, this, &city_dialog::worklist_down);
+  connect(work_rem_but, &QAbstractButton::clicked, this, &city_dialog::worklist_del);
   connect(p_table_p,
-          SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
-          SLOT(dbl_click_p(QTableWidgetItem *)));
+          &QTableWidget::itemDoubleClicked,
+          this, &city_dialog::dbl_click_p);
   connect(p_table_p->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),
@@ -1789,7 +1789,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   qpush2
     = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
                       _("Save"));
-  connect(qpush2, SIGNAL(pressed()), SLOT(save_cma()));
+  connect(qpush2, &QAbstractButton::pressed, this, &city_dialog::save_cma);
 
   cma_info_text = new QLabel;
   cma_info_text->setFont(*small_font);
@@ -1812,10 +1812,10 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
           SLOT(cma_selected(const QItemSelection &,
                             const QItemSelection &)));
   connect(cma_table,
-          SIGNAL(customContextMenuRequested(const QPoint &)), this,
-          SLOT(cma_context_menu(const QPoint &)));
-  connect(cma_table, SIGNAL(cellDoubleClicked(int, int)), this,
-          SLOT(cma_double_clicked(int, int)));
+          &QWidget::customContextMenuRequested, this,
+          &city_dialog::cma_context_menu);
+  connect(cma_table, &QTableWidget::cellDoubleClicked, this,
+          &city_dialog::cma_double_clicked);
   gridl->addWidget(cma_table, 0, 0, 1, 2);
   qgbox->setLayout(gridl);
   hbox->addWidget(cma_info_text);
@@ -1846,12 +1846,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
       slider_grid->addWidget(slider, i + 1, 2, 1, 1);
       slider->setProperty("FC", QVariant::fromValue((void *)some_label));
 
-      connect(slider, SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
+      connect(slider, &QAbstractSlider::valueChanged, this, &city_dialog::cma_slider);
     } else {
       cma_celeb_checkbox = new QCheckBox;
       slider_grid->addWidget(cma_celeb_checkbox, i + 1, 2 , 1 , 1);
       connect(cma_celeb_checkbox,
-              SIGNAL(stateChanged(int)), SLOT(cma_celebrate_changed(int)));
+              &QCheckBox::stateChanged, this, &city_dialog::cma_celebrate_changed);
     }
 
     some_label = new QLabel("0");
@@ -1863,12 +1863,12 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
     slider->setProperty("FC", QVariant::fromValue((void *)some_label));
     slider_grid->addWidget(some_label, i + 1, 3, 1, 1);
     slider_grid->addWidget(slider, i + 1, 4, 1, 1);
-    connect(slider, SIGNAL(valueChanged(int)), SLOT(cma_slider(int)));
+    connect(slider, &QAbstractSlider::valueChanged, this, &city_dialog::cma_slider);
   }
 
   cma_enable_but = new QPushButton();
   cma_enable_but->setFocusPolicy(Qt::TabFocus);
-  connect(cma_enable_but, SIGNAL(pressed()), SLOT(cma_enable()));
+  connect(cma_enable_but, &QAbstractButton::pressed, this, &city_dialog::cma_enable);
   slider_grid->addWidget(cma_enable_but, O_LAST + 4, 1, 1, 2);
   slider_grid->addWidget(qpush2, O_LAST + 4, 3, 1, 2);
 
@@ -2496,7 +2496,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
 
   add_menu = list_menu.addMenu(_("Change worklist"));
   insert_menu = list_menu.addMenu(_("Insert worklist"));
-  connect(&wl_clear, SIGNAL(triggered()), SLOT(clear_worklist()));
+  connect(&wl_clear, &QAction::triggered, this, &city_dialog::clear_worklist);
   list_menu.addAction(&wl_clear);
   list.clear();
 

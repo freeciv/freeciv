@@ -418,8 +418,8 @@ void hud_input_box::set_text_title_definput(QString s1, QString s2,
   input_edit.setFont(f_text);
   input_edit.setText(def_input);
   setLayout(layout);
-  QObject::connect(button_box, SIGNAL(accepted()), this, SLOT(accept()));
-  QObject::connect(button_box, SIGNAL(rejected()), this, SLOT(reject()));
+  QObject::connect(button_box, &QDialogButtonBox::accepted, this, &QDialog::accept);
+  QObject::connect(button_box, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
   text = s1;
   title = s2;
@@ -747,7 +747,7 @@ void hud_units::update_actions(unit_list *punits)
 ****************************************************************************/
 click_label::click_label() : QLabel()
 {
-  connect(this, SIGNAL(left_clicked()), SLOT(on_clicked()));
+  connect(this, &click_label::left_clicked, this, &click_label::on_clicked);
 }
 
 /****************************************************************************
@@ -774,7 +774,7 @@ void click_label::on_clicked()
 ****************************************************************************/
 hud_action::hud_action(QWidget *parent) : QWidget(parent)
 {
-  connect(this, SIGNAL(left_clicked()), SLOT(on_clicked()));
+  connect(this, &hud_action::left_clicked, this, &hud_action::on_clicked);
   setFocusPolicy(Qt::StrongFocus);
   setMouseTracking(true);
   focus = false;
@@ -1373,8 +1373,8 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
           SLOT(select_units(bool)));
   connect(main_continent, SIGNAL(toggled(bool)), this,
           SLOT(select_units(bool)));
-  connect(select, SIGNAL(clicked()), this, SLOT(uhs_select()));
-  connect(cancel, SIGNAL(clicked()), this, SLOT(uhs_cancel()));
+  connect(select, &QAbstractButton::clicked, this, &unit_hud_selector::uhs_select);
+  connect(cancel, &QAbstractButton::clicked, this, &unit_hud_selector::uhs_cancel);
   hbox = new QHBoxLayout;
   hbox->addWidget(cancel);
   hbox->addWidget(select);

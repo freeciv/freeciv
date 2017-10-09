@@ -178,8 +178,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
                                 _("Add Clause..."));
   add_clause2 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
                                 _("Add Clause..."));
-  connect(add_clause1, SIGNAL(clicked()), SLOT(show_menu_p2()));
-  connect(add_clause2, SIGNAL(clicked()), SLOT(show_menu_p1()));
+  connect(add_clause1, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p2);
+  connect(add_clause2, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p1);
   layout->addWidget(goldlab1, 7, 4);
   layout->addWidget(goldlab2, 3, 4);
   layout->addWidget(gold_edit1, 7, 5);
@@ -197,8 +197,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   text_edit->setSelectionMode(QAbstractItemView::SingleSelection);
   header = text_edit->horizontalHeader();
   header->setStretchLastSection(true);
-  connect(text_edit, SIGNAL(itemDoubleClicked(QTableWidgetItem *)),
-          SLOT(dbl_click(QTableWidgetItem *)));
+  connect(text_edit, &QTableWidget::itemDoubleClicked,
+          this, &diplo_wdg::dbl_click);
   text_edit->clearContents();
   text_edit->setRowCount(0);
   layout->addWidget(text_edit, 9, 0, 8, 11);
@@ -208,8 +208,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   cancel_treaty =
     new QPushButton(style()->standardIcon(QStyle::SP_DialogNoButton),
                     _("Cancel meeting"));
-  connect(accept_treaty, SIGNAL(clicked()), SLOT(response_accept()));
-  connect(cancel_treaty, SIGNAL(clicked()), SLOT(response_cancel()));
+  connect(accept_treaty, &QAbstractButton::clicked, this, &diplo_wdg::response_accept);
+  connect(cancel_treaty, &QAbstractButton::clicked, this, &diplo_wdg::response_cancel);
   layout->addWidget(accept_treaty, 17, 5);
   layout->addWidget(cancel_treaty, 17, 6);
 
@@ -318,10 +318,10 @@ void diplo_wdg::show_menu(int player)
   /* Maps */
   map_menu = menu.addMenu(_("Maps"));
   world_map = new QAction(_("World-map"), this);
-  connect(world_map, SIGNAL(triggered()), this, SLOT(world_map_clause()));
+  connect(world_map, &QAction::triggered, this, &diplo_wdg::world_map_clause);
   map_menu->addAction(world_map);
   sea_map = new QAction(_("Sea-map"), this);
-  connect(sea_map, SIGNAL(triggered()), this, SLOT(sea_map_clause()));
+  connect(sea_map, &QAction::triggered, this, &diplo_wdg::sea_map_clause);
   map_menu->addAction(sea_map);
 
   /* Trading: advances */
@@ -344,7 +344,7 @@ void diplo_wdg::show_menu(int player)
 
     /* All advances */
     all_advancs = new QAction(_("All advances"), this);
-    connect(all_advancs, SIGNAL(triggered()), this, SLOT(all_advances()));
+    connect(all_advancs, &QAction::triggered, this, &diplo_wdg::all_advances);
     adv_menu->addAction(all_advancs);
     adv_menu->addSeparator();
 
@@ -388,14 +388,14 @@ void diplo_wdg::show_menu(int player)
     }
   }
   some_action = new QAction(_("Give shared vision"), this);
-  connect(some_action, SIGNAL(triggered()), this,
-          SLOT(give_shared_vision()));
+  connect(some_action, &QAction::triggered, this,
+          &diplo_wdg::give_shared_vision);
   menu.addAction(some_action);
   if (gives_shared_vision(pgiver, pother)) {
     some_action->setDisabled(true);
   }
   some_action = new QAction(_("Give embassy"), this);
-  connect(some_action, SIGNAL(triggered()), this, SLOT(give_embassy()));
+  connect(some_action, &QAction::triggered, this, &diplo_wdg::give_embassy);
   menu.addAction(some_action);
   if (player_has_real_embassy(pother, pgiver)) {
     some_action->setDisabled(true);
@@ -406,19 +406,19 @@ void diplo_wdg::show_menu(int player)
     pacts_menu = menu.addMenu(_("Pacts"));
     ds = player_diplstate_get(pgiver, pother)->type;
     some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
-    connect(some_action, SIGNAL(triggered()), this, SLOT(pact_ceasfire()));
+    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_ceasfire);
     pacts_menu->addAction(some_action);
     if (ds == DS_CEASEFIRE || ds == DS_TEAM) {
       some_action->setDisabled(true);
     }
     some_action = new QAction(Q_("?diplomatic_state:Peace"), this);
-    connect(some_action, SIGNAL(triggered()), this, SLOT(pact_peace()));
+    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_peace);
     pacts_menu->addAction(some_action);
     if (ds == DS_PEACE || ds == DS_TEAM) {
       some_action->setDisabled(true);
     }
     some_action = new QAction(Q_("?diplomatic_state:Alliance"), this);
-    connect(some_action, SIGNAL(triggered()), this, SLOT(pact_allianze()));
+    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_allianze);
     pacts_menu->addAction(some_action);
     if (ds == DS_ALLIANCE || ds == DS_TEAM) {
       some_action->setDisabled(true);

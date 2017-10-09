@@ -57,9 +57,9 @@ pregamevote::pregamevote(QWidget *parent)
   layout->addWidget(lab_abstain, 2, 5, 1, 1);
   layout->addWidget(voters, 2, 6, 1, 1);
   setLayout(layout);
-  connect(vote_yes, SIGNAL(clicked()), SLOT(v_yes()));
-  connect(vote_no, SIGNAL(clicked()), SLOT(v_no()));
-  connect(vote_abstain, SIGNAL(clicked()), SLOT(v_abstain()));
+  connect(vote_yes, &QAbstractButton::clicked, this, &pregamevote::v_yes);
+  connect(vote_no, &QAbstractButton::clicked, this, &pregamevote::v_no);
+  connect(vote_abstain, &QAbstractButton::clicked, this, &pregamevote::v_abstain);
 
 }
 
