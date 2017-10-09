@@ -143,7 +143,7 @@ void draw_calculated_trade_routes(QPainter *painter)
 **************************************************************************/
 mr_idle::mr_idle()
 {
-  connect(&timer, SIGNAL(timeout()), this, SLOT(idling()));
+  connect(&timer, &QTimer::timeout, this, &mr_idle::idling);
   timer.start(5);
 }
 
@@ -178,7 +178,7 @@ map_view::map_view() : QWidget()
   cursor = -1;
   QTimer *timer = new QTimer(this);
   setAttribute(Qt::WA_OpaquePaintEvent, true);
-  connect(timer, SIGNAL(timeout()), this, SLOT(timer_event()));
+  connect(timer, &QTimer::timeout, this, &map_view::timer_event);
   timer->start(200);
   resize(0, 0);
   setMouseTracking(true);
@@ -514,8 +514,8 @@ minimap_view::minimap_view(QWidget *parent) : fcwidget()
   rw->put_to_corner();
   pix = new QPixmap;
   scale_factor = 1.0;
-  connect(&thread, SIGNAL(rendered_image(QImage)),
-          this, SLOT(update_pixmap(QImage)));
+  connect(&thread, &minimap_thread::rendered_image,
+          this, &minimap_view::update_pixmap);
 }
 
 /**************************************************************************
@@ -972,8 +972,8 @@ void fc_client::update_info_label(void)
   if (update_info_timer == nullptr) {
     update_info_timer = new QTimer();
     update_info_timer->setSingleShot(true);
-    connect(update_info_timer, SIGNAL(timeout()),
-            this, SLOT(update_info_label()));
+    connect(update_info_timer, &QTimer::timeout,
+            this, &fc_client::update_info_label);
     update_info_timer->start(300);
     return;
   }

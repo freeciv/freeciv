@@ -85,11 +85,11 @@ goto_dialog::goto_dialog(QWidget *parent)
   layout->addWidget(close_but, 5, 3, 1, 1);
 
   setFixedWidth(goto_tab->horizontalHeader()->width());
-  connect(close_but, SIGNAL(clicked()), SLOT(close_dlg()));
-  connect(goto_city, SIGNAL(clicked()), SLOT(go_to_city()));
-  connect(airlift_city, SIGNAL(clicked()), SLOT(airlift_to()));
-  connect(show_all, SIGNAL(stateChanged(int)),
-          SLOT(checkbox_changed(int)));
+  connect(close_but, &QAbstractButton::clicked, this, &goto_dialog::close_dlg);
+  connect(goto_city, &QAbstractButton::clicked, this, &goto_dialog::go_to_city);
+  connect(airlift_city, &QAbstractButton::clicked, this, &goto_dialog::airlift_to);
+  connect(show_all, &QCheckBox::stateChanged,
+          this, &goto_dialog::checkbox_changed);
   connect(goto_tab->selectionModel(),
           SIGNAL(selectionChanged(const QItemSelection &,
                                   const QItemSelection &)),

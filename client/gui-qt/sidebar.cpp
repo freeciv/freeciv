@@ -87,7 +87,7 @@ fc_sidewidget::fc_sidewidget(QPixmap *pix, QString label, QString pg,
   info_font = new  QFont(*sfont);
   info_font->setBold(true);
   info_font->setItalic(false);
-  connect(timer, SIGNAL(timeout()), this, SLOT(sblink()));
+  connect(timer, &QTimer::timeout, this, &fc_sidewidget::sblink);
 }
 
 /***************************************************************************
@@ -666,8 +666,8 @@ void side_right_click_diplomacy(void)
                  + nation_plural_translation(pplayer->nation) + ")";
       eiskalt = new QAction(erwischt, gui()->mapview_wdg);
       eiskalt->setData(QVariant::fromValue((void *)pplayer));
-      QObject::connect(eiskalt, SIGNAL(triggered()), gui()->sw_diplo,
-                       SLOT(some_slot()));
+      QObject::connect(eiskalt, &QAction::triggered, gui()->sw_diplo,
+                       &fc_sidewidget::some_slot);
       menu->addAction(eiskalt);
     } players_iterate_end
 
@@ -675,8 +675,8 @@ void side_right_click_diplomacy(void)
       eiskalt = new QAction(_("Observe globally"), gui()->mapview_wdg);
       eiskalt->setData(-1);
       menu->addAction(eiskalt);
-      QObject::connect(eiskalt, SIGNAL(triggered()), gui()->sw_diplo,
-                       SLOT(some_slot()));
+      QObject::connect(eiskalt, &QAction::triggered, gui()->sw_diplo,
+                       &fc_sidewidget::some_slot);
     }
 
     menu->exec(QCursor::pos());
@@ -724,8 +724,8 @@ void side_right_click_science(void)
       act->setData(qvar);
       act->setProperty("scimenu", true);
       menu->addAction(act);
-      QObject::connect(act, SIGNAL(triggered()), gui()->sw_science,
-                       SLOT(some_slot()));
+      QObject::connect(act, &QAction::triggered, gui()->sw_science,
+                       &fc_sidewidget::some_slot);
     }
     menu->exec(QCursor::pos());
   }

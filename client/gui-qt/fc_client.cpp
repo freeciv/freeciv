@@ -244,7 +244,7 @@ void fc_client::main(QApplication *qapp)
   set_client_state(C_S_DISCONNECTED);
 
   startTimer(TIMER_INTERVAL);
-  connect(qapp, SIGNAL(aboutToQuit()), this, SLOT(closing()));
+  connect(qapp, &QCoreApplication::aboutToQuit, this, &fc_client::closing);
   qapp->exec();
 
   free_mapcanvas_and_overview();
@@ -409,8 +409,8 @@ void fc_client::add_server_source(int sock)
 {
   server_notifier = new QSocketNotifier(sock, QSocketNotifier::Read);
 
-  connect(server_notifier, SIGNAL(activated(int)), this, 
-          SLOT(server_input(int)));
+  connect(server_notifier, &QSocketNotifier::activated, this, 
+          &fc_client::server_input);
 }
 
 /****************************************************************************
@@ -831,15 +831,15 @@ fc_corner::fc_corner(QMainWindow *qmw): QWidget()
   hb = new QHBoxLayout();
   qpb = new QPushButton(fc_icons::instance()->get_icon("cmin"), "");
   qpb->setFixedSize(h, h);
-  connect(qpb, SIGNAL(clicked()), SLOT(minimize()));
+  connect(qpb, &QAbstractButton::clicked, this, &fc_corner::minimize);
   hb->addWidget(qpb);
   qpb = new QPushButton(fc_icons::instance()->get_icon("cmax"), "");
   qpb->setFixedSize(h, h);
-  connect(qpb, SIGNAL(clicked()), SLOT(maximize()));
+  connect(qpb, &QAbstractButton::clicked, this, &fc_corner::maximize);
   hb->addWidget(qpb);
   qpb = new QPushButton(fc_icons::instance()->get_icon("cclose"), "");
   qpb->setFixedSize(h, h);
-  connect(qpb, SIGNAL(clicked()), SLOT(close_fc()));
+  connect(qpb, &QAbstractButton::clicked, this, &fc_corner::close_fc);
   hb->addWidget(qpb);
   setLayout(hb);
 }
@@ -884,7 +884,7 @@ fc_game_tab_widget::fc_game_tab_widget(): QStackedWidget()
 ****************************************************************************/
 void fc_game_tab_widget::init()
 {
-  connect(this, SIGNAL(currentChanged(int)), SLOT(current_changed(int)));
+  connect(this, &QStackedWidget::currentChanged, this, &fc_game_tab_widget::current_changed);
 }
 
 
@@ -1094,8 +1094,8 @@ void pregame_options::init()
   but = new QPushButton;
   but->setText(_("More Game Options"));
   but->setIcon(fc_icons::instance()->get_icon("preferences-other"));
-  QObject::connect(but, SIGNAL(clicked()), this,
-                   SLOT(popup_server_options()));
+  QObject::connect(but, &QAbstractButton::clicked, this,
+                   &pregame_options::popup_server_options);
 
   layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
   layout->addRow(_("Nation:"), nation);
