@@ -516,7 +516,7 @@ void fc_sc_button::popup_error()
   /* wait until shortcut popup is destroyed */
   fsb_list = findChildren<fc_shortcut_popup *>();
   if (fsb_list.count() > 0) {
-    QTimer::singleShot(20, this, &fc_sc_button::popup_error);
+    QTimer::singleShot(20, this, SLOT(popup_error()));
     return;
   }
 
