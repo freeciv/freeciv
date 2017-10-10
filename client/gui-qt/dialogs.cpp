@@ -2794,7 +2794,9 @@ units_select::units_select(tile *ptile, QWidget *parent)
   }
   move(final_p.x(), final_p.y() - height());
   setFocus();
-  QTimer::singleShot(10, this, &units_select::update_img);
+  /* Build fails with qt5 connect style for static functions
+   * Qt5.2 so dont update */
+  QTimer::singleShot(10, this, SLOT(update_img()));
 }
 /****************************************************************
   Destructor for unit select

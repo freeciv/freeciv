@@ -425,7 +425,7 @@ void fc_client::set_status_bar(QString message, int timeout)
 {
   if (status_bar_label->text().isEmpty()) {
     status_bar_label->setText(message);
-    QTimer::singleShot(timeout, this, &fc_client::clear_status_bar);
+    QTimer::singleShot(timeout, this, SLOT(clear_status_bar()));
   } else {
     status_bar_queue.append(message);
     while (status_bar_queue.count() > 3){
@@ -443,7 +443,7 @@ void fc_client::clear_status_bar()
   if (status_bar_queue.isEmpty() == false) {
     str = status_bar_queue.takeFirst();
     status_bar_label->setText(str);
-    QTimer::singleShot(2000, this, &fc_client::clear_status_bar);
+    QTimer::singleShot(2000, this, SLOT(clear_status_bar()));
   } else {
     status_bar_label->setText("");
   }
