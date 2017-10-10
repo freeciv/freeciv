@@ -801,7 +801,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tooltip_pos = event->globalPos();
       if (QToolTip::isVisible() == false && timer_active == false) {
         timer_active = true;
-        QTimer::singleShot(500, this, &research_diagram::show_tooltip);
+        QTimer::singleShot(500, this, SLOT(show_tooltip()));
       }
     }
   }
