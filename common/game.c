@@ -61,7 +61,7 @@ bool am_i_server = FALSE;
 
 static void game_defaults(bool keep_ruleset_value);
 
-/**************************************************************************
+/**********************************************************************//**
   Is program type server?
 **************************************************************************/
 bool is_server(void)
@@ -69,7 +69,7 @@ bool is_server(void)
   return am_i_server;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set program type to server.
 **************************************************************************/
 void i_am_server(void)
@@ -77,7 +77,7 @@ void i_am_server(void)
   am_i_server = TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set program type to client.
 **************************************************************************/
 void i_am_client(void)
@@ -85,8 +85,8 @@ void i_am_client(void)
   am_i_server = FALSE;
 }
 
-/**************************************************************************
-Count the # of thousand citizen in a civilisation.
+/**********************************************************************//**
+  Count the # of thousand citizen in a civilisation.
 **************************************************************************/
 int civ_population(const struct player *pplayer)
 {
@@ -98,7 +98,7 @@ int civ_population(const struct player *pplayer)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Find city with given name from any player.
 **************************************************************************/
 struct city *game_city_by_name(const char *name)
@@ -115,7 +115,7 @@ struct city *game_city_by_name(const char *name)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Often used function to get a city pointer from a city ID.
   City may be any city in the game.  This now always uses fast idex
   method, instead of looking through all cities of all players.
@@ -126,7 +126,7 @@ struct city *game_city_by_number(int id)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Find unit out of all units in game: now uses fast idex method,
   instead of looking through all units of all players.
 **************************************************************************/
@@ -135,7 +135,7 @@ struct unit *game_unit_by_number(int id)
   return idex_lookup_unit(&wld, id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   In the server call wipe_unit(), and never this function directly.
 **************************************************************************/
 void game_remove_unit(struct world *gworld, struct unit *punit)
@@ -189,7 +189,7 @@ void game_remove_unit(struct world *gworld, struct unit *punit)
   unit_virtual_destroy(punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove city from game.
 **************************************************************************/
 void game_remove_city(struct world *gworld, struct city *pcity)
@@ -224,9 +224,9 @@ void game_remove_city(struct world *gworld, struct city *pcity)
   destroy_city_virtual(pcity);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set default game values.
-****************************************************************************/
+**************************************************************************/
 static void game_defaults(bool keep_ruleset_value)
 {
   int i;
@@ -431,11 +431,11 @@ static void game_defaults(bool keep_ruleset_value)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialise all game settings.
 
   The variables are listed in alphabetical order.
-****************************************************************************/
+**************************************************************************/
 void game_init(bool keep_ruleset_value)
 {
   game_defaults(keep_ruleset_value);
@@ -449,10 +449,10 @@ void game_init(bool keep_ruleset_value)
   universal_found_functions_init();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize map-specific parts of the game structure.  Maybe these should
   be moved into the map structure?
-****************************************************************************/
+**************************************************************************/
 void game_map_init(void)
 {
   /* FIXME: it's not clear where these values should be initialized.  It
@@ -463,9 +463,9 @@ void game_map_init(void)
   game.info.coolinglevel = (map_num_tiles() + 499) / 500;
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees all memory of the game.
-***************************************************************/
+**************************************************************************/
 void game_free(void)
 {
   player_slots_free();
@@ -478,10 +478,10 @@ void game_free(void)
   cm_free();
 }
 
-/***************************************************************
+/**********************************************************************//**
   Do all changes to change view, and not full
   game_free()/game_init().
-***************************************************************/
+**************************************************************************/
 void game_reset(void)
 {
   if (is_server()) {
@@ -503,9 +503,9 @@ void game_reset(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Initialize the objects which will read from a ruleset.
-***************************************************************/
+**************************************************************************/
 void game_ruleset_init(void)
 {
   nation_sets_groups_init();
@@ -547,9 +547,9 @@ void game_ruleset_init(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees all memory which in objects which are read from a ruleset.
-***************************************************************/
+**************************************************************************/
 void game_ruleset_free(void)
 {
   int i;
@@ -665,9 +665,9 @@ void game_ruleset_free(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Initialize wonder information.
-***************************************************************/
+**************************************************************************/
 void initialize_globals(void)
 {
   players_iterate(pplayer) {
@@ -685,7 +685,7 @@ void initialize_globals(void)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE if it is this player's phase.
   NB: The meaning of the 'phase' argument must match its use in the
   function begin_turn() in server/srv_main.c.
@@ -714,11 +714,11 @@ bool is_player_phase(const struct player *pplayer, int phase)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return a prettily formatted string containing the population text.  The
   population is passed in as the number of citizens, in unit
   (tens/hundreds/thousands...) defined in cities.ruleset.
-****************************************************************************/
+**************************************************************************/
 const char *population_to_text(int thousand_citizen)
 {
   /* big_int_to_text can't handle negative values, and in any case we'd
@@ -727,7 +727,7 @@ const char *population_to_text(int thousand_citizen)
   return big_int_to_text(thousand_citizen, game.info.pop_report_zeroes - 1);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return a string containing the save year.
 **************************************************************************/
 static char *year_suffix(void)
@@ -757,7 +757,7 @@ static char *year_suffix(void)
   return buf;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Generate a default save file name and place it in the provided buffer.
   Within the name the following custom formats are allowed:
 
@@ -806,7 +806,7 @@ int generate_save_name(const char *format, char *buf, int buflen,
   return strlen(buf);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize user flag.
 **************************************************************************/
 void user_flag_init(struct user_flag *flag)
@@ -815,7 +815,7 @@ void user_flag_init(struct user_flag *flag)
   flag->helptxt = NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free user flag.
 **************************************************************************/
 void user_flag_free(struct user_flag *flag)
@@ -830,9 +830,9 @@ void user_flag_free(struct user_flag *flag)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return timeout value for the current turn.
-****************************************************************************/
+**************************************************************************/
 int current_turn_timeout(void)
 {
   if (game.info.turn == 1 && game.info.first_timeout != -1) {
