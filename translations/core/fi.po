@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-10-02 00:42+0300\n"
+"POT-Creation-Date: 2017-10-11 20:01+0300\n"
 "PO-Revision-Date: 2017-10-02 01:23+0300\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -1118,7 +1118,7 @@ msgstr "Parhaat puolustusyksiköt"
 #: client/gui-gtk-3.22/cityrep.c:1591 client/gui-gtk-3.22/menu.c:293
 #: client/gui-gtk-3.22/menu.c:323 client/gui-gtk-3.22/menu.c:405
 #: client/gui-gtk-3.22/repodlgs.c:1611 client/gui-qt/cityrep.cpp:711
-#: client/gui-qt/menu.cpp:1517 client/gui-qt/pages.cpp:718
+#: client/gui-qt/menu.cpp:1520 client/gui-qt/pages.cpp:718
 #: client/gui-qt/pages.cpp:1265 client/gui-sdl2/helpdlg.c:750
 #: client/gui-sdl2/mapctrl.c:1733 client/gui-sdl2/repodlgs.c:391
 #: client/include/helpdlg_g.h:45 data/helpdata.txt:1055
@@ -1212,7 +1212,7 @@ msgstr "Korruptio"
 #: client/gui-gtk-2.0/repodlgs.c:1049 client/gui-gtk-3.0/menu.c:316
 #: client/gui-gtk-3.0/menu.c:430 client/gui-gtk-3.0/repodlgs.c:1084
 #: client/gui-gtk-3.22/menu.c:315 client/gui-gtk-3.22/menu.c:429
-#: client/gui-gtk-3.22/repodlgs.c:1083 client/gui-qt/menu.cpp:1530
+#: client/gui-gtk-3.22/repodlgs.c:1083 client/gui-qt/menu.cpp:1533
 #: client/gui-qt/pages.cpp:733 client/gui-sdl2/mapctrl.c:1503
 #: client/include/helpdlg_g.h:42 data/helpdata.txt:457
 msgid "Economy"
@@ -1307,7 +1307,7 @@ msgstr "Saa"
 #: data/civ1/terrain.ruleset:884 data/civ2/terrain.ruleset:956
 #: data/classic/terrain.ruleset:1162 data/sandbox/terrain.ruleset:1202
 #: data/experimental/terrain.ruleset:1138 data/civ2civ3/terrain.ruleset:1201
-#: data/alien/terrain.ruleset:761 data/multiplayer/terrain.ruleset:1136
+#: data/alien/terrain.ruleset:762 data/multiplayer/terrain.ruleset:1136
 #: server/report.c:173
 msgid "Pollution"
 msgstr "Saastetta"
@@ -1379,27 +1379,27 @@ msgid "Special"
 msgstr "Erityispiirteet"
 
 #. TRANS: "Announce" is exactly what user must type, do not translate.
-#: client/client_main.c:381 server/civserver.c:345
+#: client/client_main.c:383 server/civserver.c:345
 msgid "Announce PROTO"
 msgstr "Announce PROTOKOLLA"
 
-#: client/client_main.c:382 server/civserver.c:346
+#: client/client_main.c:384 server/civserver.c:346
 msgid "Announce game in LAN using protocol PROTO (IPv4/IPv6/none)"
 msgstr ""
 "Mainosta peliä lähiverkossa (LAN) yhteyskäytännöllä PROTOKOLLA (IPv4/IPv6/"
 "none = ei mikään)"
 
-#: client/client_main.c:385
+#: client/client_main.c:387
 msgid "Skip connect dialog"
 msgstr "Ohita liittymisikkuna"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: client/client_main.c:389 client/client_main.c:396 server/civserver.c:370
+#: client/client_main.c:391 client/client_main.c:398 server/civserver.c:370
 #: server/civserver.c:376
 msgid "debug LEVEL"
 msgstr "debug TASO"
 
-#: client/client_main.c:390 tools/civmanual.c:767 tools/mpcmdline.c:78
+#: client/client_main.c:392 tools/civmanual.c:767 tools/mpcmdline.c:78
 #: server/civserver.c:371
 #, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
@@ -1407,196 +1407,196 @@ msgstr ""
 "Aseta debug-lokitaso (%d..%d tai\n"
 "\t\t\t%d:tiedosto1,min,max:...)"
 
-#: client/client_main.c:397 tools/civmanual.c:773 tools/mpcmdline.c:85
+#: client/client_main.c:399 tools/civmanual.c:773 tools/mpcmdline.c:85
 #: server/civserver.c:377
 #, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "Aseta debug-lokitaso (%d..%d)"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:403 tools/civmanual.c:779 server/civserver.c:382
+#: client/client_main.c:405 tools/civmanual.c:779 server/civserver.c:382
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAALI]"
 
-#: client/client_main.c:404 tools/civmanual.c:780 server/civserver.c:383
+#: client/client_main.c:406 tools/civmanual.c:780 server/civserver.c:383
 msgid "Raise a signal on failed assertion"
 msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
 
 #. TRANS: "file" is exactly what user must type, do not translate.
-#: client/client_main.c:408 server/civserver.c:387
+#: client/client_main.c:410 server/civserver.c:387
 msgid "file FILE"
 msgstr "file TIEDOSTO"
 
-#: client/client_main.c:409 server/civserver.c:388
+#: client/client_main.c:411 server/civserver.c:388
 msgid "Load saved game FILE"
 msgstr "Lataa tallennettu peli tiedostosta TIEDOSTO"
 
-#: client/client_main.c:411 tools/civmanual.c:783 tools/mpcmdline.c:61
+#: client/client_main.c:413 tools/civmanual.c:783 tools/mpcmdline.c:61
 #: tools/ruleup.c:61 server/civserver.c:390
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
-#: client/client_main.c:414
+#: client/client_main.c:416
 msgid "Do not request hack access to local, but not spawned, server"
 msgstr ""
 "Älä yritä saada hack-tason kontrollia paikalliselta, mutta ei "
 "asiakasohjelman itse käynnistämältä, palvelimelta"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:418 tools/civmanual.c:786 server/civserver.c:397
+#: client/client_main.c:420 tools/civmanual.c:786 server/civserver.c:397
 msgid "log FILE"
 msgstr "log TIEDOSTO"
 
-#: client/client_main.c:419
+#: client/client_main.c:421
 msgid "Use FILE as logfile (spawned server also uses this)"
 msgstr "Käytä tiedostoa TIEDOSTO lokia varten (myös synnytetty palvelin)"
 
 #. TRANS: "Meta" is exactly what user must type, do not translate.
-#: client/client_main.c:422
+#: client/client_main.c:424
 msgid "Meta HOST"
 msgstr "Meta HOST"
 
-#: client/client_main.c:423
+#: client/client_main.c:425
 msgid "Connect to the metaserver at HOST"
 msgstr "Yhdistä metapalvelimeen osoitteessa HOST"
 
 #. TRANS: "name" is exactly what user must type, do not translate.
-#: client/client_main.c:426
+#: client/client_main.c:428
 msgid "name NAME"
 msgstr "name NIMI"
 
-#: client/client_main.c:427
+#: client/client_main.c:429
 msgid "Use NAME as username on server"
 msgstr "Käytä nimeä NIMI pelaajanimenä palvelimella"
 
 #. TRANS: "port" is exactly what user must type, do not translate.
-#: client/client_main.c:430 server/civserver.c:416
+#: client/client_main.c:432 server/civserver.c:416
 msgid "port PORT"
 msgstr "port PORTTI"
 
-#: client/client_main.c:431
+#: client/client_main.c:433
 msgid "Connect to server port PORT (usually with -a)"
 msgstr "Yhdistä palvelimen porttiin PORTTI (yleensä -a:lla)"
 
 #. TRANS: "Plugin" is exactly what user must type, do not translate.
-#: client/client_main.c:434
+#: client/client_main.c:436
 msgid "Plugin PLUGIN"
 msgstr "Plugin PLUGIN"
 
-#: client/client_main.c:435
+#: client/client_main.c:437
 #, c-format
 msgid "Use PLUGIN for sound output %s"
 msgstr "Käytä liitännäistä PLUGIN äänentoistoon %s"
 
 #. TRANS: "read" is exactly what user must type, do not translate.
-#: client/client_main.c:439 server/civserver.c:438
+#: client/client_main.c:441 server/civserver.c:438
 msgid "read FILE"
 msgstr "read TIEDOSTO"
 
-#: client/client_main.c:440
+#: client/client_main.c:442
 msgid "Read startup script FILE (for spawned server only)"
 msgstr "Lue käynnistysskripti tiedostosta TIEDOSTO (vain synnytetty palvelin)"
 
 #. TRANS: "server" is exactly what user must type, do not translate.
-#: client/client_main.c:443
+#: client/client_main.c:445
 msgid "server HOST"
 msgstr "server HOST"
 
-#: client/client_main.c:444
+#: client/client_main.c:446
 msgid "Connect to the server at HOST (usually with -a)"
 msgstr "Yhdistä palvelimeen osoitteessa HOST (yleensä -a:lla)"
 
 #. TRANS: "Sound" is exactly what user must type, do not translate.
-#: client/client_main.c:447
+#: client/client_main.c:449
 msgid "Sound FILE"
 msgstr "Sound TIEDOSTO"
 
-#: client/client_main.c:448
+#: client/client_main.c:450
 msgid "Read sound tags from FILE"
 msgstr "Lue äänitiedot tiedostosta TIEDOSTO"
 
 #. TRANS: "music" is exactly what user must type, do not translate.
-#: client/client_main.c:451
+#: client/client_main.c:453
 msgid "music FILE"
 msgstr "music TIEDOSTO"
 
-#: client/client_main.c:452
+#: client/client_main.c:454
 msgid "Read music tags from FILE"
 msgstr "Lue musiikkitiedot tiedostosta TIEDOSTO"
 
 #. TRANS: "tiles" is exactly what user must type, do not translate.
-#: client/client_main.c:455
+#: client/client_main.c:457
 msgid "tiles FILE"
 msgstr "tiles TIEDOSTO"
 
-#: client/client_main.c:456
+#: client/client_main.c:458
 msgid "Use data file FILE.tilespec for tiles"
 msgstr "Käytä tiedostoa TIEDOSTO.tilespec kuvitustyylinä"
 
-#: client/client_main.c:458 tools/civmanual.c:793 tools/mpcmdline.c:89
+#: client/client_main.c:460 tools/civmanual.c:793 tools/mpcmdline.c:89
 #: server/civserver.c:455
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
-#: client/client_main.c:460 server/civserver.c:457
+#: client/client_main.c:462 server/civserver.c:457
 msgid "Warn about deprecated modpack constructs"
 msgstr "Varoita muunnospakettien käyttämistä vanhentuneista ominaisuuksista"
 
-#: client/client_main.c:484 tools/civmanual.c:715 server/civserver.c:219
+#: client/client_main.c:486 tools/civmanual.c:715 server/civserver.c:219
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
 
-#: client/client_main.c:486 client/client_main.c:515 client/client_main.c:529
+#: client/client_main.c:488 client/client_main.c:517 client/client_main.c:531
 #: tools/mpcmdline.c:107
 msgid "Try using --help.\n"
 msgstr "Kokeile parametriä --help.\n"
 
-#: client/client_main.c:513
+#: client/client_main.c:515
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Epäkelpo portti \"%s\" --port-parametrille.\n"
 
-#: client/client_main.c:527 tools/mpcmdline.c:105
+#: client/client_main.c:529 tools/mpcmdline.c:105
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Epäkelpo debug-taso \"%s\" --debug-parametrille.\n"
 
-#: client/client_main.c:546
+#: client/client_main.c:548
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr "Epäkelpo ilmoituskäytäntö \"%s\".\n"
 
-#: client/client_main.c:555 client/gui-sdl2/gui_main.c:200
+#: client/client_main.c:557 client/gui-sdl2/gui_main.c:200
 #: tools/civmanual.c:728 tools/mpcmdline.c:118 tools/ruleup.c:94
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
 #. TRANS: don't translate option names
-#: client/client_main.c:563
+#: client/client_main.c:565
 msgid "-f/--file and -a/--autoconnect options are incompatible\n"
 msgstr "-f/--file ja -a/--autoconnect optioita ei voi käyttää yhdessä\n"
 
-#: client/client_main.c:643
+#: client/client_main.c:645
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "Päivitän vanhan metapalvelimen osoitteen \"%s\"."
 
-#: client/client_main.c:645
+#: client/client_main.c:647
 #, c-format
 msgid "Default metaserver has been set to value \"%s\"."
 msgstr "Oletusmetapalvelin on asetettu arvoon \"%s\"."
 
-#: client/client_main.c:826
+#: client/client_main.c:828
 msgid "Failed to start local server; aborting."
 msgstr "Paikallisen palvelimen käynnistäminen epäonnistui, lopetan."
 
-#: client/client_main.c:833
+#: client/client_main.c:835
 msgid "There was an error while auto connecting; aborting."
 msgstr "Automaattisen liittymisen aikana tapahtui virhe, lopetan."
 
-#: client/client_main.c:919
+#: client/client_main.c:921
 msgid "Game started."
 msgstr "Peli on käynnissä."
 
@@ -1921,8 +1921,8 @@ msgstr ""
 #: client/gui-gtk-3.22/citydlg.c:2916 client/gui-qt/citydlg.cpp:1283
 #: common/unit.c:551 data/civ1/terrain.ruleset:963
 #: data/civ2/terrain.ruleset:1090 data/classic/terrain.ruleset:1366
-#: data/sandbox/terrain.ruleset:1537 data/experimental/terrain.ruleset:1342
-#: data/civ2civ3/terrain.ruleset:1502 data/alien/terrain.ruleset:923
+#: data/sandbox/terrain.ruleset:1538 data/experimental/terrain.ruleset:1342
+#: data/civ2civ3/terrain.ruleset:1502 data/alien/terrain.ruleset:925
 #: data/multiplayer/terrain.ruleset:1340
 msgid "Road"
 msgstr "tie"
@@ -1955,7 +1955,7 @@ msgstr ""
 #: client/gui-gtk-2.0/unitselect.c:95 client/gui-gtk-3.0/editprop.c:672
 #: client/gui-gtk-3.0/menu.c:442 client/gui-gtk-3.0/unitselect.c:95
 #: client/gui-gtk-3.22/editprop.c:672 client/gui-gtk-3.22/menu.c:441
-#: client/gui-gtk-3.22/unitselect.c:95 client/gui-qt/menu.cpp:1173
+#: client/gui-gtk-3.22/unitselect.c:95 client/gui-qt/menu.cpp:1176
 msgid "Unit"
 msgstr "Yksikkö"
 
@@ -2031,27 +2031,27 @@ msgstr ""
 "Pikanäppäin kopiointitilalle: vaihto-c\n"
 "Pikanäppäin liimaustilalle: vaihto-v"
 
-#: client/editor.c:1780
+#: client/editor.c:1779
 msgid "Paint"
 msgstr "Maalaa"
 
-#: client/editor.c:1784
+#: client/editor.c:1783
 msgid "Erase Value"
 msgstr "Poista arvo"
 
-#: client/editor.c:1786
+#: client/editor.c:1785
 msgid "Erase"
 msgstr "Poista"
 
-#: client/editor.c:1790
+#: client/editor.c:1789
 msgid "Copy"
 msgstr "Kopioi"
 
-#: client/editor.c:1793
+#: client/editor.c:1792
 msgid "Paste"
 msgstr "Liitä"
 
-#: client/editor.c:1812
+#: client/editor.c:1811
 msgid ""
 "Toggle erase mode.\n"
 "Shortcut: shift-d"
@@ -2059,7 +2059,7 @@ msgstr ""
 "Aseta poistotila.\n"
 "Pikanäppäin: vaihto-d"
 
-#: client/editor.c:1815
+#: client/editor.c:1814
 msgid ""
 "Toggle copy mode.\n"
 "Shortcut: shift-c"
@@ -2067,7 +2067,7 @@ msgstr ""
 "Aseta kopiointitila.\n"
 "Pikanäppäin: vaihto-c"
 
-#: client/editor.c:1818
+#: client/editor.c:1817
 msgid ""
 "Toggle paste mode.\n"
 "Shortcut: shift-v"
@@ -2075,11 +2075,11 @@ msgstr ""
 "Aseta liittämistila.\n"
 "Pikanäppäin: vaihto-v"
 
-#: client/editor.c:1873
+#: client/editor.c:1872
 msgid "Buffer empty."
 msgstr "Puskuri on tyhjä."
 
-#: client/editor.c:1880
+#: client/editor.c:1879
 #, c-format
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
@@ -2661,7 +2661,7 @@ msgstr "tiede"
 #: client/gui-gtk-3.22/repodlgs.c:1287 client/gui-qt/citydlg.cpp:1823
 #: client/gui-qt/pages.cpp:1271 common/city.c:86 data/civ1/terrain.ruleset:1056
 #: data/civ2/terrain.ruleset:1184 data/classic/terrain.ruleset:1459
-#: data/sandbox/terrain.ruleset:1684 data/experimental/terrain.ruleset:1479
+#: data/sandbox/terrain.ruleset:1685 data/experimental/terrain.ruleset:1479
 #: data/civ2civ3/terrain.ruleset:1645 data/multiplayer/terrain.ruleset:1433
 msgid "Gold"
 msgstr "kultaa"
@@ -3001,7 +3001,7 @@ msgstr "_Näytä"
 #: client/gui-gtk-3.0/menu.c:318 client/gui-gtk-3.0/menu.c:404
 #: client/gui-gtk-3.22/cityrep.c:1146 client/gui-gtk-3.22/menu.c:297
 #: client/gui-gtk-3.22/menu.c:317 client/gui-gtk-3.22/menu.c:403
-#: client/gui-qt/diplodlg.cpp:370 client/gui-qt/menu.cpp:1526
+#: client/gui-qt/diplodlg.cpp:370 client/gui-qt/menu.cpp:1529
 #: client/gui-qt/pages.cpp:721 client/gui-qt/pages.cpp:1259
 #: client/gui-sdl2/diplodlg.c:742 client/include/helpdlg_g.h:43
 #: data/civ1/units.ruleset:26 data/civ2/units.ruleset:31
@@ -3670,7 +3670,7 @@ msgstr "(tuhoutunut)"
 #: client/gui-gtk-2.0/editprop.c:3523 client/gui-gtk-3.0/editprop.c:3567
 #: client/gui-gtk-3.0/menu.c:255 client/gui-gtk-3.22/editprop.c:3567
 #: client/gui-gtk-3.22/menu.c:254 client/gui-qt/cityrep.cpp:480
-#: client/gui-qt/menu.cpp:1018
+#: client/gui-qt/menu.cpp:1021
 msgid "?verb:View"
 msgstr "Näytä"
 
@@ -3928,7 +3928,7 @@ msgstr "Tuotantovaranto"
 #: client/gui-gtk-3.0/editprop.c:4534 client/gui-gtk-3.0/menu.c:330
 #: client/gui-gtk-3.0/menu.c:531 client/gui-gtk-3.22/editprop.c:4533
 #: client/gui-gtk-3.22/menu.c:329 client/gui-gtk-3.22/menu.c:530
-#: client/gui-qt/menu.cpp:612 client/include/helpdlg_g.h:52
+#: client/gui-qt/menu.cpp:615 client/include/helpdlg_g.h:52
 #: data/helpdata.txt:1404
 msgid "Government"
 msgstr "Valtiomuoto"
@@ -4281,7 +4281,7 @@ msgstr "Shift+Enter"
 
 #: client/gui-gtk-2.0/gui_main.c:1347 client/gui-gtk-3.0/gui_main.c:1443
 #: client/gui-gtk-3.0/menu.c:292 client/gui-gtk-3.22/gui_main.c:1457
-#: client/gui-gtk-3.22/menu.c:291 client/gui-qt/menu.cpp:1513
+#: client/gui-gtk-3.22/menu.c:291 client/gui-qt/menu.cpp:1516
 #: client/gui-qt/pages.cpp:712
 msgid "?noun:View"
 msgstr "Näkymä"
@@ -4748,7 +4748,7 @@ msgstr ""
 msgid "Shows your current luxury/science/tax rates; click to toggle them."
 msgstr "Näyttää nykyisen luksus/tutkimus/vero -tasosi, napsauta muuttaaksesi."
 
-#: client/gui-gtk-2.0/mapview.c:688
+#: client/gui-gtk-2.0/mapview.c:689
 msgid "Better fog will only work in truecolor. Disabling it"
 msgstr ""
 "Kaunis näkymän rajoitus toimii vain täysväritilassa. Poistetaan käytöstä."
@@ -4756,7 +4756,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:116 client/gui-gtk-2.0/pages.c:139
 #: client/gui-gtk-3.0/menu.c:563 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:562 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:790 client/gui-qt/menu.cpp:980
+#: client/gui-qt/fc_client.cpp:790 client/gui-qt/menu.cpp:983
 msgid "Set local options"
 msgstr "Muokkaa paikallisia asetuksia"
 
@@ -4767,7 +4767,7 @@ msgid "Game Settings"
 msgstr "Pelin asetukset"
 
 #: client/gui-gtk-2.0/menu.c:208 client/gui-gtk-3.0/menu.c:655
-#: client/gui-gtk-3.22/menu.c:654 client/gui-qt/menu.cpp:3406
+#: client/gui-gtk-3.22/menu.c:654 client/gui-qt/menu.cpp:3409
 msgid "Leaving a local game will end it!"
 msgstr "Jos lähdet paikallispelistä, peli päättyy!"
 
@@ -4922,14 +4922,14 @@ msgstr "Rakennushankkeet"
 
 #: client/gui-gtk-2.0/menu.c:1478 client/gui-gtk-3.0/menu.c:300
 #: client/gui-gtk-3.0/menu.c:322 client/gui-gtk-3.22/menu.c:299
-#: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1538
+#: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1541
 #: client/include/helpdlg_g.h:51 data/helpdata.txt:1033 server/report.c:464
 msgid "Wonders of the World"
 msgstr "Maailman ihmeet"
 
 #: client/gui-gtk-2.0/menu.c:1482 client/gui-gtk-3.0/menu.c:326
 #: client/gui-gtk-3.0/menu.c:444 client/gui-gtk-3.22/menu.c:325
-#: client/gui-gtk-3.22/menu.c:443 client/gui-qt/menu.cpp:1251
+#: client/gui-gtk-3.22/menu.c:443 client/gui-qt/menu.cpp:1254
 #: client/include/helpdlg_g.h:46 data/helpdata.txt:1130
 msgid "Combat"
 msgstr "Taistelu"
@@ -5030,7 +5030,7 @@ msgstr "Kaupunkien ääri_viivat"
 
 # Show food/production/trade on each worked tile
 #: client/gui-gtk-2.0/menu.c:1534 client/gui-gtk-3.0/menu.c:366
-#: client/gui-gtk-3.22/menu.c:365 client/gui-qt/menu.cpp:1072
+#: client/gui-gtk-3.22/menu.c:365 client/gui-qt/menu.cpp:1075
 #: client/gui-qt/shortcuts.cpp:65
 msgid "City Output"
 msgstr "Kaupunkiruutujen tuotanto"
@@ -5044,12 +5044,12 @@ msgid "National _Borders"
 msgstr "Valtioiden ra_jat"
 
 #: client/gui-gtk-2.0/menu.c:1541 client/gui-gtk-3.0/menu.c:372
-#: client/gui-gtk-3.22/menu.c:371 client/gui-qt/menu.cpp:1090
+#: client/gui-gtk-3.22/menu.c:371 client/gui-qt/menu.cpp:1093
 msgid "Native Tiles"
 msgstr "Sallitut ruudut"
 
 #: client/gui-gtk-2.0/menu.c:1544 client/gui-gtk-3.0/menu.c:374
-#: client/gui-gtk-3.22/menu.c:373 client/gui-qt/menu.cpp:1095
+#: client/gui-gtk-3.22/menu.c:373 client/gui-qt/menu.cpp:1098
 msgid "City Full Bar"
 msgstr "Täydellinen kaupunki-info"
 
@@ -5066,7 +5066,7 @@ msgid "City _Production Levels"
 msgstr "Kaupunkien _tuotanto"
 
 #: client/gui-gtk-2.0/menu.c:1553 client/gui-gtk-3.0/menu.c:382
-#: client/gui-gtk-3.22/menu.c:381 client/gui-qt/menu.cpp:1118
+#: client/gui-gtk-3.22/menu.c:381 client/gui-qt/menu.cpp:1121
 msgid "City Buy Cost"
 msgstr "Tuotannon ostohinnat"
 
@@ -5407,7 +5407,7 @@ msgstr "Mene %stä rakentaen"
 #: client/gui-gtk-2.0/menu.c:2465 client/gui-gtk-3.0/menu.c:2412
 #: client/gui-gtk-3.0/menu.c:2486 client/gui-gtk-3.0/menu.c:2514
 #: client/gui-gtk-3.22/menu.c:2411 client/gui-gtk-3.22/menu.c:2485
-#: client/gui-gtk-3.22/menu.c:2513 client/gui-qt/menu.cpp:2075
+#: client/gui-gtk-3.22/menu.c:2513 client/gui-qt/menu.cpp:2078
 #, c-format
 msgid "Build %s"
 msgstr "Rakenna %s"
@@ -5483,7 +5483,7 @@ msgstr "Eri"
 
 #: client/gui-gtk-2.0/messagewin.c:334 client/gui-gtk-3.0/menu.c:304
 #: client/gui-gtk-3.0/messagewin.c:337 client/gui-gtk-3.22/menu.c:303
-#: client/gui-gtk-3.22/messagewin.c:337 client/gui-qt/menu.cpp:984
+#: client/gui-gtk-3.22/messagewin.c:337 client/gui-qt/menu.cpp:987
 #: client/gui-sdl2/messagewin.c:257
 msgid "Messages"
 msgstr "Viestit"
@@ -5937,7 +5937,7 @@ msgstr "Versioyhteensopivuus:"
 
 #: client/gui-gtk-2.0/pages.c:3304 client/gui-gtk-3.0/menu.c:275
 #: client/gui-gtk-3.0/pages.c:3439 client/gui-gtk-3.22/menu.c:274
-#: client/gui-gtk-3.22/pages.c:3437 client/gui-qt/menu.cpp:998
+#: client/gui-gtk-3.22/pages.c:3437 client/gui-qt/menu.cpp:1001
 #: client/gui-sdl2/optiondlg.c:838
 msgid "Save Game"
 msgstr "Tallenna peli"
@@ -6061,7 +6061,7 @@ msgstr "Lopeta näkymän jakaminen"
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:535 client/gui-gtk-3.0/menu.c:432
 #: client/gui-gtk-3.0/repodlgs.c:556 client/gui-gtk-3.22/menu.c:431
-#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1534
+#: client/gui-gtk-3.22/repodlgs.c:554 client/gui-qt/menu.cpp:1537
 #: client/gui-qt/pages.cpp:730 client/gui-sdl2/mapctrl.c:1518
 #: client/gui-sdl2/mapview.c:349 client/gui-sdl2/mapview.c:357
 #: client/gui-sdl2/mapview.c:365 client/gui-sdl2/repodlgs.c:3356
@@ -6076,7 +6076,7 @@ msgstr "Tutkimuskohde nyt"
 #: client/gui-gtk-2.0/repodlgs.c:554 client/gui-gtk-3.0/menu.c:260
 #: client/gui-gtk-3.0/repodlgs.c:576 client/gui-gtk-3.22/cma_fe.c:427
 #: client/gui-gtk-3.22/menu.c:259 client/gui-gtk-3.22/repodlgs.c:575
-#: client/gui-gtk-3.22/wldlg.c:1232 client/gui-qt/menu.cpp:1562
+#: client/gui-gtk-3.22/wldlg.c:1232 client/gui-qt/menu.cpp:1565
 msgid "Help"
 msgstr "Ohje"
 
@@ -6436,7 +6436,7 @@ msgstr "Maailma"
 # *** The three first ones are states, this and a few next are imperative. ***
 #: client/gui-gtk-2.0/unitselect.c:482 client/gui-gtk-3.0/menu.c:474
 #: client/gui-gtk-3.0/unitselect.c:484 client/gui-gtk-3.22/menu.c:473
-#: client/gui-gtk-3.22/unitselect.c:484 client/gui-qt/menu.cpp:1205
+#: client/gui-gtk-3.22/unitselect.c:484 client/gui-qt/menu.cpp:1208
 #: client/gui-qt/shortcuts.cpp:124 common/unit.c:537
 msgid "Sentry"
 msgstr "Vartioi"
@@ -6587,7 +6587,7 @@ msgstr "Ruudun yksiköt:"
 #: client/gui-gtk-3.0/action_dialog.c:1558 client/gui-gtk-3.0/menu.c:441
 #: client/gui-gtk-3.22/action_dialog.c:1552 client/gui-gtk-3.22/menu.c:440
 #: client/gui-qt/cityrep.cpp:538 client/gui-qt/hudwidget.cpp:1368
-#: client/gui-qt/menu.cpp:1130
+#: client/gui-qt/menu.cpp:1133
 msgid "Select"
 msgstr "Valitse"
 
@@ -6620,7 +6620,7 @@ msgstr "Poista pyyntö"
 #: client/gui-qt/citydlg.cpp:1282 data/civ1/terrain.ruleset:868
 #: data/civ2/terrain.ruleset:940 data/classic/terrain.ruleset:1122
 #: data/sandbox/terrain.ruleset:1136 data/experimental/terrain.ruleset:1098
-#: data/civ2civ3/terrain.ruleset:1135 data/alien/terrain.ruleset:745
+#: data/civ2civ3/terrain.ruleset:1135 data/alien/terrain.ruleset:746
 #: data/multiplayer/terrain.ruleset:1096
 msgid "Mine"
 msgstr "kaivos"
@@ -6674,12 +6674,12 @@ msgid "Additional information is available%svia left click on the citizens."
 msgstr "Lisätietoa saa napauttamalla asukkaita%shiiren vasemmalla napilla."
 
 #: client/gui-gtk-3.0/menu.c:252 client/gui-gtk-3.22/menu.c:251
-#: client/gui-qt/menu.cpp:977
+#: client/gui-qt/menu.cpp:980
 msgid "Game"
 msgstr "Peli"
 
 #: client/gui-gtk-3.0/menu.c:253 client/gui-gtk-3.22/menu.c:252
-#: client/gui-qt/citydlg.cpp:2526 client/gui-qt/menu.cpp:979
+#: client/gui-qt/citydlg.cpp:2526 client/gui-qt/menu.cpp:982
 #: client/gui-qt/pages.cpp:199 client/gui-sdl2/mapctrl.c:1769
 #: client/gui-sdl2/optiondlg.c:775 client/gui-sdl2/optiondlg.c:1355
 #: client/gui-sdl2/pages.c:264
@@ -6687,7 +6687,7 @@ msgid "Options"
 msgstr "Valinnat"
 
 #: client/gui-gtk-3.0/menu.c:258 client/gui-gtk-3.22/menu.c:257
-#: client/gui-qt/menu.cpp:1499
+#: client/gui-qt/menu.cpp:1502
 msgid "Civilization"
 msgstr "Kansakunta"
 
@@ -6712,7 +6712,7 @@ msgid "Remote Server"
 msgstr "Etäpalvelimen asetukset"
 
 #: client/gui-gtk-3.0/menu.c:271 client/gui-gtk-3.22/menu.c:270
-#: client/gui-qt/menu.cpp:990
+#: client/gui-qt/menu.cpp:993
 msgid "Save Options Now"
 msgstr "Tallenna asetukset nyt"
 
@@ -6721,7 +6721,7 @@ msgid "Reload Tileset"
 msgstr "Lataa kuvitus uudelleen"
 
 #: client/gui-gtk-3.0/menu.c:277 client/gui-gtk-3.22/menu.c:276
-#: client/gui-qt/menu.cpp:1003 client/gui-qt/menu.cpp:3390
+#: client/gui-qt/menu.cpp:1006 client/gui-qt/menu.cpp:3393
 msgid "Save Game As..."
 msgstr "Tallenna peli nimellä..."
 
@@ -6734,7 +6734,7 @@ msgid "Leave"
 msgstr "Poistu"
 
 #: client/gui-gtk-3.0/menu.c:284 client/gui-gtk-3.22/menu.c:283
-#: client/gui-qt/menu.cpp:1013 client/gui-qt/pages.cpp:199
+#: client/gui-qt/menu.cpp:1016 client/gui-qt/pages.cpp:199
 #: client/gui-sdl2/optiondlg.c:870 client/gui-sdl2/pages.c:279
 msgid "Quit"
 msgstr "Lopeta"
@@ -6749,17 +6749,17 @@ msgid "Client Lua Script"
 msgstr "Asiakasohjelman Lua-skripti"
 
 #: client/gui-gtk-3.0/menu.c:302 client/gui-gtk-3.22/menu.c:301
-#: client/gui-qt/menu.cpp:1542
+#: client/gui-qt/menu.cpp:1545
 msgid "Top Five Cities"
 msgstr "Viisi parasta kaupunkia"
 
 #: client/gui-gtk-3.0/menu.c:306 client/gui-gtk-3.22/menu.c:305
-#: client/gui-qt/menu.cpp:1546
+#: client/gui-qt/menu.cpp:1549
 msgid "Demographics"
 msgstr "Tilastotietoja"
 
 #: client/gui-gtk-3.0/menu.c:360 client/gui-gtk-3.22/menu.c:359
-#: client/gui-qt/menu.cpp:993
+#: client/gui-qt/menu.cpp:996
 msgid "Save Options on Exit"
 msgstr "Tallenna asetukset lopetettaessa"
 
@@ -6768,39 +6768,39 @@ msgid "Editing Mode"
 msgstr "Muokkaustila"
 
 #: client/gui-gtk-3.0/menu.c:364 client/gui-gtk-3.22/menu.c:363
-#: client/gui-qt/menu.cpp:1068
+#: client/gui-qt/menu.cpp:1071
 msgid "City Outlines"
 msgstr "Kaupunkien ääriviivat"
 
 #: client/gui-gtk-3.0/menu.c:368 client/gui-gtk-3.22/menu.c:367
-#: client/gui-qt/menu.cpp:1078 client/gui-qt/shortcuts.cpp:67
+#: client/gui-qt/menu.cpp:1081 client/gui-qt/shortcuts.cpp:67
 msgid "Map Grid"
 msgstr "Koordinaatisto"
 
 #: client/gui-gtk-3.0/menu.c:370 client/gui-gtk-3.22/menu.c:369
-#: client/gui-qt/menu.cpp:1084 client/gui-qt/shortcuts.cpp:69
+#: client/gui-qt/menu.cpp:1087 client/gui-qt/shortcuts.cpp:69
 msgid "National Borders"
 msgstr "Valtioiden rajat"
 
 #: client/gui-gtk-3.0/menu.c:376 client/gui-gtk-3.22/menu.c:375
-#: client/gui-qt/menu.cpp:1101 client/gui-qt/shortcuts.cpp:99
+#: client/gui-qt/menu.cpp:1104 client/gui-qt/shortcuts.cpp:99
 #: client/options.c:2573 client/options.c:2794 client/options.c:3015
 #: client/options.c:3149
 msgid "City Names"
 msgstr "Kaupunkien nimet"
 
 #: client/gui-gtk-3.0/menu.c:378 client/gui-gtk-3.22/menu.c:377
-#: client/gui-qt/menu.cpp:1107
+#: client/gui-qt/menu.cpp:1110
 msgid "City Growth"
 msgstr "Kaupungin kasvu"
 
 #: client/gui-gtk-3.0/menu.c:380 client/gui-gtk-3.22/menu.c:379
-#: client/gui-qt/menu.cpp:1112 client/gui-qt/shortcuts.cpp:97
+#: client/gui-qt/menu.cpp:1115 client/gui-qt/shortcuts.cpp:97
 msgid "City Production Levels"
 msgstr "Kaupunkien tuotanto"
 
 #: client/gui-gtk-3.0/menu.c:384 client/gui-gtk-3.22/menu.c:383
-#: client/gui-qt/menu.cpp:1122 client/gui-qt/shortcuts.cpp:95
+#: client/gui-qt/menu.cpp:1125 client/gui-qt/shortcuts.cpp:95
 msgid "City Traderoutes"
 msgstr "Kaupunkien kauppareitit"
 
@@ -6816,8 +6816,7 @@ msgstr "Kulkureitit"
 #: data/civ1/terrain.ruleset:852 data/civ2/terrain.ruleset:923
 #: data/classic/terrain.ruleset:1105 data/sandbox/terrain.ruleset:1119
 #: data/experimental/terrain.ruleset:1081 data/civ2civ3/terrain.ruleset:1118
-#: data/alien/terrain.ruleset:719 data/multiplayer/terrain.ruleset:1079
-#: tools/civmanual.c:388
+#: data/multiplayer/terrain.ruleset:1079 tools/civmanual.c:388
 msgid "Irrigation"
 msgstr "kasteluverkosto"
 
@@ -6827,9 +6826,9 @@ msgstr "Kaivokset"
 
 #: client/gui-gtk-3.0/menu.c:398 client/gui-gtk-3.22/menu.c:397
 #: data/civ1/terrain.ruleset:1160 data/civ2/terrain.ruleset:1353
-#: data/classic/terrain.ruleset:1628 data/sandbox/terrain.ruleset:1853
+#: data/classic/terrain.ruleset:1628 data/sandbox/terrain.ruleset:1854
 #: data/experimental/terrain.ruleset:1648 data/civ2civ3/terrain.ruleset:1814
-#: data/alien/terrain.ruleset:1117 data/multiplayer/terrain.ruleset:1602
+#: data/alien/terrain.ruleset:1119 data/multiplayer/terrain.ruleset:1602
 #: tools/civmanual.c:385
 msgid "Resources"
 msgstr "luonnonvaroja"
@@ -6851,7 +6850,7 @@ msgid "Fog of War"
 msgstr "Näkymättömän alueen hämärrys"
 
 #: client/gui-gtk-3.0/menu.c:416 client/gui-gtk-3.22/menu.c:415
-#: client/gui-qt/menu.cpp:1024 client/gui-qt/shortcuts.cpp:61
+#: client/gui-qt/menu.cpp:1027 client/gui-qt/shortcuts.cpp:61
 #: client/options.c:2378 client/options.c:2592 client/options.c:2813
 #: client/options.c:3045 client/options.c:3067
 msgid "Fullscreen"
@@ -6866,27 +6865,27 @@ msgid "Toggle Fog of War"
 msgstr "Näkymättömän alueen hämärrys päälle/pois"
 
 #: client/gui-gtk-3.0/menu.c:428 client/gui-gtk-3.22/menu.c:427
-#: client/gui-qt/menu.cpp:1019 client/gui-qt/shortcuts.cpp:59
+#: client/gui-qt/menu.cpp:1022 client/gui-qt/shortcuts.cpp:59
 msgid "Center View"
 msgstr "Keskitä näkymä"
 
 #: client/gui-gtk-3.0/menu.c:434 client/gui-gtk-3.22/menu.c:433
-#: client/gui-qt/menu.cpp:1505
+#: client/gui-qt/menu.cpp:1508
 msgid "Policies..."
 msgstr "Linjaukset..."
 
 #: client/gui-gtk-3.0/menu.c:436 client/gui-gtk-3.22/menu.c:435
-#: client/gui-qt/menu.cpp:1550
+#: client/gui-qt/menu.cpp:1553
 msgid "Spaceship"
 msgstr "Avaruusalus"
 
 #: client/gui-gtk-3.0/menu.c:438 client/gui-gtk-3.22/menu.c:437
-#: client/gui-qt/menu.cpp:1554 common/events.c:150
+#: client/gui-qt/menu.cpp:1557 common/events.c:150
 msgid "Achievements"
 msgstr "Saavutukset"
 
 #: client/gui-gtk-3.0/menu.c:443 client/gui-gtk-3.22/menu.c:442
-#: client/gui-qt/menu.cpp:1283
+#: client/gui-qt/menu.cpp:1286
 msgid "Work"
 msgstr "Työt"
 
@@ -6899,27 +6898,27 @@ msgid "Build Path"
 msgstr "Rakenna kulkureitti"
 
 #: client/gui-gtk-3.0/menu.c:447 client/gui-gtk-3.22/menu.c:446
-#: client/gui-qt/menu.cpp:1131
+#: client/gui-qt/menu.cpp:1134
 msgid "Single Unit (Unselect Others)"
 msgstr "Vain yksi yksikkö"
 
 #: client/gui-gtk-3.0/menu.c:449 client/gui-gtk-3.22/menu.c:448
-#: client/gui-qt/menu.cpp:1135
+#: client/gui-qt/menu.cpp:1138
 msgid "All On Tile"
 msgstr "Kaikki ruudusta"
 
 #: client/gui-gtk-3.0/menu.c:451 client/gui-gtk-3.22/menu.c:450
-#: client/gui-qt/menu.cpp:1140
+#: client/gui-qt/menu.cpp:1143
 msgid "Same Type on Tile"
 msgstr "Saman tyyppiset ruudusta"
 
 #: client/gui-gtk-3.0/menu.c:453 client/gui-gtk-3.22/menu.c:452
-#: client/gui-qt/menu.cpp:1144
+#: client/gui-qt/menu.cpp:1147
 msgid "Same Type on Continent"
 msgstr "Saman tyyppiset mantereelta"
 
 #: client/gui-gtk-3.0/menu.c:455 client/gui-gtk-3.22/menu.c:454
-#: client/gui-qt/menu.cpp:1149
+#: client/gui-qt/menu.cpp:1152
 msgid "Same Type Everywhere"
 msgstr "Saman tyyppiset kaikkialta"
 
@@ -6928,14 +6927,14 @@ msgid "Unit Selection Dialog"
 msgstr "Avaa yksiköiden valitsemisikkuna"
 
 #: client/gui-gtk-3.0/menu.c:459 client/gui-gtk-3.22/action_dialog.c:1959
-#: client/gui-gtk-3.22/menu.c:458 client/gui-qt/menu.cpp:1155
+#: client/gui-gtk-3.22/menu.c:458 client/gui-qt/menu.cpp:1158
 #: client/gui-qt/shortcuts.cpp:130 client/gui-sdl2/action_dialog.c:1757
 #: client/gui-sdl2/menu.c:417
 msgid "Wait"
 msgstr "Odota"
 
 #: client/gui-gtk-3.0/menu.c:461 client/gui-gtk-3.22/menu.c:460
-#: client/gui-qt/menu.cpp:1160
+#: client/gui-qt/menu.cpp:1163
 msgid "Done"
 msgstr "Valmis"
 
@@ -6944,7 +6943,7 @@ msgid "Go to"
 msgstr "Mene"
 
 #: client/gui-gtk-3.0/menu.c:465 client/gui-gtk-3.22/menu.c:464
-#: client/gui-qt/menu.cpp:743
+#: client/gui-qt/menu.cpp:746
 #, fuzzy
 #| msgid "Goto and Close"
 msgid "Go to and..."
@@ -6960,38 +6959,38 @@ msgid "Return to Nearest City"
 msgstr "Palaa lähimpään kaupunkiin"
 
 #: client/gui-gtk-3.0/menu.c:470 client/gui-gtk-3.22/menu.c:469
-#: client/gui-qt/menu.cpp:1193 client/gui-qt/shortcuts.cpp:105
+#: client/gui-qt/menu.cpp:1196 client/gui-qt/shortcuts.cpp:105
 #: client/gui-sdl2/menu.c:608
 msgid "Auto Explore"
 msgstr "Kartoita automaattisesti"
 
 #: client/gui-gtk-3.0/menu.c:472 client/gui-gtk-3.22/menu.c:471
-#: client/gui-qt/menu.cpp:1198 client/gui-qt/shortcuts.cpp:107
+#: client/gui-qt/menu.cpp:1201 client/gui-qt/shortcuts.cpp:107
 #: client/gui-sdl2/menu.c:544
 msgid "Patrol"
 msgstr "Partioi"
 
 #: client/gui-gtk-3.0/menu.c:476 client/gui-gtk-3.22/menu.c:475
-#: client/gui-qt/menu.cpp:1210 client/gui-qt/shortcuts.cpp:109
+#: client/gui-qt/menu.cpp:1213 client/gui-qt/shortcuts.cpp:109
 #: client/gui-sdl2/menu.c:635
 msgid "Unsentry All On Tile"
 msgstr "Herätä kaikki vartioivat yksiköt ruudusta"
 
 #: client/gui-gtk-3.0/menu.c:478 client/gui-gtk-3.0/transportdlg.c:116
 #: client/gui-gtk-3.22/menu.c:477 client/gui-gtk-3.22/transportdlg.c:116
-#: client/gui-qt/citydlg.cpp:794 client/gui-qt/menu.cpp:1216
+#: client/gui-qt/citydlg.cpp:794 client/gui-qt/menu.cpp:1219
 #: client/gui-qt/pages.cpp:532 client/gui-qt/shortcuts.cpp:136
 msgid "Load"
 msgstr "Lastaa"
 
 #: client/gui-gtk-3.0/menu.c:480 client/gui-gtk-3.22/menu.c:479
-#: client/gui-qt/citydlg.cpp:801 client/gui-qt/menu.cpp:1221
+#: client/gui-qt/citydlg.cpp:801 client/gui-qt/menu.cpp:1224
 #: client/gui-qt/shortcuts.cpp:138
 msgid "Unload"
 msgstr "Pura lasti"
 
 #: client/gui-gtk-3.0/menu.c:482 client/gui-gtk-3.22/menu.c:481
-#: client/gui-qt/citydlg.cpp:808 client/gui-qt/menu.cpp:1226
+#: client/gui-qt/citydlg.cpp:808 client/gui-qt/menu.cpp:1229
 #: client/gui-sdl2/menu.c:648
 msgid "Unload All From Transporter"
 msgstr "Pura kuljetusalus"
@@ -7003,19 +7002,19 @@ msgstr "Tee tästä uusi kotikaupunki"
 
 #: client/gui-gtk-3.0/menu.c:486 client/gui-gtk-3.0/menu.c:2439
 #: client/gui-gtk-3.22/menu.c:485 client/gui-gtk-3.22/menu.c:2438
-#: client/gui-qt/menu.cpp:1236 client/gui-qt/shortcuts.cpp:112
+#: client/gui-qt/menu.cpp:1239 client/gui-qt/shortcuts.cpp:112
 #: client/gui-sdl2/dialogs.c:725
 msgid "Upgrade"
 msgstr "Ajanmukaista"
 
 #: client/gui-gtk-3.0/menu.c:488 client/gui-gtk-3.0/menu.c:2459
 #: client/gui-gtk-3.22/menu.c:487 client/gui-gtk-3.22/menu.c:2458
-#: client/gui-qt/menu.cpp:1241 common/unit.c:553
+#: client/gui-qt/menu.cpp:1244 common/unit.c:553
 msgid "Convert"
 msgstr "Muunna yksikkö"
 
 #: client/gui-gtk-3.0/menu.c:490 client/gui-gtk-3.22/menu.c:489
-#: client/gui-qt/menu.cpp:1245 client/gui-qt/repodlgs.cpp:1202
+#: client/gui-qt/menu.cpp:1248 client/gui-qt/repodlgs.cpp:1202
 #: client/gui-sdl2/dialogs.c:921
 msgid "Disband"
 msgstr "Lakkauta"
@@ -7030,14 +7029,14 @@ msgid "Go to and Build city"
 msgstr "Mene ja Perusta kaupunki"
 
 #: client/gui-gtk-3.0/menu.c:498 client/gui-gtk-3.22/menu.c:497
-#: client/gui-qt/menu.cpp:1297 client/gui-qt/menu.cpp:2153
+#: client/gui-qt/menu.cpp:1300 client/gui-qt/menu.cpp:2156
 #: client/gui-sdl2/menu.c:620 client/gui-sdl2/menu.c:1319
 msgid "Auto Settler"
 msgstr "Automatisoi uudisraivaaja"
 
 #: client/gui-gtk-3.0/menu.c:500 client/gui-gtk-3.0/menu.c:2417
 #: client/gui-gtk-3.22/menu.c:499 client/gui-gtk-3.22/menu.c:2416
-#: client/gui-qt/menu.cpp:1303 client/gui-qt/shortcuts.cpp:120
+#: client/gui-qt/menu.cpp:1306 client/gui-qt/shortcuts.cpp:120
 msgid "Build Road"
 msgstr "Rakenna tie"
 
@@ -7045,8 +7044,8 @@ msgstr "Rakenna tie"
 #: client/gui-gtk-3.0/menu.c:2492 client/gui-gtk-3.0/menu.c:2532
 #: client/gui-gtk-3.22/menu.c:501 client/gui-gtk-3.22/menu.c:2488
 #: client/gui-gtk-3.22/menu.c:2491 client/gui-gtk-3.22/menu.c:2531
-#: client/gui-qt/menu.cpp:1308 client/gui-qt/menu.cpp:2015
-#: client/gui-qt/menu.cpp:2018 client/gui-qt/shortcuts.cpp:118
+#: client/gui-qt/menu.cpp:1311 client/gui-qt/menu.cpp:2018
+#: client/gui-qt/menu.cpp:2021 client/gui-qt/shortcuts.cpp:118
 #: client/gui-sdl2/menu.c:823 client/gui-sdl2/menu.c:1177
 msgid "Build Irrigation"
 msgstr "Rakenna kasteluverkosto"
@@ -7055,14 +7054,14 @@ msgstr "Rakenna kasteluverkosto"
 #: client/gui-gtk-3.0/menu.c:2520 client/gui-gtk-3.0/menu.c:2533
 #: client/gui-gtk-3.22/menu.c:503 client/gui-gtk-3.22/menu.c:2516
 #: client/gui-gtk-3.22/menu.c:2519 client/gui-gtk-3.22/menu.c:2532
-#: client/gui-qt/menu.cpp:1313 client/gui-qt/menu.cpp:1975
-#: client/gui-qt/menu.cpp:1978 client/gui-qt/shortcuts.cpp:116
+#: client/gui-qt/menu.cpp:1316 client/gui-qt/menu.cpp:1978
+#: client/gui-qt/menu.cpp:1981 client/gui-qt/shortcuts.cpp:116
 #: client/gui-sdl2/menu.c:809 client/gui-sdl2/menu.c:1212
 msgid "Build Mine"
 msgstr "Louhi kaivos"
 
 #: client/gui-gtk-3.0/menu.c:506 client/gui-gtk-3.22/menu.c:505
-#: client/gui-qt/menu.cpp:1319
+#: client/gui-qt/menu.cpp:1322
 msgid "Connect With Road"
 msgstr "Mene tietä rakentaen"
 
@@ -7071,38 +7070,38 @@ msgid "Connect With Rail"
 msgstr "Mene rautatietä rakentaen"
 
 #: client/gui-gtk-3.0/menu.c:510 client/gui-gtk-3.22/menu.c:509
-#: client/gui-qt/menu.cpp:1327 client/gui-sdl2/menu.c:556
+#: client/gui-qt/menu.cpp:1330 client/gui-sdl2/menu.c:556
 msgid "Connect With Irrigation"
 msgstr "Mene kasteluverkostoa rakentaen"
 
 #: client/gui-gtk-3.0/menu.c:512 client/gui-gtk-3.0/menu.c:2529
 #: client/gui-gtk-3.0/menu.c:2534 client/gui-gtk-3.22/menu.c:511
 #: client/gui-gtk-3.22/menu.c:2528 client/gui-gtk-3.22/menu.c:2533
-#: client/gui-qt/menu.cpp:1332 client/gui-qt/menu.cpp:2041
+#: client/gui-qt/menu.cpp:1335 client/gui-qt/menu.cpp:2044
 msgid "Transform Terrain"
 msgstr "Muokkaa maastoa"
 
 #: client/gui-gtk-3.0/menu.c:514 client/gui-gtk-3.0/menu.c:2545
 #: client/gui-gtk-3.22/menu.c:513 client/gui-gtk-3.22/menu.c:2544
-#: client/gui-qt/menu.cpp:1337 client/gui-qt/menu.cpp:2114
+#: client/gui-qt/menu.cpp:1340 client/gui-qt/menu.cpp:2117
 #: client/gui-sdl2/menu.c:748
 msgid "Clean Pollution"
 msgstr "Siivoa saasteita"
 
 #: client/gui-gtk-3.0/menu.c:516 client/gui-gtk-3.22/menu.c:515
-#: client/gui-qt/menu.cpp:1342 client/gui-sdl2/menu.c:723
+#: client/gui-qt/menu.cpp:1345 client/gui-sdl2/menu.c:723
 msgid "Clean Nuclear Fallout"
 msgstr "Puhdista ydinlaskeumaa"
 
 #: client/gui-gtk-3.0/menu.c:524 client/gui-gtk-3.22/menu.c:523
-#: client/gui-qt/menu.cpp:1266 client/gui-sdl2/menu.c:698 common/unit.c:539
+#: client/gui-qt/menu.cpp:1269 client/gui-sdl2/menu.c:698 common/unit.c:539
 msgid "Pillage"
 msgstr "Turmele"
 
 #. TRANS: Menu item to bring up the action selection dialog.
 #. TRANS: Button to bring up the action selection dialog.
 #: client/gui-gtk-3.0/menu.c:526 client/gui-gtk-3.22/menu.c:525
-#: client/gui-qt/menu.cpp:1271 client/gui-qt/shortcuts.cpp:110
+#: client/gui-qt/menu.cpp:1274 client/gui-qt/shortcuts.cpp:110
 #: client/gui-sdl2/menu.c:444
 msgid "Do..."
 msgstr "Toimi..."
@@ -7369,11 +7368,11 @@ msgstr "Automaattityöläisen toiminto:"
 msgid "Click to change city name"
 msgstr "Napsauta muuttaaksesi kaupungin nimeä."
 
-#: client/gui-qt/citydlg.cpp:1491 client/gui-qt/menu.cpp:1055
+#: client/gui-qt/citydlg.cpp:1491 client/gui-qt/menu.cpp:1058
 msgid "Zoom in"
 msgstr "Katso lähempää"
 
-#: client/gui-qt/citydlg.cpp:1497 client/gui-qt/menu.cpp:1063
+#: client/gui-qt/citydlg.cpp:1497 client/gui-qt/menu.cpp:1066
 msgid "Zoom out"
 msgstr "Katso kauempaa"
 
@@ -7665,7 +7664,7 @@ msgstr "Älä tee mitään"
 msgid "Steal"
 msgstr "Varasta"
 
-#: client/gui-qt/dialogs.cpp:2883 client/gui-qt/menu.cpp:1406
+#: client/gui-qt/dialogs.cpp:2883 client/gui-qt/menu.cpp:1409
 #: common/events.c:125 common/events.c:135
 msgid "Sabotage"
 msgstr "Sabotaasi"
@@ -7715,16 +7714,16 @@ msgid "Tileset error"
 msgstr "Kuvitusvirhe"
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/dialogs.cpp:3558
+#: client/gui-qt/dialogs.cpp:3560
 msgid "MP:"
 msgstr "LP:"
 
 #. TRANS: HP - hit points
-#: client/gui-qt/dialogs.cpp:3656
+#: client/gui-qt/dialogs.cpp:3658
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:3660 client/gui-qt/hudwidget.cpp:1455
+#: client/gui-qt/dialogs.cpp:3662 client/gui-qt/hudwidget.cpp:1455
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
@@ -8081,250 +8080,250 @@ msgid_plural "City %s - %d free trade routes."
 msgstr[0] "%s - 1 vapaa kauppareitti."
 msgstr[1] "%s - %d vapaata kauppareittiä."
 
-#: client/gui-qt/menu.cpp:649
+#: client/gui-qt/menu.cpp:652
 msgid "Revolution..."
 msgstr "Vallankumous..."
 
-#: client/gui-qt/menu.cpp:982
+#: client/gui-qt/menu.cpp:985
 msgid "Server Options"
 msgstr "Palvelimen asetukset"
 
-#: client/gui-qt/menu.cpp:986
+#: client/gui-qt/menu.cpp:989
 msgid "Shortcuts"
 msgstr "Pikavalinnat"
 
-#: client/gui-qt/menu.cpp:988
+#: client/gui-qt/menu.cpp:991
 msgid "Load another tileset"
 msgstr "Lataa toinen kuvitus"
 
-#: client/gui-qt/menu.cpp:1007
+#: client/gui-qt/menu.cpp:1010
 msgid "Save Map to Image"
 msgstr "Tallenna kartta kuvaksi"
 
-#: client/gui-qt/menu.cpp:1010
+#: client/gui-qt/menu.cpp:1013
 msgid "Leave game"
 msgstr "Poistu pelistä"
 
-#: client/gui-qt/menu.cpp:1031
+#: client/gui-qt/menu.cpp:1034
 msgid "Minimap"
 msgstr "Minikartta"
 
-#: client/gui-qt/menu.cpp:1038
+#: client/gui-qt/menu.cpp:1041
 msgid "Show new turn information"
 msgstr "Näytä uuden kierroksen tiedot"
 
-#: client/gui-qt/menu.cpp:1043
+#: client/gui-qt/menu.cpp:1046
 msgid "Show combat detailed information"
 msgstr "Näytä yksityiskohtaiset taistelutiedot"
 
-#: client/gui-qt/menu.cpp:1047
+#: client/gui-qt/menu.cpp:1050
 msgid "Lock interface"
 msgstr "Lukitse käyttöliittymä"
 
-#: client/gui-qt/menu.cpp:1059
+#: client/gui-qt/menu.cpp:1062
 msgid "Zoom default"
 msgstr "Oletuszoomauskerroin"
 
-#: client/gui-qt/menu.cpp:1166
+#: client/gui-qt/menu.cpp:1169
 msgid "Advanced unit selection"
 msgstr "Edistynyt yksikönvalinta"
 
-#: client/gui-qt/menu.cpp:1174 client/gui-qt/shortcuts.cpp:128
+#: client/gui-qt/menu.cpp:1177 client/gui-qt/shortcuts.cpp:128
 #: client/gui-sdl2/menu.c:532
 msgid "Go to Tile"
 msgstr "Mene ruutuun"
 
-#: client/gui-qt/menu.cpp:1183
+#: client/gui-qt/menu.cpp:1186
 msgid "Go to Nearest City"
 msgstr "Palaa lähimpään kaupunkiin"
 
-#: client/gui-qt/menu.cpp:1187 client/gui-qt/shortcuts.cpp:103
+#: client/gui-qt/menu.cpp:1190 client/gui-qt/shortcuts.cpp:103
 msgid "Go to/Airlift to City..."
 msgstr "Mene/Lennätä kaupunkiin..."
 
-#: client/gui-qt/menu.cpp:1252 client/gui-sdl2/menu.c:772
+#: client/gui-qt/menu.cpp:1255 client/gui-sdl2/menu.c:772
 msgid "Fortify Unit"
 msgstr "Linnoittaudu"
 
-#: client/gui-qt/menu.cpp:1289
+#: client/gui-qt/menu.cpp:1292
 msgid "Go And Build City"
 msgstr "Mene ja Perusta kaupunki"
 
-#: client/gui-qt/menu.cpp:1293
+#: client/gui-qt/menu.cpp:1296
 msgid "Go And Join City"
 msgstr "Mene ja liity kaupunkiin"
 
-#: client/gui-qt/menu.cpp:1323
+#: client/gui-qt/menu.cpp:1326
 msgid "Connect With Railroad"
 msgstr "Mene rautatietä rakentaen"
 
-#: client/gui-qt/menu.cpp:1355
+#: client/gui-qt/menu.cpp:1358
 msgid "Multiplayer"
 msgstr "Moninpeli"
 
-#: client/gui-qt/menu.cpp:1356
+#: client/gui-qt/menu.cpp:1359
 msgid "Delayed Goto"
 msgstr "Viivästetty meno"
 
-#: client/gui-qt/menu.cpp:1359
+#: client/gui-qt/menu.cpp:1362
 msgid "Delayed Orders Execute"
 msgstr "Suorita viivästetyt käskyt"
 
-#: client/gui-qt/menu.cpp:1362
+#: client/gui-qt/menu.cpp:1365
 msgid "Clear Orders"
 msgstr "Poista käskyt"
 
-#: client/gui-qt/menu.cpp:1365
+#: client/gui-qt/menu.cpp:1368
 msgid "Add all cities to trade planning"
 msgstr "Lisää kaikki kaupungit kauppareittisuunnitteluun"
 
-#: client/gui-qt/menu.cpp:1367
+#: client/gui-qt/menu.cpp:1370
 msgid "Calculate trade planning"
 msgstr "Tee kauppareittisuunnittelu"
 
-#: client/gui-qt/menu.cpp:1369
+#: client/gui-qt/menu.cpp:1372
 msgid "Add/Remove City"
 msgstr "Lisää tai poista kaupunki"
 
-#: client/gui-qt/menu.cpp:1372
+#: client/gui-qt/menu.cpp:1375
 msgid "Clear Trade Planning"
 msgstr "Tyhjää kauppareittisuunnittelu"
 
-#: client/gui-qt/menu.cpp:1374
+#: client/gui-qt/menu.cpp:1377
 msgid "Automatic caravan"
 msgstr "Automaattinen kauppareitin perustaja"
 
-#: client/gui-qt/menu.cpp:1378
+#: client/gui-qt/menu.cpp:1381
 msgid "Set/Unset rally point"
 msgstr "Aseta tai poista valmistuvien yksiköiden kohderuutu"
 
-#: client/gui-qt/menu.cpp:1381
+#: client/gui-qt/menu.cpp:1384
 msgid "Quick Airlift"
 msgstr "Pikalennätys"
 
-#: client/gui-qt/menu.cpp:1385
+#: client/gui-qt/menu.cpp:1388
 msgid "Unit type for quickairlifting"
 msgstr "Yksikkötyyppi pikalennätettäväksi"
 
-#: client/gui-qt/menu.cpp:1390
+#: client/gui-qt/menu.cpp:1393
 msgid "Default action vs unit"
 msgstr "Oletustoiminto yksikköjä kohtaan"
 
-#: client/gui-qt/menu.cpp:1392 client/gui-qt/menu.cpp:1421
+#: client/gui-qt/menu.cpp:1395 client/gui-qt/menu.cpp:1424
 msgid "Ask"
 msgstr "Kysy"
 
-#: client/gui-qt/menu.cpp:1399 common/events.c:118 common/events.c:130
+#: client/gui-qt/menu.cpp:1402 common/events.c:118 common/events.c:130
 msgid "Bribe"
 msgstr "Lahjus"
 
-#: client/gui-qt/menu.cpp:1413
+#: client/gui-qt/menu.cpp:1416
 #, fuzzy
 #| msgid "Sabotage Unit"
 msgid "Sabotage Unit Escape"
 msgstr "Sabotoi yksikkö"
 
-#: client/gui-qt/menu.cpp:1420
+#: client/gui-qt/menu.cpp:1423
 msgid "Default action vs city"
 msgstr "Oletustoiminto kaupunkeja kohtaan"
 
-#: client/gui-qt/menu.cpp:1428
+#: client/gui-qt/menu.cpp:1431
 msgid "Investigate city"
 msgstr "Tutki kaupunkia"
 
-#: client/gui-qt/menu.cpp:1435
+#: client/gui-qt/menu.cpp:1438
 #, fuzzy
 #| msgid "Investigate City (free)"
 msgid "Investigate city (spends the unit)"
 msgstr "Tutki kaupunkia (ilmaiseksi)"
 
-#: client/gui-qt/menu.cpp:1442
+#: client/gui-qt/menu.cpp:1445
 msgid "Establish embassy"
 msgstr "Perusta lähetystö"
 
-#: client/gui-qt/menu.cpp:1449
+#: client/gui-qt/menu.cpp:1452
 msgid "Become Ambassador"
 msgstr "Ryhdy suurlähettilääksi"
 
-#: client/gui-qt/menu.cpp:1456
+#: client/gui-qt/menu.cpp:1459
 msgid "Steal technology"
 msgstr "Varasta teknologiaa"
 
-#: client/gui-qt/menu.cpp:1463
+#: client/gui-qt/menu.cpp:1466
 msgid "Steal technology and escape"
 msgstr "Varasta teknologiaa ja pakene"
 
-#: client/gui-qt/menu.cpp:1470
+#: client/gui-qt/menu.cpp:1473
 msgid "Incite a revolt"
 msgstr "Lietso kapinaa"
 
-#: client/gui-qt/menu.cpp:1477
+#: client/gui-qt/menu.cpp:1480
 msgid "Incite a Revolt and Escape"
 msgstr "Lietso kapinaa ja pakene"
 
-#: client/gui-qt/menu.cpp:1484
+#: client/gui-qt/menu.cpp:1487
 msgid "Poison city"
 msgstr "Myrkytä juomavesi"
 
-#: client/gui-qt/menu.cpp:1491
+#: client/gui-qt/menu.cpp:1494
 msgid "Poison City Escape"
 msgstr "Myrkytä juomavesi ja pakene"
 
-#: client/gui-qt/menu.cpp:1500
+#: client/gui-qt/menu.cpp:1503
 msgid "Tax Rates..."
 msgstr "Verotus..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:1522 client/gui-qt/pages.cpp:1616
+#: client/gui-qt/menu.cpp:1525 client/gui-qt/pages.cpp:1616
 #: client/gui-sdl2/connectdlg.c:336 client/gui-sdl2/plrdlg.c:383
 msgid "?header:Players"
 msgstr "Pelaajat"
 
-#: client/gui-qt/menu.cpp:1557
+#: client/gui-qt/menu.cpp:1560
 msgid "Endgame report"
 msgstr "Pelin loppuraportti"
 
-#: client/gui-qt/menu.cpp:1953 client/gui-qt/menu.cpp:1993
-#: client/gui-qt/menu.cpp:2036
+#: client/gui-qt/menu.cpp:1956 client/gui-qt/menu.cpp:1996
+#: client/gui-qt/menu.cpp:2039
 msgid "Transform to %1"
 msgstr "Muokkaa tästä %1"
 
 #. TRANS: Build mine of specific type
 #. TRANS: Build irrigation of specific type
-#: client/gui-qt/menu.cpp:1972 client/gui-qt/menu.cpp:2012
+#: client/gui-qt/menu.cpp:1975 client/gui-qt/menu.cpp:2015
 msgid "Build %1"
 msgstr "Rakenna %1"
 
-#: client/gui-qt/menu.cpp:2155
+#: client/gui-qt/menu.cpp:2158
 msgid "Auto Worker"
 msgstr "Työstä maastoa itsenäisesti"
 
-#: client/gui-qt/menu.cpp:2650
+#: client/gui-qt/menu.cpp:2653
 msgid "Didn't find any trade route to establish"
 msgstr "Ei löytynyt kauppareittiä perustettavaksi"
 
-#: client/gui-qt/menu.cpp:3202
+#: client/gui-qt/menu.cpp:3205
 msgid "Available tilesets"
 msgstr "Saatavilla olevat kuvitukset"
 
-#: client/gui-qt/menu.cpp:3204
+#: client/gui-qt/menu.cpp:3207
 msgid "Some tilesets might not be compatible with current map topology!"
 msgstr ""
 "Jotkin kuvitukset eivät ehkä ole yhteensopivia kartan topologian kanssa!"
 
-#: client/gui-qt/menu.cpp:3358
+#: client/gui-qt/menu.cpp:3361
 msgid "Success"
 msgstr "Onnistui"
 
-#: client/gui-qt/menu.cpp:3360
+#: client/gui-qt/menu.cpp:3363
 msgid "Failed to save image of the map"
 msgstr "Karttakuvan tallentaminen epäonnistui"
 
-#: client/gui-qt/menu.cpp:3360
+#: client/gui-qt/menu.cpp:3363
 msgid "Error"
 msgstr "Virhe"
 
-#: client/gui-qt/menu.cpp:3387
+#: client/gui-qt/menu.cpp:3390
 msgid "Save Games"
 msgstr "Tallennetut pelit"
 
@@ -11139,7 +11138,9 @@ msgstr ""
 #, c-format
 msgid ""
 "  * upgraded to %s or, when possible, to the unit type it upgrades to.\n"
-msgstr "  · ajanmukaistuu yksiköksi %s, mahdollisuuksien mukaan ajanmukaistusketjussa ylemmäksikin.\n"
+msgstr ""
+"  · ajanmukaistuu yksiköksi %s, mahdollisuuksien mukaan "
+"ajanmukaistusketjussa ylemmäksikin.\n"
 
 #: client/helpdata.c:2421
 msgid ""
@@ -11499,7 +11500,8 @@ msgstr "Uuden kauppareitin perustamisen yhteydessä ei makseta bonusta.\n"
 #: client/helpdata.c:3215
 #, c-format
 msgid "When traderoute is established, %d%% of the normal bonus is paid.\n"
-msgstr "Perustettaessa uusi kauppareitti, maksetaan %d%% normaalista bonuksesta.\n"
+msgstr ""
+"Perustettaessa uusi kauppareitti, maksetaan %d%% normaalista bonuksesta.\n"
 
 #: client/helpdata.c:3218
 #, c-format
@@ -14783,95 +14785,95 @@ msgstr "Spec-tiedosto %s on epäyhteensopiva"
 msgid "Couldn't find a supported gfx file extension for \"%s\"."
 msgstr "Ei löydy tuettua tiedostopäätettä grafiikalle \"%s\"."
 
-#: client/tilespec.c:1877
+#: client/tilespec.c:1871
 #, c-format
 msgid "Client does not support %s tilesets."
 msgstr "Asiakasohjelma ei tue tyypin %s kuvitusta."
 
-#: client/tilespec.c:1879
+#: client/tilespec.c:1873
 msgid "Using default tileset instead."
 msgstr "Käytetään sen sijaan oletuskuvitusta."
 
-#: client/tilespec.c:2154
+#: client/tilespec.c:2148
 #, c-format
 msgid "[layer%d] match_types: \"%s\" initial ('%c') is not unique."
 msgstr "[layer%d] match_types: \"%s\" aloittava ('%c') ei ole yksilöivä."
 
-#: client/tilespec.c:2166
+#: client/tilespec.c:2160
 #, c-format
 msgid "No [%s] sections supported by tileset \"%s\"."
 msgstr "Kuvituksessa \"%2$s\" ei ole [%1$s] osioita."
 
-#: client/tilespec.c:2186
+#: client/tilespec.c:2180
 #, c-format
 msgid "No terrain tag given in section [%s]."
 msgstr "Maaston grafiikkatagia ei ole annettu osiossa [%s]."
 
-#: client/tilespec.c:2539
+#: client/tilespec.c:2533
 #, c-format
 msgid "Couldn't load gfx file \"%s\" for sprite '%s'."
 msgstr ""
 "Grafiikkatiedoston \"%s\" avaaminen kuvan '%s' löytämiseksi epäonnistui."
 
-#: client/tilespec.c:2549
+#: client/tilespec.c:2543
 #, c-format
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr "Kuva '%s' tiedostossa \"%s\" ei ole kuva-alalla!"
 
-#: client/tilespec.c:2621 client/tilespec.c:2630 client/tilespec.c:2638
+#: client/tilespec.c:2615 client/tilespec.c:2624 client/tilespec.c:2632
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr "Ei löydy tunnisteen '%s' viittaamaa kuvaa."
 
-#: client/tilespec.c:2650 client/tilespec.c:3586
+#: client/tilespec.c:2644 client/tilespec.c:3580
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr ""
 "Ei löydy sen enempää tunnisteen '%s' kuin vaihtoehtoisen tunnisteen '%s' "
 "viittaamaa kuvaa."
 
-#: client/tilespec.c:2702
+#: client/tilespec.c:2696
 #, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" erikoisosaajalle."
 
-#: client/tilespec.c:2727
+#: client/tilespec.c:2721
 #, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Ei grafiikkaa \"%s\" kansalaiselle."
 
-#: client/tilespec.c:3021
+#: client/tilespec.c:3015
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr "Ei löydy tarvittavia citybar.occupancy_N kuvia."
 
-#: client/tilespec.c:3142
+#: client/tilespec.c:3136
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr "Päällysväri kuvaa colors.overlay_0 ei löydy."
 
-#: client/tilespec.c:3215
+#: client/tilespec.c:3209
 msgid "Sprite tx.darkness missing."
 msgstr "Kuva tx.darkness puuttuu."
 
-#: client/tilespec.c:3356
+#: client/tilespec.c:3350
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr ""
 "Ei löydy grafiikkatagia \"%s\" tai \"%s\". Jomman kumman tarvitsisi %s \"%s"
 "\"."
 
-#: client/tilespec.c:3454
+#: client/tilespec.c:3448
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 "Ei löydy tunnisteen \"%2$s\" tai vaihtoehtoisen tunnisteen \"%3$s\" "
 "viittaama yksikön %1$s kuvaa."
 
-#: client/tilespec.c:3526
+#: client/tilespec.c:3520
 #, c-format
 msgid "No extrastyle for \"%s\" or \"%s\"."
 msgstr "Ei ruutulisätyyliä määritetty tunnisteelle \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3612
+#: client/tilespec.c:3606
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
@@ -14880,7 +14882,7 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun rakennetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\", \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3627
+#: client/tilespec.c:3621
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
@@ -14888,34 +14890,34 @@ msgstr ""
 "Ei löydy toimintoikonia näytettäväksi kun poistetaan %s. Sen pitäisi löytyä "
 "tunnisteella \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3728
+#: client/tilespec.c:3722
 #, c-format
 msgid "Cannot load river \"%s\" or \"%s\""
 msgstr "Ei voi ladata grafiikka jokitagille \"%s\" tai \"%s\"."
 
-#: client/tilespec.c:3812
+#: client/tilespec.c:3806
 #, c-format
 msgid "No graphics for extra \"%s\" at all!"
 msgstr "Ei minkäänlaista grafiikkaa ruutulisätyypille \"%s\"!"
 
-#: client/tilespec.c:3836
+#: client/tilespec.c:3830
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 "Maastotyypille \"%s\" ei löydy grafiikkaa tunnisteella \"%s\" tai \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3871
+#: client/tilespec.c:3865
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 
-#: client/tilespec.c:4124
+#: client/tilespec.c:4118
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5340
+#: client/tilespec.c:5334
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -14924,7 +14926,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5883
+#: client/tilespec.c:5877
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -14933,12 +14935,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6019
+#: client/tilespec.c:6013
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6023
+#: client/tilespec.c:6017
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -18396,8 +18398,8 @@ msgid "Explore"
 msgstr "Tutki"
 
 #: common/unit.c:547 data/classic/terrain.ruleset:1233
-#: data/sandbox/terrain.ruleset:1303 data/experimental/terrain.ruleset:1209
-#: data/civ2civ3/terrain.ruleset:1274 data/alien/terrain.ruleset:827
+#: data/sandbox/terrain.ruleset:1304 data/experimental/terrain.ruleset:1209
+#: data/civ2civ3/terrain.ruleset:1274 data/alien/terrain.ruleset:829
 #: data/multiplayer/terrain.ruleset:1207
 msgid "Fallout"
 msgstr "laskeuma"
@@ -22019,7 +22021,7 @@ msgstr ""
 "Lentävät yksiköt eivät vaikuta kyliin, vaan lentävät vain niiden ylitse."
 
 #: data/civ1/terrain.ruleset:933 data/civ2/terrain.ruleset:1027
-#: data/classic/terrain.ruleset:1252 data/sandbox/terrain.ruleset:1355
+#: data/classic/terrain.ruleset:1252 data/sandbox/terrain.ruleset:1356
 #: data/experimental/terrain.ruleset:1228 data/civ2civ3/terrain.ruleset:1326
 #: data/multiplayer/terrain.ruleset:1226
 msgid "Fortress"
@@ -22060,7 +22062,7 @@ msgstr ""
 "sillanrakennusta ei tunneta."
 
 #: data/civ1/terrain.ruleset:994 data/civ2/terrain.ruleset:1121
-#: data/classic/terrain.ruleset:1397 data/sandbox/terrain.ruleset:1573
+#: data/classic/terrain.ruleset:1397 data/sandbox/terrain.ruleset:1574
 #: data/experimental/terrain.ruleset:1375 data/civ2civ3/terrain.ruleset:1536
 #: data/multiplayer/terrain.ruleset:1371
 msgid "Railroad"
@@ -22088,7 +22090,7 @@ msgstr ""
 "kauppabonukset säilyvät."
 
 #: data/civ1/terrain.ruleset:1024 data/civ2/terrain.ruleset:1151
-#: data/classic/terrain.ruleset:1427 data/sandbox/terrain.ruleset:1605
+#: data/classic/terrain.ruleset:1427 data/sandbox/terrain.ruleset:1606
 #: data/experimental/terrain.ruleset:1406 data/civ2civ3/terrain.ruleset:1568
 #: data/multiplayer/terrain.ruleset:1401
 msgid ""
@@ -22099,7 +22101,7 @@ msgstr ""
 "kun rautatieteknologia opitaan."
 
 #: data/civ1/terrain.ruleset:1030 data/civ2/terrain.ruleset:1157
-#: data/classic/terrain.ruleset:1433 data/sandbox/terrain.ruleset:1649
+#: data/classic/terrain.ruleset:1433 data/sandbox/terrain.ruleset:1650
 #: data/experimental/terrain.ruleset:1448 data/civ2civ3/terrain.ruleset:1612
 #: data/multiplayer/terrain.ruleset:1407
 msgid "River"
@@ -22128,29 +22130,29 @@ msgstr ""
 "tämänvaaran."
 
 #: data/civ1/terrain.ruleset:1069 data/civ2/terrain.ruleset:1210
-#: data/classic/terrain.ruleset:1485 data/sandbox/terrain.ruleset:1710
+#: data/classic/terrain.ruleset:1485 data/sandbox/terrain.ruleset:1711
 #: data/experimental/terrain.ruleset:1505 data/civ2civ3/terrain.ruleset:1671
 #: data/multiplayer/terrain.ruleset:1459
 msgid "?animals:Game"
 msgstr "riistaa"
 
 #: data/civ1/terrain.ruleset:1082 data/civ2/terrain.ruleset:1236
-#: data/classic/terrain.ruleset:1511 data/sandbox/terrain.ruleset:1736
+#: data/classic/terrain.ruleset:1511 data/sandbox/terrain.ruleset:1737
 #: data/experimental/terrain.ruleset:1531 data/civ2civ3/terrain.ruleset:1697
 #: data/multiplayer/terrain.ruleset:1485
 msgid "Coal"
 msgstr "hiiltä"
 
 #: data/civ1/terrain.ruleset:1095 data/civ2/terrain.ruleset:1249
-#: data/classic/terrain.ruleset:1524 data/sandbox/terrain.ruleset:1749
+#: data/classic/terrain.ruleset:1524 data/sandbox/terrain.ruleset:1750
 #: data/experimental/terrain.ruleset:1544 data/civ2civ3/terrain.ruleset:1710
-#: data/alien/terrain.ruleset:1189 data/multiplayer/terrain.ruleset:1498
+#: data/alien/terrain.ruleset:1191 data/multiplayer/terrain.ruleset:1498
 msgid "Fish"
 msgstr "kalaa"
 
 #: data/civ1/terrain.ruleset:1108 data/civ2/terrain.ruleset:1275
 #: data/classic/terrain.ruleset:1550 data/sandbox/game.ruleset:1340
-#: data/sandbox/terrain.ruleset:1775 data/experimental/terrain.ruleset:1570
+#: data/sandbox/terrain.ruleset:1776 data/experimental/terrain.ruleset:1570
 #: data/civ2civ3/terrain.ruleset:1736 data/multiplayer/terrain.ruleset:1524
 msgid "Gems"
 msgstr "jalokiviä"
@@ -22160,7 +22162,7 @@ msgid "Horses"
 msgstr "hevosia"
 
 #: data/civ1/terrain.ruleset:1134 data/civ2/terrain.ruleset:1314
-#: data/classic/terrain.ruleset:1589 data/sandbox/terrain.ruleset:1814
+#: data/classic/terrain.ruleset:1589 data/sandbox/terrain.ruleset:1815
 #: data/experimental/terrain.ruleset:1609 data/civ2civ3/terrain.ruleset:1775
 #: data/multiplayer/terrain.ruleset:1563
 msgid "Oasis"
@@ -22169,7 +22171,7 @@ msgstr "keidas"
 #: data/civ1/terrain.ruleset:1147 data/civ2/terrain.ruleset:1431
 #: data/civ2/terrain.ruleset:1445 data/classic/terrain.ruleset:26
 #: data/classic/terrain.ruleset:1706 data/sandbox/terrain.ruleset:26
-#: data/sandbox/terrain.ruleset:1931 data/experimental/terrain.ruleset:28
+#: data/sandbox/terrain.ruleset:1932 data/experimental/terrain.ruleset:28
 #: data/experimental/terrain.ruleset:1726 data/civ2civ3/terrain.ruleset:26
 #: data/civ2civ3/terrain.ruleset:1892 data/multiplayer/terrain.ruleset:26
 #: data/multiplayer/terrain.ruleset:1680
@@ -24463,9 +24465,8 @@ msgstr ""
 "alusten ylilento saa kyläläiset paniikkiin ja kylän tyhjenemään."
 
 #: data/civ2/terrain.ruleset:1006 data/classic/terrain.ruleset:1212
-#: data/sandbox/terrain.ruleset:1280 data/experimental/terrain.ruleset:1188
-#: data/civ2civ3/terrain.ruleset:1251 data/alien/terrain.ruleset:806
-#: data/multiplayer/terrain.ruleset:1186
+#: data/sandbox/terrain.ruleset:1281 data/experimental/terrain.ruleset:1188
+#: data/civ2civ3/terrain.ruleset:1251 data/multiplayer/terrain.ruleset:1186
 msgid "Farmland"
 msgstr "peltomaa"
 
@@ -24481,7 +24482,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:1059 data/civ2/units.ruleset:24
 #: data/classic/terrain.ruleset:1285 data/classic/units.ruleset:30
-#: data/sandbox/terrain.ruleset:1440 data/sandbox/units.ruleset:30
+#: data/sandbox/terrain.ruleset:1441 data/sandbox/units.ruleset:30
 #: data/experimental/terrain.ruleset:1261 data/experimental/units.ruleset:33
 #: data/civ2civ3/terrain.ruleset:1410 data/civ2civ3/units.ruleset:30
 #: data/multiplayer/terrain.ruleset:1259 data/multiplayer/units.ruleset:30
@@ -24500,7 +24501,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:1085 data/classic/terrain.ruleset:1310
 #: data/sandbox/terrain.ruleset:40 data/experimental/terrain.ruleset:1286
-#: data/civ2civ3/terrain.ruleset:39 data/alien/terrain.ruleset:918
+#: data/civ2civ3/terrain.ruleset:39 data/alien/terrain.ruleset:920
 #: data/multiplayer/terrain.ruleset:1284 server/rscompat.c:267
 #, fuzzy
 #| msgid "* Units can paradrop from this tile.\n"
@@ -24508,7 +24509,7 @@ msgid "Units can paradrop from this tile."
 msgstr "· Tästä ruudusta voi lähteä maahanlaskutehtäviin.\n"
 
 #: data/civ2/terrain.ruleset:1147 data/classic/terrain.ruleset:1423
-#: data/sandbox/terrain.ruleset:1601 data/experimental/terrain.ruleset:1402
+#: data/sandbox/terrain.ruleset:1602 data/experimental/terrain.ruleset:1402
 #: data/civ2civ3/terrain.ruleset:1564 data/multiplayer/terrain.ruleset:1397
 msgid ""
 "A railroad also increases any shield resources produced by a tile. A tile "
@@ -24533,74 +24534,74 @@ msgstr ""
 "olevien jokiruutujen välillä, tavallista nopeammin."
 
 #: data/civ2/terrain.ruleset:1197 data/classic/terrain.ruleset:1472
-#: data/sandbox/terrain.ruleset:1697 data/experimental/terrain.ruleset:1492
+#: data/sandbox/terrain.ruleset:1698 data/experimental/terrain.ruleset:1492
 #: data/civ2civ3/terrain.ruleset:1658 data/multiplayer/terrain.ruleset:1446
 msgid "Iron"
 msgstr "rautaa"
 
 #: data/civ2/terrain.ruleset:1223 data/classic/terrain.ruleset:1498
-#: data/sandbox/terrain.ruleset:1723 data/experimental/terrain.ruleset:1518
+#: data/sandbox/terrain.ruleset:1724 data/experimental/terrain.ruleset:1518
 #: data/civ2civ3/terrain.ruleset:1684 data/multiplayer/terrain.ruleset:1472
 msgid "Furs"
 msgstr "turkiseläimiä"
 
 #: data/civ2/terrain.ruleset:1262 data/classic/terrain.ruleset:1537
-#: data/sandbox/terrain.ruleset:1762 data/experimental/terrain.ruleset:1557
+#: data/sandbox/terrain.ruleset:1763 data/experimental/terrain.ruleset:1557
 #: data/civ2civ3/terrain.ruleset:1723 data/multiplayer/terrain.ruleset:1511
 msgid "Fruit"
 msgstr "hedelmiä"
 
 #: data/civ2/terrain.ruleset:1288 data/classic/terrain.ruleset:1563
-#: data/sandbox/terrain.ruleset:1788 data/experimental/terrain.ruleset:1583
+#: data/sandbox/terrain.ruleset:1789 data/experimental/terrain.ruleset:1583
 #: data/civ2civ3/terrain.ruleset:1749 data/multiplayer/terrain.ruleset:1537
 msgid "Buffalo"
 msgstr "puhveleita"
 
 #: data/civ2/terrain.ruleset:1301 data/classic/terrain.ruleset:1576
-#: data/sandbox/terrain.ruleset:1801 data/experimental/terrain.ruleset:1596
+#: data/sandbox/terrain.ruleset:1802 data/experimental/terrain.ruleset:1596
 #: data/civ2civ3/terrain.ruleset:1762 data/multiplayer/terrain.ruleset:1550
 msgid "Wheat"
 msgstr "vehnää"
 
 #: data/civ2/terrain.ruleset:1327 data/classic/terrain.ruleset:1602
-#: data/sandbox/terrain.ruleset:1827 data/experimental/terrain.ruleset:1622
+#: data/sandbox/terrain.ruleset:1828 data/experimental/terrain.ruleset:1622
 #: data/civ2civ3/terrain.ruleset:1788 data/multiplayer/terrain.ruleset:1576
 msgid "Peat"
 msgstr "turvetta"
 
 #: data/civ2/terrain.ruleset:1340 data/classic/terrain.ruleset:1615
-#: data/sandbox/terrain.ruleset:1840 data/experimental/terrain.ruleset:1635
+#: data/sandbox/terrain.ruleset:1841 data/experimental/terrain.ruleset:1635
 #: data/civ2civ3/terrain.ruleset:1801 data/multiplayer/terrain.ruleset:1589
 msgid "Pheasant"
 msgstr "fasaaneja"
 
 #: data/civ2/terrain.ruleset:1366 data/classic/terrain.ruleset:1641
-#: data/sandbox/terrain.ruleset:1866 data/experimental/terrain.ruleset:1661
+#: data/sandbox/terrain.ruleset:1867 data/experimental/terrain.ruleset:1661
 #: data/civ2civ3/terrain.ruleset:1827 data/multiplayer/terrain.ruleset:1615
 msgid "Ivory"
 msgstr "norsunluuta"
 
 #: data/civ2/terrain.ruleset:1379 data/classic/terrain.ruleset:1654
-#: data/sandbox/terrain.ruleset:1879 data/experimental/terrain.ruleset:1674
+#: data/sandbox/terrain.ruleset:1880 data/experimental/terrain.ruleset:1674
 #: data/civ2civ3/terrain.ruleset:1840 data/multiplayer/terrain.ruleset:1628
 msgid "Silk"
 msgstr "silkkiä"
 
 #: data/civ2/terrain.ruleset:1392 data/classic/terrain.ruleset:1667
-#: data/sandbox/game.ruleset:1330 data/sandbox/terrain.ruleset:1892
+#: data/sandbox/game.ruleset:1330 data/sandbox/terrain.ruleset:1893
 #: data/experimental/terrain.ruleset:1687 data/civ2civ3/terrain.ruleset:1853
 #: data/multiplayer/terrain.ruleset:1641
 msgid "Spice"
 msgstr "mausteita"
 
 #: data/civ2/terrain.ruleset:1405 data/classic/terrain.ruleset:1680
-#: data/sandbox/terrain.ruleset:1905 data/experimental/terrain.ruleset:1700
+#: data/sandbox/terrain.ruleset:1906 data/experimental/terrain.ruleset:1700
 #: data/civ2civ3/terrain.ruleset:1866 data/multiplayer/terrain.ruleset:1654
 msgid "Whales"
 msgstr "valaita"
 
 #: data/civ2/terrain.ruleset:1418 data/classic/terrain.ruleset:1693
-#: data/sandbox/terrain.ruleset:1918 data/experimental/terrain.ruleset:1713
+#: data/sandbox/terrain.ruleset:1919 data/experimental/terrain.ruleset:1713
 #: data/civ2civ3/terrain.ruleset:1879 data/multiplayer/terrain.ruleset:1667
 msgid "Wine"
 msgstr "viiniköynnöksiä"
@@ -25915,26 +25916,26 @@ msgstr ""
 "Keksintöteknologian myötä maayksiköiden näkökenttä laajenee linnoitusten "
 "vartiotorneista käsin."
 
-#: data/classic/terrain.ruleset:1315 data/sandbox/terrain.ruleset:1481
+#: data/classic/terrain.ruleset:1315 data/sandbox/terrain.ruleset:1482
 #: data/experimental/terrain.ruleset:1291 data/civ2civ3/terrain.ruleset:1450
 #: data/multiplayer/terrain.ruleset:1289
 msgid "Buoy"
 msgstr "poiju"
 
-#: data/classic/terrain.ruleset:1336 data/sandbox/terrain.ruleset:1504
+#: data/classic/terrain.ruleset:1336 data/sandbox/terrain.ruleset:1505
 #: data/experimental/terrain.ruleset:1312 data/civ2civ3/terrain.ruleset:1472
 #: data/multiplayer/terrain.ruleset:1310
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 "Poijuja voi rakentaa merelle (käyttäen laivojen kuljettamia yksiköitä)."
 
-#: data/classic/terrain.ruleset:1341 data/sandbox/terrain.ruleset:1512
+#: data/classic/terrain.ruleset:1341 data/sandbox/terrain.ruleset:1513
 #: data/experimental/terrain.ruleset:1317 data/civ2civ3/terrain.ruleset:1477
 #: data/multiplayer/terrain.ruleset:1315
 msgid "Ruins"
 msgstr "rauniot"
 
-#: data/classic/terrain.ruleset:1360 data/sandbox/terrain.ruleset:1531
+#: data/classic/terrain.ruleset:1360 data/sandbox/terrain.ruleset:1532
 #: data/experimental/terrain.ruleset:1336 data/civ2civ3/terrain.ruleset:1496
 #: data/multiplayer/terrain.ruleset:1334
 msgid ""
@@ -27800,7 +27801,7 @@ msgid "Travertine Terraces"
 msgstr "Marmoritasanteet"
 
 #: data/sandbox/script.lua:211 data/civ2civ3/script.lua:193
-#: data/alien/terrain.ruleset:1171
+#: data/alien/terrain.ruleset:1173
 msgid "Thermal Vent"
 msgstr "Hydroterminen purkausaukko"
 
@@ -28177,20 +28178,25 @@ msgstr "porauspiste"
 msgid "Hermit's Place"
 msgstr "erakon maja"
 
-#: data/sandbox/terrain.ruleset:1271
-#, c-format
+#: data/sandbox/terrain.ruleset:1272
+#, no-c-format
 msgid ""
 "One can explore Hermit's Places once the philosopher has abandoned them. In "
 "most cases one can learn some of the wisdom of the former inhabitant, with "
 "the cost of 20% of the normal price. After year 1000 there's no more such "
 "individuals figuring entire technologies out in the solitude. "
-msgstr "Erakon majan voi tutkia erakkofilosofin hylättyä sen. Useimmissa tapauksissa niistä tehtävistä löydöistä voi oppia osan asukkaan viisaudesta. Näin saaduista teknologioista maksetaan vain 20% niiden normaalista tutkimushinnasta. Vuoden 1000 jälkeen kokonaisten uusien teknologioiden keksiminen on mahdotonta yksittäisille erakoille."
+msgstr ""
+"Erakon majan voi tutkia erakkofilosofin hylättyä sen. Useimmissa tapauksissa "
+"niistä tehtävistä löydöistä voi oppia osan asukkaan viisaudesta. Näin "
+"saaduista teknologioista maksetaan vain 20% niiden normaalista "
+"tutkimushinnasta. Vuoden 1000 jälkeen kokonaisten uusien teknologioiden "
+"keksiminen on mahdotonta yksittäisille erakoille."
 
-#: data/sandbox/terrain.ruleset:1322 data/civ2civ3/terrain.ruleset:1293
+#: data/sandbox/terrain.ruleset:1323 data/civ2civ3/terrain.ruleset:1293
 msgid "Fort"
 msgstr "linnake"
 
-#: data/sandbox/terrain.ruleset:1348 data/civ2civ3/terrain.ruleset:1319
+#: data/sandbox/terrain.ruleset:1349 data/civ2civ3/terrain.ruleset:1319
 #, no-c-format
 msgid ""
 "Forts are rapidly-built fortifications providing some defense (+50%) against "
@@ -28200,7 +28206,7 @@ msgstr ""
 "puolustusbonuksen maayksiköiden ja laivojen hyökkäyksiä vastaan. Linnake "
 "tarvitaan ennen kuin paikalle voidaan rakentaa täysimittainen linnoitus."
 
-#: data/sandbox/terrain.ruleset:1382 data/civ2civ3/terrain.ruleset:1352
+#: data/sandbox/terrain.ruleset:1383 data/civ2civ3/terrain.ruleset:1352
 msgid ""
 "Fortresses are more permanent forts; construction on them can only begin "
 "once the underlying fort is complete. Forts on River tiles cannot be "
@@ -28210,7 +28216,7 @@ msgstr ""
 "aloittaa ennen kuin paikalle on rakennettu pohjaksi linnake. Jokiruutujen "
 "linnakkeita ei voi laajentaa linnoituksiksi."
 
-#: data/sandbox/terrain.ruleset:1388 data/civ2civ3/terrain.ruleset:1358
+#: data/sandbox/terrain.ruleset:1389 data/civ2civ3/terrain.ruleset:1358
 #, no-c-format
 msgid ""
 "Compared to a fort, units in a fortress receive extra defense (+50%) against "
@@ -28226,7 +28232,7 @@ msgstr ""
 "kaupungin lähellä. Maayksiköt, jotka pysyvät liikkumattomina linnoituksessa "
 "kierroksen ajan, paranevat neljänneksen osumapisteitään."
 
-#: data/sandbox/terrain.ruleset:1394 data/civ2civ3/terrain.ruleset:1364
+#: data/sandbox/terrain.ruleset:1395 data/civ2civ3/terrain.ruleset:1364
 msgid ""
 "With Astronomy, fortresses gain watchtowers from which units can see further "
 "afield."
@@ -28234,11 +28240,11 @@ msgstr ""
 "Astronomian tuntemuksen myötä linnoituksissa voidaan käyttää "
 "tähystystorneja, joista yksiköt näkevät kauemmas."
 
-#: data/sandbox/terrain.ruleset:1400 data/civ2civ3/terrain.ruleset:1370
+#: data/sandbox/terrain.ruleset:1401 data/civ2civ3/terrain.ruleset:1370
 msgid "Airstrip"
 msgstr "Kiitotie"
 
-#: data/sandbox/terrain.ruleset:1424 data/civ2civ3/terrain.ruleset:1394
+#: data/sandbox/terrain.ruleset:1425 data/civ2civ3/terrain.ruleset:1394
 msgid ""
 "Airstrips are rapidly-built runways allowing air units to land, refuel, and "
 "recover; an aircraft remaining on an airstrip for a whole turn without "
@@ -28253,7 +28259,7 @@ msgstr ""
 "ilmassa). Kiitoradalla olevat ilmayksiköt ovat kuitenkin maayksiköidenkin "
 "hyökkäysten armoilla."
 
-#: data/sandbox/terrain.ruleset:1432 data/civ2civ3/terrain.ruleset:1402
+#: data/sandbox/terrain.ruleset:1433 data/civ2civ3/terrain.ruleset:1402
 #, no-c-format
 msgid ""
 "Any units on an airstrip receive extra defense (+50%) against enemy aircraft."
@@ -28261,13 +28267,13 @@ msgstr ""
 "Kiitotiellä olevilla yksiköillä on 50% puolustusbonus vihollisen "
 "lentokoneiden hyökkäyksiä vastaan."
 
-#: data/sandbox/terrain.ruleset:1435 data/civ2civ3/terrain.ruleset:1405
+#: data/sandbox/terrain.ruleset:1436 data/civ2civ3/terrain.ruleset:1405
 msgid "An airstrip is necessary to start building an airbase."
 msgstr ""
 "Kiitotie tarvitaan ennen kuin ruutuun voidaan alkaa rakentamaan "
 "lentotukikohtaa."
 
-#: data/sandbox/terrain.ruleset:1466 data/civ2civ3/terrain.ruleset:1435
+#: data/sandbox/terrain.ruleset:1467 data/civ2civ3/terrain.ruleset:1435
 msgid ""
 "Airbases are more permanent airstrips; construction on them can only begin "
 "once the underlying airstrip is complete. Airstrips on River tiles cannot be "
@@ -28277,7 +28283,7 @@ msgstr ""
 "rakentaminen voidaan aloittaa vasta kun paikalla on jo kiitotie. "
 "Jokiruutujen kiitoteitä ei voi päivittää lentotukikohdaksi."
 
-#: data/sandbox/terrain.ruleset:1472 data/civ2civ3/terrain.ruleset:1441
+#: data/sandbox/terrain.ruleset:1473 data/civ2civ3/terrain.ruleset:1441
 #, no-c-format
 msgid ""
 "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
@@ -28294,12 +28300,13 @@ msgstr ""
 "nopeammin (kolmanneksen kierroksessa, saman määrän kuin lentokentättömässä "
 "kaupungissa)."
 
-#: data/sandbox/terrain.ruleset:1506
+#: data/sandbox/terrain.ruleset:1507
 msgid ""
 "Only those players that already know Radio can see Buoys of any players."
-msgstr "Vain ne pelaajat, jotka tuntevat radion, voivat nähdä kenenkään poijuja."
+msgstr ""
+"Vain ne pelaajat, jotka tuntevat radion, voivat nähdä kenenkään poijuja."
 
-#: data/sandbox/terrain.ruleset:1559
+#: data/sandbox/terrain.ruleset:1560
 #, fuzzy
 #| msgid ""
 #| "Roads allow your land units to move more quickly, and allow wheeled Big "
@@ -28316,11 +28323,11 @@ msgstr ""
 "pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, "
 "viidakossa tai suolla."
 
-#: data/sandbox/terrain.ruleset:1565 data/civ2civ3/terrain.ruleset:1528
+#: data/sandbox/terrain.ruleset:1566 data/civ2civ3/terrain.ruleset:1528
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr "Joillakin maastotyypeillä tiet antavat bonuksen myös kauppaan."
 
-#: data/sandbox/terrain.ruleset:1567 data/civ2civ3/terrain.ruleset:1530
+#: data/sandbox/terrain.ruleset:1568 data/civ2civ3/terrain.ruleset:1530
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (even on a river tile)."
@@ -28329,7 +28336,7 @@ msgstr ""
 "Kaupungin keskusruudut saavat tiet aina automaattisesti, jopa silloin kun "
 "sillanrakennusta ei tunneta."
 
-#: data/sandbox/terrain.ruleset:1597 data/experimental/terrain.ruleset:1398
+#: data/sandbox/terrain.ruleset:1598 data/experimental/terrain.ruleset:1398
 #: data/civ2civ3/terrain.ruleset:1560
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
@@ -28339,13 +28346,13 @@ msgstr ""
 "rautatiet. Liikkuminen rautatietä pitkin on huomattavasti nopeampaa kuin "
 "tietä pitkin."
 
-#: data/sandbox/terrain.ruleset:1611 data/experimental/terrain.ruleset:1412
+#: data/sandbox/terrain.ruleset:1612 data/experimental/terrain.ruleset:1412
 #: data/civ2civ3/terrain.ruleset:1574 data/alien/techs.ruleset:425
-#: data/alien/terrain.ruleset:979
+#: data/alien/terrain.ruleset:981
 msgid "Maglev"
 msgstr "Maglev"
 
-#: data/sandbox/terrain.ruleset:1634 data/civ2civ3/terrain.ruleset:1597
+#: data/sandbox/terrain.ruleset:1635 data/civ2civ3/terrain.ruleset:1597
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land and Small Land units expend no movement points "
@@ -28356,7 +28363,7 @@ msgstr ""
 "eivät kuluta liikepisteitä kulkiessaan maglevillä, niitä pitkin voi liikkua "
 "rajattomasti (pätee myös niitä käyttäviin vihollisiin!)"
 
-#: data/sandbox/terrain.ruleset:1639 data/civ2civ3/terrain.ruleset:1602
+#: data/sandbox/terrain.ruleset:1640 data/civ2civ3/terrain.ruleset:1602
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land and Merchant "
 "units for which the maglev system is unsuitable, and they continue to "
@@ -28367,7 +28374,7 @@ msgstr ""
 "kuljettaminen tapahtuu tavallisia rautateitä käyttäen. Rautatiet jatkavat "
 "myös tuotanto- ja kauppabonustensa tarjoamisen."
 
-#: data/sandbox/terrain.ruleset:1643 data/experimental/terrain.ruleset:1442
+#: data/sandbox/terrain.ruleset:1644 data/experimental/terrain.ruleset:1442
 #: data/civ2civ3/terrain.ruleset:1606
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
@@ -28376,7 +28383,7 @@ msgstr ""
 "Kaupunkien keskusruudut, joissa on jo rautatie, saavat maglevit "
 "automaattisesti kun suprajohteet teknologia opitaan."
 
-#: data/sandbox/terrain.ruleset:1665 data/civ2civ3/terrain.ruleset:1628
+#: data/sandbox/terrain.ruleset:1666 data/civ2civ3/terrain.ruleset:1628
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
@@ -28386,7 +28393,7 @@ msgstr ""
 "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
 "kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 25%."
 
-#: data/sandbox/terrain.ruleset:1669
+#: data/sandbox/terrain.ruleset:1670
 #, fuzzy
 #| msgid ""
 #| "Land units may move along rivers for faster travel (but not diagonally), "
@@ -28405,7 +28412,7 @@ msgstr ""
 "kulkukelvotonta. Kaleerit, toisin kuin myöhemmät alukset, voivat myös kulkea "
 "jokia pitkin."
 
-#: data/sandbox/terrain.ruleset:1674 data/civ2civ3/terrain.ruleset:1635
+#: data/sandbox/terrain.ruleset:1675 data/civ2civ3/terrain.ruleset:1635
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
@@ -28415,7 +28422,7 @@ msgstr ""
 "sivilisaatiosi on oppinut sillanrakennustaidon. Linnoituksia ja "
 "lentotukikohtia ei voida rakentaa jokiruutuihin."
 
-#: data/sandbox/terrain.ruleset:1678 data/civ2civ3/terrain.ruleset:1639
+#: data/sandbox/terrain.ruleset:1679 data/civ2civ3/terrain.ruleset:1639
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
@@ -30203,8 +30210,8 @@ msgstr "Jatka matkaa"
 
 #: data/alien/techs.ruleset:296
 msgid ""
-"We can pump water from the depths of the crust. We no longerneed any of the "
-"adjacent tiles to have water in order to build irrigation."
+"We can pump water from the depths of the crust. We no longer need any of the "
+"adjacent tiles to have water in order to build Greenhouses."
 msgstr ""
 
 #: data/alien/techs.ruleset:300
@@ -30266,7 +30273,7 @@ msgid ""
 "If what we harvest grows back faster, we get more food. It's simple as "
 "that.\n"
 "\n"
-"Farmland tiles get additional 50% food production bonus."
+"Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
 
 #: data/alien/techs.ruleset:363
@@ -30475,7 +30482,8 @@ msgstr "Proteiinimuokkaus"
 msgid ""
 "Turns out we can make alien lifeforms edible.\n"
 "\n"
-"Engineers can build Farmland, which increases tile food production by 50%."
+"Engineers can build Protein Houses, which increases tile food production by "
+"50%."
 msgstr ""
 
 #: data/alien/techs.ruleset:573
@@ -30710,7 +30718,8 @@ msgstr "Virtaus"
 #: data/alien/techs.ruleset:793
 msgid ""
 "We understand Deneb 7 fluid dynamics and can get water to flow where we "
-"want. Irrigation becomes possible in tiles adjacent to cities and rivers."
+"want. Building Greenhouses becomes possible in tiles adjacent to cities and "
+"rivers."
 msgstr ""
 
 #: data/alien/terrain.ruleset:27
@@ -30797,24 +30806,28 @@ msgid ""
 "never be located on Boiling Ocean."
 msgstr ""
 
-#: data/alien/terrain.ruleset:734
-msgid ""
-"Irrigation can be built on certain terrain types only. In addition to that "
-"tile has to have one of the following water sources:\n"
-"- Irrigation can be built tiles cardinally adjacent to Oceanic tiles and on "
-"river tiles once Manufacturing is known.\n"
-"- Once Water Flow is known, Irrigation can be built to tiles cardinally "
-"adjacent to river tiles or city center.\n"
-"- Deep Pumping technology enables building Irrigation."
+#: data/alien/terrain.ruleset:719
+msgid "Greenhouses"
 msgstr ""
 
-#: data/alien/terrain.ruleset:780
+#: data/alien/terrain.ruleset:735
+msgid ""
+"Greenhouses can be built on certain terrain types only. In addition to that "
+"tile has to have one of the following water sources:\n"
+"- Greenhouses can be built tiles cardinally adjacent to Oceanic tiles and on "
+"river tiles once Manufacturing is known.\n"
+"- Once Water Flow is known, Greenhouses can be built to tiles cardinally "
+"adjacent to river tiles or city center.\n"
+"- Deep Pumping technology enables building Greenhouses anywhere."
+msgstr ""
+
+#: data/alien/terrain.ruleset:781
 #, fuzzy
 #| msgid "Space Module"
 msgid "Space Capsule"
 msgstr "Avaruusaluksen yksikkö"
 
-#: data/alien/terrain.ruleset:795
+#: data/alien/terrain.ruleset:796
 msgid ""
 "Space Capsules have landed to the surface of Deneb Seven's Any unit can "
 "enter tile with a capsule to open it. Capsule disappears from the map in the "
@@ -30824,38 +30837,42 @@ msgid ""
 "the capsule, and are there ready to kill anybody who enters."
 msgstr ""
 
-#: data/alien/terrain.ruleset:846
+#: data/alien/terrain.ruleset:807
+msgid "Protein Houses"
+msgstr ""
+
+#: data/alien/terrain.ruleset:848
 msgid "Tower"
 msgstr "Torni"
 
-#: data/alien/terrain.ruleset:872
+#: data/alien/terrain.ruleset:874
 msgid "Force Fortress"
 msgstr "Voimalinnoitus"
 
-#: data/alien/terrain.ruleset:897
+#: data/alien/terrain.ruleset:899
 msgid "Antigrav Base"
 msgstr "Antigravitaatiotukikohta"
 
-#: data/alien/terrain.ruleset:944
+#: data/alien/terrain.ruleset:946
 msgid ""
 "Basic Road is available for building from the beginning of the game.\n"
 "\n"
 "Having Road on Grassland tile provides increase of +1 to trade on that tile."
 msgstr ""
 
-#: data/alien/terrain.ruleset:951
+#: data/alien/terrain.ruleset:953
 #, fuzzy
 #| msgid "Super Highways"
 msgid "Highway"
 msgstr "Moottoritie"
 
-#: data/alien/terrain.ruleset:974
+#: data/alien/terrain.ruleset:976
 #, fuzzy
 #| msgid "You can only upgrade units in your cities."
 msgid "You can upgrade Roads to Highways."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: data/alien/terrain.ruleset:1002
+#: data/alien/terrain.ruleset:1004
 #, no-c-format
 msgid ""
 "You can upgrade Highways to Maglevs.\n"
@@ -30864,33 +30881,33 @@ msgid ""
 "Maglev is increased by 50%."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1010
+#: data/alien/terrain.ruleset:1012
 msgid "Tunnel"
 msgstr "Tunneli"
 
-#: data/alien/terrain.ruleset:1034
+#: data/alien/terrain.ruleset:1036
 #, no-c-format
 msgid ""
 "Earthly units can travel on radiating tiles with tunnel built on them. "
 "Tunnel provides no increase to unit speed, but they give 35% defense bonus."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1040
+#: data/alien/terrain.ruleset:1042
 msgid "Burrow Tube"
 msgstr ""
 
-#: data/alien/terrain.ruleset:1061
+#: data/alien/terrain.ruleset:1063
 msgid ""
 "Burrow Tubes provide the only way for burrowing units to cross oceans. They "
 "can be built on oceanic terrains only, but first part of the tube must be "
 "built cardinally adjacent to land and following parts must be built in order."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1069
+#: data/alien/terrain.ruleset:1071
 msgid "Green River"
 msgstr "Vihreä joki"
 
-#: data/alien/terrain.ruleset:1085 data/alien/terrain.ruleset:1109
+#: data/alien/terrain.ruleset:1087 data/alien/terrain.ruleset:1111
 #, fuzzy, no-c-format
 #| msgid ""
 #| "Any land terrain type may have a River on it.  A River adds 1 trade to "
@@ -30906,65 +30923,65 @@ msgstr ""
 "Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain "
 "olevien jokiruutujen välillä, tavallista nopeammin."
 
-#: data/alien/terrain.ruleset:1088
+#: data/alien/terrain.ruleset:1090
 msgid "Green River increases also tile's food production by 1."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1093
+#: data/alien/terrain.ruleset:1095
 msgid "Brown River"
 msgstr "Ruskea joki"
 
-#: data/alien/terrain.ruleset:1112
+#: data/alien/terrain.ruleset:1114
 msgid "Brown River increases also tile's shield production by 1."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1129
+#: data/alien/terrain.ruleset:1131
 #, no-c-format
 msgid ""
 "There is more than avarage amount of various resources, but nothing exciting."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1135
+#: data/alien/terrain.ruleset:1137
 #, fuzzy
 #| msgid "Build Mine"
 msgid "Alien Mine"
 msgstr "Louhi kaivos"
 
-#: data/alien/terrain.ruleset:1147
+#: data/alien/terrain.ruleset:1149
 #, no-c-format
 msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
 "built it nor where they went."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1153
+#: data/alien/terrain.ruleset:1155
 msgid "Huge Plant"
 msgstr "Valtava kasvi"
 
-#: data/alien/terrain.ruleset:1165
+#: data/alien/terrain.ruleset:1167
 #, no-c-format
 msgid ""
 "Entire forest seems to be of the single fast-growing organism with huge "
 "central blooming."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1183
+#: data/alien/terrain.ruleset:1185
 #, no-c-format
 msgid "Where the heat from inside the planet escapes, mineral rich hills form."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1201
+#: data/alien/terrain.ruleset:1203
 #, no-c-format
 msgid ""
 "Weird alien fish might look like something escaped from nighmares, but are "
 "in fact very tasty."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1207
+#: data/alien/terrain.ruleset:1209
 msgid "Glowing Rocks"
 msgstr ""
 
-#: data/alien/terrain.ruleset:1219
+#: data/alien/terrain.ruleset:1221
 #, no-c-format
 msgid "Rocks in the area have unusually bright glow."
 msgstr ""
@@ -37415,7 +37432,7 @@ msgstr ""
 "mitä tahansa kaupunkeihin liittyvää tämän raportin kautta, mutta tämä\n"
 "opetusohjelma ei ulotu työkalun syvällisempien hienouksien esittelyyn."
 
-#: data/scenarios/tutorial.sav:229
+#: data/scenarios/tutorial.sav:230
 #, fuzzy
 #| msgid ""
 #| "Your city has grown again!  Now with three citizens you have\n"
@@ -37467,7 +37484,7 @@ msgstr ""
 "viihdyttäjiksi, jotka tuottavat vain luksusta (josta ei ole vielä tässä\n"
 "vaiheessa hyötyä)."
 
-#: data/scenarios/tutorial.sav:233
+#: data/scenarios/tutorial.sav:234
 #, fuzzy
 #| msgid ""
 #| "Your city has grown!  As a city grows, more citizens become\n"
@@ -37500,7 +37517,7 @@ msgstr ""
 "sinulla on sitä riittävästi) saat käynnissä olevan tuotannon\n"
 "valmiiksi välittömästi."
 
-#: data/scenarios/tutorial.sav:237
+#: data/scenarios/tutorial.sav:238
 #, c-format
 msgid ""
 "Now your city has grown to size five.  As cities get larger unrest\n"
@@ -37533,7 +37550,7 @@ msgstr ""
 "rauhoittaa yhden kansalaisen). Torin rakentaminen lisää tästä saatavaa\n"
 "etua tuottamalla kaupungille +50%% luksusta."
 
-#: data/scenarios/tutorial.sav:241
+#: data/scenarios/tutorial.sav:242
 #, fuzzy
 #| msgid ""
 #| "Finally you have grown a city to size eight.  A size eight city can\n"
@@ -37562,7 +37579,7 @@ msgstr ""
 "Vesijohdon rakentaminen. Tätä varten tarvitset edistysaskeleen\n"
 "Rakennustaito."
 
-#: data/scenarios/tutorial.sav:245
+#: data/scenarios/tutorial.sav:246
 #, fuzzy
 #| msgid ""
 #| "You have grown a city to size twelve.  To grow\n"
@@ -37577,7 +37594,7 @@ msgstr ""
 "suuremmaksi, sinun on rakennettava Viemäriverkosto, mikä puolestaan\n"
 "vaatii edistysaskeleen Puhtaanapito."
 
-#: data/scenarios/tutorial.sav:249
+#: data/scenarios/tutorial.sav:250
 msgid ""
 "Congratulations, you have grown a city to size 13.  A city this\n"
 "large can provide a tremendous amount of output if properly upgraded.\n"
@@ -37602,7 +37619,7 @@ msgstr ""
 "Suuret kaupungit tuottavat myös riittävästi verotuloja (kultaa) voidaksesi\n"
 "ostaa osan rakennuksista nopeuttaen niiden pystytystä."
 
-#: data/scenarios/tutorial.sav:269
+#: data/scenarios/tutorial.sav:270
 msgid ""
 "You have built a settler unit.  Settlers are best used to build \n"
 "new cities, so as to expand your civilization.  Move your settler\n"
@@ -37631,7 +37648,7 @@ msgstr ""
 "pienille kaupungeille. Lisätietoa löydät maastotyyppejä ja niiden\n"
 "erityispiirteitä käsittelevistä kohdista."
 
-#: data/scenarios/tutorial.sav:272
+#: data/scenarios/tutorial.sav:273
 msgid ""
 "Your second Settlers should also be used to build a new city.\n"
 "Notice how when you move the Settlers away from your existing cities\n"
@@ -37656,7 +37673,7 @@ msgstr ""
 "kungin kaupungin käyttöön enemmän resursseja, jolloin ne voivat kasvaa\n"
 "suuremmiksi."
 
-#: data/scenarios/tutorial.sav:277
+#: data/scenarios/tutorial.sav:278
 msgid ""
 "You have built your first military unit!  Military units have two\n"
 "basic purposes: attack and defense.  Each unit has an attack strength\n"
@@ -37685,7 +37702,7 @@ msgstr ""
 "olet sodassa, voit haluta siirtää yksikkösi kohti viholliskaupunkia\n"
 "hyökätäksesi sen kimppuun. Varo kuitenkin, ettet menetä sitä!"
 
-#: data/scenarios/tutorial.sav:290
+#: data/scenarios/tutorial.sav:291
 msgid ""
 "You have built your first waterborne unit.  These can transport\n"
 "other units across water, allowing you to explore and settle new\n"
@@ -37706,7 +37723,7 @@ msgstr ""
 "Poistaaksesi yksikön laivasta, valitse se ja paina U-näppäintä tai "
 "yksinkertaisesti käske yksikön liikkua johonkin ympäröivistä maaruuduista."
 
-#: data/scenarios/tutorial.sav:313
+#: data/scenarios/tutorial.sav:314
 msgid ""
 "You have built a Barracks.  This building will make any military\n"
 "units you build start out as veterans.  Veteran units are stronger\n"
@@ -37729,7 +37746,7 @@ msgstr ""
 "rakentaneessa kaupungissa. Koska kasarmi on huomattava sijoitus ja sen\n"
 "ylläpitokin maksaa hieman, sitä ei kannata haaskata."
 
-#: data/scenarios/tutorial.sav:326
+#: data/scenarios/tutorial.sav:327
 #, fuzzy
 #| msgid ""
 #| "Your city cannot build a settler.  Settlers take one unit of\n"
@@ -37763,7 +37780,7 @@ msgstr ""
 "rakennat sen maastoon joka tuottaa riittävästi ruokaa - ruohomaa on\n"
 "tältä osin paras vaihtoehto, tasanko tai kukkulat ovat lähes yhtä hyviä."
 
-#: data/scenarios/tutorial.sav:339
+#: data/scenarios/tutorial.sav:340
 msgid ""
 "You have researched your first technology!  Technological advances\n"
 "are an integral concept in Freeciv.  As you increase your technology\n"
@@ -37802,7 +37819,7 @@ msgstr ""
 "teknologiasta. Kun olet puuhannut kylliksesi, napsauta Kartta-välilehteä\n"
 "(F1) palataksesi karttanäkymään."
 
-#: data/scenarios/tutorial.sav:342
+#: data/scenarios/tutorial.sav:343
 msgid ""
 "Now you have researched your second technology.  Go back into the\n"
 "Research report (F6) and take a quick look at your progress.  If you\n"
@@ -37831,7 +37848,7 @@ msgstr ""
 "tutkimuksen. Asettamalla tutkimustavoitteesi viisaasti vältyt uusien\n"
 "kohteiden valinnan vaivalta joka kerran edistysaskeleen valmistuessa."
 
-#: data/scenarios/tutorial.sav:345
+#: data/scenarios/tutorial.sav:346
 msgid ""
 "You have successfully completed research into The Republic.  This\n"
 "technology is particularly useful because it allows a new form of\n"
@@ -37865,7 +37882,7 @@ msgstr ""
 "kuitenkin huomattavasti yksinvaltaa parempi valtiomuoto, joten\n"
 "siihen sijoittaminen maksaa itsensä pian takaisin."
 
-#: data/scenarios/tutorial.sav:358
+#: data/scenarios/tutorial.sav:359
 msgid ""
 "Your unit has found a Hut.  These are small villages scattered across\n"
 "the landscape.  When a unit enters one, several things may happen.  The\n"
@@ -37888,7 +37905,7 @@ msgstr ""
 "Keskimäärin on hyödyllistä tutkia kaikki vastaan tulevat majat\n"
 "mahdollisimman pian."
 
-#: data/scenarios/tutorial.sav:365
+#: data/scenarios/tutorial.sav:366
 msgid "Loading tutorial events."
 msgstr "Ladataan perehdytysskenaarion tapahtumia."
 
@@ -39141,12 +39158,12 @@ msgid ""
 msgstr ""
 "Kun %s hylättiin, yksikkösi %s kaupungissa %s jäi ansaan ja se menetettiin."
 
-#: server/citytools.c:1915 server/unithand.c:3322
+#: server/citytools.c:1915 server/unithand.c:3323
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Tuhoat kaupungin %s kokonaan."
 
-#: server/citytools.c:1918 server/unithand.c:3329
+#: server/citytools.c:1918 server/unithand.c:3330
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
@@ -39318,44 +39335,44 @@ msgstr "Varoitus: nälänhädän vaara kaupungissa %s."
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "VAROITUS %s, rahavaramme ovat vähissä!"
 
-#: server/cityturn.c:887
+#: server/cityturn.c:892
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr ""
 "%1$s ei voi kasvaa kokoa %3$d suuremmaksi ennen kuin %2$s (rakenteilla) on "
 "valmistunut."
 
-#: server/cityturn.c:893
+#: server/cityturn.c:898
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s ei voi kasvaa kokoa %d suuremmaksi ilman soveltuvaa rakennusta."
 
-#: server/cityturn.c:954
+#: server/cityturn.c:959
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s kasvaa kokoon %d."
 
-#: server/cityturn.c:1018
+#: server/cityturn.c:1034
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
 msgstr "Äskettäisen ruttoepidemian takia %s ei kasva."
 
-#: server/cityturn.c:1046
+#: server/cityturn.c:1067
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Nälänhätä uhkaa kaupungissa %s, %s menetetty!"
 
-#: server/cityturn.c:1059
+#: server/cityturn.c:1080
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Nälänhätä vähentää väkilukua kaupungissa %s."
 
-#: server/cityturn.c:1064
+#: server/cityturn.c:1085
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Nälänhätä tyhjentää kaupungin %s."
 
-#: server/cityturn.c:1129 server/cityturn.c:1329
+#: server/cityturn.c:1150 server/cityturn.c:1350
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
@@ -39363,13 +39380,13 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentamiseksi tarvitaan "
 "valtiomuoto %s."
 
-#: server/cityturn.c:1141 server/cityturn.c:1271 server/cityturn.c:1300
+#: server/cityturn.c:1162 server/cityturn.c:1292 server/cityturn.c:1321
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
-#: server/cityturn.c:1156 server/cityturn.c:1233
+#: server/cityturn.c:1177 server/cityturn.c:1254
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -39377,23 +39394,23 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska tarvittavaa teknologiaa %s ei vielä "
 "ole saatavilla."
 
-#: server/cityturn.c:1168 server/cityturn.c:2012
+#: server/cityturn.c:1189 server/cityturn.c:2033
 #, c-format
 msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 msgstr "%s lykkää työlistan hanketta %s tuntemattomasta syystä."
 
-#: server/cityturn.c:1181 server/cityturn.c:2032
+#: server/cityturn.c:1202 server/cityturn.c:2053
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s poistaa hankkeen %s työlistalta koska sitä ei voi rakentaa."
 
-#: server/cityturn.c:1202 server/cityturn.c:2020 server/cityturn.c:2156
-#: server/cityturn.c:2202
+#: server/cityturn.c:1223 server/cityturn.c:2041 server/cityturn.c:2177
+#: server/cityturn.c:2223
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Tuotantoa uudistetaan: %s korvattu tavoitteella %s kaupungissa %s."
 
-#: server/cityturn.c:1252
+#: server/cityturn.c:1273
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
@@ -39402,12 +39419,12 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska teknologiaa lipulla \"%s\" ei vielä "
 "ole saatavilla."
 
-#: server/cityturn.c:1284 server/cityturn.c:1313
+#: server/cityturn.c:1305 server/cityturn.c:1334
 #, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska %s tarvitaan ensin."
 
-#: server/cityturn.c:1341
+#: server/cityturn.c:1362
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it cannot have %s government. "
@@ -39416,7 +39433,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentajalla ei saa olla "
 "valtiomuotona %s."
 
-#: server/cityturn.c:1356
+#: server/cityturn.c:1377
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
@@ -39425,27 +39442,27 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sen rakentamiseksi tarvitaan saavutus "
 "%s."
 
-#: server/cityturn.c:1374 server/cityturn.c:1401
+#: server/cityturn.c:1395 server/cityturn.c:1422
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is required. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii ruutulisän %s."
 
-#: server/cityturn.c:1386 server/cityturn.c:1413
+#: server/cityturn.c:1407 server/cityturn.c:1434
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is prohibited. Postponing..."
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutulisä %s estää rakentamisen."
 
-#: server/cityturn.c:1428
+#: server/cityturn.c:1449
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii maastotyypin %s."
 
-#: server/cityturn.c:1440
+#: server/cityturn.c:1461
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is prohibited. "
@@ -39454,14 +39471,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska maastotyyppi %s estää rakentamisen."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1457
+#: server/cityturn.c:1478
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska sen voi rakentaa vain kansa %s."
 
-#: server/cityturn.c:1469
+#: server/cityturn.c:1490
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -39469,7 +39486,7 @@ msgid ""
 msgstr "%s lykkää työlistan hanketta %s, koska kansa %s ei voi sitä rakentaa."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1487
+#: server/cityturn.c:1508
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
@@ -39477,7 +39494,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska se vaatii ryhmään %s kuuluvan kansan."
 
-#: server/cityturn.c:1499
+#: server/cityturn.c:1520
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -39486,7 +39503,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska ryhmään %s kuuluva kansa ei voi sitä "
 "rakentaa."
 
-#: server/cityturn.c:1517
+#: server/cityturn.c:1538
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s style cities may build this. "
@@ -39495,7 +39512,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska vain tyylin %s kaupungit voivat "
 "rakentaa sen."
 
-#: server/cityturn.c:1529
+#: server/cityturn.c:1550
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s style cities may not build this. "
@@ -39505,7 +39522,7 @@ msgstr ""
 "rakentaa."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1547
+#: server/cityturn.c:1568
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this. "
@@ -39513,7 +39530,7 @@ msgid ""
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii rakennuksen %s."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1560
+#: server/cityturn.c:1581
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city without %s may build this. "
@@ -39524,7 +39541,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Is foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1578
+#: server/cityturn.c:1599
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -39533,7 +39550,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska pelaajalla ei ole diplomaattisuhdetta "
 "'%s'."
 
-#: server/cityturn.c:1593
+#: server/cityturn.c:1614
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -39542,7 +39559,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska pelaajalla on estävä diplomaattisuhde "
 "'%s'."
 
-#: server/cityturn.c:1611
+#: server/cityturn.c:1632
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -39551,7 +39568,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin koon pitää "
 "olla vähintään %d."
 
-#: server/cityturn.c:1624
+#: server/cityturn.c:1645
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or smaller."
@@ -39560,7 +39577,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavan kaupungin koko saa "
 "olla korkeintaan %d."
 
-#: server/cityturn.c:1640
+#: server/cityturn.c:1661
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -39569,14 +39586,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska sitä rakentavalla kaupungilla pitää "
 "olla vähintään %d kulttuuria."
 
-#: server/cityturn.c:1658
+#: server/cityturn.c:1679
 #, fuzzy, c-format
 #| msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
 msgstr "%s lykkää työlistan hanketta %s tuntemattomasta syystä."
 
-#: server/cityturn.c:1675
+#: server/cityturn.c:1696
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -39587,7 +39604,7 @@ msgid_plural ""
 msgstr[0] "%s lykkää työlistan hanketta %s, koska ruudussa on %d yksikkö."
 msgstr[1] "%s lykkää työlistan hanketta %s, koska ruudussa on %d yksikköä."
 
-#: server/cityturn.c:1693
+#: server/cityturn.c:1714
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -39600,14 +39617,14 @@ msgstr[0] ""
 "yksiköitä: %d."
 msgstr[1] "%s lykkää työlistan hanketta %s, koska ruudussa ei ole %d yksikköä."
 
-#: server/cityturn.c:1718
+#: server/cityturn.c:1739
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is required.  "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska se vaatii maaston luokasta %s."
 
-#: server/cityturn.c:1731
+#: server/cityturn.c:1752
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is "
@@ -39615,7 +39632,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska luokan %s maasto estää rakentamisen."
 
-#: server/cityturn.c:1747
+#: server/cityturn.c:1768
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -39623,7 +39640,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska maastotyyppi lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1760
+#: server/cityturn.c:1781
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -39632,7 +39649,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutu maastotyypin lipulla \"%s\" "
 "estää rakentamisen."
 
-#: server/cityturn.c:1776
+#: server/cityturn.c:1797
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; base with \"%s\" flag is required. "
@@ -39640,7 +39657,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska tukikohta lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1789
+#: server/cityturn.c:1810
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; base with \"%s\" flag is prohibited. "
@@ -39649,14 +39666,14 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska tukikohta lipulla \"%s\" estää "
 "rakentamisen."
 
-#: server/cityturn.c:1805
+#: server/cityturn.c:1826
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
 "Postponing..."
 msgstr "%s lykkää työlistan hanketta %s, koska tie lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1818
+#: server/cityturn.c:1839
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -39664,7 +39681,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska tie lipulla \"%s\" estää rakentamisen."
 
-#: server/cityturn.c:1834
+#: server/cityturn.c:1855
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -39672,7 +39689,7 @@ msgid ""
 msgstr ""
 "%s lykkää työlistan hanketta %s, koska ruutulisä lipulla \"%s\" tarvitaan."
 
-#: server/cityturn.c:1847
+#: server/cityturn.c:1868
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -39684,7 +39701,7 @@ msgstr ""
 #. TRANS: last %s is a date
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1880 server/cityturn.c:1902
+#: server/cityturn.c:1901 server/cityturn.c:1923
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -39694,7 +39711,7 @@ msgstr ""
 
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1917
+#: server/cityturn.c:1938
 #, fuzzy, c-format
 #| msgid ""
 #| "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -39704,7 +39721,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta vuodesta %s "
 "alkaen."
 
-#: server/cityturn.c:1932
+#: server/cityturn.c:1953
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -39717,7 +39734,7 @@ msgstr ""
 #. * The string's format is specified in
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: server/cityturn.c:1952
+#: server/cityturn.c:1973
 #, fuzzy, c-format
 #| msgid ""
 #| "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -39728,7 +39745,7 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska se on saatavilla vasta vuodesta %s "
 "alkaen."
 
-#: server/cityturn.c:1971
+#: server/cityturn.c:1992
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
@@ -39738,37 +39755,37 @@ msgstr ""
 "vanhoille kaupungeille."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2072
+#: server/cityturn.c:2093
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "%s pääsi työlistansa loppuun."
 
-#: server/cityturn.c:2230
+#: server/cityturn.c:2251
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ei voi ylläpitää kaikkia yksikköjään, %s hajotettu."
 
-#: server/cityturn.c:2250
+#: server/cityturn.c:2271
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Kaupungin %s asukkaat kuolevat, kun %s rapistuu ylläpidon puutteesta!"
 
-#: server/cityturn.c:2295 server/cityturn.c:2441
+#: server/cityturn.c:2316 server/cityturn.c:2462
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s: rakenteilla on %s, joka ei enää ole saatavilla."
 
-#: server/cityturn.c:2334
+#: server/cityturn.c:2355
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s ehtivät ensin: %s on valmistunut kaupungissa %s."
 
-#: server/cityturn.c:2341
+#: server/cityturn.c:2362
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s sai valmiiksi hankkeen %s."
 
-#: server/cityturn.c:2364
+#: server/cityturn.c:2385
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -39776,26 +39793,26 @@ msgstr[0] "%s tehostaa tutkimusta, harppaat %d edistysaskeleen."
 msgstr[1] "%s tehostaa tutkimusta, harppaat %d edistysaskelta."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2377
+#: server/cityturn.c:2398
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "%s saatu, sen tuotti %s!"
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2383
+#: server/cityturn.c:2404
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr ""
 "Tiedonjanoiset %1$s saivat edistysaskeleen. %3$s tuotti teknologian %2$s."
 
-#: server/cityturn.c:2390
+#: server/cityturn.c:2411
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s rakentavat jo avaruusalusta!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2469
+#: server/cityturn.c:2490
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -39803,81 +39820,81 @@ msgstr ""
 "väkilukukustannus: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2510
+#: server/cityturn.c:2531
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2519
+#: server/cityturn.c:2540
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:2604
+#: server/cityturn.c:2625
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:2745
+#: server/cityturn.c:2766
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:2986 server/cityturn.c:3784
+#: server/cityturn.c:3007 server/cityturn.c:3820
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:3148
+#: server/cityturn.c:3169
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:3154
+#: server/cityturn.c:3175
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
-#: server/cityturn.c:3171
+#: server/cityturn.c:3192
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3235
+#: server/cityturn.c:3256
 msgid " Unrest threatens to spread beyond the city."
 msgstr " Levottomuudet uhkaavat levittäytyä kaupungin ulkopuolelle."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3242
+#: server/cityturn.c:3263
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "%s kärsii levottomuuksista.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3247
+#: server/cityturn.c:3268
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "%s: LEVOTTOMUUDET JATKUVAT.%s"
 
-#: server/cityturn.c:3253
+#: server/cityturn.c:3274
 #, c-format
 msgid "Order restored in %s."
 msgstr "%s: Järjestys on palannut kaupunkiin."
 
 # government - e.g. Yksinvalta
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3265
+#: server/cityturn.c:3286
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "%s kaatui kansannousussa, valtio natisee liitoksissaan."
 
-#: server/cityturn.c:3307
+#: server/cityturn.c:3328
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
@@ -39885,13 +39902,13 @@ msgstr ""
 "lakkauttaa."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3336
+#: server/cityturn.c:3357
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s lakkautettiin, kun %s koottiin."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3536
+#: server/cityturn.c:3559
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -39900,7 +39917,7 @@ msgstr ""
 "syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3543
+#: server/cityturn.c:3566
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -39910,7 +39927,7 @@ msgstr ""
 "(%s) syödään jo pettua!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3548
+#: server/cityturn.c:3571
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -39920,7 +39937,7 @@ msgstr ""
 "%s syödään jo pettua!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3563
+#: server/cityturn.c:3586
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -39929,7 +39946,7 @@ msgstr ""
 "parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3570
+#: server/cityturn.c:3593
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -39938,7 +39955,7 @@ msgstr ""
 "vaatii parannuksen kasvaakseen!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3575
+#: server/cityturn.c:3598
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -39946,77 +39963,77 @@ msgstr ""
 "Siirtolaiset kaupungista %s (%s) eivät voi muuttaa, koska kohdekaupunki %s "
 "vaatii parannuksen kasvaakseen!"
 
-#: server/cityturn.c:3621
+#: server/cityturn.c:3651
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s on tyhjentynyt asukkaista."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3659
+#: server/cityturn.c:3689
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Siirtolaisia kaupungista %1$s on saapunut kaupunkiin %2$s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3665
+#: server/cityturn.c:3695
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Siirtolaisia kaupungistasi %1$s on päätynyt %3$s kaupunkiin %2$s."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3670
+#: server/cityturn.c:3700
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Siirtolaisia %2$s kaupungista %1$s on saapunut kaupunkiisi %3$s."
 
 #. TRANS: %s is a city name
-#: server/cityturn.c:3756
+#: server/cityturn.c:3792
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Kaikki ruokavarastot tuhoutuivat kaupungissa %s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3778
+#: server/cityturn.c:3814
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%2$s iski kaupunkiin %1$s."
 
-#: server/cityturn.c:3792
+#: server/cityturn.c:3828
 #, c-format
 msgid "Fallout near %s."
 msgstr "Ydinlaskeumaa lähellä kaupunkia %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3803
+#: server/cityturn.c:3839
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s aiheuttaa kaupungin %s tuhon."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3809
+#: server/cityturn.c:3845
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s vähensi väkilukua kaupungissa %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3834
+#: server/cityturn.c:3870
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3859
+#: server/cityturn.c:3895
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "Kohteen %s tuotanto tuhoutui kaupungissa %s."
 
-#: server/cityturn.c:4033
+#: server/cityturn.c:4069
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr "%s ei houkuta. Sen asukkaat harkitsevat muuttoa kaupunkiin %s."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4055
+#: server/cityturn.c:4091
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -49117,12 +49134,12 @@ msgstr ""
 msgid "%s can't do anything to an unknown target tile."
 msgstr "Lähettämäsi %s ei löytänyt mitään sabotoitavaa kaupungista %s."
 
-#: server/unithand.c:1415 server/unithand.c:1989 server/unithand.c:3641
+#: server/unithand.c:1415 server/unithand.c:1989 server/unithand.c:3642
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ei voi liikkua niin kauas rannikolta."
 
-#: server/unithand.c:1420 server/unithand.c:1994 server/unithand.c:3656
+#: server/unithand.c:1420 server/unithand.c:1994 server/unithand.c:3657
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
@@ -49382,67 +49399,67 @@ msgstr "%s delegoi pelaajan '%s' hallinnan käyttäjälle %s%s."
 msgid "Recyled your %s to help the current production in %s."
 msgstr "Napsauta vasenta nappia vaihtaaksesi tuotantoa"
 
-#: server/unithand.c:2803
+#: server/unithand.c:2799
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s lisätty auttamaan kaupunkia %s kasvamaan."
 
 #. TRANS: another player had his unit joint your city.
-#: server/unithand.c:2811
+#: server/unithand.c:2807
 #, fuzzy, c-format
 #| msgid "You must select your city style."
 msgid "%s adds %s to your city %s."
 msgstr "Sinun on valittava kaupunkiesi rakennustyyli."
 
-#: server/unithand.c:3232
+#: server/unithand.c:3233
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr ""
 "Laukaisemasi %s ammuttiin alas ohjuspuolustusjärjestelmällä. Ilonpilaajat!"
 
-#: server/unithand.c:3235
+#: server/unithand.c:3236
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunut."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:3491
+#: server/unithand.c:3492
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%s selviytyi surkeasta hyökkäyksestä, jota %s %s yritti."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:3501
+#: server/unithand.c:3502
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Hyökkäyksesi meni mönkään, %s hävisi ja %s %s selviytyi voittajana."
 
-#: server/unithand.c:3630 server/unittools.c:2797 server/unittools.c:2805
+#: server/unithand.c:3631 server/unittools.c:2797 server/unittools.c:2805
 #: server/unittools.c:2835
 msgid "Cannot attack unless you declare war first."
 msgstr "Et voi hyökätä ennen sodanjulistusta."
 
-#: server/unithand.c:3635
+#: server/unithand.c:3636
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s voi siirtyä vain itse valvomallesi alueelle."
 
-#: server/unithand.c:3648 server/unittools.c:2813 server/unittools.c:2843
+#: server/unithand.c:3649 server/unittools.c:2813 server/unittools.c:2843
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 "Sinä ja %s olette solmineet rauhan, et voi hyökätä ennen sopimuksen purkua."
 
-#: server/unithand.c:3665
+#: server/unithand.c:3666
 #, c-format
 msgid "Terrain is unsuitable for %s units."
 msgstr "Maasto ei sovellu %s yksiköille."
 
-#: server/unithand.c:3714
+#: server/unithand.c:3715
 msgid "This unit has no moves left."
 msgstr "Tällä yksiköllä ei ole liikepisteitä jäljellä."
 
-#: server/unithand.c:3785
+#: server/unithand.c:3786
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Kuljetettu yksikkö ei ole liitossa kaikkien kohderuudun joukkojen tai sen "
@@ -49451,40 +49468,40 @@ msgstr ""
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * remaining). You can reorder '4' and 'remaining' in the actual
 #. * format string.
-#: server/unithand.c:3833
+#: server/unithand.c:3834
 msgid "remaining"
 msgstr "jäljellä"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * surplus). You can reorder '4' and 'surplus' in the actual
 #. * format string.
-#: server/unithand.c:3838
+#: server/unithand.c:3839
 msgid "surplus"
 msgstr "ylijäämä"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen
 #. * (4 surplus).
-#: server/unithand.c:3847
+#: server/unithand.c:3848
 #, c-format
 msgid "Your %s helps build the %s in %s (%d %s)."
 msgstr "%s auttaa rakennushanketta %s kaupungissa %s (%d %s)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
-#: server/unithand.c:3868
+#: server/unithand.c:3869
 #, c-format
 msgid "Help building the %s in %s received from %s %s (%d %s)."
 msgstr ""
 "Kaupungissa %2$s %1$s valmistuu nopeammin kun %4$s, jonka %3$s lähettivät "
 "auttaa (%5$d %6$s)."
 
-#: server/unithand.c:3924
+#: server/unithand.c:3925
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:3937
+#: server/unithand.c:3938
 #, fuzzy, c-format
 #| msgid ""
 #| "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -49493,17 +49510,17 @@ msgid ""
 "goods."
 msgstr "%s ei voi luoda kauppareittiä, koska sillä ei ole kotikaupunkia."
 
-#: server/unithand.c:3948
+#: server/unithand.c:3949
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s ei voi luoda kauppareittiä kaupunkien %s ja %s välille."
 
-#: server/unithand.c:3984 server/unithand.c:4008
+#: server/unithand.c:3985 server/unithand.c:4009
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s ei voi luoda kauppareittiä tänne!"
 
-#: server/unithand.c:3990 server/unithand.c:4014
+#: server/unithand.c:3991 server/unithand.c:4015
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -49511,13 +49528,15 @@ msgstr[0] "      Kaupungilla %s on jo %d parempi kauppareitti!"
 msgstr[1] "      Kaupungilla %s on jo %d parempaa kauppareittiä!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
-#: server/unithand.c:4045
+#: server/unithand.c:4046
 #, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
-msgstr "Kaupungista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s muassaan %4$s-lasti."
+msgstr ""
+"Kaupungista %2$s lähtenyt %1$s on saapunut perille kaupunkiin %3$s muassaan "
+"%4$s-lasti."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4055
+#: server/unithand.c:4056
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -49525,11 +49544,15 @@ msgid ""
 msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold."
-msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa."
-msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa."
+msgstr[0] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"kultaa."
+msgstr[1] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"kultaa."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4070
+#: server/unithand.c:4071
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -49537,11 +49560,15 @@ msgid ""
 msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "research."
-msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d pisteen tutkimusta."
-msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d pistettä tutkimusta."
+msgstr[0] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"pisteen tutkimusta."
+msgstr[1] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"pistettä tutkimusta."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4085
+#: server/unithand.c:4086
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -49549,15 +49576,19 @@ msgid ""
 msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold and research."
-msgstr[0] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa ja tutkimusta."
-msgstr[1] "%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d kultaa ja tutkimusta."
+msgstr[0] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"kultaa ja tutkimusta."
+msgstr[1] ""
+"%s kaupungista %s saapui kaupunkiin %s muassaan %s-lasti. Matka tuotti %d "
+"kultaa ja tutkimusta."
 
-#: server/unithand.c:4124
+#: server/unithand.c:4125
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Uusi kauppareitti perustettu kaupungista %s kaupunkiin %s."
 
-#: server/unithand.c:4130
+#: server/unithand.c:4131
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s perusti kauppareitin kaupunkinsa %s ja kaupungin %s välille."
