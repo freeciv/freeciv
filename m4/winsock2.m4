@@ -10,7 +10,7 @@
 AC_DEFUN([FC_WINSOCK2_INCLUDE],
 [
   dnl We have to poke autoconf internals so we get correct include order for the tests
-  _backup_includes_default="${ac_include_headers}"
+  _backup_includes_default="${ac_includes_default}"
   ac_includes_default="\
 #include <winsock2.h>
 ${ac_includes_default}"
