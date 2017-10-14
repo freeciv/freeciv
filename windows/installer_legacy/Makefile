@@ -203,6 +203,8 @@ install-env-default-fcmp: install-env-common
 	cp -R /etc/gtk-3.0 install-$(GUI)/etc/
 	mkdir -p install-$(GUI)/lib/gtk-3.0/
 	cp -R /lib/gtk-3.0/3.0.0 install-$(GUI)/lib/gtk-3.0/
+	mkdir -p install-$(GUI)/share/glib-2.0/schemas
+	cp /share/glib-2.0/schemas/gschemas.compiled install-$(GUI)/share/glib-2.0/schemas/
 	cp -R /share/locale install-$(GUI)/share/
 	find install-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -and -not -name gtk30.mo -delete
 
