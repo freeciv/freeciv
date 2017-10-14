@@ -232,6 +232,8 @@ GTK3_DLLS := \
 install-env-gtk3: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix /bin/, $(GTK3_DLLS)) install-$(GUI)
+	mkdir -p install-$(GUI)/share/glib-2.0/schemas
+	cp /share/glib-2.0/schemas/gschemas.compiled install-$(GUI)/share/glib-2.0/schemas/
 
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
