@@ -246,6 +246,8 @@ install-env-default-fcmp: install-env-common
 	cp -R /$(ARCHDIR)/etc/gtk-3.0 install-$(WINARCH)-$(GUI)/etc/
 	mkdir -p install-$(WINARCH)-$(GUI)/share/icons
 	cp -R /$(ARCHDIR)/share/icons/Adwaita install-$(WINARCH)-$(GUI)/share/icons/
+	mkdir -p install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas
+	cp /$(ARCHDIR)/share/glib-2.0/schemas/gschemas.compiled install-$(WINARCH)-$(GUI)/share/glib-2.0/schemas/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	cp -R /$(ARCHDIR)/lib/gtk-3.0/* install-$(WINARCH)-$(GUI)/lib/gtk-3.0/
 	mkdir -p install-$(WINARCH)-$(GUI)/lib/gdk-pixbuf-2.0/
