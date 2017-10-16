@@ -689,10 +689,11 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     default:
       return TRUE;
     }
-    
+
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_name(p, "Freeciv");
     gtk_container_set_border_width(GTK_CONTAINER(p), 2);
+    gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->shell));
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     frame = gtk_frame_new(NULL);
