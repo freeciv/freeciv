@@ -403,7 +403,7 @@ utypes = "\
 ; \"Settlers\"	= can irrigate and build roads\n\
 ; \"Diplomat\"	= can defend against diplomat actions (see diplchance\n\
 ;                 server option)\n\
-; \"Spy\"       = enhanced diplomat actions. _Must_ be \"Diplomat\" also\n\
+; \"Spy\"       = strong in diplomatic battles. _Must_ be \"Diplomat\" also\n\
 ; \"CoastStrict\" = (sea only) cannot leave coast\n\
 ; \"Coast\"       = (sea only) can refuel on coast. Set fuel to force unit\n\
 ;                 to regularly end turn on coast\n\
