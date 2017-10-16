@@ -11,9 +11,9 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/***********************************************************************
+/**********************************************************************
    Functions for handling the nations.
-************************************************************************/
+***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
@@ -59,7 +59,7 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
                                   __FILE__, __FUNCTION__, __FC_LINE__),     \
                                   action)
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the nation is valid, else, print an error message and
   returns FALSE.
 ****************************************************************************/
@@ -98,7 +98,7 @@ static inline bool nation_check(const struct nation_type *pnation,
 #define NATION_CHECK(pnation, action) /* Do Nothing. */
 #endif /* FREECIV_DEBUG */
 
-/****************************************************************************
+/************************************************************************//**
   Returns the nation that has the given (translated) plural noun.
   Returns NO_NATION_SELECTED if none match.
 ****************************************************************************/
@@ -113,7 +113,7 @@ struct nation_type *nation_by_translated_plural(const char *name)
   return NO_NATION_SELECTED;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the nation that has the given (untranslated) rule name (adjective).
   Returns NO_NATION_SELECTED if none match.
 ****************************************************************************/
@@ -130,7 +130,7 @@ struct nation_type *nation_by_rule_name(const char *name)
   return NO_NATION_SELECTED;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (untranslated) rule name of the nation (adjective form).
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -141,7 +141,7 @@ const char *nation_rule_name(const struct nation_type *pnation)
   return rule_name_get(&pnation->adjective);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (translated) adjective for the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -151,7 +151,7 @@ const char *nation_adjective_translation(const struct nation_type *pnation)
   return name_translation_get(&pnation->adjective);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (translated) plural noun of the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -161,7 +161,7 @@ const char *nation_plural_translation(const struct nation_type *pnation)
   return name_translation_get(&pnation->noun_plural);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (translated) adjective for the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -170,7 +170,7 @@ const char *nation_adjective_for_player(const struct player *pplayer)
   return nation_adjective_translation(nation_of_player(pplayer));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (translated) plural noun of the given nation of a player. 
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -179,7 +179,7 @@ const char *nation_plural_for_player(const struct player *pplayer)
   return nation_plural_translation(nation_of_player(pplayer));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return whether a nation is "pickable" -- whether players can select it
   at game start.
   (Client only function -- on the server, use client_can_pick_nation().)
@@ -190,7 +190,7 @@ bool is_nation_pickable(const struct nation_type *nation)
   return nation->client.is_pickable;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return whether a nation is "playable"; i.e., whether a human player can
   choose this nation.  Barbarian and observer nations are not playable.
 
@@ -202,7 +202,7 @@ bool is_nation_playable(const struct nation_type *nation)
   return nation->is_playable;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns which kind of barbarians can use this nation.
 
   This does not check whether a nation is "used" or "available".
@@ -222,7 +222,7 @@ struct nation_leader {
   bool is_male;
 };
 
-/****************************************************************************
+/************************************************************************//**
   Returns the list the nation leader names.
 ****************************************************************************/
 const struct nation_leader_list *
@@ -232,7 +232,7 @@ nation_leaders(const struct nation_type *pnation)
   return pnation->leaders;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new leader for the nation.
 ****************************************************************************/
 struct nation_leader *nation_leader_new(struct nation_type *pnation,
@@ -249,7 +249,7 @@ struct nation_leader *nation_leader_new(struct nation_type *pnation,
   return pleader;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy a nation leader created with nation_leader_new().
 ****************************************************************************/
 static void nation_leader_destroy(struct nation_leader *pleader)
@@ -258,7 +258,7 @@ static void nation_leader_destroy(struct nation_leader *pleader)
   free(pleader);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the nation leader structure which match 'name' or NULL if not
   found.
 ****************************************************************************/
@@ -274,7 +274,7 @@ nation_leader_by_name(const struct nation_type *pnation, const char *name)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the name of the nation leader.
 ****************************************************************************/
 const char *nation_leader_name(const struct nation_leader *pleader)
@@ -283,7 +283,7 @@ const char *nation_leader_name(const struct nation_leader *pleader)
   return pleader->name;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the sex of the nation leader.
 ****************************************************************************/
 bool nation_leader_is_male(const struct nation_leader *pleader)
@@ -292,7 +292,7 @@ bool nation_leader_is_male(const struct nation_leader *pleader)
   return pleader->is_male;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return translated version of nation legend.
 ****************************************************************************/
 const char *nation_legend_translation(const struct nation_type *pnation,
@@ -323,7 +323,7 @@ struct nation_city {
   enum nation_city_preference terrain[MAX_NUM_TERRAINS];
 };
 
-/****************************************************************************
+/************************************************************************//**
   Return the default cities of the nation (server only function).
 ****************************************************************************/
 const struct nation_city_list *
@@ -335,7 +335,7 @@ nation_cities(const struct nation_type *pnation)
   return pnation->server.default_cities;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new default city for the nation (server only function).
 ****************************************************************************/
 struct nation_city *nation_city_new(struct nation_type *pnation,
@@ -354,7 +354,7 @@ struct nation_city *nation_city_new(struct nation_type *pnation,
   return pncity;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy a default nation city created with nation_city_new().
 ****************************************************************************/
 static void nation_city_destroy(struct nation_city *pncity)
@@ -363,7 +363,7 @@ static void nation_city_destroy(struct nation_city *pncity)
   free(pncity);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Reverts the nation city preference.
 ****************************************************************************/
 enum nation_city_preference
@@ -383,7 +383,7 @@ nation_city_preference_revert(enum nation_city_preference prefer)
   return NCP_NONE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the default nation city preference for the terrain.
 ****************************************************************************/
 void nation_city_set_terrain_preference(struct nation_city *pncity,
@@ -395,7 +395,7 @@ void nation_city_set_terrain_preference(struct nation_city *pncity,
   pncity->terrain[terrain_index(pterrain)] = prefer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the default nation city preference about rivers.
 ****************************************************************************/
 void nation_city_set_river_preference(struct nation_city *pncity,
@@ -405,7 +405,7 @@ void nation_city_set_river_preference(struct nation_city *pncity,
   pncity->river = prefer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the name of the default nation city.
 ****************************************************************************/
 const char *nation_city_name(const struct nation_city *pncity)
@@ -414,7 +414,7 @@ const char *nation_city_name(const struct nation_city *pncity)
   return pncity->name;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the default nation city preference for the terrain.
 ****************************************************************************/
 enum nation_city_preference
@@ -426,7 +426,7 @@ nation_city_terrain_preference(const struct nation_city *pncity,
   return pncity->terrain[terrain_index(pterrain)];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the default nation city preference for rivers.
 ****************************************************************************/
 enum nation_city_preference
@@ -437,7 +437,7 @@ nation_city_river_preference(const struct nation_city *pncity)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation of a player.
 ****************************************************************************/
 struct nation_type *nation_of_player(const struct player *pplayer)
@@ -447,7 +447,7 @@ struct nation_type *nation_of_player(const struct player *pplayer)
   return pplayer->nation;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation of the player who owns the city.
 ****************************************************************************/
 struct nation_type *nation_of_city(const struct city *pcity)
@@ -456,7 +456,7 @@ struct nation_type *nation_of_city(const struct city *pcity)
   return nation_of_player(city_owner(pcity));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation of the player who owns the unit.
 ****************************************************************************/
 struct nation_type *nation_of_unit(const struct unit *punit)
@@ -465,7 +465,7 @@ struct nation_type *nation_of_unit(const struct unit *punit)
   return nation_of_player(unit_owner(punit));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation with the given index.
 
   This function returns NULL for an out-of-range index (some callers
@@ -479,28 +479,28 @@ struct nation_type *nation_by_number(const Nation_type_id nation)
   return nations + nation;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the nation index.
-**************************************************************************/
+****************************************************************************/
 Nation_type_id nation_number(const struct nation_type *pnation)
 {
   fc_assert_ret_val(NULL != pnation, -1);
   return pnation->item_number;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the nation index.
 
   Currently same as nation_number(), paired with nation_count()
   indicates use as an array index.
-**************************************************************************/
+****************************************************************************/
 Nation_type_id nation_index(const struct nation_type *pnation)
 {
   fc_assert_ret_val(NULL != pnation, -1);
   return pnation - nations;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of nations.
 ****************************************************************************/
 Nation_type_id nation_count(void)
@@ -518,7 +518,7 @@ struct nation_iter {
 };
 #define NATION_ITER(p) ((struct nation_iter *)(p))
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'sizeof' function.
 ****************************************************************************/
 size_t nation_iter_sizeof(void)
@@ -526,7 +526,7 @@ size_t nation_iter_sizeof(void)
   return sizeof(struct nation_iter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'next' function.
 ****************************************************************************/
 static void nation_iter_next(struct iterator *iter)
@@ -534,7 +534,7 @@ static void nation_iter_next(struct iterator *iter)
   NATION_ITER(iter)->p++;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'get' function.
 ****************************************************************************/
 static void *nation_iter_get(const struct iterator *iter)
@@ -542,7 +542,7 @@ static void *nation_iter_get(const struct iterator *iter)
   return NATION_ITER(iter)->p;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'valid' function.
 ****************************************************************************/
 static bool nation_iter_valid(const struct iterator *iter)
@@ -551,7 +551,7 @@ static bool nation_iter_valid(const struct iterator *iter)
   return it->p < it->end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'init' function.
 ****************************************************************************/
 struct iterator *nation_iter_init(struct nation_iter *it)
@@ -564,7 +564,7 @@ struct iterator *nation_iter_init(struct nation_iter *it)
   return ITERATOR(it);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Allocate resources associated with the given nation.
 ****************************************************************************/
 static void nation_init(struct nation_type *pnation)
@@ -589,7 +589,7 @@ static void nation_init(struct nation_type *pnation)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   De-allocate resources associated with the given nation.
 ****************************************************************************/
 static void nation_free(struct nation_type *pnation)
@@ -612,7 +612,7 @@ static void nation_free(struct nation_type *pnation)
   memset(pnation, 0, sizeof(*pnation));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Allocate space for the given number of nations.
 ****************************************************************************/
 void nations_alloc(int num)
@@ -627,7 +627,7 @@ void nations_alloc(int num)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   De-allocate the currently allocated nations.
 ****************************************************************************/
 void nations_free(void)
@@ -647,7 +647,7 @@ void nations_free(void)
   game.control.nation_count = 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns initial government type for this nation.
   Always returns non-NULL -- nation-specific government or failing that
   ruleset default government.
@@ -662,7 +662,7 @@ struct government *init_government_of_nation(const struct nation_type *pnation)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns nation's style.
 ****************************************************************************/
 struct nation_style *style_of_nation(const struct nation_type *pnation)
@@ -671,7 +671,7 @@ struct nation_style *style_of_nation(const struct nation_type *pnation)
   return pnation->style;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns nation's player color preference, or NULL if none.
   Server only function.
 ****************************************************************************/
@@ -681,7 +681,7 @@ const struct rgbcolor *nation_color(const struct nation_type *pnation)
   return pnation->server.rgb;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of nation sets.
 ****************************************************************************/
 int nation_set_count(void)
@@ -689,7 +689,7 @@ int nation_set_count(void)
   return num_nation_sets;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation set index.
 ****************************************************************************/
 int nation_set_index(const struct nation_set *pset)
@@ -698,7 +698,7 @@ int nation_set_index(const struct nation_set *pset)
   return pset - nation_sets;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation set index.
 ****************************************************************************/
 int nation_set_number(const struct nation_set *pset)
@@ -706,7 +706,7 @@ int nation_set_number(const struct nation_set *pset)
   return nation_set_index(pset);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add new set into the array of nation sets.
 ****************************************************************************/
 struct nation_set *nation_set_new(const char *set_name,
@@ -743,7 +743,7 @@ struct nation_set *nation_set_new(const char *set_name,
   return pset;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation set with the given index.
 
   This function returns NULL for an out-of-range index (some callers
@@ -757,7 +757,7 @@ struct nation_set *nation_set_by_number(int id)
   return nation_sets + id;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation set that has the given (untranslated) rule name.
   Returns NULL if no set is found.
 ****************************************************************************/
@@ -774,7 +774,7 @@ struct nation_set *nation_set_by_rule_name(const char *name)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the untranslated name of a nation set (including qualifier, if any).
   You usually want nation_set_rule_name() instead.
   You don't have to free the return pointer.
@@ -785,7 +785,7 @@ const char *nation_set_untranslated_name(const struct nation_set *pset)
   return untranslated_name(&pset->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (untranslated) rule name of a nation set.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -796,7 +796,7 @@ const char *nation_set_rule_name(const struct nation_set *pset)
   return rule_name_get(&pset->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the translated name of a nation set.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -806,7 +806,7 @@ const char *nation_set_name_translation(const struct nation_set *pset)
   return name_translation_get(&pset->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (untranslated) user description of a nation set.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -816,7 +816,7 @@ const char *nation_set_description(const struct nation_set *pset)
   return pset->description;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if the given nation is in a given set
 ****************************************************************************/
 bool nation_is_in_set(const struct nation_type *pnation,
@@ -832,7 +832,7 @@ bool nation_is_in_set(const struct nation_type *pnation,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the nation set that would be selected by the given value of the
   'nationset' server setting.
   This differs from nation_set_by_rule_name() for the empty string, where
@@ -868,7 +868,7 @@ struct nation_set_iter {
 };
 #define NATION_SET_ITER(p) ((struct nation_set_iter *)(p))
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'sizeof' function.
 ****************************************************************************/
 size_t nation_set_iter_sizeof(void)
@@ -876,7 +876,7 @@ size_t nation_set_iter_sizeof(void)
   return sizeof(struct nation_set_iter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'next' function.
 ****************************************************************************/
 static void nation_set_iter_next(struct iterator *iter)
@@ -884,7 +884,7 @@ static void nation_set_iter_next(struct iterator *iter)
   NATION_SET_ITER(iter)->p++;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'get' function.
 ****************************************************************************/
 static void *nation_set_iter_get(const struct iterator *iter)
@@ -892,7 +892,7 @@ static void *nation_set_iter_get(const struct iterator *iter)
   return NATION_SET_ITER(iter)->p;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'valid' function.
 ****************************************************************************/
 static bool nation_set_iter_valid(const struct iterator *iter)
@@ -901,7 +901,7 @@ static bool nation_set_iter_valid(const struct iterator *iter)
   return it->p < it->end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'init' function.
 ****************************************************************************/
 struct iterator *nation_set_iter_init(struct nation_set_iter *it)
@@ -914,7 +914,7 @@ struct iterator *nation_set_iter_init(struct nation_set_iter *it)
   return ITERATOR(it);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of nation groups.
 ****************************************************************************/
 int nation_group_count(void)
@@ -922,7 +922,7 @@ int nation_group_count(void)
   return num_nation_groups;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation group index.
 ****************************************************************************/
 int nation_group_index(const struct nation_group *pgroup)
@@ -931,7 +931,7 @@ int nation_group_index(const struct nation_group *pgroup)
   return pgroup - nation_groups;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation group index.
 ****************************************************************************/
 int nation_group_number(const struct nation_group *pgroup)
@@ -939,7 +939,7 @@ int nation_group_number(const struct nation_group *pgroup)
   return nation_group_index(pgroup);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add new group into the array of groups.
 ****************************************************************************/
 struct nation_group *nation_group_new(const char *name)
@@ -974,7 +974,7 @@ struct nation_group *nation_group_new(const char *name)
   return pgroup;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation group with the given index.
 
   This function returns NULL for an out-of-range index (some callers
@@ -988,7 +988,7 @@ struct nation_group *nation_group_by_number(int id)
   return nation_groups + id;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the nation group that has the given (untranslated) rule name.
   Returns NULL if no group is found.
 ****************************************************************************/
@@ -1005,7 +1005,7 @@ struct nation_group *nation_group_by_rule_name(const char *name)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set whether this group should appear in the nation selection UI.
 ****************************************************************************/
 void nation_group_set_hidden(struct nation_group *pgroup, bool hidden)
@@ -1014,7 +1014,7 @@ void nation_group_set_hidden(struct nation_group *pgroup, bool hidden)
   pgroup->hidden = hidden;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set how much the AI will try to select a nation in the same group.
   Server only function.
 ****************************************************************************/
@@ -1025,7 +1025,7 @@ void nation_group_set_match(struct nation_group *pgroup, int match)
   pgroup->server.match = match;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return whether this group should appear in the nation selection UI.
 ****************************************************************************/
 bool is_nation_group_hidden(struct nation_group *pgroup)
@@ -1034,7 +1034,7 @@ bool is_nation_group_hidden(struct nation_group *pgroup)
   return pgroup->hidden;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the untranslated name of a nation group (including qualifier,
   if any).
   You usually want nation_group_rule_name() instead.
@@ -1046,7 +1046,7 @@ const char *nation_group_untranslated_name(const struct nation_group *pgroup)
   return untranslated_name(&pgroup->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the (untranslated) rule name of a nation group.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -1057,7 +1057,7 @@ const char *nation_group_rule_name(const struct nation_group *pgroup)
   return rule_name_get(&pgroup->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the translated name of a nation group.
   You don't have to free the return pointer.
 ****************************************************************************/
@@ -1067,7 +1067,7 @@ const char *nation_group_name_translation(const struct nation_group *pgroup)
   return name_translation_get(&pgroup->name);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if the given nation is in a given group
 ****************************************************************************/
 bool nation_is_in_group(const struct nation_type *pnation,
@@ -1092,7 +1092,7 @@ struct nation_group_iter {
 };
 #define NATION_GROUP_ITER(p) ((struct nation_group_iter *)(p))
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'sizeof' function.
 ****************************************************************************/
 size_t nation_group_iter_sizeof(void)
@@ -1100,7 +1100,7 @@ size_t nation_group_iter_sizeof(void)
   return sizeof(struct nation_group_iter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'next' function.
 ****************************************************************************/
 static void nation_group_iter_next(struct iterator *iter)
@@ -1108,7 +1108,7 @@ static void nation_group_iter_next(struct iterator *iter)
   NATION_GROUP_ITER(iter)->p++;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'get' function.
 ****************************************************************************/
 static void *nation_group_iter_get(const struct iterator *iter)
@@ -1116,7 +1116,7 @@ static void *nation_group_iter_get(const struct iterator *iter)
   return NATION_GROUP_ITER(iter)->p;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'valid' function.
 ****************************************************************************/
 static bool nation_group_iter_valid(const struct iterator *iter)
@@ -1125,7 +1125,7 @@ static bool nation_group_iter_valid(const struct iterator *iter)
   return it->p < it->end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Implementation of iterator 'init' function.
 ****************************************************************************/
 struct iterator *nation_group_iter_init(struct nation_group_iter *it)
@@ -1138,7 +1138,7 @@ struct iterator *nation_group_iter_init(struct nation_group_iter *it)
   return ITERATOR(it);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initializes all nation set/group data.
 ****************************************************************************/
 void nation_sets_groups_init(void)
@@ -1146,7 +1146,7 @@ void nation_sets_groups_init(void)
   num_nation_sets = num_nation_groups = 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Frees and resets all nation set/group data.
 ****************************************************************************/
 void nation_sets_groups_free(void)
@@ -1154,7 +1154,7 @@ void nation_sets_groups_free(void)
   num_nation_sets = num_nation_groups = 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the editor is allowed to edit the player's nation in
   pregame.
 ****************************************************************************/
@@ -1167,7 +1167,7 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 	           || pconn->access_level >= ALLOW_CTRL)));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns how much two nations look good in the same game.
   Nations in the same group are considered to match, if that nation group
   has a 'match' greater than zero.
