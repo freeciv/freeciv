@@ -22,7 +22,7 @@
 
 static struct multiplier multipliers[MAX_NUM_MULTIPLIERS];
 
-/****************************************************************************
+/************************************************************************//**
   Initialize all multipliers
 ****************************************************************************/
 void multipliers_init(void)
@@ -35,7 +35,7 @@ void multipliers_init(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all multipliers
 ****************************************************************************/
 void multipliers_free(void)
@@ -48,7 +48,7 @@ void multipliers_free(void)
   } multipliers_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns multiplier associated to given number
 ****************************************************************************/
 struct multiplier *multiplier_by_number(Multiplier_type_id id)
@@ -58,7 +58,7 @@ struct multiplier *multiplier_by_number(Multiplier_type_id id)
   return &multipliers[id];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns multiplier number.
 ****************************************************************************/
 Multiplier_type_id multiplier_number(const struct multiplier *pmul)
@@ -68,7 +68,7 @@ Multiplier_type_id multiplier_number(const struct multiplier *pmul)
   return pmul - multipliers;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns multiplier index.
 
   Currently same as multiplier_number(), paired with multiplier_count()
@@ -79,7 +79,7 @@ Multiplier_type_id multiplier_index(const struct multiplier *pmul)
   return multiplier_number(pmul);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return number of loaded multipliers in the ruleset.
 ****************************************************************************/
 Multiplier_type_id multiplier_count(void)
@@ -87,28 +87,28 @@ Multiplier_type_id multiplier_count(void)
   return game.control.num_multipliers;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the (translated) name of the multiplier.
   You don't have to free the return pointer.
-**************************************************************************/
+****************************************************************************/
 const char *multiplier_name_translation(const struct multiplier *pmul)
 {
   return name_translation_get(&pmul->name);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the (untranslated) rule name of the multiplier.
   You don't have to free the return pointer.
-**************************************************************************/
+****************************************************************************/
 const char *multiplier_rule_name(const struct multiplier *pmul)
 {
   return rule_name_get(&pmul->name);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns multiplier matching rule name, or NULL if there is no multiplier
   with such a name.
-**************************************************************************/
+****************************************************************************/
 struct multiplier *multiplier_by_rule_name(const char *name)
 {
   const char *qs;

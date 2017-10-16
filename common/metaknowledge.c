@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2013 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include "tile.h"
 #include "traderoutes.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the target_tile it self and all tiles cardinally
   adjacent to it are seen by pow_player.
 **************************************************************************/
@@ -46,7 +46,7 @@ static bool is_tile_seen_cadj(const struct player *pow_player,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the target_tile it self and all tiles adjacent to it
   are seen by pow_player.
 **************************************************************************/
@@ -69,7 +69,7 @@ static bool is_tile_seen_adj(const struct player *pow_player,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff all tiles of a city are seen by pow_player.
 **************************************************************************/
 static bool is_tile_seen_city(const struct player *pow_player,
@@ -92,7 +92,7 @@ static bool is_tile_seen_city(const struct player *pow_player,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff all the tiles of a city and all the tiles of its trade
   partners are seen by pow_player.
 **************************************************************************/
@@ -120,7 +120,7 @@ static bool is_tile_seen_traderoute(const struct player *pow_player,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff pplayer can see all the symmetric diplomatic
   relationships of tplayer.
 **************************************************************************/
@@ -145,7 +145,7 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is an evalutaion of the requirement accurate when pow_player evaluates
   it?
 
@@ -596,7 +596,7 @@ static bool is_req_knowable(const struct player *pow_player,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Evaluate a single requirement given pow_player's knowledge.
 
   Note: Assumed to use pow_player's data.
@@ -638,7 +638,7 @@ mke_eval_req(const struct player *pow_player,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Evaluate a requirement vector given pow_player's knowledge.
 
   Note: Assumed to use pow_player's data.
@@ -675,7 +675,7 @@ mke_eval_reqs(const struct player *pow_player,
   return result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Can pow_player see the techs of target player?
 **************************************************************************/
 bool can_see_techs_of_target(const struct player *pow_player,

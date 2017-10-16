@@ -494,7 +494,7 @@ static struct {
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Initialisation of the map image subsystem. The arguments are used to
   determine the map knowledge, the terrain type as well as the tile, city and
   unit owner.
@@ -531,7 +531,7 @@ void mapimg_init(mapimg_tile_known_func mapimg_tile_known,
   mapimg.init = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Reset the map image subsystem.
 ****************************************************************************/
 void mapimg_reset(void)
@@ -548,7 +548,7 @@ void mapimg_reset(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all memory allocated by the map image subsystem.
 ****************************************************************************/
 void mapimg_free(void)
@@ -563,7 +563,7 @@ void mapimg_free(void)
   mapimg.init = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of map image definitions.
 ****************************************************************************/
 int mapimg_count(void)
@@ -575,7 +575,7 @@ int mapimg_count(void)
   return mapdef_list_size(mapimg.mapdef);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describe the 'show' settings.
 ****************************************************************************/
 static const char *showname_help(enum show_player showplr)
@@ -593,7 +593,7 @@ static const char *showname_help(enum show_player showplr)
   return "";
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a help string for the 'mapimg' command.
 ****************************************************************************/
 char *mapimg_help(const char *cmdname)
@@ -740,7 +740,7 @@ char *mapimg_help(const char *cmdname)
   return fc_strdup(astr_str(&help));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the last error.
 ****************************************************************************/
 const char *mapimg_error(void)
@@ -748,7 +748,7 @@ const char *mapimg_error(void)
   return error_buffer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Define on map image.
 ****************************************************************************/
 #define NUM_MAX_MAPARGS 10
@@ -872,7 +872,7 @@ bool mapimg_define(const char *maparg, bool check)
 #undef NUM_MAX_MAPARGS
 #undef NUM_MAX_MAPOPTS
 
-/****************************************************************************
+/************************************************************************//**
   Helper function for mapimg_define().
 ****************************************************************************/
 #define NUM_MAX_FORMATARGS 2
@@ -1101,7 +1101,7 @@ static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
 }
 #undef NUM_MAX_FORMATARGS
 
-/****************************************************************************
+/************************************************************************//**
   Check if a map image definition is valid. This function is a wrapper for
   mapimg_checkplayers().
 ****************************************************************************/
@@ -1134,7 +1134,7 @@ struct mapdef *mapimg_isvalid(int id)
   return pmapdef;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a list of all available tookits and formats for the client.
 ****************************************************************************/
 const struct strvec *mapimg_get_format_list(void)
@@ -1170,7 +1170,7 @@ const struct strvec *mapimg_get_format_list(void)
   return format_list;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the default value of the tookit and the image format for the client.
 ****************************************************************************/
 const char *mapimg_get_format_default(void)
@@ -1184,7 +1184,7 @@ const char *mapimg_get_format_default(void)
   return default_format;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Delete a map image definition.
 ****************************************************************************/
 bool mapimg_delete(int id)
@@ -1203,7 +1203,7 @@ bool mapimg_delete(int id)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Show a map image definition.
 ****************************************************************************/
 bool mapimg_show(int id, char *str, size_t str_len, bool detail)
@@ -1290,7 +1290,7 @@ bool mapimg_show(int id, char *str, size_t str_len, bool detail)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the map image definition 'id' as a mapdef string. This function is
   a wrapper for mapimg_def2str().
 ****************************************************************************/
@@ -1308,7 +1308,7 @@ bool mapimg_id2str(int id, char *str, size_t str_len)
   return mapimg_def2str(pmapdef, str, str_len);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the requested map image. The filename is created as
   <basename as used for savegames>-<mapstr>.<mapext> where <mapstr>
   contains the map definition and <mapext> the selected image extension.
@@ -1414,7 +1414,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create images which shows all map colors (playercolor, terrain colors). One
   image is created for each supported toolkit and image format. The filename
   will be <basename as used for savegames>-colortest-<tookit>.<format>.
@@ -1528,7 +1528,7 @@ bool mapimg_colortest(const char *savename, const char *path)
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Check if the map image subsustem is initialised.
 ****************************************************************************/
 static inline bool mapimg_initialised(void)
@@ -1536,7 +1536,7 @@ static inline bool mapimg_initialised(void)
   return mapimg.init;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if the map image subsystem is initialised and the given ID is valid.
   In case of an error, the error message is saved via MAPIMG_LOG().
 ****************************************************************************/
@@ -1552,7 +1552,7 @@ static bool mapimg_test(int id)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a mapdef string for the map image definition given by 'pmapdef'.
 ****************************************************************************/
 static bool mapimg_def2str(struct mapdef *pmapdef, char *str, size_t str_len)
@@ -1610,7 +1610,7 @@ static bool mapimg_def2str(struct mapdef *pmapdef, char *str, size_t str_len)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check the player selection. This needs to be done befor _each_ image
   creationcall (see mapimg_create()) to test the the selection is still
   valid as players can be added or removed during the game.
@@ -1679,7 +1679,7 @@ static bool mapimg_checkplayers(struct mapdef *pmapdef, bool recheck)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Edit the error_buffer.
   Strings should not have a terminating period.
 ****************************************************************************/
@@ -1697,7 +1697,7 @@ static void mapimg_log(const char *file, const char *function, int line,
 #endif
 }
 
-/****************************************************************************
+/************************************************************************//**
   Generate an identifier for a map image.
 
   M<map options>Z<zoom factor>P<players>
@@ -1774,7 +1774,7 @@ static char *mapimg_generate_name(struct mapdef *pmapdef)
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Create a new map image definition with default values.
 ****************************************************************************/
 static struct mapdef *mapdef_new(bool colortest)
@@ -1808,7 +1808,7 @@ static struct mapdef *mapdef_new(bool colortest)
   return pmapdef;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy a map image definition.
 ****************************************************************************/
 static void mapdef_destroy(struct mapdef *pmapdef)
@@ -1826,7 +1826,7 @@ static void mapdef_destroy(struct mapdef *pmapdef)
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Return the definition of the requested toolkit (or NULL).
 ****************************************************************************/
 static const struct toolkit *img_toolkit_get(enum imagetool tool)
@@ -1840,7 +1840,7 @@ static const struct toolkit *img_toolkit_get(enum imagetool tool)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new image.
 ****************************************************************************/
 static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize)
@@ -1935,7 +1935,7 @@ static struct img *img_new(struct mapdef *mapdef, int topo, int xsize, int ysize
   return pimg;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy a image.
 ****************************************************************************/
 static void img_destroy(struct img *pimg)
@@ -1947,7 +1947,7 @@ static void img_destroy(struct img *pimg)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the color of one pixel.
 ****************************************************************************/
 static inline void img_set_pixel(struct img *pimg, const int mindex,
@@ -1962,7 +1962,7 @@ static inline void img_set_pixel(struct img *pimg, const int mindex,
   pimg->map[mindex] = pcolor;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the index for an (x,y) image coordinate.
 ****************************************************************************/
 static inline int img_index(const int x, const int y,
@@ -1974,8 +1974,9 @@ static inline int img_index(const int x, const int y,
   return pimg->imgsize.x * y + x;
 }
 
-/****************************************************************************
-  Plot one tile at (x,y). Only the pixel of the tile set within 'pixel' are ploted.
+/************************************************************************//**
+  Plot one tile at (x,y). Only the pixel of the tile set within 'pixel'
+  are ploted.
 ****************************************************************************/
 static void img_plot(struct img *pimg, int x, int y,
                      const struct rgbcolor *pcolor, const bv_pixel pixel)
@@ -1997,7 +1998,7 @@ static void img_plot(struct img *pimg, int x, int y,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Plot one tile. Only the pixel of the tile set within 'pixel' are ploted.
 ****************************************************************************/
 static void img_plot_tile(struct img *pimg, const struct tile *ptile,
@@ -2010,7 +2011,7 @@ static void img_plot_tile(struct img *pimg, const struct tile *ptile,
   img_plot(pimg, x, y, pcolor, pixel);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Save an image as ppm file.
 ****************************************************************************/
 static bool img_save(const struct img *pimg, const char *mapimgfile,
@@ -2043,7 +2044,7 @@ static bool img_save(const struct img *pimg, const char *mapimgfile,
   return toolkit->img_save(pimg, tmpname);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Save an image using magickwand as toolkit. This allows different file
   formats.
 
@@ -2275,7 +2276,7 @@ static bool img_save_magickwand(const struct img *pimg,
 #undef SET_COLOR
 #endif /* HAVE_MAPIMG_MAGICKWAND */
 
-/****************************************************************************
+/************************************************************************//**
   Save an image as ppm file (toolkit: ppm).
 ****************************************************************************/
 static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
@@ -2351,7 +2352,7 @@ static bool img_save_ppm(const struct img *pimg, const char *mapimgfile)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Generate the final filename.
 ****************************************************************************/
 static bool img_filename(const char *mapimgfile, enum imageformat format,
@@ -2365,7 +2366,7 @@ static bool img_filename(const char *mapimgfile, enum imageformat format,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a definition string for the player.
 ****************************************************************************/
 static const char *img_playerstr(const struct player *pplayer)
@@ -2381,7 +2382,7 @@ static const char *img_playerstr(const struct player *pplayer)
   return buf;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the map considering the options (terrain, player(s), cities,
   units, borders, known, fogofwar, ...).
 ****************************************************************************/
@@ -2504,7 +2505,7 @@ static void img_createmap(struct img *pimg)
  * are identical.
  */
 
-/****************************************************************************
+/************************************************************************//**
    0  1  2  3  3  5
    6  7  8  9 10 11
   12 13 14 15 16 17
@@ -2523,7 +2524,7 @@ static bv_pixel pixel_tile_rect(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   -- -- -- -- -- --
   --  7  8  9 10 --
   -- 13 14 15 16 --
@@ -2559,7 +2560,7 @@ static bv_pixel pixel_city_rect(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   -- -- -- -- -- --
   -- -- -- -- -- --
   -- -- 14 15 -- --
@@ -2582,7 +2583,7 @@ static bv_pixel pixel_unit_rect(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
    0 --  2 --  4 --
   --  7 --  9 -- 11
   12 -- 14 -- 16 --
@@ -2620,7 +2621,7 @@ static bv_pixel pixel_fogofwar_rect(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
              [N]
 
        0  1  2  3  3  5
@@ -2710,7 +2711,7 @@ static bv_pixel pixel_border_rect(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Base coordinates for the tiles on a (isometric) rectange topology,
 ****************************************************************************/
 static void base_coor_rect(struct img *pimg, int *base_x, int *base_y,
@@ -2720,7 +2721,7 @@ static void base_coor_rect(struct img *pimg, int *base_x, int *base_y,
   *base_y = y * TILE_SIZE;
 }
 
-/****************************************************************************
+/************************************************************************//**
          0  1
       2  3  4  5
    6  7  8  9 10 11
@@ -2741,7 +2742,7 @@ static bv_pixel pixel_tile_hexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
         -- --
      --  3  4 --
   --  7  8  9 10 --
@@ -2782,7 +2783,7 @@ static bv_pixel pixel_city_hexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
         -- --
      -- -- -- --
   -- -- -- -- -- --
@@ -2807,7 +2808,7 @@ static bv_pixel pixel_unit_hexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
          0 --
      --  3 --  5
   --  7 --  9 -- 11
@@ -2846,7 +2847,7 @@ static bv_pixel pixel_fogofwar_hexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
    [W]        0  1       [N]
            2 -- --  5
         6 -- -- -- -- 11
@@ -2948,7 +2949,7 @@ static bv_pixel pixel_border_hexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Base coordinates for the tiles on a hexa topology,
 ****************************************************************************/
 static void base_coor_hexa(struct img *pimg, int *base_x, int *base_y,
@@ -2961,7 +2962,7 @@ static void base_coor_hexa(struct img *pimg, int *base_x, int *base_y,
   *base_y = nat_y * TILE_SIZE;
 }
 
-/****************************************************************************
+/************************************************************************//**
          0  1  2  3
       4  5  6  7  8  9
   10 11 12 13 14 15 16 17
@@ -2980,7 +2981,7 @@ static bv_pixel pixel_tile_isohexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
         -- -- -- --
      --  5  6  7  8 --
   -- 11 12 13 14 15 16 --
@@ -3019,7 +3020,7 @@ static bv_pixel pixel_city_isohexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
         -- -- -- --
      -- -- -- -- -- --
   -- -- -- 13 14 -- -- --
@@ -3042,7 +3043,7 @@ static bv_pixel pixel_unit_isohexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
          0  1 -- --
       4 -- --  7  8 --
   -- -- 12 13 -- -- 16 17
@@ -3079,7 +3080,7 @@ static bv_pixel pixel_fogofwar_isohexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
 
                [N]
 
@@ -3184,7 +3185,7 @@ static bv_pixel pixel_border_isohexa(const struct tile *ptile,
   return pixel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Base coordinates for the tiles on a isometric hexa topology,
 ****************************************************************************/
 static void base_coor_isohexa(struct img *pimg, int *base_x, int *base_y,
@@ -3204,7 +3205,7 @@ static void base_coor_isohexa(struct img *pimg, int *base_x, int *base_y,
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Convert the player bitvector to a string.
 ****************************************************************************/
 static const char *bvplayers_str(const bv_player plrbv)
@@ -3227,7 +3228,7 @@ static const char *bvplayers_str(const bv_player plrbv)
   return buf;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of players defined in a map image definition.
 ****************************************************************************/
 static int bvplayers_count(const struct mapdef *pmapdef)
@@ -3266,7 +3267,7 @@ static int bvplayers_count(const struct mapdef *pmapdef)
  * ==============================================
  */
 
-/****************************************************************************
+/************************************************************************//**
   Return rgbcolor for img_special
 ****************************************************************************/
 static const struct rgbcolor *imgcolor_special(enum img_special imgcolor)
@@ -3287,7 +3288,7 @@ static const struct rgbcolor *imgcolor_special(enum img_special imgcolor)
   return &rgb_special[imgcolor];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return rgbcolor for player.
 
   FIXME: nearly identical with get_player_color() in colors_common.c.
@@ -3303,7 +3304,7 @@ static const struct rgbcolor *imgcolor_player(int plr_id)
   return pplayer->rgb;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return rgbcolor for terrain.
 
   FIXME: nearly identical with get_terrain_color() in colors_common.c.

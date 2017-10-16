@@ -37,7 +37,7 @@
 
 #include "movement.h"
 
-/****************************************************************************
+/************************************************************************//**
   This function calculates the move rate of the unit, taking into account
   the penalty for reduced hitpoints, the active effects, and any veteran
   bonuses.
@@ -80,7 +80,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
   return move_rate;
 }
 
-/****************************************************************************
+/************************************************************************//**
   This function calculates the move rate of the unit. See utype_move_rate()
   for further details.
 ****************************************************************************/
@@ -92,7 +92,7 @@ int unit_move_rate(const struct unit *punit)
                          unit_owner(punit), punit->veteran, punit->hp);
 }
 
-/****************************************************************************
+/************************************************************************//**
   This function calculates the movement cost to unknown tiles. The base
   value is equal to the highest movement cost the unit can encounter. If
   the unit cannot enter all terrains, a malus is applied.
@@ -140,7 +140,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the unit can be a defender at its current location.  This
   should be checked when looking for a defender - not all units on the
   tile are valid defenders.
@@ -156,7 +156,7 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
           && (ptrans == NULL || can_unit_unload(punit, ptrans)));
 }
 
-/****************************************************************************
+/************************************************************************//**
  This unit can attack non-native tiles (eg. Ships ability to
  shore bombardment)
 ****************************************************************************/
@@ -167,7 +167,7 @@ bool can_attack_non_native(const struct unit_type *utype)
          && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
 }
 
-/****************************************************************************
+/************************************************************************//**
  This unit can attack from non-native tiles (Marines can attack from
  transport, ships from harbour cities)
 ****************************************************************************/
@@ -179,7 +179,7 @@ bool can_attack_from_non_native(const struct unit_type *utype)
                                           USP_LIVABLE_TILE, FALSE));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check for a city channel.
 ****************************************************************************/
 bool is_city_channel_tile(const struct unit_class *punitclass,
@@ -222,7 +222,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
   return found;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff a unit of the given unit type can "exist" at this location.
   This means it can physically be present on the tile (without the use of a
   transporter). See also can_unit_survive_at_tile.
@@ -251,7 +251,7 @@ bool can_exist_at_tile(const struct civ_map *nmap,
   return is_native_tile(utype, ptile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the unit can "exist" at this location.  This means it can
   physically be present on the tile (without the use of a transporter).  See
   also can_unit_survive_at_tile.
@@ -263,7 +263,7 @@ bool can_unit_exist_at_tile(const struct civ_map *nmap,
   return can_exist_at_tile(nmap, unit_type_get(punit), ptile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   This tile is native to unit.
 
   See is_native_to_class()
@@ -275,7 +275,7 @@ bool is_native_tile(const struct unit_type *punittype,
                             tile_extras(ptile));
 }
 
-/****************************************************************************
+/************************************************************************//**
   This terrain is native to unit class. Units that require fuel dont survive
   even on native terrain.
 ****************************************************************************/
@@ -304,7 +304,7 @@ bool is_native_to_class(const struct unit_class *punitclass,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Is the move under consideration a native move?
   Note that this function does not check for possible moves, only native
   moves, so that callers are responsible for checking for other sources of
@@ -398,7 +398,7 @@ bool is_native_move(const struct unit_class *punitclass,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is there native tile adjacent to given tile
 ****************************************************************************/
 bool is_native_near_tile(const struct civ_map *nmap,
@@ -418,7 +418,7 @@ bool is_native_near_tile(const struct civ_map *nmap,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the unit can "survive" at this location.  This means it can
   not only be physically present at the tile but will be able to survive
   indefinitely on its own (without a transporter).  Units that require fuel
@@ -458,7 +458,7 @@ bool can_unit_survive_at_tile(const struct civ_map *nmap,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Returns whether the unit is allowed (by ZOC) to move from src_tile
   to dest_tile (assumed adjacent).
 
@@ -494,8 +494,7 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 	  || is_my_zoc(unit_owner, dst_tile, zmap));
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   See can_step_take_wrt_to_zoc().  This function is exactly the same but
   it takes a unit instead of a unittype and player.
 ****************************************************************************/
@@ -508,8 +507,7 @@ static bool zoc_ok_move_gen(const struct unit *punit,
 				   src_tile, dst_tile, zmap);
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Returns whether the unit can safely move from its current position to
   the adjacent dst_tile.  This function checks only ZOC.
 
@@ -521,8 +519,7 @@ bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile,
   return zoc_ok_move_gen(punit, unit_tile(punit), dst_tile, zmap);
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Returns whether the unit can move from its current tile to the destination
   tile.
 
@@ -540,7 +537,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
                                           enter_enemy_city));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns whether the unit can move from its current tile to the
   destination tile.  An enumerated value is returned indication the error
   or success status.
@@ -562,7 +559,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
    11) It is not the territory of a player we are at peace with.
    12) The unit is unable to disembark from current transporter.
    13) The unit is making a non-native move (e.g. lack of road)
-**************************************************************************/
+****************************************************************************/
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap,
                        const struct unit *punit,
@@ -682,9 +679,9 @@ unit_move_to_tile_test(const struct civ_map *nmap,
   return MR_OK;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return true iff transporter has ability to transport transported.
-**************************************************************************/
+****************************************************************************/
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
@@ -695,9 +692,9 @@ bool can_unit_transport(const struct unit *transporter,
                                  unit_class_get(transported));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return TRUE iff transporter type has ability to transport transported class.
-**************************************************************************/
+****************************************************************************/
 bool can_unit_type_transport(const struct unit_type *transporter,
                              const struct unit_class *transported)
 {
@@ -708,7 +705,7 @@ bool can_unit_type_transport(const struct unit_type *transporter,
   return BV_ISSET(transporter->cargo, uclass_index(transported));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return whether we can find a suitable transporter for given unit at
   'ptile'. It needs to have free space. To find the best transporter, see
   transporter_for_unit().
@@ -724,7 +721,7 @@ bool unit_can_load(const struct unit *punit)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return whether we could find a suitable transporter for given unit at
   'ptile'. It needs to have free space. To find the best transporter, see
   transporter_for_unit_at().
@@ -742,7 +739,7 @@ bool unit_could_load_at(const struct unit *punit, const struct tile *ptile)
 
 static int move_points_denomlen = 0;
 
-/****************************************************************************
+/************************************************************************//**
   Call whenever terrain_control.move_fragments / SINGLE_MOVE changes.
 ****************************************************************************/
 void init_move_fragments(void)
@@ -754,7 +751,7 @@ void init_move_fragments(void)
   move_points_denomlen = strlen(denomstr);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Render positive movement points as text, including fractional movement
   points, scaled by SINGLE_MOVE. Returns a pointer to a static buffer.
   'reduce' is whether fractional movement points should be reduced to
@@ -829,7 +826,7 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Simple version of move_points_text_full() -- render positive movement
   points as text without any prefix or alignment.
 ****************************************************************************/
