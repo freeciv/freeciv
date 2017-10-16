@@ -13,7 +13,7 @@ CONTENTS
 1. Default build
 ----------------
 
-By default Freeciv is built with just one, "classic", AI type
+By default Freeciv is built with two AI types; "classic" and "threaded",
 statically built in, and with no support for dynamic AI modules.
 Classic AI is always used for all players, effectively hiding the
 fact that AI module interface even exist.
@@ -48,7 +48,7 @@ built in to freeciv.
 
 To statically link some of the supplied AI modules to freeciv,
 use --enable-ai-static=<comma,separated,list>. Default value for this
-is just "classic". Order of the modules is important in that first of
+is "classic,threaded". Order of the modules is important in that first of
 the modules will be the default AI type used for all the players for whom
 it's not explicitly set.
 
