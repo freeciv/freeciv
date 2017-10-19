@@ -33,6 +33,7 @@ artists = "
     J. W. Bjerk / Eleazar <www.jwbjerk.com>
     qwm
     FiftyNine
+    Vladimir Slavik [VS]
 "
 
 [file]
@@ -104,6 +105,15 @@ tiles = { "row", "column", "tag"
   2, 15, "u.leader"		; [GB]
   2, 16, "u.barbarian_leader"	; FiftyNine
   2, 17, "u.migrants"		; Eleazar
-;  2, 19, "u.train"		; Eleazar
+  2, 19, "u.train"		; Eleazar
+  3,  0, "u.containership"      ; [VS]
+  3,  1, "u.containership_empty"; [VS]
+  3,  2, "u.dredger"            ; [VS]
+  3,  3, "u.icebreaker"         ; [VS]
+  3,  4, "u.missile_submarine"  ; [VS]
+  3,  5, "u.steamer"            ; [VS]
+  3,  6, "u.torpedo_boat"       ; [VS]
+  3, 16, "u.technical"          ; [VS]
+  3, 17, "u.mobile_sam"         ; [VS]
 
 }
