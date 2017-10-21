@@ -28,7 +28,7 @@
 
 #include "rgbcolor.h"
 
-/****************************************************************************
+/************************************************************************//**
   Allocate new rgbcolor structure.
 ****************************************************************************/
 struct rgbcolor *rgbcolor_new(int r, int g, int b)
@@ -44,7 +44,7 @@ struct rgbcolor *rgbcolor_new(int r, int g, int b)
   return prgbcolor;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Allocate new rgbcolor structure and make it copy of one given as input.
   Return new one.
 ****************************************************************************/
@@ -55,7 +55,7 @@ struct rgbcolor *rgbcolor_copy(const struct rgbcolor *prgbcolor)
   return rgbcolor_new(prgbcolor->r, prgbcolor->g, prgbcolor->b);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Test whether two rgbcolor structures represent the exact same color value.
   (Does not attempt to determine whether they are visually distinguishable.)
 ****************************************************************************/
@@ -68,7 +68,7 @@ bool rgbcolors_are_equal(const struct rgbcolor *c1, const struct rgbcolor *c2)
   return (c1->r == c2->r && c1->g == c2->g && c1->b == c2->b);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free rgbcolor structure.
 ****************************************************************************/
 void rgbcolor_destroy(struct rgbcolor *prgbcolor)
@@ -83,7 +83,7 @@ void rgbcolor_destroy(struct rgbcolor *prgbcolor)
   free(prgbcolor);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Lookup an RGB color definition (<colorpath>.red, <colorpath>.green and
   <colorpath>.blue). Returns TRUE on success and FALSE on error.
 ****************************************************************************/
@@ -114,7 +114,7 @@ bool rgbcolor_load(struct section_file *file, struct rgbcolor **prgbcolor,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Save an RGB color definition (<colorpath>.red, <colorpath>.green and
   <colorpath>.blue).
 ****************************************************************************/
@@ -136,7 +136,7 @@ void rgbcolor_save(struct section_file *file,
   secfile_insert_int(file, prgbcolor->b, "%s.b", colorpath);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Convert a rgb color to a hex string (like 0xff0000 for red [255,  0,  0]).
 ****************************************************************************/
 bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
@@ -156,7 +156,7 @@ bool rgbcolor_to_hex(const struct rgbcolor *prgbcolor, char *hex,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Convert a hex string into a rgb color
 ****************************************************************************/
 bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
@@ -189,7 +189,7 @@ bool rgbcolor_from_hex(struct rgbcolor **prgbcolor, const char *hex)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a number indicating the perceptual brightness of this color
   relative to others (larger is brighter).
 ****************************************************************************/

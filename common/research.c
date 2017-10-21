@@ -56,7 +56,7 @@ static struct name_translation advance_unknown_name = NAME_INIT;
 static struct strvec *future_rule_name;
 static struct strvec *future_name_translation;
 
-/****************************************************************************
+/************************************************************************//**
   Initializes all player research structure.
 ****************************************************************************/
 void researches_init(void)
@@ -89,7 +89,7 @@ void researches_init(void)
   future_name_translation = strvec_new();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all resources allocated for the research system
 ****************************************************************************/
 void researches_free(void)
@@ -98,7 +98,7 @@ void researches_free(void)
   strvec_destroy(future_name_translation);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the index of the research in the array.
 ****************************************************************************/
 int research_number(const struct research *presearch)
@@ -107,7 +107,7 @@ int research_number(const struct research *presearch)
   return presearch - research_array;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the research for the given index.
 ****************************************************************************/
 struct research *research_by_number(int number)
@@ -117,7 +117,7 @@ struct research *research_by_number(int number)
   return &research_array[number];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the research structure associated with the player.
 ****************************************************************************/
 struct research *research_get(const struct player *pplayer)
@@ -132,7 +132,7 @@ struct research *research_get(const struct player *pplayer)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the name of the research owner: a player name or a team name.
 ****************************************************************************/
 const char *research_rule_name(const struct research *presearch)
@@ -144,7 +144,7 @@ const char *research_rule_name(const struct research *presearch)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the name of the research owner: a player name or a team name.
 ****************************************************************************/
 const char *research_name_translation(const struct research *presearch)
@@ -156,7 +156,7 @@ const char *research_name_translation(const struct research *presearch)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set in 'buf' the name of the research owner. It may be either a nation
   plural name, or something like "members of team Red".
 ****************************************************************************/
@@ -184,7 +184,7 @@ int research_pretty_name(const struct research *presearch, char *buf,
   return fc_strlcpy(buf, nation_plural_for_player(pplayer), buf_len);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the name translation for 'tech'. Utility for
   research_advance_rule_name() and research_advance_translated_name().
 ****************************************************************************/
@@ -205,7 +205,7 @@ research_advance_name(Tech_type_id tech)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set a new future tech name in the string vector, and return the string
   duplicate stored inside the vector.
 ****************************************************************************/
@@ -224,7 +224,7 @@ static const char *research_future_set_name(struct strvec *psv, int no,
   return strvec_get(psv, no);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Store the rule name of the given tech (including A_FUTURE) in 'buf'.
   'presearch' may be NULL.
   We don't return a static buffer because that would break anything that
@@ -257,7 +257,7 @@ const char *research_advance_rule_name(const struct research *presearch,
   return rule_name_get(research_advance_name(tech));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Store the translated name of the given tech (including A_FUTURE) in 'buf'.
   'presearch' may be NULL.
   We don't return a static buffer because that would break anything that
@@ -289,12 +289,12 @@ research_advance_name_translation(const struct research *presearch,
   return name_translation_get(research_advance_name(tech));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE iff the requirement vector may become active against the
   given target.
 
   If may become active if all unchangeable requirements are active.
-**************************************************************************/
+****************************************************************************/
 static bool reqs_may_activate(const struct player *target_player,
                               const struct player *other_player,
                               const struct city *target_city,
@@ -321,7 +321,7 @@ static bool reqs_may_activate(const struct player *target_player,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Evaluates the legality of starting to research this tech according to
   reqs_eval() and the tech's research_reqs. Returns TRUE iff legal.
 
@@ -330,7 +330,7 @@ static bool reqs_may_activate(const struct player *target_player,
   situations.
 
   Helper for research_update().
-**************************************************************************/
+****************************************************************************/
 static bool
 research_allowed(const struct research *presearch,
                  Tech_type_id tech,
@@ -373,25 +373,25 @@ research_allowed(const struct research *presearch,
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE iff researching the given tech is allowed according to its
   research_reqs.
 
   Helper for research_update().
-**************************************************************************/
+****************************************************************************/
 #define research_is_allowed(presearch, tech)                              \
   research_allowed(presearch, tech, are_reqs_active)
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE iff researching the given tech may become allowed according
   to its research_reqs.
 
   Helper for research_get_reachable_rreqs().
-**************************************************************************/
+****************************************************************************/
 #define research_may_become_allowed(presearch, tech)                      \
   research_allowed(presearch, tech, reqs_may_activate)
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff the given tech is ever reachable by the players sharing
   the research as far as research_reqs are concerned.
 
@@ -447,7 +447,7 @@ static bool research_get_reachable_rreqs(const struct research *presearch,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff the given tech is ever reachable by the players sharing
   the research by checking tech tree limitations.
 
@@ -512,7 +512,7 @@ static bool research_get_reachable(const struct research *presearch,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff the players sharing 'presearch' already have got the
   knowledge of all root requirement technologies.
 
@@ -563,7 +563,7 @@ static bool research_get_root_reqs_known(const struct research *presearch,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mark as TECH_PREREQS_KNOWN each tech which is available, not known and
   which has all requirements fullfiled.
 
@@ -671,7 +671,7 @@ void research_update(struct research *presearch)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns state of the tech for current research.
   This can be: TECH_KNOWN, TECH_UNKNOWN, or TECH_PREREQS_KNOWN
   Should be called with existing techs.
@@ -693,7 +693,7 @@ enum tech_state research_invention_state(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set research knowledge about tech to given state.
 ****************************************************************************/
 enum tech_state research_invention_set(struct research *presearch,
@@ -720,7 +720,7 @@ enum tech_state research_invention_set(struct research *presearch,
   return old;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff the given tech is ever reachable via research by the
   players sharing the research by checking tech tree limitations.
 
@@ -745,7 +745,7 @@ bool research_invention_reachable(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff the given tech can be given to the players sharing the
   research immediately.
 
@@ -775,7 +775,7 @@ bool research_invention_gettable(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the next tech we should research to advance towards our goal.
   Returns A_UNSET if nothing is available or the goal is already known.
 ****************************************************************************/
@@ -801,7 +801,7 @@ Tech_type_id research_goal_step(const struct research *presearch,
   return A_UNSET;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the number of technologies the player need to research to get
   the goal technology. This includes the goal technology. Technologies
   are only counted once.
@@ -823,7 +823,7 @@ int research_goal_unknown_techs(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Function to determine cost (in bulbs) of reaching goal technology.
   These costs _include_ the cost for researching the goal technology
   itself.
@@ -853,7 +853,7 @@ int research_goal_bulbs_required(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns if the given tech has to be researched to reach the goal. The
   goal itself isn't a requirement of itself.
 
@@ -880,7 +880,7 @@ bool research_goal_tech_req(const struct research *presearch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Function to determine cost for technology.  The equation is determined
   from game.info.tech_cost_style and game.info.tech_leakage.
 
@@ -1084,7 +1084,7 @@ int research_total_bulbs_required(const struct research *presearch,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Calculate the bulb upkeep needed for all techs of a player. See also
   research_total_bulbs_required().
 ****************************************************************************/
@@ -1171,7 +1171,7 @@ int player_tech_upkeep(const struct player *pplayer)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Returns the real size of the player research iterator.
 ****************************************************************************/
 size_t research_iter_sizeof(void)
@@ -1179,7 +1179,7 @@ size_t research_iter_sizeof(void)
   return sizeof(struct research_iter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the research structure pointed by the iterator.
 ****************************************************************************/
 static void *research_iter_get(const struct iterator *it)
@@ -1187,7 +1187,7 @@ static void *research_iter_get(const struct iterator *it)
   return &research_array[RESEARCH_ITER(it)->index];
 }
 
-/****************************************************************************
+/************************************************************************//**
   Jump to next team research structure.
 ****************************************************************************/
 static void research_iter_team_next(struct iterator *it)
@@ -1201,7 +1201,7 @@ static void research_iter_team_next(struct iterator *it)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns FALSE if there is no valid team at current index.
 ****************************************************************************/
 static bool research_iter_team_valid(const struct iterator *it)
@@ -1213,7 +1213,7 @@ static bool research_iter_team_valid(const struct iterator *it)
           && NULL != team_by_number(rit->index));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Jump to next player research structure.
 ****************************************************************************/
 static void research_iter_player_next(struct iterator *it)
@@ -1227,7 +1227,7 @@ static void research_iter_player_next(struct iterator *it)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns FALSE if there is no valid player at current index.
 ****************************************************************************/
 static bool research_iter_player_valid(const struct iterator *it)
@@ -1239,7 +1239,7 @@ static bool research_iter_player_valid(const struct iterator *it)
           && NULL != player_by_number(rit->index));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initializes a player research iterator.
 ****************************************************************************/
 struct iterator *research_iter_init(struct research_iter *it)
@@ -1261,7 +1261,7 @@ struct iterator *research_iter_init(struct research_iter *it)
   return base;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the real size of the research player iterator.
 ****************************************************************************/
 size_t research_player_iter_sizeof(void)
@@ -1269,7 +1269,7 @@ size_t research_player_iter_sizeof(void)
   return sizeof(struct research_player_iter);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns whether the iterator is currently at a valid state.
 ****************************************************************************/
 static inline bool research_player_iter_valid_state(struct iterator *it)
@@ -1279,7 +1279,7 @@ static inline bool research_player_iter_valid_state(struct iterator *it)
   return (NULL == pplayer || pplayer->is_alive);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns player of the iterator.
 ****************************************************************************/
 static void *research_player_iter_pooled_get(const struct iterator *it)
@@ -1287,7 +1287,7 @@ static void *research_player_iter_pooled_get(const struct iterator *it)
   return player_list_link_data(RESEARCH_PLAYER_ITER(it)->plink);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the next player sharing the research.
 ****************************************************************************/
 static void research_player_iter_pooled_next(struct iterator *it)
@@ -1299,7 +1299,7 @@ static void research_player_iter_pooled_next(struct iterator *it)
   } while (!research_player_iter_valid_state(it));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns whether the iterate is valid.
 ****************************************************************************/
 static bool research_player_iter_pooled_valid(const struct iterator *it)
@@ -1307,7 +1307,7 @@ static bool research_player_iter_pooled_valid(const struct iterator *it)
   return NULL != RESEARCH_PLAYER_ITER(it)->plink;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns player of the iterator.
 ****************************************************************************/
 static void *research_player_iter_not_pooled_get(const struct iterator *it)
@@ -1315,7 +1315,7 @@ static void *research_player_iter_not_pooled_get(const struct iterator *it)
   return RESEARCH_PLAYER_ITER(it)->pplayer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Invalidate the iterator.
 ****************************************************************************/
 static void research_player_iter_not_pooled_next(struct iterator *it)
@@ -1323,7 +1323,7 @@ static void research_player_iter_not_pooled_next(struct iterator *it)
   RESEARCH_PLAYER_ITER(it)->pplayer = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns whether the iterate is valid.
 ****************************************************************************/
 static bool research_player_iter_not_pooled_valid(const struct iterator *it)
@@ -1331,7 +1331,7 @@ static bool research_player_iter_not_pooled_valid(const struct iterator *it)
   return NULL != RESEARCH_PLAYER_ITER(it)->pplayer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initializes a research player iterator.
 ****************************************************************************/
 struct iterator *research_player_iter_init(struct research_player_iter *it,

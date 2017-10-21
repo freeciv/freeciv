@@ -34,7 +34,7 @@
 
 #include "reqtext.h"
 
-/****************************************************************
+/*************************************************************//**
   Append text for the requirement. Something like
 
     "Requires knowledge of the technology Communism."
@@ -2490,7 +2490,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
   return FALSE;
 }
 
-/****************************************************************
+/*************************************************************//**
   Append text for the requirement. Added line ends to a newline.
 *****************************************************************/
 bool req_text_insert_nl(char *buf, size_t bufsz, struct player *pplayer,
