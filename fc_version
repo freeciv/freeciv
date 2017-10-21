@@ -70,8 +70,11 @@ if test x$VERSION_REVTYPE = xgit && which git > /dev/null ; then
 else
   VERSION_REV=""
 fi
-if test "x$VERSION_REV" != "x" && test "x$VERSION_LABEL" != "x+" ; then
-  VERSION_REV="+${VERSION_REV}"
+if test "x$VERSION_REV" != "x" ; then
+  case "x$VERSION_LABEL" in
+    x*+) ;;
+    *) VERSION_REV="+${VERSION_REV}" ;;
+  esac
 fi
 
 if test x$EMERGENCY_VERSION != x ; then
