@@ -114,13 +114,12 @@ static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
 static struct timer *anim_timer = NULL;
 
-enum animation_type { ANIM_MOVEMENT };
+enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE };
 
 struct animation
 {
   enum animation_type type;
   int id1;
-  int id2;
   bool finished;
   int old_x;
   int old_y;
@@ -133,6 +132,11 @@ struct animation
       float canvas_dx;
       float canvas_dy;
     } movement;
+    struct {
+      struct tile *explosion_tile;
+      const struct sprite_vector *explosion_sprites;
+      int explosion_sprite_count;
+    } battle;
   };
 };
 
@@ -216,6 +220,60 @@ static bool movement_animation(struct animation *anim, double time_gone)
 }
 
 /************************************************************************//**
+  Progress animation of type 'battle'
+****************************************************************************/
+static bool battle_animation(struct animation *anim, double time_gone)
+{
+  /* TODO: Add the hitpoints reduction part of the animation. Currently this
+   *       is just the explosion of the losing unit. */
+  float canvas_x, canvas_y;
+  double timing_sec;
+
+  if (anim->battle.explosion_sprite_count <= 0) {
+    return TRUE;
+  }
+
+  timing_sec = (double)gui_options.smooth_combat_step_msec
+    * anim->battle.explosion_sprite_count / 1000.0;
+
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, anim->battle.explosion_tile)) {
+    double time_per_frame = timing_sec / anim->battle.explosion_sprite_count;
+    int frame = time_gone / time_per_frame;
+    struct sprite *spr;
+    int w, h;
+
+    frame = MIN(frame, anim->battle.explosion_sprite_count - 1);
+
+    if (anim->old_x >= 0) {
+      update_map_canvas(anim->old_x, anim->old_y,
+                        anim->width, anim->height);
+    }
+
+    spr = *sprite_vector_get(anim->battle.explosion_sprites, frame);
+    get_sprite_dimensions(spr, &w, &h);
+
+    canvas_put_sprite_full(mapview.store,
+                           canvas_x + tileset_tile_width(tileset) / 2 * map_zoom
+                           - w / 2,
+                           canvas_y + tileset_tile_height(tileset) / 2 * map_zoom
+                           - h / 2,
+                           spr);
+    dirty_rect(canvas_x, canvas_y, tileset_tile_width(tileset) * map_zoom,
+               tileset_tile_height(tileset) * map_zoom);
+
+    anim->old_x = canvas_x;
+    anim->old_y = canvas_y;
+  }
+
+  if (time_gone >= timing_sec) {
+    /* Animation over */
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/************************************************************************//**
   Progress current animation
 ****************************************************************************/
 void update_animation(void)
@@ -227,7 +285,6 @@ void update_animation(void)
       /* Animation over */
 
       anim->id1 = -1;
-      anim->id2 = -1;
       update_map_canvas(anim->old_x, anim->old_y, anim->width, anim->height);
       animation_list_remove(animations, anim);
       free(anim);
@@ -244,6 +301,9 @@ void update_animation(void)
       switch (anim->type) {
       case ANIM_MOVEMENT:
         finished = movement_animation(anim, time_gone);
+        break;
+      case ANIM_BATTLE:
+        finished = battle_animation(anim, time_gone);
         break;
       }
 
@@ -1338,8 +1398,7 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
     }
 
     if (anim != NULL && punit != NULL
-        && (punit->id == anim->id1
-            || punit->id == anim->id2)){
+        && punit->id == anim->id1) {
       punit = NULL;
     }
 
@@ -2300,8 +2359,6 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
 void decrease_unit_hp_smooth(struct unit *punit0, int hp0, 
 			     struct unit *punit1, int hp1)
 {
-  const struct sprite_vector *anim = get_unit_explode_animation(tileset);
-  const int num_tiles_explode_unit = sprite_vector_size(anim);
   struct unit *losing_unit = (hp0 == 0 ? punit0 : punit1);
   float canvas_x, canvas_y;
   int i;
@@ -2315,8 +2372,21 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   unqueue_mapview_updates(TRUE);
 
-  if (!frame_by_frame_animation) {
-    /* TODO: Implement frame_by_frame animation */
+  if (frame_by_frame_animation) {
+    struct animation *anim = fc_malloc(sizeof(struct animation));
+    struct unit *winning_unit = (losing_unit == punit1 ? punit0 : punit1);
+
+    anim->type = ANIM_BATTLE;
+    anim->id1 = winning_unit->id;
+    anim->battle.explosion_tile = losing_unit->tile;
+    anim->battle.explosion_sprites = get_unit_explode_animation(tileset);
+    anim->battle.explosion_sprite_count = sprite_vector_size(anim->battle.explosion_sprites);
+    anim->width = tileset_tile_width(tileset) * map_zoom;
+    anim->height = tileset_tile_height(tileset) * map_zoom;
+    animation_add(anim);
+  } else {
+    const struct sprite_vector *anim = get_unit_explode_animation(tileset);
+    const int num_tiles_explode_unit = sprite_vector_size(anim);
 
     while (punit0->hp > hp0 || punit1->hp > hp1) {
       const int diff0 = punit0->hp - hp0, diff1 = punit1->hp - hp1;
@@ -2442,7 +2512,6 @@ void move_unit_map_canvas(struct unit *punit,
 
       anim->type = ANIM_MOVEMENT;
       anim->id1 = punit->id;
-      anim->id2 = -1;
       anim->movement.src = src_tile;
       anim->movement.dest = dest_tile;
       anim->movement.canvas_dx = canvas_dx;
