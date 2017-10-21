@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -110,14 +110,13 @@ static inline char *astr_buffer_grow(size_t *alloc)
   return astr_buffer;
 }
 
-/****************************************************************************
-  Grow the astring buffer.
+/************************************************************************//**
+  Free the astring buffer.
 ****************************************************************************/
 static void astr_buffer_free(void)
 {
   free(astr_buffer);
 }
-
 
 /****************************************************************************
   Initialize the struct.
