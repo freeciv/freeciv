@@ -1665,6 +1665,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   BV_UNIT_CLASSES native_to;
   BV_EXTRA_FLAGS flags;
   BV_EXTRAS hidden_by;
+  BV_EXTRAS bridged_over;
   BV_EXTRAS conflicts;
   STRVEC helptext[MAX_LEN_PACKET];
 end

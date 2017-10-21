@@ -122,6 +122,7 @@ struct extra_type
   bv_extra_flags flags;
   bv_extras conflicts;
   bv_extras hidden_by;
+  bv_extras bridged_over; /* Needs "bridge" to get built over these extras */
 
   Tech_type_id visibility_req;
 
@@ -129,6 +130,9 @@ struct extra_type
    * faster than through all extra types to check which ones are hiding this one.
    * Only used client side. */
   struct extra_type_list *hiders;
+
+  /* Same information as bridged_over */
+  struct extra_type_list *bridged;
 
   struct strvec *helptext;
 
@@ -204,6 +208,9 @@ bool extra_can_be_built(const struct extra_type *pextra, const struct tile *ptil
 bool can_build_extra(struct extra_type *pextra,
                      const struct unit *punit,
                      const struct tile *ptile);
+bool can_build_extra_base(const struct extra_type *pextra,
+                          const struct player *pplayer,
+                          const struct tile *ptile);
 bool player_can_build_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);

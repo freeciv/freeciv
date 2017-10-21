@@ -3326,6 +3326,29 @@ static bool load_ruleset_terrain(struct section_file *file,
           break;
         }
 
+        slist = secfile_lookup_str_vec(file, &nval, "%s.bridged_over", section);
+        BV_CLR_ALL(pextra->bridged_over);
+        for (j = 0; j < nval; j++) {
+          const char *sval = slist[j];
+          const struct extra_type *top = extra_type_by_rule_name(sval);
+
+          if (top == NULL) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\" bridged over unknown extra \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->bridged_over, extra_index(top));
+          }
+        }
+        free(slist);
+
+        if (!ok) {
+          break;
+        }
+
         vis_req_name = secfile_lookup_str_default(file, "None",
                                                   "%s.visibility_req", section);
         vis_req = advance_by_rule_name(vis_req_name);
@@ -3492,6 +3515,24 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
+    bv_extras compat_bridged;
+
+    if (compat->compat_mode) {
+      BV_CLR_ALL(compat_bridged);
+      extra_type_by_cause_iterate(EC_ROAD, pextra) {
+        struct road_type *proad = extra_road_get(pextra);
+        const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
+        const char **slist;
+
+        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+
+        for (j = 0; j < nval; j++) {
+          if (!fc_strcasecmp("PreventsOtherRoads", slist[j])) {
+            BV_SET(compat_bridged, pextra->id);
+          }
+        }
+      } extra_type_by_cause_iterate_end;
+    }
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
       const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
@@ -3602,17 +3643,28 @@ static bool load_ruleset_terrain(struct section_file *file,
       BV_CLR_ALL(proad->flags);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
-        enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
 
-        if (!road_flag_id_is_valid(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown flag \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
-          break;
+        if (compat->compat_mode && !fc_strcasecmp("PreventsOtherRoads", sval)) {
+          /* Nothing to do here */
+        } else if (compat->compat_mode && !fc_strcasecmp("RequiresBridge", sval)) {
+          extra_type_iterate(pbridged) {
+            if (BV_ISSET(compat_bridged, pbridged->id)) {
+              BV_SET(pextra->bridged_over, pbridged->id);
+            }
+          } extra_type_iterate_end;
         } else {
-          BV_SET(proad->flags, flag);
+          enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
+
+          if (!road_flag_id_is_valid(flag)) {
+            ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown flag \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(proad->flags, flag);
+          }
         }
       }
       free(slist);
@@ -3621,6 +3673,17 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
     } extra_type_by_cause_iterate_end;
+  }
+
+  if (ok) {
+    extra_type_iterate(pextra) {
+      pextra->bridged = extra_type_list_new();
+      extra_type_iterate(pbridged) {
+        if (BV_ISSET(pextra->bridged_over, pbridged->id)) {
+          extra_type_list_append(pextra->bridged, pbridged);
+        }
+      } extra_type_iterate_end;
+    } extra_type_iterate_end;
   }
 
   if (ok) {
@@ -7450,6 +7513,7 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     packet.flags = e->flags;
     packet.hidden_by = e->hidden_by;
+    packet.bridged_over = e->bridged_over;
     packet.conflicts = e->conflicts;
 
     PACKET_STRVEC_COMPUTE(packet.helptext, e->helptext);

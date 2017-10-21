@@ -197,35 +197,6 @@ bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
 }
 
 /****************************************************************************
-  Tells if player can build road to tile with suitable unit.
-****************************************************************************/
-bool can_build_road_base(const struct road_type *proad,
-                         const struct player *pplayer,
-                         const struct tile *ptile)
-{
-  if (!road_can_be_built(proad, ptile)) {
-    return FALSE;
-  }
-
-  if (road_has_flag(proad, RF_REQUIRES_BRIDGE)
-      && !player_knows_techs_with_flag(pplayer, TF_BRIDGE)) {
-    /* TODO: Cache list of road types with RF_PREVENTS_OTHER_ROADS
-     *       after ruleset loading and use that list here instead
-     *       of always iterating through all road types. */
-    extra_type_by_cause_iterate(EC_ROAD, poextra) {
-      struct road_type *old = extra_road_get(poextra);
-
-      if (road_has_flag(old, RF_PREVENTS_OTHER_ROADS)
-          && tile_has_extra(ptile, poextra)) {
-        return FALSE;
-      }
-    } extra_type_by_cause_iterate_end;
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
   Tells if player and optionally unit have road building requirements
   fulfilled.
 ****************************************************************************/
@@ -291,7 +262,7 @@ bool player_can_build_road(const struct road_type *proad,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
-  if (!can_build_road_base(proad, pplayer, ptile)) {
+  if (!can_build_extra_base(road_extra_get(proad), pplayer, ptile)) {
     return FALSE;
   }
 
@@ -302,12 +273,12 @@ bool player_can_build_road(const struct road_type *proad,
   Tells if unit can build road on tile.
 ****************************************************************************/
 bool can_build_road(struct road_type *proad,
-		    const struct unit *punit,
-		    const struct tile *ptile)
+                    const struct unit *punit,
+                    const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (!can_build_road_base(proad, pplayer, ptile)) {
+  if (!can_build_extra_base(road_extra_get(proad), pplayer, ptile)) {
     return FALSE;
   }
 

@@ -110,34 +110,6 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
 }
 
 /************************************************************************//**
-  Can unit build base to given tile?
-****************************************************************************/
-bool base_can_be_built(const struct base_type *pbase,
-                       const struct tile *ptile)
-{
-  if (tile_terrain(ptile)->base_time == 0) {
-    /* Bases cannot be built on this terrain. */
-    return FALSE;
-  }
-
-  if (!(base_extra_get(pbase)->buildable)) {
-    /* Base type not buildable. */
-    return FALSE;
-  }
-
-  if (tile_has_base(ptile, pbase)) {
-    /* Exist already */
-    return FALSE;
-  }
-
-  if (tile_city(ptile) != NULL && pbase->border_sq >= 0) {
-    return FALSE;
-  }
-
-  return TRUE;
-}
-
-/************************************************************************//**
   Tells if player can build base to tile with suitable unit.
 ****************************************************************************/
 bool player_can_build_base(const struct base_type *pbase,
@@ -146,7 +118,7 @@ bool player_can_build_base(const struct base_type *pbase,
 {
   struct extra_type *pextra;
 
-  if (!base_can_be_built(pbase, ptile)) {
+  if (!can_build_extra_base(base_extra_get(pbase), pplayer, ptile)) {
     return FALSE;
   }
 
@@ -163,15 +135,14 @@ bool player_can_build_base(const struct base_type *pbase,
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile)
 {
-  struct extra_type *pextra;
+  struct extra_type *pextra = base_extra_get(pbase);
+  struct player *pplayer = unit_owner(punit);
 
-  if (!base_can_be_built(pbase, ptile)) {
+  if (!can_build_extra_base(pextra, pplayer, ptile)) {
     return FALSE;
   }
 
-  pextra = base_extra_get(pbase);
-
-  return are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
+  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL,
                          ptile, punit, unit_type_get(punit), NULL, NULL, NULL,
                          &pextra->reqs, RPT_CERTAIN);
 }

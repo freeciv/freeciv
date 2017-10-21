@@ -99,8 +99,6 @@ bool is_native_tile_to_base(const struct base_type *pbase,
                             const struct tile *ptile);
 
 /* Ancillary functions */
-bool base_can_be_built(const struct base_type *pbase,
-                       const struct tile *ptile);
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
                     const struct tile *ptile);
 bool player_can_build_base(const struct base_type *pbase,
