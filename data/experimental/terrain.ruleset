@@ -91,10 +91,12 @@ ocean_resources = FALSE
 ; name                 = translatable name as seen by user; if "unused", it is
 ;                        not used, but is included for conversion and/or the
 ;                        editor.
-; rule_name            = (optional) name for savegames, rulesets etc; if not
-;                        present, 'name' is used. Since the name used in
-;                        savegames must not change, use this when renaming a
-;                        terrain after a ruleset has been released.
+; rule_name            = (optional) internal name for savegames, rulesets etc;
+;                        if not present, "name" is used for this purpose too.
+;                        Since the name used in savegames must not change, if
+;                        you want to rename an item after a ruleset has been
+;                        released, you should set "rule_name" to the original
+;                        value of "name".
 ; graphic              = preferred graphic; Tilespec [tile_*] section
 ;                        with 'tag' matching this will be used.
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching
@@ -978,10 +980,12 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ; Extra types:
 ;
 ; name                    = translatable name as seen by user
-; rule_name               = (optional) name for savegames, rulesets etc; if not
-;                           present, 'name' is used. Since the name used in
-;                           savegames must not change, use this when renaming
-;                           an extra after a ruleset has been released.
+; rule_name               = (optional) internal name for savegames, rulesets
+;                           etc; if not present, "name" is used for this
+;                           purpose too. Since the name used in savegames must
+;                           not change, if you want to rename an item after a
+;                           ruleset has been released, you should set
+;                           "rule_name" to the original value of "name".
 ; category                = How UI should categorize this extra. One of
 ;                           "Infra", "Natural", "Nuisance", "Resource", or "Bonus"
 ; causes                  = events that can create extra type.

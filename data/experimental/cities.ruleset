@@ -26,12 +26,11 @@ format_version=20
 ;
 ;
 ; name          = translatable (plural) name as seen by user
-; rule_name     = (optional) name for savegames, rulesets etc; if not
-;                 present, 'name' is used. Since the name used in savegames
-;                 must not change, this is used when renaming a specialist
-;                 after a ruleset has been released. (The original specialist
-;                 names in the default ruleset were not designed to be
-;                 user-visible.)
+; rule_name     = (optional) internal name for savegames, rulesets etc; if
+;                 not present, "name" is used for this purpose too. Since
+;                 the name used in savegames must not change, if you want
+;                 to rename an item after a ruleset has been released, you
+;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
@@ -48,6 +47,8 @@ format_version=20
 
 [specialist_elvis]
 name            = _("Entertainers")
+; (The original specialist names in the classic ruleset and derivatives were
+; not designed to be user-visible.)
 rule_name       = "elvis"
 short_name	= _("?Elvis:E")
 reqs		=

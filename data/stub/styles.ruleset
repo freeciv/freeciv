@@ -17,8 +17,11 @@ format_version=20
 ; Nation styles
 ;
 ; name          = translatable name as seen by user
-; rule_name     = (optional) name for rulesets; if not
-;                 present, 'name' is used.
+; rule_name     = (optional) internal name for savegames, rulesets etc; if
+;                 not present, "name" is used for this purpose too. Since
+;                 the name used in savegames must not change, if you want
+;                 to rename an item after a ruleset has been released, you
+;                 should set "rule_name" to the original value of "name".
 ;
 ; */ <-- avoid gettext warnings
 
@@ -30,10 +33,11 @@ name = _("?style:Generic")
 ; City styles define the way cities are drawn
 ;
 ; name             = translatable name as seen by user
-; rule_name        = (optional) name for savegames, rulesets etc; if not
-;                    present, 'name' is used. Since the name used in savegames
-;                    must not change, use this when renaming a city style after a
-;                    ruleset has been released.
+; rule_name        = (optional) internal name for savegames, rulesets etc; if
+;                    not present, "name" is used for this purpose too. Since
+;                    the name used in savegames must not change, if you want
+;                    to rename an item after a ruleset has been released, you
+;                    should set "rule_name" to the original value of "name".
 ; graphic          = group of tiles to use, see cities spec for
 ;                    more info on city tiles
 ; citizens_graphic = group of citizens tiles to use, see citizens/small

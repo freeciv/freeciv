@@ -32,10 +32,11 @@ buildings = "\
 ; Notes:\n\
 ;\n\
 ; name          = translatable name as seen by user\n\
-; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
-;                 present, 'name' is used. Since the name used in savegames\n\
-;                 must not change, use this when renaming a building after a\n\
-;                 ruleset has been released.\n\
+; rule_name     = (optional) internal name for savegames, rulesets etc; if\n\
+;                 not present, \"name\" is used for this purpose too. Since\n\
+;                 the name used in savegames must not change, if you want\n\
+;                 to rename an item after a ruleset has been released, you\n\
+;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; genus         = genus; one of:\n\
 ;                 \"GreatWonder\", \"SmallWonder\", \"Improvement\", \"Special\".\n\
 ; reqs          = requirements to build the building (see effects.ruleset\n\
@@ -76,8 +77,12 @@ tech_classes = "\
 ; If there is none, tech classes feature is disabled\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
-; rule_name               = (optional) name for rulesets etc; if not\n\
-;                           present, 'name' is used.\n\
+; rule_name               = (optional) internal name for savegames, rulesets\n\
+;                           etc; if not present, \"name\" is used for this\n\
+;                           purpose too. Since the name used in savegames must\n\
+;                           not change, if you want to rename an item after a\n\
+;                           ruleset has been released, you should set\n\
+;                           \"rule_name\" to the original value of \"name\".\n\
 ; cost_pct                = how much techs of the class cost compared\n\
 ;                           to normal. Default is 100%.\n\
 ;\n\
@@ -98,10 +103,13 @@ techs = "\
 ; Notes:\n\
 ;\n\
 ; name          = translatable name as seen by user\n\
-; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
-;                 present, 'name' is used. Since the name used in savegames\n\
-;                 must not change, use this when renaming a tech after a\n\
-;                 ruleset has been released.\n\
+; rule_name     = (optional) internal name for savegames, rulesets etc; if\n\
+;                 not present, \"name\" is used for this purpose too. Since\n\
+;                 the name used in savegames must not change, if you want\n\
+;                 to rename an item after a ruleset has been released, you\n\
+;                 should set \"rule_name\" to the original value of \"name\".\n\
+; class         = tech class this tech belongs to, if they have been defined.\n\
+;                 Default is first one defined above.\n\
 ; req1, req2    = advances required before researching this one\n\
 ; root_req      = tech required before acquiring this tech, by any\n\
 ;                 means, inherited by all techs that require this tech in turn\n\
@@ -166,10 +174,11 @@ governments = "\
 ; Notes on fields:\n\
 ;\n\
 ; name         = translatable name as seen by user\n\
-; rule_name    = (optional) name for savegames, rulesets etc; if not\n\
-;                present, 'name' is used. Since the name used in savegames\n\
-;                must not change, use this when renaming a government after a\n\
-;                ruleset has been released.\n\
+; rule_name    = (optional) internal name for savegames, rulesets etc; if\n\
+;                not present, \"name\" is used for this purpose too. Since\n\
+;                the name used in savegames must not change, if you want\n\
+;                to rename an item after a ruleset has been released, you\n\
+;                should set \"rule_name\" to the original value of \"name\".\n\
 ; reqs         = requirements for this government (see README.effects)\n\
 ; graphic      = tag specifing preferred graphic\n\
 ; graphic_alt  = alternate graphics tag if preferred is not found;\n\
@@ -192,10 +201,12 @@ policies = "\
 ; Multipliers (aka policies)\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
-; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
-;                           present, 'name' is used. Since the name used in\n\
-;                           savegames must not change, use this when renaming\n\
-;                           a multiplier after a ruleset has been released.\n\
+; rule_name               = (optional) internal name for savegames, rulesets\n\
+;                           etc; if not present, \"name\" is used for this\n\
+;                           purpose too. Since the name used in savegames must\n\
+;                           not change, if you want to rename an item after a\n\
+;                           ruleset has been released, you should set\n\
+;                           \"rule_name\" to the original value of \"name\".\n\
 ; default                 = default value (as presented in UI)\n\
 ; start                   = minimum value (as presented in UI)\n\
 ; stop                    = maximum value (as presented in UI)\n\
@@ -229,10 +240,12 @@ uclasses = "\
 ; ** Fields **\n\
 ;\n\
 ; name                = translatable name as seen by user\n\
-; rule_name           = (optional) name for savegames, rulesets etc; if not\n\
-;                       present, \'name\' is used. Since the name used in savegames\n\
-;                       must not change, use this when renaming a unit class after a\n\
-;                       ruleset has been released.\n\
+; rule_name           = (optional) internal name for savegames, rulesets etc;\n\
+;                       if not present, \"name\" is used for this purpose too.\n\
+;                       Since the name used in savegames must not change, if\n\
+;                       you want to rename an item after a ruleset has been\n\
+;                       released, you should set \"rule_name\" to the original\n\
+;                       value of \"name\".\n\
 ; min_speed           = Minimum speed after damage and effects (whole movement points)\n\
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base\n\
 ; non_native_def_pct  = Defense power percentage applying when defending on\n\
@@ -294,10 +307,11 @@ utypes = "\
 ; ** Fields **\n\
 ;\n\
 ; name          = translatable name as seen by user\n\
-; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
-;                 present, \'name\' is used. Since the name used in savegames\n\
-;                 must not change, use this when renaming a unit after a\n\
-;                 ruleset has been released.\n\
+; rule_name     = (optional) internal name for savegames, rulesets etc; if\n\
+;                 not present, \"name\" is used for this purpose too. Since\n\
+;                 the name used in savegames must not change, if you want\n\
+;                 to rename an item after a ruleset has been released, you\n\
+;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; graphic       = tag specifying preferred graphic\n\
 ; graphic_alt	= tag for alternate graphic if preferred graphic is not\n\
 ;		  present; especially if preferred graphic is non-standard,\n\
@@ -528,10 +542,12 @@ terrains = "\
 ; name                 = translatable name as seen by user; if \"unused\", it is\n\
 ;                        not used, but is included for conversion and/or the\n\
 ;                        editor.\n\
-; rule_name            = (optional) name for savegames, rulesets etc; if not\n\
-;                        present, 'name' is used. Since the name used in\n\
-;                        savegames must not change, use this when renaming a\n\
-;                        terrain after a ruleset has been released.\n\
+; rule_name            = (optional) internal name for savegames, rulesets etc;\n\
+;                        if not present, \"name\" is used for this purpose too.\n\
+;                        Since the name used in savegames must not change, if\n\
+;                        you want to rename an item after a ruleset has been\n\
+;                        released, you should set \"rule_name\" to the original\n\
+;                        value of \"name\".\n\
 ; graphic              = preferred graphic; Tilespec [tile_*] section\n\
 ;                        with 'tag' matching this will be used.\n\
 ; graphic_alt          = alternate graphic. When no tilespec 'tag' matching\n\
@@ -673,10 +689,12 @@ extras = "\
 ; Extra types:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
-; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
-;                           present, 'name' is used. Since the name used in\n\
-;                           savegames must not change, use this when renaming\n\
-;                           an extra after a ruleset has been released.\n\
+; rule_name               = (optional) internal name for savegames, rulesets\n\
+;                           etc; if not present, \"name\" is used for this\n\
+;                           purpose too. Since the name used in savegames must\n\
+;                           not change, if you want to rename an item after a\n\
+;                           ruleset has been released, you should set\n\
+;                           \"rule_name\" to the original value of \"name\".\n\
 ; category                = How UI should categorize this extra. One of\n\
 ;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\", or \"Bonus\"\n\
 ; causes                  = events that can create extra type.\n\
@@ -857,8 +875,11 @@ styles = "\
 ; Nation styles\n\
 ;\n\
 ; name          = translatable name as seen by user\n\
-; rule_name     = (optional) name for rulesets; if not\n\
-;                 present, 'name' is used.\n\
+; rule_name     = (optional) internal name for savegames, rulesets etc; if\n\
+;                 not present, \"name\" is used for this purpose too. Since\n\
+;                 the name used in savegames must not change, if you want\n\
+;                 to rename an item after a ruleset has been released, you\n\
+;                 should set \"rule_name\" to the original value of \"name\".\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
@@ -870,10 +891,11 @@ citystyles = "\
 ; City styles define the way cities are drawn\n\
 ;\n\
 ; name             = translatable name as seen by user\n\
-; rule_name        = (optional) name for savegames, rulesets etc; if not\n\
-;                    present, 'name' is used. Since the name used in savegames\n\
-;                    must not change, use this when renaming a city style after a\n\
-;                    ruleset has been released.\n\
+; rule_name        = (optional) internal name for savegames, rulesets etc; if\n\
+;                    not present, \"name\" is used for this purpose too. Since\n\
+;                    the name used in savegames must not change, if you want\n\
+;                    to rename an item after a ruleset has been released, you\n\
+;                    should set \"rule_name\" to the original value of \"name\".\n\
 ; graphic          = group of tiles to use, see cities spec for\n\
 ;                    more info on city tiles\n\
 ; citizens_graphic = group of citizens tiles to use, see citizens/small\n\
@@ -948,10 +970,12 @@ achievements = "\
 ; Achievement types:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
-; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
-;                           present, 'name' is used. Since the name used in\n\
-;                           savegames must not change, use this when renaming a\n\
-;                           achievement after a ruleset has been released.\n\
+; rule_name               = (optional) internal name for savegames, rulesets\n\
+;                           etc; if not present, \"name\" is used for this\n\
+;                           purpose too. Since the name used in savegames must\n\
+;                           not change, if you want to rename an item after a\n\
+;                           ruleset has been released, you should set\n\
+;                           \"rule_name\" to the original value of \"name\".\n\
 ; type                    = What event grants the achievement to player.\n\
 ;                           See README.achievements for list of these types.\n\
 ; unique                  = If TRUE, only first one reaching the achievement will\n\
@@ -973,10 +997,12 @@ goods = "\
 ; Goods types:\n\
 ;\n\
 ; name                    = translatable name as seen by user\n\
-; rule_name               = (optional) name for savegames, rulesets etc; if not\n\
-;                           present, 'name' is used. Since the name used in\n\
-;                           savegames must not change, use this when renaming\n\
-;                           an good after a ruleset has been released.\n\
+; rule_name               = (optional) internal name for savegames, rulesets\n\
+;                           etc; if not present, \"name\" is used for this\n\
+;                           purpose too. Since the name used in savegames must\n\
+;                           not change, if you want to rename an item after a\n\
+;                           ruleset has been released, you should set\n\
+;                           \"rule_name\" to the original value of \"name\".\n\
 ; reqs                    = requirements for a city to provide goods (see effects.ruleset\n\
 ;                           and README.effects for help on requirements)\n\
 ; from_pct                = Income for the sending end of the trade route. Default is 100\%\n\
@@ -1029,12 +1055,11 @@ specialists = "\
 ;\n\
 ;\n\
 ; name          = translatable (plural) name as seen by user\n\
-; rule_name     = (optional) name for savegames, rulesets etc; if not\n\
-;                 present, 'name' is used. Since the name used in savegames\n\
-;                 must not change, this is used when renaming a specialist\n\
-;                 after a ruleset has been released. (The original specialist\n\
-;                 names in the default ruleset were not designed to be\n\
-;                 user-visible.)\n\
+; rule_name     = (optional) internal name for savegames, rulesets etc; if\n\
+;                 not present, \"name\" is used for this purpose too. Since\n\
+;                 the name used in savegames must not change, if you want\n\
+;                 to rename an item after a ruleset has been released, you\n\
+;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; short_name    = one-character \"short name\" used (for instance) in cityrep;\n\
 ;                 should be first character/abbrevation of \"name\"\n\
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't\n\
