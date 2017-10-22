@@ -233,6 +233,14 @@ void progress_bar::paintEvent(QPaintEvent *event)
   c = palette().color(QPalette::Window);
   p.fillRect(r2, c);
 
+  /* draw icon */
+  if (pix != nullptr) {
+    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    p.drawPixmap(2 , 2, pix_width
+    * static_cast<float>(pix->width()) / pix->height(),
+                 pix_width, *pix, 0, 0, pix->width(), pix->height());
+  }
+
   /* draw text */
   c = palette().color(QPalette::Text);
   p.setPen(c);
@@ -291,12 +299,6 @@ void progress_bar::paintEvent(QPaintEvent *event)
     i = rx.width() - fm.width(s) + pix_width;
     i = qMax(0, i);
     p.drawText(i / 2, j / 2 + f_size, s);
-  }
-  if (pix != nullptr) {
-    p.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    p.drawPixmap(2 , 2, pix_width
-                 * static_cast<float>(pix->width()) / pix->height(),
-                 pix_width, *pix, 0, 0, pix->width(), pix->height());
   }
   p.end();
 }
