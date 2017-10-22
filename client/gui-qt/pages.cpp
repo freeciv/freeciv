@@ -346,6 +346,10 @@ void fc_client::create_network_page(void)
   connect(lan_widget->selectionModel(),
           &QItemSelectionModel::selectionChanged, this,
           &fc_client::slot_selection_changed);
+  connect(wan_widget, &QTableWidget::itemDoubleClicked, this,
+          &fc_client::slot_connect);
+  connect(lan_widget, &QTableWidget::itemDoubleClicked, this,
+          &fc_client::slot_connect);
 
   info_widget->setHorizontalHeaderLabels(server_info);
   info_widget->setProperty("selectionBehavior", "SelectRows");
