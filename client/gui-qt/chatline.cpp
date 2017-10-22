@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QStyleFactory>
+#include <QTextBlock>
+#include <QTextLayout>
 #include <QTextBrowser>
 
 // common
@@ -497,11 +499,26 @@ void chatwdg::update_widgets()
 ***************************************************************************/
 int chatwdg::default_size(int lines)
 {
+  int line_count = 0;
+  int line_height;
   int size;
-  QFontMetrics fm(chat_output->font());
-  size = 2 * chat_output->frameWidth() + lines * fm.lineSpacing()
-         + chat_line->size().height() + 4;
+  QTextBlock qtb;
 
+  qtb = chat_output->document()->firstBlock();
+  /* Count all lines in all text blocks layouts
+   * document()->lineCount returns numer of lines without wordwrap */
+
+  while (qtb.isValid()) {
+    line_count = line_count + qtb.layout()->lineCount();
+    qtb = qtb.next();
+  }
+  line_height = (chat_output->document()->size().height()
+                 - 2 * chat_output->document()->documentMargin())
+                / line_count;
+
+  size = lines * line_height
+         + chat_line->size().height() + chat_output->document()->documentMargin();
+  size = qMax(0, size);
   return size;
 }
 
