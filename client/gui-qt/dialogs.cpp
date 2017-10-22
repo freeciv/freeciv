@@ -3351,17 +3351,20 @@ void show_tech_gained_dialog(Tech_type_id tech)
 *****************************************************************/
 void show_tileset_error(const char *msg)
 {
-  QMessageBox ask(gui()->central_wdg);
   char buf[1024];
 
   fc_snprintf(buf, sizeof(buf),
               _("Tileset problem, it's probably incompatible with the"
-                " ruleset:\n%s"), msg);
-  ask.setText(buf);
-  ask.setStandardButtons(QMessageBox::Ok);
-  ask.setWindowTitle(_("Tileset error"));
-  ask.exec();
+              " ruleset:\n%s"), msg);
 
+  if (QCoreApplication::instance() != nullptr) {
+    QMessageBox ask(gui()->central_wdg);
+
+    ask.setText(buf);
+    ask.setStandardButtons(QMessageBox::Ok);
+    ask.setWindowTitle(_("Tileset error"));
+    ask.exec();
+  }
 }
 
 /****************************************************************
