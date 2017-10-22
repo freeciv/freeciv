@@ -36,10 +36,11 @@ during_revolution="Anarchy"
 ; Notes on fields:
 ;
 ; name         = translatable name as seen by user
-; rule_name    = (optional) name for savegames, rulesets etc; if not
-;                present, 'name' is used. Since the name used in savegames
-;                must not change, use this when renaming a government after a
-;                ruleset has been released.
+; rule_name    = (optional) internal name for savegames, rulesets etc; if
+;                not present, "name" is used for this purpose too. Since
+;                the name used in savegames must not change, if you want
+;                to rename an item after a ruleset has been released, you
+;                should set "rule_name" to the original value of "name".
 ; reqs         = requirements for this government (see README.effects)
 ; graphic      = tag specifing preferred graphic
 ; graphic_alt  = alternate graphics tag if preferred is not found;
@@ -193,10 +194,12 @@ Because (happy) citizens of Democracy believe strongly in the\
 ; Multipliers (aka policies)
 ;
 ; name                    = translatable name as seen by user
-; rule_name               = (optional) name for savegames, rulesets etc; if not
-;                           present, 'name' is used. Since the name used in
-;                           savegames must not change, use this when renaming
-;                           a multiplier after a ruleset has been released.
+; rule_name               = (optional) internal name for savegames, rulesets
+;                           etc; if not present, "name" is used for this
+;                           purpose too. Since the name used in savegames must
+;                           not change, if you want to rename an item after a
+;                           ruleset has been released, you should set
+;                           "rule_name" to the original value of "name".
 ; default                 = default value (as presented in UI)
 ; start                   = minimum value (as presented in UI)
 ; stop                    = maximum value (as presented in UI)
