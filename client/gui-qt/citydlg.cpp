@@ -3145,7 +3145,7 @@ void city_dialog::update_improvements()
   QFontMetrics fm(f);
   QPixmap *pix = NULL;
   QPixmap pix_scaled;
-  QString str;
+  QString str, tooltip;
   QTableWidgetItem *qitem;
   struct sprite *sprite;
   int h, cost, item, targets_used, col, upkeep;
@@ -3184,15 +3184,18 @@ void city_dialog::update_improvements()
 
   for (int i = 0; i < worklist_length(&queue); i++) {
     struct universal target = queue.entries[i];
+    tooltip = "";
 
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
       cost = utype_build_shield_cost(target.value.utype);
+      tooltip = get_tooltip_unit(target.value.utype).trimmed();
       sprite = get_unittype_sprite(tileset, target.value.utype,
                                    direction8_invalid());
     } else {
       str = city_improvement_name_translation(pcity, target.value.building);
       sprite = get_building_sprite(tileset, target.value.building);
+      tooltip = get_tooltip_improvement(target.value.building).trimmed();
 
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
@@ -3203,6 +3206,7 @@ void city_dialog::update_improvements()
 
     for (col = 0; col < 3; col++) {
       qitem = new QTableWidgetItem();
+      qitem->setToolTip(tooltip);
 
       switch (col) {
       case 0:
@@ -3214,6 +3218,15 @@ void city_dialog::update_improvements()
         break;
 
       case 1:
+        if (str.contains('[') && str.contains(']')) {
+          int ii, ij;
+
+          ii = str.lastIndexOf('[');
+          ij = str.lastIndexOf(']');
+          if (ij > ii) {
+            str = str.remove(ii, ij - ii + 1);
+          }
+        }
         qitem->setText(str);
         break;
 
