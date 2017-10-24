@@ -82,7 +82,8 @@ void tai_city_worker_requests_create(struct ai_type *ait,
 
 struct tai_tile_state
 {
-  int uw_max;
+  int uw_max_base; /* Value for the city working the tile */
+  int uw_max;      /* With road connectivity bonus */
   int worst_worked;
   int orig_worst_worked;
   int old_worst_worked;
@@ -182,6 +183,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       } else {
         if (value > orig_value && value > state->uw_max) {
           state->uw_max   = value;
+          state->uw_max_base = value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
           unworked->act   = act;
@@ -223,6 +225,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
     } unit_list_iterate_end;
 
     if (act != ACTIVITY_LAST) {
+      int base_value;
       int value;
       int extra;
       bool consider = TRUE;
@@ -245,9 +248,9 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       proad = extra_road_get(tgt);
 
       if (removing) {
-        value = adv_city_worker_rmextra_get(pcity, cindex, tgt);
+        base_value = adv_city_worker_rmextra_get(pcity, cindex, tgt);
       } else {
-        value = adv_city_worker_extra_get(pcity, cindex, tgt);
+        base_value = adv_city_worker_extra_get(pcity, cindex, tgt);
       }
 
       if (proad != NULL && road_provides_move_bonus(proad)) {
@@ -292,7 +295,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
         extra = 0;
       }
 
-      value += extra;
+      value = base_value + extra;
 
       if (tile_worked(ptile) == pcity) {
         if ((value - orig_value) * TWMP > worked->want) {
@@ -317,6 +320,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       } else {
         if (value > orig_value && value > state->uw_max) {
           state->uw_max   = value;
+          state->uw_max_base = base_value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
           unworked->act   = act;
@@ -350,7 +354,7 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
   struct worker_task *selected;
   struct worker_task worked = { .ptile = NULL, .want = 0, .act = ACTIVITY_IDLE, .tgt = NULL };
   struct worker_task unworked = { .ptile = NULL, .want = 0, .act = ACTIVITY_IDLE, .tgt = NULL };
-  struct tai_tile_state state = { .uw_max = 0, .worst_worked = FC_INFINITY,
+  struct tai_tile_state state = { .uw_max = 0, .uw_max_base = 0, .worst_worked = FC_INFINITY,
                                   .orig_worst_worked = 0, .old_worst_worked = FC_INFINITY };
   struct unit_list *units = NULL;
 
@@ -378,9 +382,11 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
 
   if (worked.ptile == NULL
       || (state.old_worst_worked < state.uw_max
-          && (state.uw_max - state.orig_worst_worked) * TWMP > worked.want)) {
+          && (state.uw_max - state.orig_worst_worked) * TWMP > worked.want)
+      || (state.uw_max - state.uw_max_base * TWMP > worked.want)) {
     /* It's better to improve best yet unworked tile and take it to use after that,
-       than to improve already worked tile. */
+       than to improve already worked tile. OR it's more important to
+       improve road connectivity outside worked tiles than improve worked tiles */
     selected = &unworked;
   } else {
     selected = &worked;
