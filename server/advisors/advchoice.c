@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 
 #include "advchoice.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the values of the choice to initial values.
 **************************************************************************/
 void adv_init_choice(struct adv_choice *choice)
@@ -39,7 +39,7 @@ void adv_init_choice(struct adv_choice *choice)
 #endif /* ADV_CHOICE_TRACK */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear choice without freeing it itself
 **************************************************************************/
 void adv_deinit_choice(struct adv_choice *choice)
@@ -52,7 +52,7 @@ void adv_deinit_choice(struct adv_choice *choice)
 #endif /* ADV_CHOICE_TRACK */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Dynamically allocate a new choice.
 **************************************************************************/
 struct adv_choice *adv_new_choice(void)
@@ -64,7 +64,7 @@ struct adv_choice *adv_new_choice(void)
   return choice;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free dynamically allocated choice.
 **************************************************************************/
 void adv_free_choice(struct adv_choice *choice)
@@ -77,7 +77,7 @@ void adv_free_choice(struct adv_choice *choice)
   free(choice);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return better one of the choices given. In case of a draw, first one
   is preferred.
 **************************************************************************/
@@ -91,7 +91,7 @@ struct adv_choice *adv_better_choice(struct adv_choice *first,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return better one of the choices given, and free the other.
 **************************************************************************/
 struct adv_choice *adv_better_choice_free(struct adv_choice *first,
@@ -108,7 +108,7 @@ struct adv_choice *adv_better_choice_free(struct adv_choice *first,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does choice type refer to unit
 **************************************************************************/
 bool is_unit_choice_type(enum choice_type type)
@@ -117,7 +117,7 @@ bool is_unit_choice_type(enum choice_type type)
 }
 
 #ifdef ADV_CHOICE_TRACK
-/**************************************************************************
+/**********************************************************************//**
   Copy contents of one choice structure to the other
 **************************************************************************/
 void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src)
@@ -138,7 +138,7 @@ void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the use the choice is meant for.
 **************************************************************************/
 void adv_choice_set_use(struct adv_choice *choice, const char *use)
@@ -149,10 +149,11 @@ void adv_choice_set_use(struct adv_choice *choice, const char *use)
   choice->use = fc_strdup(use);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log the choice information.
 **************************************************************************/
-void adv_choice_log_info(struct adv_choice *choice, const char *loc1, const char *loc2)
+void adv_choice_log_info(struct adv_choice *choice, const char *loc1,
+                         const char *loc2)
 {
   const char *use;
   const char *name;

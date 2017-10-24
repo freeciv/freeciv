@@ -48,7 +48,7 @@ static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
 static int adv_calc_rmextra(const struct city *pcity, const struct tile *ptile,
                             const struct extra_type *pextra);
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the benefit of irrigating the given tile.
 
   The return value is the goodness of the tile after the irrigation.  This
@@ -88,7 +88,7 @@ static int adv_calc_irrigate_transform(const struct city *pcity,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the benefit of mining the given tile.
 
   The return value is the goodness of the tile after the mining.  This
@@ -127,7 +127,7 @@ static int adv_calc_mine_transform(const struct city *pcity, const struct tile *
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the benefit of transforming the given tile.
 
   The return value is the goodness of the tile after the transform.  This
@@ -168,7 +168,7 @@ static int adv_calc_transform(const struct city *pcity,
   return goodness;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the benefit of building an extra at the given tile.
 
   The return value is the goodness of the tile after the extra is built.
@@ -206,7 +206,7 @@ static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
   return goodness;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the benefit of removing an extra from the given tile.
 
   The return value is the goodness of the tile after the extra is removed.
@@ -233,7 +233,7 @@ static int adv_calc_rmextra(const struct city *pcity, const struct tile *ptile,
   return goodness;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Do all tile improvement calculations and cache them for later.
 
   These values are used in settler_evaluate_improvements() so this function
@@ -284,7 +284,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns a measure of goodness of a tile to pcity.
 
   FIXME: foodneed and prodneed are always 0.
@@ -316,7 +316,7 @@ int city_tile_value(const struct city *pcity, const struct tile *ptile,
   return value;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the value for activity 'doing' on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -342,7 +342,7 @@ void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
   (pcity->server.adv->act_cache[city_tile_index]).act[act_id] = value;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the value for activity 'doing' on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -359,7 +359,7 @@ int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
   return (pcity->server.adv->act_cache[city_tile_index]).act[act_id];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the value for extra on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -385,7 +385,7 @@ void adv_city_worker_extra_set(struct city *pcity, int city_tile_index,
   (pcity->server.adv->act_cache[city_tile_index]).extra[extra_index(pextra)] = value;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the value for extra removal on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -411,7 +411,7 @@ void adv_city_worker_rmextra_set(struct city *pcity, int city_tile_index,
   (pcity->server.adv->act_cache[city_tile_index]).rmextra[extra_index(pextra)] = value;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the value for extra on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -428,7 +428,7 @@ int adv_city_worker_extra_get(const struct city *pcity, int city_tile_index,
   return (pcity->server.adv->act_cache[city_tile_index]).extra[extra_index(pextra)];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the value for extra removal on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
@@ -445,7 +445,7 @@ int adv_city_worker_rmextra_get(const struct city *pcity, int city_tile_index,
   return (pcity->server.adv->act_cache[city_tile_index]).rmextra[extra_index(pextra)];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the memory allocated for AI city handling.
 **************************************************************************/
 void adv_city_update(struct city *pcity)
@@ -471,7 +471,7 @@ void adv_city_update(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Allocate advisors related city data
 **************************************************************************/
 void adv_city_alloc(struct city *pcity)
@@ -484,7 +484,7 @@ void adv_city_alloc(struct city *pcity)
   adv_city_update(pcity);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free advisors related city data
 **************************************************************************/
 void adv_city_free(struct city *pcity)

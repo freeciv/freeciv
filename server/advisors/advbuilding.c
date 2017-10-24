@@ -46,7 +46,7 @@
 
 #include "advbuilding.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate walking distance to nearest friendly cities from every city.
 
   The hidden assumption here is that a ACTION_HELP_WONDER unit is like any
@@ -113,7 +113,7 @@ static void calculate_city_clusters(struct player *pplayer)
   unit_virtual_destroy(ghost);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set building wants for human player 
 **************************************************************************/
 static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
@@ -173,7 +173,7 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
 #endif /* FREECIV_DEBUG */
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Prime pcity->server.adv.building_want[]
 **************************************************************************/
 void building_advisor(struct player *pplayer)
@@ -267,7 +267,7 @@ void building_advisor(struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Choose improvement we like most and put it into adv_choice.
 **************************************************************************/
 void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
@@ -305,7 +305,7 @@ void building_advisor_choose(struct city *pcity, struct adv_choice *choice)
   CALL_PLR_AI_FUNC(choose_building, plr, pcity, choice);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup improvement building
 **************************************************************************/
 void advisor_choose_build(struct player *pplayer, struct city *pcity)

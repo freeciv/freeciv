@@ -79,7 +79,7 @@ Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
 
 static struct timer *as_timer = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for autosettlers system
 **************************************************************************/
 void adv_settlers_free(void)
@@ -88,7 +88,7 @@ void adv_settlers_free(void)
   as_timer = NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize advisor systems.
 **************************************************************************/
 void advisors_init(void)
@@ -114,7 +114,7 @@ void advisors_init(void)
   as_activities_rmextra[i++] = ACTIVITY_LAST;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the attractiveness of building a road/rail at the given tile.
 
   This calculates the overall benefit of connecting the civilization; this
@@ -289,12 +289,12 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
   return bonus;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Compares the best known tile improvement action with improving ptile
   with activity act.  Calculates the value of improving the tile by
   discounting the total value by the time it would take to do the work
   and multiplying by some factor.
-****************************************************************************/
+**************************************************************************/
 static void consider_settler_action(const struct player *pplayer, 
                                     enum unit_activity act,
                                     struct extra_type *target,
@@ -386,9 +386,9 @@ static void consider_settler_action(const struct player *pplayer,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Don't enter in enemy territories.
-****************************************************************************/
+**************************************************************************/
 static enum tile_behavior
 autosettler_tile_behavior(const struct tile *ptile,
                           enum known_type known,
@@ -402,7 +402,7 @@ autosettler_tile_behavior(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Finds tiles to improve, using punit.
 
   The returned value is the goodness of the best tile and action found.  If
@@ -418,7 +418,7 @@ autosettler_tile_behavior(const struct tile *ptile,
   and the eta of this worker (if any).  This information
   is used to possibly displace this previously assigned worker.
   if this array is NULL, workers are never displaced.
-****************************************************************************/
+**************************************************************************/
 int settler_evaluate_improvements(struct unit *punit,
                                   enum unit_activity *best_act,
                                   struct extra_type **best_target,
@@ -753,9 +753,9 @@ int settler_evaluate_improvements(struct unit *punit,
   return best_newv;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return best city request to fulfill.
-****************************************************************************/
+**************************************************************************/
 struct city *settler_evaluate_city_requests(struct unit *punit,
                                             struct worker_task **best_task,
                                             struct pf_path **path,
@@ -841,7 +841,7 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
   return taskcity;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find some work for our settlers and/or workers.
 **************************************************************************/
 #define LOG_SETTLER LOG_DEBUG
@@ -923,7 +923,7 @@ void auto_settler_findwork(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup our settler to do the work it has found. Returns TRUE if
   started actual work.
 **************************************************************************/
@@ -1041,7 +1041,7 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
 }
 #undef LOG_SETTLER
 
-/************************************************************************** 
+/**********************************************************************//**
   Do we consider tile safe for autosettler to work?
 **************************************************************************/
 bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
@@ -1060,7 +1060,7 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
   return TRUE;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Run through all the players settlers and let those on ai.control work 
   automagically.
 **************************************************************************/
@@ -1160,7 +1160,7 @@ void auto_settlers_player(struct player *pplayer)
   FC_FREE(state);
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Change unit's advisor task.
 **************************************************************************/
 void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,

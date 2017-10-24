@@ -63,7 +63,7 @@ static void adv_dipl_free(const struct player *plr1,
 static struct adv_dipl *adv_dipl_get(const struct player *plr1,
                                      const struct player *plr2);
 
-/**************************************************************************
+/**********************************************************************//**
   Precalculates some important data about the improvements in the game
   that we use later in ai/aicity.c.  We mark improvements as 'calculate'
   if we want to run a full test on them, as 'estimate' if we just want
@@ -140,7 +140,7 @@ static void adv_data_city_impr_calc(struct player *pplayer,
   } improvement_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if the player still takes advantage of EFT_TECH_PARASITE.
   Research is useless if there are still techs which may be given to the
   player for free.
@@ -184,7 +184,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Analyze rulesets. Must be run after rulesets are loaded, unlike
   _init, which must be run before savegames are loaded, which is usually
   before rulesets.
@@ -198,7 +198,7 @@ void adv_data_analyze_rulesets(struct player *pplayer)
   adv_data_city_impr_calc(pplayer, adv);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function is called each turn to initialize pplayer->ai.stats.units.
 **************************************************************************/
 static void count_my_units(struct player *pplayer)
@@ -230,7 +230,7 @@ static void count_my_units(struct player *pplayer)
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether data phase is currently open. Data phase is open
   between adv_data_phase_init() and adv_data_phase_done() calls.
 **************************************************************************/
@@ -241,7 +241,7 @@ bool is_adv_data_phase_open(struct player *pplayer)
   return adv->phase_is_initialized;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make and cache lots of calculations needed for other functions.
 
   Returns TRUE if new data was created, FALSE if data existed already.
@@ -517,7 +517,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clean up our mess.
 **************************************************************************/
 void adv_data_phase_done(struct player *pplayer)
@@ -554,7 +554,7 @@ void adv_data_phase_done(struct player *pplayer)
   adv->phase_is_initialized = FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return a pointer to our data.
   If caller_closes is set, data phase will be opened even if it's
   currently closed, and the boolean will be set accordingly to tell caller
@@ -650,7 +650,7 @@ struct adv_data *adv_data_get(struct player *pplayer, bool *caller_closes)
   return adv;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Allocate memory for advisor data. Save to call multiple times.
 **************************************************************************/
 void adv_data_init(struct player *pplayer)
@@ -682,7 +682,7 @@ void adv_data_init(struct player *pplayer)
   adv_data_default(pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize with sane values.
 **************************************************************************/
 void adv_data_default(struct player *pplayer)
@@ -705,7 +705,7 @@ void adv_data_default(struct player *pplayer)
   adv->max_num_cities = 10000;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free memory for advisor data.
 **************************************************************************/
 void adv_data_close(struct player *pplayer)
@@ -737,9 +737,9 @@ void adv_data_close(struct player *pplayer)
   pplayer->server.adv = NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Allocate new advisor diplomacy slot
-****************************************************************************/
+**************************************************************************/
 static void adv_dipl_new(const struct player *plr1,
                          const struct player *plr2)
 {
@@ -749,9 +749,9 @@ static void adv_dipl_new(const struct player *plr1,
   *dip_slot = fc_calloc(1, sizeof(struct adv_dipl));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Free resources allocated for diplomacy information between two players.
-****************************************************************************/
+**************************************************************************/
 static void adv_dipl_free(const struct player *plr1,
                           const struct player *plr2)
 {
@@ -764,7 +764,7 @@ static void adv_dipl_free(const struct player *plr1,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns diplomatic state type between two players
 **************************************************************************/
 static struct adv_dipl *adv_dipl_get(const struct player *plr1,
@@ -776,7 +776,7 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
   return *dip_slot;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find best government to aim for.
   We do it by setting our government to all possible values and calculating
   our GDP (total ai_eval_calc_city) under this government.  If the very
@@ -986,7 +986,7 @@ void adv_best_government(struct player *pplayer)
   adv->goal.govt.val -= best_val;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether science would help us at all.
 **************************************************************************/
 bool adv_wants_science(struct player *pplayer)
@@ -994,13 +994,12 @@ bool adv_wants_science(struct player *pplayer)
   return adv_data_get(pplayer, NULL)->wants_science;
 }
 
-
-/**********************************************************************
-  There are some signs that a player might be dangerous: We are at 
-  war with him, he has done lots of ignoble things to us, he is an 
+/**********************************************************************//**
+  There are some signs that a player might be dangerous: We are at
+  war with him, he has done lots of ignoble things to us, he is an
   ally of one of our enemies (a ticking bomb to be sure), we don't like him,
   diplomatic state is neutral or we have cease fire.
-***********************************************************************/
+**************************************************************************/
 bool adv_is_player_dangerous(struct player *pplayer,
                              struct player *aplayer)
 {

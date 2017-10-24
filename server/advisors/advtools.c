@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 #include "advtools.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Amortize means gradually paying off a cost or debt over time. In freeciv
   terms this means we calculate how much less worth something is to us
   depending on how long it will take to complete.
