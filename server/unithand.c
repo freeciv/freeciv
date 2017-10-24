@@ -2757,7 +2757,7 @@ static bool unit_do_recycle(struct player *pplayer,
 
   notify_player(pplayer, city_tile(pcity), E_CARAVAN_ACTION, ftc_server,
                 /* TRANS: ... Ironclad ... New York */
-                _("Recyled your %s to help the current production in %s."),
+                _("Recycled your %s to help the current production in %s."),
                 unit_link(punit),
                 city_link(pcity));
 
