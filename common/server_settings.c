@@ -23,7 +23,7 @@
 
 #include "server_settings.h"
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting with the specified name.
 ***************************************************************************/
 server_setting_id server_setting_by_name(const char *name)
@@ -34,7 +34,7 @@ server_setting_id server_setting_by_name(const char *name)
   return fc_funcs->server_setting_by_name(name);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the name of the server setting with the specified id.
 ***************************************************************************/
 const char *server_setting_name_get(server_setting_id id)
@@ -45,7 +45,7 @@ const char *server_setting_name_get(server_setting_id id)
   return fc_funcs->server_setting_name_get(id);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the type of the server setting with the specified id.
 ***************************************************************************/
 enum sset_type server_setting_type_get(server_setting_id id)
@@ -56,7 +56,7 @@ enum sset_type server_setting_type_get(server_setting_id id)
   return fc_funcs->server_setting_type_get(id);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns TRUE iff a server setting with the specified id exists.
 ***************************************************************************/
 bool server_setting_exists(server_setting_id id)
@@ -64,7 +64,7 @@ bool server_setting_exists(server_setting_id id)
   return sset_type_is_valid(server_setting_type_get(id));
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the value of the server setting with the specified id.
 ***************************************************************************/
 bool server_setting_value_bool_get(server_setting_id id)
@@ -76,7 +76,7 @@ bool server_setting_value_bool_get(server_setting_id id)
   return fc_funcs->server_setting_val_bool_get(id);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns a server setting - value pair from its setting and value;
 ***************************************************************************/
 ssetv ssetv_from_values(server_setting_id setting, int value)
@@ -99,7 +99,7 @@ ssetv ssetv_from_values(server_setting_id setting, int value)
   return (ssetv)setting;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting of the setting - value pair.
 ***************************************************************************/
 server_setting_id ssetv_setting_get(ssetv enc)
@@ -111,7 +111,7 @@ server_setting_id ssetv_setting_get(ssetv enc)
   return (server_setting_id)enc;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting value of the setting - value pair.
 ***************************************************************************/
 int ssetv_value_get(ssetv enc)
@@ -123,7 +123,7 @@ int ssetv_value_get(ssetv enc)
   return TRUE;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting - value pair encoded in the string.
 ***************************************************************************/
 ssetv ssetv_by_rule_name(const char *name)
@@ -139,7 +139,7 @@ ssetv ssetv_by_rule_name(const char *name)
   return val;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting - value pair encoded as a string.
 ***************************************************************************/
 const char *ssetv_rule_name(ssetv val)
@@ -151,7 +151,7 @@ const char *ssetv_rule_name(ssetv val)
   return server_setting_name_get((server_setting_id)val);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns the server setting - value pair formated in a user readable way.
 ***************************************************************************/
 const char *ssetv_human_readable(ssetv val, bool present)
@@ -171,7 +171,7 @@ const char *ssetv_human_readable(ssetv val, bool present)
   return astr_str(&out);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns if the server setting currently has the value in the pair.
 ***************************************************************************/
 bool ssetv_setting_has_value(ssetv val)

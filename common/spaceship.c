@@ -88,10 +88,10 @@ const struct sship_part_info modules_info[NUM_SS_MODULES] = {
   { 6, 22, 21}
 };
 
-/**********************************************************************
-Initialize spaceship struct; could also be used to "cancel" a
-spaceship (eg, if/when capital-capture effect implemented).
-**********************************************************************/
+/*******************************************************************//**
+  Initialize spaceship struct; could also be used to "cancel" a
+  spaceship (eg, if/when capital-capture effect implemented).
+***********************************************************************/
 void spaceship_init(struct player_spaceship *ship)
 {
   ship->structurals = ship->components = ship->modules = 0;
@@ -106,9 +106,9 @@ void spaceship_init(struct player_spaceship *ship)
     ship->success_rate = ship->travel_time = 0.0;
 }
 
-/**********************************************************************
-Count the number of structurals placed; that is, in ship->structure[]
-**********************************************************************/
+/*******************************************************************//**
+  Count the number of structurals placed; that is, in ship->structure[]
+***********************************************************************/
 int num_spaceship_structurals_placed(const struct player_spaceship *ship)
 {
   int i;
@@ -123,9 +123,9 @@ int num_spaceship_structurals_placed(const struct player_spaceship *ship)
   return num;
 }
 
-/****************************************************************************
+/*******************************************************************//**
   Find (default) place for next spaceship component.
-****************************************************************************/
+***********************************************************************/
 bool next_spaceship_component(struct player *pplayer,
                               struct player_spaceship *ship,
                               struct spaceship_component *fill)
