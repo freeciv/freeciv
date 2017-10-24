@@ -200,17 +200,17 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 
   if (current_topo_has_flag(TF_HEX)) {
     /* On hex map, road is always a benefit */
-    bonus += 2; /* Later divided by 2 */
+    bonus += 20; /* Later divided by 20 */
 
     /* Road is more valuable when even longer road around does not exist. */
     for (i = 0; i < 12; i++) {
       if (!real_road[i]) {
-        bonus++;
+        bonus += 3;
       }
     }
 
     /* Scale down the bonus. */
-    bonus /= 2;
+    bonus /= 20;
   } else {
     /*
      * Consider the following tile arrangement (numbered in hex):
