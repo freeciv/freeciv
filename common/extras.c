@@ -62,6 +62,7 @@ void extras_init(void)
     requirement_vector_init(&(extras[i].disappearance_reqs));
     extras[i].id = i;
     extras[i].hiders = NULL;
+    extras[i].bridged = NULL;
     extras[i].data.special_idx = -1;
     extras[i].data.base = NULL;
     extras[i].data.road = NULL;
@@ -134,6 +135,10 @@ void extras_free(void)
     if (pextra->hiders != NULL) {
       extra_type_list_destroy(pextra->hiders);
       pextra->hiders = NULL;
+    }
+    if (pextra->bridged != NULL) {
+      extra_type_list_destroy(pextra->bridged);
+      pextra->bridged = NULL;
     }
   } extra_type_iterate_end;
 }
@@ -391,22 +396,36 @@ bool extra_can_be_built(const struct extra_type *pextra,
 /************************************************************************//**
   Tells if player can build extra to tile with suitable unit.
 ****************************************************************************/
-static bool can_build_extra_base(const struct extra_type *pextra,
-                                 const struct player *pplayer,
-                                 const struct tile *ptile)
+bool can_build_extra_base(const struct extra_type *pextra,
+                          const struct player *pplayer,
+                          const struct tile *ptile)
 {
-  if (is_extra_caused_by(pextra, EC_BASE)
-      && !base_can_be_built(extra_base_get(pextra), ptile)) {
+  if (!extra_can_be_built(pextra, ptile)) {
     return FALSE;
+  }
+
+  if (is_extra_caused_by(pextra, EC_BASE)) {
+    if (tile_terrain(ptile)->base_time == 0) {
+      return FALSE;
+    }
+    if (tile_city(ptile) != NULL && extra_base_get(pextra)->border_sq >= 0) {
+      return FALSE;
+    }
   }
 
   if (is_extra_caused_by(pextra, EC_ROAD)
-      && !can_build_road_base(extra_road_get(pextra), pplayer, ptile)) {
+      && tile_terrain(ptile)->road_time == 0) {
     return FALSE;
   }
 
-  if (!extra_can_be_built(pextra, ptile)) {
-    return FALSE;
+  if (pplayer != NULL && !player_knows_techs_with_flag(pplayer, TF_BRIDGE)) {
+    /* Player does not know technology to bridge over extras that require it. */
+    extra_type_list_iterate(pextra->bridged, pbridged) {
+      if (tile_has_extra(ptile, pbridged)) {
+        /* Tile has extra that would require bridging over. */
+        return FALSE;
+      }
+    } extra_type_list_iterate_end;
   }
 
   return TRUE;

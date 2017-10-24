@@ -26,9 +26,9 @@
 
 #include "road.h"
 
-/**************************************************************************
+/************************************************************************//**
   Return the road id.
-**************************************************************************/
+****************************************************************************/
 Road_type_id road_number(const struct road_type *proad)
 {
   fc_assert_ret_val(NULL != proad, -1);
@@ -36,23 +36,23 @@ Road_type_id road_number(const struct road_type *proad)
   return proad->id;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return extra that road is.
-**************************************************************************/
+****************************************************************************/
 struct extra_type *road_extra_get(const struct road_type *proad)
 {
   return proad->self;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the number of road_types.
-**************************************************************************/
+****************************************************************************/
 Road_type_id road_count(void)
 {
   return game.control.num_road_types;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return road type of given id.
 ****************************************************************************/
 struct road_type *road_by_number(Road_type_id id)
@@ -68,7 +68,7 @@ struct road_type *road_by_number(Road_type_id id)
   return extra_road_get(extra_type_list_get(roads, id));
 }
 
-/****************************************************************************
+/************************************************************************//**
   This function is passed to road_type_list_sort() to sort a list of roads
   in ascending move_cost (faster roads first).
 ****************************************************************************/
@@ -87,7 +87,7 @@ int compare_road_move_cost(const struct extra_type *const *p,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize road_type structures.
 ****************************************************************************/
 void road_type_init(struct extra_type *pextra, int idx)
@@ -105,7 +105,7 @@ void road_type_init(struct extra_type *pextra, int idx)
   proad->self = pextra;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the road integrators cache
 ****************************************************************************/
 void road_integrators_cache_init(void)
@@ -128,7 +128,7 @@ void road_integrators_cache_init(void)
   } extra_type_by_cause_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with road types
 ****************************************************************************/
 void road_types_free(void)
@@ -145,7 +145,7 @@ void road_types_free(void)
   } extra_type_by_cause_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return tile special that used to represent this road type.
 ****************************************************************************/
 enum road_compat road_compat_special(const struct road_type *proad)
@@ -153,7 +153,7 @@ enum road_compat road_compat_special(const struct road_type *proad)
   return proad->compat;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return road type represented by given compatibility special, or NULL if
   special does not represent road type at all.
 ****************************************************************************/
@@ -173,7 +173,7 @@ struct road_type *road_by_compat_special(enum road_compat compat)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if road can build to tile if all other requirements are met.
 ****************************************************************************/
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
@@ -196,36 +196,7 @@ bool road_can_be_built(const struct road_type *proad, const struct tile *ptile)
   return TRUE;
 }
 
-/****************************************************************************
-  Tells if player can build road to tile with suitable unit.
-****************************************************************************/
-bool can_build_road_base(const struct road_type *proad,
-                         const struct player *pplayer,
-                         const struct tile *ptile)
-{
-  if (!road_can_be_built(proad, ptile)) {
-    return FALSE;
-  }
-
-  if (road_has_flag(proad, RF_REQUIRES_BRIDGE)
-      && !player_knows_techs_with_flag(pplayer, TF_BRIDGE)) {
-    /* TODO: Cache list of road types with RF_PREVENTS_OTHER_ROADS
-     *       after ruleset loading and use that list here instead
-     *       of always iterating through all road types. */
-    extra_type_by_cause_iterate(EC_ROAD, poextra) {
-      struct road_type *old = extra_road_get(poextra);
-
-      if (road_has_flag(old, RF_PREVENTS_OTHER_ROADS)
-          && tile_has_extra(ptile, poextra)) {
-        return FALSE;
-      }
-    } extra_type_by_cause_iterate_end;
-  }
-
-  return TRUE;
-}
-
-/****************************************************************************
+/************************************************************************//**
   Tells if player and optionally unit have road building requirements
   fulfilled.
 ****************************************************************************/
@@ -284,37 +255,37 @@ static bool are_road_reqs_fulfilled(const struct road_type *proad,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if player can build road to tile with suitable unit.
 ****************************************************************************/
 bool player_can_build_road(const struct road_type *proad,
                            const struct player *pplayer,
                            const struct tile *ptile)
 {
-  if (!can_build_road_base(proad, pplayer, ptile)) {
+  if (!can_build_extra_base(road_extra_get(proad), pplayer, ptile)) {
     return FALSE;
   }
 
   return are_road_reqs_fulfilled(proad, pplayer, NULL, ptile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tells if unit can build road on tile.
 ****************************************************************************/
 bool can_build_road(struct road_type *proad,
-		    const struct unit *punit,
-		    const struct tile *ptile)
+                    const struct unit *punit,
+                    const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
 
-  if (!can_build_road_base(proad, pplayer, ptile)) {
+  if (!can_build_extra_base(road_extra_get(proad), pplayer, ptile)) {
     return FALSE;
   }
 
   return are_road_reqs_fulfilled(proad, pplayer, punit, ptile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count tiles with specified road near the tile. Can be called with NULL
   road.
 ****************************************************************************/
@@ -335,7 +306,7 @@ int count_road_near_tile(const struct tile *ptile, const struct road_type *proad
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count tiles with any river near the tile.
 ****************************************************************************/
 int count_river_near_tile(const struct tile *ptile,
@@ -356,7 +327,7 @@ int count_river_near_tile(const struct tile *ptile,
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count tiles with river of specific type cardinally adjacent to the tile.
 ****************************************************************************/
 int count_river_type_tile_card(const struct tile *ptile,
@@ -381,7 +352,7 @@ int count_river_type_tile_card(const struct tile *ptile,
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Count tiles with river of specific type near the tile.
 ****************************************************************************/
 int count_river_type_near_tile(const struct tile *ptile,
@@ -406,7 +377,7 @@ int count_river_type_near_tile(const struct tile *ptile,
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if road provides effect
 ****************************************************************************/
 bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
@@ -414,7 +385,7 @@ bool road_has_flag(const struct road_type *proad, enum road_flag_id flag)
   return BV_ISSET(proad->flags, flag);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any cardinally adjacent tile contains a road with
   the given flag (does not check ptile itself).
 ****************************************************************************/
@@ -433,7 +404,7 @@ bool is_road_flag_card_near(const struct tile *ptile, enum road_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any adjacent tile contains a road with the given flag
   (does not check ptile itself).
 ****************************************************************************/
@@ -452,7 +423,7 @@ bool is_road_flag_near_tile(const struct tile *ptile, enum road_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is tile native to road?
 ****************************************************************************/
 bool is_native_tile_to_road(const struct road_type *proad,
@@ -475,7 +446,7 @@ bool is_native_tile_to_road(const struct road_type *proad,
                          &pextra->reqs, RPT_POSSIBLE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Is extra cardinal only road.
 ****************************************************************************/
 bool is_cardinal_only_road(const struct extra_type *pextra)
@@ -491,7 +462,7 @@ bool is_cardinal_only_road(const struct extra_type *pextra)
   return proad->move_mode == RMM_CARDINAL || proad->move_mode == RMM_RELAXED;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Does road type provide move bonus
 ****************************************************************************/
 bool road_provides_move_bonus(const struct road_type *proad)

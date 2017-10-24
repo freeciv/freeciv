@@ -2399,6 +2399,18 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.hidden_by", path);
     }
 
+    set_count = 0;
+    extra_type_iterate(top) {
+      if (BV_ISSET(pextra->bridged_over, extra_index(top))) {
+        extra_names[set_count++] = extra_rule_name(top);
+      }
+    } extra_type_iterate_end;
+
+    if (set_count > 0) {
+      secfile_insert_str_vec(sfile, extra_names, set_count,
+                             "%s.bridged_over", path);
+    }
+
     save_strvec(sfile, pextra->helptext, path, "helptext");
 
   } extra_active_type_iterate_end;

@@ -19,20 +19,16 @@ extern "C" {
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME road_flag_id
-#define SPECENUM_VALUE0 RF_REQUIRES_BRIDGE
+#define SPECENUM_VALUE0 RF_RIVER
 /* TRANS: this and following strings are 'road flags', which may rarely
  * be presented to the player in ruleset help text */
-#define SPECENUM_VALUE0NAME N_("RequiresBridge")
-#define SPECENUM_VALUE1 RF_PREVENTS_OTHER_ROADS
-#define SPECENUM_VALUE1NAME N_("PreventsOtherRoads")
-#define SPECENUM_VALUE2 RF_RIVER
-#define SPECENUM_VALUE2NAME N_("River")
-#define SPECENUM_VALUE3 RF_UNRESTRICTED_INFRA
-#define SPECENUM_VALUE3NAME N_("UnrestrictedInfra")
-#define SPECENUM_VALUE4 RF_JUMP_FROM
-#define SPECENUM_VALUE4NAME N_("JumpFrom")
-#define SPECENUM_VALUE5 RF_JUMP_TO
-#define SPECENUM_VALUE5NAME N_("JumpTo")
+#define SPECENUM_VALUE0NAME N_("River")
+#define SPECENUM_VALUE1 RF_UNRESTRICTED_INFRA
+#define SPECENUM_VALUE1NAME N_("UnrestrictedInfra")
+#define SPECENUM_VALUE2 RF_JUMP_FROM
+#define SPECENUM_VALUE2NAME N_("JumpFrom")
+#define SPECENUM_VALUE3 RF_JUMP_TO
+#define SPECENUM_VALUE3NAME N_("JumpTo")
 #define SPECENUM_COUNT RF_COUNT
 #define SPECENUM_BITVECTOR bv_road_flags
 #include "specenum_gen.h"
@@ -112,9 +108,6 @@ bool is_road_flag_near_tile(const struct tile *ptile,
                             enum road_flag_id flag);
 
 bool road_can_be_built(const struct road_type *proad, const struct tile *ptile);
-bool can_build_road_base(const struct road_type *proad,
-                         const struct player *pplayer,
-                         const struct tile *ptile);
 bool can_build_road(struct road_type *proad,
 		    const struct unit *punit,
 		    const struct tile *ptile);

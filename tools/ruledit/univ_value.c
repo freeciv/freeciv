@@ -134,7 +134,7 @@ bool universal_value_initial(struct universal *src)
     src->value.baseflag = BF_NOT_AGGRESSIVE;
     return TRUE;
   case VUT_ROADFLAG:
-    src->value.roadflag = RF_REQUIRES_BRIDGE;
+    src->value.roadflag = RF_RIVER;
     return TRUE;
   case VUT_EXTRA:
     if (game.control.num_extra_types <= 0) {

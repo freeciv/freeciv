@@ -3199,6 +3199,12 @@ void handle_rulesets_ready(void)
         extra_type_list_append(pextra->hiders, phider);
       }
     } extra_type_iterate_end;
+    pextra->bridged = extra_type_list_new();
+    extra_type_iterate(pbridged) {
+      if (BV_ISSET(pextra->bridged_over, extra_index(pbridged))) {
+        extra_type_list_append(pextra->bridged, pbridged);
+      }
+    } extra_type_iterate_end;
   } extra_type_iterate_end;
 
   unit_class_iterate(pclass) {
@@ -3866,6 +3872,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   pextra->flags = p->flags;
   pextra->hidden_by = p->hidden_by;
+  pextra->bridged_over = p->bridged_over;
   pextra->conflicts = p->conflicts;
 
   PACKET_STRVEC_EXTRACT(pextra->helptext, p->helptext);
