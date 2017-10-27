@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 #include "fc_gitrev_gen.h"
 #endif /* GITREV */
 
-/**********************************************************************
+/*******************************************************************//**
   Return string containing both name of Freeciv and version.
 ***********************************************************************/
 const char *freeciv_name_version(void)
@@ -50,7 +50,7 @@ const char *freeciv_name_version(void)
   return msgbuf;
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Return string describing version type.
 ***********************************************************************/
 const char *word_version(void)
@@ -62,7 +62,7 @@ const char *word_version(void)
 #endif
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Returns string with git revision information if it is possible to
   determine. Can return also some fallback string or even NULL.
 ***********************************************************************/
@@ -81,7 +81,7 @@ const char *fc_git_revision(void)
 #endif /* FC_GITREV_OFF */
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Returns version string that can be used to compare two freeciv builds.
   This does not handle git revisions, as there's no way to compare
   which of the two commits is "higher".
@@ -91,7 +91,7 @@ const char *fc_comparable_version(void)
   return VERSION_STRING;
 }
 
-/**********************************************************************
+/*******************************************************************//**
   Return the BETA message.
   If returns NULL, not a beta version.
 ***********************************************************************/
@@ -134,21 +134,21 @@ const char *beta_message(void)
 #endif /* IS_BETA_VERSION */
 }
 
-/***************************************************************************
+/*******************************************************************//**
   Return the Freeciv motto.
   (The motto is common code:
    only one instance of the string in the source;
    only one time gettext needs to translate it. --jjm)
-***************************************************************************/
+***********************************************************************/
 const char *freeciv_motto(void)
 {
   return _("'Cause civilization should be free!");
 }
 
-/***************************************************************************
+/*******************************************************************//**
   Return version string in a format suitable to be written to created
   datafiles as human readable information.
-***************************************************************************/
+***********************************************************************/
 const char *freeciv_datafile_version(void)
 {
   static char buf[500] = { '\0' };
