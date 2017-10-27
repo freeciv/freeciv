@@ -270,7 +270,7 @@ int impr_buy_gold_cost(const struct impr_type *pimprove, int shields_in_stock)
     cost = 2 * missing;
   }
 
-  if (is_wonder(pimprove)) {
+  if (is_great_wonder(pimprove)) {
     cost *= 2;
   }
   if (shields_in_stock == 0) {
