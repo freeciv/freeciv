@@ -114,12 +114,12 @@ static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
 static struct timer *anim_timer = NULL;
 
-enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE };
+enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE, ANIM_NUKE };
 
 struct animation
 {
   enum animation_type type;
-  int id1;
+  int id;
   bool finished;
   int old_x;
   int old_y;
@@ -137,6 +137,10 @@ struct animation
       const struct sprite_vector *explosion_sprites;
       int explosion_sprite_count;
     } battle;
+    struct {
+      bool shown;
+      struct tile *nuke_tile;
+    } nuke;
   };
 };
 
@@ -188,7 +192,7 @@ static bool movement_animation(struct animation *anim, double time_gone)
   int new_x, new_y;
   double timing_sec = (double)gui_options.smooth_move_unit_msec / 1000.0;
   double mytime = MIN(time_gone, timing_sec);
-  struct unit *punit = game_unit_by_number(anim->id1);
+  struct unit *punit = game_unit_by_number(anim->id);
 
   if (punit != NULL) {
     tile_to_canvas_pos(&start_x, &start_y, anim->movement.src);
@@ -274,6 +278,45 @@ static bool battle_animation(struct animation *anim, double time_gone)
 }
 
 /************************************************************************//**
+  Progress animation of type 'nuke'
+****************************************************************************/
+static bool nuke_animation(struct animation *anim, double time_gone)
+{
+  if (!anim->nuke.shown) {
+    float canvas_x, canvas_y;
+    struct sprite *nuke_spr = get_nuke_explode_sprite(tileset);
+    int w, h;
+
+    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, anim->nuke.nuke_tile);
+    get_sprite_dimensions(nuke_spr, &w, &h);
+
+    canvas_put_sprite_full(mapview.store,
+                           canvas_x + tileset_tile_width(tileset) / 2 * map_zoom
+                           - w / 2,
+                           canvas_y + tileset_tile_height(tileset) / 2 * map_zoom
+                           - h / 2,
+                           nuke_spr);
+    dirty_rect(canvas_x, canvas_y, tileset_tile_width(tileset) * map_zoom,
+               tileset_tile_height(tileset) * map_zoom);
+
+    anim->old_x = canvas_x;
+    anim->old_y = canvas_y;
+
+    anim->nuke.shown = TRUE;
+
+    return FALSE;
+  }
+
+  if (time_gone > 1.0) {
+    update_map_canvas_visible();
+
+    return FALSE;
+  }
+
+  return FALSE;
+}
+
+/************************************************************************//**
   Progress current animation
 ****************************************************************************/
 void update_animation(void)
@@ -284,7 +327,7 @@ void update_animation(void)
     if (anim->finished) {
       /* Animation over */
 
-      anim->id1 = -1;
+      anim->id = -1;
       update_map_canvas(anim->old_x, anim->old_y, anim->width, anim->height);
       animation_list_remove(animations, anim);
       free(anim);
@@ -305,6 +348,8 @@ void update_animation(void)
       case ANIM_BATTLE:
         finished = battle_animation(anim, time_gone);
         break;
+      case ANIM_NUKE:
+        finished = nuke_animation(anim, time_gone);
       }
 
       if (finished) {
@@ -1356,29 +1401,46 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   struct sprite *mysprite = get_nuke_explode_sprite(tileset);
   int width, height;
 
-  /* We can't count on the return value of tile_to_canvas_pos since the
-   * sprite may span multiple tiles. */
-  (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
   get_sprite_dimensions(mysprite, &width, &height);
 
-  canvas_x += (tileset_tile_width(tileset) - width) / 2 * map_zoom;
-  canvas_y += (tileset_tile_height(tileset) - height) / 2 * map_zoom;
+  if (frame_by_frame_animation) {
+    struct animation *anim = fc_malloc(sizeof(struct animation));
 
-  /* Make sure everything is flushed and synced before proceeding.  First
-   * we update everything to the store, but don't write this to screen.
-   * Then add the nuke graphic to the store.  Finally flush everything to
-   * the screen and wait 1 second. */
-  unqueue_mapview_updates(FALSE);
+    anim->type = ANIM_NUKE;
+    anim->id = -1;
+    anim->nuke.shown = FALSE;
+    anim->nuke.nuke_tile = ptile;
 
-  canvas_put_sprite_full(mapview.store, canvas_x, canvas_y, mysprite);
-  dirty_rect(canvas_x, canvas_y, width, height);
+    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
+    get_sprite_dimensions(mysprite, &width, &height);
 
-  flush_dirty();
-  gui_flush();
+    anim->width = width * map_zoom;
+    anim->height = height * map_zoom;
+    animation_add(anim);
+  } else {
+    /* We can't count on the return value of tile_to_canvas_pos since the
+     * sprite may span multiple tiles. */
+    (void) tile_to_canvas_pos(&canvas_x, &canvas_y, ptile);
 
-  fc_usleep(1000000);
+    canvas_x += (tileset_tile_width(tileset) - width) / 2 * map_zoom;
+    canvas_y += (tileset_tile_height(tileset) - height) / 2 * map_zoom;
 
-  update_map_canvas_visible();
+    /* Make sure everything is flushed and synced before proceeding.  First
+     * we update everything to the store, but don't write this to screen.
+     * Then add the nuke graphic to the store.  Finally flush everything to
+     * the screen and wait 1 second. */
+    unqueue_mapview_updates(FALSE);
+
+    canvas_put_sprite_full(mapview.store, canvas_x, canvas_y, mysprite);
+    dirty_rect(canvas_x, canvas_y, width, height);
+
+    flush_dirty();
+    gui_flush();
+
+    fc_usleep(1000000);
+
+    update_map_canvas_visible();
+  }
 }
 
 /**************************************************************************
@@ -1398,7 +1460,7 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
     }
 
     if (anim != NULL && punit != NULL
-        && punit->id == anim->id1) {
+        && punit->id == anim->id) {
       punit = NULL;
     }
 
@@ -2377,7 +2439,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
     struct unit *winning_unit = (losing_unit == punit1 ? punit0 : punit1);
 
     anim->type = ANIM_BATTLE;
-    anim->id1 = winning_unit->id;
+    anim->id = winning_unit->id;
     anim->battle.explosion_tile = losing_unit->tile;
     anim->battle.explosion_sprites = get_unit_explode_animation(tileset);
     anim->battle.explosion_sprite_count = sprite_vector_size(anim->battle.explosion_sprites);
@@ -2511,7 +2573,7 @@ void move_unit_map_canvas(struct unit *punit,
       struct animation *anim = fc_malloc(sizeof(struct animation));
 
       anim->type = ANIM_MOVEMENT;
-      anim->id1 = punit->id;
+      anim->id = punit->id;
       anim->movement.src = src_tile;
       anim->movement.dest = dest_tile;
       anim->movement.canvas_dx = canvas_dx;
