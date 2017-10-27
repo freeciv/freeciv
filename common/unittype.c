@@ -52,7 +52,7 @@ static struct user_flag user_type_flags[MAX_NUM_USER_UNIT_FLAGS];
 
 static struct user_flag user_class_flags[MAX_NUM_USER_UCLASS_FLAGS];
 
-/**************************************************************************
+/**********************************************************************//**
   Return the first item of unit_types.
 **************************************************************************/
 struct unit_type *unit_type_array_first(void)
@@ -63,7 +63,7 @@ struct unit_type *unit_type_array_first(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the last item of unit_types.
 **************************************************************************/
 const struct unit_type *unit_type_array_last(void)
@@ -74,7 +74,7 @@ const struct unit_type *unit_type_array_last(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the number of unit types.
 **************************************************************************/
 Unit_type_id utype_count(void)
@@ -82,7 +82,7 @@ Unit_type_id utype_count(void)
   return game.control.num_unit_types;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the unit type index.
 
   Currently same as utype_number(), paired with utype_count()
@@ -94,7 +94,7 @@ Unit_type_id utype_index(const struct unit_type *punittype)
   return punittype - unit_types;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the unit type index.
 **************************************************************************/
 Unit_type_id utype_number(const struct unit_type *punittype)
@@ -103,7 +103,7 @@ Unit_type_id utype_number(const struct unit_type *punittype)
   return punittype->item_number;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return a pointer for the unit type struct for the given unit type id.
 
   This function returns NULL for invalid unit pointers (some callers
@@ -117,7 +117,7 @@ struct unit_type *utype_by_number(const Unit_type_id id)
   return &unit_types[id];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the unit type for this unit.
 **************************************************************************/
 struct unit_type *unit_type_get(const struct unit *punit)
@@ -127,7 +127,7 @@ struct unit_type *unit_type_get(const struct unit *punit)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the upkeep of a unit of this type under the given government.
 **************************************************************************/
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
@@ -169,7 +169,7 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
   return val;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the "happy cost" (the number of citizens who are discontented)
   for this unit.
 **************************************************************************/
@@ -179,7 +179,7 @@ int utype_happy_cost(const struct unit_type *ut,
   return ut->happy_cost * get_player_bonus(pplayer, EFT_UNHAPPY_FACTOR);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the unit has the given flag.
 **************************************************************************/
 bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag)
@@ -187,7 +187,7 @@ bool unit_has_type_flag(const struct unit *punit, enum unit_type_flag_id flag)
   return utype_has_flag(unit_type_get(punit), flag);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the given unit type has the role.  Roles are like
   flags but have no meaning except to the AI.
 **************************************************************************/
@@ -197,7 +197,7 @@ bool utype_has_role(const struct unit_type *punittype, int role)
   return BV_ISSET(punittype->roles, role - L_FIRST);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the unit has the given role.
 **************************************************************************/
 bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
@@ -205,9 +205,9 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
   return utype_has_role(unit_type_get(punit), role);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether the unit can take over enemy cities.
-****************************************************************************/
+**************************************************************************/
 bool unit_can_take_over(const struct unit *punit)
 {
   /* TODO: Should unit state dependent action enablers be considered?
@@ -217,9 +217,9 @@ bool unit_can_take_over(const struct unit *punit)
     && utype_can_take_over(unit_type_get(punit));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether the unit type can take over enemy cities.
-****************************************************************************/
+**************************************************************************/
 bool utype_can_take_over(const struct unit_type *punittype)
 {
   /* FIXME: "Paradrop Unit" can in certain circumstances result in city
@@ -227,11 +227,11 @@ bool utype_can_take_over(const struct unit_type *punittype)
   return utype_can_do_action(punittype, ACTION_CONQUER_CITY);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given cargo type has no restrictions on when it can
   load onto the given transporter.
   (Does not check that cargo is valid for transport!)
-****************************************************************************/
+**************************************************************************/
 bool utype_can_freely_load(const struct unit_type *pcargotype,
                            const struct unit_type *ptranstype)
 {
@@ -239,11 +239,11 @@ bool utype_can_freely_load(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given cargo type has no restrictions on when it can
   unload from the given transporter.
   (Does not check that cargo is valid for transport!)
-****************************************************************************/
+**************************************************************************/
 bool utype_can_freely_unload(const struct unit_type *pcargotype,
                              const struct unit_type *ptranstype)
 {
@@ -263,7 +263,7 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
  * action can be performed is done via ACTION_HOSTILE. */
 static bv_unit_types unit_can_act_cache[ACTION_AND_FAKES];
 
-/**************************************************************************
+/**********************************************************************//**
   Cache what generalized (ruleset defined) action enabler controlled
   actions a unit of the given type can perform.
 **************************************************************************/
@@ -294,7 +294,7 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   } action_enablers_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff units of this type can do actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
@@ -303,7 +303,7 @@ bool utype_may_act_at_all(const struct unit_type *putype)
   return utype_can_do_action(putype, ACTION_ANY);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff units of the given type can do the specified generalized
   (ruleset defined) action enabler controlled action.
 **************************************************************************/
@@ -313,7 +313,7 @@ bool utype_can_do_action(const struct unit_type *putype,
   return BV_ISSET(unit_can_act_cache[action_id], utype_index(putype));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit type can perform the action corresponding to
   the unit type role.
 **************************************************************************/
@@ -323,7 +323,7 @@ static bool utype_can_do_action_role(const struct unit_type *putype,
   return utype_can_do_action(putype, role - L_LAST);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff units of this type can do hostile actions controlled by
   generalized (ruleset defined) action enablers.
 **************************************************************************/
@@ -359,7 +359,7 @@ static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
 static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_AND_FAKES];
 static bv_citytile_cache ctile_tgt_act_cache[U_LAST][ACTION_AND_FAKES];
 
-/**************************************************************************
+/**********************************************************************//**
   Cache if any action may be possible for a unit of the type putype for
   each unit state property. Since a unit state property could be ignored
   both present and !present must be checked.
@@ -436,7 +436,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cache what actions may be possible for a unit of the type putype for
   each local DiplRel variation. Since a diplomatic relationship could be
   ignored both present and !present must be checked.
@@ -515,7 +515,7 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cache if any action may be possible for a unit of the type putype for
   each target local city tile property. Both present and !present must be
   checked since a city tile property could be ignored.
@@ -600,7 +600,7 @@ struct range {
 
 #define MOVES_LEFT_INFINITY -1
 
-/**************************************************************************
+/**********************************************************************//**
   Get the legal range of move fragments left of the specified requirement
   vector.
 **************************************************************************/
@@ -624,7 +624,7 @@ static struct range *moves_left_range(struct requirement_vector *reqs)
   return prange;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cache if any action may be possible for a unit of the type putype given
   the property tested for. Since a it could be ignored both present and
   !present must be checked.
@@ -637,7 +637,7 @@ void unit_type_action_cache_set(struct unit_type *ptype)
   tgt_citytile_act_cache_set(ptype);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cache what unit types may be allowed do what actions, both at all and
   when certain properties are true.
 **************************************************************************/
@@ -648,7 +648,7 @@ void unit_type_action_cache_init(void)
   } unit_type_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff there exists an (action enabler controlled) action that a
   unit of the type punit_type can perform while its unit state property
   prop has the value is_there.
@@ -660,7 +660,7 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
   return utype_can_do_act_when_ustate(punit_type, ACTION_ANY, prop, is_there);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit type can do the specified (action enabler
   controlled) action while its unit state property prop has the value
   is_there.
@@ -674,7 +674,7 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
       requirement_unit_state_ereq(prop, is_there));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the unit type can do the specified (action enabler
   controlled) action while its target's CityTile property state has the
   value is_there.
@@ -688,7 +688,7 @@ bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
       requirement_citytile_ereq(prop, is_there));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given (action enabler controlled) action can be
   performed by a unit of the given type while the given property of its
   owner's diplomatic relationship to the target's owner has the given
@@ -708,7 +708,7 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
       requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given (action enabler controlled) action may be
   performed by a unit of the given type that has the given number of move
   fragments left.
@@ -775,7 +775,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given (action enabler controlled) action may be
   performed by a unit of the given type if the target tile has the given
   property.
@@ -843,7 +843,7 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff performing the specified action will consume an actor
   unit of the specified type.
 **************************************************************************/
@@ -866,25 +866,25 @@ bool utype_is_consumed_by_action(const struct action *paction,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of shields it takes to build this unit type.
-****************************************************************************/
+**************************************************************************/
 int utype_build_shield_cost(const struct unit_type *punittype)
 {
   return MAX(punittype->build_cost * game.info.shieldbox / 100, 1);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of shields it takes to build this unit.
-****************************************************************************/
+**************************************************************************/
 int unit_build_shield_cost(const struct unit *punit)
 {
   return utype_build_shield_cost(unit_type_get(punit));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the amount of gold it takes to rush this unit.
-****************************************************************************/
+**************************************************************************/
 int utype_buy_gold_cost(const struct unit_type *punittype,
 			int shields_in_stock)
 {
@@ -900,23 +900,23 @@ int utype_buy_gold_cost(const struct unit_type *punittype,
   return cost;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of shields received when this unit type is disbanded.
-****************************************************************************/
+**************************************************************************/
 int utype_disband_shields(const struct unit_type *punittype)
 {
   return utype_build_shield_cost(punittype) / 2;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of shields received when this unit is disbanded.
-****************************************************************************/
+**************************************************************************/
 int unit_disband_shields(const struct unit *punit)
 {
   return utype_disband_shields(unit_type_get(punit));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   How much city shrinks when it builds unit of this type.
 **************************************************************************/
 int utype_pop_value(const struct unit_type *punittype)
@@ -924,7 +924,7 @@ int utype_pop_value(const struct unit_type *punittype)
   return (punittype->pop_cost);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   How much population is put to building this unit.
 **************************************************************************/
 int unit_pop_value(const struct unit *punit)
@@ -932,7 +932,7 @@ int unit_pop_value(const struct unit *punit)
   return utype_pop_value(unit_type_get(punit));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return move type of the unit type
 **************************************************************************/
 enum unit_move_type utype_move_type(const struct unit_type *punittype)
@@ -940,7 +940,7 @@ enum unit_move_type utype_move_type(const struct unit_type *punittype)
   return utype_class(punittype)->move_type;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (translated) name of the unit type.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -949,7 +949,7 @@ const char *utype_name_translation(const struct unit_type *punittype)
   return name_translation_get(&punittype->name);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (translated) name of the unit.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -958,7 +958,7 @@ const char *unit_name_translation(const struct unit *punit)
   return utype_name_translation(unit_type_get(punit));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the unit type.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -967,7 +967,7 @@ const char *utype_rule_name(const struct unit_type *punittype)
   return rule_name_get(&punittype->name);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the unit.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -976,7 +976,7 @@ const char *unit_rule_name(const struct unit *punit)
   return utype_rule_name(unit_type_get(punit));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return string describing unit type values.
   String is static buffer that gets reused when function is called again.
 **************************************************************************/
@@ -997,7 +997,7 @@ const char *utype_values_string(const struct unit_type *punittype)
   return buffer;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return string with translated unit name and list of its values.
   String is static buffer that gets reused when function is called again.
 **************************************************************************/
@@ -1012,7 +1012,7 @@ const char *utype_values_translation(const struct unit_type *punittype)
   return buffer;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (translated) name of the unit class.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -1021,7 +1021,7 @@ const char *uclass_name_translation(const struct unit_class *pclass)
   return name_translation_get(&pclass->name);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the unit class.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -1030,11 +1030,11 @@ const char *uclass_rule_name(const struct unit_class *pclass)
   return rule_name_get(&pclass->name);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return a string with all the names of units with this flag. If "alts" is
   set, separate with "or", otherwise "and". Return FALSE if no unit with
   this flag exists.
-****************************************************************************/
+**************************************************************************/
 bool role_units_translations(struct astring *astr, int flag, bool alts)
 {
   const int count = num_role_units(flag);
@@ -1066,7 +1066,7 @@ bool role_units_translations(struct astring *astr, int flag, bool alts)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether this player can upgrade this unit type (to any other
   unit type).  Returns NULL if no upgrade is possible.
 **************************************************************************/
@@ -1092,7 +1092,7 @@ struct unit_type *can_upgrade_unittype(const struct player *pplayer,
   return best_upgrade;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the cost (gold) of upgrading a single unit of the specified type
   to the new type.  This price could (but currently does not) depend on
   other attributes (like nation or government type) of the player the unit
@@ -1109,7 +1109,7 @@ int unit_upgrade_price(const struct player *pplayer,
     / 100;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the unit type that has the given (translated) name.
   Returns NULL if none match.
 **************************************************************************/
@@ -1124,7 +1124,7 @@ struct unit_type *unit_type_by_translated_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the unit type that has the given (untranslated) rule name.
   Returns NULL if none match.
 **************************************************************************/
@@ -1141,7 +1141,7 @@ struct unit_type *unit_type_by_rule_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the unit class that has the given (untranslated) rule name.
   Returns NULL if none match.
 **************************************************************************/
@@ -1158,7 +1158,7 @@ struct unit_class *unit_class_by_rule_name(const char *s)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize user unit class flags.
 **************************************************************************/
 void user_unit_class_flags_init(void)
@@ -1170,7 +1170,7 @@ void user_unit_class_flags_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets user defined name for unit class flag.
 **************************************************************************/
 void set_user_unit_class_flag_name(enum unit_class_flag_id id,
@@ -1200,7 +1200,7 @@ void set_user_unit_class_flag_name(enum unit_class_flag_id id,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unit class flag name callback, called from specenum code.
 **************************************************************************/
 const char *unit_class_flag_id_name_cb(enum unit_class_flag_id flag)
@@ -1212,7 +1212,7 @@ const char *unit_class_flag_id_name_cb(enum unit_class_flag_id flag)
   return user_class_flags[flag - UCF_USER_FLAG_1].name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) help text of the user unit class flag.
 **************************************************************************/
 const char *unit_class_flag_helptxt(enum unit_class_flag_id id)
@@ -1222,7 +1222,7 @@ const char *unit_class_flag_helptxt(enum unit_class_flag_id id)
   return user_class_flags[id - UCF_USER_FLAG_1].helptxt;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize user unit type flags.
 **************************************************************************/
 void user_unit_type_flags_init(void)
@@ -1234,7 +1234,7 @@ void user_unit_type_flags_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets user defined name for unit flag.
 **************************************************************************/
 void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
@@ -1263,7 +1263,7 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unit type flag name callback, called from specenum code.
 **************************************************************************/
 const char *unit_type_flag_id_name_cb(enum unit_type_flag_id flag)
@@ -1275,7 +1275,7 @@ const char *unit_type_flag_id_name_cb(enum unit_type_flag_id flag)
   return user_type_flags[flag - UTYF_USER_FLAG_1].name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) helptxt of the user unit flag.
 **************************************************************************/
 const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
@@ -1285,7 +1285,7 @@ const char *unit_type_flag_helptxt(enum unit_type_flag_id id)
   return user_type_flags[id - UTYF_USER_FLAG_1].helptxt;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the unit type is unique and the player already has one.
 **************************************************************************/
 bool utype_player_already_has_this_unique(const struct player *pplayer,
@@ -1310,7 +1310,7 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
 Whether player can build given unit somewhere,
 ignoring whether unit is obsolete and assuming the
 player has a coastal city.
@@ -1412,9 +1412,9 @@ bool can_player_build_unit_direct(const struct player *p,
   return TRUE;
 }
 
-/**************************************************************************
-Whether player can build given unit somewhere;
-returns FALSE if unit is obsolete.
+/**********************************************************************//**
+  Whether player can build given unit somewhere;
+  returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit_now(const struct player *p,
 			       const struct unit_type *punittype)
@@ -1424,16 +1424,16 @@ bool can_player_build_unit_now(const struct player *p,
   }
   while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_player_build_unit_direct(p, punittype)) {
-	return FALSE;
+      return FALSE;
     }
   }
   return TRUE;
 }
 
-/**************************************************************************
-Whether player can _eventually_ build given unit somewhere -- ie,
-returns TRUE if unit is available with current tech OR will be available
-with future tech. Returns FALSE if unit is obsolete.
+/**********************************************************************//**
+  Whether player can _eventually_ build given unit somewhere -- ie,
+  returns TRUE if unit is available with current tech OR will be available
+  with future tech. Returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit_later(const struct player *p,
                                  const struct unit_type *punittype)
@@ -1451,21 +1451,22 @@ bool can_player_build_unit_later(const struct player *p,
 }
 
 /**************************************************************************
-The following functions use static variables so we can quickly look up
-which unit types have given flag or role.
-For these functions flags and roles are considered to be in the same "space",
-and any "role" argument can also be a "flag".
-Unit order is in terms of the order in the units ruleset.
+  The following functions use static variables so we can quickly look up
+  which unit types have given flag or role.
+  For these functions flags and roles are considered to be in the same "space",
+  and any "role" argument can also be a "flag".
+  Unit order is in terms of the order in the units ruleset.
 **************************************************************************/
 static bool first_init = TRUE;
 static int n_with_role[MAX_UNIT_ROLES];
 static struct unit_type **with_role[MAX_UNIT_ROLES];
 
-/**************************************************************************
-Do the real work for role_unit_precalcs, for one role (or flag), given by i.
+/**********************************************************************//**
+  Do the real work for role_unit_precalcs, for one role (or flag),
+  given by i.
 **************************************************************************/
 static void precalc_one(int i,
-			bool (*func_has)(const struct unit_type *, int))
+                        bool (*func_has)(const struct unit_type *, int))
 {
   int j;
 
@@ -1489,9 +1490,9 @@ static void precalc_one(int i,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Free memory allocated by role_unit_precalcs().
-****************************************************************************/
+**************************************************************************/
 void role_unit_precalcs_free(void)
 {
   int i;
@@ -1503,10 +1504,10 @@ void role_unit_precalcs_free(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize; it is safe to call this multiple times (e.g., if units have
   changed due to rulesets in client).
-****************************************************************************/
+**************************************************************************/
 void role_unit_precalcs(void)
 {
   int i;
@@ -1532,8 +1533,8 @@ void role_unit_precalcs(void)
   first_init = FALSE;
 }
 
-/**************************************************************************
-How many unit types have specified role/flag.
+/**********************************************************************//**
+  How many unit types have specified role/flag.
 **************************************************************************/
 int num_role_units(int role)
 {
@@ -1544,7 +1545,7 @@ int num_role_units(int role)
   return n_with_role[role];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Iterate over all the role units and feed them to callback.
   Once callback returns TRUE, no further units are feeded to it and
   we return the unit that caused callback to return TRUE
@@ -1562,7 +1563,7 @@ struct unit_type *role_units_iterate(int role, role_unit_callback cb, void *data
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Iterate over all the role units and feed them to callback, starting
   from the last one.
   Once callback returns TRUE, no further units are feeded to it and
@@ -1581,9 +1582,9 @@ struct unit_type *role_units_iterate_backwards(int role, role_unit_callback cb, 
   return NULL;
 }
 
-/**************************************************************************
-Return index-th unit with specified role/flag.
-Index -1 means (n-1), ie last one.
+/**********************************************************************//**
+  Return index-th unit with specified role/flag.
+  Index -1 means (n-1), ie last one.
 **************************************************************************/
 struct unit_type *get_role_unit(int role, int role_index)
 {
@@ -1599,7 +1600,7 @@ struct unit_type *get_role_unit(int role, int role_index)
   return with_role[role][role_index];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return "best" unit this city can build, with given role/flag.
   Returns NULL if none match. "Best" means highest unit type id.
 **************************************************************************/
@@ -1625,7 +1626,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return "best" unit the player can build, with given role/flag.
   Returns NULL if none match. "Best" means highest unit type id.
 
@@ -1652,7 +1653,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return first unit the player can build, with given role/flag.
   Returns NULL if none match.  Used eg when placing starting units.
 **************************************************************************/
@@ -1677,9 +1678,9 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
   return NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Inialize unit-type structures.
-****************************************************************************/
+**************************************************************************/
 void unit_types_init(void)
 {
   int i;
@@ -1695,7 +1696,7 @@ void unit_types_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Frees the memory associated with this unit type.
 **************************************************************************/
 static void unit_type_free(struct unit_type *punittype)
@@ -1712,9 +1713,9 @@ static void unit_type_free(struct unit_type *punittype)
   combat_bonus_list_destroy(punittype->bonuses);
 }
 
-/***************************************************************
- Frees the memory associated with all unit types.
-***************************************************************/
+/**********************************************************************//**
+  Frees the memory associated with all unit types.
+**************************************************************************/
 void unit_types_free(void)
 {
   int i;
@@ -1726,9 +1727,9 @@ void unit_types_free(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees the memory associated with all unit type flags
-***************************************************************/
+**************************************************************************/
 void unit_type_flags_free(void)
 {
   int i;
@@ -1738,9 +1739,9 @@ void unit_type_flags_free(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees the memory associated with all unit class flags
-***************************************************************/
+**************************************************************************/
 void unit_class_flags_free(void)
 {
   int i;
@@ -1750,7 +1751,7 @@ void unit_class_flags_free(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the first item of unit_classes.
 **************************************************************************/
 struct unit_class *unit_class_array_first(void)
@@ -1761,7 +1762,7 @@ struct unit_class *unit_class_array_first(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the last item of unit_classes.
 **************************************************************************/
 const struct unit_class *unit_class_array_last(void)
@@ -1772,7 +1773,7 @@ const struct unit_class *unit_class_array_last(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the unit_class count.
 **************************************************************************/
 Unit_Class_id uclass_count(void)
@@ -1781,7 +1782,7 @@ Unit_Class_id uclass_count(void)
 }
 
 #ifndef uclass_index
-/**************************************************************************
+/**********************************************************************//**
   Return the unit_class index.
 
   Currently same as uclass_number(), paired with uclass_count()
@@ -1794,7 +1795,7 @@ Unit_Class_id uclass_index(const struct unit_class *pclass)
 }
 #endif /* uclass_index */
 
-/**************************************************************************
+/**********************************************************************//**
   Return the unit_class index.
 **************************************************************************/
 Unit_Class_id uclass_number(const struct unit_class *pclass)
@@ -1803,9 +1804,9 @@ Unit_Class_id uclass_number(const struct unit_class *pclass)
   return pclass->item_number;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns unit class pointer for an ID value.
-****************************************************************************/
+**************************************************************************/
 struct unit_class *uclass_by_number(const Unit_Class_id id)
 {
   if (id < 0 || id >= game.control.num_unit_classes) {
@@ -1815,9 +1816,9 @@ struct unit_class *uclass_by_number(const Unit_Class_id id)
 }
 
 #ifndef utype_class
-/***************************************************************
- Returns unit class pointer for a unit type.
-***************************************************************/
+/**********************************************************************//**
+  Returns unit class pointer for a unit type.
+**************************************************************************/
 struct unit_class *utype_class(const struct unit_type *punittype)
 {
   fc_assert(NULL != punittype->uclass);
@@ -1825,17 +1826,17 @@ struct unit_class *utype_class(const struct unit_type *punittype)
 }
 #endif /* utype_class */
 
-/***************************************************************
- Returns unit class pointer for a unit.
-***************************************************************/
+/**********************************************************************//**
+  Returns unit class pointer for a unit.
+**************************************************************************/
 struct unit_class *unit_class_get(const struct unit *punit)
 {
   return utype_class(unit_type_get(punit));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize unit_class structures.
-****************************************************************************/
+**************************************************************************/
 void unit_classes_init(void)
 {
   int i;
@@ -1853,9 +1854,9 @@ void unit_classes_init(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Free resources allocated for unit classes.
-****************************************************************************/
+**************************************************************************/
 void unit_classes_free(void)
 {
   int i;
@@ -1883,9 +1884,9 @@ void unit_classes_free(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return veteran system used for this unit type.
-****************************************************************************/
+**************************************************************************/
 const struct veteran_system *
   utype_veteran_system(const struct unit_type *punittype)
 {
@@ -1899,9 +1900,9 @@ const struct veteran_system *
   return game.veteran;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return veteran level properties of given unit in given veterancy level.
-****************************************************************************/
+**************************************************************************/
 const struct veteran_level *
   utype_veteran_level(const struct unit_type *punittype, int level)
 {
@@ -1914,10 +1915,10 @@ const struct veteran_level *
   return (vsystem->definitions + level);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return translated name of the given veteran level.
   NULL if this unit type doesn't have different veteran levels.
-****************************************************************************/
+**************************************************************************/
 const char *utype_veteran_name_translation(const struct unit_type *punittype,
                                            int level)
 {
@@ -1930,9 +1931,9 @@ const char *utype_veteran_name_translation(const struct unit_type *punittype,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return veteran levels of the given unit type.
-****************************************************************************/
+**************************************************************************/
 int utype_veteran_levels(const struct unit_type *punittype)
 {
   const struct veteran_system *vsystem = utype_veteran_system(punittype);
@@ -1942,10 +1943,10 @@ int utype_veteran_levels(const struct unit_type *punittype)
   return vsystem->levels;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether this unit type's veteran system, if any, confers a power
   factor bonus at any level (it could just add extra moves).
-****************************************************************************/
+**************************************************************************/
 bool utype_veteran_has_power_bonus(const struct unit_type *punittype)
 {
   int i, initial_power_fact = utype_veteran_level(punittype, 0)->power_fact;
@@ -1957,9 +1958,9 @@ bool utype_veteran_has_power_bonus(const struct unit_type *punittype)
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Allocate new veteran system structure with given veteran level count.
-****************************************************************************/
+**************************************************************************/
 struct veteran_system *veteran_system_new(int count)
 {
   struct veteran_system *vsystem;
@@ -1975,9 +1976,9 @@ struct veteran_system *veteran_system_new(int count)
   return vsystem;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Free veteran system
-****************************************************************************/
+**************************************************************************/
 void veteran_system_destroy(struct veteran_system *vsystem)
 {
   if (vsystem) {
@@ -1988,9 +1989,9 @@ void veteran_system_destroy(struct veteran_system *vsystem)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Fill veteran level in given veteran system with given information.
-****************************************************************************/
+**************************************************************************/
 void veteran_system_definition(struct veteran_system *vsystem, int level,
                                const char *vlist_name, int vlist_power,
                                int vlist_move, int vlist_raise,
@@ -2010,7 +2011,7 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
   vlevel->work_raise_chance = vlist_wraise;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return pointer to ai data of given unit type and ai type.
 **************************************************************************/
 void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai)
@@ -2018,7 +2019,7 @@ void *utype_ai_data(const struct unit_type *ptype, const struct ai_type *ai)
   return ptype->ais[ai_type_number(ai)];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Attach ai data to unit type
 **************************************************************************/
 void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
@@ -2027,9 +2028,9 @@ void utype_set_ai_data(struct unit_type *ptype, const struct ai_type *ai,
   ptype->ais[ai_type_number(ai)] = data;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set caches for unit class.
-****************************************************************************/
+**************************************************************************/
 void set_unit_class_caches(struct unit_class *pclass)
 {
   pclass->cache.refuel_bases = extra_type_list_new();
@@ -2078,9 +2079,9 @@ void set_unit_class_caches(struct unit_class *pclass)
   } unit_class_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set caches for unit types.
-****************************************************************************/
+**************************************************************************/
 void set_unit_type_caches(struct unit_type *ptype)
 {
   ptype->cache.max_defense_mp = -FC_INFINITY;
@@ -2096,7 +2097,7 @@ void set_unit_type_caches(struct unit_type *ptype)
   } unit_type_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   What move types nativity of this extra will give?
 **************************************************************************/
 static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
@@ -2163,9 +2164,9 @@ static enum unit_move_type move_type_from_extra(struct extra_type *pextra,
   return unit_move_type_invalid();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set move_type for unit class.
-****************************************************************************/
+**************************************************************************/
 void set_unit_move_type(struct unit_class *puclass)
 {
   bool land_moving = FALSE;
@@ -2204,9 +2205,9 @@ void set_unit_move_type(struct unit_class *puclass)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Is cityfounder type
-****************************************************************************/
+**************************************************************************/
 bool utype_is_cityfounder(struct unit_type *utype)
 {
   if (game.scenario.prevent_new_cities) {

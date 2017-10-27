@@ -23,7 +23,7 @@
 #include "movement.h"
 #include "unitlist.h"
 
-/****************************************************************************
+/************************************************************************//**
   Look for a unit with the given ID in the unit list.  Returns NULL if none
   is found.
 ****************************************************************************/
@@ -38,7 +38,7 @@ struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Comparison function for unit_list_sort, sorting by ord_map:
   The indirection is a bit gory:
   Read from the right:
@@ -54,7 +54,7 @@ static int compar_unit_ord_map(const struct unit *const *ua,
   return (*ua)->server.ord_map - (*ub)->server.ord_map;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Comparison function for unit_list_sort, sorting by ord_city: see above.
 
   Only used in server/savegame.c.
@@ -65,7 +65,7 @@ static int compar_unit_ord_city(const struct unit *const *ua,
   return (*ua)->server.ord_city - (*ub)->server.ord_city;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sorts the unit list by punit->server.ord_map values.
 
   Only used in server/savegame.c.
@@ -76,7 +76,7 @@ void unit_list_sort_ord_map(struct unit_list *punitlist)
   unit_list_sort(punitlist, compar_unit_ord_map);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sorts the unit list by punit->server.ord_city values.
 
   Only used in server/savegame.c.
@@ -88,7 +88,7 @@ void unit_list_sort_ord_city(struct unit_list *punitlist)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if the function returns true for any of the units.
 ****************************************************************************/
 bool can_units_do(const struct unit_list *punits,
@@ -103,7 +103,7 @@ bool can_units_do(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if any of the units can do the activity.
 ****************************************************************************/
 bool can_units_do_activity(const struct unit_list *punits,
@@ -122,7 +122,7 @@ bool can_units_do_activity(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if any of the units can do the targeted activity.
 ****************************************************************************/
 bool can_units_do_activity_targeted(const struct unit_list *punits,
@@ -138,7 +138,7 @@ bool can_units_do_activity_targeted(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if any of the units can build any road.
 ****************************************************************************/
 bool can_units_do_any_road(const struct unit_list *punits)
@@ -156,7 +156,7 @@ bool can_units_do_any_road(const struct unit_list *punits)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if any of the units can build base with given gui_type.
 ****************************************************************************/
 bool can_units_do_base_gui(const struct unit_list *punits,
@@ -175,7 +175,7 @@ bool can_units_do_base_gui(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   If has_flag is true, returns true iff any of the units have the flag.
 
   If has_flag is false, returns true iff any of the units don't have the
@@ -193,7 +193,7 @@ bool units_have_type_flag(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Does the list contain any cityfounder units
 ****************************************************************************/
 bool units_contain_cityfounder(const struct unit_list *punits)
@@ -211,13 +211,13 @@ bool units_contain_cityfounder(const struct unit_list *punits)
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   If has_flag is true, returns true iff any of the units are able to do
   the specified action.
 
   If has_flag is false, returns true iff any of the units are unable do
   the specified action.
-**************************************************************************/
+****************************************************************************/
 bool units_can_do_action(const struct unit_list *punits,
                          int action_id, bool can_do)
 {
@@ -230,7 +230,7 @@ bool units_can_do_action(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff any of the units is a transporter that is occupied.
 ****************************************************************************/
 bool units_are_occupied(const struct unit_list *punits)
@@ -244,7 +244,7 @@ bool units_are_occupied(const struct unit_list *punits)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE iff any of these units can load.
 ****************************************************************************/
 bool units_can_load(const struct unit_list *punits)
@@ -258,7 +258,7 @@ bool units_can_load(const struct unit_list *punits)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff any of these units can unload.
 ****************************************************************************/
 bool units_can_unload(const struct unit_list *punits)
@@ -274,7 +274,7 @@ bool units_can_unload(const struct unit_list *punits)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff any of the units' tiles have the activity running
   on them.
 ****************************************************************************/
@@ -290,7 +290,7 @@ bool units_have_activity_on_tile(const struct unit_list *punits,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff any of the units can be upgraded to another unit type
   (for money)
 ****************************************************************************/
@@ -305,7 +305,7 @@ bool units_can_upgrade(const struct unit_list *punits)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff any of the units can convert to another unit type
 ****************************************************************************/
 bool units_can_convert(const struct unit_list *punits)

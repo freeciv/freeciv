@@ -52,7 +52,7 @@ struct cargo_iter {
 };
 #define CARGO_ITER(iter) ((struct cargo_iter *) (iter))
 
-/****************************************************************************
+/**********************************************************************//**
   Determines if punit can be airlifted to dest_city now!  So punit needs
   to be in a city now.
   If pdest_city is NULL, just indicate whether it's possible for the unit
@@ -61,7 +61,7 @@ struct cargo_iter {
   based on -- one player can't see whether another's cities are currently
   able to airlift.  (Clients other than global observers should only call
   this with a non-NULL 'restriction'.)
-****************************************************************************/
+**************************************************************************/
 enum unit_airlift_result
     test_unit_can_airlift_to(const struct player *restriction,
                              const struct unit *punit,
@@ -160,13 +160,13 @@ enum unit_airlift_result
   return ok_result;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Determines if punit can be airlifted to dest_city now!  So punit needs
   to be in a city now.
   On the server this gives correct information; on the client it errs on the
   side of saying airlifting is possible even if it's not certain given
   player knowledge.
-****************************************************************************/
+**************************************************************************/
 bool unit_can_airlift_to(const struct unit *punit,
                          const struct city *pdest_city)
 {
@@ -181,15 +181,15 @@ bool unit_can_airlift_to(const struct unit *punit,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit is following client-side orders.
-****************************************************************************/
+**************************************************************************/
 bool unit_has_orders(const struct unit *punit)
 {
   return punit->has_orders;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE unless it is known to be imposible to disband this unit at
   its current position to get full shields for building a wonder.
 **************************************************************************/
@@ -214,7 +214,7 @@ bool unit_can_help_build_wonder_here(const struct unit *punit)
                                                   pcity));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff this unit can be disbanded at its current location to
   provide a trade route from the homecity to the target city.
 **************************************************************************/
@@ -228,7 +228,7 @@ bool unit_can_est_trade_route_here(const struct unit *punit)
           && can_cities_trade(phomecity, pdestcity));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the number of units the transporter can hold (or 0).
 **************************************************************************/
 int get_transporter_capacity(const struct unit *punit)
@@ -236,7 +236,7 @@ int get_transporter_capacity(const struct unit *punit)
   return unit_type_get(punit)->transport_capacity;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is the unit capable of attacking?
 **************************************************************************/
 bool is_attack_unit(const struct unit *punit)
@@ -244,7 +244,7 @@ bool is_attack_unit(const struct unit *punit)
   return (unit_type_get(punit)->attack_strength > 0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Military units are capable of enforcing martial law. Military ground
   and heli units can occupy empty cities -- see unit_can_take_over(punit).
   Some military units, like the Galleon, have no attack strength.
@@ -254,7 +254,7 @@ bool is_military_unit(const struct unit *punit)
   return !unit_has_type_flag(punit, UTYF_CIVILIAN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff this unit can do the specified generalized (ruleset
   defined) action enabler controlled action.
 **************************************************************************/
@@ -264,7 +264,7 @@ bool unit_can_do_action(const struct unit *punit,
   return utype_can_do_action(unit_type_get(punit), action_id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,
@@ -288,7 +288,7 @@ bool is_square_threatened(const struct player *pplayer,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This checks the "field unit" flag on the unit.  Field units cause
   unhappiness (under certain governments) even when they aren't abroad.
 **************************************************************************/
@@ -298,7 +298,7 @@ bool is_field_unit(const struct unit *punit)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Is the unit one that is invisible on the map. A unit is invisible if
   it has the UTYF_PARTIAL_INVIS flag or if it transported by a unit with
   this flag.
@@ -323,7 +323,7 @@ bool is_hiding_unit(const struct unit *punit)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff an attack from this unit would kill a citizen in a city
   (city walls protect against this).
 **************************************************************************/
@@ -333,10 +333,10 @@ bool kills_citizen_after_attack(const struct unit *punit)
     && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
-****************************************************************************/
+**************************************************************************/
 bool unit_can_add_or_build_city(const struct unit *punit)
 {
   struct city *tgt_city;
@@ -350,7 +350,7 @@ bool unit_can_add_or_build_city(const struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit can change homecity to the given city.
 **************************************************************************/
 bool can_unit_change_homecity_to(const struct unit *punit,
@@ -365,7 +365,7 @@ bool can_unit_change_homecity_to(const struct unit *punit,
                                                   pcity));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit can change homecity at its current location.
 **************************************************************************/
 bool can_unit_change_homecity(const struct unit *punit)
@@ -373,7 +373,7 @@ bool can_unit_change_homecity(const struct unit *punit)
   return can_unit_change_homecity_to(punit, tile_city(unit_tile(punit)));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the speed of a unit doing an activity.  This depends on the
   veteran level and the base move_rate of the unit (regardless of HP or
   effects).  Usually this is just used for settlers but the value is also
@@ -403,7 +403,7 @@ int get_activity_rate(const struct unit *punit)
          * move_rate / SINGLE_MOVE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the amount of work a unit does (will do) on an activity this
   turn.  Units that have no MP do no work.
 
@@ -419,7 +419,7 @@ int get_activity_rate_this_turn(const struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the estimated number of turns for the worker unit to start and
   complete the activity at the given location.  This assumes no other
   worker units are helping out, and doesn't take account of any work
@@ -442,7 +442,7 @@ int get_turns_for_activity_at(const struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE if activity requires some sort of target to be specified.
 **************************************************************************/
 bool activity_requires_target(enum unit_activity activity)
@@ -476,7 +476,7 @@ bool activity_requires_target(enum unit_activity activity)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the unit can be put in auto-settler mode.
 
   NOTE: we used to have "auto" mode including autosettlers and auto-attack.
@@ -490,7 +490,7 @@ bool can_unit_do_autosettlers(const struct unit *punit)
   return unit_has_type_flag(punit, UTYF_SETTLERS);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup array of real activities
 **************************************************************************/
 void setup_real_activities_array(void)
@@ -507,7 +507,7 @@ void setup_real_activities_array(void)
   real_activities[i] = ACTIVITY_LAST;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return if given activity really is in game. For savegame compatibility
   activity enum cannot be reordered and there is holes in it.
 **************************************************************************/
@@ -524,7 +524,7 @@ static bool is_real_activity(enum unit_activity activity)
           && activity != ACTIVITY_PATROL_UNUSED;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the name of the activity in a static buffer.
 **************************************************************************/
 const char *get_activity_text(enum unit_activity activity)
@@ -578,10 +578,10 @@ const char *get_activity_text(enum unit_activity activity)
   return _("Unknown");
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given unit could be loaded into the transporter
   if we moved there.
-****************************************************************************/
+**************************************************************************/
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 {
   if (!pcargo || !ptrans || pcargo == ptrans) {
@@ -626,9 +626,9 @@ bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given unit can be loaded into the transporter.
-****************************************************************************/
+**************************************************************************/
 bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 {
   /* This function needs to check EVERYTHING. */
@@ -647,7 +647,7 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   return could_unit_load(pcargo, ptrans);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return TRUE iff the given unit can be unloaded from its current
   transporter.
 
@@ -655,7 +655,7 @@ bool can_unit_load(const struct unit *pcargo, const struct unit *ptrans)
   after the unloading.  The caller may also want to call
   can_unit_exist_at_tile() to check this, unless the unit is unloading and
   moving at the same time.
-****************************************************************************/
+**************************************************************************/
 bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
 {
   if (!pcargo || !ptrans) {
@@ -677,7 +677,7 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the unit can be paradropped - that is, if the unit is in
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.
@@ -687,7 +687,7 @@ bool can_unit_paradrop(const struct unit *punit)
   return action_maybe_possible_actor_unit(ACTION_PARADROP, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if the unit's current activity is actually legal.
 **************************************************************************/
 bool can_unit_continue_current_activity(struct unit *punit)
@@ -709,7 +709,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
   return result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff the unit can do the given untargeted activity at its
   current location.
 
@@ -753,7 +753,7 @@ bool can_unit_do_activity(const struct unit *punit,
   return can_unit_do_activity_targeted(punit, activity, target);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the unit can do the targeted activity at its current
   location.
 **************************************************************************/
@@ -765,7 +765,7 @@ bool can_unit_do_activity_targeted(const struct unit *punit,
 					  unit_tile(punit));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE if the unit can do the targeted activity at the given
   location.
 **************************************************************************/
@@ -1067,7 +1067,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Assign a new task to a unit. Doesn't account for changed_from.
 **************************************************************************/
 static void set_unit_activity_internal(struct unit *punit,
@@ -1085,8 +1085,8 @@ static void set_unit_activity_internal(struct unit *punit,
   }
 }
 
-/**************************************************************************
-  assign a new untargeted task to a unit.
+/**********************************************************************//**
+  Assign a new untargeted task to a unit.
 **************************************************************************/
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
@@ -1102,7 +1102,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   assign a new targeted task to a unit.
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
@@ -1120,7 +1120,7 @@ void set_unit_activity_targeted(struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Assign a new base building task to unit
 **************************************************************************/
 void set_unit_activity_base(struct unit *punit,
@@ -1134,7 +1134,7 @@ void set_unit_activity_base(struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Assign a new road building task to unit
 **************************************************************************/
 void set_unit_activity_road(struct unit *punit,
@@ -1148,7 +1148,7 @@ void set_unit_activity_road(struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether any units on the tile are doing this activity.
 **************************************************************************/
 bool is_unit_activity_on_tile(enum unit_activity activity,
@@ -1162,10 +1162,10 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return a mask of the extras which are actively (currently) being
   pillaged on the given tile.
-****************************************************************************/
+**************************************************************************/
 bv_extras get_unit_tile_pillage_set(const struct tile *ptile)
 {
   bv_extras tgt_ret;
@@ -1180,7 +1180,7 @@ bv_extras get_unit_tile_pillage_set(const struct tile *ptile)
   return tgt_ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return text describing the unit's current activity as a static string.
 
   FIXME: Convert all callers of this function to unit_activity_astr()
@@ -1195,7 +1195,7 @@ const char *unit_activity_text(const struct unit *punit) {
   return astr_str(&str);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Append text describing the unit's current activity to the given astring.
 **************************************************************************/
 void unit_activity_astr(const struct unit *punit, struct astring *astr)
@@ -1273,7 +1273,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
             punit->activity, unit_rule_name(punit), punit->id, __FUNCTION__);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Append a line of text describing the unit's upkeep to the astring.
 
   NB: In the client it is assumed that this information is only available
@@ -1290,7 +1290,7 @@ void unit_upkeep_astr(const struct unit *punit, struct astring *astr)
                 punit->upkeep[O_GOLD]);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the nationality of the unit.
 **************************************************************************/
 struct player *unit_nationality(const struct unit *punit)
@@ -1299,16 +1299,16 @@ struct player *unit_nationality(const struct unit *punit)
   return punit->nationality;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Set the tile location of the unit. Tile can be NULL (for transported units.
-*****************************************************************************/
+**************************************************************************/
 void unit_tile_set(struct unit *punit, struct tile *ptile)
 {
   fc_assert_ret(NULL != punit);
   punit->tile = ptile;
 }
 
-/**************************************************************************
+/**********************************************************************//**
 Returns true if the tile contains an allied unit and only allied units.
 (ie, if your nation A is allied with B, and B is allied with C, a tile
 containing units from B and C will return false)
@@ -1329,12 +1329,12 @@ struct unit *is_allied_unit_tile(const struct tile *ptile,
   return punit;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Is there an enemy unit on this tile?  Returns the unit or NULL if none.
 
   This function is likely to fail if used at the client because the client
   doesn't see all units.  (Maybe it should be moved into the server code.)
-****************************************************************************/
+**************************************************************************/
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
 				const struct player *pplayer)
 {
@@ -1346,7 +1346,7 @@ struct unit *is_enemy_unit_tile(const struct tile *ptile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  is there an non-allied unit on this tile?
 **************************************************************************/
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
@@ -1361,7 +1361,7 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  is there an unit belonging to another player on this tile?
 **************************************************************************/
 struct unit *is_other_players_unit_tile(const struct tile *ptile,
@@ -1376,7 +1376,7 @@ struct unit *is_other_players_unit_tile(const struct tile *ptile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  is there an unit we have peace or ceasefire with on this tile?
 **************************************************************************/
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
@@ -1391,14 +1391,14 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
   return NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Is there an occupying unit on this tile?
 
   Intended for both client and server; assumes that hiding units are not
   sent to client.  First check tile for known and seen.
 
   called by city_can_work_tile().
-****************************************************************************/
+**************************************************************************/
 struct unit *unit_occupies_tile(const struct tile *ptile,
 				const struct player *pplayer)
 {
@@ -1419,7 +1419,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is this square controlled by the pplayer?
 
   Here "is_my_zoc" means essentially a square which is *not* adjacent to an
@@ -1466,7 +1466,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Takes into account unit class flag UCF_ZOC as well as IGZOC
 **************************************************************************/
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
@@ -1475,7 +1475,7 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 	  || utype_has_flag(punittype, UTYF_IGZOC));
 }
 
-/**************************************************************************
+/**********************************************************************//**
 An "aggressive" unit is a unit which may cause unhappiness
 under a Republic or Democracy.
 A unit is *not* aggressive if one or more of following is true:
@@ -1516,7 +1516,7 @@ bool unit_being_aggressive(const struct unit *punit)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns true if given activity is some kind of building.
 **************************************************************************/
 bool is_build_activity(enum unit_activity activity, const struct tile *ptile)
@@ -1546,7 +1546,7 @@ bool is_build_activity(enum unit_activity activity, const struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns true if given activity is some kind of cleaning.
 **************************************************************************/
 bool is_clean_activity(enum unit_activity activity)
@@ -1561,7 +1561,7 @@ bool is_clean_activity(enum unit_activity activity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns true if given activity affects tile.
 **************************************************************************/
 bool is_tile_activity(enum unit_activity activity)
@@ -1571,7 +1571,7 @@ bool is_tile_activity(enum unit_activity activity)
     || activity == ACTIVITY_TRANSFORM;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a virtual unit skeleton. pcity can be NULL, but then you need
   to set tile and homecity yourself.
 **************************************************************************/
@@ -1666,7 +1666,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   return punit;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free the memory used by virtual unit. By the time this function is
   called, you should already have unregistered it everywhere.
 **************************************************************************/
@@ -1704,7 +1704,7 @@ void unit_virtual_destroy(struct unit *punit)
   FC_FREE(punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free and reset the unit's goto route (punit->pgr).  Only used by the
   server.
 **************************************************************************/
@@ -1718,9 +1718,9 @@ void free_unit_orders(struct unit *punit)
   punit->has_orders = FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return how many units are in the transport.
-****************************************************************************/
+**************************************************************************/
 int get_transporter_occupancy(const struct unit *ptrans)
 {
   fc_assert_ret_val(ptrans, -1);
@@ -1728,9 +1728,9 @@ int get_transporter_occupancy(const struct unit *ptrans)
   return unit_list_size(ptrans->transporting);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper for transporter_for_unit() and transporter_for_unit_at() 
-****************************************************************************/
+**************************************************************************/
 static struct unit *base_transporter_for_unit(const struct unit *pcargo,
                                               const struct tile *ptile,
                                               bool (*unit_load_test)
@@ -1845,31 +1845,31 @@ static struct unit *base_transporter_for_unit(const struct unit *pcargo,
   return best_trans;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Find the best transporter at the given location for the unit. See also
   unit_can_load() to test if there will be transport might be suitable
   for 'pcargo'.
-****************************************************************************/
+**************************************************************************/
 struct unit *transporter_for_unit(const struct unit *pcargo)
 {
   return base_transporter_for_unit(pcargo, unit_tile(pcargo), can_unit_load);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Find the best transporter at the given location for the unit. See also
   unit_could_load_at() to test if there will be transport might be suitable
   for 'pcargo'.
-****************************************************************************/
+**************************************************************************/
 struct unit *transporter_for_unit_at(const struct unit *pcargo,
                                      const struct tile *ptile)
 {
   return base_transporter_for_unit(pcargo, ptile, could_unit_load);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Check if unit of given type would be able to transport all of transport's
   cargo.
-****************************************************************************/
+**************************************************************************/
 static bool can_type_transport_units_cargo(const struct unit_type *utype,
                                            const struct unit *punit)
 {
@@ -1886,7 +1886,7 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Tests if the unit could be updated. Returns UU_OK if is this is
   possible.
 
@@ -1894,7 +1894,7 @@ static bool can_type_transport_units_cargo(const struct unit_type *utype,
   Otherwise money is needed and the unit must be in an owned city.
 
   Note that this function is strongly tied to unittools.c:upgrade_unit().
-****************************************************************************/
+**************************************************************************/
 enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free)
 {
@@ -1943,7 +1943,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
   return UU_OK;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tests if unit can be converted to another type.
 **************************************************************************/
 bool unit_can_convert(const struct unit *punit)
@@ -1965,7 +1965,7 @@ bool unit_can_convert(const struct unit *punit)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find the result of trying to upgrade the unit, and a message that
   most callers can use directly.
 **************************************************************************/
@@ -2042,7 +2042,7 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
   return result;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does unit lose hitpoints each turn?
 **************************************************************************/
 bool is_losing_hp(const struct unit *punit)
@@ -2054,7 +2054,7 @@ bool is_losing_hp(const struct unit *punit)
        utype_class(punittype)->hp_loss_pct / 100);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does unit lose hitpoints each turn?
 **************************************************************************/
 bool unit_type_is_losing_hp(const struct player *pplayer,
@@ -2065,7 +2065,7 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
        utype_class(punittype)->hp_loss_pct / 100);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if unit with given id is still alive. Use this before using
   old unit pointers when unit might have died.
 **************************************************************************/
@@ -2079,7 +2079,7 @@ bool unit_is_alive(int id)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE if this is a valid unit pointer but does not correspond to
   any unit that exists in the game.
 
@@ -2095,7 +2095,7 @@ bool unit_is_virtual(const struct unit *punit)
   return punit != game_unit_by_number(punit->id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return pointer to ai data of given unit and ai type.
 **************************************************************************/
 void *unit_ai_data(const struct unit *punit, const struct ai_type *ai)
@@ -2103,7 +2103,7 @@ void *unit_ai_data(const struct unit *punit, const struct ai_type *ai)
   return punit->server.ais[ai_type_number(ai)];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Attach ai data to unit
 **************************************************************************/
 void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
@@ -2112,7 +2112,7 @@ void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
   punit->server.ais[ai_type_number(ai)] = data;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Calculate how expensive it is to bribe the unit. The cost depends on the
   distance to the capital, the owner's treasury, and the build cost of the
   unit. For a damaged unit the price is reduced. For a veteran unit, it is
@@ -2173,9 +2173,9 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   return ((float)cost / 2 * (1.0 + punit->hp / default_hp));
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Load pcargo onto ptrans. Returns TRUE on success.
-*****************************************************************************/
+**************************************************************************/
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)
 {
   fc_assert_ret_val(ptrans != NULL, FALSE);
@@ -2193,9 +2193,9 @@ bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)
   return FALSE;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Unload pcargo from ptrans. Returns TRUE on success.
-*****************************************************************************/
+**************************************************************************/
 bool unit_transport_unload(struct unit *pcargo)
 {
   struct unit *ptrans;
@@ -2225,9 +2225,9 @@ bool unit_transport_unload(struct unit *pcargo)
   return TRUE;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the unit is transported.
-*****************************************************************************/
+**************************************************************************/
 bool unit_transported(const struct unit *pcargo)
 {
   fc_assert_ret_val(pcargo != NULL, FALSE);
@@ -2242,9 +2242,9 @@ bool unit_transported(const struct unit *pcargo)
   return FALSE;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Returns the transporter of the unit or NULL if it is not transported.
-*****************************************************************************/
+**************************************************************************/
 struct unit *unit_transport_get(const struct unit *pcargo)
 {
   fc_assert_ret_val(pcargo != NULL, NULL);
@@ -2252,9 +2252,9 @@ struct unit *unit_transport_get(const struct unit *pcargo)
   return pcargo->transporter;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Returns the list of cargo units.
-*****************************************************************************/
+**************************************************************************/
 struct unit_list *unit_transport_cargo(const struct unit *ptrans)
 {
   fc_assert_ret_val(ptrans != NULL, NULL);
@@ -2263,9 +2263,9 @@ struct unit_list *unit_transport_cargo(const struct unit *ptrans)
   return ptrans->transporting;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper for unit_transport_check().
-****************************************************************************/
+**************************************************************************/
 static inline bool
 unit_transport_check_one(const struct unit_type *cargo_utype,
                          const struct unit_type *trans_utype)
@@ -2275,14 +2275,14 @@ unit_transport_check_one(const struct unit_type *cargo_utype,
                                       utype_class(trans_utype)));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns whether 'pcargo' in 'ptrans' is a valid transport. Note that
   'pcargo' can already be (but doesn't need) loaded into 'ptrans'.
 
   It may fail if one of the cargo unit has the same type of one of the
   transporter unit or if one of the cargo unit can transport one of
   the transporters.
-****************************************************************************/
+**************************************************************************/
 bool unit_transport_check(const struct unit *pcargo,
                           const struct unit *ptrans)
 {
@@ -2320,10 +2320,10 @@ bool unit_transport_check(const struct unit *pcargo,
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns whether 'pcargo' is transported by 'ptrans', either directly
   or indirectly.
-****************************************************************************/
+**************************************************************************/
 bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans)
 {
   unit_transports_iterate(pcargo, plevel) {
@@ -2334,9 +2334,9 @@ bool unit_contained_in(const struct unit *pcargo, const struct unit *ptrans)
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of unit cargo layers within transport 'ptrans'.
-****************************************************************************/
+**************************************************************************/
 int unit_cargo_depth(const struct unit *ptrans)
 {
   struct cargo_iter iter;
@@ -2352,9 +2352,9 @@ int unit_cargo_depth(const struct unit *ptrans)
   return depth;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the number of unit transport layers which carry unit 'pcargo'.
-****************************************************************************/
+**************************************************************************/
 int unit_transport_depth(const struct unit *pcargo)
 {
   int level = 0;
@@ -2365,17 +2365,17 @@ int unit_transport_depth(const struct unit *pcargo)
   return level;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the size of the unit cargo iterator.
-****************************************************************************/
+**************************************************************************/
 size_t cargo_iter_sizeof(void)
 {
   return sizeof(struct cargo_iter);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Get the unit of the cargo iterator.
-****************************************************************************/
+**************************************************************************/
 static void *cargo_iter_get(const struct iterator *it)
 {
   const struct cargo_iter *iter = CARGO_ITER(it);
@@ -2383,9 +2383,9 @@ static void *cargo_iter_get(const struct iterator *it)
   return unit_list_link_data(iter->links[iter->depth - 1]);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Try to find next unit for the cargo iterator.
-****************************************************************************/
+**************************************************************************/
 static void cargo_iter_next(struct iterator *it)
 {
   struct cargo_iter *iter = CARGO_ITER(it);
@@ -2413,17 +2413,17 @@ static void cargo_iter_next(struct iterator *it)
   } while (0 < iter->depth);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether the iterator is still valid.
-****************************************************************************/
+**************************************************************************/
 static bool cargo_iter_valid(const struct iterator *it)
 {
   return (0 < CARGO_ITER(it)->depth);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize the cargo iterator.
-****************************************************************************/
+**************************************************************************/
 struct iterator *cargo_iter_init(struct cargo_iter *iter,
                                  const struct unit *ptrans)
 {
@@ -2438,9 +2438,9 @@ struct iterator *cargo_iter_init(struct cargo_iter *iter,
   return it;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Is a cityfounder unit?
-****************************************************************************/
+**************************************************************************/
 bool unit_is_cityfounder(const struct unit *punit)
 {
   return utype_is_cityfounder(unit_type_get(punit));
