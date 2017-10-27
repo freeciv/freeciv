@@ -34,7 +34,7 @@
 static bv_extras empty_extras;
 
 #ifndef tile_index
-/****************************************************************************
+/************************************************************************//**
   Return the tile index.
 ****************************************************************************/
 int tile_index(const struct tile *ptile)
@@ -44,7 +44,7 @@ int tile_index(const struct tile *ptile)
 #endif
 
 #ifndef tile_owner
-/****************************************************************************
+/************************************************************************//**
   Return the player who owns this tile (or NULL if none).
 ****************************************************************************/
 struct player *tile_owner(const struct tile *ptile)
@@ -54,7 +54,7 @@ struct player *tile_owner(const struct tile *ptile)
 #endif
 
 #ifndef tile_claimer
-/****************************************************************************
+/************************************************************************//**
   Return the player who owns this tile (or NULL if none).
 ****************************************************************************/
 struct tile *tile_claimer(const struct tile *ptile)
@@ -63,7 +63,7 @@ struct tile *tile_claimer(const struct tile *ptile)
 }
 #endif
 
-/****************************************************************************
+/************************************************************************//**
   Set the owner of a tile (may be NULL).
 ****************************************************************************/
 void tile_set_owner(struct tile *ptile, struct player *pplayer,
@@ -75,7 +75,7 @@ void tile_set_owner(struct tile *ptile, struct player *pplayer,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the city on this tile (or NULL), checking for city center.
 ****************************************************************************/
 struct city *tile_city(const struct tile *ptile)
@@ -89,7 +89,7 @@ struct city *tile_city(const struct tile *ptile)
 }
 
 #ifndef tile_worked
-/****************************************************************************
+/************************************************************************//**
   Return any city working the specified tile (or NULL).
 ****************************************************************************/
 struct city *tile_worked(const struct tile *ptile)
@@ -98,7 +98,7 @@ struct city *tile_worked(const struct tile *ptile)
 }
 #endif
 
-/****************************************************************************
+/************************************************************************//**
   Set the city/worker on the tile (may be NULL).
 ****************************************************************************/
 void tile_set_worked(struct tile *ptile, struct city *pcity)
@@ -107,7 +107,7 @@ void tile_set_worked(struct tile *ptile, struct city *pcity)
 }
 
 #ifndef tile_terrain
-/****************************************************************************
+/************************************************************************//**
   Return the terrain at the specified tile.
 ****************************************************************************/
 struct terrain *tile_terrain(const struct tile *ptile)
@@ -116,7 +116,7 @@ struct terrain *tile_terrain(const struct tile *ptile)
 }
 #endif
 
-/****************************************************************************
+/************************************************************************//**
   Set the given terrain at the specified tile.
 ****************************************************************************/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
@@ -153,7 +153,7 @@ void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a bit vector of the extras present at NULL tile.
 ****************************************************************************/
 const bv_extras *tile_extras_null(void)
@@ -168,7 +168,7 @@ const bv_extras *tile_extras_null(void)
   return &(empty_extras);  
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a bit vector of the extras present at the tile.
 ****************************************************************************/
 const bv_extras *tile_extras_safe(const struct tile *ptile)
@@ -180,7 +180,7 @@ const bv_extras *tile_extras_safe(const struct tile *ptile)
   return &(ptile->extras);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adds base to tile.
   FIXME: Should remove conflicting old base and return bool indicating that.
 ****************************************************************************/
@@ -189,7 +189,7 @@ void tile_add_base(struct tile *ptile, const struct base_type *pbase)
   tile_add_extra(ptile, base_extra_get(pbase));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Removes base from tile if such exist
 ****************************************************************************/
 void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
@@ -197,7 +197,7 @@ void tile_remove_base(struct tile *ptile, const struct base_type *pbase)
   tile_remove_extra(ptile, base_extra_get(pbase));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains base providing effect
 ****************************************************************************/
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
@@ -213,7 +213,7 @@ bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains base providing effect for unit
 ****************************************************************************/
 bool tile_has_base_flag_for_unit(const struct tile *ptile,
@@ -232,7 +232,7 @@ bool tile_has_base_flag_for_unit(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains base providing effect for unit
 ****************************************************************************/
 bool tile_has_claimable_base(const struct tile *ptile,
@@ -251,7 +251,7 @@ bool tile_has_claimable_base(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate defense bonus given for unit type by bases and roads
 ****************************************************************************/
 int tile_extras_defense_bonus(const struct tile *ptile,
@@ -260,7 +260,7 @@ int tile_extras_defense_bonus(const struct tile *ptile,
   return tile_extras_class_defense_bonus(ptile, utype_class(punittype));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate defense bonus given for unit class by extras.
 ****************************************************************************/
 int tile_extras_class_defense_bonus(const struct tile *ptile,
@@ -289,7 +289,7 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
   return total_bonus;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate output increment given by roads
 ****************************************************************************/
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o)
@@ -309,7 +309,7 @@ int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o)
   return const_incr + incr * tile_terrain(ptile)->road_output_incr_pct[o] / 100;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate output bonus given by roads
 ****************************************************************************/
 int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o)
@@ -327,7 +327,7 @@ int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o)
   return bonus;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains refuel extra native for unit
 ****************************************************************************/
 bool tile_has_refuel_extra(const struct tile *ptile,
@@ -344,7 +344,7 @@ bool tile_has_refuel_extra(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains base native for unit
 ****************************************************************************/
 bool tile_has_native_base(const struct tile *ptile,
@@ -361,7 +361,7 @@ bool tile_has_native_base(const struct tile *ptile,
 }
 
 #ifndef tile_resource
-/****************************************************************************
+/************************************************************************//**
   Return the resource at the specified tile.
 ****************************************************************************/
 const struct resource_type *tile_resource(const struct tile *ptile)
@@ -370,7 +370,7 @@ const struct resource_type *tile_resource(const struct tile *ptile)
 }
 #endif
 
-/****************************************************************************
+/************************************************************************//**
   Set the given resource at the specified tile.
 ****************************************************************************/
 void tile_set_resource(struct tile *ptile, struct extra_type *presource)
@@ -392,7 +392,7 @@ void tile_set_resource(struct tile *ptile, struct extra_type *presource)
 }
 
 #ifndef tile_continent
-/****************************************************************************
+/************************************************************************//**
   Return the continent ID of the tile.  Typically land has a positive
   continent number and ocean has a negative number; no tile should have
   a 0 continent number.
@@ -403,7 +403,7 @@ Continent_id tile_continent(const struct tile *ptile)
 }
 #endif
 
-/****************************************************************************
+/************************************************************************//**
   Set the continent ID of the tile.  See tile_continent.
 ****************************************************************************/
 void tile_set_continent(struct tile *ptile, Continent_id val)
@@ -411,7 +411,7 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
   ptile->continent = val;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a known_type enumeration value for the tile.
 
   Note that the client only has known data about its own player.
@@ -428,16 +428,16 @@ enum known_type tile_get_known(const struct tile *ptile,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE iff the target_tile is seen by pow_player.
-**************************************************************************/
+****************************************************************************/
 bool tile_is_seen(const struct tile *target_tile,
                   const struct player *pow_player)
 {
   return tile_get_known(target_tile, pow_player) == TILE_KNOWN_SEEN;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Time to complete the given activity on the given tile.
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
@@ -466,7 +466,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create extra to tile.
 ****************************************************************************/
 static void tile_create_extra(struct tile *ptile, struct extra_type *pextra)
@@ -479,7 +479,7 @@ static void tile_create_extra(struct tile *ptile, struct extra_type *pextra)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy extra from tile.
 ****************************************************************************/
 static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
@@ -492,7 +492,7 @@ static void tile_destroy_extra(struct tile *ptile, struct extra_type *pextra)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Change the terrain to the given type.  This does secondary tile updates to
   the tile (as will happen when mining/irrigation/transforming changes the
   tile's terrain).
@@ -511,7 +511,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
   } extra_type_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Recursively add all extra dependencies to add given extra.
 ****************************************************************************/
 static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
@@ -539,7 +539,7 @@ static bool add_recursive_extras(struct tile *ptile, struct extra_type *pextra,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Recursively remove all extras depending on given extra.
 ****************************************************************************/
 static bool rm_recursive_extras(struct tile *ptile, struct extra_type *pextra,
@@ -568,7 +568,7 @@ static bool rm_recursive_extras(struct tile *ptile, struct extra_type *pextra,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add extra and adjust other extras accordingly.
 
   If not all necessary adjustments can be done, returns FALSE.
@@ -594,7 +594,7 @@ bool tile_extra_apply(struct tile *ptile, struct extra_type *tgt)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove extra and adjust other extras accordingly.
 
   If not all necessary adjustments can be done, returns FALSE.
@@ -612,7 +612,7 @@ bool tile_extra_rm_apply(struct tile *ptile, struct extra_type *tgt)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build irrigation on the tile.  This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
@@ -634,7 +634,7 @@ static void tile_irrigate(struct tile *ptile, struct extra_type *tgt)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build a mine on the tile.  This may change the extras of the tile
   or change the terrain type itself.
 ****************************************************************************/
@@ -656,7 +656,7 @@ static void tile_mine(struct tile *ptile, struct extra_type *tgt)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Transform (ACTIVITY_TRANSFORM) the tile.  This usually changes the tile's
   terrain type.
 ****************************************************************************/
@@ -669,7 +669,7 @@ static void tile_transform(struct tile *ptile)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply an activity (Activity_type_id, e.g., ACTIVITY_TRANSFORM) to a tile.
   Return false if there was a error or if the activity is not implemented
   by this function.
@@ -725,7 +725,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add one entry about pollution situation to buffer.
   Return if there has been any pollution (even prior calling this)
 ****************************************************************************/
@@ -753,7 +753,7 @@ static bool tile_info_pollution(char *buf, int bufsz,
   return prevp;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a (static) string with tile name describing terrain and
   extras of some categories.
   If include_nuisances is set, pollution and nuclear fallout will be
@@ -826,7 +826,7 @@ const char *tile_get_info_text(const struct tile *ptile,
   return s;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile has a base of given type on it.
 ****************************************************************************/
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
@@ -834,7 +834,7 @@ bool tile_has_base(const struct tile *ptile, const struct base_type *pbase)
   return tile_has_extra(ptile, base_extra_get(pbase));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile has a road of given type on it.
 ****************************************************************************/
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
@@ -842,7 +842,7 @@ bool tile_has_road(const struct tile *ptile, const struct road_type *proad)
   return tile_has_extra(ptile, road_extra_get(proad));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tile has any river type
 ****************************************************************************/
 bool tile_has_river(const struct tile *ptile)
@@ -858,7 +858,7 @@ bool tile_has_river(const struct tile *ptile)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adds road to tile
 ****************************************************************************/
 void tile_add_road(struct tile *ptile, const struct road_type *proad)
@@ -868,7 +868,7 @@ void tile_add_road(struct tile *ptile, const struct road_type *proad)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Removes road from tile if such exist
 ****************************************************************************/
 void tile_remove_road(struct tile *ptile, const struct road_type *proad)
@@ -878,7 +878,7 @@ void tile_remove_road(struct tile *ptile, const struct road_type *proad)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains road providing effect
 ****************************************************************************/
 bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
@@ -896,7 +896,7 @@ bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if tile contains extra providing effect
 ****************************************************************************/
 bool tile_has_extra_flag(const struct tile *ptile, enum extra_flag_id flag)
@@ -911,7 +911,7 @@ bool tile_has_extra_flag(const struct tile *ptile, enum extra_flag_id flag)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile has a extra conflicting with the given one.
 ****************************************************************************/
 bool tile_has_conflicting_extra(const struct tile *ptile,
@@ -927,7 +927,7 @@ bool tile_has_conflicting_extra(const struct tile *ptile,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile has a road of given type on it.
 ****************************************************************************/
 bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *pextra)
@@ -951,7 +951,7 @@ bool tile_has_visible_extra(const struct tile *ptile, const struct extra_type *p
   return !hidden;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Has tile any extras of the specified cause.
 ****************************************************************************/
 bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause)
@@ -965,7 +965,7 @@ bool tile_has_cause_extra(const struct tile *ptile, enum extra_cause cause)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adds extra to tile
 ****************************************************************************/
 void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
@@ -975,7 +975,7 @@ void tile_add_extra(struct tile *ptile, const struct extra_type *pextra)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Removes extra from tile if such exist
 ****************************************************************************/
 void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
@@ -985,7 +985,7 @@ void tile_remove_extra(struct tile *ptile, const struct extra_type *pextra)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a virtual tile. If ptile is given, the properties of this tile are
   copied, else it is completely blank (except for the unit list
   vtile->units, which is created for you). Be sure to call tile_virtual_free
@@ -1035,7 +1035,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   return vtile;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Frees all memory used by the virtual tile, including freeing virtual
   units in the tile's unit list and the virtual city on this tile if one
   exists.
@@ -1071,7 +1071,7 @@ void tile_virtual_destroy(struct tile *vtile)
   free(vtile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check if the given tile is a virtual one or not.
 ****************************************************************************/
 bool tile_virtual_check(struct tile *vtile)
@@ -1088,7 +1088,7 @@ bool tile_virtual_check(struct tile *vtile)
   return (vtile != wld.map.tiles + tindex);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns key that should be used when storing tile to hash or when
   retrieving it from there.
 ****************************************************************************/
@@ -1101,7 +1101,7 @@ void *tile_hash_key(const struct tile *ptile)
   return key;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets label for tile. Returns whether label changed.
 ****************************************************************************/
 bool tile_set_label(struct tile *ptile, const char *label)

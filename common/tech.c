@@ -53,7 +53,7 @@ struct tech_class tech_classes[MAX_NUM_TECH_CLASSES];
 
 static struct user_flag user_tech_flags[MAX_NUM_USER_TECH_FLAGS];
 
-/**************************************************************************
+/**********************************************************************//**
   Return the last item of advances/technologies.
 **************************************************************************/
 const struct advance *advance_array_last(void)
@@ -64,7 +64,7 @@ const struct advance *advance_array_last(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the number of advances/technologies.
 **************************************************************************/
 Tech_type_id advance_count(void)
@@ -72,7 +72,7 @@ Tech_type_id advance_count(void)
   return game.control.num_tech_types;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the advance index.
 
   Currently same as advance_number(), paired with advance_count()
@@ -84,7 +84,7 @@ Tech_type_id advance_index(const struct advance *padvance)
   return padvance - advances;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the advance index.
 **************************************************************************/
 Tech_type_id advance_number(const struct advance *padvance)
@@ -93,7 +93,7 @@ Tech_type_id advance_number(const struct advance *padvance)
   return padvance->item_number;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the advance for the given advance index.
 **************************************************************************/
 struct advance *advance_by_number(const Tech_type_id atype)
@@ -107,7 +107,7 @@ struct advance *advance_by_number(const Tech_type_id atype)
   return &advances[atype];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Accessor for requirements.
 **************************************************************************/
 Tech_type_id advance_required(const Tech_type_id tech,
@@ -122,7 +122,7 @@ Tech_type_id advance_required(const Tech_type_id tech,
   return advance_number(advances[tech].require[require]);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Accessor for requirements.
 **************************************************************************/
 struct advance *advance_requires(const struct advance *padvance,
@@ -133,7 +133,7 @@ struct advance *advance_requires(const struct advance *padvance,
   return padvance->require[require];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns pointer when the advance "exists" in this game, returns NULL
   otherwise.
 
@@ -152,7 +152,7 @@ struct advance *valid_advance(struct advance *padvance)
   return padvance;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns pointer when the advance "exists" in this game,
   returns NULL otherwise.
 
@@ -163,9 +163,9 @@ struct advance *valid_advance_by_number(const Tech_type_id id)
   return valid_advance(advance_by_number(id));
 }
 
-/**************************************************************************
- Does a linear search of advances[].name.translated
- Returns NULL when none match.
+/**********************************************************************//**
+  Does a linear search of advances[].name.translated
+  Returns NULL when none match.
 **************************************************************************/
 struct advance *advance_by_translated_name(const char *name)
 {
@@ -178,9 +178,9 @@ struct advance *advance_by_translated_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
- Does a linear search of advances[].name.vernacular
- Returns NULL when none match.
+/**********************************************************************//**
+  Does a linear search of advances[].name.vernacular
+  Returns NULL when none match.
 **************************************************************************/
 struct advance *advance_by_rule_name(const char *name)
 {
@@ -195,8 +195,8 @@ struct advance *advance_by_rule_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
- Return TRUE if the tech has this flag otherwise FALSE
+/**********************************************************************//**
+  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
@@ -204,9 +204,9 @@ bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
   return BV_ISSET(advance_by_number(tech)->flags, flag);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Function to precalculate needed data for technologies.
-****************************************************************************/
+**************************************************************************/
 void techs_precalc_data(void)
 {
   fc_assert_msg(tech_cost_style_is_valid(game.info.tech_cost_style),
@@ -259,15 +259,15 @@ void techs_precalc_data(void)
   } advance_iterate_end;
 }
 
-/**************************************************************************
- Is the given tech a future tech.
+/**********************************************************************//**
+  Is the given tech a future tech.
 **************************************************************************/
 bool is_future_tech(Tech_type_id tech)
 {
   return tech == A_FUTURE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (translated) name of the given advance/technology.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -276,16 +276,16 @@ const char *advance_name_translation(const struct advance *padvance)
   return name_translation_get(&padvance->name);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the advance/technology.
   You don't have to free the return pointer.
-****************************************************************************/
+**************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
   return rule_name_get(&padvance->name);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize tech classes
 **************************************************************************/
 void tech_classes_init(void)
@@ -298,7 +298,7 @@ void tech_classes_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the tech_class for the given index.
 **************************************************************************/
 struct tech_class *tech_class_by_number(const int idx)
@@ -310,7 +310,7 @@ struct tech_class *tech_class_by_number(const int idx)
   return &tech_classes[idx];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (translated) name of the given tech_class
   You must not free the return pointer.
 **************************************************************************/
@@ -319,18 +319,18 @@ const char *tech_class_name_translation(const struct tech_class *ptclass)
   return name_translation_get(&ptclass->name);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of tech_class
   You must not free the return pointer.
-****************************************************************************/
+**************************************************************************/
 const char *tech_class_rule_name(const struct tech_class *ptclass)
 {
   return rule_name_get(&ptclass->name);
 }
 
-/**************************************************************************
- Does a linear search of tech_classes[].name.vernacular
- Returns NULL when none match.
+/**********************************************************************//**
+  Does a linear search of tech_classes[].name.vernacular
+  Returns NULL when none match.
 **************************************************************************/
 struct tech_class *tech_class_by_rule_name(const char *name)
 {
@@ -348,7 +348,7 @@ struct tech_class *tech_class_by_rule_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize user tech flags.
 **************************************************************************/
 void user_tech_flags_init(void)
@@ -360,9 +360,9 @@ void user_tech_flags_init(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees the memory associated with all user tech flags
-***************************************************************/
+**************************************************************************/
 void user_tech_flags_free(void)
 {
   int i;
@@ -372,7 +372,7 @@ void user_tech_flags_free(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets user defined name for tech flag.
 **************************************************************************/
 void set_user_tech_flag_name(enum tech_flag_id id, const char *name,
@@ -401,7 +401,7 @@ void set_user_tech_flag_name(enum tech_flag_id id, const char *name,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tech flag name callback, called from specenum code.
 **************************************************************************/
 const char *tech_flag_id_name_cb(enum tech_flag_id flag)
@@ -413,7 +413,7 @@ const char *tech_flag_id_name_cb(enum tech_flag_id flag)
   return user_tech_flags[flag-TECH_USER_1].name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) helptxt of the user tech flag.
 **************************************************************************/
 const char *tech_flag_helptxt(enum tech_flag_id id)
@@ -423,7 +423,7 @@ const char *tech_flag_helptxt(enum tech_flag_id id)
   return user_tech_flags[id - TECH_USER_1].helptxt;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Returns true if the costs for the given technology will stay constant
  during the game. False otherwise.
 
@@ -437,9 +437,9 @@ bool techs_have_fixed_costs()
           && game.info.tech_cost_style != TECH_COST_CIV1CIV2);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize tech structures.
-****************************************************************************/
+**************************************************************************/
 void techs_init(void)
 {
   struct advance *a_none = &advances[A_NONE];
@@ -468,9 +468,9 @@ void techs_init(void)
   a_future->require[AR_ROOT] = A_NEVER;
 }
 
-/***************************************************************
- De-allocate resources associated with the given tech.
-***************************************************************/
+/**********************************************************************//**
+  De-allocate resources associated with the given tech.
+**************************************************************************/
 static void tech_free(Tech_type_id tech)
 {
   struct advance *p = &advances[tech];
@@ -486,9 +486,9 @@ static void tech_free(Tech_type_id tech)
   }
 }
 
-/***************************************************************
- De-allocate resources of all techs.
-***************************************************************/
+/**********************************************************************//**
+  De-allocate resources of all techs.
+**************************************************************************/
 void techs_free(void)
 {
   int i;
@@ -502,25 +502,25 @@ void techs_free(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the size of the advance requirements iterator.
-****************************************************************************/
+**************************************************************************/
 size_t advance_req_iter_sizeof(void)
 {
   return sizeof(struct advance_req_iter);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the current advance.
-****************************************************************************/
+**************************************************************************/
 static void *advance_req_iter_get(const struct iterator *it)
 {
   return (void *) *ADVANCE_REQ_ITER(it)->current;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Jump to next advance requirement.
-****************************************************************************/
+**************************************************************************/
 static void advance_req_iter_next(struct iterator *it)
 {
   struct advance_req_iter *iter = ADVANCE_REQ_ITER(it);
@@ -548,9 +548,9 @@ static void advance_req_iter_next(struct iterator *it)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether we finished to iterate or not.
-****************************************************************************/
+**************************************************************************/
 static bool advance_req_iter_valid(const struct iterator *it)
 {
   const struct advance_req_iter *iter = ADVANCE_REQ_ITER(it);
@@ -558,9 +558,9 @@ static bool advance_req_iter_valid(const struct iterator *it)
   return iter->current < iter->end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Initialize an advance requirements iterator.
-****************************************************************************/
+**************************************************************************/
 struct iterator *advance_req_iter_init(struct advance_req_iter *it,
                                        const struct advance *goal)
 {

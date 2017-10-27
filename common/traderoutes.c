@@ -42,7 +42,7 @@ struct trade_route_settings trtss[TRT_LAST];
 
 static struct goods_type goods[MAX_GOODS_TYPES];
 
-/*************************************************************************
+/*********************************************************************//**
   Return current maximum number of trade routes city can have.
 *************************************************************************/
 int max_trade_routes(const struct city *pcity)
@@ -52,7 +52,7 @@ int max_trade_routes(const struct city *pcity)
   return CLIP(0, eft, MAX_TRADE_ROUTES);
 }
 
-/*************************************************************************
+/*********************************************************************//**
   What is type of the traderoute between two cities.
 *************************************************************************/
 enum trade_route_type cities_trade_route_type(const struct city *pcity1,
@@ -116,7 +116,7 @@ enum trade_route_type cities_trade_route_type(const struct city *pcity1,
   return TRT_LAST;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return percentage bonus for trade route type.
 *************************************************************************/
 int trade_route_type_trade_pct(enum trade_route_type type)
@@ -128,7 +128,7 @@ int trade_route_type_trade_pct(enum trade_route_type type)
   return trtss[type].trade_pct;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Initialize trade route types.
 *************************************************************************/
 void trade_route_types_init(void)
@@ -142,7 +142,7 @@ void trade_route_types_init(void)
   }
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return human readable name of trade route type
 *************************************************************************/
 const char *trade_route_type_name(enum trade_route_type type)
@@ -152,7 +152,7 @@ const char *trade_route_type_name(enum trade_route_type type)
   return trade_route_type_names[type];
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Get trade route type by name.
 *************************************************************************/
 enum trade_route_type trade_route_type_by_name(const char *name)
@@ -168,7 +168,7 @@ enum trade_route_type trade_route_type_by_name(const char *name)
   return TRT_LAST;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return human readable name of traderoute cancelling type
 *************************************************************************/
 const char *traderoute_cancelling_type_name(enum traderoute_illegal_cancelling type)
@@ -178,7 +178,7 @@ const char *traderoute_cancelling_type_name(enum traderoute_illegal_cancelling t
   return traderoute_cancelling_type_names[type];
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Get traderoute cancelling type by name.
 *************************************************************************/
 enum traderoute_illegal_cancelling traderoute_cancelling_type_by_name(const char *name)
@@ -194,7 +194,7 @@ enum traderoute_illegal_cancelling traderoute_cancelling_type_by_name(const char
   return TRI_LAST;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Get trade route settings related to type.
 *************************************************************************/
 struct trade_route_settings *
@@ -205,12 +205,12 @@ trade_route_settings_by_type(enum trade_route_type type)
   return &trtss[type];
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Return TRUE iff the two cities are capable of trade; i.e., if a caravan
   from one city can enter the other to sell its goods.
 
   See also can_establish_trade_route().
-**************************************************************************/
+*************************************************************************/
 bool can_cities_trade(const struct city *pc1, const struct city *pc2)
 {
   /* If you change the logic here, make sure to update the help in
@@ -223,11 +223,11 @@ bool can_cities_trade(const struct city *pc1, const struct city *pc2)
               > 0));
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Return the minimum value of the sum of trade routes which could be
   replaced by a new one. The target routes to be removed
   will be put into 'would_remove', if set.
-****************************************************************************/
+*************************************************************************/
 int city_trade_removable(const struct city *pcity,
                          struct trade_route_list *would_remove)
 {
@@ -266,12 +266,12 @@ int city_trade_removable(const struct city *pcity,
   return j;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Returns TRUE iff the two cities can establish a trade route.  We look
   at the distance and ownership of the cities as well as their existing
   trade routes.  Should only be called if you already know that
   can_cities_trade().
-**************************************************************************/
+*************************************************************************/
 bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int trade = -1;
@@ -315,10 +315,10 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
   return TRUE;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Return the trade that exists between these cities, assuming they have a
   trade route.
-**************************************************************************/
+*************************************************************************/
 int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
 {
   int bonus = 0;
@@ -341,9 +341,9 @@ int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
   return bonus;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Get trade income specific to route's good.
-**************************************************************************/
+*************************************************************************/
 int trade_from_route(const struct city *pc1, const struct trade_route *route,
 		     int base)
 {
@@ -354,15 +354,15 @@ int trade_from_route(const struct city *pc1, const struct trade_route *route,
   return base * route->goods->from_pct / 100;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Return number of trade route city has
-**************************************************************************/
+*************************************************************************/
 int city_num_trade_routes(const struct city *pcity)
 {
   return trade_route_list_size(pcity->routes);
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Returns the revenue trade bonus - you get this when establishing a
   trade route and also when you simply sell your trade goods at the
   new city.
@@ -371,7 +371,7 @@ int city_num_trade_routes(const struct city *pcity)
   in dai_choose_trade_route()
 
   pgood can be NULL for ignoring good's onetime_pct.
-**************************************************************************/
+*************************************************************************/
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2,
                                        struct goods_type *pgood,
@@ -409,9 +409,9 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   return tb;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Check if cities have an established trade route.
-**************************************************************************/
+*************************************************************************/
 bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
 {
   trade_partners_iterate(pc1, route_to) {
@@ -423,9 +423,9 @@ bool have_cities_trade_route(const struct city *pc1, const struct city *pc2)
   return FALSE;
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Initialize goods structures.
-****************************************************************************/
+*************************************************************************/
 void goods_init(void)
 {
   int i;
@@ -439,9 +439,9 @@ void goods_init(void)
   }
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Free the memory associated with goods
-****************************************************************************/
+*************************************************************************/
 void goods_free(void)
 {
   int i;
@@ -456,9 +456,9 @@ void goods_free(void)
   }
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Return the goods id.
-**************************************************************************/
+*************************************************************************/
 Goods_type_id goods_number(const struct goods_type *pgood)
 {
   fc_assert_ret_val(NULL != pgood, -1);
@@ -466,12 +466,12 @@ Goods_type_id goods_number(const struct goods_type *pgood)
   return pgood->id;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Return the goods index.
 
   Currently same as goods_number(), paired with goods_count()
   indicates use as an array index.
-**************************************************************************/
+*************************************************************************/
 Goods_type_id goods_index(const struct goods_type *pgood)
 {
   fc_assert_ret_val(NULL != pgood, -1);
@@ -479,9 +479,9 @@ Goods_type_id goods_index(const struct goods_type *pgood)
   return pgood - goods;
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Return goods type of given id.
-****************************************************************************/
+*************************************************************************/
 struct goods_type *goods_by_number(Goods_type_id id)
 {
   fc_assert_ret_val(id >= 0 && id < game.control.num_goods_types, NULL);
@@ -489,26 +489,26 @@ struct goods_type *goods_by_number(Goods_type_id id)
   return &goods[id];
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Return translated name of this goods type.
-****************************************************************************/
+*************************************************************************/
 const char *goods_name_translation(struct goods_type *pgood)
 {
   return name_translation_get(&pgood->name);
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Return untranslated name of this goods type.
-****************************************************************************/
+*************************************************************************/
 const char *goods_rule_name(struct goods_type *pgood)
 {
   return rule_name_get(&pgood->name);
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Returns goods type matching rule name or NULL if there is no goods type
   with such name.
-**************************************************************************/
+*************************************************************************/
 struct goods_type *goods_by_rule_name(const char *name)
 {
   const char *qs;
@@ -528,10 +528,10 @@ struct goods_type *goods_by_rule_name(const char *name)
   return NULL;
 }
 
-/**************************************************************************
+/*********************************************************************//*
   Returns goods type matching the translated name, or NULL if there is no
   goods type with that name.
-**************************************************************************/
+*************************************************************************/
 struct goods_type *goods_by_translated_name(const char *name)
 {
   goods_type_iterate(pgood) {
@@ -543,17 +543,17 @@ struct goods_type *goods_by_translated_name(const char *name)
   return NULL;
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Check if goods has given flag
-****************************************************************************/
+*************************************************************************/
 bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
 {
   return BV_ISSET(pgood->flags, flag);
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Can the city provide goods.
-****************************************************************************/
+*************************************************************************/
 bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
                            struct unit *punit)
 {
@@ -571,9 +571,9 @@ bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
                          &pgood->reqs, RPT_CERTAIN);
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Does city receive goods
-****************************************************************************/
+*************************************************************************/
 bool city_receives_goods(const struct city *pcity,
                          const struct goods_type *pgood)
 {
@@ -587,9 +587,9 @@ bool city_receives_goods(const struct city *pcity,
   return FALSE;
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Return goods type for the new traderoute between given cities.
-****************************************************************************/
+*************************************************************************/
 struct goods_type *goods_from_city_to_unit(struct city *src, struct unit *punit)
 {
   int i = 0;
