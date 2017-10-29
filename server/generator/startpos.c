@@ -45,7 +45,7 @@ struct islands_data_type {
 static struct islands_data_type *islands;
 static int *islands_index;
 
-/****************************************************************************
+/************************************************************************//**
   Return an approximation of the goodness of a tile to a civilization.
 ****************************************************************************/
 static int get_tile_value(struct tile *ptile)
@@ -121,7 +121,7 @@ struct start_filter_data {
   int *value;
 };
 
-/****************************************************************************
+/************************************************************************//**
   Check if number of reachable native tiles is sufficient.
   Initially given tile is assumed to be native (not checked by this function)
 ****************************************************************************/
@@ -172,7 +172,7 @@ static bool check_native_area(const struct unit_type *utype,
   return tiles >= min_area;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if (x,y) is a good starting position.
 
   Bad places:
@@ -243,9 +243,9 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
   return TRUE;
 }
 
-/*************************************************************************
- help function for qsort
- *************************************************************************/
+/************************************************************************//**
+  Helper function for qsort
+****************************************************************************/
 static int compare_islands(const void *A_, const void *B_)
 {
   const struct islands_data_type *A = A_, *B = B_;
@@ -253,7 +253,7 @@ static int compare_islands(const void *A_, const void *B_)
   return B->goodies - A->goodies;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize islands data.
 ****************************************************************************/
 static void initialize_isle_data(void)
@@ -274,7 +274,7 @@ static void initialize_isle_data(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   A function that filters for TER_STARTER tiles.
 ****************************************************************************/
 static bool filter_starters(const struct tile *ptile, const void *data)
@@ -282,7 +282,7 @@ static bool filter_starters(const struct tile *ptile, const void *data)
   return terrain_has_flag(tile_terrain(ptile), TER_STARTER);
 }
 
-/****************************************************************************
+/************************************************************************//**
   where do the different nations start on the map? well this function tries
   to spread them out on the different islands.
 

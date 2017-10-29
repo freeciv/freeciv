@@ -27,7 +27,7 @@
 
 int ice_base_colatitude = 0 ;
 
-/****************************************************************************
+/************************************************************************//**
   Returns the colatitude of this map position.  This is a value in the
   range of 0 to MAX_COLATITUDE (inclusive).
   This function is wanted to concentrate the topology information
@@ -169,7 +169,7 @@ int map_colatitude(const struct tile *ptile)
                            + 1.5 * (x * x + y * y));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if the map in a typical city radius is SINGULAR.  This is
   used to avoid putting (non-polar) land near the edge of the map.
 ****************************************************************************/
@@ -179,7 +179,7 @@ bool near_singularity(const struct tile *ptile)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Set the map xsize and ysize based on a base size and ratio (in natural
   coordinates).
 ****************************************************************************/
@@ -249,7 +249,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
              (int) size);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the default ratios for known topologies.
 
  The factor x_ratio * y_ratio determines the accuracy of the size.
@@ -280,11 +280,11 @@ static void get_ratios(int *x_ratio, int *y_ratio)
   }
 }
 
-/***************************************************************************
+/************************************************************************//**
   This function sets sizes in a topology-specific way then calls
   map_init_topology(). Set 'autosize' to TRUE if the xsize/ysize should be
   calculated.
-***************************************************************************/
+****************************************************************************/
 void generator_init_topology(bool autosize)
 {
   int sqsize;
@@ -383,9 +383,9 @@ void generator_init_topology(bool autosize)
   map_init_topology();
 }
 
-/*************************************************************************** 
+/************************************************************************//**
   An estimate of the linear (1-dimensional) size of the map.
-***************************************************************************/
+****************************************************************************/
 int get_sqsize(void)
 {
   int sqsize = sqrt(MAP_INDEX_SIZE / 1000);
