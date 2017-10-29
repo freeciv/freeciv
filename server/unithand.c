@@ -1368,11 +1368,11 @@ static void explain_why_no_action_enabled(struct unit *punit,
     break;
   case ANEK_DISTANCE_NEAR:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("This unit is to near its target to act."));
+                  _("This unit is too near its target to act."));
     break;
   case ANEK_DISTANCE_FAR:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("This unit is to far away from its target to act."));
+                  _("This unit is too far away from its target to act."));
     break;
   case ANEK_SCENARIO_DISABLED:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
