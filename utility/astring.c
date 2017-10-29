@@ -11,7 +11,7 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
+/***********************************************************************
   Allocated/allocatable strings
   original author: David Pfitzner <dwp@mso.anu.edu.au>
 
@@ -85,7 +85,7 @@ static inline char *astr_buffer_grow(size_t *alloc);
 static void astr_buffer_free(void);
 
 
-/****************************************************************************
+/************************************************************************//**
   Returns the astring buffer. Create it if necessary.
 ****************************************************************************/
 static inline char *astr_buffer_get(size_t *alloc)
@@ -100,7 +100,7 @@ static inline char *astr_buffer_get(size_t *alloc)
   return astr_buffer;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Grow the astring buffer.
 ****************************************************************************/
 static inline char *astr_buffer_grow(size_t *alloc)
@@ -120,7 +120,7 @@ static void astr_buffer_free(void)
   free(astr_buffer);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the struct.
 ****************************************************************************/
 void astr_init(struct astring *astr)
@@ -128,7 +128,7 @@ void astr_init(struct astring *astr)
   *astr = zero_astr;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the memory associated with astr, and return astr to same
   state as after astr_init.
 ****************************************************************************/
@@ -141,7 +141,7 @@ void astr_free(struct astring *astr)
   *astr = zero_astr;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the raw string to the caller, and return astr to same state as
   after astr_init().
   Freeing the string's storage becomes the caller's responsibility.
@@ -153,7 +153,7 @@ char *astr_to_str(struct astring *astr)
   return str;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check that astr has enough size to hold n, and realloc to a bigger
   size if necessary.  Here n must be big enough to include the trailing
   ascii-null if required.  The requested n is stored in astr->n.
@@ -181,7 +181,7 @@ void astr_reserve(struct astring *astr, size_t n)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the content to the empty string.
 ****************************************************************************/
 void astr_clear(struct astring *astr)
@@ -194,7 +194,7 @@ void astr_clear(struct astring *astr)
   astr->str[0] = '\0';
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the text to the string.
 ****************************************************************************/
 static void astr_vadd(struct astring *astr, size_t at,
@@ -219,7 +219,7 @@ static void astr_vadd(struct astring *astr, size_t at,
   fc_strlcpy(astr->str + at, buffer, astr->n_alloc - at);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the text to the string.
 ****************************************************************************/
 void astr_set(struct astring *astr, const char *format, ...)
@@ -232,7 +232,7 @@ void astr_set(struct astring *astr, const char *format, ...)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Add the text to the string.
 ****************************************************************************/
 void astr_add(struct astring *astr, const char *format, ...)
@@ -244,7 +244,7 @@ void astr_add(struct astring *astr, const char *format, ...)
   va_end(args);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the text to the string in a new line.
 ****************************************************************************/
 void astr_add_line(struct astring *astr, const char *format, ...)
@@ -262,7 +262,7 @@ void astr_add_line(struct astring *astr, const char *format, ...)
   va_end(args);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Replace the spaces by line breaks when the line lenght is over the desired
   one.
 ****************************************************************************/
@@ -271,7 +271,7 @@ void astr_break_lines(struct astring *astr, size_t desired_len)
   fc_break_lines(astr->str, desired_len);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build a localized string with the given items. Items will be
   "or"-separated.
 
@@ -309,7 +309,7 @@ const char *astr_build_or_list(struct astring *astr,
   return astr->str;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Build a localized string with the given items. Items will be
   "and"-separated.
 
@@ -347,7 +347,7 @@ const char *astr_build_and_list(struct astring *astr,
   return astr->str;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copy one astring in another.
 ****************************************************************************/
 void astr_copy(struct astring *dest, const struct astring *src)
