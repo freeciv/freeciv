@@ -14,7 +14,7 @@
 /***********************************************************************
   Functions for creating barbarians in huts, land and sea
   Started by Jerzy Klek <jekl@altavista.net>
-  with more ideas from Falk Hueffner 
+  with more ideas from Falk Hueffner
 ***********************************************************************/
 
 #ifdef HAVE_CONFIG_H
@@ -68,7 +68,7 @@
 #define BARBARIAN_INITIAL_VISION_RADIUS 3
 #define BARBARIAN_INITIAL_VISION_RADIUS_SQ 9
 
-/**************************************************************************
+/**********************************************************************//**
   Is player a land barbarian?
 **************************************************************************/
 bool is_land_barbarian(struct player *pplayer)
@@ -77,7 +77,7 @@ bool is_land_barbarian(struct player *pplayer)
           || pplayer->ai_common.barbarian_type == LAND_AND_SEA_BARBARIAN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is player a sea barbarian?
 **************************************************************************/
 bool is_sea_barbarian(struct player *pplayer)
@@ -86,7 +86,7 @@ bool is_sea_barbarian(struct player *pplayer)
           || pplayer->ai_common.barbarian_type == LAND_AND_SEA_BARBARIAN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates the land/sea barbarian player and inits some stuff. If 
   barbarian player already exists, return player pointer. If barbarians 
   are dead, revive them with a new leader :-)
@@ -204,7 +204,7 @@ struct player *create_barbarian_player(enum barbarian_type type)
   return barbarians;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   (Re)initialize direction checked status array based on terrain class.
 **************************************************************************/
 static void init_dir_checked_status(bool *checked,
@@ -222,7 +222,7 @@ static void init_dir_checked_status(bool *checked,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return random directory from not yet checked ones.
 **************************************************************************/
 static int random_unchecked_direction(int possibilities, const bool *checked)
@@ -242,7 +242,7 @@ static int random_unchecked_direction(int possibilities, const bool *checked)
   return j;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unleash barbarians means give barbarian player some units and move them 
   out of the hut, unless there's no place to go.
 
@@ -404,6 +404,7 @@ bool unleash_barbarians(struct tile *ptile)
           for (checked_count = 0; !dest_found && checked_count < land_tiles;
                checked_count++) {
             int rdir;
+
             rdir = random_unchecked_direction(land_tiles - checked_count, checked);
 
             if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
@@ -448,7 +449,7 @@ bool unleash_barbarians(struct tile *ptile)
   return alive;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is sea not further than a couple of tiles away from land?
 **************************************************************************/
 static bool is_near_land(struct tile *tile0)
@@ -462,7 +463,7 @@ static bool is_near_land(struct tile *tile0)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return this or a neighbouring tile that is free of any units
 **************************************************************************/
 static struct tile *find_empty_tile_nearby(struct tile *ptile)
@@ -476,7 +477,7 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   The barbarians are summoned at a randomly chosen place if:
   1. It's not closer than MIN_UNREST_DIST and not further than 
      MAX_UNREST_DIST from the nearest city. City owner is called 'victim' 
@@ -688,8 +689,8 @@ static void try_summon_barbarians(void)
   }
 }
 
-/**************************************************************************
-  Summon barbarians out of the blue. Try more times for more difficult 
+/**********************************************************************//**
+  Summon barbarians out of the blue. Try more times for more difficult
   levels - which means there can be more than one uprising in one year!
 **************************************************************************/
 void summon_barbarians(void)
