@@ -114,7 +114,7 @@ static const int MAX_TRADE_ROUTE_DRAW_LINES = 2;
 
 static struct timer *anim_timer = NULL;
 
-enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE, ANIM_NUKE };
+enum animation_type { ANIM_MOVEMENT, ANIM_BATTLE, ANIM_EXPL, ANIM_NUKE };
 
 struct animation
 {
@@ -133,10 +133,20 @@ struct animation
       float canvas_dy;
     } movement;
     struct {
-      struct tile *explosion_tile;
-      const struct sprite_vector *explosion_sprites;
-      int explosion_sprite_count;
+      struct unit *virt_loser;
+      struct tile *loser_tile;
+      int loser_hp_start;
+      struct unit *virt_winner;
+      struct tile *winner_tile;
+      int winner_hp_start;
+      int winner_hp_end;
+      int steps;
     } battle;
+    struct {
+      struct tile *tile;
+      const struct sprite_vector *sprites;
+      int sprite_count;
+    } expl;
     struct {
       bool shown;
       struct tile *nuke_tile;
@@ -228,32 +238,90 @@ static bool movement_animation(struct animation *anim, double time_gone)
 ****************************************************************************/
 static bool battle_animation(struct animation *anim, double time_gone)
 {
-  /* TODO: Add the hitpoints reduction part of the animation. Currently this
-   *       is just the explosion of the losing unit. */
+  double time_per_step;
+  int step;
+  float canvas_x, canvas_y;
+  double timing_sec = (double)gui_options.smooth_combat_step_msec
+    * anim->battle.steps / 1000.0;
+
+  if (time_gone >= timing_sec) {
+    /* Animation over */
+
+    unit_virtual_destroy(anim->battle.virt_winner);
+    unit_virtual_destroy(anim->battle.virt_loser);
+
+    return TRUE;
+  }
+
+  time_per_step = timing_sec / anim->battle.steps;
+  step = time_gone / time_per_step;
+
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, anim->battle.loser_tile)) {
+    anim->battle.virt_loser->hp
+      = anim->battle.loser_hp_start - (anim->battle.loser_hp_start
+                                       * step / anim->battle.steps);
+
+    if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
+      canvas_y -= tileset_tile_height(tileset) / 2 * map_zoom;
+      canvas_y -= (tileset_unit_height(tileset) - tileset_full_tile_height(tileset)) * map_zoom;
+    }
+
+    put_unit(anim->battle.virt_loser, mapview.store, map_zoom,
+             canvas_x, canvas_y);
+    dirty_rect(canvas_x, canvas_y,
+               tileset_tile_width(tileset),
+               tileset_tile_height(tileset));
+  }
+
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, anim->battle.winner_tile)) {
+    anim->battle.virt_winner->hp
+      = anim->battle.winner_hp_start - ((anim->battle.winner_hp_start
+                                         - anim->battle.winner_hp_end)
+                                        * step / anim->battle.steps);
+
+    if (tileset_is_isometric(tileset) && tileset_hex_height(tileset) == 0) {
+      canvas_y -= tileset_tile_height(tileset) / 2 * map_zoom;
+      canvas_y -= (tileset_unit_height(tileset) - tileset_full_tile_height(tileset)) * map_zoom;
+    }
+    put_unit(anim->battle.virt_winner, mapview.store, map_zoom,
+             canvas_x, canvas_y);
+    dirty_rect(canvas_x, canvas_y,
+               tileset_tile_width(tileset),
+               tileset_tile_height(tileset));
+  }
+
+  return FALSE;
+}
+
+/************************************************************************//**
+  Progress animation of type 'explosion'
+****************************************************************************/
+static bool explosion_animation(struct animation *anim, double time_gone)
+{
   float canvas_x, canvas_y;
   double timing_sec;
 
-  if (anim->battle.explosion_sprite_count <= 0) {
+  if (anim->expl.sprite_count <= 0) {
     return TRUE;
   }
 
   timing_sec = (double)gui_options.smooth_combat_step_msec
-    * anim->battle.explosion_sprite_count / 1000.0;
+    * anim->expl.sprite_count / 1000.0;
 
-  if (tile_to_canvas_pos(&canvas_x, &canvas_y, anim->battle.explosion_tile)) {
-    double time_per_frame = timing_sec / anim->battle.explosion_sprite_count;
+  if (tile_to_canvas_pos(&canvas_x, &canvas_y, anim->expl.tile)) {
+    double time_per_frame = timing_sec / anim->expl.sprite_count;
     int frame = time_gone / time_per_frame;
     struct sprite *spr;
     int w, h;
 
-    frame = MIN(frame, anim->battle.explosion_sprite_count - 1);
+    frame = MIN(frame, anim->expl.sprite_count - 1);
 
     if (anim->old_x >= 0) {
       update_map_canvas(anim->old_x, anim->old_y,
                         anim->width, anim->height);
     }
 
-    spr = *sprite_vector_get(anim->battle.explosion_sprites, frame);
+    spr = *sprite_vector_get(anim->expl.sprites, frame);
     get_sprite_dimensions(spr, &w, &h);
 
     canvas_put_sprite_full(mapview.store,
@@ -328,7 +396,9 @@ void update_animation(void)
       /* Animation over */
 
       anim->id = -1;
-      update_map_canvas(anim->old_x, anim->old_y, anim->width, anim->height);
+      if (anim->old_x >= 0) {
+        update_map_canvas(anim->old_x, anim->old_y, anim->width, anim->height);
+      }
       animation_list_remove(animations, anim);
       free(anim);
 
@@ -347,6 +417,9 @@ void update_animation(void)
         break;
       case ANIM_BATTLE:
         finished = battle_animation(anim, time_gone);
+        break;
+      case ANIM_EXPL:
+        finished = explosion_animation(anim, time_gone);
         break;
       case ANIM_NUKE:
         finished = nuke_animation(anim, time_gone);
@@ -2436,13 +2509,42 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
   if (frame_by_frame_animation) {
     struct animation *anim = fc_malloc(sizeof(struct animation));
-    struct unit *winning_unit = (losing_unit == punit1 ? punit0 : punit1);
+    struct unit *winning_unit;
+    int winner_end_hp;
+
+    if (losing_unit == punit1) {
+      winning_unit = punit0;
+      winner_end_hp = hp0;
+    } else {
+      winning_unit = punit1;
+      winner_end_hp = hp1;
+    }
 
     anim->type = ANIM_BATTLE;
+    anim->id = -1;
+    anim->battle.virt_loser = unit_virtual_create(unit_owner(losing_unit),
+                                                  NULL, unit_type_get(losing_unit),
+                                                  losing_unit->veteran);
+    anim->battle.loser_tile = unit_tile(losing_unit);
+    anim->battle.virt_loser->facing = losing_unit->facing;
+    anim->battle.loser_hp_start = losing_unit->hp;
+    anim->battle.virt_winner = unit_virtual_create(unit_owner(winning_unit),
+                                                   NULL, unit_type_get(winning_unit),
+                                                   winning_unit->veteran);
+    anim->battle.winner_tile = unit_tile(winning_unit);
+    anim->battle.virt_winner->facing = winning_unit->facing;
+    anim->battle.winner_hp_start = MAX(winning_unit->hp, winner_end_hp);
+    anim->battle.winner_hp_end = winner_end_hp;
+    anim->battle.steps = MAX(losing_unit->hp,
+                             anim->battle.winner_hp_start - winner_end_hp);
+    animation_add(anim);
+
+    anim = fc_malloc(sizeof(struct animation));
+    anim->type = ANIM_EXPL;
     anim->id = winning_unit->id;
-    anim->battle.explosion_tile = losing_unit->tile;
-    anim->battle.explosion_sprites = get_unit_explode_animation(tileset);
-    anim->battle.explosion_sprite_count = sprite_vector_size(anim->battle.explosion_sprites);
+    anim->expl.tile = losing_unit->tile;
+    anim->expl.sprites = get_unit_explode_animation(tileset);
+    anim->expl.sprite_count = sprite_vector_size(anim->expl.sprites);
     anim->width = tileset_tile_width(tileset) * map_zoom;
     anim->height = tileset_tile_height(tileset) * map_zoom;
     animation_add(anim);
