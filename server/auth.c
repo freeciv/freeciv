@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005  - M.C. Kaufman
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ static bool is_guest_name(const char *name);
 static void get_unique_guest_name(char *name);
 static bool is_good_password(const char *password, char *msg);
 
-/****************************************************************************
+/************************************************************************//**
   Handle authentication of a user; called by handle_login_request() if
   authentication is enabled.
 
@@ -160,7 +160,7 @@ bool auth_user(struct connection *pconn, char *username)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Receives a password from a client and verifies it.
 ****************************************************************************/
 bool auth_handle_reply(struct connection *pconn, char *password)
@@ -214,7 +214,7 @@ bool auth_handle_reply(struct connection *pconn, char *password)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Checks on where in the authentication process we are.
 ****************************************************************************/
 void auth_process_status(struct connection *pconn)
@@ -264,10 +264,10 @@ void auth_process_status(struct connection *pconn)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Check if the password with length len matches the hashed one in
   pconn->server.password.
-***************************************************************************/
+****************************************************************************/
 static bool auth_check_password(struct connection *pconn,
                                 const char *password, int len)
 {
@@ -285,7 +285,7 @@ static bool auth_check_password(struct connection *pconn,
   return ok;
 }
 
-/****************************************************************************
+/************************************************************************//**
   See if the name qualifies as a guest login name
 ****************************************************************************/
 static bool is_guest_name(const char *name)
@@ -293,7 +293,7 @@ static bool is_guest_name(const char *name)
   return (fc_strncasecmp(name, GUEST_NAME, strlen(GUEST_NAME)) == 0);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a unique guest name
   WARNING: do not pass pconn->username to this function: it won't return!
 ****************************************************************************/
@@ -326,7 +326,7 @@ static void get_unique_guest_name(char *name)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Verifies that a password is valid. Does some [very] rudimentary safety
   checks. TODO: do we want to frown on non-printing characters?
   Fill the msg (length MAX_LEN_MSG) with any worthwhile information that
@@ -376,9 +376,9 @@ static bool is_good_password(const char *password, char *msg)
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Get username for connection
-**************************************************************************/
+****************************************************************************/
 const char *auth_get_username(struct connection *pconn)
 {
   fc_assert_ret_val(pconn != NULL, NULL);
@@ -386,9 +386,9 @@ const char *auth_get_username(struct connection *pconn)
   return pconn->username;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Get connection ip address
-**************************************************************************/
+****************************************************************************/
 const char *auth_get_ipaddr(struct connection *pconn)
 {
   fc_assert_ret_val(pconn != NULL, NULL);
@@ -396,9 +396,9 @@ const char *auth_get_ipaddr(struct connection *pconn)
   return pconn->server.ipaddr;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Set password for connection
-**************************************************************************/
+****************************************************************************/
 bool auth_set_password(struct connection *pconn, const char *password)
 {
   fc_assert_ret_val(pconn != NULL, FALSE);
@@ -409,9 +409,9 @@ bool auth_set_password(struct connection *pconn, const char *password)
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Get connection password
-**************************************************************************/
+****************************************************************************/
 const char *auth_get_password(struct connection *pconn)
 {
   fc_assert_ret_val(pconn != NULL, NULL);

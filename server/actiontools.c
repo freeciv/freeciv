@@ -34,7 +34,7 @@ typedef void (*action_notify)(struct player *,
                               const struct tile *,
                               const char *);
 
-/**************************************************************************
+/**********************************************************************//**
   Wipe an actor if the action it successfully performed consumed it.
 **************************************************************************/
 void action_success_actor_consume(struct action *paction,
@@ -55,7 +55,7 @@ void action_success_actor_consume(struct action *paction,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give the victim a casus belli against the offender.
 **************************************************************************/
 static void action_give_casus_belli(struct player *offender,
@@ -87,7 +87,7 @@ static void action_give_casus_belli(struct player *offender,
   player_update_last_war_action(offender);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the kind of diplomatic incident an action may cause.
 **************************************************************************/
 static enum incident_type action_to_incident(const int action_id)
@@ -102,7 +102,7 @@ static enum incident_type action_to_incident(const int action_id)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the players controlled by the built in AI.
 **************************************************************************/
 static void action_notify_ai(const struct action *paction,
@@ -136,7 +136,7 @@ static void action_notify_ai(const struct action *paction,
    * be used? */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take care of any consequences (like casus belli) of the given action
   when the situation was as specified.
 
@@ -206,7 +206,7 @@ static void action_consequence_common(const struct action *paction,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the actor that the failed action gave the victim a casus belli
   against the actor.
 **************************************************************************/
@@ -262,7 +262,7 @@ static void notify_actor_caught(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the victim that the failed action gave the victim a
   casus belli against the actor.
 **************************************************************************/
@@ -320,7 +320,7 @@ static void notify_victim_caught(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the world that the failed action gave the everyone a casus belli
   against the actor.
 **************************************************************************/
@@ -366,7 +366,7 @@ static void notify_global_caught(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take care of any consequences (like casus belli) of getting caught while
   trying to perform the given action.
 
@@ -387,7 +387,7 @@ void action_consequence_caught(const struct action *paction,
                             EFT_CASUS_BELLI_CAUGHT);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the actor that the performed action gave the victim a casus belli
   against the actor.
 **************************************************************************/
@@ -440,7 +440,7 @@ static void notify_actor_success(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the victim that the performed action gave the victim a casus
   belli against the actor.
 **************************************************************************/
@@ -496,7 +496,7 @@ static void notify_victim_success(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the world that the performed action gave the everyone a casus
   belli against the actor.
 **************************************************************************/
@@ -541,7 +541,7 @@ static void notify_global_success(struct player *receiver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Take care of any consequences (like casus belli) of successfully
   performing the given action.
 
@@ -561,7 +561,7 @@ void action_consequence_success(const struct action *paction,
                             EFT_CASUS_BELLI_SUCCESS);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
   city.
@@ -603,7 +603,7 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find a city to target for an action on the specified tile.
 
   Returns NULL if no proper target is found.
@@ -625,7 +625,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target
   unit.
@@ -667,7 +667,7 @@ static bool may_unit_act_vs_unit(struct unit *actor, struct unit *target,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find a unit to target for an action at the specified tile.
 
   Returns the first unit found at the tile that the actor may act against
@@ -689,7 +689,7 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the tile iff it, from the point of view of the owner of the
   actor unit, looks like each unit on it is an ATK_UNITS target for the
   actor unit.
@@ -734,7 +734,7 @@ struct tile *action_tgt_tile_units(struct unit *actor,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the tile iff it, from the point of view of the owner of the
   actor unit, looks like a target tile.
 
@@ -779,7 +779,7 @@ struct tile *action_tgt_tile(struct unit *actor,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the action auto performer that the specified cause can force the
   specified actor to perform. Returns NULL if no such action auto performer
   exists.
@@ -819,7 +819,7 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                ? target_tile                                               \
                : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
 
-/**************************************************************************
+/**********************************************************************//**
   Make the specified actor unit perform an action because of cause.
 
   Returns the action the actor unit was forced to perform.
@@ -912,7 +912,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the probability for the specified actor unit to be forced to
   perform an action by the specified cause.
 **************************************************************************/

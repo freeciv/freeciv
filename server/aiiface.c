@@ -49,7 +49,7 @@ bool fc_ai_stub_setup(struct ai_type *ai);
 static struct ai_type *default_ai = NULL;
 
 #ifdef AI_MODULES
-/**************************************************************************
+/**********************************************************************//**
   Return string describing module loading error. Never returns NULL.
 **************************************************************************/
 static const char *fc_module_error(void)
@@ -64,7 +64,7 @@ static const char *fc_module_error(void)
   return errtxt;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load ai module from file.
 **************************************************************************/
 bool load_ai_module(const char *modname)
@@ -127,7 +127,7 @@ bool load_ai_module(const char *modname)
 }
 #endif /* AI_MODULES */
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize ai stuff
 **************************************************************************/
 void ai_init(void)
@@ -227,7 +227,7 @@ void ai_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call incident function of victim.
 **************************************************************************/
 void call_incident(enum incident_type type, struct player *violator,
@@ -236,9 +236,9 @@ void call_incident(enum incident_type type, struct player *violator,
   CALL_PLR_AI_FUNC(incident, victim, type, violator, victim);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Call ai refresh() callback for all players.
-****************************************************************************/
+**************************************************************************/
 void call_ai_refresh(void)
 {
   players_iterate(pplayer) {
@@ -246,7 +246,7 @@ void call_ai_refresh(void)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return name of default ai type.
 **************************************************************************/
 const char *default_ai_type_name(void)
