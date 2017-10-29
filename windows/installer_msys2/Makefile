@@ -168,15 +168,11 @@ COMMON_DLLS := \
 	libstdc++-6.dll \
 	libeay32.dll \
 	ssleay32.dll \
-	libidn-11.dll \
+	libidn2-0.dll \
 	libnghttp2-14.dll \
-	librtmp-1.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
-	libgnutls-30.dll \
-	libhogweed-4.dll \
-	libnettle-6.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
@@ -270,6 +266,7 @@ QT_DLLS := \
 	Qt5Widgets.dll \
 	libgraphite2.dll \
 	libpcre-1.dll \
+	libpcre2-16-0.dll \
 	libunistring-2.dll
 
 install-env-qt: install-env-common
@@ -284,15 +281,11 @@ RULEDIT_DLLS := \
         libstdc++-6.dll \
 	libeay32.dll \
 	ssleay32.dll \
-	libidn-11.dll \
+	libidn2-0.dll \
 	libnghttp2-14.dll \
-	librtmp-1.dll \
 	libssh2-1.dll \
 	libcurl-4.dll \
 	libgmp-10.dll \
-	libgnutls-30.dll \
-	libhogweed-4.dll \
-	libnettle-6.dll \
 	libp11-kit-0.dll \
 	libtasn1-6.dll \
 	libatk-1.0-0.dll \
