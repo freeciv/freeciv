@@ -449,13 +449,9 @@ void fc_client::remove_server_source()
 ****************************************************************************/
 void fc_client::server_input(int sock)
 {
-#if defined(Q_WS_WIN)
   server_notifier->setEnabled(false);
-#endif
   input_from_server(sock);
-#if defined(Q_WS_WIN)
   server_notifier->setEnabled(true);
-#endif
 }
 
 /****************************************************************************
