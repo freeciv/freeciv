@@ -145,6 +145,7 @@ static bool is_more_user_input_needed = FALSE;
  unit that wants a decision in the current unit selection. */
 static bool did_not_decide = false;
 
+extern char forced_tileset_name[512];
 qdef_act* qdef_act::m_instance = 0;
 
 /**********************************************************************
@@ -3032,6 +3033,7 @@ void popup_tileset_suggestion_dialog(void)
   ask.set_text_title(text, title);
   ask.exec();
   if (ask.clickedButton() == ok_button) {
+    sz_strlcpy(forced_tileset_name, game.control.preferred_tileset);
     tilespec_reread(game.control.preferred_tileset, FALSE, gui()->map_scale);
   }
 }
