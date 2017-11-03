@@ -98,6 +98,7 @@
 /* In autoconnect mode, try to connect 100 times */
 #define MAX_AUTOCONNECT_ATTEMPTS	100
 
+extern char forced_tileset_name[512];
 static struct fc_sockaddr_list *list = NULL;
 static int name_count;
 
@@ -259,6 +260,7 @@ int connect_to_server(const char *username, const char *hostname, int port,
     return -1;
   }
 
+  forced_tileset_name[0] = '\0';
   if (gui_options.use_prev_server) {
     sz_strlcpy(gui_options.default_server_host, hostname);
     gui_options.default_server_port = port;
