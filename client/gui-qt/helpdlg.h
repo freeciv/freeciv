@@ -43,6 +43,8 @@ class help_widget;
 class help_dialog : public QDialog
 {
   Q_OBJECT
+  QPushButton *prev_butt;
+  QPushButton *next_butt;
   QTreeWidget *tree_wdg;
   help_widget *help_wdg;
   QList<QTreeWidgetItem *> item_history;
@@ -61,6 +63,8 @@ public slots:
 
 private slots:
   void item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev);
+private:
+  void update_buttons();
 };
 
 class help_widget : public QWidget
