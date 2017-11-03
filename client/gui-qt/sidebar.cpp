@@ -730,3 +730,31 @@ void side_right_click_science(void)
     menu->exec(QCursor::pos());
   }
 }
+
+/***************************************************************************
+  Left click for science, allowing to close/open
+****************************************************************************/
+void side_left_click_science(bool nothing)
+{
+  science_report *sci_rep;
+  int i;
+  QWidget *w;
+
+  if (client_is_global_observer()) {
+    return;
+  }
+  if (!gui()->is_repo_dlg_open("SCI")) {
+    sci_rep = new science_report;
+    sci_rep->init(true);
+  } else {
+    i = gui()->gimme_index_of("SCI");
+    w = gui()->game_tab_widget->widget(i);
+    if (w->isVisible() == true) {
+      gui()->game_tab_widget->setCurrentIndex(0);
+      return;
+    }
+    sci_rep = reinterpret_cast<science_report*>(w);
+    gui()->game_tab_widget->setCurrentWidget(sci_rep);
+  }
+}
+
