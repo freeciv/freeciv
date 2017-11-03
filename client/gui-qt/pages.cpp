@@ -732,7 +732,7 @@ void fc_client::create_game_page()
   sw_diplo->set_wheel_down(key_center_capital);
   sw_science = new fc_sidewidget(fc_icons::instance()->get_pixmap("research"),
                                  _("Research"), "SCI",
-                                 science_report_dialog_popup);
+                                 side_left_click_science);
   sw_economy = new fc_sidewidget(fc_icons::instance()->get_pixmap("economy"),
                                  _("Economy"), "ECO",
                                  economy_report_dialog_popup);

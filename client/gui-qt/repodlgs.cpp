@@ -1636,10 +1636,6 @@ void science_report_dialog_popup(bool raise)
   } else {
     i = gui()->gimme_index_of("SCI");
     w = gui()->game_tab_widget->widget(i);
-    if (w->isVisible() == true) {
-      gui()->game_tab_widget->setCurrentIndex(0);
-      return;
-    }
     sci_rep = reinterpret_cast<science_report*>(w);
     if (gui()->game_tab_widget->currentIndex() == i) {
       sci_rep->redraw();
