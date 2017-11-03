@@ -154,14 +154,16 @@ help_dialog::help_dialog(QWidget *parent) :
 
   buttons = new QWidget;
   hbox = new QHBoxLayout;
-  but = new QPushButton(style()->standardIcon(
-                        QStyle::QStyle::SP_ArrowLeft), (""));
-  connect(but, &QAbstractButton::clicked, this, &help_dialog::history_back);
-  hbox->addWidget(but);
-  but = new QPushButton(style()->standardIcon(
-                        QStyle::QStyle::SP_ArrowRight), (""));
-  connect(but, &QAbstractButton::clicked, this, &help_dialog::history_forward);
-  hbox->addWidget(but);
+  prev_butt = new QPushButton(style()->standardIcon(
+                              QStyle::QStyle::SP_ArrowLeft), (""));
+  connect(prev_butt, &QAbstractButton::clicked, this,
+          &help_dialog::history_back);
+  hbox->addWidget(prev_butt);
+  next_butt = new QPushButton(style()->standardIcon(
+                              QStyle::QStyle::SP_ArrowRight), (""));
+  connect(next_butt, &QAbstractButton::clicked, this,
+          &help_dialog::history_forward);
+  hbox->addWidget(next_butt);
   hbox->addStretch(20);
   but = new QPushButton(style()->standardIcon(
                         QStyle::SP_DialogHelpButton), _("About Qt"));
@@ -355,6 +357,23 @@ void help_dialog::history_back()
 }
 
 /**************************************************************************
+  Update buttons (back and next)
+**************************************************************************/
+void help_dialog::update_buttons()
+{
+  if (history_pos == 0) {
+    prev_butt->setEnabled(false);
+  } else {
+    prev_butt->setEnabled(true);
+  }
+  if (history_pos >= item_history.size() - 1) {
+    next_butt->setEnabled(false);
+  } else {
+    next_butt->setEnabled(true);
+  }
+}
+
+/**************************************************************************
   Called when a tree item is activated.
 **************************************************************************/
 void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
@@ -372,6 +391,7 @@ void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
   } else {
     update_history = true;
   }
+  update_buttons();
 }
 
 /**************************************************************************
