@@ -441,7 +441,7 @@ void fc_client::closeEvent(QCloseEvent *event) {
 ****************************************************************************/
 void fc_client::remove_server_source()
 {
-  delete server_notifier;
+  server_notifier->deleteLater();
 }
 
 /****************************************************************************
