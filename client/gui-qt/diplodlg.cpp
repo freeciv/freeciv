@@ -168,6 +168,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   gold_edit2 = new QSpinBox;
   gold_edit1->setMinimum(0);
   gold_edit2->setMinimum(0);
+  gold_edit1->setFocusPolicy(Qt::ClickFocus);
+  gold_edit2->setFocusPolicy(Qt::ClickFocus);
   if (game.info.trading_gold) {
     gold_edit2->setMaximum(player_by_number(player1)->economic.gold);
     gold_edit1->setMaximum(player_by_number(player2)->economic.gold);
@@ -178,6 +180,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
                                 _("Add Clause..."));
   add_clause2 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
                                 _("Add Clause..."));
+  add_clause1->setFocusPolicy(Qt::ClickFocus);
+  add_clause2->setFocusPolicy(Qt::ClickFocus);
   connect(add_clause1, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p2);
   connect(add_clause2, &QAbstractButton::clicked, this, &diplo_wdg::show_menu_p1);
   layout->addWidget(goldlab1, 7, 4);
@@ -195,6 +199,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   text_edit->verticalHeader()->setVisible(false);
   text_edit->horizontalHeader()->setVisible(false);
   text_edit->setSelectionMode(QAbstractItemView::SingleSelection);
+  text_edit->setFocusPolicy(Qt::NoFocus);
   header = text_edit->horizontalHeader();
   header->setStretchLastSection(true);
   connect(text_edit, &QTableWidget::itemDoubleClicked,
@@ -222,8 +227,12 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
     plr1_label->setToolTip(text_tooltip);
   }
 
+  accept_treaty->setAutoDefault(true);
+  accept_treaty->setDefault(true);
+  cancel_treaty->setAutoDefault(true);
   setLayout(layout);
   update_wdg();
+
 }
 
 /****************************************************************************
@@ -730,6 +739,7 @@ void diplo_wdg::response_cancel()
 diplo_dlg::diplo_dlg(int counterpart, int initiated_from): QTabWidget()
 {
   add_widget(counterpart, initiated_from);
+  setFocusPolicy(Qt::ClickFocus);
 }
 
 /****************************************************************************
