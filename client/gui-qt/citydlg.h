@@ -481,6 +481,7 @@ private:
   void update_sliders();
   void update_prod_buttons();
   void update_happiness_button();
+  void change_production(bool next);
 
 private slots:
   void next_city();
@@ -516,6 +517,7 @@ protected:
   void showEvent(QShowEvent *event);
   void hideEvent(QHideEvent *event);
   void closeEvent(QCloseEvent *event);
+  bool eventFilter(QObject *obj, QEvent *event);
 };
 
 void destroy_city_dialog();

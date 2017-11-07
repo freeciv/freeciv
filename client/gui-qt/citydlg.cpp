@@ -1931,7 +1931,54 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   setSizeGripEnabled(true);
   setLayout(single_page_layout);
 
+  installEventFilter(this);
+
   ::city_dlg_created = true;
+}
+
+/****************************************************************************
+  Changes production to next one or previous
+****************************************************************************/
+void city_dialog::change_production(bool next)
+{
+
+  cid cprod;
+  int i, pos;
+  int item, targets_used;
+  QList<cid> prod_list;
+  QString str;
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct universal univ;
+
+  pos = 0;
+  cprod = cid_encode(pcity->production);
+  targets_used = collect_eventually_buildable_targets(targets, pcity, false);
+  name_and_sort_items(targets, targets_used, items, false, pcity);
+
+  for (item = 0; item < targets_used; item++) {
+    if (can_city_build_now(pcity, &items[item].item)) {
+      prod_list << cid_encode(items[item].item);
+    }
+  }
+
+  for (i = 0; i < prod_list.size(); i++) {
+    if (prod_list.at(i) == cprod) {
+      if (next) {
+        pos = i + 1;
+      } else {
+        pos = i - 1;
+      }
+    }
+  }
+  if (pos == prod_list.size()) {
+    pos = 0;
+  }
+  if (pos == - 1) {
+    pos = prod_list.size() - 1;
+  }
+  univ = cid_decode(static_cast<cid>(prod_list.at(pos)));
+  city_change_production(pcity, &univ);
 }
 
 /****************************************************************************
@@ -2058,6 +2105,7 @@ city_dialog::~city_dialog()
   nationality_table->clear();
   current_units->clear_layout();
   supported_units->clear_layout();
+  removeEventFilter(this);
   ::city_dlg_created = false;
 }
 
@@ -2098,6 +2146,45 @@ void city_dialog::closeEvent(QCloseEvent *event)
   gui()->qt_settings.city_splitter2 = central_left_splitter->saveState();
   gui()->qt_settings.city_splitter3 = central_splitter->saveState();
 }
+
+/****************************************************************************
+  Event filter for catching keybaord events
+****************************************************************************/
+bool city_dialog::eventFilter(QObject *obj, QEvent *event)
+{
+
+  if (obj == this) {
+    if (event->type() == QEvent::KeyPress) {
+    }
+
+    if (event->type() == QEvent::ShortcutOverride) {
+      QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
+      if (key_event->key() == Qt::Key_Right) {
+        next_city();
+        event->setAccepted(true);
+        return true;
+      }
+      if (key_event->key() == Qt::Key_Left) {
+        prev_city();
+        event->setAccepted(true);
+        return true;
+      }
+      if (key_event->key() == Qt::Key_Up) {
+        change_production(true);
+        event->setAccepted(true);
+        return true;
+      }
+      if (key_event->key() == Qt::Key_Down) {
+        change_production(false);
+        event->setAccepted(true);
+        return true;
+      }
+    }
+  }
+  return QObject::eventFilter(obj, event);
+}
+
+
 /****************************************************************************
   City rename dialog input
 ****************************************************************************/
