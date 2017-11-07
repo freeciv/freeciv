@@ -4037,7 +4037,9 @@ void city_production_model::populate()
 
         if ((is_wonder(renegade->value.building) && show_wonders)
             || (is_improvement(renegade->value.building) && show_buildings)
-            || (improvement_has_flag(renegade->value.building, IF_GOLD))) {
+            || (improvement_has_flag(renegade->value.building, IF_GOLD))
+            || (is_special_improvement(renegade->value.building)
+            && show_buildings)) {
           pi = new production_item(renegade, this);
           city_target_list << pi;
         }
