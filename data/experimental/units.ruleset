@@ -1836,13 +1836,12 @@ hitpoints     = 30
 firepower     = 2
 move_rate     = 5
 vision_radius_sq = 8
-transport_cap = 8
+transport_cap = 0
 fuel          = 0
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-cargo         = "Missile"
 vision_layer  = "Subsurface"
 flags         = "BadCityDefender", "Provoking",
 	        "Only_Native_Attack", "Shield2Gold"
@@ -2429,4 +2428,186 @@ helptext      = _("\
 The AWACS (Airborne Warning and Control System) is an airplane with an \
 advanced radar that can determine the location of enemy units over a \
 wide area.\
+")
+
+[unit_container_ship]
+name          = _("Container Ship")
+class         = "Sea"
+tech_req      = "Mass Production"
+obsolete_by   = "None"
+graphic       = "u.containership"
+graphic_alt   = "-"
+sound_move    = "m_transport"
+sound_move_alt = "m_generic"
+sound_fight   = "f_transport"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 30
+firepower     = 1
+move_rate     = 5
+vision_radius_sq = 8
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
+roles         = ""
+helptext      = _("\
+The Container Ship is a large naval trading vessel. It performs the same \
+functions as Caravans and Freights, but moves on the sea instead of land. \
+")
+
+[unit_dredger]
+name          = _("Dredger")
+class         = "Sea"
+tech_req      = "Machine Tools"
+obsolete_by   = "None"
+graphic       = "u.dredger"
+graphic_alt   = "-"
+sound_move    = "m_transport"
+sound_move_alt = "m_generic"
+sound_fight   = "f_transport"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 20
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 8
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "Infra", "NonMil", "HasNoZOC", "Transform"
+veteran_names             =
+; /* TRANS: Worker veteran level */
+  _("?worker_level:apprentice"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:journeyman"),
+; /* TRANS: Worker veteran level */
+  _("?worker_level:master")
+veteran_raise_chance      = 0, 0, 0
+veteran_work_raise_chance = 2, 1, 0
+veteran_power_fact        = 100, 125, 150
+veteran_move_bonus        = 0, 0, 0
+roles         = "Settlers"
+helptext      = _("\
+The Dredger is a seaborne version of Engineers - it lets you perform naval \
+construction efficiently.\
+")
+
+[unit_mobile_sam]
+name          = _("Mobile SAM Launcher")
+class         = "Big Land"
+tech_req      = "Robotics"
+obsolete_by   = "None"
+graphic       = "u.mobile_sam"
+graphic_alt   = "-"
+sound_move    = "m_mech_inf"
+sound_move_alt = "m_generic"
+sound_fight   = "f_aegis_cruiser"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 30
+firepower     = 1
+move_rate     = 3
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+bonuses       =
+   { "flag", "type", "value"
+     "AirAttacker", "DefenseMultiplier", 8
+	   "AirAttacker", "DefenseDivider", 2
+   }
+flags         = "BadCityDefender", "Shield2Gold", "Provoking"
+roles         = "DefendGood", "DefendGoodStartUnit"
+helptext      = _("\
+The Mobile SAM Launcher is very weak against land units, but crushes aerial \
+units with impunity. Use it to protect your cities and valuable unit stacks, \
+or strike at enemy air forces. When escorting your armies, the Mobile SAM \
+Launcher can keep up with the fastest military units.\
+")
+
+[unit_torpedo_boat]
+name          = _("Torpedo Boat")
+class         = "Sea"
+tech_req      = "Combustion"
+obsolete_by   = "None"
+graphic       = "u.torpedo_boat"
+graphic_alt   = "-"
+sound_move    = "m_destroyer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_destroyer"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 6
+defense       = 1
+hitpoints     = 10
+firepower     = 3
+move_rate     = 4
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "BadCityDefender", "Shield2Gold"
+roles         = "Hunter"
+helptext      = _("\
+The Torpedo Boat is a puny, cheap naval unit with a powerful attack.\
+"), _("\
+TIP:  Use Torpedo boats as sacrificial units against stronger enemy navy.\
+")
+
+[unit_missile_submarine]
+name          = _("Missile Submarine")
+class         = "Sea"
+tech_req      = "Rocketry"
+obsolete_by   = "None"
+graphic       = "u.missile_submarine"
+graphic_alt   = "-"
+sound_move    = "m_submarine"
+sound_move_alt = "m_generic"
+sound_fight   = "f_submarine"
+sound_fight_alt = "f_generic"
+build_cost    = 50
+pop_cost      = 0
+attack        = 4
+defense       = 2
+hitpoints     = 30
+firepower     = 2
+move_rate     = 5
+vision_radius_sq = 8
+transport_cap = 8
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+cargo         = "Missile"
+vision_layer  = "Subsurface"
+flags         = "BadCityDefender", "Provoking",
+	        "Only_Native_Attack", "Shield2Gold"
+roles         = "Hunter"
+helptext      = _("\
+Missile Submarines hide under the waves, ready to unleash their cargo of \
+missiles at distant targets from a safe spot somewhere in the ocean.
 ")

@@ -33,6 +33,7 @@ artists = "
     J. W. Bjerk / Eleazar <www.jwbjerk.com>
     qwm
     FiftyNine
+    Vladimir Slavik [VS]
 "
 
 [file]
@@ -103,7 +104,16 @@ tiles = { "row", "column", "tag"
   2, 15, "u.leader"		; [GB]
   2, 16, "u.barbarian_leader"	; FiftyNine
   2, 17, "u.migrants"		; Eleazar
-;  3, 15, "u.train"		; Eleazar
+  3, 15, "u.train"		; Eleazar
+  4,  0, "u.containership"      ; [VS]
+  4,  1, "u.containership_empty"; [VS]
+  4,  2, "u.dredger"            ; [VS]
+  4,  3, "u.icebreaker"         ; [VS]
+  4,  4, "u.missile_submarine"  ; [VS]
+  4,  5, "u.steamer"            ; [VS]
+  4,  6, "u.torpedo_boat"       ; [VS]
+  4, 16, "u.technical"          ; [VS]
+  4, 17, "u.mobile_sam"         ; [VS]
 
 ; Veteran Levels: up to 9 military honors for experienced units
 

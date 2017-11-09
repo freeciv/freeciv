@@ -9,6 +9,7 @@ options = "+Freeciv-spec-Devel-2015-Mar-25"
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     The Square Cow (u.migrants)
+    Vladimir Slavik (u.train + row 3)
 "
 
 [file]
@@ -78,4 +79,14 @@ tiles = { "row", "column", "tag"
   2, 14, "u.worker"
   2, 15, "u.leader"
   2, 16, "u.migrants"
+  2, 19, "u.train"
+  3,  0, "u.containership"
+  3,  1, "u.containership_empty"
+  3,  2, "u.dredger"
+  3,  3, "u.icebreaker"
+  3,  4, "u.missile_submarine"
+  3,  5, "u.steamer"
+  3,  6, "u.torpedo_boat"
+  3, 15, "u.technical"
+  3, 16, "u.mobile_sam"
 }
