@@ -1392,7 +1392,7 @@ void city_map::context_menu(QPoint point)
 /****************************************************************************
   Constructor for city_dialog, sets layouts, policies ...
 ****************************************************************************/
-city_dialog::city_dialog(QWidget *parent): QDialog(parent)
+city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 {
   int info_nr;
   int iter;
@@ -1430,9 +1430,7 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
   prod_unit_splitter = new QSplitter;
   prod_unit_splitter->setOpaqueResize(false);
 
-  setParent(parent);
   setMouseTracking(true);
-  setWindowFlags(Qt::Dialog);
   selected_row_p = -1;
   pcity = NULL;
   lcity_name = new QPushButton(this);
