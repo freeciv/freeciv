@@ -126,7 +126,7 @@ QString cut_helptext(QString text)
 ****************************************************************************/
 option_dialog::option_dialog(const QString & name,
                              const option_set *options, QWidget *parent)
-  : QDialog (parent)
+  : qfc_dialog(parent)
 {
   QPushButton *but;
 

@@ -47,6 +47,10 @@ resize_widget
   background: #006633;
 }
 
+qfc_dialog::title {
+  font-weight: bold;
+  background-color: #10691a;
+}
 
 QPushButton {
   color: black;
