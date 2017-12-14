@@ -737,9 +737,13 @@ int settler_evaluate_improvements(struct unit *punit,
      * instead. */
     best_newv = amortize((best_newv - best_oldv + best_extra) * WORKER_FACTOR, best_delay);
   }
-  best_newv /= WORKER_FACTOR;
 
-  best_newv = MAX(best_newv, 0); /* sanity */
+  if (best_newv > 0) {
+    best_newv /= WORKER_FACTOR;
+    best_newv += 1;
+  } else {
+    best_newv = MAX(best_newv, 0); /* sanity */
+  }
 
   if (best_newv > 0) {
     log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
