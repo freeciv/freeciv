@@ -303,6 +303,7 @@ static void consider_settler_action(const struct player *pplayer,
                                     bool in_use, int delay,
                                     int *best_value,
                                     int *best_old_tile_value,
+                                    int *best_extra,
                                     bool *improve_worked,
                                     int *best_delay,
                                     enum unit_activity *best_act,
@@ -336,6 +337,7 @@ static void consider_settler_action(const struct player *pplayer,
                        || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value))) {
         *best_value = new_tile_value;
         *best_old_tile_value = old_tile_value;
+        *best_extra = extra;
         *best_act = act;
         *best_target = target;
         *best_tile = ptile;
@@ -378,6 +380,7 @@ static void consider_settler_action(const struct player *pplayer,
         *improve_worked = FALSE;
       }
       *best_old_tile_value = old_tile_value;
+      *best_extra = extra;
       *best_act = act;
       *best_target = target;
       *best_tile = ptile;
@@ -436,6 +439,7 @@ int settler_evaluate_improvements(struct unit *punit,
                          * so that newv = 0 activities are not chosen. */
   int best_newv = 0;
   bool improve_worked = FALSE;
+  int best_extra = 0;
   int best_delay = 0;
 
   /* closest worker, if any, headed towards target tile */
@@ -540,7 +544,8 @@ int settler_evaluate_improvements(struct unit *punit,
 
               consider_settler_action(pplayer, act, target, extra, base_value,
                                       oldv, in_use, turns,
-                                      &best_newv, &best_oldv, &improve_worked,
+                                      &best_newv, &best_oldv, &best_extra,
+                                      &improve_worked,
                                       &best_delay, best_act, best_target,
                                       best_tile, ptile);
 
@@ -656,7 +661,8 @@ int settler_evaluate_improvements(struct unit *punit,
               if (act != ACTIVITY_LAST) {
                 consider_settler_action(pplayer, act, pextra, extra, base_value,
                                         oldv, in_use, turns,
-                                        &best_newv, &best_oldv, &improve_worked,
+                                        &best_newv, &best_oldv, &best_extra,
+                                        &improve_worked,
                                         &best_delay, best_act, best_target,
                                         best_tile, ptile);
               } else {
@@ -684,7 +690,8 @@ int settler_evaluate_improvements(struct unit *punit,
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
                                             oldv, in_use, dep_turns,
-                                            &best_newv, &best_oldv, &improve_worked,
+                                            &best_newv, &best_oldv, &best_extra,
+                                            &improve_worked,
                                             &best_delay, best_act, best_target,
                                             best_tile, ptile);
                   }
@@ -711,7 +718,8 @@ int settler_evaluate_improvements(struct unit *punit,
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
                                             0, dep_value, oldv, in_use,
                                             dep_turns, &best_newv, &best_oldv,
-                                            &improve_worked, &best_delay,
+                                            &best_extra, &improve_worked,
+                                            &best_delay,
                                             best_act, best_target,
                                             best_tile, ptile);
                   }
@@ -727,7 +735,7 @@ int settler_evaluate_improvements(struct unit *punit,
   if (!improve_worked) {
     /* best_newv contains total value of improved tile. Check amount of improvement
      * instead. */
-    best_newv = amortize((best_newv - best_oldv) * WORKER_FACTOR, best_delay);
+    best_newv = amortize((best_newv - best_oldv + best_extra) * WORKER_FACTOR, best_delay);
   }
   best_newv /= WORKER_FACTOR;
 
