@@ -940,7 +940,7 @@ void auto_settlers_player(struct player *pplayer)
   log_debug("Warmth = %d, game.globalwarming=%d",
             pplayer->ai_common.warmth, game.info.globalwarming);
   log_debug("Frost = %d, game.nuclearwinter=%d",
-            pplayer->ai_common.warmth, game.info.nuclearwinter);
+            pplayer->ai_common.frost, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't
