@@ -28021,7 +28021,7 @@ msgstr "Карстовое Озеро"
 
 #: data/civ2civ3/script.lua:224
 msgid "Grand Prismatic Spring"
-msgstr "Горячий Вулканический Источник"
+msgstr "Призматический Источник"
 
 #: data/civ2civ3/script.lua:226
 msgid "Mangrove Forest"
