@@ -71,12 +71,12 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
                                   const char *format, ...)
             fc__attribute((__format__ (__printf__, 3, 4)));
 
-/*****************************************************************************
+/*************************************************************************//**
   Lua virtual machine state.
 *****************************************************************************/
 static struct fc_lua *fcl = NULL;
 
-/*****************************************************************************
+/*************************************************************************//**
   Add fcdb callback functions; these must be defined in the lua script
   'database.lua':
 
@@ -109,7 +109,7 @@ static void script_fcdb_functions_define(void)
                      API_TYPE_CONNECTION, API_TYPE_BOOL);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Check the existence of all needed functions.
 *****************************************************************************/
 static bool script_fcdb_functions_check(const char *fcdb_luafile)
@@ -137,7 +137,7 @@ static bool script_fcdb_functions_check(const char *fcdb_luafile)
   return ret;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Send the message via cmd_reply().
 *****************************************************************************/
 static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
@@ -175,7 +175,7 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
 }
 #endif /* HAVE_FCDB */
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialize the scripting state. Returns the status of the freeciv database
   lua state.
 *****************************************************************************/
@@ -238,7 +238,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
   return TRUE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Call a lua function.
 
   Example call to the lua function 'user_load()':
@@ -266,7 +266,7 @@ enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
 #endif /* HAVE_FCDB */
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free the scripting data.
 *****************************************************************************/
 void script_fcdb_free(void)
@@ -284,7 +284,7 @@ void script_fcdb_free(void)
 #endif /* HAVE_FCDB */
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Parse and execute the script in str in the lua instance for the freeciv
   database.
 *****************************************************************************/

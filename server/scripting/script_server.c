@@ -51,15 +51,15 @@
 
 #include "script_server.h"
 
-/*****************************************************************************
+/***********************************************************************//**
   Lua virtual machine states.
-*****************************************************************************/
+***************************************************************************/
 static struct fc_lua *fcl_main = NULL;
 static struct fc_lua *fcl_unsafe = NULL;
 
-/*****************************************************************************
+/***********************************************************************//**
   Optional game script code (useful for scenarios).
-*****************************************************************************/
+***************************************************************************/
 static char *script_server_code = NULL;
 
 static void script_server_vars_init(void);
@@ -78,7 +78,7 @@ static void script_server_cmd_reply(struct fc_lua *fcl, enum log_level level,
                                     const char *format, ...)
             fc__attribute((__format__ (__printf__, 3, 4)));
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script in str in the context of the specified
   instance.
 ***************************************************************************/
@@ -106,7 +106,7 @@ static bool script_server_do_string_shared(struct fc_lua *fcl,
   return (status == 0);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script in str in the same instance as the ruleset
 ***************************************************************************/
 bool script_server_do_string(struct connection *caller, const char *str)
@@ -114,7 +114,7 @@ bool script_server_do_string(struct connection *caller, const char *str)
   return script_server_do_string_shared(fcl_main, caller, str);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script in str in an unsafe instance
 ***************************************************************************/
 bool script_server_unsafe_do_string(struct connection *caller,
@@ -123,9 +123,9 @@ bool script_server_unsafe_do_string(struct connection *caller,
   return script_server_do_string_shared(fcl_unsafe, caller, str);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Load script to a buffer
-*****************************************************************************/
+***************************************************************************/
 bool script_server_load_file(const char *filename, char **buf)
 {
   FILE *ffile;
@@ -153,7 +153,7 @@ bool script_server_load_file(const char *filename, char **buf)
   return 1;
 }  
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script at filename in the context of the specified
   instance.
 ***************************************************************************/
@@ -181,7 +181,7 @@ static bool script_server_do_file_shared(struct fc_lua *fcl,
   return (status == 0);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script at filename in the same instance as the
   ruleset.
 ***************************************************************************/
@@ -190,7 +190,7 @@ bool script_server_do_file(struct connection *caller, const char *filename)
   return script_server_do_file_shared(fcl_main, caller, filename);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Parse and execute the script at filename in an unsafe instance.
 ***************************************************************************/
 bool script_server_unsafe_do_file(struct connection *caller,
@@ -199,60 +199,60 @@ bool script_server_unsafe_do_file(struct connection *caller,
   return script_server_do_file_shared(fcl_unsafe, caller, filename);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Mark any, if exported, full userdata representing 'object' in
   the current script state as 'Nonexistent'.
   This changes the type of the lua variable.
-*****************************************************************************/
+***************************************************************************/
 void script_server_remove_exported_object(void *object)
 {
   luascript_remove_exported_object(fcl_main, object);
   luascript_remove_exported_object(fcl_unsafe, object);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Initialize the game script variables.
-*****************************************************************************/
+***************************************************************************/
 static void script_server_vars_init(void)
 {
   /* nothing */
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Free the game script variables.
-*****************************************************************************/
+***************************************************************************/
 static void script_server_vars_free(void)
 {
   /* nothing */
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Load the game script variables in file.
-*****************************************************************************/
+***************************************************************************/
 static void script_server_vars_load(struct section_file *file)
 {
   luascript_vars_load(fcl_main, file, "script.vars");
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Save the game script variables to file.
-*****************************************************************************/
+***************************************************************************/
 static void script_server_vars_save(struct section_file *file)
 {
   luascript_vars_save(fcl_main, file, "script.vars");
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Initialize the optional game script code (useful for scenarios).
-*****************************************************************************/
+***************************************************************************/
 static void script_server_code_init(void)
 {
   script_server_code = NULL;
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Free the optional game script code (useful for scenarios).
-*****************************************************************************/
+***************************************************************************/
 static void script_server_code_free(void)
 {
   if (script_server_code) {
@@ -261,9 +261,9 @@ static void script_server_code_free(void)
   }
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Load the optional game script code from file (useful for scenarios).
-*****************************************************************************/
+***************************************************************************/
 static void script_server_code_load(struct section_file *file)
 {
   if (!script_server_code) {
@@ -276,9 +276,9 @@ static void script_server_code_load(struct section_file *file)
   }
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Save the optional game script code to file (useful for scenarios).
-*****************************************************************************/
+***************************************************************************/
 static void script_server_code_save(struct section_file *file)
 {
   if (script_server_code) {
@@ -286,9 +286,9 @@ static void script_server_code_save(struct section_file *file)
   }
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Initialize the scripting state.
-*****************************************************************************/
+***************************************************************************/
 bool script_server_init(void)
 {
   if (fcl_main != NULL) {
@@ -342,9 +342,9 @@ bool script_server_init(void)
   return TRUE;
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Free the scripting data.
-*****************************************************************************/
+***************************************************************************/
 void script_server_free(void)
 {
   if (fcl_main != NULL) {
@@ -363,9 +363,9 @@ void script_server_free(void)
   }
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Load the scripting state from file.
-*****************************************************************************/
+***************************************************************************/
 void script_server_state_load(struct section_file *file)
 {
   script_server_code_load(file);
@@ -375,18 +375,18 @@ void script_server_state_load(struct section_file *file)
   script_server_vars_load(file);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Save the scripting state to file.
-*****************************************************************************/
+***************************************************************************/
 void script_server_state_save(struct section_file *file)
 {
   script_server_code_save(file);
   script_server_vars_save(file);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Invoke all the callback functions attached to a given signal.
-*****************************************************************************/
+***************************************************************************/
 void script_server_signal_emit(const char *signal_name, int nargs, ...)
 {
   va_list args;
@@ -396,9 +396,9 @@ void script_server_signal_emit(const char *signal_name, int nargs, ...)
   va_end(args);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Declare any new signal types you need here.
-*****************************************************************************/
+***************************************************************************/
 static void script_server_signals_create(void)
 {
   signal_deprecator *depr;
@@ -509,22 +509,22 @@ static void script_server_signals_create(void)
                           API_TYPE_UNIT);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Add server callback functions; these must be defined in the lua script
   '<rulesetdir>/script.lua':
 
   respawn_callback (optional):
     - callback lua function for the respawn command
-*****************************************************************************/
+***************************************************************************/
 static void script_server_functions_define(void)
 {
   luascript_func_add(fcl_main, "respawn_callback", FALSE, 1,
                      API_TYPE_PLAYER);
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Call a lua function.
-*****************************************************************************/
+***************************************************************************/
 bool script_server_call(const char *func_name, int nargs, ...)
 {
   bool success;
@@ -546,9 +546,9 @@ bool script_server_call(const char *func_name, int nargs, ...)
   return TRUE;
 }
 
-/*****************************************************************************
+/***********************************************************************//**
   Send the message via cmd_reply().
-*****************************************************************************/
+***************************************************************************/
 static void script_server_cmd_reply(struct fc_lua *fcl, enum log_level level,
                                     const char *format, ...)
 {

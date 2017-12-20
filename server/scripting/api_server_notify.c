@@ -28,7 +28,7 @@
 #include "api_server_notify.h"
 
 
-/*****************************************************************************
+/*************************************************************************//**
   Notify players which have embassies with pplayer with the given message.
 *****************************************************************************/
 void api_notify_embassies_msg(lua_State *L, Player *pplayer, Tile *ptile,
@@ -39,7 +39,7 @@ void api_notify_embassies_msg(lua_State *L, Player *pplayer, Tile *ptile,
   notify_embassies(pplayer, ptile, event, ftc_any, "%s", message);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Notify pplayer of a complex event.
 *****************************************************************************/
 void api_notify_event_msg(lua_State *L, Player *pplayer, Tile *ptile,
@@ -50,7 +50,7 @@ void api_notify_event_msg(lua_State *L, Player *pplayer, Tile *ptile,
   notify_player(pplayer, ptile, event, ftc_any, "%s", message);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Notify players sharing research with the player.
 *****************************************************************************/
 void api_notify_research_msg(lua_State *L, Player *pplayer, bool include_plr,
@@ -66,7 +66,7 @@ void api_notify_research_msg(lua_State *L, Player *pplayer, bool include_plr,
                   ftc_any, "%s", message);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Notify players sharing research with the player.
 *****************************************************************************/
 void api_notify_research_embassies_msg(lua_State *L, Player *pplayer,

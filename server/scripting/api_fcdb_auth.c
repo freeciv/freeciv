@@ -32,7 +32,7 @@
 
 #include "api_fcdb_auth.h"
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the username.
 *****************************************************************************/
 const char *api_auth_get_username(lua_State *L, Connection *pconn)
@@ -44,7 +44,7 @@ const char *api_auth_get_username(lua_State *L, Connection *pconn)
   return auth_get_username(pconn);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the ip address.
 *****************************************************************************/
 const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
@@ -56,7 +56,7 @@ const char *api_auth_get_ipaddr(lua_State *L, Connection *pconn)
   return auth_get_ipaddr(pconn);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Set the password.
 *****************************************************************************/
 bool api_auth_set_password(lua_State *L, Connection *pconn,
@@ -69,7 +69,7 @@ bool api_auth_set_password(lua_State *L, Connection *pconn,
   return auth_set_password(pconn, password);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the password
 *****************************************************************************/
 const char *api_auth_get_password(lua_State *L, Connection *pconn)

@@ -29,7 +29,7 @@
 
 #include "api_server_base.h"
 
-/*****************************************************************************
+/*************************************************************************//**
   Return the civilization score (total) for player
 *****************************************************************************/
 int api_server_player_civilization_score(lua_State *L, Player *pplayer)
@@ -40,7 +40,7 @@ int api_server_player_civilization_score(lua_State *L, Player *pplayer)
   return get_civ_score(pplayer);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Returns TRUE if the game was started.
 *****************************************************************************/
 bool api_server_was_started(lua_State *L)
@@ -50,7 +50,7 @@ bool api_server_was_started(lua_State *L)
   return game_was_started();
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Save the game (a manual save is triggered).
 *****************************************************************************/
 bool api_server_save(lua_State *L, const char *filename)
@@ -67,7 +67,7 @@ bool api_server_save(lua_State *L, const char *filename)
   return TRUE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Play music track for player
 *****************************************************************************/
 bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
@@ -85,7 +85,7 @@ bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
   return TRUE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return the formated value of the setting or NULL if no such setting exists,
 *****************************************************************************/
 const char *api_server_setting_get(lua_State *L, const char *sett_name)
