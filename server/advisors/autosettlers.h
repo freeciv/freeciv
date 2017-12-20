@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,12 +39,12 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              struct extra_type **best_target,
                              int completion_time);
 
-int settler_evaluate_improvements(struct unit *punit,
-                                  enum unit_activity *best_act,
-                                  struct extra_type **best_target,
-                                  struct tile **best_tile,
-                                  struct pf_path **path,
-                                  struct settlermap *state);
+adv_want settler_evaluate_improvements(struct unit *punit,
+                                       enum unit_activity *best_act,
+                                       struct extra_type **best_target,
+                                       struct tile **best_tile,
+                                       struct pf_path **path,
+                                       struct settlermap *state);
 
 struct city *settler_evaluate_city_requests(struct unit *punit,
                                             struct worker_task **best_task,

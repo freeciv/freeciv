@@ -301,7 +301,7 @@ static void consider_settler_action(const struct player *pplayer,
                                     int extra,
                                     int new_tile_value, int old_tile_value,
                                     bool in_use, int delay,
-                                    int *best_value,
+                                    adv_want *best_value,
                                     int *best_old_tile_value,
                                     int *best_extra,
                                     bool *improve_worked,
@@ -422,12 +422,12 @@ autosettler_tile_behavior(const struct tile *ptile,
   is used to possibly displace this previously assigned worker.
   if this array is NULL, workers are never displaced.
 **************************************************************************/
-int settler_evaluate_improvements(struct unit *punit,
-                                  enum unit_activity *best_act,
-                                  struct extra_type **best_target,
-                                  struct tile **best_tile,
-                                  struct pf_path **path,
-                                  struct settlermap *state)
+adv_want settler_evaluate_improvements(struct unit *punit,
+                                       enum unit_activity *best_act,
+                                       struct extra_type **best_target,
+                                       struct tile **best_tile,
+                                       struct pf_path **path,
+                                       struct settlermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -437,7 +437,7 @@ int settler_evaluate_improvements(struct unit *punit,
   int best_oldv = 9999; /* oldv of best target so far; compared if
                          * newv == best_newv; not initialized to zero,
                          * so that newv = 0 activities are not chosen. */
-  int best_newv = 0;
+  adv_want best_newv = 0;
   bool improve_worked = FALSE;
   int best_extra = 0;
   int best_delay = 0;
@@ -742,7 +742,7 @@ int settler_evaluate_improvements(struct unit *punit,
   best_newv = MAX(best_newv, 0); /* sanity */
 
   if (best_newv > 0) {
-    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire " ADV_WANT_PRINTF,
               punit->id, TILE_XY(unit_tile(punit)),
               get_activity_text(*best_act), TILE_XY(*best_tile), best_newv);
   } else {
