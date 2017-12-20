@@ -700,7 +700,7 @@ static struct command commands[] = {
 };
 
 
-/**************************************************************************
+/**********************************************************************//**
   Return command by its number.
 **************************************************************************/
 const struct command *command_by_number(int i)
@@ -709,7 +709,7 @@ const struct command *command_by_number(int i)
   return &commands[i];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return name of the command
 **************************************************************************/
 const char *command_name(const struct command *pcommand)
@@ -717,7 +717,7 @@ const char *command_name(const struct command *pcommand)
   return pcommand->name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return name of the command by commands number.
 **************************************************************************/
 const char *command_name_by_number(int i)
@@ -725,7 +725,7 @@ const char *command_name_by_number(int i)
   return command_by_number(i)->name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the synopsis text of the command (translated).
 **************************************************************************/
 const char *command_synopsis(const struct command *pcommand)
@@ -733,7 +733,7 @@ const char *command_synopsis(const struct command *pcommand)
   return SYN_TRANS_(pcommand->synopsis);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the short help text of the command (translated).
 **************************************************************************/
 const char *command_short_help(const struct command *pcommand)
@@ -741,7 +741,7 @@ const char *command_short_help(const struct command *pcommand)
   return _(pcommand->short_help);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the extra help text of the command (translated).
   The caller must free this string.
 **************************************************************************/
@@ -757,23 +757,23 @@ char *command_extra_help(const struct command *pcommand)
   }
 }
 
-/**************************************************************************
-  ...
+/**********************************************************************//**
+  What is the permissions level required for running the command?
 **************************************************************************/
 enum cmdlevel command_level(const struct command *pcommand)
 {
   return pcommand->level;
 }
 
-/****************************************************************************
-  Retrurns the flag of the command to notify the users about its usage.
-****************************************************************************/
+/**********************************************************************//**
+  Returns the flag of the command to notify the users about its usage.
+**************************************************************************/
 enum cmd_echo command_echo(const struct command *pcommand)
 {
   return pcommand->echo;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns a bit-wise combination of all vote flags set for this command.
 **************************************************************************/
 int command_vote_flags(const struct command *pcommand)
@@ -781,7 +781,7 @@ int command_vote_flags(const struct command *pcommand)
   return pcommand ? pcommand->vote_flags : 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the vote percent required for this command to pass in a vote.
 **************************************************************************/
 int command_vote_percent(const struct command *pcommand)

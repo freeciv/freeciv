@@ -49,9 +49,9 @@ static bool readline_received_enter = TRUE;
 static int con_dump(enum rfc_status rfc_status, const char *message, ...);
 #endif
 
-/************************************************************************
-Function to handle log messages.
-This must match the log_callback_fn typedef signature.
+/********************************************************************//**
+  Function to handle log messages.
+  This must match the log_callback_fn typedef signature.
 ************************************************************************/
 static void con_handle_log(enum log_level level, const char *message,
                            bool file_too)
@@ -83,7 +83,7 @@ static void con_handle_log(enum log_level level, const char *message,
   }
 }
 
-/************************************************************************
+/********************************************************************//**
 Print the prompt if it is not the last thing printed.
 ************************************************************************/
 static void con_update_prompt(void)
@@ -107,7 +107,7 @@ static void con_update_prompt(void)
 }
 
 #ifdef FREECIV_DEBUG
-/************************************************************************
+/********************************************************************//**
   Prefix for log messages saved to file. At the moment the turn and the
   current date and time are used.
 ************************************************************************/
@@ -133,7 +133,7 @@ static const char *log_prefix(void)
 }
 #endif /* FREECIV_DEBUG */
 
-/************************************************************************
+/********************************************************************//**
   Deprecation warning callback to send event to clients.
 ************************************************************************/
 static void depr_warn_callback(const char *msg)
@@ -141,7 +141,7 @@ static void depr_warn_callback(const char *msg)
   notify_conn(NULL, NULL, E_DEPRECATION_WARNING, ftc_warning, "%s", msg);
 }
 
-/************************************************************************
+/********************************************************************//**
   Initialize logging via console.
 ************************************************************************/
 void con_log_init(const char *log_filename, enum log_level level,
@@ -158,7 +158,7 @@ void con_log_init(const char *log_filename, enum log_level level,
   deprecation_warn_cb_set(depr_warn_callback);
 }
 
-/************************************************************************
+/********************************************************************//**
   Deinitialize logging
 ************************************************************************/
 void con_log_close(void)
@@ -169,8 +169,8 @@ void con_log_close(void)
 }
 
 #ifndef FREECIV_HAVE_LIBREADLINE
-/************************************************************************
-Write to console without line-break, don't print prompt.
+/********************************************************************//**
+  Write to console without line-break, don't print prompt.
 ************************************************************************/
 static int con_dump(enum rfc_status rfc_status, const char *message, ...)
 {
@@ -194,8 +194,8 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
 }
 #endif /* FREECIV_HAVE_LIBREADLINE */
 
-/************************************************************************
-Write to console and add line-break, and show prompt if required.
+/********************************************************************//**
+  Write to console and add line-break, and show prompt if required.
 ************************************************************************/
 void con_write(enum rfc_status rfc_status, const char *message, ...)
 {
@@ -213,12 +213,12 @@ void con_write(enum rfc_status rfc_status, const char *message, ...)
   con_puts(rfc_status, buf2);
 }
 
-/************************************************************************
-Write to console and add line-break, and show prompt if required.
-Same as con_write, but without the format string stuff.
-The real reason for this is because __attribute__ complained
-with con_write(C_COMMENT,"") of "warning: zero-length format string";
-this allows con_puts(C_COMMENT,"");
+/********************************************************************//**
+  Write to console and add line-break, and show prompt if required.
+  Same as con_write, but without the format string stuff.
+  The real reason for this is because __attribute__ complained
+  with con_write(C_COMMENT,"") of "warning: zero-length format string";
+  this allows con_puts(C_COMMENT,"");
 ************************************************************************/
 void con_puts(enum rfc_status rfc_status, const char *str)
 {
@@ -234,36 +234,37 @@ void con_puts(enum rfc_status rfc_status, const char *str)
   con_update_prompt();
 }
 
-/************************************************************************
-Ensure timely update. 
+/********************************************************************//**
+  Ensure timely update.
 ************************************************************************/
 void con_flush(void)
 {
   fflush(stdout);
 }
 
-/************************************************************************
-Set style.
+/********************************************************************//**
+  Set style.
 ************************************************************************/
 void con_set_style(bool i)
 {
   console_rfcstyle = i;
-  if (console_rfcstyle) 
+  if (console_rfcstyle) {
     con_puts(C_OK, _("Ok. RFC-style set."));
-  else
+  } else {
     con_puts(C_OK, _("Ok. Standard style set."));
+  }
 }
 
-/************************************************************************
-Returns rfc-style.
+/********************************************************************//**
+  Returns rfc-style.
 ************************************************************************/
 bool con_get_style(void)
 {
   return console_rfcstyle;
 }
 
-/************************************************************************
-Initialize prompt; display initial message.
+/********************************************************************//**
+  Initialize prompt; display initial message.
 ************************************************************************/
 void con_prompt_init(void)
 {
@@ -276,8 +277,8 @@ void con_prompt_init(void)
   }
 }
 
-/************************************************************************
-Make sure a prompt is printed, and re-printed after every message.
+/********************************************************************//**
+  Make sure a prompt is printed, and re-printed after every message.
 ************************************************************************/
 void con_prompt_on(void)
 {
@@ -285,16 +286,16 @@ void con_prompt_on(void)
   con_update_prompt();
 }
 
-/************************************************************************
-Do not print a prompt after log messages.
+/********************************************************************//**
+  Do not print a prompt after log messages.
 ************************************************************************/
 void con_prompt_off(void)
 {
   console_show_prompt = FALSE;
 }
 
-/************************************************************************
-User pressed enter: will need a new prompt 
+/********************************************************************//**
+  User pressed enter: will need a new prompt
 ************************************************************************/
 void con_prompt_enter(void)
 {
@@ -304,8 +305,8 @@ void con_prompt_enter(void)
 #endif
 }
 
-/************************************************************************
-Clear "user pressed enter" state (used in special cases).
+/********************************************************************//**
+  Clear "user pressed enter" state (used in special cases).
 ************************************************************************/
 void con_prompt_enter_clear(void)
 {

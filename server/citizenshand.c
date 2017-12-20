@@ -35,7 +35,7 @@
 
 #define log_citizens log_debug
 
-/*****************************************************************************
+/*************************************************************************//**
   Update the nationality according to the city size. New citiens are added
   using the nationality of the owner. If the city size is reduced, the
   citizens are removed first from the foreign citizens.
@@ -140,7 +140,7 @@ void citizens_update(struct city *pcity, struct player *plr)
 }
 #undef log_citizens_add
 
-/*****************************************************************************
+/*************************************************************************//**
   Print the data about the citizens.
 *****************************************************************************/
 void citizens_print(const struct city *pcity)
@@ -167,7 +167,7 @@ void citizens_print(const struct city *pcity)
   } citizens_iterate_end;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return whether citizen should be converted this turn.
 *****************************************************************************/
 static bool citizen_convert_check(struct city *pcity)
@@ -179,7 +179,7 @@ static bool citizen_convert_check(struct city *pcity)
   return TRUE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Convert one (random) foreign citizen to the nationality of the owner.
 *****************************************************************************/
 void citizens_convert(struct city *pcity)

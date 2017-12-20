@@ -100,7 +100,7 @@ static bool city_workers_queue_remove(struct city *pcity);
 static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
                                          bool source_gone);
 
-/****************************************************************************
+/************************************************************************//**
   Freeze the workers (citizens on tiles) for the city.  They will not be
   auto-arranged until unfreeze_workers is called.
 
@@ -132,7 +132,7 @@ void city_freeze_workers(struct city *pcity)
   pcity->server.workers_frozen++;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Thaw (unfreeze) the workers (citizens on tiles) for the city.  The workers
   will be auto-arranged if there is an arrangement pending.  See explanation
   in freeze_workers().
@@ -147,7 +147,7 @@ void city_thaw_workers(struct city *pcity)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Queue pending auto_arrange_workers() for later.
 ****************************************************************************/
 void city_freeze_workers_queue(struct city *pcity)
@@ -163,7 +163,7 @@ void city_freeze_workers_queue(struct city *pcity)
   pcity->server.needs_arrange = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove a city from the queue for later calls to auto_arrange_workers().
   Reterns TRUE if the city was found in the queue.
 ****************************************************************************/
@@ -176,7 +176,7 @@ static bool city_workers_queue_remove(struct city *pcity)
   return city_list_remove(arrange_workers_queue, pcity);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Process the frozen workers.
   Call sync_cities() to send the affected cities to the clients.
 ****************************************************************************/
@@ -194,7 +194,7 @@ void city_thaw_workers_queue(void)
   arrange_workers_queue = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the priority of the city name at the given position, using its
   own internal algorithm.  Lower priority values are more desired, and all
   priorities are non-negative.
@@ -299,7 +299,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
   return (int) priority;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Checks if a city name belongs to default city names of a particular
   player.
 ****************************************************************************/
@@ -314,7 +314,7 @@ static bool is_default_city_name(const char *name, struct player *pplayer)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Searches through a city name list (a struct nation_city array) to pick
   the best available city name, and returns a pointer to it. The function
   checks if the city name is available and calls
@@ -344,18 +344,18 @@ static const char *search_for_city_name(struct tile *ptile,
   return best_name;
 }
 
-/**************************************************************************
-Checks, if a city name is allowed for a player. If not, reports a
-reason for rejection. There's 4 different modes:
-0: no restrictions,
-1: a city name has to be unique to player
-2: a city name has to be globally unique
-3: a city name has to be globally unique, and players can't use names
-   that are in another player's default city names. (E.g., Swedish may not
-   call new cities or rename old cities as Helsinki, because it's in
-   Finns' default city names.  Duplicated names may be used by
-   either nation.)
-**************************************************************************/
+/************************************************************************//**
+  Checks, if a city name is allowed for a player. If not, reports a
+  reason for rejection. There's 4 different modes:
+  0: no restrictions,
+  1: a city name has to be unique to player
+  2: a city name has to be globally unique
+  3: a city name has to be globally unique, and players can't use names
+     that are in another player's default city names. (E.g., Swedish may not
+     call new cities or rename old cities as Helsinki, because it's in
+     Finns' default city names.  Duplicated names may be used by
+     either nation.)
+****************************************************************************/
 bool is_allowed_city_name(struct player *pplayer, const char *cityname,
 			  char *error_buf, size_t bufsz)
 {
@@ -434,7 +434,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Come up with a default name when a new city is about to be built. Handle
   running out of names etc. gracefully. Maybe we should keeptrack of which
   names have been rejected by the player, so that we do not suggest them
@@ -555,9 +555,9 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   }
 }
 
-/**************************************************************************
-  calculate the remaining build points 
-**************************************************************************/
+/************************************************************************//**
+  Calculate the remaining build points
+****************************************************************************/
 int build_points_left(struct city *pcity)
 {
   int cost = impr_build_shield_cost(pcity->production.value.building);
@@ -565,9 +565,9 @@ int build_points_left(struct city *pcity)
   return cost - pcity->shield_stock;
 }
 
-/**************************************************************************
+/************************************************************************//**
   How many veteran levels will created unit of this type get?
-**************************************************************************/
+****************************************************************************/
 int do_make_unit_veteran(struct city *pcity,
                          const struct unit_type *punittype)
 {
@@ -580,13 +580,13 @@ int do_make_unit_veteran(struct city *pcity,
   return levels;
 }
 
-/*********************************************************************
+/************************************************************************//**
   Change player that owns a unit and, if appropriate, its home city,
   with verbose output.
   If 'rehome' is not set, only change the player which owns the unit
   (the new owner is new_pcity's owner). Otherwise the new unit will be
   given a homecity, even if it was homeless before.
-***********************************************************************/
+****************************************************************************/
 static void transfer_unit(struct unit *punit, struct city *tocity,
                           bool rehome, bool verbose)
 {
@@ -699,29 +699,29 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
   unit_change_homecity_handling(punit, tocity, rehome);
 }
 
-/*********************************************************************
- When a city is transferred (bought, incited, disbanded, civil war):
- Units in a transferred city are transferred to the new owner; units 
- supported by the city, but held in other cities are updated to
- reflect those cities as their new homecity.  Units supported 
- by the transferred city that are not in a city tile may be deleted.
+/************************************************************************//**
+  When a city is transferred (bought, incited, disbanded, civil war):
+  Units in a transferred city are transferred to the new owner; units
+  supported by the city, but held in other cities are updated to
+  reflect those cities as their new homecity.  Units supported
+  by the transferred city that are not in a city tile may be deleted.
 
- - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
+  - Kris Bubendorfer <Kris.Bubendorfer@MCS.VUW.AC.NZ>
 
-pplayer: The player receiving the units if they are not disbanded and
-         are not in a city
-pvictim: The owner of the city the units are transferred from.
-units:   A list of units to be transferred, typically a city's unit list.
-pcity:   Default city the units are transferred to.
-exclude_city: The units cannot be transferred to this city.
-kill_outside: Units outside this range are deleted. -1 means no units
-              are deleted.
-verbose: Messages are sent to the involved parties.
-***********************************************************************/
-void transfer_city_units(struct player *pplayer, struct player *pvictim, 
-			 struct unit_list *units, struct city *pcity,
-			 struct city *exclude_city,
-			 int kill_outside, bool verbose)
+  pplayer: The player receiving the units if they are not disbanded and
+           are not in a city
+  pvictim: The owner of the city the units are transferred from.
+  units:   A list of units to be transferred, typically a city's unit list.
+  pcity:   Default city the units are transferred to.
+  exclude_city: The units cannot be transferred to this city.
+  kill_outside: Units outside this range are deleted. -1 means no units
+                are deleted.
+  verbose: Messages are sent to the involved parties.
+****************************************************************************/
+void transfer_city_units(struct player *pplayer, struct player *pvictim,
+                         struct unit_list *units, struct city *pcity,
+                         struct city *exclude_city,
+                         int kill_outside, bool verbose)
 {
   struct tile *ptile = pcity->tile;
   int saved_id = pcity->id;
@@ -834,7 +834,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 #endif /* FREECIV_DEBUG */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the city closest to 'ptile'. Some restrictions can be applied:
 
   'pexclcity'       not this city
@@ -919,11 +919,11 @@ struct city *find_closest_city(const struct tile *ptile,
   return best_city;
 }
 
-/**************************************************************************
-  called when a player conquers a city, remove buildings (not wonders and 
+/************************************************************************//**
+  Called when a player conquers a city, remove buildings (not wonders and
   always palace) with game.server.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
-**************************************************************************/
+****************************************************************************/
 static void raze_city(struct city *pcity)
 {
   int razechance = game.server.razechance;
@@ -945,10 +945,10 @@ static void raze_city(struct city *pcity)
   pcity->shield_stock = 0;
 }
 
-/***************************************************************************
+/************************************************************************//**
   The following has to be called every time AFTER a city (pcity) has changed
   owner to update the city's trade routes.
-***************************************************************************/
+****************************************************************************/
 static void reestablish_city_trade_routes(struct city *pcity) 
 {
   trade_routes_iterate_safe(pcity, proute) {
@@ -997,13 +997,13 @@ static void reestablish_city_trade_routes(struct city *pcity)
   } trade_routes_iterate_safe_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Create saved small wonders in random cities. Usually used to save the
   palace when the capital was conquered. Respects the 'savepalace'
   server setting.
-**************************************************************************/
+****************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
-				     bv_imprs *had_small_wonders)
+                                     bv_imprs *had_small_wonders)
 {
   int size = city_list_size(pplayer->cities);
 
@@ -1051,18 +1051,18 @@ static void build_free_small_wonders(struct player *pplayer,
   } improvement_iterate_end;
 }
 
-/**********************************************************************
-Handles all transactions in relation to transferring a city.
+/************************************************************************//**
+  Handles all transactions in relation to transferring a city.
 
-The kill_outside and transfer_unit_verbose arguments are passed to
-transfer_city_units(), which is called in the middle of the function.
+  The kill_outside and transfer_unit_verbose arguments are passed to
+  transfer_city_units(), which is called in the middle of the function.
 
   Return TRUE iff the city remains after transfering (the city may be
   destroyed by a script, notably with bouncing or wiping units).
-***********************************************************************/
+****************************************************************************/
 bool transfer_city(struct player *ptaker, struct city *pcity,
-		   int kill_outside, bool transfer_unit_verbose,
-		   bool resolve_stack, bool raze, bool build_free)
+                   int kill_outside, bool transfer_unit_verbose,
+                   bool resolve_stack, bool raze, bool build_free)
 {
   char old_city_name[MAX_LEN_CITYNAME];
   bv_imprs had_small_wonders;
@@ -1366,7 +1366,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   return city_remains;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Give to a new city the free (initial) buildings.
   Call this when a player has just acquired a city (or batch of cities,
   e.g. civil war) after having no cities.
@@ -1449,9 +1449,9 @@ void city_build_free_buildings(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Creates real city.
-**************************************************************************/
+****************************************************************************/
 void create_city(struct player *pplayer, struct tile *ptile,
                  const char *name, struct player *nationality)
 {
@@ -1607,9 +1607,9 @@ void create_city(struct player *pplayer, struct tile *ptile,
   CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Remove a city from the game.
-**************************************************************************/
+****************************************************************************/
 void remove_city(struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
@@ -1844,7 +1844,7 @@ void remove_city(struct city *pcity)
   sync_cities();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Handle unit conquering a city.
     - Can't conquer a city when not at war. (Enters cities peacefully
       during peace. At the moment this can happen to domestic, allied and
@@ -1859,7 +1859,7 @@ void remove_city(struct city *pcity)
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool unit_conquer_city(struct unit *punit, struct city *pcity)
 {
   bool try_civil_war = FALSE;
@@ -2029,9 +2029,9 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   return TRUE;
 }
 
-/**************************************************************************
- Which wall gfx city should display?
-**************************************************************************/
+/************************************************************************//**
+  Which wall gfx city should display?
+****************************************************************************/
 static int city_got_citywalls(const struct city *pcity)
 {
   int walls = get_city_bonus(pcity, EFT_VISIBLE_WALLS);
@@ -2039,9 +2039,9 @@ static int city_got_citywalls(const struct city *pcity)
   return walls > 0 ? walls : 0;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Suppress sending cities during game_load() and end_phase()
-**************************************************************************/
+****************************************************************************/
 bool send_city_suppression(bool now)
 {
   bool formerly = send_city_suppressed;
@@ -2050,9 +2050,9 @@ bool send_city_suppression(bool now)
   return formerly;
 }
 
-/**************************************************************************
+/************************************************************************//**
   This fills out a package from a player's vision_site.
-**************************************************************************/
+****************************************************************************/
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
                               struct packet_city_short_info *packet)
 {
@@ -2077,10 +2077,10 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->improvements = pdcity->improvements;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Update plrtile information about the city, and send out information to
   the clients if it has changed.
-**************************************************************************/
+****************************************************************************/
 void refresh_dumb_city(struct city *pcity)
 {
   players_iterate(pplayer) {
@@ -2102,14 +2102,14 @@ void refresh_dumb_city(struct city *pcity)
    * information. */
 }
 
-/**************************************************************************
+/************************************************************************//**
   Broadcast info about a city to all players who observe the tile. 
   If the player can see the city we update the city info first.
   If not we just use the info from the players private map.
   See also comments to send_city_info_at_tile().
   (Split off from send_city_info_at_tile() because that was getting
   too difficult for me to understand... --dwp)
-**************************************************************************/
+****************************************************************************/
 static void broadcast_city_info(struct city *pcity)
 {
   struct packet_city_info packet;
@@ -2154,10 +2154,10 @@ static void broadcast_city_info(struct city *pcity)
   traderoute_packet_list_destroy(routes);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send to each client information about the cities it knows about.
   dest may not be NULL
-**************************************************************************/
+****************************************************************************/
 void send_all_known_cities(struct conn_list *dest)
 {
   conn_list_do_buffer(dest);
@@ -2178,9 +2178,9 @@ void send_all_known_cities(struct conn_list *dest)
   flush_packets();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send information about all his/her cities to player
-**************************************************************************/
+****************************************************************************/
 void send_player_cities(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
@@ -2196,11 +2196,11 @@ void send_player_cities(struct player *pplayer)
   city_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   A wrapper, accessing either broadcast_city_info() (dest == NULL),
   or a convenience case of send_city_info_at_tile().
   Must specify non-NULL pcity.
-**************************************************************************/
+****************************************************************************/
 void send_city_info(struct player *dest, struct city *pcity)
 {
   struct player *powner = city_owner(pcity);
@@ -2230,28 +2230,28 @@ void send_city_info(struct player *dest, struct city *pcity)
   }
 }
 
-/**************************************************************************
-Send info about a city, as seen by pviewer, to dest (usually dest will
-be pviewer->connections). If pplayer can see the city we update the city
-info first. If not we just use the info from the players private map.
+/************************************************************************//**
+  Send info about a city, as seen by pviewer, to dest (usually dest will
+  be pviewer->connections). If pplayer can see the city we update the city
+  info first. If not we just use the info from the players private map.
 
-If (pviewer == NULL) this is for observers, who see everything (?)
-For this function dest may not be NULL.  See send_city_info() and
-broadcast_city_info().
+  If (pviewer == NULL) this is for observers, who see everything (?)
+  For this function dest may not be NULL.  See send_city_info() and
+  broadcast_city_info().
 
-If pcity is non-NULL it should be same as tile_city(x,y); if pcity
-is NULL, this function calls tile_city(x,y) (it is ok if this
-returns NULL).
+  If pcity is non-NULL it should be same as tile_city(x,y); if pcity
+  is NULL, this function calls tile_city(x,y) (it is ok if this
+  returns NULL).
 
-Sometimes a player's map contain a city that doesn't actually exist. Use
-reality_check_city(pplayer, ptile) to update that. Remember to NOT send info
-about a city to a player who thinks the tile contains another city. If you
-want to update the clients info of the tile you must use
-reality_check_city(pplayer, ptile) first. This is generally taken care of
-automatically when a tile becomes visible.
-**************************************************************************/
+  Sometimes a player's map contain a city that doesn't actually exist. Use
+  reality_check_city(pplayer, ptile) to update that. Remember to NOT send info
+  about a city to a player who thinks the tile contains another city. If you
+  want to update the clients info of the tile you must use
+  reality_check_city(pplayer, ptile) first. This is generally taken care of
+  automatically when a tile becomes visible.
+****************************************************************************/
 void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
-			    struct city *pcity, struct tile *ptile)
+                            struct city *pcity, struct tile *ptile)
 {
   struct packet_city_info packet;
   struct packet_web_city_info_addition web_packet;
@@ -2332,13 +2332,13 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Fill city info packet with information about given city.
-**************************************************************************/
+****************************************************************************/
 void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct packet_web_city_info_addition *web_packet,
                   struct traderoute_packet_list *routes,
-		  bool dipl_invest)
+                  bool dipl_invest)
 {
   int i;
   int ppl = 0;
@@ -2504,16 +2504,16 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 #endif /* FREECIV_WEB */
 }
 
-/**************************************************************************
-updates a players knowledge about a city. If the player_tile already
-contains a city it must be the same city (avoid problems by always calling
-reality_check_city() first)
+/************************************************************************//**
+  Updates a players knowledge about a city. If the player_tile already
+  contains a city it must be the same city (avoid problems by always calling
+  reality_check_city() first)
 
-Returns TRUE iff anything has changed for the player city (i.e., if the
-client needs to be updated with a *short* city packet).  This information
-is only used in refresh_dumb_cities; elsewhere the data is (of necessity)
-broadcast regardless.
-**************************************************************************/
+  Returns TRUE iff anything has changed for the player city (i.e., if the
+  client needs to be updated with a *short* city packet).  This information
+  is only used in refresh_dumb_cities; elsewhere the data is (of necessity)
+  broadcast regardless.
+****************************************************************************/
 bool update_dumb_city(struct player *pplayer, struct city *pcity)
 {
   bv_imprs improvements;
@@ -2574,9 +2574,9 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Removes outdated (nonexistant) cities from a player
-**************************************************************************/
+****************************************************************************/
 void reality_check_city(struct player *pplayer, struct tile *ptile)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
@@ -2595,9 +2595,9 @@ void reality_check_city(struct player *pplayer, struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Removes a dumb city.  Called when the vision changed to unknown.
-**************************************************************************/
+****************************************************************************/
 void remove_dumb_city(struct player *pplayer, struct tile *ptile)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
@@ -2612,10 +2612,10 @@ void remove_dumb_city(struct player *pplayer, struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Announce to the owners of the cities that trade route has been canceled
   between them.
-**************************************************************************/
+****************************************************************************/
 static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
                                          bool source_gone)
 {
@@ -2665,14 +2665,14 @@ static void announce_trade_route_removal(struct city *pc1, struct city *pc2,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Remove the trade route between pc1 and pc2 (if one exists).
   source_gone should be TRUE if the reason for removal is the imminent
   removal of the source city (pc1) from the game.
 
   Does not free the trade route structures, only removes them from the
   cities.
-**************************************************************************/
+****************************************************************************/
 struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *proute,
                                        bool announce, bool source_gone)
 {
@@ -2705,7 +2705,7 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
   return back_route;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove/cancel the city's least valuable trade routes.
 ****************************************************************************/
 static void remove_smallest_trade_routes(struct city *pcity)
@@ -2723,9 +2723,9 @@ static void remove_smallest_trade_routes(struct city *pcity)
   trade_route_list_destroy(smallest);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Establish a trade route.
-**************************************************************************/
+****************************************************************************/
 void establish_trade_route(struct city *pc1, struct city *pc2)
 {
   struct trade_route *proute;
@@ -2757,7 +2757,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sell the improvement from the city, and give the player the owner.  Not
   all buildings can be sold.
 
@@ -2772,7 +2772,7 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroy the improvement in the city straight-out.  Note that this is
   different from selling a building.
 ****************************************************************************/
@@ -2800,7 +2800,7 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
   city_refresh_vision(pcity);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Recalculate the upkeep needed for all units supported by the city. It has
   to be called
 
@@ -2819,7 +2819,7 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
     * building created (via city_refresh() in in city_build_building())
 
   If the upkeep for a unit changes, an update is send to the player.
-**************************************************************************/
+****************************************************************************/
 void city_units_upkeep(const struct city *pcity)
 {
   int free_uk[O_LAST];
@@ -2870,9 +2870,9 @@ void city_units_upkeep(const struct city *pcity)
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Change the build target.
-**************************************************************************/
+****************************************************************************/
 void change_build_target(struct player *pplayer, struct city *pcity,
                          struct universal *target,
                          enum event_type event)
@@ -2955,11 +2955,11 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Change from worked to empty.
   city_x, city_y are city map coordinates.
   Call sync_cities() to send the affected cities to the clients.
-**************************************************************************/
+****************************************************************************/
 void city_map_update_empty(struct city *pcity, struct tile *ptile)
 {
   tile_set_worked(ptile, NULL);
@@ -2967,11 +2967,11 @@ void city_map_update_empty(struct city *pcity, struct tile *ptile)
   pcity->server.synced = FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Change from empty to worked.
   city_x, city_y are city map coordinates.
   Call sync_cities() to send the affected cities to the clients.
-**************************************************************************/
+****************************************************************************/
 void city_map_update_worker(struct city *pcity, struct tile *ptile)
 {
   tile_set_worked(ptile, pcity);
@@ -2979,11 +2979,11 @@ void city_map_update_worker(struct city *pcity, struct tile *ptile)
   pcity->server.synced = FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Updates the worked status of a tile.
 
   If the status changes, auto_arrange_workers() may be called.
-**************************************************************************/
+****************************************************************************/
 static bool city_map_update_tile_direct(struct tile *ptile, bool queued)
 {
   struct city *pwork = tile_worked(ptile);
@@ -3010,28 +3010,28 @@ static bool city_map_update_tile_direct(struct tile *ptile, bool queued)
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Updates the worked status of a tile.
   Call city_thaw_workers_queue() followed by sync_cities() to send the
   affected cities to the clients.
-**************************************************************************/
+****************************************************************************/
 bool city_map_update_tile_frozen(struct tile *ptile)
 {
   return city_map_update_tile_direct(ptile, TRUE);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Updates the worked status of a tile immediately.
-**************************************************************************/
+****************************************************************************/
 bool city_map_update_tile_now(struct tile *ptile)
 {
   return city_map_update_tile_direct(ptile, FALSE);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Make sure all players (clients) have up-to-date information about all
   their cities.
-**************************************************************************/
+****************************************************************************/
 void sync_cities(void)
 {
   if (send_city_suppressed) {
@@ -3048,9 +3048,9 @@ void sync_cities(void)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Called by auto_arrange_workers() and below.
-**************************************************************************/
+****************************************************************************/
 void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
@@ -3062,9 +3062,9 @@ void city_map_update_all(struct city *pcity)
   } city_tile_iterate_skip_free_worked_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Update worked map of all cities of given player
-**************************************************************************/
+****************************************************************************/
 void city_map_update_all_cities_for_player(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
@@ -3074,7 +3074,7 @@ void city_map_update_all_cities_for_player(struct player *pplayer)
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   For each city adjacent to ptile, check all the buildings in the city.
   Any which have unmet terrain requirements will be sold.  This is called
   after any terrain changes (but this may be tied to the default ruleset).
@@ -3083,7 +3083,7 @@ void city_map_update_all_cities_for_player(struct player *pplayer)
   each turn to make sure all requirements of all buildings of all cities
   are met, and sell any buildings that can't be supported.  Terrains aren't
   the only requirement that may disappear.
-**************************************************************************/
+****************************************************************************/
 void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 {
   adjc_iterate(&(wld.map), ptile, tile1) {
@@ -3121,7 +3121,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
   } adjc_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Refresh the city's vision.
 
   This function has very small overhead and can be called any time effects
@@ -3136,7 +3136,7 @@ void city_refresh_vision(struct city *pcity)
   ASSERT_VISION(pcity->server.vision);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Refresh the vision of all cities owned by a player, for empire-wide
   effects.
 ****************************************************************************/
@@ -3147,9 +3147,9 @@ void refresh_player_cities_vision(struct player *pplayer)
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Updates the squared city radius. Returns if the radius is changed.
-**************************************************************************/
+****************************************************************************/
 bool city_map_update_radius_sq(struct city *pcity)
 {
 
@@ -3256,9 +3256,9 @@ bool city_map_update_radius_sq(struct city *pcity)
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Clear worker task from the city and inform owner
-**************************************************************************/
+****************************************************************************/
 void clear_worker_task(struct city *pcity, struct worker_task *ptask)
 {
   struct packet_worker_task packet;
@@ -3281,9 +3281,9 @@ void clear_worker_task(struct city *pcity, struct worker_task *ptask)
   lsend_packet_worker_task(game.glob_observers, &packet);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Clear all worker tasks from the city and inform owner
-**************************************************************************/
+****************************************************************************/
 void clear_worker_tasks(struct city *pcity)
 {
   while (worker_task_list_size(pcity->task_reqs) > 0) {
@@ -3291,9 +3291,9 @@ void clear_worker_tasks(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send city worker task to owner
-**************************************************************************/
+****************************************************************************/
 void package_and_send_worker_tasks(struct city *pcity)
 {
   struct packet_worker_task packet;
