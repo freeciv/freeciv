@@ -15,11 +15,12 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
 #include "log.h"                /* fc_assert */
 
 #include "distribute.h"
 
-/****************************************************************************
+/************************************************************************//**
   Distribute "number" elements into "groups" groups with ratios given by
   the elements in "ratios".  The resulting division is put into the "result"
   array.

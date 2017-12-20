@@ -29,7 +29,7 @@ static deprecation_warn_callback depr_cb = NULL;
 
 static bool depr_warns_enabled = FALSE;
 
-/************************************************************************
+/********************************************************************//**
   Enable deprecation warnings.
 ************************************************************************/
 void deprecation_warnings_enable(void)
@@ -37,7 +37,7 @@ void deprecation_warnings_enable(void)
   depr_warns_enabled = TRUE;
 }
 
-/************************************************************************
+/********************************************************************//**
   Return whether deprecation warnings are currently enabled.
 ************************************************************************/
 bool are_deprecation_warnings_enabled(void)
@@ -45,7 +45,7 @@ bool are_deprecation_warnings_enabled(void)
   return depr_warns_enabled;
 }
 
-/************************************************************************
+/********************************************************************//**
   Set callback to call when deprecation warnings are issued
 ************************************************************************/
 void deprecation_warn_cb_set(deprecation_warn_callback new_cb)
@@ -53,7 +53,7 @@ void deprecation_warn_cb_set(deprecation_warn_callback new_cb)
   depr_cb = new_cb;
 }
 
-/************************************************************************
+/********************************************************************//**
   Log the deprecation warning
 ************************************************************************/
 void do_log_deprecation(const char *format, ...)
