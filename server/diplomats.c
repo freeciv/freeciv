@@ -78,7 +78,7 @@ static void diplomat_escape_full(struct player *pplayer,
                                  const char *vlink,
                                  const struct action *paction);
 
-/******************************************************************************
+/************************************************************************//**
   Poison a city's water supply.
 
   - Check for infiltration success.  Our poisoner may not survive this.
@@ -162,7 +162,7 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/******************************************************************************
+/************************************************************************//**
   Investigate a city.
 
   - It costs some minimal movement to investigate a city.
@@ -256,7 +256,7 @@ bool diplomat_investigate(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/******************************************************************************
+/************************************************************************//**
   Get list of improvements from city (for purposes of sabotage).
 
   - Always successful; returns list.
@@ -284,7 +284,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   send_packet_city_sabotage_list(pc, &packet);
 }
 
-/******************************************************************************
+/************************************************************************//**
   Establish an embassy.
 
   - Barbarians always execute ambassadors.
@@ -355,7 +355,7 @@ bool diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/******************************************************************************
+/************************************************************************//**
   Sabotage an enemy unit.
 
   - If successful, reduces hit points by half of those remaining.
@@ -444,7 +444,7 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/******************************************************************************
+/************************************************************************//**
   Bribe an enemy unit.
   
   - Can't bribe a unit if:
@@ -577,10 +577,10 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/***************************************************************************
+/************************************************************************//**
   Returns the amount of tech thefts from a city not ignored by the
   EFT_STEALINGS_IGNORE effect.
-***************************************************************************/
+****************************************************************************/
 int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
                                        struct city *pcity)
 {
@@ -600,7 +600,7 @@ int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
   return times;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Try to steal a technology from an enemy city.
   If paction results in ACTION_SPY_STEAL_TECH or ACTION_SPY_STEAL_TECH_ESC,
   steal a random technology.
@@ -787,7 +787,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Incite a city to disaffect.
 
   - Can't incite a city to disaffect if:
@@ -804,7 +804,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                      struct city *pcity, const struct action *paction)
 {
@@ -929,7 +929,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Sabotage enemy city's improvement or production.
   If this is untargeted sabotage city a random improvement or production is
   targeted.
@@ -947,7 +947,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
                        const struct action *paction)
@@ -1202,7 +1202,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Steal gold from another player.
   The amount stolen is decided randomly.
   Not everything stolen reaches the player that ordered it stolen.
@@ -1213,7 +1213,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                     struct city *tgt_city, const struct action *paction)
 {
@@ -1343,7 +1343,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Steal part of another player's map.
 
   - Check for infiltration success. Our thief may not survive this.
@@ -1351,7 +1351,7 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                          struct city *tgt_city,
                          const struct action *paction)
@@ -1448,7 +1448,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Hide a suitcase nuke in a city and detonate it.
 
   - Check for infiltration success. Our thief may not survive this.
@@ -1456,7 +1456,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
-**************************************************************************/
+****************************************************************************/
 bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                    struct city *tgt_city, const struct action *paction)
 {
@@ -1554,10 +1554,10 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE iff the spy/diplomat was caught outside of a diplomatic
   battle.
-**************************************************************************/
+****************************************************************************/
 static bool diplomat_was_caught(struct player *act_player,
                                 struct unit *act_unit,
                                 struct city *tgt_city,
@@ -1585,9 +1585,9 @@ static bool diplomat_was_caught(struct player *act_player,
   return fc_rand (100) >= odds;
 }
 
-/**************************************************************************
+/************************************************************************//**
   This subtracts the destination movement cost from a diplomat/spy.
-**************************************************************************/
+****************************************************************************/
 static void diplomat_charge_movement(struct unit *pdiplomat, struct tile *ptile)
 {
   pdiplomat->moves_left -=
@@ -1597,13 +1597,13 @@ static void diplomat_charge_movement(struct unit *pdiplomat, struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   This determines if a diplomat/spy succeeds against some defender,
   who is also a diplomat or spy. Note: a superspy defender always
   succeeds, otherwise a superspy attacker always wins.
 
   Return TRUE if the "attacker" succeeds.
-**************************************************************************/
+****************************************************************************/
 static bool diplomat_success_vs_defender(struct unit *pattacker,
                                          struct unit *pdefender,
                                          struct tile *pdefender_tile)
@@ -1653,7 +1653,7 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   return (int)fc_rand(100) < chance;
 }
 
-/**************************************************************************
+/************************************************************************//**
   This determines if a diplomat/spy succeeds in infiltrating a tile.
 
   - The infiltrator must go up against each defender.
@@ -1664,7 +1664,7 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
 
   'pplayer' is the player who tries to do a spy/diplomat action on 'ptile'
   with the unit 'pdiplomat' against 'cplayer'.
-**************************************************************************/
+****************************************************************************/
 static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct player *cplayer,
                                      const struct action *paction,
@@ -1863,7 +1863,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   This determines if a diplomat/spy survives and escapes.
   If "pcity" is NULL, assume action was in the field.
 
@@ -1872,7 +1872,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
     - Diplomats always die.
     - Escapes to home city.
     - Escapee may become a veteran.
-**************************************************************************/
+****************************************************************************/
 static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                             const struct city *pcity,
                             const struct action *paction)
@@ -1892,7 +1892,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
                               ptile, vlink, paction);
 }
 
-/**************************************************************************
+/************************************************************************//**
   This determines if a diplomat/spy survives and escapes.
 
   Spies have a game.server.diplchance specified chance of survival (better 
@@ -1900,7 +1900,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
     - Diplomats always die.
     - Escapes to home city.
     - Escapee may become a veteran.
-**************************************************************************/
+****************************************************************************/
 static void diplomat_escape_full(struct player *pplayer,
                                  struct unit *pdiplomat,
                                  bool city_related,
@@ -1971,9 +1971,9 @@ static void diplomat_escape_full(struct player *pplayer,
   }
 }
 
-/**************************************************************************
- return number of diplomats on this square.  AJS 20000130
-**************************************************************************/
+/************************************************************************//**
+  Return number of diplomats on this square.  AJS 20000130
+****************************************************************************/
 int count_diplomats_on_tile(struct tile *ptile)
 {
   int count = 0;
