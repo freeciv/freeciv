@@ -1,22 +1,21 @@
 #  Russian translation of Freeciv.
 #  This translation is covered by the GNU General Public License Version 2.
 #
+#  Team mailing list: <freeciv.ru@freelists.org>
+#
 #  Translators:
 #
 #   Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2015.
-#
-#  Email all translators at: <freeciv.ru@freelists.org>
-#
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv-3.0\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2017-01-01 22:01+0200\n"
-"PO-Revision-Date: 2015-02-20 17:26+0500\n"
+"Project-Id-Version: Freeciv\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2017-08-30 18:03+0500\n"
+"PO-Revision-Date: 2017-12-26 20:34+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +25,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -340,9 +339,9 @@ msgid ""
 "bloody Aceh War of 1873-1903."
 msgstr ""
 "Султанат Ачех располагался на западной оконечности острова Суматра и в "
-"течение XVI-XVII веков был серьёзной региональной силой, контролировавшей "
+"течение XVI—XVII веков был серьёзной региональной силой, контролировавшей "
 "большую часть торговли через Малакский пролив. Ачех был порабощён "
-"голландцами после серии кровопролитных Ачехских войн 1873-1903 гг."
+"голландцами после серии кровопролитных Ачехских войн 1873—1903 гг."
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
 #: data/nation/comorian.ruleset:26 data/nation/darfuri.ruleset:28
@@ -536,8 +535,6 @@ msgid "African"
 msgstr "Африканцы"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
-#| msgid "?plural:African"
 msgid "?plural:Africans"
 msgstr "Африканцы"
 
@@ -688,26 +685,14 @@ msgid "?female:Vizier %s"
 msgstr "Визирь %s"
 
 #: data/nation/alander.ruleset:3
-#, fuzzy
-#| msgid "Alander"
 msgid "Ålander"
 msgstr "Аландцы"
 
 #: data/nation/alander.ruleset:6
-#, fuzzy
-#| msgid "?plural:Alanders"
 msgid "?plural:Ålanders"
 msgstr "Аландцы"
 
 #: data/nation/alander.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Aland is an archipelago in the Baltic Sea, located between Sweden and "
-#| "Finland. The islands' inhabitants are Swedish speaking, but Aland is an "
-#| "autonomous province in Finland, a status that was reached in 1921 after a "
-#| "long period in which the islands were contested between Sweden and "
-#| "Finland. Aland's special and demilitarized status is protected by "
-#| "international law."
 msgid ""
 "Åland is an archipelago in the Baltic Sea, located between Sweden and "
 "Finland. The islands' inhabitants are Swedish speaking, but Åland is an "
@@ -721,7 +706,7 @@ msgstr ""
 "автономной провинции в состав Финляндии. Швеция долгие годы оспаривала "
 "принадлежность островов и, после поражения Российской империи в Крымской "
 "войне, добилась включения условия демилитаризации архипелага, которое так и "
-"не было выполнено и российский гарнизон стоял на островах до 1917 года. По "
+"не было выполнено: российский гарнизон стоял на островах до 1917 года. По "
 "окончании Первой Мировой войны и образования самостоятельного финского "
 "государства Швеция при поддержке местного населения пыталась аннексировать "
 "острова, но в 1921 году Лига Наций оставляет Аланды в составе Финляндии."
@@ -759,14 +744,6 @@ msgid "?plural:Albanians"
 msgstr "Албанцы"
 
 #: data/nation/albanian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians "
-#| "are uncertain, though it has been suggested they descend from the "
-#| "Illyrians of Classical Antiquity. Albania changed hands several times "
-#| "during its  history. It has been an independent state again since 1912. "
-#| "For much of the 20th century Albania was ruled by communist dictator "
-#| "Enver Hoxha."
 msgid ""
 "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians are "
 "uncertain, though it has been suggested they descend from the Illyrians of "
@@ -775,12 +752,12 @@ msgid ""
 "century Albania was ruled by communist dictator Envër Hoxha."
 msgstr ""
 "Албанцы — одни из обитателей Балканского полуострова. Албанский язык не "
-"является родственным ни одному окрестному, а этнические истоки албанцев "
-"точно остаются неясными, но предполагается, что они произошли от иллирийцев, "
-"известных по классической истории Древнего Мира. В течение своей истории "
-"Албания неоднократно переходила из рук в руки, и только в 1912 году вновь "
-"стала независимым государством. Во второй половине XX века Албания была под "
-"властью коммунистического диктатора Энвера Ходжи."
+"является родственным ни одному окрестному, а этническое происхождение "
+"албанцев остаётся неясным, но предполагается, что они произошли от "
+"иллирийцев, известных по классической истории Древнего Мира. В течение своей "
+"истории Албания неоднократно переходила из рук в руки, и только в 1912 году "
+"вновь стала независимым государством. Во второй половине XX века Албания "
+"была под властью коммунистического диктатора Энвера Ходжи."
 
 #: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
 #: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
@@ -927,7 +904,7 @@ msgstr "Генеральный Секретарь %s"
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
 msgid "%s Dey"
-msgstr "Дей %s"
+msgstr "%s-дей"
 
 #: data/nation/algerian.ruleset:22 data/nation/libyan.ruleset:23
 #, c-format
@@ -954,7 +931,7 @@ msgid ""
 msgstr ""
 "Эльзас — регион в Европе на границе между Францией и Германией. В средние "
 "века Эльзас был частью Священной Римской империи и состоял из нескольких "
-"зажиточных городов-государств. В течение XVII-XVIII вв. эльзасские города "
+"зажиточных городов-государств. В течение XVII—XVIII вв. эльзасские города "
 "были один за одним аннексированы Францией, но вскоре регион стал одной из "
 "самых горячих точек Европы, четырежды переходя из рук в руки менее чем за "
 "век. С 1944 года Эльзас — провинция Франции."
@@ -1404,13 +1381,6 @@ msgid "?plural:Argentines"
 msgstr "Аргентинцы"
 
 #: data/nation/argentine.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Argentina is located on the south-eastern coast of South America. Since "
-#| "independence from Spain in 1816, it has been plagued by several internal "
-#| "and external conflicts. In the decades after World War II, the country's "
-#| "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
-#| "\" Peron."
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
@@ -1657,7 +1627,7 @@ msgstr "Атланты"
 
 #: data/nation/atlantean.ruleset:6
 msgid "The mythical continent of Atlantis"
-msgstr "Мифический континент Атлантида."
+msgstr "Мифический континент Атлантида"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
 #: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
@@ -1734,7 +1704,7 @@ msgstr ""
 #: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khan"
-msgstr "Хан %s"
+msgstr "%s-хан"
 
 #: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
@@ -1748,7 +1718,7 @@ msgstr "Хан %s"
 #: data/nation/xiongnu.ruleset:39
 #, c-format
 msgid "%s Khatan"
-msgstr "Хатан %s"
+msgstr "%s-хатан"
 
 #: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
@@ -1810,7 +1780,7 @@ msgstr ""
 "Азербайджанцы — это жители Азербайджана и северного Ирана. На территории "
 "современного Азербайджана достигали величия и приходили в упадок многие "
 "древние государства Кавказа. В 1813 году Азербайджан стал частью Российской "
-"Империи, в короткий период независимости 1918-1920 годов он был первой "
+"Империи, в короткий период независимости 1918—1920 годов он был первой "
 "исламской республикой в истории. Затем Азербайджан входил в состав "
 "Советского Союза до его распада в 1991 году."
 
@@ -1818,7 +1788,7 @@ msgstr ""
 #: data/nation/khwarezmian.ruleset:28
 #, c-format
 msgid "%s Shah"
-msgstr "Шах %s"
+msgstr "%s Шах"
 
 #: data/nation/azeri.ruleset:36 data/nation/iranian.ruleset:41
 #: data/nation/khwarezmian.ruleset:28 data/nation/median.ruleset:31
@@ -1880,10 +1850,9 @@ msgstr ""
 "впоследствии опустели и большей частью игнорировались до того как на них в "
 "XVII веке обосновались британские поселенцы. С 1973 года Багамы — "
 "независимое государство, состоящее в Британском Содружестве. Сегодня Багамы "
-"известны как своими пляжами, так и своими офшорными финансовыми "
-"учреждениями. Багамы — самая развитая страна Латинской Америки и Карибского "
-"региона — также является богатейшей страной мира с чёрным большинством "
-"населения."
+"известны как своими пляжами, так и своими офшорными банками. Багамы — самая "
+"развитая страна Латинской Америки и Карибского региона — также является "
+"богатейшей страной мира с чёрным большинством населения."
 
 #: data/nation/bahraini.ruleset:3
 msgid "Bahraini"
@@ -2312,7 +2281,7 @@ msgstr "Спикер %s"
 
 #: data/nation/belizean.ruleset:3
 msgid "Belizean"
-msgstr "Белизцы "
+msgstr "Белизцы"
 
 #: data/nation/belizean.ruleset:4
 msgid "?plural:Belizeans"
@@ -2541,7 +2510,7 @@ msgstr ""
 "всей Капской колонии буры были вынуждены мигрировать во внутренние области "
 "материка, со временем организовав там несколько республиканских государств, "
 "в том числе Трансвааль и Оранжевую Республику, которые после поражения буров "
-"в англо-бурской войне 1899-1902 гг. были включены в состав британской Южной "
+"в англо-бурской войне 1899—1902 гг. были включены в состав британской Южной "
 "Африки."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
@@ -2617,8 +2586,8 @@ msgid ""
 "Central Europe and Northern Italy. The names of both Bohemia and Bavaria "
 "probably derive from this people."
 msgstr ""
-"Бойи — группа кельтских племён, вытеснившая в V-VI вв. до н.э. из северной "
-"Италии этрусков. На протяжении III-I веков до н.э. бойи успешно "
+"Бойи — группа кельтских племён, вытеснившая в V—VI вв. до н.э. из северной "
+"Италии этрусков. На протяжении III—I веков до н.э. бойи успешно "
 "противостояли римлянам, пока в 58 году до н.э. не были побеждены Юлием "
 "Цезарем. Остатки племени были вытеснены на север, в Центральную Европу и к "
 "концу I века до н.э. сведения о бойях из римских источников исчезают. От "
@@ -2634,16 +2603,6 @@ msgid "?plural:Bolivians"
 msgstr "Боливийцы"
 
 #: data/nation/bolivian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Bolivia is a landlocked country in South America with a large indigenous "
-#| "heritage. The country is named after Simon Bolivar. Independent since "
-#| "1825, the country was wrecked by instability and lost its Pacific coast "
-#| "to Chile. The 1932-1936 Chaco war against Paraguay led to another "
-#| "humiliating defeat. Discontent with Bolivia's oligarchic regime led to a "
-#| "revolution in 1952. After a series of military coups in the 1970s the "
-#| "country returned to democratic rule in the 1980s. In 2006 Evo Morales "
-#| "became the country's first indigenous president."
 msgid ""
 "Bolivia is a landlocked country in South America with a large indigenous "
 "heritage. The country is named after Simón Bolivar. Independent since 1825, "
@@ -2657,7 +2616,7 @@ msgstr ""
 "Боливия — континентальная страна в Южной Америке с большим древним наследием "
 "— названа в честь Симона Боливара. Независимая с 1825 года, страна из-за "
 "нестабильности потеряла своё тихоокеанское побережье, отошедшее к Чили, а в "
-"1932-1936 годах в войне с Парагваем за нефтеносное плато Чако потерпела "
+"1932—1936 годах в войне с Парагваем за нефтеносное плато Чако потерпела "
 "унизительное поражение. Недовольство олигархическим режимом вылилось в "
 "революцию 1952 года. После серии военных хунт 1970-х, в 1980-х страна "
 "вернулась к демократической форме правления. В 2006-м году Эво Моралес стал "
@@ -3083,7 +3042,7 @@ msgid ""
 msgstr ""
 "Бургунды — одно из древних восточногерманских племён, происходящее, возможно "
 "с острова Бронхольм. Покинув остров, племя расселилось в междуречье Вислы и "
-"Одера. В III-V веках бургунды неоднократно как сражались с римлянами, так и "
+"Одера. В III—V веках бургунды неоднократно как сражались с римлянами, так и "
 "нанимались империей для защиты её рубежей и сражений с другими германскими "
 "племенами, в 472 году некоторые бургунды в союзе с вандалами разграбили "
 "город Рим. Первое бургундское государство было образовано в 411 году нижнем "
@@ -3095,14 +3054,10 @@ msgstr ""
 "и региону Бургундия."
 
 #: data/nation/burkinabe.ruleset:3
-#, fuzzy
-#| msgid "Burkinabe"
 msgid "Burkinabé"
 msgstr "Буркинабы"
 
 #: data/nation/burkinabe.ruleset:6
-#, fuzzy
-#| msgid "?plural:Burkinabes"
 msgid "?plural:Burkinabés"
 msgstr "Буркинабы"
 
@@ -3240,8 +3195,8 @@ msgid ""
 "between the 11th and 14th centuries."
 msgstr ""
 "Кампучия (известная также как Камбоджа) — современный наследник могучей "
-"империи Кхмеров, владевшей большей частью полуострова Индокитай в период с "
-"XI по XIV века. "
+"империи Кхмеров, владевшей большей частью полуострова Индокитай между XI и "
+"XIV веками."
 
 #: data/nation/cameroonian.ruleset:3
 msgid "Cameroonian"
@@ -3279,27 +3234,13 @@ msgstr ""
 
 #: data/nation/canari.ruleset:3
 msgid "Cañari"
-msgstr ""
+msgstr "Каньяри"
 
 #: data/nation/canari.ruleset:6
-#, fuzzy
-#| msgid "?plural:Canaris"
 msgid "?plural:Cañaris"
 msgstr "Каньяри"
 
 #: data/nation/canari.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Canaris were a Pre-Columbian civilization in what is now Ecuador, "
-#| "whose existence can be traced from the 6th century onwards. They were one "
-#| "of the few Andean cultures not to worship the sun. The Canari language "
-#| "was probably related to the Mochica language of Peru, but by the time of "
-#| "the Spanish conquest the Canaris had mostly switched to Quechua. The "
-#| "Canaris formed a loose confederation with their main political center in "
-#| "Guapdondelig, currently the city of Cuenca, capital of the province of "
-#| "Azuay. They were subjugated by the Incas in the late 15th century, though "
-#| "they put up a fierce resistance. They rebelled during the Incan civil war "
-#| "and sided with the Spanish during their conquest of the Inca empire."
 msgid ""
 "The Cañaris were a pre-Columbian civilization in what is now Ecuador, whose "
 "existence can be traced from the 6th century onwards. They were one of the "
@@ -3556,24 +3497,6 @@ msgid "?plural:Central Lithuanians"
 msgstr "Срединнолитовцы"
 
 #: data/nation/centrallithuanian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
-#| "Aukshtota region. They are a remnant of the Polish-Lithuanian "
-#| "Commonwealth - the Commonwealth of Two Nations, which was founded with "
-#| "the Union of Lublin in 1569. This state united the Kingdom of Poland with "
-#| "the Grand Duchy of Lithuania and was founded by the Lithuanian grand duke "
-#| "Jogaila, who was baptized with the name Wladyslaw. The presence of the "
-#| "first Polish community in Lithuania dates back to duke Mindaugas of "
-#| "Lithuania. The first Poles came to Lithuania as prisoners of war taken "
-#| "during raids on the frontier lands (mainly to Mazovia). After uniting the "
-#| "two countries there was a very strong Polonization of the Lithuanian "
-#| "nobility. The Polish-speaking community in Lithuania survived the "
-#| "collapse and partition of the Polish state, co-existing with Lithuanian-"
-#| "speaking people. In 1920, the rebellious general Zeligowski announced the "
-#| "creation of a Republic of Central Lithuania, which was then incorporated "
-#| "into Poland. After World War II most of the Lithuanian Poles were "
-#| "displaced to Poland's new western territories."
 msgid ""
 "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
 "Aukshtota region. They are a remnant of the Polish-Lithuanian Commonwealth - "
@@ -3629,12 +3552,6 @@ msgid "?plural:Chadians"
 msgstr "Чадцы"
 
 #: data/nation/chadian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
-#| "Empire, Chad was colonized by France in 1900. Independent since 1960, "
-#| "Chad remains one of the poorest countries of the world. From 1982 to 1990 "
-#| "Hissene Habre led a notoriously brutal dictatorship."
 msgid ""
 "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
 "Empire, Chad was colonized by France in 1900. Independent since 1960, Chad "
@@ -3697,7 +3614,9 @@ msgstr ""
 "средневековье ссылки на них встречаются у Блаженного Августина и Марко Поло, "
 "а теолог Ратрамн рассуждал о том, могут ли они считаться людьми. Различные "
 "мифы помещают их в Шотландию, в Ханаан (Ближний Восток), в Киренаику (часть "
-"Ливии) и на Андаманские острова."
+"Ливии) и на Андаманские острова. Название страны 'Ханаан' впервые употребил "
+"германский средневековый поэт и епископ Вальтер фон Шпейер, а Джон "
+"Мандевилль упоминал народ Накумериане."
 
 #: data/nation/chananean.ruleset:32 data/nation/werewolf.ruleset:32
 #, c-format
@@ -3728,7 +3647,7 @@ msgid ""
 msgstr ""
 "Чеченцы — древний кавказский народ, современная Чеченская республика — часть "
 "Российской Федерации. В 1588 году часть чеченцев добровольно признали себя "
-"вассалами московского царя, но несмотря на это, чеченцы регулярно поднимали "
+"вассалами московского царя, но, несмотря на это, чеченцы регулярно поднимали "
 "антироссийские восстания. В 1990-х, после развала Советского Союза, "
 "чеченские сепаратисты провозгласили независимую Чеченскую Республику "
 "Ичкерия, и разразилась гражданская война, продолжавшаяся с перерывами до "
@@ -4044,7 +3963,7 @@ msgstr ""
 "Чуваши (народ чаваш) — тюркоязычная этническая группа, проживающая как на "
 "европейской территории России, так и в западной Сибири. По некоторым данным, "
 "они являются потомками древних тюркских булгарских племён и, возможно, "
-"гуннов. Ныне чувашей около 1,8 миллиона, примерно половина из которых живёт "
+"гуннов. Ныне чуВашей около 1,8 миллиона, примерно половина из которых живёт "
 "в Республике Чувашия в составе РФ."
 
 #: data/nation/circassian.ruleset:3
@@ -4083,7 +4002,7 @@ msgstr ""
 #: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "%s Bey"
-msgstr "Бей %s"
+msgstr "%s-бей"
 
 #: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
@@ -4234,7 +4153,7 @@ msgstr ""
 "Республика Конго (или просто Конго) — центральноафриканская страна со "
 "столицей в Браззавиле; не путайте с Демократической Республикой Конго (ДР "
 "Конго) со столицей в Киншасе. Конго получила независимость от Франции в 1960 "
-"году. В 1970-71 годах управлялась марксистской партией и именовалась "
+"году. В 1970—1991 годах управлялась марксистской партией и именовалась "
 "Народной Республикой Конго. Экономика страны основывается на экспорте нефти."
 
 #: data/nation/congolese.ruleset:3
@@ -4246,18 +4165,6 @@ msgid "?plural:Congolese"
 msgstr "Конголезцы"
 
 #: data/nation/congolese.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The Democratic Republic of the Congo is a big country in Central Africa. "
-#| "Despite (or because of) its wealth of natural resources it has been in "
-#| "ruins for most of its modern history. In 1885 Congo was awarded to "
-#| "Leopold II of Belgium as his personal possession, the Congo Free State, "
-#| "which turned the country into a slaughterhouse. At least twenty per cent "
-#| "of the population perished and after an international outcry it became a "
-#| "Belgian colony in 1906. It achieved independence in 1960. The Mobutu "
-#| "dictatorship started a new round of pillaging. When Mobutu was toppled "
-#| "the country sank into a civil war, causing five million deaths, the "
-#| "bloodiest event since World War II."
 msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
@@ -4519,9 +4426,9 @@ msgid ""
 "and coffee in the world. Cuba was granted nominal independence in 1902."
 msgstr ""
 "С XVI века остров Куба находился под властью Испании. На протяжении веков "
-"остров был в числе ведущих производителей табака, сахара и кофе. Стала стала "
-"номинально независимой в 1902 году, после поражения Испании в войне с США, "
-"но де факто была под американским контролем. В 1959 году кубинские "
+"остров был в числе ведущих производителей табака, сахара и кофе. Страна "
+"стала номинально независимой в 1902 году, после поражения Испании в войне с "
+"США, но де факто была под американским контролем. В 1959 году кубинские "
 "революционеры под руководством Фиделя Кастро свергли ставленника США "
 "диктатора Батисту и построили первое социалистическое государство в западном "
 "полушарии. С развалом СССР находящаяся под жёсткой американской "
@@ -4716,9 +4623,9 @@ msgstr ""
 "Южная треть современного Бенина была одним из исторических королевств, в "
 "разные времена называвшемся Агбоме (ок.1600 — ок.1700), Дангоме (ок.1700 — "
 "1730) и Дагомея (1730 — 1894). С 1730 страна стала данником соседнего "
-"королевства Ойо. После Второй Дагомейской войны (1892-1894) страна была "
-"завоёвана Францией и разделена на территории Агбоме и Алада.  В течение "
-"XVIII-XIX веков Дагомея прославилась своими свирепыми женщинами-воинами аоси "
+"королевства Ойо. После Второй Дагомейской войны (1892—1894) страна была "
+"завоёвана Францией и разделена на территории Агбоме и Алада.  В течение XVIII"
+"—XIX веков Дагомея прославилась своими свирепыми женщинами-воинами аоси "
 "(гбето), бывшими официальными телохранительницами и ритуальными жёнами "
 "короля."
 
@@ -4850,13 +4757,13 @@ msgid ""
 "Germany."
 msgstr ""
 "Германская Демократическая республика была основана в 1949 году на "
-"территории Советской зоне оккупации побеждённой нацистской Германии. Во "
-"время Холодной войны ГДР была частью Восточного блока. В 1956 году столицу "
-"страны, Берлин, рассекла стена, отделившая Западный Берлин, анклав, "
-"управлявшийся сначала западными союзниками, а затем ФРГ, от Восточного. Ещё "
-"одним известным артефактом была секретная служба Штази. В 1989 году "
-"коммунистический режим Хонеккера пал, и годом позже страна была присоединена "
-"к Федеративной Республике Германия."
+"территории Советской зоны оккупации побеждённой нацистской Германии. Во "
+"время Холодной войны ГДР была частью Восточного блока (страны Варшавского "
+"договора). В 1956 году столицу страны, Берлин, рассекла стена, отделившая "
+"Западный Берлин, анклав, управлявшийся сначала западными союзниками, а затем "
+"ФРГ, от Восточного. Ещё одним известным артефактом была секретная служба "
+"Штази. В 1989 году коммунистический режим Хонеккера пал, и годом позже "
+"страна была присоединена к Федеративной Республике Германия."
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
@@ -4911,16 +4818,6 @@ msgid "?plural:Ecuadorians"
 msgstr "Эквадорцы"
 
 #: data/nation/ecuadorian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ecuador is a country in western South America. It is divided into three "
-#| "very distinct geographic regions: the coastal lowlands, the mountains of "
-#| "the Andes and the jungles of the Oriente. The Galapagos islands are also "
-#| "part of Ecuador. The country gained independence from Spain in 1821 and "
-#| "from Colombia in 1830. Ecuador's history has been marked by rivalry "
-#| "between the coast (Guayaquil) and the mountains (Quito). It also fought "
-#| "numerous border wars with both Colombia and Peru. Nowadays Ecuador is one "
-#| "of the main oil producing countries of South America."
 msgid ""
 "Ecuador is a country in western South America. It is divided into three very "
 "distinct geographic regions: the coastal lowlands, the mountains of the "
@@ -5273,7 +5170,7 @@ msgstr "Высший Вождь %s"
 #: data/nation/xhosa.ruleset:28
 #, c-format
 msgid "?female:Paramount Chief %s"
-msgstr "Высший Вождь %s"
+msgstr "Небесная Владычица %s"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -5532,7 +5429,7 @@ msgstr ""
 "являлись они предшественниками современных фризов, или нет. В раннем "
 "средневековье фризы контролировали королевство на протяжении от Шельды до "
 "Ютланда. Будучи однажды побеждены франками, они продолжали пользоваться "
-"некоторой свободой, не подчиняясь ни одному феодальному лорду. В XV-XVI "
+"некоторой свободой, не подчиняясь ни одному феодальному лорду. В XV—XVI "
 "веках фризская территория была раздроблена, а ядро стало провинцией "
 "Соединённого королевства Нидерланды. В 1782 году превительство земли "
 "Фрисланд стало первым иностранным правительством, признавшим США."
@@ -5791,7 +5688,7 @@ msgstr ""
 "поселения располагались на территории Скандинавского полуострова. Во времена "
 "исхода готов из Скандинавии, около II века н.э., гепиды переселились на "
 "южное побережье Балтийского моря, в район устья Вислы, а в течение III века, "
-"двигаясь вслед за готами на юг, расселились в Дакии. В IV-V веках гепиды "
+"двигаясь вслед за готами на юг, расселились в Дакии. В IV—V веках гепиды "
 "были в союзе с гуннами, а их вождь Ардарих был советником Аттилы; он выводил "
 "свое войско в 451 году на Каталаунские поля на стороне гуннов. Но после "
 "смерти их вождя (в 453 году) Ардарих не пожелал подчиняться его сыновьям, "
@@ -5962,22 +5859,13 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
-msgstr ""
+msgstr "Гектюрки"
 
 #: data/nation/gokturk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Gokturks"
 msgid "?plural:Göktürks"
 msgstr "Гектюрки"
 
 #: data/nation/gokturk.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Gokturk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
-#| "derived its legendary origins from the red she-wolf. The Gokturks were "
-#| "ancestors of the modern Turkic nations in Asia and Eastern Europe. They "
-#| "were the creators of a vast military empire, which covered the steppe "
-#| "areas from the Kuban river in the West to Korea in the East."
 msgid ""
 "The Göktürk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
 "derived its legendary origins from the red she-wolf. The Göktürks were "
@@ -6170,11 +6058,6 @@ msgid "?plural:Guinean"
 msgstr "Гвинейцы"
 
 #: data/nation/guinean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Guinea declared independence from France in 1958. Its first president "
-#| "Ahmed Sekou Toure continued to rule the country until his death in 1984. "
-#| "Guinea is not to be confused with neighboring Guinea-Bissau."
 msgid ""
 "Guinea declared independence from France in 1958. Its first president Ahmed "
 "Sékou Touré continued to rule the country until his death in 1984. Guinea is "
@@ -6456,16 +6339,6 @@ msgid "?plural:Hephthalites"
 msgstr "Эфталиты"
 
 #: data/nation/hephthalite.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Hephthalites were a Central Asian nomadic confederation of the 5th "
-#| "and 6th centuries CE. Their precise origins and composition remain "
-#| "obscure. They may have been of mixed Iranic, Tocharian and Turkic origin, "
-#| "but their main language is unknown. Although they were also known as the "
-#| "White Huns, a connection with the Huns is considered unlikely. The "
-#| "Hephthalites were crushed by the Gokturks and Sassanids in the 6th "
-#| "century, but on the Indian subcontinent some Hephthalite successor "
-#| "kingdoms survived until the late 7th century."
 msgid ""
 "The Hephthalites were a Central Asian nomadic confederation of the 5th and "
 "6th centuries CE. Their precise origins and composition remain obscure. They "
@@ -6476,13 +6349,13 @@ msgid ""
 "subcontinent some Hephthalite successor kingdoms survived until the late 7th "
 "century."
 msgstr ""
-"Эфталиты — центральноазиатская конфедерация кочевников, существовавшая в V-"
+"Эфталиты — центральноазиатская конфедерация кочевников, существовавшая в V—"
 "VI веках н.э. Их происхождение и состав остаются неясными. Возможно, они "
 "представляли собой смешанные племена иранского, точарского и тюркского "
 "происхождения, но их основной язык неизвестен. Также они известны как Белые "
 "Гунны, хотя их связь с гуннами вызывает сомнения. Эфталиты были сокрушены "
 "гоктюрками и Сассанидами в VI веке, но на Индостане некоторые эфлатитские "
-"королевства просуществовали до конце VII века."
+"королевства просуществовали до конца VII века."
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
@@ -6554,11 +6427,11 @@ msgstr ""
 
 #: data/nation/holyroman.ruleset:3
 msgid "Holy Roman"
-msgstr "Священные римляне"
+msgstr "Цесарцы"
 
 #: data/nation/holyroman.ruleset:4
 msgid "?plural:Holy Romans"
-msgstr "Священные римляне"
+msgstr "Цесарцы"
 
 #: data/nation/holyroman.ruleset:7
 msgid ""
@@ -6571,14 +6444,15 @@ msgid ""
 "Napoleon and replaced by the Confederation of the Rhine."
 msgstr ""
 "Священная Римская Империя позиционировала себя как наследница древнего Рима, "
-"но, как остроумно однажды заметил Вольтер, она не была ни священной, ни "
-"римской, ни даже империей, тем не менее, она просуществовала достаточно "
-"долго, очень медленно теряя территорию. В основном, на протяжении "
-"практически всей своей истории империя представляла собой лоскутное одеяло "
-"из бесчисленного количества графств, герцогств, курфюрстатов, вольных "
-"имперских городов и прочих территорий. Существование Священной Римской "
-"империи было прекращено Наполеоном в 1806 году и на замену ей пришла "
-"Рейнская Конфедерация."
+"но, как однажды остроумно заметил Вольтер, она не была ни священной, ни "
+"римской, ни даже империей. Тем не менее, она просуществовала достаточно "
+"долго, очень медленно теряя территории. На протяжении практически всей своей "
+"истории империя представляла собой лоскутное одеяло из бесчисленных "
+"герцогств, графств, архи- и просто епископств, вольных городов и прочих "
+"территорий. Империя была ликвидирована в 1806 году в результате "
+"наполеоновских войн, на смену ей пришёл Германский Союз. В российских "
+"документах наравне с официальным наименованием империи с XVII века "
+"использовался и термин Государство Цесарское."
 
 #: data/nation/holysee.ruleset:3
 msgid "Papal"
@@ -6968,11 +6842,6 @@ msgid "?plural:Ivoirian"
 msgstr "Ивуарийцы"
 
 #: data/nation/ivoirian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
-#| "relatively stable compared to other West African countries, but in the "
-#| "2000s it lived through a civil war."
 msgid ""
 "Ivory Coast or Côte d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
@@ -7149,15 +7018,16 @@ msgid ""
 "Armenian the region is also known as Artsakh, named after a province of the "
 "ancient Armenian kingdom."
 msgstr ""
-"Несмотря на преимущественно армянское население, Нагорный Карабах был "
-"передан советским правительством Азербайджанской ССР после установления "
-"советской власти на Кавказе в 1920-х. Незадолго до распада Советского Союза "
-"регион провозгласил независимость от Азербайджана — началась война между "
-"Карабахом и Арменией с одной стороны и Азербайджаном с другой. Соглашение о "
-"прекращении огня было заключено в 1994 году, но конфликт остаётся "
-"неурегулированным. Нагорно-Карабахская республика — де-факто независимое "
-"государство, но оно не признано ни одним членом ООН. По-армянски этот регион "
-"также называется Арцах, в честь провинции древнего Армянского царства."
+"Несмотря на преимущественно армянское население, Нагорный Карабах после "
+"установления советской власти на Кавказе  в 1920-х годах был передан "
+"советским правительством Азербайджанской ССР. Незадолго до распада "
+"Советского Союза регион провозгласил независимость от Азербайджана — "
+"началась война между Карабахом и Арменией с одной стороны и Азербайджаном с "
+"другой. Соглашение о прекращении огня было заключено в 1994 году, но "
+"конфликт остаётся неурегулированным. Нагорно-Карабахская республика — де-"
+"факто независимое государство, но оно не признано ни одним членом ООН. По-"
+"армянски этот регион также называется Арцах, в честь провинции древнего "
+"Армянского царства."
 
 #: data/nation/karelian.ruleset:3
 msgid "Karelian"
@@ -7242,10 +7112,10 @@ msgstr ""
 "Кашубия — историческая область в северной и центральной Польше. Название "
 "земли, происхождение которого неизвестно, впервые отмечено в источниках XIII "
 "века. Считающиеся этнической группой польского народа, кашубы имеют немного "
-"отличные от остальных поляков язык и культуру. Сегодня сообщество кашубов "
-"культивирует свою речь, литературу и производит также, среди прочего, радио- "
-"и телепередачи, юмористические книги, и даже полностью кашубинизированные "
-"дистрибутивы операционной системы Linux."
+"отличающиеся от остальных поляков язык и культуру. Сегодня сообщество "
+"кашубов культивирует свою речь, литературу и производит также, среди "
+"прочего, радио- и телепередачи, юмористические книги, и даже полностью "
+"кашубинизированные дистрибутивы операционной системы Linux."
 
 #: data/nation/katangan.ruleset:3
 msgid "Katangan"
@@ -7962,12 +7832,12 @@ msgid ""
 "Italy and Southern France. Their language is of uncertain origin, perhaps "
 "Para-Celtic or Pre-Indo-European."
 msgstr ""
-"Лигуры — собирательное наименование древних племён, населявших в середине 1-"
-"го тыс. до н.э. северо-западную Италию и юго-восточную Галлию. Последние "
-"лигуры были завоёваны римлянами в III в. до н.э. и были полностью "
-"ассимилированы. Лигуры говорили на языке неизвестного происхождения, "
-"возможно кельтского или даже доиндоевропейского; многие топонимы, такие как "
-"Генуя, восходят к лигурскому языку."
+"Лигуры (устар. лигурийцы) — собирательное наименование древних племён, "
+"населявших в середине 1-го тысячелетия до н.э. северо-западную Италию и юго-"
+"восточную Галлию. Последние лигуры были завоёваны римлянами в III в. до н.э. "
+"и были полностью ассимилированы. Лигуры говорили на языке неизвестного "
+"происхождения, возможно кельтского или даже доиндоевропейского; многие "
+"топонимы, такие как Генуя, восходят к лигурскому языку."
 
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, c-format
@@ -7977,7 +7847,7 @@ msgstr "Поднебесный Правитель %s"
 #: data/nation/ligurian.ruleset:22 data/nation/malaysian.ruleset:22
 #, c-format
 msgid "?female:Paramount Ruler %s"
-msgstr "Поднебесная Правительница %s"
+msgstr "Небесная Правительница %s"
 
 #: data/nation/lipkatatar.ruleset:3
 msgid "Lipka Tatar"
@@ -8014,7 +7884,7 @@ msgid ""
 "Lippe was a historical state in Germany. It was located between the Weser "
 "River and the southeast part of the Teutoburg forest."
 msgstr ""
-"Липпе (Липпе-Детмольд, 1123-1918) — историческое германское государство. Оно "
+"Липпе (Липпе-Детмольд, 1123—1918) — историческое германское государство. Оно "
 "было расположено между рекой Везер и юго-восточной частью Тевтобургского "
 "леса."
 
@@ -8525,7 +8395,7 @@ msgstr ""
 "маратхи вели упорную борьбу против империи Великих Моголов, и в XVII веке "
 "под руководством князя Шиваджи организовали Государство маратхов (Маратхская "
 "конфедерация), вскоре ставшее сильнейшим на Индостане. Но после ряда англо-"
-"маратхских войн (1775-1818) маратхи попали в вассальную зависимость к "
+"маратхских войн (1775—1818) маратхи попали в вассальную зависимость к "
 "британской Ост-Индской компании."
 
 #: data/nation/marathi.ruleset:37
@@ -8712,23 +8582,13 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr ""
+msgstr "Метисы"
 
 #: data/nation/metis.ruleset:6
-#, fuzzy
-#| msgid "?plural:Metis"
 msgid "?plural:Métis"
 msgstr "Метисы"
 
 #: data/nation/metis.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Metis are a people of mixed First Nations (Native American) and "
-#| "European (mostly French) descendance living mainly in the Canadian "
-#| "prairie provinces. Together with the First Nations and the Inuit they "
-#| "form one of the three indigenous groups of Canada. In the 19th century "
-#| "the Metis repeatedly rebelled against the British and Canadian "
-#| "authorities."
 msgid ""
 "The Métis are a people of mixed First Nations (Native American) and European "
 "(mostly French) descent living mainly in the Canadian prairie provinces. "
@@ -8738,9 +8598,9 @@ msgid ""
 msgstr ""
 "Метисы — народ смешанного индейско-европейского (в основном французского) "
 "происхождения, живущий в основном на прериях равнинных провинций Канады. "
-"Вместе с индейцами и эскимосами они представляют одну из трёх основных групп "
-"населения страны. В XIX веке метисы неоднократно восставали против "
-"британских и канадских правительств."
+"Вместе с индейцами и иннуитами (эскимосами) они представляют одну из трёх "
+"основных групп коренного населения страны. В XIX веке метисы неоднократно "
+"восставали против британских и канадских правительств."
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -8751,21 +8611,6 @@ msgid "?plural:Mexicans"
 msgstr "Мексиканцы"
 
 #: data/nation/mexican.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Mexico borrows its name from the Mexica people, another name for the "
-#| "Aztecs. It achieved independence from Spain in 1821. For most of the 19th "
-#| "century the country was wrecked by rebellions and foreign invasions "
-#| "losing more than half of its territory to the United States. A liberal "
-#| "constitution was proclaimed in 1857, leading to ten years of civil war "
-#| "between liberals and conservatives, in which the latter crowned "
-#| "Maximilian of Austria as emperor under French occupation. The French and "
-#| "conservatives were ultimately defeated by the liberals of Benito Juarez "
-#| "in 1867. Mexico entered the modern era under Porifirio Diaz (1876-1911) "
-#| "but social inequality and political repression led to the Mexican "
-#| "Revolution of 1910 which left more than a million dead. The Revolution "
-#| "led to the establishment of a corporatist one party state in 1929. Only "
-#| "in 2000 did Mexico see its first democratic transfer of power."
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs. "
 "It achieved independence from Spain in 1821. For most of the 19th century "
@@ -8790,7 +8635,7 @@ msgstr ""
 "недавно коронованного Максимилиана Австрийского в качестве императора под "
 "французской оккупацией. Последние в 1867 году потерпели сокрушительное "
 "поражение от либералов под командованием Бенито Хуареса. Мексика перешла в "
-"современную эпоху под руководством Порфирьо Диаса (1876-1911), но социальное "
+"современную эпоху под руководством Порфирьо Диаса (1876—1911), но социальное "
 "неравенство и политические репрессии привели к Мексиканской революции 1910 "
 "года, сопровождавшейся более чем миллионом жертв. Революция привела к "
 "установлению однопартийной корпоративной власти, и лишь в 2000 году Мексика "
@@ -8933,16 +8778,6 @@ msgid "?plural:Mixtecs"
 msgstr "Миштеки"
 
 #: data/nation/mixtec.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
-#| "The Mixtec territory was formed by a large number of city states. The "
-#| "Mixtec ruler Eight Deer 'Jaguar Claw', who ruled Tilantongo around 1100 "
-#| "CE, was famous in all of ancient Mexico. In the late 15th century most of "
-#| "the Mixtec territory was occupied by the Aztecs, though parts remained "
-#| "independent until the arrival of the Spanish. Nowadays there are about "
-#| "700,000 Mixtecs living in the Mexican states of Oaxaca, Guerrero and "
-#| "Puebla, as well as in emigrant communities in Northern Mexico and the US."
 msgid ""
 "The Mixtecs or Ñuu Savi were one of the major Mesoamerican civilizations. "
 "The Mixtec territory was formed by a large number of city states. The Mixtec "
@@ -9209,10 +9044,6 @@ msgstr "Маскоги"
 msgid "?plural:Muskogee"
 msgstr "Маскоги"
 
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Американцы"
-
 #: data/nation/muskogee.ruleset:6
 msgid ""
 "The Muskogee was a confederacy of North American tribes, including the "
@@ -9339,18 +9170,13 @@ msgid "?plural:Navajo"
 msgstr "Навахо"
 
 #: data/nation/navajo.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Navajo or Dine are the most populous Native American nation of the "
-#| "United States. They are closely related to the Apache. Their language is "
-#| "famous for being one of the world's most complex."
 msgid ""
 "The Navajo or Diné are the most populous Native American nation of the "
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
 "Навахо (или дине) — самый многочисленный индейский народ США, близко "
-"родственный апачам. Язык навахо очень сложен, и во Второй Мировой войне "
+"родственный апачам. Язык навахо очень сложен, и во Второй Мировой войне он "
 "использовался американской армией для шифрования сообщений."
 
 #: data/nation/neapolitan.ruleset:3
@@ -9553,27 +9379,14 @@ msgstr ""
 "так и по уровню младенческой смертности."
 
 #: data/nation/nimiipuu.ruleset:3
-#, fuzzy
-#| msgid "Nimiipuu"
 msgid "Nimíipuu"
 msgstr "Не-персе"
 
 #: data/nation/nimiipuu.ruleset:6
-#, fuzzy
-#| msgid "?plural:Nimiipuu"
 msgid "?plural:Nimíipuu"
 msgstr "Не-персе"
 
 #: data/nation/nimiipuu.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Nimiipuu, or the 'Real People', in their own language, are better "
-#| "known as the 'Nez Perce'. This Native American nation covered parts of "
-#| "Washington, Oregon, Montana and Idaho and consisted of more than 70 "
-#| "permanent villages in 1800. At this time the population numbered about "
-#| "6,000. After a defeat by the American cavalry on October 5, 1877, the "
-#| "Nimiipuu were moved to reservations. The elected Nez Perce Tribal "
-#| "Executive Committee now governs tribal affairs."
 msgid ""
 "The Nimíipuu, or the 'Real People', in their own language, are better known "
 "as the 'Nez Percé'. This Native American nation covered parts of Washington, "
@@ -9628,20 +9441,20 @@ msgid ""
 "states along the 38th parallel, forming North Korea and South Korea. 60 "
 "years on, North Korea remains a communist state of the Stalinist type."
 msgstr ""
-"После окончания Корейской войны, в 1950 году полуостров Корея был разделён "
-"вдоль 38-й параллели на два государства, Северную и Южную Корею. На "
+"После окончания Корейской войны в 1950 году Корейский полуостров был "
+"разделён вдоль 38-й параллели на два государства, Северную и Южную Корею. На "
 "протяжении всей своей 60-летней истории Северная Корея остаётся "
 "коммунистическим государством сталинистского типа."
 
 #: data/nation/northkorean.ruleset:25
 #, c-format
 msgid "Dear Leader %s"
-msgstr "Любимый Лидер %s"
+msgstr "Возлюбленный Лидер %s"
 
 #: data/nation/northkorean.ruleset:25
 #, c-format
 msgid "?female:Dear Leader %s"
-msgstr "Любимый Лидер %s"
+msgstr "Возлюбленный Лидер %s"
 
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
 #, c-format
@@ -9651,7 +9464,7 @@ msgstr "Великий Вождь и Учитель %s"
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
 #, c-format
 msgid "?female:Great Leader %s"
-msgstr "Великая Вождь и Учитель %s"
+msgstr "Великая Владычица и Учитель %s"
 
 #: data/nation/northumbrian.ruleset:3
 msgid "Northumbrian"
@@ -9709,7 +9522,7 @@ msgid ""
 msgstr ""
 "Новгородская республика — русское средневековое государство, простиравшееся "
 "от Балтийского моря до Уральских гор. Оно существовало с 1136 года. В "
-"течение XIV-XV веков Тверское, Московское княжества и Великое княжество "
+"течение XIV—XV веков Тверское, Московское княжества и Великое княжество "
 "Литовское не оставляли попыток подчинить себе Новгород, и лишь Великий князь "
 "Московский Иван III в 1478 году окончательно его покорил."
 
@@ -9840,7 +9653,7 @@ msgid ""
 msgstr ""
 "Несмотря на то, что Окситания никогда не была единой страной (она состояла "
 "из нескольких графств и герцогств в современной южной Франции), её культура "
-"в XI-XIII веках пользовалась большим влиянием — окситанский был языком "
+"в XI—XIII веках пользовалась большим влиянием — окситанский был языком "
 "трубадуров. Её религиозная свобода способствовала процветанию катаризма, "
 "которое Папа объявил еретическим учением и выдал французским королям "
 "преимущественное право на владение этой территорией."
@@ -10009,27 +9822,14 @@ msgstr ""
 "практически без населения."
 
 #: data/nation/otomi.ruleset:3
-#, fuzzy
-#| msgid "Otomi"
 msgid "Otomí"
 msgstr "Отоми"
 
 #: data/nation/otomi.ruleset:6
-#, fuzzy
-#| msgid "?plural:Otomies"
 msgid "?plural:Otomíes"
 msgstr "Отоми"
 
 #: data/nation/otomi.ruleset:9
-#, fuzzy
-#| msgid ""
-#| "The Otomi are one of the most ancient peoples of Mexico. They have lived "
-#| "in Central Mexico ever since the development of agriculture or even "
-#| "longer. A warlike people, they served as mercenaries in the armies of "
-#| "many Mesoamerican civilizations and got their name from the otmitl, the "
-#| "crack military order of the Aztecs, in which many of them served. In "
-#| "their own language they are called Hnahnu. With more than half a million "
-#| "people the Otomi are still one of the biggest indigenous groups of Mexico."
 msgid ""
 "The Otomí are one of the most ancient peoples of Mexico. They have lived in "
 "Central Mexico ever since the development of agriculture or even longer. A "
@@ -10080,7 +9880,7 @@ msgstr "Падишах %s"
 #: data/nation/ottoman.ruleset:29
 #, c-format
 msgid "?female:Padishah %s"
-msgstr "Падишах %s"
+msgstr "Падишахиня %s"
 
 #: data/nation/ozite.ruleset:3
 msgid "Ozite"
@@ -10358,10 +10158,10 @@ msgstr ""
 "1767 году. В 1811 году Парагвай стал первой южноамериканской страной, "
 "добившейся независимости от Испании. Страной управлял ряд авторитарных "
 "правителей, но тирания сопровождалась и ростом военной и экономической мощи. "
-"Война 1864-70 с Тройственным Союзом привела к практически полному "
+"Война 1864—1870 с Тройственным Союзом привела к практически полному "
 "уничтожению Парагвая, потерявшего больше половины своей территории и 80% "
 "мужского населения. История Парагвая остаётся отмеченной нестабильностью и "
-"авторитаризмом, так в Войне за плато Чако 1932-36 годов военное "
+"авторитаризмом, так в Войне за плато Чако 1932—1936 годов военное "
 "правительство Парагвая нанесло поражение Боливии, а почти половину XX века "
 "страна была под диктатом генерала Стресснера, обеспечившего безопасное "
 "убежище многим нацистским военным преступникам. Однако, на рубеже нового "
@@ -10651,20 +10451,6 @@ msgid "?plural:P'urhepecha"
 msgstr "Пурепеча"
 
 #: data/nation/purhepecha.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The P'urhepecha or Tarascans are a people native to the modern Mexican "
-#| "state of Michoacan, the heart of a former empire known to them as "
-#| "Irechikua Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their "
-#| "capital city. Their kings were the perennial enemy of the Aztec empire, "
-#| "who attempted an unsuccessful invasion of the P'urhepecha lands. When the "
-#| "Spanish arrived and began their conquest of Mexico in 1519, the Aztecs "
-#| "sent an embassy seeking the support of the P'urhepecha, but were "
-#| "rebuffed. The conquistadores' reputation preceded them and the "
-#| "P'urhepecha offered to become a subject state of the King of Spain rather "
-#| "than meet the same fate as their former enemies, the Aztecs. "
-#| "Nevertheless, the transition to Spanish rule was not smooth and devolved "
-#| "into violence. The empire, founded around 1450 CE, collapsed in 1530."
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacán, the heart of a former empire known to them as Irechikua "
@@ -10747,31 +10533,20 @@ msgstr ""
 "строительству каменных истуканов — моаи. Цивилизация острова была "
 "практически уничтожена наступившими из-за перенаселения экологической "
 "катастрофой и внутренними конфликтами ещё до появления европейцев (Джеймс "
-"Кук указывал численность населения 3000 человек, хотя в XVI-XVII веках на "
+"Кук указывал численность населения 3000 человек, хотя в XVI—XVII веках на "
 "острове жило от 10 до 15 тысяч). Секрет рапануйской письменности, ронго-"
 "ронго, был утерян в середине XIX века из-за вывоза всего работоспособного "
 "населения в чилийское рабство, а 1888 году остров был аннексирован Чили."
 
 #: data/nation/raramuri.ruleset:3
-#, fuzzy
-#| msgid "Raramuri"
 msgid "Rarámuri"
 msgstr "Тараумара"
 
 #: data/nation/raramuri.ruleset:6
-#, fuzzy
-#| msgid "?plural:Raramuris"
 msgid "?plural:Rarámuris"
 msgstr "Тараумара"
 
 #: data/nation/raramuri.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Raramuri or Tarahumara live in the canyons of the Sierra Madre "
-#| "Occidental in the north of Mexico. They are well known for their "
-#| "endurance; their traditions include running long distances while kicking "
-#| "wooden balls in races that last up to several days. In 1891 a Raramuri "
-#| "uprising in Tomochi was brutally repressed by the Mexican authorities."
 msgid ""
 "The Rarámuri or Tarahumara live in the canyons of the Sierra Madre "
 "Occidental in the north of Mexico. They are well known for their endurance; "
@@ -10783,7 +10558,7 @@ msgstr ""
 "Оксиденталь (также называемой Медный каньон) в штате Чиуауа на севере "
 "Мексики. Слово тараумара — искажённое испанцами самоназвание "
 "«рарамури» («лёгкие ноги»), тараурама известны своей выносливостью, их "
-"традиции включают бег на на большие расстояния с перепиныванием деревянного "
+"традиции включают бег на большие расстояния с перепиныванием деревянного "
 "мяча, что в прошлом длилось до нескольких дней. В 1891 году восстание "
 "рарамури в Томочи было жестоко подавлено мексиканскими властями."
 
@@ -10992,7 +10767,7 @@ msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
-"Королевство Рюкю (1372-1879) — мирная морская торговая страна, "
+"Королевство Рюкю (1372—1879) — мирная морская торговая страна, "
 "располагавшаяся на архипелаге Рюкю, протянувшемся на 1200 км от Тайваня до "
 "японского острова Кюсю. В XVII веке территория Рюкю была захвачена "
 "вторгшимися японскими войсками, а в XIX веке архипелаг Рюкю был окончательно "
@@ -11137,18 +10912,6 @@ msgid "?plural:Salvadorans"
 msgstr "Сальвадорцы"
 
 #: data/nation/salvadoran.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Originally inhabited by Pipil Indians, in the 16th century El Salvador "
-#| "was conquered by the Spanish. It joined the Central American federation "
-#| "upon independence and became a fully independent republic in 1840. "
-#| "Although formally El Salvador has been a democracy for most of its "
-#| "independence, in reality the country's government is highly oligarchic, "
-#| "the 'fourteen families' having dominated the country's political and "
-#| "economic life since independence. In the 1930s general Hernandez Martinez "
-#| "established a dictatorship. A nonviolent revolution overthrew Hernandez "
-#| "in 1944 but the country remained unstable and from 1979-1992 the country "
-#| "lived through another bloody civil war."
 msgid ""
 "Originally inhabited by Pipil Indians, in the 16th century El Salvador was "
 "conquered by the Spanish. It joined the Central American federation upon "
@@ -11168,7 +10931,7 @@ msgstr ""
 "установления независимости находился под олигархической властью "
 "«четырнадцати семей». В 1930-х годах генерал Эрнандес Мартинес установил "
 "военную диктатуру, которая была ненасильственно свергнута в 1944 году, но "
-"страна осталась в нестабильном состоянии и в 1979-1992 годах прошла через "
+"страна осталась в нестабильном состоянии и в 1979—1992 годах прошла через "
 "кровавую гражданскую войну."
 
 #: data/nation/sami.ruleset:3
@@ -11301,15 +11064,6 @@ msgid "?plural:Santomeans"
 msgstr "Сантомейцы"
 
 #: data/nation/santomean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Sao Tome and Principe are two islands in the Atlantic Ocean off the coast "
-#| "of Africa. The main island was named after Saint Thomas by the Portuguese "
-#| "sailors who first discovered the island on the saint's feast day around "
-#| "1470. The islands turned into the first major European plantation colony. "
-#| "Slavery was abolished in the 19th century and the country became "
-#| "independent in 1975. The islands' economy remains dependent on the export "
-#| "of cocoa."
 msgid ""
 "São Tomé and Príncipe are two islands in the Atlantic Ocean off the coast of "
 "Africa. The main island was named after Saint Thomas by the Portuguese "
@@ -11379,16 +11133,16 @@ msgid ""
 msgstr ""
 "Сарматы — общее название кочевых скотоводческих ираноязычных племён "
 "населявших с IV века до н.э. по IV век н.э. степные районы от Южного Урала и "
-"Западного Казахстана до Дуная. Согласно некоторым мифам, популярным в XV-"
+"Западного Казахстана до Дуная. Согласно некоторым мифам, популярным в XV—"
 "XVIII веках, польская шляхта ведёт своё происхождение от сарматов."
 
 #: data/nation/saudi.ruleset:3
 msgid "Saudi"
-msgstr "Саудовцы"
+msgstr "Саудиты"
 
 #: data/nation/saudi.ruleset:4
 msgid "?plural:Saudis"
-msgstr "Саудовцы"
+msgstr "Саудиты"
 
 #: data/nation/saudi.ruleset:6
 msgid ""
@@ -11910,7 +11664,7 @@ msgid ""
 msgstr ""
 "Сикхи — приверженцы монотеистической религии, основанной в XV веке в "
 "Пенджабе (северо-западная часть Индийского субконтинента) гуру Нанаком. В "
-"1716-1849 годах существовало Сикхское государство. Сегодня насчитывается "
+"1716—1849 годах существовало Сикхское государство. Сегодня насчитывается "
 "более 20 миллионов сикхов."
 
 #: data/nation/sikkimese.ruleset:3
@@ -11928,7 +11682,7 @@ msgid ""
 "22nd state of India in 1975."
 msgstr ""
 "Вклиненная между территориями Непала и Бутана, гималайская монархия Сикким "
-"на протяжении XVII-XX веков управлялась династией Намгьял, правители из "
+"на протяжении XVII—XX веков управлялась династией Намгьял, правители из "
 "которой, титуловались как чогьялы, пока в 1975 году Сикким не стал 22-м "
 "штатом Индии. Сикким — самый маленький по числу жителей штат миллиардной "
 "Индии, в нём проживает около 600 тысяч человек."
@@ -12022,7 +11776,7 @@ msgid ""
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
 "Словакия — страна в самом центре Европы. В прошлом была частью Чехословакии, "
-"а до 1918 года входила в состав Австро-Венгерской Империи. "
+"а до 1918 года входила в состав Австро-Венгерской Империи."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -12292,11 +12046,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "Коммунисты"
+msgstr "СССР"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr "Коммунисты"
+msgstr "СССР"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -12307,12 +12061,14 @@ msgid ""
 "disintegrated into fifteen independent countries due to social and economic "
 "problems."
 msgstr ""
-"История Советского Союза начинается с ноября 1917 года, когда под "
-"руководством В.И. Ленина произошла Октябрьская революция. 31 декабря 1922 "
-"года четыре советские республики (РСФСР, УССР, БССР и ЗСФСР) объединились в "
-"одно единое государство. Советский Союз стал одним из мощнейших государств "
-"XX века, но к концу 1991 года вследствие многих социальных потрясений "
-"Советский Союз распался на пятнадцать независимых государств."
+"История Советского Союза начинается с 7 ноября 1917 года, когда под "
+"руководством В.И. Ленина произошла Октябрьская революция и на части "
+"территории Российской Империи была провозглашена Советская Россия. 31 "
+"декабря 1922 года четыре советские республики (РСФСР, УССР, БССР и ЗСФСР) "
+"объединились в одно единое государство. Советский Союз стал одним из "
+"мощнейших государств XX века, но к концу 1991 года вследствие многих "
+"социальных потрясений Советский Союз распался на пятнадцать независимых "
+"государств."
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
@@ -12334,7 +12090,7 @@ msgstr ""
 "восточной части острова Суматра, выросшее за счёт подчинения большей части "
 "Суматры, Явы, Борнео и Полуострова Малакка. Государство было основано "
 "примерно в III веке н.э. на месте государства Кантоли и достигло пика "
-"расцвета в VII-XI веках. Но с XII века началось его медленное угасание — "
+"расцвета в VII—XI веках. Но с XII века началось его медленное угасание — "
 "сначала от него отделилось царство Джамби, затем часть территории перешла в "
 "подчинение империи царя Сингхасари, а в конце XIII века уже вся территория "
 "находилась в вассальной зависимости от яванской империи Маджапахит. В 1292 "
@@ -12386,9 +12142,9 @@ msgstr ""
 "Германии, занимавшего в I в. до н.э. — II веке н.э. территорию от Эльбы, до "
 "верхнего Рейна. В 58 году до н.э. римский полководец Юлий Цезарь нанёс "
 "поражение свевам во главе с Ариовистом, перешедшим около 71 до н.э. Рейн и "
-"пытавшимся обосноваться в юго-восточной части Галлии. В течение I-IV вв. н."
+"пытавшимся обосноваться в юго-восточной части Галлии. В течение I—IV вв. н."
 "э. свевы были непрерывной угрозой Риму, неоднократно набегая на придунайские "
-"провинции империи. Зимой 405-406 гг. под натиском гуннов свевы вместе с "
+"провинции империи. Зимой 405—406 гг. под натиском гуннов свевы вместе с "
 "вандалами и аланами были вынуждены оставить свои земли — перейдя замёрзший "
 "Рейн, они вышли из-под удара. В дальнейшем свевы мигрировали на северо-"
 "западное побережье Пиренейского полуострова, основав там своё королевство, "
@@ -12610,8 +12366,9 @@ msgstr ""
 "правления в Китае. Китайская Республика контролировала почти весь "
 "материковый Китай и Монголию, а после Второй Мировой войны — и группу "
 "островов Тайвань и Пэнху. Однако, правящая партия Гоминьдан потерпела "
-"поражение в гражданской войне 1946-50 годов и руководство республики бежало "
-"на Тайвань, сделав город Тайбэй временной столицей Китайской Республики."
+"поражение в гражданской войне 1946—1950 годов и руководство республики "
+"бежало на Тайвань, сделав город Тайбэй временной столицей Китайской "
+"Республики."
 
 #: data/nation/tajik.ruleset:3
 msgid "Tajik"
@@ -12628,7 +12385,7 @@ msgid ""
 "appear after the Arab conquest."
 msgstr ""
 "Таджикистан — страна в Центральной Азии. Таджики отслеживают историю своего "
-"государства со времён империи Саманидов в IX-X веках н.э., ставшей одним из "
+"государства со времён империи Саманидов в IX—X веках н.э., ставшей одним из "
 "первых персидских государств после арабского нашествия."
 
 #: data/nation/tanganyikan.ruleset:3
@@ -12845,7 +12602,7 @@ msgstr ""
 "Нгаванг Лобсанг Гьяцо в 1642 году установил в Тибете буддийскую теократию "
 "под властью школы гелуг. В 1950 году Тибет был захвачен вновь образованной "
 "Китайской Народной республикой, начав проводить в регионе политику "
-"ассимиляции, и часть правительства Тибета вместе с Далай-Ламой и десятками "
+"ассимиляции; часть правительства Тибета вместе с Далай-Ламой и десятками "
 "тысяч других тибетцев бежали в Индию, на территории которой с 1959 года "
 "функционирует тибетское правительство в изгнании."
 
@@ -13238,14 +12995,22 @@ msgid ""
 "the Russian Soviet Federative Socialist Republic."
 msgstr ""
 "Тувинцы — тюркоговорящий народ, проживающий в Автономной республике Тува "
-"(Тыва) в Восточной Сибири, в географическом центре Азии. В 1914 году с "
-"падением китайской династии Цзинь Тува вышла из состава Китая и перешла под "
-"протекторат Российской империи. В 1921 году была образована независимая "
-"Народная Республика Танну-Тува, переименованная в 1926 году в Тувинскую "
-"Народную Республику. Во Второй мировой войне республика воевала на стороне "
-"СССР: с 1943 года тувинские добровольцы участвовали в сражениях, а в тылу "
-"ТНР поставляла в СССР коней, скот, лыжи, одежду, зерно и мёд. В 1944 году "
-"Тува вошла в состав СССР."
+"(самоназвание — Тыва) в Южной Сибири, в географическом центре Азии. После "
+"Монгольской национальной революции 1911 года и китайской Синьхайской "
+"революции (1913), приведшей к падению китайской династии Цин, Тува вышла из "
+"состава цинского Китая и в апреле 1914 года перешла под протекторат "
+"Российской империи под названием Урянхайский край. В 1921 году была "
+"образована независимая Народная Республика Танну-Тува, переименованная в "
+"1926 году в Тувинскую Народную Республику. Во Второй мировой войне "
+"республика воевала на стороне СССР, став первым союзником подвергшейся "
+"агресси страны. ТНР поставляла в Красную Армию боевых коней, скот, лыжи, "
+"одежду, продукты и медикаменты, причём в основном безвозмездно, а с мая 1943 "
+"года в Красную Армию начали вступать тувинские добровольцы, В 1944 году Тува "
+"вошла в состав СССР на правах Автономной союзной республики. В 1991 году "
+"Тувинская АССР была переименована в Республику Тува, а с 1993 года "
+"официальное название республики было приведено в соответствие с тувинским "
+"самоназванием — Республика Тыва. По действующему законодательству написания "
+"Тува и Тыва равнозначны."
 
 #: data/nation/tyrolian.ruleset:3
 msgid "Tyrolian"
@@ -13376,7 +13141,7 @@ msgstr ""
 "западной Азии, располагавшееся на территории Армянского нагорья (современные "
 "Армения, восточная Турция и северо-западный Иран). О существовании союза "
 "племён Урарту  достоверно известно с начала XIII века до н.э. Расцвет "
-"Царства Урарту приходится на IX-VIII века до н.э., позже оно попадает в "
+"Царства Урарту приходится на IX—VIII века до н.э., позже оно попадает в "
 "вассальную зависимость от Ассирии. Царство прекратило существование в начале "
 "VI века до н.э. когда скифы и киммерийцы с севера, а мидийцы с юго-востока "
 "постепенно захватили его земли и разрушили все города и крепости. Урарту "
@@ -13641,15 +13406,6 @@ msgid "?plural:Venezuelans"
 msgstr "Венесуэльцы"
 
 #: data/nation/venezuelan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Venezuela is the northernmost country in South America. Having been a "
-#| "Spanish colony since the 16th century, the country gained independence on "
-#| "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
-#| "Liberator. Venezuela has one of the largest proven oil and gas reserves "
-#| "of the world; during the oil boom of the 1970s it was the wealthiest "
-#| "country of Latin America. The country is known for its varied landscapes "
-#| "and high biodiversity."
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -13770,7 +13526,7 @@ msgstr ""
 
 #: data/nation/vistulan.ruleset:3
 msgid "Vistulan"
-msgstr "Вмсляне"
+msgstr "Висляне"
 
 #: data/nation/vistulan.ruleset:4
 msgid "?plural:Vistulans"
@@ -13793,26 +13549,14 @@ msgstr ""
 "полянами и включены в состав Польши."
 
 #: data/nation/volapuk.ruleset:3
-#, fuzzy
-#| msgid "Volapukan"
 msgid "Volapükan"
 msgstr "Волапюки"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Volapukans"
 msgid "?plural:Volapükans"
 msgstr "Волапюки"
 
 #: data/nation/volapuk.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Volapuk is an international auxiliary language constructed by the German "
-#| "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in "
-#| "the late 19th century. The language is often considered unnecessarily "
-#| "complex when compared with alternatives like Esperanto, which had almost "
-#| "completely displaced Volapuk by the turn of the century. Today only a few "
-#| "dozen Volapuk speakers remain."
 msgid ""
 "Volapük is an international auxiliary language constructed by the German "
 "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in the "
@@ -13849,7 +13593,7 @@ msgstr ""
 "земледельцев, населявших с IV века н.э. прикаспийские и причерноморские "
 "степи. Во 2-й половине VII века булгары мигрировали частично на Дунай, а "
 "частично — в Среднее Поволжье и ряд других регионов. Предки современных "
-"татар, чувашей, болгар, балкарцев, карачаевцев и башкир, булгары передали "
+"татар, чуВашей, болгар, балкарцев, карачаевцев и башкир, булгары передали "
 "своё имя современному государству Болгария."
 
 #: data/nation/volgagerman.ruleset:3
@@ -14068,13 +13812,6 @@ msgid "?plural:amaXhosa"
 msgstr "Коса"
 
 #: data/nation/xhosa.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Xhosa are Bantu people in South Africa, having arrived there from the "
-#| "Great Lakes region by the 17th century. During the apartheid era there "
-#| "were two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
-#| "apartheid activists, including Nelson Mandela and Desmond Tutu, where "
-#| "Xhosa."
 msgid ""
 "The Xhosa are Bantu people in South Africa, having arrived there from the "
 "Great Lakes region by the 17th century. During the apartheid era there were "
@@ -14177,13 +13914,6 @@ msgid "?plural:Yucatecans"
 msgstr "Юкатеки"
 
 #: data/nation/yucatecan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
-#| "white beaches. Its name is often claimed to mean \"we don't understand you"
-#| "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
-#| "independence from Mexico. Currently it is divided into three states: "
-#| "Yucatan, Campeche and Quintana Roo."
 msgid ""
 "Yucatán is a peninsula of Mexico, famous for its Maya heritage and its white "
 "beaches. Its name is often claimed to mean \"we don't understand you\" in "
@@ -14193,7 +13923,7 @@ msgid ""
 msgstr ""
 "Юкатан — полуостров в Мексике, знаменитый богатым наследием цивилизации "
 "майя. Наименование полуострова происходит от индейских слов, которые "
-"означают «мы вас не понимаем» — эту фразу услышали конкистадоры на вопрос "
+"означают «мы Вас не понимаем» — эту фразу услышали конкистадоры на вопрос "
 "майянцам «Как называется эта земля?». Юкатеки — собирательное название всех "
 "племён майя. В XIX веке существовала Республика Юкатан, провозгласившая "
 "независимость, но к 1901 году по окончании Кастовой войны полуостров "
@@ -14288,12 +14018,6 @@ msgid "?plural:Zapotecs"
 msgstr "Сапотеки"
 
 #: data/nation/zapotec.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Zapotecs or Binniza live in the Mexican state of Oaxaca. They formed "
-#| "one of the oldest and most resilient Mesoamerican civilizations. The most "
-#| "notable Zapotec center, Monte Alban, was built on a razed mountain top. "
-#| "Benito Juarez, Mexico's first indigenous president, was a Zapotec."
 msgid ""
 "The Zapotecs or Binnizá live in the Mexican state of Oaxaca. They formed one "
 "of the oldest and most resilient Mesoamerican civilizations. The most "
@@ -14373,12 +14097,3 @@ msgstr ""
 "белых фермеров с передачей их земель чёрным (в основном, соратникам Мугабе), "
 "что привело к резкому спаду продуктивности в сельском хозяйстве и "
 "катастрофическому росту цен, приведшему к гиперинфляции."
-
-#~ msgid "Canari"
-#~ msgstr "Каньяри"
-
-#~ msgid "Gokturk"
-#~ msgstr "Гектюрки"
-
-#~ msgid "Metis"
-#~ msgstr "Метисы"
