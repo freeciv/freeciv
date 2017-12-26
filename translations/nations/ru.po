@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-22 22:36+0100\n"
-"PO-Revision-Date: 2017-09-16 05:40+0500\n"
+"POT-Creation-Date: 2017-12-26 21:31+0500\n"
+"PO-Revision-Date: 2017-12-26 20:34+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -982,8 +982,7 @@ msgstr "Бейлиф %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1003,13 +1002,13 @@ msgstr "Бейлиф %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:31
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:28 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:31 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:28
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Епископ %s"
@@ -1628,7 +1627,7 @@ msgstr "Атланты"
 
 #: data/nation/atlantean.ruleset:6
 msgid "The mythical continent of Atlantis"
-msgstr "Мифический континент Атлантида."
+msgstr "Мифический континент Атлантида"
 
 #: data/nation/atlantean.ruleset:23 data/nation/briton.ruleset:23
 #: data/nation/canari.ruleset:29 data/nation/cornish.ruleset:21
@@ -3964,7 +3963,7 @@ msgstr ""
 "Чуваши (народ чаваш) — тюркоязычная этническая группа, проживающая как на "
 "европейской территории России, так и в западной Сибири. По некоторым данным, "
 "они являются потомками древних тюркских булгарских племён и, возможно, "
-"гуннов. Ныне чувашей около 1,8 миллиона, примерно половина из которых живёт "
+"гуннов. Ныне чуВашей около 1,8 миллиона, примерно половина из которых живёт "
 "в Республике Чувашия в составе РФ."
 
 #: data/nation/circassian.ruleset:3
@@ -4427,9 +4426,9 @@ msgid ""
 "and coffee in the world. Cuba was granted nominal independence in 1902."
 msgstr ""
 "С XVI века остров Куба находился под властью Испании. На протяжении веков "
-"остров был в числе ведущих производителей табака, сахара и кофе. Стала стала "
-"номинально независимой в 1902 году, после поражения Испании в войне с США, "
-"но де факто была под американским контролем. В 1959 году кубинские "
+"остров был в числе ведущих производителей табака, сахара и кофе. Страна "
+"стала номинально независимой в 1902 году, после поражения Испании в войне с "
+"США, но де факто была под американским контролем. В 1959 году кубинские "
 "революционеры под руководством Фиделя Кастро свергли ставленника США "
 "диктатора Батисту и построили первое социалистическое государство в западном "
 "полушарии. С развалом СССР находящаяся под жёсткой американской "
@@ -7113,10 +7112,10 @@ msgstr ""
 "Кашубия — историческая область в северной и центральной Польше. Название "
 "земли, происхождение которого неизвестно, впервые отмечено в источниках XIII "
 "века. Считающиеся этнической группой польского народа, кашубы имеют немного "
-"отличные от остальных поляков язык и культуру. Сегодня сообщество кашубов "
-"культивирует свою речь, литературу и производит также, среди прочего, радио- "
-"и телепередачи, юмористические книги, и даже полностью кашубинизированные "
-"дистрибутивы операционной системы Linux."
+"отличающиеся от остальных поляков язык и культуру. Сегодня сообщество "
+"кашубов культивирует свою речь, литературу и производит также, среди "
+"прочего, радио- и телепередачи, юмористические книги, и даже полностью "
+"кашубинизированные дистрибутивы операционной системы Linux."
 
 #: data/nation/katangan.ruleset:3
 msgid "Katangan"
@@ -9450,12 +9449,12 @@ msgstr ""
 #: data/nation/northkorean.ruleset:25
 #, c-format
 msgid "Dear Leader %s"
-msgstr "Любимый Лидер %s"
+msgstr "Возлюбленный Лидер %s"
 
 #: data/nation/northkorean.ruleset:25
 #, c-format
 msgid "?female:Dear Leader %s"
-msgstr "Любимый Лидер %s"
+msgstr "Возлюбленный Лидер %s"
 
 #: data/nation/northkorean.ruleset:26 data/nation/soviet.ruleset:30
 #, c-format
@@ -10559,7 +10558,7 @@ msgstr ""
 "Оксиденталь (также называемой Медный каньон) в штате Чиуауа на севере "
 "Мексики. Слово тараумара — искажённое испанцами самоназвание "
 "«рарамури» («лёгкие ноги»), тараурама известны своей выносливостью, их "
-"традиции включают бег на на большие расстояния с перепиныванием деревянного "
+"традиции включают бег на большие расстояния с перепиныванием деревянного "
 "мяча, что в прошлом длилось до нескольких дней. В 1891 году восстание "
 "рарамури в Томочи было жестоко подавлено мексиканскими властями."
 
@@ -13594,7 +13593,7 @@ msgstr ""
 "земледельцев, населявших с IV века н.э. прикаспийские и причерноморские "
 "степи. Во 2-й половине VII века булгары мигрировали частично на Дунай, а "
 "частично — в Среднее Поволжье и ряд других регионов. Предки современных "
-"татар, чувашей, болгар, балкарцев, карачаевцев и башкир, булгары передали "
+"татар, чуВашей, болгар, балкарцев, карачаевцев и башкир, булгары передали "
 "своё имя современному государству Болгария."
 
 #: data/nation/volgagerman.ruleset:3
@@ -13924,7 +13923,7 @@ msgid ""
 msgstr ""
 "Юкатан — полуостров в Мексике, знаменитый богатым наследием цивилизации "
 "майя. Наименование полуострова происходит от индейских слов, которые "
-"означают «мы вас не понимаем» — эту фразу услышали конкистадоры на вопрос "
+"означают «мы Вас не понимаем» — эту фразу услышали конкистадоры на вопрос "
 "майянцам «Как называется эта земля?». Юкатеки — собирательное название всех "
 "племён майя. В XIX веке существовала Республика Юкатан, провозгласившая "
 "независимость, но к 1901 году по окончании Кастовой войны полуостров "
