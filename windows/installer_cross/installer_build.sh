@@ -29,7 +29,6 @@ add_gtk3_env() {
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
   cp $1/bin/libfontconfig-1.dll $2/ &&
   cp $1/bin/libfreetype-6.dll $2/ &&
-  cp $1/bin/libpng16-16.dll $2/ &&
   cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
@@ -59,6 +58,7 @@ add_qt_env() {
   cp $1/bin/Qt5Core.dll $2/ &&
   cp $1/bin/Qt5Gui.dll $2/ &&
   cp $1/bin/Qt5Widgets.dll $2/ &&
+  cp $1/bin/libpcre2-16-0.dll $2/ &&
   mkdir -p $2/bin &&
   cp ./helpers/installer-helper-qt.cmd $2/bin/installer-helper.cmd
 }
@@ -70,8 +70,9 @@ add_common_env() {
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libz.dll.1.2.11 $2/ &&
-  cp $1/lib/icuuc59.dll $2/ &&
-  cp $1/lib/icudt59.dll $2/
+  cp $1/lib/icuuc60.dll $2/ &&
+  cp $1/lib/icudt60.dll $2/ &&
+  cp $1/bin/libpng16-16.dll $2/
 }
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$2" = "x" ; then
