@@ -52,7 +52,7 @@ static const char *local_encoding, *data_encoding, *internal_encoding;
 #  define internal_encoding get_local_encoding()
 #endif /* HAVE_ICONV */
 
-/***************************************************************************
+/***********************************************************************//**
   Must be called during the initialization phase of server and client to
   initialize the character encodings to be used.
 
@@ -136,7 +136,7 @@ void init_character_encodings(const char *my_internal_encoding,
   is_init = TRUE;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Return the data encoding (usually UTF-8).
 ***************************************************************************/
 const char *get_data_encoding(void)
@@ -145,7 +145,7 @@ const char *get_data_encoding(void)
   return data_encoding;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Return the local encoding (dependent on the system).
 ***************************************************************************/
 const char *get_local_encoding(void)
@@ -166,7 +166,7 @@ const char *get_local_encoding(void)
 #endif /* HAVE_ICONV */
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Return the internal encoding.  This depends on the server or GUI being
   used.
 ***************************************************************************/
@@ -176,7 +176,7 @@ const char *get_internal_encoding(void)
   return internal_encoding;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Convert the text.  Both 'from' and 'to' must be 8-bit charsets.  The
   result will be put into the buf buffer unless it is NULL, in which case it
   will be allocated on demand.
@@ -328,7 +328,7 @@ CONV_FUNC_BUFFER(internal, local)
 
 static CONV_FUNC_STATIC(internal, local)
 
-/***************************************************************************
+/***********************************************************************//**
   Do a fprintf from the internal charset into the local charset.
 ***************************************************************************/
 void fc_fprintf(FILE *stream, const char *format, ...)
@@ -362,7 +362,7 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   fflush(stream);
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Return the length, in *characters*, of the string.  This can be used in
   place of strlen in some places because it returns the number of characters
   not the number of bytes (with multi-byte characters in UTF-8, the two
@@ -371,7 +371,7 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   Use of this function outside of GUI layout code is probably a hack.  For
   instance the demographics code uses it, but this should instead pass the
   data directly to the GUI library for formatting.
-****************************************************************************/
+***************************************************************************/
 size_t get_internal_string_length(const char *text)
 {
   int text2[(strlen(text) + 1)]; /* UCS-4 text */

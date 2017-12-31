@@ -49,7 +49,7 @@ static void backtrace_log(enum log_level level, bool print_from_where,
                           const char *where, const char *msg);
 #endif /* BACKTRACE_ACTIVE */
 
-/************************************************************************
+/********************************************************************//**
   Take backtrace log callback to use
 ************************************************************************/
 void backtrace_init(void)
@@ -59,7 +59,7 @@ void backtrace_init(void)
 #endif
 }
 
-/************************************************************************
+/********************************************************************//**
   Remove backtrace log callback from use
 ************************************************************************/
 void backtrace_deinit(void)
@@ -79,7 +79,7 @@ void backtrace_deinit(void)
 }
 
 #ifdef BACKTRACE_ACTIVE
-/************************************************************************
+/********************************************************************//**
   Write one line of backtrace
 ************************************************************************/
 static void write_backtrace_line(enum log_level level, bool print_from_where,
@@ -92,9 +92,9 @@ static void write_backtrace_line(enum log_level level, bool print_from_where,
   }
 }
 
-/*****************************************************************************
+/********************************************************************//**
   Main backtrace callback called from logging code.
-*****************************************************************************/
+************************************************************************/
 static void backtrace_log(enum log_level level, bool print_from_where,
                           const char *where, const char *msg)
 {
@@ -110,9 +110,9 @@ static void backtrace_log(enum log_level level, bool print_from_where,
 
 #endif /* BACKTRACE_ACTIVE */
 
-/*****************************************************************************
+/********************************************************************//**
   Print backtrace
-*****************************************************************************/
+************************************************************************/
 void backtrace_print(enum log_level level)
 {
 #ifdef BACKTRACE_ACTIVE

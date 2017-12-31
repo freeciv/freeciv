@@ -38,7 +38,7 @@
 
 static struct cmdline_value_list *cmdline_values = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Return a char* to the parameter of the option or NULL.
   *i can be increased to get next string in the array argv[].
   It is an error for the option to exist but be an empty string.
@@ -91,9 +91,9 @@ char *get_option_malloc(const char *option_name,
   return NULL;
 }
 
-/***************************************************************
+/**********************************************************************//**
   Free memory allocated for commandline option values.
-***************************************************************/
+**************************************************************************/
 void cmdline_option_values_free(void)
 {
   if (cmdline_values != NULL) {
@@ -105,20 +105,20 @@ void cmdline_option_values_free(void)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Is option some form of option_name. option_name must be
   full length long version such as "--help"
-***************************************************************/
+**************************************************************************/
 bool is_option(const char *option_name,char *option)
 {
   return (strcmp(option_name, option) == 0
           || strncmp(option_name + 1, option, 2) == 0);
 }
 
-/***************************************************************
+/**********************************************************************//**
   Like strcspn but also handles quotes, i.e. *reject chars are
   ignored if they are inside single or double quotes.
-***************************************************************/
+**************************************************************************/
 static size_t fc_strcspn(const char *s, const char *reject)
 {
   bool in_single_quotes = FALSE, in_double_quotes = FALSE;
@@ -143,26 +143,26 @@ static size_t fc_strcspn(const char *s, const char *reject)
   return i;
 }
 
-/***************************************************************
- Splits the string into tokens. The individual tokens are
- returned. The delimiterset can freely be chosen.
+/**********************************************************************//**
+  Splits the string into tokens. The individual tokens are
+  returned. The delimiterset can freely be chosen.
 
- i.e. "34 abc 54 87" with a delimiterset of " " will yield
-      tokens={"34", "abc", "54", "87"}
+  i.e. "34 abc 54 87" with a delimiterset of " " will yield
+       tokens={"34", "abc", "54", "87"}
 
- Part of the input string can be quoted (single or double) to embedded
- delimiter into tokens. For example,
-   command 'a name' hard "1,2,3,4,5" 99
-   create 'Mack "The Knife"'
- will yield 5 and 2 tokens respectively using the delimiterset " ,".
+  Part of the input string can be quoted (single or double) to embedded
+  delimiter into tokens. For example,
+    command 'a name' hard "1,2,3,4,5" 99
+    create 'Mack "The Knife"'
+  will yield 5 and 2 tokens respectively using the delimiterset " ,".
 
- Tokens which aren't used aren't modified (and memory is not
- allocated). If the string would yield more tokens only the first
- num_tokens are extracted.
+  Tokens which aren't used aren't modified (and memory is not
+  allocated). If the string would yield more tokens only the first
+  num_tokens are extracted.
 
- The user has the responsiblity to free the memory allocated by
- **tokens using free_tokens().
-***************************************************************/
+  The user has the responsiblity to free the memory allocated by
+  **tokens using free_tokens().
+**************************************************************************/
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
                const char *delimiterset)
 {
@@ -197,9 +197,9 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
   return token;
 }
 
-/***************************************************************
+/**********************************************************************//**
   Frees a set of tokens created by get_tokens().
-***************************************************************/
+**************************************************************************/
 void free_tokens(char **tokens, size_t ntokens)
 {
   size_t i;
