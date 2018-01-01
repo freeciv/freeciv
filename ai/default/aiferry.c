@@ -685,6 +685,8 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
          * a chain) ferry was in. */
 	if (unit_alive(ferry_id) && 0 < ferry->moves_left
             && (!alive || unit_tile(ferry) != unit_tile(passenger))) {
+          int pass_id = passenger->id;
+
 	  /* The passenger is no longer on the ferry,
 	   * and the ferry can still act.
 	   * Give a chance for another passenger to take command
@@ -692,8 +694,10 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
 	   */
 	  UNIT_LOG(LOG_DEBUG, ferry, "Activating passengers");
           dai_activate_passengers(ait, ferry);
+
           /* It is theoretically possible passenger died here due to
            * autoattack against another passing unit at its location. */
+          alive = unit_alive(pass_id);
         }
       }
       /* else at sea */
