@@ -166,7 +166,7 @@ _("Finally you have grown a city to size eight.  A size eight city can\nprovide 
 _("You have grown a city to size twelve.  To grow\nit larger, however, you will need to build a Sewer System.  This\nrequires the Sanitation technology."))
       growth12msg = true
     elseif size == 13 and not growth13msg then
-      notify.event(city.owner, city.tile, E.TUTURIAL,
+      notify.event(city.owner, city.tile, E.SCRIPT,
 _("Congratulations, you have grown a city to size 13.  A city this\nlarge can provide a tremendous amount of output if properly upgraded.\nMake sure you have enough taxes and cultural buildings to keep your\ncitizens content.  You should also make sure the city is upgraded\nwith buildings that provide bonuses to its output.  Library, Marketplace,\nFactory, and Offshore Platform are four good buildings that provide a\nlarge bonus to big cities.  Consider how much benefit each building\nwill provide and weigh this against its cost - for very large cities\nalmost all buildings are worthwhile.  Such large cities will also\nprovide enough taxable revenue (gold) to allow you to purchase some\nbuildings to accelerate their productions."))
       growth13msg = true
     end
