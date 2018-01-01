@@ -405,8 +405,6 @@ void savegame2_load(struct section_file *file)
   sg_load_scenario(loading);
   /* [random] */
   sg_load_random(loading);
-  /* [script] */
-  sg_load_script(loading);
   /* [settings] */
   sg_load_settings(loading);
   /* [ruldata] */
@@ -427,6 +425,8 @@ void savegame2_load(struct section_file *file)
   sg_load_history(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
+  /* [script] -- must come last as may reference game objects */
+  sg_load_script(loading);
 
   /* Sanity checks for the loaded game. */
   sg_load_sanitycheck(loading);
