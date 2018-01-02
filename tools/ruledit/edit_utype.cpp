@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 #include "edit_utype.h"
 
 /**************************************************************************
-  Setup tab_building object
+  Setup edit_utype object
 **************************************************************************/
 edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog()
 {
