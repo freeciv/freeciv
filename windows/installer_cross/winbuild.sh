@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.1 (02-Feb-17)
+# Version 2.3.2 (02-Jan-18)
 
-WINBUILD_VERSION="2.3.1"
+WINBUILD_VERSION="2.3.2"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=1.4
 
@@ -149,6 +149,11 @@ fi
 
 if ! cp $DLLSPATH/crosser.txt $INSTALL_DIR/share/freeciv/ ; then
   echo "Storing crosser.txt failed" >&2
+  exit 1
+fi
+
+if ! cp $DLLSPATH/ComponentVersions.txt $INSTALL_DIR/share/freeciv/CrosserComponents.txt ; then
+  echo "Storing CrosserComponents.txt failed" >&2
   exit 1
 fi
 ) then
