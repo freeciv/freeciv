@@ -360,6 +360,7 @@ static void unbuffer_shared_vision(struct player *pplayer)
 
 /**************************************************************************
   Give information about whole map (all tiles) from player to player.
+  Takes care of shared vision chains.
 **************************************************************************/
 void give_map_from_player_to_player(struct player *pfrom, struct player *pdest)
 {
@@ -1430,6 +1431,21 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
   }
 }
 
+/**************************************************************************
+  Give information about whole map (all tiles) from player to player.
+  Does not take care of shared vision; caller is assumed to do that.
+**************************************************************************/
+static void really_give_map_from_player_to_player(struct player *pfrom,
+                                                  struct player *pdest)
+{
+  whole_map_iterate(ptile) {
+    really_give_tile_info_from_player_to_player(pfrom, pdest, ptile);
+  } whole_map_iterate_end;
+
+  city_thaw_workers_queue();
+  sync_cities();
+}
+
 /***************************************************************
   Give tile information from player to player. Handles chains of
   shared vision so that receiver may give information forward.
@@ -1527,7 +1543,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 
 	/* squares that are not seen, but which pfrom may have more recent
 	   knowledge of */
-	give_map_from_player_to_player(pplayer, pplayer2);
+	really_give_map_from_player_to_player(pplayer, pplayer2);
       }
     } players_iterate_end;
     unbuffer_shared_vision(pplayer);
