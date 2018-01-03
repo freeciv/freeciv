@@ -624,7 +624,8 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
       info.roads = ptile->roads;
 
       if (ptile->label != NULL) {
-        strncpy(info.label, ptile->label, sizeof(info.label));
+        /* Always leave final '\0' in place */
+        strncpy(info.label, ptile->label, sizeof(info.label) - 1);
       } else {
         info.label[0] = '\0';
       }
