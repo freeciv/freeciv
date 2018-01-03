@@ -72,7 +72,7 @@ static char *log_level_names[] = {
  * added to use it as format string as well as the argument. */
 const char *nologmsg = "nologmsg:%s";
 
-/**************************************************************************
+/**********************************************************************//**
   level_str should be either "0", "1", "2", "3", "4" or
   "4:filename" or "4:file1:file2" or "4:filename,100,200" etc
 
@@ -233,7 +233,7 @@ out:
 #endif /* FREECIV_DEBUG */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialise the log module. Either 'filename' or 'callback' may be NULL.
   If both are NULL, print to stderr. If both are non-NULL, both callback, 
   and fprintf to file.  Pass -1 for fatal_assertions to don't raise any
@@ -261,7 +261,7 @@ void log_init(const char *filename, enum log_level initial_level,
   log_debug("LOG_DEBUG test");
 }
 
-/**************************************************************************
+/**********************************************************************//**
    Deinitialize logging module.
 **************************************************************************/
 void log_close(void)
@@ -269,9 +269,9 @@ void log_close(void)
   fc_destroy_mutex(&logfile_mutex);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Adjust the log preparation callback function.
-*****************************************************************************/
+**************************************************************************/
 log_pre_callback_fn log_set_pre_callback(log_pre_callback_fn precallback)
 {
   log_pre_callback_fn old = log_pre_callback;
@@ -281,9 +281,9 @@ log_pre_callback_fn log_set_pre_callback(log_pre_callback_fn precallback)
   return old;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Adjust the callback function after initial log_init().
-*****************************************************************************/
+**************************************************************************/
 log_callback_fn log_set_callback(log_callback_fn callback)
 {
   log_callback_fn old = log_callback;
@@ -293,7 +293,7 @@ log_callback_fn log_set_callback(log_callback_fn callback)
   return old;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust the prefix callback function after initial log_init().
 **************************************************************************/
 log_prefix_fn log_set_prefix(log_prefix_fn prefix)
@@ -305,7 +305,7 @@ log_prefix_fn log_set_prefix(log_prefix_fn prefix)
   return old;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust the logging level after initial log_init().
 **************************************************************************/
 void log_set_level(enum log_level level)
@@ -313,7 +313,7 @@ void log_set_level(enum log_level level)
   fc_log_level = level;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the current log level.
 **************************************************************************/
 enum log_level log_get_level(void)
@@ -321,7 +321,7 @@ enum log_level log_get_level(void)
   return fc_log_level;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return name of the given log level
 **************************************************************************/
 const char *log_level_name(enum log_level lvl)
@@ -334,7 +334,7 @@ const char *log_level_name(enum log_level lvl)
 }
 
 #ifdef FREECIV_DEBUG
-/**************************************************************************
+/**********************************************************************//**
   Returns wether we should do an output for this level, in this file,
   at this line.
 **************************************************************************/
@@ -356,10 +356,10 @@ bool log_do_output_for_level_at_location(enum log_level level,
 }
 #endif /* FREECIV_DEBUG */
 
-/*****************************************************************************
+/**********************************************************************//**
   Unconditionally print a simple string.
   Let the callback do its own level formatting and add a '\n' if it wants.
-*****************************************************************************/
+**************************************************************************/
 static void log_write(FILE *fs, enum log_level level, bool print_from_where,
                       const char *where, const char *message)
 {
@@ -393,10 +393,10 @@ static void log_write(FILE *fs, enum log_level level, bool print_from_where,
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Unconditionally print a log message. This function is usually protected
   by do_log_for().
-*****************************************************************************/
+**************************************************************************/
 void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
              char *buf, int buflen, const char *message, va_list args)
@@ -418,12 +418,12 @@ void vdo_log(const char *file, const char *function, int line,
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Really print a log message.
   For repeat message, may wait and print instead "last message repeated ..."
   at some later time.
   Calls log_callback if non-null, else prints to stderr.
-*****************************************************************************/
+**************************************************************************/
 static void log_real(enum log_level level, bool print_from_where,
                      const char *where, const char *msg)
 {
@@ -500,7 +500,7 @@ static void log_real(enum log_level level, bool print_from_where,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unconditionally print a log message. This function is usually protected
   by do_log_for().
   For repeat message, may wait and print instead
@@ -520,7 +520,7 @@ void do_log(const char *file, const char *function, int line,
   va_end(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set what signal the fc_assert* macros should raise on failed assertion
   (-1 to disable).
 **************************************************************************/
@@ -530,7 +530,7 @@ void fc_assert_set_fatal(int fatal_assertions)
 }
 
 #ifndef FREECIV_NDEBUG
-/**************************************************************************
+/**********************************************************************//**
   Returns wether the fc_assert* macros should raise a signal on failed
   assertion.
 **************************************************************************/
