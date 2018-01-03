@@ -48,7 +48,7 @@ static const char *download_modpack_recursive(const char *URL,
                                               dl_pb_callback pbcb,
                                               int recursion);
 
-/**************************************************************************
+/**********************************************************************//**
   Message callback called by netfile module when downloading files.
 **************************************************************************/
 static void nf_cb(const char *msg, void *data)
@@ -60,7 +60,7 @@ static void nf_cb(const char *msg, void *data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Download modpack from a given URL
 **************************************************************************/
 const char *download_modpack(const char *URL,
@@ -71,7 +71,7 @@ const char *download_modpack(const char *URL,
   return download_modpack_recursive(URL, fcmp, mcb, pbcb, 0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Download modpack and its recursive dependencies.
 **************************************************************************/
 static const char *download_modpack_recursive(const char *URL,
@@ -393,7 +393,7 @@ static const char *download_modpack_recursive(const char *URL,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Download modpack list
 **************************************************************************/
 const char *download_modpack_list(const struct fcmp_params *fcmp,
