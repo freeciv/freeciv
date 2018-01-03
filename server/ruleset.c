@@ -7755,8 +7755,8 @@ static void send_ruleset_action_auto_performers(struct conn_list *dest)
 }
 
 /**************************************************************************
-  Send the disaster ruleset information (all individual disaster types) to the
-  specified connections.
+  Send the trade route types ruleset information (all individual
+  trade route types) to the specified connections.
 **************************************************************************/
 static void send_ruleset_trade_routes(struct conn_list *dest)
 {
