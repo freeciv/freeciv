@@ -74,15 +74,15 @@ static char meta_message[256] = "";
 
 static fc_thread *meta_srv_thread = NULL;
 
-/*************************************************************************
- the default metaserver patches for this server
+/*********************************************************************//**
+  The default metaserver patches for this server
 *************************************************************************/
 const char *default_meta_patches_string(void)
 {
   return "none";
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return static string with default info line to send to metaserver.
 *************************************************************************/
 const char *default_meta_message_string(void)
@@ -98,24 +98,24 @@ const char *default_meta_message_string(void)
 #endif /* IS_BETA_VERSION */
 }
 
-/*************************************************************************
- the metaserver patches
+/*********************************************************************//**
+  The metaserver patches
 *************************************************************************/
 const char *get_meta_patches_string(void)
 {
   return meta_patches;
 }
 
-/*************************************************************************
- the metaserver message
+/*********************************************************************//**
+  The metaserver message
 *************************************************************************/
 const char *get_meta_message_string(void)
 {
   return meta_message;
 }
 
-/*************************************************************************
- The server metaserver type
+/*********************************************************************//**
+  The server metaserver type
 *************************************************************************/
 static const char *get_meta_type_string(void)
 {
@@ -126,7 +126,7 @@ static const char *get_meta_type_string(void)
   return NULL;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   The metaserver message set by user
 *************************************************************************/
 const char *get_user_meta_message_string(void)
@@ -138,7 +138,7 @@ const char *get_user_meta_message_string(void)
   return NULL;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Update meta message. Set it to user meta message, if it is available.
   Otherwise use provided message.
   It is ok to call this with NULL message. Then it only replaces current
@@ -161,24 +161,24 @@ void maybe_automatic_meta_message(const char *automatic)
   set_meta_message_string(user_message);
 }
 
-/*************************************************************************
- set the metaserver patches string
+/*********************************************************************//**
+  Set the metaserver patches string
 *************************************************************************/
 void set_meta_patches_string(const char *string)
 {
   sz_strlcpy(meta_patches, string);
 }
 
-/*************************************************************************
- set the metaserver message string
+/*********************************************************************//**
+  Set the metaserver message string
 *************************************************************************/
 void set_meta_message_string(const char *string)
 {
   sz_strlcpy(meta_message, string);
 }
 
-/*************************************************************************
- set user defined metaserver message string
+/*********************************************************************//**
+  Set user defined metaserver message string
 *************************************************************************/
 void set_user_meta_message_string(const char *string)
 {
@@ -192,7 +192,7 @@ void set_user_meta_message_string(const char *string)
   }
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return string describing both metaserver name and port.
 *************************************************************************/
 char *meta_addr_port(void)
@@ -200,8 +200,8 @@ char *meta_addr_port(void)
   return srvarg.metaserver_addr;
 }
 
-/*************************************************************************
- we couldn't find or connect to the metaserver.
+/*********************************************************************//**
+  We couldn't find or connect to the metaserver.
 *************************************************************************/
 static void metaserver_failed(void)
 {
@@ -216,9 +216,9 @@ static void metaserver_failed(void)
   }
 }
 
-/****************************************************************************
+/*********************************************************************//**
   Insert a setting in the metaserver message. Return TRUE if it succeded.
-****************************************************************************/
+*************************************************************************/
 static inline bool meta_insert_setting(struct netfile_post *post,
                                        const char *set_name)
 {
@@ -233,7 +233,7 @@ static inline bool meta_insert_setting(struct netfile_post *post,
   return TRUE;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Send POST to metaserver. This runs in its own thread.
 *************************************************************************/
 static void send_metaserver_post(void *arg)
@@ -255,8 +255,8 @@ static void send_metaserver_post(void *arg)
   netfile_close_post(post);
 }
 
-/*************************************************************************
- construct the POST message and send info to metaserver.
+/*********************************************************************//**
+  Construct the POST message and send info to metaserver.
 *************************************************************************/
 static bool send_to_metaserver(enum meta_flag flag)
 {
@@ -442,7 +442,7 @@ static bool send_to_metaserver(enum meta_flag flag)
   return TRUE;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Stop sending updates to metaserver
 *************************************************************************/
 void server_close_meta(void)
@@ -451,7 +451,7 @@ void server_close_meta(void)
   persistent_meta_connection = FALSE;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Lookup the correct address for the metaserver.
 *************************************************************************/
 bool server_open_meta(bool persistent)
@@ -470,17 +470,17 @@ bool server_open_meta(bool persistent)
   return TRUE;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Are we sending info to the metaserver?
-**************************************************************************/
+*************************************************************************/
 bool is_metaserver_open(void)
 {
   return server_is_open;
 }
 
-/**************************************************************************
+/*********************************************************************//**
   Control when we send info to the metaserver.
-**************************************************************************/
+*************************************************************************/
 bool send_server_info_to_metaserver(enum meta_flag flag)
 {
   static struct timer *last_send_timer = NULL;
