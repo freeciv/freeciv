@@ -139,7 +139,7 @@ struct fz_FILE_s {
   } u;
 };
 
-/****************************************************************************
+/************************************************************************//**
   Validate the compression method.
 ****************************************************************************/
 static inline bool fz_method_is_valid(enum fz_method method)
@@ -167,11 +167,11 @@ static inline bool fz_method_is_valid(enum fz_method method)
                       method), FZ_PLAIN))
 
 
-/***************************************************************
+/************************************************************************//**
   Open memory buffer for reading as fz_FILE.
   If control is TRUE, caller gives up control of the buffer
   so ioz will free it when fz_FILE closed.
-***************************************************************/
+****************************************************************************/
 fz_FILE *fz_from_memory(char *buffer, int size, bool control)
 {
   fz_FILE *fp;
@@ -186,7 +186,7 @@ fz_FILE *fz_from_memory(char *buffer, int size, bool control)
   return fp;
 }
 
-/***************************************************************
+/************************************************************************//**
   Open file for reading/writing, like fopen.
   Parameters compress_method and compress_level only apply
   for writing: for reading try to use the most appropriate
@@ -194,7 +194,7 @@ fz_FILE *fz_from_memory(char *buffer, int size, bool control)
   Returns NULL if there was a problem; check errno for details.
   (If errno is 0, and using FZ_ZLIB, probably had zlib error
   Z_MEM_ERROR.  Wishlist: better interface for errors?)
-***************************************************************/
+****************************************************************************/
 fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 		      enum fz_method method, int compress_level)
 {
@@ -439,9 +439,9 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   return NULL;
 }
 
-/***************************************************************
+/************************************************************************//**
   Open uncompressed stream for reading/writing.
-***************************************************************/
+****************************************************************************/
 fz_FILE *fz_from_stream(FILE *stream)
 {
   fz_FILE *fp;
@@ -457,14 +457,14 @@ fz_FILE *fz_from_stream(FILE *stream)
   return fp;
 }
 
-/***************************************************************
+/************************************************************************//**
   Close file, like fclose.
   Returns 0 on success, or non-zero for problems (but don't call
   fz_ferror in that case because the struct has already been
   free'd;  wishlist: better interface for errors?)
   (For FZ_PLAIN returns EOF and could check errno;
   for FZ_ZLIB: returns zlib error number; see zlib.h.)
-***************************************************************/
+****************************************************************************/
 int fz_fclose(fz_FILE *fp)
 {
   int error = 0;
@@ -524,11 +524,11 @@ int fz_fclose(fz_FILE *fp)
   return 1;
 }
 
-/***************************************************************
+/************************************************************************//**
   Get a line, like fgets.
   Returns NULL in case of error, or when end-of-file reached
   and no characters have been read.
-***************************************************************/
+****************************************************************************/
 char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, NULL);
@@ -716,10 +716,10 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
 
 #ifdef FREECIV_HAVE_LIBLZMA
 
-/***************************************************************
+/************************************************************************//**
   Helper function to do given compression action and writing
   results from output buffer to file.
-***************************************************************/
+****************************************************************************/
 static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
 {
   do {
@@ -748,9 +748,9 @@ static bool xz_outbuffer_to_file(fz_FILE *fp, lzma_action action)
   return TRUE;
 }
 
-/***************************************************************
+/************************************************************************//**
   Helper function to do given decompression action.
-***************************************************************/
+****************************************************************************/
 static void xz_action(fz_FILE *fp, lzma_action action)
 {
   fp->u.xz.error = lzma_code(&fp->u.xz.stream, action);
@@ -771,9 +771,9 @@ static void xz_action(fz_FILE *fp, lzma_action action)
 }
 #endif /* FREECIV_HAVE_LIBLZMA */
 
-/***************************************************************
+/************************************************************************//**
   Print formated, like fprintf.
-  
+
   Note: zlib doesn't have gzvfprintf, but thats ok because its
   fprintf only does similar to what we do here (print to fixed
   buffer), and in addition this way we get to use our safe
@@ -781,7 +781,7 @@ static void xz_action(fz_FILE *fp, lzma_action action)
 
   Returns number of (uncompressed) bytes actually written, or
   0 on error.
-***************************************************************/
+****************************************************************************/
 int fz_fprintf(fz_FILE *fp, const char *format, ...)
 {
   int num;
@@ -862,10 +862,10 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
   return 0;
 }
 
-/***************************************************************
+/************************************************************************//**
   Return non-zero if there is an error status associated with
   this stream.  Check fz_strerror for details.
-***************************************************************/
+****************************************************************************/
 int fz_ferror(fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, 0);
@@ -910,14 +910,14 @@ int fz_ferror(fz_FILE *fp)
   return 0;
 }
 
-/***************************************************************
+/************************************************************************//**
   Return string (pointer to static memory) containing an error
   description associated with the file.  Should only call
   this is you know there is an error (eg, from fz_ferror()).
   Note the error string may be based on errno, so should call
   this immediately after problem, or possibly something else
   might overwrite errno.
-***************************************************************/
+****************************************************************************/
 const char *fz_strerror(fz_FILE *fp)
 {
   fc_assert_ret_val(NULL != fp, NULL);
