@@ -80,7 +80,7 @@ struct team_placement_state {
 
 static struct strvec *ruleset_choices = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Get role_id for given role character
 ****************************************************************************/
 enum unit_role_id crole_to_role_id(char crole)
@@ -111,7 +111,7 @@ enum unit_role_id crole_to_role_id(char crole)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get unit_type for given role character
 ****************************************************************************/
 struct unit_type *crole_to_unit_type(char crole, struct player *pplayer)
@@ -137,7 +137,7 @@ struct unit_type *crole_to_unit_type(char crole, struct player *pplayer)
   return utype;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Place a starting unit for the player. Returns tile where unit was really
   placed.
 ****************************************************************************/
@@ -195,7 +195,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find a valid position not far from our starting position.
 ****************************************************************************/
 static struct tile *find_dispersed_position(struct player *pplayer,
@@ -220,7 +220,7 @@ static struct tile *find_dispersed_position(struct player *pplayer,
  * setting set to 'CLOSEST'. */
 #define team_placement_closest sq_map_distance
 
-/****************************************************************************
+/************************************************************************//**
   Calculate the distance between tiles, according to the 'teamplacement'
   setting set to 'CONTINENT'.
 ****************************************************************************/
@@ -232,7 +232,7 @@ static int team_placement_continent(const struct tile *ptile1,
           : sq_map_distance(ptile1, ptile2) + MAP_INDEX_SIZE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate the distance between tiles, according to the 'teamplacement'
   setting set to 'HORIZONTAL'.
 ****************************************************************************/
@@ -246,7 +246,7 @@ static int team_placement_horizontal(const struct tile *ptile1,
   return abs(MAP_IS_ISOMETRIC ? dx + dy : dy);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Calculate the distance between tiles, according to the 'teamplacement'
   setting set to 'VERTICAL'.
 ****************************************************************************/
@@ -260,7 +260,7 @@ static int team_placement_vertical(const struct tile *ptile1,
   return abs(MAP_IS_ISOMETRIC ? dx - dy : dy);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroys a team_placement_state structure.
 ****************************************************************************/
 static void team_placement_state_destroy(struct team_placement_state *pstate)
@@ -269,7 +269,7 @@ static void team_placement_state_destroy(struct team_placement_state *pstate)
   free(pstate);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the best team placement, according to the 'team_placement' setting.
 ****************************************************************************/
 static void do_team_placement(const struct team_placement_config *pconfig,
@@ -410,7 +410,7 @@ static void do_team_placement(const struct team_placement_config *pconfig,
   team_placement_pq_destroy_full(pqueue, team_placement_state_destroy);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a new game: place the players' units onto the map, etc.
 ****************************************************************************/
 void init_new_game(void)
@@ -831,10 +831,10 @@ void init_new_game(void)
   shuffle_players();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Tell clients the year, and also update turn_done and nturns_idle fields
   for all players.
-**************************************************************************/
+****************************************************************************/
 void send_year_to_clients(void)
 {
   struct packet_new_year apacket;
@@ -853,14 +853,14 @@ void send_year_to_clients(void)
               _("Year: %s"), calendar_text());
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send game_info packet; some server options and various stuff...
   dest == NULL means game.est_connections
 
   It may be sent at any time. It MUST be sent before any player info, 
   as it contains the number of players.  To avoid inconsistency, it
   SHOULD be sent after rulesets and any other server settings.
-**************************************************************************/
+****************************************************************************/
 void send_game_info(struct conn_list *dest)
 {
   struct packet_timeout_info tinfo;
@@ -901,9 +901,9 @@ void send_game_info(struct conn_list *dest)
   conn_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send current scenario info. dest NULL causes send to everyone
-**************************************************************************/
+****************************************************************************/
 void send_scenario_info(struct conn_list *dest)
 {
   if (!dest) {
@@ -915,9 +915,9 @@ void send_scenario_info(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send description of the current scenario. dest NULL causes send to everyone
-**************************************************************************/
+****************************************************************************/
 void send_scenario_description(struct conn_list *dest)
 {
   if (!dest) {
@@ -929,7 +929,7 @@ void send_scenario_description(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   adjusts game.info.timeout based on various server options
 
   timeoutint: adjust game.info.timeout every timeoutint turns
@@ -938,7 +938,7 @@ void send_scenario_description(struct conn_list *dest)
                  to timeoutint.
   timeoutincmult: every time we adjust game.info.timeout, we multiply timeoutinc
                   by timeoutincmult
-**************************************************************************/
+****************************************************************************/
 int update_timeout(void)
 {
   /* if there's no timer or we're doing autogame, do nothing */
@@ -982,14 +982,14 @@ int update_timeout(void)
   return game.info.timeout;
 }
 
-/**************************************************************************
+/************************************************************************//**
   adjusts game.seconds_to_turn_done when enemy moves a unit, we see it and
   the remaining timeout is smaller than the timeoutaddenemymove option.
 
   It's possible to use a similar function to do that per-player.  In
   theory there should be a separate timeout for each player and the
   added time should only go onto the victim's timer.
-**************************************************************************/
+****************************************************************************/
 void increase_timeout_because_unit_moved(void)
 {
   if (current_turn_timeout() > 0 && game.server.timeoutaddenemymove > 0) {
@@ -1003,16 +1003,16 @@ void increase_timeout_because_unit_moved(void)
   }
 }
 
-/************************************************************************** 
-  generate challenge filename for this connection, cannot fail.
-**************************************************************************/
+/************************************************************************//**
+  Generate challenge filename for this connection, cannot fail.
+****************************************************************************/
 static void gen_challenge_filename(struct connection *pc)
 {
 }
 
-/************************************************************************** 
-  get challenge filename for this connection.
-**************************************************************************/
+/************************************************************************//**
+  Get challenge filename for this connection.
+****************************************************************************/
 static const char *get_challenge_filename(struct connection *pc)
 {
   static char filename[MAX_LEN_PATH];
@@ -1023,9 +1023,9 @@ static const char *get_challenge_filename(struct connection *pc)
   return filename;
 }
 
-/************************************************************************** 
-  get challenge full filename for this connection.
-**************************************************************************/
+/************************************************************************//**
+  Get challenge full filename for this connection.
+****************************************************************************/
 static const char *get_challenge_fullname(struct connection *pc)
 {
   static char fullname[MAX_LEN_PATH];
@@ -1047,21 +1047,20 @@ static const char *get_challenge_fullname(struct connection *pc)
   return fullname;
 }
 
-/************************************************************************** 
-  find a file that we can write too, and return it's name.
-**************************************************************************/
+/************************************************************************//**
+  Find a file that we can write too, and return it's name.
+****************************************************************************/
 const char *new_challenge_filename(struct connection *pc)
 {
   gen_challenge_filename(pc);
   return get_challenge_filename(pc);
 }
 
-
-/************************************************************************** 
+/************************************************************************//**
   Call this on a connection with HACK access to send it a set of ruleset
   choices.  Probably this should be called immediately when granting
   HACK access to a connection.
-**************************************************************************/
+****************************************************************************/
 static void send_ruleset_choices(struct connection *pc)
 {
   struct packet_ruleset_choices packet;
@@ -1081,9 +1080,9 @@ static void send_ruleset_choices(struct connection *pc)
   send_packet_ruleset_choices(pc, &packet);
 }
 
-/************************************************************************** 
+/************************************************************************//**
   Free list of ruleset choices.
-**************************************************************************/
+****************************************************************************/
 void ruleset_choices_free(void)
 {
   if (ruleset_choices != NULL) {
@@ -1092,7 +1091,7 @@ void ruleset_choices_free(void)
   }
 }
 
-/**************************************************************************** 
+/************************************************************************//**
   Opens a file specified by the packet and compares the packet values with
   the file values. Sends an answer to the client once it's done.
 ****************************************************************************/
