@@ -48,7 +48,7 @@ void rscompat_init_info(struct rscompat_info *info)
 
 /**************************************************************************
   Ruleset files should have a capabilities string datafile.options
-  This checks the string and that the required capabilities are satisified.
+  This checks the string and that the required capabilities are satisfied.
 **************************************************************************/
 int rscompat_check_capabilities(struct section_file *file,
                                 const char *filename,
