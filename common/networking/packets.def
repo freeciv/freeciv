@@ -448,7 +448,7 @@ PACKET_TILE_INFO = 15; sc, lsend, is-game-info
   RESOURCE resource;
   BV_EXTRAS extras;
   STRING spec_sprite[MAX_LEN_NAME];
-  STRING label[MAX_LEN_NAME];
+  STRING label[MAX_LEN_MAP_LABEL];
 end
 
 # The variables in the packet are listed in alphabetical order.

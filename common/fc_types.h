@@ -64,8 +64,9 @@ extern "C" {
 #define MAX_NUM_TECH_CLASSES   16     /* Used in the network protocol. */
 
 /* Changing these will probably break network compatability. */
-#define MAX_LEN_NAME     48
-#define MAX_LEN_CITYNAME 80
+#define MAX_LEN_NAME       48
+#define MAX_LEN_CITYNAME   80
+#define MAX_LEN_MAP_LABEL  64
 #define MAX_LEN_DEMOGRAPHY 16
 #define MAX_LEN_ALLOW_TAKE 16
 #define MAX_LEN_GAME_IDENTIFIER 33
