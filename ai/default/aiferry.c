@@ -635,6 +635,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
   struct player *pplayer = unit_owner(passenger);
   struct pf_map *pfm;
   struct pf_path *path;
+  int pass_id = passenger->id;
 
   fc_assert_ret_val(pplayer->ai_controlled, TRUE);
   fc_assert_ret_val(!unit_has_orders(passenger), TRUE);
@@ -667,7 +668,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
       if (!pf_path_advance(path, unit_tile(passenger))) {
         /* Somehow we got thrown away from our route.
          * This can happen if our movement caused alliance breakup. */
-        return alive;
+        return unit_alive(pass_id);
       }
       next_tile = path->positions[1].tile;
       if (!is_ocean_tile(next_tile)) {
@@ -685,8 +686,6 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait,
          * a chain) ferry was in. */
 	if (unit_alive(ferry_id) && 0 < ferry->moves_left
             && (!alive || unit_tile(ferry) != unit_tile(passenger))) {
-          int pass_id = passenger->id;
-
 	  /* The passenger is no longer on the ferry,
 	   * and the ferry can still act.
 	   * Give a chance for another passenger to take command
