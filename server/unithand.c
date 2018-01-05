@@ -337,6 +337,9 @@ static void do_capture_units(struct player *pplayer,
     punit->moves_left = 0;
   }
 
+  unit_did_action(punit);
+  unit_forget_last_activity(punit);
+
   send_unit_info(NULL, punit);
 }
 
