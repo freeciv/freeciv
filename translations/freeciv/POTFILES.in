@@ -333,6 +333,15 @@ data/multiplayer/techs.ruleset
 data/multiplayer/terrain.ruleset
 data/multiplayer/units.ruleset
 data/multiplayer/script.lua
+data/sandbox/buildings.ruleset
+data/sandbox/cities.ruleset
+data/sandbox/game.ruleset
+data/sandbox/governments.ruleset
+data/sandbox/script.lua
+data/sandbox/styles.ruleset
+data/sandbox/techs.ruleset
+data/sandbox/terrain.ruleset
+data/sandbox/units.ruleset
 data/nation/american.ruleset
 data/nation/animals.ruleset
 data/nation/apache.ruleset
