@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2017-09-16 00:49+0100\n"
-"PO-Revision-Date: 2017-09-15 20:06+0100\n"
+"PO-Revision-Date: 2018-01-07 15:37+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8005,63 +8005,54 @@ msgstr "Producció (Menjar, Escuts, Comerç) d'una casella on hi ha el recurs."
 #. TRANS: MP = Movement points
 #: client/gui-qt/hudwidget.cpp:624
 msgid "MP: "
-msgstr ""
+msgstr "PM: "
 
 #: client/gui-qt/hudwidget.cpp:626
-#, fuzzy
 #| msgid "%1 HP:%2/%3"
 msgid "HP:%1/%2"
-msgstr "%1 PV:%2/%3"
+msgstr "PV:%1/%2"
 
 #: client/gui-qt/hudwidget.cpp:632
-#, fuzzy
 #| msgid "Select Unit(s)"
 msgid " (Selected %1 units)"
-msgstr "Seleccionar unitats"
+msgstr " (Seleccionades %1 unitats)"
 
 #: client/gui-qt/hudwidget.cpp:635
-#, fuzzy
 #| msgid "%1 unit"
 #| msgid_plural "%1 units"
 msgid " +%1 units"
-msgstr "%1 unitat"
+msgstr " +%1 unitats"
 
 #: client/gui-qt/hudwidget.cpp:638
-#, fuzzy
 #| msgid "%1 unit"
 #| msgid_plural "%1 units"
 msgid " +1 unit"
-msgstr "%1 unitat"
+msgstr " +1 unitat"
 
 #: client/gui-qt/hudwidget.cpp:1213
-#, fuzzy
 #| msgid "MP:"
 msgid "MP"
-msgstr "PM:"
+msgstr "PM"
 
 #: client/gui-qt/hudwidget.cpp:1287
-#, fuzzy
 #| msgid "Unit Type"
 msgid "Unit type"
-msgstr "Tipus d'Unitat"
+msgstr "Tipus d'unitat"
 
 #: client/gui-qt/hudwidget.cpp:1288
-#, fuzzy
 #| msgid "Selected New Goal"
 msgid "Selected type"
-msgstr "Nou objectiu seleccionat"
+msgstr "Tipus seleccionat"
 
 #: client/gui-qt/hudwidget.cpp:1290
-#, fuzzy
 #| msgid "All Cities"
 msgid "All types"
-msgstr "Totes les ciutats"
+msgstr "Tots els tipus"
 
 #: client/gui-qt/hudwidget.cpp:1304
-#, fuzzy
 #| msgid "Any activity"
 msgid "Unit activity"
-msgstr "Qualsevol activitat"
+msgstr "Activitat de la unitat"
 
 #: client/gui-qt/hudwidget.cpp:1305
 msgid "Any activity"
@@ -8080,10 +8071,9 @@ msgid "Sentried"
 msgstr "Amb vigilància"
 
 #: client/gui-qt/hudwidget.cpp:1324
-#, fuzzy
 #| msgid "Full HP and MP"
 msgid "Unit HP and MP"
-msgstr "PV i PM sencers"
+msgstr "PV i PM de la unitat"
 
 #: client/gui-qt/hudwidget.cpp:1325
 msgid "Any unit"
@@ -8102,94 +8092,79 @@ msgid "Full HP and MP"
 msgstr "PV i PM sencers"
 
 #: client/gui-qt/hudwidget.cpp:1344
-#, fuzzy
 #| msgid "Show Location"
 msgid "Location"
-msgstr "Mostrar Ubicació"
+msgstr "Ubicació"
 
 #: client/gui-qt/hudwidget.cpp:1345
-#, fuzzy
 #| msgid "Same Type Everywhere"
 msgid "Everywhere"
-msgstr "Tipus Igual a Tot Arreu"
+msgstr "A Tot Arreu"
 
 #: client/gui-qt/hudwidget.cpp:1346
-#, fuzzy
 #| msgid "Keep current tileset"
 msgid "Current tile"
-msgstr "Mantenir joc de caselles actual"
+msgstr "Casella actual"
 
 #: client/gui-qt/hudwidget.cpp:1347
-#, fuzzy
 #| msgid "Continent"
 msgid "Current continent"
-msgstr "Continent"
+msgstr "Continent actual"
 
 #: client/gui-qt/hudwidget.cpp:1348
-#, fuzzy
 #| msgid "Continent"
 msgid "Main continent"
-msgstr "Continent"
+msgstr "Continent principal"
 
 #: client/gui-qt/hudwidget.cpp:1578
-#, fuzzy
 #| msgid "Terrain: %s"
 msgid "Terrain: %1\n"
-msgstr "Terreny: %s"
+msgstr "Terreny: %1\n"
 
 #: client/gui-qt/hudwidget.cpp:1579
-#, fuzzy
 #| msgid "Food/Prod/Trade: %s"
 msgid "Food/Prod/Trade: %1\n"
-msgstr "Menjar/Producció/Comerç: %s"
+msgstr "Menjar/Producció/Comerç: %1\n"
 
 #: client/gui-qt/hudwidget.cpp:1583
-#, fuzzy
 #| msgid "Infrastructure: %s"
 msgid "Infrastructure: %1\n"
-msgstr "Infraestructures: %s"
+msgstr "Infraestructura: %1\n"
 
 #: client/gui-qt/hudwidget.cpp:1585
-#, fuzzy
 #| msgid "Defense bonus:"
 msgid "Defense bonus: %1%\n"
-msgstr "Bonificació defensiva:"
+msgstr "Bonificació defensiva: %1%\n"
 
 #: client/gui-qt/hudwidget.cpp:1601 client/gui-qt/hudwidget.cpp:1603
-#, fuzzy
 #| msgid "Move cost:"
 msgid "Movement cost: %1"
-msgstr "Cost de moviment:"
+msgstr "Cost de moviment: %1"
 
 #: client/gui-qt/hudwidget.cpp:1630
-#, fuzzy
 #| msgid "%1 (Turn:%2)"
 msgid "Year: %1 (Turn: %2)"
-msgstr "%1 (Torn:%2)"
+msgstr "Any: %1 (Torn: %2)"
 
 #: client/gui-qt/hudwidget.cpp:1633
-#, fuzzy
 #| msgid "Population: %s"
 msgid "Population: %1"
-msgstr "Població: %s"
+msgstr "Població: %1"
 
 #: client/gui-qt/hudwidget.cpp:1644
-#, fuzzy
 #| msgid "Gold: %d (%+d)"
 msgid "Gold: %1 (+%2)"
-msgstr "Or: %d (%+d)"
+msgstr "Or: %1 (+%2)"
 
 #: client/gui-qt/luaconsole.cpp:77
-#, fuzzy
 #| msgid "lua <script>"
 msgid "Lua scripts"
-msgstr "lua <script>"
+msgstr "Scripts de Lua"
 
 #: client/gui-qt/luaconsole.cpp:79
-#, fuzzy
 #| msgid "Load Lua script"
 msgid "Load lua script"
-msgstr "Carregar script Lua"
+msgstr "Carregar script lua"
 
 #: client/gui-qt/mapctrl.cpp:246
 #, c-format
@@ -8883,16 +8858,14 @@ msgid "Shortcuts options"
 msgstr "Opcions de dreceres"
 
 #: client/gui-qt/sidebar.cpp:664
-#, fuzzy
 #| msgid "_Observe %s"
 msgid "Observe %1"
-msgstr "_Observar %s"
+msgstr "Observar %1"
 
 #: client/gui-qt/sidebar.cpp:675
-#, fuzzy
 #| msgid "Observe this player"
 msgid "Observe globally"
-msgstr "Observar aquest jugador"
+msgstr "Observar globalment"
 
 #: client/gui-qt/spaceshipdlg.cpp:57 client/gui-sdl/spaceshipdlg.c:177
 #: client/gui-sdl2/spaceshipdlg.c:189 data/Freeciv.in:1727
@@ -27738,220 +27711,198 @@ msgstr ""
 "distància des de la capital (la meitat de ràpid amb coneixement de Comerç)."
 
 #: data/civ2civ3/script.lua:176
-#, fuzzy
 #| msgid "Granary"
 msgid "Grand Canyon"
-msgstr "Graner"
+msgstr "Gran Canyó"
 
 #: data/civ2civ3/script.lua:178
-#, fuzzy
 #| msgid "Deep Trench"
 msgid "Deep Gorge"
-msgstr "Fossa Profunda"
+msgstr "Congost Profund"
 
 #: data/civ2civ3/script.lua:180
 msgid "Fjords"
-msgstr ""
+msgstr "Fiords"
 
 #: data/civ2civ3/script.lua:182
 msgid "Waterfalls"
-msgstr ""
+msgstr "Cascades"
 
 #: data/civ2civ3/script.lua:184
 msgid "Travertine Terraces"
-msgstr ""
+msgstr "Terrasses de travertí"
 
 #: data/civ2civ3/script.lua:193
 msgid "Thermal Vent"
-msgstr ""
+msgstr "Fumarola hidrotermal"
 
 #: data/civ2civ3/script.lua:200
 msgid "Atoll Chain"
-msgstr ""
+msgstr "Cadena d'atols"
 
 #: data/civ2civ3/script.lua:202
-#, fuzzy
 #| msgid "Great Warrior %s"
 msgid "Great Barrier Reef"
-msgstr "Gran Guerrer %s"
+msgstr "Gran Barrera de Corall"
 
 #: data/civ2civ3/script.lua:205
-#, fuzzy
 #| msgid "Great Duke %s"
 msgid "Great Blue Hole"
-msgstr "Gran Duc %s"
+msgstr "Gran forat blau"
 
 #: data/civ2civ3/script.lua:212
-#, fuzzy
 #| msgid "Great Leader %s"
 msgid "Great Lakes"
-msgstr "Gran Líder %s"
+msgstr "Grans Llacs"
 
 #: data/civ2civ3/script.lua:215
-#, fuzzy
 #| msgid "Dead"
 msgid "Dead Sea"
-msgstr "Mort"
+msgstr "Mar Morta"
 
 #: data/civ2civ3/script.lua:217
-#, fuzzy
 #| msgid "Lake"
 msgid "Rift Lake"
-msgstr "Llac"
+msgstr "Llac de rift"
 
 #: data/civ2civ3/script.lua:224
 msgid "Grand Prismatic Spring"
-msgstr ""
+msgstr "Gran Font Prismàtica"
 
 #: data/civ2civ3/script.lua:226
-#, fuzzy
 #| msgid "Plant Forest"
 msgid "Mangrove Forest"
-msgstr "Plantar Bosc"
+msgstr "Bosc de manglars"
 
 #: data/civ2civ3/script.lua:228
-#, fuzzy
 #| msgid "Notes:"
 msgid "Cenotes"
-msgstr "Notes:"
+msgstr "Cenotes"
 
 #: data/civ2civ3/script.lua:235
 msgid "Ice Sheet"
-msgstr ""
+msgstr "Placa de Gel"
 
 #: data/civ2civ3/script.lua:239
-#, fuzzy
 #| msgid "Glacier"
 msgid "Glacier Bay"
-msgstr "Glacera"
+msgstr "Badia de les Glaceres"
 
 #: data/civ2civ3/script.lua:241
 msgid "Advancing Glacier"
-msgstr ""
+msgstr "Glacera en expansió"
 
 #: data/civ2civ3/script.lua:247
-#, fuzzy
 #| msgid "Central African"
 msgid "Geothermal Area"
-msgstr "Centreafricà"
+msgstr "Àrea Geotèrmica"
 
 #: data/civ2civ3/script.lua:253
-#, fuzzy
 #| msgid "Land Area"
 msgid "Sand Sea"
-msgstr "Àrea de terra"
+msgstr "Mar de Sorra"
 
 #: data/civ2civ3/script.lua:255
 msgid "Salt Flat"
-msgstr ""
+msgstr "Plana Salada"
 
 #: data/civ2civ3/script.lua:257
 msgid "Singing Dunes"
-msgstr ""
+msgstr "Dunes Sonores"
 
 #: data/civ2civ3/script.lua:259
-#, fuzzy
 #| msgid "Desert"
 msgid "White Desert"
-msgstr "Desert"
+msgstr "Desert Blanc"
 
 #: data/civ2civ3/script.lua:266
 msgid "Long Beach"
-msgstr ""
+msgstr "Platja Llarga"
 
 #: data/civ2civ3/script.lua:268
-#, fuzzy
 #| msgid "Volcano"
 msgid "Mud Volcanoes"
-msgstr "Volcà"
+msgstr "Volcans de Fang"
 
 #: data/civ2civ3/script.lua:270
 msgid "Rock Pillars"
-msgstr ""
+msgstr "Pilars de Roca"
 
 #: data/civ2civ3/script.lua:277
 msgid "White Cliffs"
-msgstr ""
+msgstr "Penya-segats Blancs"
 
 #: data/civ2civ3/script.lua:279
 msgid "Giant Cave"
-msgstr ""
+msgstr "Cova Gegant"
 
 #: data/civ2civ3/script.lua:281
-#, fuzzy
 #| msgid "Pick Nation"
 msgid "Rock Formation"
-msgstr "Tria Nació"
+msgstr "Formació Rocosa"
 
 #: data/civ2civ3/script.lua:288
-#, fuzzy
 #| msgid "Plant Forest"
 msgid "Rainforest"
-msgstr "Plantar Bosc"
+msgstr "Selva pluvial"
 
 #: data/civ2civ3/script.lua:290
 msgid "Subterranean River"
-msgstr ""
+msgstr "Riu Subterrani"
 
 #: data/civ2civ3/script.lua:292
 msgid "Sinkholes"
-msgstr ""
+msgstr "Bòfies"
 
 #: data/civ2civ3/script.lua:299
-#, fuzzy
 #| msgid "Plant Forest"
 msgid "Stone Forest"
-msgstr "Plantar Bosc"
+msgstr "Bosc de Pedra"
 
 #: data/civ2civ3/script.lua:301
-#, fuzzy
 #| msgid "Plant Forest"
 msgid "Sequoia Forest"
-msgstr "Plantar Bosc"
+msgstr "Bosc de Sequoies"
 
 #: data/civ2civ3/script.lua:303
 msgid "Millenary Trees"
-msgstr ""
+msgstr "Arbres mil·lenaris"
 
 #: data/civ2civ3/script.lua:311
-#, fuzzy
 #| msgid "Mountains"
 msgid "Table Mountain"
-msgstr "Muntanyes"
+msgstr "Muntanya Aplanada"
 
 #: data/civ2civ3/script.lua:313
-#, fuzzy
 #| msgid "Insert"
 msgid "Inselberg"
-msgstr "Inserir"
+msgstr "Inselberg"
 
 #: data/civ2civ3/script.lua:316
 msgid "Karst Landscape"
-msgstr ""
+msgstr "Paisatge Càrstic"
 
 #: data/civ2civ3/script.lua:318
 msgid "Valley of Geysers"
-msgstr ""
+msgstr "Vall dels Guèisers"
 
 #: data/civ2civ3/script.lua:327
-#, fuzzy
 #| msgid "Shared Vision"
 msgid "Sacred Mount"
-msgstr "Visió compartida"
+msgstr "Muntanya Sagrada"
 
 #: data/civ2civ3/script.lua:329
 msgid "Cliff Coast"
-msgstr ""
+msgstr "Costa de Penya-segats"
 
 #: data/civ2civ3/script.lua:331
-#, fuzzy
 #| msgid "Volcano"
 msgid "Active Volcano"
-msgstr "Volcà"
+msgstr "Volcà Actiu"
 
 #: data/civ2civ3/script.lua:333
 msgid "High Summit"
-msgstr ""
+msgstr "Cim Elevat"
 
 #: data/civ2civ3/techs.ruleset:81
 msgid "Enables movement of nuclear units."
