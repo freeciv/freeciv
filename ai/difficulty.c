@@ -33,7 +33,7 @@ static int fuzzy_of_skill_level(enum ai_level level);
 static int science_cost_of_skill_level(enum ai_level level);
 static int expansionism_of_skill_level(enum ai_level level);
 
-/**************************************************************************
+/**********************************************************************//**
   Set an AI level and related quantities, with no feedback.
 **************************************************************************/
 void set_ai_level_directer(struct player *pplayer, enum ai_level level)
@@ -45,7 +45,7 @@ void set_ai_level_directer(struct player *pplayer, enum ai_level level)
   pplayer->ai_common.skill_level = level;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns handicap bitvector for given AI skill level
 **************************************************************************/
 static bv_handicap handicap_of_skill_level(enum ai_level level)
@@ -136,7 +136,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
   return handicap;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the AI fuzziness (0 to 1000) corresponding to a given skill
   level (1 to 10).  See ai_fuzzy() in common/player.c
 **************************************************************************/
@@ -167,7 +167,7 @@ static int fuzzy_of_skill_level(enum ai_level level)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the AI's science development cost; a science development cost of 100
   means that the AI develops science at the same speed as a human; a science
   development cost of 200 means that the AI develops science at half the speed
@@ -200,7 +200,7 @@ static int science_cost_of_skill_level(enum ai_level level)
   return 100;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the AI expansion tendency, a percentage factor to value new cities,
   compared to defaults.  0 means _never_ build new cities, > 100 means to
   (over?)value them even more than the default (already expansionistic) AI.
@@ -231,7 +231,7 @@ static int expansionism_of_skill_level(enum ai_level level)
   return 100;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Helper function for skill level command help.
   'cmdname' is a server command name.
   Caller must free returned string.
@@ -320,7 +320,7 @@ char *ai_level_help(const char *cmdname)
   return astr_to_str(&help);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the value normal_decision (a boolean), except if the AI is fuzzy,
   then sometimes flip the value.  The intention of this is that instead of
     if (condition) { action }

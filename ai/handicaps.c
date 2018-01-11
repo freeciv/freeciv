@@ -23,7 +23,7 @@
 
 #include "handicaps.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize handicaps for player
 **************************************************************************/
 void handicaps_init(struct player *pplayer)
@@ -36,7 +36,7 @@ void handicaps_init(struct player *pplayer)
   BV_CLR_ALL(*((bv_handicap *)pplayer->ai_common.handicaps));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources associated with player handicaps.
 **************************************************************************/
 void handicaps_close(struct player *pplayer)
@@ -49,7 +49,7 @@ void handicaps_close(struct player *pplayer)
   pplayer->ai_common.handicaps = NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set player handicaps
 **************************************************************************/
 void handicaps_set(struct player *pplayer, bv_handicap handicaps)
@@ -57,7 +57,7 @@ void handicaps_set(struct player *pplayer, bv_handicap handicaps)
   *((bv_handicap *)pplayer->ai_common.handicaps) = handicaps;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   AI players may have handicaps - allowing them to cheat or preventing
   them from using certain algorithms.  This function returns whether the
   player has the given handicap.  Human players are assumed to have no
@@ -72,7 +72,7 @@ bool has_handicap(const struct player *pplayer, enum handicap_type htype)
   return BV_ISSET(*((bv_handicap *)pplayer->ai_common.handicaps), htype);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return a short (translated) string describing the handicap, for help.
   In some cases it's better to describe what happens if the handicap is
   absent; 'inverted' is set TRUE in these cases.
