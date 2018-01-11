@@ -807,8 +807,8 @@ colorlist =
 ;
 set =
     { "name", "value", "lock"
-      ; For forward compatibility reasons, we don't want Pirate nation to ever get created
-      ; to the savegames.
+      ; For forward compatibility reasons, we don`t want Pirate nation
+      ; to ever get created to the savegames.
       "barbarians", "DISABLED", TRUE
 
       "aifill", 12
