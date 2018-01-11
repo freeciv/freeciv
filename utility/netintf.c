@@ -71,9 +71,9 @@
 #endif /* HAVE_GETADDRINFO */
 
 #ifdef FREECIV_HAVE_WINSOCK
-/***************************************************************
+/*********************************************************************//**
   Set errno variable on Winsock error
-***************************************************************/
+*************************************************************************/
 static void set_socket_errno(void)
 {
   int err = WSAGetLastError();
@@ -96,9 +96,9 @@ static void set_socket_errno(void)
 }
 #endif /* FREECIV_HAVE_WINSOCK */
 
-/***************************************************************
+/*********************************************************************//**
   Connect a socket to an address
-***************************************************************/
+*************************************************************************/
 int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
 {
   int result;
@@ -114,9 +114,9 @@ int fc_connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen)
   return result;
 }
 
-/***************************************************************
+/*********************************************************************//**
   Wait for a number of sockets to change status
-**************************************************************/
+*************************************************************************/
 int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
               fc_timeval *timeout)
 {
@@ -133,9 +133,9 @@ int fc_select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
   return result;
 }
 
-/***************************************************************
+/*********************************************************************//**
   Read from a socket.
-***************************************************************/
+*************************************************************************/
 int fc_readsocket(int sock, void *buf, size_t size)
 {
   int result;
@@ -152,9 +152,9 @@ int fc_readsocket(int sock, void *buf, size_t size)
   return result;
 }
 
-/***************************************************************
+/*********************************************************************//**
   Write to a socket.
-***************************************************************/
+*************************************************************************/
 int fc_writesocket(int sock, const void *buf, size_t size)
 {
   int result;
@@ -175,9 +175,9 @@ int fc_writesocket(int sock, const void *buf, size_t size)
   return result;
 }
 
-/***************************************************************
+/*********************************************************************//**
   Close a socket.
-***************************************************************/
+*************************************************************************/
 void fc_closesocket(int sock)
 {
 #ifdef FREECIV_HAVE_WINSOCK
@@ -187,9 +187,9 @@ void fc_closesocket(int sock)
 #endif
 }
 
-/***************************************************************
+/*********************************************************************//**
   Initialize network stuff.
-***************************************************************/
+*************************************************************************/
 void fc_init_network(void)
 {
 #ifdef FREECIV_HAVE_WINSOCK
@@ -206,9 +206,9 @@ void fc_init_network(void)
 #endif
 }
 
-/***************************************************************
+/*********************************************************************//**
   Shutdown network stuff.
-***************************************************************/
+*************************************************************************/
 void fc_shutdown_network(void)
 {
 #ifdef FREECIV_HAVE_WINSOCK
@@ -216,9 +216,9 @@ void fc_shutdown_network(void)
 #endif
 }
 
-/***************************************************************
+/*********************************************************************//**
   Set socket to non-blocking.
-***************************************************************/
+*************************************************************************/
 void fc_nonblock(int sockfd)
 {
 #ifdef NONBLOCKING_SOCKETS
@@ -258,9 +258,9 @@ void fc_nonblock(int sockfd)
 #endif /* NONBLOCKING_SOCKETS */
 }
 
-/***************************************************************************
+/*********************************************************************//**
   Write information about sockaddr to debug log.
-***************************************************************************/
+*************************************************************************/
 void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
 {
 #ifdef FREECIV_IPV6_SUPPORT
@@ -293,10 +293,10 @@ void sockaddr_debug(union fc_sockaddr *addr, enum log_level lvl)
   log_error("Unsupported address family in sockaddr_debug()");
 }
 
-/***************************************************************************
+/*********************************************************************//**
   Gets size of address to fc_sockaddr. IPv6/IPv4 must be selected before
   calling this.
-***************************************************************************/
+*************************************************************************/
 int sockaddr_size(union fc_sockaddr *addr)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -319,9 +319,9 @@ int sockaddr_size(union fc_sockaddr *addr)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/***************************************************************************
+/*********************************************************************//**
   Returns wether address is IPv6 address.
-***************************************************************************/
+*************************************************************************/
 bool sockaddr_ipv6(union fc_sockaddr *addr)
 {
 #ifdef FREECIV_IPV6_SUPPORT
@@ -334,12 +334,12 @@ bool sockaddr_ipv6(union fc_sockaddr *addr)
 }
 
 #ifdef HAVE_GETADDRINFO
-/***************************************************************************
+/*********************************************************************//**
   Look up the service at hostname:port using getaddrinfo().
-***************************************************************************/
+*************************************************************************/
 static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
-						       int port,
-						       enum fc_addr_family family)
+                                                       int port,
+                                                       enum fc_addr_family family)
 {
   struct addrinfo hints;
   struct addrinfo *res;
@@ -400,11 +400,11 @@ static struct fc_sockaddr_list *net_lookup_getaddrinfo(const char *name,
 }
 #endif /* HAVE_GETADDRINFO */
 
-/***************************************************************************
+/*********************************************************************//**
   Look up the service at hostname:port.
-***************************************************************************/
+*************************************************************************/
 struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
-					    enum fc_addr_family family)
+                                            enum fc_addr_family family)
 {
   /* IPv6-enabled Freeciv always has HAVE_GETADDRINFO, IPv4-only Freeciv not
    * necessarily */
@@ -453,7 +453,7 @@ struct fc_sockaddr_list *net_lookup_service(const char *name, int port,
 
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Convert internet IPv4 host address to binary form and store it to inp.
   Return FALSE on failure if possible, i.e., FALSE is guarantee that it
   failed but TRUE is not guarantee that it succeeded.
@@ -481,7 +481,7 @@ bool fc_inet_aton(const char *cp, struct in_addr *inp, bool addr_none_ok)
   return TRUE;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Writes buf to socket and returns the response in an fz_FILE.
   Use only on blocking sockets.
 *************************************************************************/
@@ -542,9 +542,9 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
   return fz_from_stream(fp);
 }
 
-/************************************************************************** 
+/*********************************************************************//**
   Finds the next (lowest) free port.
-**************************************************************************/ 
+*************************************************************************/ 
 int find_next_free_port(int starting_port, int highest_port,
                         enum fc_addr_family family,
                         char *net_interface, bool not_avail_ok)

@@ -39,7 +39,7 @@ typedef size_t (*netfile_write_cb)(char *ptr, size_t size, size_t nmemb, void *u
 
 static char error_buf_curl[CURL_ERROR_SIZE];
 
-/********************************************************************** 
+/*******************************************************************//**
   Set handle to usable state.
 ***********************************************************************/
 static CURL *netfile_init_handle(void)
@@ -59,8 +59,8 @@ static CURL *netfile_init_handle(void)
   return handle;
 }
 
-/********************************************************************** 
-  curl write callback to store received file to memory.
+/*******************************************************************//**
+  Curl write callback to store received file to memory.
 ***********************************************************************/
 static size_t netfile_memwrite_cb(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
@@ -75,7 +75,7 @@ static size_t netfile_memwrite_cb(char *ptr, size_t size, size_t nmemb, void *us
   return size * nmemb;
 }
 
-/********************************************************************** 
+/*******************************************************************//**
   Fetch file from given URL to given file stream. This is core
   function of netfile module.
 ***********************************************************************/
@@ -126,7 +126,7 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
   return ret;
 }
 
-/********************************************************************** 
+/*******************************************************************//**
   Fetch section file from net
 ***********************************************************************/
 struct section_file *netfile_get_section_file(const char *URL,
@@ -148,7 +148,7 @@ struct section_file *netfile_get_section_file(const char *URL,
   return out;
 }
 
-/********************************************************************** 
+/*******************************************************************//**
   Fetch file from given URL and save as given filename.
 ***********************************************************************/
 bool netfile_download_file(const char *URL, const char *filename,
@@ -177,7 +177,7 @@ bool netfile_download_file(const char *URL, const char *filename,
   return success;
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Allocate netfile_post
 ***********************************************************************/
 struct netfile_post *netfile_start_post(void)
@@ -185,7 +185,7 @@ struct netfile_post *netfile_start_post(void)
   return fc_calloc(1, sizeof(struct netfile_post));
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Add one entry to netfile post form
 ***********************************************************************/
 void netfile_add_form_str(struct netfile_post *post,
@@ -197,7 +197,7 @@ void netfile_add_form_str(struct netfile_post *post,
                CURLFORM_END);
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Add one integer entry to netfile post form
 ***********************************************************************/
 void netfile_add_form_int(struct netfile_post *post,
@@ -209,7 +209,7 @@ void netfile_add_form_int(struct netfile_post *post,
   netfile_add_form_str(post, name, buf);
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Free netfile_post resources
 ***********************************************************************/
 void netfile_close_post(struct netfile_post *post)
@@ -218,7 +218,7 @@ void netfile_close_post(struct netfile_post *post)
   FC_FREE(post);
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Dummy write callback used only to make sure curl's default write
   function does not get used as we don't want reply to stdout
 ***********************************************************************/
@@ -227,7 +227,7 @@ static size_t dummy_write(void *buffer, size_t size, size_t nmemb, void *userp)
   return size * nmemb;
 }
 
-/********************************************************************** 
+/*******************************************************************//** 
   Send HTTP POST
 ***********************************************************************/
 bool netfile_send_post(const char *URL, struct netfile_post *post,
