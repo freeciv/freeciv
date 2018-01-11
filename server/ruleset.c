@@ -310,14 +310,14 @@ static struct section_file *openload_ruleset_file(const char *whichset,
 /**********************************************************************//**
   Parse script file.
 **************************************************************************/
-static bool openload_script_file(const char *whichset, const char *rsdir,
-                                 char **buffer)
+static enum fc_tristate openload_script_file(const char *whichset, const char *rsdir,
+                                             char **buffer, bool optional)
 {
   const char *dfilename = valid_ruleset_filename(rsdir, whichset,
-                                                 SCRIPT_SUFFIX, FALSE);
+                                                 SCRIPT_SUFFIX, optional);
 
   if (dfilename == NULL) {
-    return FALSE;
+    return optional ? TRI_MAYBE : TRI_NO;
   }
 
   if (buffer == NULL) {
@@ -325,13 +325,13 @@ static bool openload_script_file(const char *whichset, const char *rsdir,
       ruleset_error(LOG_ERROR, "\"%s\": could not load ruleset script.",
                     dfilename);
 
-      return FALSE;
+      return TRI_NO;
     }
   } else {
     script_server_load_file(dfilename, buffer);
   }
 
-  return TRUE;
+  return TRI_YES;
 }
 
 /**********************************************************************//**
@@ -8330,17 +8330,25 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 
     script_server_init();
 
-    ok = openload_script_file("script", rsdir, buffer);
+    ok = (openload_script_file("script", rsdir, buffer, FALSE) == TRI_YES);
   }
 
   if (ok) {
+    enum fc_tristate pret;
     char **buffer = buffer_script ? &parser_buffer : NULL;
 
-    ok = openload_script_file("parser", rsdir, buffer);
+    pret = openload_script_file("parser", rsdir, buffer, compat_info.compat_mode);
+
+    if (pret == TRI_MAYBE && buffer_script) {
+      parser_buffer = fc_strdup(
+       "-- This file is for lua-functionality for parsing luadata.txt\n-- of this ruleset.");
+    }
+
+    ok = (pret != TRI_NO);
   }
 
   if (ok && !buffer_script) {
-    ok = openload_script_file("default", rsdir, NULL);
+    ok = (openload_script_file("default", rsdir, NULL, FALSE) == TRI_YES);
   }
 
   if (ok && act) {
