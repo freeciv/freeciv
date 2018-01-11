@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@
 
 #include "rscompat.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize rscompat information structure
 **************************************************************************/
 void rscompat_init_info(struct rscompat_info *info)
@@ -46,7 +46,7 @@ void rscompat_init_info(struct rscompat_info *info)
   memset(info, 0, sizeof(*info));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ruleset files should have a capabilities string datafile.options
   This checks the string and that the required capabilities are satisfied.
 **************************************************************************/
@@ -98,7 +98,7 @@ int rscompat_check_capabilities(struct section_file *file,
   return secfile_lookup_int_default(file, 1, "datafile.format_version");
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find and return the first unused unit type user flag. If all unit type
   user flags are taken MAX_NUM_USER_UNIT_FLAGS is returned.
 **************************************************************************/
@@ -117,7 +117,7 @@ static int first_free_unit_type_user_flag(void)
   return MAX_NUM_USER_UNIT_FLAGS;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Do compatibility things with names before they are referred to. Runs
   after names are loaded from the ruleset but before the ruleset objects
   that may refer to them are loaded.
@@ -175,7 +175,7 @@ bool rscompat_names(struct rscompat_info *info)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust effects
 **************************************************************************/
 static bool effect_list_compat_cb(struct effect *peffect, void *data)
@@ -186,7 +186,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Do compatibility things after regular ruleset loading.
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)
@@ -222,7 +222,7 @@ void rscompat_postprocess(struct rscompat_info *info)
   autoadjust_ruleset_data();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Replace deprecated requirement type names with currently valid ones.
 
   The extra arguments are for situation where some, but not all, instances
@@ -237,7 +237,7 @@ const char *rscompat_req_type_name_3_1(const char *old_type,
   return old_type;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Replace deprecated requirement type names with currently valid ones.
 
   The extra arguments are for situation where some, but not all, instances
@@ -254,7 +254,7 @@ const char *rscompat_req_name_3_1(const char *type,
   return old_name;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Replace deprecated unit type flag names with currently valid ones.
 **************************************************************************/
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,

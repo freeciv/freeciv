@@ -34,7 +34,7 @@
 
 #include "rssanity.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Is non-rule data in ruleset sane?
 **************************************************************************/
 static bool sanity_check_metadata(void)
@@ -50,7 +50,7 @@ static bool sanity_check_metadata(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does nation have tech initially?
 **************************************************************************/
 static bool nation_has_initial_tech(struct nation_type *pnation,
@@ -78,7 +78,7 @@ static bool nation_has_initial_tech(struct nation_type *pnation,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given server setting is visible enough to be
   allowed to appear in ServerSetting requirements.
 **************************************************************************/
@@ -87,7 +87,7 @@ static bool sanity_check_setting_is_seen(struct setting *pset)
   return setting_is_visible_at_level(pset, ALLOW_INFO);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the specified server setting is a game rule and
  therefore may appear in a requirement.
 **************************************************************************/
@@ -114,7 +114,7 @@ static bool sanity_check_setting_is_game_rule(struct setting *pset)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the given server setting and value combination is
   allowed to appear in ServerSetting requirements.
 **************************************************************************/
@@ -139,7 +139,7 @@ bool sanity_check_server_setting_value_in_req(ssetv ssetval)
           && sanity_check_setting_is_game_rule(pset));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity checks on a requirement in isolation.
   This will generally be things that could only not be checked at
   ruleset load time because they would have referenced things not yet
@@ -220,7 +220,7 @@ static bool sanity_check_req_individual(struct requirement *preq,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Helper function for sanity_check_req_list() and sanity_check_req_vec()
 **************************************************************************/
 static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
@@ -384,7 +384,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check requirement vector, including whether it's free of
   conflicting requirements.
   'conjunctive' should be TRUE if the vector is an AND vector (all requirements
@@ -430,7 +430,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check callback for iterating effects cache.
 **************************************************************************/
 static bool effect_list_sanity_cb(struct effect *peffect, void *data)
@@ -442,7 +442,7 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
                               effect_type_name(peffect->type));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check barbarian unit types
 **************************************************************************/
 static bool rs_barbarian_units(void)
@@ -514,7 +514,7 @@ static bool rs_barbarian_units(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check common unit types
 **************************************************************************/
 static bool rs_common_units(void)
@@ -564,7 +564,7 @@ static bool rs_common_units(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sanity check buildings
 **************************************************************************/
 static bool rs_buildings(void)
@@ -590,7 +590,7 @@ static bool rs_buildings(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check that boolean effect types have sensible effects.
 **************************************************************************/
 static bool sanity_check_boolean_effects(void)
@@ -642,7 +642,7 @@ static bool sanity_check_boolean_effects(void)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Some more sanity checking once all rulesets are loaded. These check
   for some cross-referencing which was impossible to do while only one
   party was loaded in load_ruleset_xxx()
@@ -1217,7 +1217,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   return ok;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Apply some automatic defaults to already loaded rulesets.
 
   Returns TRUE iff everything ok.
@@ -1300,7 +1300,7 @@ bool autoadjust_ruleset_data(void)
   return ok;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set and lock settings that must have certain value.
 **************************************************************************/
 bool autolock_settings(void)
