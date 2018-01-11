@@ -77,7 +77,7 @@ static void progress_callback_thr(int downloaded, int max);
 
 static void gui_download_modpack(QString URL);
 
-/**************************************************************************
+/**********************************************************************//**
   Entry point for whole freeciv-mp-qt program.
 **************************************************************************/
 int main(int argc, char **argv)
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
   return EXIT_SUCCESS;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader
 **************************************************************************/
 static void msg_callback(const char *msg)
@@ -162,7 +162,7 @@ static void msg_callback(const char *msg)
   gui->display_msg(msg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader thread
 **************************************************************************/
 static void msg_callback_thr(const char *msg)
@@ -170,7 +170,7 @@ static void msg_callback_thr(const char *msg)
   gui->display_msg_thr(msg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader
 **************************************************************************/
 static void progress_callback_thr(int downloaded, int max)
@@ -178,7 +178,7 @@ static void progress_callback_thr(int downloaded, int max)
   gui->progress_thr(downloaded, max);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup GUI object
 **************************************************************************/
 void mpgui::setup(QWidget *central, struct fcmp_params *params)
@@ -262,7 +262,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *params)
   central->setLayout(main_layout); 
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Display status message
 **************************************************************************/
 void mpgui::display_msg(const char *msg)
@@ -271,7 +271,7 @@ void mpgui::display_msg(const char *msg)
   msg_dspl->setText(QString::fromUtf8(msg));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Display status message from another thread
 **************************************************************************/
 void mpgui::display_msg_thr(const char *msg)
@@ -279,7 +279,7 @@ void mpgui::display_msg_thr(const char *msg)
   emit display_msg_thr_signal(msg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update progress bar
 **************************************************************************/
 void mpgui::progress(int downloaded, int max)
@@ -288,7 +288,7 @@ void mpgui::progress(int downloaded, int max)
   bar->setValue(downloaded);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update progress bar from another thread
 **************************************************************************/
 void mpgui::progress_thr(int downloaded, int max)
@@ -296,7 +296,7 @@ void mpgui::progress_thr(int downloaded, int max)
   emit progress_thr_signal(downloaded, max);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Download modpack from given URL
 **************************************************************************/
 static void gui_download_modpack(QString URL)
@@ -313,7 +313,7 @@ static void gui_download_modpack(QString URL)
   worker->download(URL, gui, &fcmp, msg_callback_thr, progress_callback_thr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User entered URL
 **************************************************************************/
 void mpgui::URL_given()
@@ -321,7 +321,7 @@ void mpgui::URL_given()
   gui_download_modpack(URLedit->text());
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh display of modpack list modpack versions
 **************************************************************************/
 void mpgui::refresh_list_versions()
@@ -347,7 +347,7 @@ void mpgui::refresh_list_versions()
   mplist_table->resizeColumnsToContents();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh display of modpack list modpack versions from another thread
 **************************************************************************/
 void mpgui::refresh_list_versions_thr()
@@ -355,7 +355,7 @@ void mpgui::refresh_list_versions_thr()
   emit refresh_list_versions_thr_signal();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Build main modpack list view
 **************************************************************************/
 void mpgui::setup_list(const char *name, const char *URL,
@@ -421,7 +421,7 @@ void mpgui::setup_list(const char *name, const char *URL,
   mpcount++;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
@@ -433,7 +433,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   gui->setup_list(name, URL, version, license, type, subtype, notes);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User activated another table row
 **************************************************************************/
 void mpgui::row_selected(int row, int column)
@@ -443,7 +443,7 @@ void mpgui::row_selected(int row, int column)
   URLedit->setText(URL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User activated another table row
 **************************************************************************/
 void mpgui::row_download(const QModelIndex &index)
@@ -455,7 +455,7 @@ void mpgui::row_download(const QModelIndex &index)
   URL_given();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Main window constructor
 **************************************************************************/
 mpgui_main::mpgui_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow()
@@ -464,7 +464,7 @@ mpgui_main::mpgui_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow
   central = central_in;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open dialog to confirm that user wants to quit modpack installer.
 **************************************************************************/
 void mpgui_main::popup_quit_dialog()
@@ -489,7 +489,7 @@ void mpgui_main::popup_quit_dialog()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User clicked windows close button.
 **************************************************************************/
 void mpgui_main::closeEvent(QCloseEvent *event)

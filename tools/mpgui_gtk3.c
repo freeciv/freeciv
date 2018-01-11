@@ -65,9 +65,9 @@ static gboolean quit_dialog_callback(void);
 #define ML_NOTES       8
 #define ML_STORE_SIZE  9
 
-/****************************************************************
+/**********************************************************************//**
   freeciv-modpack quit
-****************************************************************/
+**************************************************************************/
 static void modinst_quit(void)
 {
   close_mpdbs();
@@ -78,10 +78,10 @@ static void modinst_quit(void)
   exit(EXIT_SUCCESS);
 }
 
-/****************************************************************
+/**********************************************************************//**
   This is the response callback for the dialog with the message:
   Are you sure you want to quit?
-****************************************************************/
+**************************************************************************/
 static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
@@ -90,9 +90,9 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
   }
 }
 
-/****************************************************************
-  Popups the quit dialog if 
-****************************************************************/
+/**********************************************************************//**
+  Popups the quit dialog if download in progress
+**************************************************************************/
 static gboolean quit_dialog_callback(void)
 {
   if (downloading) {
@@ -126,7 +126,7 @@ static gboolean quit_dialog_callback(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader
 **************************************************************************/
 static void msg_callback(const char *msg)
@@ -135,7 +135,7 @@ static void msg_callback(const char *msg)
   gtk_label_set_text(GTK_LABEL(statusbar), msg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader
 **************************************************************************/
 static void pbar_callback(int downloaded, int max)
@@ -150,7 +150,7 @@ struct msg_data {
   const char *msg;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Main thread handling of message sent from downloader thread.
 **************************************************************************/
 static gboolean msg_main_thread(gpointer user_data)
@@ -164,7 +164,7 @@ static gboolean msg_main_thread(gpointer user_data)
   return G_SOURCE_REMOVE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Downloader thread message callback.
 **************************************************************************/
 static void msg_dl_thread(const char *msg)
@@ -181,7 +181,7 @@ struct pbar_data {
   int max;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Main thread handling of progressbar update sent from downloader thread.
 **************************************************************************/
 static gboolean pbar_main_thread(gpointer user_data)
@@ -195,7 +195,7 @@ static gboolean pbar_main_thread(gpointer user_data)
   return G_SOURCE_REMOVE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Downloader thread progress bar callback.
 **************************************************************************/
 static void pbar_dl_thread(int current, int max)
@@ -208,7 +208,7 @@ static void pbar_dl_thread(int current, int max)
   gdk_threads_add_idle(pbar_main_thread, data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Main thread handling of versionlist update requested by downloader thread
 **************************************************************************/
 static gboolean versionlist_update_main_thread(gpointer user_data)
@@ -245,7 +245,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
   return G_SOURCE_REMOVE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Downloader thread requests versionlist update.
 **************************************************************************/
 static void versionlist_update_dl_thread(void)
@@ -253,7 +253,7 @@ static void versionlist_update_dl_thread(void)
   gdk_threads_add_idle(versionlist_update_main_thread, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Entry point for downloader thread
 **************************************************************************/
 static gpointer download_thread(gpointer data)
@@ -277,7 +277,7 @@ static gpointer download_thread(gpointer data)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Download modpack, display error message dialogs
 **************************************************************************/
 static void gui_download_modpack(const char *URL)
@@ -307,7 +307,7 @@ static void gui_download_modpack(const char *URL)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Install modpack button clicked
 **************************************************************************/
 static void install_clicked(GtkWidget *w, gpointer data)
@@ -318,7 +318,7 @@ static void install_clicked(GtkWidget *w, gpointer data)
   gui_download_modpack(URL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   URL entered
 **************************************************************************/
 static void URL_return(GtkEntry *w, gpointer data)
@@ -329,7 +329,7 @@ static void URL_return(GtkEntry *w, gpointer data)
   gui_download_modpack(URL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback for getting main list row tooltip
 **************************************************************************/
 static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
@@ -362,7 +362,7 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
@@ -408,7 +408,7 @@ static void setup_modpack_list(const char *name, const char *URL,
                      -1);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback called when entry from main modpack list selected
 **************************************************************************/
 static void select_from_list(GtkTreeSelection *select, gpointer data)
@@ -426,7 +426,7 @@ static void select_from_list(GtkTreeSelection *select, gpointer data)
   gtk_entry_set_text(GTK_ENTRY(URL_input), URL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Build widgets
 **************************************************************************/
 static void modinst_setup_widgets(GtkWidget *toplevel)
@@ -557,7 +557,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Entry point of the freeciv-modpack program
 **************************************************************************/
 int main(int argc, char *argv[])

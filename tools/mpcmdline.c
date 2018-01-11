@@ -32,7 +32,7 @@
 
 extern struct fcmp_params fcmp;
 
-/**************************************************************************
+/**********************************************************************//**
   Parse commandline parameters. Modified argv[] so it contains only
   ui-specific options afterwards. Number of those ui-specific options is
   returned.

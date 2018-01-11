@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 
 #include "mpgui_qt_worker.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Run download thread
 **************************************************************************/
 void mpqt_worker::run()
@@ -55,7 +55,7 @@ void mpqt_worker::run()
   gui->refresh_list_versions_thr();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Start thread to download and install given modpack.
 **************************************************************************/
 void mpqt_worker::download(QString URL_in, class mpgui *gui_in,

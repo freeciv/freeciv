@@ -40,7 +40,7 @@ struct fcmp_params fcmp = {
   .autoinstall = NULL
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Progress indications from downloader
 **************************************************************************/
 static void msg_callback(const char *msg)
@@ -48,7 +48,7 @@ static void msg_callback(const char *msg)
   log_normal("%s", msg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Build main modpack list view
 **************************************************************************/
 static void setup_modpack_list(const char *name, const char *URL,
@@ -91,7 +91,7 @@ static void setup_modpack_list(const char *name, const char *URL,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Entry point of the freeciv-modpack program
 **************************************************************************/
 int main(int argc, char *argv[])

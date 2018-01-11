@@ -38,7 +38,7 @@
 static char main_ii_filename[500];
 static char scenario_ii_filename[500];
 
-/**************************************************************************
+/**********************************************************************//**
   Load all required install info lists.
 **************************************************************************/
 void load_install_info_lists(struct fcmp_params *fcmp)
@@ -76,7 +76,7 @@ void load_install_info_lists(struct fcmp_params *fcmp)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize modpack installer
 **************************************************************************/
 void fcmp_init(void)
@@ -90,7 +90,7 @@ void fcmp_init(void)
   fc_srand(time(NULL)); /* Needed at least for Windows version of netfile_get_section_file() */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Deinitialize modpack installer
 **************************************************************************/
 void fcmp_deinit(void)
