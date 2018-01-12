@@ -40,7 +40,7 @@
 #include "tab_gov.h"
 
 /**************************************************************************
-  Setup tab_good object
+  Setup tab_gov object
 **************************************************************************/
 tab_gov::tab_gov(ruledit_gui *ui_in) : QWidget()
 {
