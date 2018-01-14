@@ -270,7 +270,7 @@ private:
   QRadioButton *this_tile;
   QRadioButton *this_continent;
   QRadioButton *main_continent;
-  QRadioButton *everywhere;
+  QRadioButton *anywhere;
 
   QRadioButton *this_type;
   QRadioButton *any_type;
