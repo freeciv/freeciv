@@ -1342,7 +1342,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
 
   no_name = new QGroupBox();
   no_name->setTitle(_("Location"));
-  everywhere = new QRadioButton(_("Everywhere"), no_name);
+  anywhere = new QRadioButton(_("Anywhere"), no_name);
   this_tile = new QRadioButton(_("Current tile"), no_name);
   this_continent = new QRadioButton(_("Current continent"), no_name);
   main_continent = new QRadioButton(_("Main continent"), no_name);
@@ -1359,7 +1359,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
   groupbox_layout->addWidget(this_tile);
   groupbox_layout->addWidget(this_continent);
   groupbox_layout->addWidget(main_continent);
-  groupbox_layout->addWidget(everywhere);
+  groupbox_layout->addWidget(anywhere);
 
   no_name->setLayout(groupbox_layout);
   hibox->addWidget(no_name);
@@ -1367,7 +1367,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
 
   select = new QPushButton(_("Select"));
   cancel = new QPushButton(_("Cancel"));
-  connect(everywhere, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
+  connect(anywhere, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
   connect(this_tile, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
   connect(this_continent, SIGNAL(toggled(bool)), this,
           SLOT(select_units(bool)));
@@ -1535,7 +1535,7 @@ bool unit_hud_selector::island_filter(struct unit *punit)
     }
   }
 
-  if (everywhere->isChecked()) {
+  if (anywhere->isChecked()) {
     return true;
   }
   return false;
