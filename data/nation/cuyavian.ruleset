@@ -4,7 +4,7 @@ name=_("Cuyavian")
 plural=_("?plural:Cuyavians")
 groups="European", "Medieval"
 legend=_("Cuyavia is a historical region in Northern-Central Poland,\
- bordered to the West by Masovia, on the East by Greater Poland and on the\
+ bordered to the East by Masovia, on the West by Greater Poland and on the\
  North by Pomerania.")
 leaders = {
  "name",                      "sex"
