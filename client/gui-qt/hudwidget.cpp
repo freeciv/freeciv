@@ -629,13 +629,15 @@ void hud_units::update_actions(unit_list *punits)
   num = unit_list_size(punit->tile->units);
   snum = QString::number(unit_list_size(punit->tile->units) - 1);
   if (unit_list_size(get_units_in_focus()) > 1) {
-    text_str = text_str + QString(_(" (Selected %1 units)"))
-               .arg(unit_list_size(get_units_in_focus()));
-  } else if (num > 2) {
-    text_str = text_str + QString(_(" +%1 units"))
+    int n = unit_list_size(get_units_in_focus());
+    /* TRANS: preserve leading space; always at least 2 */
+    text_str = text_str + QString(PL_(" (Selected %1 unit)",
+                                      " (Selected %1 units)", n))
+               .arg(n);
+  } else if (num > 1) {
+    text_str = text_str + QString(PL_(" +%1 unit",
+                                      " +%1 units", num-1))
                                   .arg(snum.toLocal8Bit().data());
-  } else if (num == 2) {
-    text_str = text_str + QString(_(" +1 unit"));
   }
   text_label.setText(text_str);
   font.setPixelSize((text_label.height() * 9) / 10);
