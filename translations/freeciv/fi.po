@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-14 01:46+0200\n"
-"PO-Revision-Date: 2018-01-14 02:02+0200\n"
+"POT-Creation-Date: 2018-01-17 01:41+0200\n"
+"PO-Revision-Date: 2018-01-17 01:45+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -6682,7 +6682,7 @@ msgstr "Ruudun yksiköt:"
 
 #: client/gui-gtk-3.0/action_dialog.c:1001
 #: client/gui-gtk-3.22/action_dialog.c:995 client/gui-gtk-3.22/menu.c:438
-#: client/gui-qt/cityrep.cpp:541 client/gui-qt/hudwidget.cpp:1368
+#: client/gui-qt/cityrep.cpp:541 client/gui-qt/hudwidget.cpp:1370
 #: client/gui-qt/menu.cpp:955
 msgid "Select"
 msgstr "Valitse"
@@ -6831,7 +6831,7 @@ msgstr "Sulje"
 #: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
 #: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
 #: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3872
-#: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1369
+#: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1371
 #: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
 #: client/gui-qt/pages.cpp:393 client/gui-qt/pages.cpp:528
 #: client/gui-qt/pages.cpp:596 client/gui-qt/ratesdlg.cpp:78
@@ -7880,7 +7880,7 @@ msgstr "LP:"
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:3118 client/gui-qt/hudwidget.cpp:1455
+#: client/gui-qt/dialogs.cpp:3118 client/gui-qt/hudwidget.cpp:1457
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
@@ -8059,123 +8059,124 @@ msgstr "LP: "
 msgid "HP:%1/%2"
 msgstr "OP:%1/%2"
 
-#: client/gui-qt/hudwidget.cpp:632
-msgid " (Selected %1 units)"
-msgstr " (Valittu %1 yksikköä)"
-
-#: client/gui-qt/hudwidget.cpp:635
-msgid " +%1 units"
-msgstr " +%1 yksikköä"
+#. TRANS: preserve leading space; always at least 2
+#: client/gui-qt/hudwidget.cpp:634
+msgid " (Selected %1 unit)"
+msgid_plural " (Selected %1 units)"
+msgstr[0] " (Valittu %1 yksikkö)"
+msgstr[1] " (Valittu %1 yksikköä)"
 
 #: client/gui-qt/hudwidget.cpp:638
-msgid " +1 unit"
-msgstr " +1 yksikkö"
+msgid " +%1 unit"
+msgid_plural " +%1 units"
+msgstr[0] " +%1 yksikkö"
+msgstr[1] " +%1 yksikköä"
 
-#: client/gui-qt/hudwidget.cpp:1213
+#: client/gui-qt/hudwidget.cpp:1215
 msgid "MP"
 msgstr "LP"
 
-#: client/gui-qt/hudwidget.cpp:1287
+#: client/gui-qt/hudwidget.cpp:1289
 msgid "Unit type"
 msgstr "Yksikön tyyppi"
 
-#: client/gui-qt/hudwidget.cpp:1288
+#: client/gui-qt/hudwidget.cpp:1290
 msgid "Selected type"
 msgstr "Tyyppi valittu"
 
-#: client/gui-qt/hudwidget.cpp:1290
+#: client/gui-qt/hudwidget.cpp:1292
 msgid "All types"
 msgstr "Kaikki tyypit"
 
-#: client/gui-qt/hudwidget.cpp:1304
+#: client/gui-qt/hudwidget.cpp:1306
 msgid "Unit activity"
 msgstr "Yksikön toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1305
+#: client/gui-qt/hudwidget.cpp:1307
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1307 common/unit.c:626
+#: client/gui-qt/hudwidget.cpp:1309 common/unit.c:626
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
-#: client/gui-qt/hudwidget.cpp:1308 common/unit.c:615
+#: client/gui-qt/hudwidget.cpp:1310 common/unit.c:615
 msgid "Idle"
 msgstr "Toimeton"
 
-#: client/gui-qt/hudwidget.cpp:1309
+#: client/gui-qt/hudwidget.cpp:1311
 msgid "Sentried"
 msgstr "Vartioivat"
 
-#: client/gui-qt/hudwidget.cpp:1324
+#: client/gui-qt/hudwidget.cpp:1326
 msgid "Unit HP and MP"
 msgstr "Yksikön OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1325
+#: client/gui-qt/hudwidget.cpp:1327
 msgid "Any unit"
 msgstr "Mikä hyvänsä yksikkö"
 
-#: client/gui-qt/hudwidget.cpp:1326
+#: client/gui-qt/hudwidget.cpp:1328
 msgid "Full HP"
 msgstr "Täydet OP:t"
 
-#: client/gui-qt/hudwidget.cpp:1327
+#: client/gui-qt/hudwidget.cpp:1329
 msgid "Full MP"
 msgstr "Täydet LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1328
+#: client/gui-qt/hudwidget.cpp:1330
 msgid "Full HP and MP"
 msgstr "Täydet OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1344
+#: client/gui-qt/hudwidget.cpp:1346
 msgid "Location"
 msgstr "Sijainti"
 
-#: client/gui-qt/hudwidget.cpp:1345
-msgid "Everywhere"
-msgstr "Kaikkialla"
+#: client/gui-qt/hudwidget.cpp:1347
+msgid "Anywhere"
+msgstr "Missä hyvänsä"
 
-#: client/gui-qt/hudwidget.cpp:1346
+#: client/gui-qt/hudwidget.cpp:1348
 msgid "Current tile"
 msgstr "Nykyinen ruutu"
 
-#: client/gui-qt/hudwidget.cpp:1347
+#: client/gui-qt/hudwidget.cpp:1349
 msgid "Current continent"
 msgstr "Nykyinen manner"
 
-#: client/gui-qt/hudwidget.cpp:1348
+#: client/gui-qt/hudwidget.cpp:1350
 msgid "Main continent"
 msgstr "Päämanner"
 
-#: client/gui-qt/hudwidget.cpp:1578
+#: client/gui-qt/hudwidget.cpp:1580
 msgid "Terrain: %1\n"
 msgstr "Maasto: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1579
+#: client/gui-qt/hudwidget.cpp:1581
 msgid "Food/Prod/Trade: %1\n"
 msgstr "Ruoka/tuotanto/kauppa: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1583
+#: client/gui-qt/hudwidget.cpp:1585
 msgid "Infrastructure: %1\n"
 msgstr "Infrastruktuuri: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1585
+#: client/gui-qt/hudwidget.cpp:1587
 msgid "Defense bonus: %1%\n"
 msgstr "Puolustusbonus: %1%\n"
 
-#: client/gui-qt/hudwidget.cpp:1601 client/gui-qt/hudwidget.cpp:1603
+#: client/gui-qt/hudwidget.cpp:1603 client/gui-qt/hudwidget.cpp:1605
 msgid "Movement cost: %1"
 msgstr "Liikkumisen hinta: %1"
 
-#: client/gui-qt/hudwidget.cpp:1630
+#: client/gui-qt/hudwidget.cpp:1632
 msgid "Year: %1 (Turn: %2)"
 msgstr "Vuosi: %1 (Vuoro:%2)"
 
-#: client/gui-qt/hudwidget.cpp:1633
+#: client/gui-qt/hudwidget.cpp:1635
 msgid "Population: %1"
 msgstr "Väkiluku: %1"
 
-#: client/gui-qt/hudwidget.cpp:1644
+#: client/gui-qt/hudwidget.cpp:1646
 msgid "Gold: %1 (+%2)"
 msgstr "Kultaa: %1 (+%2)"
 
@@ -28939,7 +28940,9 @@ msgstr ""
 msgid ""
 "Caravans cannot take advantage of maglevs, but may travel on the railroads "
 "that accompany them."
-msgstr "Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
+msgstr ""
+"Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-"
+"ruuduissakin vain alla olevan rautatien mukaista nopeutta."
 
 #: data/civ2civ3/units.ruleset:2381 data/sandbox/units.ruleset:2384
 msgid ""
@@ -33841,9 +33844,14 @@ msgid ""
 "This ruleset was originally based on civ2civ3 ruleset, which is about to "
 "become default ruleset in the future."
 msgstr ""
-"Pelaat kokeellisilla säännöillä. Ne esittelevät Freecivin uusia tai epätavallisia ominaisuuksia ilman yritystäkään tehdä säännöistä tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita, eivätkä tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien freeciv-versioiden kanssa.\n"
+"Pelaat kokeellisilla säännöillä. Ne esittelevät Freecivin uusia tai "
+"epätavallisia ominaisuuksia ilman yritystäkään tehdä säännöistä "
+"tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita, eivätkä "
+"tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien freeciv-"
+"versioiden kanssa.\n"
 "\n"
-"Tämä sääntökokoelma on alunperin tehty civ2civ3 sääntökokoelman pohjalta. Civ2civ3 tulee olemaan oletussääntökokoelma tulevissa freecivin versioissa."
+"Tämä sääntökokoelma on alunperin tehty civ2civ3 sääntökokoelman pohjalta. "
+"Civ2civ3 tulee olemaan oletussääntökokoelma tulevissa freecivin versioissa."
 
 #: data/sandbox/techs.ruleset:690
 msgid "Halves one-time revenue from new trade routes."
@@ -33855,7 +33863,12 @@ msgid ""
 "units such as Chariots and Catapults to travel through otherwise difficult "
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railroads, rivers or ships."
-msgstr "Tiet mahdollistavat maayksiköille nopeamman etenemisen. Pyörin varustetut järeät maayksiköt, esimerkiksi sotavaunut ja katapultit, voivat kulkea teitä pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, viidakossa tai suolla. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, voivat kulkea vain teitä, rautateitä ja jokia pitkin tai laivan kyydissä."
+msgstr ""
+"Tiet mahdollistavat maayksiköille nopeamman etenemisen. Pyörin varustetut "
+"järeät maayksiköt, esimerkiksi sotavaunut ja katapultit, voivat kulkea teitä "
+"pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, "
+"viidakossa tai suolla. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, "
+"voivat kulkea vain teitä, rautateitä ja jokia pitkin tai laivan kyydissä."
 
 #: data/sandbox/terrain.ruleset:1647
 msgid ""
@@ -33863,14 +33876,21 @@ msgid ""
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
 "the absence of roads. Triremes may also travel up rivers (although later "
 "boats cannot)."
-msgstr "Maayksiköt voivat kulkea jokea pitkin (mutta eivät vinottain oikaisten) nopeammin kuin maastossa. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, voivat teiden puutteessa kulkea jokia pitkin. Kaleerit, toisin kuin myöhemmät alukset, voivat myös kulkea jokia pitkin."
+msgstr ""
+"Maayksiköt voivat kulkea jokea pitkin (mutta eivät vinottain oikaisten) "
+"nopeammin kuin maastossa. Kaupankäyntiyksiköt, eli karavaanit ja rekka-"
+"autot, voivat teiden puutteessa kulkea jokia pitkin. Kaleerit, toisin kuin "
+"myöhemmät alukset, voivat myös kulkea jokia pitkin."
 
 #: data/sandbox/units.ruleset:2380
 msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships. (Caravans "
 "cannot take advantage of maglevs, but may travel on the railroads that "
 "accompany them.)"
-msgstr "Karavaanit voivat liikkua vain teitä, rautateitä tai jokia pitkin tai laivan kuljettamana. Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
+msgstr ""
+"Karavaanit voivat liikkua vain teitä, rautateitä tai jokia pitkin tai laivan "
+"kuljettamana. Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne "
+"liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
 
 # (Pokka ei riitä kääntämään USAn vaikutusta 'suunnattomaksi', voi pyhä justiina.)
 #: data/nation/american.ruleset:8
@@ -47240,6 +47260,9 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid " +1 unit"
+#~ msgstr " +1 yksikkö"
 
 #~ msgid "?tradebonustype:gold"
 #~ msgstr "kultaa"
