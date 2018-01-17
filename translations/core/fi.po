@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-14 01:44+0200\n"
-"PO-Revision-Date: 2018-01-14 02:13+0200\n"
+"POT-Creation-Date: 2018-01-17 01:42+0200\n"
+"PO-Revision-Date: 2018-01-17 01:58+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -6586,7 +6586,7 @@ msgstr "Ruudun yksiköt:"
 
 #: client/gui-gtk-3.0/action_dialog.c:1558 client/gui-gtk-3.0/menu.c:441
 #: client/gui-gtk-3.22/action_dialog.c:1552 client/gui-gtk-3.22/menu.c:440
-#: client/gui-qt/cityrep.cpp:538 client/gui-qt/hudwidget.cpp:1368
+#: client/gui-qt/cityrep.cpp:538 client/gui-qt/hudwidget.cpp:1370
 #: client/gui-qt/menu.cpp:1133
 msgid "Select"
 msgstr "Valitse"
@@ -7182,7 +7182,7 @@ msgstr "Sulje"
 #: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
 #: client/gui-gtk-3.22/pages.c:2774 client/gui-gtk-3.22/pages.c:2931
 #: client/gui-gtk-3.22/pages.c:3271 client/gui-qt/citydlg.cpp:3870
-#: client/gui-qt/dialogs.cpp:447 client/gui-qt/hudwidget.cpp:1369
+#: client/gui-qt/dialogs.cpp:447 client/gui-qt/hudwidget.cpp:1371
 #: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
 #: client/gui-qt/pages.cpp:393 client/gui-qt/pages.cpp:528
 #: client/gui-qt/pages.cpp:596 client/gui-qt/ratesdlg.cpp:78
@@ -7723,7 +7723,7 @@ msgstr "LP:"
 msgid "%1 HP:%2/%3"
 msgstr "%1 OP:%2/%3"
 
-#: client/gui-qt/dialogs.cpp:3755 client/gui-qt/hudwidget.cpp:1455
+#: client/gui-qt/dialogs.cpp:3755 client/gui-qt/hudwidget.cpp:1457
 msgid "%1 unit"
 msgid_plural "%1 units"
 msgstr[0] "%1 yksikkö"
@@ -7897,123 +7897,124 @@ msgstr "LP: "
 msgid "HP:%1/%2"
 msgstr "OP:%1/%2"
 
-#: client/gui-qt/hudwidget.cpp:632
-msgid " (Selected %1 units)"
-msgstr " (Valittu %1 yksikköä)"
-
-#: client/gui-qt/hudwidget.cpp:635
-msgid " +%1 units"
-msgstr " +%1 yksikköä"
+#. TRANS: preserve leading space; always at least 2
+#: client/gui-qt/hudwidget.cpp:634
+msgid " (Selected %1 unit)"
+msgid_plural " (Selected %1 units)"
+msgstr[0] " (Valittu %1 yksikkö)"
+msgstr[1] " (Valittu %1 yksikköä)"
 
 #: client/gui-qt/hudwidget.cpp:638
-msgid " +1 unit"
-msgstr " +1 yksikkö"
+msgid " +%1 unit"
+msgid_plural " +%1 units"
+msgstr[0] " +%1 yksikkö"
+msgstr[1] " +%1 yksikköä"
 
-#: client/gui-qt/hudwidget.cpp:1213
+#: client/gui-qt/hudwidget.cpp:1215
 msgid "MP"
 msgstr "LP"
 
-#: client/gui-qt/hudwidget.cpp:1287
+#: client/gui-qt/hudwidget.cpp:1289
 msgid "Unit type"
 msgstr "Yksikön tyyppi"
 
-#: client/gui-qt/hudwidget.cpp:1288
+#: client/gui-qt/hudwidget.cpp:1290
 msgid "Selected type"
 msgstr "Tyyppi valittu"
 
-#: client/gui-qt/hudwidget.cpp:1290
+#: client/gui-qt/hudwidget.cpp:1292
 msgid "All types"
 msgstr "Kaikki tyypit"
 
-#: client/gui-qt/hudwidget.cpp:1304
+#: client/gui-qt/hudwidget.cpp:1306
 msgid "Unit activity"
 msgstr "Yksikön toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1305
+#: client/gui-qt/hudwidget.cpp:1307
 msgid "Any activity"
 msgstr "Mikä hyvänsä toiminta"
 
-#: client/gui-qt/hudwidget.cpp:1307 common/unit.c:535
+#: client/gui-qt/hudwidget.cpp:1309 common/unit.c:535
 msgid "Fortified"
 msgstr "Linnoittautunut"
 
-#: client/gui-qt/hudwidget.cpp:1308 common/unit.c:524
+#: client/gui-qt/hudwidget.cpp:1310 common/unit.c:524
 msgid "Idle"
 msgstr "Toimeton"
 
-#: client/gui-qt/hudwidget.cpp:1309
+#: client/gui-qt/hudwidget.cpp:1311
 msgid "Sentried"
 msgstr "Vartioivat"
 
-#: client/gui-qt/hudwidget.cpp:1324
+#: client/gui-qt/hudwidget.cpp:1326
 msgid "Unit HP and MP"
 msgstr "Yksikön OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1325
+#: client/gui-qt/hudwidget.cpp:1327
 msgid "Any unit"
 msgstr "Mikä hyvänsä yksikkö"
 
-#: client/gui-qt/hudwidget.cpp:1326
+#: client/gui-qt/hudwidget.cpp:1328
 msgid "Full HP"
 msgstr "Täydet OP:t"
 
-#: client/gui-qt/hudwidget.cpp:1327
+#: client/gui-qt/hudwidget.cpp:1329
 msgid "Full MP"
 msgstr "Täydet LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1328
+#: client/gui-qt/hudwidget.cpp:1330
 msgid "Full HP and MP"
 msgstr "Täydet OP:t ja LP:t"
 
-#: client/gui-qt/hudwidget.cpp:1344
+#: client/gui-qt/hudwidget.cpp:1346
 msgid "Location"
 msgstr "Sijainti"
 
-#: client/gui-qt/hudwidget.cpp:1345
-msgid "Everywhere"
-msgstr "Kaikkialla"
+#: client/gui-qt/hudwidget.cpp:1347
+msgid "Anywhere"
+msgstr "Missä hyvänsä"
 
-#: client/gui-qt/hudwidget.cpp:1346
+#: client/gui-qt/hudwidget.cpp:1348
 msgid "Current tile"
 msgstr "Nykyinen ruutu"
 
-#: client/gui-qt/hudwidget.cpp:1347
+#: client/gui-qt/hudwidget.cpp:1349
 msgid "Current continent"
 msgstr "Nykyinen manner"
 
-#: client/gui-qt/hudwidget.cpp:1348
+#: client/gui-qt/hudwidget.cpp:1350
 msgid "Main continent"
 msgstr "Päämanner"
 
-#: client/gui-qt/hudwidget.cpp:1578
+#: client/gui-qt/hudwidget.cpp:1580
 msgid "Terrain: %1\n"
 msgstr "Maasto: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1579
+#: client/gui-qt/hudwidget.cpp:1581
 msgid "Food/Prod/Trade: %1\n"
 msgstr "Ruoka/tuotanto/kauppa: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1583
+#: client/gui-qt/hudwidget.cpp:1585
 msgid "Infrastructure: %1\n"
 msgstr "Infrastruktuuri: %1\n"
 
-#: client/gui-qt/hudwidget.cpp:1585
+#: client/gui-qt/hudwidget.cpp:1587
 msgid "Defense bonus: %1%\n"
 msgstr "Puolustusbonus: %1%\n"
 
-#: client/gui-qt/hudwidget.cpp:1601 client/gui-qt/hudwidget.cpp:1603
+#: client/gui-qt/hudwidget.cpp:1603 client/gui-qt/hudwidget.cpp:1605
 msgid "Movement cost: %1"
 msgstr "Liikkumisen hinta: %1"
 
-#: client/gui-qt/hudwidget.cpp:1630
+#: client/gui-qt/hudwidget.cpp:1632
 msgid "Year: %1 (Turn: %2)"
 msgstr "Vuosi: %1 (Vuoro:%2)"
 
-#: client/gui-qt/hudwidget.cpp:1633
+#: client/gui-qt/hudwidget.cpp:1635
 msgid "Population: %1"
 msgstr "Väkiluku: %1"
 
-#: client/gui-qt/hudwidget.cpp:1644
+#: client/gui-qt/hudwidget.cpp:1646
 msgid "Gold: %1 (+%2)"
 msgstr "Kultaa: %1 (+%2)"
 
@@ -11146,7 +11147,9 @@ msgstr ""
 msgid ""
 "  * weaker when tired. If performed with less than a single move point left "
 "the attack power is reduced accordingly.\n"
-msgstr "  · väsyneenä heikompi. Jos yksikkö hyökää kun sillä on vähemmän kuin yksi kokonainen liikepiste, hyökkäysvoima on vähentynyt vastaavassa suhteessa.\n"
+msgstr ""
+"  · väsyneenä heikompi. Jos yksikkö hyökää kun sillä on vähemmän kuin yksi "
+"kokonainen liikepiste, hyökkäysvoima on vähentynyt vastaavassa suhteessa.\n"
 
 #. TRANS: %s is an action that can block another.
 #: client/helpdata.c:2442
@@ -27262,9 +27265,14 @@ msgid ""
 "\n"
 "This ruleset was originally based on current default ruleset, civ2civ3."
 msgstr ""
-"Pelaat kokeellisilla säännöillä. Ne esittelevät Freecivin uusia tai epätavallisia ominaisuuksia ilman yritystäkään tehdä säännöistä tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita, eivätkä tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien freeciv-versioiden kanssa.\n"
+"Pelaat kokeellisilla säännöillä. Ne esittelevät Freecivin uusia tai "
+"epätavallisia ominaisuuksia ilman yritystäkään tehdä säännöistä "
+"tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita, eivätkä "
+"tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien freeciv-"
+"versioiden kanssa.\n"
 "\n"
-"Tämä sääntökokoelma on alunperin tehty nykyisen oletussääntökokoelman, civ2civ3, pohjalta."
+"Tämä sääntökokoelma on alunperin tehty nykyisen oletussääntökokoelman, "
+"civ2civ3, pohjalta."
 
 #. TRANS: Steal _Map Fragments and Escape (3% chance of success).
 #: data/sandbox/game.ruleset:284
@@ -28300,7 +28308,12 @@ msgid ""
 "units such as Chariots and Catapults to travel through otherwise difficult "
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railroads, rivers or ships."
-msgstr "Tiet mahdollistavat maayksiköille nopeamman etenemisen. Pyörin varustetut järeät maayksiköt, esimerkiksi sotavaunut ja katapultit, voivat kulkea teitä pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, viidakossa tai suolla. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, voivat kulkea vain teitä, rautateitä ja jokia pitkin tai laivan kyydissä."
+msgstr ""
+"Tiet mahdollistavat maayksiköille nopeamman etenemisen. Pyörin varustetut "
+"järeät maayksiköt, esimerkiksi sotavaunut ja katapultit, voivat kulkea teitä "
+"pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, "
+"viidakossa tai suolla. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, "
+"voivat kulkea vain teitä, rautateitä ja jokia pitkin tai laivan kyydissä."
 
 #: data/sandbox/terrain.ruleset:1570 data/civ2civ3/terrain.ruleset:1532
 msgid "On some terrains, roads also provide a trade bonus."
@@ -28378,7 +28391,11 @@ msgid ""
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
 "the absence of roads. Triremes may also travel up rivers (although later "
 "boats cannot)."
-msgstr "Maayksiköt voivat kulkea jokea pitkin (mutta eivät vinottain oikaisten) nopeammin kuin maastossa. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, voivat teiden puutteessa kulkea jokia pitkin. Kaleerit, toisin kuin myöhemmät alukset, voivat myös kulkea jokia pitkin."
+msgstr ""
+"Maayksiköt voivat kulkea jokea pitkin (mutta eivät vinottain oikaisten) "
+"nopeammin kuin maastossa. Kaupankäyntiyksiköt, eli karavaanit ja rekka-"
+"autot, voivat teiden puutteessa kulkea jokia pitkin. Kaleerit, toisin kuin "
+"myöhemmät alukset, voivat myös kulkea jokia pitkin."
 
 #: data/sandbox/terrain.ruleset:1679 data/civ2civ3/terrain.ruleset:1639
 msgid ""
@@ -28466,7 +28483,7 @@ msgstr "Rajapoliisi"
 
 #: data/sandbox/units.ruleset:59
 msgid "Can peacefully expel certain foreign units."
-msgstr ""
+msgstr "Voi rauhanomaisesti karkoittaa tiettyjä vieraita yksiköitä."
 
 #: data/sandbox/units.ruleset:60
 msgid "Expellable"
@@ -28474,7 +28491,7 @@ msgstr "Karkoitettava"
 
 #: data/sandbox/units.ruleset:60
 msgid "Can be peacefully expelled from foreign tiles."
-msgstr ""
+msgstr "Voidaan rauhanomaisesti karkoittaa vierailta mailta."
 
 #. TRANS: Unit class: used adjectivally
 #: data/sandbox/units.ruleset:165 data/civ2civ3/units.ruleset:160
@@ -29034,7 +29051,10 @@ msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships. (Caravans "
 "cannot take advantage of maglevs, but may travel on the railroads that "
 "accompany them.)"
-msgstr "Karavaanit voivat liikkua vain teitä, rautateitä tai jokia pitkin tai laivan kuljettamana. Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
+msgstr ""
+"Karavaanit voivat liikkua vain teitä, rautateitä tai jokia pitkin tai laivan "
+"kuljettamana. Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne "
+"liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
 
 #: data/sandbox/units.ruleset:2438 data/civ2civ3/units.ruleset:2418
 msgid ""
@@ -29418,7 +29438,9 @@ msgstr ""
 msgid ""
 "Caravans cannot take advantage of maglevs, but may travel on the railroads "
 "that accompany them."
-msgstr "Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-ruuduissakin vain alla olevan rautatien mukaista nopeutta."
+msgstr ""
+"Karavaanien nopeuteen eivät maglevit vaikuta, vaan ne liikkuvat maglev-"
+"ruuduissakin vain alla olevan rautatien mukaista nopeutta."
 
 #: data/alien/buildings.ruleset:66
 msgid "Antigrav Port"
@@ -29429,7 +29451,9 @@ msgstr "Antigravitaatiokenttä"
 msgid ""
 "Allows one unit airlift from and to city, increased to three once Low-Level "
 "Orbit is known."
-msgstr "Sallii yhden yksikön lennättämisen kaupungista tai kaupunkiin. Matalan kiertoradan tekniikan tuntemuksen myötä määrä kasvaa kolmeen yksikköön."
+msgstr ""
+"Sallii yhden yksikön lennättämisen kaupungista tai kaupunkiin. Matalan "
+"kiertoradan tekniikan tuntemuksen myötä määrä kasvaa kolmeen yksikköön."
 
 #: data/alien/buildings.ruleset:88
 msgid "Archive"
@@ -29469,7 +29493,7 @@ msgstr "Keskustakaivos"
 #: data/alien/buildings.ruleset:171
 #, no-c-format
 msgid "City center tile produces three extra shields."
-msgstr ""
+msgstr "Kaupungin keskusruudun tuotanto kasvaa kolmella pisteellä."
 
 #: data/alien/buildings.ruleset:176
 msgid "Cyberpart Factory"
@@ -29484,7 +29508,7 @@ msgstr "Kasvattaa kaupungin tutkimustulosta 50%."
 #: data/alien/buildings.ruleset:214
 msgid ""
 "Factory produces spare parts for two units removing their production upkeep."
-msgstr ""
+msgstr "Tehdas valmistaa kahden yksikön tarvitsemat varaosat, poistaen niiden tuotantoylläpidon."
 
 #: data/alien/buildings.ruleset:219
 msgid "Filter"
@@ -29541,12 +29565,9 @@ msgid "Mood Center"
 msgstr "Tunnekeskus"
 
 #: data/alien/buildings.ruleset:346
-#, fuzzy, no-c-format
-#| msgid "Each military unit makes %d unhappy citizen content."
-#| msgid_plural "Each military unit makes %d unhappy citizens content."
+#, no-c-format
 msgid "Makes 3 unhappy citizens content."
-msgstr ""
-"Jokainen sotilasyksikkö tekee %d tyytymättömästä asukkaasta rauhallisen."
+msgstr "Tekee kolmesta tyytymättömästä asukkaasta tyytyväisiä."
 
 #: data/alien/buildings.ruleset:351
 msgid "Training Facility"
@@ -29555,13 +29576,11 @@ msgstr "Harjoituskeskus"
 #: data/alien/buildings.ruleset:368
 #, no-c-format
 msgid "All new units are built as Elite ones."
-msgstr ""
+msgstr "Kaikki rakennettavat yksiköt valmistuvat eliittiyksikköinä."
 
 #: data/alien/buildings.ruleset:373
-#, fuzzy
-#| msgid "Transport selection"
 msgid "Transportation"
-msgstr "Kuljetusyksikön valinta"
+msgstr "Liikenne"
 
 #: data/alien/buildings.ruleset:390
 #, no-c-format
@@ -29577,7 +29596,7 @@ msgstr "Tutkatorni"
 
 #: data/alien/buildings.ruleset:414
 msgid "City with Radar Tower sees much further than one without."
-msgstr ""
+msgstr "Tutkatornein varustettu kaupunki näkee paljon kauemmas kuin kaupunki ilman sitä."
 
 #: data/alien/buildings.ruleset:418
 msgid "Radiation Resistor"
@@ -29702,7 +29721,7 @@ msgstr "Merikeskusta"
 
 #: data/alien/buildings.ruleset:711
 msgid "Each oceanic city center generates 3 points more trade and production."
-msgstr ""
+msgstr "Jokainen meriruudussa oleva kaupungin keskustaruutu tuottaa 3 pistettä enemmän kauppaa ja tuotantoa."
 
 #: data/alien/buildings.ruleset:716
 msgid "Monument of Co-operation"
@@ -29780,16 +29799,15 @@ msgstr ""
 
 #. TRANS: Copy Research _Data (3% chance of success).
 #: data/alien/game.ruleset:255
-#, fuzzy, c-format
-#| msgid "Researching %s: %s"
+#, c-format
 msgid "Copy Research %sData%s"
-msgstr "Tutkittavana %s: %s"
+msgstr "Kopioi tutkimus%sdata%s"
 
 #. TRANS: Monetize Containers (100% chance of success).
 #: data/alien/game.ruleset:264
 #, c-format
 msgid "Monetize %sContainers%s"
-msgstr ""
+msgstr "Myy %skollit%s"
 
 #: data/alien/game.ruleset:701
 msgid "Q1"
@@ -29944,10 +29962,9 @@ msgid "It was a trap! Set by the outcasts."
 msgstr ""
 
 #: data/alien/script.lua:90
-#, fuzzy, c-format
-#| msgid "Your %s has been killed by barbarians!"
+#, c-format
 msgid "Your %s has been killed by outcasts!"
-msgstr "%s menetettiin barbaarien hyökkäyksessä!"
+msgstr "%s menetettiin lainsuojattomien hyökkäyksessä!"
 
 #: data/alien/script.lua:132
 msgid ""
@@ -30948,19 +30965,15 @@ msgstr ""
 
 #: data/alien/units.ruleset:50 data/alien/units.ruleset:1396
 msgid "Regular"
-msgstr ""
+msgstr "Tavallinen"
 
 #: data/alien/units.ruleset:50 data/alien/units.ruleset:1396
-#, fuzzy
-#| msgid "elite"
 msgid "Elite"
-msgstr "eliitti"
+msgstr "Eliitti"
 
 #: data/alien/units.ruleset:50 data/alien/units.ruleset:1396
-#, fuzzy
-#| msgid "SuperSpy"
 msgid "Superb"
-msgstr "Supervakooja"
+msgstr "Erinomainen"
 
 #: data/alien/units.ruleset:131
 #, fuzzy
@@ -50191,6 +50204,9 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid " +1 unit"
+#~ msgstr " +1 yksikkö"
 
 #~ msgid "?tradebonustype:gold"
 #~ msgstr "kultaa"
