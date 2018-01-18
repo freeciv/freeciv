@@ -114,7 +114,7 @@ static void dai_city_sell_noncritical(struct city *pcity, bool redundant_only);
 static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity);
 
-/************************************************************************** 
+/**********************************************************************//**
   Increase want for a technology because of the value of that technology
   in providing an improvement effect.
 
@@ -151,7 +151,7 @@ static void want_tech_for_improvement_effect(struct ai_type *ait,
   }
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Increase want for a technologies because of the value of that technology
   in providing an improvement effect.
 **************************************************************************/
@@ -172,7 +172,7 @@ void want_techs_for_improvement_effect(struct ai_type *ait,
   }
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Decrease want for a technology because of the value of that technology
   in obsoleting an improvement effect.
 **************************************************************************/
@@ -191,7 +191,7 @@ void dont_want_tech_obsoleting_impr(struct ai_type *ait,
   } requirement_vector_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Choose a build for the barbarian player.
 
   TODO: Move this into daimilitary.c
@@ -240,12 +240,12 @@ static void dai_barbarian_choose_build(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Chooses what the city will build.  Is called after the military advisor
   put it's choice into pcity->server.ai.choice and "settler advisor" put
   settler want into pcity->founder_*.
 
-  Note that AI cheats -- it suffers no penalty for switching from unit to 
+  Note that AI cheats -- it suffers no penalty for switching from unit to
   improvement, etc.
 **************************************************************************/
 static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
@@ -339,7 +339,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   }
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Sell building from city
 **************************************************************************/
 static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
@@ -354,8 +354,8 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
   } improvement_iterate_end;
 }
 
-/************************************************************************** 
-  Increase maxbuycost.  This variable indicates (via ai_gold_reserve) to 
+/**********************************************************************//**
+  Increase maxbuycost.  This variable indicates (via ai_gold_reserve) to
   the tax selection code how much money do we need for buying stuff.
 **************************************************************************/
 static void increase_maxbuycost(struct player *pplayer, int new_value)
@@ -363,7 +363,7 @@ static void increase_maxbuycost(struct player *pplayer, int new_value)
   pplayer->ai_common.maxbuycost = MAX(pplayer->ai_common.maxbuycost, new_value);
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Try to upgrade a city's units. limit is the last amount of gold we can
   end up with after the upgrade. military is if we want to upgrade non-
   military or military units.
@@ -417,7 +417,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Try to disband punit in the traditional way.
 
   Try to disband the specified unit. Match the old behavior in what kind
@@ -490,7 +490,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
   }
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Buy and upgrade stuff!
 **************************************************************************/
 static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
@@ -660,7 +660,7 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
            player_name(pplayer), cached_limit, pplayer->ai_common.maxbuycost);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculates a unit's food upkeep (per turn).
 **************************************************************************/
 static int unit_food_upkeep(struct unit *punit)
@@ -674,13 +674,12 @@ static int unit_food_upkeep(struct unit *punit)
   return upkeep;
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Returns how much food a settler will consume out of the city's foodbox
   when created. If unit has id zero it is assumed to be a virtual unit
   inside a city.
 
-  FIXME: This function should be generalised and then moved into 
+  FIXME: This function should be generalised and then moved into
   common/unittype.c - Per
 **************************************************************************/
 static int unit_foodbox_cost(struct unit *punit)
@@ -716,8 +715,8 @@ static int unit_foodbox_cost(struct unit *punit)
   return 30;
 }
 
-/**************************************************************************
-  Estimates the want for a terrain improver (aka worker) by creating a 
+/**********************************************************************//**
+  Estimates the want for a terrain improver (aka worker) by creating a
   virtual unit and feeding it to settler_evaluate_improvements.
 
   TODO: AI does not ship UTYF_SETTLERS around, only UTYF_CITIES - Per
@@ -816,7 +815,7 @@ static void contemplate_terrain_improvements(struct ai_type *ait,
                                                             place >= 0 ? TC_LAND : TC_OCEAN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   One of the top level AI functions.  It does (by calling other functions):
   worker allocations,
   build choices,
@@ -928,7 +927,7 @@ void dai_manage_cities(struct ai_type *ait, struct player *pplayer)
   dai_spend_gold(ait, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Are effects provided by this building not needed?
 
   If this function is called for a building that has not yet been
@@ -954,7 +953,7 @@ static bool building_crucial(const struct player *plr,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sell an noncritical building if there are any in the city.
 **************************************************************************/
 static void dai_city_sell_noncritical(struct city *pcity,
@@ -980,7 +979,7 @@ static void dai_city_sell_noncritical(struct city *pcity,
   } city_built_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function tries desperately to save a city from going under by
   revolt or starvation of food or resources. We do this by taking
   over resources held by nearby cities and disbanding units.
@@ -997,7 +996,7 @@ static void dai_city_sell_noncritical(struct city *pcity,
   "I don't care how slow this is; it will very rarely be used." -- Syela
 
   Syela is wrong. It happens quite too often, mostly due to unhappiness.
-  Also, most of the time we are unable to resolve the situation. 
+  Also, most of the time we are unable to resolve the situation.
 **************************************************************************/
 static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
                                    struct city *pcity)
@@ -1074,7 +1073,7 @@ static void resolve_city_emergency(struct ai_type *ait, struct player *pplayer,
   sync_cities();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize city for use with default AI.
 **************************************************************************/
 void dai_city_alloc(struct ai_type *ait, struct city *pcity)
@@ -1087,7 +1086,7 @@ void dai_city_alloc(struct ai_type *ait, struct city *pcity)
   city_set_ai_data(pcity, ait, city_data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free city from use with default AI.
 **************************************************************************/
 void dai_city_free(struct ai_type *ait, struct city *pcity)
@@ -1101,7 +1100,7 @@ void dai_city_free(struct ai_type *ait, struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Write ai city segments to savefile
 **************************************************************************/
 void dai_city_save(struct ai_type *ait, const char *aitstr,
@@ -1128,7 +1127,7 @@ void dai_city_save(struct ai_type *ait, const char *aitstr,
                       citystr, aitstr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load ai city segment from savefile
 **************************************************************************/
 void dai_city_load(struct ai_type *ait, const char *aitstr,
@@ -1161,7 +1160,7 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
                                   "%s.%s.founder_boat", citystr, aitstr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   How undesirable for the owner of a particular city is the fact that it
   can be a target of a particular action?
 
@@ -1261,7 +1260,7 @@ static int action_target_neg_util(int action_id,
   return 0;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Increase the degree to which we want to meet a set of requirements,
   because they will enable construction of an improvement
   with desirable effects.
@@ -1346,7 +1345,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
   return all_met;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculates city want from some input values.  Set pimprove to NULL when
   nothing in the city has changed, and you just want to know the
   base want of a city.
@@ -1413,7 +1412,7 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
   return want;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculates want for some buildings by actually adding the building and
   measuring the effect.
 **************************************************************************/
@@ -1466,7 +1465,7 @@ static adv_want base_want(struct ai_type *ait, struct player *pplayer,
   return final_want;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Calculate effects of possible improvements and extra effects of existing
   improvements. Consequently adjust the desirability of those improvements
   or the technologies that would make them possible.
@@ -1805,7 +1804,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
    * or we can not build it (yet) */
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Whether the AI should calculate the building wants for this city
   this turn, ahead of schedule.
 
@@ -1822,7 +1821,7 @@ static bool should_force_recalc(struct city *pcity)
        && !can_city_build_improvement_later(pcity, pcity->production.value.building));
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Initialize building advisor. Calculates data of all players, not
   only of those controlled by current ai type.
 **************************************************************************/
@@ -1836,7 +1835,7 @@ void dai_build_adv_init(struct ai_type *ait, struct player *pplayer)
   } city_list_iterate_end;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Calculate how much an AI player should want to build particular
   improvements, because of the effects of those improvements, and
   increase the want for technologies that will enable buildings with
@@ -1954,7 +1953,7 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
   } city_list_iterate_end;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   Is it ok for advisor code to consider given city as wonder city?
 **************************************************************************/
 void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *result)
@@ -1966,10 +1965,10 @@ void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *res
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns a buildable, non-obsolete building that can provide the effect.
 
-  Note: this function is an inefficient hack to be used by the old AI.  It
+  Note: this function is an inefficient hack to be used by the old AI. It
   will never find wonders, since that's not what the AI wants.
 **************************************************************************/
 Impr_type_id dai_find_source_building(struct city *pcity,
