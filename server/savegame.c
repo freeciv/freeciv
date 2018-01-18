@@ -34,7 +34,7 @@
 
 static fc_thread *save_thread = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Main entry point for loading a game.
 ****************************************************************************/
 void savegame_load(struct section_file *sfile)
@@ -75,7 +75,7 @@ void savegame_load(struct section_file *sfile)
 #endif /* DEBUG_TIMERS */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Main entry point for saving a game.
 ****************************************************************************/
 void savegame_save(struct section_file *sfile, const char *save_reason,
@@ -92,9 +92,9 @@ struct save_thread_data
   enum fz_method save_compress_type;
 };
 
-/*************************************************************************
+/************************************************************************//**
   Run game saving thread.
-*************************************************************************/
+****************************************************************************/
 static void save_thread_run(void *arg)
 {
   struct save_thread_data *stdata = (struct save_thread_data *)arg;
@@ -112,10 +112,10 @@ static void save_thread_run(void *arg)
   free(arg);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Unconditionally save the game, with specified filename.
   Always prints a message: either save ok, or failed.
-**************************************************************************/
+****************************************************************************/
 void save_game(const char *orig_filename, const char *save_reason,
                bool scenario)
 {
@@ -272,9 +272,9 @@ void save_game(const char *orig_filename, const char *save_reason,
   timer_destroy(timer_user);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Close saving system.
-**************************************************************************/
+****************************************************************************/
 void save_system_close(void)
 {
   if (save_thread != NULL) {

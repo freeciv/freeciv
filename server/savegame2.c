@@ -378,7 +378,7 @@ static void sg_load_sanitycheck(struct loaddata *loading);
  * Basic load / save functions.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Really loading the savegame.
 ****************************************************************************/
 void savegame2_load(struct section_file *file)
@@ -442,7 +442,7 @@ void savegame2_load(struct section_file *file)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create new loaddata item for given section file.
 ****************************************************************************/
 static struct loaddata *loaddata_new(struct section_file *file)
@@ -481,7 +481,7 @@ static struct loaddata *loaddata_new(struct section_file *file)
   return loading;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free resources allocated for loaddata item.
 ****************************************************************************/
 static void loaddata_destroy(struct loaddata *loading)
@@ -541,7 +541,7 @@ static void loaddata_destroy(struct loaddata *loading)
  * Helper functions.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Returns an order for a character identifier.
 ****************************************************************************/
 static enum unit_orders char2order(char order)
@@ -580,7 +580,7 @@ static enum unit_orders char2order(char order)
   return ORDER_LAST;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a direction for a character identifier.
 ****************************************************************************/
 static enum direction8 char2dir(char dir)
@@ -609,7 +609,7 @@ static enum direction8 char2dir(char dir)
   return direction8_invalid();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a character identifier for an activity.  See also char2activity.
 ****************************************************************************/
 static char activity2char(enum unit_activity activity)
@@ -664,7 +664,7 @@ static char activity2char(enum unit_activity activity)
   return '?';
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns an activity for a character identifier.  See also activity2char.
 ****************************************************************************/
 static enum unit_activity char2activity(char activity)
@@ -683,7 +683,7 @@ static enum unit_activity char2activity(char activity)
   return ACTIVITY_LAST;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Unquote a string. The unquoted data is written into dest. If the unquoted
   data will be larger than dest_length the function aborts. It returns the
   actual length of the unquoted block.
@@ -716,7 +716,7 @@ static int unquote_block(const char *const quoted_, void *dest,
   return length;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load the worklist elements specified by path to the worklist pointed to
   by 'pwl'. 'pwl' should be a pointer to an existing worklist.
 ****************************************************************************/
@@ -756,7 +756,7 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   For each city and tile, sort unit lists according to ord_city and ord_map
   values.
 ****************************************************************************/
@@ -774,7 +774,7 @@ static void unit_ordering_apply(void)
   } whole_map_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function for loading extras from a savegame.
 
   'ch' gives the character loaded from the savegame. Extras are packed
@@ -806,7 +806,7 @@ static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Complicated helper function for loading specials from a savegame.
 
   'ch' gives the character loaded from the savegame. Specials are packed
@@ -942,7 +942,7 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function for loading bases from a savegame.
 
   'ch' gives the character loaded from the savegame. Bases are packed
@@ -973,7 +973,7 @@ static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function for loading roads from a savegame.
 
   'ch' gives the character loaded from the savegame. Roads are packed
@@ -1004,7 +1004,7 @@ static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the resource for the given identifier.
 ****************************************************************************/
 static struct extra_type *char2resource(char c)
@@ -1018,7 +1018,7 @@ static struct extra_type *char2resource(char c)
   return resource_by_identifier(c);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Converts single character into numerical value. This is not hex conversion.
 ****************************************************************************/
 static int char2num(char ch)
@@ -1033,7 +1033,7 @@ static int char2num(char ch)
   return pch - num_chars;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Dereferences the terrain character.  See terrains[].identifier
     example: char2terrain('a') => T_ARCTIC
 ****************************************************************************/
@@ -1053,10 +1053,10 @@ static struct terrain *char2terrain(char ch)
   exit(EXIT_FAILURE);
 }
 
-/*****************************************************************************
+/************************************************************************//**
   Load technology from path_name and if doesn't exist (because savegame
   is too old) load from path.
-*****************************************************************************/
+****************************************************************************/
 static Tech_type_id technology_load(struct section_file *file,
                                     const char* path, int plrno)
 {
@@ -1094,7 +1094,7 @@ static Tech_type_id technology_load(struct section_file *file,
  * Load savefile data.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Set up correct ruleset for the savegame
 ****************************************************************************/
 static void sg_load_ruleset(struct loaddata *loading)
@@ -1123,7 +1123,7 @@ static void sg_load_ruleset(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load '[savefile]'.
 ****************************************************************************/
 static void sg_load_savefile(struct loaddata *loading)
@@ -1470,7 +1470,7 @@ static void sg_load_savefile(struct loaddata *loading)
  * Load game status.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[ruledata]'.
 ****************************************************************************/
 static void sg_load_ruledata(struct loaddata *loading)
@@ -1491,7 +1491,7 @@ static void sg_load_ruledata(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load '[game]'.
 ****************************************************************************/
 static void sg_load_game(struct loaddata *loading)
@@ -1647,7 +1647,7 @@ static void sg_load_game(struct loaddata *loading)
  * Load random status.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[random]'.
 ****************************************************************************/
 static void sg_load_random(struct loaddata *loading)
@@ -1706,7 +1706,7 @@ static void sg_load_random(struct loaddata *loading)
  * Load lua script data.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[script]'.
 ****************************************************************************/
 static void sg_load_script(struct loaddata *loading)
@@ -1721,7 +1721,7 @@ static void sg_load_script(struct loaddata *loading)
  * Load scenario data.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[scenario]'.
 ****************************************************************************/
 static void sg_load_scenario(struct loaddata *loading)
@@ -1816,7 +1816,7 @@ static void sg_load_scenario(struct loaddata *loading)
  * Load game settings.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[settings]'.
 ****************************************************************************/
 static void sg_load_settings(struct loaddata *loading)
@@ -1836,7 +1836,7 @@ static void sg_load_settings(struct loaddata *loading)
  * Load the main map.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[map'].
 ****************************************************************************/
 static void sg_load_map(struct loaddata *loading)
@@ -1914,7 +1914,7 @@ static void sg_load_map(struct loaddata *loading)
   sg_load_map_worked(loading);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load tiles of the map.
 ****************************************************************************/
 static void sg_load_map_tiles(struct loaddata *loading)
@@ -1954,7 +1954,7 @@ static void sg_load_map_tiles(struct loaddata *loading)
   } whole_map_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load extras to map
 ****************************************************************************/
 static void sg_load_map_tiles_extras(struct loaddata *loading)
@@ -1969,7 +1969,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
   } halfbyte_iterate_extras_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load bases to map
 ****************************************************************************/
 static void sg_load_map_tiles_bases(struct loaddata *loading)
@@ -1985,7 +1985,7 @@ static void sg_load_map_tiles_bases(struct loaddata *loading)
   } halfbyte_iterate_bases_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load roads to map
 ****************************************************************************/
 static void sg_load_map_tiles_roads(struct loaddata *loading)
@@ -2001,7 +2001,7 @@ static void sg_load_map_tiles_roads(struct loaddata *loading)
   } halfbyte_iterate_roads_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load information about specials on map
 ****************************************************************************/
 static void sg_load_map_tiles_specials(struct loaddata *loading,
@@ -2032,7 +2032,7 @@ static void sg_load_map_tiles_specials(struct loaddata *loading,
   } halfbyte_iterate_special_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load information about resources on map.
 ****************************************************************************/
 static void sg_load_map_tiles_resources(struct loaddata *loading)
@@ -2058,7 +2058,7 @@ static void sg_load_map_tiles_resources(struct loaddata *loading)
   game.scenario.have_resources = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load starting positions for the players from a savegame file. There should
   be at least enough for every player.
 ****************************************************************************/
@@ -2146,7 +2146,7 @@ static void sg_load_map_startpos(struct loaddata *loading)
   update_nations_with_startpos();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load tile owner information
 ****************************************************************************/
 static void sg_load_map_owner(struct loaddata *loading)
@@ -2233,7 +2233,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load worked tiles information
 ****************************************************************************/
 static void sg_load_map_worked(struct loaddata *loading)
@@ -2277,7 +2277,7 @@ static void sg_load_map_worked(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load tile known status
 ****************************************************************************/
 static void sg_load_map_known(struct loaddata *loading)
@@ -2341,7 +2341,7 @@ static void sg_load_map_known(struct loaddata *loading)
  * defined.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[player]' (basic data).
 ****************************************************************************/
 static void sg_load_players_basic(struct loaddata *loading)
@@ -2589,7 +2589,7 @@ static void sg_load_players_basic(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load '[player]'.
 ****************************************************************************/
 static void sg_load_players(struct loaddata *loading)
@@ -2749,7 +2749,7 @@ static void sg_load_players(struct loaddata *loading)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Main player data loading function
 ****************************************************************************/
 static void sg_load_player_main(struct loaddata *loading,
@@ -3236,7 +3236,7 @@ static void sg_load_player_main(struct loaddata *loading,
     secfile_lookup_int_default(loading->file, 0, "player%d.hut_count", plrno);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load city data
 ****************************************************************************/
 static void sg_load_player_cities(struct loaddata *loading,
@@ -3344,7 +3344,7 @@ static void sg_load_player_cities(struct loaddata *loading,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load data for one city.
 ****************************************************************************/
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
@@ -3606,7 +3606,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load nationality data for one city.
 ****************************************************************************/
 static void sg_load_player_city_citizens(struct loaddata *loading,
@@ -3654,7 +3654,7 @@ static void sg_load_player_city_citizens(struct loaddata *loading,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load unit data
 ****************************************************************************/
 static void sg_load_player_units(struct loaddata *loading,
@@ -3725,7 +3725,7 @@ static void sg_load_player_units(struct loaddata *loading,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load one unit.
 ****************************************************************************/
 static bool sg_load_player_unit(struct loaddata *loading,
@@ -4332,10 +4332,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   return TRUE;
 }
 
-/*****************************************************************************
+/************************************************************************//**
   Load the transport status of all units. This is seperated from the other
   code as all units must be known.
-*****************************************************************************/
+****************************************************************************/
 static void sg_load_player_units_transport(struct loaddata *loading,
                                            struct player *plr)
 {
@@ -4383,7 +4383,7 @@ static void sg_load_player_units_transport(struct loaddata *loading,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load player (client) attributes data
 ****************************************************************************/
 static void sg_load_player_attributes(struct loaddata *loading,
@@ -4460,7 +4460,7 @@ static void sg_load_player_attributes(struct loaddata *loading,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load vision data
 ****************************************************************************/
 static void sg_load_player_vision(struct loaddata *loading,
@@ -4668,7 +4668,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   } whole_map_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load data for one seen city.
 ****************************************************************************/
 static bool sg_load_player_vision_city(struct loaddata *loading,
@@ -4768,7 +4768,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
  * Load the researches.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[research]'.
 ****************************************************************************/
 static void sg_load_researches(struct loaddata *loading)
@@ -4860,7 +4860,7 @@ static void sg_load_researches(struct loaddata *loading)
  * Load the event cache. Should be the last thing to do.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[event_cache]'.
 ****************************************************************************/
 static void sg_load_event_cache(struct loaddata *loading)
@@ -4875,7 +4875,7 @@ static void sg_load_event_cache(struct loaddata *loading)
  * Load  the open treaties
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[treaty_xxx]'.
 ****************************************************************************/
 static void sg_load_treaties(struct loaddata *loading)
@@ -4955,11 +4955,7 @@ static void sg_load_treaties(struct loaddata *loading)
  * Load the history report
  * ======================================================================= */
 
-/****************************************************************************
-  Load '[history]'.
-****************************************************************************/
-
-/****************************************************************************
+/************************************************************************//**
   Load '[history]'.
 ****************************************************************************/
 static void sg_load_history(struct loaddata *loading)
@@ -4986,7 +4982,7 @@ static void sg_load_history(struct loaddata *loading)
  * Load the mapimg definitions.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Load '[mapimg]'.
 ****************************************************************************/
 static void sg_load_mapimg(struct loaddata *loading)
@@ -5030,7 +5026,7 @@ static void sg_load_mapimg(struct loaddata *loading)
  * Sanity checks for loading a game.
  * ======================================================================= */
 
-/****************************************************************************
+/************************************************************************//**
   Sanity check for loaded game.
 ****************************************************************************/
 static void sg_load_sanitycheck(struct loaddata *loading)
