@@ -138,7 +138,7 @@ static bool no_input = FALSE;
  * by defining it only when needed */
 #if defined(FREECIV_HAVE_LIBREADLINE) || \
     (!defined(FREECIV_SOCKET_ZERO_NOT_STDIN) && !defined(FREECIV_HAVE_LIBREADLINE))
-/*****************************************************************************
+/*************************************************************************//**
   This happens if you type an EOF character with nothing on the current line.
 *****************************************************************************/
 static void handle_stdin_close(void)
@@ -166,7 +166,7 @@ static bool readline_handled_input = FALSE;
 
 static bool readline_initialized = FALSE;
 
-/*****************************************************************************
+/*************************************************************************//**
   Readline callback for input.
 *****************************************************************************/
 static void handle_readline_input_callback(char *line)
@@ -194,10 +194,10 @@ static void handle_readline_input_callback(char *line)
 }
 #endif /* FREECIV_HAVE_LIBREADLINE */
 
-/****************************************************************************
+/*************************************************************************//**
   Close the connection (very low-level). See also
   server_conn_close_callback().
-****************************************************************************/
+*****************************************************************************/
 static void close_connection(struct connection *pconn)
 {
   if (!pconn) {
@@ -225,7 +225,7 @@ static void close_connection(struct connection *pconn)
   send_updated_vote_totals(NULL);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Close all network stuff: connections, listening sockets, metaserver
   connection...
 *****************************************************************************/
@@ -273,10 +273,10 @@ void close_connections_and_socket(void)
   fc_shutdown_network();
 }
 
-/****************************************************************************
+/*************************************************************************//**
   Now really close connections marked as 'is_closing'.
   Do this here to avoid recursive sending.
-****************************************************************************/
+*****************************************************************************/
 static void really_close_connections(void)
 {
   struct connection *closing[MAX_NUM_CONNECTIONS];
@@ -310,20 +310,20 @@ static void really_close_connections(void)
   } while (0 < num); /* May some errors occurred, let's check. */
 }
 
-/****************************************************************************
+/*************************************************************************//**
   Break a client connection. You should almost always use
   connection_close_server() instead of calling this function directly.
-****************************************************************************/
+*****************************************************************************/
 static void server_conn_close_callback(struct connection *pconn)
 {
   /* Do as little as possible here to avoid recursive evil. */
   pconn->server.is_closing = TRUE;
 }
 
-/****************************************************************************
+/*************************************************************************//**
   If a connection lags too much this function is called and we try to cut
   it.
-****************************************************************************/
+*****************************************************************************/
 static void cut_lagging_connection(struct connection *pconn)
 {
   if (!pconn->server.is_closing
@@ -345,7 +345,7 @@ static void cut_lagging_connection(struct connection *pconn)
   }
 }
 
-/****************************************************************************
+/*************************************************************************//**
   Attempt to flush all information in the send buffers for upto 'netwait'
   seconds.
 *****************************************************************************/
@@ -418,7 +418,7 @@ struct packet_to_handle {
   enum packet_type type;
 };
 
-/*****************************************************************************
+/*************************************************************************//**
   Simplify a loop by wrapping get_packet_from_connection.
 *****************************************************************************/
 static bool get_packet(struct connection *pconn, 
@@ -429,7 +429,7 @@ static bool get_packet(struct connection *pconn,
   return NULL != ppacket->data;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Handle all incoming packets on a client connection.
   Precondition - we have read_socket_data.
   Postcondition - there are no more packets to handle on this connection.
@@ -482,15 +482,14 @@ static void incoming_client_packets(struct connection *pconn)
 #endif /* PROCESSING_TIME_STATISTICS */
 }
 
+/*************************************************************************//**
+  Get and handle:
+  - new connections,
+  - input from connections,
+  - input from server operator in stdin
 
-/*****************************************************************************
-Get and handle:
-- new connections,
-- input from connections,
-- input from server operator in stdin
-
-This function also handles prompt printing, via the con_prompt_*
-functions.  That is, other functions should not need to do so.  --dwp
+  This function also handles prompt printing, via the con_prompt_*
+  functions.  That is, other functions should not need to do so.  --dwp
 *****************************************************************************/
 enum server_events server_sniff_all_input(void)
 {
@@ -911,14 +910,14 @@ enum server_events server_sniff_all_input(void)
   return S_E_OTHERWISE;
 }
 
-/********************************************************************
+/*************************************************************************//**
   Make up a name for the connection, before we get any data from
   it to use as a sensible name.  Name will be 'c' + integer,
   guaranteed not to be the same as any other connection name,
   nor player name nor user name, nor connection id (avoid possible
   confusions).   Returns pointer to static buffer, and fills in
   (*id) with chosen value.
-********************************************************************/
+*****************************************************************************/
 static const char *makeup_connection_name(int *id)
 {
   static unsigned short i = 0;
@@ -940,12 +939,12 @@ static const char *makeup_connection_name(int *id)
   }
 }
 
-/********************************************************************
+/*************************************************************************//**
   Server accepts connection from client:
   Low level socket stuff, and basic-initialize the connection struct.
   Returns 0 on success, -1 on failure (bad accept(), or too many
   connections).
-********************************************************************/
+*****************************************************************************/
 static int server_accept_connection(int sockfd)
 {
   /* This used to have size_t for some platforms.  If this is necessary
@@ -1025,12 +1024,12 @@ static int server_accept_connection(int sockfd)
                                 (nameinfo ? host : dst), dst);
 }
 
-/********************************************************************
+/*************************************************************************//**
   Server accepts connection from client:
   Low level socket stuff, and basic-initialize the connection struct.
   Returns 0 on success, -1 on failure (bad accept(), or too many
   connections).
-********************************************************************/
+*****************************************************************************/
 int server_make_connection(int new_sock, const char *client_addr,
                            const char *client_ip)
 {
@@ -1087,10 +1086,10 @@ int server_make_connection(int new_sock, const char *client_addr,
   return -1;
 }
 
-/********************************************************************
+/*************************************************************************//**
   Open server socket to be used to accept client connections
   and open a server socket for server LAN announcements.
-********************************************************************/
+*****************************************************************************/
 int server_open_socket(void)
 {
   /* setup socket address */
@@ -1315,10 +1314,10 @@ int server_open_socket(void)
   return 0;
 }
 
-/********************************************************************
+/*************************************************************************//**
   Initialize connection related stuff. Attention: Logging is not
   available within this functions!
-********************************************************************/
+*****************************************************************************/
 void init_connections(void)
 {
   int i;
@@ -1347,9 +1346,9 @@ void init_connections(void)
 #endif /* VMS */
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Starts processing of request packet from client.
-**************************************************************************/
+*****************************************************************************/
 static void start_processing_request(struct connection *pconn,
                                      int request_id)
 {
@@ -1362,9 +1361,9 @@ static void start_processing_request(struct connection *pconn,
   pconn->server.currently_processed_request_id = request_id;
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Finish processing of request packet from client.
-**************************************************************************/
+*****************************************************************************/
 static void finish_processing_request(struct connection *pconn)
 {
   if (!pconn || !pconn->used) {
@@ -1378,9 +1377,9 @@ static void finish_processing_request(struct connection *pconn)
   conn_compression_thaw(pconn);
 }
 
-/****************************************************************************
+/*************************************************************************//**
   Ping a connection.
-****************************************************************************/
+*****************************************************************************/
 static void connection_ping(struct connection *pconn)
 {
   struct timer *timer = timer_new(TIMER_USER, TIMER_ACTIVE);
@@ -1392,9 +1391,9 @@ static void connection_ping(struct connection *pconn)
   send_packet_conn_ping(pconn);
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Handle response to ping.
-**************************************************************************/
+*****************************************************************************/
 void handle_conn_pong(struct connection *pconn)
 {
   struct timer *timer;
@@ -1412,17 +1411,17 @@ void handle_conn_pong(struct connection *pconn)
             timer_list_size(pconn->server.ping_timers), pconn->ping_time);
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Handle client's regular hearbeat
-**************************************************************************/
+*****************************************************************************/
 void handle_client_heartbeat(struct connection *pconn)
 {
   log_debug("Received heartbeat");
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Send ping time info about all connections to all connections.
-**************************************************************************/
+*****************************************************************************/
 static void send_ping_times_to_all(void)
 {
   struct packet_conn_ping_info packet;
@@ -1443,10 +1442,10 @@ static void send_ping_times_to_all(void)
   lsend_packet_conn_ping_info(game.est_connections, &packet);
 }
 
-/********************************************************************
+/*************************************************************************//**
   Listen for UDP packets multicasted from clients requesting
   announcement of servers on the LAN.
-********************************************************************/
+*****************************************************************************/
 static void get_lanserver_announcement(void)
 {
   fd_set readfs, exceptfs;
@@ -1491,10 +1490,10 @@ static void get_lanserver_announcement(void)
   }
 }
 
-/********************************************************************
+/*************************************************************************//**
   This function broadcasts an UDP packet to clients with
   that requests information about the server state.
-********************************************************************/
+*****************************************************************************/
   /* We would need a raw network connection for broadcast messages */
 static void send_lanserver_response(void)
 {

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,22 +36,21 @@
 
 #include "spacerace.h"
 
-
-/**********************************************************************
-Calculate and fill in the derived quantities about the spaceship.
-Data reverse engineered from Civ1. --dwp
-This could be in common, but its better for the client to take
-the values the server calculates, in case things change.
-***********************************************************************/
+/**********************************************************************//**
+  Calculate and fill in the derived quantities about the spaceship.
+  Data reverse engineered from Civ1. --dwp
+  This could be in common, but its better for the client to take
+  the values the server calculates, in case things change.
+**************************************************************************/
 void spaceship_calc_derived(struct player_spaceship *ship)
 {
   int i;
   /* these are how many are connected: */
-  int fuel=0;
-  int propulsion=0;
-  int habitation=0;
-  int life_support=0;
-  int solar_panels=0;
+  int fuel = 0;
+  int propulsion = 0;
+  int habitation = 0;
+  int life_support = 0;
+  int solar_panels = 0;
 
   fc_assert_ret(ship->structurals <= NUM_SS_STRUCTURALS);
   fc_assert_ret(ship->components <= NUM_SS_COMPONENTS);
@@ -121,7 +120,7 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send details of src's spaceship (or spaceships of all players
   if src is NULL) to specified destinations.  If dest is NULL then
   game.est_connections is used.
@@ -161,7 +160,7 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle spaceship launch request.
 **************************************************************************/
 void handle_spaceship_launch(struct player *pplayer)
@@ -200,7 +199,7 @@ void handle_spaceship_launch(struct player *pplayer)
   send_spaceship_info(pplayer, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle spaceship part placement request
 **************************************************************************/
 void handle_spaceship_place(struct player *pplayer,
@@ -209,7 +208,7 @@ void handle_spaceship_place(struct player *pplayer,
   (void) do_spaceship_place(pplayer, ACT_REQ_PLAYER, type, num);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Place a spaceship part
 **************************************************************************/
 bool do_spaceship_place(struct player *pplayer, enum action_requester from,
@@ -414,7 +413,7 @@ bool do_spaceship_place(struct player *pplayer, enum action_requester from,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle spaceship loss.
 **************************************************************************/
 void spaceship_lost(struct player *pplayer)
@@ -427,8 +426,8 @@ void spaceship_lost(struct player *pplayer)
   send_spaceship_info(pplayer, NULL);
 }
 
-/**************************************************************************
-Use shuffled order to randomly resolve ties.
+/**********************************************************************//**
+  Use shuffled order to randomly resolve ties.
 **************************************************************************/
 struct player *check_spaceship_arrival(void)
 {
