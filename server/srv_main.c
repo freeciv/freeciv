@@ -190,7 +190,7 @@ static struct timer *eot_timer = NULL;
 
 static struct timer *between_turns = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize the game seed.  This may safely be called multiple times.
 **************************************************************************/
 void init_game_seed(void)
@@ -214,7 +214,7 @@ void init_game_seed(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize freeciv server.
 **************************************************************************/
 void srv_init(void)
@@ -294,7 +294,7 @@ void srv_init(void)
   return;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle client info packet
 **************************************************************************/
 void handle_client_info(struct connection *pc, enum gui_type gui,
@@ -307,7 +307,7 @@ void handle_client_info(struct connection *pc, enum gui_type gui,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return current server state.
 **************************************************************************/
 enum server_states server_state(void)
@@ -315,7 +315,7 @@ enum server_states server_state(void)
   return civserver_state;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set current server state.
 **************************************************************************/
 void set_server_state(enum server_states newstate)
@@ -323,7 +323,7 @@ void set_server_state(enum server_states newstate)
   civserver_state = newstate;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns iff the game was started once upon a time.
 **************************************************************************/
 bool game_was_started(void)
@@ -331,13 +331,13 @@ bool game_was_started(void)
   return (!game.info.is_new_game || S_S_INITIAL != server_state());
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns TRUE if any one game end condition is fulfilled, FALSE otherwise.
 
   This function will notify players but will not set the server_state(). The
   caller must set the server state to S_S_OVER if the function
   returns TRUE.
-****************************************************************************/
+**************************************************************************/
 bool check_for_game_over(void)
 {
   int candidates, defeated;
@@ -607,7 +607,7 @@ bool check_for_game_over(void)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send all information for when game starts or client reconnects.
   Initial packets should have been sent before calling this function.
   See comment in connecthand.c::establish_new_connection().
@@ -636,7 +636,7 @@ void send_all_info(struct conn_list *dest)
   } cities_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give map information to players with EFT_REVEAL_CITIES or
   EFT_REVEAL_MAP effects (traditionally from the Apollo Program).
 **************************************************************************/
@@ -659,7 +659,7 @@ static void do_reveal_effects(void)
   } phase_players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give contact to players with the EFT_HAVE_CONTACTS effect (traditionally
   from Marco Polo's Embassy).
 **************************************************************************/
@@ -677,7 +677,7 @@ static void do_have_contacts_effect(void)
   } phase_players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the vision granting effect EFT_BORDER_VISION
 **************************************************************************/
 static void do_border_vision_effect(void)
@@ -704,7 +704,7 @@ static void do_border_vision_effect(void)
   } phase_players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle environmental upsets, meaning currently pollution or fallout.
 **************************************************************************/
 static void update_environmental_upset(enum environment_upset_type type,
@@ -741,7 +741,7 @@ static void update_environmental_upset(enum environment_upset_type type,
             "level=%-2d accum=%-2d", type, *current, *level, *accum);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove illegal units when armistice turns into peace treaty.
 **************************************************************************/
 static void remove_illegal_armistice_units(struct player *plr1,
@@ -772,8 +772,8 @@ static void remove_illegal_armistice_units(struct player *plr1,
   } unit_list_iterate_safe_end;
 }
 
-/**************************************************************************
-  Check for cease-fires and armistices running out; update cancelling 
+/**********************************************************************//**
+  Check for cease-fires and armistices running out; update cancelling
   reasons and contact information.
 **************************************************************************/
 static void update_diplomatics(void)
@@ -929,13 +929,13 @@ static void update_diplomatics(void)
   } players_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Check all players to see whether they are dying.
 
   WARNING: do not call this while doing any handling of players, units,
   etc.  If a player dies, all his units will be wiped and other data will
   be overwritten.
-****************************************************************************/
+**************************************************************************/
 static void kill_dying_players(void)
 {
   bool voter_died = FALSE;
@@ -959,7 +959,7 @@ static void kill_dying_players(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called at the start of each (new) phase to do AI activities.
 **************************************************************************/
 static void ai_start_phase(void)
@@ -972,10 +972,10 @@ static void ai_start_phase(void)
   kill_dying_players();
 }
 
-/**************************************************************************
-Handle the beginning of each turn.
-Note: This does not give "time" to any player;
-      it is solely for updating turn-dependent data.
+/**********************************************************************//**
+  Handle the beginning of each turn.
+  Note: This does not give "time" to any player;
+        it is solely for updating turn-dependent data.
 **************************************************************************/
 static void begin_turn(bool is_new_turn)
 {
@@ -1078,7 +1078,7 @@ static void begin_turn(bool is_new_turn)
   sanity_check();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Begin a phase of movement.  This handles all beginning-of-phase actions
   for one or more players.
 **************************************************************************/
@@ -1185,7 +1185,7 @@ static void begin_phase(bool is_new_phase)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   End a phase of movement.  This handles all end-of-phase actions
   for one or more players.
 **************************************************************************/
@@ -1303,7 +1303,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the end of each turn.
 **************************************************************************/
 static void end_turn(void)
@@ -1521,8 +1521,8 @@ static void end_turn(void)
   send_year_to_clients();
 }
 
-/**************************************************************************
-Save game with autosave filename
+/**********************************************************************//**
+  Save game with autosave filename
 **************************************************************************/
 void save_game_auto(const char *save_reason, enum autosave_type type)
 {
@@ -1562,7 +1562,7 @@ void save_game_auto(const char *save_reason, enum autosave_type type)
   save_game(filename, save_reason, FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Start actual game. Everything has been set up already.
 **************************************************************************/
 void start_game(void)
@@ -1599,8 +1599,8 @@ void start_game(void)
   /* There's no stateful packet set to client until srv_ready(). */
 }
 
-/**************************************************************************
- Quit the server and exit.
+/**********************************************************************//**
+  Quit the server and exit.
 **************************************************************************/
 void server_quit(void)
 {
@@ -1669,7 +1669,7 @@ void server_quit(void)
   exit(EXIT_SUCCESS);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle request asking report to be sent to client.
 **************************************************************************/
 void handle_report_req(struct connection *pconn, enum report_type type)
@@ -1705,7 +1705,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
               _("request for unknown report (type %d)"), type);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Mark identity number free.
 **************************************************************************/
 void identity_number_release(int id)
@@ -1713,7 +1713,7 @@ void identity_number_release(int id)
   BV_CLR(identity_numbers_used, id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Mark identity number allocated.
 **************************************************************************/
 void identity_number_reserve(int id)
@@ -1721,7 +1721,7 @@ void identity_number_reserve(int id)
   BV_SET(identity_numbers_used, id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check whether identity number is currently allocated.
 **************************************************************************/
 static bool identity_number_is_used(int id)
@@ -1729,7 +1729,7 @@ static bool identity_number_is_used(int id)
   return BV_ISSET(identity_numbers_used, id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Increment identity_number and return result.
 **************************************************************************/
 static int increment_identity_number(void)
@@ -1738,7 +1738,7 @@ static int increment_identity_number(void)
   return server.identity_number;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Identity ids wrap at IDENTITY_NUMBER_SIZE, skipping IDENTITY_NUMBER_ZERO
   Setup in server_game_init()
 **************************************************************************/
@@ -1758,7 +1758,7 @@ int identity_number(void)
   return server.identity_number;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the packet type is an edit packet sent by the client.
 
   NB: The first and last client edit packets here must match those
@@ -1769,7 +1769,7 @@ static bool is_client_edit_packet(int type)
   return PACKET_EDIT_MODE <= type && type <= PACKET_EDIT_GAME;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns FALSE if connection should be closed (because the clients was
   rejected). Returns TRUE else.
 **************************************************************************/
@@ -1931,7 +1931,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if turn is really done. Returns nothing, but as a side effect sets
   force_end_of_sniff if no more input is expected this turn (i.e. turn done)
 **************************************************************************/
@@ -1985,11 +1985,11 @@ void check_for_full_turn_done(void)
   force_end_of_sniff = TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update information about which nations have start positions on the map.
 
   Call this on server start, or when loading a scenario.
-****************************************************************************/
+**************************************************************************/
 void update_nations_with_startpos(void)
 {
   if (!game_was_started() && 0 < map_startpos_count()) {
@@ -2044,7 +2044,7 @@ void update_nations_with_startpos(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handles a pick-nation packet from the client.  These packets are
   handled by connection because ctrl users may edit anyone's nation in
   pregame, and editing is possible during a running game.
@@ -2112,9 +2112,9 @@ void handle_nation_select_req(struct connection *pc, int player_no,
   send_player_info_c(pplayer, game.est_connections);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Handle a player-ready packet from global observer.
-****************************************************************************/
+**************************************************************************/
 static void handle_observer_ready(struct connection *pconn)
 {
   if (pconn->access_level == ALLOW_HACK) {
@@ -2128,9 +2128,9 @@ static void handle_observer_ready(struct connection *pconn)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Handle a player-ready packet.
-****************************************************************************/
+**************************************************************************/
 void handle_player_ready(struct player *requestor,
 			 int player_no,
 			 bool is_ready)
@@ -2179,11 +2179,11 @@ void handle_player_ready(struct player *requestor,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Fill or remove players to meet the given aifill.
   If return is non-NULL, points to a translated string explaining why
   the total number of players is less than 'amount'.
-****************************************************************************/
+**************************************************************************/
 const char *aifill(int amount)
 {
   char *limitreason = NULL;
@@ -2275,9 +2275,9 @@ const char *aifill(int amount)
   return limitreason;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Tool for generate_players().
-****************************************************************************/
+**************************************************************************/
 #define SPECHASH_TAG startpos
 #define SPECHASH_IKEY_TYPE struct startpos *
 #define SPECHASH_INT_DATA_TYPE
@@ -2286,9 +2286,9 @@ const char *aifill(int amount)
   TYPED_HASH_ITERATE(struct startpos *, intptr_t, hash, psp, c)
 #define startpos_hash_iterate_end HASH_ITERATE_END
 
-/****************************************************************************
+/**********************************************************************//**
   Tool for generate_players().
-****************************************************************************/
+**************************************************************************/
 static void player_set_nation_full(struct player *pplayer,
                                    struct nation_type *pnation)
 {
@@ -2296,9 +2296,9 @@ static void player_set_nation_full(struct player *pplayer,
   player_nation_defaults(pplayer, pnation, pplayer->random_name);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set nation for player with nation default values.
-****************************************************************************/
+**************************************************************************/
 void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
                             bool set_name)
 {
@@ -2323,7 +2323,7 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
   ai_traits_init(pplayer);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Assign random nations to players at game start. This includes human
   players, AI players created with "set aifill <X>", and players created
   with "create <PlayerName>".
@@ -2349,7 +2349,7 @@ void player_nation_defaults(struct player *pplayer, struct nation_type *pnation,
 
   For 'aifill' players, the player name/sex is then reset to that of a
   random leader for the chosen nation.
-****************************************************************************/
+**************************************************************************/
 static void generate_players(void)
 {
   int nations_to_assign = 0;
@@ -2516,11 +2516,11 @@ static void generate_players(void)
   (void) send_server_info_to_metaserver(META_INFO);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns a random ruler name picked from given nation's ruler names
   that is not already in use.
   May return NULL if no unique name is available.
-****************************************************************************/
+**************************************************************************/
 const char *pick_random_player_name(const struct nation_type *pnation)
 {
   const char *choice = NULL;
@@ -2546,9 +2546,9 @@ const char *pick_random_player_name(const struct nation_type *pnation)
   return choice;
 }
 
-/*************************************************************************
+/**********************************************************************//**
   Announce what nation player rules to everyone.
-*************************************************************************/
+**************************************************************************/
 static void announce_player(struct player *pplayer)
 {
    log_normal(_("%s rules the %s."),
@@ -2564,7 +2564,7 @@ static void announce_player(struct player *pplayer)
   send_player_info_c(pplayer, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Play the game! Returns when S_S_RUNNING != server_state().
 **************************************************************************/
 static void srv_running(void)
@@ -2743,7 +2743,7 @@ static void srv_running(void)
   timer_clear(eot_timer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Server initialization.
 **************************************************************************/
 static void srv_prepare(void)
@@ -2840,7 +2840,7 @@ static void srv_prepare(void)
   eot_timer = timer_new(TIMER_CPU, TIMER_ACTIVE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Score calculation.
 **************************************************************************/
 static void srv_scores(void)
@@ -2866,7 +2866,7 @@ static void srv_scores(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Apply some final adjustments from the ruleset on to the game state.
   We cannot do this during ruleset loading, since some players may be
   added later than that.
@@ -2892,7 +2892,7 @@ static void final_ruleset_adjustments(void)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set up one game.
 **************************************************************************/
 static void srv_ready(void)
@@ -3150,7 +3150,7 @@ static void srv_ready(void)
   CALL_FUNC_EACH_AI(game_start);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize game data for the server (corresponds to server_game_free).
 **************************************************************************/
 void server_game_init(bool keep_ruleset_value)
@@ -3172,7 +3172,7 @@ void server_game_init(bool keep_ruleset_value)
   game.server.turn_change_time = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free game data that we reinitialize as part of a server soft restart.
   Bear in mind that this function is called when the 'load' command is
   used, for instance.
@@ -3219,7 +3219,7 @@ void server_game_free(void)
   game_free();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Server main loop.
 **************************************************************************/
 void srv_main(void)
@@ -3284,9 +3284,9 @@ void srv_main(void)
   /* Technically, we won't ever get here. We exit via server_quit. */
 }
 
-/***************************************************************
+/**********************************************************************//**
   Initialize client specific functions.
-***************************************************************/
+**************************************************************************/
 struct color;
 static inline void server_gui_color_free(struct color *pcolor)
 {
@@ -3295,10 +3295,10 @@ static inline void server_gui_color_free(struct color *pcolor)
   return;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the id of the city the player map of 'pplayer' has at 'ptile' or
   IDENTITY_NUMBER_ZERO if the player map don't have a city there.
-***************************************************************************/
+**************************************************************************/
 static int server_plr_tile_city_id_get(const struct tile *ptile,
                                        const struct player *pplayer)
 {
@@ -3308,9 +3308,9 @@ static int server_plr_tile_city_id_get(const struct tile *ptile,
                                   : IDENTITY_NUMBER_ZERO;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the id of the server setting with the specified name.
-***************************************************************************/
+**************************************************************************/
 server_setting_id server_ss_by_name(const char *name)
 {
   struct setting *pset = setting_by_name(name);
@@ -3323,9 +3323,9 @@ server_setting_id server_ss_by_name(const char *name)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the name of the server setting with the specified id.
-***************************************************************************/
+**************************************************************************/
 const char *server_ss_name_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
@@ -3338,9 +3338,9 @@ const char *server_ss_name_get(server_setting_id id)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the type of the server setting with the specified id.
-***************************************************************************/
+**************************************************************************/
 enum sset_type server_ss_type_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
@@ -3353,9 +3353,9 @@ enum sset_type server_ss_type_get(server_setting_id id)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns the value of the boolean server setting with the specified id.
-***************************************************************************/
+**************************************************************************/
 bool server_ss_val_bool_get(server_setting_id id)
 {
   struct setting *pset = setting_by_number(id);
@@ -3368,9 +3368,9 @@ bool server_ss_val_bool_get(server_setting_id id)
   }
 }
 
-/***************************************************************
+/**********************************************************************//**
   Initialize server specific functions.
-***************************************************************/
+**************************************************************************/
 static void fc_interface_init_server(void)
 {
   struct functions *funcs = fc_interface_funcs();
@@ -3390,9 +3390,9 @@ static void fc_interface_init_server(void)
   fc_interface_init();
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - tile knowledge.
-****************************************************************************/
+**************************************************************************/
 static enum known_type mapimg_server_tile_known(const struct tile *ptile,
                                                 const struct player *pplayer,
                                                 bool knowledge)
@@ -3404,9 +3404,9 @@ static enum known_type mapimg_server_tile_known(const struct tile *ptile,
   return TILE_KNOWN_SEEN;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - tile terrain.
-****************************************************************************/
+**************************************************************************/
 static struct terrain
   *mapimg_server_tile_terrain(const struct tile *ptile,
                               const struct player *pplayer, bool knowledge)
@@ -3419,9 +3419,9 @@ static struct terrain
   return tile_terrain(ptile);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - tile owner.
-****************************************************************************/
+**************************************************************************/
 static struct player *mapimg_server_tile_owner(const struct tile *ptile,
                                                const struct player *pplayer,
                                                bool knowledge)
@@ -3435,9 +3435,9 @@ static struct player *mapimg_server_tile_owner(const struct tile *ptile,
   return tile_owner(ptile);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - city owner.
-****************************************************************************/
+**************************************************************************/
 static struct player *mapimg_server_tile_city(const struct tile *ptile,
                                               const struct player *pplayer,
                                               bool knowledge)
@@ -3461,9 +3461,9 @@ static struct player *mapimg_server_tile_city(const struct tile *ptile,
   return city_owner(tile_city(ptile));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - unit owner.
-****************************************************************************/
+**************************************************************************/
 static struct player *mapimg_server_tile_unit(const struct tile *ptile,
                                               const struct player *pplayer,
                                               bool knowledge)
@@ -3482,17 +3482,17 @@ static struct player *mapimg_server_tile_unit(const struct tile *ptile,
   return unit_owner(unit_list_get(ptile->units, 0));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - number of player colors.
-****************************************************************************/
+**************************************************************************/
 static int mapimg_server_plrcolor_count(void)
 {
   return playercolor_count();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for the mapimg module - one player color.
-****************************************************************************/
+**************************************************************************/
 static struct rgbcolor *mapimg_server_plrcolor_get(int i)
 {
   return playercolor_get(i);

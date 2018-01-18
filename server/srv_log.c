@@ -45,7 +45,7 @@ static int recursion[AIT_LAST];
 
 /* General AI logging functions */
 
-/**************************************************************************
+/**********************************************************************//**
   Log city messages, they will appear like this
     2: Polish Romenna(5,35) [s1 d106 u11 g1] must have Archers ...
 **************************************************************************/
@@ -77,7 +77,7 @@ void real_city_log(const char *file, const char *function, int line,
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log unit messages, they will appear like this
     2: Polish Archers[139] (5,35)->(0,0){0,0} stays to defend city
   where [] is unit id, ()->() are coordinates present and goto, and
@@ -121,7 +121,7 @@ void real_unit_log(const char *file, const char *function, int line,
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Measure the time between the calls.  Used to see where in the AI too
   much CPU is being used.
 **************************************************************************/
@@ -150,7 +150,7 @@ void timing_log_real(enum ai_timer timer, enum ai_timer_activity activity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Print results
 **************************************************************************/
 void timing_results_real(void)
@@ -211,7 +211,7 @@ void timing_results_real(void)
   AILOG_OUT("Tech", AIT_TECH);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize AI timing system
 **************************************************************************/
 void timing_log_init(void)
@@ -225,7 +225,7 @@ void timing_log_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free AI timing system resources
 **************************************************************************/
 void timing_log_free(void)
