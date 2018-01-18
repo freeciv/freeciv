@@ -112,9 +112,9 @@ static UChar *cmp_buffer0 = NULL;
 static UChar *cmp_buffer1 = NULL;
 fc_mutex cmp_buffer_mutex;
 
-/***************************************************************
+/************************************************************************//**
   Initial allocation of string comparison buffers.
-***************************************************************/
+****************************************************************************/
 static void cmp_buffers_initial(void)
 {
   if (cmp_buffer0 == NULL) {
@@ -128,9 +128,9 @@ static void cmp_buffers_initial(void)
   }
 }
 
-/***************************************************************
+/************************************************************************//**
   Make string comparison buffers bigger
-***************************************************************/
+****************************************************************************/
 static void cmp_buffers_increase(void)
 {
   cmp_buffer_uchars *= 1.5;
@@ -142,9 +142,9 @@ static void cmp_buffers_increase(void)
   cmp_buffer1[cmp_buffer_uchars] = 0;
 }
 
-/***************************************************************
+/************************************************************************//**
   Initialize string handling API
-***************************************************************/
+****************************************************************************/
 void fc_strAPI_init(void)
 {
   if (cmp_buffer_uchars == 0) {
@@ -153,9 +153,9 @@ void fc_strAPI_init(void)
   }
 }
 
-/***************************************************************
+/************************************************************************//**
   Free string handling API resources
-***************************************************************/
+****************************************************************************/
 void fc_strAPI_free(void)
 {
   if (cmp_buffer0 != NULL) {
@@ -168,9 +168,9 @@ void fc_strAPI_free(void)
   fc_destroy_mutex(&cmp_buffer_mutex);
 }
 
-/***************************************************************
+/************************************************************************//**
   Compare strings like strcmp(), but ignoring case.
-***************************************************************/
+****************************************************************************/
 int fc_strcasecmp(const char *str0, const char *str1)
 {
   UErrorCode err_code = U_ZERO_ERROR;
@@ -216,10 +216,10 @@ int fc_strcasecmp(const char *str0, const char *str1)
   return ret;
 }
 
-/***************************************************************
+/************************************************************************//**
   Compare strings like strncmp(), but ignoring case.
   ie, only compares first n chars.
-***************************************************************/
+****************************************************************************/
 int fc_strncasecmp(const char *str0, const char *str1, size_t n)
 {
   UErrorCode err_code = U_ZERO_ERROR;
@@ -272,7 +272,7 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copies a string and convert the following characters:
   - '\n' to "\\n".
   - '\\' to "\\\\".
@@ -305,7 +305,7 @@ void make_escapes(const char *str, char *buf, size_t buf_len)
   *dest = 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copies a string. Backslash followed by a genuine newline always
   removes the newline.
   If full_escapes is TRUE:
@@ -337,9 +337,9 @@ void remove_escapes(const char *str, bool full_escapes,
   *dest = '\0';
 }
 
-/***************************************************************
+/************************************************************************//**
   Count length of string without possible surrounding quotes.
-***************************************************************/
+****************************************************************************/
 size_t effectivestrlenquote(const char *str)
 {
   int len;
@@ -356,10 +356,10 @@ size_t effectivestrlenquote(const char *str)
   return len;
 }
 
-/***************************************************************
+/************************************************************************//**
   Compare strings like strncasecmp() but ignoring surrounding
   quotes in either string.
-***************************************************************/
+****************************************************************************/
 int fc_strncasequotecmp(const char *str0, const char *str1, size_t n)
 {
   size_t i;
@@ -416,10 +416,10 @@ int fc_strncasequotecmp(const char *str0, const char *str1, size_t n)
   return 0;
 }
 
-/***************************************************************
+/************************************************************************//**
   Return the needle in the haystack (or NULL).
   Naive implementation.
-***************************************************************/
+****************************************************************************/
 char *fc_strcasestr(const char *haystack, const char *needle)
 {
 #ifdef HAVE_STRCASESTR
@@ -450,7 +450,7 @@ char *fc_strcasestr(const char *haystack, const char *needle)
 #endif /* HAVE_STRCASESTR */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function for strcoll().
 ****************************************************************************/
 int fc_strcoll(const char *str0, const char *str1)
@@ -464,7 +464,7 @@ int fc_strcoll(const char *str0, const char *str1)
 #endif
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function for stricoll().
 ****************************************************************************/
 int fc_stricoll(const char *str0, const char *str1)
@@ -483,10 +483,10 @@ int fc_stricoll(const char *str0, const char *str1)
 #endif
 }
 
-/****************************************************************
+/************************************************************************//**
   Wrapper function for fopen() with filename conversion to local
   encoding on Windows.
-****************************************************************/
+****************************************************************************/
 FILE *fc_fopen(const char *filename, const char *opentype)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -502,10 +502,10 @@ FILE *fc_fopen(const char *filename, const char *opentype)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/*****************************************************************
+/************************************************************************//**
   Wrapper function for gzopen() with filename conversion to local
   encoding on Windows.
-*****************************************************************/
+****************************************************************************/
 #ifdef FREECIV_HAVE_LIBZ
 gzFile fc_gzopen(const char *filename, const char *opentype)
 {
@@ -523,10 +523,10 @@ gzFile fc_gzopen(const char *filename, const char *opentype)
 }
 #endif /* FREECIV_HAVE_LIBZ */
 
-/*****************************************************************
+/************************************************************************//**
   Wrapper function for remove() with filename conversion to local
   encoding on Windows.
-*****************************************************************/
+****************************************************************************/
 int fc_remove(const char *filename)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -542,10 +542,10 @@ int fc_remove(const char *filename)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/*****************************************************************
+/************************************************************************//**
   Wrapper function for stat() with filename conversion to local
   encoding on Windows.
-*****************************************************************/
+****************************************************************************/
 int fc_stat(const char *filename, struct stat *buf)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -561,9 +561,9 @@ int fc_stat(const char *filename, struct stat *buf)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/***************************************************************
+/************************************************************************//**
   Returns last error code.
-***************************************************************/
+****************************************************************************/
 fc_errno fc_get_errno(void)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -573,14 +573,14 @@ fc_errno fc_get_errno(void)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/***************************************************************
+/************************************************************************//**
   Return a string which describes a given error (errno-style.)
   The string is converted as necessary from the local_encoding
   to internal_encoding, for inclusion in translations.  May be
   subsequently converted back to local_encoding for display.
 
   Note that this is not the reentrant form.
-***************************************************************/
+****************************************************************************/
 const char *fc_strerror(fc_errno err)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -608,9 +608,9 @@ const char *fc_strerror(fc_errno err)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/***************************************************************
+/************************************************************************//**
   Suspend execution for the specified number of microseconds.
-***************************************************************/
+****************************************************************************/
 void fc_usleep(unsigned long usec)
 {
 #ifdef HAVE_USLEEP
@@ -645,11 +645,11 @@ void fc_usleep(unsigned long usec)
 #endif /* HAVE_USLEEP */
 }
 
-/**************************************************************************
+/************************************************************************//**
   Replace 'search' by 'replace' within 'str'. If needed 'str' is resized
   using realloc() to fit the modified string. The new pointer to the string
   is returned.
-**************************************************************************/
+****************************************************************************/
 char *fc_strrep_resize(char *str, size_t *len, const char *search,
                        const char *replace)
 {
@@ -680,11 +680,11 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
   return str;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Replace 'search' by 'replace' within 'str'. sizeof(str) should be large
   enough for the modified value of 'str'. Returns TRUE if the replacement
   was successful.
-**************************************************************************/
+****************************************************************************/
 bool fc_strrep(char *str, size_t len, const char *search,
                const char *replace)
 {
@@ -720,7 +720,7 @@ bool fc_strrep(char *str, size_t len, const char *search,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   fc_strlcpy() and fc_strlcat() provide (non-standard) functions
   strlcpy() and strlcat(), with semantics following OpenBSD (and
   maybe others).  They are intended as more user-friendly
@@ -768,7 +768,7 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
 #endif /* HAVE_STRLCPY */
 }
 
-/****************************************************************************
+/************************************************************************//**
   See also fc_utf8_strlcat_trunc(), fc_utf8_strlcat_rep().
 ****************************************************************************/
 size_t fc_strlcat(char *dest, const char *src, size_t n)
@@ -803,7 +803,7 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
 #endif /* HAVE_STRLCAT */
 }
 
-/****************************************************************************
+/************************************************************************//**
   vsnprintf() replacement using a big malloc()ed internal buffer,
   originally by David Pfitzner <dwp@mso.anu.edu.au>
 
@@ -921,7 +921,7 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 #endif /* HAVE_WORKING_VSNPRINTF */
 }
 
-/****************************************************************************
+/************************************************************************//**
   See also fc_utf8_snprintf_trunc(), fc_utf8_snprintf_rep().
 ****************************************************************************/
 int fc_snprintf(char *str, size_t n, const char *format, ...)
@@ -937,7 +937,7 @@ int fc_snprintf(char *str, size_t n, const char *format, ...)
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   cat_snprintf is like a combination of fc_snprintf and fc_strlcat;
   it does snprintf to the end of an existing string.
 
@@ -970,9 +970,9 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   return (-1 == ret ? -1 : ret + len);
 }
 
-/**********************************************************************
+/************************************************************************//**
   Call gethostname() if supported, else just returns -1.
-***********************************************************************/
+****************************************************************************/
 int fc_gethostname(char *buf, size_t len)
 {
 #ifdef HAVE_GETHOSTNAME
@@ -983,14 +983,14 @@ int fc_gethostname(char *buf, size_t len)
 }
 
 #ifdef FREECIV_SOCKET_ZERO_NOT_STDIN
-/**********************************************************************
+/****************************************************************************
   Support for console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
-***********************************************************************/
+****************************************************************************/
 
 #define CONSOLE_BUF_SIZE 100
 static char console_buf[CONSOLE_BUF_SIZE + 1];
 
-/**********************************************************************/
+/***************************************************************************/
 
 #ifdef FREECIV_MSWINDOWS
 static HANDLE console_thread = INVALID_HANDLE_VALUE;
@@ -1009,9 +1009,9 @@ static DWORD WINAPI thread_proc(LPVOID arg)
 }
 #endif /* FREECIV_MSWINDOWS */
 
-/**********************************************************************
+/************************************************************************//**
   Initialize console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
-***********************************************************************/
+****************************************************************************/
 void fc_init_console(void)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -1035,13 +1035,13 @@ void fc_init_console(void)
 #endif /* FREECIV_MSWINDOWS */
 }
 
-/**********************************************************************
+/************************************************************************//**
   Read a line from console I/O in case FREECIV_SOCKET_ZERO_NOT_STDIN.
 
   This returns a pointer to a statically allocated buffer.
   Subsequent calls to fc_read_console() or fc_init_console() will
   overwrite it.
-***********************************************************************/
+****************************************************************************/
 char *fc_read_console(void)
 {
 #ifdef FREECIV_MSWINDOWS
@@ -1080,10 +1080,10 @@ char *fc_read_console(void)
 
 #endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 
-/**********************************************************************
+/************************************************************************//**
   Returns TRUE iff the file is a regular file or a link to a regular
   file or write_access is TRUE and the file doesn't exists yet.
-***********************************************************************/
+****************************************************************************/
 bool is_reg_file_for_access(const char *name, bool write_access)
 {
   struct stat tmp;
@@ -1095,7 +1095,7 @@ bool is_reg_file_for_access(const char *name, bool write_access)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Replace the spaces by line breaks when the line lenght is over the desired
   one. 'str' is modified. Returns number of lines in modified s.
 ****************************************************************************/
@@ -1157,7 +1157,7 @@ int fc_break_lines(char *str, size_t desired_len)
   part of a multibyte sequence is non-ASCII.
 ****************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isalnum(char c)
@@ -1168,7 +1168,7 @@ bool fc_isalnum(char c)
   return isalnum((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isalpha(char c)
@@ -1179,7 +1179,7 @@ bool fc_isalpha(char c)
   return isalpha((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isdigit(char c)
@@ -1190,7 +1190,7 @@ bool fc_isdigit(char c)
   return isdigit((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isprint(char c)
@@ -1201,7 +1201,7 @@ bool fc_isprint(char c)
   return isprint((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isspace(char c)
@@ -1212,7 +1212,7 @@ bool fc_isspace(char c)
   return isspace((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 bool fc_isupper(char c)
@@ -1223,7 +1223,7 @@ bool fc_isupper(char c)
   return isupper((int) ((unsigned char) c)) != 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 char fc_toupper(char c)
@@ -1234,7 +1234,7 @@ char fc_toupper(char c)
   return (char) toupper((int) ((unsigned char) c));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper function to work around broken libc implementations. See above.
 ****************************************************************************/
 char fc_tolower(char c)
@@ -1245,12 +1245,12 @@ char fc_tolower(char c)
   return (char) tolower((int) ((unsigned char) c));
 }
 
-/*****************************************************************
+/************************************************************************//**
   basename() replacement that always takes const parameter.
   POSIX basename() modifies its parameter, GNU one does not.
   Ideally we would like to use GNU one, when available, directly
   without extra string copies.
-*****************************************************************/
+****************************************************************************/
 const char *fc_basename(const char *path)
 {
   static char buf[2048];
@@ -1262,9 +1262,9 @@ const char *fc_basename(const char *path)
   return basename(buf);
 }
 
-/*****************************************************************
+/************************************************************************//**
   Set quick_exit() callback if possible.
-*****************************************************************/
+****************************************************************************/
 int fc_at_quick_exit(void (*func)(void))
 {
 #ifdef HAVE_AT_QUICK_EXIT
