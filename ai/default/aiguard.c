@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ enum bodyguard_enum {
   BODYGUARD_NONE
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Do sanity checks on a guard, reporting error messages to the log
   if necessary.
 
@@ -80,7 +80,7 @@ void aiguard_check_guard(struct ai_type *ait, const struct unit *guard)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Do sanity checks on a charge, reporting error messages to the log
   if necessary.
 
@@ -110,7 +110,7 @@ void aiguard_check_charge_unit(struct ai_type *ait, const struct unit *charge)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove the assignment of a charge to a guard.
 
   Assumes that a unit can have at most one guard.
@@ -136,7 +136,7 @@ void aiguard_clear_charge(struct ai_type *ait, struct unit *guard)
   CHECK_GUARD(ait, guard);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove assignment of bodyguard for a unit.
 
   Assumes that a unit can have at most one guard.
@@ -166,7 +166,7 @@ void aiguard_clear_guard(struct ai_type *ait, struct unit *charge)
   CHECK_CHARGE_UNIT(ait, charge);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Assign a bodyguard to a unit.
 
   Assumes that a unit can have at most one guard.
@@ -191,7 +191,7 @@ void aiguard_assign_guard_unit(struct ai_type *ait, struct unit *charge,
   CHECK_CHARGE_UNIT(ait, charge);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Assign a guard to a city.
 **************************************************************************/
 void aiguard_assign_guard_city(struct ai_type *ait, struct city *charge,
@@ -222,7 +222,7 @@ void aiguard_assign_guard_city(struct ai_type *ait, struct city *charge,
   CHECK_GUARD(ait, guard);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Request a (new) bodyguard for the unit.
 **************************************************************************/
 void aiguard_request_guard(struct ai_type *ait, struct unit *punit)
@@ -236,7 +236,7 @@ void aiguard_request_guard(struct ai_type *ait, struct unit *punit)
   CHECK_CHARGE_UNIT(ait, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Has a unit requested a guard and not (yet) been provided with one?
 **************************************************************************/
 bool aiguard_wanted(struct ai_type *ait, struct unit *charge)
@@ -245,7 +245,7 @@ bool aiguard_wanted(struct ai_type *ait, struct unit *charge)
   return (def_ai_unit_data(charge, ait)->bodyguard == BODYGUARD_WANTED);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Has a charge unit been assigned to a guard?
 **************************************************************************/
 bool aiguard_has_charge(struct ai_type *ait, struct unit *guard)
@@ -254,7 +254,7 @@ bool aiguard_has_charge(struct ai_type *ait, struct unit *guard)
   return (def_ai_unit_data(guard, ait)->charge != BODYGUARD_NONE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Has a guard been assigned to a charge?
 **************************************************************************/
 bool aiguard_has_guard(struct ai_type *ait, struct unit *charge)
@@ -263,7 +263,7 @@ bool aiguard_has_guard(struct ai_type *ait, struct unit *charge)
   return (0 < def_ai_unit_data(charge, ait)->bodyguard);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Which unit, if any, is the body guard of a unit?
   Returns NULL if the unit has not been assigned a guard.
 **************************************************************************/
@@ -273,7 +273,7 @@ struct unit *aiguard_guard_of(struct ai_type *ait, struct unit *charge)
   return game_unit_by_number(def_ai_unit_data(charge, ait)->bodyguard);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Which unit (if any) has a guard been assigned to?
   Returns NULL if the unit is not the guard for a unit.
 **************************************************************************/
@@ -283,7 +283,7 @@ struct unit *aiguard_charge_unit(struct ai_type *ait, struct unit *guard)
   return game_unit_by_number(def_ai_unit_data(guard, ait)->charge);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Which city (if any) has a guard been assigned to?
   Returns NULL if the unit is not a guard for a city.
 **************************************************************************/
@@ -293,7 +293,7 @@ struct city *aiguard_charge_city(struct ai_type *ait, struct unit *guard)
   return game_city_by_number(def_ai_unit_data(guard, ait)->charge);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check whether the assignment of a guard is still sane, and fix and problems.
   It was once sane, but might have been destroyed or become an enemy since.
 **************************************************************************/

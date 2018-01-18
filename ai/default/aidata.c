@@ -50,7 +50,7 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
                                   const struct player *plr1,
                                   const struct player *plr2);
 
-/****************************************************************************
+/************************************************************************//**
   Initialize ai data structure
 ****************************************************************************/
 void dai_data_init(struct ai_type *ait, struct player *pplayer)
@@ -95,7 +95,7 @@ void dai_data_init(struct ai_type *ait, struct player *pplayer)
   dai_auto_settler_init(ai);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Deinitialize ai data structure
 ****************************************************************************/
 void dai_data_close(struct ai_type *ait, struct player *pplayer)
@@ -122,10 +122,10 @@ void dai_data_close(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return whether data phase is currently open. Data phase is open
   between dai_data_phase_begin() and dai_data_phase_finished() calls.
-**************************************************************************/
+****************************************************************************/
 bool is_ai_data_phase_open(struct ai_type *ait, struct player *pplayer)
 {
   struct ai_plr *ai = def_ai_player_data(pplayer, ait);
@@ -133,7 +133,7 @@ bool is_ai_data_phase_open(struct ai_type *ait, struct player *pplayer)
   return ai->phase_initialized;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Make and cache lots of calculations needed for other functions.
 ****************************************************************************/
 void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
@@ -285,7 +285,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Clean up ai data after phase finished.
 ****************************************************************************/
 void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer)
@@ -305,7 +305,7 @@ void dai_data_phase_finished(struct ai_type *ait, struct player *pplayer)
   ai->phase_initialized = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get current default ai data related to player.
   If close is set, data phase will be opened even if it's currently closed,
   and the boolean will be set accordingly to tell caller that phase needs
@@ -357,7 +357,7 @@ struct ai_plr *dai_plr_data_get(struct ai_type *ait, struct player *pplayer,
   return ai;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Allocate new ai diplomacy slot
 ****************************************************************************/
 static void dai_diplomacy_new(struct ai_type *ait,
@@ -379,7 +379,7 @@ static void dai_diplomacy_new(struct ai_type *ait,
   *player_intel_slot = player_intel;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set diplomacy data between two players to its default values.
 ****************************************************************************/
 static void dai_diplomacy_defaults(struct ai_type *ait,
@@ -402,9 +402,9 @@ static void dai_diplomacy_defaults(struct ai_type *ait,
   player_intel->warned_about_space = 0;
 }
 
-/***************************************************************
+/************************************************************************//**
   Returns diplomatic state type between two players
-***************************************************************/
+****************************************************************************/
 struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
                                        const struct player *plr1,
                                        const struct player *plr2)
@@ -421,7 +421,7 @@ struct ai_dip_intel *dai_diplomacy_get(struct ai_type *ait,
   return (struct ai_dip_intel *) *player_intel_slot;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free resources allocated for diplomacy information between two players.
 ****************************************************************************/
 static void dai_diplomacy_destroy(struct ai_type *ait,
@@ -442,7 +442,7 @@ static void dai_diplomacy_destroy(struct ai_type *ait,
   *player_intel_slot = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adjust multiplier values.
 ****************************************************************************/
 void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
@@ -522,7 +522,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set value of the government.
 ****************************************************************************/
 void dai_gov_value(struct ai_type *ait, struct player *pplayer,
