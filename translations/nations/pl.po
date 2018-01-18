@@ -5,37 +5,14 @@
 # Tomasz Węgrzanowski <maniek@beer.com> 2000
 # Zbigniew Baniewski <zb@ispid.com.pl> 2002
 # Mateusz Stefek <matusik_s@o2.pl> 2002
-# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2014
+# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2017
 # **************************************************************************
-# KONWENCJE:
-# ----------
-# * 'martial law' tłumaczymy jako 'stan wyjątkowy';
-# * 'happy' tłumaczymy jako 'szczęśliwy, 'content' - 'zadowolony',
-# 'unhappy' - 'niezadowolony', 'angry' - 'wzburzony'
-# * 'military unit' tłumaczymy jako 'jednostka zbrojna',
-# 'hit point' - 'punkt obrażeń', 'vision' - 'pole widzenia'
-# * 'bulbs' tłumaczymy jako 'punkty odkryć'
-# * 'ruleset' - 'zestaw zasad', 'tileset' - 'zestaw graficzny',
-# 'theme' - 'motyw', 'modpack' - 'dodatek'
-# * 'space structural' - 'łącznik rakiety', 'space component' - 'napęd rakiety',
-# 'space module' - 'moduł rakiety', 'spaceship' - 'rakieta (kosmiczna)',
-# 'propulsion' - 'silnik', 'habitation module' - 'moduł mieszkalny',
-# 'solar panel' - 'panel słoneczny', 'fuel component' - 'zbiornik paliwa'
-# * Opisy komend serwera zapisane są w czasie teraźniejszym, osobie trzeciej
-# (np. 'wyświetla', a nie 'wyświetli', 'wyświetl', 'wyświetlane jest')
-# * Nazwy budynków, jednostek, cudów, technologii, ustrojów, stanów dyplomatycznych
-# oraz wyrażenie 'Rakieta Kosmiczna' piszemy z dużej litery.
-# **************************************************************************
-# UWAGA! Powyższe konwencje różnią się znacznie od rozwiązań zastosowanych w
-# we fragmentach przestarzałych (zakomentowanych na końcu pliku). W
-# razie wątpliwości należy wziąć pod uwagę rozwiązania opisane w
-# powyższej sekcji ('KONWENCJE').
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-19 10:11+0100\n"
-"PO-Revision-Date: 2015-02-09 15:05+0100\n"
+"POT-Creation-Date: 2017-09-03 23:40+0300\n"
+"PO-Revision-Date: 2018-01-18 00:00+0000\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
 "Language: pl\n"
@@ -44,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.5\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -551,7 +528,6 @@ msgid "African"
 msgstr "Afrykański"
 
 #: data/nation/african.ruleset:4
-#, fuzzy
 msgid "?plural:Africans"
 msgstr "?plural:Afrykanie"
 
@@ -994,8 +970,7 @@ msgstr "?female:Baliw %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1015,13 +990,13 @@ msgstr "?female:Baliw %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Biskup %s"
@@ -3267,6 +3242,8 @@ msgstr ""
 "stolica prowincji Azuay). W XV wieku zostali podbici przez Inków, choć "
 "stawiali silny opór najeźdźcy. Buntowali się też podczas inkaskiej wojny "
 "domowej i stanęli po stronie Hiszpanów, gdy ci podbijali imperium Inków."
+"[Słowa \"kanarski\" oraz \"Kanarczyk\" to neologizmy wymyślone na "
+"potrzeby Freeciv. - przyp. tłumacza.]"
 
 #: data/nation/cantonese.ruleset:3
 msgid "Cantonese"
