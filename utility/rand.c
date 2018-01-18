@@ -51,7 +51,7 @@
  */
 static RANDOM_STATE rand_state;
 
-/*************************************************************************
+/*********************************************************************//**
   Returns a new random value from the sequence, in the interval 0 to
   (size-1) inclusive, and updates global state for next call.
   This means that if size <= 1 the function will always return 0.
@@ -70,7 +70,7 @@ static RANDOM_STATE rand_state;
   Then max <= MAX_UINT32 implies
 	 size * divisor <= (MAX_UINT32+1)
   thus   divisor <= (MAX_UINT32+1)/size
-  
+
   Need to calculate this divisor.  Want divisor as large as possible
   given above contraint, but it doesn't hurt us too much if it is a
   bit smaller (just have to repeat more often).  Calculation exactly
@@ -132,7 +132,7 @@ RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
   return new_rand;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Initialize the generator; see comment at top of file.
 *************************************************************************/
 void fc_srand(RANDOM_TYPE seed)
@@ -163,7 +163,7 @@ void fc_srand(RANDOM_TYPE seed)
   }
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return whether the current state has been initialized.
 *************************************************************************/
 bool fc_rand_is_init(void)
@@ -171,7 +171,7 @@ bool fc_rand_is_init(void)
   return rand_state.is_init;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Return a copy of the current rand_state; eg for save/restore.
 *************************************************************************/
 RANDOM_STATE fc_rand_state(void)
@@ -191,7 +191,7 @@ RANDOM_STATE fc_rand_state(void)
   return rand_state;
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Replace current rand_state with user-supplied; eg for save/restore.
   Caller should take care to set state.is_init beforehand if necessary.
 *************************************************************************/
@@ -212,7 +212,7 @@ void fc_rand_set_state(RANDOM_STATE state)
   }
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Test one aspect of randomness, using n numbers.
   Reports results to LOG_TEST; with good randomness, behaviourchange
   and behavioursame should be about the same size.
@@ -251,7 +251,7 @@ void test_random1(int n)
   fc_rand_set_state(saved_state);
 }
 
-/*************************************************************************
+/*********************************************************************//**
   Local pseudo-random function for repeatedly reaching the same result,
   instead of fc_rand().  Primarily needed for tiles.
 
