@@ -53,7 +53,7 @@ static int re_parse_cmdline(int argc, char *argv[]);
 
 struct ruledit_arguments reargs;
 
-/**************************************************************************
+/**********************************************************************//**
   Main entry point for freeciv-ruledit
 **************************************************************************/
 int main(int argc, char **argv)
@@ -126,7 +126,7 @@ int main(int argc, char **argv)
   return EXIT_SUCCESS;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Parse freeciv-ruledit commandline.
 **************************************************************************/
 static int re_parse_cmdline(int argc, char *argv[])
@@ -181,7 +181,7 @@ static int re_parse_cmdline(int argc, char *argv[])
   return ui_options;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Show widget if experimental features enabled, hide otherwise
 **************************************************************************/
 void show_experimental(QWidget *wdg)

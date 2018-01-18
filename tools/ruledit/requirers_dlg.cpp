@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 #include "requirers_dlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Setup requirers_dlg object
 **************************************************************************/
 requirers_dlg::requirers_dlg(ruledit_gui *ui_in) : QDialog()
@@ -47,7 +47,7 @@ requirers_dlg::requirers_dlg(ruledit_gui *ui_in) : QDialog()
   setLayout(main_layout);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear text area
 **************************************************************************/
 void requirers_dlg::clear(const char *title)
@@ -60,7 +60,7 @@ void requirers_dlg::clear(const char *title)
   area->clear();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Add requirer entry
 **************************************************************************/
 void requirers_dlg::add(const char *msg)
@@ -74,7 +74,7 @@ void requirers_dlg::add(const char *msg)
   area->append(QString::fromUtf8(buffer));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User pushed close button
 **************************************************************************/
 void requirers_dlg::close_now()
