@@ -5,7 +5,7 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2017.
+# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2018.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-08-22 22:36+0100\n"
-"PO-Revision-Date: 2017-05-13 16:04+0100\n"
+"POT-Creation-Date: 2018-01-18 00:19+0000\n"
+"PO-Revision-Date: 2018-01-19 09:04+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -4414,10 +4414,10 @@ msgstr "?plural:Cuyavians"
 #: data/nation/cuyavian.ruleset:6
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
-"West by Masovia, on the East by Greater Poland and on the North by Pomerania."
+"East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
-"West by Masovia, on the East by Greater Poland and on the North by Pomerania."
+"East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
