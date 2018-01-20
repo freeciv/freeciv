@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-19 10:11+0100\n"
+"POT-Creation-Date: 2018-01-11 00:31+0000\n"
 "PO-Revision-Date: 2013-09-09 10:53+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -407,7 +407,7 @@ msgstr "individual"
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:283 client/citydlg_common.c:336
 #: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1562
-#: client/gui-gtk-3.0/citydlg.c:1764 client/gui-qt/citydlg.cpp:1870
+#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1870
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1417 client/gui-sdl/wldlg.c:1422
 #: client/gui-xaw/citydlg.c:252 client/text.c:971
@@ -416,7 +416,7 @@ msgstr "niciodată"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1568
-#: client/gui-gtk-3.0/citydlg.c:1770 client/gui-qt/citydlg.cpp:1876
+#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1876
 #: client/gui-xaw/citydlg.c:257 client/text.c:969 client/text.c:1446
 #, c-format
 msgid "%d turn"
@@ -1687,7 +1687,7 @@ msgstr ""
 
 #: client/editor.c:191 client/gui-gtk-2.0/citydlg.c:1221
 #: client/gui-gtk-2.0/editprop.c:662 client/gui-gtk-2.0/gotodlg.c:202
-#: client/gui-gtk-3.0/citydlg.c:1410 client/gui-gtk-3.0/editprop.c:662
+#: client/gui-gtk-3.0/citydlg.c:1411 client/gui-gtk-3.0/editprop.c:662
 #: client/gui-gtk-3.0/gotodlg.c:208 client/gui-qt/gotodlg.cpp:68
 msgid "City"
 msgstr "Oraşul"
@@ -1958,24 +1958,24 @@ msgstr "Drapel"
 msgid "Citizens"
 msgstr "Cetăţeni"
 
-#: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:715
+#: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:716
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:829
 msgid "Food:"
 msgstr "Hrană:"
 
-#: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:716
+#: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:717
 #: client/gui-qt/citydlg.cpp:710
 msgid "Prod:"
 msgstr "Prod:"
 
-#: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:717
+#: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:718
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:833
 msgid "Trade:"
 msgstr "Negoţ:"
 
 #: client/gui-gtk-2.0/citydlg.c:684 client/gui-gtk-2.0/diplodlg.c:754
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
+#: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
 #: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
@@ -1983,43 +1983,43 @@ msgid "Gold:"
 msgstr "Galbeni:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
-#: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
+#: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:55
 #: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Lux:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
-#: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
+#: client/gui-gtk-3.0/citydlg.c:721 client/gui-gtk-3.0/inteldlg.c:54
 #: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Ştiinţă:"
 
-#: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:721
+#: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:722
 #: client/gui-qt/citydlg.cpp:711
 msgid "Granary:"
 msgstr "Grânar:"
 
-#: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:722
+#: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:723
 #: client/gui-qt/citydlg.cpp:712
 msgid "Change in:"
 msgstr "Schimbă în:"
 
-#: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:723
+#: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:724
 #: client/gui-qt/citydlg.cpp:712
 msgid "Corruption:"
 msgstr "Corupţie:"
 
-#: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:724
+#: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:725
 #: client/gui-qt/citydlg.cpp:712
 msgid "Waste:"
 msgstr "Deşeuri:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:725
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:726
 #: client/gui-qt/citydlg.cpp:713
 msgid "Pollution:"
 msgstr "Poluare:"
 
-#: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:726
+#: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:727
 #: client/gui-qt/citydlg.cpp:713
 msgid "Plague Risk:"
 msgstr ""
@@ -2029,77 +2029,77 @@ msgstr ""
 #. TRANS: Overview tab in city dialog
 #. TRANS: Overview tab of foreign intelligence report dialog
 #: client/gui-gtk-2.0/citydlg.c:760 client/gui-gtk-2.0/inteldlg.c:211
-#: client/gui-gtk-3.0/citydlg.c:879 client/gui-gtk-3.0/inteldlg.c:208
+#: client/gui-gtk-3.0/citydlg.c:880 client/gui-gtk-3.0/inteldlg.c:208
 msgid "_Overview"
 msgstr "Privire generală"
 
 #: client/gui-gtk-2.0/citydlg.c:774 client/gui-gtk-2.0/citydlg.c:1090
-#: client/gui-gtk-3.0/citydlg.c:802 client/gui-gtk-3.0/citydlg.c:1277
+#: client/gui-gtk-3.0/citydlg.c:803 client/gui-gtk-3.0/citydlg.c:1278
 #: client/gui-qt/citydlg.cpp:759 client/gui-sdl/citydlg.c:2526
 msgid "City map"
 msgstr "Harta oraşului"
 
-#: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:834
+#: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:835
 #, fuzzy
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
 msgstr "Apăsaţi ENTER sau dublu clic pentru a vinde o îmbunătăţire."
 
 #: client/gui-gtk-2.0/citydlg.c:814 client/gui-gtk-2.0/citydlg.c:1003
-#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:909
-#: client/gui-gtk-3.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1887
+#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:910
+#: client/gui-gtk-3.0/citydlg.c:1200 client/gui-gtk-3.0/citydlg.c:1888
 #: client/gui-qt/helpdlg.cpp:831
 msgid "Production:"
 msgstr "Producţie:"
 
 #: client/gui-gtk-2.0/citydlg.c:850 client/gui-gtk-2.0/citydlg.c:1015
-#: client/gui-gtk-3.0/citydlg.c:948 client/gui-gtk-3.0/citydlg.c:1132
+#: client/gui-gtk-3.0/citydlg.c:949 client/gui-gtk-3.0/citydlg.c:1133
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d runde"
 
 #: client/gui-gtk-2.0/citydlg.c:853 client/gui-gtk-2.0/citydlg.c:1022
-#: client/gui-gtk-2.0/cityrep.c:1157 client/gui-gtk-3.0/citydlg.c:951
-#: client/gui-gtk-3.0/citydlg.c:1140 client/gui-gtk-3.0/cityrep.c:1169
+#: client/gui-gtk-2.0/cityrep.c:1157 client/gui-gtk-3.0/citydlg.c:952
+#: client/gui-gtk-3.0/citydlg.c:1141 client/gui-gtk-3.0/cityrep.c:1169
 msgid "_Buy"
 msgstr "_Cumpără"
 
-#: client/gui-gtk-2.0/citydlg.c:861 client/gui-gtk-3.0/citydlg.c:958
+#: client/gui-gtk-2.0/citydlg.c:861 client/gui-gtk-3.0/citydlg.c:959
 #, fuzzy
 msgid "I_mprovements:"
 msgstr "_Înbunătăţiri:"
 
 #: client/gui-gtk-2.0/citydlg.c:879 client/gui-gtk-2.0/citydlg.c:1064
-#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/citydlg.c:983
-#: client/gui-gtk-3.0/citydlg.c:1248 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/citydlg.c:984
+#: client/gui-gtk-3.0/citydlg.c:1249 client/gui-gtk-3.0/wldlg.c:1001
 msgid "Info"
 msgstr "Info"
 
-#: client/gui-gtk-2.0/citydlg.c:992 client/gui-gtk-3.0/citydlg.c:1186
+#: client/gui-gtk-2.0/citydlg.c:992 client/gui-gtk-3.0/citydlg.c:1187
 #, fuzzy
 msgid "P_roduction"
 msgstr "Producţie"
 
-#: client/gui-gtk-2.0/citydlg.c:1051 client/gui-gtk-3.0/citydlg.c:1231
+#: client/gui-gtk-2.0/citydlg.c:1051 client/gui-gtk-3.0/citydlg.c:1232
 #, fuzzy
 msgid "Happ_iness"
 msgstr "Fericire"
 
-#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk-3.0/citydlg.c:1304
+#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk-3.0/citydlg.c:1305
 msgid "_Governor"
 msgstr "_Guverne"
 
-#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1327
+#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1328
 msgid "_Settings"
 msgstr "_Setări"
 
-#: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1330
+#: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1331
 #: data/civ1/cities.ruleset:47 data/civ2/cities.ruleset:47
 #: data/classic/cities.ruleset:47 data/experimental/cities.ruleset:49
 #: data/civ2civ3/cities.ruleset:47 data/multiplayer/cities.ruleset:46
 msgid "Entertainers"
 msgstr "Comedianţi"
 
-#: client/gui-gtk-2.0/citydlg.c:1141 client/gui-gtk-3.0/citydlg.c:1331
+#: client/gui-gtk-2.0/citydlg.c:1141 client/gui-gtk-3.0/citydlg.c:1332
 #: client/gui-xaw/citydlg.c:2443 data/civ1/cities.ruleset:60
 #: data/civ2/cities.ruleset:60 data/classic/cities.ruleset:60
 #: data/experimental/cities.ruleset:62 data/civ2civ3/cities.ruleset:61
@@ -2107,7 +2107,7 @@ msgstr "Comedianţi"
 msgid "Scientists"
 msgstr "Cercetători"
 
-#: client/gui-gtk-2.0/citydlg.c:1142 client/gui-gtk-3.0/citydlg.c:1332
+#: client/gui-gtk-2.0/citydlg.c:1142 client/gui-gtk-3.0/citydlg.c:1333
 #: client/gui-xaw/citydlg.c:2444 data/civ1/cities.ruleset:73
 #: data/civ2/cities.ruleset:73 data/classic/cities.ruleset:73
 #: data/experimental/cities.ruleset:75 data/civ2civ3/cities.ruleset:75
@@ -2115,87 +2115,87 @@ msgstr "Cercetători"
 msgid "Taxmen"
 msgstr "Perceptori de taxe"
 
-#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1335
+#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1336
 #: client/gui-qt/citydlg.cpp:815
 msgid "Disband if build settler at size 1"
 msgstr "Dizolvă dacă colonizatorul este la mărimea 1"
 
-#: client/gui-gtk-2.0/citydlg.c:1148 client/gui-gtk-3.0/citydlg.c:1338
+#: client/gui-gtk-2.0/citydlg.c:1148 client/gui-gtk-3.0/citydlg.c:1339
 msgid "Overview page"
 msgstr "Privire generală"
 
-#: client/gui-gtk-2.0/citydlg.c:1149 client/gui-gtk-3.0/citydlg.c:1339
+#: client/gui-gtk-2.0/citydlg.c:1149 client/gui-gtk-3.0/citydlg.c:1340
 msgid "Production page"
 msgstr "Pagina producţiei"
 
-#: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk-3.0/citydlg.c:1340
+#: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk-3.0/citydlg.c:1341
 msgid "Happiness page"
 msgstr "Pagina fericirii"
 
-#: client/gui-gtk-2.0/citydlg.c:1151 client/gui-gtk-3.0/citydlg.c:1341
+#: client/gui-gtk-2.0/citydlg.c:1151 client/gui-gtk-3.0/citydlg.c:1342
 msgid "Governor page"
 msgstr "Guvernator"
 
-#: client/gui-gtk-2.0/citydlg.c:1152 client/gui-gtk-3.0/citydlg.c:1342
+#: client/gui-gtk-2.0/citydlg.c:1152 client/gui-gtk-3.0/citydlg.c:1343
 msgid "This Settings page"
 msgstr "Pagina aceasta cu setări"
 
-#: client/gui-gtk-2.0/citydlg.c:1153 client/gui-gtk-3.0/citydlg.c:1343
+#: client/gui-gtk-2.0/citydlg.c:1153 client/gui-gtk-3.0/citydlg.c:1344
 msgid "Last active page"
 msgstr "Ultima pagină activă"
 
-#: client/gui-gtk-2.0/citydlg.c:1179 client/gui-gtk-3.0/citydlg.c:1364
+#: client/gui-gtk-2.0/citydlg.c:1179 client/gui-gtk-3.0/citydlg.c:1365
 #: client/gui-sdl/citydlg.c:964
 msgid "New citizens are"
 msgstr "Noii cetăţeni sunt"
 
-#: client/gui-gtk-2.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1387
+#: client/gui-gtk-2.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1388
 msgid "Next time open"
 msgstr "Următoarea dată când se deschde"
 
-#: client/gui-gtk-2.0/citydlg.c:1228 client/gui-gtk-3.0/citydlg.c:1420
+#: client/gui-gtk-2.0/citydlg.c:1228 client/gui-gtk-3.0/citydlg.c:1421
 #, fuzzy
 msgid "R_ename..."
 msgstr "Redenumeşte..."
 
-#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk-3.0/citydlg.c:1585
+#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk-3.0/citydlg.c:1586
 msgid "_List present units..."
 msgstr "_Listează unităţile prezente"
 
-#: client/gui-gtk-2.0/citydlg.c:1392 client/gui-gtk-3.0/citydlg.c:1591
+#: client/gui-gtk-2.0/citydlg.c:1392 client/gui-gtk-3.0/citydlg.c:1592
 msgid "_Prev city"
 msgstr "Oraşul _Precedent"
 
-#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1596
+#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1597
 msgid "_Next city"
 msgstr "Oraşul _Urmator"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1452 client/gui-gtk-3.0/citydlg.c:1650
+#: client/gui-gtk-2.0/citydlg.c:1452 client/gui-gtk-3.0/citydlg.c:1651
 #, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - DISORDER"
 msgstr "<b>%s</b> - %s cetăţeni"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1457 client/gui-gtk-3.0/citydlg.c:1655
+#: client/gui-gtk-2.0/citydlg.c:1457 client/gui-gtk-3.0/citydlg.c:1656
 #, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - celebrating"
 msgstr "<b>%s</b> - %s cetăţeni"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1462 client/gui-gtk-3.0/citydlg.c:1660
+#: client/gui-gtk-2.0/citydlg.c:1462 client/gui-gtk-3.0/citydlg.c:1661
 #, fuzzy, c-format
 msgid "<b>%s</b> - %s citizens - happy"
 msgstr "<b>%s</b> - %s cetăţeni"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1467 client/gui-gtk-3.0/citydlg.c:1665
+#: client/gui-gtk-2.0/citydlg.c:1467 client/gui-gtk-3.0/citydlg.c:1666
 #, c-format
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s cetăţeni"
 
 #. TRANS: city growth is blocked.  Keep short.
-#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1761
+#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1762
 #: client/gui-qt/citydlg.cpp:1867 client/gui-sdl/citydlg.c:3306
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
@@ -2203,74 +2203,74 @@ msgstr "blocat"
 
 #. TRANS: never actually used with built_slots<=1
 #. TRANS: never actually used with built_slots <= 1
-#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:1880
+#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:1881
 #, fuzzy, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "Producţie : %d (%d) pe rundă"
 msgstr[1] "Producţie : %d (%d) pe rundă"
 
-#: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2119
+#: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2120
 #: client/gui-qt/citydlg.cpp:2022
 #, c-format
 msgid "Supported units %d"
 msgstr "Unităţi întreţinute %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2222
+#: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2223
 #: client/gui-qt/citydlg.cpp:2043
 #, c-format
 msgid "Present units %d"
 msgstr "Unităţi prezente %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/cityrep.c:1149
-#: client/gui-gtk-3.0/citydlg.c:2354 client/gui-gtk-3.0/cityrep.c:1177
+#: client/gui-gtk-3.0/citydlg.c:2355 client/gui-gtk-3.0/cityrep.c:1177
 msgid "Cen_ter"
 msgstr "_Centrează"
 
 #: client/gui-gtk-2.0/citydlg.c:2146 client/gui-gtk-2.0/citydlg.c:2204
-#: client/gui-gtk-3.0/citydlg.c:2360 client/gui-gtk-3.0/citydlg.c:2418
+#: client/gui-gtk-3.0/citydlg.c:2361 client/gui-gtk-3.0/citydlg.c:2419
 msgid "_Activate unit"
 msgstr "_Activează unitatea"
 
 #: client/gui-gtk-2.0/citydlg.c:2152 client/gui-gtk-2.0/citydlg.c:2210
-#: client/gui-gtk-3.0/citydlg.c:2366 client/gui-gtk-3.0/citydlg.c:2424
+#: client/gui-gtk-3.0/citydlg.c:2367 client/gui-gtk-3.0/citydlg.c:2425
 msgid "Activate unit, _close dialog"
 msgstr "Activează unitatea, închide _dialogul"
 
 #: client/gui-gtk-2.0/citydlg.c:2158 client/gui-gtk-2.0/citydlg.c:2259
-#: client/gui-gtk-3.0/citydlg.c:2372 client/gui-gtk-3.0/citydlg.c:2473
+#: client/gui-gtk-3.0/citydlg.c:2373 client/gui-gtk-3.0/citydlg.c:2474
 msgid "_Disband unit"
 msgstr "_Dizolvă unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2216 client/gui-gtk-3.0/citydlg.c:2430
+#: client/gui-gtk-2.0/citydlg.c:2216 client/gui-gtk-3.0/citydlg.c:2431
 msgid "_Load unit"
 msgstr "Încarcă unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2226 client/gui-gtk-3.0/citydlg.c:2440
+#: client/gui-gtk-2.0/citydlg.c:2226 client/gui-gtk-3.0/citydlg.c:2441
 msgid "_Unload unit"
 msgstr "Descarcă unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk-3.0/citydlg.c:2451
+#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk-3.0/citydlg.c:2452
 msgid "_Sentry unit"
 msgstr "_Ţine poziţia"
 
-#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk-3.0/citydlg.c:2462
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk-3.0/citydlg.c:2463
 msgid "_Fortify unit"
 msgstr "_Fortifică unitatea"
 
 #: client/gui-gtk-2.0/citydlg.c:2269 client/gui-gtk-2.0/menu.c:1631
-#: client/gui-gtk-3.0/citydlg.c:2483 client/gui-gtk-3.0/menu.c:1619
+#: client/gui-gtk-3.0/citydlg.c:2484 client/gui-gtk-3.0/menu.c:1619
 #, fuzzy
 msgid "Set _Home City"
 msgstr "Nou oraş _natal"
 
-#: client/gui-gtk-2.0/citydlg.c:2276 client/gui-gtk-3.0/citydlg.c:2490
+#: client/gui-gtk-2.0/citydlg.c:2276 client/gui-gtk-3.0/citydlg.c:2491
 msgid "U_pgrade unit"
 msgstr "Modernizează unitatea"
 
 #: client/gui-gtk-2.0/citydlg.c:2623 client/gui-gtk-2.0/diplomat_dialog.c:124
 #: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-gtk-2.0/repodlgs.c:1525
-#: client/gui-gtk-3.0/citydlg.c:2838 client/gui-gtk-3.0/diplomat_dialog.c:124
+#: client/gui-gtk-3.0/citydlg.c:2839 client/gui-gtk-3.0/diplomat_dialog.c:124
 #: client/gui-gtk-3.0/diplomat_dialog.c:677 client/gui-gtk-3.0/repodlgs.c:1560
 #: client/gui-qt/citydlg.cpp:2194 client/gui-qt/dialogs.cpp:1584
 #: client/gui-qt/dialogs.cpp:1645 client/gui-qt/repodlgs.cpp:978
@@ -2290,7 +2290,7 @@ msgstr[1] ""
 "Tresoreria conţine %d galbeni."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2633 client/gui-gtk-3.0/citydlg.c:2848
+#: client/gui-gtk-2.0/citydlg.c:2633 client/gui-gtk-3.0/citydlg.c:2849
 #: client/gui-sdl/citydlg.c:1155 client/gui-xaw/citydlg.c:1958
 #, fuzzy, c-format
 msgid ""
@@ -2303,13 +2303,13 @@ msgstr[0] "Vinde %s pentru %d galbeni?"
 msgstr[1] "Vinde %s pentru %d galbeni?"
 
 #: client/gui-gtk-2.0/citydlg.c:2637 client/gui-gtk-2.0/citydlg.c:2651
-#: client/gui-gtk-3.0/citydlg.c:2852 client/gui-gtk-3.0/citydlg.c:2866
+#: client/gui-gtk-3.0/citydlg.c:2853 client/gui-gtk-3.0/citydlg.c:2867
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "Cumpară!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2647 client/gui-gtk-3.0/citydlg.c:2862
+#: client/gui-gtk-2.0/citydlg.c:2647 client/gui-gtk-3.0/citydlg.c:2863
 #: client/gui-sdl/citydlg.c:1161 client/gui-xaw/citydlg.c:1969
 #, fuzzy, c-format
 msgid ""
@@ -2321,7 +2321,7 @@ msgid_plural ""
 msgstr[0] "Aţi primit %d galbeni."
 msgstr[1] "Aţi primit %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2913
+#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2914
 #: client/gui-qt/citydlg.cpp:1952 client/gui-sdl/citydlg.c:1405
 #: client/gui-xaw/citydlg.c:2349
 #, fuzzy, c-format
@@ -2330,17 +2330,17 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "Vinde %s pentru %d galbeni?"
 msgstr[1] "Vinde %s pentru %d galbeni?"
 
-#: client/gui-gtk-2.0/citydlg.c:2704 client/gui-gtk-3.0/citydlg.c:2919
+#: client/gui-gtk-2.0/citydlg.c:2704 client/gui-gtk-3.0/citydlg.c:2920
 #: data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "Vinde!"
 
-#: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2994
+#: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2995
 #: client/gui-qt/citydlg.cpp:1220
 msgid "Rename City"
 msgstr "Redenumeşte oraşul"
 
-#: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2995
+#: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2996
 #: client/gui-qt/citydlg.cpp:1221 client/gui-xaw/citydlg.c:1438
 msgid "What should we rename the city to?"
 msgstr "Care să fie numele oraşului?"
@@ -3525,7 +3525,7 @@ msgstr ""
 msgid "Veteran"
 msgstr "Veteran"
 
-#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1157
+#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1158
 #: client/gui-gtk-3.0/editprop.c:4286 client/gui-qt/cityrep.cpp:709
 #, fuzzy
 msgid "Buildings"
@@ -3834,7 +3834,7 @@ msgstr ""
 msgid "Clear links"
 msgstr "Ţintă plan de lucru:"
 
-#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2162
+#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2163
 #: client/gui-qt/gui_main.cpp:469
 msgid "Are you sure you want to quit?"
 msgstr "Sigur vrei să renunţi?"
@@ -4195,12 +4195,12 @@ msgstr ""
 msgid "Load Lua Script"
 msgstr "Încarcă unitatea"
 
-#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:191
+#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:192
 #: client/gui-qt/mapctrl.cpp:51
 msgid "Build New City"
 msgstr "Construieşte un Oraş Nou"
 
-#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:192
+#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:193
 #: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2633
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
@@ -5937,7 +5937,7 @@ msgstr "_Adaugă plan de lucru global"
 msgid "Change Prod_uction"
 msgstr "Schimbă producţia"
 
-#: client/gui-gtk-3.0/citydlg.c:1064
+#: client/gui-gtk-3.0/citydlg.c:1065
 msgid "Citymap"
 msgstr "Harta oraşului"
 
@@ -8634,7 +8634,7 @@ msgid "R.I.P."
 msgstr "Odihneaască-se în pace"
 
 #: client/gui-sdl/plrdlg.c:653 client/plrdlg_common.c:311
-#: server/stdinhand.c:3528 server/stdinhand.c:6328
+#: server/stdinhand.c:3528 server/stdinhand.c:6336
 msgid "AI"
 msgstr "AI"
 
@@ -17898,7 +17898,7 @@ msgstr "Preşedinte"
 
 #: data/civ1/nations.ruleset:1471 data/civ2/nations.ruleset:2038
 #: data/nation/barbarian.ruleset:5 server/stdinhand.c:3526
-#: server/stdinhand.c:6326
+#: server/stdinhand.c:6334
 msgid "Barbarian"
 msgstr "Barbar"
 
@@ -28047,7 +28047,7 @@ msgstr "persan"
 
 #: data/nation/polynesian.ruleset:6
 #, fuzzy
-msgid "?plural:Polynesian"
+msgid "?plural:Polynesians"
 msgstr "Polonezi"
 
 #: data/nation/polynesian.ruleset:8
@@ -32678,12 +32678,12 @@ msgid ""
 "bases."
 msgstr ""
 
-#: server/maphand.c:1750
+#: server/maphand.c:1767
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "%sul dumneavoastră a fost mutat datorită schimbării terenului."
 
-#: server/maphand.c:1767
+#: server/maphand.c:1784
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "%s a fost dizolvat datorită modificării terenului."
@@ -36653,7 +36653,7 @@ msgstr "Opţiunea: %s  -  %s."
 msgid "Option: %s"
 msgstr "Opţiuni: %s"
 
-#: server/stdinhand.c:1783 server/stdinhand.c:5996
+#: server/stdinhand.c:1783 server/stdinhand.c:6004
 msgid "Description:"
 msgstr "Descriere:"
 
@@ -37191,7 +37191,7 @@ msgstr ""
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s controlează acum %s (%s, %s)"
 
-#: server/stdinhand.c:3529 server/stdinhand.c:6330
+#: server/stdinhand.c:3529 server/stdinhand.c:6338
 msgid "Human"
 msgstr "Om"
 
@@ -37271,7 +37271,7 @@ msgstr "directorul pentru setul de reguli a fost stabilit la  \"%s\""
 msgid "Failed loading rulesets from directory \"%s\", using \"%s\""
 msgstr "Cirectorul curent pentru setul de reguli este \"%s\""
 
-#: server/stdinhand.c:3922 server/stdinhand.c:3958 server/stdinhand.c:6246
+#: server/stdinhand.c:3922 server/stdinhand.c:3958 server/stdinhand.c:6254
 msgid "That would be rather silly, since you are not a player."
 msgstr ""
 
@@ -37285,7 +37285,7 @@ msgstr ""
 msgid "Added pattern %s as entry %d to your ignore list."
 msgstr ""
 
-#: server/stdinhand.c:3967 server/stdinhand.c:6251
+#: server/stdinhand.c:3967 server/stdinhand.c:6259
 #, fuzzy
 msgid "Your ignore list is empty."
 msgstr "Planul de lucru din %s este acum gol."
@@ -37660,7 +37660,7 @@ msgstr ""
 msgid "Ambiguous 'mapimg' command."
 msgstr "Numele opţiunii este ambiguu."
 
-#: server/stdinhand.c:5339 server/stdinhand.c:5593
+#: server/stdinhand.c:5339 server/stdinhand.c:5601
 #, fuzzy, c-format
 msgid "The valid arguments are: %s."
 msgstr "Argument invalid %d."
@@ -37737,78 +37737,84 @@ msgstr "Argument lipsă pentru \"%s\".\n"
 msgid "Freeciv database script deactivated at compile time."
 msgstr ""
 
-#: server/stdinhand.c:5563
+#: server/stdinhand.c:5552
+msgid ""
+"Freeciv database script not activated at server start. See the Freeciv "
+"server's --auth command line option."
+msgstr ""
+
+#: server/stdinhand.c:5571
 msgid "Ambiguous fcdb command."
 msgstr ""
 
-#: server/stdinhand.c:5697
+#: server/stdinhand.c:5705
 #, fuzzy, c-format
 msgid ""
 "Not enough human players ('minplayers' server setting has value %d); game "
 "will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:5704
+#: server/stdinhand.c:5712
 #, fuzzy
 msgid "No players; game will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:5709
+#: server/stdinhand.c:5717
 #, fuzzy
 msgid ""
 "Not enough nations in the current nation set for all players; game will not "
 "start. (See 'nationset' setting.)"
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:5714
+#: server/stdinhand.c:5722
 #, fuzzy
 msgid "Not enough nations for all players; game will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:5725
+#: server/stdinhand.c:5733
 msgid "All players are ready; starting game."
 msgstr "Toţi jucătorii sunt gata; înceape jocul."
 
 #. TRANS: given when /start is invoked during gameover.
-#: server/stdinhand.c:5741
+#: server/stdinhand.c:5749
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Nu se poate porni jocul: se aşteaptă deconectarea tuturor clienţilor."
 
 #. TRANS: given when /start is invoked while the game
 #. * is running.
-#: server/stdinhand.c:5748
+#: server/stdinhand.c:5756
 msgid "Cannot start the game: it is already running."
 msgstr "Nu se pate porni jocul deoarece a fost deja pornit."
 
-#: server/stdinhand.c:5779
+#: server/stdinhand.c:5787
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Închid conexiunea %s."
 
-#: server/stdinhand.c:5780
+#: server/stdinhand.c:5788
 #, fuzzy
 msgid "connection cut"
 msgstr "Terminaţi conexiunea"
 
-#: server/stdinhand.c:5868
+#: server/stdinhand.c:5876
 #, fuzzy
 msgid "You may not kick yourself."
 msgstr "Trebuie să alegeţi sexul."
 
-#: server/stdinhand.c:5891
+#: server/stdinhand.c:5899
 #, c-format
 msgid ""
 "There must be at least %d unique connections to the server for this command "
 "to be valid."
 msgstr ""
 
-#: server/stdinhand.c:5917
+#: server/stdinhand.c:5925
 #, fuzzy
 msgid "kicked"
 msgstr "blocat"
 
-#: server/stdinhand.c:5933
+#: server/stdinhand.c:5941
 #, fuzzy
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
@@ -37847,185 +37853,185 @@ msgstr ""
 "  quit   - opreşte serverul."
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:5970
+#: server/stdinhand.c:5978
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "Comandă: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:5976
+#: server/stdinhand.c:5984
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "Comandă: %s"
 
-#: server/stdinhand.c:5981
+#: server/stdinhand.c:5989
 msgid "Synopsis: "
 msgstr "Rezumat: "
 
-#: server/stdinhand.c:5990
+#: server/stdinhand.c:5998
 #, c-format
 msgid "Level: %s"
 msgstr "Nivel: %s"
 
-#: server/stdinhand.c:6014
+#: server/stdinhand.c:6022
 msgid "The following server commands are available:"
 msgstr "Serverul cunoaşte următoarele comenzi:"
 
-#: server/stdinhand.c:6075
+#: server/stdinhand.c:6083
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:6137
+#: server/stdinhand.c:6145
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argumentul '%s' al comenzi 'help' este ambiguu."
 
-#: server/stdinhand.c:6144
+#: server/stdinhand.c:6152
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Nici o potrivire pentru argumentul comenzii help: '%s'."
 
-#: server/stdinhand.c:6185
+#: server/stdinhand.c:6193
 msgid "List of connections to server:"
 msgstr "Lista conexiunilor la server:"
 
-#: server/stdinhand.c:6189
+#: server/stdinhand.c:6197
 msgid "<no connections>"
 msgstr "<nici o conexiune>"
 
-#: server/stdinhand.c:6210
+#: server/stdinhand.c:6218
 #, fuzzy
 msgid "List of all delegations:"
 msgstr "Lista echipelor:"
 
 #. TRANS: last %s is either " (active)" or empty string
-#: server/stdinhand.c:6222
+#: server/stdinhand.c:6230
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
 msgstr ""
 
-#: server/stdinhand.c:6224
+#: server/stdinhand.c:6232
 #, fuzzy
 msgid " (active)"
 msgstr "activi"
 
-#: server/stdinhand.c:6230
+#: server/stdinhand.c:6238
 msgid "No delegations defined."
 msgstr ""
 
-#: server/stdinhand.c:6255
+#: server/stdinhand.c:6263
 msgid "Your ignore list:"
 msgstr ""
 
-#: server/stdinhand.c:6271
+#: server/stdinhand.c:6279
 msgid "List of players:"
 msgstr "Lista jucătorilor:"
 
-#: server/stdinhand.c:6275 server/stdinhand.c:6479
+#: server/stdinhand.c:6283 server/stdinhand.c:6487
 msgid "<no players>"
 msgstr "<nici un jucător>"
 
-#: server/stdinhand.c:6305
+#: server/stdinhand.c:6313
 #, fuzzy, c-format
 msgid ", user %s"
 msgstr "jucător %s, "
 
-#: server/stdinhand.c:6309
+#: server/stdinhand.c:6317
 msgid ", ready"
 msgstr ", pregătit"
 
-#: server/stdinhand.c:6313
+#: server/stdinhand.c:6321
 msgid ", not ready"
 msgstr ", nepregătit"
 
-#: server/stdinhand.c:6319
+#: server/stdinhand.c:6327
 msgid ", Dead"
 msgstr ", Decedat"
 
-#: server/stdinhand.c:6333
+#: server/stdinhand.c:6341
 #, c-format
 msgid ", %s"
 msgstr ""
 
-#: server/stdinhand.c:6334
+#: server/stdinhand.c:6342
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivel %s de dificultate"
 
-#: server/stdinhand.c:6340
+#: server/stdinhand.c:6348
 #, fuzzy, c-format
 msgid ", %d connection:"
 msgid_plural ", %d connections:"
 msgstr[0] " %d conexiune:"
 msgstr[1] " %d conexiuni:"
 
-#: server/stdinhand.c:6347
+#: server/stdinhand.c:6355
 #, fuzzy, c-format
 msgid "%s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s de la %s (nivelul de acces la comandă %s), bufsize=%dko"
 
-#: server/stdinhand.c:6352
+#: server/stdinhand.c:6360
 msgid " (observer mode)"
 msgstr " (mod de observator)"
 
-#: server/stdinhand.c:6369
+#: server/stdinhand.c:6377
 msgid "List of scenarios available:"
 msgstr "Listă cu scenariile de joc disponibile:"
 
 #. TRANS: don't translate text between ''
-#: server/stdinhand.c:6390
+#: server/stdinhand.c:6398
 #, fuzzy
 msgid "List of nation sets available for 'nationset' option:"
 msgstr "Există explicaţii pentru următoarele opţiuni ale serverului:"
 
 #. TRANS: nation set description; %d refers to number of playable
 #. * nations in set
-#: server/stdinhand.c:6404
+#: server/stdinhand.c:6412
 #, fuzzy, c-format
 msgid " %-10s  %s (%d playable)"
 msgid_plural " %-10s  %s (%d playable)"
 msgstr[0] "%2d : '%s' : %d jucător"
 msgstr[1] "%2d : '%s' : %d jucători"
 
-#: server/stdinhand.c:6427
+#: server/stdinhand.c:6435
 msgid "List of teams:"
 msgstr "Lista echipelor:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:6437
+#: server/stdinhand.c:6445
 #, fuzzy, c-format
 msgid "%2d : '%s' : %d player :"
 msgid_plural "%2d : '%s' : %d players :"
 msgstr[0] "%2d : '%s' : %d jucător"
 msgstr[1] "%2d : '%s' : %d jucători"
 
-#: server/stdinhand.c:6458
+#: server/stdinhand.c:6466
 #, fuzzy
 msgid "No map image definitions."
 msgstr "O listă cu unităţile iniţiale ale jucătorului"
 
-#: server/stdinhand.c:6460
+#: server/stdinhand.c:6468
 #, fuzzy
 msgid "List of map image definitions:"
 msgstr "O listă cu unităţile iniţiale ale jucătorului"
 
-#: server/stdinhand.c:6465
+#: server/stdinhand.c:6473
 #, c-format
 msgid "[%2d] %s"
 msgstr ""
 
-#: server/stdinhand.c:6476
+#: server/stdinhand.c:6484
 #, fuzzy
 msgid "List of player colors:"
 msgstr "Lista jucătorilor:"
 
-#: server/stdinhand.c:6482
+#: server/stdinhand.c:6490
 #, fuzzy, c-format
 msgid "%s (user %s): [%s]"
 msgstr "Vot nou (numărul %d) de către %s: %s"
 
-#: server/stdinhand.c:6541
+#: server/stdinhand.c:6549
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Argument de listă greşit: '%s'. Încercaţi '%shelp list'."
@@ -38274,81 +38280,81 @@ msgstr "%s nu poate fi adăugat la %s."
 msgid "%s added to aid %s in growing."
 msgstr "%s a fost adăugat la oraşul %s pentru al ajuta la creştere."
 
-#: server/unithand.c:1112
+#: server/unithand.c:1115
 #, fuzzy, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Bomba dvs. atomică a fost anihilată de apărarea SDI, ce risipă."
 
-#: server/unithand.c:1115
+#: server/unithand.c:1118
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Atacul nuclear asupra %s a fost anihilat de apărarea dvs. SDI."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1211
+#: server/unithand.c:1214
 #, fuzzy, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "Un %1$s al dvs a supravieţuit atacul patetic al unui %3$s a lui %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1221
+#: server/unithand.c:1224
 #, fuzzy, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "Atacul unui %1$s al dvs împotriva unui %3$s a lui %2$s a eşuat!"
 
-#: server/unithand.c:1297
+#: server/unithand.c:1300
 msgid "This type of troops cannot take over a city."
 msgstr "Aceste unităţi nu pot cuceri un oraş."
 
 #. TRANS: %s is a list of units separated by "or".
-#: server/unithand.c:1317
+#: server/unithand.c:1320
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
 msgstr ""
 
-#: server/unithand.c:1322
+#: server/unithand.c:1325
 msgid "Cannot conquer from a non-native tile."
 msgstr ""
 
-#: server/unithand.c:1329 server/unittools.c:2812 server/unittools.c:2820
+#: server/unithand.c:1332 server/unittools.c:2812 server/unittools.c:2820
 #: server/unittools.c:2850
 msgid "Cannot attack unless you declare war first."
 msgstr "Nu puteţi ataca înainte de a declara război."
 
-#: server/unithand.c:1334
+#: server/unithand.c:1337
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s se poate mişca doar în zona dvs. de control."
 
-#: server/unithand.c:1340
+#: server/unithand.c:1343
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1347 server/unittools.c:2828 server/unittools.c:2858
+#: server/unithand.c:1350 server/unittools.c:2828 server/unittools.c:2858
 #, fuzzy, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Nu puteţi ataca înainte de a declara război."
 
-#: server/unithand.c:1355
+#: server/unithand.c:1358
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
 
-#: server/unithand.c:1403
+#: server/unithand.c:1406
 msgid "This unit has no moves left."
 msgstr "Această unitate nu mai semai poate mişca runda aceasta."
 
-#: server/unithand.c:1463
+#: server/unithand.c:1466
 msgid "No diplomat action possible."
 msgstr "Nu este posibilă nici o acţiune diplomatica."
 
-#: server/unithand.c:1467
+#: server/unithand.c:1470
 #, fuzzy, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "* Poate executa acţiuni diplomatice.\n"
 
-#: server/unithand.c:1486
+#: server/unithand.c:1489
 #, fuzzy, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -38356,62 +38362,62 @@ msgstr ""
 "Jucători (F3)."
 
 #. TRANS: You can only have one Leader.
-#: server/unithand.c:1535
+#: server/unithand.c:1538
 #, fuzzy, c-format
 msgid "You can only have one %s."
 msgstr "Aţi fondat %s"
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1567
+#: server/unithand.c:1570
 #, fuzzy, c-format
 msgid "Your %s succeeded in capturing the %s %s."
 msgstr "%sul dumneavoastră a reuşit să mituiască al lui %s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1573
+#: server/unithand.c:1576
 #, fuzzy, c-format
 msgid "Your %s was captured by the %s."
 msgstr "%s dumneavostră a fost mituit de %s."
 
-#: server/unithand.c:1598
+#: server/unithand.c:1601
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Această unitate este transportată, aşa că nu poate transporta."
 
-#: server/unithand.c:1615
+#: server/unithand.c:1618
 #, fuzzy, c-format
 msgid "%s is not an attack unit."
 msgstr "%1$s pierdut într-un atac al unui %3$s a lui %2$s."
 
-#: server/unithand.c:1619
+#: server/unithand.c:1622
 msgid "You can't attack there since there's an unreachable unit."
 msgstr ""
 
-#: server/unithand.c:1623
+#: server/unithand.c:1626
 #, fuzzy, c-format
 msgid "%s can't launch attack from %s."
 msgstr "Doar %s poate ataca de pe mare."
 
-#: server/unithand.c:1629
+#: server/unithand.c:1632
 #, fuzzy, c-format
 msgid "%s can't attack to %s."
 msgstr "Doar %s poate ataca de pe mare."
 
-#: server/unithand.c:1676
+#: server/unithand.c:1679
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "O unitate transportată nu este aliată cu unităţile din zona destinaţie."
 
-#: server/unithand.c:1724
+#: server/unithand.c:1727
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s dvs. ajută la construcţia %s în %s (%d rămase)."
 
-#: server/unithand.c:1726
+#: server/unithand.c:1729
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s dumneavoastră ajută la construcţia %s în %s (%d surplus)."
 
-#: server/unithand.c:1784
+#: server/unithand.c:1787
 #, fuzzy, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -38419,17 +38425,17 @@ msgstr ""
 "%sul dvs nu poate stabili un schimb comercial deoarece nu are un oraş de "
 "bază."
 
-#: server/unithand.c:1796
+#: server/unithand.c:1799
 #, fuzzy, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "%s dvs nu poate stabili o rută comercială între %s şi %s"
 
-#: server/unithand.c:1831 server/unithand.c:1855
+#: server/unithand.c:1834 server/unithand.c:1858
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "%s dvs nu poate stabili un schimb comercial aici!"
 
-#: server/unithand.c:1837 server/unithand.c:1861
+#: server/unithand.c:1840 server/unithand.c:1864
 #, fuzzy, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -38437,7 +38443,7 @@ msgstr[0] "      Oraşul %s are deja %d rute comerciale mai bune!"
 msgstr[1] "      Oraşul %s are deja %d rute comerciale mai bune!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1886
+#: server/unithand.c:1889
 #, fuzzy, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -38450,12 +38456,12 @@ msgstr[0] ""
 msgstr[1] ""
 "%s dvs. din %s a ajuns în %s şi a obţinut %d galbeni şi puncte de cercetare."
 
-#: server/unithand.c:1912
+#: server/unithand.c:1915
 #, fuzzy, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Aceste rute comerciale au fost stabilite cu %s:\n"
 
-#: server/unithand.c:1918
+#: server/unithand.c:1921
 #, fuzzy, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s dvs nu poate stabili o rută comercială între %s şi %s"
@@ -38820,13 +38826,13 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr ""
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:288
+#: utility/astring.c:287
 #, c-format
 msgid "?or-list-single:%s"
 msgstr ""
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:291
+#: utility/astring.c:290
 #, fuzzy, c-format
 msgid "?or-list:%s or %s"
 msgstr ""
@@ -38835,21 +38841,21 @@ msgstr ""
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:297
+#: utility/astring.c:296
 #, fuzzy, c-format
 msgid "?or-list:%s"
 msgstr "Plan de Lucru"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:301
+#: utility/astring.c:300
 #, fuzzy, c-format
 msgid "?or-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:305
+#: utility/astring.c:304
 #, fuzzy, c-format
 msgid "?or-list:, or %s"
 msgstr ""
@@ -38857,34 +38863,34 @@ msgstr ""
 "%s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:326
+#: utility/astring.c:325
 #, c-format
 msgid "?and-list-single:%s"
 msgstr ""
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:329
+#: utility/astring.c:328
 #, fuzzy, c-format
 msgid "?and-list:%s and %s"
 msgstr "Speciale"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:335
+#: utility/astring.c:334
 #, fuzzy, c-format
 msgid "?and-list:%s"
 msgstr "Grânar"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:339
+#: utility/astring.c:338
 #, fuzzy, c-format
 msgid "?and-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:343
+#: utility/astring.c:342
 #, fuzzy, c-format
 msgid "?and-list:, and %s"
 msgstr "Speciale"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-24 01:07+0300\n"
+"POT-Creation-Date: 2018-01-11 00:31+0000\n"
 "PO-Revision-Date: 2017-09-24 13:11+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
 "Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
@@ -427,7 +427,7 @@ msgstr "personal"
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:283 client/citydlg_common.c:336
 #: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1562
-#: client/gui-gtk-3.0/citydlg.c:1764 client/gui-qt/citydlg.cpp:1870
+#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1870
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1417 client/gui-sdl/wldlg.c:1422
 #: client/gui-xaw/citydlg.c:252 client/text.c:971
@@ -436,7 +436,7 @@ msgstr "nunca"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1568
-#: client/gui-gtk-3.0/citydlg.c:1770 client/gui-qt/citydlg.cpp:1876
+#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1876
 #: client/gui-xaw/citydlg.c:257 client/text.c:969 client/text.c:1446
 #, c-format
 msgid "%d turn"
@@ -1661,7 +1661,7 @@ msgstr ""
 
 #: client/editor.c:191 client/gui-gtk-2.0/citydlg.c:1221
 #: client/gui-gtk-2.0/editprop.c:662 client/gui-gtk-2.0/gotodlg.c:202
-#: client/gui-gtk-3.0/citydlg.c:1410 client/gui-gtk-3.0/editprop.c:662
+#: client/gui-gtk-3.0/citydlg.c:1411 client/gui-gtk-3.0/editprop.c:662
 #: client/gui-gtk-3.0/gotodlg.c:208 client/gui-qt/gotodlg.cpp:68
 msgid "City"
 msgstr "Ciudad"
@@ -1934,24 +1934,24 @@ msgstr "Bandera"
 msgid "Citizens"
 msgstr "Ciudadanos"
 
-#: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:715
+#: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:716
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:829
 msgid "Food:"
 msgstr "Alimento:"
 
-#: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:716
+#: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:717
 #: client/gui-qt/citydlg.cpp:710
 msgid "Prod:"
 msgstr "Prod:"
 
-#: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:717
+#: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:718
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:833
 msgid "Trade:"
 msgstr "Comercio:"
 
 #: client/gui-gtk-2.0/citydlg.c:684 client/gui-gtk-2.0/diplodlg.c:754
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
-#: client/gui-gtk-3.0/citydlg.c:718 client/gui-gtk-3.0/diplodlg.c:761
+#: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
 #: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
 #: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
@@ -1959,43 +1959,43 @@ msgid "Gold:"
 msgstr "Oro:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
-#: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/inteldlg.c:55
+#: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:55
 #: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Lujo:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
-#: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:54
+#: client/gui-gtk-3.0/citydlg.c:721 client/gui-gtk-3.0/inteldlg.c:54
 #: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Ciencia:"
 
-#: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:721
+#: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:722
 #: client/gui-qt/citydlg.cpp:711
 msgid "Granary:"
 msgstr "Granero:"
 
-#: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:722
+#: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:723
 #: client/gui-qt/citydlg.cpp:712
 msgid "Change in:"
 msgstr "Cambio en:"
 
-#: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:723
+#: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:724
 #: client/gui-qt/citydlg.cpp:712
 msgid "Corruption:"
 msgstr "Corrupción:"
 
-#: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:724
+#: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:725
 #: client/gui-qt/citydlg.cpp:712
 msgid "Waste:"
 msgstr "Mermas:"
 
-#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:725
+#: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:726
 #: client/gui-qt/citydlg.cpp:713
 msgid "Pollution:"
 msgstr "Contaminación:"
 
-#: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:726
+#: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:727
 #: client/gui-qt/citydlg.cpp:713
 msgid "Plague Risk:"
 msgstr "Riesgo de Plaga:"
@@ -2005,73 +2005,73 @@ msgstr "Riesgo de Plaga:"
 #. TRANS: Overview tab in city dialog
 #. TRANS: Overview tab of foreign intelligence report dialog
 #: client/gui-gtk-2.0/citydlg.c:760 client/gui-gtk-2.0/inteldlg.c:211
-#: client/gui-gtk-3.0/citydlg.c:879 client/gui-gtk-3.0/inteldlg.c:208
+#: client/gui-gtk-3.0/citydlg.c:880 client/gui-gtk-3.0/inteldlg.c:208
 msgid "_Overview"
 msgstr "_Vista general"
 
 #: client/gui-gtk-2.0/citydlg.c:774 client/gui-gtk-2.0/citydlg.c:1090
-#: client/gui-gtk-3.0/citydlg.c:802 client/gui-gtk-3.0/citydlg.c:1277
+#: client/gui-gtk-3.0/citydlg.c:803 client/gui-gtk-3.0/citydlg.c:1278
 #: client/gui-qt/citydlg.cpp:759 client/gui-sdl/citydlg.c:2526
 msgid "City map"
 msgstr "Mapa de la ciudad"
 
-#: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:834
+#: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:835
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
 msgstr "Pulsa <b>RETORNO</b> o haz doble-clic para vender una instalación."
 
 #: client/gui-gtk-2.0/citydlg.c:814 client/gui-gtk-2.0/citydlg.c:1003
-#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:909
-#: client/gui-gtk-3.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1887
+#: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:910
+#: client/gui-gtk-3.0/citydlg.c:1200 client/gui-gtk-3.0/citydlg.c:1888
 #: client/gui-qt/helpdlg.cpp:831
 msgid "Production:"
 msgstr "Producción:"
 
 #: client/gui-gtk-2.0/citydlg.c:850 client/gui-gtk-2.0/citydlg.c:1015
-#: client/gui-gtk-3.0/citydlg.c:948 client/gui-gtk-3.0/citydlg.c:1132
+#: client/gui-gtk-3.0/citydlg.c:949 client/gui-gtk-3.0/citydlg.c:1133
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d turnos"
 
 #: client/gui-gtk-2.0/citydlg.c:853 client/gui-gtk-2.0/citydlg.c:1022
-#: client/gui-gtk-2.0/cityrep.c:1157 client/gui-gtk-3.0/citydlg.c:951
-#: client/gui-gtk-3.0/citydlg.c:1140 client/gui-gtk-3.0/cityrep.c:1169
+#: client/gui-gtk-2.0/cityrep.c:1157 client/gui-gtk-3.0/citydlg.c:952
+#: client/gui-gtk-3.0/citydlg.c:1141 client/gui-gtk-3.0/cityrep.c:1169
 msgid "_Buy"
 msgstr "_Comprar"
 
-#: client/gui-gtk-2.0/citydlg.c:861 client/gui-gtk-3.0/citydlg.c:958
+#: client/gui-gtk-2.0/citydlg.c:861 client/gui-gtk-3.0/citydlg.c:959
 msgid "I_mprovements:"
 msgstr "I_nstalaciones:"
 
 #: client/gui-gtk-2.0/citydlg.c:879 client/gui-gtk-2.0/citydlg.c:1064
-#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/citydlg.c:983
-#: client/gui-gtk-3.0/citydlg.c:1248 client/gui-gtk-3.0/wldlg.c:1001
+#: client/gui-gtk-2.0/wldlg.c:998 client/gui-gtk-3.0/citydlg.c:984
+#: client/gui-gtk-3.0/citydlg.c:1249 client/gui-gtk-3.0/wldlg.c:1001
 msgid "Info"
 msgstr "Info"
 
-#: client/gui-gtk-2.0/citydlg.c:992 client/gui-gtk-3.0/citydlg.c:1186
+#: client/gui-gtk-2.0/citydlg.c:992 client/gui-gtk-3.0/citydlg.c:1187
 msgid "P_roduction"
 msgstr "P_roducción"
 
-#: client/gui-gtk-2.0/citydlg.c:1051 client/gui-gtk-3.0/citydlg.c:1231
+#: client/gui-gtk-2.0/citydlg.c:1051 client/gui-gtk-3.0/citydlg.c:1232
 msgid "Happ_iness"
 msgstr "Fel_icidad"
 
-#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk-3.0/citydlg.c:1304
+#: client/gui-gtk-2.0/citydlg.c:1114 client/gui-gtk-3.0/citydlg.c:1305
 msgid "_Governor"
 msgstr "_Gobernador"
 
-#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1327
+#: client/gui-gtk-2.0/citydlg.c:1137 client/gui-gtk-3.0/citydlg.c:1328
 msgid "_Settings"
 msgstr "_Opciones"
 
-#: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1330
+#: client/gui-gtk-2.0/citydlg.c:1140 client/gui-gtk-3.0/citydlg.c:1331
 #: data/civ1/cities.ruleset:47 data/civ2/cities.ruleset:47
 #: data/classic/cities.ruleset:47 data/experimental/cities.ruleset:49
 #: data/civ2civ3/cities.ruleset:47 data/multiplayer/cities.ruleset:46
 msgid "Entertainers"
 msgstr "Artistas"
 
-#: client/gui-gtk-2.0/citydlg.c:1141 client/gui-gtk-3.0/citydlg.c:1331
+#: client/gui-gtk-2.0/citydlg.c:1141 client/gui-gtk-3.0/citydlg.c:1332
 #: client/gui-xaw/citydlg.c:2443 data/civ1/cities.ruleset:60
 #: data/civ2/cities.ruleset:60 data/classic/cities.ruleset:60
 #: data/experimental/cities.ruleset:62 data/civ2civ3/cities.ruleset:61
@@ -2079,7 +2079,7 @@ msgstr "Artistas"
 msgid "Scientists"
 msgstr "Científicos"
 
-#: client/gui-gtk-2.0/citydlg.c:1142 client/gui-gtk-3.0/citydlg.c:1332
+#: client/gui-gtk-2.0/citydlg.c:1142 client/gui-gtk-3.0/citydlg.c:1333
 #: client/gui-xaw/citydlg.c:2444 data/civ1/cities.ruleset:73
 #: data/civ2/cities.ruleset:73 data/classic/cities.ruleset:73
 #: data/experimental/cities.ruleset:75 data/civ2civ3/cities.ruleset:75
@@ -2087,86 +2087,86 @@ msgstr "Científicos"
 msgid "Taxmen"
 msgstr "Recaudadores"
 
-#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1335
+#: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1336
 #: client/gui-qt/citydlg.cpp:815
 msgid "Disband if build settler at size 1"
 msgstr "Abandonar si se crean Colonos con tamaño 1"
 
-#: client/gui-gtk-2.0/citydlg.c:1148 client/gui-gtk-3.0/citydlg.c:1338
+#: client/gui-gtk-2.0/citydlg.c:1148 client/gui-gtk-3.0/citydlg.c:1339
 msgid "Overview page"
 msgstr "Página de la vista de la ciudad"
 
-#: client/gui-gtk-2.0/citydlg.c:1149 client/gui-gtk-3.0/citydlg.c:1339
+#: client/gui-gtk-2.0/citydlg.c:1149 client/gui-gtk-3.0/citydlg.c:1340
 msgid "Production page"
 msgstr "Página de producción"
 
-#: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk-3.0/citydlg.c:1340
+#: client/gui-gtk-2.0/citydlg.c:1150 client/gui-gtk-3.0/citydlg.c:1341
 msgid "Happiness page"
 msgstr "Página de felicidad"
 
-#: client/gui-gtk-2.0/citydlg.c:1151 client/gui-gtk-3.0/citydlg.c:1341
+#: client/gui-gtk-2.0/citydlg.c:1151 client/gui-gtk-3.0/citydlg.c:1342
 msgid "Governor page"
 msgstr "Página del Gobernador"
 
-#: client/gui-gtk-2.0/citydlg.c:1152 client/gui-gtk-3.0/citydlg.c:1342
+#: client/gui-gtk-2.0/citydlg.c:1152 client/gui-gtk-3.0/citydlg.c:1343
 msgid "This Settings page"
 msgstr "Esta página de opciones"
 
-#: client/gui-gtk-2.0/citydlg.c:1153 client/gui-gtk-3.0/citydlg.c:1343
+#: client/gui-gtk-2.0/citydlg.c:1153 client/gui-gtk-3.0/citydlg.c:1344
 msgid "Last active page"
 msgstr "Última página activa"
 
-#: client/gui-gtk-2.0/citydlg.c:1179 client/gui-gtk-3.0/citydlg.c:1364
+#: client/gui-gtk-2.0/citydlg.c:1179 client/gui-gtk-3.0/citydlg.c:1365
 #: client/gui-sdl/citydlg.c:964
 msgid "New citizens are"
 msgstr "Los nuevos ciudadanos serán"
 
-#: client/gui-gtk-2.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1387
+#: client/gui-gtk-2.0/citydlg.c:1199 client/gui-gtk-3.0/citydlg.c:1388
 msgid "Next time open"
 msgstr "Página inicial"
 
-#: client/gui-gtk-2.0/citydlg.c:1228 client/gui-gtk-3.0/citydlg.c:1420
+#: client/gui-gtk-2.0/citydlg.c:1228 client/gui-gtk-3.0/citydlg.c:1421
 msgid "R_ename..."
 msgstr "R_enombrar..."
 
-#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk-3.0/citydlg.c:1585
+#: client/gui-gtk-2.0/citydlg.c:1382 client/gui-gtk-3.0/citydlg.c:1586
 msgid "_List present units..."
 msgstr "_Listar las unidades presentes..."
 
-#: client/gui-gtk-2.0/citydlg.c:1392 client/gui-gtk-3.0/citydlg.c:1591
+#: client/gui-gtk-2.0/citydlg.c:1392 client/gui-gtk-3.0/citydlg.c:1592
 msgid "_Prev city"
 msgstr "Ciudad _anterior"
 
-#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1596
+#: client/gui-gtk-2.0/citydlg.c:1397 client/gui-gtk-3.0/citydlg.c:1597
 msgid "_Next city"
 msgstr "Ciudad _siguiente"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1452 client/gui-gtk-3.0/citydlg.c:1650
+#: client/gui-gtk-2.0/citydlg.c:1452 client/gui-gtk-3.0/citydlg.c:1651
 #, c-format
 msgid "<b>%s</b> - %s citizens - DISORDER"
 msgstr "<b>%s</b> - %s ciudadanos - DISTURBIOS"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1457 client/gui-gtk-3.0/citydlg.c:1655
+#: client/gui-gtk-2.0/citydlg.c:1457 client/gui-gtk-3.0/citydlg.c:1656
 #, c-format
 msgid "<b>%s</b> - %s citizens - celebrating"
 msgstr "<b>%s</b> - %s ciudadanos - celebraciones"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1462 client/gui-gtk-3.0/citydlg.c:1660
+#: client/gui-gtk-2.0/citydlg.c:1462 client/gui-gtk-3.0/citydlg.c:1661
 #, c-format
 msgid "<b>%s</b> - %s citizens - happy"
 msgstr "<b>%s</b> - %s ciudadanos - felices"
 
 #. TRANS: city dialog title
-#: client/gui-gtk-2.0/citydlg.c:1467 client/gui-gtk-3.0/citydlg.c:1665
+#: client/gui-gtk-2.0/citydlg.c:1467 client/gui-gtk-3.0/citydlg.c:1666
 #, c-format
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s ciudadanos"
 
 #. TRANS: city growth is blocked.  Keep short.
-#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1761
+#: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1762
 #: client/gui-qt/citydlg.cpp:1867 client/gui-sdl/citydlg.c:3306
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
@@ -2174,73 +2174,73 @@ msgstr "bloqueado"
 
 #. TRANS: never actually used with built_slots<=1
 #. TRANS: never actually used with built_slots <= 1
-#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:1880
+#: client/gui-gtk-2.0/citydlg.c:1689 client/gui-gtk-3.0/citydlg.c:1881
 #, c-format
 msgid "Production (up to %d unit per turn):"
 msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "Producción: (hasta %d unidad por turno):"
 msgstr[1] "Producción: (hasta %d unidades por turno):"
 
-#: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2119
+#: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2120
 #: client/gui-qt/citydlg.cpp:2022
 #, c-format
 msgid "Supported units %d"
 msgstr "Unidades mantenidas %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2222
+#: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2223
 #: client/gui-qt/citydlg.cpp:2043
 #, c-format
 msgid "Present units %d"
 msgstr "Unidades presentes %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2140 client/gui-gtk-2.0/cityrep.c:1149
-#: client/gui-gtk-3.0/citydlg.c:2354 client/gui-gtk-3.0/cityrep.c:1177
+#: client/gui-gtk-3.0/citydlg.c:2355 client/gui-gtk-3.0/cityrep.c:1177
 msgid "Cen_ter"
 msgstr "Ce_ntrar"
 
 #: client/gui-gtk-2.0/citydlg.c:2146 client/gui-gtk-2.0/citydlg.c:2204
-#: client/gui-gtk-3.0/citydlg.c:2360 client/gui-gtk-3.0/citydlg.c:2418
+#: client/gui-gtk-3.0/citydlg.c:2361 client/gui-gtk-3.0/citydlg.c:2419
 msgid "_Activate unit"
 msgstr "_Activar unidad"
 
 #: client/gui-gtk-2.0/citydlg.c:2152 client/gui-gtk-2.0/citydlg.c:2210
-#: client/gui-gtk-3.0/citydlg.c:2366 client/gui-gtk-3.0/citydlg.c:2424
+#: client/gui-gtk-3.0/citydlg.c:2367 client/gui-gtk-3.0/citydlg.c:2425
 msgid "Activate unit, _close dialog"
 msgstr "Activar unidad y cerrar _ventana"
 
 #: client/gui-gtk-2.0/citydlg.c:2158 client/gui-gtk-2.0/citydlg.c:2259
-#: client/gui-gtk-3.0/citydlg.c:2372 client/gui-gtk-3.0/citydlg.c:2473
+#: client/gui-gtk-3.0/citydlg.c:2373 client/gui-gtk-3.0/citydlg.c:2474
 msgid "_Disband unit"
 msgstr "_Desarticular unidad"
 
-#: client/gui-gtk-2.0/citydlg.c:2216 client/gui-gtk-3.0/citydlg.c:2430
+#: client/gui-gtk-2.0/citydlg.c:2216 client/gui-gtk-3.0/citydlg.c:2431
 msgid "_Load unit"
 msgstr "Cargar(_L)"
 
-#: client/gui-gtk-2.0/citydlg.c:2226 client/gui-gtk-3.0/citydlg.c:2440
+#: client/gui-gtk-2.0/citydlg.c:2226 client/gui-gtk-3.0/citydlg.c:2441
 msgid "_Unload unit"
 msgstr "Descargar (_U)"
 
-#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk-3.0/citydlg.c:2451
+#: client/gui-gtk-2.0/citydlg.c:2237 client/gui-gtk-3.0/citydlg.c:2452
 msgid "_Sentry unit"
 msgstr "_Vigilancia"
 
-#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk-3.0/citydlg.c:2462
+#: client/gui-gtk-2.0/citydlg.c:2248 client/gui-gtk-3.0/citydlg.c:2463
 msgid "_Fortify unit"
 msgstr "_Atrincherar"
 
 #: client/gui-gtk-2.0/citydlg.c:2269 client/gui-gtk-2.0/menu.c:1631
-#: client/gui-gtk-3.0/citydlg.c:2483 client/gui-gtk-3.0/menu.c:1619
+#: client/gui-gtk-3.0/citydlg.c:2484 client/gui-gtk-3.0/menu.c:1619
 msgid "Set _Home City"
 msgstr "Asignar a esta ciudad"
 
-#: client/gui-gtk-2.0/citydlg.c:2276 client/gui-gtk-3.0/citydlg.c:2490
+#: client/gui-gtk-2.0/citydlg.c:2276 client/gui-gtk-3.0/citydlg.c:2491
 msgid "U_pgrade unit"
 msgstr "Mejorar(_P) unidad"
 
 #: client/gui-gtk-2.0/citydlg.c:2623 client/gui-gtk-2.0/diplomat_dialog.c:124
 #: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-gtk-2.0/repodlgs.c:1525
-#: client/gui-gtk-3.0/citydlg.c:2838 client/gui-gtk-3.0/diplomat_dialog.c:124
+#: client/gui-gtk-3.0/citydlg.c:2839 client/gui-gtk-3.0/diplomat_dialog.c:124
 #: client/gui-gtk-3.0/diplomat_dialog.c:677 client/gui-gtk-3.0/repodlgs.c:1560
 #: client/gui-qt/citydlg.cpp:2194 client/gui-qt/dialogs.cpp:1584
 #: client/gui-qt/dialogs.cpp:1645 client/gui-qt/repodlgs.cpp:978
@@ -2256,7 +2256,7 @@ msgstr[0] "En el tesoro tienes %d moneda de oro."
 msgstr[1] "En el tesoro tienes %d monedas de oro."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2633 client/gui-gtk-3.0/citydlg.c:2848
+#: client/gui-gtk-2.0/citydlg.c:2633 client/gui-gtk-3.0/citydlg.c:2849
 #: client/gui-sdl/citydlg.c:1155 client/gui-xaw/citydlg.c:1958
 #, c-format
 msgid ""
@@ -2273,13 +2273,13 @@ msgstr[1] ""
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2637 client/gui-gtk-2.0/citydlg.c:2651
-#: client/gui-gtk-3.0/citydlg.c:2852 client/gui-gtk-3.0/citydlg.c:2866
+#: client/gui-gtk-3.0/citydlg.c:2853 client/gui-gtk-3.0/citydlg.c:2867
 #: data/Freeciv.in:2245 data/Freeciv.in:2275
 msgid "Buy It!"
 msgstr "¡Comprarlo!"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-2.0/citydlg.c:2647 client/gui-gtk-3.0/citydlg.c:2862
+#: client/gui-gtk-2.0/citydlg.c:2647 client/gui-gtk-3.0/citydlg.c:2863
 #: client/gui-sdl/citydlg.c:1161 client/gui-xaw/citydlg.c:1969
 #, c-format
 msgid ""
@@ -2295,7 +2295,7 @@ msgstr[1] ""
 "%s cuesta %d monedas de oro.\n"
 "%s"
 
-#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2913
+#: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2914
 #: client/gui-qt/citydlg.cpp:1952 client/gui-sdl/citydlg.c:1405
 #: client/gui-xaw/citydlg.c:2349
 #, c-format
@@ -2304,17 +2304,17 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "¿Deseas vender %s por %d moneda de oro?"
 msgstr[1] "¿Deseas vender %s por %d monedas de oro?"
 
-#: client/gui-gtk-2.0/citydlg.c:2704 client/gui-gtk-3.0/citydlg.c:2919
+#: client/gui-gtk-2.0/citydlg.c:2704 client/gui-gtk-3.0/citydlg.c:2920
 #: data/Freeciv.in:2264
 msgid "Sell It!"
 msgstr "¡Venderlo!"
 
-#: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2994
+#: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2995
 #: client/gui-qt/citydlg.cpp:1220
 msgid "Rename City"
 msgstr "Renombrar ciudad"
 
-#: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2995
+#: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2996
 #: client/gui-qt/citydlg.cpp:1221 client/gui-xaw/citydlg.c:1438
 msgid "What should we rename the city to?"
 msgstr "¿Cuál será el nuevo nombre de la ciudad?"
@@ -3459,7 +3459,7 @@ msgstr "PV"
 msgid "Veteran"
 msgstr "Veterano"
 
-#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1157
+#: client/gui-gtk-2.0/editprop.c:4256 client/gui-gtk-3.0/citydlg.c:1158
 #: client/gui-gtk-3.0/editprop.c:4286 client/gui-qt/cityrep.cpp:709
 msgid "Buildings"
 msgstr "Instalaciones"
@@ -3486,9 +3486,10 @@ msgstr "Ciencia"
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
 #: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
-#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
-#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
-#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
+#: common/city.c:86 data/civ1/terrain.ruleset:637
+#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
+#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
+#: data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "Oro"
 
@@ -3768,7 +3769,7 @@ msgstr "Sólo aliados"
 msgid "Clear links"
 msgstr "Borrar enlaces"
 
-#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2161
+#: client/gui-gtk-2.0/gui_main.c:2091 client/gui-gtk-3.0/gui_main.c:2163
 #: client/gui-qt/gui_main.cpp:469
 msgid "Are you sure you want to quit?"
 msgstr "Seguro que quiere salir?"
@@ -4120,12 +4121,12 @@ msgstr "Consola del Cliente Lua"
 msgid "Load Lua Script"
 msgstr "Cargar Secuencia Lua"
 
-#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:191
+#: client/gui-gtk-2.0/mapctrl.c:191 client/gui-gtk-3.0/mapctrl.c:192
 #: client/gui-qt/mapctrl.cpp:51
 msgid "Build New City"
 msgstr "Construir nueva ciudad"
 
-#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:192
+#: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:193
 #: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2633
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
@@ -4291,12 +4292,14 @@ msgstr "Informe _demográfico"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
+#: data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Ayuda"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
+#: data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Estrategia y Tácticas"
 
@@ -5753,7 +5756,7 @@ msgstr "_Añadir lista de tareas global"
 msgid "Change Prod_uction"
 msgstr "Cambiar prod_ucción"
 
-#: client/gui-gtk-3.0/citydlg.c:1064
+#: client/gui-gtk-3.0/citydlg.c:1065
 msgid "Citymap"
 msgstr "Mapa de la ciudad"
 
@@ -15972,9 +15975,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
-#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
-#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070
+#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
+#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
+#: data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Universidad"
 
@@ -15988,8 +15992,10 @@ msgstr ""
 "de la ciudad en un 100%."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038
+#: data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178
+#: data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "El Proyecto Apolo"
 
@@ -16007,14 +16013,18 @@ msgstr ""
 "espacial."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081
+#: data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232
+#: data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "El Coloso"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095
+#: data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246
+#: data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16023,8 +16033,10 @@ msgstr ""
 "que ya generen comercio pasarán a generar una unidad más de comercio."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101
+#: data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252
+#: data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "El Observatorio de Copérnico"
 
@@ -16036,8 +16048,10 @@ msgstr ""
 "construye."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121
+#: data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272
+#: data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "La Cura del Cáncer"
 
@@ -16052,13 +16066,16 @@ msgstr ""
 "descontentos por la actividad militar)."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145
+#: data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296
+#: data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "El Viaje de Darwin"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159
+#: data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16069,13 +16086,16 @@ msgstr ""
 "dos avances tecnológicos inmediatamente."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187
+#: data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342
+#: data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "La Gran Biblioteca"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201
+#: data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16084,19 +16104,24 @@ msgstr ""
 "que hayan conseguido al menos otros dos equipos."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207
+#: data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366
+#: data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "La Gran Muralla"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221
+#: data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Opera como si todas las ciudades estuvieran provistas de Murallas."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229
+#: data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389
+#: data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Los Jardines Colgantes"
 
@@ -16113,8 +16138,10 @@ msgstr ""
 "actividad militar), haciéndolos conformes."
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253
+#: data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411
+#: data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "La Presa de Hoover"
 
@@ -16129,13 +16156,16 @@ msgstr ""
 "incrementa los efectos de las Fábricas y las Plantas Industriales)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274
+#: data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435
+#: data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "La Cátedra de Isaac Newton"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116
+#: data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
@@ -16144,8 +16174,10 @@ msgstr ""
 "encuentra."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295
+#: data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459
+#: data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "La Catedral de J.S. Bach"
 
@@ -16160,8 +16192,10 @@ msgstr ""
 "(incluyendo los ciudadanos descontentos con la actividad militar)."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354
+#: data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522
+#: data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "El Faro"
 
@@ -16170,8 +16204,10 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Otorga a todas las unidades marítimas 1 punto de movimiento adicional."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375
+#: data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544
+#: data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "La Expedición de Magallanes"
 
@@ -16181,14 +16217,18 @@ msgstr ""
 "Proporciona 1 punto de movimiento adicional a todas las unidades marítimas."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395
+#: data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566
+#: data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "El Proyecto Manhattan"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432
+#: data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606
+#: data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "La Capilla Sixtina"
 
@@ -16197,7 +16237,8 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Duplica el efecto de las Catedrales en todas las ciudades."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457
+#: data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "El Oráculo"
@@ -16211,8 +16252,10 @@ msgstr ""
 "descontentos con la actividad militar."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478
+#: data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693
+#: data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Las Pirámides"
 
@@ -16229,7 +16272,8 @@ msgstr ""
 "has descubierto, y sin el periodo intermedio de Anarquía."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500
+#: data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "El Proyecto SETI"
 
@@ -16239,13 +16283,16 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Impulsa en un 50% la producción científica de todas tus ciudades."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520
+#: data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741
+#: data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "El Teatro de Shakespeare"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535
+#: data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16256,14 +16303,18 @@ msgstr ""
 "actividad militar."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584
+#: data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809
+#: data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "Las Naciones Unidas"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611
+#: data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837
+#: data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "El Sufragio Femenino"
 
@@ -16449,13 +16500,16 @@ msgid "Team 3"
 msgstr "Equipo 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59
+#: data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59
+#: data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Anarquía"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64
+#: data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16463,7 +16517,8 @@ msgid "Warlord %s"
 msgstr "Señor de la Guerra %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65
+#: data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16471,8 +16526,10 @@ msgid "Warlady %s"
 msgstr "Señora de la Guerra %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67
+#: data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67
+#: data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16494,14 +16551,16 @@ msgstr ""
 "poco más de descontento general."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80
+#: data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Despotismo"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86
+#: data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16509,7 +16568,8 @@ msgid "Chief %s"
 msgstr "Jefe %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87
+#: data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16517,7 +16577,8 @@ msgid "?female:Chief %s"
 msgstr "Jefa %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89
+#: data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -19353,8 +19414,8 @@ msgstr ""
 "la producción en un 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
-#: data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974
+#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Bolsa"
 
@@ -19372,8 +19433,8 @@ msgstr ""
 "aumenta la producción de impuestos y lujos en una ciudad en un 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
-#: data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998
+#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Autopistas"
 
@@ -19421,7 +19482,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206
+#: data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "La Compañía de Adam Smith"
 
@@ -19435,7 +19497,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320
+#: data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "La Torre Eiffel"
 
@@ -19485,7 +19548,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479
+#: data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "La Cruzada del Rey Ricardo"
 
@@ -19501,7 +19565,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503
+#: data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "El Taller de Leonardo"
 
@@ -19527,7 +19592,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584
+#: data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "La Embajada de Marco Polo"
 
@@ -19572,13 +19638,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765
+#: data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Estatua de la Libertad"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788
+#: data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "La Academia Militar de Sun Tzu"
 
@@ -20305,7 +20373,8 @@ msgid "Airbase"
 msgstr "Base aérea"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049
+#: data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -21264,7 +21333,8 @@ msgstr ""
 "150% de la producción, y eliminan toda la contaminación generada por la "
 "producción de esa ciudad."
 
-#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008
+#: data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21276,7 +21346,8 @@ msgstr ""
 "se transforman en conformes.  No afecta a los ciudadanos descontentos por la "
 "actividad militar."
 
-#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032
+#: data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21286,7 +21357,8 @@ msgstr ""
 "Junto con la Biblioteca, la Universidad aumenta la investigación científica "
 "de la ciudad en un 250%."
 
-#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075
+#: data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21294,7 +21366,8 @@ msgstr ""
 "Las instalaciones urbanas por las que normalmente se pagaría un sustento de "
 "1 pasan a no necesitar sustento, en todas las ciudades."
 
-#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181
+#: data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21302,7 +21375,8 @@ msgstr ""
 "Tu reputación y buena voluntad entre las naciones se incrementa al doble de "
 "velocidad."
 
-#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289
+#: data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21311,7 +21385,8 @@ msgstr ""
 "Impulsa en un 100% la producción científica de las ciudades que posees que "
 "tienen una Universidad."
 
-#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369
+#: data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21320,12 +21395,14 @@ msgstr ""
 "que todas las unidades marítimas que se produzcan (en cualquier ciudad) sean "
 "veteranas."
 
-#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390
+#: data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr ""
 "Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
 
-#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471
+#: data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21334,7 +21411,8 @@ msgstr ""
 "ciudades con un Templo. No afecta a los ciudadanos descontentos con la "
 "actividad militar."
 
-#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493
+#: data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21345,14 +21423,16 @@ msgstr ""
 "decrece será reducido en un 25%. Esto ayuda a que la ciudad crezca más "
 "rápidamente o que resista mejor a las hambrunas. Acumulativo con Granero."
 
-#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515
+#: data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Impulsa en un 100% la producción científica de todas tus ciudades que tengan "
 "un Laboratorio."
 
-#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576
+#: data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21364,13 +21444,17 @@ msgstr ""
 "las unidades se crean como difíciles). Además, la probabilidad de que una "
 "unidad se vuelva más veterana tras una batalla aumenta en un 50%."
 
-#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638
+#: data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859
+#: data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Acuñación"
 
-#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659
+#: data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880
+#: data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -32284,8 +32368,8 @@ msgstr "¡Los %s han empezado a construir una nave espacial!"
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
-"%s no puede construir %s aún. (tamaño de la ciudad: %d, coste de la unidad en "
-"población: %d)."
+"%s no puede construir %s aún. (tamaño de la ciudad: %d, coste de la unidad "
+"en población: %d)."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1823
@@ -35092,12 +35176,12 @@ msgstr ""
 "Los obreros se reúnen espontáneamente y actualizan todas las ciudades "
 "posibles con mejores bases."
 
-#: server/maphand.c:1750
+#: server/maphand.c:1767
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Tu %s se ha movido al transformar el terreno."
 
-#: server/maphand.c:1767
+#: server/maphand.c:1784
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Se desarticula a tu %s al transformar el terreno."
@@ -40372,8 +40456,8 @@ msgid ""
 "server's --auth command line option."
 msgstr ""
 "No se ha activado el script de la base de datos de Freeciv durante el inicio "
-"del "
-"servidor. Mira la opción de linea de comandos del servidor de Freeciv --auth."
+"del servidor. Mira la opción de linea de comandos del servidor de Freeciv --"
+"auth."
 
 #: server/stdinhand.c:5571
 msgid "Ambiguous fcdb command."
@@ -40912,81 +40996,81 @@ msgstr "No se pueden añadir %s a %s."
 msgid "%s added to aid %s in growing."
 msgstr "Tu %s se ha añadido a %s para contribuir a su crecimiento."
 
-#: server/unithand.c:1112
+#: server/unithand.c:1115
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Tu %s ha sido derribado por la defensa SDI, vaya desperdicio."
 
-#: server/unithand.c:1115
+#: server/unithand.c:1118
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Tu defensa SDI ha evitado un ataque nuclear sobre %s."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1211
+#: server/unithand.c:1214
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "Tu %1$s ha sobrevivido al patético ataque del %3$s %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1221
+#: server/unithand.c:1224
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "¡Has perdido tu %1$s en un ataque contra un %3$s %2$s!"
 
-#: server/unithand.c:1297
+#: server/unithand.c:1300
 msgid "This type of troops cannot take over a city."
 msgstr "Las tropas de este tipo no pueden conquistar una ciudad."
 
 #. TRANS: %s is a list of units separated by "or".
-#: server/unithand.c:1317
+#: server/unithand.c:1320
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
 msgstr "Sólo %s puede conquistar desde una casilla no nativa."
 
-#: server/unithand.c:1322
+#: server/unithand.c:1325
 msgid "Cannot conquer from a non-native tile."
 msgstr "No se puede conquistar desde una casilla no nativa."
 
-#: server/unithand.c:1329 server/unittools.c:2812 server/unittools.c:2820
+#: server/unithand.c:1332 server/unittools.c:2812 server/unittools.c:2820
 #: server/unittools.c:2850
 msgid "Cannot attack unless you declare war first."
 msgstr "No puedes atacar si no declaras primero la guerra."
 
-#: server/unithand.c:1334
+#: server/unithand.c:1337
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "Sólo puedes mover tu %s a tu propia zona de control."
 
-#: server/unithand.c:1340
+#: server/unithand.c:1343
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no puede ir tan lejos de la costa."
 
-#: server/unithand.c:1347 server/unittools.c:2828 server/unittools.c:2858
+#: server/unithand.c:1350 server/unittools.c:2828 server/unittools.c:2858
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No puedes invadir si no rompes antes el tratado de paz con %s."
 
-#: server/unithand.c:1355
+#: server/unithand.c:1358
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr "%s no puede desembarcar fuera de una ciudad o una base nativa para %s."
 
-#: server/unithand.c:1403
+#: server/unithand.c:1406
 msgid "This unit has no moves left."
 msgstr "A esa unidad no le quedan movimientos."
 
-#: server/unithand.c:1463
+#: server/unithand.c:1466
 msgid "No diplomat action possible."
 msgstr "No hay acciones diplomáticas disponibles."
 
-#: server/unithand.c:1467
+#: server/unithand.c:1470
 #, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "La unidad no puede realizar acciones diplomáticas desde %s."
 
-#: server/unithand.c:1486
+#: server/unithand.c:1489
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -40994,63 +41078,63 @@ msgstr ""
 "(F3)."
 
 #. TRANS: You can only have one Leader.
-#: server/unithand.c:1535
+#: server/unithand.c:1538
 #, c-format
 msgid "You can only have one %s."
 msgstr "Tu sólo puede tener un %s."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1567
+#: server/unithand.c:1570
 #, c-format
 msgid "Your %s succeeded in capturing the %s %s."
 msgstr "Tu %1$s ha capturado exitosamente al %3$s %2$s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1573
+#: server/unithand.c:1576
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Tu %s ha sido capturado por el %s."
 
-#: server/unithand.c:1598
+#: server/unithand.c:1601
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Esta unidad está siendo transportada, y no puede bombardear."
 
-#: server/unithand.c:1615
+#: server/unithand.c:1618
 #, c-format
 msgid "%s is not an attack unit."
 msgstr "Tu %s no es una unidad de ataque."
 
-#: server/unithand.c:1619
+#: server/unithand.c:1622
 msgid "You can't attack there since there's an unreachable unit."
 msgstr "No puedes atacar allí porque no hay ninguna unidad alcanzable."
 
-#: server/unithand.c:1623
+#: server/unithand.c:1626
 #, c-format
 msgid "%s can't launch attack from %s."
 msgstr "Tu %s no puede lanzar un ataque desde %s."
 
-#: server/unithand.c:1629
+#: server/unithand.c:1632
 #, c-format
 msgid "%s can't attack to %s."
 msgstr "%s no puede atacar a %s."
 
-#: server/unithand.c:1676
+#: server/unithand.c:1679
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Una unidad transportada no está aliada con todas o alguna de las unidades en "
 "la casilla de destino."
 
-#: server/unithand.c:1724
+#: server/unithand.c:1727
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Tu %s ayuda a construir %s en %s (quedan %d)."
 
-#: server/unithand.c:1726
+#: server/unithand.c:1729
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Tu %s ayuda a construir %s en %s (%d de superávit)."
 
-#: server/unithand.c:1784
+#: server/unithand.c:1787
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -41058,17 +41142,17 @@ msgstr ""
 "Lo siento, tu %s no puede establecer una ruta comercial porque no pertenece "
 "a ninguna ciudad."
 
-#: server/unithand.c:1796
+#: server/unithand.c:1799
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Lo siento, tu %s no puede establecer una ruta comercial entre %s y %s."
 
-#: server/unithand.c:1831 server/unithand.c:1855
+#: server/unithand.c:1834 server/unithand.c:1858
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "¡Lo siento, tu %s no puede establecer una ruta comercial aquí!"
 
-#: server/unithand.c:1837 server/unithand.c:1861
+#: server/unithand.c:1840 server/unithand.c:1864
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -41076,7 +41160,7 @@ msgstr[0] "      ¡La ciudad de %s ya tiene %d ruta comercial mejor!"
 msgstr[1] "      ¡La ciudad de %s ya tiene %d rutas comerciales mejores!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1886
+#: server/unithand.c:1889
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -41091,12 +41175,12 @@ msgstr[1] ""
 "Tu %s de %s ha llegado a %s, y hay unos beneficios totales de %d en oro e "
 "investigación."
 
-#: server/unithand.c:1912
+#: server/unithand.c:1915
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Nueva ruta comercial establecida de %s a %s."
 
-#: server/unithand.c:1918
+#: server/unithand.c:1921
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Los %s ha establecido una ruta comercial entre su ciudad %s y %s."
@@ -41453,67 +41537,67 @@ msgid "%s (needs %0.0f%% in favor)."
 msgstr "%s (necesita %0.0f%% a favor)."
 
 #. TRANS: "or"-separated string list with one single item.
-#: utility/astring.c:288
+#: utility/astring.c:287
 #, c-format
 msgid "?or-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "or"-separated string list with 2 items.
-#: utility/astring.c:291
+#: utility/astring.c:290
 #, c-format
 msgid "?or-list:%s or %s"
 msgstr "%s o %s"
 
 #. TRANS: start of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:297
+#: utility/astring.c:296
 #, c-format
 msgid "?or-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "or"-separated string list with more
 #. * than two items.
-#: utility/astring.c:301
+#: utility/astring.c:300
 #, c-format
 msgid "?or-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "or"-separated string list with more than two
 #. * items.
-#: utility/astring.c:305
+#: utility/astring.c:304
 #, c-format
 msgid "?or-list:, or %s"
 msgstr " o %s"
 
 #. TRANS: "and"-separated string list with one single item.
-#: utility/astring.c:326
+#: utility/astring.c:325
 #, c-format
 msgid "?and-list-single:%s"
 msgstr "%s"
 
 #. TRANS: "and"-separated string list with 2 items.
-#: utility/astring.c:329
+#: utility/astring.c:328
 #, c-format
 msgid "?and-list:%s and %s"
 msgstr "%s y %s"
 
 #. TRANS: start of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:335
+#: utility/astring.c:334
 #, c-format
 msgid "?and-list:%s"
 msgstr "%s"
 
 #. TRANS: next elements of an "and"-separated string list with more
 #. * than two items.
-#: utility/astring.c:339
+#: utility/astring.c:338
 #, c-format
 msgid "?and-list:, %s"
 msgstr ", %s"
 
 #. TRANS: end of an "and"-separated string list with more than two
 #. * items.
-#: utility/astring.c:343
+#: utility/astring.c:342
 #, c-format
 msgid "?and-list:, and %s"
 msgstr ", y %s"
