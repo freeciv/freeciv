@@ -26,6 +26,12 @@ Server / General
 
 Changes affecting players (supplied rulesets)
 
+   A new ruleset, "sandbox", is included (as of beta2). This is a place
+   for developers to experiment with and demonstrate new engine features,
+   without regard to game balance or savefile compatibility; sandbox games
+   started in this version may not load into future releases (even minor
+   2.6.x releases). HRM#696004
+
    Miscellaneous rule changes affecting all or most rulesets:
      * In most supplied rulesets, non-military units and some air units no
        longer impose a zone of control (ZoC). GNAPATCH#4818 GNAPATCH#4935
@@ -193,16 +199,15 @@ Changes affecting players (supplied rulesets)
                  rather than multiplicative.
           + Other
                o Certain buildings (and all wonders) generate culture
-                 points ("acts") every turn, which accumulate in a city
-                 (and change hands with it); each nation can also get
-                 one-time culture boosts from achievements such as mapping
-                 the entire world or launching a spaceship. Culture
-                 affects score, and city culture drives migration, if
-                 enabled. A cultural victory is also possible (but not
-                 enabled by default, as these effects have not yet been
-                 tested and balanced); a player must have culture above a
-                 certain threshold, and a convincing lead over other
-                 players, to win. GNAPATCH#5997
+                 points every turn, which accumulate in a city (and change
+                 hands with it); each nation can also get one-time culture
+                 boosts from achievements such as mapping the entire world
+                 or launching a spaceship. Culture affects score, and city
+                 culture drives migration, if enabled. A cultural victory
+                 is also possible (but not enabled by default, as these
+                 effects have not yet been tested and balanced); a player
+                 must have culture above a certain threshold, and a
+                 convincing lead over other players, to win. GNAPATCH#5997
                o The outer ring of tiles worked by a city can be stolen by
                  an enemy border source. (The inner ring is permanently
                  owned by the city owner.) GNAPATCH#7096 HRM#651450
@@ -312,12 +317,13 @@ Changes affecting players (supplied rulesets)
        has increased from 65535 to 250000. GNA#21950
 
    Supplied scenarios:
-     * A new scenario, "Europe 1901", is included. This is a Europe map
-       with the cities and units of the Great Powers prior to the outbreak
-       of the First World War. (This was previously available for 2.5 via
-       the modpack installer.) GNAPATCH#6434
-     * The large Earth scenario now has 50 more start positions (for a
-       total of 89), thanks to Rhue. HRM#688280
+     * A new scenario, "Europe 1900 WWI", is included. This is a Europe
+       map with the cities and units of the Great Powers prior to the
+       outbreak of the First World War. (A previous version was available
+       for 2.5 via the modpack installer, as "Europe 1901".) GNAPATCH#6434
+     * The large Earth scenario now has 52 more start positions (for a
+       total of 91), and players start with their first city built. Thanks
+       to Rhue. HRM#688280 HRM#702265
 
 Changes affecting other rulesets / modders
 
@@ -734,7 +740,8 @@ Changes affecting other rulesets / modders
        While old scripts should mostly continue to work, see
        <http://www.freeciv.org/wiki/How_to_update_a_lua_script_from_2.5_to_2.6>
        to avoid deprecated constructs. See the Events Reference Manual
-       for full documentation.
+       <http://www.freeciv.org/wiki/Events_Reference_Manual> for full
+       documentation.
        Below are additions which are not covered in other sections:
           + Updated scripting engine from Lua 5.2 to 5.3.
           + Lua access to AI trait values. GNAPATCH#6557
@@ -1064,7 +1071,7 @@ Clients
             untargeted stealing).
           + The action of transforming terrain by pressing the 'Mine' key
             (for instance, turning Grassland into Forest) is now referred
-            to 'Plant'. GNAPATCH#4382
+            to as 'Plant'. GNAPATCH#4382
      * A new option to suppress autocentering and animation for automated
        units (such as autosettlers). GNAPATCH#7474
      * The Gtk and Qt clients now show icons with event messages.
@@ -1194,7 +1201,8 @@ Build/portability
        ship much newer (more featureful and hopefully less buggy) versions
        of the libraries we depend on, enable IPv6, create 64-bit builds,
        etc, but will only run on Windows 7 or later. For now, the standard
-       Windows packages remain built with MSYS1.
+       Windows packages remain built with MSYS1, although experimental
+       MSYS2 builds are available.
      * It's now possible to disable use of bz2/xz libraries even if they
        are found (--disable-libbz2, --disable-liblzma). GNAPATCH#7023
      * Work toward being able to compile with tcc. The server compiles;
@@ -1213,6 +1221,10 @@ Known issues
        2.6.
      * The new tileset selection arrangements can still be a little
        confused/confusing. HRM#685235
+     * The Gtk3 client has laggy and uneven animations such as map
+       scrolling. (As of beta2, we've tried to address this in the Gtk3.22
+       client; we hope to backport it to Gtk3 if testing goes well.)
+       HRM#700707
      * The Gtk3 clients' theming has bugs with recent versions of Gtk3.
        HRM#693382
      * The Gtk3 clients' zoom function still has some glitches. HRM#696027
