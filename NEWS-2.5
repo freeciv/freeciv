@@ -1,10 +1,93 @@
-========================
-Welcome to Freeciv 2.5.9
-========================
+=========================
+Welcome to Freeciv 2.5.10
+=========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.9 to 2.5.10
+----------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.10>)
+
+   2.5.10 is a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Fix server crashes caused by AI ferry passengers dying. HRM#721949
+       HRM#714453
+     * Client/server communication could fail when the client discovered a
+       tile with a text label that was too long. (This could be
+       locale-dependent.) HRM#720199
+     * The cost to buy "small wonders" (such as the Palace) was
+       unintentionally twice what was intended. (This was a longstanding
+       issue.) HRM#706727
+     * Capturing a unit did not count for cancelling the capturer's
+       fortified status, nor for unitwaittime. HRM#692282
+     * The tutorial scenario's message about city growth to size 13
+       referenced a nonexistent event type. Possibly this was causing "lua
+       error" messages. HRM#723052
+     * Minor nation tweaks. HRM#697681 HRM#697682
+
+Changes affecting other rulesets / modders
+
+     * The values of Lua variables could fail to be loaded from savegames,
+       if some of the saved variables referenced game objects (units,
+       cities, etc). HRM#722287
+
+Changes affecting server operators
+
+     * The /fcdb command now gives a useful error message if the server
+       wasn't started with --auth. HRM#692525
+
+General
+
+     * Sped up shared vision transfers; this helps particularly when
+       loading savegames. HRM#723442
+     * Various internal changes which should only affect developers.
+       HRM#692486 HRM#694137 HRM#661108 HRM#718497
+
+AI
+
+     * Autosettlers were overvaluing roads on hex maps, and built them in
+       odd patterns for no good reason. HRM#695738
+
+Clients
+
+     * The "Turn Done" button is now disabled in fixed-length gameplay,
+       since it serves no purpose. HRM#700675
+     * Messages from the server operator (/wall) now default to causing a
+       pop-up dialog, for new client installations. (Such messages can be
+       used for instance to warn of server shutdown; without this setting,
+       it was not possible to see the message after the server
+       disconnected.) HRM#690212
+     * Fixes to the experimental Gtk3 client:
+          + In the Windows build, right-click-dragging on the map caused a
+            crash. HRM#693241
+          + The minimap didn't update often enough. HRM#697658
+          + Trouble and console warnings with middle-click popups,
+            tooltips, etc. HRM#699488 HRM#703869
+          + Fix trouble with tooltip background in some Windows builds
+            (but not the one we ship). HRM#694328
+
+Help / Documentation
+
+     * Miscellaneous improvements to in-game text and user documentation.
+       HRM#700718 HRM#700291
+     * Miscellaneous changes to developer/ruleset docs. HRM#696433
+       HRM#700290
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Russian, French, Spanish, Catalan,
+            Polish, British English.
+          + Incomplete translations: Finnish (100% core, 93% nations),
+            Esperanto (40% core, 14% nations).
 
 
 CHANGES FROM 2.5.8 to 2.5.9
