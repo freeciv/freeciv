@@ -46006,8 +46006,10 @@ msgstr "Your %s from %s has arrived in %s."
 msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
 msgid_plural ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
-msgstr[0] "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
-msgstr[1] "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
+msgstr[0] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold."
+msgstr[1] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
 #: server/unithand.c:2961
@@ -46016,8 +46018,10 @@ msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in research."
 msgid_plural ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in research."
-msgstr[0] "Your %s from %s has arrived in %s, and revenues amount to %d in research."
-msgstr[1] "Your %s from %s has arrived in %s, and revenues amount to %d in research."
+msgstr[0] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in research."
+msgstr[1] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in research."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
 #: server/unithand.c:2975
@@ -46028,8 +46032,12 @@ msgid ""
 msgid_plural ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
-msgstr[0] "Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
-msgstr[1] "Your %s from %s has arrived in %s, and revenues amount to %d in gold and research."
+msgstr[0] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
+"research."
+msgstr[1] ""
+"Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
+"research."
 
 #: server/unithand.c:3012
 #, c-format
