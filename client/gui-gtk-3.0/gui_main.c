@@ -1621,11 +1621,12 @@ static void setup_widgets(void)
 }
 
 /**************************************************************************
- called from main().
+  Called from main().
 **************************************************************************/
 void ui_init(void)
 {
   log_set_callback(log_callback_utf8);
+  set_frame_by_frame_animation();
 }
 
 /**************************************************************************
