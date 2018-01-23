@@ -386,19 +386,25 @@ at the wiki:
 Ending the game:
 ================
 
-There are four ways in which a game can end:
+There are six ways in which a game can end:
 
 1) Only winners remain in game
-   1a) If server setting 'alliedvictory' is enabled:
+   1a) If victory condition 'ALLIED' is enabled in server setting 'victories':
        All the remaining nations, short of those who have ceded the game
        (/surrender), are allied or in the same team.
-   1b) If 'alliedvictory' is disabled:
+   1b) If victory condition 'ALLIED' is disabled in server setting 'victories':
        Only one nation or one team is left, or all other players of all
        other teams have ceded the game (/surrender).
 2) The final turn (/show endturn) is reached.
-3) A player builds and launches a spaceship, which reaches Alpha
+3) If victory condition 'SPACERACE' is enabled in server setting 'victories' and
+   a player builds and launches a spaceship, which reaches Alpha
    Centauri first.
-4) The server operator uses the /endgame command.
+4) If victory condition 'CULTURE' is enabled in server setting 'victories' and
+   a player has reached both ruleset-defined minimum number of culture points
+   and ruleset-defined minimum lead in culture points.
+5) If the modpack has special victory conditions and a player has reached one
+   of those.
+6) The server operator uses the /endgame command.
 
 A score-table will be shown in all cases.  Hint: The server operator
 can set the final year while the game is still going by changing the
