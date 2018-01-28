@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-17 02:01+0200\n"
-"PO-Revision-Date: 2018-01-17 01:58+0200\n"
+"POT-Creation-Date: 2018-01-28 12:02+0200\n"
+"PO-Revision-Date: 2018-01-28 11:59+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: ai/default/aicity.c:973
+#: ai/default/aicity.c:972
 #, c-format
 msgid "%s is selling %s for %d."
 msgid_plural "%s is selling %s for %d."
@@ -1244,7 +1244,6 @@ msgid "Culture (History+Performance)"
 msgstr "Kulttuuri (Historia+Performanssit)"
 
 #: client/cityrepdata.c:759
-#, fuzzy
 msgid "?History:Hst"
 msgstr "Hst"
 
@@ -1722,7 +1721,7 @@ msgstr "Yhteys palvelimeen katkesi."
 msgid "server disconnected"
 msgstr "yhteys katkesi"
 
-#: client/clinet.c:433 client/clinet.c:482 server/sernet.c:866
+#: client/clinet.c:433 client/clinet.c:482 server/sernet.c:865
 msgid "read error"
 msgstr "yhteysvirhe"
 
@@ -4050,7 +4049,7 @@ msgstr "Ilmoita ohjelman virheistä osoitteessa %s\n"
 msgid "Illegal video mode '%s'"
 msgstr "Virheellinen videomoodi '%s'"
 
-#: client/gui-gtk-3.0/gui_main.c:847 client/gui-gtk-3.0/gui_main.c:1765
+#: client/gui-gtk-3.0/gui_main.c:847 client/gui-gtk-3.0/gui_main.c:1766
 #: client/gui-gtk-3.22/gui_main.c:838 client/gui-gtk-3.22/gui_main.c:1766
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -4085,22 +4084,22 @@ msgstr "Vain liittolaiset"
 msgid "Clear links"
 msgstr "Poista linkkimerkinnät"
 
-#: client/gui-gtk-3.0/gui_main.c:1663
+#: client/gui-gtk-3.0/gui_main.c:1664
 msgid "Migrating options from gtk2 to gtk3 client"
 msgstr ""
 "Kopioin gtk2-asiakasohjelman asetuksia gtk3-asiakasohjelman asetuksiksi."
 
-#: client/gui-gtk-3.0/gui_main.c:1716
+#: client/gui-gtk-3.0/gui_main.c:1717
 msgid "Migrating gtk3-client options from freeciv-2.5 options."
 msgstr ""
 "Kopioin gtk3-asiakasohjelman asetuksia freecivin version 2.5 asetuksista."
 
-#: client/gui-gtk-3.0/gui_main.c:2161 client/gui-gtk-3.22/gui_main.c:2164
+#: client/gui-gtk-3.0/gui_main.c:2162 client/gui-gtk-3.22/gui_main.c:2164
 #: client/gui-qt/gui_main.cpp:533
 msgid "Are you sure you want to quit?"
 msgstr "Haluatko todella lopettaa?"
 
-#: client/gui-gtk-3.0/gui_main.c:2330 client/gui-gtk-3.22/gui_main.c:2333
+#: client/gui-gtk-3.0/gui_main.c:2331 client/gui-gtk-3.22/gui_main.c:2333
 #, c-format
 msgid ""
 "\n"
@@ -17903,7 +17902,7 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "Koska sivilisaation tulisi olla vapaa!"
 
-#: common/networking/connection.c:193 server/sernet.c:401 server/sernet.c:786
+#: common/networking/connection.c:193 server/sernet.c:401 server/sernet.c:785
 msgid "network exception"
 msgstr "yhteysvirhe"
 
@@ -27053,7 +27052,7 @@ msgstr "Keskiraskas"
 
 #: data/sandbox/units.ruleset:58
 msgid "Airliftable from Airport after you learn Advanced Flight."
-msgstr ""
+msgstr "Voidaan lennättää lentokentältä kun kehittynyt ilmailu tunnetaan."
 
 #: data/sandbox/units.ruleset:59
 msgid "HeavyWeight"
@@ -27061,7 +27060,7 @@ msgstr "Raskas"
 
 #: data/sandbox/units.ruleset:59
 msgid "Airliftable from Airport after you learn Fusion Power."
-msgstr ""
+msgstr "Voidaan lennättää lentokentältä kun fuusio tunnetaan."
 
 #: data/sandbox/units.ruleset:60
 msgid "BorderPolice"
@@ -27523,6 +27522,8 @@ msgid ""
 "Make sure that the upkeep (gold and shield) of your Nuclear is payed. A non "
 "maintained nuke will detonate in place."
 msgstr ""
+"Pidä huolta että ydinkärkiesi ylläpito (sekä rahalliset kustannukset että "
+"tuotanto) tulee maksetuksi. Laiminlyöty ydinase räjähtää siellä missä on."
 
 #: data/sandbox/units.ruleset:2217 data/civ2civ3/units.ruleset:2198
 msgid ""
@@ -27797,6 +27798,10 @@ msgid ""
 "\n"
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
+"Kaupungin perusinfrastruktuuri. Sillä ei ole ylläpitokustannuksia, eivätkä "
+"vihollisen häivevakoojat voi sabotoida sitä.\n"
+"\n"
+"Ilman perusinfrastruktuuria kaupunki ei voi kasvaa kokoa 2 suuremmaksi."
 
 #: data/alien/buildings.ruleset:129
 msgid "Bunker"
@@ -27842,6 +27847,8 @@ msgid ""
 "Filter System gets 1 extra food and 1 extra production from each oceanic "
 "tile."
 msgstr ""
+"Suodatinjärjestelmä sallii kaupungin kerätä yhtä pistettä enemmän ruokaa ja "
+"tuotantoa meriruuduista."
 
 #: data/alien/buildings.ruleset:241
 msgid "Force Walls"
@@ -27853,6 +27860,9 @@ msgid ""
 "Force Walls doubles city defense against all kind of attacks. Bonus is "
 "increased to 150% when Strong Force technology is known."
 msgstr ""
+"Voimamuuri kaksinkertaistaa (+100%) kaupungissa olevien yksiköiden "
+"puolustusarvon kaikenlaisia hyökkäyksiä vastaan. Kun vahva voima tunnetaan, "
+"tämä puolustusbonus kasvaa arvoon 150%."
 
 #: data/alien/buildings.ruleset:264
 msgid "Headquarters"
@@ -27875,6 +27885,8 @@ msgid ""
 "Damaged units which stay in city without moving, heal 50% of their hitpoints "
 "each turn."
 msgstr ""
+"Vahingoittuneet yksiköt, jotka viipyvät kaupungissa täyden vuoron "
+"liikkumatta, saavat 50% osumapisteistään takaisin."
 
 #: data/alien/buildings.ruleset:307
 msgid "Information Distillery"
@@ -28077,6 +28089,8 @@ msgid ""
 "Provides additional protection against radiation making it possible for all "
 "cities player owns to grow 2 sizes bigger."
 msgstr ""
+"Antaa lisäsuojaa säteilyltä, mahdollistaen pelaajan kaikkien kaupunkien "
+"kasvaa kahdella pisteellää suuremmaksi."
 
 #: data/alien/cities.ruleset:51
 msgid "Culturists"
@@ -28358,10 +28372,8 @@ msgid "Some of the Alien lifeforms now work for us."
 msgstr ""
 
 #: data/alien/techs.ruleset:136
-#, fuzzy
-#| msgid "%d remaining"
 msgid "Alien Training"
-msgstr "%d jäljellä"
+msgstr "Olentojen kouluttaminen"
 
 #: data/alien/techs.ruleset:142
 msgid "Trained native lifeforms - deadly."
@@ -28408,7 +28420,7 @@ msgstr "Raaka voima"
 
 #: data/alien/techs.ruleset:192
 msgid "It's time to make more powerful weapons than ever before."
-msgstr ""
+msgstr "On aika luoda voimakkaampia aseita kuin koskaan ennen."
 
 #: data/alien/techs.ruleset:195
 msgid "City Defense"
@@ -28428,6 +28440,8 @@ msgstr "Kaupallinen antigravitaatio"
 msgid ""
 "Antigravity is not only for military. It has commercial applications as well."
 msgstr ""
+"Antigravitaatio ei kuulu vain sotavoimille. Sille on myös kaupallista "
+"käyttöä."
 
 #: data/alien/techs.ruleset:215
 msgid "Communication"
@@ -28711,7 +28725,7 @@ msgstr "Mielialamuokkaus"
 
 #: data/alien/techs.ruleset:499
 msgid "People are happy if they believe that they are happy."
-msgstr ""
+msgstr "Ihmiset ovat onnellisia, jos he uskovat olevansa onnellisia."
 
 #: data/alien/techs.ruleset:502
 msgid "Naval Superiority"
@@ -28982,7 +28996,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:752
 msgid "Unified Theory"
-msgstr ""
+msgstr "Yhtenäisteoria"
 
 #: data/alien/techs.ruleset:758
 msgid ""
@@ -29035,14 +29049,10 @@ msgid "Radiating"
 msgstr "Säteilevä"
 
 #: data/alien/terrain.ruleset:27
-#, fuzzy
-#| msgid " Terrain Alterations"
 msgid "Terrain has alien radiation."
-msgstr " Maastonmuokkaukset"
+msgstr "Maastossa on outoa säteilyä."
 
 #: data/alien/terrain.ruleset:242
-#, fuzzy
-#| msgid "No unit can enter this terrain, nor can any city work its tiles."
 msgid "No unit can enter this terrain, nor can city work the tile."
 msgstr ""
 "Yksikään yksikkö ei voi kulkea tässä maastossa, eivätkä kaupungit voi "
@@ -29053,10 +29063,8 @@ msgid "For some reason, there is Earth like grass and animals around."
 msgstr ""
 
 #: data/alien/terrain.ruleset:289
-#, fuzzy
-#| msgid "Plant Forest"
 msgid "Alien Forest"
-msgstr "Istuta metsää"
+msgstr "Outo metsä"
 
 #: data/alien/terrain.ruleset:326
 msgid ""
@@ -29083,10 +29091,8 @@ msgid "Hills just like on Earth."
 msgstr ""
 
 #: data/alien/terrain.ruleset:419
-#, fuzzy
-#| msgid "Mountains"
 msgid "Thick Mountains"
-msgstr "vuoristo"
+msgstr "Tiiviit vuoret"
 
 #: data/alien/terrain.ruleset:454
 msgid ""
@@ -29116,7 +29122,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:725
 msgid "Greenhouses"
-msgstr ""
+msgstr "Kasvihuoneita"
 
 #: data/alien/terrain.ruleset:741
 msgid ""
@@ -29147,7 +29153,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:813
 msgid "Protein Houses"
-msgstr ""
+msgstr "Proteiinihuoneita"
 
 #: data/alien/terrain.ruleset:854
 msgid "Tower"
@@ -29250,10 +29256,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1143
-#, fuzzy
-#| msgid "Build Mine"
 msgid "Alien Mine"
-msgstr "Louhi kaivos"
+msgstr "Avaruusolentojen kaivos"
 
 #: data/alien/terrain.ruleset:1155
 #, no-c-format
@@ -29261,6 +29265,8 @@ msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
 "built it nor where they went."
 msgstr ""
+"Tuntemattomalla teknologialla toimiva kaivos. Meillä ei ole aavistustakaan "
+"kuka laitteet on rakentanut tai minne he ovat menneet."
 
 #: data/alien/terrain.ruleset:1161
 msgid "Huge Plant"
@@ -29391,16 +29397,10 @@ msgid ""
 msgstr ""
 
 #: data/alien/units.ruleset:580
-#, fuzzy
-#| msgid "Marines"
 msgid "Star Marines"
-msgstr "Merijalkaväki"
+msgstr "Tähtijalkaväki"
 
 #: data/alien/units.ruleset:606
-#, fuzzy
-#| msgid ""
-#| "This unit may be built from the start of the game.  It is the weakest "
-#| "offensive unit."
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "military unit."
@@ -29743,10 +29743,8 @@ msgid "Math Club"
 msgstr "Matematiikkakerho"
 
 #: data/alien/nation/mathclub.ruleset:6
-#, fuzzy
-#| msgid "?plural:Carthaginians"
 msgid "?plural:Mathematicians"
-msgstr "karthagolaiset"
+msgstr "matemaatikot"
 
 #: data/alien/nation/mathclub.ruleset:8
 #, no-c-format
@@ -29762,10 +29760,8 @@ msgid "Secret Society"
 msgstr "Salainen yhdistys"
 
 #: data/alien/nation/secretsociety.ruleset:6
-#, fuzzy
-#| msgid "?plural:Brazilians"
 msgid "?plural:Billionaries"
-msgstr "brasilialaiset"
+msgstr "miljardöörit"
 
 #: data/alien/nation/secretsociety.ruleset:8
 #, no-c-format
@@ -29783,10 +29779,8 @@ msgid "Team Gladiators"
 msgstr "Joukkue Gladiaattorit"
 
 #: data/alien/nation/teamgladiators.ruleset:6
-#, fuzzy
-#| msgid "?plural:Aztecs"
 msgid "?plural:Athletes"
-msgstr "asteekit"
+msgstr "urheilijat"
 
 #: data/alien/nation/teamgladiators.ruleset:7
 msgid ""
@@ -30377,14 +30371,12 @@ msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:335
-#, fuzzy
-#| msgid "Resources"
 msgid " Resources"
-msgstr "luonnonvaroja"
+msgstr " Luonnonvarat"
 
 #: data/helpdata.txt:336
 msgid "Tiles can have natural resources in addition to their base terrain."
-msgstr ""
+msgstr "Perusmaastotyypin lisäksi ruudussa voi olla luonnonvaroja."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:346
@@ -30996,15 +30988,12 @@ msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:645
-#, fuzzy
-#| msgid " M goods"
-#| msgid_plural " M goods"
 msgid " Goods"
-msgstr " M tuotetta"
+msgstr " Kauppatavarat"
 
 #: data/helpdata.txt:646
 msgid "Goods are carried via trade routes."
-msgstr ""
+msgstr "Kauppareittejä pitkin kuljetetaan kauppatavaroita."
 
 #: data/helpdata.txt:655
 msgid ""
@@ -35369,7 +35358,7 @@ msgstr ""
 
 #: data/alio.tilespec:18
 msgid "Tileset containing graphics suitable for playing with alien ruleset."
-msgstr ""
+msgstr "Kuvitus, joka soveltuu käytettäväksi 'Alien' sääntökokoelman kanssa."
 
 #: data/cimpletoon.tilespec:15
 msgid ""
@@ -36961,9 +36950,6 @@ msgid "Create directory DIRECTORY for output"
 msgstr "Talleta tulos hakemistoon HAKEMISTO"
 
 #: tools/ruleup.c:82
-#, fuzzy
-#| msgid ""
-#| "Multiple rulesets requested. Only one ruleset at a time is supported.\n"
 msgid "Multiple rulesets requested. Only one ruleset at time supported.\n"
 msgstr ""
 "Useita sääntökokoelmia pyydetty. Vain yhtä sääntökokoelmaa voidaan tukea "
@@ -36971,13 +36957,12 @@ msgstr ""
 
 #: tools/ruleup.c:89
 msgid "Multiple output directories given.\n"
-msgstr ""
+msgstr "Tulostushakemisto annettu monta kertaa.\n"
 
 #: tools/ruleup.c:166
-#, fuzzy, c-format
-#| msgid "Can't load %s: %s"
+#, c-format
 msgid "Can't load ruleset %s"
-msgstr "Tiedoston %s lataaminen epäonnistui: %s"
+msgstr "Sääntökokoelman %s lataaminen epäonnistui"
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:231
@@ -37893,11 +37878,11 @@ msgstr ""
 "olla vähintään %d kulttuuria."
 
 #: server/cityturn.c:1679
-#, fuzzy, c-format
-#| msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
-msgstr "%s lykkää työlistan hanketta %s tuntemattomasta syystä."
+msgstr ""
+"%s lykkää työlistan hanketta %s, koska vähintään %d teknologiaa pitää tuntea."
 
 #: server/cityturn.c:1696
 #, c-format
@@ -39060,8 +39045,8 @@ msgid ""
 "begins. Until then the player will be known by a name derived from its "
 "type.\n"
 "The 'ai type' parameter can be used to select which AI module will be used "
-"for the created player. This requires that Freeciv has been compiled with "
-"loadable AI module support and that the respective module has been loaded.\n"
+"for the created player. This requires that the respective module has been "
+"loaded or built in to the server.\n"
 "If the game has already started, the new player will have no units or "
 "cities; also, if no free player slots are available, the slot of a dead "
 "player can be reused (removing all record of that player from the running "
@@ -39071,19 +39056,19 @@ msgstr ""
 "parametri on tyhjä, pelaajalle annetaan satunnainen nimi pelin alkaessa. "
 "Siihen asti pelaaja tunnetaan pelaajan tyypistä johdetulla nimellä.\n"
 "'ai type' parametrin voi antaa valitsemaan mitä AI modulia luodulle "
-"pelaajalle käytetään. Tämä vaatii että Freeciv on käännetty tukemaan "
-"ladattavia AI moduleita ja että vastaava moduli on ladattu.\n"
+"pelaajalle käytetään. Tämä vaatii että kyseinen moduli on joko sisällytetty "
+"Freecivin palvelimeen tai ladattu.\n"
 "Jos peli on jo alkanut, luodulla pelaajalla ei ole yksiköitä eikä "
 "kaupunkeja. Jos vapaita pelaajapaikkoja ei ole jäljellä, voidaan hävitetyn "
 "pelaajan paikka ottaa uudelleen käyttöön (poistaen kaikki tiedot hävinneestä "
 "pelaajasta)."
 
-#: server/commands.c:347
+#: server/commands.c:346
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr "Merkitse itsesi poissaolevaksi. AI vahtii selustaasi."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:353
+#: server/commands.c:352
 msgid ""
 "handicapped\n"
 "handicapped <player-name>"
@@ -39092,14 +39077,14 @@ msgstr ""
 "handicapped <pelaajan nimi>"
 
 #. TRANS: translate 'Handicapped' as AI skill level
-#: server/commands.c:356
+#: server/commands.c:355
 msgid "Set one or all AI players to 'Handicapped'."
 msgstr ""
 "Aseta yhden tai kaikkien AI-pelaajien vaikeustaso vastustajana tekemällä "
 "peli niitä kohtaan epäreiluksi."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:361
+#: server/commands.c:360
 msgid ""
 "novice\n"
 "novice <player-name>"
@@ -39108,13 +39093,13 @@ msgstr ""
 "novice <pelaajan nimi>"
 
 #. TRANS: translate 'Novice' as AI skill level
-#: server/commands.c:364
+#: server/commands.c:363
 msgid "Set one or all AI players to 'Novice'."
 msgstr ""
 "Aseta yhden tai kaikkien AI-pelaajien vaikeustaso sopivaksi vasta-alkajalle."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:369
+#: server/commands.c:368
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -39123,12 +39108,12 @@ msgstr ""
 "easy <pelaajan nimi>"
 
 #. TRANS: translate 'Easy' as AI skill level
-#: server/commands.c:372
+#: server/commands.c:371
 msgid "Set one or all AI players to 'Easy'."
 msgstr "Aseta yhden tai kaikkien AI-pelaajien vaikeustasoksi helppo."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:377
+#: server/commands.c:376
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -39137,12 +39122,12 @@ msgstr ""
 "normal <pelaajan nimi>"
 
 #. TRANS: translate 'Normal' as AI skill level
-#: server/commands.c:380
+#: server/commands.c:379
 msgid "Set one or all AI players to 'Normal'."
 msgstr "Aseta yhden tai kaikkien AI-pelaajien vaikeustasoksi tavallinen."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:385
+#: server/commands.c:384
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -39151,12 +39136,12 @@ msgstr ""
 "hard <pelaajan nimi>"
 
 #. TRANS: translate 'Hard' as AI skill level
-#: server/commands.c:388
+#: server/commands.c:387
 msgid "Set one or all AI players to 'Hard'."
 msgstr "Aseta yhden tai kaikkien AI-pelaajien vaikeustasoksi vaikea."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:393
+#: server/commands.c:392
 msgid ""
 "cheating\n"
 "cheating <player-name>"
@@ -39165,12 +39150,12 @@ msgstr ""
 "cheating <pelaajan nimi>"
 
 #. TRANS: translate 'Cheating' as AI skill level
-#: server/commands.c:396
+#: server/commands.c:395
 msgid "Set one or all AI players to 'Cheating'."
 msgstr "Aseta yhden tai kaikkien AI-pelaajien vaikeustasoksi epäreilu."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:402
+#: server/commands.c:401
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -39179,12 +39164,12 @@ msgstr ""
 "experimental <pelaajan nimi>"
 
 #. TRANS: translate 'Experimental' as AI skill level
-#: server/commands.c:405
+#: server/commands.c:404
 msgid "Set one or all AI players to 'Experimental'."
 msgstr "Aseta yhden tai kaikkien AI-pelaajien vaikeustasoksi 'kokeellinen'."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:411
+#: server/commands.c:410
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -39198,11 +39183,11 @@ msgstr ""
 "cmdlevel <taso> first\n"
 "cmdlevel <taso> <yhteyden nimi>"
 
-#: server/commands.c:416
+#: server/commands.c:415
 msgid "Query or set command access level access."
 msgstr "Tarkista tai aseta sallittu komentotaso."
 
-#: server/commands.c:417
+#: server/commands.c:416
 msgid ""
 "The command access level controls which server commands are available to "
 "users via the client chatline. The available levels are:\n"
@@ -39243,22 +39228,22 @@ msgstr ""
 "seuraavalle samannimiselle yhteydelle. Huomaa, että komento ottaa nykyään "
 "vastaan yhteysnimiä, ei pelaajanimiä."
 
-#: server/commands.c:443
+#: server/commands.c:442
 msgid "If there is none, become the game organizer with increased permissions."
 msgstr ""
 "Jos pelillä ei vielä ole ohjaajaa, sinusta tulee sellainen.\n"
 "Pelinohjaajalla on laajemmat oikeudet vaikuttaa pelin kulkuun."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:449
+#: server/commands.c:448
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <vuoro> <vuorolisä> <arvo> <arvokerroin>"
 
-#: server/commands.c:450
+#: server/commands.c:449
 msgid "See \"/help timeoutincrease\"."
 msgstr "Komennolla '/help timeoutincrease' saat apua."
 
-#: server/commands.c:451
+#: server/commands.c:450
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>. Use this command in concert with "
@@ -39269,7 +39254,7 @@ msgstr ""
 "komentoa yhdessä \"timeout\"-asetuksen kanssa. Oletusarvot ovat 0 0 0 1"
 
 #. TRANS: translate text between <> only; "vote" is as a process
-#: server/commands.c:458
+#: server/commands.c:457
 msgid ""
 "cancelvote\n"
 "cancelvote <vote number>\n"
@@ -39280,12 +39265,12 @@ msgstr ""
 "cancelvote all\n"
 
 #. TRANS: "vote" as a process
-#: server/commands.c:462
+#: server/commands.c:461
 msgid "Cancel a running vote."
 msgstr "Peru ääni tai koko äänestys."
 
 #. TRANS: "vote" as a process
-#: server/commands.c:464
+#: server/commands.c:463
 msgid ""
 "With no arguments this command removes your own vote. If you have an admin "
 "access level, you can cancel any vote by vote number, or all votes with the "
@@ -39296,15 +39281,15 @@ msgstr ""
 "perutaan."
 
 #. TRANS: translate text between <> and [] only
-#: server/commands.c:471
+#: server/commands.c:470
 msgid "ignore [type=]<pattern>"
 msgstr "ignore [tyyppi=]<malli>"
 
-#: server/commands.c:472
+#: server/commands.c:471
 msgid "Block all messages from users matching the pattern."
 msgstr "Jätä huomiotta kaikki viestit malliin sopivilta käyttäjiltä."
 
-#: server/commands.c:473
+#: server/commands.c:472
 msgid ""
 "The given pattern will be added to your ignore list; you will not receive "
 "any messages from users matching this pattern. The type may be either \"user"
@@ -39323,15 +39308,15 @@ msgstr ""
 "listasi, anna komento \"/list ignore\"."
 
 #. TRANS: translate text between <>
-#: server/commands.c:484
+#: server/commands.c:483
 msgid "unignore <range>"
 msgstr "unignore <väli>"
 
-#: server/commands.c:485
+#: server/commands.c:484
 msgid "Remove ignore list entries."
 msgstr "Poista merkintöjä huomiotta jätettävien listalta"
 
-#: server/commands.c:486
+#: server/commands.c:485
 msgid ""
 "The ignore list entries in the given range will be removed; you will be able "
 "to receive messages from the respective users. The range argument may be a "
@@ -39349,7 +39334,7 @@ msgstr ""
 "ignore\"."
 
 #. TRANS: translate text between <>
-#: server/commands.c:497
+#: server/commands.c:496
 msgid ""
 "playercolor <player-name> <color>\n"
 "playercolor <player-name> reset"
@@ -39357,11 +39342,11 @@ msgstr ""
 "playercolor <pelaajan nimi> <väri>\n"
 "playercolor <pelaajan nimi> reset"
 
-#: server/commands.c:499
+#: server/commands.c:498
 msgid "Define the color of a player."
 msgstr "Määrittele pelaajan väri."
 
-#: server/commands.c:500
+#: server/commands.c:499
 msgid ""
 "This command sets the color of a specific player, overriding any color "
 "assigned according to the 'plrcolormode' setting.\n"
@@ -39396,15 +39381,15 @@ msgstr ""
 "vaikutusta.\n"
 "Pelaajien värit voidaan näyttää komennolla 'list colors'."
 
-#: server/commands.c:520
+#: server/commands.c:519
 msgid "End the game immediately in a draw."
 msgstr "Lopeta peli välittömästi tasapeliin."
 
-#: server/commands.c:526
+#: server/commands.c:525
 msgid "Concede the game."
 msgstr "Luovuta peli."
 
-#: server/commands.c:527
+#: server/commands.c:526
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
@@ -39413,15 +39398,15 @@ msgstr ""
 "paitsi yksi pelaaja (tai joukkue) ovat luovuttaneet näin."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:534
+#: server/commands.c:533
 msgid "remove <player-name>"
 msgstr "remove <pelaajan nimi>"
 
-#: server/commands.c:535
+#: server/commands.c:534
 msgid "Fully remove player from game."
 msgstr "Poista pelaaja pelistä lopullisesti."
 
-#: server/commands.c:536
+#: server/commands.c:535
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc. Use with care!"
@@ -39430,7 +39415,7 @@ msgstr ""
 "kaupungit ja yksiköt jne. Käytä varoen!"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:542
+#: server/commands.c:541
 msgid ""
 "save\n"
 "save <file-name>"
@@ -39438,11 +39423,11 @@ msgstr ""
 "save\n"
 "save <tiedostonimi>"
 
-#: server/commands.c:544
+#: server/commands.c:543
 msgid "Save game to file."
 msgstr "Tallenna peli annettuun tiedostoon."
 
-#: server/commands.c:545
+#: server/commands.c:544
 msgid ""
 "Save the current game to file <file-name>. If no file-name argument is given "
 "saves to \"<auto-save name prefix><year>m.sav[.gz]\". To reload a savegame "
@@ -39458,7 +39443,7 @@ msgstr ""
 "ja käytä komentoa 'start' kunhan pelaajat ovat taas yhteydessä."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:555
+#: server/commands.c:554
 msgid ""
 "scensave\n"
 "scensave <file-name>"
@@ -39466,11 +39451,11 @@ msgstr ""
 "scensave\n"
 "scensave <tiedostonimi>"
 
-#: server/commands.c:557
+#: server/commands.c:556
 msgid "Save game to file as scenario."
 msgstr "Tallenna peli annettuun tiedostoon skenaariomuodossa."
 
-#: server/commands.c:558
+#: server/commands.c:557
 msgid ""
 "Save the current game to file <file-name> as scenario. If no file-name "
 "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". To "
@@ -39487,7 +39472,7 @@ msgstr ""
 "ja käytä komentoa 'start' kunhan pelaajat ovat taas yhteydessä."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:568
+#: server/commands.c:567
 msgid ""
 "load\n"
 "load <file-name>"
@@ -39495,11 +39480,11 @@ msgstr ""
 "load\n"
 "load <tiedosto>"
 
-#: server/commands.c:570
+#: server/commands.c:569
 msgid "Load game from file."
 msgstr "Lataa peli annetusta tiedostosta."
 
-#: server/commands.c:571
+#: server/commands.c:570
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost."
@@ -39508,28 +39493,28 @@ msgstr ""
 "ja palvelinasetukset unohdetaan."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:577
+#: server/commands.c:576
 msgid "read <file-name>"
 msgstr "read <tiedosto>"
 
-#: server/commands.c:578
+#: server/commands.c:577
 msgid "Process server commands from file."
 msgstr "Suorita palvelinkäskyjä tiedostosta."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:583
+#: server/commands.c:582
 msgid "write <file-name>"
 msgstr "write <tiedosto>"
 
-#: server/commands.c:584
+#: server/commands.c:583
 msgid "Write current settings as server commands to file."
 msgstr "Tallenna tämänhetkiset asetukset palvelinkomentoina tiedostoon."
 
-#: server/commands.c:590
+#: server/commands.c:589
 msgid "Reset all server settings."
 msgstr "Palauta kaikki palvelimen asetukset oletusarvoihinsa."
 
-#: server/commands.c:591
+#: server/commands.c:590
 msgid ""
 "Reset all settings if it is possible. The following levels are supported:\n"
 "  game     - using the values defined at the game start\n"
@@ -39543,11 +39528,11 @@ msgstr ""
 "  script   - käytä oletusasetuksia ja aja uudelleen aloituskripti\n"
 "  default  - käytä oletusasetuksia\n"
 
-#: server/commands.c:602
+#: server/commands.c:601
 msgid "Set option to its default value"
 msgstr "Aseta asetus oletusarvoonsa"
 
-#: server/commands.c:603
+#: server/commands.c:602
 msgid ""
 "Reset the option to its default value. If the default ever changes in a "
 "future version, the option's value will follow that change."
@@ -39556,7 +39541,7 @@ msgstr ""
 "versioissa, tämä uusi oletusarvo tulee käyttöön."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:610
+#: server/commands.c:609
 #, fuzzy
 #| msgid ""
 #| "lua cmd <script line>\n"
@@ -39573,7 +39558,7 @@ msgstr ""
 "lua file <skriptitiedosto>\n"
 "lua <skriptirivi> (vanha muoto, ei suositella)"
 
-#: server/commands.c:615
+#: server/commands.c:614
 msgid ""
 "Evaluate a line of Freeciv script or a Freeciv script file in the current "
 "game."
@@ -39581,7 +39566,7 @@ msgstr ""
 "Suorita annettu rivi Freeciv-skriptiä tai skriptitiedosto käynnissä olevan "
 "pelin kontekstissa."
 
-#: server/commands.c:617
+#: server/commands.c:616
 msgid ""
 "The unsafe prefix runs the script in an instance separate from the ruleset. "
 "This instance doesn't restrict access to Lua functions that can be used to "
@@ -39590,15 +39575,15 @@ msgid ""
 msgstr ""
 
 #. TRANS: translate text between <>
-#: server/commands.c:626
+#: server/commands.c:625
 msgid "kick <user>"
 msgstr "kick <käyttäjä>"
 
-#: server/commands.c:627
+#: server/commands.c:626
 msgid "Cut a connection and disallow reconnect."
 msgstr "Katkaise käyttäjän yhteys ja estä vastaiset yhteydenotot."
 
-#: server/commands.c:628
+#: server/commands.c:627
 msgid ""
 "The connection given by the 'user' argument will be cut from the server and "
 "not allowed to reconnect. The time the user wouldn't be able to reconnect is "
@@ -39609,7 +39594,7 @@ msgstr ""
 "Asetuksella 'kicktime' määrätään jäähyn pituus."
 
 #. TRANS: translate only text between [] and <>
-#: server/commands.c:635
+#: server/commands.c:634
 msgid ""
 "delegate to <username> [player-name]\n"
 "delegate cancel [player-name]\n"
@@ -39623,11 +39608,11 @@ msgstr ""
 "delegate restore\n"
 "delegate show <pelaajanimi>"
 
-#: server/commands.c:640
+#: server/commands.c:639
 msgid "Delegate control to another user."
 msgstr "Delegoi hallinta toiselle käyttäjälle."
 
-#: server/commands.c:641
+#: server/commands.c:640
 msgid ""
 "Delegation allows a user to nominate another user who can temporarily take "
 "over control of their player while they are away.\n"
@@ -39663,22 +39648,22 @@ msgstr ""
 "'admin' tai parempi pakottamaan delegointistatuksen muutoksen."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:661
+#: server/commands.c:660
 #, fuzzy
 #| msgid "team <player> <team>"
 msgid "aicmd <player> <command>"
 msgstr "team <pelaaja> <joukkue>"
 
-#: server/commands.c:662
+#: server/commands.c:661
 msgid "Execute AI command"
 msgstr "Suorita tekälykomento"
 
-#: server/commands.c:663
+#: server/commands.c:662
 msgid "Execute a command in the context of the AI for the given player"
 msgstr "Suorita komento tietyn pelaajan tekoälylle"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:669
+#: server/commands.c:668
 msgid ""
 "fcdb reload\n"
 "fcdb lua <script>"
@@ -39686,11 +39671,11 @@ msgstr ""
 "fcdb reload\n"
 "fcdb lua <skripti"
 
-#: server/commands.c:671
+#: server/commands.c:670
 msgid "Manage the authentication database."
 msgstr "Hallitse autentikoinnin tietokantaa."
 
-#: server/commands.c:672
+#: server/commands.c:671
 msgid ""
 "The argument 'reload' causes the database script file to be re-read after a "
 "change, while the argument 'lua' evaluates a line of Lua script in the "
@@ -39701,7 +39686,7 @@ msgstr ""
 "rivin Lua-skriptiä tietokannan kontekstissa."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:679
+#: server/commands.c:678
 msgid ""
 "mapimg define <mapdef>\n"
 "mapimg show <id>|all\n"
@@ -39715,15 +39700,15 @@ msgstr ""
 "mapimg delete <id|all\n"
 "mapimg colortest"
 
-#: server/commands.c:684
+#: server/commands.c:683
 msgid "Create image files of the world/player map."
 msgstr "Luo kuvatiedostoja maailman/pelaajien kartasta."
 
-#: server/commands.c:691
+#: server/commands.c:690
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Vaihda palvelimen tulostus RFC-tyyliseksi tai tavalliseksi."
 
-#: server/commands.c:697
+#: server/commands.c:696
 msgid "Simply returns the id of the server."
 msgstr "Palauttaa palvelimen tunnisteen."
 
@@ -41754,30 +41739,27 @@ msgstr "%sMyrkytä kaupunki%s"
 
 #. TRANS: B_ombard (100% chance of success).
 #: server/ruleset.c:6344
-#, fuzzy, c-format
-#| msgid "Bombarder"
+#, c-format
 msgid "B%sombard%s"
-msgstr "Pommittaja"
+msgstr "%sPommita%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
 #: server/ruleset.c:6351
 #, c-format
 msgid "Suitcase %sNuke%s"
-msgstr ""
+msgstr "Salkku%sydinpommi%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
 #: server/ruleset.c:6358
-#, fuzzy, c-format
-#| msgid "Suitcase Nuke"
+#, c-format
 msgid "Suitcase %sNuke and Escape%s"
-msgstr "Salkkuydinpommi"
+msgstr "Salkku%sydinpommi ja pakeneminen%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
 #: server/ruleset.c:6435
-#, fuzzy, c-format
-#| msgid "Help : Units"
+#, c-format
 msgid "Heal %sUnit%s"
-msgstr "Ohje : Yksiköt"
+msgstr "%sParanna yksikkö%s"
 
 #: server/ruleset.c:8106
 msgid "Ruleset couldn't be loaded. Keeping previous one."
@@ -41869,17 +41851,17 @@ msgstr "%s on lisätty tavalliseksi pelaajaksi."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
 
-#: server/savegame2.c:5129 server/savegame3.c:7035
+#: server/savegame2.c:5125 server/savegame3.c:7035
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/savegame2.c:5139 server/savegame3.c:7045
+#: server/savegame2.c:5135 server/savegame3.c:7045
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
-#: server/savegame2.c:5164 server/savegame3.c:7063
+#: server/savegame2.c:5160 server/savegame3.c:7063
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -41935,57 +41917,57 @@ msgstr ""
 msgid "rejected"
 msgstr "hylätty"
 
-#: server/sernet.c:572
+#: server/sernet.c:571
 msgid "Shutting down for lack of players."
 msgstr "Sammutetaan pelaajapulan vuoksi."
 
-#: server/sernet.c:575
+#: server/sernet.c:574
 msgid "Restarting for lack of players."
 msgstr "Käynnistetään uudelleen pelaajapulan vuoksi."
 
-#: server/sernet.c:595
+#: server/sernet.c:594
 #, c-format
 msgid "Shutting down in %d seconds for lack of players."
 msgstr "Sammutetaan %d sekunnin päästä pelaajapulan vuoksi."
 
-#: server/sernet.c:598
+#: server/sernet.c:597
 msgid "shutting down soon for lack of players"
 msgstr "Sammutetaan pian pelaajapulan vuoksi"
 
-#: server/sernet.c:600
+#: server/sernet.c:599
 #, c-format
 msgid "Restarting in %d seconds for lack of players."
 msgstr "Käynnistetään %d sekunnin päästä uudelleen pelaajapulan vuoksi"
 
-#: server/sernet.c:603
+#: server/sernet.c:602
 msgid "restarting soon for lack of players"
 msgstr "Käynnistetään pian uudelleen pelaajapulan vuoksi"
 
-#: server/sernet.c:631
+#: server/sernet.c:630
 msgid "ping timeout"
 msgstr "asiakasohjelman verkkovaste liian pitkä"
 
-#: server/sernet.c:863
+#: server/sernet.c:862
 msgid "client disconnected"
 msgstr "asiakasohjelma purki yhteyden"
 
-#: server/sernet.c:1126
+#: server/sernet.c:1125
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Palvelin: osoite <%s:%d> ei kelpaa."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1566
+#: server/sernet.c:1565
 msgid "Pregame"
 msgstr "Pelin valmistelu"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1570
+#: server/sernet.c:1569
 msgid "Running"
 msgstr "Käynnissä"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1574 server/settings.c:337
+#: server/sernet.c:1573 server/settings.c:337
 msgid "Game over"
 msgstr "Peli loppui"
 
@@ -43462,6 +43444,8 @@ msgstr ""
 #: server/settings.c:2025
 msgid "How largely trade distance is relative to world size"
 msgstr ""
+"Kuinka suurelta osin kartan koko vaikuttaa kauppareitin laskennalliseen "
+"pituuteen"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
@@ -44908,20 +44892,20 @@ msgstr "Muuttuneet"
 msgid "Locked"
 msgstr "Lukitut"
 
-#: server/spacerace.c:174
+#: server/spacerace.c:173
 msgid "You need to have a capital in order to launch your spaceship."
 msgstr ""
 "Sinulla täytyy olla pääkaupunki jotta voisit laukaista avaruusaluksesi."
 
-#: server/spacerace.c:180
+#: server/spacerace.c:179
 msgid "Your spaceship is already launched!"
 msgstr "Avaruusaluksesi on jo matkalla!"
 
-#: server/spacerace.c:186
+#: server/spacerace.c:185
 msgid "Your spaceship can't be launched yet!"
 msgstr "Avaruusaluksesi ei ole vielä laukaisuvalmis!"
 
-#: server/spacerace.c:195
+#: server/spacerace.c:194
 #, c-format
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive at Alpha "
@@ -44930,53 +44914,53 @@ msgstr ""
 "%s ovat laukaisseet avaruusaluksen! Sen arvioidaan saapuvan Alfa Centauriin "
 "vuonna %s."
 
-#: server/spacerace.c:223
+#: server/spacerace.c:222
 msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
 "Avaruusaluskomento vastaanotettu – mutta sinulla ei ole avaruusalusta, jota "
 "komentaa!"
 
-#: server/spacerace.c:233
+#: server/spacerace.c:232
 msgid "You can't modify your spaceship after launch!"
 msgstr "Et voi muunnella avaruusalusta kun se on jo matkalla!"
 
-#: server/spacerace.c:247
+#: server/spacerace.c:246
 msgid "You don't have any unplaced Space Structurals!"
 msgstr "Sinulla ei ole yhtään vapaita runko-osia!"
 
-#: server/spacerace.c:256
+#: server/spacerace.c:255
 msgid "That Space Structural would not be connected!"
 msgstr "Runko-osa ei olisi kiinni missään!"
 
-#: server/spacerace.c:275 server/spacerace.c:303
+#: server/spacerace.c:274 server/spacerace.c:302
 msgid "You don't have any unplaced Space Components!"
 msgstr "Sinulla ei ole yhtään vapaita komponentteja!"
 
-#: server/spacerace.c:283
+#: server/spacerace.c:282
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr "Avaruusaluksessasi on jo maksimimäärä polttoainesäiliöitä!"
 
-#: server/spacerace.c:312
+#: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr "Avaruusaluksessasi on jo maksimimäärä moottoreita!"
 
-#: server/spacerace.c:333 server/spacerace.c:362 server/spacerace.c:391
+#: server/spacerace.c:332 server/spacerace.c:361 server/spacerace.c:390
 msgid "You don't have any unplaced Space Modules!"
 msgstr "Sinulla ei ole yhtään vapaita moduuleja!"
 
-#: server/spacerace.c:341
+#: server/spacerace.c:340
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr "Avaruusaluksessasi on jo maksimimäärä miehistötiloja!"
 
-#: server/spacerace.c:370
+#: server/spacerace.c:369
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr "Avaruusaluksessasi on jo maksimimäärä ylläpitojärjestelmiä!"
 
-#: server/spacerace.c:399
+#: server/spacerace.c:398
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr "Avaruusaluksessasi on jo maksimimäärä aurinkopaneeleita!"
 
-#: server/spacerace.c:423
+#: server/spacerace.c:422
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr "%s pääkaupungin myötä menetettiin avaruusaluskin!"
