@@ -1561,8 +1561,8 @@ Apollo Program wonder must have been built by any player. You \
 also need specific technologies to build the different spaceship \
 parts: see the help texts for Space Structural, Space Component, \
 and Space Module, under City Improvements. (If there are no help \
-texts for these items, it probably means the 'spacerace' server \
-option is off for your game.)\
+texts for these items, it probably means the 'SPACERACE' victory \
+type is not enabled in the 'victories' server setting for your game.)\
 "), _("\
 When you have started building your spaceship, you can see it with \
 the \"Spaceship\" command in the Report menu. To see spaceships of \
