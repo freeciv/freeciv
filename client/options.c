@@ -2215,7 +2215,7 @@ static struct client_option client_options[] = {
                      "target it can attack, a window will pop up asking "
                      "which action should be performed even if an attack "
                      "action is legal and no other interesting action are. "
-                     "This allows you to change you mind or to select an "
+                     "This allows you to change your mind or to select an "
                      "uninteresting action."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
