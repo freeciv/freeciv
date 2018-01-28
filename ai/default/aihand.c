@@ -66,8 +66,7 @@
 
 #include "aihand.h"
 
-
-/****************************************************************************
+/*****************************************************************************
   A man builds a city
   With banks and cathedrals
   A man melts the sand so he can 
@@ -79,7 +78,7 @@
   And these are the days when our work has come assunder
   And these are the days when we look for something other
   /U2 Lemon.
-******************************************************************************/
+*****************************************************************************/
 
 #define LOGLEVEL_TAX LOG_DEBUG
 
@@ -94,9 +93,9 @@
 #define PCT_DELTA_TAX 50
 #define PCT_DELTA_SCI 10
 
-/**************************************************************************
- handle spaceship related stuff
-**************************************************************************/
+/*************************************************************************//**
+  Handle spaceship related stuff
+*****************************************************************************/
 static void dai_manage_spaceship(struct player *pplayer)
 {
   if (victory_enabled(VC_SPACERACE)) {
@@ -112,10 +111,10 @@ static void dai_manage_spaceship(struct player *pplayer)
   }
 }
 
-/***************************************************************************
+/*************************************************************************//**
   Returns the total amount of trade generated (trade) and total amount of
   gold needed as upkeep (expenses).
-***************************************************************************/
+*****************************************************************************/
 void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
                    int *income)
 {
@@ -180,7 +179,7 @@ enum celebration {
   MAX(0, 100 - _rates[AI_RATE_SCI] - _rates[AI_RATE_TAX]                     \
          - _rates[AI_RATE_LUX])
 
-/*****************************************************************************
+/*************************************************************************//**
   Set tax/science/luxury rates.
 
   TODO: Add general support for luxuries: select the luxury rate at which 
@@ -689,9 +688,9 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 #undef RATE_VALID
 #undef RATE_REMAINS
 
-/**************************************************************************
+/*************************************************************************//**
   Change the government form, if it can and there is a good reason.
-**************************************************************************/
+*****************************************************************************/
 static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
 {
   struct adv_data *adv = adv_data_get(pplayer, NULL);
@@ -729,10 +728,10 @@ static void dai_manage_government(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Activities to be done by AI _before_ human turn.  Here we just move the
   units intelligently.
-**************************************************************************/
+*****************************************************************************/
 void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);
@@ -751,14 +750,14 @@ void dai_do_first_activities(struct ai_type *ait, struct player *pplayer)
   flush_packets(); /* AIs can be such spammers... */
 }
 
-/**************************************************************************
-  Activities to be done by AI _after_ human turn.  Here we respond to 
-  dangers created by human and AI opposition by ordering defenders in 
-  cities and setting taxes accordingly.  We also do other duties.  
+/*************************************************************************//**
+  Activities to be done by AI _after_ human turn.  Here we respond to
+  dangers created by human and AI opposition by ordering defenders in
+  cities and setting taxes accordingly.  We also do other duties.
 
-  We do _not_ move units here, otherwise humans complain that AI moves 
+  We do _not_ move units here, otherwise humans complain that AI moves
   twice.
-**************************************************************************/
+*****************************************************************************/
 void dai_do_last_activities(struct ai_type *ait, struct player *pplayer)
 {
   TIMING_LOG(AIT_ALL, TIMER_START);

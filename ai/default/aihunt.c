@@ -56,8 +56,8 @@
 #include "aihunt.h"
 
 
-/**************************************************************************
-  We don't need a hunter in this city if we already have one. Return 
+/**********************************************************************//**
+  We don't need a hunter in this city if we already have one. Return
   existing hunter if any.
 **************************************************************************/
 static struct unit *dai_hunter_find(struct player *pplayer, 
@@ -77,7 +77,7 @@ static struct unit *dai_hunter_find(struct player *pplayer,
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Guess best hunter unit type.
 **************************************************************************/
 static struct unit_type *dai_hunter_guess_best(struct city *pcity,
@@ -147,7 +147,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
   return bestid;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if we want to build a missile for our hunter.
 **************************************************************************/
 static void dai_hunter_missile_want(struct player *pplayer,
@@ -226,7 +226,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Support function for ai_hunter_choice()
 **************************************************************************/
 static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
@@ -251,7 +251,7 @@ static void eval_hunter_want(struct ai_type *ait, struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if we want to build a hunter.
 **************************************************************************/
 void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
@@ -285,7 +285,7 @@ void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does this unit qualify as a hunter?
 **************************************************************************/
 bool dai_hunter_qualify(struct player *pplayer, struct unit *punit)
@@ -299,7 +299,7 @@ bool dai_hunter_qualify(struct player *pplayer, struct unit *punit)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Try to shoot our target with a missile. Also shoot down anything that
   might attempt to intercept _us_. We assign missiles to a hunter in
   ai_unit_new_role().
@@ -384,7 +384,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
   } unit_list_iterate_safe_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate desire to crush this target.
 **************************************************************************/
 static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
@@ -412,8 +412,8 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
   *stackthreat += *stackcost;
 }
 
-/**************************************************************************
-  Manage a (possibly virtual) hunter. Return the want for building a 
+/**********************************************************************//**
+  Manage a (possibly virtual) hunter. Return the want for building a
   hunter like this. If we return 0, then we have nothing to do with
   the hunter. If we return -1, then we succeeded, and can try again.
   If we return > 0 then we are hunting but ran out of moves (this is

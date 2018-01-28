@@ -34,7 +34,7 @@
 #include "ailog.h"
 
 
-/**************************************************************************
+/**********************************************************************//**
   Produce logline fragment for srv_log.
 **************************************************************************/
 void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
@@ -47,7 +47,7 @@ void dai_city_log(struct ai_type *ait, char *buffer, int buflength,
               city_data->grave_danger);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Produce logline fragment for srv_log.
 **************************************************************************/
 void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
@@ -59,7 +59,7 @@ void dai_unit_log(struct ai_type *ait, char *buffer, int buflength,
               unit_data->bodyguard, unit_data->ferryboat);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log player tech messages.
 **************************************************************************/
 void real_tech_log(struct ai_type *ait, const char *file, const char *function,
@@ -95,9 +95,9 @@ void real_tech_log(struct ai_type *ait, const char *file, const char *function,
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log player messages, they will appear like this
-    
+
   where ti is timer, co countdown and lo love for target, who is e.
 **************************************************************************/
 void real_diplo_log(struct ai_type *ait, const char *file,
@@ -134,7 +134,7 @@ void real_diplo_log(struct ai_type *ait, const char *file,
   do_log(file, function, line, FALSE, level, "%s", buffer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log message for bodyguards. They will appear like this
     2: Polish Mech. Inf.[485] bodyguard (38,22){Riflemen:574@37,23} was ...
   note that these messages are likely to wrap if long.
