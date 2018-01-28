@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2001 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ static void attr_key_destroy(struct attr_key *pkey);
 
 static struct attribute_hash *attribute_hash = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Hash function for attribute_hash.
 ****************************************************************************/
 static genhash_val_t attr_key_val(const struct attr_key *pkey)
@@ -76,7 +76,7 @@ static genhash_val_t attr_key_val(const struct attr_key *pkey)
   return (genhash_val_t) pkey->id ^ pkey->x ^ pkey->y ^ pkey->key;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Compare-function for the keys in the hash table.
 ****************************************************************************/
 static bool attr_key_comp(const struct attr_key *pkey1,
@@ -88,7 +88,7 @@ static bool attr_key_comp(const struct attr_key *pkey1,
       && pkey1->y   == pkey2->y;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Duplicate an attribute key.
 ****************************************************************************/
 static struct attr_key *attr_key_dup(const struct attr_key *pkey)
@@ -99,7 +99,7 @@ static struct attr_key *attr_key_dup(const struct attr_key *pkey)
   return pnew_key;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free an attribute key.
 ****************************************************************************/
 static void attr_key_destroy(struct attr_key *pkey)
@@ -108,7 +108,7 @@ static void attr_key_destroy(struct attr_key *pkey)
   free(pkey);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initializes the attribute module.
 ****************************************************************************/
 void attribute_init(void)
@@ -117,7 +117,7 @@ void attribute_init(void)
   attribute_hash = attribute_hash_new();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Frees the attribute module.
 ****************************************************************************/
 void attribute_free(void)
@@ -127,7 +127,7 @@ void attribute_free(void)
   attribute_hash = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Serialize an attribute hash for network/storage.
 ****************************************************************************/
 static enum attribute_serial
@@ -221,9 +221,9 @@ serialize_hash(const struct attribute_hash *hash,
   return A_SERIAL_OK;
 }
 
-/****************************************************************************
-  This data was serialized (above), sent as an opaque data packet to the 
-  server, stored in a savegame, retrieved from the savegame, sent as an 
+/************************************************************************//**
+  This data was serialized (above), sent as an opaque data packet to the
+  server, stored in a savegame, retrieved from the savegame, sent as an
   opaque data packet back to the client, and now is ready to be restored.
   Check everything!
 ****************************************************************************/
@@ -320,7 +320,7 @@ static enum attribute_serial unserialize_hash(struct attribute_hash *hash,
   return A_SERIAL_OK;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Send current state to the server. Note that the current
   implementation will send all attributes to the server.
 ****************************************************************************/
@@ -347,7 +347,7 @@ void attribute_flush(void)
   send_attribute_block(pplayer, &client.conn);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Recreate the attribute set from the player's
   attribute_block. Shouldn't be used by normal code.
 ****************************************************************************/
@@ -376,7 +376,7 @@ void attribute_restore(void)
   };
 }
 
-/****************************************************************************
+/************************************************************************//**
   Low-level function to set an attribute.  If data_length is zero the
   attribute is removed.
 ****************************************************************************/
@@ -405,7 +405,7 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Low-level function to get an attribute. If data hasn't enough space
   to hold the attribute data isn't set to the attribute. Returns the
   actual size of the attribute. Can be zero if the attribute is
@@ -442,104 +442,104 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   return length;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set unit related attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_unit_set(enum attr_unit what, int unit_id, size_t data_length,
 		   const void *const data)
 {
   attribute_set(what, unit_id, -1, -2, data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get unit related attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_unit_get(enum attr_unit what, int unit_id, size_t max_data_length,
 		  void *data)
 {
   return attribute_get(what, unit_id, -1, -2, max_data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set unit related integer attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_unit_set_int(enum attr_unit what, int unit_id, int data)
 {
   attr_unit_set(what, unit_id, sizeof(int), &data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get unit related integer attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_unit_get_int(enum attr_unit what, int unit_id, int *data)
 {
   return attr_unit_get(what, unit_id, sizeof(int), data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set city related attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_city_set(enum attr_city what, int city_id, size_t data_length,
 		   const void *const data)
 {
   attribute_set(what, city_id, -1, -1, data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get city related attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_city_get(enum attr_city what, int city_id, size_t max_data_length,
 		  void *data)
 {
   return attribute_get(what, city_id, -1, -1, max_data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set city related integer attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_city_set_int(enum attr_city what, int city_id, int data)
 {
   attr_city_set(what, city_id, sizeof(int), &data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get city related integer attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_city_get_int(enum attr_city what, int city_id, int *data)
 {
   return attr_city_get(what, city_id, sizeof(int), data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set player related attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_player_set(enum attr_player what, int player_id, size_t data_length,
 		     const void *const data)
 {
   attribute_set(what, player_id, -1, -1, data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get player related attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_player_get(enum attr_player what, int player_id,
 		    size_t max_data_length, void *data)
 {
   return attribute_get(what, player_id, -1, -1, max_data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set tile related attribute
-*****************************************************************************/
+****************************************************************************/
 void attr_tile_set(enum attr_tile what, int x, int y, size_t data_length,
 		   const void *const data)
 {
   attribute_set(what, -1, x, y, data_length, data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get tile related attribute
-*****************************************************************************/
+****************************************************************************/
 size_t attr_tile_get(enum attr_tile what, int x, int y, size_t max_data_length,
 		  void *data)
 {

@@ -52,7 +52,7 @@ static Mix_Music *mus = NULL;
 static struct sample samples[MIX_CHANNELS];
 static double sdl_audio_volume;
 
-/**************************************************************************
+/**********************************************************************//**
   Set the volume.
 **************************************************************************/
 static void sdl_audio_set_volume(double volume)
@@ -62,7 +62,7 @@ static void sdl_audio_set_volume(double volume)
   sdl_audio_volume = volume;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the volume.
 **************************************************************************/
 static double sdl_audio_get_volume(void)
@@ -70,7 +70,7 @@ static double sdl_audio_get_volume(void)
   return sdl_audio_volume;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Play sound
 **************************************************************************/
 static bool sdl_audio_play(const char *const tag, const char *const fullpath,
@@ -144,7 +144,7 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Stop music
 **************************************************************************/
 static void sdl_audio_stop(void)
@@ -153,7 +153,7 @@ static void sdl_audio_stop(void)
   Mix_FadeOutMusic(2000);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Wait for audio to die on all channels.
   WARNING: If a channel is looping, it will NEVER exit! Always call
   music_stop() first!
@@ -165,7 +165,7 @@ static void sdl_audio_wait(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Quit SDL.  If the video is still in use (by gui-sdl), just quit the
   subsystem.
 
@@ -180,7 +180,7 @@ static void quit_sdl_audio(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Init SDL.  If the video is already in use (by gui-sdl), just init the
   subsystem.
 
@@ -195,7 +195,7 @@ static int init_sdl_audio(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clean up.
 **************************************************************************/
 static void sdl_audio_shutdown(void)
@@ -218,7 +218,7 @@ static void sdl_audio_shutdown(void)
   quit_sdl_audio();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize.
 **************************************************************************/
 static bool sdl_audio_init(void)
@@ -249,7 +249,7 @@ static bool sdl_audio_init(void)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize. Note that this function is called very early at the
   client startup. So for example logging isn't available.
 **************************************************************************/
