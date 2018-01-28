@@ -31,7 +31,7 @@
 
 #include "univ_value.h"
 
-/************************************************************************
+/********************************************************************//**
   Initialize universal value with a value suitable for the kind.
 
   Returns TRUE iff there's any values universal kind can have with
@@ -214,7 +214,7 @@ bool universal_value_initial(struct universal *src)
   return FALSE;
 }
 
-/************************************************************************
+/********************************************************************//**
   Call cb for each value possible for the universal kind.
 ************************************************************************/
 void universal_kind_values(struct universal *univ,

@@ -30,7 +30,7 @@
 
 #include "validity.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Check if universal is mentioned in the requirement vector.
 **************************************************************************/
 bool universal_in_req_vec(const struct universal *uni,
@@ -53,7 +53,7 @@ struct effect_list_cb_data
   void *requirers_data;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Callback to check if effect needs universal.
 **************************************************************************/
 static bool effect_list_universal_needed_cb(struct effect *peffect,
@@ -70,7 +70,7 @@ static bool effect_list_universal_needed_cb(struct effect *peffect,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs universal
 **************************************************************************/
 static bool is_universal_needed(struct universal *uni, requirers_cb cb,
@@ -166,7 +166,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs tech
 **************************************************************************/
 bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
@@ -205,7 +205,7 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs building
 **************************************************************************/
 bool is_building_needed(struct impr_type *pimpr, requirers_cb cb,
@@ -219,7 +219,7 @@ bool is_building_needed(struct impr_type *pimpr, requirers_cb cb,
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs unit type
 **************************************************************************/
 bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
@@ -233,7 +233,7 @@ bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs goods type
 **************************************************************************/
 bool is_good_needed(struct goods_type *pgood, requirers_cb cb,
@@ -247,7 +247,7 @@ bool is_good_needed(struct goods_type *pgood, requirers_cb cb,
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs extra type
 **************************************************************************/
 bool is_extra_needed(struct extra_type *pextra, requirers_cb cb,
@@ -277,7 +277,7 @@ bool is_extra_needed(struct extra_type *pextra, requirers_cb cb,
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs terrain type
 **************************************************************************/
 bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data)
@@ -290,7 +290,7 @@ bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data)
   return needed;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if anything in ruleset needs government
 **************************************************************************/
 bool is_government_needed(struct government *pgov, requirers_cb cb, void *data)
