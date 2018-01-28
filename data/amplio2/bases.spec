@@ -8,7 +8,7 @@ options = "+Freeciv-2.6-spec"
 artists = "
     Hogne Håskjold <hogne@freeciv.org>[HH]
     Eleazar [El](buoy)
-    Vincent Croisier <vincent.croisier@advalvas.be>[VC] (ruins)
+    Anton Ecker (Kaldred) (ruins)
     GriffonSpade [GS]
 "
 
