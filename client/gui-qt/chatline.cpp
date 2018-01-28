@@ -53,7 +53,7 @@ FC_CPP_DECLARE_LISTENER(chat_listener)
 QStringList chat_listener::history = QStringList();
 QStringList chat_listener::word_list = QStringList();
 
-/***************************************************************************
+/***********************************************************************//**
   Updates the chat completion word list.
 ***************************************************************************/
 void chat_listener::update_word_list()
@@ -79,14 +79,14 @@ void chat_listener::update_word_list()
   invoke(&chat_listener::chat_word_list_changed, word_list);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor.
 ***************************************************************************/
 chat_listener::chat_listener() :
     position(HISTORY_END)
 {}
 
-/***************************************************************************
+/***********************************************************************//**
   Called whenever a message is received. Default implementation does
   nothing.
 ***************************************************************************/
@@ -94,14 +94,14 @@ void chat_listener::chat_message_received(const QString &,
                                           const struct text_tag_list *)
 {}
 
-/***************************************************************************
+/***********************************************************************//**
   Called whenever the completion word list changes. Default implementation
   does nothing.
 ***************************************************************************/
 void chat_listener::chat_word_list_changed(const QStringList &)
 {}
 
-/***************************************************************************
+/***********************************************************************//**
   Sends commands to server, but first searches for custom keys, if it finds
   then it makes custom action.
 
@@ -171,7 +171,7 @@ void chat_listener::send_chat_message(const QString &message)
   // FIXME Inconsistent behavior: "." will send an empty message to allies
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Goes back one position in history, and returns the message at the new
   position.
 ***************************************************************************/
@@ -185,7 +185,7 @@ QString chat_listener::back_in_history()
   return history.empty() ? "" : history.at(position);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Goes forward one position in history, and returns the message at the new
   position. An empty string is returned if the new position is HISTORY_END.
 ***************************************************************************/
@@ -203,7 +203,7 @@ QString chat_listener::forward_in_history()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Go to the end of the history.
 ***************************************************************************/
 void chat_listener::reset_history_position()
@@ -211,7 +211,7 @@ void chat_listener::reset_history_position()
   position = HISTORY_END;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor
 ***************************************************************************/
 chat_input::chat_input(QWidget *parent) :
@@ -222,7 +222,7 @@ chat_input::chat_input(QWidget *parent) :
   chat_listener::listen();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sends the content of the input box
 ***************************************************************************/
 void chat_input::send()
@@ -231,7 +231,7 @@ void chat_input::send()
   clear();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Called whenever the completion word list changes.
 ***************************************************************************/
 void chat_input::chat_word_list_changed(const QStringList &word_list)
@@ -247,7 +247,7 @@ void chat_input::chat_word_list_changed(const QStringList &word_list)
   setCompleter(cmplt);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Event handler for chat_input, used for history
 ***************************************************************************/
 bool chat_input::event(QEvent *event)
@@ -266,7 +266,7 @@ bool chat_input::event(QEvent *event)
   return QLineEdit::event(event);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor for chatwdg
 ***************************************************************************/
 chatwdg::chatwdg(QWidget *parent)
@@ -310,7 +310,7 @@ chatwdg::chatwdg(QWidget *parent)
   chat_listener::listen();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Manages "To allies" chat button state
 ***************************************************************************/
 void chatwdg::state_changed(int state)
@@ -322,7 +322,7 @@ void chatwdg::state_changed(int state)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Toggle chat size
 ***************************************************************************/
 void chatwdg::toggle_size()
@@ -337,7 +337,7 @@ void chatwdg::toggle_size()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Scrolls chat to bottom
 ***************************************************************************/
 void chatwdg::scroll_to_bottom()
@@ -347,7 +347,7 @@ void chatwdg::scroll_to_bottom()
 }
 
 
-/***************************************************************************
+/***********************************************************************//**
   Updates font for chatwdg
 ***************************************************************************/
 void chatwdg::update_font()
@@ -357,7 +357,7 @@ void chatwdg::update_font()
   chat_output->setFont(*qf);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   User clicked clear links button
 ***************************************************************************/
 void chatwdg::rm_links()
@@ -365,7 +365,7 @@ void chatwdg::rm_links()
   link_marks_clear_all();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   User clicked some custom link
 ***************************************************************************/
 void chatwdg::anchor_clicked(const QUrl &link)
@@ -416,7 +416,7 @@ void chatwdg::anchor_clicked(const QUrl &link)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Adds news string to chatwdg (from chat_listener interface)
 ***************************************************************************/
 void chatwdg::chat_message_received(const QString& message,
@@ -426,7 +426,7 @@ void chatwdg::chat_message_received(const QString& message,
   append(apply_tags(message, tags, col));
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Adds news string to chatwdg
 ***************************************************************************/
 void chatwdg::append(const QString &str)
@@ -438,8 +438,8 @@ void chatwdg::append(const QString &str)
                               chat_output->verticalScrollBar()->maximum());
 }
 
-/***************************************************************************
-  Draws semi-transparent backgrounf
+/***********************************************************************//**
+  Draws semi-transparent background
 ***************************************************************************/
 void chatwdg::paint(QPainter *painter, QPaintEvent *event)
 {
@@ -447,7 +447,7 @@ void chatwdg::paint(QPainter *painter, QPaintEvent *event)
   painter->drawRect(0, 0, width(), height());
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Paint event for chatwdg
 ***************************************************************************/
 void chatwdg::paintEvent(QPaintEvent *event)
@@ -459,7 +459,7 @@ void chatwdg::paintEvent(QPaintEvent *event)
   painter.end();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Processess history for chat
 ***************************************************************************/
 bool chatwdg::eventFilter(QObject *obj, QEvent *event)
@@ -480,7 +480,7 @@ bool chatwdg::eventFilter(QObject *obj, QEvent *event)
   return QObject::eventFilter(obj, event);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Hides allies and links button for local game
 ***************************************************************************/
 void chatwdg::update_widgets()
@@ -494,7 +494,7 @@ void chatwdg::update_widgets()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets chat to show only X(lines) lines
 ***************************************************************************/
 int chatwdg::default_size(int lines)
@@ -523,7 +523,7 @@ int chatwdg::default_size(int lines)
 }
 
 
-/***************************************************************************
+/***********************************************************************//**
   Makes link to tile/unit or city
 ***************************************************************************/
 void chatwdg::make_link(struct tile *ptile)
@@ -544,7 +544,7 @@ void chatwdg::make_link(struct tile *ptile)
 }
 
 
-/***************************************************************************
+/***********************************************************************//**
   Applies tags to text
 ***************************************************************************/
 QString apply_tags(QString str, const struct text_tag_list *tags,
@@ -674,11 +674,10 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   return final_string;
 }
 
-
-/**************************************************************************
+/***********************************************************************//**
   Helper function to determine if a given client input line is intended as
   a "plain" public message.
-**************************************************************************/
+***************************************************************************/
 static bool is_plain_public_message(QString s)
 {
   QString s1, str;
@@ -721,10 +720,10 @@ static bool is_plain_public_message(QString s)
   return true;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
-**************************************************************************/
+***************************************************************************/
 void qtg_real_output_window_append(const char *astring,
                                    const struct text_tag_list *tags,
                                    int conn_id)
@@ -758,19 +757,19 @@ void qtg_real_output_window_append(const char *astring,
                         str, tags);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Get the text of the output window, and call write_chatline_content() to
   log it.
-**************************************************************************/
+***************************************************************************/
 void log_output_window(void)
 {
   /* PORTME */
   write_chatline_content(NULL);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Clear all text from the output window.
-**************************************************************************/
+***************************************************************************/
 void clear_output_window(void)
 {
   /* PORTME */
@@ -779,17 +778,17 @@ void clear_output_window(void)
 #endif
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Version message event constructor.
-**************************************************************************/
+***************************************************************************/
 version_message_event::version_message_event(const QString &msg) :
   QEvent(QEvent::User),
   message(msg)
 {}
 
-/**************************************************************************
+/***********************************************************************//**
   Got version message from metaserver thread.
-**************************************************************************/
+***************************************************************************/
 void qtg_version_message(const char *vertext)
 {
   current_app()->postEvent(gui(), new version_message_event(vertext));

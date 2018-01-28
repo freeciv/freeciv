@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 #include "colors.h"
 #include "qtg_cxxside.h"
 
-/****************************************************************************
+/************************************************************************//**
   Allocate a color (adjusting it for our colormap if necessary on paletted
   systems) and return a pointer to it.
 ****************************************************************************/
@@ -35,7 +35,7 @@ struct color *qtg_color_alloc(int r, int g, int b)
   return pcolor;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a previously allocated color.  See qtg_color_alloc.
 ****************************************************************************/
 void qtg_color_free(struct color *pcolor)
@@ -43,7 +43,7 @@ void qtg_color_free(struct color *pcolor)
   delete pcolor;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a number indicating the perceptual brightness of this color
   relative to others (larger is brighter).
 ****************************************************************************/
