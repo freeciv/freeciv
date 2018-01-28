@@ -22,7 +22,7 @@
 const char *fc_ai_stub_capstr(void);
 bool fc_ai_stub_setup(struct ai_type *ai);
 
-/**************************************************************************
+/**********************************************************************//**
   Return module capability string
 **************************************************************************/
 const char *fc_ai_stub_capstr(void)
@@ -30,7 +30,7 @@ const char *fc_ai_stub_capstr(void)
   return FC_AI_MOD_CAPSTR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set phase done
 **************************************************************************/
 static void stub_end_turn(struct player *pplayer)
@@ -38,7 +38,7 @@ static void stub_end_turn(struct player *pplayer)
   pplayer->ai_phase_done = TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup player ai_funcs function pointers.
 **************************************************************************/
 bool fc_ai_stub_setup(struct ai_type *ai)
