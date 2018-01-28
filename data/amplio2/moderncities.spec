@@ -25,7 +25,7 @@ artists = "
     Modern, Post Modern and Electric Age by Smiley, www.firstcultural.com
     City walls by Hogne Håskjold
     Buoy by Eleazar
-    Ruins by Vincent Croisier
+    Ruins by Anton Ecker (Kaldred)
     Fort and Airstrip by GriffonSpade
 "
 
