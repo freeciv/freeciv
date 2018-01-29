@@ -1,6 +1,7 @@
 #!/bin/bash
 
-files="$@"
+# Using absolute paths due to bug in Inkscape on macOS
+files="$(pwd)/$@"
 
 if test "x$1" = "x-h" || test "x$1" = "x--help" ; then
     echo "Usage: $(basename $0) [list of svg-files]"
