@@ -1031,6 +1031,10 @@ value	= 1585
 type    = "Max_Trade_Routes"
 value   = 4
 
+[effect_conquer_techs_base]
+type    = "Conquer_Techs_Min"
+value   = 1
+
 [effect_incite_cost_empty]
 type = "Incite_Cost_Pct"
 value = -50

@@ -163,6 +163,10 @@ reqs	=
       "Tech", "The Corporation", "Player"
     }
 
+[effect_conquer_techs_base]
+type    = "Conquer_Techs_Min"
+value   = 1
+
 ; Nuclear power gives +1 moves to sea units
 [effect_nuclear_powered_boats]
 type    = "Move_Bonus"

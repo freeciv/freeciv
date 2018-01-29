@@ -2554,6 +2554,10 @@ reqs	=
       "Tech", "The Corporation", "Player"
     }
 
+[effect_conquer_techs_base]
+type    = "Conquer_Techs_Min"
+value   = 1
+
 ; Base vision range - radius of vision is sqrt(2) = 1.41
 [effect_city_vision_0]
 type    = "City_Vision_Radius_Sq"

@@ -1467,6 +1467,10 @@ void rscompat_postprocess(struct rscompat_info *info)
      effect_req_append(peffect,
                        req_from_str("ExtraFlag", "Local", FALSE,
                                     TRUE, TRUE, "DiplomatDefense"));
+
+     /* Conquering a city now steals tech only when there's an effect
+      * enabling it. */
+     peffect = effect_new(EFT_CONQUER_TECHS_MIN, 1, NULL);
   }
 
   if (info->ver_terrain < 10) {
