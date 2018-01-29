@@ -3538,7 +3538,7 @@ static void sg_load_players(struct loaddata *loading)
     }
     if (presearch->tech_goal != A_UNSET
         && !is_future_tech(presearch->tech_goal)
-        && (valid_advance_by_number(presearch->researching) == NULL
+        && (valid_advance_by_number(presearch->tech_goal) == NULL
             || !player_invention_reachable(pplayer, presearch->tech_goal,
                                            TRUE)
             || (player_invention_state(pplayer, presearch->tech_goal)
