@@ -135,7 +135,7 @@ struct requirement;
 #define SPECENUM_VALUE45NAME "City_Vision_Radius_Sq"
 #define SPECENUM_VALUE46 EFT_UNIT_VISION_RADIUS_SQ
 #define SPECENUM_VALUE46NAME "Unit_Vision_Radius_Sq"
-/* Interacts with F_BADWALLATTACKER, ignored by F_IGWALL */
+/* Interacts with UTYF_BADWALLATTACKER, ignored by UTYF_IGWALL */
 #define SPECENUM_VALUE47 EFT_DEFEND_BONUS
 #define SPECENUM_VALUE47NAME "Defend_Bonus"
 #define SPECENUM_VALUE48 EFT_NO_INCITE
