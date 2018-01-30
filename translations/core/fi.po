@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-28 12:02+0200\n"
-"PO-Revision-Date: 2018-01-28 11:59+0200\n"
+"POT-Creation-Date: 2018-01-30 15:34+0200\n"
+"PO-Revision-Date: 2018-01-30 19:58+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -10154,7 +10154,7 @@ msgstr ""
 #: client/helpdata.c:2442
 #, c-format
 msgid "'%s'"
-msgstr ""
+msgstr "'%s'"
 
 #. TRANS: %s is a list of actions separated by "or".
 #: client/helpdata.c:2454
@@ -11845,6 +11845,10 @@ msgid ""
 "action is legal and no other interesting action are. This allows you to "
 "change you mind or to select an uninteresting action."
 msgstr ""
+"Tämän asetuksen ollessa päällä ja yksikön saapuessa päämäärään, jota vastaan "
+"se voi hyökätä mutta ei tehdä mitään muuta toimenpidettä, toimenpidettä "
+"silti kysytään käyttäjältä automaattisen hyökkäyksen sijaan. Tämä sallii "
+"käyttäjän muuttaa mieltään vielä viime hetkellä."
 
 #: client/options.c:2257
 msgid "Enable cursor changing"
@@ -24923,6 +24927,8 @@ msgid ""
 "Two cities with Airports can airlift medium and heavy weight units once "
 "Advanced Flight and Fusion Power are discovered."
 msgstr ""
+"Keskiraskaita ja raskaita yksiköitä voidaan lennättää kahden lentokentin "
+"varustetun kaupungin välillä kun kehittynyt ilmailu ja fuusio tunnetaan."
 
 #: data/sandbox/buildings.ruleset:115 data/sandbox/buildings.ruleset:151
 #: data/sandbox/buildings.ruleset:188 data/civ2civ3/buildings.ruleset:112
@@ -26195,7 +26201,7 @@ msgstr ""
 #: data/sandbox/governments.ruleset:220 data/sandbox/governments.ruleset:340
 #: data/sandbox/governments.ruleset:377
 msgid "* Your bureaucracy can prevent you from disbanding certain units."
-msgstr ""
+msgstr "· Hallintokoneistosi voi estää sinua hajottamasta tiettyjä yksiköitä."
 
 #: data/sandbox/governments.ruleset:249 data/civ2civ3/governments.ruleset:248
 msgid ""
@@ -27874,6 +27880,8 @@ msgid ""
 "Headquarters building marks city as your capital. City with headquarters is "
 "also safe from enemy's incite revolt attacks."
 msgstr ""
+"Päämaja tekee kaunpungista pääkaupunkisi. Kaupunki, jossa päämaja on, on "
+"myös turvassa vihollisen kapinaan yllyttämisiltä."
 
 #: data/alien/buildings.ruleset:285
 msgid "Hospital"
@@ -27898,6 +27906,8 @@ msgid ""
 "Improved information gathering. Only 2 other civilizations needs to know "
 "given technology before we gain access to it."
 msgstr ""
+"Kehittynyttä tiedon keruuta. Vain kahden muun ryhmittymän täytyy tuntea "
+"jokin tekonologia ennen kuin me automaattisesti saamme sen."
 
 #: data/alien/buildings.ruleset:329
 msgid "Mood Center"
@@ -27928,6 +27938,10 @@ msgid ""
 "transported from further away to city center. On hex maps city radius grows "
 "to 2 tiles. On square based maps increases city area by 8 tiles."
 msgstr ""
+"Työläiset voivat matkustaa kauemmas keskustasta työskentelemään ja tuotteita "
+"voidaan kuljettaa kauempaa maaseudulta keskustaan.\n"
+"Heksakartoilla pelattaessa kaupungin alueen säde kasvaa kahteen ruutuun. "
+"Neliöruuduilla pelattaessa kaupungin alue kasvaa kahdeksalla ruudulla."
 
 #: data/alien/buildings.ruleset:398
 msgid "Radar Tower"
@@ -28087,10 +28101,12 @@ msgstr "Suojelija"
 #: data/alien/buildings.ruleset:755
 msgid ""
 "Provides additional protection against radiation making it possible for all "
-"cities player owns to grow 2 sizes bigger."
+"cities player owns to grow 2 sizes bigger, unless growth is blocked by lack "
+"of the Basic Infrastructure."
 msgstr ""
 "Antaa lisäsuojaa säteilyltä, mahdollistaen pelaajan kaikkien kaupunkien "
-"kasvaa kahdella pisteellää suuremmaksi."
+"kasvaa kahdella pisteellä suuremmaksi, kunhan kaupungissa on "
+"perusinfrastruktuuri."
 
 #: data/alien/cities.ruleset:51
 msgid "Culturists"
@@ -28561,20 +28577,16 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:335
-#, fuzzy
-#| msgid "Government"
 msgid "Faction Government"
-msgstr "Valtiomuoto"
+msgstr "Ryhmittymän hallinta"
 
 #: data/alien/techs.ruleset:341
 msgid "Familiar government types adjusted to local environment."
-msgstr ""
+msgstr "Tutut valtiomuodot sovellettuna täkäläiseen ympäristöön."
 
 #: data/alien/techs.ruleset:344
-#, fuzzy
-#| msgid "Nation Start Positions"
 msgid "Faction Politics"
-msgstr "Aloituspaikat"
+msgstr "Ryhmittymäpolitiikka"
 
 #: data/alien/techs.ruleset:350
 msgid ""
@@ -28582,12 +28594,13 @@ msgid ""
 "to this strange planet, are quite unlike anything seen before. It very well "
 "deserves small study. Maybe we then can co-operate with other factions."
 msgstr ""
+"Ihmistenväliset suhteet tässä tilanteessa, jossa erilaiset ryhmittymät on "
+"pakotettu tälle oudolle planeetalle, ansaitsevat tutkimusta. Ehkä sen "
+"jälkeen pystymme parempaan yhteistoimintaan toisten ryhmittymien kanssa."
 
 #: data/alien/techs.ruleset:356
-#, fuzzy
-#| msgid "Refrigeration"
 msgid "Food Regeneration"
-msgstr "Kylmäsäilytys"
+msgstr "Ruoan uudistuminen"
 
 #: data/alien/techs.ruleset:363
 #, no-c-format
@@ -28597,6 +28610,10 @@ msgid ""
 "\n"
 "Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
+"Mikäli ruoanlähteet kasvavat korjuun jälkeen nopeammin takaisin, saamme "
+"nopeammin ja enemmän ruokaa.\n"
+"\n"
+"Proteiinihuoneita sisältävät ruudut saavat 50% lisäbonuksen ruoan tuotantoon."
 
 #: data/alien/techs.ruleset:368
 msgid "Force Channeling"
@@ -28821,16 +28838,17 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:589
-#, fuzzy
-#| msgid "Refrigeration"
 msgid "Regeneration"
-msgstr "Kylmäsäilytys"
+msgstr "Uudistuminen"
 
 #: data/alien/techs.ruleset:595
 msgid ""
 "We know how aliens regenerate, we know how self-repairing machines "
 "regenerate, we know how Earth organisms regenerate."
 msgstr ""
+"Me tiedämme kuinka olentojen kudokset uudistuvat. Me tiedämme kuinka itsensä "
+"korjaavat laitteet uudistuvat. Me tiedämme kuinka maasta tulleet organismit "
+"uudistuvat."
 
 #: data/alien/techs.ruleset:599
 msgid "Research Methods"
@@ -28844,6 +28862,10 @@ msgid ""
 "\n"
 "Simply knowing this tech increases science output by 35%."
 msgstr ""
+"Täkäläisiin olosuhteisiin räätälöidyt tutkimusmenetelmät nopeuttavat "
+"tutkimustyötämme huomattavasti.\n"
+"\n"
+"Pelkkä tämän teknologian tunteminen lisää tiedetuotantoa 35%."
 
 #: data/alien/techs.ruleset:611
 msgid "Smart Aliens"
@@ -28882,15 +28904,14 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:645
-#, fuzzy
-#| msgid "Controls"
 msgid "Spitter Control"
-msgstr "Ohjauskomennot"
+msgstr "Sylkijän kontrollointi"
 
 #: data/alien/techs.ruleset:651
 msgid ""
 "Alien lifeforms spitting solid objects are interesting research subject."
 msgstr ""
+"Kiinteitä kohteita sylkevät olennot ovat mielenkiintoinen tutkimuskohde."
 
 #: data/alien/techs.ruleset:655
 msgid "Stealth Module"
@@ -28927,14 +28948,14 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:687
-#, fuzzy
-#| msgid "Space Module"
 msgid "Supermodule"
-msgstr "Avaruusaluksen yksikkö"
+msgstr "Supermoduli"
 
 #: data/alien/techs.ruleset:693
 msgid "Supermodule combines lesser modules in one extremely efficient pack."
 msgstr ""
+"Supermodulissa yhdistyvät vähäisemmät modulit erittäin tehokkaana "
+"pakkauksena."
 
 #: data/alien/techs.ruleset:697
 msgid "Synthetic Food"
@@ -28960,10 +28981,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:719
-#, fuzzy
-#| msgid "Space Module"
 msgid "Thermal Module"
-msgstr "Avaruusaluksen yksikkö"
+msgstr "Lämmönhallintamoduli"
 
 #: data/alien/techs.ruleset:725
 msgid ""
@@ -29014,7 +29033,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:771
 msgid "Virtual Reality Training"
-msgstr ""
+msgstr "Virtuaalitodellisuusharjoittelu"
 
 #: data/alien/techs.ruleset:777
 msgid ""
@@ -29061,6 +29080,7 @@ msgstr ""
 #: data/alien/terrain.ruleset:284
 msgid "For some reason, there is Earth like grass and animals around."
 msgstr ""
+"Jostakin syystä täällä on aivan samanlaista ruovikkoa ja eläimiä kuin maassa."
 
 #: data/alien/terrain.ruleset:289
 msgid "Alien Forest"
@@ -29136,10 +29156,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:787
-#, fuzzy
-#| msgid "Space Module"
 msgid "Space Capsule"
-msgstr "Avaruusaluksen yksikkö"
+msgstr "Avaruuskapseli"
 
 #: data/alien/terrain.ruleset:802
 msgid ""
@@ -29239,7 +29257,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1096
 msgid "Green River increases also tile's food production by 1."
-msgstr ""
+msgstr "Vihreä joki kasvattaa myös ruudun ruoan tuotantoa yhdellä pisteellä."
 
 #: data/alien/terrain.ruleset:1101
 msgid "Brown River"
@@ -29247,7 +29265,7 @@ msgstr "Ruskea joki"
 
 #: data/alien/terrain.ruleset:1120
 msgid "Brown River increases also tile's shield production by 1."
-msgstr ""
+msgstr "Ruskea joki kasvattaa myös ruudun tuotantoa yhdellä pisteellä."
 
 #: data/alien/terrain.ruleset:1137
 #, no-c-format
@@ -29347,6 +29365,8 @@ msgid ""
 "This is Earth technology settler. Most military enemy units can capture it "
 "instead of killing it."
 msgstr ""
+"Tämä on maasta peräisin olevaa teknologiaa käyttävä uudisasukas. Useimmat "
+"vihollisen sotilasyksiköt voivat kaapata sen tappamisen sijaan."
 
 #: data/alien/units.ruleset:454
 #, fuzzy
@@ -29361,10 +29381,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/units.ruleset:485
-#, fuzzy
-#| msgid "Engineers"
 msgid "Engineer"
-msgstr "Teknikkoryhmä"
+msgstr "Teknikko"
 
 #: data/alien/units.ruleset:511
 #, fuzzy
@@ -29385,10 +29403,8 @@ msgid "Native version of the Engineer unit."
 msgstr " Uuden pelaajan kansakunta: %s."
 
 #: data/alien/units.ruleset:547
-#, fuzzy
-#| msgid "Engineers"
 msgid "Water Engineer"
-msgstr "Teknikkoryhmä"
+msgstr "Vesiteknikko"
 
 #: data/alien/units.ruleset:574
 msgid ""
@@ -29414,7 +29430,7 @@ msgstr "Cyborgit"
 
 #: data/alien/units.ruleset:638
 msgid "Attack power to the early game."
-msgstr ""
+msgstr "Hyökkäysvoimaa pelin alkupuolelle."
 
 #: data/alien/units.ruleset:643
 msgid "Tank"
@@ -40743,15 +40759,15 @@ msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 msgid "The server couldn't allocate starting positions."
 msgstr "Palvelin ei voinut asettaa aloitussijainteja."
 
-#: server/generator/mapgen.c:2099
+#: server/generator/mapgen.c:2098
 msgid "High landmass - this may take a few seconds."
 msgstr "Paljon maa-alaa – tässä voi mennä jonkin aikaa."
 
-#: server/generator/mapgen.c:2379
+#: server/generator/mapgen.c:2378
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generaattori 3 ei asettanut kaikkia suuria saaria paikalleen."
 
-#: server/generator/mapgen.c:2408
+#: server/generator/mapgen.c:2407
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generaattori 3 jätti %li maa-alasta sijoittamatta."
