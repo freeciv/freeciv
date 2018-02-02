@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-11 00:31+0000\n"
-"PO-Revision-Date: 2017-09-24 01:54+0300\n"
+"PO-Revision-Date: 2018-02-02 15:38+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -15920,8 +15920,7 @@ msgstr ""
 #: data/civ2civ3/buildings.ruleset:1015 data/multiplayer/buildings.ruleset:869
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other Modules."
-msgstr ""
-"– Aurinkopaneeliyksikkö: tuottaa energiaa muille avaruusaluksen yksiköille."
+msgstr "– Aurinkopaneeliyksikkö: tuottaa energiaa kahdelle muulle avaruusaluksen yksikölle."
 
 #: data/civ1/buildings.ruleset:601 data/civ2/buildings.ruleset:821
 #: data/classic/buildings.ruleset:892 data/experimental/buildings.ruleset:941
