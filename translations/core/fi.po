@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-30 15:29+0200\n"
-"PO-Revision-Date: 2018-01-30 19:58+0200\n"
+"POT-Creation-Date: 2018-02-02 15:32+0200\n"
+"PO-Revision-Date: 2018-02-02 15:35+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -3944,10 +3944,8 @@ msgstr "Keksinnöt"
 
 #: client/gui-gtk-2.0/editprop.c:4476 client/gui-gtk-3.0/editprop.c:4541
 #: client/gui-gtk-3.22/editprop.c:4541
-#, fuzzy
-#| msgid "Observe"
 msgid "Reserved"
-msgstr "Tarkkaile"
+msgstr "Varattu"
 
 #: client/gui-gtk-2.0/editprop.c:4485 client/gui-gtk-3.0/editprop.c:4551
 #: client/gui-gtk-3.22/editprop.c:4551
@@ -12827,8 +12825,12 @@ msgid ""
 "If this option is enabled, when a unit arrives at a target it can attack, a "
 "window will pop up asking which action should be performed even if an attack "
 "action is legal and no other interesting action are. This allows you to "
-"change you mind or to select an uninteresting action."
-msgstr "Tämän asetuksen ollessa päällä ja yksikön saapuessa päämäärään, jota vastaan se voi hyökätä mutta ei tehdä mitään muuta toimenpidettä, toimenpidettä silti kysytään käyttäjältä automaattisen hyökkäyksen sijaan. Tämä sallii käyttäjän muuttaa mieltään vielä viime hetkellä."
+"change your mind or to select an uninteresting action."
+msgstr ""
+"Tämän asetuksen ollessa päällä ja yksikön saapuessa päämäärään, jota vastaan "
+"se voi hyökätä mutta ei tehdä mitään muuta toimenpidettä, toimenpidettä "
+"silti kysytään käyttäjältä automaattisen hyökkäyksen sijaan. Tämä sallii "
+"käyttäjän muuttaa mieltään vielä viime hetkellä."
 
 #: client/options.c:2221
 msgid "Enable cursor changing"
@@ -15251,7 +15253,7 @@ msgstr "Juhlii"
 msgid "Civil Disorder"
 msgstr "Levottomuuksia"
 
-#: common/events.c:101 data/civ1/game.ruleset:679
+#: common/events.c:101 data/civ1/game.ruleset:667
 msgid "Famine"
 msgstr "Nälänhätä"
 
@@ -15756,12 +15758,12 @@ msgid "passive"
 msgstr "passiivinen"
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:682 data/civ1/game.ruleset:646 data/civ2/game.ruleset:853
+#: common/game.h:682 data/civ1/game.ruleset:634 data/civ2/game.ruleset:841
 msgid "AD"
 msgstr "jaa."
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:684 data/civ1/game.ruleset:648 data/civ2/game.ruleset:855
+#: common/game.h:684 data/civ1/game.ruleset:636 data/civ2/game.ruleset:843
 msgid "BC"
 msgstr "eaa."
 
@@ -19460,7 +19462,8 @@ msgstr ""
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other Modules."
 msgstr ""
-"– Aurinkopaneeliyksikkö: tuottaa energiaa muille avaruusaluksen yksiköille."
+"– Aurinkopaneeliyksikkö: tuottaa energiaa kahdelle muulle avaruusaluksen "
+"yksikölle."
 
 #: data/civ1/buildings.ruleset:684 data/civ2/buildings.ruleset:926
 #: data/classic/buildings.ruleset:968 data/sandbox/buildings.ruleset:1136
@@ -20114,67 +20117,67 @@ msgstr "%sHyökkäys%s"
 msgid "%sConquer City%s"
 msgstr "%sMyrkytä kaupunki%s"
 
-#: data/civ1/game.ruleset:670 data/classic/game.ruleset:896
-#: data/sandbox/game.ruleset:1120 data/experimental/game.ruleset:914
-#: data/civ2civ3/game.ruleset:961 data/alien/game.ruleset:730
+#: data/civ1/game.ruleset:658 data/classic/game.ruleset:884
+#: data/sandbox/game.ruleset:1105 data/experimental/game.ruleset:902
+#: data/civ2civ3/game.ruleset:949 data/alien/game.ruleset:718
 msgid "Earthquake"
 msgstr "Maanjäristys"
 
-#: data/civ1/game.ruleset:688 data/classic/game.ruleset:906
-#: data/sandbox/game.ruleset:1138 data/experimental/game.ruleset:919
-#: data/civ2civ3/game.ruleset:979 data/alien/game.ruleset:735
+#: data/civ1/game.ruleset:676 data/classic/game.ruleset:894
+#: data/sandbox/game.ruleset:1123 data/experimental/game.ruleset:907
+#: data/civ2civ3/game.ruleset:967 data/alien/game.ruleset:723
 msgid "Fire"
 msgstr "Tuli"
 
-#: data/civ1/game.ruleset:697 data/sandbox/game.ruleset:1129
-#: data/civ2civ3/game.ruleset:970
+#: data/civ1/game.ruleset:685 data/sandbox/game.ruleset:1114
+#: data/civ2civ3/game.ruleset:958
 msgid "Flood"
 msgstr "Tulva"
 
-#: data/civ1/game.ruleset:707
+#: data/civ1/game.ruleset:695
 msgid "Piracy"
 msgstr "Piratismi"
 
-#: data/civ1/game.ruleset:719
+#: data/civ1/game.ruleset:707
 msgid "Plague"
 msgstr "Rutto"
 
-#: data/civ1/game.ruleset:729
+#: data/civ1/game.ruleset:717
 msgid "Volcano"
 msgstr "Tulivuorenpurkaus"
 
-#: data/civ1/game.ruleset:842 data/civ2/game.ruleset:981
-#: data/classic/game.ruleset:1024 data/sandbox/game.ruleset:1382
-#: data/experimental/game.ruleset:1057 data/civ2civ3/game.ruleset:1171
-#: data/multiplayer/game.ruleset:978
+#: data/civ1/game.ruleset:830 data/civ2/game.ruleset:969
+#: data/classic/game.ruleset:1012 data/sandbox/game.ruleset:1367
+#: data/experimental/game.ruleset:1045 data/civ2civ3/game.ruleset:1159
+#: data/multiplayer/game.ruleset:966
 msgid "Goods"
 msgstr "Kauppatavarat"
 
-#: data/civ1/game.ruleset:894 data/civ2/game.ruleset:1033
-#: data/classic/game.ruleset:1075 data/sandbox/game.ruleset:1452
-#: data/experimental/game.ruleset:1108 data/civ2civ3/game.ruleset:1222
-#: data/alien/game.ruleset:901
+#: data/civ1/game.ruleset:882 data/civ2/game.ruleset:1021
+#: data/classic/game.ruleset:1063 data/sandbox/game.ruleset:1437
+#: data/experimental/game.ruleset:1096 data/civ2civ3/game.ruleset:1210
+#: data/alien/game.ruleset:889
 msgid "Team 1"
 msgstr "Joukkue 1"
 
-#: data/civ1/game.ruleset:895 data/civ2/game.ruleset:1034
-#: data/classic/game.ruleset:1076 data/sandbox/game.ruleset:1453
-#: data/experimental/game.ruleset:1109 data/civ2civ3/game.ruleset:1223
-#: data/alien/game.ruleset:902
+#: data/civ1/game.ruleset:883 data/civ2/game.ruleset:1022
+#: data/classic/game.ruleset:1064 data/sandbox/game.ruleset:1438
+#: data/experimental/game.ruleset:1097 data/civ2civ3/game.ruleset:1211
+#: data/alien/game.ruleset:890
 msgid "Team 2"
 msgstr "Joukkue 2"
 
-#: data/civ1/game.ruleset:896 data/civ2/game.ruleset:1035
-#: data/classic/game.ruleset:1077 data/sandbox/game.ruleset:1454
-#: data/experimental/game.ruleset:1110 data/civ2civ3/game.ruleset:1224
-#: data/alien/game.ruleset:903
+#: data/civ1/game.ruleset:884 data/civ2/game.ruleset:1023
+#: data/classic/game.ruleset:1065 data/sandbox/game.ruleset:1439
+#: data/experimental/game.ruleset:1098 data/civ2civ3/game.ruleset:1212
+#: data/alien/game.ruleset:891
 msgid "Team 3"
 msgstr "Joukkue 3"
 
-#: data/civ1/game.ruleset:897 data/civ2/game.ruleset:1036
-#: data/classic/game.ruleset:1078 data/sandbox/game.ruleset:1455
-#: data/experimental/game.ruleset:1111 data/civ2civ3/game.ruleset:1225
-#: data/alien/game.ruleset:904
+#: data/civ1/game.ruleset:885 data/civ2/game.ruleset:1024
+#: data/classic/game.ruleset:1066 data/sandbox/game.ruleset:1440
+#: data/experimental/game.ruleset:1099 data/civ2civ3/game.ruleset:1213
+#: data/alien/game.ruleset:892
 #, fuzzy
 #| msgid "Team 0"
 msgid "Team 4"
@@ -22153,7 +22156,7 @@ msgid "Fish"
 msgstr "kalaa"
 
 #: data/civ1/terrain.ruleset:1112 data/civ2/terrain.ruleset:1279
-#: data/classic/terrain.ruleset:1554 data/sandbox/game.ruleset:1344
+#: data/classic/terrain.ruleset:1554 data/sandbox/game.ruleset:1329
 #: data/sandbox/terrain.ruleset:1780 data/experimental/terrain.ruleset:1574
 #: data/civ2civ3/terrain.ruleset:1740 data/multiplayer/terrain.ruleset:1528
 msgid "Gems"
@@ -24590,7 +24593,7 @@ msgid "Silk"
 msgstr "silkkiä"
 
 #: data/civ2/terrain.ruleset:1396 data/classic/terrain.ruleset:1671
-#: data/sandbox/game.ruleset:1334 data/sandbox/terrain.ruleset:1897
+#: data/sandbox/game.ruleset:1319 data/sandbox/terrain.ruleset:1897
 #: data/experimental/terrain.ruleset:1691 data/civ2civ3/terrain.ruleset:1857
 #: data/multiplayer/terrain.ruleset:1645
 msgid "Spice"
@@ -25717,30 +25720,30 @@ msgid "Sell %sGoods%s"
 msgstr "%sMyy kauppatavarat%s"
 
 #. TRANS: year label (Common Era)
-#: data/classic/game.ruleset:872 data/sandbox/game.ruleset:1096
-#: data/experimental/game.ruleset:890 data/civ2civ3/game.ruleset:937
-#: data/multiplayer/game.ruleset:857
+#: data/classic/game.ruleset:860 data/sandbox/game.ruleset:1081
+#: data/experimental/game.ruleset:878 data/civ2civ3/game.ruleset:925
+#: data/multiplayer/game.ruleset:845
 msgid "CE"
 msgstr "jaa."
 
 #. TRANS: year label (Before Common Era)
-#: data/classic/game.ruleset:874 data/sandbox/game.ruleset:1098
-#: data/experimental/game.ruleset:892 data/civ2civ3/game.ruleset:939
-#: data/multiplayer/game.ruleset:859
+#: data/classic/game.ruleset:862 data/sandbox/game.ruleset:1083
+#: data/experimental/game.ruleset:880 data/civ2civ3/game.ruleset:927
+#: data/multiplayer/game.ruleset:847
 msgid "BCE"
 msgstr "eaa."
 
-#: data/classic/game.ruleset:901
+#: data/classic/game.ruleset:889
 msgid "Pestilence"
 msgstr "Kulkutauti"
 
-#: data/classic/game.ruleset:911 data/sandbox/game.ruleset:1147
-#: data/experimental/game.ruleset:924 data/civ2civ3/game.ruleset:988
+#: data/classic/game.ruleset:899 data/sandbox/game.ruleset:1132
+#: data/experimental/game.ruleset:912 data/civ2civ3/game.ruleset:976
 msgid "Industrial Accident"
 msgstr "Tehdasonnettomuus"
 
-#: data/classic/game.ruleset:920 data/sandbox/game.ruleset:1156
-#: data/civ2civ3/game.ruleset:997
+#: data/classic/game.ruleset:908 data/sandbox/game.ruleset:1141
+#: data/civ2civ3/game.ruleset:985
 msgid "Nuclear Accident"
 msgstr "Ydinonnettomuus"
 
@@ -26320,7 +26323,9 @@ msgstr ""
 msgid ""
 "Two cities with Airports can airlift medium and heavy weight units once "
 "Advanced Flight and Fusion Power are discovered."
-msgstr "Keskiraskaita ja raskaita yksiköitä voidaan lennättää kahden lentokentin varustetun kaupungin välillä kun kehittynyt ilmailu ja fuusio tunnetaan."
+msgstr ""
+"Keskiraskaita ja raskaita yksiköitä voidaan lennättää kahden lentokentin "
+"varustetun kaupungin välillä kun kehittynyt ilmailu ja fuusio tunnetaan."
 
 #: data/sandbox/buildings.ruleset:115 data/sandbox/buildings.ruleset:151
 #: data/sandbox/buildings.ruleset:188 data/civ2civ3/buildings.ruleset:112
@@ -27303,134 +27308,134 @@ msgstr "Pommittaja"
 msgid "Destroy %sCity%s"
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
-#: data/sandbox/game.ruleset:1189 data/experimental/game.ruleset:957
-#: data/civ2civ3/game.ruleset:1030
+#: data/sandbox/game.ruleset:1174 data/experimental/game.ruleset:945
+#: data/civ2civ3/game.ruleset:1018
 msgid "Spaceship Launch"
 msgstr "Avaruusalus laukaistu"
 
-#: data/sandbox/game.ruleset:1193 data/experimental/game.ruleset:959
-#: data/civ2civ3/game.ruleset:1034
+#: data/sandbox/game.ruleset:1178 data/experimental/game.ruleset:947
+#: data/civ2civ3/game.ruleset:1022
 msgid "You're the first one to launch a spaceship towards Alpha Centauri!"
 msgstr "Olet ensimmäinen avaruusaluksen kohti Alpha Centauria laukaissut!"
 
-#: data/sandbox/game.ruleset:1194 data/experimental/game.ruleset:960
-#: data/civ2civ3/game.ruleset:1035
+#: data/sandbox/game.ruleset:1179 data/experimental/game.ruleset:948
+#: data/civ2civ3/game.ruleset:1023
 msgid "You have launched a spaceship towards Alpha Centauri!"
 msgstr "Olet laukaissut avaruusaluksen kohti Alpha Centauria!"
 
-#: data/sandbox/game.ruleset:1197 data/experimental/game.ruleset:963
-#: data/civ2civ3/game.ruleset:1038
+#: data/sandbox/game.ruleset:1182 data/experimental/game.ruleset:951
+#: data/civ2civ3/game.ruleset:1026
 msgid "Entire Map Known"
 msgstr "Koko kartta tunnettu"
 
-#: data/sandbox/game.ruleset:1202 data/experimental/game.ruleset:966
-#: data/civ2civ3/game.ruleset:1043
+#: data/sandbox/game.ruleset:1187 data/experimental/game.ruleset:954
+#: data/civ2civ3/game.ruleset:1031
 msgid "You're the first one to have mapped the entire world!"
 msgstr "Ensimmäisenä olet kartoittanut koko maailman!"
 
-#: data/sandbox/game.ruleset:1203 data/experimental/game.ruleset:967
-#: data/civ2civ3/game.ruleset:1044
+#: data/sandbox/game.ruleset:1188 data/experimental/game.ruleset:955
+#: data/civ2civ3/game.ruleset:1032
 msgid "You have mapped the entire world!"
 msgstr "Olet kartoittanut koko maailman!"
 
-#: data/sandbox/game.ruleset:1206 data/experimental/game.ruleset:981
-#: data/civ2civ3/game.ruleset:1047
+#: data/sandbox/game.ruleset:1191 data/experimental/game.ruleset:969
+#: data/civ2civ3/game.ruleset:1035
 msgid "Land Ahoy"
 msgstr "Maata näkyvissä"
 
-#: data/sandbox/game.ruleset:1211 data/experimental/game.ruleset:984
-#: data/civ2civ3/game.ruleset:1052
+#: data/sandbox/game.ruleset:1196 data/experimental/game.ruleset:972
+#: data/civ2civ3/game.ruleset:1040
 msgid "As the first people in history, your people sight a foreign shore!"
 msgstr "Ensimmäisenä löydät itsellesi vieraan rannan!"
 
-#: data/sandbox/game.ruleset:1212 data/experimental/game.ruleset:985
-#: data/civ2civ3/game.ruleset:1053
+#: data/sandbox/game.ruleset:1197 data/experimental/game.ruleset:973
+#: data/civ2civ3/game.ruleset:1041
 msgid "You sight your first foreign shore!"
 msgstr "Näet ensi kertaa vieraan saaren rannan!"
 
-#: data/sandbox/game.ruleset:1215 data/civ2civ3/game.ruleset:1056
+#: data/sandbox/game.ruleset:1200 data/civ2civ3/game.ruleset:1044
 msgid "Literate"
 msgstr "Lukutaitoisuus"
 
-#: data/sandbox/game.ruleset:1221 data/civ2civ3/game.ruleset:1062
+#: data/sandbox/game.ruleset:1206 data/civ2civ3/game.ruleset:1050
 #, no-c-format
 msgid "Your nation is the first to reach 100% literacy!"
 msgstr "Kansasi on ensimmäisenä saavuttanut 100% lukutaidon!"
 
-#: data/sandbox/game.ruleset:1223 data/civ2civ3/game.ruleset:1064
+#: data/sandbox/game.ruleset:1208 data/civ2civ3/game.ruleset:1052
 #, no-c-format
 msgid "Your nation has reached 100% literacy!"
 msgstr "Kansasi on saavuttanut 100% lukutaidon!"
 
-#: data/sandbox/game.ruleset:1226 data/civ2civ3/game.ruleset:1067
+#: data/sandbox/game.ruleset:1211 data/civ2civ3/game.ruleset:1055
 msgid "Multicultural"
 msgstr "Monikulttuurinen"
 
-#: data/sandbox/game.ruleset:1231 data/civ2civ3/game.ruleset:1072
+#: data/sandbox/game.ruleset:1216 data/civ2civ3/game.ruleset:1060
 msgid ""
 "You're the first nation with a city containing 2 different nationalities!"
 msgstr ""
 "Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
 
-#: data/sandbox/game.ruleset:1232 data/civ2civ3/game.ruleset:1073
+#: data/sandbox/game.ruleset:1217 data/civ2civ3/game.ruleset:1061
 msgid "One of your cities has 2 different nationalities!"
 msgstr "Yhdessä kaupungissasi on kahta eri kansalaisuutta!"
 
-#: data/sandbox/game.ruleset:1235 data/civ2civ3/game.ruleset:1076
+#: data/sandbox/game.ruleset:1220 data/civ2civ3/game.ruleset:1064
 msgid "Metropolis"
 msgstr "Metropoli"
 
-#: data/sandbox/game.ruleset:1240 data/civ2civ3/game.ruleset:1081
+#: data/sandbox/game.ruleset:1225 data/civ2civ3/game.ruleset:1069
 msgid "Your nation is the first with a city of population 20!"
 msgstr "Yksi kaupungeistasi saavuttaa ensimmäisenä maailmassa koon 20!"
 
-#: data/sandbox/game.ruleset:1241 data/civ2civ3/game.ruleset:1082
+#: data/sandbox/game.ruleset:1226 data/civ2civ3/game.ruleset:1070
 msgid "One of your cities has reached population 20!"
 msgstr "Yksi kaupungeistasi on saavuttanut koon 20!"
 
-#: data/sandbox/game.ruleset:1244 data/civ2civ3/game.ruleset:1085
+#: data/sandbox/game.ruleset:1229 data/civ2civ3/game.ruleset:1073
 msgid "Cultured City"
 msgstr "Kulttuurikaupunki"
 
-#: data/sandbox/game.ruleset:1249 data/civ2civ3/game.ruleset:1090
+#: data/sandbox/game.ruleset:1234 data/civ2civ3/game.ruleset:1078
 msgid "Your nation is the first with a city of 1000 culture points!"
 msgstr ""
 "Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut "
 "kaupunki maailmassa!"
 
-#: data/sandbox/game.ruleset:1250 data/civ2civ3/game.ruleset:1091
+#: data/sandbox/game.ruleset:1235 data/civ2civ3/game.ruleset:1079
 msgid "One of your cities has 1000 culture points!"
 msgstr "Yksi kaupungeistasi on saavuttanut 1000 kulttuuripistettä!"
 
-#: data/sandbox/game.ruleset:1253 data/civ2civ3/game.ruleset:1094
+#: data/sandbox/game.ruleset:1238 data/civ2civ3/game.ruleset:1082
 msgid "Cultured Nation"
 msgstr "Kulttuurivaltio"
 
-#: data/sandbox/game.ruleset:1257 data/civ2civ3/game.ruleset:1098
+#: data/sandbox/game.ruleset:1242 data/civ2civ3/game.ruleset:1086
 msgid "Your nation is the first one to achieve 10000 culture points!"
 msgstr "Valtiosi on ensimmäinen 10000 kultturipistettä saavuttanut valtio!"
 
-#: data/sandbox/game.ruleset:1258 data/civ2civ3/game.ruleset:1099
+#: data/sandbox/game.ruleset:1243 data/civ2civ3/game.ruleset:1087
 msgid "Your nation has achieved 10000 culture points!"
 msgstr "Valtiosi on saavuttanut 10000 kulttuuripistettä!"
 
-#: data/sandbox/game.ruleset:1330
+#: data/sandbox/game.ruleset:1315
 msgid "Wares"
 msgstr "Tuotteet"
 
-#: data/sandbox/game.ruleset:1354
+#: data/sandbox/game.ruleset:1339
 msgid "Jewelry"
 msgstr "Korut"
 
-#: data/sandbox/game.ruleset:1364
+#: data/sandbox/game.ruleset:1349
 msgid "Ore"
 msgstr "Malmi"
 
-#: data/sandbox/game.ruleset:1372
+#: data/sandbox/game.ruleset:1357
 msgid "Metal"
 msgstr "Metalli"
 
-#: data/sandbox/game.ruleset:1393
+#: data/sandbox/game.ruleset:1378
 msgid "Equipment"
 msgstr "Välineistö"
 
@@ -29209,17 +29214,17 @@ msgstr ""
 "tasapainottamista tai pelattavuuden hiomista. Kuvaus eroista perinteisiin "
 "sääntöihin on tiedostossa \"README.experimental\"."
 
-#: data/experimental/game.ruleset:971
+#: data/experimental/game.ruleset:959
 #, no-c-format
 msgid "Map Known 20%"
 msgstr "Kartasta 20% tunnettu"
 
-#: data/experimental/game.ruleset:976
+#: data/experimental/game.ruleset:964
 #, no-c-format
 msgid "You're the first one to have 20% of the world mapped!"
 msgstr "Olet ensimmäisenä kartoittanut maailmasta 20%!"
 
-#: data/experimental/game.ruleset:978
+#: data/experimental/game.ruleset:966
 #, no-c-format
 msgid "You have 20% of the world mapped!"
 msgstr "Olet kartoittanut maailmasta 20%!"
@@ -29552,7 +29557,9 @@ msgstr "Päämaja"
 msgid ""
 "Headquarters building marks city as your capital. City with headquarters is "
 "also safe from enemy's incite revolt attacks."
-msgstr "Päämaja tekee kaunpungista pääkaupunkisi. Kaupunki, jossa päämaja on, on myös turvassa vihollisen kapinaan yllyttämisiltä."
+msgstr ""
+"Päämaja tekee kaunpungista pääkaupunkisi. Kaupunki, jossa päämaja on, on "
+"myös turvassa vihollisen kapinaan yllyttämisiltä."
 
 #: data/alien/buildings.ruleset:302
 #, no-c-format
@@ -29572,7 +29579,9 @@ msgstr "Tietokeräämö"
 msgid ""
 "Improved information gathering. Only 2 other civilizations needs to know "
 "given technology before we gain access to it."
-msgstr "Kehittynyttä tiedon keruuta. Vain kahden muun ryhmittymän täytyy tuntea jokin tekonologia ennen kuin me automaattisesti saamme sen."
+msgstr ""
+"Kehittynyttä tiedon keruuta. Vain kahden muun ryhmittymän täytyy tuntea "
+"jokin tekonologia ennen kuin me automaattisesti saamme sen."
 
 #: data/alien/buildings.ruleset:329
 msgid "Mood Center"
@@ -29603,8 +29612,10 @@ msgid ""
 "transported from further away to city center. On hex maps city radius grows "
 "to 2 tiles. On square based maps increases city area by 8 tiles."
 msgstr ""
-"Työläiset voivat matkustaa kauemmas keskustasta työskentelemään ja tuotteita voidaan kuljettaa kauempaa maaseudulta keskustaan.\n"
-"Heksakartoilla pelattaessa kaupungin alueen säde kasvaa kahteen ruutuun. Neliöruuduilla pelattaessa kaupungin alue kasvaa kahdeksalla ruudulla."
+"Työläiset voivat matkustaa kauemmas keskustasta työskentelemään ja tuotteita "
+"voidaan kuljettaa kauempaa maaseudulta keskustaan.\n"
+"Heksakartoilla pelattaessa kaupungin alueen säde kasvaa kahteen ruutuun. "
+"Neliöruuduilla pelattaessa kaupungin alue kasvaa kahdeksalla ruudulla."
 
 #: data/alien/buildings.ruleset:398
 msgid "Radar Tower"
@@ -29644,6 +29655,11 @@ msgid ""
 "Makes martial law possible. Each military unit in city makes one unhappy "
 "citizen content, to the maximum of 2."
 msgstr ""
+"Salainen poliisi on hyvä johtamaan armeijaa.\n"
+"\n"
+"Tekee mahdolliseksi pakottaa kansalaiset osaansa. Kukin kaupunkiin "
+"sijoitettu sotilasyksikkö, korkeintaan kahteen yksikköön asti, tekee yhdestä "
+"tyytymättömästä asukkaasta tyytyväisen."
 
 #: data/alien/buildings.ruleset:482
 msgid "Skyscraper"
@@ -29656,16 +29672,19 @@ msgid ""
 "\n"
 "Cities can grow 5 sizes bigger."
 msgstr ""
+"Säteily on heikompaa kilometrien korkeudessa. Enemmän ihmisiä voi asua "
+"turvallisesti todella korkeiden rakennusten ylimmissä kerroksissa.\n"
+"\n"
+"Kaupungit voivat kasvaa viittä pistettä suuremmiksi."
 
 #: data/alien/buildings.ruleset:503
 msgid "Virtual Reality Theatre"
 msgstr "Virtuaalitodellisuusteatteri"
 
 #: data/alien/buildings.ruleset:520
-#, fuzzy, no-c-format
-#| msgid "* Has no unhappy citizens.\n"
+#, no-c-format
 msgid "Makes two unhappy citizens content."
-msgstr "· Tyytymättömiä asukkaita ei ole.\n"
+msgstr "Tekee kahdesta tyytymättömästä asukkaasta tyytyväisen."
 
 #: data/alien/buildings.ruleset:587
 msgid ""
@@ -29766,7 +29785,10 @@ msgid ""
 "Provides additional protection against radiation making it possible for all "
 "cities player owns to grow 2 sizes bigger, unless growth is blocked by lack "
 "of the Basic Infrastructure."
-msgstr "Antaa lisäsuojaa säteilyltä, mahdollistaen pelaajan kaikkien kaupunkien kasvaa kahdella pisteellä suuremmaksi, kunhan kaupungissa on perusinfrastruktuuri."
+msgstr ""
+"Antaa lisäsuojaa säteilyltä, mahdollistaen pelaajan kaikkien kaupunkien "
+"kasvaa kahdella pisteellä suuremmaksi, kunhan kaupungissa on "
+"perusinfrastruktuuri."
 
 #: data/alien/cities.ruleset:51
 msgid "Culturists"
@@ -29781,12 +29803,17 @@ msgid ""
 "Culturists create works that keep people satisfied. They create two luxury "
 "points per turn, four if Specialist Training tech is known."
 msgstr ""
+"Kultturistit luovat teoksia, jotka tyydyttävät ihmisiä. Kukin kultturisti "
+"tuottaa kaksi pistettä luksusta kierroksessa, erikoisosaajien harjoittamisen "
+"keksimisen jälkeen neljä."
 
 #: data/alien/cities.ruleset:70
 msgid ""
 "Scientist reseach two bulbs worth of science each turn, four bulbs when "
 "Specialist Training tech is known."
 msgstr ""
+"Tiedemies tutkii kahden pisteen edestä tutkimusta kierroksessa, "
+"erikoisosaajien harjoittamisen keksimisen jälkeen neljän pisteen edestä."
 
 #: data/alien/cities.ruleset:75
 msgid "Government Merchants"
@@ -29801,6 +29828,9 @@ msgid ""
 "Government Merchants produce two gold for the government each turn, four "
 "once Specialist Training tech is known."
 msgstr ""
+"Hallituksen myyjät tuottavat ryhmittymälle rahaa kahden pisteen edestä "
+"kierroksessa. Kun erikoisosaajien harjoittaminen on keksitty, rahaa "
+"tuotetaan neljän pisteen edestä kierroksessa."
 
 #: data/alien/game.ruleset:28
 msgid "Alien World"
@@ -29830,43 +29860,43 @@ msgstr "Kopioi tutkimus%sdata%s"
 msgid "Monetize %sContainers%s"
 msgstr "Myy %skollit%s"
 
-#: data/alien/game.ruleset:701
+#: data/alien/game.ruleset:689
 msgid "Q1"
 msgstr "Kausi 1"
 
-#: data/alien/game.ruleset:702
+#: data/alien/game.ruleset:690
 msgid "Q2"
 msgstr "Kausi 2"
 
-#: data/alien/game.ruleset:703
+#: data/alien/game.ruleset:691
 msgid "Q3"
 msgstr "Kausi 3"
 
-#: data/alien/game.ruleset:704
+#: data/alien/game.ruleset:692
 msgid "Q4"
 msgstr "Kausi 4"
 
-#: data/alien/game.ruleset:707
+#: data/alien/game.ruleset:695
 msgid "GE"
 msgstr "ga"
 
-#: data/alien/game.ruleset:708
+#: data/alien/game.ruleset:696
 msgid "BGE"
 msgstr "ega"
 
-#: data/alien/game.ruleset:740
+#: data/alien/game.ruleset:728
 msgid "Radiation Burst"
 msgstr "Säteilypurske"
 
-#: data/alien/game.ruleset:745
+#: data/alien/game.ruleset:733
 msgid "Rebels"
 msgstr "Kapinallisia"
 
-#: data/alien/game.ruleset:750
+#: data/alien/game.ruleset:738
 msgid "Alien Microbes"
 msgstr "Vieraita mikrobeja"
 
-#: data/alien/game.ruleset:850
+#: data/alien/game.ruleset:838
 #, fuzzy
 #| msgid "Cities"
 msgid "Commodities"
@@ -29875,6 +29905,8 @@ msgstr "Kaupungit"
 #: data/alien/governments.ruleset:68
 msgid "Anarchy happens between government changes."
 msgstr ""
+"Hallitusmuodon vaihtuessa, varsinaisten hallitusmuotojen välissä, anarkia "
+"vallitsee."
 
 #: data/alien/governments.ruleset:83
 #, c-format
@@ -29893,6 +29925,10 @@ msgid ""
 "\n"
 "Max tax/science/lux rate is 40%."
 msgstr ""
+"Tämä on pelin alussa ainoa mahdollinen hallitusmuoto.\n"
+"\n"
+"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+"40% tuloista."
 
 #: data/alien/governments.ruleset:107
 #, no-c-format
@@ -29903,6 +29939,12 @@ msgid ""
 "\n"
 "Communism gains 20% bonus to production."
 msgstr ""
+"Sotilaallisen mahdin hallitusmuoto.\n"
+"\n"
+"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+"60% tuloista.\n"
+"\n"
+"Kommunismissa saadaan 20% tuotantobonus."
 
 #: data/alien/governments.ruleset:128
 #, no-c-format
@@ -29913,6 +29955,12 @@ msgid ""
 "\n"
 "Democracy gains 20% bonus to trade."
 msgstr ""
+"Vapauden hallitusmuoto.\n"
+"\n"
+"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+"70% tuloista.\n"
+"\n"
+"Demokratiassa saadaan 20% bonus kauppaan."
 
 #: data/alien/governments.ruleset:137
 msgid "Dual Communism"
@@ -29969,10 +30017,8 @@ msgid "%s has acquired %s from Space Capsule they found."
 msgstr "%s ovat oppineet teknologian %s avaruuskapselista."
 
 #: data/alien/script.lua:61
-#, fuzzy
-#| msgid "You found a friendly city."
 msgid "You found a base starting kit."
-msgstr "Löysit ystävällismielisen kaupungin."
+msgstr "Löysit tarvikkeet tukikohdan perustamiseksi."
 
 #: data/alien/script.lua:80
 msgid "The Space Capsule was already scavenged by someone."
@@ -30072,6 +30118,8 @@ msgid ""
 "Even if normal method of flying is impossible in this world antigravity "
 "works. We just need to master it."
 msgstr ""
+"Vaikka tavalliset lentotekniikat eivät tässä maailmassa toimi, "
+"antigravitaatio toimii. Meidän täytyy vain oppia käyttämään sitä."
 
 #: data/alien/techs.ruleset:164
 msgid "Burrowing"
@@ -30139,7 +30187,7 @@ msgstr "Komposiitit"
 
 #: data/alien/techs.ruleset:234
 msgid "Stronger materials mean stronger armors."
-msgstr ""
+msgstr "Kovemmat materiaalit tarkoittavat kovempia panssarointeja."
 
 #: data/alien/techs.ruleset:237
 msgid "Controlled Biomass"
@@ -30201,10 +30249,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:295
-#, fuzzy
-#| msgid "Keep moving"
 msgid "Deep Pumping"
-msgstr "Jatka matkaa"
+msgstr "Pumppaus syvältä"
 
 #: data/alien/techs.ruleset:301
 msgid ""
@@ -30253,7 +30299,10 @@ msgid ""
 "Human relations in this situation, where various factions have been forced "
 "to this strange planet, are quite unlike anything seen before. It very well "
 "deserves small study. Maybe we then can co-operate with other factions."
-msgstr "Ihmistenväliset suhteet tässä tilanteessa, jossa erilaiset ryhmittymät on pakotettu tälle oudolle planeetalle, ansaitsevat tutkimusta. Ehkä sen jälkeen pystymme parempaan yhteistoimintaan toisten ryhmittymien kanssa."
+msgstr ""
+"Ihmistenväliset suhteet tässä tilanteessa, jossa erilaiset ryhmittymät on "
+"pakotettu tälle oudolle planeetalle, ansaitsevat tutkimusta. Ehkä sen "
+"jälkeen pystymme parempaan yhteistoimintaan toisten ryhmittymien kanssa."
 
 #: data/alien/techs.ruleset:356
 msgid "Food Regeneration"
@@ -30267,7 +30316,8 @@ msgid ""
 "\n"
 "Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
-"Mikäli ruoanlähteet kasvavat korjuun jälkeen nopeammin takaisin, saamme nopeammin ja enemmän ruokaa.\n"
+"Mikäli ruoanlähteet kasvavat korjuun jälkeen nopeammin takaisin, saamme "
+"nopeammin ja enemmän ruokaa.\n"
 "\n"
 "Proteiinihuoneita sisältävät ruudut saavat 50% lisäbonuksen ruoan tuotantoon."
 
@@ -30344,7 +30394,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:450
 msgid "Martial Law"
-msgstr ""
+msgstr "Kansan pakottaminen osaansa"
 
 #: data/alien/techs.ruleset:456
 msgid ""
@@ -30356,10 +30406,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:462
-#, fuzzy
-#| msgid "Nuclear Power"
 msgid "Mental Powers"
-msgstr "Ydinvoima"
+msgstr "Henkiset voimat"
 
 #: data/alien/techs.ruleset:468
 msgid ""
@@ -30379,18 +30427,20 @@ msgid ""
 "Earthly mining technologies were not sufficient for heavy scale mining on "
 "this planet."
 msgstr ""
+"Maasta peräisin olevat kaivostekniikat eivät ole kelvollisia suuren "
+"mittakaavan kaivostoimintaan tällä planeetalla."
 
 #: data/alien/techs.ruleset:483
-#, fuzzy
-#| msgid "modified "
 msgid "Modified Spitter"
-msgstr "muokattu "
+msgstr "Muokattu sylkijä"
 
 #: data/alien/techs.ruleset:489
 msgid ""
 "We already know how to make modifications to alien lifeforms. Let's improve "
 "spitters."
 msgstr ""
+"Me tiedämme jo pääpiirteissään kuinka muokata olentoja. Tutkitaan tarkemmin "
+"sylkijän parantelua."
 
 #: data/alien/techs.ruleset:493
 msgid "Mood Manipulation"
@@ -30409,6 +30459,8 @@ msgid ""
 "It's no longer enough to replicate old Earth technologies. We want "
 "superiority."
 msgstr ""
+"Pelkkä maan teknologioiden toistaminen ei enää riitä. Me haluamme "
+"ylivoimaisia tekniikoita."
 
 #: data/alien/techs.ruleset:512
 msgid "New Frontier"
@@ -30429,7 +30481,7 @@ msgstr "Merikaupungit"
 
 #: data/alien/techs.ruleset:530
 msgid "Cities on ocean. Why not?"
-msgstr ""
+msgstr "Kaupunkeja merellä. Miksikäs ei?"
 
 #: data/alien/techs.ruleset:533
 msgid "Organic Structures"
@@ -30501,7 +30553,10 @@ msgstr "Uudistuminen"
 msgid ""
 "We know how aliens regenerate, we know how self-repairing machines "
 "regenerate, we know how Earth organisms regenerate."
-msgstr "Me tiedämme kuinka olentojen kudokset uudistuvat. Me tiedämme kuinka itsensä korjaavat laitteet uudistuvat. Me tiedämme kuinka maasta tulleet organismit uudistuvat."
+msgstr ""
+"Me tiedämme kuinka olentojen kudokset uudistuvat. Me tiedämme kuinka itsensä "
+"korjaavat laitteet uudistuvat. Me tiedämme kuinka maasta tulleet organismit "
+"uudistuvat."
 
 #: data/alien/techs.ruleset:599
 msgid "Research Methods"
@@ -30515,7 +30570,8 @@ msgid ""
 "\n"
 "Simply knowing this tech increases science output by 35%."
 msgstr ""
-"Täkäläisiin olosuhteisiin räätälöidyt tutkimusmenetelmät nopeuttavat tutkimustyötämme huomattavasti.\n"
+"Täkäläisiin olosuhteisiin räätälöidyt tutkimusmenetelmät nopeuttavat "
+"tutkimustyötämme huomattavasti.\n"
 "\n"
 "Pelkkä tämän teknologian tunteminen lisää tiedetuotantoa 35%."
 
@@ -30554,6 +30610,10 @@ msgid ""
 "\n"
 "Output of all specialists doubles."
 msgstr ""
+"Taktiikan opettamistekniikoihin perustuen voimme opettaa myös "
+"erikoisosaajillemme lisätaitoja.\n"
+"\n"
+"Kaikkien erikoisosaajien tuottavuus kaksinkertaistuu."
 
 #: data/alien/techs.ruleset:645
 msgid "Spitter Control"
@@ -30562,7 +30622,8 @@ msgstr "Sylkijän kontrollointi"
 #: data/alien/techs.ruleset:651
 msgid ""
 "Alien lifeforms spitting solid objects are interesting research subject."
-msgstr "Kiinteitä kohteita sylkevät olennot ovat mielenkiintoinen tutkimuskohde."
+msgstr ""
+"Kiinteitä kohteita sylkevät olennot ovat mielenkiintoinen tutkimuskohde."
 
 #: data/alien/techs.ruleset:655
 msgid "Stealth Module"
@@ -30604,7 +30665,9 @@ msgstr "Supermoduli"
 
 #: data/alien/techs.ruleset:693
 msgid "Supermodule combines lesser modules in one extremely efficient pack."
-msgstr "Supermodulissa yhdistyvät vähäisemmät modulit erittäin tehokkaana pakkauksena."
+msgstr ""
+"Supermodulissa yhdistyvät vähäisemmät modulit erittäin tehokkaana "
+"pakkauksena."
 
 #: data/alien/techs.ruleset:697
 msgid "Synthetic Food"
@@ -30728,7 +30791,8 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:284
 msgid "For some reason, there is Earth like grass and animals around."
-msgstr "Jostakin syystä täällä on aivan samanlaista ruovikkoa ja eläimiä kuin maassa."
+msgstr ""
+"Jostakin syystä täällä on aivan samanlaista ruovikkoa ja eläimiä kuin maassa."
 
 #: data/alien/terrain.ruleset:289
 msgid "Alien Forest"
@@ -30944,6 +31008,8 @@ msgid ""
 "Entire forest seems to be of the single fast-growing organism with huge "
 "central blooming."
 msgstr ""
+"Koko metsä näyttää olevan yhtä ainoaa nopeasti kasvavaa kasvia, jolla on "
+"valtava keskuskukinto."
 
 #: data/alien/terrain.ruleset:1189
 #, no-c-format
@@ -31012,19 +31078,22 @@ msgstr "järeiden maavoimien"
 msgid ""
 "This is Earth technology settler. Most military enemy units can capture it "
 "instead of killing it."
-msgstr "Tämä on maasta peräisin olevaa teknologiaa käyttävä uudisasukas. Useimmat vihollisen sotilasyksiköt voivat kaapata sen tappamisen sijaan."
+msgstr ""
+"Tämä on maasta peräisin olevaa teknologiaa käyttävä uudisasukas. Useimmat "
+"vihollisen sotilasyksiköt voivat kaapata sen tappamisen sijaan."
 
 #: data/alien/units.ruleset:453
-#, fuzzy
-#| msgid "Native Tiles"
 msgid "Native Settlers"
-msgstr "Sallitut ruudut"
+msgstr "Luontainen uudisasukasjoukko"
 
 #: data/alien/units.ruleset:478
 msgid ""
 "This is native Settler that can enter radiating areas. Most military enemy "
 "units can capture it instead of killing it."
 msgstr ""
+"Tämä on paikallisista olennoista muodostuva uudisasukasjoukko, joka voi "
+"kulkea myös säteilevässä maastossa. Useimmat vihollisen sotilasyksiköt "
+"voivat vangita sen tappamisen sijaan."
 
 #: data/alien/units.ruleset:484
 msgid "Engineer"
@@ -31043,10 +31112,8 @@ msgid "Native Engineer"
 msgstr "Teknikkoryhmä"
 
 #: data/alien/units.ruleset:541
-#, fuzzy
-#| msgid " Nation of the new player: %s."
 msgid "Native version of the Engineer unit."
-msgstr " Uuden pelaajan kansakunta: %s."
+msgstr "Paikallisista olennoista muodostuva versio teknikkoryhmästä."
 
 #: data/alien/units.ruleset:546
 msgid "Water Engineer"
@@ -31057,6 +31124,8 @@ msgid ""
 "Amphibious Engineer that can also establish new cities on Ocean. Cities "
 "cannot be located on Boiling Ocean."
 msgstr ""
+"Amfibinen teknikkoryhmä, joka voi myös perustaa kaupunkeja, myös merelle. "
+"Kiehuvan meren ruutuihin kaupunkeja ei voi perustaa."
 
 #: data/alien/units.ruleset:579
 msgid "Star Marines"
@@ -31084,7 +31153,7 @@ msgstr "Tankki"
 
 #: data/alien/units.ruleset:668
 msgid "This is the most powerful Earth technology unit."
-msgstr ""
+msgstr "Tämä on voimakkain maasta perityn teknologian yksikkö."
 
 #: data/alien/units.ruleset:673
 msgid "War Monster"
@@ -31093,6 +31162,8 @@ msgstr "Sotahirviö"
 #: data/alien/units.ruleset:699
 msgid "As a native unit, this can move and fight on radiating areas too."
 msgstr ""
+"Paikallisena olentona tämä voi liikkua ja taistella myös säteilevillä "
+"alueilla."
 
 #: data/alien/units.ruleset:704
 msgid "Crusher"
@@ -31111,6 +31182,8 @@ msgid ""
 "Alien lifeform with cybernetic implants. Good in combat, and has better "
 "vision than any purely organic unit."
 msgstr ""
+"Vieras eliömuoto kyberneettisin osin. Hyvä taistelussa, ja omaa paremman "
+"näkökyvyn kuin yksikään puhtaasti orgaaninen yksikkö."
 
 #. TRANS: Alien lifeform. Name refers to Tyrannosaurus Rex, not "King" role
 #: data/alien/units.ruleset:767
@@ -31127,7 +31200,7 @@ msgstr "Tiputtautuja"
 
 #: data/alien/units.ruleset:825
 msgid "Alien lifeform able to paradrop."
-msgstr ""
+msgstr "Vieras eliömuoto, joka kykenee tiputtautumaan taistelukentälle."
 
 #: data/alien/units.ruleset:830
 msgid "Turtle Defender"
@@ -31260,6 +31333,8 @@ msgstr "Amfibikuljetusalus"
 #: data/alien/units.ruleset:1295
 msgid "This is first unit that can enter boiling oceans - and more."
 msgstr ""
+"Tämä on ensimmäinen yksikkö, joka voi kulkea kiehuvalla merellä - ja lähes "
+"kaikkialla muuallakin."
 
 #: data/alien/units.ruleset:1326
 msgid ""
@@ -35612,163 +35687,163 @@ msgstr ""
 #. TRANS: With this and other color team names, uniqueness is more
 #. TRANS: important than precise translation. To see the colors, start a
 #. TRANS: multiplayer game with 32 players and look at the Nations report.
-#: data/multiplayer/game.ruleset:1033
+#: data/multiplayer/game.ruleset:1021
 msgid "?team name:Red"
 msgstr "Punaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1035
+#: data/multiplayer/game.ruleset:1023
 msgid "?team name:Yellow"
 msgstr "Keltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1037
+#: data/multiplayer/game.ruleset:1025
 msgid "?team name:Blue"
 msgstr "Siniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1039
+#: data/multiplayer/game.ruleset:1027
 msgid "?team name:Purple"
 msgstr "Purppurat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1041
+#: data/multiplayer/game.ruleset:1029
 msgid "?team name:Orange"
 msgstr "Oranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1043
+#: data/multiplayer/game.ruleset:1031
 msgid "?team name:Magenta"
 msgstr "Magentat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1045
+#: data/multiplayer/game.ruleset:1033
 msgid "?team name:Cornflower"
 msgstr "Ruiskaunokinsiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1047
+#: data/multiplayer/game.ruleset:1035
 msgid "?team name:Emerald"
 msgstr "Smaragdinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1049
+#: data/multiplayer/game.ruleset:1037
 msgid "?team name:Salmon"
 msgstr "Lohenpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1051
+#: data/multiplayer/game.ruleset:1039
 msgid "?team name:Green"
 msgstr "Vihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1053
+#: data/multiplayer/game.ruleset:1041
 msgid "?team name:Burgundy"
 msgstr "Burgundinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1055
+#: data/multiplayer/game.ruleset:1043
 msgid "?team name:Pink"
 msgstr "Pinkit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1057
+#: data/multiplayer/game.ruleset:1045
 msgid "?team name:Silver"
 msgstr "Hopeanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1059
+#: data/multiplayer/game.ruleset:1047
 msgid "?team name:Heliotrope"
 msgstr "Auringonkeltaiset"
 
 # Ei jumalauta
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1061
+#: data/multiplayer/game.ruleset:1049
 msgid "?team name:Fuchsia"
 msgstr "Fuksiat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1063
+#: data/multiplayer/game.ruleset:1051
 msgid "?team name:Azure"
 msgstr "Taivaansiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1065
+#: data/multiplayer/game.ruleset:1053
 msgid "?team name:Gold"
 msgstr "Kullanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1067
+#: data/multiplayer/game.ruleset:1055
 msgid "?team name:Khaki"
 msgstr "Khakinruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1069
+#: data/multiplayer/game.ruleset:1057
 msgid "?team name:Butter"
 msgstr "Voinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1071
+#: data/multiplayer/game.ruleset:1059
 msgid "?team name:Mint"
 msgstr "Mintunvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1073
+#: data/multiplayer/game.ruleset:1061
 msgid "?team name:Lime"
 msgstr "Limetinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1075
+#: data/multiplayer/game.ruleset:1063
 msgid "?team name:Peach"
 msgstr "Persikanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1077
+#: data/multiplayer/game.ruleset:1065
 msgid "?team name:Vermilion"
 msgstr "Oranssinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1079
+#: data/multiplayer/game.ruleset:1067
 msgid "?team name:Puce"
 msgstr "Punaisenruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1081
+#: data/multiplayer/game.ruleset:1069
 msgid "?team name:Mustard"
 msgstr "Sinapinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1083
+#: data/multiplayer/game.ruleset:1071
 msgid "?team name:Aubergine"
 msgstr "Munakoisonvioletit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1085
+#: data/multiplayer/game.ruleset:1073
 msgid "?team name:Brown"
 msgstr "Ruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1087
+#: data/multiplayer/game.ruleset:1075
 msgid "?team name:Pumpkin"
 msgstr "Kurpitsanoranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1089
+#: data/multiplayer/game.ruleset:1077
 msgid "?team name:Turquoise"
 msgstr "Turkoosit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1091
+#: data/multiplayer/game.ruleset:1079
 msgid "?team name:Crimson"
 msgstr "Crimsoninpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1093
+#: data/multiplayer/game.ruleset:1081
 msgid "?team name:Lavender"
 msgstr "Laventelit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1095
+#: data/multiplayer/game.ruleset:1083
 msgid "?team name:Cream"
 msgstr "Kermanväriset"
 
@@ -38670,6 +38745,8 @@ msgid ""
 "Getting caught while trying to do %s gives everyone a casus belli against "
 "you."
 msgstr ""
+"Kiinnijääminen toiminnasta %s antaa kaikille vastustajille oikeutuksen "
+"vastatoimiin."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:345
@@ -38678,6 +38755,8 @@ msgid ""
 "Getting caught while trying to do %s to you gives everyone a casus belli "
 "against the %s."
 msgstr ""
+"%2$s jäi kiinni toiminnasta %1$s sinua vastaan ja kaikki muut ovat nyt "
+"oikeutettuja vastatoimiin heitä vastaan."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:353
@@ -38685,15 +38764,17 @@ msgstr ""
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s."
 msgstr ""
+"Olet nyt oikeutettu vastatoimiin. %s jäi kiinni toiminnan %s yrityksestä."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:361
-#, fuzzy, c-format
-#| msgid "Requires that the %s are not in the game.\n"
+#, c-format
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s "
 "to the %s."
-msgstr "Edellyttää etteivät %s ole pelissä.\n"
+msgstr ""
+"Olet nyt oikeutettu vastatoimiin. %s jäi kiinni toiminnan %s yrityksestä. "
+"Uhrina oli %s."
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:412
@@ -43313,24 +43394,20 @@ msgid "Unit Losses\n"
 msgstr "Yksiköitä menetetty\n"
 
 #: server/rscompat.c:181
-#, fuzzy
-#| msgid "Can't build a city."
 msgid "Can found cities."
-msgstr "Kaupungin perustaminen ei onnistu."
+msgstr "Voi perustaa kaupunkeja."
 
 #: server/rscompat.c:182
 msgid "Can join cities."
-msgstr ""
+msgstr "Voi liittyä kaupunkiin."
 
 #: server/rscompat.c:183
 msgid "Can do bombard attacks."
-msgstr ""
+msgstr "Voi tehdä pommitushyökkäyksiä."
 
 #: server/rscompat.c:184
-#, fuzzy
-#| msgid "* This unit's attack causes a nuclear explosion!\n"
 msgid "This unit's attack causes a nuclear explosion!"
-msgstr "· Tällä yksiköllä hyökkääminen aiheuttaa ydinräjähdyksen!\n"
+msgstr "Tällä yksiköllä hyökkääminen aiheuttaa ydinräjähdyksen!"
 
 #: server/rssanity.c:1313
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
@@ -43718,7 +43795,7 @@ msgstr "Tasaväkiset saaret"
 
 #: server/settings.c:256
 msgid "Fracture map"
-msgstr ""
+msgstr "Pirstaloitu kartta"
 
 #: server/settings.c:268
 msgid "Generator's choice"
@@ -44321,28 +44398,6 @@ msgstr "Kartanluontitapa"
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
 #: server/settings.c:1434
-#, fuzzy
-#| msgid ""
-#| "Specifies the algorithm used to generate the map. If the default value of "
-#| "the 'startpos' option is used, then the chosen generator chooses an "
-#| "appropriate 'startpos' setting; otherwise, the generated map tries to "
-#| "accommodate the chosen 'startpos' setting.\n"
-#| "- \"Scenario map\" (SCENARIO): indicates a pre-generated map. By default, "
-#| "if the scenario does not specify start positions, they will be allocated "
-#| "depending on the size of continents.\n"
-#| "- \"Fully random height\" (RANDOM): generates maps with a number of "
-#| "equally spaced, relatively small islands. By default, start positions are "
-#| "allocated depending on continent size.\n"
-#| "- \"Pseudo-fractal height\" (FRACTAL): generates Earthlike worlds with "
-#| "one or more large continents and a scattering of smaller islands. By "
-#| "default, players are all placed on a single continent.\n"
-#| "- \"Island-based\" (ISLAND): generates 'fair' maps with a number of "
-#| "similarly-sized and -shaped islands, each with approximately the same "
-#| "ratios of terrain types. By default, each player gets their own island.\n"
-#| "- \"Fair islands\" (FAIR): generates the exact copy of the same island "
-#| "for every player or every team.\n"
-#| "If the requested generator is incompatible with other server settings, "
-#| "the server may fall back to another generator."
 msgid ""
 "Specifies the algorithm used to generate the map. If the default value of "
 "the 'startpos' option is used, then the chosen generator chooses an "
@@ -44384,6 +44439,8 @@ msgstr ""
 "maastotyyppejä. Aloitussijainnit ovat kukin omalla saarellaan.\n"
 "- \"Tasaväkiset saaret\" (FAIR): kaikki pelaajat tai kaikki joukkueet saavat "
 "täsmälleen samanlaisen saaren.\n"
+"- \"Pirstaloitu kartta\" (FRACTURE): luo pirstaleisen kartan. Tyypillisesti "
+"sijoittaa kukkuloita ja vuoria saarten rannikoille.\n"
 "Palvelin voi käyttää toista generaattoria jos valittu generaattori ei sovi "
 "yhteen muiden palvelimen asetusten kanssa."
 
@@ -46281,6 +46338,10 @@ msgid ""
 "game situation takes place in the background while game otherwise continues. "
 "This way users are not required to wait for the save to finish."
 msgstr ""
+"Mikäli tämä asetus on käännetty päälle, tallennuksen pakkaaminen ja "
+"tiedoston tallentaminen tapahtuu taustalla samaan aikaan kun peli muuten "
+"etenee. Näin käyttäjien ei tarvitse odottaa näiden toimenpiteiden "
+"valmistumista ennen pelin jatkumista."
 
 #: server/settings.c:2811
 msgid "Savegame compression level"
@@ -48921,10 +48982,8 @@ msgid "Your %s was expelled by the %s."
 msgstr "Petolliset %2$s vangitsivat yksikkösi %1$s."
 
 #: server/unithand.c:1239
-#, fuzzy
-#| msgid "Unit cannot act against %s."
 msgid "Unit cannot do anything."
-msgstr "Yksikkö ei kykene toimimaan kun vastassa on %s."
+msgstr "Yksikkö ei voi tehdä mitään."
 
 #: server/unithand.c:1243 server/unithand.c:1253
 #, fuzzy, c-format
@@ -49054,11 +49113,11 @@ msgstr "Tämä yksikkö on liian kaukana kohteestaan toimiakseen."
 
 #: server/unithand.c:1381
 msgid "Can't perform any action this scenario permits."
-msgstr ""
+msgstr "Ei voi suorittaa mitään tässä skenaariossa sallittua toimintoa."
 
 #: server/unithand.c:1385
 msgid "Can't perform any action this close to a city."
-msgstr ""
+msgstr "Ei voi suorittaa mitään toimintoa näin lähellä kaupunkia."
 
 #. TRANS: Settler ... Berlin
 #: server/unithand.c:1390
