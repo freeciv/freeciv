@@ -293,6 +293,10 @@ extern "C" {
 #define SPECENUM_VALUE115NAME "Unit_Slots"
 #define SPECENUM_VALUE116 EFT_ATTACK_BONUS
 #define SPECENUM_VALUE116NAME "Attack_Bonus"
+#define SPECENUM_VALUE117 EFT_CONQUER_TECHS_MIN
+#define SPECENUM_VALUE117NAME "Conquer_Techs_Min"
+#define SPECENUM_VALUE118 EFT_CONQUER_TECHS_MAX
+#define SPECENUM_VALUE118NAME "Conquer_Techs_Max"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

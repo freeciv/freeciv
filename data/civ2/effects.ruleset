@@ -388,6 +388,10 @@ value   = 5
 type    = "Max_Trade_Routes"
 value   = 3
 
+[effect_conquer_techs_base]
+type    = "Conquer_Techs_Min"
+value   = 1
+
 [effect_republic]
 type    = "Make_Content_Mil"
 value   = 1

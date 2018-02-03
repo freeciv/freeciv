@@ -1867,6 +1867,7 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
   int coins;
   struct player *pplayer = unit_owner(punit);
   struct player *cplayer = city_owner(pcity);
+  int min_techs, max_techs, num_techs;
 
   /* If not at war, may peacefully enter city. */
   fc_assert_ret_val_msg(pplayers_at_war(pplayer, cplayer), FALSE,
@@ -1995,7 +1996,19 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
     }
   }
 
-  steal_a_tech(pplayer, cplayer, A_UNSET);
+  min_techs = get_unit_bonus(punit, EFT_CONQUER_TECHS_MIN);
+  max_techs = get_unit_bonus(punit, EFT_CONQUER_TECHS_MAX);
+  if (max_techs > min_techs) {
+    /* Make sure this can also result in full 'max_techs' */
+    num_techs = min_techs + fc_rand(max_techs - min_techs + 1);
+  } else {
+    num_techs = min_techs;
+  }
+
+  while (num_techs-- > 0) {
+    /* Just try to steal num_techs times. Ignore failures to get tech */
+    steal_a_tech(pplayer, cplayer, A_UNSET);
+  }
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */
