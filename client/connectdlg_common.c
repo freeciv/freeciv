@@ -111,7 +111,7 @@ then:
          the game.
 **************************************************************************/
 
-/**************************************************************************
+/**********************************************************************//**
   Tests if the client has started the server.
 **************************************************************************/
 bool is_server_running(void)
@@ -128,7 +128,7 @@ bool is_server_running(void)
 #endif
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE if the client has hack access.
 **************************************************************************/
 bool can_client_access_hack(void)
@@ -136,13 +136,13 @@ bool can_client_access_hack(void)
   return client_has_hack;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Kills the server if the client has started it.
 
   If the 'force' parameter is unset, we just do a /quit.  If it's set, then
   we'll send a signal to the server to kill it (use this when the socket
   is disconnected already).
-****************************************************************************/
+**************************************************************************/
 void client_kill_server(bool force)
 {
 #ifdef HAVE_USABLE_FORK
@@ -210,10 +210,10 @@ void client_kill_server(bool force)
   client_has_hack = FALSE;
 }   
 
-/****************************************************************
+/**********************************************************************//**
   Forks a server if it can. Returns FALSE if we find we
   couldn't start the server.
-*****************************************************************/
+**************************************************************************/
 bool client_start_server(void)
 {
 #if !defined(HAVE_USABLE_FORK) && !defined(FREECIV_MSWINDOWS)
@@ -617,9 +617,9 @@ bool client_start_server(void)
 #endif /* HAVE_USABLE_FORK || FREECIV_MSWINDOWS */
 }
 
-/*************************************************************************
-  generate a random string.
-*************************************************************************/
+/**********************************************************************//**
+  Generate a random string.
+**************************************************************************/
 static void randomize_string(char *str, size_t n)
 {
   const char chars[] =
@@ -632,14 +632,14 @@ static void randomize_string(char *str, size_t n)
   str[i] = '\0';
 }
 
-/**************************************************************** 
-if the client is capable of 'wanting hack', then the server will 
-send the client a filename in the packet_join_game_reply packet.
+/**********************************************************************//**
+  If the client is capable of 'wanting hack', then the server will
+  send the client a filename in the packet_join_game_reply packet.
 
-this function creates the file with a suitably random string in it 
-and then sends the string to the server. If the server can open
-and read the string, then the client is given hack access.
-*****************************************************************/ 
+  This function creates the file with a suitably random string in it
+  and then sends the string to the server. If the server can open
+  and read the string, then the client is given hack access.
+**************************************************************************/
 void send_client_wants_hack(const char *filename)
 {
   if (filename[0] != '\0') {
@@ -676,9 +676,9 @@ void send_client_wants_hack(const char *filename)
   }
 }
 
-/**************************************************************** 
-handle response (by the server) if the client has got hack or not.
-*****************************************************************/ 
+/**********************************************************************//**
+  Handle response (by the server) if the client has got hack or not.
+**************************************************************************/
 void handle_single_want_hack_reply(bool you_have_hack)
 {
   /* remove challenge file */
@@ -704,9 +704,9 @@ void handle_single_want_hack_reply(bool you_have_hack)
   }
 }
 
-/**************************************************************** 
-send server command to save game.
-*****************************************************************/ 
+/**********************************************************************//**
+  Send server command to save game.
+**************************************************************************/
 void send_save_game(const char *filename)
 {   
   if (filename) {
@@ -716,7 +716,7 @@ void send_save_game(const char *filename)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the list of rulesets sent by the server.
 **************************************************************************/
 void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
@@ -742,7 +742,7 @@ void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called by the GUI code when the user sets the ruleset.  The ruleset
   passed in here should match one of the strings given to set_rulesets().
 **************************************************************************/

@@ -35,7 +35,7 @@ struct color_system {
   struct rgbcolor **stdcolors;
 };
 
-/****************************************************************************
+/************************************************************************//**
   Called when the client first starts to allocate the default colors.
 
   Currently this must be called in ui_main, generally after UI
@@ -64,7 +64,7 @@ struct color_system *color_system_read(struct section_file *file)
   return colors;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when the client first starts to free any allocated colors.
 ****************************************************************************/
 void color_system_free(struct color_system *colors)
@@ -81,7 +81,7 @@ void color_system_free(struct color_system *colors)
   free(colors);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the RGB color, allocating it if necessary.
 ****************************************************************************/
 struct color *ensure_color(struct rgbcolor *rgb)
@@ -94,7 +94,7 @@ struct color *ensure_color(struct rgbcolor *rgb)
   return rgb->color;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a pointer to the given "standard" color.
 ****************************************************************************/
 struct color *get_color(const struct tileset *t, enum color_std stdcolor)
@@ -106,10 +106,10 @@ struct color *get_color(const struct tileset *t, enum color_std stdcolor)
   return ensure_color(*(colors->stdcolors + stdcolor));
 }
 
-/**********************************************************************
+/************************************************************************//**
   Return whether the player has a color assigned yet.
   Should only be FALSE in pregame.
-***********************************************************************/
+****************************************************************************/
 bool player_has_color(const struct tileset *t,
                       const struct player *pplayer)
 {
@@ -118,11 +118,11 @@ bool player_has_color(const struct tileset *t,
   return pplayer->rgb != NULL;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Return the color of the player.
   In pregame, callers should check player_has_color() before calling
   this.
-***********************************************************************/
+****************************************************************************/
 struct color *get_player_color(const struct tileset *t,
                                const struct player *pplayer)
 {
@@ -132,7 +132,7 @@ struct color *get_player_color(const struct tileset *t,
   return ensure_color(pplayer->rgb);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a pointer to the given "terrain" color.
 ****************************************************************************/
 struct color *get_terrain_color(const struct tileset *t,
@@ -144,7 +144,7 @@ struct color *get_terrain_color(const struct tileset *t,
   return ensure_color(pterrain->rgb);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the colour from 'candidates' with the best perceptual contrast from
   'subject'.
 ****************************************************************************/

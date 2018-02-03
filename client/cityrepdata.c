@@ -42,12 +42,12 @@
 
 #include "cityrepdata.h"
 
-/************************************************************************
- cr_entry = return an entry (one column for one city) for the city report
- These return ptrs to filled in static strings.
- Note the returned string may not be exactly the right length; that
- is handled later.
-*************************************************************************/
+/********************************************************************//**
+  cr_entry = return an entry (one column for one city) for the city report
+  These return ptrs to filled in static strings.
+  Note the returned string may not be exactly the right length; that
+  is handled later.
+************************************************************************/
 static const char *cr_entry_cityname(const struct city *pcity,
                                      const void *data)
 {
@@ -57,19 +57,19 @@ static const char *cr_entry_cityname(const struct city *pcity,
   return city_name_get(pcity);
 }
 
-/************************************************************************
+/********************************************************************//**
   Translated name of nation who owns this city.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_nation(const struct city *pcity,
                                    const void *data)
 {
   return nation_adjective_for_player(city_owner(pcity));
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns city size written to string. Returned string is statically
   allocated and its contents change when this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_size(const struct city *pcity,
                                  const void *data)
 {
@@ -79,11 +79,11 @@ static const char *cr_entry_size(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns concise city happiness state written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_hstate_concise(const struct city *pcity,
                                            const void *data)
 {
@@ -94,11 +94,11 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns verbose city happiness state written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_hstate_verbose(const struct city *pcity,
                                            const void *data)
 {
@@ -111,11 +111,11 @@ static const char *cr_entry_hstate_verbose(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of citizens of each happiness state written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_workers(const struct city *pcity,
                                     const void *data)
 {
@@ -129,11 +129,11 @@ static const char *cr_entry_workers(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of happy citizens written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_happy(const struct city *pcity,
 				  const void *data)
 {
@@ -143,9 +143,9 @@ static const char *cr_entry_happy(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns city total culture written to string
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_culture(const struct city *pcity,
                                     const void *data)
 {
@@ -154,9 +154,9 @@ static const char *cr_entry_culture(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns city history culture value written to string
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_history(const struct city *pcity,
                                     const void *data)
 {
@@ -165,9 +165,9 @@ static const char *cr_entry_history(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns city performance culture value written to string
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_performance(const struct city *pcity,
                                         const void *data)
 {
@@ -183,11 +183,11 @@ static const char *cr_entry_performance(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of content citizens written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_content(const struct city *pcity,
 				    const void *data)
 {
@@ -197,11 +197,11 @@ static const char *cr_entry_content(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of unhappy citizens written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_unhappy(const struct city *pcity,
 				    const void *data)
 {
@@ -211,11 +211,11 @@ static const char *cr_entry_unhappy(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of angry citizens written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_angry(const struct city *pcity,
 				  const void *data)
 {
@@ -225,22 +225,22 @@ static const char *cr_entry_angry(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns list of specialists written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_specialists(const struct city *pcity,
 					const void *data)
 {
   return specialists_string(pcity->specialists);
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of specialists of type given as data written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_specialist(const struct city *pcity,
 				       const void *data)
 {
@@ -252,11 +252,11 @@ static const char *cr_entry_specialist(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns string with best attack values of units in city.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_attack(const struct city *pcity,
 				   const void *data)
 {
@@ -289,11 +289,11 @@ static const char *cr_entry_attack(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns string with best defend values of units in city.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_defense(const struct city *pcity,
 				    const void *data)
 {
@@ -327,11 +327,11 @@ static const char *cr_entry_defense(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of supported units written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_supported(const struct city *pcity,
 				      const void *data)
 {
@@ -343,11 +343,11 @@ static const char *cr_entry_supported(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of present units written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_present(const struct city *pcity,
 				    const void *data)
 {
@@ -359,11 +359,11 @@ static const char *cr_entry_present(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns string listing amounts of resources.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_resources(const struct city *pcity,
 				      const void *data)
 {
@@ -375,11 +375,11 @@ static const char *cr_entry_resources(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns food surplus written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_foodplus(const struct city *pcity,
 				     const void *data)
 {
@@ -388,11 +388,11 @@ static const char *cr_entry_foodplus(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns production surplus written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_prodplus(const struct city *pcity,
 				     const void *data)
 {
@@ -401,11 +401,11 @@ static const char *cr_entry_prodplus(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns trade surplus written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_tradeplus(const struct city *pcity,
 				      const void *data)
 {
@@ -414,11 +414,11 @@ static const char *cr_entry_tradeplus(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns string describing resource output.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_output(const struct city *pcity,
 				   const void *data)
 {
@@ -430,11 +430,11 @@ static const char *cr_entry_output(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns gold surplus written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_gold(const struct city *pcity,
 				 const void *data)
 {
@@ -448,11 +448,11 @@ static const char *cr_entry_gold(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns luxury output written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_luxury(const struct city *pcity,
 				   const void *data)
 {
@@ -461,11 +461,11 @@ static const char *cr_entry_luxury(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns science output written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_science(const struct city *pcity,
 				    const void *data)
 {
@@ -474,11 +474,11 @@ static const char *cr_entry_science(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of turns before city grows written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_growturns(const struct city *pcity,
 				      const void *data)
 {
@@ -499,11 +499,11 @@ static const char *cr_entry_growturns(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns pollution output written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_pollution(const struct city *pcity,
 				      const void *data)
 {
@@ -512,11 +512,11 @@ static const char *cr_entry_pollution(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number and output of trade routes written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_trade_routes(const struct city *pcity,
                                          const void *data)
 {
@@ -536,11 +536,11 @@ static const char *cr_entry_trade_routes(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of build slots written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_build_slots(const struct city *pcity,
                                         const void *data)
 {
@@ -549,11 +549,11 @@ static const char *cr_entry_build_slots(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns name of current production.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_building(const struct city *pcity,
 				     const void *data)
 {
@@ -577,11 +577,11 @@ static const char *cr_entry_building(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns cost of buying current production and turns to completion
   written to string. Returned string is statically allocated and its
   contents change when this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_build_cost(const struct city *pcity,
 				  const void *data)
 {
@@ -612,11 +612,11 @@ static const char *cr_entry_build_cost(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns corruption amount written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_corruption(const struct city *pcity,
 				       const void *data)
 {
@@ -625,11 +625,11 @@ static const char *cr_entry_corruption(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns waste amount written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_waste(const struct city *pcity,
 				  const void *data)
 {
@@ -638,11 +638,11 @@ static const char *cr_entry_waste(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns risk percentage of plague written to string.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_plague_risk(const struct city *pcity,
                                         const void *data)
 {
@@ -656,22 +656,22 @@ static const char *cr_entry_plague_risk(const struct city *pcity,
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns number of continent
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_continent(const struct city *pcity, 
-                                   const void *data)
+                                      const void *data)
 {
   static char buf[8];
   fc_snprintf(buf, sizeof(buf), "%3d", pcity->tile->continent);
   return buf;
 }
 
-/************************************************************************
+/********************************************************************//**
   Returns city cma description.
   Returned string is statically allocated and its contents change when
   this function is called again.
-*************************************************************************/
+************************************************************************/
 static const char *cr_entry_cma(const struct city *pcity,
 				const void *data)
 {
@@ -788,27 +788,35 @@ static const struct city_report_spec base_city_report_specs[] = {
 struct city_report_spec *city_report_specs;
 static int num_creport_cols;
 
-/******************************************************************
-Some simple wrappers:
-******************************************************************/
+/********************************************************************//**
+  Simple wrapper for num_creport_cols()
+************************************************************************/
 int num_city_report_spec(void)
 {
   return num_creport_cols;
 }
+
+/********************************************************************//**
+  Simple wrapper for city_report_specs.show
+************************************************************************/
 bool *city_report_spec_show_ptr(int i)
 {
   return &(city_report_specs[i].show);
 }
+
+/********************************************************************//**
+  Simple wrapper for city_report_specs.tagname
+************************************************************************/
 const char *city_report_spec_tagname(int i)
 {
   return city_report_specs[i].tagname;
 }
 
-/******************************************************************
+/********************************************************************//**
   Initialize city report data.  This deals with ruleset-depedent
   columns and pre-translates the fields (to make things easier on
   the GUI writers).  Should be called before the GUI starts up.
-******************************************************************/
+************************************************************************/
 void init_city_report_game_data(void)
 {
   static char sp_explanation[SP_MAX][128];
@@ -881,8 +889,8 @@ void init_city_report_game_data(void)
             + specialist_count() + 1);
 }
 
-/**********************************************************************
-  The following several functions allow intelligent sorting city report 
+/************************************************************************
+  The following several functions allow intelligent sorting city report
   fields by column.  This doesn't necessarily do the right thing, but
   it's better than sorting alphabetically.
 
@@ -892,7 +900,7 @@ void init_city_report_game_data(void)
   way, two character fields are compared alphabetically.  Arbitrarily, a
   numeric field is sorted before a character field (for "justification"
   note that numbers are before letters in the ASCII table).
-**********************************************************************/
+************************************************************************/
 
 /* A datum is one short string, or one number.
    A datum_vector represents a long string of alternating strings and
@@ -907,10 +915,10 @@ struct datum {
 #define SPECVEC_TAG datum
 #include "specvec.h"
 
-/**********************************************************************
+/********************************************************************//**
   Init a datum from a substring.
-**********************************************************************/
-static void init_datum_string(struct datum *dat, const char *left, 
+************************************************************************/
+static void init_datum_string(struct datum *dat, const char *left,
                               const char *right)
 {
   int len = right - left;
@@ -921,20 +929,20 @@ static void init_datum_string(struct datum *dat, const char *left,
   dat->val.string_value[len] = 0;
 }
 
-/**********************************************************************
+/********************************************************************//**
   Init a datum from a number (a float because we happen to use
   strtof).
-**********************************************************************/
+************************************************************************/
 static void init_datum_number(struct datum *dat, float val)
 {
   dat->is_numeric = TRUE;
   dat->val.numeric_value = val;
 }
 
-/**********************************************************************
+/********************************************************************//**
   Free the data associated with a datum -- that is, free the string if
   it was allocated.
-**********************************************************************/
+************************************************************************/
 static void free_datum(struct datum *dat)
 {
   if (!dat->is_numeric) {
@@ -942,12 +950,12 @@ static void free_datum(struct datum *dat)
   }
 }
 
-/**********************************************************************
+/********************************************************************//**
   Compare two data items as described above:
   - numbers in the obvious way
   - strings alphabetically
   - number < string for no good reason
-**********************************************************************/
+************************************************************************/
 static int datum_compare(const struct datum *a, const struct datum *b)
 {
   if (a->is_numeric == b->is_numeric) {
@@ -973,10 +981,10 @@ static int datum_compare(const struct datum *a, const struct datum *b)
   }
 }
 
-/**********************************************************************
+/********************************************************************//**
   Compare two strings of data lexicographically.
-**********************************************************************/
-static int data_compare(const struct datum_vector *a, 
+************************************************************************/
+static int data_compare(const struct datum_vector *a,
                         const struct datum_vector *b)
 {
   int i, n;
@@ -996,9 +1004,9 @@ static int data_compare(const struct datum_vector *a,
   return a->size - b->size;
 }
 
-/**********************************************************************
+/********************************************************************//**
   Split a string into a vector of datum.
-**********************************************************************/
+************************************************************************/
 static void split_string(struct datum_vector *data, const char *str)
 {
   const char *string_start;
@@ -1041,9 +1049,9 @@ static void split_string(struct datum_vector *data, const char *str)
   }
 }
 
-/**********************************************************************
+/********************************************************************//**
   Free every datum in the vector.
-**********************************************************************/
+************************************************************************/
 static void free_data(struct datum_vector *data)
 {
   int i;
@@ -1054,9 +1062,9 @@ static void free_data(struct datum_vector *data)
   datum_vector_free(data);
 }
 
-/**********************************************************************
+/********************************************************************//**
   The real function: split the two strings, and compare them.
-**********************************************************************/
+************************************************************************/
 int cityrepfield_compare(const char *str1, const char *str2)
 {
   struct datum_vector data1, data2;
@@ -1081,9 +1089,9 @@ int cityrepfield_compare(const char *str1, const char *str2)
   return retval;
 }
 
-/****************************************************************
+/********************************************************************//**
   Same as can_city_sell_building(), but with universal argument.
-*****************************************************************/
+************************************************************************/
 bool can_city_sell_universal(const struct city *pcity,
                              const struct universal *target)
 {

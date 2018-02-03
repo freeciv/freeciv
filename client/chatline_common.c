@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,18 +40,18 @@
 
 static fc_mutex ow_mutex;
 
-/****************************************************************************
+/**********************************************************************//**
   Send the message as a chat to the server.
-****************************************************************************/
+**************************************************************************/
 int send_chat(const char *message)
 {
   return dsend_packet_chat_msg_req(&client.conn, message);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Send the message as a chat to the server. Message is constructed
   in printf style.
-****************************************************************************/
+**************************************************************************/
 int send_chat_printf(const char *format, ...)
 {
   struct packet_chat_msg_req packet;
@@ -65,7 +65,7 @@ int send_chat_printf(const char *format, ...)
   return send_packet_chat_msg_req(&client.conn, &packet);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Allocate output window mutex
 **************************************************************************/
 void fc_allocate_ow_mutex(void)
@@ -73,7 +73,7 @@ void fc_allocate_ow_mutex(void)
   fc_allocate_mutex(&ow_mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Release output window mutex
 **************************************************************************/
 void fc_release_ow_mutex(void)
@@ -81,7 +81,7 @@ void fc_release_ow_mutex(void)
   fc_release_mutex(&ow_mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize output window mutex
 **************************************************************************/
 void fc_init_ow_mutex(void)
@@ -89,7 +89,7 @@ void fc_init_ow_mutex(void)
   fc_init_mutex(&ow_mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destroy output window mutex
 **************************************************************************/
 void fc_destroy_ow_mutex(void)
@@ -97,7 +97,7 @@ void fc_destroy_ow_mutex(void)
   fc_destroy_mutex(&ow_mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Add a line of text to the output ("chatline") window, like puts() would
   do it in the console.
 **************************************************************************/
@@ -132,7 +132,7 @@ void output_window_append(const struct ft_color color,
   text_tag_list_destroy(tags);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 **************************************************************************/
@@ -146,7 +146,7 @@ void output_window_vprintf(const struct ft_color color,
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 **************************************************************************/
@@ -160,7 +160,7 @@ void output_window_printf(const struct ft_color color,
   va_end(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Add a line of text to the output ("chatline") window from server event.
 **************************************************************************/
 void output_window_event(const char *plain_text,
@@ -171,9 +171,9 @@ void output_window_event(const char *plain_text,
   fc_release_ow_mutex();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Standard welcome message.
-****************************************************************************/
+**************************************************************************/
 void chat_welcome_message(bool gui_has_copying_mitem)
 {
   output_window_append(ftc_any, _("Freeciv is free software and you are "
@@ -189,7 +189,7 @@ void chat_welcome_message(bool gui_has_copying_mitem)
   output_window_append(ftc_any, _("Now ... Go give 'em hell!"));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Writes the supplied string into the file defined by the variable
   'default_chat_logfile'.
 **************************************************************************/

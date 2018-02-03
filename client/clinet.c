@@ -102,7 +102,7 @@ extern char forced_tileset_name[512];
 static struct fc_sockaddr_list *list = NULL;
 static int name_count;
 
-/*************************************************************************
+/**********************************************************************//**
   Close socket and cleanup.  This one doesn't print a message, so should
   do so before-hand if necessary.
 **************************************************************************/
@@ -116,10 +116,10 @@ static void close_socket_nomessage(struct connection *pc)
   set_client_state(C_S_DISCONNECTED);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Client connection close socket callback. It shouldn't be called directy.
   Use connection_close() instead.
-****************************************************************************/
+**************************************************************************/
 static void client_conn_close_callback(struct connection *pconn)
 {
   char reason[256];
@@ -138,7 +138,7 @@ static void client_conn_close_callback(struct connection *pconn)
                        reason);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get ready to [try to] connect to a server:
    - translate HOSTNAME and PORT (with defaults of "localhost" and
      DEFAULT_SOCK_PORT respectively) to a raw IP address and port number, and
@@ -179,7 +179,7 @@ static int get_server_address(const char *hostname, int port,
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Try to connect to a server (get_server_address() must be called first!):
    - try to create a TCP socket and connect it to `names'
    - if successful:
@@ -241,7 +241,7 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Connect to a freeciv-server instance -- or at least try to.  On success,
   return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
@@ -269,7 +269,7 @@ int connect_to_server(const char *username, const char *hostname, int port,
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called after a connection is completed (e.g., in try_to_connect).
 **************************************************************************/
 void make_connection(int sock, const char *username)
@@ -299,7 +299,7 @@ void make_connection(int sock, const char *username)
   send_packet_server_join_req(&client.conn, &req);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get rid of server connection. This also kills internal server if it's
   used.
 **************************************************************************/
@@ -327,17 +327,17 @@ void disconnect_from_server(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   A wrapper around read_socket_data() which also handles the case the
   socket becomes writeable and there is still data which should be sent
   to the server.
 
-Returns:
+  Returns:
     -1  :  an error occurred - you should close the socket
     -2  :  the connection was closed
     >0  :  number of bytes read
     =0  :  no data read, would block
-****************************************************************************/
+**************************************************************************/
 static int read_from_connection(struct connection *pc, bool block)
 {
   for (;;) {
@@ -400,9 +400,9 @@ static int read_from_connection(struct connection *pc, bool block)
   }
 }
 
-/**************************************************************************
- This function is called when the client received a new input from the
- server.
+/**********************************************************************//**
+  This function is called when the client received a new input from the
+  server.
 **************************************************************************/
 void input_from_server(int fd)
 {
@@ -434,11 +434,11 @@ void input_from_server(int fd)
   }
 }
 
-/**************************************************************************
- This function will sniff at the given fd, get the packet and call
- client_packet_input. It will return if there is a network error or if
- the PACKET_PROCESSING_FINISHED packet for the given request is
- received.
+/**********************************************************************//**
+  This function will sniff at the given fd, get the packet and call
+  client_packet_input. It will return if there is a network error or if
+  the PACKET_PROCESSING_FINISHED packet for the given request is
+  received.
 **************************************************************************/
 void input_from_server_till_request_got_processed(int fd, 
 						  int expected_request_id)
@@ -486,7 +486,7 @@ void input_from_server_till_request_got_processed(int fd,
 }
 
 static bool autoconnecting = FALSE;
-/**************************************************************************
+/**********************************************************************//**
   Make an attempt to autoconnect to the server.
   It returns number of seconds it should be called again.
 **************************************************************************/
@@ -536,7 +536,7 @@ double try_to_autoconnect(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Start trying to autoconnect to freeciv-server.  Calls
   get_server_address(), then arranges for try_to_autoconnect(), which
   calls try_to_connect(), to be called roughly every
