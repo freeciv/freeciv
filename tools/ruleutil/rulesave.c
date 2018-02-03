@@ -2875,6 +2875,18 @@ static bool save_script_lua(const char *filename, const char *name,
 }
 
 /**********************************************************************//**
+  Save luadata.txt
+**************************************************************************/
+static bool save_luadata(const char *filename)
+{
+  if (game.server.luadata != NULL) {
+    return secfile_save(game.server.luadata, filename, 0, FZ_PLAIN);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Save ruleset to directory given.
 **************************************************************************/
 bool save_ruleset(const char *path, const char *name, struct rule_data *data)
@@ -2941,6 +2953,11 @@ bool save_ruleset(const char *path, const char *name, struct rule_data *data)
     if (success) {
       fc_snprintf(filename, sizeof(filename), "%s/parser.lua", path);
       success = save_script_lua(filename, name, get_parser_buffer());
+    }
+
+    if (success) {
+      fc_snprintf(filename, sizeof(filename), "%s/luadata.txt", path);
+      success = save_luadata(filename);
     }
 
     return success;
