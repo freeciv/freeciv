@@ -58,7 +58,7 @@
 
 #define LOGLEVEL_PARATROOPER LOG_DEBUG
 
-/*****************************************************************************
+/*************************************************************************//**
   Find best tile the paratrooper should jump to.
 *****************************************************************************/
 static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
@@ -181,9 +181,9 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   return best_tile;
 }
 
-/**********************************************************************
- This function does manage the paratrooper units of the AI.
-**********************************************************************/
+/*************************************************************************//**
+  This function does manage the paratrooper units of the AI.
+*****************************************************************************/
 void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
                             struct unit *punit)
 {
@@ -260,10 +260,10 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
   }
 }
 
-/*******************************************************************
+/*************************************************************************//**
   Evaluate value of the unit.
   Idea: one paratrooper can scare/protect all cities in his range
-******************************************************************/
+*****************************************************************************/
 static int calculate_want_for_paratrooper(struct unit *punit,
 				          struct tile *ptile_city)
 {
@@ -331,9 +331,9 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   return profit;
 }
 
-/*******************************************************************
+/*************************************************************************//**
   Chooses to build a paratroopers if necessary
-*******************************************************************/
+*****************************************************************************/
 void dai_choose_paratrooper(struct ai_type *ait,
                             struct player *pplayer, struct city *pcity,
                             struct adv_choice *choice, bool allow_gold_upkeep)

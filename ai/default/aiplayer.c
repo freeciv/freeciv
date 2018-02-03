@@ -30,7 +30,7 @@
 
 #include "aiplayer.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize player for use with default AI. Note that this is called
   for all players, not just for those default AI is controlling.
 **************************************************************************/
@@ -43,7 +43,7 @@ void dai_player_alloc(struct ai_type *ait, struct player *pplayer)
   dai_data_init(ait, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free player from use with default AI.
 **************************************************************************/
 void dai_player_free(struct ai_type *ait, struct player *pplayer)
@@ -58,7 +58,7 @@ void dai_player_free(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Store player specific data to savegame
 **************************************************************************/
 void dai_player_save(struct ai_type *ait, const char *aitstr,
@@ -70,7 +70,7 @@ void dai_player_save(struct ai_type *ait, const char *aitstr,
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Store player specific data to savegame
 **************************************************************************/
 void dai_player_save_relations(struct ai_type *ait, const char *aitstr,
@@ -101,7 +101,7 @@ void dai_player_save_relations(struct ai_type *ait, const char *aitstr,
                      "%s.ask_ceasefire", buf);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load player specific data from savegame
 **************************************************************************/
 void dai_player_load(struct ai_type *ait, const char *aitstr,
@@ -113,7 +113,7 @@ void dai_player_load(struct ai_type *ait, const char *aitstr,
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load player vs player specific data from savegame
 **************************************************************************/
 void dai_player_load_relations(struct ai_type *ait, const char *aitstr,
@@ -144,7 +144,7 @@ void dai_player_load_relations(struct ai_type *ait, const char *aitstr,
     = secfile_lookup_int_default(file, 0, "%s.ask_ceasefire", buf);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Copy default ai data from player to player
 **************************************************************************/
 void dai_player_copy(struct ai_type *ait,
@@ -167,7 +167,7 @@ void dai_player_copy(struct ai_type *ait,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ai got control of the player.
 **************************************************************************/
 void dai_gained_control(struct ai_type *ait, struct player *pplayer)
