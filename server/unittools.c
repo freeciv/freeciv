@@ -151,7 +151,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
                            enum unit_loss_reason reason,
                            struct player *killer);
 
-/**************************************************************************
+/**********************************************************************//**
   Returns a unit type that matches the role_tech or role roles.
 
   If role_tech is given, then we look at all units with this role
@@ -204,16 +204,16 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
   return which[fc_rand(num)];
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Unit has a chance to become veteran. This should not be used for settlers
   for the work they do.
-*****************************************************************************/
+**************************************************************************/
 bool maybe_make_veteran(struct unit *punit)
 {
   return maybe_become_veteran_real(punit, FALSE);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   After a battle, after diplomatic aggression and after surviving trireme
   loss chance, this routine is called to decide whether or not the unit
   should become more experienced.
@@ -223,7 +223,7 @@ bool maybe_make_veteran(struct unit *punit)
 
   If 'settler' is TRUE the veteran level is increased due to work done by
   the unit.
-*****************************************************************************/
+**************************************************************************/
 static bool maybe_become_veteran_real(struct unit *punit, bool settler)
 {
   const struct veteran_system *vsystem;
@@ -264,7 +264,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is the basic unit versus unit combat routine.
   1) ALOT of modifiers bonuses etc is added to the 2 units rates.
   2) the combat loop, which continues until one of the units are dead
@@ -312,7 +312,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is the basic unit versus unit classic bombardment routine.
   1) ALOT of modifiers bonuses etc is added to the 2 units rates.
   2) Do rate attacks and don't kill the defender, then return.
@@ -353,9 +353,9 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Make maybe make either side of combat veteran 
-****************************************************************************/
+**************************************************************************/
 void combat_veterans(struct unit *attacker, struct unit *defender)
 {
   if (attacker->hp > 0) {
@@ -365,10 +365,10 @@ void combat_veterans(struct unit *attacker, struct unit *defender)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Do unit auto-upgrades to players with the EFT_UNIT_UPGRADE effect
   (traditionally from Leonardo's Workshop).
-****************************************************************************/
+**************************************************************************/
 static void do_upgrade_effects(struct player *pplayer)
 {
   int upgrades = get_player_bonus(pplayer, EFT_UPGRADE_UNIT);
@@ -407,7 +407,7 @@ static void do_upgrade_effects(struct player *pplayer)
   unit_list_destroy(candidates);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   1. Do Leonardo's Workshop upgrade if applicable.
 
   2. Restore/decrease unit hitpoints.
@@ -421,7 +421,7 @@ static void do_upgrade_effects(struct player *pplayer)
   6. Refuel planes that are in bases.
 
   7. Kill planes that are out of fuel.
-****************************************************************************/
+**************************************************************************/
 void player_restore_units(struct player *pplayer)
 {
   /* 1) get Leonardo out of the way first: */
@@ -564,7 +564,7 @@ void player_restore_units(struct player *pplayer)
   } unit_list_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   add hitpoints to the unit, hp_gain_coord returns the amount to add
   united nations will speed up the process by 2 hp's / turn, means helicopters
   will actually not lose hp's every turn if player have that wonder.
@@ -573,7 +573,7 @@ void player_restore_units(struct player *pplayer)
 
   If 'game.server.killunhomed' is greater than 0, unhomed units lose
   'game.server.killunhomed' hitpoints each turn, killing the unit at the end.
-*****************************************************************************/
+**************************************************************************/
 static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
@@ -620,20 +620,20 @@ static void unit_restore_hitpoints(struct unit *punit)
   punit->paradropped = FALSE;
 }
   
-/***************************************************************************
+/**********************************************************************//**
   Move points are trivial, only modifiers to the base value is if it's
   sea units and the player has certain wonders/techs. Then add veteran
   bonus, if any.
-***************************************************************************/
+**************************************************************************/
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit)
 {
   punit->moves_left = unit_move_rate(punit);
   punit->done_moving = FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Iterate through all units and update them.
-****************************************************************************/
+**************************************************************************/
 void update_unit_activities(struct player *pplayer)
 {
   unit_list_iterate_safe(pplayer->units, punit) {
@@ -641,9 +641,9 @@ void update_unit_activities(struct player *pplayer)
   } unit_list_iterate_safe_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Iterate through all units and execute their orders.
-****************************************************************************/
+**************************************************************************/
 void execute_unit_orders(struct player *pplayer)
 {
   unit_list_iterate_safe(pplayer->units, punit) {
@@ -653,9 +653,9 @@ void execute_unit_orders(struct player *pplayer)
   } unit_list_iterate_safe_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Iterate through all units and remember their current activities.
-****************************************************************************/
+**************************************************************************/
 void finalize_unit_phase_beginning(struct player *pplayer)
 {
   /* Remember activities only after all knock-on effects of unit activities
@@ -668,14 +668,14 @@ void finalize_unit_phase_beginning(struct player *pplayer)
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   returns how many hp's a unit will gain on this square
   depends on whether or not it's inside city or fortress.
   barracks will regen landunits completely
   airports will regen airunits  completely
   ports    will regen navalunits completely
   fortify will add a little extra.
-***************************************************************************/
+**************************************************************************/
 static int hp_gain_coord(struct unit *punit)
 {
   int hp = 0;
@@ -699,7 +699,7 @@ static int hp_gain_coord(struct unit *punit)
   return MAX(hp, 0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the total amount of activity performed by all units on a tile
   for a given task and target.
 **************************************************************************/
@@ -719,7 +719,7 @@ static int total_activity(struct tile *ptile, enum unit_activity act,
   return total;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check the total amount of activity performed by all units on a tile
   for a given task.
 **************************************************************************/
@@ -729,7 +729,7 @@ static bool total_activity_done(struct tile *ptile, enum unit_activity act,
   return total_activity(ptile, act, tgt) >= tile_activity_time(act, ptile, tgt);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Common notification for all experience levels.
 **************************************************************************/
 void notify_unit_experience(struct unit *punit)
@@ -756,7 +756,7 @@ void notify_unit_experience(struct unit *punit)
                 unit_link(punit), name_translation_get(&vlevel->name));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert a single unit to another type.
 **************************************************************************/
 static void unit_convert(struct unit *punit)
@@ -781,7 +781,7 @@ static void unit_convert(struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cancel all illegal activities done by units at the specified tile.
 **************************************************************************/
 void unit_activities_cancel_all_illegal(const struct tile *ptile)
@@ -803,11 +803,11 @@ void unit_activities_cancel_all_illegal(const struct tile *ptile)
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
-  progress settlers in their current tasks, 
+/**********************************************************************//**
+  Progress settlers in their current tasks,
   and units that is pillaging.
   also move units that is on a goto.
-  restore unit move points (information needed for settler tasks)
+  Restore unit move points (information needed for settler tasks)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
 {
@@ -1018,7 +1018,7 @@ static void update_unit_activity(struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Forget the unit's last activity so that it can't be resumed. This is
   used for example when the unit moves or attacks.
 **************************************************************************/
@@ -1027,7 +1027,7 @@ void unit_forget_last_activity(struct unit *punit)
   punit->changed_from = ACTIVITY_IDLE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff activity requires some sort of target to be specified by
   the client.
 **************************************************************************/
@@ -1042,7 +1042,7 @@ bool unit_activity_needs_target_from_client(enum unit_activity activity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   For some activities (currently only pillaging), the precise target can
   be assigned by the server rather than explicitly requested by the client.
   This function assigns a specific activity+target if the current
@@ -1076,7 +1076,7 @@ void unit_assign_specific_activity_target(struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find place to place partisans. Returns whether such spot was found, and
   if it has been found, dst_tile contains that tile.
 **************************************************************************/
@@ -1124,7 +1124,7 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
   return bestvalue > 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Place partisans for powner around pcenter (normally around a city).
 **************************************************************************/
 void place_partisans(struct tile *pcenter, struct player *powner,
@@ -1146,10 +1146,10 @@ void place_partisans(struct tile *pcenter, struct player *powner,
   }
 }
 
-/**************************************************************************
-Teleport punit to city at cost specified. Returns success. Note that unit
-may die if it succesfully moves, i.e., even when return value is TRUE.
-(If specified cost is -1, then teleportation costs all movement.)
+/**********************************************************************//**
+  Teleport punit to city at cost specified. Returns success. Note that unit
+  may die if it succesfully moves, i.e., even when return value is TRUE.
+  (If specified cost is -1, then teleportation costs all movement.)
 **************************************************************************/
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 			  int move_cost, bool verbose)
@@ -1181,7 +1181,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move or remove a unit due to stack conflicts. This function will try to
   find a random safe tile within a two tile distance of the unit's current
   tile and move the unit there. If no tiles are found, the unit is
@@ -1255,7 +1255,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Throw pplayer's units from non allied cities
 
   If verbose is true, pplayer gets messages about where each units goes.
@@ -1317,7 +1317,7 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
 #endif /* FREECIV_DEBUG */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   For each pplayer's unit, check if we stack illegally, if so,
   bounce both players' units. If on ocean tile, bounce everyone but ships
   to avoid drowning. This function assumes that cities are clean.
@@ -1343,10 +1343,10 @@ static void resolve_stack_conflicts(struct player *pplayer,
   } unit_list_iterate_safe_end;
 }
 				
-/**************************************************************************
-  When in civil war or an alliance breaks there will potentially be units 
-  from both sides coexisting on the same squares.  This routine resolves 
-  this by first bouncing off non-allied units from their cities, then by 
+/**********************************************************************//**
+  When in civil war or an alliance breaks there will potentially be units
+  from both sides coexisting on the same squares.  This routine resolves
+  this by first bouncing off non-allied units from their cities, then by
   bouncing both players' units in now illegal multiowner stacks.  To avoid
   drowning due to removal of transports, we bounce everyone (including
   third parties' units) from ocean tiles.
@@ -1364,11 +1364,11 @@ void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
   resolve_stack_conflicts(aplayer, pplayer, verbose);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns the list of the units seen by 'pplayer' potentially seen only
   thanks to an alliance with 'aplayer'. The returned pointer is newly
   allocated and should be freed by the caller, using unit_list_destroy().
-****************************************************************************/
+**************************************************************************/
 struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
                                           const struct player *aplayer)
 {
@@ -1397,13 +1397,13 @@ struct unit_list *get_units_seen_via_ally(const struct player *pplayer,
   return seen_units;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   When two players cancel an alliance, a lot of units that were visible may
   no longer be visible (this includes units in transporters and cities).
   Call this function to inform the clients that these units are no longer
   visible. Pass the list of seen units returned by get_units_seen_via_ally()
   before alliance was broken up.
-****************************************************************************/
+**************************************************************************/
 void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
                               const struct unit_list *seen_units)
 {
@@ -1424,10 +1424,10 @@ void remove_allied_visibility(struct player *pplayer, struct player *aplayer,
   } city_list_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Refresh units visibility of 'aplayer' for 'pplayer' after alliance have
   been contracted.
-****************************************************************************/
+**************************************************************************/
 void give_allied_visibility(struct player *pplayer,
                             struct player *aplayer)
 {
@@ -1438,8 +1438,8 @@ void give_allied_visibility(struct player *pplayer,
   } unit_list_iterate_end;
 }
 
-/**************************************************************************
- Is unit being refueled in its current position
+/**********************************************************************//**
+  Is unit being refueled in its current position
 **************************************************************************/
 bool is_unit_being_refueled(const struct unit *punit)
 {
@@ -1456,7 +1456,7 @@ bool is_unit_being_refueled(const struct unit *punit)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Can unit refuel on tile. Considers also carrier capacity on tile.
 **************************************************************************/
 bool is_airunit_refuel_point(const struct tile *ptile,
@@ -1487,7 +1487,7 @@ bool is_airunit_refuel_point(const struct tile *ptile,
   return unit_could_load_at(punit, ptile);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Really transforms a single unit to another type.
 
   This function performs no checks. You should perform the appropriate
@@ -1546,9 +1546,9 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   conn_list_do_unbuffer(pplayer->connections);
 }
 
-/************************************************************************* 
+/**********************************************************************//**
   Wrapper of the below
-*************************************************************************/
+**************************************************************************/
 struct unit *create_unit(struct player *pplayer, struct tile *ptile, 
 			 struct unit_type *type, int veteran_level, 
                          int homecity_id, int moves_left)
@@ -1557,7 +1557,7 @@ struct unit *create_unit(struct player *pplayer, struct tile *ptile,
                           moves_left, -1, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set carried goods for unit.
 **************************************************************************/
 void unit_get_goods(struct unit *punit)
@@ -1571,8 +1571,8 @@ void unit_get_goods(struct unit *punit)
   }
 }
 
-/**************************************************************************
-  Creates a unit, and set it's initial values, and put it into the right 
+/**********************************************************************//**
+  Creates a unit, and set it's initial values, and put it into the right
   lists.
   If moves_left is less than zero, unit will get max moves.
 **************************************************************************/
@@ -1654,7 +1654,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   return punit;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the call back to run when the server removes the unit.
 **************************************************************************/
 void unit_set_removal_callback(struct unit *punit,
@@ -1668,7 +1668,7 @@ void unit_set_removal_callback(struct unit *punit,
   punit->server.removal_callback = callback;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove the call back so nothing runs when the server removes the unit.
 **************************************************************************/
 void unit_unset_removal_callback(struct unit *punit)
@@ -1676,10 +1676,10 @@ void unit_unset_removal_callback(struct unit *punit)
   punit->server.removal_callback = NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   We remove the unit and see if it's disappearance has affected the homecity
   and the city it was in.
-****************************************************************************/
+**************************************************************************/
 static void server_remove_unit_full(struct unit *punit, bool transported,
                                     enum unit_loss_reason reason)
 {
@@ -1791,17 +1791,17 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   We remove the unit and see if it's disappearance has affected the homecity
   and the city it was in.
-****************************************************************************/
+**************************************************************************/
 static void server_remove_unit(struct unit *punit,
                                enum unit_loss_reason reason)
 {
   server_remove_unit_full(punit, unit_transported(punit), reason);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle units destroyed when their transport is destroyed
 **************************************************************************/
 static void unit_lost_with_transport(const struct player *pplayer,
@@ -1824,10 +1824,10 @@ static void unit_lost_with_transport(const struct player *pplayer,
   wipe_unit_full(pcargo, FALSE, ULR_TRANSPORT_LOST, killer);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Remove the unit, and passengers if it is a carrying any. Remove the
   _minimum_ number, eg there could be another boat on the square.
-****************************************************************************/
+**************************************************************************/
 static void wipe_unit_full(struct unit *punit, bool transported,
                            enum unit_loss_reason reason,
                            struct player *killer)
@@ -1997,21 +1997,21 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   unit_list_destroy(unsaved);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Remove the unit, and passengers if it is a carrying any. Remove the
   _minimum_ number, eg there could be another boat on the square.
-****************************************************************************/
+**************************************************************************/
 void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                struct player *killer)
 {
   wipe_unit_full(punit, unit_transported(punit), reason, killer);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Determine if it is possible to save a given unit, and if so, save them.
   Note that despite being saved from drowning, teleporting the units to
   "safety" may have killed them in the end.
-****************************************************************************/
+**************************************************************************/
 static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
                              bool helpless, bool teleporting)
 {
@@ -2051,10 +2051,10 @@ static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   We don't really change owner of the unit, but create completely new
   unit as its copy. The new pointer to 'punit' is returned.
-****************************************************************************/
+**************************************************************************/
 struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
                                int homecity, enum unit_loss_reason reason)
 {
@@ -2095,7 +2095,7 @@ struct unit *unit_change_owner(struct unit *punit, struct player *pplayer,
   return gained_unit;   /* Returns the replacement. */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called when one unit kills another in combat (this function is only
   called in one place).  It handles all side effects including
   notifications and killstack.
@@ -2428,7 +2428,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Package a unit_info packet.  This packet contains basically all
   information about a unit.
 **************************************************************************/
@@ -2512,7 +2512,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
                                   : IDENTITY_NUMBER_ZERO);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Package a short_unit_info packet.  This contains a limited amount of
   information about the unit, and is sent to players who shouldn't know
   everything (like the unit's owner's enemies).
@@ -2558,7 +2558,7 @@ void package_short_unit(struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle situation where unit goes out of player sight.
 **************************************************************************/
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
@@ -2570,10 +2570,10 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
   }
 }
 
-/****************************************************************************
-  send the unit to the players who need the info.
+/**********************************************************************//**
+  Send the unit to the players who need the info.
   dest = NULL means all connections (game.est_connections)
-****************************************************************************/
+**************************************************************************/
 void send_unit_info(struct conn_list *dest, struct unit *punit)
 {
   const struct player *powner;
@@ -2614,7 +2614,7 @@ void send_unit_info(struct conn_list *dest, struct unit *punit)
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   For each specified connections, send information about all the units
   known to that player/conn.
 **************************************************************************/
@@ -2639,11 +2639,11 @@ void send_all_known_units(struct conn_list *dest)
   flush_packets();
 }
 
-/**************************************************************************
-  Nuke a square: 1) remove all units on the square, and 2) halve the 
+/**********************************************************************//**
+  Nuke a square: 1) remove all units on the square, and 2) halve the
   size of the city on the square.
 
-  If it isn't a city square or an ocean square then with 50% chance add 
+  If it isn't a city square or an ocean square then with 50% chance add
   some fallout, then notify the client about the changes.
 **************************************************************************/
 static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
@@ -2696,7 +2696,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Nuke all the squares in a 3x3 square around the center of the explosion
   pplayer is the player that caused the explosion.
 **************************************************************************/
@@ -2711,8 +2711,8 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
               nation_plural_for_player(pplayer));
 }
 
-/**************************************************************************
-  go by airline, if both cities have an airport and neither has been used this
+/**********************************************************************//**
+  Go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have its moves set to 0
 **************************************************************************/
 bool do_airline(struct unit *punit, struct city *pdest_city)
@@ -2741,7 +2741,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Autoexplore with unit.
 **************************************************************************/
 void do_explore(struct unit *punit)
@@ -2774,8 +2774,8 @@ void do_explore(struct unit *punit)
   send_unit_info(NULL, punit); /* probably duplicate */
 }
 
-/**************************************************************************
-  Returns whether the drop was made or not. Note that it also returns 1 
+/**********************************************************************//**
+  Returns whether the drop was made or not. Note that it also returns 1
   in the case where the drop was succesful, but the unit was killed by
   barbarians in a hut.
 **************************************************************************/
@@ -2899,7 +2899,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give 25 Gold or kill the unit. For H_LIMITEDHUTS
   Return TRUE if unit is alive, and FALSE if it was killed
 **************************************************************************/
@@ -2930,7 +2930,7 @@ static bool hut_get_limited(struct unit *punit)
   return ok;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Due to the effects in the scripted hut behavior can not be predicted,
   unit_enter_hut returns nothing.
 **************************************************************************/
@@ -2976,9 +2976,9 @@ static void unit_enter_hut(struct unit *punit)
   return;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Put the unit onto the transporter, and tell everyone.
-****************************************************************************/
+**************************************************************************/
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 {
   fc_assert_ret(punit != NULL);
@@ -2990,9 +2990,9 @@ void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
   send_unit_info(NULL, ptrans);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Load unit to transport, send transport's loaded status to everyone.
-****************************************************************************/
+**************************************************************************/
 static void unit_transport_load_tp_status(struct unit *punit,
                                           struct unit *ptrans,
                                           bool force)
@@ -3012,9 +3012,9 @@ static void unit_transport_load_tp_status(struct unit *punit,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Pull the unit off of the transporter, and tell everyone.
-****************************************************************************/
+**************************************************************************/
 void unit_transport_unload_send(struct unit *punit)
 {
   struct unit *ptrans;
@@ -3031,16 +3031,16 @@ void unit_transport_unload_send(struct unit *punit)
   send_unit_info(NULL, ptrans);
 }
 
-/*****************************************************************
+/**********************************************************************//**
   Used when unit_survive_autoattack()'s autoattack_prob_list
   autoattack frees its items.
-*****************************************************************/
+**************************************************************************/
 static void autoattack_prob_free(struct autoattack_prob *prob)
 {
   free(prob);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function is passed to autoattack_prob_list_sort() to sort a list of
   units and action probabilities according to their win chance against the
   autoattack target, modified by transportation relationships.
@@ -3087,10 +3087,10 @@ static int compare_units(const struct autoattack_prob *const *p1,
           * action_prob_cmp_pessimist((*p1)->prob, (*q1)->prob));
 }
 
-/*****************************************************************
+/**********************************************************************//**
   Check if unit survives enemy autoattacks. We assume that any
   unit that is adjacent to us can see us.
-*****************************************************************/
+**************************************************************************/
 static bool unit_survive_autoattack(struct unit *punit)
 {
   struct autoattack_prob_list *autoattack;
@@ -3217,9 +3217,9 @@ static bool unit_survive_autoattack(struct unit *punit)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Cancel orders for the unit.
-****************************************************************************/
+**************************************************************************/
 static void cancel_orders(struct unit *punit, char *dbg_msg)
 {
   free_unit_orders(punit);
@@ -3227,10 +3227,10 @@ static void cancel_orders(struct unit *punit, char *dbg_msg)
   log_debug("%s", dbg_msg);
 }
 
-/*****************************************************************
-  Will wake up any neighboring enemy sentry units or patrolling 
+/**********************************************************************//**
+  Will wake up any neighboring enemy sentry units or patrolling
   units.
-*****************************************************************/
+**************************************************************************/
 static void wakeup_neighbor_sentries(struct unit *punit)
 {
   bool alone_in_city;
@@ -3292,14 +3292,14 @@ static void wakeup_neighbor_sentries(struct unit *punit)
   } square_iterate_end;
 }
 
-/**************************************************************************
-Does: 1) updates the unit's homecity and the city it enters/leaves (the
-         city's happiness varies). This also takes into account when the
-	 unit enters/leaves a fortress.
-      2) updates adjacent cities' unavailable tiles.
+/**********************************************************************//**
+  Does: 1) updates the unit's homecity and the city it enters/leaves (the
+           city's happiness varies). This also takes into account when the
+           unit enters/leaves a fortress.
+        2) updates adjacent cities' unavailable tiles.
 
-FIXME: Sometimes it is not necessary to send cities because the goverment
-       doesn't care whether a unit is away or not.
+  FIXME: Sometimes it is not necessary to send cities because the goverment
+         doesn't care whether a unit is away or not.
 **************************************************************************/
 static bool unit_move_consequences(struct unit *punit,
                                    struct tile *src_tile,
@@ -3415,8 +3415,9 @@ static bool unit_move_consequences(struct unit *punit,
   return alive;
 }
 
-/**************************************************************************
-Check if the units activity is legal for a move , and reset it if it isn't.
+/**********************************************************************//**
+  Check if the units activity is legal for a move , and reset it if
+  it isn't.
 **************************************************************************/
 static void check_unit_activity(struct unit *punit)
 {
@@ -3449,9 +3450,9 @@ static void check_unit_activity(struct unit *punit)
   };
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Create a new unit move data, or use previous one if available.
-****************************************************************************/
+**************************************************************************/
 static struct unit_move_data *unit_move_data(struct unit *punit,
                                              struct tile *psrctile,
                                              struct tile *pdesttile)
@@ -3521,9 +3522,9 @@ static struct unit_move_data *unit_move_data(struct unit *punit,
   return pdata;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Decrease the reference counter and destroy if needed.
-****************************************************************************/
+**************************************************************************/
 static void unit_move_data_unref(struct unit_move_data *pdata)
 {
   fc_assert_ret(pdata != NULL);
@@ -3542,7 +3543,7 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Moves a unit. No checks whatsoever! This is meant as a practical
   function for other functions, like do_airline, which do the checking
   themselves.
@@ -3552,7 +3553,7 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
   current tile of the unit) and pdesttile need not be adjacent.
 
   Returns TRUE iff unit still alive.
-*****************************************************************************/
+**************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
                struct unit *embark_to, bool conquer_city_allowed)
 {
@@ -3957,7 +3958,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   return unit_lives;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Maybe cancel the goto if there is an enemy in the way
 **************************************************************************/
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 
@@ -3967,7 +3968,7 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
 	  || is_non_allied_city_tile(ptile, unit_owner(punit)));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Maybe cancel the patrol as there is an enemy near.
 
   If you modify the wakeup range you should change it in
@@ -3995,7 +3996,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
   return cancel;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff it is reasonable to assume that the player is wathing
   the unit.
 
@@ -4011,7 +4012,7 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
   return fresh && punit->moves_left > 0;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Executes a unit's orders stored in punit->orders.  The unit is put on idle
   if an action fails or if "patrol" is set and an enemy unit is encountered.
 
@@ -4029,7 +4030,7 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
 
   The fresh parameter is true if the order execution happens because the
   orders just were received.
-****************************************************************************/
+**************************************************************************/
 bool execute_orders(struct unit *punit, const bool fresh)
 {
   struct tile *dst_tile;
@@ -4446,13 +4447,13 @@ bool execute_orders(struct unit *punit, const bool fresh)
   } /* end while */
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the vision the unit will have at the given tile.  The base vision
   range may be modified by effects.
 
   Note that vision MUST be independent of transported_by for this to work
   properly.
-****************************************************************************/
+**************************************************************************/
 int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
                        enum vision_layer vlayer)
 {
@@ -4474,12 +4475,12 @@ int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
   return 0;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Refresh the unit's vision.
 
   This function has very small overhead and can be called any time effects
   may have changed the vision range of the city.
-****************************************************************************/
+**************************************************************************/
 void unit_refresh_vision(struct unit *punit)
 {
   struct vision *uvision = punit->server.vision;
@@ -4493,9 +4494,9 @@ void unit_refresh_vision(struct unit *punit)
   ASSERT_VISION(uvision);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Refresh the vision of all units in the list - see unit_refresh_vision.
-****************************************************************************/
+**************************************************************************/
 void unit_list_refresh_vision(struct unit_list *punitlist)
 {
   unit_list_iterate(punitlist, punit) {
@@ -4503,10 +4504,10 @@ void unit_list_refresh_vision(struct unit_list *punitlist)
   } unit_list_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Used to implement the game rule controlled by the unitwaittime setting.
   Notifies the unit owner if the unit is unable to act.
-****************************************************************************/
+**************************************************************************/
 bool unit_can_do_action_now(const struct unit *punit)
 {
   time_t dt;
@@ -4536,10 +4537,10 @@ bool unit_can_do_action_now(const struct unit *punit)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Mark a unit as having done something at the current time. This is used
   in conjunction with unit_can_do_action_now() and the unitwaittime setting.
-****************************************************************************/
+**************************************************************************/
 void unit_did_action(struct unit *punit)
 {
   if (!punit) {
@@ -4550,7 +4551,7 @@ void unit_did_action(struct unit *punit)
   punit->server.action_turn = game.info.turn;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Units (usually barbarian units) may disband spontaneously if they are
   far from any enemy units or cities. It is to remove barbarians that do
   not engage into any activity for a long time.

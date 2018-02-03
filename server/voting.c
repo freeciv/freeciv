@@ -42,7 +42,7 @@ struct vote_list *vote_list = NULL;
 int vote_number_sequence = 0;
 
 
-/**************************************************************************
+/**********************************************************************//**
   Helper function that returns the current number of eligible voters.
 **************************************************************************/
 int count_voters(const struct vote *pvote)
@@ -58,7 +58,7 @@ int count_voters(const struct vote *pvote)
   return num_voters;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tell clients that a new vote has been created.
 **************************************************************************/
 static void lsend_vote_new(struct conn_list *dest, struct vote *pvote)
@@ -96,7 +96,7 @@ static void lsend_vote_new(struct conn_list *dest, struct vote *pvote)
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send updated status information about the given vote.
 **************************************************************************/
 static void lsend_vote_update(struct conn_list *dest, struct vote *pvote,
@@ -134,7 +134,7 @@ static void lsend_vote_update(struct conn_list *dest, struct vote *pvote,
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tell clients that the given vote no longer exists.
 **************************************************************************/
 static void lsend_vote_remove(struct conn_list *dest, struct vote *pvote)
@@ -156,7 +156,7 @@ static void lsend_vote_remove(struct conn_list *dest, struct vote *pvote)
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tell clients that the given vote resolved.
 **************************************************************************/
 static void lsend_vote_resolve(struct conn_list *dest,
@@ -183,7 +183,7 @@ static void lsend_vote_resolve(struct conn_list *dest,
   } conn_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free all memory used by the vote structure.
 **************************************************************************/
 static void free_vote(struct vote *pvote)
@@ -199,7 +199,7 @@ static void free_vote(struct vote *pvote)
   free(pvote);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove the given vote and send a vote_remove packet to clients.
 **************************************************************************/
 void remove_vote(struct vote *pvote)
@@ -213,7 +213,7 @@ void remove_vote(struct vote *pvote)
   free_vote(pvote);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove all votes. Sends vote_remove packets to clients.
 **************************************************************************/
 void clear_all_votes(void)
@@ -229,22 +229,22 @@ void clear_all_votes(void)
   vote_list_clear(vote_list);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Returns TRUE if this vote is a "teamvote".
-***************************************************************************/
+**************************************************************************/
 bool vote_is_team_only(const struct vote *pvote)
 {
   return pvote && (pvote->flags & VCF_TEAMONLY);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   A user cannot vote if:
     * is not connected
     * access level < basic
     * isn't a player
     * the vote is a team vote and not on the caller's team
   NB: If 'pvote' is NULL, then the team condition is not checked.
-***************************************************************************/
+**************************************************************************/
 bool conn_can_vote(const struct connection *pconn, const struct vote *pvote)
 {
   if (!pconn || !conn_controls_player(pconn)
@@ -266,9 +266,9 @@ bool conn_can_vote(const struct connection *pconn, const struct vote *pvote)
   return TRUE;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Usually, all users can see, except in the team vote case.
-***************************************************************************/
+**************************************************************************/
 bool conn_can_see_vote(const struct connection *pconn,
                        const struct vote *pvote)
 {
@@ -295,7 +295,7 @@ bool conn_can_see_vote(const struct connection *pconn,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the vote with vote number 'vote_no', or NULL.
 **************************************************************************/
 struct vote *get_vote_by_no(int vote_no)
@@ -313,7 +313,7 @@ struct vote *get_vote_by_no(int vote_no)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the vote called by 'caller', or NULL if none exists.
 **************************************************************************/
 struct vote *get_vote_by_caller(const struct connection *caller)
@@ -331,7 +331,7 @@ struct vote *get_vote_by_caller(const struct connection *caller)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create and return a newly allocated vote for the command with id
   'command_id' and all arguments in the string 'allargs'.
 **************************************************************************/
@@ -384,10 +384,10 @@ struct vote *vote_new(struct connection *caller,
   return pvote;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether the vote would pass immediately when the caller will vote
   for.
-****************************************************************************/
+**************************************************************************/
 bool vote_would_pass_immediately(const struct connection *caller,
                                  int command_id)
 {
@@ -412,7 +412,7 @@ bool vote_would_pass_immediately(const struct connection *caller,
                      * count_voters(&virtual_vote)) / 100.0) < 1.0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check if we satisfy the criteria for resolving a vote, and resolve it
   if these critera are indeed met. Updates yes and no variables in voting
   struct as well.
@@ -605,7 +605,7 @@ static void check_vote(struct vote *pvote)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find the vote cast for the user id conn_id in a vote.
 **************************************************************************/
 static struct vote_cast *vote_cast_find(struct vote *pvote, int conn_id)
@@ -623,7 +623,7 @@ static struct vote_cast *vote_cast_find(struct vote *pvote, int conn_id)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return a new vote cast.
 **************************************************************************/
 static struct vote_cast *vote_cast_new(struct vote *pvote)
@@ -643,7 +643,7 @@ static struct vote_cast *vote_cast_new(struct vote *pvote)
   return pvc;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Remove a vote cast. This unlinks it and frees its memory.
 **************************************************************************/
 static void remove_vote_cast(struct vote *pvote, struct vote_cast *pvc)
@@ -657,7 +657,7 @@ static void remove_vote_cast(struct vote *pvote, struct vote_cast *pvc)
   check_vote(pvote);            /* Maybe can pass */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make the given connection vote 'type' on 'pvote', and check the vote.
 **************************************************************************/
 void connection_vote(struct connection *pconn,
@@ -685,7 +685,7 @@ void connection_vote(struct connection *pconn,
   check_vote(pvote);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cancel the votes of a lost or a detached connection.
 **************************************************************************/
 void cancel_connection_votes(struct connection *pconn)
@@ -701,7 +701,7 @@ void cancel_connection_votes(struct connection *pconn)
   } vote_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize data structures used by this module.
 **************************************************************************/
 void voting_init(void)
@@ -712,7 +712,7 @@ void voting_init(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check running votes. This should be called every turn.
 **************************************************************************/
 void voting_turn(void)
@@ -728,7 +728,7 @@ void voting_turn(void)
   } vote_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free all memory used by this module.
 **************************************************************************/
 void voting_free(void)
@@ -740,7 +740,7 @@ void voting_free(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Fills the supplied buffer with a string describing the given vote. This
   includes the vote command line, the percent required to pass, and any
   special conditions.
@@ -768,7 +768,7 @@ int describe_vote(struct vote *pvote, char *buf, int buflen)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle a vote submit packet sent from a client. This is basically just
   a Wrapper around connection_vote().
 **************************************************************************/
@@ -804,9 +804,9 @@ void handle_vote_submit(struct connection *pconn, int vote_no, int value)
   connection_vote(pconn, pvote, type);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Sends a packet_vote_new to pconn for every currently running votes.
-****************************************************************************/
+**************************************************************************/
 void send_running_votes(struct connection *pconn, bool only_team_votes)
 {
   if (NULL == vote_list
@@ -834,10 +834,10 @@ void send_running_votes(struct connection *pconn, bool only_team_votes)
   connection_do_unbuffer(pconn);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Sends a packet_vote_remove to pconn for every currently running team vote
   'pconn' can see.
-****************************************************************************/
+**************************************************************************/
 void send_remove_team_votes(struct connection *pconn)
 {
   if (NULL == vote_list
@@ -859,7 +859,7 @@ void send_remove_team_votes(struct connection *pconn)
   connection_do_unbuffer(pconn);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sends a packet_vote_update to every conn in dest. If dest is NULL, then
   sends to all established connections.
 **************************************************************************/
@@ -885,7 +885,7 @@ void send_updated_vote_totals(struct conn_list *dest)
   conn_list_do_unbuffer(dest);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the connection that called this vote.
 **************************************************************************/
 const struct connection *vote_get_caller(const struct vote *pvote)
