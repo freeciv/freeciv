@@ -148,10 +148,10 @@ static bool did_not_decide = false;
 extern char forced_tileset_name[512];
 qdef_act* qdef_act::m_instance = 0;
 
-/**********************************************************************
+/***********************************************************************//**
   Initialize a mapping between an action and the function to call if
   the action's button is pushed.
-**********************************************************************/
+***************************************************************************/
 static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 {
   QHash<enum gen_action, pfcn_void> action_function;
@@ -219,7 +219,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
  * pushed. */
 static const QHash<enum gen_action, pfcn_void> af_map = af_map_init();
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor for custom dialog with themed titlebar
 ***************************************************************************/
 qfc_dialog::qfc_dialog(QWidget* parent) : QDialog(parent,
@@ -231,7 +231,7 @@ qfc_dialog::qfc_dialog(QWidget* parent) : QDialog(parent,
   close_pix = *fc_icons::instance()->get_pixmap("cclose");
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Paint event for themed dialog
 ***************************************************************************/
 void qfc_dialog::paintEvent(QPaintEvent *event)
@@ -272,7 +272,7 @@ void qfc_dialog::paintEvent(QPaintEvent *event)
   style->drawPrimitive(QStyle::PE_Widget, &win_opt, &p, this);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Mouse move event for themed titlebar (moves dialog with left mouse)
 ***************************************************************************/
 void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
@@ -282,7 +282,7 @@ void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Mouse press event - catches left click
 ***************************************************************************/
 void qfc_dialog::mousePressEvent(QMouseEvent *event)
@@ -298,7 +298,7 @@ void qfc_dialog::mousePressEvent(QMouseEvent *event)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Mouse release event for themed dialog
 ***************************************************************************/
 void qfc_dialog::mouseReleaseEvent(QMouseEvent *event)
@@ -307,7 +307,7 @@ void qfc_dialog::mouseReleaseEvent(QMouseEvent *event)
   setCursor(Qt::ArrowCursor);
 }
 
-/***************************************************************************
+/***********************************************************************//**
  Constructor for selecting nations
 ***************************************************************************/
 races_dialog::races_dialog(struct player *pplayer,
@@ -482,7 +482,7 @@ races_dialog::races_dialog(struct player *pplayer,
   setWindowTitle(title);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor for races dialog
 ***************************************************************************/
 races_dialog::~races_dialog()
@@ -490,7 +490,7 @@ races_dialog::~races_dialog()
   ::is_race_dialog_open = false;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets first index to call update of nation list
 ***************************************************************************/
 void races_dialog::refresh()
@@ -540,7 +540,7 @@ void races_dialog::refresh()
   set_index(-99);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Updates nation_set combo ( usually called from option change )
 ***************************************************************************/
 void races_dialog::update_nationset_combo()
@@ -556,7 +556,7 @@ void races_dialog::update_nationset_combo()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Selected group of nation
 ***************************************************************************/
 void races_dialog::group_selected(const QItemSelection &sl,
@@ -573,7 +573,7 @@ void races_dialog::group_selected(const QItemSelection &sl,
 }
 
 
-/***************************************************************************
+/***********************************************************************//**
   Sets new nations' group by current current selection,
   index is used only when there is no current selection.
 ***************************************************************************/
@@ -628,7 +628,7 @@ void races_dialog::set_index(int index)
   header->resizeSections(QHeaderView::ResizeToContents);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets selected nation and updates style and leaders selector
 ***************************************************************************/
 void races_dialog::nation_selected(const QItemSelection &selected,
@@ -681,7 +681,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets selected style
 ***************************************************************************/
 void races_dialog::style_selected(const QItemSelection &selected,
@@ -700,7 +700,7 @@ void races_dialog::style_selected(const QItemSelection &selected,
   selected_style = qvar.toInt();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets selected leader
 ***************************************************************************/
 void races_dialog::leader_selected(int index)
@@ -716,7 +716,7 @@ void races_dialog::leader_selected(int index)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Button accepting all selection has been pressed, closes dialog if
   everything is ok
 ***************************************************************************/
@@ -755,10 +755,10 @@ void races_dialog::ok_pressed()
   deleteLater();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor for notify dialog
 ***************************************************************************/
-notify_dialog::notify_dialog(const char *caption, const char *headline, 
+notify_dialog::notify_dialog(const char *caption, const char *headline,
                              const char *lines, QWidget *parent)
                              : fcwidget()
 {
@@ -788,7 +788,7 @@ notify_dialog::notify_dialog(const char *caption, const char *headline,
 
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Starts new copy of notify dialog and closes current one
 ***************************************************************************/
 void notify_dialog::restart()
@@ -810,7 +810,7 @@ void notify_dialog::restart()
   destroy();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Calculates size of notify dialog
 ***************************************************************************/
 void notify_dialog::calc_size(int &x, int &y)
@@ -829,8 +829,7 @@ void notify_dialog::calc_size(int &x, int &y)
   x = x + 15;
 }
 
-
-/***************************************************************************
+/***********************************************************************//**
   Paint Event for notify dialog
 ***************************************************************************/
 void notify_dialog::paintEvent(QPaintEvent * paint_event)
@@ -853,9 +852,9 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
   cw->put_to_corner();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Called when mouse button was pressed, just to close on right click
-**************************************************************************/
+***************************************************************************/
 void notify_dialog::mousePressEvent(QMouseEvent *event)
 {
   cursor = event->globalPos() - geometry().topLeft();
@@ -865,24 +864,24 @@ void notify_dialog::mousePressEvent(QMouseEvent *event)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Called when mouse button was pressed and moving around
-**************************************************************************/
+***************************************************************************/
 void notify_dialog::mouseMoveEvent(QMouseEvent *event)
 {
   move(event->globalPos() - cursor);
   setCursor(Qt::SizeAllCursor);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Called when mouse button unpressed. Restores cursor.
-**************************************************************************/
+***************************************************************************/
 void notify_dialog::mouseReleaseEvent(QMouseEvent *event)
 {
   setCursor(Qt::ArrowCursor);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Called when close button was pressed
 ***************************************************************************/
 void notify_dialog::update_menu()
@@ -891,7 +890,7 @@ void notify_dialog::update_menu()
   destroy();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor for notify dialog, notice that somehow object is not destroyed
   immediately, so it can be still visible for parent, check boolean
   was_destroyed if u suspect it could not be destroyed yet
@@ -902,28 +901,29 @@ notify_dialog::~notify_dialog()
   destroy();
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Default actions provider constructor
-****************************************************************************/
+***************************************************************************/
 qdef_act::qdef_act()
 {
   vs_city = -1;
   vs_unit = -1;
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Returns instance of qdef_act
-****************************************************************************/
+***************************************************************************/
 qdef_act *qdef_act::action()
 {
-  if (!m_instance)
+  if (!m_instance) {
     m_instance = new qdef_act;
+  }
   return m_instance;
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Deletes qdef_act instance
-****************************************************************************/
+***************************************************************************/
 void qdef_act::drop()
 {
   if (m_instance) {
@@ -932,47 +932,47 @@ void qdef_act::drop()
   }
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Sets default action vs city
-****************************************************************************/
+***************************************************************************/
 void qdef_act::vs_city_set(int i)
 {
   vs_city = i;
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Sets default action vs unit
-****************************************************************************/
+***************************************************************************/
 void qdef_act::vs_unit_set(int i)
 {
   vs_unit = i;
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Returns default action vs city
-****************************************************************************/
+***************************************************************************/
 int qdef_act::vs_city_get()
 {
   return vs_city;
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Returns default action vs unit
-****************************************************************************/
+***************************************************************************/
 int qdef_act::vs_unit_get()
 {
   return vs_unit;
 }
 
-/***************************************************************************
-  Button canceling all selections has been pressed. 
+/***********************************************************************//**
+  Button canceling all selections has been pressed.
 ***************************************************************************/
 void races_dialog::cancel_pressed()
 {
   delete this;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets random nation
 ***************************************************************************/
 void races_dialog::random_pressed()
@@ -982,7 +982,7 @@ void races_dialog::random_pressed()
   delete this;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Notify goto dialog constructor
 ***************************************************************************/
 notify_goto::notify_goto(const char *headline, const char *lines,
@@ -1016,7 +1016,7 @@ notify_goto::notify_goto(const char *headline, const char *lines,
   show();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Clicked goto tile in notify goto dialog
 ***************************************************************************/
 void notify_goto::goto_tile()
@@ -1025,7 +1025,7 @@ void notify_goto::goto_tile()
   close();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Clicked inspect city in notify goto dialog
 ***************************************************************************/
 void notify_goto::inspect_city()
@@ -1037,7 +1037,7 @@ void notify_goto::inspect_city()
   close();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   User changed nation_set
 ***************************************************************************/
 void races_dialog::nationset_changed(int index)
@@ -1053,11 +1053,11 @@ void races_dialog::nationset_changed(int index)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog to display information about an event that has a
   specific location.  The user should be given the option to goto that
   location.
-**************************************************************************/
+***************************************************************************/
 void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
@@ -1067,9 +1067,9 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   ask->show();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog to display connection message from server.
-**************************************************************************/
+***************************************************************************/
 void popup_connect_msg(const char *headline, const char *message)
 {
   QMessageBox msg(gui()->central_wdg);
@@ -1081,9 +1081,9 @@ void popup_connect_msg(const char *headline, const char *message)
 
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a generic dialog to display some generic information.
-**************************************************************************/
+***************************************************************************/
 void popup_notify_dialog(const char *caption, const char *headline,
                          const char *lines)
 {
@@ -1092,9 +1092,9 @@ void popup_notify_dialog(const char *caption, const char *headline,
   nd->show();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup the nation selection dialog.
-**************************************************************************/
+***************************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
   if (!is_race_dialog_open) {
@@ -1105,10 +1105,10 @@ void popup_races_dialog(struct player *pplayer)
   race_dialog->showNormal();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Close the nation selection dialog.  This should allow the user to
   (at least) select a unit to activate.
-**************************************************************************/
+***************************************************************************/
 void popdown_races_dialog(void)
 {
   if (is_race_dialog_open){
@@ -1117,9 +1117,9 @@ void popdown_races_dialog(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog window to select units on a particular tile.
-**************************************************************************/
+***************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
   if (ptile != NULL
@@ -1129,17 +1129,17 @@ void unit_select_dialog_popup(struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Update the dialog window to select units on a particular tile.
-**************************************************************************/
+***************************************************************************/
 void unit_select_dialog_update_real(void)
 {
   gui()->update_unit_sel();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Updates nationset combobox
-**************************************************************************/
+***************************************************************************/
 void update_nationset_combo()
 {
   if (is_race_dialog_open) {
@@ -1147,9 +1147,9 @@ void update_nationset_combo()
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   The server has changed the set of selectable nations.
-**************************************************************************/
+***************************************************************************/
 void races_update_pickable(bool nationset_change)
 {
   if (is_race_dialog_open){
@@ -1157,10 +1157,10 @@ void races_update_pickable(bool nationset_change)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
-**************************************************************************/
+***************************************************************************/
 void races_toggles_set_sensitive(void)
 {
   if (is_race_dialog_open) {
@@ -1168,9 +1168,9 @@ void races_toggles_set_sensitive(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog asking if the player wants to start a revolution.
-**************************************************************************/
+***************************************************************************/
 void popup_revolution_dialog(struct government *government)
 {
   hud_message_box ask(gui()->central_wdg);
@@ -1195,9 +1195,9 @@ void popup_revolution_dialog(struct government *government)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Constructor for choice_dialog_button_data
-**************************************************************************/
+***************************************************************************/
 Choice_dialog_button::Choice_dialog_button(const QString title,
                                            pfcn_void func_in,
                                            QVariant data1_in,
@@ -1209,49 +1209,49 @@ Choice_dialog_button::Choice_dialog_button(const QString title,
   data2 = data2_in;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Get the function to call when the button is pressed.
-**************************************************************************/
+***************************************************************************/
 pfcn_void Choice_dialog_button::getFunc()
 {
   return func;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Get the first piece of data to feed the function when the button is
   pressed.
-**************************************************************************/
+***************************************************************************/
 QVariant Choice_dialog_button::getData1()
 {
   return data1;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Get the second piece of data to feed the function when the button is
   pressed.
-**************************************************************************/
+***************************************************************************/
 QVariant Choice_dialog_button::getData2()
 {
   return data2;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Sets the first piece of data
-**************************************************************************/
+***************************************************************************/
 void Choice_dialog_button::setData1(QVariant wariat)
 {
   data1 = wariat;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Sets the second piece of data
-**************************************************************************/
+***************************************************************************/
 void Choice_dialog_button::setData2(QVariant wariat)
 {
   data2 = wariat;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Constructor for choice_dialog
 ***************************************************************************/
 choice_dialog::choice_dialog(const QString title, const QString text,
@@ -1285,7 +1285,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor for choice dialog
 ***************************************************************************/
 choice_dialog::~choice_dialog()
@@ -1301,7 +1301,7 @@ choice_dialog::~choice_dialog()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Sets layout for choice dialog
 ***************************************************************************/
 void choice_dialog::set_layout()
@@ -1346,7 +1346,7 @@ void choice_dialog::set_layout()
   setLayout(layout);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Adds new action for choice dialog
 ***************************************************************************/
 void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
@@ -1371,7 +1371,7 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
    layout->addWidget(button);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Shows choice dialog
 ***************************************************************************/
 void choice_dialog::show_me()
@@ -1385,7 +1385,7 @@ void choice_dialog::show_me()
   show();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Returns layout in choice dialog
 ***************************************************************************/
 QVBoxLayout *choice_dialog::get_layout()
@@ -1393,9 +1393,9 @@ QVBoxLayout *choice_dialog::get_layout()
   return layout;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Get the button with the given identity.
-**************************************************************************/
+***************************************************************************/
 Choice_dialog_button *choice_dialog::get_identified_button(const int id)
 {
   if (id < 0) {
@@ -1406,7 +1406,7 @@ Choice_dialog_button *choice_dialog::get_identified_button(const int id)
   return action_button_map[id];
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Try to pick up default unit action
 ***************************************************************************/
 bool try_default_unit_action(QVariant q1, QVariant q2)
@@ -1424,7 +1424,7 @@ bool try_default_unit_action(QVariant q1, QVariant q2)
   return true;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Try to pick up default city action
 ***************************************************************************/
 bool try_default_city_action(QVariant q1, QVariant q2)
@@ -1441,7 +1441,7 @@ bool try_default_city_action(QVariant q1, QVariant q2)
   return true;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Focus next target
 ***************************************************************************/
 void choice_dialog::next_unit()
@@ -1481,7 +1481,7 @@ void choice_dialog::next_unit()
   switch_target();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Focus previous target
 ***************************************************************************/
 void choice_dialog::prev_unit()
@@ -1510,7 +1510,7 @@ void choice_dialog::prev_unit()
   switch_target();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Update dialog for new target (targeted_unit)
 ***************************************************************************/
 void choice_dialog::update_dialog(const struct act_prob *act_probs)
@@ -1524,7 +1524,7 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
   layout->addLayout(unit_skip);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Switches target unit
 ***************************************************************************/
 void choice_dialog::switch_target()
@@ -1541,8 +1541,7 @@ void choice_dialog::switch_target()
   layout->addLayout(unit_skip);
 }
 
-
-/***************************************************************************
+/***********************************************************************//**
   Run chosen action and close dialog
 ***************************************************************************/
 void choice_dialog::execute_action(const int action)
@@ -1554,14 +1553,14 @@ void choice_dialog::execute_action(const int action)
   close();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Put the button in the stack and temporarily remove it. When
   unstack_all_buttons() is called all buttons in the stack will be added
   to the end of the dialog.
 
   Can be used to place a button below existing buttons or below buttons
   added while it was in the stack.
-**************************************************************************/
+***************************************************************************/
 void choice_dialog::stack_button(Choice_dialog_button *button)
 {
   /* Store the data in the stack. */
@@ -1578,10 +1577,10 @@ void choice_dialog::stack_button(Choice_dialog_button *button)
   buttons_list.removeAll(button);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Put all the buttons in the stack back to the dialog. They will appear
   after any other buttons. See stack_button()
-**************************************************************************/
+***************************************************************************/
 void choice_dialog::unstack_all_buttons()
 {
   while (!last_buttons_stack.isEmpty()) {
@@ -1596,7 +1595,7 @@ void choice_dialog::unstack_all_buttons()
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action enter market place for choice dialog
 ***************************************************************************/
 static void caravan_marketplace(QVariant data1, QVariant data2)
@@ -1611,7 +1610,7 @@ static void caravan_marketplace(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action establish trade for choice dialog
 ***************************************************************************/
 static void caravan_establish_trade(QVariant data1, QVariant data2)
@@ -1626,7 +1625,7 @@ static void caravan_establish_trade(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action help build wonder for choice dialog
 ***************************************************************************/
 static void caravan_help_build(QVariant data1, QVariant data2)
@@ -1641,7 +1640,7 @@ static void caravan_help_build(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action Recycle Unit for choice dialog
 ***************************************************************************/
 static void unit_recycle(QVariant data1, QVariant data2)
@@ -1656,7 +1655,7 @@ static void unit_recycle(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action Home City for choice dialog
 ***************************************************************************/
 static void unit_home_city(QVariant data1, QVariant data2)
@@ -1671,7 +1670,7 @@ static void unit_home_city(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Upgrade Unit" for choice dialog
 ***************************************************************************/
 static void unit_upgrade(QVariant data1, QVariant data2)
@@ -1692,7 +1691,7 @@ static void unit_upgrade(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Airlift Unit" for choice dialog
 ***************************************************************************/
 static void airlift(QVariant data1, QVariant data2)
@@ -1707,7 +1706,7 @@ static void airlift(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Conquer City" for choice dialog
 ***************************************************************************/
 static void conquer_city(QVariant data1, QVariant data2)
@@ -1722,7 +1721,7 @@ static void conquer_city(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Delay selection of what action to take.
 ***************************************************************************/
 static void act_sel_wait(QVariant data1, QVariant data2)
@@ -1730,14 +1729,14 @@ static void act_sel_wait(QVariant data1, QVariant data2)
   key_unit_wait();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Empty action for choice dialog (just do nothing)
 ***************************************************************************/
 static void keep_moving(QVariant data1, QVariant data2)
 {
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Starts revolution with targeted government as target or anarchy otherwise
 ***************************************************************************/
 void revolution_response(struct government *government)
@@ -1749,10 +1748,10 @@ void revolution_response(struct government *government)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Move the queue of diplomats that need user input forward unless the
   current diplomat will need more input.
-**************************************************************************/
+***************************************************************************/
 static void diplomat_queue_handle_primary(int actor_unit_id)
 {
   if (!is_more_user_input_needed) {
@@ -1789,10 +1788,10 @@ static void diplomat_queue_handle_primary(int actor_unit_id)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Move the queue of diplomats that need user input forward since the
   current diplomat got the extra input that was required.
-**************************************************************************/
+***************************************************************************/
 static void diplomat_queue_handle_secondary(int actor_id)
 {
   /* Stop waiting. Move on to the next queued diplomat. */
@@ -1800,7 +1799,7 @@ static void diplomat_queue_handle_secondary(int actor_id)
   diplomat_queue_handle_primary(actor_id);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Returns a string with how many shields remains of the current production.
   This is useful as custom information on the help build wonder button.
 ***************************************************************************/
@@ -1818,10 +1817,10 @@ static QString city_prod_remaining(struct city *target_city)
         - target_city->shield_stock);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog that allows the player to select what action a unit
   should take.
-**************************************************************************/
+***************************************************************************/
 void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
@@ -2060,7 +2059,7 @@ void popup_action_selection(struct unit *actor_unit,
   astr_free(&text);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
 ***************************************************************************/
@@ -2083,7 +2082,7 @@ static int get_non_targeted_action_id(int tgt_action_id)
   return ACTION_NONE;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 ***************************************************************************/
@@ -2106,9 +2105,9 @@ static int get_targeted_action_id(int non_tgt_action_id)
   return ACTION_NONE;
 }
 
-/**********************************************************************
+/***********************************************************************//**
   Show the user the action if it is enabled.
-**********************************************************************/
+***************************************************************************/
 static void action_entry(choice_dialog *cd,
                          gen_action act,
                          const struct act_prob *act_probs,
@@ -2147,9 +2146,9 @@ static void action_entry(choice_dialog *cd,
   cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
 
-/**********************************************************************
+/***********************************************************************//**
   Update an existing button.
-**********************************************************************/
+***************************************************************************/
 static void action_entry_update(Choice_dialog_button *button,
                                 gen_action act,
                                 const struct act_prob *act_probs,
@@ -2177,9 +2176,9 @@ static void action_entry_update(Choice_dialog_button *button,
   button->setToolTip(tool_tip);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action Disband Unit for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void disband_unit(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2189,7 +2188,7 @@ static void disband_unit(QVariant data1, QVariant data2)
                     target_id, 0, "");
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action bribe unit for choice dialog
 ***************************************************************************/
 static void diplomat_bribe(QVariant data1, QVariant data2)
@@ -2207,7 +2206,7 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action sabotage unit for choice dialog
 ***************************************************************************/
 static void spy_sabotage_unit(QVariant data1, QVariant data2)
@@ -2219,7 +2218,7 @@ static void spy_sabotage_unit(QVariant data1, QVariant data2)
                     diplomat_target_id, 0, "");
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action Sabotage Unit Escape for choice dialog
 ***************************************************************************/
 static void spy_sabotage_unit_esc(QVariant data1, QVariant data2)
@@ -2231,7 +2230,7 @@ static void spy_sabotage_unit_esc(QVariant data1, QVariant data2)
                     diplomat_target_id, 0, "");
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Heal Unit" for choice dialog
 ***************************************************************************/
 static void heal_unit(QVariant data1, QVariant data2)
@@ -2242,9 +2241,9 @@ static void heal_unit(QVariant data1, QVariant data2)
   request_do_action(ACTION_HEAL_UNIT, actor_id, target_id, 0, "");
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action capture units for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void capture_units(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2254,9 +2253,9 @@ static void capture_units(QVariant data1, QVariant data2)
                     target_id, 0, "");
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action expel unit for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void expel_unit(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2266,9 +2265,9 @@ static void expel_unit(QVariant data1, QVariant data2)
                     target_id, 0, "");
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action bombard for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void bombard(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2278,9 +2277,9 @@ static void bombard(QVariant data1, QVariant data2)
                     target_id, 0, "");
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action build city for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void found_city(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2289,9 +2288,9 @@ static void found_city(QVariant data1, QVariant data2)
                                         actor_id);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action "Explode Nuclear" for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void nuke(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
@@ -2304,9 +2303,9 @@ static void nuke(QVariant data1, QVariant data2)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action "Attack" for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void attack(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
@@ -2319,9 +2318,9 @@ static void attack(QVariant data1, QVariant data2)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action "Paradrop Unit" for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void paradrop(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2334,9 +2333,9 @@ static void paradrop(QVariant data1, QVariant data2)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Action join city for choice dialog
-**************************************************************************/
+***************************************************************************/
 static void join_city(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
@@ -2349,7 +2348,7 @@ static void join_city(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal tech with spy for choice dialog
 ***************************************************************************/
 static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
@@ -2417,7 +2416,7 @@ static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
   astr_free(&stra);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Targeted Steal Tech" for choice dialog
 ***************************************************************************/
 static void spy_steal(QVariant data1, QVariant data2)
@@ -2425,7 +2424,7 @@ static void spy_steal(QVariant data1, QVariant data2)
   spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Targeted Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
 static void spy_steal_esc(QVariant data1, QVariant data2)
@@ -2433,7 +2432,7 @@ static void spy_steal_esc(QVariant data1, QVariant data2)
   spy_steal_shared(data1, data2, ACTION_SPY_TARGETED_STEAL_TECH_ESC);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal given tech for choice dialog
 ***************************************************************************/
 static void spy_steal_something(QVariant data1, QVariant data2)
@@ -2456,7 +2455,7 @@ static void spy_steal_something(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action  request sabotage list for choice dialog
 ***************************************************************************/
 static void spy_request_sabotage_list(QVariant data1, QVariant data2)
@@ -2474,7 +2473,7 @@ static void spy_request_sabotage_list(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action request sabotage (and escape) list for choice dialog
 ***************************************************************************/
 static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2)
@@ -2493,8 +2492,8 @@ static void spy_request_sabotage_esc_list(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
-  Action  poison city for choice dialog
+/***********************************************************************//**
+  Action Poison City for choice dialog
 ***************************************************************************/
 static void spy_poison(QVariant data1, QVariant data2)
 {
@@ -2508,7 +2507,7 @@ static void spy_poison(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action Poison City Escape for choice dialog
 ***************************************************************************/
 static void spy_poison_esc(QVariant data1, QVariant data2)
@@ -2523,7 +2522,7 @@ static void spy_poison_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action suitcase nuke for choice dialog
 ***************************************************************************/
 static void spy_nuke_city(QVariant data1, QVariant data2)
@@ -2538,7 +2537,7 @@ static void spy_nuke_city(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action suitcase nuke escape for choice dialog
 ***************************************************************************/
 static void spy_nuke_city_esc(QVariant data1, QVariant data2)
@@ -2553,7 +2552,7 @@ static void spy_nuke_city_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action destroy city for choice dialog
 ***************************************************************************/
 static void destroy_city(QVariant data1, QVariant data2)
@@ -2568,7 +2567,7 @@ static void destroy_city(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal gold for choice dialog
 ***************************************************************************/
 static void spy_steal_gold(QVariant data1, QVariant data2)
@@ -2583,7 +2582,7 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal gold escape for choice dialog
 ***************************************************************************/
 static void spy_steal_gold_esc(QVariant data1, QVariant data2)
@@ -2598,7 +2597,7 @@ static void spy_steal_gold_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal maps for choice dialog
 ***************************************************************************/
 static void spy_steal_maps(QVariant data1, QVariant data2)
@@ -2613,7 +2612,7 @@ static void spy_steal_maps(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal maps escape for choice dialog
 ***************************************************************************/
 static void spy_steal_maps_esc(QVariant data1, QVariant data2)
@@ -2628,7 +2627,7 @@ static void spy_steal_maps_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action establish embassy for choice dialog
 ***************************************************************************/
 static void spy_embassy(QVariant data1, QVariant data2)
@@ -2643,7 +2642,7 @@ static void spy_embassy(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action establish embassy for choice dialog
 ***************************************************************************/
 static void diplomat_embassy(QVariant data1, QVariant data2)
@@ -2658,7 +2657,7 @@ static void diplomat_embassy(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action investigate city for choice dialog
 ***************************************************************************/
 static void spy_investigate(QVariant data1, QVariant data2)
@@ -2673,7 +2672,7 @@ static void spy_investigate(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action Investigate City Spend Unit for choice dialog
 ***************************************************************************/
 static void diplomat_investigate(QVariant data1, QVariant data2)
@@ -2688,7 +2687,7 @@ static void diplomat_investigate(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action sabotage for choice dialog
 ***************************************************************************/
 static void diplomat_sabotage(QVariant data1, QVariant data2)
@@ -2703,7 +2702,7 @@ static void diplomat_sabotage(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action sabotage and escape for choice dialog
 ***************************************************************************/
 static void diplomat_sabotage_esc(QVariant data1, QVariant data2)
@@ -2718,7 +2717,7 @@ static void diplomat_sabotage_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action steal with diplomat for choice dialog
 ***************************************************************************/
 static void diplomat_steal(QVariant data1, QVariant data2)
@@ -2733,7 +2732,7 @@ static void diplomat_steal(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action "Steal Tech Escape Expected" for choice dialog
 ***************************************************************************/
 static void diplomat_steal_esc(QVariant data1, QVariant data2)
@@ -2748,7 +2747,7 @@ static void diplomat_steal_esc(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action incite revolt for choice dialog
 ***************************************************************************/
 static void diplomat_incite(QVariant data1, QVariant data2)
@@ -2766,7 +2765,7 @@ static void diplomat_incite(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action incite revolt and escape for choice dialog
 ***************************************************************************/
 static void diplomat_incite_escape(QVariant data1, QVariant data2)
@@ -2784,7 +2783,7 @@ static void diplomat_incite_escape(QVariant data1, QVariant data2)
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action keep moving with actor unit for choice dialog
 ***************************************************************************/
 static void act_sel_keep_moving(QVariant data1, QVariant data2)
@@ -2801,10 +2800,10 @@ static void act_sel_keep_moving(QVariant data1, QVariant data2)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
-**************************************************************************/
+***************************************************************************/
 void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
                          const struct action *paction)
 {
@@ -2863,10 +2862,10 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
   diplomat_queue_handle_secondary(diplomat_id);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
-**************************************************************************/
+***************************************************************************/
 void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
                         const struct action *paction)
 {
@@ -2914,7 +2913,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
   diplomat_queue_handle_secondary(diplomat_id);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action pillage for choice dialog
 ***************************************************************************/
 static void pillage_something(QVariant data1, QVariant data2)
@@ -2934,7 +2933,7 @@ static void pillage_something(QVariant data1, QVariant data2)
   ::is_showing_pillage_dialog = false;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Action sabotage with spy for choice dialog
 ***************************************************************************/
 static void spy_sabotage(QVariant data1, QVariant data2)
@@ -2958,10 +2957,10 @@ static void spy_sabotage(QVariant data1, QVariant data2)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog asking a diplomatic unit if it wishes to sabotage the
   given enemy city.
-**************************************************************************/
+***************************************************************************/
 void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
                            const struct action *paction)
 {
@@ -3013,10 +3012,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   astr_free(&stra);
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Popup a dialog asking the unit which improvement they would like to
   pillage.
-**************************************************************************/
+***************************************************************************/
 void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
   QString str;
@@ -3046,7 +3045,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   cd->show_me();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Disband Message box contructor
 ***************************************************************************/
 disband_box::disband_box(struct unit_list *punits,
@@ -3072,7 +3071,7 @@ disband_box::disband_box(struct unit_list *punits,
   connect(pb, &QAbstractButton::clicked, this, &disband_box::disband_clicked);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Clicked Yes in disband box
 ***************************************************************************/
 void disband_box::disband_clicked()
@@ -3084,7 +3083,7 @@ void disband_box::disband_clicked()
   } unit_list_iterate_end;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor for disband box
 ***************************************************************************/
 disband_box::~disband_box()
@@ -3092,19 +3091,19 @@ disband_box::~disband_box()
   unit_list_destroy(cpunits);
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Pops up a dialog to confirm disband of the unit(s).
-****************************************************************************/
+***************************************************************************/
 void popup_disband_dialog(struct unit_list *punits)
 {
   disband_box *ask = new disband_box(punits, gui()->central_wdg);
   ask->show();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Ruleset (modpack) has suggested loading certain tileset. Confirm from
   user and load.
-**************************************************************************/
+***************************************************************************/
 void popup_tileset_suggestion_dialog(void)
 {
   hud_message_box ask(gui()->central_wdg);
@@ -3127,10 +3126,10 @@ void popup_tileset_suggestion_dialog(void)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Ruleset (modpack) has suggested loading certain soundset. Confirm from
   user and load.
-*****************************************************************/
+***************************************************************************/
 void popup_soundset_suggestion_dialog(void)
 {
   hud_message_box ask(gui()->central_wdg);
@@ -3152,10 +3151,10 @@ void popup_soundset_suggestion_dialog(void)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Ruleset (modpack) has suggested loading certain musicset. Confirm from
   user and load.
-*****************************************************************/
+***************************************************************************/
 void popup_musicset_suggestion_dialog(void)
 {
   hud_message_box ask(gui()->central_wdg);
@@ -3177,19 +3176,19 @@ void popup_musicset_suggestion_dialog(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Tileset (modpack) has suggested loading certain theme. Confirm from
   user and load.
-**************************************************************************/
+***************************************************************************/
 bool popup_theme_suggestion_dialog(const char *theme_name)
 {
   /* PORTME */
   return false;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Restarts all notify dialogs
-**************************************************************************/
+***************************************************************************/
 void restart_notify_dialogs()
 {
   QList<notify_dialog *> nd_list;
@@ -3202,10 +3201,10 @@ void restart_notify_dialogs()
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.
-**************************************************************************/
+***************************************************************************/
 void popdown_all_game_dialogs(void)
 {
   int i;
@@ -3233,11 +3232,11 @@ void popdown_all_game_dialogs(void)
   gui()->popdown_unit_sel();
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Returns the id of the actor unit currently handled in action selection
   dialog when the action selection dialog is open.
   Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
-**************************************************************************/
+***************************************************************************/
 int action_selection_actor_unit(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
@@ -3249,12 +3248,12 @@ int action_selection_actor_unit(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Returns id of the target city of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
   is open or no city target is present in the action selection dialog.
-**************************************************************************/
+***************************************************************************/
 int action_selection_target_city(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
@@ -3266,12 +3265,12 @@ int action_selection_target_city(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Returns id of the target unit of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   unit target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
   is open or no unit target is present in the action selection dialog.
-**************************************************************************/
+***************************************************************************/
 int action_selection_target_unit(void)
 {
   choice_dialog *cd = gui()->get_diplo_dialog();
@@ -3283,9 +3282,9 @@ int action_selection_target_unit(void)
   }
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Updates the action selection dialog with new information.
-**************************************************************************/
+***************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
@@ -3416,9 +3415,9 @@ void action_selection_refresh(struct unit *actor_unit,
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Closes the action selection dialog
-****************************************************************/
+***************************************************************************/
 void action_selection_close(void)
 {
   choice_dialog *cd;
@@ -3430,16 +3429,16 @@ void action_selection_close(void)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Player has gained a new tech.
-*****************************************************************/
+***************************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
 {
 }
 
-/****************************************************************
+/***********************************************************************//**
   Show tileset error dialog.
-*****************************************************************/
+***************************************************************************/
 void show_tileset_error(const char *msg)
 {
   char buf[1024];
@@ -3458,9 +3457,9 @@ void show_tileset_error(const char *msg)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Popup dialog for upgrade units
-*****************************************************************/
+***************************************************************************/
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   char buf[512];
@@ -3495,9 +3494,9 @@ void popup_upgrade_dialog(struct unit_list *punits)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Contructor for units_select
-*****************************************************************/
+***************************************************************************/
 units_select::units_select(tile *ptile, QWidget *parent)
 {
   QPoint p, final_p;
@@ -3529,9 +3528,10 @@ units_select::units_select(tile *ptile, QWidget *parent)
    * Qt5.2 so dont update */
   QTimer::singleShot(10, this, SLOT(update_img()));
 }
-/****************************************************************
+
+/***********************************************************************//**
   Destructor for unit select
-*****************************************************************/
+***************************************************************************/
 units_select::~units_select()
 {
     delete h_pix;
@@ -3539,9 +3539,9 @@ units_select::~units_select()
     delete cw;
 }
 
-/****************************************************************
+/***********************************************************************//**
   Create pixmap of whole widget except borders (pix)
-*****************************************************************/
+***************************************************************************/
 void units_select::create_pixmap()
 {
   int a;
@@ -3664,9 +3664,9 @@ void units_select::create_pixmap()
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Event for mouse moving around units_select
-*****************************************************************/
+***************************************************************************/
 void units_select::mouseMoveEvent(QMouseEvent *event)
 {
   int a, b;
@@ -3690,11 +3690,11 @@ void units_select::mouseMoveEvent(QMouseEvent *event)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Mouse pressed event for units_select.
   Left Button - chooses units
   Right Button - closes widget
-*****************************************************************/
+***************************************************************************/
 void units_select::mousePressEvent(QMouseEvent *event)
 {
   struct unit *punit;
@@ -3716,20 +3716,19 @@ void units_select::mousePressEvent(QMouseEvent *event)
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Update image, because in constructor theme colors
   are uninitialized in QPainter
-*****************************************************************/
+***************************************************************************/
 void units_select::update_img()
 {
   create_pixmap();
   update();
 }
 
-
-/****************************************************************
+/***********************************************************************//**
   Redirected paint event
-*****************************************************************/
+***************************************************************************/
 void units_select::paint(QPainter *painter, QPaintEvent *event)
 {
   QFontMetrics fm(info_font);
@@ -3799,9 +3798,10 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
   }
   cw->put_to_corner();
 }
-/****************************************************************
+
+/***********************************************************************//**
   Paint event, redirects to paint(...)
-*****************************************************************/
+***************************************************************************/
 void units_select::paintEvent(QPaintEvent *event)
 {
   QPainter painter;
@@ -3811,10 +3811,10 @@ void units_select::paintEvent(QPaintEvent *event)
   painter.end();
 }
 
-/****************************************************************
+/***********************************************************************//**
   Function from abstract fcwidget to update menu, its not needed
   cause widget is easy closable via right mouse click
-*****************************************************************/
+***************************************************************************/
 void units_select::update_menu()
 {
   was_destroyed = true;
@@ -3822,9 +3822,9 @@ void units_select::update_menu()
   destroy();
 }
 
-/****************************************************************
+/***********************************************************************//**
   Updates unit list on tile
-*****************************************************************/
+***************************************************************************/
 void units_select::update_units()
 {
   int i = 1;
@@ -3854,18 +3854,18 @@ void units_select::update_units()
   }
 }
 
-/****************************************************************
+/***********************************************************************//**
   Close event for units_select, restores focus to map
-*****************************************************************/
+***************************************************************************/
 void units_select::closeEvent(QCloseEvent* event)
 {
   gui()->mapview_wdg->setFocus();
   QWidget::closeEvent(event);
 }
 
-/****************************************************************
+/***********************************************************************//**
   Mouse wheel event for units_select
-*****************************************************************/
+***************************************************************************/
 void units_select::wheelEvent(QWheelEvent *event)
 {
   int nr;
@@ -3887,9 +3887,9 @@ void units_select::wheelEvent(QWheelEvent *event)
   event->accept();
 }
 
-/****************************************************************
+/***********************************************************************//**
   Keyboard handler for units_select
-*****************************************************************/
+***************************************************************************/
 void units_select::keyPressEvent(QKeyEvent *event)
 {
   if (event->key() == Qt::Key_Escape) {
@@ -3900,8 +3900,7 @@ void units_select::keyPressEvent(QKeyEvent *event)
   QWidget::keyPressEvent(event);
 }
 
-
-/***************************************************************************
+/***********************************************************************//**
   Set current diplo dialog
 ***************************************************************************/
 void fc_client::set_diplo_dialog(choice_dialog *widget)
@@ -3909,7 +3908,7 @@ void fc_client::set_diplo_dialog(choice_dialog *widget)
   opened_dialog = widget;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Get current diplo dialog
 ***************************************************************************/
 choice_dialog *fc_client::get_diplo_dialog()
@@ -3917,19 +3916,19 @@ choice_dialog *fc_client::get_diplo_dialog()
   return opened_dialog;
 }
 
-/****************************************************************
+/***********************************************************************//**
   Give a warning when user is about to edit scenario with manually
   set properties.
-*****************************************************************/
+***************************************************************************/
 bool qtg_handmade_scenario_warning()
 {
   /* Just tell the client common code to handle this. */
   return false;
 }
 
-/****************************************************************
+/***********************************************************************//**
   Unit wants to get into some transport on given tile.
-*****************************************************************/
+***************************************************************************/
 bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
 {
   int tcount;
@@ -3966,7 +3965,7 @@ bool qtg_request_transport(struct unit *pcargo, struct tile *ptile)
   return true;
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Popup detailed information about battle or save information for
   some kind of statistics
 ***************************************************************************/
