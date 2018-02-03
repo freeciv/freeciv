@@ -470,7 +470,7 @@ One way to resist radiation is willpower.\n\n\
 Simply knowing this tech allows cities to grow 3 sizes bigger.")
 
 [advance_mining]
-name        = _("Mining")
+name        = _("?tech:Mining")
 req1        = "Manufacturing"
 req2        = "Cybernetics"
 flags       = ""
