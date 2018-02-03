@@ -74,7 +74,7 @@ static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
 
-/**************************************************************************
+/**********************************************************************//**
   The action selection is done.
 **************************************************************************/
 static void act_sel_done_primary(int actor_unit_id)
@@ -113,7 +113,7 @@ static void act_sel_done_primary(int actor_unit_id)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   A follow up question about the selected action is done.
 **************************************************************************/
 static void act_sel_done_secondary(int actor_unit_id)
@@ -123,10 +123,10 @@ static void act_sel_done_secondary(int actor_unit_id)
   act_sel_done_primary(actor_unit_id);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
-***************************************************************************/
+**************************************************************************/
 static int get_non_targeted_action_id(int tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
@@ -146,10 +146,10 @@ static int get_non_targeted_action_id(int tgt_action_id)
   return ACTION_NONE;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
-***************************************************************************/
+**************************************************************************/
 static int get_targeted_action_id(int non_tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
@@ -173,9 +173,9 @@ static int get_targeted_action_id(int non_tgt_action_id)
 /* ============================ CARAVAN DIALOG ========================== */
 /* ====================================================================== */
 
-/****************************************************************
+/**********************************************************************//**
   User selected that caravan should enter marketplace.
-*****************************************************************/
+**************************************************************************/
 static int caravan_marketplace_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -194,9 +194,9 @@ static int caravan_marketplace_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected that caravan should establish traderoute.
-*****************************************************************/
+**************************************************************************/
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -215,9 +215,9 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected that caravan should help in wonder building.
-*****************************************************************/
+**************************************************************************/
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -236,9 +236,9 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected to Recycle Unit to help city production.
-*****************************************************************/
+**************************************************************************/
 static int unit_recycle_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -261,9 +261,9 @@ static int unit_recycle_callback(struct widget *pWidget)
 /* ============================ DIPLOMAT DIALOG ========================= */
 /* ====================================================================== */
 
-/****************************************************************
+/**********************************************************************//**
   User interacted with diplomat dialog.
-*****************************************************************/
+**************************************************************************/
 static int diplomat_dlg_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -273,9 +273,9 @@ static int diplomat_dlg_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Establish Embassy"
-*****************************************************************/
+**************************************************************************/
 static int spy_embassy_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -294,9 +294,9 @@ static int spy_embassy_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Establish Embassy"
-*****************************************************************/
+**************************************************************************/
 static int diplomat_embassy_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -315,9 +315,9 @@ static int diplomat_embassy_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Investigate City"
-*****************************************************************/
+**************************************************************************/
 static int spy_investigate_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -337,9 +337,9 @@ static int spy_investigate_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Investigate City (spends the unit)"
-*****************************************************************/
+**************************************************************************/
 static int diplomat_investigate_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -359,9 +359,9 @@ static int diplomat_investigate_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Poison City"
-*****************************************************************/
+**************************************************************************/
 static int spy_poison_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -379,9 +379,9 @@ static int spy_poison_callback(struct widget *pWidget)
   return -1;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   User clicked "Poison City Escape"
-***************************************************************************/
+**************************************************************************/
 static int spy_poison_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -399,9 +399,9 @@ static int spy_poison_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Suitcase Nuke"
-*****************************************************************/
+**************************************************************************/
 static int spy_nuke_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -419,9 +419,9 @@ static int spy_nuke_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   User clicked "Suitcase Nuke Escape"
-***************************************************************************/
+**************************************************************************/
 static int spy_nuke_city_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -439,9 +439,9 @@ static int spy_nuke_city_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Destroy City"
-*****************************************************************/
+**************************************************************************/
 static int destroy_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -459,9 +459,9 @@ static int destroy_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   User clicked "Steal Gold"
-********************************************************************/
+**************************************************************************/
 static int spy_steal_gold_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -480,9 +480,9 @@ static int spy_steal_gold_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   User clicked "Steal Gold Escape"
-********************************************************************/
+**************************************************************************/
 static int spy_steal_gold_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -501,9 +501,9 @@ static int spy_steal_gold_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   User clicked "Steal Maps"
-********************************************************************/
+**************************************************************************/
 static int spy_steal_maps_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -522,9 +522,9 @@ static int spy_steal_maps_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   User clicked "Steal Maps and Escape"
-********************************************************************/
+**************************************************************************/
 static int spy_steal_maps_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -543,10 +543,10 @@ static int spy_steal_maps_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
- Requests up-to-date list of improvements, the return of
- which will trigger the popup_sabotage_dialog() function.
-*****************************************************************/
+/**********************************************************************//**
+  Requests up-to-date list of improvements, the return of
+  which will trigger the popup_sabotage_dialog() function.
+**************************************************************************/
 static int spy_sabotage_request(struct widget *pWidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -564,11 +564,11 @@ static int spy_sabotage_request(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Requests up-to-date list of improvements, the return of
   which will trigger the popup_sabotage_dialog() function.
   (Escape version)
-*****************************************************************/
+**************************************************************************/
 static int spy_sabotage_esc_request(struct widget *pWidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -586,9 +586,9 @@ static int spy_sabotage_esc_request(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Sabotage City" for diplomat (not spy)
-*****************************************************************/
+**************************************************************************/
 static int diplomat_sabotage_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -607,9 +607,9 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Sabotage City Escape" for diplomat (not spy)
-*****************************************************************/
+**************************************************************************/
 static int diplomat_sabotage_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -630,9 +630,9 @@ static int diplomat_sabotage_esc_callback(struct widget *pWidget)
 
 /* --------------------------------------------------------- */
 
-/****************************************************************
+/**********************************************************************//**
   User interacted with spy's steal dialog window.
-*****************************************************************/
+**************************************************************************/
 static int spy_steal_dlg_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -642,9 +642,9 @@ static int spy_steal_dlg_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Exit spy's steal or sabotage dialog.
-*****************************************************************/
+**************************************************************************/
 static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -658,9 +658,9 @@ static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected which tech spy steals.
-*****************************************************************/
+**************************************************************************/
 static int spy_steal_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -694,7 +694,7 @@ static int spy_steal_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup spy tech stealing dialog.
 **************************************************************************/
 static int spy_steal_popup_shared(struct widget *pWidget)
@@ -936,7 +936,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup spy tech stealing dialog for "Targeted Steal Tech".
 **************************************************************************/
 static int spy_steal_popup(struct widget *pWidget)
@@ -945,7 +945,7 @@ static int spy_steal_popup(struct widget *pWidget)
   return spy_steal_popup_shared(pWidget);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup spy tech stealing dialog for "Targeted Steal Tech Escape Expected".
 **************************************************************************/
 static int spy_steal_esc_popup(struct widget *pWidget)
@@ -954,9 +954,9 @@ static int spy_steal_esc_popup(struct widget *pWidget)
   return spy_steal_popup_shared(pWidget);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Technology stealing dialog, diplomat (not spy) version
-*****************************************************************/
+**************************************************************************/
 static int diplomat_steal_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -975,9 +975,9 @@ static int diplomat_steal_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Steal Tech Escape Expected"
-*****************************************************************/
+**************************************************************************/
 static int diplomat_steal_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -996,9 +996,9 @@ static int diplomat_steal_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
-...  Ask the server how much the revolt is going to cost us
-*****************************************************************/
+/**********************************************************************//**
+  Ask the server how much the revolt is going to cost us
+**************************************************************************/
 static int diplomat_incite_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1018,9 +1018,9 @@ static int diplomat_incite_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
-...  Ask the server how much the revolt is going to cost us
-*****************************************************************/
+/**********************************************************************//**
+  Ask the server how much the revolt is going to cost us
+**************************************************************************/
 static int spy_incite_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1040,11 +1040,11 @@ static int spy_incite_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile with an allied city
   or an allied unit.)
-*********************************************************************/
+**************************************************************************/
 static int act_sel_keep_moving_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1061,9 +1061,9 @@ static int act_sel_keep_moving_callback(struct widget *pWidget)
   return -1;
 }
 
-/********************************************************************
+/**********************************************************************//**
   Delay selection of what action to take.
-*********************************************************************/
+**************************************************************************/
 static int act_sel_wait_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1076,9 +1076,9 @@ static int act_sel_wait_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
-...  Ask the server how much the bribe is
-*****************************************************************/
+/**********************************************************************//**
+  Ask the server how much the bribe costs
+**************************************************************************/
 static int diplomat_bribe_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1098,9 +1098,9 @@ static int diplomat_bribe_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Sabotage Unit"
-*****************************************************************/
+**************************************************************************/
 static int spy_sabotage_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1115,9 +1115,9 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Sabotage Unit Escape"
-*****************************************************************/
+**************************************************************************/
 static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1132,9 +1132,9 @@ static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Heal Unit"
-*****************************************************************/
+**************************************************************************/
 static int heal_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1149,9 +1149,9 @@ static int heal_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Capture Units"
-*****************************************************************/
+**************************************************************************/
 static int capture_units_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1166,9 +1166,9 @@ static int capture_units_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Expel Unit"
-*****************************************************************/
+**************************************************************************/
 static int expel_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1183,9 +1183,9 @@ static int expel_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Bombard"
-*****************************************************************/
+**************************************************************************/
 static int bombard_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1200,9 +1200,9 @@ static int bombard_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Join City"
-*****************************************************************/
+**************************************************************************/
 static int join_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1221,9 +1221,9 @@ static int join_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Found City"
-*****************************************************************/
+**************************************************************************/
 static int found_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1237,9 +1237,9 @@ static int found_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Explode Nuclear"
-*****************************************************************/
+**************************************************************************/
 static int nuke_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1254,9 +1254,9 @@ static int nuke_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Attack"
-*****************************************************************/
+**************************************************************************/
 static int attack_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1271,9 +1271,9 @@ static int attack_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Paradrop Unit"
-*****************************************************************/
+**************************************************************************/
 static int paradrop_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1288,9 +1288,9 @@ static int paradrop_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Disband Unit"
-*****************************************************************/
+**************************************************************************/
 static int disband_unit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1305,9 +1305,9 @@ static int disband_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Set Home City"
-*****************************************************************/
+**************************************************************************/
 static int home_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1326,9 +1326,9 @@ static int home_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Upgrade Unit"
-*****************************************************************/
+**************************************************************************/
 static int upgrade_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1346,9 +1346,9 @@ static int upgrade_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Airlift Unit"
-*****************************************************************/
+**************************************************************************/
 static int airlift_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1367,9 +1367,9 @@ static int airlift_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked "Conquer City"
-*****************************************************************/
+**************************************************************************/
 static int conquer_city_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1388,9 +1388,9 @@ static int conquer_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Close diplomat dialog.
-*****************************************************************/
+**************************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1400,7 +1400,7 @@ static int diplomat_close_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown a dialog giving a diplomatic unit some options when moving into
   the target tile.
 **************************************************************************/
@@ -1477,7 +1477,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_DISBAND_UNIT] = disband_unit_callback,
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Add an entry for an action in the action choice dialog.
 **************************************************************************/
 static void action_entry(const enum gen_action act,
@@ -1544,7 +1544,7 @@ static void action_entry(const enum gen_action act,
   area->h += pBuf->size.h;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return custom text for the specified action (given that the aciton is
   possible).
 **************************************************************************/
@@ -1598,7 +1598,7 @@ static const char *action_custom_text(const int action_id,
   return astr_str(&custom);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -1813,7 +1813,7 @@ void popup_action_selection(struct unit *actor_unit,
   } action_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the id of the actor unit currently handled in action selection
   dialog when the action selection dialog is open.
   Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
@@ -1827,7 +1827,7 @@ int action_selection_actor_unit(void)
   return pDiplomat_Dlg->actor_unit_id;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns id of the target city of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
@@ -1842,7 +1842,7 @@ int action_selection_target_city(void)
   return pDiplomat_Dlg->target_ids[ATK_CITY];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns id of the target unit of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   unit target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
@@ -1857,7 +1857,7 @@ int action_selection_target_unit(void)
   return pDiplomat_Dlg->target_ids[ATK_UNIT];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
@@ -1869,9 +1869,9 @@ void action_selection_refresh(struct unit *actor_unit,
   /* TODO: port me. */
 }
 
-/****************************************************************
+/**********************************************************************//**
   Closes the action selection dialog
-****************************************************************/
+**************************************************************************/
 void action_selection_close(void)
 {
   did_not_decide = TRUE;
@@ -1882,9 +1882,9 @@ void action_selection_close(void)
 /* ============================ SABOTAGE DIALOG ========================= */
 /* ====================================================================== */
 
-/****************************************************************
+/**********************************************************************//**
   User selected what to sabotage.
-****************************************************************/
+**************************************************************************/
 static int sabotage_impr_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1921,9 +1921,9 @@ static int sabotage_impr_callback(struct widget *pWidget)
   return -1;
 }
 
-/*************************************************************************
- Pops-up the Spy sabotage dialog, upon return of list of
- available improvements requested by the above function.
+/**********************************************************************//**
+  Pops-up the Spy sabotage dialog, upon return of list of
+  available improvements requested by the above function.
 **************************************************************************/
 void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
                            const struct action *paction)
@@ -2161,9 +2161,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 /* ====================================================================== */
 static struct small_diplomat_dialog *pIncite_Dlg = NULL;
 
-/****************************************************************
+/**********************************************************************//**
   User interacted with Incite Revolt dialog window.
-*****************************************************************/
+**************************************************************************/
 static int incite_dlg_window_callback(struct widget *pWindow)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -2173,7 +2173,7 @@ static int incite_dlg_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User confirmed incite
 **************************************************************************/
 static int diplomat_incite_yes_callback(struct widget *pWidget)
@@ -2191,9 +2191,9 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Close incite dialog.
-*****************************************************************/
+**************************************************************************/
 static int exit_incite_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -2203,7 +2203,7 @@ static int exit_incite_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
@@ -2221,7 +2221,7 @@ void popdown_incite_dialog(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
@@ -2425,7 +2425,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
 /* ====================================================================== */
 static struct small_diplomat_dialog *pBribe_Dlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with bribe dialog window.
 **************************************************************************/
 static int bribe_dlg_window_callback(struct widget *pWindow)
@@ -2437,7 +2437,7 @@ static int bribe_dlg_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User confirmed bribe.
 **************************************************************************/
 static int diplomat_bribe_yes_callback(struct widget *pWidget)
@@ -2454,7 +2454,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close bribe dialog.
 **************************************************************************/
 static int exit_bribe_dlg_callback(struct widget *pWidget)
@@ -2466,7 +2466,7 @@ static int exit_bribe_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
@@ -2484,7 +2484,7 @@ void popdown_bribe_dialog(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
