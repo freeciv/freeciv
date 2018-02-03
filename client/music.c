@@ -81,7 +81,7 @@ void start_style_music(void)
 ***********************************************************************/
 void stop_style_music(void)
 {
-  audio_stop();
+  audio_stop_usage();
 }
 
 /**********************************************************************
@@ -99,7 +99,7 @@ void start_menu_music(const char *const tag, char *const alt_tag)
 ***********************************************************************/
 void stop_menu_music(void)
 {
-  audio_stop();
+  audio_stop_usage();
 }
 
 /**************************************************************************
