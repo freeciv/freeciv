@@ -20,7 +20,7 @@
 
 #include "texaimsg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Construct and send message to player thread.
 **************************************************************************/
 void texai_send_msg(enum texaimsgtype type, struct player *pplayer,
@@ -42,7 +42,7 @@ void texai_send_msg(enum texaimsgtype type, struct player *pplayer,
   texai_msg_to_thr(msg);
 }
 
-/**************************************************************************        
+/**********************************************************************//**
   Construct and send request from player thread.
 **************************************************************************/
 void texai_send_req(enum texaireqtype type, struct player *pplayer,
@@ -57,7 +57,7 @@ void texai_send_req(enum texaireqtype type, struct player *pplayer,
   texai_req_from_thr(req);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Time for phase first activities
 **************************************************************************/
 void texai_first_activities(struct ai_type *ait, struct player *pplayer)
@@ -65,7 +65,7 @@ void texai_first_activities(struct ai_type *ait, struct player *pplayer)
   texai_send_msg(TEXAI_MSG_FIRST_ACTIVITIES, pplayer, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Player phase has finished
 **************************************************************************/
 void texai_phase_finished(struct ai_type *ait, struct player *pplayer)

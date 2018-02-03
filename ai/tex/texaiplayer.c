@@ -67,7 +67,7 @@ struct texai_build_choice_req
   struct adv_choice choice;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize ai thread.
 **************************************************************************/
 void texai_init_threading(void)
@@ -77,7 +77,7 @@ void texai_init_threading(void)
   exthrai.num_players = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is main function of ai thread.
 **************************************************************************/
 static void texai_thread_start(void *arg)
@@ -108,7 +108,7 @@ static void texai_thread_start(void *arg)
   log_debug("AI thread exiting");
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Main map has been allocated
 **************************************************************************/
 void texai_map_alloc(void)
@@ -116,7 +116,7 @@ void texai_map_alloc(void)
   texai_send_msg(TEXAI_MSG_MAP_ALLOC, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send all tiles to tex thread
 **************************************************************************/
 void texai_whole_map_copy(void)
@@ -126,7 +126,7 @@ void texai_whole_map_copy(void)
   } whole_map_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Map allocation message received
 **************************************************************************/
 static void texai_map_alloc_recv(void)
@@ -134,7 +134,7 @@ static void texai_map_alloc_recv(void)
   texai_map_init();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Main map has been freed
 **************************************************************************/
 void texai_map_free(void)
@@ -142,7 +142,7 @@ void texai_map_free(void)
   texai_send_msg(TEXAI_MSG_MAP_FREE, NULL, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Map free message received
 **************************************************************************/
 static void texai_map_free_recv(void)
@@ -150,7 +150,7 @@ static void texai_map_free_recv(void)
   texai_map_close();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle messages from message queue.
 **************************************************************************/
 static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
@@ -256,7 +256,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
   return ret_abort;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize player for use with threxpr AI.
 **************************************************************************/
 void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
@@ -269,7 +269,7 @@ void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
   dai_data_init(ait, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free player from use with threxpr AI.
 **************************************************************************/
 void texai_player_free(struct ai_type *ait, struct player *pplayer)
@@ -285,7 +285,7 @@ void texai_player_free(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   We actually control the player
 **************************************************************************/
 void texai_control_gained(struct ai_type *ait, struct player *pplayer)
@@ -307,7 +307,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   We no longer control the player
 **************************************************************************/
 void texai_control_lost(struct ai_type *ait, struct player *pplayer)
@@ -330,7 +330,7 @@ void texai_control_lost(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check for messages sent by player thread
 **************************************************************************/
 void texai_refresh(struct ai_type *ait, struct player *pplayer)
@@ -377,7 +377,7 @@ void texai_refresh(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send message to thread. Be sure that thread is running so that messages
   are not just piling up to the list without anybody reading them.
 **************************************************************************/
@@ -389,7 +389,7 @@ void texai_msg_to_thr(struct texai_msg *msg)
   fc_release_mutex(&exthrai.msgs_to.mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Thread sends message.
 **************************************************************************/
 void texai_req_from_thr(struct texai_req *req)
@@ -399,7 +399,7 @@ void texai_req_from_thr(struct texai_req *req)
   texaireq_list_release_mutex(exthrai.reqs_from.reqlist);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether player thread is running
 **************************************************************************/
 bool texai_thread_running(void)

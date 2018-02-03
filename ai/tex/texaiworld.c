@@ -57,7 +57,7 @@ struct texai_unit_info_msg
   int type;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize world object for texai
 **************************************************************************/
 void texai_world_init(void)
@@ -65,7 +65,7 @@ void texai_world_init(void)
   idex_init(&texai_world);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for texai world object
 **************************************************************************/
 void texai_world_close(void)
@@ -73,7 +73,7 @@ void texai_world_close(void)
   idex_free(&texai_world);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize world map for texai
 **************************************************************************/
 void texai_map_init(void)
@@ -82,7 +82,7 @@ void texai_map_init(void)
   map_allocate(&(texai_world.map));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return tex worldmap
 **************************************************************************/
 struct civ_map *texai_map_get(void)
@@ -90,7 +90,7 @@ struct civ_map *texai_map_get(void)
   return &(texai_world.map);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for texai world map
 **************************************************************************/
 void texai_map_close(void)
@@ -98,7 +98,7 @@ void texai_map_close(void)
   map_free(&(texai_world.map));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tile info updated on main map. Send update to tex map.
 **************************************************************************/
 void texai_tile_info(struct tile *ptile)
@@ -114,7 +114,7 @@ void texai_tile_info(struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive tile update to the thread.
 **************************************************************************/
 void texai_tile_info_recv(void *data)
@@ -132,7 +132,7 @@ void texai_tile_info_recv(void *data)
   free(info);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send city information to the thread.
 **************************************************************************/
 static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
@@ -147,7 +147,7 @@ static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
   texai_send_msg(msgtype, NULL, info);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   New city has been added to the main map.
 **************************************************************************/
 void texai_city_created(struct city *pcity)
@@ -157,7 +157,7 @@ void texai_city_created(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive city update to the thread.
 **************************************************************************/
 void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
@@ -180,7 +180,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get city from the tex map
 **************************************************************************/
 struct city *texai_map_city(int city_id)
@@ -188,7 +188,7 @@ struct city *texai_map_city(int city_id)
   return idex_lookup_city(&texai_world, city_id);
 }
   
-/**************************************************************************
+/**********************************************************************//**
   City has been removed from the main map.
 **************************************************************************/
 void texai_city_destroyed(struct city *pcity)
@@ -202,7 +202,7 @@ void texai_city_destroyed(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive city destruction to the thread.
 **************************************************************************/
 void texai_city_destruction_recv(void *data)
@@ -216,7 +216,7 @@ void texai_city_destruction_recv(void *data)
   destroy_city_virtual(pcity);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send unit information to the thread.
 **************************************************************************/
 static void texai_unit_update(struct unit *punit, enum texaireqtype msgtype)
@@ -232,7 +232,7 @@ static void texai_unit_update(struct unit *punit, enum texaireqtype msgtype)
   texai_send_msg(msgtype, NULL, info);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   New unit has been added to the main map.
 **************************************************************************/
 void texai_unit_created(struct unit *punit)
@@ -242,7 +242,7 @@ void texai_unit_created(struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive unit update to the thread.
 **************************************************************************/
 void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
@@ -274,7 +274,7 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
   unit_tile_set(punit, ptile);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unit has been removed from the main map.
 **************************************************************************/
 void texai_unit_destroyed(struct unit *punit)
@@ -288,7 +288,7 @@ void texai_unit_destroyed(struct unit *punit)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive unit destruction to the thread.
 **************************************************************************/
 void texai_unit_destruction_recv(void *data)

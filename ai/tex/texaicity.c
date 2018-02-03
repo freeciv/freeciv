@@ -64,7 +64,7 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
                                           struct worker_task *task,
                                           enum texai_worker_task_limitation limit);
 
-/**************************************************************************
+/**********************************************************************//**
   Create worker request for the city. Only tasks that existing units can
   do are created.
 **************************************************************************/
@@ -86,7 +86,7 @@ void texai_city_worker_requests_create(struct ai_type *ait,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set wants for worker-type units.
 **************************************************************************/
 void texai_city_worker_wants(struct ai_type *ait,
@@ -146,7 +146,7 @@ struct texai_tile_state
   int *wants;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Select worker task suitable for the tile.
 **************************************************************************/
 static void texai_tile_worker_task_select(struct player *pplayer,
@@ -396,7 +396,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Select worker task suitable for the city.
 **************************************************************************/
 static bool texai_city_worker_task_select(struct ai_type *ait,
@@ -482,7 +482,7 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive message from thread to main thread.
 **************************************************************************/
 void texai_req_worker_task_rcv(struct texai_req *req)
@@ -516,8 +516,8 @@ void texai_req_worker_task_rcv(struct texai_req *req)
   free(data);
 }
 
-/**************************************************************************
-  Initialize city for use with threxp AI.
+/**********************************************************************//**
+  Initialize city for use with tex AI.
 **************************************************************************/
 void texai_city_alloc(struct ai_type *ait, struct city *pcity)
 {
@@ -529,8 +529,8 @@ void texai_city_alloc(struct ai_type *ait, struct city *pcity)
   city_set_ai_data(pcity, ait, city_data);
 }
 
-/**************************************************************************
-  Free city from use with threxp AI.
+/**********************************************************************//**
+  Free city from use with tex AI.
 **************************************************************************/
 void texai_city_free(struct ai_type *ait, struct city *pcity)
 {
