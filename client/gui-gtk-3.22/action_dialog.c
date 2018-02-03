@@ -1138,7 +1138,7 @@ static void action_entry(GtkWidget *shl,
     return;
   }
 
-  label = action_prepare_ui_name(action_id, "_",
+  label = action_prepare_ui_name(action_id, "",
                                  act_probs[action_id],
                                  custom);
 
@@ -1169,7 +1169,7 @@ static void action_entry_update(GtkWidget *shl,
       action_prob_possible(act_probs[action_id]));
 
   /* The probability may have changed. */
-  label = action_prepare_ui_name(action_id, "_",
+  label = action_prepare_ui_name(action_id, "",
                                  act_probs[action_id], custom);
 
   tooltip = action_get_tool_tip(action_id,
@@ -1319,7 +1319,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   action_button_map[BUTTON_WAIT] =
       choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, _("_Wait"),
+  choice_dialog_add(shl, _("Wait"),
                     (GCallback)act_sel_wait_callback, data,
                     TRUE, NULL);
 
