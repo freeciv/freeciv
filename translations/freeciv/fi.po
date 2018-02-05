@@ -1,5 +1,5 @@
 # Finnish translation for Freeciv
-# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2016
+# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2018
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-30 15:26+0200\n"
-"PO-Revision-Date: 2018-02-02 15:30+0200\n"
+"POT-Creation-Date: 2018-02-05 13:39+0200\n"
+"PO-Revision-Date: 2018-02-05 15:02+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -19618,7 +19618,9 @@ msgstr ""
 #: data/sandbox/buildings.ruleset:1126
 msgid ""
 "- Solar Panels: provides the energy needed for any two of the other Modules."
-msgstr "– Aurinkopaneeliyksikkö: tuottaa energiaa kahdelle muulle avaruusaluksen yksikölle."
+msgstr ""
+"– Aurinkopaneeliyksikkö: tuottaa energiaa kahdelle muulle avaruusaluksen "
+"yksikölle."
 
 #: data/civ1/buildings.ruleset:649 data/civ2/buildings.ruleset:889
 #: data/classic/buildings.ruleset:964 data/experimental/buildings.ruleset:1020
@@ -32309,13 +32311,15 @@ msgid ""
 "technologies to build the different spaceship parts: see the help texts for "
 "Space Structural, Space Component, and Space Module, under City "
 "Improvements. (If there are no help texts for these items, it probably means "
-"the 'spacerace' server option is off for your game.)"
+"the 'SPACERACE' victory type is not enabled in the 'victories' server "
+"setting for your game.)"
 msgstr ""
 "Klassilla säännöillä avaruusaluksen osia ei voida rakentaa ennen kuin joku "
 "pelaajista on rakentanut Apollo-ohjelman. Pelaajalla itsellään on myös "
 "oltava eri osille tarvittavat teknologiat: avaruusaluksen osien ohjetekstit "
 "listaavat nämä. Ellei ohjetekstejä löydy, on mahdollisuus voittaa peli tällä "
-"tavalla ilmeisesti kytketty pois päältä (palvelimen asetus 'spacerace')."
+"tavalla ilmeisesti kytketty pois päältä (palvelimen asetus 'victories' ei "
+"sisällä SPACERACE optiota)."
 
 #: data/helpdata.txt:1545
 msgid ""
