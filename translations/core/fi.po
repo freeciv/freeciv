@@ -1,5 +1,5 @@
 # Finnish translation for Freeciv
-# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2016
+# Copyright (C) 2002-2003 2005-2009 2011-2012, 2014-2018
 # Sini Ruohomaa <sini.ruohomaa@iki.fi>,
 # Markus Linnakangas <markus.linnakangas@luukku.com>,
 # Pekka Pessi <nospam@pessi.fi>,
@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-02-02 15:32+0200\n"
-"PO-Revision-Date: 2018-02-02 15:35+0200\n"
+"POT-Creation-Date: 2018-02-05 13:40+0200\n"
+"PO-Revision-Date: 2018-02-05 15:06+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -1824,10 +1824,9 @@ msgstr "Vain %s voi tehdä toimen %s."
 #. TRANS: Spy can't do Explode Nuclear.
 #. TRANS: Spy can't do Capture Units.
 #: client/control.c:1135 server/unithand.c:1729
-#, fuzzy, c-format
-#| msgid "%s can't attack to %s."
+#, c-format
 msgid "%s can't do %s."
-msgstr "%s ei voi hyökätä %sruutuun."
+msgstr "%s ei voi tehdä toimintoa %s."
 
 #: client/control.c:1451
 msgid "Only transporter units can be unloaded."
@@ -1835,10 +1834,9 @@ msgstr "Vain kuljetusyksiköt pystyvät purkamaan lastinsa."
 
 #. TRANS: Unable to get rid of Leader.
 #: client/control.c:1836
-#, fuzzy, c-format
-#| msgid "Unable to open fontset: %s"
+#, c-format
 msgid "Unable to get rid of %s."
-msgstr "Fontin lataaminen ei onnistunut: %s"
+msgstr "Et voi hankkiutua eroon yksiköstä %s."
 
 #: client/control.c:1964
 msgid "Only settler units can be put into auto mode."
@@ -6941,10 +6939,8 @@ msgstr "Mene"
 
 #: client/gui-gtk-3.0/menu.c:465 client/gui-gtk-3.22/menu.c:464
 #: client/gui-qt/menu.cpp:746
-#, fuzzy
-#| msgid "Goto and Close"
 msgid "Go to and..."
-msgstr "Siirry ja sulje"
+msgstr "Siirry ja..."
 
 #: client/gui-gtk-3.0/menu.c:466 client/gui-gtk-3.22/menu.c:465
 msgid "Go to/Airlift to City"
@@ -8052,16 +8048,12 @@ msgstr ""
 "K:%2"
 
 #: client/gui-qt/mapview.cpp:1001
-#, fuzzy
-#| msgid "Gold:%1 (+%2)"
 msgid "%1 (+%2)"
-msgstr "Kultaa:%1 (+%2)"
+msgstr "%1 (+%2)"
 
 #: client/gui-qt/mapview.cpp:1005
-#, fuzzy
-#| msgid "Gold:%1 (%2)"
 msgid "%1 (%2)"
-msgstr "Kultaa:%1 (%2)"
+msgstr "%1 (%2)"
 
 #: client/gui-qt/menu.cpp:211
 msgid "Adding city %1 to trade planning"
@@ -8072,7 +8064,7 @@ msgid "Removing city %1 from trade planning"
 msgstr "Poistetaan %s kauppareittisuunnittelusta"
 
 #: client/gui-qt/menu.cpp:345
-#, fuzzy, c-format
+#, c-format
 msgid "City %s - 1 free trade route."
 msgid_plural "City %s - %d free trade routes."
 msgstr[0] "%s - 1 vapaa kauppareitti."
@@ -8216,10 +8208,8 @@ msgid "Bribe"
 msgstr "Lahjus"
 
 #: client/gui-qt/menu.cpp:1416
-#, fuzzy
-#| msgid "Sabotage Unit"
 msgid "Sabotage Unit Escape"
-msgstr "Sabotoi yksikkö"
+msgstr "Sabotoi yksikkö ja pakene"
 
 #: client/gui-qt/menu.cpp:1423
 msgid "Default action vs city"
@@ -8230,10 +8220,8 @@ msgid "Investigate city"
 msgstr "Tutki kaupunkia"
 
 #: client/gui-qt/menu.cpp:1438
-#, fuzzy
-#| msgid "Investigate City (free)"
 msgid "Investigate city (spends the unit)"
-msgstr "Tutki kaupunkia (ilmaiseksi)"
+msgstr "Tutki kaupunkia (yksikön kuluttaen)"
 
 #: client/gui-qt/menu.cpp:1445
 msgid "Establish embassy"
@@ -10393,19 +10381,17 @@ msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1257
-#, fuzzy, c-format
-#| msgid "* Makes it impossible to do the action '%s' to your %s.\n"
+#, c-format
 msgid "* Makes it possible to target its city with the action '%s'.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdolliseksi tehdä toiminto '%s' kaupungille.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1266
-#, fuzzy, c-format
-#| msgid "* Makes it impossible to do the action '%s' to your %s.\n"
+#, c-format
 msgid ""
 "* Makes it possible to target its city and its trade partners with the "
 "action '%s'.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdolliseksi tehdä toiminto '%s' kaupungille ja sen kauppakumppaneille.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1275
@@ -10806,10 +10792,8 @@ msgid "* Can clean %s from tiles.\n"
 msgstr "· Voi puhdistaa lisän \"%s\" ruuduista.\n"
 
 #: client/helpdata.c:2072
-#, fuzzy
-#| msgid "Diplomatic Message"
 msgid "* Strong in diplomatic battles.\n"
-msgstr "Diplomaattinen viesti"
+msgstr "· Vahva diplomaattien välisissä taisteluissa.\n"
 
 #: client/helpdata.c:2076
 msgid "* Defends cities against diplomatic actions.\n"
@@ -10945,10 +10929,7 @@ msgstr[1] ""
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:2214
-#, fuzzy, c-format
-#| msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
-#| msgid_plural ""
-#| "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
+#, c-format
 msgid ""
 "* Unit has to be next to safe coast, in a city, a base, or on a %s after %d "
 "turn.\n"
@@ -10956,11 +10937,11 @@ msgid_plural ""
 "* Unit has to be next to safe coast, in a city, a base, or on a %s after %d "
 "turns.\n"
 msgstr[0] ""
-"· Yksikön tulee olla kaupungissa tai tukikohdassa (%s riittää myös) %d "
-"vuoron jälkeen.\n"
+"· Yksikön tulee olla turvallisen rannan lähellä, kaupungissa tai "
+"tukikohdassa (%s riittää myös) %d vuoron jälkeen.\n"
 msgstr[1] ""
-"· Yksikön tulee olla kaupungissa tai tukikohdassa (%s riittää myös) %d "
-"vuoron jälkeen.\n"
+"· Yksikön tulee olla turvallisen rannan lähellä, kaupungissa tai "
+"tukikohdassa (%s riittää myös) %d vuoron jälkeen.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
 #: client/helpdata.c:2223
@@ -10991,7 +10972,6 @@ msgstr "kotimainen "
 msgid "foreign "
 msgstr "ulkomainen "
 
-# gna bug #17704
 #. TRANS: The first %s may be an adjective (that
 #. * includes a space). The next is the name of its
 #. * target kind.
@@ -11077,20 +11057,16 @@ msgstr "  · Lisää tuontantoa %d.\n"
 
 #. TRANS: is talking about an action.
 #: client/helpdata.c:2376
-#, fuzzy
-#| msgid "  - New cities are allowed in the current game.\n"
 msgid "  * is disabled in the current game.\n"
-msgstr "  - Nykyisessä pelissä kaupunkien perustaminen on sallittua.\n"
+msgstr "  · Ei ole sallittu nykyisessä pelissä.\n"
 
 #. TRANS: the %d is initial population.
 #: client/helpdata.c:2380
-#, fuzzy, c-format
-#| msgid "* Can build new cities (initial population %d).\n"
-#| msgid_plural "* Can build new cities (initial population %d).\n"
+#, c-format
 msgid "  * initial population: %d.\n"
 msgid_plural "  * initial population: %d.\n"
-msgstr[0] "· Voi perustaa uusia kaupunkeja (aloituskoko on %d).\n"
-msgstr[1] "· Voi perustaa uusia kaupunkeja (aloituskoko on %d).\n"
+msgstr[0] "  · Aloituskoko on %d.\n"
+msgstr[1] "  · Aloituskoko on %d.\n"
 
 #. TRANS: the %d is population.
 #: client/helpdata.c:2388
@@ -11114,7 +11090,7 @@ msgstr[1] "· Tuottaminen pienentää kaupungin väkilukua %d pistettä.\n"
 #: client/helpdata.c:2402
 #, c-format
 msgid "  * %d per turn.\n"
-msgstr "  * %d / vuoro.\n"
+msgstr "  * %d vuorossa.\n"
 
 #. TRANS: talking about bombard
 #: client/helpdata.c:2406
@@ -15046,10 +15022,8 @@ msgid "individual units"
 msgstr "yksittäinen yksikkö"
 
 #: common/actions.h:38
-#, fuzzy
-#| msgid "Auto Attack"
 msgid "unit stacks"
-msgstr "Hyökkää automaattisesti"
+msgstr "yksikkökasat"
 
 #: common/actions.h:40
 msgid "tiles"
@@ -16788,16 +16762,14 @@ msgid "Prevented by %s in the city."
 msgstr "Estyy jos kaupungissa on %s."
 
 #: common/reqtext.c:728
-#, fuzzy, c-format
-#| msgid "Only applies to \"%s\" buildings.\n"
+#, c-format
 msgid "Only applies to \"%s\" buildings."
-msgstr "Pätee vain rakennukseen \"%s\".\n"
+msgstr "Pätee vain rakennukseen \"%s\"."
 
 #: common/reqtext.c:733
-#, fuzzy, c-format
-#| msgid "Does not apply to \"%s\" buildings.\n"
+#, c-format
 msgid "Does not apply to \"%s\" buildings."
-msgstr "Ei päde rakennukseen \"%s\".\n"
+msgstr "Ei päde rakennukseen \"%s\"."
 
 #: common/reqtext.c:751
 #, c-format
@@ -17162,7 +17134,6 @@ msgstr "Edellyttää ettei kansakuntien suhde toisiinsa ole '%s'."
 msgid "?unit:Requires %s."
 msgstr "Edellyttää yksikön %s."
 
-# gna bug #17704
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1228
 #, c-format
@@ -17175,7 +17146,6 @@ msgstr "Ei päde yksikköön %s."
 msgid "?ulist:Requires %s."
 msgstr "Edellyttää jonkin yksiköistä %s."
 
-# gna bug #17704
 #. TRANS: %s is a list of unit types separated by "or".
 #: common/reqtext.c:1263
 #, c-format
@@ -17223,16 +17193,12 @@ msgid "Requires that the unit isn't on livable tile."
 msgstr "Edellyttää ettei yksikkö ole ruudussa, jossa se selviää omillaan."
 
 #: common/reqtext.c:1388
-#, fuzzy
-#| msgid "Requires that the unit is on livable tile.\n"
 msgid "Requires that the unit is on a domestic tile."
-msgstr "Edellyttää että yksikkö on ruudussa, jossa se selviää omillaan.\n"
+msgstr "Edellyttää että yksikkö on oman maansa hallitsemassa ruudussa."
 
 #: common/reqtext.c:1392
-#, fuzzy
-#| msgid "Requires that the unit isn't on livable tile.\n"
 msgid "Requires that the unit isn't on a domestic tile."
-msgstr "Edellyttää ettei yksikkö ole ruudussa, jossa se selviää omillaan.\n"
+msgstr "Edellyttää ettei yksikkö ole oman maansa hallitsemassa ruudussa."
 
 #: common/reqtext.c:1399
 msgid "Requires that the unit does transport one or more cargo units."
@@ -17243,16 +17209,12 @@ msgid "Requires that the unit doesn't transport any cargo units."
 msgstr "Edellyttää ettei yksiköllä ole toisia yksiköitä kyydissä."
 
 #: common/reqtext.c:1410
-#, fuzzy
-#| msgid "Requires that the unit has at least %s MP left.\n"
 msgid "Requires that the unit has a home city."
-msgstr "Edellyttää että yksiköllä on vähintään %s liikepistettä jäljellä.\n"
+msgstr "Edellyttää että yksikölle on määritetty kotikaupunki."
 
 #: common/reqtext.c:1413
-#, fuzzy
-#| msgid "Requires that the unit is on livable tile.\n"
 msgid "Requires that the unit is homeless."
-msgstr "Edellyttää että yksikkö on ruudussa, jossa se selviää omillaan.\n"
+msgstr "Edellyttää ettei yksikölle ole määritetty kotikaupunkia."
 
 #: common/reqtext.c:1419
 #, fuzzy
@@ -17304,36 +17266,30 @@ msgid_plural "Requires a unit with fewer than %d hit points left."
 msgstr[0] "Edellyttää yksikön, jolla vähemmän kuin %d osumapiste jäljellä."
 msgstr[1] "Edellyttää yksikön, jolla vähemmän kuin %d osumapistettä jäljellä."
 
-# gna bug #17704
 #. TRANS: "Applies only to Food."
 #: common/reqtext.c:1529
 #, c-format
 msgid "?output:Applies only to %s."
 msgstr "Pätee vain kun kyseessä on %s."
 
-# gna bug #17704
 #. TRANS: "Does not apply to Food."
 #: common/reqtext.c:1533
 #, c-format
 msgid "?output:Does not apply to %s."
 msgstr "Ei päde kun kyseessä on %s."
 
-# gna bug #17704
 # Specialist is not an unit but citizen.
 #. TRANS: "Applies only to Scientists."
 #: common/reqtext.c:1544
-#, fuzzy, c-format
-#| msgid "?specialist:Applies only to %s.\n"
+#, c-format
 msgid "?specialist:Applies only to %s."
-msgstr "Pätee vain erikoisyksikköön %s.\n"
+msgstr "Pätee vain erikoisyksikköön %s."
 
-# gna bug #17704
 #. TRANS: "Does not apply to Scientists."
 #: common/reqtext.c:1548
-#, fuzzy, c-format
-#| msgid "?specialist:Does not apply to %s.\n"
+#, c-format
 msgid "?specialist:Does not apply to %s."
-msgstr "Ei päde erikoisyksikköön %s.\n"
+msgstr "Ei päde erikoisyksikköön %s."
 
 #: common/reqtext.c:1558
 #, c-format
@@ -18056,14 +18012,12 @@ msgstr "Edellyttää maastotyypin, jossa muutos %s on mahdollinen."
 msgid "Prevented by terrain on which alteration %s can be made."
 msgstr "Estyy, jos maastotyypin muutos %s on mahdollinen."
 
-# gna bug #17704
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2432
 #, c-format
 msgid "?tileprop:Applies only to %s."
 msgstr "Pätee vain \"%s\" ruudussa."
 
-# gna bug #17704
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2436
 #, c-format
@@ -29847,6 +29801,12 @@ msgid ""
 "See http://www.freeciv.org/wiki/Alien_World and http://www.cazfi.net/freeciv/"
 "alien/ for additional ruleset info."
 msgstr ""
+"Yksi tavoite tämän sääntökokoelman kehittämisesssä on ollut erilaisen "
+"pelikokemuksen tarjoaminen tavallisiin sääntöihin nähden. Älä oleta että "
+"mikään tavallisista säännöistä tietämäsi pätee tämän sääntösetin kanssa.\n"
+"\n"
+"Lisätietoa sääntökokoelmasta löytyy osoitteista http://www.freeciv.org/wiki/"
+"Alien_World ja http://www.cazfi.net/freeciv/alien/"
 
 #. TRANS: Copy Research _Data (3% chance of success).
 #: data/alien/game.ruleset:255
@@ -29975,6 +29935,13 @@ msgid ""
 "\n"
 "Dual Communism gains 40% production bonus, and 20% trade bonus."
 msgstr ""
+"Sotilaallisen mahdin hallitusmuoto sekä ihmisille että vieraille "
+"olennoille.\n"
+"\n"
+"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+"80% tuloista.\n"
+"\n"
+"Tuplakommunismissa saadaan 40% tuotantobonus, ja 20% bonus kauppaan."
 
 #: data/alien/governments.ruleset:158
 msgid "Dual Democracy"
@@ -29989,25 +29956,29 @@ msgid ""
 "\n"
 "Dual Democracy gains 40% trade bonus, and 20% production bonus."
 msgstr ""
+"Vapauden hallitusmuoto sekä ihmisille että vieraille olennoilla.\n"
+"\n"
+"Veroihin, tutkimukseen ja luksukseen voidaan kuhunkin laittaa korkeintaan "
+"90% tuloista.\n"
+"\n"
+"Demokratiassa saadaan 40% bonus kauppaan, ja 20% tuotantobonus."
 
 #: data/alien/script.lua:24
-#, fuzzy, c-format
-#| msgid "Treasury contains %d gold."
-#| msgid_plural "Treasury contains %d gold."
+#, c-format
 msgid "It was a safe containing %d gold."
 msgid_plural "It was a safe containing %d gold."
-msgstr[0] "Kassan pohjalla on vain yksi (%d) kulta."
-msgstr[1] "Kassassa on %d kultaa."
+msgstr[0] "Se oli säilö, josta löytyi %d kulta."
+msgstr[1] "Se oli säilö, josta löytyi %d kultaa."
 
 #: data/alien/script.lua:37
 #, c-format
 msgid "There was a datapod containing research info about %s."
-msgstr ""
+msgstr "Sieltä löytyi datakapseli, jossa oli teknologian %s tiedot."
 
 #: data/alien/script.lua:40
 #, c-format
 msgid "The %s found datapod containing research info about %s."
-msgstr ""
+msgstr "%s löysivät datakapselin, jossa oli teknologian %s tiedot."
 
 #. TRANS: first %s is leader or team name
 #: data/alien/script.lua:45
@@ -30022,7 +29993,7 @@ msgstr "Löysit tarvikkeet tukikohdan perustamiseksi."
 
 #: data/alien/script.lua:80
 msgid "The Space Capsule was already scavenged by someone."
-msgstr ""
+msgstr "Joku oli jo tyhjännyt tämän avaruuskapselin."
 
 #: data/alien/script.lua:87
 msgid "It was a trap! Set by the outcasts."
@@ -30903,18 +30874,17 @@ msgid ""
 "\n"
 "Having Road on Grassland tile provides increase of +1 to trade on that tile."
 msgstr ""
+"Tien rakentaminen on mahdollista pelin alusta alkaen.\n"
+"\n"
+"Ruohomaaruuduissa tie antaa yhden pisteen bonuksen kauppaan."
 
 #: data/alien/terrain.ruleset:957
-#, fuzzy
-#| msgid "Super Highways"
 msgid "Highway"
-msgstr "Moottoritie"
+msgstr "Valtatie"
 
 #: data/alien/terrain.ruleset:980
-#, fuzzy
-#| msgid "You can only upgrade units in your cities."
 msgid "You can upgrade Roads to Highways."
-msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
+msgstr "Tavalliset tiet voidaan parantaa valtateiksi."
 
 #: data/alien/terrain.ruleset:1008
 #, no-c-format
@@ -30924,6 +30894,10 @@ msgid ""
 "Units can move via Maglevs indefinitely, Shield production of any tile with "
 "Maglev is increased by 50%."
 msgstr ""
+"Valtatiet voidaan parantaa magleveiksi.\n"
+"\n"
+"Yksiköt voivat liikkua magleveja pitkin rajattomasti. Magelvit antavat 50% "
+"bonuksen ruudun tuotantoon."
 
 #: data/alien/terrain.ruleset:1016
 msgid "Tunnel"
@@ -30938,7 +30912,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1046
 msgid "Burrow Tube"
-msgstr ""
+msgstr "Kaivuuputki"
 
 #: data/alien/terrain.ruleset:1067
 msgid ""
@@ -30984,6 +30958,8 @@ msgstr "Ruskea joki kasvattaa myös ruudun tuotantoa yhdellä pisteellä."
 msgid ""
 "There is more than avarage amount of various resources, but nothing exciting."
 msgstr ""
+"Täällä on keskimääräistä enemmän luonnonvaroja, mutta ei mitään erityisen "
+"mielenkiintoista."
 
 #: data/alien/terrain.ruleset:1141
 msgid "Alien Mine"
@@ -31051,28 +31027,20 @@ msgid "?unitclass:Earthly"
 msgstr "merivoimien"
 
 #: data/alien/units.ruleset:139
-#, fuzzy
-#| msgid "?unitclass:Sea"
 msgid "?unitclass:Native"
-msgstr "merivoimien"
+msgstr "luontaisten olentojen"
 
 #: data/alien/units.ruleset:156
-#, fuzzy
-#| msgid "?unitclass:Air"
 msgid "?unitclass:Amphibious"
-msgstr "ilmavoimien"
+msgstr "amfibinen"
 
 #: data/alien/units.ruleset:164
-#, fuzzy
-#| msgid "?unitclass:Air"
 msgid "?unitclass:Antigravity"
-msgstr "ilmavoimien"
+msgstr "antigravitaatio"
 
 #: data/alien/units.ruleset:170
-#, fuzzy
-#| msgid "?unitclass:Big Land"
 msgid "?unitclass:Burrowing"
-msgstr "järeiden maavoimien"
+msgstr "kaivautuvien"
 
 #: data/alien/units.ruleset:447
 msgid ""
@@ -31106,10 +31074,8 @@ msgid "This is Earth technology engineer."
 msgstr "Näytä kuvakkeet teknologiapuussa"
 
 #: data/alien/units.ruleset:515
-#, fuzzy
-#| msgid "Engineers"
 msgid "Native Engineer"
-msgstr "Teknikkoryhmä"
+msgstr "Luontainen teknikkoryhmä"
 
 #: data/alien/units.ruleset:541
 msgid "Native version of the Engineer unit."
@@ -31192,7 +31158,7 @@ msgstr "Rex"
 
 #: data/alien/units.ruleset:792
 msgid "Most powerful alien lifeform, like one from Earth's Jurassic period."
-msgstr ""
+msgstr "Kaikkein voimakkain vieras olento, kuin suoraan maan jurakaudelta."
 
 #: data/alien/units.ruleset:797
 msgid "Paradropper"
@@ -31252,6 +31218,8 @@ msgid ""
 "Nobody, but some of the other Antigravity and Hunters units can attack this "
 "unit."
 msgstr ""
+"Ainoastaan toiset antigravitaatioyksiköt ja metsästäjät voivat hyökätä tämän "
+"yksikön kimppuun."
 
 #: data/alien/units.ruleset:987
 msgid "Spitter"
@@ -31271,6 +31239,8 @@ msgid ""
 "This improved spitter can both make bombard attacks, and transport missiles "
 "next to targets."
 msgstr ""
+"Tämä paranneltu sylkijä voi sekä tehdä pommitushyökkäyksiä että kuljettaa "
+"ohjuksia riittävän lähelle niiden maalia."
 
 #: data/alien/units.ruleset:1050
 msgid "Biomass"
@@ -31350,7 +31320,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1362
 msgid "Native caravan unit, that can move on all land terrains."
-msgstr ""
+msgstr "Luontainen karavaaniyksikkö, joka voi liikkua kaikilla maaruuduilla."
 
 #: data/alien/units.ruleset:1371
 msgid "Stealth Spy"
@@ -34452,13 +34422,15 @@ msgid ""
 "technologies to build the different spaceship parts: see the help texts for "
 "Space Structural, Space Component, and Space Module, under City "
 "Improvements. (If there are no help texts for these items, it probably means "
-"the 'spacerace' server option is off for your game.)"
+"the 'SPACERACE' victory type is not enabled in the 'victories' server "
+"setting for your game.)"
 msgstr ""
 "Klassilla säännöillä avaruusaluksen osia ei voida rakentaa ennen kuin joku "
 "pelaajista on rakentanut Apollo-ohjelman. Pelaajalla itsellään on myös "
 "oltava eri osille tarvittavat teknologiat: avaruusaluksen osien ohjetekstit "
 "listaavat nämä. Ellei ohjetekstejä löydy, on mahdollisuus voittaa peli tällä "
-"tavalla ilmeisesti kytketty pois päältä (palvelimen asetus 'spacerace')."
+"tavalla ilmeisesti kytketty pois päältä (palvelimen asetus 'victories' ei "
+"sisällä SPACERACE optiota)."
 
 #: data/helpdata.txt:1566
 msgid ""
@@ -45204,6 +45176,11 @@ msgid ""
 "the bonus calculation is relative to world size, and how much only absolute "
 "distance matters."
 msgstr ""
+"Kun kaupunkien välistä kauppatuottoa lasketaan, niiden välisen etäisyyden "
+"kerroin voi olla osittain tai kokonaan suhteutettu maailman kokoon. Tämä "
+"asetus määrää kuinka suurelta osalta bonus lasketaan maailman kokoa katsoen, "
+"ja kuinka suurelta osin se jää laskettavaksi suoraan ruutumääräisen "
+"etäisyyden mukaan."
 
 #: server/settings.c:2022
 msgid "Minimum distance between cities"
@@ -48440,7 +48417,7 @@ msgstr "Virheellinen argumentti komennolle 'mapimg create': '%s'."
 
 #: server/stdinhand.c:5588
 msgid "No player given for aicmd."
-msgstr ""
+msgstr "Ei pelaajaa annettu komennolle 'aicmd'."
 
 #: server/stdinhand.c:5605
 msgid "No command for the AI console defined."
@@ -49017,28 +48994,20 @@ msgid "This unit cannot act when it isn't being transported."
 msgstr "Tämä yksikkö ei voi toimia ollessaan toisen yksikön kyydissä."
 
 #: server/unithand.c:1309
-#, fuzzy
-#| msgid "This unit is being transported, and so cannot act."
 msgid "This unit is transporting, and so cannot act."
-msgstr "Tätä yksikköä kuljetetaan, joten se ei voi toimia."
+msgstr "Tämä yksikkö kuljettaa toista, joten se ei voi toimia."
 
 #: server/unithand.c:1314
-#, fuzzy
-#| msgid "This unit cannot act when it isn't being transported."
 msgid "This unit cannot act when it isn't transporting."
-msgstr "Tämä yksikkö ei voi toimia ollessaan toisen yksikön kyydissä."
+msgstr "Tämä yksikkö ei voi toimia kun se ei kuljeta toista yksikköä."
 
 #: server/unithand.c:1318
-#, fuzzy
-#| msgid "This unit is being transported, and so cannot act."
 msgid "This unit has a home city, and so cannot act."
-msgstr "Tätä yksikköä kuljetetaan, joten se ei voi toimia."
+msgstr "Tälle yksikölle on määritetty kotikaupunki, joten se ei voi toimia."
 
 #: server/unithand.c:1322
-#, fuzzy
-#| msgid "This unit cannot act when it isn't being transported."
 msgid "This unit cannot act unless it has a home city."
-msgstr "Tämä yksikkö ei voi toimia ollessaan toisen yksikön kyydissä."
+msgstr "Tämä yksikkö ei voi toimia kun sille ei ole määritetty kotikaupunkia."
 
 #: server/unithand.c:1326
 #, c-format
@@ -49366,18 +49335,16 @@ msgstr "%s ei pysty lennättämään yksikköä %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unithand.c:1986
-#, fuzzy, c-format
-#| msgid "Your %s can't do %s to %s."
+#, c-format
 msgid "%s can't do %s to an unknown tile."
-msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
+msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s tuntemattomaan ruutuun."
 
 #: server/unithand.c:2006
-#, fuzzy, c-format
-#| msgid "You can't attack there since there's an unreachable unit."
+#, c-format
 msgid "Your %s can't do %s there since there's an unreachable unit."
 msgstr ""
-"Et voi hyökätä - ainakin yksi yksiköistä on sellainen ettet pääse siihen "
-"käsiksi."
+"Yksikkösi %s ei voi tehdä toimintoa %s - ainakin yksi yksiköistä on "
+"sellainen ettet pääse siihen käsiksi."
 
 #: server/unithand.c:2013
 #, c-format
