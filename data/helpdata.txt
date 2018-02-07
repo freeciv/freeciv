@@ -267,8 +267,7 @@ Diplomatic units are very useful here, and WILL pay off later.\
 \n\n\
   - Treaties are often broken, so don't neglect defense...\
 \n\n\
-  - Some wonders can be made obsolete by the development of \
-certain advances.\
+  - Some wonders can be made obsolete.\
 "), _("\
  10. Making your own strategy for the game.\
 \n\n\
@@ -1022,7 +1021,7 @@ the improvements chosen might not be ones you would have preferred to \
 sell.\
 "), _("\
 Most improvements become available only when you achieve certain \
-technologies, while further advances can render some improvements \
+technologies, and some improvements can become \
 obsolete, at which point they are automatically sold.\
 ")
 
@@ -1042,10 +1041,11 @@ another city.\
 "), _("\
 Once built, a wonder is placed in the city that constructed it, and \
 cannot be sold or destroyed (unless the entire city is destroyed). \
-However, some wonders are made obsolete by the discovery of a certain \
-advance, and lose their effect. Note the asymmetry: while you must \
-personally achieve the advance required by each wonder to build it, it \
-will be disabled when any player achieves the obsoleting advance.\
+However, some wonders are made obsolete under certain, \
+ruleset dependant, circumstances, and lose their effect. \
+Note the asymmetry under many rulesets: while you must personally \
+achieve the advance required by each wonder to build it, it will be \
+disabled when any player achieves the obsoleting advance.\
 ")
 
 [help_gen_wonders]
