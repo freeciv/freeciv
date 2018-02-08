@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-02-05 15:10+0200\n"
-"PO-Revision-Date: 2018-02-05 15:06+0200\n"
+"POT-Creation-Date: 2018-02-08 02:08+0200\n"
+"PO-Revision-Date: 2018-02-08 02:06+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -660,33 +660,33 @@ msgstr "Virhe käskynhaltijaa ladatessa; sen asetuksiin on voinut tulla vikoja."
 msgid "Old attributes detected and removed."
 msgstr "Löysin ja poistin vanhoja attribuutteja."
 
-#: client/audio.c:161
+#: client/audio.c:162
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
 msgstr "Liitännäinen '%s' ei ole saatavilla, vain %s"
 
-#: client/audio.c:280
+#: client/audio.c:281
 msgid "No real audio plugin present."
 msgstr "Ääniliitännäistä ei ole saatavilla."
 
-#: client/audio.c:281 client/audio.c:306 client/audio.c:343 client/audio.c:352
+#: client/audio.c:282 client/audio.c:307 client/audio.c:344 client/audio.c:353
 msgid "Proceeding with sound support disabled."
 msgstr "Jatketaan ilman ääntä."
 
-#: client/audio.c:282
+#: client/audio.c:283
 msgid "For sound support, install SDL2_mixer"
 msgstr "Asenna SDL2_mixer saadaksesi äänet toimimaan."
 
-#: client/audio.c:303
+#: client/audio.c:304
 msgid "To get sound you need to download a sound set!"
 msgstr "Sinun pitää hakea ääniefektikokoelma saadaksesi ääniefektit toimimaan!"
 
-#: client/audio.c:304
+#: client/audio.c:305
 #, c-format
 msgid "Get sound sets from <%s>."
 msgstr "Ääniefektikokoelmia löytyy osoitteesta <%s>."
 
-#: client/audio.c:312
+#: client/audio.c:313
 #, c-format
 msgid ""
 "Could not load sound spec-file '%s':\n"
@@ -695,7 +695,7 @@ msgstr ""
 "Ääniefektikokoelman määritystiedoston '%s' lataaminen epäonnistui:\n"
 "%s"
 
-#: client/audio.c:317
+#: client/audio.c:318
 #, c-format
 msgid ""
 "Could not load music spec-file '%s':\n"
@@ -704,11 +704,11 @@ msgstr ""
 "Musiikkikokoelman määritystiedoston '%s' lataaminen epäonnistui:\n"
 "%s"
 
-#: client/audio.c:350
+#: client/audio.c:351
 msgid "No real audio subsystem managed to initialize!"
 msgstr "Ääniliitännäisen alustus epäonnistui!"
 
-#: client/audio.c:351
+#: client/audio.c:352
 msgid "Perhaps there is some misconfiguration or bad permissions."
 msgstr "Kenties asetuksissa tai käyttöoikeuksissa on vikaa."
 
@@ -1342,21 +1342,21 @@ msgstr "Vuoroa/ostohinta"
 msgid "Currently Building"
 msgstr "Tuottaa parhaillaan"
 
-#: client/cityrepdata.c:827
+#: client/cityrepdata.c:835
 msgid "Specialists: "
 msgstr "Erikoisosaajat: "
 
 # TODO: Hmm, consider using some handy UTF-8 symbols for some of these.
-#: client/cityrepdata.c:834
+#: client/cityrepdata.c:842
 msgid "?specialist:S"
 msgstr "E"
 
-#: client/cityrepdata.c:837
+#: client/cityrepdata.c:845
 #, c-format
 msgid "Specialists: %s"
 msgstr "Erikoisosaajat: %s"
 
-#: client/cityrepdata.c:855
+#: client/cityrepdata.c:863
 msgid "Special"
 msgstr "Erityispiirteet"
 
@@ -28324,7 +28324,7 @@ msgstr "Joku oli jo tyhjännyt tämän avaruuskapselin."
 
 #: data/alien/script.lua:87
 msgid "It was a trap! Set by the outcasts."
-msgstr ""
+msgstr "Se oli ansa! Lainsuojattomien virittämä."
 
 #: data/alien/script.lua:90
 #, c-format
@@ -28355,6 +28355,27 @@ msgid ""
 "You struggle to live on this planet, and read\n"
 "Roadside Picnic by Strugatsky brothers once more."
 msgstr ""
+"Deneb 7 oli tunnettu sitä ympäröivästä oudosta voimakentästä,\n"
+"jonka vuoksi planeetalle ei päässyt vuoden 250 Galaktista Aikaa\n"
+"teknologialla. Mutta kun olitte lentämässä planeetan ohitse,\n"
+"voimakenttä muutti yllättäen suuntaa ja imi teidä planeetalle.\n"
+"\n"
+"Löysitte itsenne oudosta maailmasta, jota ylivoimainen teknologia\n"
+"on todennäköisesti muokannut, ja jossa suuri osa Maasta peritystä\n"
+"tieteestä ei tunnu kertakaikkiaan pätevän. Teidän on opittava\n"
+"uudet säännöt, tämän maailman säännöt.\n"
+"\n"
+"Planeetalla on outoa säteily, jota vastaan mikään tunnettu suojaus\n"
+"ei toimi. Täällä on myös vieraita elämänmuotoja, mutta vielä\n"
+"yllättävämmin myös hyvin samantapaisia kasveja kuin Maassa. Ne ovat\n"
+"jopa syötäviä.\n"
+"\n"
+"Radio ei toimi, ilmassa ei voi lentää, suuri osa perusfysiikasta\n"
+"ei päde täällä.\n"
+"\n"
+"Ponnistelette elääksenne tällä planeetalla, ja luette\n"
+"Strugatskyn veljesten Huviretki tienpientareelle kirjan jälleen\n"
+"kerran."
 
 #: data/alien/styles.ruleset:30
 msgid "?style:Human"
@@ -28382,6 +28403,9 @@ msgid ""
 "\n"
 "Alien Forest tiles produce +1 production."
 msgstr ""
+"Ne ovat älykkäitä. Pitäisikö niillä olla myös oikeuksia?\n"
+"\n"
+"Oudon metsän ruudut tuottavat pistettä enemmän tuotantoa."
 
 #: data/alien/techs.ruleset:127
 msgid "Alien Taming"
@@ -28389,7 +28413,7 @@ msgstr "Olentojen kesyttäminen"
 
 #: data/alien/techs.ruleset:133
 msgid "Some of the Alien lifeforms now work for us."
-msgstr ""
+msgstr "Jotkin vieraista eliömuodoista tekevät nyt töitä meille."
 
 #: data/alien/techs.ruleset:136
 msgid "Alien Training"
@@ -28405,7 +28429,7 @@ msgstr "Amfibitaktiikat"
 
 #: data/alien/techs.ruleset:151
 msgid "Warfare with amphibious units."
-msgstr ""
+msgstr "Sotaa amfibiyksiköin."
 
 #: data/alien/techs.ruleset:154
 msgid "Antigravity"
@@ -28715,10 +28739,16 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 3 sizes bigger."
 msgstr ""
+"MINÄ TAHDON!\n"
+"\n"
+"Yksi toimiva tapa vastustaa säteilyä on tahdonvoima.\n"
+"\n"
+"Tämän teknologian tunteminen sallii kaupunkien kasvaa kolmea kokoa "
+"suuremmaksi."
 
-#: data/alien/techs.ruleset:473 tools/civmanual.c:388
-msgid "Mining"
-msgstr "Kaivos"
+#: data/alien/techs.ruleset:473
+msgid "?tech:Mining"
+msgstr "Kaivostoiminta"
 
 #: data/alien/techs.ruleset:479
 msgid ""
@@ -28792,6 +28822,10 @@ msgid ""
 "\n"
 "Cities can work radiating tiles."
 msgstr ""
+"Taito tehdä panssareita Deneb seitsemän säteilylle immuuneista vieraista "
+"organismeista mahdollistaa laajemman liikkuvuuden.\n"
+"\n"
+"Tämän teknologian myötä kaupungit voivat käyttää säteileviä ruutuja."
 
 #: data/alien/techs.ruleset:544
 msgid "Paradrop"
@@ -28933,6 +28967,9 @@ msgid ""
 "expensive to be used for armies. It's perfect for individuals in espionage "
 "mission."
 msgstr ""
+"Sittenkin kun tunnemme tämän teknologian, jonka avulla yksiköistä voi tehdä "
+"näkymättömiä, se on aivan liian kallis armeijoihin käytettäväksi. Sen sijaan "
+"se sopii täydellisesti yksittäisten vakoojien käytettäväksi."
 
 #: data/alien/techs.ruleset:666
 msgid "Strong Force"
@@ -28979,6 +29016,10 @@ msgid ""
 "As their food consumption is no longer an problem, we can grow bigger, "
 "meaner, aliens."
 msgstr ""
+"Tämä on täysin uusia ja erittäin tehokas tapa tehdä synteettistä ruokaa.\n"
+"\n"
+"Kun vieraiden olentojen ruoan kulutus ei enää ole kynnyskysymys, voimme "
+"kasvattaa niistä suurempia ja vaarallisempia."
 
 #: data/alien/techs.ruleset:709
 msgid "Teleportation"
@@ -28989,6 +29030,8 @@ msgid ""
 "We can teleport relatively small objects relatively short distances. This "
 "reduces problem of not being able to fly."
 msgstr ""
+"Voimme teleportatata melko pieniä kohteita melko lyhyitä matkoja. Tämä "
+"pienentää lentämisen mahdottomuuden aiheuttamia haittoja."
 
 #: data/alien/techs.ruleset:719
 msgid "Thermal Module"
@@ -29118,7 +29161,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:414
 msgid "Hills just like on Earth."
-msgstr ""
+msgstr "Samanlaisia kukkuloita kuin kotona Maassa."
 
 #: data/alien/terrain.ruleset:419
 msgid "Thick Mountains"
@@ -29133,10 +29176,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:497
-#, fuzzy
-#| msgid "This setting is not a string."
 msgid "This is normal oceanic terrain."
-msgstr "Asetus ei ole merkkijono."
+msgstr "Tämä on tavallista merta."
 
 #: data/alien/terrain.ruleset:502
 msgid "Boiling Ocean"
@@ -29149,6 +29190,10 @@ msgid ""
 "Cities can work these tiles only when Thermal Module is known, and city can "
 "never be located on Boiling Ocean."
 msgstr ""
+"Tämä meri kiehuu. Laivat ilman erikoisvarusteita eivät voi kulkea siellä.\n"
+"\n"
+"Kaupungit voivat käyttää näitä ruutuja vasta kun lämmönhallintamoduli "
+"tunnetaan, eikä kaupunkia voi koskaan sijoittaa kiehuvalle merelle."
 
 #: data/alien/terrain.ruleset:725
 msgid "Greenhouses"
@@ -29223,7 +29268,7 @@ msgid ""
 msgstr ""
 "Valtatiet voidaan parantaa magleveiksi.\n"
 "\n"
-"Yksiköt voivat liikkua magleveja pitkin rajattomasti. Magelvit antavat 50% "
+"Yksiköt voivat liikkua magleveja pitkin rajattomasti. Maglevit antavat 50% "
 "bonuksen ruudun tuotantoon."
 
 #: data/alien/terrain.ruleset:1018
@@ -29247,6 +29292,10 @@ msgid ""
 "can be built on oceanic terrains only, but first part of the tube must be "
 "built cardinally adjacent to land and following parts must be built in order."
 msgstr ""
+"Kaivuuputket tarjoavat ainoan tavan kaivautuvien yksiköiden kulkea merien "
+"poikki. Kaivuuputkia voidaan rakentaa vain meriruutuihin ja putken "
+"ensimmäisenä asennettavan pätkän täytyy olla maan rinnalla, ja putket täytyy "
+"asentaa siitä eteenpäin järjestyksessä."
 
 #: data/alien/terrain.ruleset:1077
 msgid "Green River"
@@ -29328,12 +29377,12 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1215
 msgid "Glowing Rocks"
-msgstr ""
+msgstr "Hehkuvia kiviä"
 
 #: data/alien/terrain.ruleset:1227
 #, no-c-format
 msgid "Rocks in the area have unusually bright glow."
-msgstr ""
+msgstr "Tämän alueen kivillä on poikkeuksellisen voimakas hehku."
 
 #: data/alien/units.ruleset:51 data/alien/units.ruleset:1398
 msgid "Regular"
@@ -29348,10 +29397,8 @@ msgid "Superb"
 msgstr "Erinomainen"
 
 #: data/alien/units.ruleset:132
-#, fuzzy
-#| msgid "?unitclass:Sea"
 msgid "?unitclass:Earthly"
-msgstr "merivoimien"
+msgstr "maan teknologian"
 
 #: data/alien/units.ruleset:140
 msgid "?unitclass:Native"
@@ -29512,6 +29559,8 @@ msgid ""
 "Burrow through earth. Only some special units can attack against Earth Sub. "
 "These can pass ocean tiles only through Burrow Tubes."
 msgstr ""
+"Kaivautuu maan läpi. Vain jotkut erikoisyksiköt voivat hyökätä maasukeltajan "
+"kimppuun. Nämä pääsevät meren ylitse vain kaivuuputkia pitkin."
 
 #: data/alien/units.ruleset:893
 msgid "Hunter"
@@ -29545,8 +29594,8 @@ msgid ""
 "Nobody, but some of the other Antigravity and Hunters units can attack this "
 "unit."
 msgstr ""
-"Ainoastaan toiset antigravitaatioyksiköt ja metsästäjät voivat hyökätä tämän "
-"yksikön kimppuun."
+"Ainoastaan jotkin toiset antigravitaatioyksiköt ja metsästäjät voivat "
+"hyökätä tämän yksikön kimppuun."
 
 #: data/alien/units.ruleset:988
 msgid "Spitter"
@@ -29614,6 +29663,8 @@ msgstr ""
 #: data/alien/units.ruleset:1235
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
+"Tämä alus on taistelua varten! Harmillisesti se ei kuitenkaan voi kulkea "
+"kiehuvalla merellä."
 
 #: data/alien/units.ruleset:1240
 msgid "Battle Unit"
@@ -29665,11 +29716,11 @@ msgstr "Teleporttaava ohjus"
 
 #: data/alien/units.ruleset:1433
 msgid "Teleporting Missile can teleport and attack to neighbour tile."
-msgstr ""
+msgstr "Teleporttaava ohjus voi teleportata hyökätäkseen viereiseen ruutuun."
 
 #: data/alien/units.ruleset:1437
 msgid "Antiburrow Missile"
-msgstr ""
+msgstr "Antikaivautujaohjus"
 
 #: data/alien/units.ruleset:1462
 msgid ""
@@ -29714,10 +29765,8 @@ msgid "J&W Corporation"
 msgstr "J&W Osakeyhtiö"
 
 #: data/alien/nation/jw.ruleset:6
-#, fuzzy
-#| msgid "?plural:Greeks"
 msgid "?plural:JeeWees"
-msgstr "kreikkalaiset"
+msgstr "JiiWeet"
 
 #: data/alien/nation/jw.ruleset:8
 #, no-c-format
@@ -35586,10 +35635,6 @@ msgid "Tutorial"
 msgstr "Opetusskenaario"
 
 #: data/scenarios/tutorial.sav:6
-#, fuzzy
-#| msgid ""
-#| "Play this tutorial scenario to get an introduction to Freeciv. This is "
-#| "intended for single-player games. It uses the classic rules."
 msgid ""
 "Play this tutorial scenario to get an introduction to Freeciv. This is "
 "intended for single-player games. It uses the default (civ2civ3) rules."
@@ -35612,13 +35657,6 @@ msgstr ""
 "uudisraivaajillasi. Käytä numeronäppäimistöä yksiköiden liikuttamiseen."
 
 #: data/scenarios/tutorial.sav:127
-#, fuzzy
-#| msgid ""
-#| "Outside of a city, or a fortress or airbase, if a 'stack' of units\n"
-#| "on a single tile is attacked, the strongest unit defends; and if that\n"
-#| "unit is defeated, ALL of the units on the tile are killed.  Therefore,\n"
-#| "it's often a good idea to spread units out, avoiding 'stacks' of units\n"
-#| "like this, particularly on land."
 msgid ""
 "Outside of a city, if a 'stack' of units on a single tile is\n"
 "attacked, the strongest unit defends; and if that unit is defeated,\n"
@@ -35628,10 +35666,9 @@ msgid ""
 msgstr ""
 "Samaan ruutuun kasaantuneista yksiköistä puolustukseltaan vahvin puolustaa "
 "ruutua vihollisyksikön hyökätessä. Mikäli puolustaja häviää ruudun, kaikki "
-"sillä olevat yksiköt kuolevat. Tämä ei päde kaupunkiruuduissa, "
-"linnoituksissa, eikä lentotukikohdissa. On yleensä hyvä idea välttää liian "
-"suurten yksikkönippujen muodostumista samaan ruutuun suuria armeijoita "
-"liikutellessaan levittäytymällä laajemmalle alueelle."
+"sillä olevat yksiköt kuolevat. Tämä ei päde kaupunkiruuduissa. On yleensä "
+"hyvä idea välttää liian suurten yksikkönippujen muodostumista samaan ruutuun "
+"suuria armeijoita liikutellessaan levittäytymällä laajemmalle alueelle."
 
 #: data/scenarios/tutorial.sav:146
 msgid ""
@@ -36444,6 +36481,10 @@ msgstr "Liikkumisen hitaus"
 msgid "Defense bonus"
 msgstr "Puolustusbonus"
 
+#: tools/civmanual.c:388
+msgid "Mining"
+msgstr "Kaivos"
+
 #: tools/civmanual.c:390
 #, no-c-format
 msgid "% of Road bonus"
@@ -37098,17 +37139,14 @@ msgstr "Yrityksesi sabotoida %s johti selkkaukseen."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:465
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident while poisoning %s."
+#, c-format
 msgid "The %s have caused an incident doing %s to %s."
-msgstr ""
-"%s aiheuttavat selkkauksen. Heidän myrkystyshyökkäyksensä kohteena oli %s."
+msgstr "%s aiheuttavat selkkauksen toimella %s kaupungissa %s."
 
 #: server/actiontools.c:475
-#, fuzzy, c-format
-#| msgid "The %s have caused an incident while sabotaging your %s."
+#, c-format
 msgid "The %s have caused an incident doing %s to your %s."
-msgstr "%s on aiheuttanut selkkauksen sabotoimalla omistamasi %s."
+msgstr "%s on aiheuttanut selkkauksen tekemällä toimen %s yksiköllesi %s."
 
 #: server/actiontools.c:485
 #, fuzzy, c-format
@@ -37121,25 +37159,27 @@ msgstr "%s on aiheuttanut selkkauksen toimillaan sabotoida %s."
 #, c-format
 msgid "Doing %s gives everyone a casus belli against you."
 msgstr ""
+"Toimen %s tekeminen antaa kaikille oikeuden vastatoimiin sinua vastaan."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:520
 #, c-format
 msgid "Doing %s to you gives everyone a casus belli against the %s."
 msgstr ""
+"Koska %2$s tekee toimen %1$s sinulle, kaikki saavat oikeutuksen vastatoimiin "
+"heitä vastaan."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:528
 #, c-format
 msgid "You now have a casus belli against the %s. They did %s."
-msgstr ""
+msgstr "Sinulla on nyt oikeus vastatoimiin. %s tekivät toimen %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:536
-#, fuzzy, c-format
-#| msgid "Requires that the %s are not in the game.\n"
+#, c-format
 msgid "You now have a casus belli against the %s. They did %s to the %s."
-msgstr "Edellyttää etteivät %s ole pelissä.\n"
+msgstr "Sinulla on nyt oikeus vastatoimiin. %s tekivät toimen %s, uhrina %s."
 
 #: server/aiiface.c:91
 #, c-format
@@ -37159,12 +37199,12 @@ msgstr "Epäyhteensopiva AI moduli %s:"
 #: server/aiiface.c:106
 #, c-format
 msgid "  Module options:    %s"
-msgstr " Modulin valinnat: %s"
+msgstr "  Modulin valinnat: %s"
 
 #: server/aiiface.c:107
 #, c-format
 msgid "  Supported options: %s"
-msgstr "  Tuetut valinnat: %s"
+msgstr "  Tuetut valinnat:  %s"
 
 #: server/aiiface.c:115
 #, c-format
@@ -37491,109 +37531,109 @@ msgid ""
 msgstr ""
 "Kun %s hylättiin, yksikkösi %s kaupungissa %s jäi ansaan ja se menetettiin."
 
-#: server/citytools.c:1915 server/unithand.c:3328
+#: server/citytools.c:1916 server/unithand.c:3328
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Tuhoat kaupungin %s kokonaan."
 
-#: server/citytools.c:1918 server/unithand.c:3335
+#: server/citytools.c:1919 server/unithand.c:3335
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "Kaupunki %s on tuhottu, asialla oli %s."
 
-#: server/citytools.c:1947
+#: server/citytools.c:1948
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Valloitat kaupungin %s, saaliisi on %d kulta!"
 msgstr[1] "Valloitat kaupungin %s, saaliisi on %d kultaa!"
 
-#: server/citytools.c:1954
+#: server/citytools.c:1955
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 msgstr[1] "%s valloitti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:1963
+#: server/citytools.c:1964
 #, c-format
 msgid "You conquer %s."
 msgstr "Valloitat kaupungin %s"
 
-#: server/citytools.c:1966
+#: server/citytools.c:1967
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s valloitti kaupungin %s."
 
-#: server/citytools.c:1973
+#: server/citytools.c:1974
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Olet vapauttanut kaupungin %s! Saaliisi on %d kulta."
 msgstr[1] "Olet vapauttanut kaupungin %s! Saaliisi on %d kultaa."
 
-#: server/citytools.c:1980
+#: server/citytools.c:1981
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s vapautti kaupungin %s ja sai saaliikseen %d kullan."
 msgstr[1] "%s vapautti kaupungin %s ja sai saaliikseen %d kultaa."
 
-#: server/citytools.c:1989
+#: server/citytools.c:1990
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Olet vapauttanut kaupungin %s!"
 
-#: server/citytools.c:1992
+#: server/citytools.c:1993
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s vapautti kaupungin %s."
 
-#: server/citytools.c:2634
+#: server/citytools.c:2647
 #, c-format
 msgid "Trade between %s and %s lost along with city."
 msgstr ""
 "Kauppareitti kaupunkien %s ja %s välillä on peruttu kaupungin menettämisen "
 "myötä."
 
-#: server/citytools.c:2639
+#: server/citytools.c:2652
 #, c-format
 msgid "Trade route between %s and %s canceled."
 msgstr "Kauppareitti kaupunkien %s ja %s välillä on peruttu."
 
 #. TRANS: "...between Spanish city Madrid and Paris..."
-#: server/citytools.c:2647
+#: server/citytools.c:2660
 #, c-format
 msgid "Trade between %s city %s and %s lost along with their city."
 msgstr ""
 "Kauppareitti %s kaupungin %s ja kaupungin %s välillä menetetty kaupungin "
 "myötä."
 
-#: server/citytools.c:2655
+#: server/citytools.c:2668
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "%s on perunut kauppareitin kaupungista %s kaupunkiisi %s."
 
 #. TRANS: "...from Paris to Spanish city Madrid."
-#: server/citytools.c:2661
+#: server/citytools.c:2674
 #, c-format
 msgid "We canceled the trade route from %s to %s city %s."
 msgstr "Peruimme kauppareitin kaupungista %s %s kaupunkiin %s."
 
-#: server/citytools.c:2898
+#: server/citytools.c:2911
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s ovat keskeyttäneet hankkeensa %s kaupungissa %s."
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence).
-#: server/citytools.c:2920
+#: server/citytools.c:2933
 msgid " from the worklist"
 msgstr " työlistalta"
 
 #. TRANS: Possible 'source' of the production change
 #. * (in "<city> is building ..." sentence).
-#: server/citytools.c:2925
+#: server/citytools.c:2938
 msgid " as suggested by the advisor"
 msgstr " neuvontantajan ohjaamana"
 
@@ -37601,17 +37641,17 @@ msgstr " neuvontantajan ohjaamana"
 #. TRANS: "<city> is building <production><source>."
 #. * 'source' might be an empty string, or a clause like
 #. * " from the worklist".
-#: server/citytools.c:2942
+#: server/citytools.c:2955
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s aloitti hankkeen %s%s."
 
-#: server/citytools.c:2951
+#: server/citytools.c:2964
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s tavoittelevat taivaita: %s rakenteilla kaupungissa %s."
 
-#: server/citytools.c:3111
+#: server/citytools.c:3124
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgid_plural "You sell %s in %s (now landlocked) for %d gold."
@@ -37620,16 +37660,16 @@ msgstr[0] ""
 msgstr[1] ""
 "Myyt vesiyhteyttä vaativan parannuksen %s kaupungissa %s %d kullasta."
 
-#: server/citytools.c:3245
+#: server/citytools.c:3258
 #, c-format
 msgid "The size of the city map of %s is %s."
 msgstr "Kaupungin %s alueen koko %s."
 
-#: server/citytools.c:3247
+#: server/citytools.c:3260
 msgid "increased"
 msgstr "laajeni"
 
-#: server/citytools.c:3248
+#: server/citytools.c:3261
 msgid "reduced"
 msgstr "supistui"
 
@@ -46723,23 +46763,22 @@ msgstr "Ei pelaajaa annettu komennolle 'aicmd'."
 
 #: server/stdinhand.c:5605
 msgid "No command for the AI console defined."
-msgstr ""
+msgstr "Ei komentoa AI-konsolille välitettäväksi annettu."
 
 #: server/stdinhand.c:5619
 #, c-format
 msgid "AI console for player %s. Command: '%s'."
-msgstr ""
+msgstr "AI-konsoli pelaajalle %s. Komento: '%s'."
 
 #: server/stdinhand.c:5625
 #, c-format
 msgid "No AI console defined for the AI '%s' of player %s."
-msgstr ""
+msgstr "Ei AI-konsolia määritetty AI-tyypille '%s', jota pelaaja %s käyttää."
 
 #: server/stdinhand.c:5629
-#, fuzzy, c-format
-#| msgid "No delegation defined for '%s'."
+#, c-format
 msgid "No AI defined for player %s."
-msgstr "Pelaajaa '%s' ei ole delegoitu muiden hallintaan."
+msgstr "Ei AI-tyyppiä määritetty pelaajalle %s."
 
 #: server/stdinhand.c:5669
 msgid "Freeciv database script deactivated at compile time."
@@ -47407,14 +47446,13 @@ msgstr "%s: kasvamiseen tarvitaan rakennushanke, %s ei voi liittyä."
 #: server/unithand.c:1406
 #, c-format
 msgid "%s don't have enough capacity, so %s cannot do anything."
-msgstr ""
+msgstr "%s ei omaa riittävää kapasiteettia. %s-yksikkö ei voi tehdä mitään."
 
 #. TRANS: Paratroopers ...
 #: server/unithand.c:1414
-#, fuzzy, c-format
-#| msgid "Your %s could not find anything to sabotage in %s."
+#, c-format
 msgid "%s can't do anything to an unknown target tile."
-msgstr "Lähettämäsi %s ei löytänyt mitään sabotoitavaa kaupungista %s."
+msgstr "%s-yksikkö ei voi tehdä mitään tuntemattomalle kohderuudulle."
 
 #: server/unithand.c:1419 server/unithand.c:1993 server/unithand.c:3648
 #, c-format
@@ -47590,15 +47628,18 @@ msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
 msgid "Your %s must be at least %d tile away to do %s."
 msgid_plural "Your %s must be at least %d tiles away to do %s."
 msgstr[0] ""
+"Yksikkösi %s täytyy olla vähintään %d ruudun päässä suorittaakseen toimen %s."
 msgstr[1] ""
+"Yksikkösi %s täytyy olla vähintään %d ruudun päässä suorittaakseen toimen %s."
 
 #: server/unithand.c:1934
-#, fuzzy, c-format
-#| msgid "Your %s can't do %s to %s."
+#, c-format
 msgid "Your %s can't be more than %d tile away to do %s."
 msgid_plural "Your %s can't be more than %d tiles away to do %s."
-msgstr[0] "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
-msgstr[1] "Yksikkösi %s ei voi suorittaa toimintoa %s kohteelle %s."
+msgstr[0] ""
+"Yksikkösi %s ei voi olla kuin %d ruudun päässä suorittaakseen toimen %s."
+msgstr[1] ""
+"Yksikkösi %s ei voi olla kuin %d ruudun päässä suorittaakseen toimen %s."
 
 #. TRANS: Can't do Build City in this scenario.
 #: server/unithand.c:1945
