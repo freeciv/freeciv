@@ -56,7 +56,7 @@ static void real_info_city_report_dialog_update(void);
 
 /* ==================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Close city report dialog.
 **************************************************************************/
 void city_report_dialog_popdown(void)
@@ -72,7 +72,7 @@ void city_report_dialog_popdown(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cityreport window.
 **************************************************************************/
 static int city_report_windows_callback(struct widget *pWindow)
@@ -84,7 +84,7 @@ static int city_report_windows_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with city report close button.
 **************************************************************************/
 static int exit_city_report_callback(struct widget *pWidget)
@@ -96,7 +96,7 @@ static int exit_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with city button on city report.
 **************************************************************************/
 static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
@@ -108,7 +108,7 @@ static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with worklist button on city report.
 **************************************************************************/
 static int popup_worklist_from_city_report_callback(struct widget *pWidget)
@@ -120,7 +120,7 @@ static int popup_worklist_from_city_report_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with city production button on city report.
 **************************************************************************/
 static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
@@ -132,7 +132,7 @@ static int popup_buy_production_from_city_report_callback(struct widget *pWidget
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cma button on city report.
 **************************************************************************/
 static int popup_cma_from_city_report_callback(struct widget *pWidget)
@@ -153,7 +153,7 @@ static int popup_cma_from_city_report_callback(struct widget *pWidget)
 }
 
 #if 0
-/**************************************************************************
+/**********************************************************************//**
   User interacted with information report button.
 **************************************************************************/
 static int info_city_report_callback(struct widget *pWidget)
@@ -172,7 +172,7 @@ static int info_city_report_callback(struct widget *pWidget)
 
 #define COL	17
 
-/**************************************************************************
+/**********************************************************************//**
   Rebuild the city info report.
 **************************************************************************/
 static void real_info_city_report_dialog_update(void)
@@ -947,8 +947,8 @@ static void real_info_city_report_dialog_update(void)
   flush_dirty();
 }
 
-/**************************************************************************
-  Update city information in city report. 
+/**********************************************************************//**
+  Update city information in city report.
 **************************************************************************/
 static struct widget *real_city_report_dialog_update_city(struct widget *pWidget,
                                                           struct city *pCity)
@@ -1112,7 +1112,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
 
 /* ======================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Check if city report is open.
 **************************************************************************/
 bool is_city_report_open(void)
@@ -1120,7 +1120,7 @@ bool is_city_report_open(void)
   return (pCityRep != NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Pop up or brings forward the city report dialog.  It may or may not
   be modal.
 **************************************************************************/
@@ -1131,7 +1131,7 @@ void city_report_dialog_popup(bool make_modal)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update (refresh) the entire city report dialog.
 **************************************************************************/
 void real_city_report_dialog_update(void)
@@ -1176,7 +1176,7 @@ void real_city_report_dialog_update(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the city report dialog for a single city.
 **************************************************************************/
 void real_city_report_update_city(struct city *pCity)
@@ -1203,19 +1203,19 @@ void real_city_report_update_city(struct city *pCity)
   }
 }
 
-/****************************************************************
- After a selection rectangle is defined, make the cities that
- are hilited on the canvas exclusively hilited in the
- City List window.
-*****************************************************************/
+/**********************************************************************//**
+  After a selection rectangle is defined, make the cities that
+  are hilited on the canvas exclusively hilited in the
+  City List window.
+**************************************************************************/
 void hilite_cities_from_canvas(void)
 {
   log_debug("hilite_cities_from_canvas : PORT ME");
 }
 
-/****************************************************************
- Toggle a city's hilited status.
-*****************************************************************/
+/**********************************************************************//**
+  Toggle a city's hilited status.
+**************************************************************************/
 void toggle_city_hilite(struct city *pCity, bool on_off)
 {
   log_debug("toggle_city_hilite : PORT ME");

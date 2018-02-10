@@ -75,23 +75,23 @@ static void popup_new_user_passwd_dialog(const char *pMessage);
   THESE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULLY REWRITTEN !!
 */
 
-/**************************************************************************
- really close and destroy the dialog.
+/**********************************************************************//**
+  Really close and destroy the dialog.
 **************************************************************************/
 void really_close_connection_dialog(void)
 {
   /* PORTME */
 }
 
-/**************************************************************************
- provide a packet handler for packet_game_load
+/**********************************************************************//**
+  Provide a packet handler for packet_game_load
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
 { 
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with connect -widget
 **************************************************************************/
 static int connect_callback(struct widget *pWidget)
@@ -118,7 +118,7 @@ static int connect_callback(struct widget *pWidget)
 /* ======================================================== */
 
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with server list window.
 **************************************************************************/
 static int meta_server_window_callback(struct widget *pWindow)
@@ -126,7 +126,7 @@ static int meta_server_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close servers dialog.
 **************************************************************************/
 static int exit_meta_server_dlg_callback(struct widget *pWidget)
@@ -145,7 +145,7 @@ static int exit_meta_server_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Server selected from dialog.
 **************************************************************************/
 static int select_meta_servers_callback(struct widget *pWidget)
@@ -162,7 +162,7 @@ static int select_meta_servers_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback function for when there's an error in the server scan.
 **************************************************************************/
 static void server_scan_error(struct server_scan *scan,
@@ -187,7 +187,7 @@ static void server_scan_error(struct server_scan *scan,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   SDL wrapper on create_server_list(...) function witch add
   same functionality for LAN server dettection.
   WARING !: for LAN scan use "finish_lanserver_scan()" to free server list.
@@ -221,7 +221,7 @@ static struct srv_list *sdl_create_server_list(bool lan)
   return list;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open connection dialog for either meta or lan scan.
 **************************************************************************/
 void popup_connection_dialog(bool lan_scan)
@@ -464,7 +464,7 @@ void popup_connection_dialog(bool lan_scan)
   widget_flush(pWindow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with playername widget.
 **************************************************************************/
 static int convert_playername_callback(struct widget *pWidget)
@@ -484,7 +484,7 @@ static int convert_playername_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with servername widget.
 **************************************************************************/
 static int convert_servername_callback(struct widget *pWidget)
@@ -504,7 +504,7 @@ static int convert_servername_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with port number widget.
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pWidget)
@@ -527,7 +527,7 @@ static int convert_portnr_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cancel -button
 **************************************************************************/
 static int cancel_connect_dlg_callback(struct widget *pWidget)
@@ -540,7 +540,7 @@ static int cancel_connect_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open dialog for joining to game.
 **************************************************************************/
 void popup_join_game_dialog()
@@ -721,7 +721,7 @@ void popup_join_game_dialog()
   flush_all();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with password widget
 **************************************************************************/
 static int convert_passwd_callback(struct widget *pWidget)
@@ -737,7 +737,7 @@ static int convert_passwd_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with "Next" -button after entering password.
 **************************************************************************/
 static int send_passwd_callback(struct widget *pWidget)
@@ -764,7 +764,7 @@ static int send_passwd_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close password dialog with no password given.
 **************************************************************************/
 static int cancel_passwd_callback(struct widget *pWidget)
@@ -776,7 +776,7 @@ static int cancel_passwd_callback(struct widget *pWidget)
   return cancel_connect_dlg_callback(pWidget);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open password dialog.
 **************************************************************************/
 static void popup_user_passwd_dialog(const char *pMessage)
@@ -897,7 +897,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   flush_all();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   New Password
 **************************************************************************/
 static int convert_first_passwd_callback(struct widget *pWidget)
@@ -914,7 +914,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Verify Password
 **************************************************************************/
 static int convert_second_passwd_callback(struct widget *pWidget)
@@ -941,7 +941,7 @@ static int convert_second_passwd_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open dialog for new password.
 **************************************************************************/
 static void popup_new_user_passwd_dialog(const char *pMessage)
@@ -1077,8 +1077,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
 /* ======================================================================== */
 
-/**************************************************************************
- close and destroy the dialog.
+/**********************************************************************//**
+  Close and destroy the dialog.
 **************************************************************************/
 void close_connection_dialog(void)
 {
@@ -1101,9 +1101,9 @@ void close_connection_dialog(void)
   }
 }
 
-/**************************************************************************
- popup passwd dialog depending on what type of authentication request the
- server is making.
+/**********************************************************************//**
+  Popup passwd dialog depending on what type of authentication request the
+  server is making.
 **************************************************************************/
 void handle_authentication_req(enum authentication_type type,
                                const char *message)
@@ -1137,7 +1137,7 @@ void handle_authentication_req(enum authentication_type type,
   log_error("Not supported authentication type %d: %s.", type, message);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Provide an interface for connecting to a Freeciv server.
   sdl2-client does it as popup main start menu which != connecting dlg.
 **************************************************************************/
