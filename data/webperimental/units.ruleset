@@ -2348,7 +2348,9 @@ helptext      = _("\
 This is you. If you lose this unit, you lose the game. So don't.\
 "), _("\
 Won't unleash barbarians from huts.\
-"), _("\
+"),
+; /* xgettext:no-c-format */
+_("\
 The Leader unit includes a court physician.\
  The Leader unit can therefore be used to heal it self or other\
  light weight land units.\

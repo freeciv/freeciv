@@ -37,7 +37,9 @@ flags =
 extra_flags =
   { "name", "helptxt"
     _("ParadropFrom"), _("Units can paradrop from this tile.")
-    _("DiplomatDefense"), _("Diplomatic units get a 25% defense bonus in diplomatic fights.")
+    _("DiplomatDefense"),
+        ; /* xgettext:no-c-format */
+        _("Diplomatic units get a 25% defense bonus in diplomatic fights.")
   }
 
 [parameters]
