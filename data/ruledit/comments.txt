@@ -570,20 +570,24 @@ terrains = "\
 ;                        Nonzero values only affect extras with build_time 0.\n\
 ; road_time            = time to build roads; if 0, cannot build any roads.\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
-; irrigation_result    = result of irrigation; one of:\n\
+; irrigation_result    = result of 'irrigate' activity; one of:\n\
 ;                        \"no\"  -- cannot irrigate\n\
-;                        \"yes\" -- can irrigate\n\
+;                        \"yes\" -- can build extra\n\
 ;                        terrain section -- irrigation changes to that terrain\n\
-; irrigation_food_incr = increment to food if tile is irrigated\n\
-; irrigation_time      = time to irrigate; if 0, cannot irrigate\n\
+; irrigation_food_incr = increment to food if tile is 100% irrigated\n\
+;                        (actual bonus controlled by Irrigation_Pct effect)\n\
+; irrigation_time      = time for 'irrigate' activity; if 0, cannot irrigate\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
-; mining_result        = result of mining; one of:\n\
+;                        Such extras can modify time with build_time_factor.\n\
+; mining_result        = result of 'mine' activity; one of:\n\
 ;                        \"no\"  -- cannot mine\n\
-;                        \"yes\" -- can mine\n\
+;                        \"yes\" -- can build extra\n\
 ;                        terrain section -- mining changes to that terrain\n\
-; mining_shield_incr   = increment to shields if tile is mined\n\
-; mining_time          = time to mine; if 0, cannot mine\n\
+; mining_shield_incr   = increment to shields if tile is 100% mined\n\
+;                        (actual bonus controlled by Mining_Pct effect)\n\
+; mining_time          = time for 'mine' activity; if 0, cannot mine\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
+;                        Such extras can modify time with build_time_factor.\n\
 ; transform_result     = result of transformation; one of:\n\
 ;                        \"no\"  -- cannot transform\n\
 ;                        terrain section -- transformation changes to that\n\

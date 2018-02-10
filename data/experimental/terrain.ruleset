@@ -116,23 +116,27 @@ ocean_resources = FALSE
 ; road_shield_incr_pct = percent of road shield_incr applied to this terrain
 ; road_trade_incr_pct  = percent of road trade_incr applied to this terrain
 ; base_time            = time to build bases; if 0, cannot build any bases.
-;                        Nonzero values only affect bases with build_time 0.
+;                        Nonzero values only affect extras with build_time 0.
 ; road_time            = time to build roads; if 0, cannot build any roads.
-;                        Nonzero values only affect roads with build_time 0.
-; irrigation_result    = result of irrigation; one of:
+;                        Nonzero values only affect extras with build_time 0.
+; irrigation_result    = result of 'irrigate' activity; one of:
 ;                        "no"  -- cannot irrigate
-;                        "yes" -- can irrigate
+;                        "yes" -- can build extra
 ;                        terrain section -- irrigation changes to that terrain
-; irrigation_food_incr = increment to food if tile is irrigated
-; irrigation_time      = time to irrigate; if 0, cannot irrigate
+; irrigation_food_incr = increment to food if tile is 100% irrigated
+;                        (actual bonus controlled by Irrigation_Pct effect)
+; irrigation_time      = time for 'irrigate' activity; if 0, cannot irrigate
 ;                        Nonzero values only affect extras with build_time 0.
-; mining_result        = result of mining; one of:
+;                        Such extras can modify time with build_time_factor.
+; mining_result        = result of 'mine' activity; one of:
 ;                        "no"  -- cannot mine
-;                        "yes" -- can mine
+;                        "yes" -- can build extra
 ;                        terrain section -- mining changes to that terrain
-; mining_shield_incr   = increment to shields if tile is mined
-; mining_time          = time to mine; if 0, cannot mine
+; mining_shield_incr   = increment to shields if tile is 100% mined
+;                        (actual bonus controlled by Mining_Pct effect)
+; mining_time          = time for 'mine' activity; if 0, cannot mine
 ;                        Nonzero values only affect extras with build_time 0.
+;                        Such extras can modify time with build_time_factor.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
 ;                        terrain section -- transformation changes to that
@@ -140,9 +144,9 @@ ocean_resources = FALSE
 ; transform_time       = time to transform; if 0, cannot transform
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
-; clean_pollution_time = time to clean pollution (0 = impossible)
+; clean_pollution_time = time for 'clean pollution' activity (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
-; clean_fallout_time   = time to clean fallout (0 = impossible)
+; clean_fallout_time   = time for 'clean fallout' activity (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:

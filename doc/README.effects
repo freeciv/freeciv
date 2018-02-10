@@ -183,10 +183,12 @@ Have_Embassies
     had contact with.
 
 Irrigation_Pct
-    Irrigation output of the tile is value %.
+    The tile gets value % of its terrain's irrigation_food_incr bonus.
+(This is how irrigation-like extras have an effect.)
 
 Mining_Pct
-    Mining output of the tile is value %.
+    The tile gets value % of its terrain's mining_shield_incr bonus.
+(This is how mine-like extras have an effect.)
 
 Make_Content
     Make amount unhappy citizens content. Applied before martial law and unit 
