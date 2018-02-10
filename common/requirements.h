@@ -153,7 +153,8 @@ bool universal_fulfills_requirement(bool check_necessary,
 
 /* Accessors to determine if a universal fulfills a requirement vector.
  * When adding an additional accessor, be sure to add the appropriate
- * item_found function in universal_found_callbacks_init(). */
+ * item_found function in universal_found_functions_init(). */
+/* XXX Some versions of g++ can't cope with the struct literals */
 #define requirement_fulfilled_by_government(_gov_, _rqs_)                  \
   universal_fulfills_requirement(FALSE, (_rqs_),                           \
       &(struct universal){.kind = VUT_GOVERNMENT, .value = {.govern = (_gov_)}})
