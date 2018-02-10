@@ -55,7 +55,8 @@ static help_dialog *help_dlg = NULL;
 canvas *terrain_canvas(struct terrain *terrain,
                        const struct extra_type *resource = NULL,
                        enum extra_cause cause = EC_COUNT);
-/**************************************************************************
+
+/**********************************************************************//**
   Popup the help dialog to get help on the given string topic.  Note
   that the topic may appear in multiple sections of the help (it may
   be both an improvement and a unit, for example).
@@ -67,7 +68,7 @@ void popup_help_dialog_string(const char *item)
   popup_help_dialog_typed(Q_(item), HELP_ANY);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup the help dialog to display help on the given string topic from
   the given section.
 
@@ -89,7 +90,7 @@ void popup_help_dialog_typed(const char *item, enum help_page_type htype)
   help_dlg->activateWindow();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close the help dialog.
 **************************************************************************/
 void popdown_help_dialog(void)
@@ -101,7 +102,7 @@ void popdown_help_dialog(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Updates fonts
 **************************************************************************/
 void update_help_fonts()
@@ -111,7 +112,7 @@ void update_help_fonts()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Constructor for help dialog
 **************************************************************************/
 help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
@@ -181,7 +182,7 @@ help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update fonts for help_wdg
 **************************************************************************/
 void help_dialog::update_fonts()
@@ -189,7 +190,7 @@ void help_dialog::update_fonts()
   help_wdg->update_fonts();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create the help tree.
 **************************************************************************/
 void help_dialog::make_tree()
@@ -303,7 +304,7 @@ void help_dialog::make_tree()
   } help_items_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes the displayed topic.
 **************************************************************************/
 void help_dialog::set_topic(const help_item *topic)
@@ -320,7 +321,7 @@ void help_dialog::set_topic(const help_item *topic)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Goes to next topic in history
 **************************************************************************/
 void help_dialog::history_forward()
@@ -337,7 +338,7 @@ void help_dialog::history_forward()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Backs in history to previous topic
 **************************************************************************/
 void help_dialog::history_back()
@@ -354,7 +355,7 @@ void help_dialog::history_back()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update buttons (back and next)
 **************************************************************************/
 void help_dialog::update_buttons()
@@ -371,7 +372,7 @@ void help_dialog::update_buttons()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called when a tree item is activated.
 **************************************************************************/
 void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
@@ -392,7 +393,7 @@ void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
   update_buttons();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates a new, empty help widget.
 **************************************************************************/
 help_widget::help_widget(QWidget *parent) :
@@ -403,7 +404,7 @@ help_widget::help_widget(QWidget *parent) :
   setup_ui();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates a new help widget displaying the specified topic.
 **************************************************************************/
 help_widget::help_widget(const help_item *topic, QWidget *parent) :
@@ -415,16 +416,16 @@ help_widget::help_widget(const help_item *topic, QWidget *parent) :
   set_topic(topic);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destructor.
 **************************************************************************/
 help_widget::~help_widget() {
   // Nothing to do here
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates the UI.
-****************************************************************************/
+**************************************************************************/
 void help_widget::setup_ui()
 {
   QVBoxLayout *layout;
@@ -453,7 +454,7 @@ void help_widget::setup_ui()
   splitter_sizes << 200 << 400;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Lays things out. The widget is organized as follows, with the additional
   complexity that info_ and/or bottom_panel may be absent.
 
@@ -474,7 +475,7 @@ void help_widget::setup_ui()
     ||+------------+ +--------------+||
     |+-------------------------------+|
     +---------------------------------+
-****************************************************************************/
+**************************************************************************/
 void help_widget::do_layout()
 {
   QWidget *right;
@@ -510,7 +511,7 @@ void help_widget::do_layout()
   qobject_cast<QVBoxLayout *>(layout())->setStretchFactor(main_widget, 100);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Updates fonts for manual
 **************************************************************************/
 void help_widget::update_fonts()
@@ -540,9 +541,9 @@ void help_widget::update_fonts()
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Deletes the widgets created by do_complex_layout().
-****************************************************************************/
+**************************************************************************/
 void help_widget::undo_layout()
 {
   // Save the splitter sizes to avoid jumps
@@ -563,18 +564,18 @@ void help_widget::undo_layout()
   info_layout = NULL;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates the information panel. It will be shown by do_complex_layout().
-****************************************************************************/
+**************************************************************************/
 void help_widget::show_info_panel()
 {
   info_panel = new QWidget();
   info_layout = new QVBoxLayout();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Adds a pixmap to the information panel.
-****************************************************************************/
+**************************************************************************/
 void help_widget::add_info_pixmap(QPixmap *pm, bool shadow)
 {
   QLabel *label = new QLabel();
@@ -593,9 +594,9 @@ void help_widget::add_info_pixmap(QPixmap *pm, bool shadow)
   info_layout->addWidget(label);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Adds a text label to the information panel.
-****************************************************************************/
+**************************************************************************/
 void help_widget::add_info_label(const QString &text)
 {
   QLabel *label = new QLabel(text);
@@ -604,7 +605,7 @@ void help_widget::add_info_label(const QString &text)
   info_layout->addWidget(label);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adds a widget indicating a progress to the information panel.
   Arguments:
     text: A descriptive text
@@ -648,7 +649,7 @@ void help_widget::add_info_progress(const QString &text, int progress,
   info_layout->addWidget(wdg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create labels about all extras of one cause buildable to the terrain.
 **************************************************************************/
 void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
@@ -685,9 +686,9 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
   } extra_type_by_cause_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates link to given help page
-****************************************************************************/
+**************************************************************************/
 QString help_widget::link_me(const char *str, help_page_type hpt)
 {
   QString s;
@@ -696,26 +697,26 @@ QString help_widget::link_me(const char *str, help_page_type hpt)
             + "," + s + ">" + s + "</a> ";
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Adds a separator to the information panel.
-****************************************************************************/
+**************************************************************************/
 void help_widget::add_info_separator()
 {
   info_layout->addSpacing(2 * info_layout->spacing());
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Called when everything needed has been added to the information panel.
-****************************************************************************/
+**************************************************************************/
 void help_widget::info_panel_done()
 {
   info_layout->addStretch();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Hyperlink clicked, link has 2 variables, string(name of given help)
   and int(help_page_type)
-****************************************************************************/
+**************************************************************************/
 void help_widget::anchor_clicked(const QString &link)
 {
   QStringList sl;
@@ -738,8 +739,7 @@ void help_widget::anchor_clicked(const QString &link)
   }
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Shows the given help page.
 **************************************************************************/
 void help_widget::set_topic(const help_item *topic)
@@ -795,14 +795,14 @@ void help_widget::set_topic(const help_item *topic)
   do_layout();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Sets the bottom panel.
-****************************************************************************/
+**************************************************************************/
 void help_widget::set_bottom_panel(QWidget *widget) {
   bottom_panel = widget;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates help pages with no special widgets.
 **************************************************************************/
 void help_widget::set_topic_other(const help_item *topic,
@@ -815,7 +815,7 @@ void help_widget::set_topic_other(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates unit help pages.
 **************************************************************************/
 void help_widget::set_topic_unit(const help_item *topic,
@@ -937,7 +937,7 @@ void help_widget::set_topic_unit(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates improvement help pages.
 **************************************************************************/
 void help_widget::set_topic_building(const help_item *topic,
@@ -1018,7 +1018,7 @@ void help_widget::set_topic_building(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates technology help pages.
 **************************************************************************/
 void help_widget::set_topic_tech(const help_item *topic,
@@ -1127,9 +1127,9 @@ void help_widget::set_topic_tech(const help_item *topic,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates a terrain image on the given canvas.
-****************************************************************************/
+**************************************************************************/
 canvas *terrain_canvas(struct terrain *terrain,
                        const struct extra_type *resource,
                        enum extra_cause cause)
@@ -1170,10 +1170,10 @@ canvas *terrain_canvas(struct terrain *terrain,
   return canvas;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates a terrain widget with title, terrain image, legend. An optional
   tooltip can be given to explain the legend.
-****************************************************************************/
+**************************************************************************/
 QLayout *help_widget::create_terrain_widget(const QString &title,
                                             const struct canvas *image,
                                             const QString &legend,
@@ -1210,9 +1210,9 @@ QLayout *help_widget::create_terrain_widget(const QString &title,
   return layout;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates terrain help pages.
-****************************************************************************/
+**************************************************************************/
 void help_widget::set_topic_terrain(const help_item *topic,
                                       const char *title)
 {
@@ -1386,7 +1386,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates extra help pages.
 **************************************************************************/
 void help_widget::set_topic_extra(const help_item *topic,
@@ -1403,7 +1403,7 @@ void help_widget::set_topic_extra(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates specialist help pages.
 **************************************************************************/
 void help_widget::set_topic_specialist(const help_item *topic,
@@ -1420,7 +1420,7 @@ void help_widget::set_topic_specialist(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates government help pages.
 **************************************************************************/
 void help_widget::set_topic_government(const help_item *topic,
@@ -1437,7 +1437,7 @@ void help_widget::set_topic_government(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates nation help pages.
 **************************************************************************/
 void help_widget::set_topic_nation(const help_item *topic,
@@ -1453,7 +1453,7 @@ void help_widget::set_topic_nation(const help_item *topic,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates goods help page.
 **************************************************************************/
 void help_widget::set_topic_goods(const help_item* topic,
@@ -1470,7 +1470,7 @@ void help_widget::set_topic_goods(const help_item* topic,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Retrieves the maximum values any terrain will ever have.
   Supported fields:
     base_time, clean_fallout_time, clean_pollution_time, defense_bonus,
@@ -1479,7 +1479,7 @@ void help_widget::set_topic_goods(const help_item* topic,
     transform_time
   Other fields in returned value are undefined. Especially, all pointers are
   invalid.
-****************************************************************************/
+**************************************************************************/
 struct terrain *help_widget::terrain_max_values()
 {
   Terrain_type_id i, count;
@@ -1543,7 +1543,7 @@ struct terrain *help_widget::terrain_max_values()
   return max;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Retrieves the maximum values any unit of uclass will ever have.
   Supported fields:
     attack_strength, bombard_rate, build_cost, city_size, convert_time,

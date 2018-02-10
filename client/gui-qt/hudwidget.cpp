@@ -53,9 +53,9 @@ extern "C" {
 }
 static QString popup_terrain_info(struct tile *ptile);
 
-/***************************************************************************
+/************************************************************************//**
   Returns true if player has any unit of unit_type
-***************************************************************************/
+****************************************************************************/
 bool has_player_unit_type(Unit_type_id utype)
 {
   unit_list_iterate(client.conn.playing->units, punit) {
@@ -67,7 +67,7 @@ bool has_player_unit_type(Unit_type_id utype)
   return false;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom message box constructor
 ****************************************************************************/
 hud_message_box::hud_message_box(QWidget *parent): QMessageBox(parent)
@@ -97,7 +97,7 @@ hud_message_box::hud_message_box(QWidget *parent): QMessageBox(parent)
   mult = 1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom message box destructor
 ****************************************************************************/
 hud_message_box::~hud_message_box()
@@ -105,7 +105,8 @@ hud_message_box::~hud_message_box()
   delete fm_text;
   delete fm_title;
 }
-/****************************************************************************
+
+/************************************************************************//**
   Key press event for hud message box
 ****************************************************************************/
 void hud_message_box::keyPressEvent(QKeyEvent *event)
@@ -118,7 +119,7 @@ void hud_message_box::keyPressEvent(QKeyEvent *event)
   QWidget::keyPressEvent(event);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets text and title and shows message box
 ****************************************************************************/
 void hud_message_box::set_text_title(QString s1, QString s2)
@@ -162,7 +163,7 @@ void hud_message_box::set_text_title(QString s1, QString s2)
   startTimer(45);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Timer event used to animate message box
 ****************************************************************************/
 void hud_message_box::timerEvent(QTimerEvent *event)
@@ -171,7 +172,7 @@ void hud_message_box::timerEvent(QTimerEvent *event)
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Paint event for custom message box
 ****************************************************************************/
 void hud_message_box::paintEvent(QPaintEvent *event)
@@ -226,7 +227,7 @@ void hud_message_box::paintEvent(QPaintEvent *event)
   event->accept();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud text constructor takes text to display and time
 ****************************************************************************/
 hud_text::hud_text(QString s, int time_secs,
@@ -258,7 +259,7 @@ hud_text::hud_text(QString s, int time_secs,
   setFocusPolicy(Qt::NoFocus);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shows hud text
 ****************************************************************************/
 void hud_text::show_me()
@@ -267,13 +268,14 @@ void hud_text::show_me()
   center_me();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Moves to top center parent widget and sets size new size
 ****************************************************************************/
 void hud_text::center_me()
 {
   int w;
   QPoint p;
+
   w = width();
   if (bound_rect.isEmpty() == false) {
     setFixedSize(bound_rect.width(), bound_rect.height());
@@ -283,7 +285,7 @@ void hud_text::center_me()
   move(p);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destructor for hud text
 ****************************************************************************/
 hud_text::~hud_text()
@@ -291,7 +293,7 @@ hud_text::~hud_text()
   delete fm_text;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Timer event, closes widget after timeout
 ****************************************************************************/
 void hud_text::timerEvent(QTimerEvent *event)
@@ -304,7 +306,7 @@ void hud_text::timerEvent(QTimerEvent *event)
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Paint event for custom hud_text
 ****************************************************************************/
 void hud_text::paintEvent(QPaintEvent *event)
@@ -339,7 +341,7 @@ void hud_text::paintEvent(QPaintEvent *event)
   p.end();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom input box constructor
 ****************************************************************************/
 hud_input_box::hud_input_box(QWidget *parent): QDialog(parent)
@@ -371,7 +373,7 @@ hud_input_box::hud_input_box(QWidget *parent): QDialog(parent)
   mult = 1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom input box destructor
 ****************************************************************************/
 hud_input_box::~hud_input_box()
@@ -379,7 +381,8 @@ hud_input_box::~hud_input_box()
   delete fm_text;
   delete fm_title;
 }
-/****************************************************************************
+
+/************************************************************************//**
   Sets text, title and default text and shows input box
 ****************************************************************************/
 void hud_input_box::set_text_title_definput(QString s1, QString s2,
@@ -435,7 +438,7 @@ void hud_input_box::set_text_title_definput(QString s1, QString s2,
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Timer event used to animate input box
 ****************************************************************************/
 void hud_input_box::timerEvent(QTimerEvent *event)
@@ -445,7 +448,7 @@ void hud_input_box::timerEvent(QTimerEvent *event)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Paint event for custom input box
 ****************************************************************************/
 void hud_input_box::paintEvent(QPaintEvent *event)
@@ -505,7 +508,7 @@ void hud_input_box::paintEvent(QPaintEvent *event)
   event->accept();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Constructor for hud_units (holds layout for whole uunits info)
 ****************************************************************************/
 hud_units::hud_units(QWidget *parent) : QFrame(parent)
@@ -540,15 +543,14 @@ hud_units::hud_units(QWidget *parent) : QFrame(parent)
 
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud_units destructor
 ****************************************************************************/
 hud_units::~hud_units()
 {
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Move Event for hud_units, used to save position
 ****************************************************************************/
 void hud_units::moveEvent(QMoveEvent *event)
@@ -559,8 +561,7 @@ void hud_units::moveEvent(QMoveEvent *event)
                                         / gui()->mapview_wdg->height();
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Update possible action for given units
 ****************************************************************************/
 void hud_units::update_actions(unit_list *punits)
@@ -744,7 +745,7 @@ void hud_units::update_actions(unit_list *punits)
   show();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom label with extra mouse events
 ****************************************************************************/
 click_label::click_label() : QLabel()
@@ -752,7 +753,7 @@ click_label::click_label() : QLabel()
   connect(this, &click_label::left_clicked, this, &click_label::on_clicked);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse event for click_label
 ****************************************************************************/
 void click_label::mousePressEvent(QMouseEvent *e)
@@ -762,7 +763,7 @@ void click_label::mousePressEvent(QMouseEvent *e)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Centers on current unit
 ****************************************************************************/
 void click_label::on_clicked()
@@ -771,7 +772,7 @@ void click_label::on_clicked()
   request_center_focus_unit();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud action constructor, used to show one action
 ****************************************************************************/
 hud_action::hud_action(QWidget *parent) : QWidget(parent)
@@ -783,7 +784,7 @@ hud_action::hud_action(QWidget *parent) : QWidget(parent)
   action_pixmap = nullptr;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets given pixmap for hud_action
 ****************************************************************************/
 void hud_action::set_pixmap(QPixmap *p)
@@ -791,7 +792,7 @@ void hud_action::set_pixmap(QPixmap *p)
   action_pixmap = p;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Custom painting for hud_action
 ****************************************************************************/
 void hud_action::paintEvent(QPaintEvent *event)
@@ -816,7 +817,7 @@ void hud_action::paintEvent(QPaintEvent *event)
 
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud action destructor
 ****************************************************************************/
 hud_action::~hud_action()
@@ -826,7 +827,7 @@ hud_action::~hud_action()
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse press event for hud_action
 ****************************************************************************/
 void hud_action::mousePressEvent(QMouseEvent *e)
@@ -838,7 +839,7 @@ void hud_action::mousePressEvent(QMouseEvent *e)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse move event for hud_action, draw focus
 ****************************************************************************/
 void hud_action::mouseMoveEvent(QMouseEvent *event)
@@ -846,7 +847,8 @@ void hud_action::mouseMoveEvent(QMouseEvent *event)
   focus = true;
   update();
 }
-/****************************************************************************
+
+/************************************************************************//**
   Leave event for hud_action, used to get status of pixmap higlight
 ****************************************************************************/
 void hud_action::leaveEvent(QEvent *event)
@@ -856,7 +858,7 @@ void hud_action::leaveEvent(QEvent *event)
   QWidget::leaveEvent(event);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Enter event for hud_action, used to get status of pixmap higlight
 ****************************************************************************/
 void hud_action::enterEvent(QEvent *event)
@@ -866,14 +868,14 @@ void hud_action::enterEvent(QEvent *event)
   QWidget::enterEvent(event);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Right click event for hud_action
 ****************************************************************************/
 void hud_action::on_right_clicked()
 {
 }
 
-/****************************************************************************
+/************************************************************************//**
   Left click event for hud_action
 ****************************************************************************/
 void hud_action::on_clicked()
@@ -881,7 +883,7 @@ void hud_action::on_clicked()
   gui()->menu_bar->execute_shortcut(action_shortcut);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Units action contructor, holds possible hud_actions
 ****************************************************************************/
 unit_actions::unit_actions(QWidget *parent, unit *punit) : QWidget(parent)
@@ -894,9 +896,7 @@ unit_actions::unit_actions(QWidget *parent, unit *punit) : QWidget(parent)
   setFocusPolicy(Qt::ClickFocus);
 }
 
-
-
-/****************************************************************************
+/************************************************************************//**
   Destructor for unit_actions
 ****************************************************************************/
 unit_actions::~unit_actions()
@@ -905,8 +905,7 @@ unit_actions::~unit_actions()
   actions.clear();
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Initiazlizes layout ( layout needs to be changed after adding units )
 ****************************************************************************/
 void unit_actions::init_layout()
@@ -920,7 +919,7 @@ void unit_actions::init_layout()
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Updates avaialable actions, returns actions count
 ****************************************************************************/
 int unit_actions::update_actions()
@@ -1137,7 +1136,7 @@ int unit_actions::update_actions()
   return actions.count();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Cleans layout - run it before layout initialization
 ****************************************************************************/
 void unit_actions::clear_layout()
@@ -1158,7 +1157,7 @@ void unit_actions::clear_layout()
   setUpdatesEnabled(true);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Constructor for widget allowing loading units on transports
 ****************************************************************************/
 hud_unit_loader::hud_unit_loader(struct unit *pcargo, struct tile *ptile)
@@ -1182,15 +1181,14 @@ hud_unit_loader::hud_unit_loader(struct unit *pcargo, struct tile *ptile)
 
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destructor for units loader
 ****************************************************************************/
 hud_unit_loader::~hud_unit_loader()
 {
-
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shows unit loader, adds possible tranportsand units to table
   Calculates table size
 ****************************************************************************/
@@ -1249,7 +1247,7 @@ void hud_unit_loader::show_me()
   show();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Selects given tranport and closes widget
 ****************************************************************************/
 void hud_unit_loader::selection_changed(const QItemSelection& s1,
@@ -1262,7 +1260,7 @@ void hud_unit_loader::selection_changed(const QItemSelection& s1,
   close();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Constructor for unit_hud_selector
 ****************************************************************************/
 unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
@@ -1397,7 +1395,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
 
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shows and moves to center unit_hud_selector
 ****************************************************************************/
 void unit_hud_selector::show_me()
@@ -1413,15 +1411,14 @@ void unit_hud_selector::show_me()
   select_units();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Unit_hud_selector destructor
 ****************************************************************************/
 unit_hud_selector::~unit_hud_selector()
 {
-
 }
 
-/****************************************************************************
+/************************************************************************//**
   Selects and closes widget
 ****************************************************************************/
 void unit_hud_selector::uhs_select()
@@ -1439,7 +1436,7 @@ void unit_hud_selector::uhs_select()
   close();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Closes current widget
 ****************************************************************************/
 void unit_hud_selector::uhs_cancel()
@@ -1447,7 +1444,7 @@ void unit_hud_selector::uhs_cancel()
   close();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shows number of selected units on label
 ****************************************************************************/
 void unit_hud_selector::select_units(int x)
@@ -1466,7 +1463,7 @@ void unit_hud_selector::select_units(int x)
   result_label.setText(QString(PL_("%1 unit", "%1 units", num)).arg(num));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Convinient slot for ez connect
 ****************************************************************************/
 void unit_hud_selector::select_units(bool x)
@@ -1474,7 +1471,7 @@ void unit_hud_selector::select_units(bool x)
   select_units(0);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Key press event for unit_hud_selector
 ****************************************************************************/
 void unit_hud_selector::keyPressEvent(QKeyEvent *event)
@@ -1490,7 +1487,7 @@ void unit_hud_selector::keyPressEvent(QKeyEvent *event)
   QWidget::keyPressEvent(event);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Filter by activity
 ****************************************************************************/
 bool unit_hud_selector::activity_filter(struct unit *punit)
@@ -1504,7 +1501,7 @@ bool unit_hud_selector::activity_filter(struct unit *punit)
   return false;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Filter by hp/mp
 ****************************************************************************/
 bool unit_hud_selector::hp_filter(struct unit *punit)
@@ -1520,7 +1517,7 @@ bool unit_hud_selector::hp_filter(struct unit *punit)
   return false;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Filter by location
 ****************************************************************************/
 bool unit_hud_selector::island_filter(struct unit *punit)
@@ -1552,7 +1549,7 @@ bool unit_hud_selector::island_filter(struct unit *punit)
   return false;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Filter by type
 ****************************************************************************/
 bool unit_hud_selector::type_filter(struct unit *punit)
@@ -1575,7 +1572,7 @@ bool unit_hud_selector::type_filter(struct unit *punit)
   return false;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Tooltip text for terrain information
 ****************************************************************************/
 QString popup_terrain_info(struct tile *ptile)
@@ -1617,7 +1614,7 @@ QString popup_terrain_info(struct tile *ptile)
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Shows new turn information with big font
 ****************************************************************************/
 void show_new_turn_info()
@@ -1659,7 +1656,7 @@ void show_new_turn_info()
   ht->show_me();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud unit combat contructor, prepares images to show as result
 ****************************************************************************/
 hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
@@ -1736,14 +1733,14 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                      Qt::SmoothTransformation);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud unit combat destructor
 ****************************************************************************/
 hud_unit_combat::~hud_unit_combat()
 {
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets widget fading
 ****************************************************************************/
 void hud_unit_combat::set_fading(float fade)
@@ -1752,7 +1749,7 @@ void hud_unit_combat::set_fading(float fade)
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns true if widget has focus (used to prevent hiding parent)
 ****************************************************************************/
 bool hud_unit_combat::get_focus()
@@ -1760,7 +1757,7 @@ bool hud_unit_combat::get_focus()
   return focus;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Paint event for hud_unit combat
 ****************************************************************************/
 void hud_unit_combat::paintEvent(QPaintEvent *event)
@@ -1771,6 +1768,7 @@ void hud_unit_combat::paintEvent(QPaintEvent *event)
   QPen pen;
   QFont f = *fc_font::instance()->get_font(fonts::default_font);
   QString ahploss, dhploss;
+
   if (att_hp_loss > 0) {
     ahploss = "-" + QString::number(att_hp_loss);
   } else {
@@ -1826,7 +1824,7 @@ void hud_unit_combat::paintEvent(QPaintEvent *event)
   p.end();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse press event, centers on highlighted combat
 ****************************************************************************/
 void hud_unit_combat::mousePressEvent(QMouseEvent *e)
@@ -1834,7 +1832,7 @@ void hud_unit_combat::mousePressEvent(QMouseEvent *e)
   center_tile_mapcanvas(winner_tile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Leave event for hud unit combat. Stops showing highlight.
 ****************************************************************************/
 void hud_unit_combat::leaveEvent(QEvent *event)
@@ -1843,7 +1841,7 @@ void hud_unit_combat::leaveEvent(QEvent *event)
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Leave event for hud unit combat. Shows highlight.
 ****************************************************************************/
 void hud_unit_combat::enterEvent(QEvent *event)
@@ -1852,7 +1850,7 @@ void hud_unit_combat::enterEvent(QEvent *event)
   update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud battle log contructor
 ****************************************************************************/
 hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
@@ -1864,14 +1862,14 @@ hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
   main_layout->setContentsMargins(0, 0, 0, 0);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Hud battle log destructor
 ****************************************************************************/
 hud_battle_log::~hud_battle_log()
 {
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adds comabt information to battle log
 ****************************************************************************/
 void hud_battle_log::add_combat_info(hud_unit_combat *huc)
@@ -1899,7 +1897,7 @@ void hud_battle_log::add_combat_info(hud_unit_combat *huc)
   startTimer(50);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Paint event for hud battle log
 ****************************************************************************/
 void hud_battle_log::paintEvent(QPaintEvent *event)
@@ -1907,25 +1905,27 @@ void hud_battle_log::paintEvent(QPaintEvent *event)
   mw->put_to_corner();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Move event, saves current position
 ****************************************************************************/
 void hud_battle_log::moveEvent(QMoveEvent *event)
 {
   QPoint p;
+
   p = pos();
   gui()->qt_settings.battlelog_x = static_cast<float>(p.x()) / mapview.width;
   gui()->qt_settings.battlelog_y = static_cast<float>(p.y())
                                    / mapview.height;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Timer event. Starts/stops fading
 ****************************************************************************/
 void hud_battle_log::timerEvent(QTimerEvent *event)
 {
   hud_unit_combat *hudc;
   hud_unit_combat *hupdate;
+
   if (m_timer.elapsed() > 4000 && m_timer.elapsed() < 5000) {
     foreach (hudc, lhuc) {
       if (hudc->get_focus() == true) {
@@ -1943,12 +1943,13 @@ void hud_battle_log::timerEvent(QTimerEvent *event)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Show event, restart fading timer
 ****************************************************************************/
 void hud_battle_log::showEvent(QShowEvent *event)
 {
   hud_unit_combat *hupdate;
+
   foreach (hupdate, lhuc) {
     hupdate->set_fading(1.0);
   }

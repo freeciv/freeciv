@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 
 static struct sprite *intro_gfx_sprite = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Return whether the client supports given view type.
 ****************************************************************************/
 bool qtg_is_view_supported(enum ts_type type)
@@ -40,14 +40,14 @@ bool qtg_is_view_supported(enum ts_type type)
   return false;
 }
 
-/***************************************************************************
+/************************************************************************//**
   Loading tileset of the specified type
-***************************************************************************/
+****************************************************************************/
 void qtg_tileset_type_set(enum ts_type type)
 {
 }
 
-/****************************************************************************
+/************************************************************************//**
   Frees the introductory sprites.
 ****************************************************************************/
 void qtg_free_intro_radar_sprites()
