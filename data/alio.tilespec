@@ -67,8 +67,8 @@ select_offset_x = 0
 select_offset_y = 21
 
 ; offset the cities by this amount
-city_offset_x = 15
-city_offset_y = 20
+city_offset_x = 17
+city_offset_y = 21
 
 ; offset the city size number by this amount
 ; This is relative to full sprite origin.
@@ -165,9 +165,9 @@ files =
   "cimpletoon/orient_units.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
-  "amplio2/cities.spec",
   "hexemplio/activities.spec",
   "hexemplio/bases.spec",
+  "hexemplio/cities.spec",
   "hexemplio/terrain.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",
