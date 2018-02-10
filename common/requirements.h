@@ -207,6 +207,12 @@ bool universal_is_relevant_to_requirement(const struct requirement *req,
 #define requirement_fulfilled_by_unit_type(_ut_, _rqs_)                    \
   universal_fulfills_requirements(FALSE, (_rqs_),                          \
       &(struct universal){.kind = VUT_UTYPE, .value = {.utype = (_ut_)}})
+#define requirement_fulfilled_by_extra(_ex_, _rqs_)                        \
+  universal_fulfills_requirements(FALSE, (_rqs_),                          \
+      &(struct universal){.kind = VUT_EXTRA, .value = {.extra = (_ex_)}})
+#define requirement_fulfilled_by_output_type(_o_, _rqs_)                   \
+  universal_fulfills_requirements(FALSE, (_rqs_),                          \
+      &(struct universal){.kind = VUT_OTYPE, .value = {.outputtype = (_o_)}})
 
 #define requirement_needs_improvement(_imp_, _rqs_)                        \
   universal_fulfills_requirements(TRUE, (_rqs_),                           \

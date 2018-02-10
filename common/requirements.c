@@ -3947,6 +3947,54 @@ static enum req_item_found terrain_type_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if an extra type fulfills a requirement
+**************************************************************************/
+static enum req_item_found extra_type_found(const struct requirement *preq,
+                                            const struct universal *source)
+{
+  fc_assert(source->value.extra);
+
+  switch (preq->source.kind) {
+  case VUT_EXTRA:
+    return source->value.extra == preq->source.value.extra ? ITF_YES : ITF_NO;
+  case VUT_EXTRAFLAG:
+    return extra_has_flag(source->value.extra,
+                          preq->source.value.extraflag) ? ITF_YES : ITF_NO;
+  case VUT_BASEFLAG:
+    {
+      struct base_type *b = extra_base_get(source->value.extra);
+      return b && base_has_flag(b, preq->source.value.baseflag)
+        ? ITF_YES : ITF_NO;
+    }
+  case VUT_ROADFLAG:
+    {
+      struct road_type *r = extra_road_get(source->value.extra);
+      return r && road_has_flag(r, preq->source.value.roadflag)
+        ? ITF_YES : ITF_NO;
+    }
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  }
+}
+
+/**********************************************************************//**
+  Find if an output type fulfills a requirement
+**************************************************************************/
+static enum req_item_found output_type_found(const struct requirement *preq,
+                                             const struct universal *source)
+{
+  switch (preq->source.kind) {
+  case VUT_OTYPE:
+    return source->value.outputtype == preq->source.value.outputtype ? ITF_YES
+                                                                     : ITF_NO;
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  }
+}
+
+/**********************************************************************//**
   Initialise universal_found_function array.
 **************************************************************************/
 void universal_found_functions_init(void)
@@ -3957,6 +4005,8 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
   universal_found_function[VUT_TERRAIN] = &terrain_type_found;
+  universal_found_function[VUT_EXTRA] = &extra_type_found;
+  universal_found_function[VUT_OTYPE] = &output_type_found;
 }
 
 /**********************************************************************//**
