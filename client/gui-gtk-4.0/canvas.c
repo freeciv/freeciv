@@ -22,7 +22,7 @@
 
 #include "canvas.h"
 
-/****************************************************************************
+/************************************************************************//**
   Create a canvas of the given size.
 ****************************************************************************/
 struct canvas *canvas_create(int width, int height)
@@ -37,7 +37,7 @@ struct canvas *canvas_create(int width, int height)
   return result;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free any resources associated with this canvas and the canvas struct
   itself.
 ****************************************************************************/
@@ -47,7 +47,7 @@ void canvas_free(struct canvas *store)
   free(store);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set canvas zoom for future drawing operations.
 ****************************************************************************/
 void canvas_set_zoom(struct canvas *store, float zoom)
@@ -55,7 +55,7 @@ void canvas_set_zoom(struct canvas *store, float zoom)
   store->zoom = zoom;
 }
 
-/****************************************************************************
+/************************************************************************//**
   This gui has zoom support.
 ****************************************************************************/
 bool has_zoom_support(void)
@@ -63,7 +63,7 @@ bool has_zoom_support(void)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,
@@ -95,7 +95,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw some or all of a sprite onto the mapview or citydialog canvas.
   Supplied coordinates are prior to any canvas zoom.
 ****************************************************************************/
@@ -134,7 +134,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a full sprite onto the mapview or citydialog canvas.
   Supplied canvas_x/y are prior to any canvas zoom.
 ****************************************************************************/
@@ -149,7 +149,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 		    0, 0, width, height);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a full sprite onto the canvas.  If "fog" is specified draw it with
   fog.
 ****************************************************************************/
@@ -162,7 +162,7 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 				 psprite, fog);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
   Supplied coordinates are prior to any canvas zoom.
 ****************************************************************************/
@@ -195,7 +195,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
@@ -208,7 +208,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   canvas_put_rectangle(pcanvas, pcolor, canvas_x, canvas_y, width, height);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a colored line onto the mapview or citydialog canvas.
   XXX: unlike other canvas_put functions, supplied x/y are *not* prior to
   any canvas zoom.
@@ -259,7 +259,7 @@ void canvas_put_line(struct canvas *pcanvas,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a colored curved line for the Technology Tree connectors
   A curved line is: 1 horizontal line, 2 arcs, 1 horizontal line
 ****************************************************************************/
@@ -322,7 +322,7 @@ static struct {
 };
 #define FONT(font) (*fonts[font].styles)
 
-/****************************************************************************
+/************************************************************************//**
   Return the size of the given text in the given font.  This size should
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
@@ -348,7 +348,7 @@ void get_text_size(int *width, int *height,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw the text onto the canvas in the given color and font.  The canvas
   position does not account for the ascent of the text; this function must
   take care of this manually.  The text will not be NULL but may be empty.

@@ -82,7 +82,7 @@ static void hscale_changed(GtkWidget *get, gpointer data);
 static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog);
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize cma front end system
 **************************************************************************/
 void cma_fe_init()
@@ -90,7 +90,7 @@ void cma_fe_init()
   dialog_list = dialog_list_new();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for cma front end system
 **************************************************************************/
 void cma_fe_done()
@@ -98,7 +98,7 @@ void cma_fe_done()
   dialog_list_destroy(dialog_list);
 }
 
-/**************************************************************************
+/**********************************************************************//**
  only called when the city dialog is closed.
 **************************************************************************/
 void close_cma_dialog(struct city *pcity)
@@ -112,7 +112,7 @@ void close_cma_dialog(struct city *pcity)
   gtk_widget_destroy(pdialog->shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destroy cma dialog
 **************************************************************************/
 static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
@@ -123,9 +123,9 @@ static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
   free(pdialog);
 }
 
-/****************************************************************
- return the cma_dialog for a given city.
-*****************************************************************/
+/**********************************************************************//**
+  Return the cma_dialog for a given city.
+**************************************************************************/
 struct cma_dialog *get_cma_dialog(struct city *pcity)
 {
   dialog_list_iterate(dialog_list, pdialog) {
@@ -137,7 +137,7 @@ struct cma_dialog *get_cma_dialog(struct city *pcity)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has pressed button in cma dialog
 **************************************************************************/
 static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev,
@@ -164,7 +164,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has requested help
 **************************************************************************/
 static void help_callback(GtkWidget *w, gpointer data)
@@ -172,7 +172,7 @@ static void help_callback(GtkWidget *w, gpointer data)
   popup_help_dialog_string(HELP_CMA_ITEM);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cell data function for cma dialog 
 **************************************************************************/
 static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
@@ -208,7 +208,7 @@ static void cell_data_func(GtkTreeViewColumn *col, GtkCellRenderer *cell,
   g_free(s1);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Instantiates a new struct for each city_dialog window that is open.
 **************************************************************************/
 struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
@@ -452,8 +452,8 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   return pdialog;
 }
 
-/**************************************************************************
- refreshes the cma dialog
+/**********************************************************************//**
+  Refreshes the cma dialog
 **************************************************************************/
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 {
@@ -503,8 +503,8 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   cm_result_destroy(result);
 }
 
-/**************************************************************************
- fills in the preset list
+/**********************************************************************//**
+  Fills in the preset list
 **************************************************************************/
 static void update_cma_preset_list(struct cma_dialog *pdialog)
 {
@@ -525,11 +525,11 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
   }
 }
 
-/****************************************************************
- callback for selecting a preset from the preset view
-*****************************************************************/
+/**********************************************************************//**
+  Callback for selecting a preset from the preset view
+**************************************************************************/
 static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
-				         GtkTreeViewColumn *col, gpointer data)
+                                         GtkTreeViewColumn *col, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int preset_index;
@@ -549,8 +549,8 @@ static void cma_activate_preset_callback(GtkTreeView *view, GtkTreePath *path,
   refresh_city_dialog(pdialog->pcity);
 }
 
-/**************************************************************************
- pops up a dialog to allow to name your new preset
+/**********************************************************************//**
+  Pops up a dialog to allow to name your new preset
 **************************************************************************/
 static void cma_add_preset_callback(GtkWidget *w, gpointer data)
 {
@@ -572,9 +572,9 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
                                     cma_preset_add_popup_callback, pdialog);
 }
 
-/****************************************************************
-  callback for the add_preset popup
-*****************************************************************/
+/**********************************************************************//**
+  Callback for the add_preset popup
+**************************************************************************/
 static void cma_preset_add_popup_callback(gpointer data, gint response,
                                           const char *input)
 {
@@ -596,11 +596,11 @@ static void cma_preset_add_popup_callback(gpointer data, gint response,
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Key pressed in preset list
-*****************************************************************/
+**************************************************************************/
 static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
-						gpointer data)
+                                                gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   int index;
@@ -626,8 +626,8 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEventKey *ev,
 }
 
 
-/**************************************************************************
- callback for del_preset 
+/**********************************************************************//**
+  Callback for del_preset
 **************************************************************************/
 static void cma_del_preset_callback(GtkWidget *w, gpointer data)
 {
@@ -641,8 +641,8 @@ static void cma_del_preset_callback(GtkWidget *w, gpointer data)
   cma_preset_remove(pdialog, index);
 }
 
-/**************************************************************************
- pops up a dialog to remove a preset
+/**********************************************************************//**
+  Pops up a dialog to remove a preset
 **************************************************************************/
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
 {
@@ -666,11 +666,11 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
   gtk_window_present(GTK_WINDOW(shl));
 }
 
-/****************************************************************
- callback for the remove_preset popup
-*****************************************************************/
+/**********************************************************************//**
+  Callback for the remove_preset popup
+**************************************************************************/
 static void cma_preset_remove_response(GtkWidget *w, gint response,
-				       gpointer data)
+                                       gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
 
@@ -687,8 +687,8 @@ static void cma_preset_remove_response(GtkWidget *w, gint response,
   pdialog->preset_remove_shell = NULL;
 }
 
-/**************************************************************************
- activates/deactivates agent control.
+/**********************************************************************//**
+  Activates/deactivates agent control.
 **************************************************************************/
 static void cma_active_callback(GtkWidget *w, gpointer data)
 {
@@ -705,10 +705,10 @@ static void cma_active_callback(GtkWidget *w, gpointer data)
   refresh_city_dialog(pdialog->pcity);
 }
 
-/****************************************************************
- called to adjust the sliders when a preset is selected
- notice that we don't want to call update_result here. 
-*****************************************************************/
+/**********************************************************************//**
+  Called to adjust the sliders when a preset is selected
+  notice that we don't want to call update_result here.
+**************************************************************************/
 static void set_hscales(const struct cm_parameter *const parameter,
 			struct cma_dialog *pdialog)
 {
@@ -725,9 +725,9 @@ static void set_hscales(const struct cm_parameter *const parameter,
   allow_refreshes = 1;
 }
 
-/************************************************************************
- callback if we moved the sliders.
-*************************************************************************/
+/**********************************************************************//**
+  Callback if we moved the sliders.
+**************************************************************************/
 static void hscale_changed(GtkWidget *get, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
