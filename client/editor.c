@@ -99,7 +99,7 @@ struct editor_state {
 
 static struct editor_state *editor = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Set tool to some value legal under current ruleset.
 ****************************************************************************/
 static void tool_set_init_value(enum editor_tool_type ett)
@@ -145,7 +145,7 @@ static void tool_set_init_value(enum editor_tool_type ett)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize editor tool data.
 ****************************************************************************/
 static void tool_init(enum editor_tool_type ett, const char *name,
@@ -174,7 +174,7 @@ static void tool_init(enum editor_tool_type ett, const char *name,
   tool_set_init_value(ett);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Adjust editor for changed ruleset.
 ****************************************************************************/
 void editor_ruleset_changed(void)
@@ -186,7 +186,7 @@ void editor_ruleset_changed(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize the client's editor state information to some suitable default
   values. This only needs to be done once at client start.
 ****************************************************************************/
@@ -240,7 +240,7 @@ void editor_init(void)
   tile_hash_set_no_shrink(editor->selected_tile_table, TRUE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Clear the editor data which is game dependent.
 ****************************************************************************/
 void editor_clear(void)
@@ -251,7 +251,7 @@ void editor_clear(void)
   tile_hash_clear(editor->selected_tile_table);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free the client's editor.
 ****************************************************************************/
 void editor_free(void)
@@ -264,7 +264,7 @@ void editor_free(void)
   editor = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the current tool to be used by the editor.
 ****************************************************************************/
 void editor_set_tool(enum editor_tool_type ett)
@@ -280,7 +280,7 @@ void editor_set_tool(enum editor_tool_type ett)
   editor->tool = ett;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the current tool used by the editor.
 ****************************************************************************/
 enum editor_tool_type editor_get_tool(void)
@@ -292,7 +292,7 @@ enum editor_tool_type editor_get_tool(void)
   return editor->tool;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the mode for the editor tool.
 ****************************************************************************/
 void editor_tool_set_mode(enum editor_tool_type ett,
@@ -307,7 +307,7 @@ void editor_tool_set_mode(enum editor_tool_type ett,
   editor->tools[ett].mode = etm;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if the given tool supports the given mode.
 ****************************************************************************/
 bool editor_tool_has_mode(enum editor_tool_type ett,
@@ -329,7 +329,7 @@ bool editor_tool_has_mode(enum editor_tool_type ett,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the mode for the tool.
 ****************************************************************************/
 enum editor_tool_mode editor_tool_get_mode(enum editor_tool_type ett)
@@ -340,7 +340,7 @@ enum editor_tool_mode editor_tool_get_mode(enum editor_tool_type ett)
   return editor->tools[ett].mode;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the *client* is in edit mode.
 ****************************************************************************/
 bool editor_is_active(void)
@@ -348,7 +348,7 @@ bool editor_is_active(void)
   return can_conn_edit(&client.conn);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tool should be made available to the user via
   the editor GUI. For example, this will return FALSE for ETT_MILITARY_BASE
   if there are no bases defined in the ruleset.
@@ -378,7 +378,7 @@ bool editor_tool_is_usable(enum editor_tool_type ett)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tool type has sub-values (e.g. the terrain
   tool has values corresponding to the terrain types).
 ****************************************************************************/
@@ -390,7 +390,7 @@ bool editor_tool_has_value(enum editor_tool_type ett)
   return editor->tools[ett].flags & ETF_HAS_VALUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the value ID for the given tool. How the value is interpreted depends
   on the tool type.
 ****************************************************************************/
@@ -403,7 +403,7 @@ void editor_tool_set_value(enum editor_tool_type ett, int value)
   editor->tools[ett].value = value;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the current tool sub-value.
 ****************************************************************************/
 int editor_tool_get_value(enum editor_tool_type ett)
@@ -416,7 +416,7 @@ int editor_tool_get_value(enum editor_tool_type ett)
   return editor->tools[ett].value;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Record the start of the selection rectangle.
 ****************************************************************************/
 static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
@@ -438,7 +438,7 @@ static void editor_start_selection_rectangle(int canvas_x, int canvas_y)
   editor->selrect_active = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Temporary convenience function to work-around the fact that certain
   special values (S_RESOURCE_VALID) do not in fact
   correspond to drawable special types.
@@ -458,7 +458,7 @@ static inline bool tile_really_has_any_specials(const struct tile *ptile)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the editor's current applied player number according to what exists
   on the given tile.
 ****************************************************************************/
@@ -490,7 +490,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the editor's current tool according to what exists at the given tile.
 ****************************************************************************/
 static void editor_grab_tool(const struct tile *ptile)
@@ -614,7 +614,7 @@ static void editor_grab_tool(const struct tile *ptile)
   editgui_refresh();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile has some objects with editable properties.
 ****************************************************************************/
 static inline bool can_edit_tile_properties(struct tile *ptile)
@@ -622,7 +622,7 @@ static inline bool can_edit_tile_properties(struct tile *ptile)
   return ptile != NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle a request to edit the properties for the given tile. If the tile
   is part of a selection, then all selected tiles are passed to the
   property editor.
@@ -654,7 +654,7 @@ static void popup_properties(struct tile *ptile)
   tile_list_destroy(tiles);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle a user's mouse button press at the given point on the map canvas.
 ****************************************************************************/
 void editor_mouse_button_press(int canvas_x, int canvas_y,
@@ -715,7 +715,7 @@ void editor_mouse_button_press(int canvas_x, int canvas_y,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Record and handle the end of the selection rectangle.
 ****************************************************************************/
 static void editor_end_selection_rectangle(int canvas_x, int canvas_y)
@@ -773,7 +773,7 @@ static void editor_end_selection_rectangle(int canvas_x, int canvas_y)
   flush_dirty();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draws the editor selection rectangle using draw_selection_rectangle().
 ****************************************************************************/
 static void editor_draw_selrect(void)
@@ -791,7 +791,7 @@ static void editor_draw_selrect(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle the release of a mouse button click.
 ****************************************************************************/
 void editor_mouse_button_release(int canvas_x, int canvas_y,
@@ -818,7 +818,7 @@ void editor_mouse_button_release(int canvas_x, int canvas_y,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle a change in the size of the selection rectangle. The given point
   is the new extremity of the rectangle.
 ****************************************************************************/
@@ -859,7 +859,7 @@ static void editor_resize_selection_rectangle(int canvas_x, int canvas_y)
   editor_draw_selrect();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle the mouse moving over the map canvas.
 ****************************************************************************/
 void editor_mouse_move(int canvas_x, int canvas_y, int modifiers)
@@ -888,7 +888,7 @@ void editor_mouse_move(int canvas_x, int canvas_y, int modifiers)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Notify the server that a batch of edits has completed. This is used as
   a hint for the server to now do any checks it has saved while the batch
   was being processed.
@@ -898,7 +898,7 @@ void editor_notify_edit_finished(void)
   send_packet_edit_check_tiles(&client.conn);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply the current editor tool to the given tile. This function is
   suitable to called over multiple tiles at once. Once the batch of
   operations is finished you should call editor_notify_edit_finished.
@@ -1009,7 +1009,7 @@ void editor_apply_tool(const struct tile *ptile,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the tile currently assumed to be under the user's mouse pointer.
 ****************************************************************************/
 void editor_set_current_tile(const struct tile *ptile)
@@ -1021,7 +1021,7 @@ void editor_set_current_tile(const struct tile *ptile)
   editor->current_tile = ptile;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the tile that the user's mouse pointer is currently over.
 ****************************************************************************/
 const struct tile *editor_get_current_tile(void)
@@ -1033,7 +1033,7 @@ const struct tile *editor_get_current_tile(void)
   return editor->current_tile;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Toggle the current tool mode between the given mode and ETM_PAINT (or
   ETM_COPY for the copy & paste tool).
 ****************************************************************************/
@@ -1051,7 +1051,7 @@ void editor_tool_toggle_mode(enum editor_tool_type ett,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the editor tool mode to the next available mode.
 ****************************************************************************/
 void editor_tool_cycle_mode(enum editor_tool_type ett)
@@ -1077,7 +1077,7 @@ void editor_tool_cycle_mode(enum editor_tool_type ett)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Unselect all selected tiles.
 ****************************************************************************/
 void editor_selection_clear(void)
@@ -1088,7 +1088,7 @@ void editor_selection_clear(void)
   tile_hash_clear(editor->selected_tile_table);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the given tile to the current selection.
 ****************************************************************************/
 void editor_selection_add(const struct tile *ptile)
@@ -1099,7 +1099,7 @@ void editor_selection_add(const struct tile *ptile)
   tile_hash_insert(editor->selected_tile_table, ptile, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the given tile from the current selection.
 ****************************************************************************/
 void editor_selection_remove(const struct tile *ptile)
@@ -1110,7 +1110,7 @@ void editor_selection_remove(const struct tile *ptile)
   tile_hash_remove(editor->selected_tile_table, ptile);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tile is selected.
 ****************************************************************************/
 bool editor_tile_is_selected(const struct tile *ptile)
@@ -1121,7 +1121,7 @@ bool editor_tile_is_selected(const struct tile *ptile)
   return tile_hash_lookup(editor->selected_tile_table, ptile, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply the current editor tool to all tiles in the current selection.
 ****************************************************************************/
 void editor_apply_tool_to_selection(void)
@@ -1152,7 +1152,7 @@ void editor_apply_tool_to_selection(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the translated name of the given tool type.
 ****************************************************************************/
 const char *editor_tool_get_name(enum editor_tool_type ett)
@@ -1164,7 +1164,7 @@ const char *editor_tool_get_name(enum editor_tool_type ett)
   return editor->tools[ett].name;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the translated name of the given tool value. If no such name exists,
   returns an empty string.
 ****************************************************************************/
@@ -1200,7 +1200,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
   return "";
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if the given editor tool uses the 'size' parameter.
 ****************************************************************************/
 bool editor_tool_has_size(enum editor_tool_type ett)
@@ -1211,7 +1211,7 @@ bool editor_tool_has_size(enum editor_tool_type ett)
   return editor->tools[ett].flags & ETF_HAS_SIZE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the current size parameter for the given editor tools.
 ****************************************************************************/
 int editor_tool_get_size(enum editor_tool_type ett)
@@ -1222,7 +1222,7 @@ int editor_tool_get_size(enum editor_tool_type ett)
   return editor->tools[ett].size;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the size parameter for the given tool.
 ****************************************************************************/
 void editor_tool_set_size(enum editor_tool_type ett, int size)
@@ -1233,7 +1233,7 @@ void editor_tool_set_size(enum editor_tool_type ett, int size)
   editor->tools[ett].size = MAX(1, size);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if it is meaningful for the given tool to use the 'count'
   parameter.
 ****************************************************************************/
@@ -1245,7 +1245,7 @@ bool editor_tool_has_count(enum editor_tool_type ett)
   return editor->tools[ett].flags & ETF_HAS_COUNT;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the 'count' parameter for the editor tool.
 ****************************************************************************/
 int editor_tool_get_count(enum editor_tool_type ett)
@@ -1256,7 +1256,7 @@ int editor_tool_get_count(enum editor_tool_type ett)
   return editor->tools[ett].count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the 'count' parameter of the tool to the given value.
 ****************************************************************************/
 void editor_tool_set_count(enum editor_tool_type ett, int count)
@@ -1267,7 +1267,7 @@ void editor_tool_set_count(enum editor_tool_type ett, int count)
   editor->tools[ett].count = MAX(1, count);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a sprite containing an icon for the given tool type. Returns
   NULL if no such sprite exists.
 ****************************************************************************/
@@ -1320,7 +1320,7 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a translated "tooltip" description for the given tool type.
 ****************************************************************************/
 const char *editor_tool_get_tooltip(enum editor_tool_type ett)
@@ -1332,7 +1332,7 @@ const char *editor_tool_get_tooltip(enum editor_tool_type ett)
   return editor->tools[ett].tooltip;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the current applied player number for the editor tool.
 
   May return a player number for which player_by_number returns NULL.
@@ -1345,7 +1345,7 @@ int editor_tool_get_applied_player(enum editor_tool_type ett)
   return editor->tools[ett].applied_player_no;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the editor tool's applied player number to the given value.
 ****************************************************************************/
 void editor_tool_set_applied_player(enum editor_tool_type ett,
@@ -1357,7 +1357,7 @@ void editor_tool_set_applied_player(enum editor_tool_type ett,
   editor->tools[ett].applied_player_no = player_no;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the given tool makes use of the editor's applied player
   number.
 ****************************************************************************/
@@ -1369,7 +1369,7 @@ bool editor_tool_has_applied_player(enum editor_tool_type ett)
   return editor->tools[ett].flags & ETF_HAS_APPLIED_PLAYER;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if erase mode for the given tool erases by sub-value instead
   of any object corresponding to the tool type.
 ****************************************************************************/
@@ -1381,7 +1381,7 @@ bool editor_tool_has_value_erase(enum editor_tool_type ett)
   return editor->tools[ett].flags & ETF_HAS_VALUE_ERASE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the number of currently selected tiles.
 ****************************************************************************/
 int editor_selection_count(void)
@@ -1392,7 +1392,7 @@ int editor_selection_count(void)
   return tile_hash_size(editor->selected_tile_table);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Creates a virtual unit (like unit_virtual_create) based on the current
   editor state. You should free() the unit when it is no longer needed.
   If creation is not possible, then NULL is returned.
@@ -1426,7 +1426,7 @@ struct unit *editor_unit_virtual_create(void)
   return vunit;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new edit buffer corresponding to all types set in 'type_flags'.
 ****************************************************************************/
 struct edit_buffer *edit_buffer_new(int type_flags)
@@ -1444,7 +1444,7 @@ struct edit_buffer *edit_buffer_new(int type_flags)
   return ebuf;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free all memory allocated for the edit buffer.
 ****************************************************************************/
 void edit_buffer_free(struct edit_buffer *ebuf)
@@ -1463,7 +1463,7 @@ void edit_buffer_free(struct edit_buffer *ebuf)
   free(ebuf);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove all copy data stored in the edit buffer.
 ****************************************************************************/
 void edit_buffer_clear(struct edit_buffer *ebuf)
@@ -1480,7 +1480,7 @@ void edit_buffer_clear(struct edit_buffer *ebuf)
   edit_buffer_set_origin(ebuf, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copy from a square region of half-width 'radius' centered around 'center'
   into the buffer.
 ****************************************************************************/
@@ -1498,7 +1498,7 @@ void edit_buffer_copy_square(struct edit_buffer *ebuf,
   } square_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Append a single tile to the copy buffer.
 ****************************************************************************/
 void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
@@ -1598,7 +1598,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function to fill in an edit packet with the tile's current values.
 ****************************************************************************/
 static void fill_tile_edit_packet(struct packet_edit_tile *packet,
@@ -1630,7 +1630,7 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function for edit_buffer_paste(). Do a single paste of the stuff set
   in the buffer on the virtual tile to the destination tile 'ptile_dest'.
 ****************************************************************************/
@@ -1721,7 +1721,7 @@ static void paste_tile(struct edit_buffer *ebuf,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Paste the entire contents of the edit buffer using 'dest' as the origin.
 ****************************************************************************/
 void edit_buffer_paste(struct edit_buffer *ebuf, const struct tile *dest)
@@ -1753,7 +1753,7 @@ void edit_buffer_paste(struct edit_buffer *ebuf, const struct tile *dest)
   connection_do_unbuffer(my_conn);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the copy buffer for the given tool.
 ****************************************************************************/
 struct edit_buffer *editor_get_copy_buffer(void)
@@ -1764,7 +1764,7 @@ struct edit_buffer *editor_get_copy_buffer(void)
   return editor->copybuf;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the translated string name for the given mode.
 ****************************************************************************/
 const char *editor_tool_get_mode_name(enum editor_tool_type ett,
@@ -1800,7 +1800,7 @@ const char *editor_tool_get_mode_name(enum editor_tool_type ett,
   return "";
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a translated tooltip string assumed to be used for the toggle
   button for this tool mode in the editor gui.
 ****************************************************************************/
@@ -1823,7 +1823,7 @@ const char *editor_get_mode_tooltip(enum editor_tool_mode etm)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the editor sprite corresponding to the tool mode.
 ****************************************************************************/
 struct sprite *editor_get_mode_sprite(enum editor_tool_mode etm)
@@ -1855,7 +1855,7 @@ struct sprite *editor_get_mode_sprite(enum editor_tool_mode etm)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the supplied buffer with a translated string describing the edit
   buffer's current state. Returns the number of bytes used.
 ****************************************************************************/
@@ -1883,7 +1883,7 @@ int edit_buffer_get_status_string(const struct edit_buffer *ebuf,
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the "origin" for subsequent copy operations. This controls the x and
   y offset of newly created virtual tiles in the buffer.
 ****************************************************************************/
@@ -1896,7 +1896,7 @@ void edit_buffer_set_origin(struct edit_buffer *ebuf,
   ebuf->origin = ptile;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the previously set origin, or NULL if none.
 ****************************************************************************/
 const struct tile *edit_buffer_get_origin(const struct edit_buffer *ebuf)
@@ -1907,7 +1907,7 @@ const struct tile *edit_buffer_get_origin(const struct edit_buffer *ebuf)
   return ebuf->origin;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the edit buffer was created with the given type flag.
 ****************************************************************************/
 bool edit_buffer_has_type(const struct edit_buffer *ebuf, int type)
@@ -1918,7 +1918,7 @@ bool edit_buffer_has_type(const struct edit_buffer *ebuf, int type)
   return ebuf->type_flags & type;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the "center" tile of a group of selected tiles, or NULL.
   The center is calculated as the vector sum divided by the number of tiles,
   i.e. the average of the map distance vectors of the selected tiles.
