@@ -899,6 +899,8 @@ enum spaceship_place_type {
 #define SPECENUM_VALUE3NAME "Experimental"
 #define SPECENUM_VALUE4 TECH_COST_EXPERIMENTAL_PRESET
 #define SPECENUM_VALUE4NAME "Experimental+"
+#define SPECENUM_VALUE5 TECH_COST_LINEAR
+#define SPECENUM_VALUE5NAME "Linear"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

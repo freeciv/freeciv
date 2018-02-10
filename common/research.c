@@ -954,6 +954,7 @@ int research_total_bulbs_required(const struct research *presearch,
   case TECH_COST_CLASSIC_PRESET:
   case TECH_COST_EXPERIMENTAL:
   case TECH_COST_EXPERIMENTAL_PRESET:
+  case TECH_COST_LINEAR:
     {
       const struct advance *padvance = valid_advance_by_number(tech);
 
@@ -1126,6 +1127,7 @@ int player_tech_upkeep(const struct player *pplayer)
   case TECH_COST_CLASSIC_PRESET:
   case TECH_COST_EXPERIMENTAL:
   case TECH_COST_EXPERIMENTAL_PRESET:
+  case TECH_COST_LINEAR:
     advance_iterate(A_FIRST, padvance) {
       if (TECH_KNOWN == research_invention_state(presearch,
                                                  advance_number(padvance))) {
