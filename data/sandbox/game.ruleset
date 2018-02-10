@@ -33,11 +33,11 @@ name = _("Sandbox ruleset")
 summary = _("\
 You are playing Freeciv with sandbox ruleset. This showcases new or \
 unusual features available in Freeciv without regard for strict game \
-balancing, playability, AI performance, or savegame compatibility \
-between versions.\
+balancing, playability, AI performance, availability of graphics, \
+or savegame compatibility between versions.\
 \n\n\
-This ruleset was originally based on civ2civ3 ruleset, which is about \
-to become default ruleset in the future.\
+This ruleset was originally based on the civ2civ3 ruleset (which will \
+become the default ruleset in a future release).\
 ")
 
 ; Detailed description
