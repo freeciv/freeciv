@@ -587,15 +587,15 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Space Modules are the most expensive parts of spaceships.  There\
  are three different types of Space Module:\
-\n\n\
+"), _("\
 - Habitation Module: provides living space for 10,000 people.\
-\n\n\
+"), _("\
 - Life Support Module: provides food and water for the population of\
-  one Habitation Module.\
-\n\n\
+ one Habitation Module.\
+"), _("\
 - Solar Panels: provides the energy needed for any two of the other\
-  Modules.\
-\n\n\
+ Modules.\
+"), _("\
 You can build up to 4 Space Modules of each kind.\
 ")
 
