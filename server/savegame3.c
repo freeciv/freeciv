@@ -6968,7 +6968,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     }
     if (presearch->tech_goal != A_UNSET
         && !is_future_tech(presearch->tech_goal)
-        && (valid_advance_by_number(presearch->researching) == NULL
+        && (valid_advance_by_number(presearch->tech_goal) == NULL
             || !research_invention_reachable(presearch, presearch->tech_goal)
             || (research_invention_state(presearch, presearch->tech_goal)
                 == TECH_KNOWN))) {
