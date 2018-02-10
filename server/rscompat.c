@@ -265,8 +265,9 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_extra_flags_30[] = {
       { N_("ParadropFrom"), N_("Units can paradrop from this tile.") },
-      { N_("DiplomatDefense"), N_("Diplomatic units get a 25% defense "
-                                  "bonus in diplomatic fights.") },
+      { N_("DiplomatDefense"),
+        /* xgettext:no-c-format */
+        N_("Diplomatic units get a 25% defense bonus in diplomatic fights.") },
     };
 
     int first_free;

@@ -963,7 +963,9 @@ native_to      = "Land"
 flags          = "NoStackDeath"
 helptext       = _("\
 Fortresses improve defense for land units.\
-"), _("\
+"),
+; /* xgettext:no-c-format */
+_("\
 Diplomatic units get a 25% defense bonus in diplomatic fights.\
 ")
 

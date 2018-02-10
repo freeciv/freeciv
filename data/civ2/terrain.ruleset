@@ -1059,7 +1059,9 @@ helptext       = _("\
 Fortresses improve defense for land units. Among other effects, a land \
 unit remaining in a fortress for a whole turn without moving recovers \
 a quarter of its hit points.\
-"), _("\
+"),
+; /* xgettext:no-c-format */
+_("\
 Diplomatic units get a 25% defense bonus in diplomatic fights.\
 ")
 
