@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,8 +18,9 @@
 // gui-qt
 #include "finddlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to ask for a city to find.
+  Not yet implemented.
 **************************************************************************/
 void popup_find_dialog(void)
 {
