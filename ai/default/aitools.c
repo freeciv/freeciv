@@ -70,7 +70,7 @@
 
 #include "aitools.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the ai_unit_task.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -105,7 +105,7 @@ const char *dai_unit_task_rule_name(const enum ai_unit_task task)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the (untranslated) rule name of the adv_choice.
   You don't have to free the return pointer.
 **************************************************************************/
@@ -128,7 +128,7 @@ const char *dai_choice_rule_name(const struct adv_choice *choice)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Amortize a want modified by the shields (build_cost) we risk losing.
   We add the build time of the unit(s) we risk to amortize delay.  The
   build time is calculated as the build cost divided by the production
@@ -151,15 +151,15 @@ int military_amortize(struct player *pplayer, struct city *pcity,
   return amortize(value, delay + build_time);
 }
 
-/**********************************************************************
-  There are some signs that a player might be dangerous: We are at 
-  war with him, he has done lots of ignoble things to us, he is an 
-  ally of one of our enemies (a ticking bomb to be sure), he is 
-  our war target, we don't like him, diplomatic state is neutral 
+/**********************************************************************//**
+  There are some signs that a player might be dangerous: We are at
+  war with him, he has done lots of ignoble things to us, he is an
+  ally of one of our enemies (a ticking bomb to be sure), he is
+  our war target, we don't like him, diplomatic state is neutral
   or we have case fire.
   This function is used for example to check if pplayer can leave
   his city undefended when aplayer's units are near it.
-***********************************************************************/
+**************************************************************************/
 void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
                                 struct player *plr2,
 				enum override_bool *result)
@@ -174,11 +174,11 @@ void dai_consider_plr_dangerous(struct ai_type *ait, struct player *plr1,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   A helper function for ai_gothere.  Estimates the dangers we will
-  be facing at our destination and tries to find/request a bodyguard if 
+  be facing at our destination and tries to find/request a bodyguard if
   needed.
-****************************************************************************/
+**************************************************************************/
 static bool dai_gothere_bodyguard(struct ai_type *ait,
                                   struct unit *punit, struct tile *dest_tile)
 {
@@ -251,15 +251,15 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
 }
 
 #define LOGLEVEL_GOTHERE LOG_DEBUG
-/****************************************************************************
-  This is ferry-enabled goto.  Should not normally be used for non-ferried 
+/**********************************************************************//**
+  This is ferry-enabled goto.  Should not normally be used for non-ferried
   units (i.e. planes or ships), use dai_unit_goto instead.
 
-  Return values: TRUE if got to or next to our destination, FALSE otherwise. 
+  Return values: TRUE if got to or next to our destination, FALSE otherwise.
 
   TODO: A big one is rendezvous points.  When this is implemented, we won't
   have to be at the coast to ask for a boat to come to us.
-****************************************************************************/
+**************************************************************************/
 bool dai_gothere(struct ai_type *ait, struct player *pplayer,
                  struct unit *punit, struct tile *dest_tile)
 {
@@ -312,7 +312,7 @@ bool dai_gothere(struct ai_type *ait, struct player *pplayer,
           || is_tiles_adjacent(unit_tile(punit), dest_tile));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the destination for a unit moving towards a given final destination.
   That is, it gives a suitable way-point, if necessary.
   For example, aircraft need these way-points to refuel.
@@ -366,7 +366,7 @@ struct tile *immediate_destination(struct unit *punit,
   return dest_tile;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Log the cost of travelling a path.
 **************************************************************************/
 void dai_log_path(struct unit *punit,
@@ -382,7 +382,7 @@ void dai_log_path(struct unit *punit,
 	   last->total_MC, last->total_EC, cc);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Go to specified destination, subject to given PF constraints,
   but do not disturb existing role or activity
   and do not clear the role's destination. Return FALSE iff we died.
@@ -443,11 +443,11 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
   return alive;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Use pathfinding to determine whether a GOTO is possible, considering all
   aspects of the unit being moved and the terrain under consideration.
   Don't bother with pathfinding if the unit is already there.
-****************************************************************************/
+**************************************************************************/
 bool goto_is_sane(struct unit *punit, struct tile *ptile)
 {
   bool can_get_there = FALSE;
@@ -475,7 +475,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile)
  * WAG
  */
 #define LONG_TIME 4
-/**************************************************************************
+/**********************************************************************//**
   Set up the constraints on a path for an AI unit.
 
   parameter:
@@ -617,7 +617,7 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Go to specified destination but do not disturb existing role or activity
   and do not clear the role's destination. Return FALSE iff we died.
 **************************************************************************/
@@ -632,7 +632,7 @@ bool dai_unit_goto(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   return dai_unit_goto_constrained(ait, punit, ptile, &parameter);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adviser task for unit has been changed.
 **************************************************************************/
 void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
@@ -652,9 +652,9 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ensure unit sanity by telling charge that we won't bodyguard it anymore,
-  tell bodyguard it can roam free if our job is done, add and remove city 
+  tell bodyguard it can roam free if our job is done, add and remove city
   spot reservation, and set destination. If we set a unit to hunter, also
   reserve its target, and try to load it with cruise missiles or nukes
   to bring along.
@@ -766,7 +766,7 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Try to make pcity our new homecity. Fails if we can't upkeep it. Assumes
   success from server.
 **************************************************************************/
@@ -793,10 +793,10 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move a bodyguard along with another unit. We assume that unit has already
   been moved to ptile which is a valid, safe tile, and that our
-  bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
+  bodyguard has not. This is an ai_unit_* auxiliary function, do not use
   elsewhere.
 **************************************************************************/
 static void dai_unit_bodyguard_move(struct ai_type *ait,
@@ -828,7 +828,7 @@ static void dai_unit_bodyguard_move(struct ai_type *ait,
   (void) dai_unit_move(ait, bodyguard, ptile);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move and attack with an ai unit. We do not wait for server reply.
 **************************************************************************/
 bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile)
@@ -888,7 +888,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   return alive;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ai unit moving function called from AI interface.
 **************************************************************************/
 void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
@@ -901,7 +901,7 @@ void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move a unit. Do not attack. Do not leave bodyguard.
   For AI units.
 
@@ -975,7 +975,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate the value of the target unit including the other units which
   will die in a successful attack
 **************************************************************************/
@@ -999,7 +999,7 @@ int stack_cost(struct unit *pattacker, struct unit *pdefender)
   return victim_cost;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change government, pretty fast...
 **************************************************************************/
 void dai_government_change(struct player *pplayer, struct government *gov)
@@ -1015,7 +1015,7 @@ void dai_government_change(struct player *pplayer, struct government *gov)
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Credits the AI wants to have in reserves. We need some gold to bribe
   and incite cities.
 
@@ -1028,7 +1028,7 @@ int dai_gold_reserve(struct player *pplayer)
   return MAX(pplayer->ai_common.maxbuycost, i);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust want for choice to 'value' percent
 **************************************************************************/
 void adjust_choice(int value, struct adv_choice *choice)
@@ -1036,8 +1036,8 @@ void adjust_choice(int value, struct adv_choice *choice)
   choice->want = (choice->want *value)/100;
 }
 
-/**************************************************************************
-  Calls dai_wants_role_unit to choose the best unit with the given role and 
+/**********************************************************************//**
+  Calls dai_wants_role_unit to choose the best unit with the given role and
   set tech wants.  Sets choice->value.utype when we can build something.
 **************************************************************************/
 bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
@@ -1060,7 +1060,7 @@ bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Consider overriding building target selected by common advisor code.
 **************************************************************************/
 void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
@@ -1100,15 +1100,15 @@ void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
   }
 }
 
-/**********************************************************************
+/**********************************************************************//**
   "The following evaluates the unhappiness caused by military units
-  in the field (or aggressive) at a city when at Republic or 
+  in the field (or aggressive) at a city when at Republic or
   Democracy.
 
-  Now generalised somewhat for government rulesets, though I'm not 
+  Now generalised somewhat for government rulesets, though I'm not
   sure whether it is fully general for all possible parameters/
   combinations." --dwp
-**********************************************************************/
+**************************************************************************/
 bool dai_assess_military_unhappiness(struct city *pcity)
 {
   int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
