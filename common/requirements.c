@@ -3736,7 +3736,14 @@ int universal_build_shield_cost(const struct universal *target)
 }
 
 /**********************************************************************//**
-  Will the specified universal fulfill the requirements in the list?
+  Will the universal 'source' fulfill the requirements in the list?
+  If 'check_necessary' is FALSE: are there no requirements that 'source'
+    would actively prevent the fulfilment of?
+  If 'check_necessary' is TRUE: does 'source' help the requirements to be
+    fulfilled? (NB 'source' might not be the only source of its type that
+    would be sufficient; for instance, if 'source' is a specific terrain
+    type, we can return TRUE even if the requirement is only for something
+    vague like a TerrainClass.)
 **************************************************************************/
 bool universal_fulfills_requirement(bool check_necessary,
                                     const struct requirement_vector *reqs,
@@ -3933,7 +3940,7 @@ static enum item_found terrain_type_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
-  Initialise universal_found_callbacks array.
+  Initialise universal_found_function array.
 **************************************************************************/
 void universal_found_functions_init(void)
 {
