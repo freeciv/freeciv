@@ -43,7 +43,7 @@ static struct ai_type *tai_get_self(void);
 
 static struct ai_type *self = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Set pointer to ai type of the threaded ai.
 **************************************************************************/
 static void tai_init_self(struct ai_type *ai)
@@ -53,7 +53,7 @@ static void tai_init_self(struct ai_type *ai)
   tai_init_threading();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get pointer to ai type of the threaded ai.
 **************************************************************************/
 static struct ai_type *tai_get_self(void)
@@ -65,7 +65,7 @@ static struct ai_type *tai_get_self(void)
 #define TAI_TFUNC(_func, ...) _func(ait, ## __VA_ARGS__ );
 #define TAI_DFUNC(_func, ...) _func(ait, ## __VA_ARGS__ );
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated by the threaded AI module
 **************************************************************************/
 static void tai_module_close(void)
@@ -75,7 +75,7 @@ static void tai_module_close(void)
   FC_FREE(ait->private);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_player_alloc(struct player *pplayer)
@@ -85,7 +85,7 @@ static void twai_player_alloc(struct player *pplayer)
   /* Do not call default AI here, tai_player_alloc() does necessary parts */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_player_free(struct player *pplayer)
@@ -95,7 +95,7 @@ static void twai_player_free(struct player *pplayer)
   /* Do not call default AI here, tai_player_free() does necessary parts */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_player_save(struct player *pplayer, struct section_file *file,
@@ -105,7 +105,7 @@ static void twai_player_save(struct player *pplayer, struct section_file *file,
   TAI_DFUNC(dai_player_save, "tai", pplayer, file, plrno);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_player_load(struct player *pplayer,
@@ -116,7 +116,7 @@ static void twai_player_load(struct player *pplayer,
   TAI_DFUNC(dai_player_load, "tai", pplayer, file, plrno);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_control_gained(struct player *pplayer)
@@ -126,7 +126,7 @@ static void twai_control_gained(struct player *pplayer)
   TAI_DFUNC(dai_gained_control, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_control_lost(struct player *pplayer)
@@ -135,7 +135,7 @@ static void twai_control_lost(struct player *pplayer)
   TAI_TFUNC(tai_control_lost, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_split_by_civil_war(struct player *original,
@@ -145,7 +145,7 @@ static void twai_split_by_civil_war(struct player *original,
   TAI_DFUNC(dai_assess_danger_player, original, &(wld.map));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_created_by_civil_war(struct player *original,
@@ -155,7 +155,7 @@ static void twai_created_by_civil_war(struct player *original,
   TAI_DFUNC(dai_player_copy, original, created);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_phase_begin(struct player *pplayer, bool is_new_phase)
@@ -164,7 +164,7 @@ static void twai_phase_begin(struct player *pplayer, bool is_new_phase)
   TAI_DFUNC(dai_data_phase_begin, pplayer, is_new_phase);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_phase_finished(struct player *pplayer)
@@ -174,7 +174,7 @@ static void twai_phase_finished(struct player *pplayer)
   TAI_DFUNC(dai_data_phase_finished, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_city_alloc(struct city *pcity)
@@ -183,7 +183,7 @@ static void twai_city_alloc(struct city *pcity)
   TAI_DFUNC(dai_city_alloc, pcity);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_city_free(struct city *pcity)
@@ -192,7 +192,7 @@ static void twai_city_free(struct city *pcity)
   TAI_DFUNC(dai_city_free, pcity);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_city_save(struct section_file *file, const struct city *pcity,
@@ -202,7 +202,7 @@ static void twai_city_save(struct section_file *file, const struct city *pcity,
   TAI_DFUNC(dai_city_save, "tai", file, pcity, citystr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_city_load(const struct section_file *file, struct city *pcity,
@@ -212,7 +212,7 @@ static void twai_city_load(const struct section_file *file, struct city *pcity,
   TAI_DFUNC(dai_city_load, "tai", file, pcity, citystr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_build_adv_override(struct city *pcity, struct adv_choice *choice)
@@ -221,7 +221,7 @@ static void twai_build_adv_override(struct city *pcity, struct adv_choice *choic
   TAI_DFUNC(dai_build_adv_override, pcity, choice);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_wonder_city_distance(struct player *pplayer, struct adv_data *adv)
@@ -230,7 +230,7 @@ static void twai_wonder_city_distance(struct player *pplayer, struct adv_data *a
   TAI_DFUNC(dai_wonder_city_distance, pplayer, adv);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_build_adv_init(struct player *pplayer)
@@ -239,7 +239,7 @@ static void twai_build_adv_init(struct player *pplayer)
   TAI_DFUNC(dai_build_adv_init, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_build_adv_adjust(struct player *pplayer, struct city *wonder_city)
@@ -248,7 +248,7 @@ static void twai_build_adv_adjust(struct player *pplayer, struct city *wonder_ci
   TAI_DFUNC(dai_build_adv_adjust, pplayer, wonder_city);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_gov_value(struct player *pplayer, struct government *gov,
@@ -258,7 +258,7 @@ static void twai_gov_value(struct player *pplayer, struct government *gov,
   TAI_DFUNC(dai_gov_value, pplayer, gov, val, override);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_units_ruleset_init(void)
@@ -267,7 +267,7 @@ static void twai_units_ruleset_init(void)
   TAI_DFUNC(dai_units_ruleset_init);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_units_ruleset_close(void)
@@ -276,7 +276,7 @@ static void twai_units_ruleset_close(void)
   TAI_DFUNC(dai_units_ruleset_close);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_alloc(struct unit *punit)
@@ -285,7 +285,7 @@ static void twai_unit_alloc(struct unit *punit)
   TAI_DFUNC(dai_unit_init, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_free(struct unit *punit)
@@ -294,7 +294,7 @@ static void twai_unit_free(struct unit *punit)
   TAI_DFUNC(dai_unit_close, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_ferry_init_ferry(struct unit *ferry)
@@ -303,7 +303,7 @@ static void twai_ferry_init_ferry(struct unit *ferry)
   TAI_DFUNC(dai_ferry_init_ferry, ferry);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_ferry_transformed(struct unit *ferry, struct unit_type *old)
@@ -312,7 +312,7 @@ static void twai_ferry_transformed(struct unit *ferry, struct unit_type *old)
   TAI_DFUNC(dai_ferry_transformed, ferry, old);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_ferry_lost(struct unit *punit)
@@ -321,7 +321,7 @@ static void twai_ferry_lost(struct unit *punit)
   TAI_DFUNC(dai_ferry_lost, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_turn_end(struct unit *punit)
@@ -330,7 +330,7 @@ static void twai_unit_turn_end(struct unit *punit)
   TAI_DFUNC(dai_unit_turn_end, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
@@ -340,7 +340,7 @@ static void twai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
   TAI_DFUNC(dai_unit_move_or_attack, punit, ptile, path, step);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
@@ -350,7 +350,7 @@ static void twai_unit_new_adv_task(struct unit *punit, enum adv_unit_task task,
   TAI_DFUNC(dai_unit_new_adv_task, punit, task, ptile);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_save(struct section_file *file, const struct unit *punit,
@@ -360,7 +360,7 @@ static void twai_unit_save(struct section_file *file, const struct unit *punit,
   TAI_DFUNC(dai_unit_save, "tai", file, punit, unitstr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_load(const struct section_file *file, struct unit *punit,
@@ -370,7 +370,7 @@ static void twai_unit_load(const struct section_file *file, struct unit *punit,
   TAI_DFUNC(dai_unit_load, "tai", file, punit, unitstr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_auto_settler_reset(struct player *pplayer)
@@ -379,7 +379,7 @@ static void twai_auto_settler_reset(struct player *pplayer)
   TAI_DFUNC(dai_auto_settler_reset, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_auto_settler_run(struct player *pplayer, struct unit *punit,
@@ -389,7 +389,7 @@ static void twai_auto_settler_run(struct player *pplayer, struct unit *punit,
   TAI_DFUNC(dai_auto_settler_run, pplayer, punit, state);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_auto_settler_cont(struct player *pplayer, struct unit *punit,
@@ -399,7 +399,7 @@ static void twai_auto_settler_cont(struct player *pplayer, struct unit *punit,
   TAI_DFUNC(dai_auto_settler_cont, pplayer, punit, state);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_switch_to_explore(struct unit *punit, struct tile *target,
@@ -409,7 +409,7 @@ static void twai_switch_to_explore(struct unit *punit, struct tile *target,
   TAI_DFUNC(dai_switch_to_explore, punit, target, allow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_first_activities(struct player *pplayer)
@@ -419,7 +419,7 @@ static void twai_first_activities(struct player *pplayer)
   TAI_DFUNC(dai_do_first_activities, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_diplomacy_actions(struct player *pplayer)
@@ -428,7 +428,7 @@ static void twai_diplomacy_actions(struct player *pplayer)
   TAI_DFUNC(dai_diplomacy_actions, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_last_activities(struct player *pplayer)
@@ -437,7 +437,7 @@ static void twai_last_activities(struct player *pplayer)
   TAI_DFUNC(dai_do_last_activities, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
@@ -447,7 +447,7 @@ static void twai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   TAI_DFUNC(dai_treaty_evaluate, pplayer, aplayer, ptreaty);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_treaty_accepted(struct player *pplayer, struct player *aplayer, 
@@ -457,7 +457,7 @@ static void twai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   TAI_DFUNC(dai_treaty_accepted, pplayer, aplayer, ptreaty);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_diplomacy_first_contact(struct player *pplayer,
@@ -467,7 +467,7 @@ static void twai_diplomacy_first_contact(struct player *pplayer,
   TAI_DFUNC(dai_diplomacy_first_contact, pplayer, aplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_incident(enum incident_type type, struct player *violator,
@@ -477,7 +477,7 @@ static void twai_incident(enum incident_type type, struct player *violator,
   TAI_DFUNC(dai_incident, type, violator, victim);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_city_log(char *buffer, int buflength, const struct city *pcity)
@@ -486,7 +486,7 @@ static void twai_city_log(char *buffer, int buflength, const struct city *pcity)
   TAI_DFUNC(dai_city_log, buffer, buflength, pcity);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_unit_log(char *buffer, int buflength, const struct unit *punit)
@@ -495,7 +495,7 @@ static void twai_unit_log(char *buffer, int buflength, const struct unit *punit)
   TAI_DFUNC(dai_unit_log, buffer, buflength, punit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_consider_plr_dangerous(struct player *plr1, struct player *plr2,
@@ -505,7 +505,7 @@ static void twai_consider_plr_dangerous(struct player *plr1, struct player *plr2
   TAI_DFUNC(dai_consider_plr_dangerous, plr1, plr2, result);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
@@ -515,7 +515,7 @@ static void twai_consider_tile_dangerous(struct tile *ptile, struct unit *punit,
   TAI_DFUNC(dai_consider_tile_dangerous, ptile, punit, result);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_consider_wonder_city(struct city *pcity, bool *result)
@@ -524,7 +524,7 @@ static void twai_consider_wonder_city(struct city *pcity, bool *result)
   TAI_DFUNC(dai_consider_wonder_city, pcity, result);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_refresh(struct player *pplayer)
@@ -533,7 +533,7 @@ static void twai_refresh(struct player *pplayer)
   TAI_TFUNC(tai_refresh, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return module capability string
 **************************************************************************/
 const char *fc_ai_threaded_capstr(void)
@@ -541,7 +541,7 @@ const char *fc_ai_threaded_capstr(void)
   return FC_AI_MOD_CAPSTR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Setup player ai_funcs function pointers.
 **************************************************************************/
 bool fc_ai_threaded_setup(struct ai_type *ai)

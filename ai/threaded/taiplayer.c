@@ -57,7 +57,7 @@ struct tai_thr
   fc_thread ait;
 } thrai;
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize ai thread.
 **************************************************************************/
 void tai_init_threading(void)
@@ -67,7 +67,7 @@ void tai_init_threading(void)
   thrai.num_players = 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is main function of ai thread.
 **************************************************************************/
 static void tai_thread_start(void *arg)
@@ -91,7 +91,7 @@ static void tai_thread_start(void *arg)
   log_debug("AI thread exiting");
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle messages from message queue.
 **************************************************************************/
 static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait)
@@ -161,7 +161,7 @@ static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait)
   return ret_abort;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize player for use with threaded AI.
 **************************************************************************/
 void tai_player_alloc(struct ai_type *ait, struct player *pplayer)
@@ -174,7 +174,7 @@ void tai_player_alloc(struct ai_type *ait, struct player *pplayer)
   dai_data_init(ait, pplayer);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free player from use with threaded AI.
 **************************************************************************/
 void tai_player_free(struct ai_type *ait, struct player *pplayer)
@@ -190,7 +190,7 @@ void tai_player_free(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   We actually control the player
 **************************************************************************/
 void tai_control_gained(struct ai_type *ait, struct player *pplayer)
@@ -211,7 +211,7 @@ void tai_control_gained(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   We no longer control the player
 **************************************************************************/
 void tai_control_lost(struct ai_type *ait, struct player *pplayer)
@@ -233,7 +233,7 @@ void tai_control_lost(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check for messages sent by player thread
 **************************************************************************/
 void tai_refresh(struct ai_type *ait, struct player *pplayer)
@@ -267,7 +267,7 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send message to thread. Be sure that thread is running so that messages
   are not just piling up to the list without anybody reading them.
 **************************************************************************/
@@ -279,7 +279,7 @@ void tai_msg_to_thr(struct tai_msg *msg)
   fc_release_mutex(&thrai.msgs_to.mutex);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Thread sends message.
 **************************************************************************/
 void tai_req_from_thr(struct tai_req *req)
@@ -289,7 +289,7 @@ void tai_req_from_thr(struct tai_req *req)
   taireq_list_release_mutex(thrai.reqs_from.reqlist);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether player thread is running
 **************************************************************************/
 bool tai_thread_running(void)

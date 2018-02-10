@@ -58,7 +58,7 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
                                         struct worker_task *task,
                                         enum tai_worker_task_limitation limit);
 
-/**************************************************************************
+/**********************************************************************//**
   Create worker request for the city. Only tasks that existing units can
   do are created.
 **************************************************************************/
@@ -92,7 +92,7 @@ struct tai_tile_state
 
 static int dummy_wants[U_LAST];
 
-/**************************************************************************
+/**********************************************************************//**
   Select worker task suitable for the tile.
 **************************************************************************/
 static void tai_tile_worker_task_select(struct player *pplayer,
@@ -343,7 +343,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Select worker task suitable for the city.
 **************************************************************************/
 static bool tai_city_worker_task_select(struct ai_type *ait,
@@ -429,7 +429,7 @@ static bool tai_city_worker_task_select(struct ai_type *ait,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Receive message from thread to main thread.
 **************************************************************************/
 void tai_req_worker_task_rcv(struct tai_req *req)

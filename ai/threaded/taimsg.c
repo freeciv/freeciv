@@ -20,7 +20,7 @@
 
 #include "taimsg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Construct and send message to player thread.
 **************************************************************************/
 void tai_send_msg(enum taimsgtype type, struct player *pplayer,
@@ -42,7 +42,7 @@ void tai_send_msg(enum taimsgtype type, struct player *pplayer,
   tai_msg_to_thr(msg);
 }
 
-/**************************************************************************        
+/**********************************************************************//**
   Construct and send request from player thread.
 **************************************************************************/
 void tai_send_req(enum taireqtype type, struct player *pplayer,
@@ -57,7 +57,7 @@ void tai_send_req(enum taireqtype type, struct player *pplayer,
   tai_req_from_thr(req);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Time for phase first activities
 **************************************************************************/
 void tai_first_activities(struct ai_type *ait, struct player *pplayer)
@@ -65,7 +65,7 @@ void tai_first_activities(struct ai_type *ait, struct player *pplayer)
   tai_send_msg(TAI_MSG_FIRST_ACTIVITIES, pplayer, NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Player phase has finished
 **************************************************************************/
 void tai_phase_finished(struct ai_type *ait, struct player *pplayer)
