@@ -62,6 +62,9 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
 const char *helptext_road_bonus_str(const struct terrain *pterrain,
                                     const struct road_type *proad);
+const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
+                                           struct terrain *pterrain,
+                                           enum unit_activity act);
 
 #define help_items_iterate(pitem) {       \
         const struct help_item *pitem;    \

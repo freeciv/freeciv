@@ -664,24 +664,21 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
   for_terr.value.terrain = pterr;
 
   extra_type_by_cause_iterate(cause, pextra) {
-    if (pextra->buildable 
+    if (pextra->buildable
         && universal_fulfills_requirements(FALSE, &(pextra->reqs),
                                            &for_terr)) {
-      char buffer[1024];
-      int btime;
       QLabel *tb;
       QString str;
+
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
 
-      btime = terrain_extra_build_time(pterr, act, pextra);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime),
-                  btime);
-      str = str  + QString(label) 
+      str = str + QString(label) 
             + link_me(extra_name_translation(pextra), HELP_EXTRA)
-            + QString(buffer) + "\n";
+            + QString(helptext_extra_for_terrain_str(pextra, pterr, act))
+            + "\n";
             tb->setText(str.trimmed());
             connect(tb, &QLabel::linkActivated,
                     this, &help_widget::anchor_clicked);
