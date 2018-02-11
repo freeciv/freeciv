@@ -1107,8 +1107,6 @@ static void help_extras_of_act_for_terrain(struct terrain *pterr,
         && requirement_fulfilled_by_terrain(pterr, &(pextra->reqs))) {
       GtkWidget *w;
       GtkWidget *hbox;
-      char buffer[1024];
-      int btime;
 
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
@@ -1116,10 +1114,7 @@ static void help_extras_of_act_for_terrain(struct terrain *pterr,
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       w = help_slink_new(extra_name_translation(pextra), HELP_EXTRA);
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-
-      btime = terrain_extra_build_time(pterr, act, pextra);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime), btime);
-      w = gtk_label_new(buffer);
+      w = gtk_label_new(helptext_extra_for_terrain_str(pextra, pterr, act));
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 
       gtk_widget_show_all(hbox);

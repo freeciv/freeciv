@@ -2905,6 +2905,115 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
   return has_effect ? str : NULL;
 }
 
+/**********************************************************************//**
+  Calculate any fixed food/prod/trade bonus that 'pextra' will always add
+  to terrain type, independent of any other modifications. Does not
+  consider percentage bonuses.
+  Result written into 'bonus' which should hold 3 ints (F/P/T).
+**************************************************************************/
+static void extra_bonus_for_terrain(struct extra_type *pextra,
+                                    struct terrain *pterrain,
+                                    int *bonus)
+{
+  struct universal req_pattern[] = {
+    { .kind = VUT_EXTRA,   .value.extra = pextra },
+    { .kind = VUT_TERRAIN, .value.terrain = pterrain },
+    { .kind = VUT_OTYPE    /* value filled in later */ }
+  };
+
+  fc_assert_ret(bonus != NULL);
+
+  /* Irrigation-like food bonuses */
+  bonus[0] = (pterrain->irrigation_food_incr
+              * effect_value_from_universals(EFT_IRRIGATION_PCT, req_pattern,
+                                             2 /* just extra+terrain */)) / 100;
+
+  /* Mining-like shield bonuses */
+  bonus[1] = (pterrain->mining_shield_incr
+              * effect_value_from_universals(EFT_MINING_PCT, req_pattern,
+                                             2 /* just extra+terrain */)) / 100;
+
+  bonus[2] = 0; /* no trade bonuses so far */
+
+  /* Now add fixed bonuses from roads (but not percentage bonus) */
+  if (extra_road_get(pextra)) {
+    const struct road_type *proad = extra_road_get(pextra);
+
+    output_type_iterate(o) {
+      switch (o) {
+      case O_FOOD:
+      case O_SHIELD:
+      case O_TRADE:
+        bonus[o] += proad->tile_incr_const[o]
+          + proad->tile_incr[o] * pterrain->road_output_incr_pct[o] / 100;
+        break;
+      default:
+        /* not dealing with other output types here */
+        break;
+      }
+    } output_type_iterate_end;
+  }
+
+  /* Fixed bonuses for extra, possibly unrelated to terrain type */
+
+  output_type_iterate(o) {
+    /* Fill in rest of requirement template */
+    req_pattern[2].value.outputtype = o;
+    switch (o) {
+    case O_FOOD:
+    case O_SHIELD:
+    case O_TRADE:
+      bonus[o] += effect_value_from_universals(EFT_OUTPUT_ADD_TILE,
+                                               req_pattern,
+                                               ARRAY_SIZE(req_pattern));
+      /* Any of the above bonuses is sufficient to trigger
+       * Output_Inc_Tile, if underlying terrain does not */
+      if (bonus[o] > 0 || pterrain->output[o] > 0) {
+        bonus[o] += effect_value_from_universals(EFT_OUTPUT_INC_TILE,
+                                                 req_pattern,
+                                                 ARRAY_SIZE(req_pattern));
+      }
+      break;
+    default:
+      break;
+    }
+  } output_type_iterate_end;
+}
+
+/**********************************************************************//**
+  Return a brief description specific to the extra and terrain, when
+  extra is built by cause 'act'.
+  Returns number of turns to build, and selected bonuses.
+  Returns a pointer to a static string, so caller should not free.
+**************************************************************************/
+const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
+                                           struct terrain *pterrain,
+                                           enum unit_activity act)
+{
+  static char buffer[256];
+  int btime;
+  int bonus[3];
+
+  btime = terrain_extra_build_time(pterrain, act, pextra);
+  fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime),
+              btime);
+  extra_bonus_for_terrain(pextra, pterrain, bonus);
+  if (bonus[0] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d food", ", +%d food", bonus[0]), bonus[0]);
+  }
+  if (bonus[1] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d shield", ", +%d shields", bonus[1]), bonus[1]);
+  }
+  if (bonus[2] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d trade", ", +%d trade", bonus[2]), bonus[2]);
+  }
+
+  return buffer;
+}
+
 /****************************************************************************
   Append misc dynamic text for extras.
   Assumes build time and conflicts are handled in the GUI front-end.
