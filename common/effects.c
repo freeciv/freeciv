@@ -339,6 +339,87 @@ int effect_cumulative_min(enum effect_type type, struct universal *for_uni)
   return value;
 }
 
+/**********************************************************************//**
+  Return the base value of a given effect that can always be expected from
+  just the sources in the list, independent of other factors.
+  Adds up all the effects that rely only on these universals; effects that
+  have extra conditions are ignored. In effect, 'unis' is a template
+  against which effects are matched.
+  The first universal in the list is special: effects must have a
+  condition that specifically applies to that source to be included
+  (may be a superset requirement, e.g. ExtraFlag for VUT_EXTRA source).
+**************************************************************************/
+int effect_value_from_universals(enum effect_type type,
+                                 struct universal *unis, size_t n_unis)
+{
+  int value = 0;
+  struct effect_list *el = get_effects(type);
+
+  effect_list_iterate(el, peffect) {
+    bool effect_applies = TRUE;
+    bool first_source_mentioned = FALSE;
+
+    if (peffect->multiplier) {
+      /* Discount any effects with multipliers; we are looking for constant
+       * effects */
+      continue;
+    }
+
+    requirement_vector_iterate(&(peffect->reqs), preq) {
+      int i;
+      bool req_mentioned_a_source = FALSE;
+
+      for (i = 0; effect_applies && i < n_unis; i++) {
+        switch (universal_fulfills_requirement(preq, &(unis[i]))) {
+        case ITF_NOT_APPLICABLE:
+          /* This req not applicable to this source (but might be relevant
+           * to another source in our template). Keep looking. */
+          break;
+        case ITF_NO:
+          req_mentioned_a_source = TRUE; /* this req matched this source */
+          if (preq->present) {
+            /* Requirement contradicts template. Effect doesn't apply. */
+            effect_applies = FALSE;
+          } /* but negative req doesn't count for first_source_mentioned */
+          break;
+        case ITF_YES:
+          req_mentioned_a_source = TRUE; /* this req matched this source */
+          if (preq->present) {
+            if (i == 0) {
+              first_source_mentioned = TRUE;
+            }
+            /* keep looking */
+          } else /* !present */ {
+            /* Requirement contradicts template. Effect doesn't apply. */
+            effect_applies = FALSE;
+          }
+          break;
+        }
+      }
+      if (!req_mentioned_a_source) {
+        /* This requirement isn't relevant to any source in our template,
+         * so it's an extra condition and the effect should be ignored. */
+        effect_applies = FALSE;
+      }
+      if (!effect_applies) {
+        /* Already known to be irrelevant, bail out early */
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    if (!first_source_mentioned) {
+      /* First source not positively mentioned anywhere in requirements,
+       * so ignore this effect */
+      continue;
+    }
+    if (effect_applies) {
+      value += peffect->value;
+    }
+  } effect_list_iterate_end;
+
+  return value;
+}
+
 /****************************************************************************
   Receives a new effect.  This is called by the client when the packet
   arrives.

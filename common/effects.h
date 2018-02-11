@@ -325,6 +325,9 @@ void send_ruleset_cache(struct conn_list *dest);
 int effect_cumulative_max(enum effect_type type, struct universal *for_uni);
 int effect_cumulative_min(enum effect_type type, struct universal *for_uni);
 
+int effect_value_from_universals(enum effect_type type,
+                                 struct universal *unis, size_t n_unis);
+
 bool is_building_replaced(const struct city *pcity,
 			  struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
