@@ -63,8 +63,8 @@ activity_offset_x = 74
 activity_offset_y = 28
 
 ; offset the cities by this amount
-city_offset_x = 15
-city_offset_y = 20
+city_offset_x = 17
+city_offset_y = 21
 
 ; offset the city bar text by this amount (from the city tile origin)
 citybar_offset_y = 40
@@ -118,9 +118,9 @@ files =
   "cimpletoon/orient_units.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
-  "amplio2/cities.spec",
   "hexemplio/activities.spec",
   "hexemplio/bases.spec",
+  "hexemplio/cities.spec",
   "hexemplio/terrain.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",
