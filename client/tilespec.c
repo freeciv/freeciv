@@ -3316,10 +3316,6 @@ void tileset_setup_tile_type(struct tileset *t,
   struct sprite *sprite;
   char buffer[MAX_LEN_NAME + 20];
   int i, l;
-  
-  if (0 == strlen(terrain_rule_name(pterrain))) {
-    return;
-  }
 
   if (!drawing_hash_lookup(t->tile_hash, pterrain->graphic_str, &draw)
       && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt, &draw)) {
