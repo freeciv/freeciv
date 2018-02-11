@@ -1356,7 +1356,6 @@ value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
     }
 
 [effect_irrigation_2]
@@ -1365,6 +1364,7 @@ value	= 100
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
     }

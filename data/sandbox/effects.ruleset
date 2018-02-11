@@ -3952,16 +3952,16 @@ value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
     }
 
-; Simulate presence of irrigation extra in city centers
+; Simulate presence of irrigation extra in unirrigated city centers
 [effect_irrigation_1]
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
       ; Oil Well also prevents irrigation, but requires Mine so not needed here
@@ -3978,7 +3978,6 @@ reqs    =
       "Extra", "River", "Local", TRUE
       "Resource", "Oasis", "Local", FALSE
       "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
     }
 
 ; ...same for city centers
@@ -3991,6 +3990,7 @@ reqs    =
       "Extra", "River", "Local", TRUE
       "Resource", "Oasis", "Local", FALSE
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
       ; Oil Well also prevents irrigation, but requires Mine so not needed here
