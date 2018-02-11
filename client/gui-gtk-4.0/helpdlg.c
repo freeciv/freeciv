@@ -86,7 +86,7 @@ static GtkWidget *help_tree_buttons_hbox;
 static GtkWidget *help_ilabel[6];
 static GtkWidget *help_wlabel[6];
 static GtkWidget *help_ulabel[5][5];
-static GtkWidget *help_tlabel[4][5];
+static GtkWidget *help_tlabel[2][5];
 static GtkWidget *help_elabel[6];
 
 static bool help_advances[A_LAST];
@@ -110,12 +110,10 @@ static const char *help_ulabel_name[5][5] =
     { N_("Requirement:"),	NULL, NULL, N_("Obsolete by:"),	NULL }
 };
 
-static const char *help_tlabel_name[4][5] =
+static const char *help_tlabel_name[2][5] =
 {
     { N_("Move/Defense:"),	NULL, NULL, N_("Food/Res/Trade:"),	NULL },
-    { N_("Resources:"),		NULL, NULL, NULL,			NULL },
-    { N_("Irrig. Rslt/Time:"),	NULL, NULL, N_("Mine Rslt/Time:"),	NULL },
-    { N_("Trans. Rslt/Time:"),	NULL, NULL, NULL,                       NULL }
+    { N_("Resources:"),		NULL, NULL, NULL,			NULL }
 };
 
 static const char *help_elabel_name[6] =
@@ -612,7 +610,7 @@ static void create_help_dialog(void)
   help_ttable = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(help_box), help_ttable);
 
-  for (j = 0; j < 4; j++) {
+  for (j = 0; j < 2; j++) {
     for (i = 0; i < 5; i++) {
       help_tlabel[j][i] =
         gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
@@ -1157,6 +1155,29 @@ static void help_update_tech(const struct help_item *pitem, char *title)
   }
 }
 
+/**********************************************************************//**
+  Add a line for an activity linking to help for result
+**************************************************************************/
+static void add_act_help_for_terrain(const char *act_label,
+                                     const char *result_link_label,
+                                     enum help_page_type result_link_type,
+                                     const char *descr_label)
+{
+  GtkWidget *w;
+  GtkWidget *hbox;
+
+  hbox = gtk_grid_new();
+  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+  w = gtk_label_new(act_label);
+  gtk_container_add(GTK_CONTAINER(hbox), w);
+  w = help_slink_new(result_link_label, result_link_type);
+  gtk_container_add(GTK_CONTAINER(hbox), w);
+  w = gtk_label_new(descr_label);
+  gtk_container_add(GTK_CONTAINER(hbox), w);
+
+  gtk_widget_show(hbox);
+}
+
 /**************************************************************************
   Create widgets about all extras of one cause activity to the terrain.
 **************************************************************************/
@@ -1169,19 +1190,10 @@ static void help_extras_of_act_for_terrain(struct terrain *pterr,
   extra_type_by_cause_iterate(cause, pextra) {
     if (pextra->buildable
         && requirement_fulfilled_by_terrain(pterr, &(pextra->reqs))) {
-      GtkWidget *w;
-      GtkWidget *hbox;
-
-      hbox = gtk_grid_new();
-      gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-      w = gtk_label_new(label);
-      gtk_container_add(GTK_CONTAINER(hbox), w);
-      w = help_slink_new(extra_name_translation(pextra), HELP_EXTRA);
-      gtk_container_add(GTK_CONTAINER(hbox), w);
-      w = gtk_label_new(helptext_extra_for_terrain_str(pextra, pterr, act));
-      gtk_container_add(GTK_CONTAINER(hbox), w);
-
-      gtk_widget_show(hbox);
+      add_act_help_for_terrain(label,
+                               extra_name_translation(pextra), HELP_EXTRA,
+                               helptext_extra_for_terrain_str(pextra, pterr,
+                                                              act));
     }
   } extra_type_by_cause_iterate_end;
 }
@@ -1240,34 +1252,38 @@ static void help_update_terrain(const struct help_item *pitem,
     }
     gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
-    strcpy(buf, _("n/a"));
+    gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
+
     if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
         && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->irrigation_result),
-              pterrain->irrigation_time);
+      fc_snprintf(buf, sizeof(buf),
+                  PL_("%d turn", "%d turns", pterrain->irrigation_time),
+                  pterrain->irrigation_time);
+      add_act_help_for_terrain(_("Irrig. Rslt/Time"),
+                               terrain_name_translation(pterrain->irrigation_result),
+                               HELP_TERRAIN, buf);
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[2][1]), buf);
 
-    strcpy(buf, _("n/a"));
     if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
         && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->mining_result),
-              pterrain->mining_time);
+      fc_snprintf(buf, sizeof(buf),
+                  PL_("%d turn", "%d turns", pterrain->mining_time),
+                  pterrain->mining_time);
+      add_act_help_for_terrain(_("Mine Rslt/Time"),
+                               terrain_name_translation(pterrain->mining_result),
+                               HELP_TERRAIN, buf);
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[2][4]), buf);
 
-    strcpy(buf, "n/a");
     if (pterrain->transform_result != T_NONE
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
-      sprintf(buf, "%s / %d",
-              terrain_name_translation(pterrain->transform_result),
-              pterrain->transform_time);
+      fc_snprintf(buf, sizeof(buf),
+                  PL_("%d turn", "%d turns", pterrain->transform_time),
+                  pterrain->transform_time);
+      add_act_help_for_terrain(_("Trans. Rslt/Time"),
+                               terrain_name_translation(pterrain->transform_result),
+                               HELP_TERRAIN, buf);
     }
-    gtk_label_set_text(GTK_LABEL(help_tlabel[3][1]), buf);
 
-    gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
     if (pterrain->irrigation_result == pterrain
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
