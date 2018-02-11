@@ -78,7 +78,6 @@ static void dai_select_tech(struct ai_type *ait,
   struct ai_plr *plr_data = def_ai_player_data(pplayer, ait);
 
   memset(values, 0, sizeof(values));
-  memset(goal_values, 0, sizeof(goal_values));
   values[A_UNSET] = -1;
   values[A_NONE] = -1;
   goal_values[A_UNSET] = -1;
@@ -93,7 +92,7 @@ static void dai_select_tech(struct ai_type *ait,
       choice->current_want = 1;
     }
     if (goal) {
-      goal->choice = presearch->tech_goal;
+      goal->choice = A_UNSET;
       goal->want = 1;
       goal->current_want = 1;
     }
@@ -124,6 +123,8 @@ static void dai_select_tech(struct ai_type *ait,
       int steps = research_goal_unknown_techs(presearch, i);
 
       if (steps == 0) {
+        /* Can't be set as a goal any more */
+        goal_values[i] = -1;
 	continue;
       }
 
