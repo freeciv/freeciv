@@ -352,7 +352,7 @@ flags       = ""
 graphic     = "a.glob_knowledge"
 graphic_alt = "-"
 helptext    = _("Information flows to us. We learn any tech known by \
-four other civilizations.")
+four other factions.")
 
 [advance_high_tech_filtering]
 name        = _("High-Tech Filtering")
