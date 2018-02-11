@@ -38,14 +38,11 @@
 
 #include "requirements.h"
 
-/* The item contradicts, fulfills or is irrelevant to the requirement */
-enum item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};
-
 /************************************************************************
-  Container for item_found functions
+  Container for req_item_found functions
 ************************************************************************/
-typedef enum item_found (*universal_found)(const struct requirement *,
-                                           const struct universal *);
+typedef enum req_item_found (*universal_found)(const struct requirement *,
+                                               const struct universal *);
 static universal_found universal_found_function[VUT_COUNT] = {NULL};
 
 /**************************************************************************
@@ -3436,6 +3433,18 @@ int universal_build_shield_cost(const struct universal *target)
   return FC_INFINITY;
 }
 
+/**********************************************************************//**
+  Will the universal 'source' fulfill this requirement?
+**************************************************************************/
+enum req_item_found
+universal_fulfills_requirement(const struct requirement *preq,
+                               const struct universal *source)
+{
+  fc_assert(universal_found_function[source->kind]);
+
+  return (*universal_found_function[source->kind])(preq, source);
+}
+
 /*************************************************************************
   Will the universal 'source' fulfill the requirements in the list?
   If 'check_necessary' is FALSE: are there no requirements that 'source'
@@ -3446,9 +3455,9 @@ int universal_build_shield_cost(const struct universal *target)
     type, we can return TRUE even if the requirement is only for something
     vague like a TerrainClass.)
 **************************************************************************/
-bool universal_fulfills_requirement(bool check_necessary,
-                                    const struct requirement_vector *reqs,
-                                    const struct universal *source)
+bool universal_fulfills_requirements(bool check_necessary,
+                                     const struct requirement_vector *reqs,
+                                     const struct universal *source)
 {
   bool necessary = FALSE;
 
@@ -3479,8 +3488,8 @@ bool universal_fulfills_requirement(bool check_necessary,
 /*************************************************************************
   Find if a nation fulfills a requirement
 **************************************************************************/
-static enum item_found nation_found(const struct requirement *preq,
-                                    const struct universal *source)
+static enum req_item_found nation_found(const struct requirement *preq,
+                                        const struct universal *source)
 {
   fc_assert(source->value.nation);
 
@@ -3502,8 +3511,8 @@ static enum item_found nation_found(const struct requirement *preq,
 /*************************************************************************
   Find if a government fulfills a requirement
 **************************************************************************/
-static enum item_found government_found(const struct requirement *preq,
-                                        const struct universal *source)
+static enum req_item_found government_found(const struct requirement *preq,
+                                            const struct universal *source)
 {
   fc_assert(source->value.govern);
 
@@ -3518,8 +3527,8 @@ static enum item_found government_found(const struct requirement *preq,
 /*************************************************************************
   Find if an improvement fulfills a requirement
 **************************************************************************/
-static enum item_found improvement_found(const struct requirement *preq,
-                                         const struct universal *source)
+static enum req_item_found improvement_found(const struct requirement *preq,
+                                             const struct universal *source)
 {
   fc_assert(source->value.building);
 
@@ -3539,8 +3548,8 @@ static enum item_found improvement_found(const struct requirement *preq,
 /*************************************************************************
   Find if a unit class fulfills a requirement
 **************************************************************************/
-static enum item_found unit_class_found(const struct requirement *preq,
-                                        const struct universal *source)
+static enum req_item_found unit_class_found(const struct requirement *preq,
+                                            const struct universal *source)
 {
   fc_assert(source->value.uclass);
 
@@ -3562,8 +3571,8 @@ static enum item_found unit_class_found(const struct requirement *preq,
 /*************************************************************************
   Find if a unit type fulfills a requirement
 **************************************************************************/
-static enum item_found unit_type_found(const struct requirement *preq,
-                                       const struct universal *source)
+static enum req_item_found unit_type_found(const struct requirement *preq,
+                                           const struct universal *source)
 {
   fc_assert(source->value.utype);
 
@@ -3589,8 +3598,8 @@ static enum item_found unit_type_found(const struct requirement *preq,
 /*************************************************************************
   Find if a terrain type fulfills a requirement
 **************************************************************************/
-static enum item_found terrain_type_found(const struct requirement *preq,
-                                          const struct universal *source)
+static enum req_item_found terrain_type_found(const struct requirement *preq,
+                                              const struct universal *source)
 {
   fc_assert(source->value.terrain);
 

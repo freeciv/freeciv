@@ -665,8 +665,8 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
 
   extra_type_by_cause_iterate(cause, pextra) {
     if (pextra->buildable 
-        && universal_fulfills_requirement(FALSE, &(pextra->reqs),
-                                          &for_terr)) {
+        && universal_fulfills_requirements(FALSE, &(pextra->reqs),
+                                           &for_terr)) {
       char buffer[1024];
       int btime;
       QLabel *tb;
