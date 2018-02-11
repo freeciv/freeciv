@@ -1209,8 +1209,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (universal_fulfills_requirement(TRUE, &(enabler->target_reqs),
-                                         &source)) {
+      if (universal_fulfills_requirements(TRUE, &(enabler->target_reqs),
+                                          &source)) {
         /* The building is needed by this action enabler. */
         demanded = TRUE;
 
