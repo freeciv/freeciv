@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-02-10 12:49+0200\n"
-"PO-Revision-Date: 2018-02-10 12:40+0200\n"
+"POT-Creation-Date: 2018-02-13 20:42+0200\n"
+"PO-Revision-Date: 2018-02-13 20:41+0200\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -1288,10 +1288,10 @@ msgstr "Saa"
 # *** Depends too much on the context, phenomenom pollution & 'substance' pollution
 # aren't the same. ***
 #: client/cityrepdata.c:768 common/events.c:157 common/unit.c:539
-#: data/civ1/terrain.ruleset:890 data/civ2/terrain.ruleset:962
-#: data/classic/terrain.ruleset:1168 data/sandbox/terrain.ruleset:1208
-#: data/civ2civ3/terrain.ruleset:1207 data/alien/terrain.ruleset:768
-#: data/multiplayer/terrain.ruleset:1142 server/report.c:173
+#: data/civ1/terrain.ruleset:894 data/civ2/terrain.ruleset:966
+#: data/classic/terrain.ruleset:1172 data/sandbox/terrain.ruleset:1212
+#: data/civ2civ3/terrain.ruleset:1211 data/alien/terrain.ruleset:772
+#: data/multiplayer/terrain.ruleset:1146 server/report.c:173
 msgid "Pollution"
 msgstr "Saastetta"
 
@@ -1898,10 +1898,10 @@ msgstr ""
 
 #: client/editor.c:211 client/gui-gtk-3.0/citydlg.c:2911
 #: client/gui-gtk-3.22/citydlg.c:2917 client/gui-qt/citydlg.cpp:1284
-#: common/unit.c:564 data/civ1/terrain.ruleset:969
-#: data/civ2/terrain.ruleset:1096 data/classic/terrain.ruleset:1372
-#: data/sandbox/terrain.ruleset:1544 data/civ2civ3/terrain.ruleset:1508
-#: data/alien/terrain.ruleset:931 data/multiplayer/terrain.ruleset:1346
+#: common/unit.c:564 data/civ1/terrain.ruleset:973
+#: data/civ2/terrain.ruleset:1100 data/classic/terrain.ruleset:1376
+#: data/sandbox/terrain.ruleset:1548 data/civ2civ3/terrain.ruleset:1512
+#: data/alien/terrain.ruleset:935 data/multiplayer/terrain.ruleset:1350
 msgid "Road"
 msgstr "tie"
 
@@ -2597,9 +2597,9 @@ msgstr "tiede"
 #: client/gui-gtk-3.0/repodlgs.c:1287 client/gui-gtk-3.22/citydlg.c:1355
 #: client/gui-gtk-3.22/editprop.c:4545 client/gui-gtk-3.22/repodlgs.c:1287
 #: client/gui-qt/citydlg.cpp:1822 client/gui-qt/pages.cpp:1275 common/city.c:86
-#: data/civ1/terrain.ruleset:1064 data/civ2/terrain.ruleset:1192
-#: data/classic/terrain.ruleset:1467 data/sandbox/terrain.ruleset:1694
-#: data/civ2civ3/terrain.ruleset:1654 data/multiplayer/terrain.ruleset:1441
+#: data/civ1/terrain.ruleset:1068 data/civ2/terrain.ruleset:1196
+#: data/classic/terrain.ruleset:1471 data/sandbox/terrain.ruleset:1698
+#: data/civ2civ3/terrain.ruleset:1658 data/multiplayer/terrain.ruleset:1445
 msgid "Gold"
 msgstr "kultaa"
 
@@ -2763,10 +2763,10 @@ msgid "Clear request"
 msgstr "Poista pyyntö"
 
 #: client/gui-gtk-3.0/citydlg.c:2898 client/gui-gtk-3.22/citydlg.c:2904
-#: client/gui-qt/citydlg.cpp:1283 data/civ1/terrain.ruleset:874
-#: data/civ2/terrain.ruleset:946 data/classic/terrain.ruleset:1128
-#: data/sandbox/terrain.ruleset:1142 data/civ2civ3/terrain.ruleset:1141
-#: data/alien/terrain.ruleset:752 data/multiplayer/terrain.ruleset:1102
+#: client/gui-qt/citydlg.cpp:1283 data/civ1/terrain.ruleset:878
+#: data/civ2/terrain.ruleset:950 data/classic/terrain.ruleset:1132
+#: data/sandbox/terrain.ruleset:1146 data/civ2civ3/terrain.ruleset:1145
+#: data/alien/terrain.ruleset:756 data/multiplayer/terrain.ruleset:1106
 msgid "Mine"
 msgstr "kaivos"
 
@@ -4242,11 +4242,12 @@ msgid "Resources:"
 msgstr "Luonnonvarat:"
 
 #: client/gui-gtk-3.0/helpdlg.c:117 client/gui-gtk-3.22/helpdlg.c:117
-#: client/gui-qt/helpdlg.cpp:1278 client/gui-qt/helpdlg.cpp:1301
+#: client/gui-qt/helpdlg.cpp:1278
 msgid "Irrig. Rslt/Time:"
 msgstr "Kastelu saanto/aika:"
 
 #: client/gui-gtk-3.0/helpdlg.c:117 client/gui-gtk-3.22/helpdlg.c:117
+#: client/gui-qt/helpdlg.cpp:1301
 msgid "Mine Rslt/Time:"
 msgstr "Kaivos saanto/aika:"
 
@@ -4279,7 +4280,7 @@ msgstr "Bonus (R/T/K):"
 #: client/gui-qt/plrdlg.cpp:543 client/gui-qt/plrdlg.cpp:549
 #: client/gui-qt/repodlgs.cpp:1059 client/gui-sdl2/gui_tilespec.c:381
 #: client/gui-sdl2/helpdlg.c:855 client/gui-sdl2/mapview.c:349
-#: common/research.c:83 common/tech.c:460 tools/civmanual.c:549
+#: common/research.c:83 common/tech.c:461 tools/civmanual.c:549
 msgid "?tech:None"
 msgstr "ei mikään"
 
@@ -4768,9 +4769,9 @@ msgid "Paths"
 msgstr "Kulkureitit"
 
 #: client/gui-gtk-3.0/menu.c:392 client/gui-gtk-3.22/menu.c:391
-#: data/civ1/terrain.ruleset:858 data/civ2/terrain.ruleset:929
-#: data/classic/terrain.ruleset:1111 data/sandbox/terrain.ruleset:1125
-#: data/civ2civ3/terrain.ruleset:1124 data/multiplayer/terrain.ruleset:1085
+#: data/civ1/terrain.ruleset:862 data/civ2/terrain.ruleset:933
+#: data/classic/terrain.ruleset:1115 data/sandbox/terrain.ruleset:1129
+#: data/civ2civ3/terrain.ruleset:1128 data/multiplayer/terrain.ruleset:1089
 #: tools/civmanual.c:388
 msgid "Irrigation"
 msgstr "kasteluverkosto"
@@ -4780,10 +4781,10 @@ msgid "Mines"
 msgstr "Kaivokset"
 
 #: client/gui-gtk-3.0/menu.c:398 client/gui-gtk-3.22/menu.c:397
-#: data/civ1/terrain.ruleset:1168 data/civ2/terrain.ruleset:1361
-#: data/classic/terrain.ruleset:1636 data/sandbox/terrain.ruleset:1863
-#: data/civ2civ3/terrain.ruleset:1823 data/alien/terrain.ruleset:1125
-#: data/multiplayer/terrain.ruleset:1610 tools/civmanual.c:385
+#: data/civ1/terrain.ruleset:1172 data/civ2/terrain.ruleset:1365
+#: data/classic/terrain.ruleset:1640 data/sandbox/terrain.ruleset:1867
+#: data/civ2civ3/terrain.ruleset:1827 data/alien/terrain.ruleset:1129
+#: data/multiplayer/terrain.ruleset:1614 tools/civmanual.c:385
 msgid "Resources"
 msgstr "luonnonvaroja"
 
@@ -5517,7 +5518,7 @@ msgid "<%s AI>"
 msgstr "<%s AI>"
 
 #: client/gui-gtk-3.0/pages.c:2378 client/gui-gtk-3.22/pages.c:2378
-#: client/gui-qt/dialogs.cpp:451 client/gui-qt/fc_client.cpp:1162
+#: client/gui-qt/dialogs.cpp:451 client/gui-qt/fc_client.cpp:1163
 #: client/gui-qt/pages.cpp:1654
 msgid "Random"
 msgstr "Satunnainen"
@@ -6767,27 +6768,27 @@ msgstr "Älä tarkkaile"
 msgid "Observe"
 msgstr "Tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:1063
+#: client/gui-qt/fc_client.cpp:1064
 msgid "Client Options"
 msgstr "Asiakasohjelman asetukset"
 
-#: client/gui-qt/fc_client.cpp:1091
+#: client/gui-qt/fc_client.cpp:1092
 msgid "More Game Options"
 msgstr "Enemmän peliasetuksia..."
 
-#: client/gui-qt/fc_client.cpp:1097
+#: client/gui-qt/fc_client.cpp:1098
 msgid "Nation:"
 msgstr "Kansakunta:"
 
-#: client/gui-qt/fc_client.cpp:1098
+#: client/gui-qt/fc_client.cpp:1099
 msgid "Rules:"
 msgstr "Säännöt:"
 
-#: client/gui-qt/fc_client.cpp:1103
+#: client/gui-qt/fc_client.cpp:1104
 msgid "Players:"
 msgstr "Pelaajat:"
 
-#: client/gui-qt/fc_client.cpp:1212
+#: client/gui-qt/fc_client.cpp:1213
 msgid "Set server options"
 msgstr "Muuta palvelimen asetuksia."
 
@@ -9407,12 +9408,13 @@ msgstr ""
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1284
-#, fuzzy, c-format
-#| msgid "* Makes it impossible to do the action '%s' to your %s.\n"
+#, c-format
 msgid ""
 "* Makes it possible to target all cities with its owner with the action "
 "'%s'.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr ""
+"· Tekee mahdolliseksi kohdistaa toiminto %s kaikkiin omistajansa "
+"kaupunkeihin.\n"
 
 #. TRANS: Help build Wonder
 #: client/helpdata.c:1293
@@ -13885,24 +13887,24 @@ msgstr "Ei voi ladata grafiikka jokitagille \"%s\" tai \"%s\"."
 msgid "No graphics for extra \"%s\" at all!"
 msgstr "Ei minkäänlaista grafiikkaa ruutulisätyypille \"%s\"!"
 
-#: client/tilespec.c:3832
+#: client/tilespec.c:3828
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 "Maastotyypille \"%s\" ei löydy grafiikkaa tunnisteella \"%s\" tai \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3867
+#: client/tilespec.c:3863
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Ei löydy maaston pohjakuvaa tunnisteelle \"%s\"."
 
-#: client/tilespec.c:4120
+#: client/tilespec.c:4116
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Kansan \"%s\" lippua ei löydy."
 
-#: client/tilespec.c:5336
+#: client/tilespec.c:5332
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -13911,7 +13913,7 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d ruudun pituisia reittinuolia. Reittinuolia ei "
 "välttämättä voida näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:5879
+#: client/tilespec.c:5875
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -13920,12 +13922,12 @@ msgstr ""
 "Kuvitus \"%s\" ei tue %d kokoisia kaupunkeja. Kaupungin kokoa ei voida "
 "näyttää tavalliseen tapaan."
 
-#: client/tilespec.c:6015
+#: client/tilespec.c:6011
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Kaupunkityylille \"%s\" ei löydy grafiikoita."
 
-#: client/tilespec.c:6019
+#: client/tilespec.c:6015
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -14232,7 +14234,7 @@ msgstr "Juhlii"
 msgid "Civil Disorder"
 msgstr "Levottomuuksia"
 
-#: common/events.c:101 data/civ1/game.ruleset:667
+#: common/events.c:101 data/civ1/game.ruleset:671
 msgid "Famine"
 msgstr "Nälänhätä"
 
@@ -14737,12 +14739,12 @@ msgid "passive"
 msgstr "passiivinen"
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:684 data/civ1/game.ruleset:634 data/civ2/game.ruleset:841
+#: common/game.h:684 data/civ1/game.ruleset:638 data/civ2/game.ruleset:845
 msgid "AD"
 msgstr "jaa."
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:686 data/civ1/game.ruleset:636 data/civ2/game.ruleset:843
+#: common/game.h:686 data/civ1/game.ruleset:640 data/civ2/game.ruleset:847
 msgid "BC"
 msgstr "eaa."
 
@@ -17362,9 +17364,9 @@ msgstr "Mene"
 msgid "Explore"
 msgstr "Tutki"
 
-#: common/unit.c:560 data/classic/terrain.ruleset:1239
-#: data/sandbox/terrain.ruleset:1310 data/civ2civ3/terrain.ruleset:1280
-#: data/alien/terrain.ruleset:835 data/multiplayer/terrain.ruleset:1213
+#: common/unit.c:560 data/classic/terrain.ruleset:1243
+#: data/sandbox/terrain.ruleset:1314 data/civ2civ3/terrain.ruleset:1284
+#: data/alien/terrain.ruleset:839 data/multiplayer/terrain.ruleset:1217
 msgid "Fallout"
 msgstr "laskeuma"
 
@@ -18823,7 +18825,7 @@ msgstr ""
 
 #. TRANS: _Bribe Enemy Unit (3% chance of success).
 #: data/civ1/game.ruleset:219 data/civ2/game.ruleset:246
-#: data/classic/game.ruleset:247 data/sandbox/game.ruleset:251
+#: data/classic/game.ruleset:247 data/sandbox/game.ruleset:252
 #: data/civ2civ3/game.ruleset:254 data/alien/game.ruleset:246
 #: data/multiplayer/game.ruleset:252
 #, c-format
@@ -18832,7 +18834,7 @@ msgstr "%sLahjo vihollisen yksikkö%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
 #: data/civ1/game.ruleset:222 data/civ2/game.ruleset:249
-#: data/classic/game.ruleset:250 data/sandbox/game.ruleset:254
+#: data/classic/game.ruleset:250 data/sandbox/game.ruleset:255
 #: data/civ2civ3/game.ruleset:257 data/alien/game.ruleset:249
 #: data/multiplayer/game.ruleset:255 server/ruleset.c:6166
 #, c-format
@@ -18841,7 +18843,7 @@ msgstr "%sSabotoi kaupunkia%s"
 
 #. TRANS: Incite a _Revolt (3% chance of success).
 #: data/civ1/game.ruleset:225 data/civ2/game.ruleset:258
-#: data/classic/game.ruleset:259 data/sandbox/game.ruleset:263
+#: data/classic/game.ruleset:259 data/sandbox/game.ruleset:264
 #: data/civ2civ3/game.ruleset:266 data/alien/game.ruleset:252
 #: data/multiplayer/game.ruleset:264
 #, c-format
@@ -18850,7 +18852,7 @@ msgstr "%sYllytä kapinaan%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
 #: data/civ1/game.ruleset:228 data/civ2/game.ruleset:267
-#: data/classic/game.ruleset:268 data/sandbox/game.ruleset:272
+#: data/classic/game.ruleset:268 data/sandbox/game.ruleset:273
 #: data/civ2civ3/game.ruleset:275 data/multiplayer/game.ruleset:273
 #: server/ruleset.c:6217
 #, c-format
@@ -18859,7 +18861,7 @@ msgstr "Ryhdy suurläh%settilääksi%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
 #: data/civ1/game.ruleset:231 data/civ2/game.ruleset:270
-#: data/classic/game.ruleset:271 data/sandbox/game.ruleset:275
+#: data/classic/game.ruleset:271 data/sandbox/game.ruleset:276
 #: data/civ2civ3/game.ruleset:278 data/multiplayer/game.ruleset:276
 #: server/ruleset.c:6224
 #, c-format
@@ -18870,7 +18872,7 @@ msgstr "%sVarasta teknologia%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #: data/civ1/game.ruleset:234 data/civ2/game.ruleset:282
-#: data/classic/game.ruleset:283 data/sandbox/game.ruleset:290
+#: data/classic/game.ruleset:283 data/sandbox/game.ruleset:291
 #: data/civ2civ3/game.ruleset:290 data/alien/game.ruleset:258
 #: data/multiplayer/game.ruleset:288 server/ruleset.c:6260
 #, fuzzy, c-format
@@ -18880,7 +18882,7 @@ msgstr "%sTutki kaupunkia%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
 #: data/civ1/game.ruleset:237 data/civ2/game.ruleset:285
-#: data/classic/game.ruleset:286 data/sandbox/game.ruleset:293
+#: data/classic/game.ruleset:286 data/sandbox/game.ruleset:294
 #: data/civ2civ3/game.ruleset:293 data/alien/game.ruleset:261
 #: server/ruleset.c:6295
 #, c-format
@@ -18889,7 +18891,7 @@ msgstr "%sPerusta kauppareitti%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
 #: data/civ1/game.ruleset:240 data/civ2/game.ruleset:288
-#: data/sandbox/game.ruleset:296 data/civ2civ3/game.ruleset:296
+#: data/sandbox/game.ruleset:297 data/civ2civ3/game.ruleset:296
 #: server/ruleset.c:6302
 #, c-format
 msgid "Enter %sMarketplace%s"
@@ -18897,7 +18899,7 @@ msgstr "%sAstu torille%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
 #: data/civ1/game.ruleset:243 data/civ2/game.ruleset:291
-#: data/classic/game.ruleset:292 data/sandbox/game.ruleset:299
+#: data/classic/game.ruleset:292 data/sandbox/game.ruleset:300
 #: data/civ2civ3/game.ruleset:299 data/alien/game.ruleset:267
 #: data/multiplayer/game.ruleset:291 server/ruleset.c:6309
 #, c-format
@@ -18906,7 +18908,7 @@ msgstr "%sAuta ihmeen rakentamisessa%s"
 
 #. TRANS: Rec_ycle Unit (100% chance of success).
 #: data/civ1/game.ruleset:246 data/civ2/game.ruleset:294
-#: data/classic/game.ruleset:295 data/sandbox/game.ruleset:302
+#: data/classic/game.ruleset:295 data/sandbox/game.ruleset:303
 #: data/civ2civ3/game.ruleset:302 data/alien/game.ruleset:270
 #: data/multiplayer/game.ruleset:294 server/ruleset.c:6379
 #, fuzzy, c-format
@@ -18916,7 +18918,7 @@ msgstr "Valitse yksiköt"
 
 #. TRANS: _You're Fired (100% chance of success).
 #: data/civ1/game.ruleset:249 data/civ2/game.ruleset:297
-#: data/classic/game.ruleset:298 data/sandbox/game.ruleset:305
+#: data/classic/game.ruleset:298 data/sandbox/game.ruleset:306
 #: data/civ2civ3/game.ruleset:305 data/alien/game.ruleset:273
 #: data/multiplayer/game.ruleset:297 server/ruleset.c:6386
 #, c-format
@@ -18925,7 +18927,7 @@ msgstr "Saat %spotkut%s"
 
 #. TRANS: _Build City (100% chance of success).
 #: data/civ1/game.ruleset:252 data/civ2/game.ruleset:300
-#: data/classic/game.ruleset:301 data/sandbox/game.ruleset:311
+#: data/classic/game.ruleset:301 data/sandbox/game.ruleset:312
 #: data/civ2civ3/game.ruleset:311 data/alien/game.ruleset:279
 #: data/multiplayer/game.ruleset:300
 #, fuzzy, c-format
@@ -18935,7 +18937,7 @@ msgstr "Perusta kaupunki"
 
 #. TRANS: _Add to City (100% chance of success).
 #: data/civ1/game.ruleset:255 data/civ2/game.ruleset:303
-#: data/classic/game.ruleset:304 data/sandbox/game.ruleset:314
+#: data/classic/game.ruleset:304 data/sandbox/game.ruleset:315
 #: data/civ2civ3/game.ruleset:314 data/alien/game.ruleset:282
 #: data/multiplayer/game.ruleset:303
 #, c-format
@@ -18944,7 +18946,7 @@ msgstr "%sLisää kaupunkiin%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
 #: data/civ1/game.ruleset:258 data/civ2/game.ruleset:306
-#: data/classic/game.ruleset:307 data/sandbox/game.ruleset:320
+#: data/classic/game.ruleset:307 data/sandbox/game.ruleset:321
 #: data/civ2civ3/game.ruleset:320 data/multiplayer/game.ruleset:306
 #: server/ruleset.c:6365
 #, c-format
@@ -18953,7 +18955,7 @@ msgstr "Räjäytä %sydinlataus%s"
 
 #. TRANS: Set _Home City (100% chance of success).
 #: data/civ1/game.ruleset:261 data/civ2/game.ruleset:309
-#: data/classic/game.ruleset:310 data/sandbox/game.ruleset:326
+#: data/classic/game.ruleset:310 data/sandbox/game.ruleset:327
 #: data/civ2civ3/game.ruleset:323 data/alien/game.ruleset:288
 #: data/multiplayer/game.ruleset:309 server/ruleset.c:6393
 #, c-format
@@ -18962,7 +18964,7 @@ msgstr "Tee tästä uusi %skotikaupunki%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
 #: data/civ1/game.ruleset:264 data/civ2/game.ruleset:312
-#: data/classic/game.ruleset:313 data/sandbox/game.ruleset:329
+#: data/classic/game.ruleset:313 data/sandbox/game.ruleset:330
 #: data/civ2civ3/game.ruleset:326 data/alien/game.ruleset:291
 #: data/multiplayer/game.ruleset:312 server/ruleset.c:6400
 #, c-format
@@ -18971,7 +18973,7 @@ msgstr "%sAjanmukaista%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
 #: data/civ1/game.ruleset:267 data/civ2/game.ruleset:318
-#: data/classic/game.ruleset:319 data/sandbox/game.ruleset:335
+#: data/classic/game.ruleset:319 data/sandbox/game.ruleset:336
 #: data/civ2civ3/game.ruleset:332 data/alien/game.ruleset:297
 #: data/multiplayer/game.ruleset:318 server/ruleset.c:6414
 #, c-format
@@ -18980,7 +18982,7 @@ msgstr "%sLennätä kaupunkiin%s"
 
 #. TRANS: _Attack (100% chance of success).
 #: data/civ1/game.ruleset:270 data/civ2/game.ruleset:321
-#: data/classic/game.ruleset:322 data/sandbox/game.ruleset:338
+#: data/classic/game.ruleset:322 data/sandbox/game.ruleset:339
 #: data/civ2civ3/game.ruleset:335 data/alien/game.ruleset:300
 #: data/multiplayer/game.ruleset:321 server/ruleset.c:6421
 #, c-format
@@ -18989,7 +18991,7 @@ msgstr "%sHyökkäys%s"
 
 #. TRANS: _Conquer City (100% chance of success).
 #: data/civ1/game.ruleset:273 data/civ2/game.ruleset:324
-#: data/classic/game.ruleset:325 data/sandbox/game.ruleset:341
+#: data/classic/game.ruleset:325 data/sandbox/game.ruleset:342
 #: data/civ2civ3/game.ruleset:338 data/alien/game.ruleset:303
 #: data/multiplayer/game.ruleset:324 server/ruleset.c:6428
 #, fuzzy, c-format
@@ -18997,62 +18999,62 @@ msgstr "%sHyökkäys%s"
 msgid "%sConquer City%s"
 msgstr "%sMyrkytä kaupunki%s"
 
-#: data/civ1/game.ruleset:658 data/classic/game.ruleset:884
-#: data/sandbox/game.ruleset:1105 data/civ2civ3/game.ruleset:949
-#: data/alien/game.ruleset:718
+#: data/civ1/game.ruleset:662 data/classic/game.ruleset:888
+#: data/sandbox/game.ruleset:1110 data/civ2civ3/game.ruleset:953
+#: data/alien/game.ruleset:722
 msgid "Earthquake"
 msgstr "Maanjäristys"
 
-#: data/civ1/game.ruleset:676 data/classic/game.ruleset:894
-#: data/sandbox/game.ruleset:1123 data/civ2civ3/game.ruleset:967
-#: data/alien/game.ruleset:723
+#: data/civ1/game.ruleset:680 data/classic/game.ruleset:898
+#: data/sandbox/game.ruleset:1128 data/civ2civ3/game.ruleset:971
+#: data/alien/game.ruleset:727
 msgid "Fire"
 msgstr "Tuli"
 
-#: data/civ1/game.ruleset:685 data/sandbox/game.ruleset:1114
-#: data/civ2civ3/game.ruleset:958
+#: data/civ1/game.ruleset:689 data/sandbox/game.ruleset:1119
+#: data/civ2civ3/game.ruleset:962
 msgid "Flood"
 msgstr "Tulva"
 
-#: data/civ1/game.ruleset:695
+#: data/civ1/game.ruleset:699
 msgid "Piracy"
 msgstr "Piratismi"
 
-#: data/civ1/game.ruleset:707
+#: data/civ1/game.ruleset:711
 msgid "Plague"
 msgstr "Rutto"
 
-#: data/civ1/game.ruleset:717
+#: data/civ1/game.ruleset:721
 msgid "Volcano"
 msgstr "Tulivuorenpurkaus"
 
-#: data/civ1/game.ruleset:830 data/civ2/game.ruleset:969
-#: data/classic/game.ruleset:1012 data/sandbox/game.ruleset:1367
-#: data/civ2civ3/game.ruleset:1159 data/multiplayer/game.ruleset:966
+#: data/civ1/game.ruleset:834 data/civ2/game.ruleset:973
+#: data/classic/game.ruleset:1016 data/sandbox/game.ruleset:1372
+#: data/civ2civ3/game.ruleset:1163 data/multiplayer/game.ruleset:970
 msgid "Goods"
 msgstr "Kauppatavarat"
 
-#: data/civ1/game.ruleset:882 data/civ2/game.ruleset:1021
-#: data/classic/game.ruleset:1063 data/sandbox/game.ruleset:1437
-#: data/civ2civ3/game.ruleset:1210 data/alien/game.ruleset:889
+#: data/civ1/game.ruleset:886 data/civ2/game.ruleset:1025
+#: data/classic/game.ruleset:1067 data/sandbox/game.ruleset:1442
+#: data/civ2civ3/game.ruleset:1214 data/alien/game.ruleset:893
 msgid "Team 1"
 msgstr "Joukkue 1"
 
-#: data/civ1/game.ruleset:883 data/civ2/game.ruleset:1022
-#: data/classic/game.ruleset:1064 data/sandbox/game.ruleset:1438
-#: data/civ2civ3/game.ruleset:1211 data/alien/game.ruleset:890
+#: data/civ1/game.ruleset:887 data/civ2/game.ruleset:1026
+#: data/classic/game.ruleset:1068 data/sandbox/game.ruleset:1443
+#: data/civ2civ3/game.ruleset:1215 data/alien/game.ruleset:894
 msgid "Team 2"
 msgstr "Joukkue 2"
 
-#: data/civ1/game.ruleset:884 data/civ2/game.ruleset:1023
-#: data/classic/game.ruleset:1065 data/sandbox/game.ruleset:1439
-#: data/civ2civ3/game.ruleset:1212 data/alien/game.ruleset:891
+#: data/civ1/game.ruleset:888 data/civ2/game.ruleset:1027
+#: data/classic/game.ruleset:1069 data/sandbox/game.ruleset:1444
+#: data/civ2civ3/game.ruleset:1216 data/alien/game.ruleset:895
 msgid "Team 3"
 msgstr "Joukkue 3"
 
-#: data/civ1/game.ruleset:885 data/civ2/game.ruleset:1024
-#: data/classic/game.ruleset:1066 data/sandbox/game.ruleset:1440
-#: data/civ2civ3/game.ruleset:1213 data/alien/game.ruleset:892
+#: data/civ1/game.ruleset:889 data/civ2/game.ruleset:1028
+#: data/classic/game.ruleset:1070 data/sandbox/game.ruleset:1445
+#: data/civ2civ3/game.ruleset:1217 data/alien/game.ruleset:896
 #, fuzzy
 #| msgid "Team 0"
 msgid "Team 4"
@@ -20546,18 +20548,18 @@ msgstr "Painovoimateoria"
 msgid "Writing"
 msgstr "Kirjoitus"
 
-#: data/civ1/terrain.ruleset:201 data/civ2/terrain.ruleset:201
-#: data/classic/terrain.ruleset:289 data/sandbox/terrain.ruleset:293
-#: data/civ2civ3/terrain.ruleset:292 data/alien/terrain.ruleset:461
-#: data/multiplayer/terrain.ruleset:287
+#: data/civ1/terrain.ruleset:205 data/civ2/terrain.ruleset:205
+#: data/classic/terrain.ruleset:293 data/sandbox/terrain.ruleset:297
+#: data/civ2civ3/terrain.ruleset:296 data/alien/terrain.ruleset:465
+#: data/multiplayer/terrain.ruleset:291
 msgid "Ocean"
 msgstr "meri"
 
-#: data/civ1/terrain.ruleset:235 data/civ2/terrain.ruleset:235
+#: data/civ1/terrain.ruleset:239 data/civ2/terrain.ruleset:239
 msgid "Oceans cover much of the world."
 msgstr "Meret peittävät maapallosta ison osan."
 
-#: data/civ1/terrain.ruleset:237
+#: data/civ1/terrain.ruleset:241
 msgid ""
 "In cities built on the coast, stored food and work towards the current "
 "project are at risk from piracy, unless there is any kind of Barracks in the "
@@ -20567,11 +20569,11 @@ msgstr ""
 "niissä keskeneräisiin hankkeisiin tehdylle työlle, ellei kaupungissa ole "
 "minkäänlaista kasarmia."
 
-#: data/civ1/terrain.ruleset:244
+#: data/civ1/terrain.ruleset:248
 msgid "Arctic"
 msgstr "arktinen alue"
 
-#: data/civ1/terrain.ruleset:278
+#: data/civ1/terrain.ruleset:282
 msgid ""
 "Arctic tiles are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
@@ -20579,15 +20581,15 @@ msgstr ""
 "Arktisia alueita on vain kaikkein pohjoisimmilla ja eteläisimmillä kolkilla. "
 "Kylmän ilmastonsa vuoksi ne ovat erittäin vaikeita hyödyntää."
 
-#: data/civ1/terrain.ruleset:285 data/civ2/terrain.ruleset:281
-#: data/classic/terrain.ruleset:424 data/sandbox/terrain.ruleset:426
-#: data/civ2civ3/terrain.ruleset:425 data/multiplayer/terrain.ruleset:416
+#: data/civ1/terrain.ruleset:289 data/civ2/terrain.ruleset:285
+#: data/classic/terrain.ruleset:428 data/sandbox/terrain.ruleset:430
+#: data/civ2civ3/terrain.ruleset:429 data/multiplayer/terrain.ruleset:420
 msgid "Desert"
 msgstr "autiomaa"
 
-#: data/civ1/terrain.ruleset:320 data/civ2/terrain.ruleset:317
-#: data/classic/terrain.ruleset:464 data/sandbox/terrain.ruleset:466
-#: data/civ2civ3/terrain.ruleset:465 data/multiplayer/terrain.ruleset:454
+#: data/civ1/terrain.ruleset:324 data/civ2/terrain.ruleset:321
+#: data/classic/terrain.ruleset:468 data/sandbox/terrain.ruleset:470
+#: data/civ2civ3/terrain.ruleset:469 data/multiplayer/terrain.ruleset:458
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
@@ -20595,41 +20597,41 @@ msgstr ""
 "Autiomaat ovat äärimmäisen kuivia alueita, mikä vaikeuttaa pahasti "
 "maanviljelystä ja kaupankäyntiä."
 
-#: data/civ1/terrain.ruleset:326 data/civ2/terrain.ruleset:323
-#: data/classic/terrain.ruleset:472 data/sandbox/terrain.ruleset:476
-#: data/civ2civ3/terrain.ruleset:475 data/multiplayer/terrain.ruleset:462
+#: data/civ1/terrain.ruleset:330 data/civ2/terrain.ruleset:327
+#: data/classic/terrain.ruleset:476 data/sandbox/terrain.ruleset:480
+#: data/civ2civ3/terrain.ruleset:479 data/multiplayer/terrain.ruleset:466
 msgid "Forest"
 msgstr "metsä"
 
-#: data/civ1/terrain.ruleset:363 data/civ2/terrain.ruleset:360
-#: data/classic/terrain.ruleset:513 data/sandbox/terrain.ruleset:517
-#: data/civ2civ3/terrain.ruleset:516 data/multiplayer/terrain.ruleset:501
+#: data/civ1/terrain.ruleset:367 data/civ2/terrain.ruleset:364
+#: data/classic/terrain.ruleset:517 data/sandbox/terrain.ruleset:521
+#: data/civ2civ3/terrain.ruleset:520 data/multiplayer/terrain.ruleset:505
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Metsien tiheä puusto tekee maanviljelystä jokseenkin ongelmallista."
 
-#: data/civ1/terrain.ruleset:369 data/civ2/terrain.ruleset:366
-#: data/classic/terrain.ruleset:519 data/sandbox/terrain.ruleset:523
-#: data/civ2civ3/terrain.ruleset:522 data/alien/terrain.ruleset:247
-#: data/multiplayer/terrain.ruleset:507
+#: data/civ1/terrain.ruleset:373 data/civ2/terrain.ruleset:370
+#: data/classic/terrain.ruleset:523 data/sandbox/terrain.ruleset:527
+#: data/civ2civ3/terrain.ruleset:526 data/alien/terrain.ruleset:251
+#: data/multiplayer/terrain.ruleset:511
 msgid "Grassland"
 msgstr "ruohomaa"
 
-#: data/civ1/terrain.ruleset:404 data/civ2/terrain.ruleset:401
-#: data/classic/terrain.ruleset:558 data/sandbox/terrain.ruleset:562
-#: data/civ2civ3/terrain.ruleset:561 data/multiplayer/terrain.ruleset:544
+#: data/civ1/terrain.ruleset:408 data/civ2/terrain.ruleset:405
+#: data/classic/terrain.ruleset:562 data/sandbox/terrain.ruleset:566
+#: data/civ2civ3/terrain.ruleset:565 data/multiplayer/terrain.ruleset:548
 msgid "Grasslands afford exceptional agricultural opportunities."
 msgstr "Ruohomaa tarjoaa erinomaiset mahdollisuudet maanviljelyyn."
 
-#: data/civ1/terrain.ruleset:409 data/civ2/terrain.ruleset:406
-#: data/classic/terrain.ruleset:563 data/sandbox/terrain.ruleset:567
-#: data/civ2civ3/terrain.ruleset:566 data/alien/terrain.ruleset:378
-#: data/multiplayer/terrain.ruleset:549
+#: data/civ1/terrain.ruleset:413 data/civ2/terrain.ruleset:410
+#: data/classic/terrain.ruleset:567 data/sandbox/terrain.ruleset:571
+#: data/civ2civ3/terrain.ruleset:570 data/alien/terrain.ruleset:382
+#: data/multiplayer/terrain.ruleset:553
 msgid "Hills"
 msgstr "kukkula"
 
-#: data/civ1/terrain.ruleset:444 data/civ2/terrain.ruleset:441
-#: data/classic/terrain.ruleset:602 data/sandbox/terrain.ruleset:606
-#: data/civ2civ3/terrain.ruleset:605 data/multiplayer/terrain.ruleset:586
+#: data/civ1/terrain.ruleset:448 data/civ2/terrain.ruleset:445
+#: data/classic/terrain.ruleset:606 data/sandbox/terrain.ruleset:610
+#: data/civ2civ3/terrain.ruleset:609 data/multiplayer/terrain.ruleset:590
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
@@ -20637,7 +20639,7 @@ msgstr ""
 "Kukkulat ovat paitsi hyvää viljelysmaata niin myös usein luonnonvaroiltaan "
 "rikkaita."
 
-#: data/civ1/terrain.ruleset:447
+#: data/civ1/terrain.ruleset:451
 msgid ""
 "A city built in or next to hills is at risk of earthquakes, which can "
 "destroy buildings in that city. There is no technology or improvement which "
@@ -20647,28 +20649,28 @@ msgstr ""
 "maanjäristys, joka voi tuhota kaupungin rakennuksia. Mikään teknologia tai "
 "parannus ei voi ehkäistä tältä vaaralta."
 
-#: data/civ1/terrain.ruleset:454 data/civ2/terrain.ruleset:447
-#: data/classic/terrain.ruleset:608 data/sandbox/terrain.ruleset:615
-#: data/civ2civ3/terrain.ruleset:614 data/multiplayer/terrain.ruleset:592
+#: data/civ1/terrain.ruleset:458 data/civ2/terrain.ruleset:451
+#: data/classic/terrain.ruleset:612 data/sandbox/terrain.ruleset:619
+#: data/civ2civ3/terrain.ruleset:618 data/multiplayer/terrain.ruleset:596
 msgid "Jungle"
 msgstr "viidakko"
 
-#: data/civ1/terrain.ruleset:488 data/civ2/terrain.ruleset:483
-#: data/classic/terrain.ruleset:648 data/multiplayer/terrain.ruleset:630
+#: data/civ1/terrain.ruleset:492 data/civ2/terrain.ruleset:487
+#: data/classic/terrain.ruleset:652 data/multiplayer/terrain.ruleset:634
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
 "Viidakon tiheä aluskasvillisuus tekee maanviljelystä jokseenkin "
 "ongelmallista."
 
-#: data/civ1/terrain.ruleset:494 data/civ2/terrain.ruleset:489
-#: data/classic/terrain.ruleset:654 data/sandbox/terrain.ruleset:662
-#: data/civ2civ3/terrain.ruleset:661 data/multiplayer/terrain.ruleset:636
+#: data/civ1/terrain.ruleset:498 data/civ2/terrain.ruleset:493
+#: data/classic/terrain.ruleset:658 data/sandbox/terrain.ruleset:666
+#: data/civ2civ3/terrain.ruleset:665 data/multiplayer/terrain.ruleset:640
 msgid "Mountains"
 msgstr "vuoristo"
 
-#: data/civ1/terrain.ruleset:527 data/civ2/terrain.ruleset:523
-#: data/classic/terrain.ruleset:692 data/sandbox/terrain.ruleset:700
-#: data/civ2civ3/terrain.ruleset:699 data/multiplayer/terrain.ruleset:672
+#: data/civ1/terrain.ruleset:531 data/civ2/terrain.ruleset:527
+#: data/classic/terrain.ruleset:696 data/sandbox/terrain.ruleset:704
+#: data/civ2civ3/terrain.ruleset:703 data/multiplayer/terrain.ruleset:676
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
@@ -20676,7 +20678,7 @@ msgstr ""
 "Vuoriston suuret korkeuserot vaikeuttavat kohtuuttomasti viljelyä ja "
 "kaupankäyntiä."
 
-#: data/civ1/terrain.ruleset:530
+#: data/civ1/terrain.ruleset:534
 msgid ""
 "Cities built in or next to mountains are at risk from volcanic activity. A "
 "Temple in the city instils sufficient respect for the forces of nature to "
@@ -20686,66 +20688,66 @@ msgstr ""
 "tulivuorenpurkauksille. Kaupunkiin rakennettu temppeli saa aikaan riittävän "
 "kunnioituksen luonnonvoimia kohtaan estäen väestön vähenemisen."
 
-#: data/civ1/terrain.ruleset:537 data/civ2/terrain.ruleset:529
-#: data/classic/terrain.ruleset:698 data/sandbox/terrain.ruleset:711
-#: data/civ2civ3/terrain.ruleset:710 data/multiplayer/terrain.ruleset:678
+#: data/civ1/terrain.ruleset:541 data/civ2/terrain.ruleset:533
+#: data/classic/terrain.ruleset:702 data/sandbox/terrain.ruleset:715
+#: data/civ2civ3/terrain.ruleset:714 data/multiplayer/terrain.ruleset:682
 msgid "Plains"
 msgstr "tasanko"
 
-#: data/civ1/terrain.ruleset:572 data/civ2/terrain.ruleset:565
-#: data/classic/terrain.ruleset:737 data/sandbox/terrain.ruleset:750
-#: data/civ2civ3/terrain.ruleset:749 data/multiplayer/terrain.ruleset:715
+#: data/civ1/terrain.ruleset:576 data/civ2/terrain.ruleset:569
+#: data/classic/terrain.ruleset:741 data/sandbox/terrain.ruleset:754
+#: data/civ2civ3/terrain.ruleset:753 data/multiplayer/terrain.ruleset:719
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr ""
 "Tasangot ovat laajoja, karuja alueita, mikä vaikeuttaa hieman kaupankäyntiä."
 
-#: data/civ1/terrain.ruleset:578 data/civ2/terrain.ruleset:571
-#: data/classic/terrain.ruleset:743 data/sandbox/terrain.ruleset:756
-#: data/civ2civ3/terrain.ruleset:755 data/multiplayer/terrain.ruleset:721
+#: data/civ1/terrain.ruleset:582 data/civ2/terrain.ruleset:575
+#: data/classic/terrain.ruleset:747 data/sandbox/terrain.ruleset:760
+#: data/civ2civ3/terrain.ruleset:759 data/multiplayer/terrain.ruleset:725
 msgid "Swamp"
 msgstr "suo"
 
-#: data/civ1/terrain.ruleset:614 data/civ2/terrain.ruleset:608
-#: data/classic/terrain.ruleset:784 data/multiplayer/terrain.ruleset:760
+#: data/civ1/terrain.ruleset:618 data/civ2/terrain.ruleset:612
+#: data/classic/terrain.ruleset:788 data/multiplayer/terrain.ruleset:764
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
 msgstr "Suot ovat liian märkiä tuottoisaan viljelyyn."
 
-#: data/civ1/terrain.ruleset:620 data/civ2/terrain.ruleset:614
-#: data/classic/terrain.ruleset:790 data/sandbox/terrain.ruleset:804
-#: data/civ2civ3/terrain.ruleset:803 data/multiplayer/terrain.ruleset:766
+#: data/civ1/terrain.ruleset:624 data/civ2/terrain.ruleset:618
+#: data/classic/terrain.ruleset:794 data/sandbox/terrain.ruleset:808
+#: data/civ2civ3/terrain.ruleset:807 data/multiplayer/terrain.ruleset:770
 msgid "Tundra"
 msgstr "tundra"
 
-#: data/civ1/terrain.ruleset:654 data/civ2/terrain.ruleset:648
-#: data/classic/terrain.ruleset:828 data/sandbox/terrain.ruleset:842
-#: data/civ2civ3/terrain.ruleset:841 data/multiplayer/terrain.ruleset:802
+#: data/civ1/terrain.ruleset:658 data/civ2/terrain.ruleset:652
+#: data/classic/terrain.ruleset:832 data/sandbox/terrain.ruleset:846
+#: data/civ2civ3/terrain.ruleset:845 data/multiplayer/terrain.ruleset:806
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Tundra on laajaa, kylmää aluetta, joka sopii pienviljelyyn, mutta ei juuri "
 "muuhun."
 
-#: data/civ1/terrain.ruleset:742
+#: data/civ1/terrain.ruleset:746
 msgid "?gui_type:Build Fortress"
 msgstr "Rakenna linnoitus"
 
-#: data/civ1/terrain.ruleset:743
+#: data/civ1/terrain.ruleset:747
 msgid "?gui_type:Build None"
 msgstr "Ei rakennettavissa"
 
-#: data/civ1/terrain.ruleset:909 data/civ2/terrain.ruleset:981
-#: data/classic/terrain.ruleset:1187 data/sandbox/terrain.ruleset:1227
-#: data/civ2civ3/terrain.ruleset:1226 data/multiplayer/terrain.ruleset:1161
+#: data/civ1/terrain.ruleset:913 data/civ2/terrain.ruleset:985
+#: data/classic/terrain.ruleset:1191 data/sandbox/terrain.ruleset:1231
+#: data/civ2civ3/terrain.ruleset:1230 data/multiplayer/terrain.ruleset:1165
 msgid "Minor Tribe Village"
 msgstr "Pieni heimokylä"
 
-#: data/civ1/terrain.ruleset:925 data/civ2/terrain.ruleset:997
-#: data/classic/terrain.ruleset:1203 data/sandbox/terrain.ruleset:1243
-#: data/civ2civ3/terrain.ruleset:1242 data/multiplayer/terrain.ruleset:1177
+#: data/civ1/terrain.ruleset:929 data/civ2/terrain.ruleset:1001
+#: data/classic/terrain.ruleset:1207 data/sandbox/terrain.ruleset:1247
+#: data/civ2civ3/terrain.ruleset:1246 data/multiplayer/terrain.ruleset:1181
 msgid ""
 "Villages (also called \"huts\") are primitive communities spread across the "
 "world at the beginning of the game. Any land unit can enter a village, "
@@ -20764,24 +20766,24 @@ msgstr ""
 "edistysaskeleen, sotilasyksikön (toisinaan uudisraivaajan tai yksikön jota "
 "pelaaja ei voi vielä tuottaa) tai jopa uuden kaupungin."
 
-#: data/civ1/terrain.ruleset:934
+#: data/civ1/terrain.ruleset:938
 msgid "Flying units just fly over the village, leaving it untouched."
 msgstr ""
 "Lentävät yksiköt eivät vaikuta kyliin, vaan lentävät vain niiden ylitse."
 
-#: data/civ1/terrain.ruleset:939 data/civ2/terrain.ruleset:1033
-#: data/classic/terrain.ruleset:1258 data/sandbox/terrain.ruleset:1362
-#: data/civ2civ3/terrain.ruleset:1332 data/multiplayer/terrain.ruleset:1232
+#: data/civ1/terrain.ruleset:943 data/civ2/terrain.ruleset:1037
+#: data/classic/terrain.ruleset:1262 data/sandbox/terrain.ruleset:1366
+#: data/civ2civ3/terrain.ruleset:1336 data/multiplayer/terrain.ruleset:1236
 msgid "Fortress"
 msgstr "linnoitus"
 
-#: data/civ1/terrain.ruleset:962
+#: data/civ1/terrain.ruleset:966
 msgid "Fortresses improve defense for land units."
 msgstr "Linnoitukset kohentavat maavoimien yksiköiden puolustuskykyä."
 
-#: data/civ1/terrain.ruleset:964 data/civ2/terrain.ruleset:1060
-#: data/classic/terrain.ruleset:1286 data/sandbox/terrain.ruleset:41
-#: data/civ2civ3/terrain.ruleset:40 data/multiplayer/terrain.ruleset:1260
+#: data/civ1/terrain.ruleset:968 data/civ2/terrain.ruleset:1064
+#: data/classic/terrain.ruleset:1290 data/sandbox/terrain.ruleset:41
+#: data/civ2civ3/terrain.ruleset:40 data/multiplayer/terrain.ruleset:1264
 #, fuzzy, c-format
 #| msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgid "Diplomatic units get a 25% defense bonus in diplomatic fights."
@@ -20789,8 +20791,8 @@ msgstr ""
 "  · Diplomaattiyksiköt saavat 25% puolustusedun diplomaattisissa "
 "taisteluissa.\n"
 
-#: data/civ1/terrain.ruleset:991 data/civ2/terrain.ruleset:1118
-#: data/classic/terrain.ruleset:1394 data/multiplayer/terrain.ruleset:1368
+#: data/civ1/terrain.ruleset:995 data/civ2/terrain.ruleset:1122
+#: data/classic/terrain.ruleset:1398 data/multiplayer/terrain.ruleset:1372
 msgid ""
 "Roads allow your land units to move more quickly, and on some terrain, also "
 "provide a trade bonus."
@@ -20798,7 +20800,7 @@ msgstr ""
 "Tiet mahdollistavat maayksiköille nopeamman etenemisen ja joillakin "
 "maastotyypeillä ne myös antavat kauppabonuksen."
 
-#: data/civ1/terrain.ruleset:994 data/civ2/terrain.ruleset:1121
+#: data/civ1/terrain.ruleset:998 data/civ2/terrain.ruleset:1125
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads, and are an exception to this "
@@ -20808,14 +20810,14 @@ msgstr ""
 "Kaupungin keskusruudut saavat aina tiet automaattisesti, jopa silloin kun "
 "sillanrakennusta ei tunneta."
 
-#: data/civ1/terrain.ruleset:1001 data/civ2/terrain.ruleset:1128
-#: data/classic/terrain.ruleset:1404 data/sandbox/terrain.ruleset:1581
-#: data/civ2civ3/terrain.ruleset:1543 data/multiplayer/terrain.ruleset:1378
+#: data/civ1/terrain.ruleset:1005 data/civ2/terrain.ruleset:1132
+#: data/classic/terrain.ruleset:1408 data/sandbox/terrain.ruleset:1585
+#: data/civ2civ3/terrain.ruleset:1547 data/multiplayer/terrain.ruleset:1382
 msgid "Railroad"
 msgstr "rautatie"
 
-#: data/civ1/terrain.ruleset:1024 data/civ2/terrain.ruleset:1151
-#: data/classic/terrain.ruleset:1427 data/multiplayer/terrain.ruleset:1401
+#: data/civ1/terrain.ruleset:1028 data/civ2/terrain.ruleset:1155
+#: data/classic/terrain.ruleset:1431 data/multiplayer/terrain.ruleset:1405
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units expend no movement points when moving along a railroad; you "
@@ -20825,7 +20827,7 @@ msgstr ""
 "Rautatietä pitkin kulkevat yksiköt eivät kuluta lainkaan liikepisteitä. Voit "
 "ajella junalla loputtomiin. (Kuten myös vihollisesi!)"
 
-#: data/civ1/terrain.ruleset:1028
+#: data/civ1/terrain.ruleset:1032
 msgid ""
 "A railroad also increases by half (rounding down) all resources produced by "
 "a tile. A tile whose road is upgraded to a railroad retains any trade bonus "
@@ -20835,9 +20837,9 @@ msgstr ""
 "rautatie tavallisen tien päälle, myös tien mahdollisesti tarjoamat "
 "kauppabonukset säilyvät."
 
-#: data/civ1/terrain.ruleset:1032 data/civ2/terrain.ruleset:1159
-#: data/classic/terrain.ruleset:1435 data/sandbox/terrain.ruleset:1614
-#: data/civ2civ3/terrain.ruleset:1576 data/multiplayer/terrain.ruleset:1409
+#: data/civ1/terrain.ruleset:1036 data/civ2/terrain.ruleset:1163
+#: data/classic/terrain.ruleset:1439 data/sandbox/terrain.ruleset:1618
+#: data/civ2civ3/terrain.ruleset:1580 data/multiplayer/terrain.ruleset:1413
 msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
 "you learn the Railroad technology."
@@ -20845,18 +20847,18 @@ msgstr ""
 "Kaupunkien keskusruudut, joissa on jo tie, saavat rautatiet automaattisesti "
 "kun rautatieteknologia opitaan."
 
-#: data/civ1/terrain.ruleset:1038 data/civ2/terrain.ruleset:1165
-#: data/classic/terrain.ruleset:1441 data/sandbox/terrain.ruleset:1659
-#: data/civ2civ3/terrain.ruleset:1621 data/multiplayer/terrain.ruleset:1415
+#: data/civ1/terrain.ruleset:1042 data/civ2/terrain.ruleset:1169
+#: data/classic/terrain.ruleset:1445 data/sandbox/terrain.ruleset:1663
+#: data/civ2civ3/terrain.ruleset:1625 data/multiplayer/terrain.ruleset:1419
 msgid "River"
 msgstr "joki"
 
-#: data/civ1/terrain.ruleset:1052
+#: data/civ1/terrain.ruleset:1056
 msgid "Any land terrain type may have a River on it."
 msgstr "Jokia voi esiintyä millä hyvänsä maaruudulla."
 
-#: data/civ1/terrain.ruleset:1054 data/civ2/terrain.ruleset:1186
-#: data/classic/terrain.ruleset:1461 data/multiplayer/terrain.ruleset:1435
+#: data/civ1/terrain.ruleset:1058 data/civ2/terrain.ruleset:1190
+#: data/classic/terrain.ruleset:1465 data/multiplayer/terrain.ruleset:1439
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
@@ -20864,7 +20866,7 @@ msgstr ""
 "Teitä ja rautateitä voidaan rakentaa jokiruutujen yli vain jos "
 "sivilisaatiosi on oppinut sillanrakennustaidon."
 
-#: data/civ1/terrain.ruleset:1057
+#: data/civ1/terrain.ruleset:1061
 msgid ""
 "Cities built on or next to rivers are at risk of flooding, which will cause "
 "a loss of population and stored food. City Walls eliminate this risk."
@@ -20873,52 +20875,52 @@ msgstr ""
 "tuhoavan ja väestöä vähentävän tulvan jalkoihin. Kaupunginmuuri ehkäisee "
 "tämänvaaran."
 
-#: data/civ1/terrain.ruleset:1077 data/civ2/terrain.ruleset:1218
-#: data/classic/terrain.ruleset:1493 data/sandbox/terrain.ruleset:1720
-#: data/civ2civ3/terrain.ruleset:1680 data/multiplayer/terrain.ruleset:1467
+#: data/civ1/terrain.ruleset:1081 data/civ2/terrain.ruleset:1222
+#: data/classic/terrain.ruleset:1497 data/sandbox/terrain.ruleset:1724
+#: data/civ2civ3/terrain.ruleset:1684 data/multiplayer/terrain.ruleset:1471
 msgid "?animals:Game"
 msgstr "riistaa"
 
-#: data/civ1/terrain.ruleset:1090 data/civ2/terrain.ruleset:1244
-#: data/classic/terrain.ruleset:1519 data/sandbox/terrain.ruleset:1746
-#: data/civ2civ3/terrain.ruleset:1706 data/multiplayer/terrain.ruleset:1493
+#: data/civ1/terrain.ruleset:1094 data/civ2/terrain.ruleset:1248
+#: data/classic/terrain.ruleset:1523 data/sandbox/terrain.ruleset:1750
+#: data/civ2civ3/terrain.ruleset:1710 data/multiplayer/terrain.ruleset:1497
 msgid "Coal"
 msgstr "hiiltä"
 
-#: data/civ1/terrain.ruleset:1103 data/civ2/terrain.ruleset:1257
-#: data/classic/terrain.ruleset:1532 data/sandbox/terrain.ruleset:1759
-#: data/civ2civ3/terrain.ruleset:1719 data/alien/terrain.ruleset:1197
-#: data/multiplayer/terrain.ruleset:1506
+#: data/civ1/terrain.ruleset:1107 data/civ2/terrain.ruleset:1261
+#: data/classic/terrain.ruleset:1536 data/sandbox/terrain.ruleset:1763
+#: data/civ2civ3/terrain.ruleset:1723 data/alien/terrain.ruleset:1201
+#: data/multiplayer/terrain.ruleset:1510
 msgid "Fish"
 msgstr "kalaa"
 
-#: data/civ1/terrain.ruleset:1116 data/civ2/terrain.ruleset:1283
-#: data/classic/terrain.ruleset:1558 data/sandbox/game.ruleset:1329
-#: data/sandbox/terrain.ruleset:1785 data/civ2civ3/terrain.ruleset:1745
-#: data/multiplayer/terrain.ruleset:1532
+#: data/civ1/terrain.ruleset:1120 data/civ2/terrain.ruleset:1287
+#: data/classic/terrain.ruleset:1562 data/sandbox/game.ruleset:1334
+#: data/sandbox/terrain.ruleset:1789 data/civ2civ3/terrain.ruleset:1749
+#: data/multiplayer/terrain.ruleset:1536
 msgid "Gems"
 msgstr "jalokiviä"
 
-#: data/civ1/terrain.ruleset:1129
+#: data/civ1/terrain.ruleset:1133
 msgid "Horses"
 msgstr "hevosia"
 
-#: data/civ1/terrain.ruleset:1142 data/civ2/terrain.ruleset:1322
-#: data/classic/terrain.ruleset:1597 data/sandbox/terrain.ruleset:1824
-#: data/civ2civ3/terrain.ruleset:1784 data/multiplayer/terrain.ruleset:1571
+#: data/civ1/terrain.ruleset:1146 data/civ2/terrain.ruleset:1326
+#: data/classic/terrain.ruleset:1601 data/sandbox/terrain.ruleset:1828
+#: data/civ2civ3/terrain.ruleset:1788 data/multiplayer/terrain.ruleset:1575
 msgid "Oasis"
 msgstr "keidas"
 
-#: data/civ1/terrain.ruleset:1155 data/civ2/terrain.ruleset:1439
-#: data/civ2/terrain.ruleset:1453 data/classic/terrain.ruleset:26
-#: data/classic/terrain.ruleset:1714 data/sandbox/terrain.ruleset:26
-#: data/sandbox/terrain.ruleset:1941 data/civ2civ3/terrain.ruleset:26
-#: data/civ2civ3/terrain.ruleset:1901 data/multiplayer/terrain.ruleset:26
-#: data/multiplayer/terrain.ruleset:1688
+#: data/civ1/terrain.ruleset:1159 data/civ2/terrain.ruleset:1443
+#: data/civ2/terrain.ruleset:1457 data/classic/terrain.ruleset:26
+#: data/classic/terrain.ruleset:1718 data/sandbox/terrain.ruleset:26
+#: data/sandbox/terrain.ruleset:1945 data/civ2civ3/terrain.ruleset:26
+#: data/civ2civ3/terrain.ruleset:1905 data/multiplayer/terrain.ruleset:26
+#: data/multiplayer/terrain.ruleset:1692
 msgid "Oil"
 msgstr "öljyä"
 
-#: data/civ1/terrain.ruleset:1181
+#: data/civ1/terrain.ruleset:1185
 msgid "Seals"
 msgstr "hylkeitä"
 
@@ -22417,7 +22419,7 @@ msgstr ""
 
 #. TRANS: _Poison City (3% chance of success).
 #: data/civ2/game.ruleset:237 data/classic/game.ruleset:241
-#: data/sandbox/game.ruleset:245 data/civ2civ3/game.ruleset:248
+#: data/sandbox/game.ruleset:246 data/civ2civ3/game.ruleset:248
 #: data/multiplayer/game.ruleset:246 server/ruleset.c:6131
 #, c-format
 msgid "%sPoison City%s"
@@ -22431,7 +22433,7 @@ msgstr "%sPiiluta ydinlataus%s"
 
 #. TRANS: _Sabotage Enemy Unit (3% chance of success).
 #: data/civ2/game.ruleset:243 data/classic/game.ruleset:244
-#: data/sandbox/game.ruleset:248 data/civ2civ3/game.ruleset:251
+#: data/sandbox/game.ruleset:249 data/civ2civ3/game.ruleset:251
 #: data/multiplayer/game.ruleset:249
 #, c-format
 msgid "%sSabotage Enemy Unit%s"
@@ -22439,7 +22441,7 @@ msgstr "%sSabotoi vihollisen yksikkö%s"
 
 #. TRANS: _Sabotage City Escape (3% chance of success).
 #: data/civ2/game.ruleset:252 data/classic/game.ruleset:253
-#: data/sandbox/game.ruleset:257 data/civ2civ3/game.ruleset:260
+#: data/sandbox/game.ruleset:258 data/civ2civ3/game.ruleset:260
 #: data/multiplayer/game.ruleset:258
 #, fuzzy, c-format
 #| msgid "%sSabotage City%s"
@@ -22448,7 +22450,7 @@ msgstr "%sSabotoi kaupunkia%s"
 
 #. TRANS: Industrial _Sabotage (3% chance of success).
 #: data/civ2/game.ruleset:255 data/classic/game.ruleset:256
-#: data/sandbox/game.ruleset:260 data/civ2civ3/game.ruleset:263
+#: data/sandbox/game.ruleset:261 data/civ2civ3/game.ruleset:263
 #: data/multiplayer/game.ruleset:261
 #, c-format
 msgid "Industrial %sSabotage%s"
@@ -22457,7 +22459,7 @@ msgstr "%sSabotoi tuotantoa%s"
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #: data/civ2/game.ruleset:261 data/classic/game.ruleset:262
-#: data/sandbox/game.ruleset:266 data/civ2civ3/game.ruleset:269
+#: data/sandbox/game.ruleset:267 data/civ2civ3/game.ruleset:269
 #: data/multiplayer/game.ruleset:267 server/ruleset.c:6203
 #, fuzzy, c-format
 #| msgid "Incite a Re%svolt%s"
@@ -22466,7 +22468,7 @@ msgstr "%sYllytä kapinaan%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
 #: data/civ2/game.ruleset:264 data/classic/game.ruleset:265
-#: data/sandbox/game.ruleset:269 data/civ2civ3/game.ruleset:272
+#: data/sandbox/game.ruleset:270 data/civ2civ3/game.ruleset:272
 #: data/multiplayer/game.ruleset:270 server/ruleset.c:6210
 #, c-format
 msgid "Establish %sEmbassy%s"
@@ -22474,7 +22476,7 @@ msgstr "%sPerusta lähetystö%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
 #: data/civ2/game.ruleset:273 data/classic/game.ruleset:274
-#: data/sandbox/game.ruleset:278 data/civ2civ3/game.ruleset:281
+#: data/sandbox/game.ruleset:279 data/civ2civ3/game.ruleset:281
 #: data/multiplayer/game.ruleset:279 server/ruleset.c:6231
 #, fuzzy, c-format
 #| msgid "Steal %sGold%s"
@@ -22483,7 +22485,7 @@ msgstr "%sVarasta kultaa%s"
 
 #. TRANS: Indus_trial Espionage (3% chance of success).
 #: data/civ2/game.ruleset:276 data/classic/game.ruleset:277
-#: data/sandbox/game.ruleset:281 data/civ2civ3/game.ruleset:284
+#: data/sandbox/game.ruleset:282 data/civ2civ3/game.ruleset:284
 #: data/multiplayer/game.ruleset:282
 #, c-format
 msgid "Indus%strial Espionage%s"
@@ -22491,7 +22493,7 @@ msgstr "%sTeollisuusvakoilu%s"
 
 #. TRANS: _Investigate City (100% chance of success).
 #: data/civ2/game.ruleset:279 data/classic/game.ruleset:280
-#: data/sandbox/game.ruleset:287 data/civ2civ3/game.ruleset:287
+#: data/sandbox/game.ruleset:288 data/civ2civ3/game.ruleset:287
 #: data/multiplayer/game.ruleset:285 server/ruleset.c:6252
 #, c-format
 msgid "%sInvestigate City%s"
@@ -22499,7 +22501,7 @@ msgstr "%sTutki kaupunkia%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
 #: data/civ2/game.ruleset:315 data/classic/game.ruleset:316
-#: data/sandbox/game.ruleset:332 data/civ2civ3/game.ruleset:329
+#: data/sandbox/game.ruleset:333 data/civ2civ3/game.ruleset:329
 #: data/alien/game.ruleset:294 data/multiplayer/game.ruleset:315
 #: server/ruleset.c:6407
 #, fuzzy, c-format
@@ -23080,15 +23082,15 @@ msgstr "Lisää tuomiokirkkojen vaikutusta."
 msgid "Warrior Code"
 msgstr "Sotaoppi"
 
-#: data/civ2/terrain.ruleset:240 data/classic/terrain.ruleset:377
-#: data/sandbox/terrain.ruleset:381 data/civ2civ3/terrain.ruleset:380
-#: data/multiplayer/terrain.ruleset:371
+#: data/civ2/terrain.ruleset:244 data/classic/terrain.ruleset:381
+#: data/sandbox/terrain.ruleset:385 data/civ2civ3/terrain.ruleset:384
+#: data/multiplayer/terrain.ruleset:375
 msgid "Glacier"
 msgstr "jäätikkö"
 
-#: data/civ2/terrain.ruleset:274 data/classic/terrain.ruleset:415
-#: data/sandbox/terrain.ruleset:419 data/civ2civ3/terrain.ruleset:418
-#: data/multiplayer/terrain.ruleset:407
+#: data/civ2/terrain.ruleset:278 data/classic/terrain.ruleset:419
+#: data/sandbox/terrain.ruleset:423 data/civ2civ3/terrain.ruleset:422
+#: data/multiplayer/terrain.ruleset:411
 msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
@@ -23096,17 +23098,17 @@ msgstr ""
 "Jäätiköitä on vain kaikkein pohjoisimmilla ja eteläisimmillä alueilla. Ne "
 "ovat hyvin kylmiä ja sen vuoksi vaikeita hyödyntää."
 
-#: data/civ2/terrain.ruleset:813 data/alien/terrain.ruleset:609
+#: data/civ2/terrain.ruleset:817 data/alien/terrain.ruleset:613
 msgid "?gui_type:Build Land base"
 msgstr "Rakenna maatukikohta"
 
-#: data/civ2/terrain.ruleset:814 data/alien/terrain.ruleset:610
+#: data/civ2/terrain.ruleset:818 data/alien/terrain.ruleset:614
 msgid "?gui_type:Build Airforce base"
 msgstr "Rakenna ilmavoimien tukikohta"
 
-#: data/civ2/terrain.ruleset:1006 data/classic/terrain.ruleset:1212
-#: data/sandbox/terrain.ruleset:1252 data/civ2civ3/terrain.ruleset:1251
-#: data/multiplayer/terrain.ruleset:1186
+#: data/civ2/terrain.ruleset:1010 data/classic/terrain.ruleset:1216
+#: data/sandbox/terrain.ruleset:1256 data/civ2civ3/terrain.ruleset:1255
+#: data/multiplayer/terrain.ruleset:1190
 msgid ""
 "Later in the game, helicopters may also enter villages, but overflight by "
 "other aircraft will cause the villagers to take fright and disband."
@@ -23114,13 +23116,13 @@ msgstr ""
 "Pelin edetessä myös helikopterit voivat tutkia kyliä mutta muiden ilma-"
 "alusten ylilento saa kyläläiset paniikkiin ja kylän tyhjenemään."
 
-#: data/civ2/terrain.ruleset:1012 data/classic/terrain.ruleset:1218
-#: data/sandbox/terrain.ruleset:1287 data/civ2civ3/terrain.ruleset:1257
-#: data/multiplayer/terrain.ruleset:1192
+#: data/civ2/terrain.ruleset:1016 data/classic/terrain.ruleset:1222
+#: data/sandbox/terrain.ruleset:1291 data/civ2civ3/terrain.ruleset:1261
+#: data/multiplayer/terrain.ruleset:1196
 msgid "Farmland"
 msgstr "peltomaa"
 
-#: data/civ2/terrain.ruleset:1056
+#: data/civ2/terrain.ruleset:1060
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -23130,16 +23132,16 @@ msgstr ""
 "Muiden vaikutusten ohessa linnoituksessa vuoron ajan liikkumatta elpyvä "
 "maavoimien yksikkö saa takaisin neljäsosan voimapisteistään."
 
-#: data/civ2/terrain.ruleset:1065 data/civ2/units.ruleset:24
-#: data/classic/terrain.ruleset:1291 data/classic/units.ruleset:30
-#: data/sandbox/terrain.ruleset:1447 data/sandbox/units.ruleset:30
-#: data/civ2civ3/terrain.ruleset:1416 data/civ2civ3/units.ruleset:30
-#: data/multiplayer/terrain.ruleset:1265 data/multiplayer/units.ruleset:30
+#: data/civ2/terrain.ruleset:1069 data/civ2/units.ruleset:24
+#: data/classic/terrain.ruleset:1295 data/classic/units.ruleset:30
+#: data/sandbox/terrain.ruleset:1451 data/sandbox/units.ruleset:30
+#: data/civ2civ3/terrain.ruleset:1420 data/civ2civ3/units.ruleset:30
+#: data/multiplayer/terrain.ruleset:1269 data/multiplayer/units.ruleset:30
 msgid "Airbase"
 msgstr "lentotukikohta"
 
-#: data/civ2/terrain.ruleset:1088 data/classic/terrain.ruleset:1313
-#: data/multiplayer/terrain.ruleset:1287
+#: data/civ2/terrain.ruleset:1092 data/classic/terrain.ruleset:1317
+#: data/multiplayer/terrain.ruleset:1291
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -23148,17 +23150,17 @@ msgstr ""
 "laskeutumispaikkoina. Maavoimien yksiköt voivat hyökätä lentotukikohtaan "
 "laskeutuneiden ilmavoimien yksiköiden kimppuun."
 
-#: data/civ2/terrain.ruleset:1091 data/classic/terrain.ruleset:1316
+#: data/civ2/terrain.ruleset:1095 data/classic/terrain.ruleset:1320
 #: data/sandbox/terrain.ruleset:40 data/civ2civ3/terrain.ruleset:39
-#: data/alien/terrain.ruleset:926 data/multiplayer/terrain.ruleset:1290
+#: data/alien/terrain.ruleset:930 data/multiplayer/terrain.ruleset:1294
 #, fuzzy
 #| msgid "* Units can paradrop from this tile.\n"
 msgid "Units can paradrop from this tile."
 msgstr "· Tästä ruudusta voi lähteä maahanlaskutehtäviin.\n"
 
-#: data/civ2/terrain.ruleset:1155 data/classic/terrain.ruleset:1431
-#: data/sandbox/terrain.ruleset:1610 data/civ2civ3/terrain.ruleset:1572
-#: data/multiplayer/terrain.ruleset:1405
+#: data/civ2/terrain.ruleset:1159 data/classic/terrain.ruleset:1435
+#: data/sandbox/terrain.ruleset:1614 data/civ2civ3/terrain.ruleset:1576
+#: data/multiplayer/terrain.ruleset:1409
 msgid ""
 "A railroad also increases any shield resources produced by a tile. A tile "
 "whose road is upgraded to a railroad retains any trade bonus from the road "
@@ -23167,8 +23169,8 @@ msgstr ""
 "Rautatie lisää ruudun tuotantoa. Myös jo ennen rautatietä rakennetun tien "
 "mahdollisesti kauppaan tarjoamat bonukset säilyvät."
 
-#: data/civ2/terrain.ruleset:1181 data/classic/terrain.ruleset:1456
-#: data/multiplayer/terrain.ruleset:1430
+#: data/civ2/terrain.ruleset:1185 data/classic/terrain.ruleset:1460
+#: data/multiplayer/terrain.ruleset:1434
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the "
@@ -23181,75 +23183,75 @@ msgstr ""
 "Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain "
 "olevien jokiruutujen välillä, tavallista nopeammin."
 
-#: data/civ2/terrain.ruleset:1205 data/classic/terrain.ruleset:1480
-#: data/sandbox/terrain.ruleset:1707 data/civ2civ3/terrain.ruleset:1667
-#: data/multiplayer/terrain.ruleset:1454
+#: data/civ2/terrain.ruleset:1209 data/classic/terrain.ruleset:1484
+#: data/sandbox/terrain.ruleset:1711 data/civ2civ3/terrain.ruleset:1671
+#: data/multiplayer/terrain.ruleset:1458
 msgid "Iron"
 msgstr "rautaa"
 
-#: data/civ2/terrain.ruleset:1231 data/classic/terrain.ruleset:1506
-#: data/sandbox/terrain.ruleset:1733 data/civ2civ3/terrain.ruleset:1693
-#: data/multiplayer/terrain.ruleset:1480
+#: data/civ2/terrain.ruleset:1235 data/classic/terrain.ruleset:1510
+#: data/sandbox/terrain.ruleset:1737 data/civ2civ3/terrain.ruleset:1697
+#: data/multiplayer/terrain.ruleset:1484
 msgid "Furs"
 msgstr "turkiseläimiä"
 
-#: data/civ2/terrain.ruleset:1270 data/classic/terrain.ruleset:1545
-#: data/sandbox/terrain.ruleset:1772 data/civ2civ3/terrain.ruleset:1732
-#: data/multiplayer/terrain.ruleset:1519
+#: data/civ2/terrain.ruleset:1274 data/classic/terrain.ruleset:1549
+#: data/sandbox/terrain.ruleset:1776 data/civ2civ3/terrain.ruleset:1736
+#: data/multiplayer/terrain.ruleset:1523
 msgid "Fruit"
 msgstr "hedelmiä"
 
-#: data/civ2/terrain.ruleset:1296 data/classic/terrain.ruleset:1571
-#: data/sandbox/terrain.ruleset:1798 data/civ2civ3/terrain.ruleset:1758
-#: data/multiplayer/terrain.ruleset:1545
+#: data/civ2/terrain.ruleset:1300 data/classic/terrain.ruleset:1575
+#: data/sandbox/terrain.ruleset:1802 data/civ2civ3/terrain.ruleset:1762
+#: data/multiplayer/terrain.ruleset:1549
 msgid "Buffalo"
 msgstr "puhveleita"
 
-#: data/civ2/terrain.ruleset:1309 data/classic/terrain.ruleset:1584
-#: data/sandbox/terrain.ruleset:1811 data/civ2civ3/terrain.ruleset:1771
-#: data/multiplayer/terrain.ruleset:1558
+#: data/civ2/terrain.ruleset:1313 data/classic/terrain.ruleset:1588
+#: data/sandbox/terrain.ruleset:1815 data/civ2civ3/terrain.ruleset:1775
+#: data/multiplayer/terrain.ruleset:1562
 msgid "Wheat"
 msgstr "vehnää"
 
-#: data/civ2/terrain.ruleset:1335 data/classic/terrain.ruleset:1610
-#: data/sandbox/terrain.ruleset:1837 data/civ2civ3/terrain.ruleset:1797
-#: data/multiplayer/terrain.ruleset:1584
+#: data/civ2/terrain.ruleset:1339 data/classic/terrain.ruleset:1614
+#: data/sandbox/terrain.ruleset:1841 data/civ2civ3/terrain.ruleset:1801
+#: data/multiplayer/terrain.ruleset:1588
 msgid "Peat"
 msgstr "turvetta"
 
-#: data/civ2/terrain.ruleset:1348 data/classic/terrain.ruleset:1623
-#: data/sandbox/terrain.ruleset:1850 data/civ2civ3/terrain.ruleset:1810
-#: data/multiplayer/terrain.ruleset:1597
+#: data/civ2/terrain.ruleset:1352 data/classic/terrain.ruleset:1627
+#: data/sandbox/terrain.ruleset:1854 data/civ2civ3/terrain.ruleset:1814
+#: data/multiplayer/terrain.ruleset:1601
 msgid "Pheasant"
 msgstr "fasaaneja"
 
-#: data/civ2/terrain.ruleset:1374 data/classic/terrain.ruleset:1649
-#: data/sandbox/terrain.ruleset:1876 data/civ2civ3/terrain.ruleset:1836
-#: data/multiplayer/terrain.ruleset:1623
+#: data/civ2/terrain.ruleset:1378 data/classic/terrain.ruleset:1653
+#: data/sandbox/terrain.ruleset:1880 data/civ2civ3/terrain.ruleset:1840
+#: data/multiplayer/terrain.ruleset:1627
 msgid "Ivory"
 msgstr "norsunluuta"
 
-#: data/civ2/terrain.ruleset:1387 data/classic/terrain.ruleset:1662
-#: data/sandbox/terrain.ruleset:1889 data/civ2civ3/terrain.ruleset:1849
-#: data/multiplayer/terrain.ruleset:1636
+#: data/civ2/terrain.ruleset:1391 data/classic/terrain.ruleset:1666
+#: data/sandbox/terrain.ruleset:1893 data/civ2civ3/terrain.ruleset:1853
+#: data/multiplayer/terrain.ruleset:1640
 msgid "Silk"
 msgstr "silkkiä"
 
-#: data/civ2/terrain.ruleset:1400 data/classic/terrain.ruleset:1675
-#: data/sandbox/game.ruleset:1319 data/sandbox/terrain.ruleset:1902
-#: data/civ2civ3/terrain.ruleset:1862 data/multiplayer/terrain.ruleset:1649
+#: data/civ2/terrain.ruleset:1404 data/classic/terrain.ruleset:1679
+#: data/sandbox/game.ruleset:1324 data/sandbox/terrain.ruleset:1906
+#: data/civ2civ3/terrain.ruleset:1866 data/multiplayer/terrain.ruleset:1653
 msgid "Spice"
 msgstr "mausteita"
 
-#: data/civ2/terrain.ruleset:1413 data/classic/terrain.ruleset:1688
-#: data/sandbox/terrain.ruleset:1915 data/civ2civ3/terrain.ruleset:1875
-#: data/multiplayer/terrain.ruleset:1662
+#: data/civ2/terrain.ruleset:1417 data/classic/terrain.ruleset:1692
+#: data/sandbox/terrain.ruleset:1919 data/civ2civ3/terrain.ruleset:1879
+#: data/multiplayer/terrain.ruleset:1666
 msgid "Whales"
 msgstr "valaita"
 
-#: data/civ2/terrain.ruleset:1426 data/classic/terrain.ruleset:1701
-#: data/sandbox/terrain.ruleset:1928 data/civ2civ3/terrain.ruleset:1888
-#: data/multiplayer/terrain.ruleset:1675
+#: data/civ2/terrain.ruleset:1430 data/classic/terrain.ruleset:1705
+#: data/sandbox/terrain.ruleset:1932 data/civ2civ3/terrain.ruleset:1892
+#: data/multiplayer/terrain.ruleset:1679
 msgid "Wine"
 msgstr "viiniköynnöksiä"
 
@@ -24336,28 +24338,28 @@ msgid "Sell %sGoods%s"
 msgstr "%sMyy kauppatavarat%s"
 
 #. TRANS: year label (Common Era)
-#: data/classic/game.ruleset:860 data/sandbox/game.ruleset:1081
-#: data/civ2civ3/game.ruleset:925 data/multiplayer/game.ruleset:845
+#: data/classic/game.ruleset:864 data/sandbox/game.ruleset:1086
+#: data/civ2civ3/game.ruleset:929 data/multiplayer/game.ruleset:849
 msgid "CE"
 msgstr "jaa."
 
 #. TRANS: year label (Before Common Era)
-#: data/classic/game.ruleset:862 data/sandbox/game.ruleset:1083
-#: data/civ2civ3/game.ruleset:927 data/multiplayer/game.ruleset:847
+#: data/classic/game.ruleset:866 data/sandbox/game.ruleset:1088
+#: data/civ2civ3/game.ruleset:931 data/multiplayer/game.ruleset:851
 msgid "BCE"
 msgstr "eaa."
 
-#: data/classic/game.ruleset:889
+#: data/classic/game.ruleset:893
 msgid "Pestilence"
 msgstr "Kulkutauti"
 
-#: data/classic/game.ruleset:899 data/sandbox/game.ruleset:1132
-#: data/civ2civ3/game.ruleset:976
+#: data/classic/game.ruleset:903 data/sandbox/game.ruleset:1137
+#: data/civ2civ3/game.ruleset:980
 msgid "Industrial Accident"
 msgstr "Tehdasonnettomuus"
 
-#: data/classic/game.ruleset:908 data/sandbox/game.ruleset:1141
-#: data/civ2civ3/game.ruleset:985
+#: data/classic/game.ruleset:912 data/sandbox/game.ruleset:1146
+#: data/civ2civ3/game.ruleset:989
 msgid "Nuclear Accident"
 msgstr "Ydinonnettomuus"
 
@@ -24435,31 +24437,31 @@ msgstr "Ei saasteita"
 msgid "No Pollution nor Fallout appear here."
 msgstr "Ei saasteita tai laskeumaa"
 
-#: data/classic/terrain.ruleset:206 data/sandbox/terrain.ruleset:210
-#: data/civ2civ3/terrain.ruleset:209 data/alien/terrain.ruleset:207
-#: data/multiplayer/terrain.ruleset:206
+#: data/classic/terrain.ruleset:210 data/sandbox/terrain.ruleset:214
+#: data/civ2civ3/terrain.ruleset:213 data/alien/terrain.ruleset:211
+#: data/multiplayer/terrain.ruleset:210
 msgid "Inaccessible"
 msgstr "saavuttamaton"
 
-#: data/classic/terrain.ruleset:241 data/sandbox/terrain.ruleset:245
-#: data/civ2civ3/terrain.ruleset:244 data/multiplayer/terrain.ruleset:241
+#: data/classic/terrain.ruleset:245 data/sandbox/terrain.ruleset:249
+#: data/civ2civ3/terrain.ruleset:248 data/multiplayer/terrain.ruleset:245
 msgid "No unit can enter this terrain, nor can any city work its tiles."
 msgstr ""
 "Yksikään yksikkö ei voi kulkea tässä maastossa, eivätkä kaupungit voi "
 "käyttää ruutua."
 
-#: data/classic/terrain.ruleset:246 data/sandbox/terrain.ruleset:250
-#: data/civ2civ3/terrain.ruleset:249 data/multiplayer/terrain.ruleset:246
+#: data/classic/terrain.ruleset:250 data/sandbox/terrain.ruleset:254
+#: data/civ2civ3/terrain.ruleset:253 data/multiplayer/terrain.ruleset:250
 msgid "Lake"
 msgstr "järvi"
 
-#: data/classic/terrain.ruleset:284 data/sandbox/terrain.ruleset:288
-#: data/civ2civ3/terrain.ruleset:287 data/multiplayer/terrain.ruleset:282
+#: data/classic/terrain.ruleset:288 data/sandbox/terrain.ruleset:292
+#: data/civ2civ3/terrain.ruleset:291 data/multiplayer/terrain.ruleset:286
 msgid "Lakes are substantial bodies of fresh water."
 msgstr "Järvet ovat kookkaita makean veden altaita."
 
-#: data/classic/terrain.ruleset:327 data/sandbox/terrain.ruleset:331
-#: data/civ2civ3/terrain.ruleset:330 data/multiplayer/terrain.ruleset:323
+#: data/classic/terrain.ruleset:331 data/sandbox/terrain.ruleset:335
+#: data/civ2civ3/terrain.ruleset:334 data/multiplayer/terrain.ruleset:327
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
 "of food and other resources."
@@ -24467,13 +24469,13 @@ msgstr ""
 "Matalaa merta on useimmiten rannikoiden lähettyvillä. Sieltä löytyy usein "
 "runsaasti ruokaa ja muita luonnonvaroja."
 
-#: data/classic/terrain.ruleset:333 data/sandbox/terrain.ruleset:337
-#: data/civ2civ3/terrain.ruleset:336 data/multiplayer/terrain.ruleset:329
+#: data/classic/terrain.ruleset:337 data/sandbox/terrain.ruleset:341
+#: data/civ2civ3/terrain.ruleset:340 data/multiplayer/terrain.ruleset:333
 msgid "Deep Ocean"
 msgstr "ulappa"
 
-#: data/classic/terrain.ruleset:371 data/sandbox/terrain.ruleset:375
-#: data/civ2civ3/terrain.ruleset:374 data/multiplayer/terrain.ruleset:365
+#: data/classic/terrain.ruleset:375 data/sandbox/terrain.ruleset:379
+#: data/civ2civ3/terrain.ruleset:378 data/multiplayer/terrain.ruleset:369
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
@@ -24482,28 +24484,28 @@ msgstr ""
 "merikelpoiset alukset (muut laivat paitsi Kaleerit) voivat matkustaa niitä "
 "pitkin."
 
-#: data/classic/terrain.ruleset:419 data/multiplayer/terrain.ruleset:411
+#: data/classic/terrain.ruleset:423 data/multiplayer/terrain.ruleset:415
 msgid "Oil Wells can be built when Refining is known."
 msgstr "Öljyporaustorneja voidaan rakentaa kun tunnetaan öljynjalostus."
 
-#: data/classic/terrain.ruleset:467 data/multiplayer/terrain.ruleset:457
+#: data/classic/terrain.ruleset:471 data/multiplayer/terrain.ruleset:461
 msgid "Oil Wells can be built when Construction is known."
 msgstr "Öljynporaustorneja voidaan rakentaa kun tunnetaan rakennustaito."
 
-#: data/classic/terrain.ruleset:995 data/multiplayer/terrain.ruleset:969
+#: data/classic/terrain.ruleset:999 data/multiplayer/terrain.ruleset:973
 msgid "?gui_type:Build Fortress/Buoy"
 msgstr "Rakenna linnoitus/poiju"
 
-#: data/classic/terrain.ruleset:996 data/multiplayer/terrain.ruleset:970
+#: data/classic/terrain.ruleset:1000 data/multiplayer/terrain.ruleset:974
 msgid "?gui_type:Build Airbase"
 msgstr "Rakenna lentotukikohta"
 
-#: data/classic/terrain.ruleset:1148 data/sandbox/terrain.ruleset:1164
-#: data/civ2civ3/terrain.ruleset:1163 data/multiplayer/terrain.ruleset:1122
+#: data/classic/terrain.ruleset:1152 data/sandbox/terrain.ruleset:1168
+#: data/civ2civ3/terrain.ruleset:1167 data/multiplayer/terrain.ruleset:1126
 msgid "Oil Well"
 msgstr "Öljynporaustorni"
 
-#: data/classic/terrain.ruleset:1281 data/multiplayer/terrain.ruleset:1255
+#: data/classic/terrain.ruleset:1285 data/multiplayer/terrain.ruleset:1259
 msgid ""
 "Fortresses improve defense for land units. Among other effects, a land unit "
 "remaining in a fortress for a whole turn without moving recovers a quarter "
@@ -24516,24 +24518,24 @@ msgstr ""
 "Keksintöteknologian myötä maayksiköiden näkökenttä laajenee linnoitusten "
 "vartiotorneista käsin."
 
-#: data/classic/terrain.ruleset:1321 data/sandbox/terrain.ruleset:1488
-#: data/civ2civ3/terrain.ruleset:1456 data/multiplayer/terrain.ruleset:1295
+#: data/classic/terrain.ruleset:1325 data/sandbox/terrain.ruleset:1492
+#: data/civ2civ3/terrain.ruleset:1460 data/multiplayer/terrain.ruleset:1299
 msgid "Buoy"
 msgstr "poiju"
 
-#: data/classic/terrain.ruleset:1342 data/sandbox/terrain.ruleset:1511
-#: data/civ2civ3/terrain.ruleset:1478 data/multiplayer/terrain.ruleset:1316
+#: data/classic/terrain.ruleset:1346 data/sandbox/terrain.ruleset:1515
+#: data/civ2civ3/terrain.ruleset:1482 data/multiplayer/terrain.ruleset:1320
 msgid "Buoys may be built in the ocean (by units on a sea-going vessel)."
 msgstr ""
 "Poijuja voi rakentaa merelle (käyttäen laivojen kuljettamia yksiköitä)."
 
-#: data/classic/terrain.ruleset:1347 data/sandbox/terrain.ruleset:1519
-#: data/civ2civ3/terrain.ruleset:1483 data/multiplayer/terrain.ruleset:1321
+#: data/classic/terrain.ruleset:1351 data/sandbox/terrain.ruleset:1523
+#: data/civ2civ3/terrain.ruleset:1487 data/multiplayer/terrain.ruleset:1325
 msgid "Ruins"
 msgstr "rauniot"
 
-#: data/classic/terrain.ruleset:1366 data/sandbox/terrain.ruleset:1538
-#: data/civ2civ3/terrain.ruleset:1502 data/multiplayer/terrain.ruleset:1340
+#: data/classic/terrain.ruleset:1370 data/sandbox/terrain.ruleset:1542
+#: data/civ2civ3/terrain.ruleset:1506 data/multiplayer/terrain.ruleset:1344
 msgid ""
 "Ruins mark the former site of a city that was destroyed or abandoned. They "
 "have no effect on gameplay."
@@ -24541,7 +24543,7 @@ msgstr ""
 "Rauniot ovat tuhotun tai hylätyn kaupungin jäänteitä. Niillä ei ole "
 "vaikutusta peliin."
 
-#: data/classic/terrain.ruleset:1397 data/multiplayer/terrain.ruleset:1371
+#: data/classic/terrain.ruleset:1401 data/multiplayer/terrain.ruleset:1375
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (unless they are on a river tile and "
@@ -25823,28 +25825,31 @@ msgstr "Hiekkalaatikko sääntökokoelma"
 msgid ""
 "You are playing Freeciv with sandbox ruleset. This showcases new or unusual "
 "features available in Freeciv without regard for strict game balancing, "
-"playability, AI performance, or savegame compatibility between versions.\n"
+"playability, AI performance, availability of graphics, or savegame "
+"compatibility between versions.\n"
 "\n"
-"This ruleset was originally based on current default ruleset, civ2civ3."
+"This ruleset was originally based on current default ruleset, civ2civ3, as "
+"it stood in 2.6."
 msgstr ""
 "Pelaat kokeellisilla säännöillä. Ne esittelevät Freecivin uusia tai "
 "epätavallisia ominaisuuksia ilman yritystäkään tehdä säännöistä "
-"tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita, eivätkä "
-"tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien freeciv-"
-"versioiden kanssa.\n"
+"tasapainoisia, pelattavuudeltaan hyviä, tekoälylle soveliaita. Kuvituksista "
+"ei välttämättä löydy hyviä grafiikoita sääntökokoelmassa oleville asioille, "
+"eivätkä tallennetut pelit välttämättä tule olemaan yhteensopivia uudempien "
+"freeciv-versioiden kanssa.\n"
 "\n"
 "Tämä sääntökokoelma on alunperin tehty nykyisen oletussääntökokoelman, "
-"civ2civ3, pohjalta."
+"civ2civ3, pohjalta, sellaisena kuin se oli Freecivin versiossa 2.6."
 
 #. TRANS: Steal _Map Fragments and Escape (3% chance of success).
-#: data/sandbox/game.ruleset:284
+#: data/sandbox/game.ruleset:285
 #, fuzzy, c-format
 #| msgid "Steal %sGold%s"
 msgid "Steal %sMap Fragments and Escape%s"
 msgstr "%sVarasta kultaa%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: data/sandbox/game.ruleset:308 data/civ2civ3/game.ruleset:308
+#: data/sandbox/game.ruleset:309 data/civ2civ3/game.ruleset:308
 #: data/alien/game.ruleset:276 server/ruleset.c:6316
 #, fuzzy, c-format
 #| msgid "%sSabotage Enemy Unit%s"
@@ -25852,7 +25857,7 @@ msgid "%sCapture Units%s"
 msgstr "%sSabotoi vihollisen yksikkö%s"
 
 #. TRANS: _Bombard (100% chance of success).
-#: data/sandbox/game.ruleset:317 data/civ2civ3/game.ruleset:317
+#: data/sandbox/game.ruleset:318 data/civ2civ3/game.ruleset:317
 #: data/alien/game.ruleset:285
 #, fuzzy, c-format
 #| msgid "Bombarder"
@@ -25860,131 +25865,131 @@ msgid "%sBombard%s"
 msgstr "Pommittaja"
 
 #. TRANS: Destroy _City (100% chance of success).
-#: data/sandbox/game.ruleset:323 server/ruleset.c:6372
+#: data/sandbox/game.ruleset:324 server/ruleset.c:6372
 #, fuzzy, c-format
 #| msgid "%s destroys %s in %s."
 msgid "Destroy %sCity%s"
 msgstr "%s tuhosi kohteen %s kaupungissa %s."
 
-#: data/sandbox/game.ruleset:1174 data/civ2civ3/game.ruleset:1018
+#: data/sandbox/game.ruleset:1179 data/civ2civ3/game.ruleset:1022
 msgid "Spaceship Launch"
 msgstr "Avaruusalus laukaistu"
 
-#: data/sandbox/game.ruleset:1178 data/civ2civ3/game.ruleset:1022
+#: data/sandbox/game.ruleset:1183 data/civ2civ3/game.ruleset:1026
 msgid "You're the first one to launch a spaceship towards Alpha Centauri!"
 msgstr "Olet ensimmäinen avaruusaluksen kohti Alpha Centauria laukaissut!"
 
-#: data/sandbox/game.ruleset:1179 data/civ2civ3/game.ruleset:1023
+#: data/sandbox/game.ruleset:1184 data/civ2civ3/game.ruleset:1027
 msgid "You have launched a spaceship towards Alpha Centauri!"
 msgstr "Olet laukaissut avaruusaluksen kohti Alpha Centauria!"
 
-#: data/sandbox/game.ruleset:1182 data/civ2civ3/game.ruleset:1026
+#: data/sandbox/game.ruleset:1187 data/civ2civ3/game.ruleset:1030
 msgid "Entire Map Known"
 msgstr "Koko kartta tunnettu"
 
-#: data/sandbox/game.ruleset:1187 data/civ2civ3/game.ruleset:1031
+#: data/sandbox/game.ruleset:1192 data/civ2civ3/game.ruleset:1035
 msgid "You're the first one to have mapped the entire world!"
 msgstr "Ensimmäisenä olet kartoittanut koko maailman!"
 
-#: data/sandbox/game.ruleset:1188 data/civ2civ3/game.ruleset:1032
+#: data/sandbox/game.ruleset:1193 data/civ2civ3/game.ruleset:1036
 msgid "You have mapped the entire world!"
 msgstr "Olet kartoittanut koko maailman!"
 
-#: data/sandbox/game.ruleset:1191 data/civ2civ3/game.ruleset:1035
+#: data/sandbox/game.ruleset:1196 data/civ2civ3/game.ruleset:1039
 msgid "Land Ahoy"
 msgstr "Maata näkyvissä"
 
-#: data/sandbox/game.ruleset:1196 data/civ2civ3/game.ruleset:1040
+#: data/sandbox/game.ruleset:1201 data/civ2civ3/game.ruleset:1044
 msgid "As the first people in history, your people sight a foreign shore!"
 msgstr "Ensimmäisenä löydät itsellesi vieraan rannan!"
 
-#: data/sandbox/game.ruleset:1197 data/civ2civ3/game.ruleset:1041
+#: data/sandbox/game.ruleset:1202 data/civ2civ3/game.ruleset:1045
 msgid "You sight your first foreign shore!"
 msgstr "Näet ensi kertaa vieraan saaren rannan!"
 
-#: data/sandbox/game.ruleset:1200 data/civ2civ3/game.ruleset:1044
+#: data/sandbox/game.ruleset:1205 data/civ2civ3/game.ruleset:1048
 msgid "Literate"
 msgstr "Lukutaitoisuus"
 
-#: data/sandbox/game.ruleset:1206 data/civ2civ3/game.ruleset:1050
+#: data/sandbox/game.ruleset:1211 data/civ2civ3/game.ruleset:1054
 #, no-c-format
 msgid "Your nation is the first to reach 100% literacy!"
 msgstr "Kansasi on ensimmäisenä saavuttanut 100% lukutaidon!"
 
-#: data/sandbox/game.ruleset:1208 data/civ2civ3/game.ruleset:1052
+#: data/sandbox/game.ruleset:1213 data/civ2civ3/game.ruleset:1056
 #, no-c-format
 msgid "Your nation has reached 100% literacy!"
 msgstr "Kansasi on saavuttanut 100% lukutaidon!"
 
-#: data/sandbox/game.ruleset:1211 data/civ2civ3/game.ruleset:1055
+#: data/sandbox/game.ruleset:1216 data/civ2civ3/game.ruleset:1059
 msgid "Multicultural"
 msgstr "Monikulttuurinen"
 
-#: data/sandbox/game.ruleset:1216 data/civ2civ3/game.ruleset:1060
+#: data/sandbox/game.ruleset:1221 data/civ2civ3/game.ruleset:1064
 msgid ""
 "You're the first nation with a city containing 2 different nationalities!"
 msgstr ""
 "Olette ensimmäisiä, joilla on kaupunki jossa on kahta eri kansalaisuutta!"
 
-#: data/sandbox/game.ruleset:1217 data/civ2civ3/game.ruleset:1061
+#: data/sandbox/game.ruleset:1222 data/civ2civ3/game.ruleset:1065
 msgid "One of your cities has 2 different nationalities!"
 msgstr "Yhdessä kaupungissasi on kahta eri kansalaisuutta!"
 
-#: data/sandbox/game.ruleset:1220 data/civ2civ3/game.ruleset:1064
+#: data/sandbox/game.ruleset:1225 data/civ2civ3/game.ruleset:1068
 msgid "Metropolis"
 msgstr "Metropoli"
 
-#: data/sandbox/game.ruleset:1225 data/civ2civ3/game.ruleset:1069
+#: data/sandbox/game.ruleset:1230 data/civ2civ3/game.ruleset:1073
 msgid "Your nation is the first with a city of population 20!"
 msgstr "Yksi kaupungeistasi saavuttaa ensimmäisenä maailmassa koon 20!"
 
-#: data/sandbox/game.ruleset:1226 data/civ2civ3/game.ruleset:1070
+#: data/sandbox/game.ruleset:1231 data/civ2civ3/game.ruleset:1074
 msgid "One of your cities has reached population 20!"
 msgstr "Yksi kaupungeistasi on saavuttanut koon 20!"
 
-#: data/sandbox/game.ruleset:1229 data/civ2civ3/game.ruleset:1073
+#: data/sandbox/game.ruleset:1234 data/civ2civ3/game.ruleset:1077
 msgid "Cultured City"
 msgstr "Kulttuurikaupunki"
 
-#: data/sandbox/game.ruleset:1234 data/civ2civ3/game.ruleset:1078
+#: data/sandbox/game.ruleset:1239 data/civ2civ3/game.ruleset:1082
 msgid "Your nation is the first with a city of 1000 culture points!"
 msgstr ""
 "Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut "
 "kaupunki maailmassa!"
 
-#: data/sandbox/game.ruleset:1235 data/civ2civ3/game.ruleset:1079
+#: data/sandbox/game.ruleset:1240 data/civ2civ3/game.ruleset:1083
 msgid "One of your cities has 1000 culture points!"
 msgstr "Yksi kaupungeistasi on saavuttanut 1000 kulttuuripistettä!"
 
-#: data/sandbox/game.ruleset:1238 data/civ2civ3/game.ruleset:1082
+#: data/sandbox/game.ruleset:1243 data/civ2civ3/game.ruleset:1086
 msgid "Cultured Nation"
 msgstr "Kulttuurivaltio"
 
-#: data/sandbox/game.ruleset:1242 data/civ2civ3/game.ruleset:1086
+#: data/sandbox/game.ruleset:1247 data/civ2civ3/game.ruleset:1090
 msgid "Your nation is the first one to achieve 10000 culture points!"
 msgstr "Valtiosi on ensimmäinen 10000 kultturipistettä saavuttanut valtio!"
 
-#: data/sandbox/game.ruleset:1243 data/civ2civ3/game.ruleset:1087
+#: data/sandbox/game.ruleset:1248 data/civ2civ3/game.ruleset:1091
 msgid "Your nation has achieved 10000 culture points!"
 msgstr "Valtiosi on saavuttanut 10000 kulttuuripistettä!"
 
-#: data/sandbox/game.ruleset:1315
+#: data/sandbox/game.ruleset:1320
 msgid "Wares"
 msgstr "Tuotteet"
 
-#: data/sandbox/game.ruleset:1339
+#: data/sandbox/game.ruleset:1344
 msgid "Jewelry"
 msgstr "Korut"
 
-#: data/sandbox/game.ruleset:1349
+#: data/sandbox/game.ruleset:1354
 msgid "Ore"
 msgstr "Malmi"
 
-#: data/sandbox/game.ruleset:1357
+#: data/sandbox/game.ruleset:1362
 msgid "Metal"
 msgstr "Metalli"
 
-#: data/sandbox/game.ruleset:1378
+#: data/sandbox/game.ruleset:1383
 msgid "Equipment"
 msgstr "Välineistö"
 
@@ -26348,7 +26353,7 @@ msgid "Travertine Terraces"
 msgstr "Marmoritasanteet"
 
 #: data/sandbox/script.lua:211 data/civ2civ3/script.lua:193
-#: data/alien/terrain.ruleset:1179
+#: data/alien/terrain.ruleset:1183
 msgid "Thermal Vent"
 msgstr "Hydroterminen purkausaukko"
 
@@ -26659,7 +26664,7 @@ msgstr "LähdeLaskuvarjohyppyyn"
 msgid "DiplomatDefense"
 msgstr "DiplomaattiPuolustus"
 
-#: data/sandbox/terrain.ruleset:469 data/civ2civ3/terrain.ruleset:468
+#: data/sandbox/terrain.ruleset:473 data/civ2civ3/terrain.ruleset:472
 msgid ""
 "Rivers bring fertile soil to deserts; on a desert river not already "
 "benefiting from an oasis, building irrigation will yield two extra food "
@@ -26670,7 +26675,7 @@ msgstr ""
 "kastelujärjestelmä tuottaa kaksi pistettä lisää ruokaa tavallisen yhden "
 "sijaan."
 
-#: data/sandbox/terrain.ruleset:609 data/civ2civ3/terrain.ruleset:608
+#: data/sandbox/terrain.ruleset:613 data/civ2civ3/terrain.ruleset:612
 msgid ""
 "Cities built in hills are at risk of earthquakes, which can interrupt a "
 "city's current project."
@@ -26678,7 +26683,7 @@ msgstr ""
 "Kukkuloille rakennettuihin kaupunkeihin voi iskeä maanjäristys, joka "
 "keskeyttää kaupungin senhetkisen rakennusprojektin."
 
-#: data/sandbox/terrain.ruleset:655 data/civ2civ3/terrain.ruleset:654
+#: data/sandbox/terrain.ruleset:659 data/civ2civ3/terrain.ruleset:658
 msgid ""
 "Jungles are densely overgrown, making agriculture somewhat problematic. Big "
 "Land units may not move into jungle without a road."
@@ -26687,7 +26692,7 @@ msgstr ""
 "ongelmallista. Järeät maayksiköt eivät voi kulkea viidakossa mikäli siellä "
 "ei ole tietä."
 
-#: data/sandbox/terrain.ruleset:703 data/civ2civ3/terrain.ruleset:702
+#: data/sandbox/terrain.ruleset:707 data/civ2civ3/terrain.ruleset:706
 msgid ""
 "Land units that move into mountains can see an extra space, but a fast land "
 "unit ending its turn in mountains without a road will start its next turn "
@@ -26699,7 +26704,7 @@ msgstr ""
 "kierroksen yhtä liikepistettä vähemmällä kuin tavallisesti. Järeät "
 "maayksiköt eivät voi kulkea vuorilla, jollei siellä ole tietä."
 
-#: data/sandbox/terrain.ruleset:797 data/civ2civ3/terrain.ruleset:796
+#: data/sandbox/terrain.ruleset:801 data/civ2civ3/terrain.ruleset:800
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic. Big Land units may not move in swamps without a road."
@@ -26707,23 +26712,23 @@ msgstr ""
 "Suot ovat liian märkiä tuottoisaan viljelyyn. Järeät maayksiköt eivät voi "
 "liikkua tiettömällä suolla."
 
-#: data/sandbox/terrain.ruleset:1009 data/civ2civ3/terrain.ruleset:1008
+#: data/sandbox/terrain.ruleset:1013 data/civ2civ3/terrain.ruleset:1012
 msgid "?gui_type:Build Fort/Fortress/Buoy"
 msgstr "Rakenna linnaka, linnoitus tai poiju"
 
-#: data/sandbox/terrain.ruleset:1010 data/civ2civ3/terrain.ruleset:1009
+#: data/sandbox/terrain.ruleset:1014 data/civ2civ3/terrain.ruleset:1013
 msgid "?gui_type:Build Airstrip/Airbase"
 msgstr "Rakenna kiitorata tai lentotukikohta"
 
-#: data/sandbox/terrain.ruleset:1187 data/civ2civ3/terrain.ruleset:1186
+#: data/sandbox/terrain.ruleset:1191 data/civ2civ3/terrain.ruleset:1190
 msgid "Oil Platform"
 msgstr "porauspiste"
 
-#: data/sandbox/terrain.ruleset:1258
+#: data/sandbox/terrain.ruleset:1262
 msgid "Hermit's Place"
 msgstr "erakon maja"
 
-#: data/sandbox/terrain.ruleset:1278
+#: data/sandbox/terrain.ruleset:1282
 #, no-c-format
 msgid ""
 "One can explore Hermit's Places once the philosopher has abandoned them. In "
@@ -26737,11 +26742,11 @@ msgstr ""
 "tutkimushinnasta. Vuoden 1000 jälkeen kokonaisten uusien teknologioiden "
 "keksiminen on mahdotonta yksittäisille erakoille."
 
-#: data/sandbox/terrain.ruleset:1329 data/civ2civ3/terrain.ruleset:1299
+#: data/sandbox/terrain.ruleset:1333 data/civ2civ3/terrain.ruleset:1303
 msgid "Fort"
 msgstr "linnake"
 
-#: data/sandbox/terrain.ruleset:1355 data/civ2civ3/terrain.ruleset:1325
+#: data/sandbox/terrain.ruleset:1359 data/civ2civ3/terrain.ruleset:1329
 #, no-c-format
 msgid ""
 "Forts are rapidly-built fortifications providing some defense (+50%) against "
@@ -26751,7 +26756,7 @@ msgstr ""
 "puolustusbonuksen maayksiköiden ja laivojen hyökkäyksiä vastaan. Linnake "
 "tarvitaan ennen kuin paikalle voidaan rakentaa täysimittainen linnoitus."
 
-#: data/sandbox/terrain.ruleset:1389 data/civ2civ3/terrain.ruleset:1358
+#: data/sandbox/terrain.ruleset:1393 data/civ2civ3/terrain.ruleset:1362
 msgid ""
 "Fortresses are more permanent forts; construction on them can only begin "
 "once the underlying fort is complete. Forts on River tiles cannot be "
@@ -26761,7 +26766,7 @@ msgstr ""
 "aloittaa ennen kuin paikalle on rakennettu pohjaksi linnake. Jokiruutujen "
 "linnakkeita ei voi laajentaa linnoituksiksi."
 
-#: data/sandbox/terrain.ruleset:1395 data/civ2civ3/terrain.ruleset:1364
+#: data/sandbox/terrain.ruleset:1399 data/civ2civ3/terrain.ruleset:1368
 #, no-c-format
 msgid ""
 "Compared to a fort, units in a fortress receive extra defense (+50%) against "
@@ -26777,7 +26782,7 @@ msgstr ""
 "kaupungin lähellä. Maayksiköt, jotka pysyvät liikkumattomina linnoituksessa "
 "kierroksen ajan, paranevat neljänneksen osumapisteitään."
 
-#: data/sandbox/terrain.ruleset:1401 data/civ2civ3/terrain.ruleset:1370
+#: data/sandbox/terrain.ruleset:1405 data/civ2civ3/terrain.ruleset:1374
 msgid ""
 "With Astronomy, fortresses gain watchtowers from which units can see further "
 "afield."
@@ -26785,11 +26790,11 @@ msgstr ""
 "Astronomian tuntemuksen myötä linnoituksissa voidaan käyttää "
 "tähystystorneja, joista yksiköt näkevät kauemmas."
 
-#: data/sandbox/terrain.ruleset:1407 data/civ2civ3/terrain.ruleset:1376
+#: data/sandbox/terrain.ruleset:1411 data/civ2civ3/terrain.ruleset:1380
 msgid "Airstrip"
 msgstr "Kiitotie"
 
-#: data/sandbox/terrain.ruleset:1431 data/civ2civ3/terrain.ruleset:1400
+#: data/sandbox/terrain.ruleset:1435 data/civ2civ3/terrain.ruleset:1404
 msgid ""
 "Airstrips are rapidly-built runways allowing air units to land, refuel, and "
 "recover; an aircraft remaining on an airstrip for a whole turn without "
@@ -26804,7 +26809,7 @@ msgstr ""
 "ilmassa). Kiitoradalla olevat ilmayksiköt ovat kuitenkin maayksiköidenkin "
 "hyökkäysten armoilla."
 
-#: data/sandbox/terrain.ruleset:1439 data/civ2civ3/terrain.ruleset:1408
+#: data/sandbox/terrain.ruleset:1443 data/civ2civ3/terrain.ruleset:1412
 #, no-c-format
 msgid ""
 "Any units on an airstrip receive extra defense (+50%) against enemy aircraft."
@@ -26812,13 +26817,13 @@ msgstr ""
 "Kiitotiellä olevilla yksiköillä on 50% puolustusbonus vihollisen "
 "lentokoneiden hyökkäyksiä vastaan."
 
-#: data/sandbox/terrain.ruleset:1442 data/civ2civ3/terrain.ruleset:1411
+#: data/sandbox/terrain.ruleset:1446 data/civ2civ3/terrain.ruleset:1415
 msgid "An airstrip is necessary to start building an airbase."
 msgstr ""
 "Kiitotie tarvitaan ennen kuin ruutuun voidaan alkaa rakentamaan "
 "lentotukikohtaa."
 
-#: data/sandbox/terrain.ruleset:1473 data/civ2civ3/terrain.ruleset:1441
+#: data/sandbox/terrain.ruleset:1477 data/civ2civ3/terrain.ruleset:1445
 msgid ""
 "Airbases are more permanent airstrips; construction on them can only begin "
 "once the underlying airstrip is complete. Airstrips on River tiles cannot be "
@@ -26828,7 +26833,7 @@ msgstr ""
 "rakentaminen voidaan aloittaa vasta kun paikalla on jo kiitotie. "
 "Jokiruutujen kiitoteitä ei voi päivittää lentotukikohdaksi."
 
-#: data/sandbox/terrain.ruleset:1479 data/civ2civ3/terrain.ruleset:1447
+#: data/sandbox/terrain.ruleset:1483 data/civ2civ3/terrain.ruleset:1451
 #, no-c-format
 msgid ""
 "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
@@ -26845,13 +26850,13 @@ msgstr ""
 "nopeammin (kolmanneksen kierroksessa, saman määrän kuin lentokentättömässä "
 "kaupungissa)."
 
-#: data/sandbox/terrain.ruleset:1513
+#: data/sandbox/terrain.ruleset:1517
 msgid ""
 "Only those players that already know Radio can see Buoys of any players."
 msgstr ""
 "Vain ne pelaajat, jotka tuntevat radion, voivat nähdä kenenkään poijuja."
 
-#: data/sandbox/terrain.ruleset:1567
+#: data/sandbox/terrain.ruleset:1571
 msgid ""
 "Roads allow your land units to move more quickly, allow wheeled Big Land "
 "units such as Chariots and Catapults to travel through otherwise difficult "
@@ -26864,11 +26869,11 @@ msgstr ""
 "viidakossa tai suolla. Kaupankäyntiyksiköt, eli karavaanit ja rekka-autot, "
 "voivat kulkea vain teitä, rautateitä ja jokia pitkin tai laivan kyydissä."
 
-#: data/sandbox/terrain.ruleset:1573 data/civ2civ3/terrain.ruleset:1535
+#: data/sandbox/terrain.ruleset:1577 data/civ2civ3/terrain.ruleset:1539
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr "Joillakin maastotyypeillä tiet antavat bonuksen myös kauppaan."
 
-#: data/sandbox/terrain.ruleset:1575 data/civ2civ3/terrain.ruleset:1537
+#: data/sandbox/terrain.ruleset:1579 data/civ2civ3/terrain.ruleset:1541
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (even on a river tile)."
@@ -26877,7 +26882,7 @@ msgstr ""
 "Kaupungin keskusruudut saavat tiet aina automaattisesti, jopa silloin kun "
 "sillanrakennusta ei tunneta."
 
-#: data/sandbox/terrain.ruleset:1606 data/civ2civ3/terrain.ruleset:1568
+#: data/sandbox/terrain.ruleset:1610 data/civ2civ3/terrain.ruleset:1572
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
@@ -26886,12 +26891,12 @@ msgstr ""
 "rautatiet. Liikkuminen rautatietä pitkin on huomattavasti nopeampaa kuin "
 "tietä pitkin."
 
-#: data/sandbox/terrain.ruleset:1620 data/civ2civ3/terrain.ruleset:1582
-#: data/alien/techs.ruleset:430 data/alien/terrain.ruleset:987
+#: data/sandbox/terrain.ruleset:1624 data/civ2civ3/terrain.ruleset:1586
+#: data/alien/techs.ruleset:430 data/alien/terrain.ruleset:991
 msgid "Maglev"
 msgstr "Maglev"
 
-#: data/sandbox/terrain.ruleset:1644 data/civ2civ3/terrain.ruleset:1606
+#: data/sandbox/terrain.ruleset:1648 data/civ2civ3/terrain.ruleset:1610
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land and Small Land units expend no movement points "
@@ -26902,7 +26907,7 @@ msgstr ""
 "eivät kuluta liikepisteitä kulkiessaan maglevillä, niitä pitkin voi liikkua "
 "rajattomasti (pätee myös niitä käyttäviin vihollisiin!)"
 
-#: data/sandbox/terrain.ruleset:1649 data/civ2civ3/terrain.ruleset:1611
+#: data/sandbox/terrain.ruleset:1653 data/civ2civ3/terrain.ruleset:1615
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land and Merchant "
 "units for which the maglev system is unsuitable, and they continue to "
@@ -26913,7 +26918,7 @@ msgstr ""
 "kuljettaminen tapahtuu tavallisia rautateitä käyttäen. Rautatiet jatkavat "
 "myös tuotanto- ja kauppabonustensa tarjoamisen."
 
-#: data/sandbox/terrain.ruleset:1653 data/civ2civ3/terrain.ruleset:1615
+#: data/sandbox/terrain.ruleset:1657 data/civ2civ3/terrain.ruleset:1619
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
@@ -26921,7 +26926,7 @@ msgstr ""
 "Kaupunkien keskusruudut, joissa on jo rautatie, saavat maglevit "
 "automaattisesti kun suprajohteet teknologia opitaan."
 
-#: data/sandbox/terrain.ruleset:1675 data/civ2civ3/terrain.ruleset:1637
+#: data/sandbox/terrain.ruleset:1679 data/civ2civ3/terrain.ruleset:1641
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
@@ -26931,7 +26936,7 @@ msgstr ""
 "Kaikkien maaruutujen läpi voi virrata joki. Joki lisää ruudun tuottamaa "
 "kauppaa yhden yksikön verran. Se myös nostaa ruudun puolustuskerrointa 25%."
 
-#: data/sandbox/terrain.ruleset:1679
+#: data/sandbox/terrain.ruleset:1683
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
@@ -26943,7 +26948,7 @@ msgstr ""
 "autot, voivat teiden puutteessa kulkea jokia pitkin. Kaleerit, toisin kuin "
 "myöhemmät alukset, voivat myös kulkea jokia pitkin."
 
-#: data/sandbox/terrain.ruleset:1684 data/civ2civ3/terrain.ruleset:1644
+#: data/sandbox/terrain.ruleset:1688 data/civ2civ3/terrain.ruleset:1648
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
@@ -26953,7 +26958,7 @@ msgstr ""
 "sivilisaatiosi on oppinut sillanrakennustaidon. Linnoituksia ja "
 "lentotukikohtia ei voida rakentaa jokiruutuihin."
 
-#: data/sandbox/terrain.ruleset:1688 data/civ2civ3/terrain.ruleset:1648
+#: data/sandbox/terrain.ruleset:1692 data/civ2civ3/terrain.ruleset:1652
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
@@ -27687,7 +27692,7 @@ msgstr ""
 "Tarkat erot klassisiin sääntöihin nähden on selitetty tiedostossa README."
 "civ2civ3."
 
-#: data/civ2civ3/terrain.ruleset:1531
+#: data/civ2civ3/terrain.ruleset:1535
 msgid ""
 "Roads allow your land units to move more quickly, and allow wheeled Big Land "
 "units such as Chariots and Catapults to travel through otherwise difficult "
@@ -27698,7 +27703,7 @@ msgstr ""
 "pitkin niille muuten kulkukelvottomassa maastossa, kuten vuorilla, "
 "viidakossa tai suolla."
 
-#: data/civ2civ3/terrain.ruleset:1641
+#: data/civ2civ3/terrain.ruleset:1645
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally). "
 "Triremes may also travel up rivers (although later boats cannot)."
@@ -28147,47 +28152,45 @@ msgstr "Kopioi tutkimus%sdata%s"
 msgid "Monetize %sContainers%s"
 msgstr "Myy %skollit%s"
 
-#: data/alien/game.ruleset:689
+#: data/alien/game.ruleset:693
 msgid "Q1"
 msgstr "Kausi 1"
 
-#: data/alien/game.ruleset:690
+#: data/alien/game.ruleset:694
 msgid "Q2"
 msgstr "Kausi 2"
 
-#: data/alien/game.ruleset:691
+#: data/alien/game.ruleset:695
 msgid "Q3"
 msgstr "Kausi 3"
 
-#: data/alien/game.ruleset:692
+#: data/alien/game.ruleset:696
 msgid "Q4"
 msgstr "Kausi 4"
 
-#: data/alien/game.ruleset:695
+#: data/alien/game.ruleset:699
 msgid "GE"
 msgstr "ga"
 
-#: data/alien/game.ruleset:696
+#: data/alien/game.ruleset:700
 msgid "BGE"
 msgstr "ega"
 
-#: data/alien/game.ruleset:728
+#: data/alien/game.ruleset:732
 msgid "Radiation Burst"
 msgstr "Säteilypurske"
 
-#: data/alien/game.ruleset:733
+#: data/alien/game.ruleset:737
 msgid "Rebels"
 msgstr "Kapinallisia"
 
-#: data/alien/game.ruleset:738
+#: data/alien/game.ruleset:742
 msgid "Alien Microbes"
 msgstr "Vieraita mikrobeja"
 
-#: data/alien/game.ruleset:838
-#, fuzzy
-#| msgid "Cities"
+#: data/alien/game.ruleset:842
 msgid "Commodities"
-msgstr "Kaupungit"
+msgstr "Tuotteet"
 
 #: data/alien/governments.ruleset:68
 msgid "Anarchy happens between government changes."
@@ -28309,8 +28312,7 @@ msgstr "%s löysivät datakapselin, jossa oli teknologian %s tiedot."
 
 #. TRANS: first %s is leader or team name
 #: data/alien/script.lua:45
-#, fuzzy, c-format
-#| msgid "The %s have acquired %s from Space Capsule they found."
+#, c-format
 msgid "%s has acquired %s from Space Capsule they found."
 msgstr "%s ovat oppineet teknologian %s avaruuskapselista."
 
@@ -28455,6 +28457,11 @@ msgid ""
 " In addition to making first burrowing units available, knowledge of this "
 "tech allows mining of Thick Mountains."
 msgstr ""
+"Koska lentäminen näyttää olevan mahdotonta tässä maailmassa, keskitymme "
+"päinvastaiseen suuntaan. Maan läpi kaivautuminen on mahdollista.\n"
+"\n"
+"Sen lisäksi että tämä teknologia tekee ensimmäiset kaivautuvat yksiköt "
+"mahdollisiksi, tämä teknologia mahdollistaa kaivokset tiiviillä vuorilla."
 
 #: data/alien/techs.ruleset:178
 msgid "Brain Development"
@@ -28477,6 +28484,8 @@ msgid ""
 "Advanced form of force channeling allows us to protect city size objects "
 "with channeled radiation energy."
 msgstr ""
+"Editynyt voiman kanavointi mahdollistaa kaupungin kokoisten kohteiden "
+"suojelemisen säteilyenergian kanavoimisella."
 
 #: data/alien/techs.ruleset:205
 msgid "Commercial Antigravity"
@@ -28520,6 +28529,8 @@ msgid ""
 "Bugs, Slimes, Molds. We can drive masses of them together and then control "
 "movement of that biomass to act like a one being."
 msgstr ""
+"Ötökät, limat, homeet. Voimme pakottaa niitä joukoittain yhteen ja sitten "
+"ohjata syntyneen biomassan liikkeitä kuin se olisi yksi olento."
 
 #: data/alien/techs.ruleset:247
 #, fuzzy
@@ -28549,6 +28560,8 @@ msgstr "Kybermodulit"
 msgid ""
 "Standardized cyber units save money - or make money to those producing them."
 msgstr ""
+"Standardoidut kyberosat säästävät rahaa - ja tuottavat sitä niiden "
+"valmistajalle."
 
 #: data/alien/techs.ruleset:275
 msgid "Cybernetics"
@@ -28597,6 +28610,8 @@ msgstr "Tuplatut valtiomuodot"
 #: data/alien/techs.ruleset:321
 msgid "Government should consider both Humans and Native aliens."
 msgstr ""
+"Hallinnon pitäisi huomioida sekä ihmisten että luontaisten elämänmuotojen "
+"tarpeet."
 
 #: data/alien/techs.ruleset:331
 msgid ""
@@ -29124,22 +29139,22 @@ msgstr "Säteilevä"
 msgid "Terrain has alien radiation."
 msgstr "Maastossa on outoa säteilyä."
 
-#: data/alien/terrain.ruleset:242
+#: data/alien/terrain.ruleset:246
 msgid "No unit can enter this terrain, nor can city work the tile."
 msgstr ""
 "Yksikään yksikkö ei voi kulkea tässä maastossa, eivätkä kaupungit voi "
 "käyttää ruutua."
 
-#: data/alien/terrain.ruleset:284
+#: data/alien/terrain.ruleset:288
 msgid "For some reason, there is Earth like grass and animals around."
 msgstr ""
 "Jostakin syystä täällä on aivan samanlaista ruovikkoa ja eläimiä kuin maassa."
 
-#: data/alien/terrain.ruleset:289
+#: data/alien/terrain.ruleset:293
 msgid "Alien Forest"
 msgstr "Outo metsä"
 
-#: data/alien/terrain.ruleset:326
+#: data/alien/terrain.ruleset:330
 msgid ""
 "These forests are filled with strange alien organisms. This planet's "
 "radiation makes it impossible for Earthly organisms to survive here.\n"
@@ -29148,26 +29163,26 @@ msgid ""
 "Alien Rights gives +1 production bonus to Alien Forest tiles."
 msgstr ""
 
-#: data/alien/terrain.ruleset:334
+#: data/alien/terrain.ruleset:338
 msgid "Radiating Rocks"
 msgstr "Säteilevä kivikko"
 
-#: data/alien/terrain.ruleset:371
+#: data/alien/terrain.ruleset:375
 msgid ""
 "Planet's radiation makes it impossible for Earth organisms to survive here.\n"
 "\n"
 "Cities can work these tiles only when Organic Structures is known."
 msgstr ""
 
-#: data/alien/terrain.ruleset:414
+#: data/alien/terrain.ruleset:418
 msgid "Hills just like on Earth."
 msgstr "Samanlaisia kukkuloita kuin kotona Maassa."
 
-#: data/alien/terrain.ruleset:419
+#: data/alien/terrain.ruleset:423
 msgid "Thick Mountains"
 msgstr "Tiiviit vuoret"
 
-#: data/alien/terrain.ruleset:454
+#: data/alien/terrain.ruleset:458
 msgid ""
 "What are these mountains made of?!? Diamond drill makes no scratch on them.\n"
 "\n"
@@ -29175,15 +29190,15 @@ msgid ""
 "Burrowing technology makes mining them possible."
 msgstr ""
 
-#: data/alien/terrain.ruleset:497
+#: data/alien/terrain.ruleset:501
 msgid "This is normal oceanic terrain."
 msgstr "Tämä on tavallista merta."
 
-#: data/alien/terrain.ruleset:502
+#: data/alien/terrain.ruleset:506
 msgid "Boiling Ocean"
 msgstr "Kiehuva meri"
 
-#: data/alien/terrain.ruleset:538
+#: data/alien/terrain.ruleset:542
 msgid ""
 "This ocean is boiling. No ship without special equipment can enter.\n"
 "\n"
@@ -29195,11 +29210,11 @@ msgstr ""
 "Kaupungit voivat käyttää näitä ruutuja vasta kun lämmönhallintamoduli "
 "tunnetaan, eikä kaupunkia voi koskaan sijoittaa kiehuvalle merelle."
 
-#: data/alien/terrain.ruleset:725
+#: data/alien/terrain.ruleset:729
 msgid "Greenhouses"
 msgstr "Kasvihuoneita"
 
-#: data/alien/terrain.ruleset:741
+#: data/alien/terrain.ruleset:745
 msgid ""
 "Greenhouses can be built on certain terrain types only. In addition to that "
 "tile has to have one of the following water sources:\n"
@@ -29210,11 +29225,11 @@ msgid ""
 "- Deep Pumping technology enables building Greenhouses anywhere."
 msgstr ""
 
-#: data/alien/terrain.ruleset:787
+#: data/alien/terrain.ruleset:791
 msgid "Space Capsule"
 msgstr "Avaruuskapseli"
 
-#: data/alien/terrain.ruleset:802
+#: data/alien/terrain.ruleset:806
 msgid ""
 "Space Capsules have landed to the surface of Deneb Seven's Any unit can "
 "enter tile with a capsule to open it. Capsule disappears from the map in the "
@@ -29224,23 +29239,23 @@ msgid ""
 "the capsule, and are there ready to kill anybody who enters."
 msgstr ""
 
-#: data/alien/terrain.ruleset:813
+#: data/alien/terrain.ruleset:817
 msgid "Protein Houses"
 msgstr "Proteiinihuoneita"
 
-#: data/alien/terrain.ruleset:854
+#: data/alien/terrain.ruleset:858
 msgid "Tower"
 msgstr "Torni"
 
-#: data/alien/terrain.ruleset:880
+#: data/alien/terrain.ruleset:884
 msgid "Force Fortress"
 msgstr "Voimalinnoitus"
 
-#: data/alien/terrain.ruleset:905
+#: data/alien/terrain.ruleset:909
 msgid "Antigrav Base"
 msgstr "Antigravitaatiotukikohta"
 
-#: data/alien/terrain.ruleset:952
+#: data/alien/terrain.ruleset:956
 msgid ""
 "Basic Road is available for building from the beginning of the game.\n"
 "\n"
@@ -29250,15 +29265,15 @@ msgstr ""
 "\n"
 "Ruohomaaruuduissa tie antaa yhden pisteen bonuksen kauppaan."
 
-#: data/alien/terrain.ruleset:959
+#: data/alien/terrain.ruleset:963
 msgid "Highway"
 msgstr "Valtatie"
 
-#: data/alien/terrain.ruleset:982
+#: data/alien/terrain.ruleset:986
 msgid "You can upgrade Roads to Highways."
 msgstr "Tavalliset tiet voidaan parantaa valtateiksi."
 
-#: data/alien/terrain.ruleset:1010
+#: data/alien/terrain.ruleset:1014
 #, no-c-format
 msgid ""
 "You can upgrade Highways to Maglevs.\n"
@@ -29271,22 +29286,22 @@ msgstr ""
 "Yksiköt voivat liikkua magleveja pitkin rajattomasti. Maglevit antavat 50% "
 "bonuksen ruudun tuotantoon."
 
-#: data/alien/terrain.ruleset:1018
+#: data/alien/terrain.ruleset:1022
 msgid "Tunnel"
 msgstr "Tunneli"
 
-#: data/alien/terrain.ruleset:1042
+#: data/alien/terrain.ruleset:1046
 #, no-c-format
 msgid ""
 "Earthly units can travel on radiating tiles with tunnel built on them. "
 "Tunnel provides no increase to unit speed, but they give 35% defense bonus."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1048
+#: data/alien/terrain.ruleset:1052
 msgid "Burrow Tube"
 msgstr "Kaivuuputki"
 
-#: data/alien/terrain.ruleset:1069
+#: data/alien/terrain.ruleset:1073
 msgid ""
 "Burrow Tubes provide the only way for burrowing units to cross oceans. They "
 "can be built on oceanic terrains only, but first part of the tube must be "
@@ -29297,11 +29312,11 @@ msgstr ""
 "ensimmäisenä asennettavan pätkän täytyy olla maan rinnalla, ja putket täytyy "
 "asentaa siitä eteenpäin järjestyksessä."
 
-#: data/alien/terrain.ruleset:1077
+#: data/alien/terrain.ruleset:1081
 msgid "Green River"
 msgstr "Vihreä joki"
 
-#: data/alien/terrain.ruleset:1093 data/alien/terrain.ruleset:1117
+#: data/alien/terrain.ruleset:1097 data/alien/terrain.ruleset:1121
 #, fuzzy, no-c-format
 #| msgid ""
 #| "Any land terrain type may have a River on it.  A River adds 1 trade to "
@@ -29317,19 +29332,19 @@ msgstr ""
 "Maavoimien yksiköt voivat kulkea jokea pitkin, mutta eivät kulmittain "
 "olevien jokiruutujen välillä, tavallista nopeammin."
 
-#: data/alien/terrain.ruleset:1096
+#: data/alien/terrain.ruleset:1100
 msgid "Green River increases also tile's food production by 1."
 msgstr "Vihreä joki kasvattaa myös ruudun ruoan tuotantoa yhdellä pisteellä."
 
-#: data/alien/terrain.ruleset:1101
+#: data/alien/terrain.ruleset:1105
 msgid "Brown River"
 msgstr "Ruskea joki"
 
-#: data/alien/terrain.ruleset:1120
+#: data/alien/terrain.ruleset:1124
 msgid "Brown River increases also tile's shield production by 1."
 msgstr "Ruskea joki kasvattaa myös ruudun tuotantoa yhdellä pisteellä."
 
-#: data/alien/terrain.ruleset:1137
+#: data/alien/terrain.ruleset:1141
 #, no-c-format
 msgid ""
 "There is more than avarage amount of various resources, but nothing exciting."
@@ -29337,11 +29352,11 @@ msgstr ""
 "Täällä on keskimääräistä enemmän luonnonvaroja, mutta ei mitään erityisen "
 "mielenkiintoista."
 
-#: data/alien/terrain.ruleset:1143
+#: data/alien/terrain.ruleset:1147
 msgid "Alien Mine"
 msgstr "Avaruusolentojen kaivos"
 
-#: data/alien/terrain.ruleset:1155
+#: data/alien/terrain.ruleset:1159
 #, no-c-format
 msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
@@ -29350,11 +29365,11 @@ msgstr ""
 "Tuntemattomalla teknologialla toimiva kaivos. Meillä ei ole aavistustakaan "
 "kuka laitteet on rakentanut tai minne he ovat menneet."
 
-#: data/alien/terrain.ruleset:1161
+#: data/alien/terrain.ruleset:1165
 msgid "Huge Plant"
 msgstr "Valtava kasvi"
 
-#: data/alien/terrain.ruleset:1173
+#: data/alien/terrain.ruleset:1177
 #, no-c-format
 msgid ""
 "Entire forest seems to be of the single fast-growing organism with huge "
@@ -29363,23 +29378,23 @@ msgstr ""
 "Koko metsä näyttää olevan yhtä ainoaa nopeasti kasvavaa kasvia, jolla on "
 "valtava keskuskukinto."
 
-#: data/alien/terrain.ruleset:1191
+#: data/alien/terrain.ruleset:1195
 #, no-c-format
 msgid "Where the heat from inside the planet escapes, mineral rich hills form."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1209
+#: data/alien/terrain.ruleset:1213
 #, no-c-format
 msgid ""
 "Weird alien fish might look like something escaped from nighmares, but are "
 "in fact very tasty."
 msgstr ""
 
-#: data/alien/terrain.ruleset:1215
+#: data/alien/terrain.ruleset:1219
 msgid "Glowing Rocks"
 msgstr "Hehkuvia kiviä"
 
-#: data/alien/terrain.ruleset:1227
+#: data/alien/terrain.ruleset:1231
 #, no-c-format
 msgid "Rocks in the area have unusually bright glow."
 msgstr "Tämän alueen kivillä on poikkeuksellisen voimakas hehku."
@@ -29442,10 +29457,8 @@ msgid "Engineer"
 msgstr "Teknikko"
 
 #: data/alien/units.ruleset:511
-#, fuzzy
-#| msgid "Show icons in the technology tree"
 msgid "This is Earth technology engineer."
-msgstr "Näytä kuvakkeet teknologiapuussa"
+msgstr "Tämän on maan teknologialla varustettu teknikko."
 
 #: data/alien/units.ruleset:516
 msgid "Native Engineer"
@@ -29806,6 +29819,8 @@ msgstr "hunnit"
 #: data/alien/nation/lunatics.ruleset:8
 msgid "Something drove them crazy, made them escape the society to seas."
 msgstr ""
+"Jokin teki heistä hulluja, ja sai heidät pakenemaan järjestäytynyttä "
+"yhteiskuntaa merille."
 
 #: data/alien/nation/madmen.ruleset:5
 msgid "Madmen"
@@ -34035,163 +34050,163 @@ msgstr ""
 #. TRANS: With this and other color team names, uniqueness is more
 #. TRANS: important than precise translation. To see the colors, start a
 #. TRANS: multiplayer game with 32 players and look at the Nations report.
-#: data/multiplayer/game.ruleset:1021
+#: data/multiplayer/game.ruleset:1025
 msgid "?team name:Red"
 msgstr "Punaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1023
+#: data/multiplayer/game.ruleset:1027
 msgid "?team name:Yellow"
 msgstr "Keltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1025
+#: data/multiplayer/game.ruleset:1029
 msgid "?team name:Blue"
 msgstr "Siniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1027
+#: data/multiplayer/game.ruleset:1031
 msgid "?team name:Purple"
 msgstr "Purppurat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1029
+#: data/multiplayer/game.ruleset:1033
 msgid "?team name:Orange"
 msgstr "Oranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1031
+#: data/multiplayer/game.ruleset:1035
 msgid "?team name:Magenta"
 msgstr "Magentat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1033
+#: data/multiplayer/game.ruleset:1037
 msgid "?team name:Cornflower"
 msgstr "Ruiskaunokinsiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1035
+#: data/multiplayer/game.ruleset:1039
 msgid "?team name:Emerald"
 msgstr "Smaragdinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1037
+#: data/multiplayer/game.ruleset:1041
 msgid "?team name:Salmon"
 msgstr "Lohenpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1039
+#: data/multiplayer/game.ruleset:1043
 msgid "?team name:Green"
 msgstr "Vihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1041
+#: data/multiplayer/game.ruleset:1045
 msgid "?team name:Burgundy"
 msgstr "Burgundinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1043
+#: data/multiplayer/game.ruleset:1047
 msgid "?team name:Pink"
 msgstr "Pinkit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1045
+#: data/multiplayer/game.ruleset:1049
 msgid "?team name:Silver"
 msgstr "Hopeanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1047
+#: data/multiplayer/game.ruleset:1051
 msgid "?team name:Heliotrope"
 msgstr "Auringonkeltaiset"
 
 # Ei jumalauta
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1049
+#: data/multiplayer/game.ruleset:1053
 msgid "?team name:Fuchsia"
 msgstr "Fuksiat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1051
+#: data/multiplayer/game.ruleset:1055
 msgid "?team name:Azure"
 msgstr "Taivaansiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1053
+#: data/multiplayer/game.ruleset:1057
 msgid "?team name:Gold"
 msgstr "Kullanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1055
+#: data/multiplayer/game.ruleset:1059
 msgid "?team name:Khaki"
 msgstr "Khakinruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1057
+#: data/multiplayer/game.ruleset:1061
 msgid "?team name:Butter"
 msgstr "Voinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1059
+#: data/multiplayer/game.ruleset:1063
 msgid "?team name:Mint"
 msgstr "Mintunvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1061
+#: data/multiplayer/game.ruleset:1065
 msgid "?team name:Lime"
 msgstr "Limetinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1063
+#: data/multiplayer/game.ruleset:1067
 msgid "?team name:Peach"
 msgstr "Persikanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1065
+#: data/multiplayer/game.ruleset:1069
 msgid "?team name:Vermilion"
 msgstr "Oranssinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1067
+#: data/multiplayer/game.ruleset:1071
 msgid "?team name:Puce"
 msgstr "Punaisenruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1069
+#: data/multiplayer/game.ruleset:1073
 msgid "?team name:Mustard"
 msgstr "Sinapinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1071
+#: data/multiplayer/game.ruleset:1075
 msgid "?team name:Aubergine"
 msgstr "Munakoisonvioletit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1073
+#: data/multiplayer/game.ruleset:1077
 msgid "?team name:Brown"
 msgstr "Ruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1075
+#: data/multiplayer/game.ruleset:1079
 msgid "?team name:Pumpkin"
 msgstr "Kurpitsanoranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1077
+#: data/multiplayer/game.ruleset:1081
 msgid "?team name:Turquoise"
 msgstr "Turkoosit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1079
+#: data/multiplayer/game.ruleset:1083
 msgid "?team name:Crimson"
 msgstr "Crimsoninpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1081
+#: data/multiplayer/game.ruleset:1085
 msgid "?team name:Lavender"
 msgstr "Laventelit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:1083
+#: data/multiplayer/game.ruleset:1087
 msgid "?team name:Cream"
 msgstr "Kermanväriset"
 
@@ -35917,15 +35932,6 @@ msgstr ""
 "etua tuottamalla kaupungille +50%% luksusta."
 
 #: data/scenarios/tutorial.sav:242
-#, fuzzy
-#| msgid ""
-#| "Finally you have grown a city to size eight.  A size eight city can\n"
-#| "provide substantial output provided you have enough luxuries to keep\n"
-#| "your population content.\n"
-#| "\n"
-#| "To grow a city beyond size eight requires an aqueduct.  If your city is\n"
-#| "going to continue to grow you should start building one soon.  Building\n"
-#| "an aqueduct requires the Construction technology."
 msgid ""
 "Finally you have grown a city to size eight.  A size eight city can\n"
 "provide substantial output provided you have enough luxuries to keep\n"
@@ -35943,20 +35949,15 @@ msgstr ""
 "Kaupungin koon kasvattaminen kahdeksaa suuremmaksi vaatii vesijohdon.\n"
 "Jos kaupunkisi jatkaa kasvamistaan, sinun pitäisi pian aloittaa\n"
 "Vesijohdon rakentaminen. Tätä varten tarvitset edistysaskeleen\n"
-"Rakennustaito."
+"Rakennustaito, paitsi jos kaupungit vieressä on järvi tai joki."
 
 #: data/scenarios/tutorial.sav:246
-#, fuzzy
-#| msgid ""
-#| "You have grown a city to size twelve.  To grow\n"
-#| "it larger, however, you will need to build a Sewer System.  This\n"
-#| "requires the Sanitation technology."
 msgid ""
 "You have grown a city to size 16.  To grow\n"
 "it larger, however, you will need to build a Sewer System.  This\n"
 "requires the Sanitation technology."
 msgstr ""
-"Olet kasvattanut kaupungin kokoon 12. Jotta kaupunki voisi kasvaa\n"
+"Olet kasvattanut kaupungin kokoon 16. Jotta kaupunki voisi kasvaa\n"
 "suuremmaksi, sinun on rakennettava Viemäriverkosto, mikä puolestaan\n"
 "vaatii edistysaskeleen Puhtaanapito."
 
@@ -36113,17 +36114,6 @@ msgstr ""
 "ylläpitokin maksaa hieman, sitä ei kannata haaskata."
 
 #: data/scenarios/tutorial.sav:327
-#, fuzzy
-#| msgid ""
-#| "Your city cannot build a settler.  Settlers take one unit of\n"
-#| "population to build, so a city of size one cannot build one without\n"
-#| "disbanding the city.\n"
-#| "\n"
-#| "To remedy this, you need to adjust the citizens in the city to\n"
-#| "provide more food so as to grow the city faster.  Cities that\n"
-#| "do not have much food should not try to build settlers.  When\n"
-#| "founding a new city, make sure it is built on terrain that provides\n"
-#| "enough food - grassland is best; plains or hills are almost as good."
 msgid ""
 "Your city cannot build a settler.  Settlers take two units of\n"
 "population to build, so a city of size one or two cannot build one without\n"
@@ -36135,8 +36125,9 @@ msgid ""
 "founding a new city, make sure it is built on terrain that provides\n"
 "enough food - grassland is best; plains or hills are almost as good."
 msgstr ""
-"Kaupunkisi ei voi rakentaa uudisraivaajia: ne vaativat yhden\n"
-"väestöyksikön syntyäkseen, joten kaupunki, jonka koko on vain yksi,\n"
+"Kaupunkisi ei voi rakentaa uudisraivaajia: ne vaativat kaksi\n"
+"väestöyksikköä syntyäkseen, joten kaupunki, jonka koko on vain yksi tai "
+"kaksi,\n"
 "ei voi rakentaa uudisraivaajaa lakkauttamatta koko kaupunkia.\n"
 "\n"
 "Hätä ei ole tämän näköinen – uudelleenjärjestele kaupungin työläinen\n"
@@ -36281,42 +36272,36 @@ msgid "?vertag:stable"
 msgstr "vakaa"
 
 #: translations/Strings.txt:13
-#, fuzzy
-#| msgid "?vertag:win32"
 msgid "?vertag:windows"
-msgstr "win32"
+msgstr "windows"
 
 #: translations/Strings.txt:14
 msgid "?vertag:win32"
 msgstr "win32"
 
 #: translations/Strings.txt:15
-#, fuzzy
-#| msgid "?vertag:S2_5"
 msgid "?vertag:S3_0"
-msgstr "S2_5"
+msgstr "S3_0"
 
 #: translations/Strings.txt:16
 #, fuzzy
-#| msgid "?vertag:S2_5"
+#| msgid "?vertag:S3_0"
 msgid "?vertag:S3_1"
-msgstr "S2_5"
+msgstr "S3_0"
 
 #: translations/Strings.txt:17
 msgid "?vertag:crosser"
 msgstr "crosser"
 
 #: translations/Strings.txt:18
-#, fuzzy
-#| msgid "?vertag:win32-S2_6"
 msgid "?vertag:windows-S3_0"
-msgstr "win32-S2_6"
+msgstr "windows-S3_0"
 
 #: translations/Strings.txt:19
 #, fuzzy
-#| msgid "?vertag:win32-S2_6"
+#| msgid "?vertag:windows-S3_0"
 msgid "?vertag:windows-S3_1"
-msgstr "win32-S2_6"
+msgstr "windows-S3_0"
 
 #. TRANS: part of revision based version number string
 #. "(modified r25000)"
@@ -36351,15 +36336,12 @@ msgstr "Opastiedoston %s kirjoittaminen epäonnistui."
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:252
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s server options</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s server options (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s -palvelimen asetukset</h1>\n"
+"%sFreeciv %s -palvelimen asetukset (%s)%s\n"
 "\n"
 
 #: tools/civmanual.c:273
@@ -36404,28 +36386,22 @@ msgid "Possible values (option can take any number of these):"
 msgstr "Mahdolliset arvot (mitkä tahansa seuraavista):"
 
 #: tools/civmanual.c:331
-#, fuzzy, c-format
-#| msgid ""
-#| "<p class=\"changed\">Value set to %s</p>\n"
-#| "\n"
+#, c-format
 msgid ""
 "\n"
 "<p class=\"changed\">Value set to %s</p>\n"
 msgstr ""
-"<p class=\"changed\">Arvoksi asetettu %s</p>\n"
 "\n"
+"<p class=\"changed\">Arvoksi asetettu %s</p>\n"
 
 #. TRANS: markup ... Freeciv version ... markup
 #: tools/civmanual.c:341
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s server commands</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s server commands%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s palvelinkomennot</h1>\n"
+"%sFreeciv %s palvelinkomennot%s\n"
 "\n"
 
 #: tools/civmanual.c:355
@@ -36442,14 +36418,9 @@ msgstr ""
 "<td>"
 
 #: tools/civmanual.c:360
-#, fuzzy, c-format
-#| msgid ""
-#| "<p class=\"level\">Level: %s</p>\n"
-#| "\n"
+#, c-format
 msgid "<p class=\"level\">Level: %s</p>\n"
-msgstr ""
-"<p class=\"level\">Taso: %s</p>\n"
-"\n"
+msgstr "<p class=\"level\">Taso: %s</p>\n"
 
 #: tools/civmanual.c:370
 #, c-format
@@ -36462,15 +36433,12 @@ msgstr ""
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:382
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s terrain help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s terrain help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s maastotyyppiohje</h1>\n"
+"%sFreeciv %s maastotyyppiohje (%s)%s\n"
 "\n"
 
 #: tools/civmanual.c:386
@@ -36508,28 +36476,22 @@ msgstr "mahdotonta"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:496
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s buildings help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s buildings help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s rakennusohje</h1>\n"
+"%sFreeciv %s rakennusohje (%s)%s\n"
 "\n"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:500
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s wonders help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s wonders help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s ihmeohje</h1>\n"
+"%sFreeciv %s ihmeohje (%s)%s\n"
 "\n"
 
 #: tools/civmanual.c:506
@@ -36556,28 +36518,22 @@ msgstr "kun ei %s"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:560
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s governments help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s governments help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s valtiomuotojen ohje</h1>\n"
+"%sFreeciv %s valtiomuotojen ohje (%s)%s\n"
 "\n"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:580
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s wonders help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s unit types help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s ihmeohje</h1>\n"
+"%sFreeciv %s yksikköohje (%s)%s\n"
 "\n"
 
 #: tools/civmanual.c:590
@@ -36589,66 +36545,55 @@ msgstr[0] "Palvelin: %s"
 msgstr[1] "Palvelin: %s"
 
 #: tools/civmanual.c:596
-#, fuzzy, c-format
-#| msgid "Upkeep: %d"
+#, c-format
 msgid "Upkeep: %s"
-msgstr "Rakennusten ylläpito: %d"
+msgstr "Ylläpito: %s"
 
 # *** '(s/he/it) moves' ***
 #: tools/civmanual.c:600
-#, fuzzy, c-format
-#| msgid "Moves:"
+#, c-format
 msgid "Moves: %s"
-msgstr "Liikkuu:"
+msgstr "Liikkuu: %s"
 
 #: tools/civmanual.c:604
-#, fuzzy, c-format
-#| msgid "Vision:"
+#, c-format
 msgid "Vision: %d"
-msgstr "Näkökyky:"
+msgstr "Näkökyky: %d"
 
 #: tools/civmanual.c:608
-#, fuzzy, c-format
-#| msgid "Attack:"
+#, c-format
 msgid "Attack: %d"
-msgstr "Hyökkäys:"
+msgstr "Hyökkäys: %d"
 
 #: tools/civmanual.c:612
-#, fuzzy, c-format
-#| msgid "Defense:"
+#, c-format
 msgid "Defense: %d"
-msgstr "Puolustus:"
+msgstr "Puolustus: %d"
 
 #: tools/civmanual.c:616
-#, fuzzy, c-format
-#| msgid "Firepower:"
+#, c-format
 msgid "Firepower: %d"
-msgstr "Tulivoima:"
+msgstr "Tulivoima: %d"
 
 # Eri roolipelien suomennoksista tutut...
 #: tools/civmanual.c:620
-#, fuzzy, c-format
-#| msgid "Hitpoints:"
+#, c-format
 msgid "Hitpoints: %d"
-msgstr "Voimapisteet:"
+msgstr "Voimapisteet: %d"
 
 #: tools/civmanual.c:624
-#, fuzzy, c-format
-#| msgid "Obsolete by:"
+#, c-format
 msgid "Obsolete by: %s"
-msgstr "Vanhentaja:"
+msgstr "Vanhentaja: %s"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:640
-#, fuzzy, c-format
-#| msgid ""
-#| "<h1>Freeciv %s terrain help</h1>\n"
-#| "\n"
+#, c-format
 msgid ""
 "%sFreeciv %s tech help (%s)%s\n"
 "\n"
 msgstr ""
-"<h1>Freeciv %s maastotyyppiohje</h1>\n"
+"%sFreeciv %s teknologiaohje (%s)%s\n"
 "\n"
 
 #: tools/civmanual.c:667
@@ -36994,10 +36939,8 @@ msgid "Freeciv modpack installer (gtk3)"
 msgstr "Muunnospaketin asennusohjelma (gtk3)"
 
 #: tools/mpgui_gtk4.c:601
-#, fuzzy
-#| msgid "Freeciv modpack installer (gtk3)"
 msgid "Freeciv modpack installer (gtk3x)"
-msgstr "Muunnospaketin asennusohjelma (gtk3)"
+msgstr "Muunnospaketin asennusohjelma (gtk3x)"
 
 #: tools/mpgui_qt.cpp:98
 msgid ""
