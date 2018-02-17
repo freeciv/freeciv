@@ -44,7 +44,7 @@ extern void qload_lua_script();
 extern void qreload_lua_script();
 extern "C" int city_buy_production(struct city *pcity);
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.
 **************************************************************************/
@@ -64,7 +64,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
   return;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   A turn done button should be provided for the player.  This function
   is called to toggle it between active/inactive.
 **************************************************************************/
@@ -73,7 +73,7 @@ void set_turn_done_button_state(bool state)
   side_disable_endturn(state);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draw a goto or patrol line at the current mouse position.
 **************************************************************************/
 void create_line_at_mouse_pos(void)
@@ -91,16 +91,16 @@ void create_line_at_mouse_pos(void)
   }
 }
 
-/**************************************************************************
- The Area Selection rectangle. Called by center_tile_mapcanvas() and
- when the mouse pointer moves.
+/**********************************************************************//**
+  The Area Selection rectangle. Called by center_tile_mapcanvas() and
+  when the mouse pointer moves.
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
   /* PLS DONT PORT IT */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Keyboard handler for map_view
 **************************************************************************/
 void map_view::keyPressEvent(QKeyEvent * event)
@@ -196,7 +196,7 @@ void map_view::keyPressEvent(QKeyEvent * event)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Pressed mouse or keyboard
 **************************************************************************/
 void map_view::shortcut_pressed(int key)
@@ -429,8 +429,8 @@ void map_view::shortcut_pressed(int key)
   }
 }
 
-/**************************************************************************
-  Releasad mouse buttons
+/**********************************************************************//**
+  Released mouse buttons
 **************************************************************************/
 void map_view::shortcut_released(Qt::MouseButton bt)
 {
@@ -460,14 +460,16 @@ void map_view::shortcut_released(Qt::MouseButton bt)
     return;
   }
 }
-/**************************************************************************
+
+/**********************************************************************//**
   Mouse buttons handler for map_view
 **************************************************************************/
 void map_view::mousePressEvent(QMouseEvent *event)
 {
   shortcut_pressed(0);
 }
-/**************************************************************************
+
+/**********************************************************************//**
   Mouse release event for map_view
 **************************************************************************/
 void map_view::mouseReleaseEvent(QMouseEvent *event)
@@ -475,7 +477,7 @@ void map_view::mouseReleaseEvent(QMouseEvent *event)
   shortcut_released(event->button());
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Mouse movement handler for map_view
 **************************************************************************/
 void map_view::mouseMoveEvent(QMouseEvent *event)
@@ -488,7 +490,7 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
                                           event->pos().y()));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popups information label tile
 **************************************************************************/
 void fc_client::popup_tile_info(struct tile *ptile)
@@ -510,7 +512,7 @@ void fc_client::popup_tile_info(struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdowns information label tile
 **************************************************************************/
 void fc_client::popdown_tile_info()
@@ -523,4 +525,3 @@ void fc_client::popdown_tile_info()
     info_tile_wdg = NULL;
   }
 }
-
