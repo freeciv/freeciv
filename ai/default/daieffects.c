@@ -42,7 +42,7 @@
 
 #include "daieffects.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Return the number of "luxury specialists".  This is the number of
   specialists who provide at least HAPPY_COST luxury, being the number of
   luxuries needed to make one citizen content or happy.
@@ -69,7 +69,7 @@ static int get_entertainers(const struct city *pcity)
   return providers;
 }
 
-/************************************************************************** 
+/**********************************************************************//**
   How desirable particular effect making people content is for a
   particular city?
 **************************************************************************/
@@ -111,7 +111,7 @@ adv_want dai_content_effect_value(const struct player *pplayer,
   return v;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Number of AI stats units affected by effect
 **************************************************************************/
 static int num_affected_units(const struct effect *peffect,
@@ -128,7 +128,7 @@ static int num_affected_units(const struct effect *peffect,
   return unit_count;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   How desirable is a particular effect for a particular city,
   given the number of cities in range (c).
 **************************************************************************/
@@ -635,7 +635,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   return v;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Checks recursively to see if the player already has a better government
 **************************************************************************/
 static bool have_better_government(const struct player *pplayer,
@@ -650,7 +650,7 @@ static bool have_better_government(const struct player *pplayer,
     }
     return FALSE;
 }
-/**************************************************************************
+/**********************************************************************//**
   Does the AI expect to ever be able to meet this requirement.
 
   The return value of this function is unreliable for requirements

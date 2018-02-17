@@ -65,7 +65,7 @@
 #include "daidomestic.h"
 
 
-/***************************************************************************
+/***********************************************************************//**
   Evaluate the need for units (like caravans) that aid wonder construction.
   If another city is building wonder and needs help but pplayer is not
   advanced enough to build caravans, the corresponding tech will be 
@@ -167,11 +167,11 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   }
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Evaluate the need for units (like caravans) that create trade routes.
   If pplayer is not advanced enough to build caravans, the corresponding
   tech will be stimulated.
-****************************************************************************/
+***************************************************************************/
 static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
                                    struct adv_choice *choice,
                                    struct adv_data *ai)
@@ -449,7 +449,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
   }
 }
 
-/************************************************************************** 
+/***********************************************************************//**
   This function should fill the supplied choice structure.
 
   If want is 0, this advisor doesn't want anything.
@@ -599,9 +599,9 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
   return choice;
 }
 
-/**************************************************************************
+/***********************************************************************//**
   Calculate walking distances to wonder city from nearby cities.
-**************************************************************************/
+***************************************************************************/
 void dai_wonder_city_distance(struct ai_type *ait, struct player *pplayer, 
                               struct adv_data *adv)
 {
