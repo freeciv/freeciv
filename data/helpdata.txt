@@ -1401,7 +1401,14 @@ option ('civilwarsize'), and may vary upwards from a minimum of 6.\
 
 [help_policies]
 name = _("Policies")
-text = _("Policies are changable values, which define your civilization's rights.")
+text = _("\
+Some rulesets define \"policies\". These are empire-wide settings, \
+usually trade-offs similar to tax rates. If the current ruleset \
+defines any policies, they are described in the following sections.\
+"), _("\
+You may change policy values at any time, but any changes only take \
+effect at the next turn.\
+")
 
 [help_gen_policies]
 generate = " Multipliers"
