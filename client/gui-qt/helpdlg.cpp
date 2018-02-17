@@ -1263,7 +1263,9 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     add_info_separator();
 
-    if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1286,7 +1288,9 @@ void help_widget::set_topic_terrain(const help_item *topic,
       info_layout->addWidget(tb);
     }
 
-    if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1310,6 +1314,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->transform_result != T_NONE
+        && pterrain->transform_time != 0
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1333,15 +1338,21 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->irrigation_result == pterrain
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
-    add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
-    add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    if (pterrain->road_time != 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+    }
+    if (pterrain->base_time != 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    }
 
     info_panel_done();
 

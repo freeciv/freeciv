@@ -1254,7 +1254,9 @@ static void help_update_terrain(const struct help_item *pitem,
 
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
-    if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->irrigation_time),
@@ -1264,7 +1266,9 @@ static void help_update_terrain(const struct help_item *pitem,
                                HELP_TERRAIN, buf);
     }
 
-    if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->mining_time),
@@ -1275,6 +1279,7 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     if (pterrain->transform_result != T_NONE
+        && pterrain->transform_time != 0
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->transform_time),
@@ -1285,15 +1290,21 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     if (pterrain->irrigation_result == pterrain
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
-    help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
-    help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    if (pterrain->road_time != 0) {
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+    }
+    if (pterrain->base_time != 0) {
+      help_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    }
     gtk_widget_show(help_vbox);
   }
 
