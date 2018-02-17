@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 #include "chatline.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
@@ -34,7 +34,7 @@ void gui_real_output_window_append(const char *astring,
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the text of the output window, and call write_chatline_content() to
   log it.
 **************************************************************************/
@@ -44,7 +44,7 @@ void log_output_window(void)
   write_chatline_content(NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear all text from the output window.
 **************************************************************************/
 void clear_output_window(void)
@@ -55,7 +55,7 @@ void clear_output_window(void)
 #endif
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Got version message from metaserver thread.
 **************************************************************************/
 void gui_version_message(const char *vertext)

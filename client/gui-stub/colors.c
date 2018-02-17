@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 
 #include "colors.h"
 
-/****************************************************************************
+/************************************************************************//**
   Allocate a color (adjusting it for our colormap if necessary on paletted
   systems) and return a pointer to it.
 ****************************************************************************/
@@ -42,7 +42,7 @@ struct color *gui_color_alloc(int r, int g, int b)
   return color;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a previously allocated color.  See color_alloc.
 ****************************************************************************/
 void gui_color_free(struct color *color)
@@ -51,7 +51,7 @@ void gui_color_free(struct color *color)
   free(color);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a number indicating the perceptual brightness of this color
   relative to others (larger is brighter).
 ****************************************************************************/

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "canvas.h"
 
-/****************************************************************************
+/************************************************************************//**
   Create a canvas of the given size.
 ****************************************************************************/
 struct canvas *gui_canvas_create(int width, int height)
@@ -29,7 +29,7 @@ struct canvas *gui_canvas_create(int width, int height)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free any resources associated with this canvas and the canvas struct
   itself.
 ****************************************************************************/
@@ -38,7 +38,7 @@ void gui_canvas_free(struct canvas *store)
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set canvas zoom for future drawing operations.
 ****************************************************************************/
 void gui_canvas_set_zoom(struct canvas *store, float zoom)
@@ -46,7 +46,7 @@ void gui_canvas_set_zoom(struct canvas *store, float zoom)
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   This gui has zoom support.
 ****************************************************************************/
 bool gui_has_zoom_support(void)
@@ -54,7 +54,7 @@ bool gui_has_zoom_support(void)
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void gui_canvas_copy(struct canvas *dest, struct canvas *src,
@@ -64,7 +64,7 @@ void gui_canvas_copy(struct canvas *dest, struct canvas *src,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw some or all of a sprite onto the canvas.
 ****************************************************************************/
 void gui_canvas_put_sprite(struct canvas *pcanvas,
@@ -75,7 +75,7 @@ void gui_canvas_put_sprite(struct canvas *pcanvas,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a full sprite onto the canvas.
 ****************************************************************************/
 void gui_canvas_put_sprite_full(struct canvas *pcanvas,
@@ -85,7 +85,7 @@ void gui_canvas_put_sprite_full(struct canvas *pcanvas,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a full sprite onto the canvas.  If "fog" is specified draw it with
   fog.
 ****************************************************************************/
@@ -97,7 +97,7 @@ void gui_canvas_put_sprite_fogged(struct canvas *pcanvas,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a filled-in colored rectangle onto canvas.
 ****************************************************************************/
 void gui_canvas_put_rectangle(struct canvas *pcanvas,
@@ -107,7 +107,7 @@ void gui_canvas_put_rectangle(struct canvas *pcanvas,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void gui_canvas_fill_sprite_area(struct canvas *pcanvas,
@@ -117,7 +117,7 @@ void gui_canvas_fill_sprite_area(struct canvas *pcanvas,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a 1-pixel-width colored line onto the canvas.
 ****************************************************************************/
 void gui_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
@@ -127,7 +127,7 @@ void gui_canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw a 1-pixel-width colored curved line onto the canvas.
 ****************************************************************************/
 void gui_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
@@ -137,7 +137,7 @@ void gui_canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
   /* PORTME */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the size of the given text in the given font.  This size should
   include the ascent and descent of the text.  Either of width or height
   may be NULL in which case those values simply shouldn't be filled out.
@@ -154,7 +154,7 @@ void gui_get_text_size(int *width, int *height,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw the text onto the canvas in the given color and font.  The canvas
   position does not account for the ascent of the text; this function must
   take care of this manually.  The text will not be NULL but may be empty.

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "diplodlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
@@ -30,7 +30,7 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the start of a diplomacy meeting - usually by poping up a
   diplomacy dialog.
 **************************************************************************/
@@ -39,7 +39,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
 void handle_diplomacy_create_clause(int counterpart, int giver,
@@ -48,7 +48,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
@@ -57,7 +57,7 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
 void handle_diplomacy_remove_clause(int counterpart, int giver,
@@ -66,7 +66,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close all open diplomacy dialogs.
 
   Called when the client disconnects from game.

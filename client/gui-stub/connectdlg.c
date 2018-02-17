@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,26 +33,26 @@
 #include "connectdlg.h"
 #include "packhand_gen.h"
 
-/**************************************************************************
- Really close and destroy the dialog.
+/**********************************************************************//**
+  Really close and destroy the dialog.
 **************************************************************************/
 void really_close_connection_dialog(void)
 {
   /* PORTME */
 }
 
-/**************************************************************************
- Close and destroy the dialog. But only if we don't have a local
- server running (that we started).
+/**********************************************************************//**
+  Close and destroy the dialog. But only if we don't have a local
+  server running (that we started).
 **************************************************************************/
 void gui_close_connection_dialog()
 {
   /* PORTME */
 }
 
-/**************************************************************************
- Configure the dialog depending on what type of authentication request the
- server is making.
+/**********************************************************************//**
+  Configure the dialog depending on what type of authentication request the
+  server is making.
 **************************************************************************/
 void handle_authentication_req(enum authentication_type type,
                                const char *message)
@@ -85,11 +85,11 @@ void handle_authentication_req(enum authentication_type type,
   log_error("Unsupported authentication type %d: %s.", type, message);
 }
 
-/**************************************************************************
- Provide a packet handler for packet_game_load.
+/**********************************************************************//**
+  Provide a packet handler for packet_game_load.
 
- This regenerates the player information from a loaded game on the
- server.
+  This regenerates the player information from a loaded game on the
+  server.
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
 { 
@@ -97,7 +97,7 @@ void handle_game_load(bool load_successful, const char *filename)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Provide an interface for connecting to a Freeciv server.
 **************************************************************************/
 void gui_server_connect(void)
