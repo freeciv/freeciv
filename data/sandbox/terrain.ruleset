@@ -1141,6 +1141,28 @@ build_time     = 0
 removal_time   = 0
 conflicts      = "Mine", "Oil Well"
 hidden_by      = "Farmland"
+helptext       = _("\
+Building an irrigation system on a suitable tile causes it to \
+produce some extra food each turn. Most tiles yield one extra food; \
+a desert with a river will yield two, if it is not already benefiting \
+from an oasis.\
+"), _("\
+Without knowledge of Electricity, irrigation requires a nearby source \
+of water: an ocean, lake, or river tile, or another tile with an \
+irrigation system, must share an edge (not just a corner) with the \
+target tile. However, once irrigated, land remains so even if the \
+water source is removed. Once Electricity is known, any suitable \
+tile may be irrigated without a water source.\
+"), _("\
+Building irrigation on a tile with a mine or oil well will destroy it.\
+"), _("\
+City center tiles get their terrain's irrigation bonus automatically, \
+if there is no conflicting mine or oil well on the tile; however, \
+this does not make cities count as a water source for further \
+irrigation. Irrigation can be built on the city tile simply to allow \
+building further irrigation elsewhere, but will not give the tile any \
+further bonus.\
+")
 
 [extra_mine]
 name           = _("Mine")
@@ -1163,6 +1185,14 @@ build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
 hidden_by      = "Oil Well"
+helptext       = _("\
+Mines can be built on some types of terrain, which increases the \
+number of production points produced by that tile. Hills and Mountains \
+get an extra 2 production points per tile; other terrains get 1 extra \
+production point.\
+"), _("\
+Building a mine on an irrigated tile will destroy the irrigation.\
+")
 
 [extra_oil_well]
 name           = _("Oil Well")
@@ -1179,13 +1209,17 @@ rmact_gfx_alt  = "-"
 reqs           =
     { "type", "name", "range", "present", "quiet"
       "Tech", "Refining", "Player", TRUE, FALSE
-      "TerrainFlag", "Oil", "Local", TRUE, FALSE
+      "TerrainFlag", "Oil", "Local", TRUE, TRUE
       "Extra", "Mine", "Local", TRUE, FALSE
       "UnitClass", "Sea", "Local", FALSE, TRUE
     }
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
+helptext       = _("\
+Once Refining is known, mines on Desert and Glacier tiles can be \
+upgraded to oil wells for an extra production point.\
+")
 
 [extra_oil_platform]
 name           = _("Oil Platform")
@@ -1207,6 +1241,13 @@ reqs           =
 build_time     = 0
 removal_time   = 0
 conflicts      = "Buoy"
+helptext       = _("\
+Oil platforms allow cities with Offshore Platforms to get an extra \
+production point from Deep Ocean tiles.\
+"), _("\
+Oil platforms can be built by Workers and similar units on board ships, \
+or directly by Transport units.\
+")
 
 [extra_pollution]
 name           = _("Pollution")
@@ -1221,11 +1262,52 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "unit.pollution"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "TerrainFlag", "NoPollution", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainFlag", "NoPollution", "Local", FALSE, TRUE
     }
 removal_time   = 0
 flags          = "GlobalWarming"
+helptext       = _("\
+Pollution appears on tiles around cities with high production or \
+population, or when a Mfg. Plant suffers an industrial accident. \
+It halves all output from its tile, and contributes to the risk of \
+global warming.\
+"), _("\
+The pollution can only be cleared by dispatching Workers, Migrants, \
+Settlers, Engineers, or a Transport with the \"clean pollution\" order.\
+"), _("\
+Pollution from production is likely to start becoming important as \
+your civilization becomes more industrialized, giving you buildings \
+such as Factory and Power Plant which boost production. Replacing a \
+Power Plant with cleaner forms of energy -- a Hydro Plant / Hoover \
+Dam, Nuclear Plant, or Solar Plant -- will reduce pollution from \
+production, as will a Recycling Center.\
+"), _("\
+The city's population starts adding to pollution with the Factory, \
+Super Highways, Offshore Platform, and Mfg. Plant buildings; each \
+building causes the population to add more to pollution. A Mass \
+Transit will counteract the pollution from two buildings in a city, \
+and the Eiffel Tower wonder will counteract the pollution from one \
+building in all the owner's cities.\
+"), _("\
+The contribution of these factors can be seen in the city dialog; once \
+it exceeds a threshold, the excess is the percent chance of pollution \
+appearing each turn.\
+"), _("\
+When an unused tile becomes polluted, there is the temptation to avoid \
+the effort of cleaning it; but the spread of pollution has far more \
+terrible results than the immediate economic impact -- every polluted \
+tile increases the chance of global warming. Each time global warming \
+advances, the entire world loses coastal land to the sea and to jungles \
+and swamps, and inland tiles are lost to desert. This tends to \
+devastate cities and leads to global impoverishment.\
+"), _("\
+The risk of global warming is cumulative; the longer polluted tiles \
+are left uncleaned, the higher the risk becomes, and the risk can \
+linger for some time even after all pollution has been cleaned. If a \
+long time passes with an elevated risk of warming, its effects will be \
+all the more severe when it does occur.\
+")
 
 [extra_hut]
 name           = _("Minor Tribe Village")
@@ -1309,6 +1391,16 @@ reqs           =
 build_time     = 0
 removal_time   = 0
 conflicts      = "Mine", "Oil Well"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Once Refrigeration is known, irrigation systems can be upgraded to \
+farmland by irrigating them a second time; if the city working the tile \
+has a Supermarket, a farmland tile provides 50% more food.\
+"), _("\
+Farmland on a tile prevents any trade bonus from Super Highways.\
+"), _("\
+Like irrigation, farmland is incompatible with mines and oil wells.\
+")
 
 [extra_fallout]
 name           = _("Fallout")
@@ -1323,11 +1415,23 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "unit.fallout"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "TerrainFlag", "NoPollution", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainFlag", "NoPollution", "Local", FALSE, TRUE
     }
 removal_time   = 0
 flags          = "NuclearWinter"
+helptext       = _("\
+Nuclear fallout can appear on tiles when a Nuclear unit is \
+detonated, or when a city's Nuclear Plant has an accident. It halves \
+all output from its tile.\
+"), _("\
+Every tile with nuclear fallout also increases the risk of global \
+nuclear winter. If nuclear winter occurs, land across the globe \
+changes into desert, tundra, and ice, and lakes and oceans freeze.\
+"), _("\
+Settlers, Workers, Migrants, Engineers, and Transport units can all \
+clean up nuclear fallout.\
+")
 
 [extra_fort]
 name           = _("Fort")
@@ -1513,7 +1617,8 @@ removal_time   = 0
 conflicts      = "Oil Platform"
 flags          = "ShowFlag"
 helptext       = _("\
-Buoys may be built in the ocean (by units on a sea-going vessel).\
+Buoys may be built in the ocean (by units on a sea-going vessel) to \
+allow their owner to see the surrounding tiles.\
 "), _("\
 Only those players that already know Radio can see Buoys of any \
 players.\
