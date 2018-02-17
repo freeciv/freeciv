@@ -4491,7 +4491,7 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
   }
 
   if (unit_transported(pcargo)) {
-    if (!can_unit_unload(pcargo, ptrans)) {
+    if (!can_unit_unload(pcargo, unit_transport_get(pcargo))) {
       /* Can't leave current transport */
       return;
     }
