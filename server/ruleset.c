@@ -2248,10 +2248,6 @@ static bool load_terrain_names(struct section_file *file)
         break;
       }
 
-      if (0 == strcmp(rule_name_get(&pterrain->name), "unused")) {
-        name_set(&pterrain->name, NULL, "");
-      }
-
       section_strlcpy(&terrain_sections[terri * MAX_SECTION_LABEL], sec_name);
     } terrain_type_iterate_end;
   }
@@ -2286,10 +2282,6 @@ static bool load_terrain_names(struct section_file *file)
       if (!ruleset_load_names(&presource->name, NULL, file, sec_name)) {
         ok = FALSE;
         break;
-      }
-
-      if (!strcmp(rule_name_get(&presource->name), "unused")) {
-        name_set(&presource->name, NULL, "");
       }
 
       section_strlcpy(&resource_sections[resi * MAX_SECTION_LABEL], sec_name);

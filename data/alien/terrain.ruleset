@@ -76,9 +76,7 @@ ocean_resources = TRUE
 ;
 ; Notes:
 ;
-; name                 = translatable name as seen by user; if "unused", it is
-;                        not used, but is included for conversion and/or the
-;                        editor.
+; name                 = translatable name as seen by user
 ; rule_name            = (optional) internal name for savegames, rulesets etc;
 ;                        if not present, "name" is used for this purpose too.
 ;                        Since the name used in savegames must not change, if
@@ -541,8 +539,7 @@ city can never be located on Boiling Ocean.\
 ;
 ; Notes:
 ;
-; name                 = name as seen by user; if "unused", it is not used,
-;                        but is included for conversion and/or the editor.
+; name                 = name as seen by user
 ; graphic              = tag specifying preferred graphic
 ; graphic_alt	       = tag for alternate garphic if preferred graphic is not 
 ;		         present; especially if preferred graphic is non-standard, 
