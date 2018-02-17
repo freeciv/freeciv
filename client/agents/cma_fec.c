@@ -61,17 +61,17 @@ struct cma_preset {
 
 static struct preset_list *preset_list = NULL;
 
-/****************************************************************************
- Is called if the game removes a city. It will clear the 
- "fe parameter" attribute to reduce the size of the savegame.   
-*****************************************************************************/
+/**********************************************************************//**
+  Is called if the game removes a city. It will clear the
+  "fe parameter" attribute to reduce the size of the savegame.
+**************************************************************************/
 static void city_remove(int city_id)
 {
   attr_city_set(ATTR_CITY_CMAFE_PARAMETER, city_id, 0, NULL);
 }
 
-/**************************************************************************
- Initialize the presets if there are no presets loaded on startup.
+/**********************************************************************//**
+  Initialize the presets if there are no presets loaded on startup.
 **************************************************************************/
 void cmafec_init(void)
 {
@@ -88,7 +88,7 @@ void cmafec_init(void)
   register_agent(&self);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for presets system.
 **************************************************************************/
 void cmafec_free(void)
@@ -99,8 +99,8 @@ void cmafec_free(void)
   preset_list_destroy(preset_list);
 }
 
-/**************************************************************************
- Sets the front-end parameter.
+/**********************************************************************//**
+  Sets the front-end parameter.
 **************************************************************************/
 void cmafec_set_fe_parameter(struct city *pcity,
                              const struct cm_parameter *const parameter)
@@ -108,10 +108,10 @@ void cmafec_set_fe_parameter(struct city *pcity,
   cma_set_parameter(ATTR_CITY_CMAFE_PARAMETER, pcity->id, parameter);
 }
 
-/****************************************************************
- Return the front-end parameter for the given city. Returns a dummy
- parameter if no parameter was set.
-*****************************************************************/
+/**********************************************************************//**
+  Return the front-end parameter for the given city. Returns a dummy
+  parameter if no parameter was set.
+**************************************************************************/
 void cmafec_get_fe_parameter(struct city *pcity, struct cm_parameter *dest)
 {
   struct cm_parameter parameter;
@@ -130,8 +130,8 @@ void cmafec_get_fe_parameter(struct city *pcity, struct cm_parameter *dest)
   }
 }
 
-/**************************************************************************
- Adds a preset.
+/**********************************************************************//**
+  Adds a preset.
 **************************************************************************/
 void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam)
 {
@@ -147,8 +147,8 @@ void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam)
   preset_list_prepend(preset_list, ppreset);
 }
 
-/**************************************************************************
- Removes a preset.
+/**********************************************************************//**
+  Removes a preset.
 **************************************************************************/
 void cmafec_preset_remove(int idx)
 {
@@ -163,8 +163,8 @@ void cmafec_preset_remove(int idx)
   free(ppreset);
 }
 
-/**************************************************************************
- Returns the indexed preset's description.
+/**********************************************************************//**
+  Returns the indexed preset's description.
 **************************************************************************/
 char *cmafec_preset_get_descr(int idx)
 {
@@ -176,8 +176,8 @@ char *cmafec_preset_get_descr(int idx)
   return ppreset->descr;
 }
 
-/**************************************************************************
- Returns the indexed preset's parameter.
+/**********************************************************************//**
+  Returns the indexed preset's parameter.
 **************************************************************************/
 const struct cm_parameter *cmafec_preset_get_parameter(int idx)
 {
@@ -189,9 +189,9 @@ const struct cm_parameter *cmafec_preset_get_parameter(int idx)
   return &ppreset->parameter;
 }
 
-/**************************************************************************
- Returns the index of the preset which matches the given
- parameter. Returns -1 if no preset could be found.
+/**********************************************************************//**
+  Returns the index of the preset which matches the given
+  parameter. Returns -1 if no preset could be found.
 **************************************************************************/
 int cmafec_preset_get_index_of_parameter(const struct cm_parameter
                                          *const parameter)
@@ -207,15 +207,15 @@ int cmafec_preset_get_index_of_parameter(const struct cm_parameter
   return -1;
 }
 
-/**************************************************************************
- Returns the total number of presets.
+/**********************************************************************//**
+  Returns the total number of presets.
 **************************************************************************/
 int cmafec_preset_num(void)
 {
   return preset_list_size(preset_list);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return short description of city governor preset
 **************************************************************************/
 const char *cmafec_get_short_descr_of_city(const struct city *pcity)
@@ -229,9 +229,9 @@ const char *cmafec_get_short_descr_of_city(const struct city *pcity)
   }
 }
 
-/**************************************************************************
- Returns the description of the matching preset or "custom" if no
- preset could be found.
+/**********************************************************************//**
+  Returns the description of the matching preset or "custom" if no
+  preset could be found.
 **************************************************************************/
 const char *cmafec_get_short_descr(const struct cm_parameter *const
                                    parameter)
@@ -245,7 +245,7 @@ const char *cmafec_get_short_descr(const struct cm_parameter *const
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return string describing when city is assumed to grow.
 **************************************************************************/
 static const char *get_city_growth_string(struct city *pcity, int surplus)
@@ -279,7 +279,7 @@ static const char *get_city_growth_string(struct city *pcity, int surplus)
   return buffer;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return string describing when city is assumed to finish current production
 **************************************************************************/
 static const char *get_prod_complete_string(struct city *pcity, int surplus)
@@ -316,7 +316,7 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
   return buffer;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return string describing result
 **************************************************************************/
 const char *cmafec_get_result_descr(struct city *pcity,
@@ -375,7 +375,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Create default cma presets for a new user (or without configuration file)
 **************************************************************************/
 void create_default_cma_presets(void)

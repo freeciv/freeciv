@@ -89,10 +89,10 @@ static struct {
 } stats;
 
 
-/****************************************************************************
- Returns TRUE iff the two results are equal. Both results have to be
- results for the given city.
-*****************************************************************************/
+/************************************************************************//**
+  Returns TRUE iff the two results are equal. Both results have to be
+  results for the given city.
+****************************************************************************/
 static bool fc_results_are_equal(const struct cm_result *result1,
                                  const struct cm_result *result2)
 {
@@ -131,10 +131,10 @@ static bool fc_results_are_equal(const struct cm_result *result1,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Returns TRUE if the city is valid for CMA. Fills parameter if TRUE
   is returned. Parameter can be NULL.
-*****************************************************************************/
+****************************************************************************/
 static struct city *check_city(int city_id, struct cm_parameter *parameter)
 {
   struct city *pcity = game_city_by_number(city_id);
@@ -157,10 +157,10 @@ static struct city *check_city(int city_id, struct cm_parameter *parameter)
   return pcity;
 }  
 
-/****************************************************************************
+/************************************************************************//**
  Change the actual city setting to the given result. Returns TRUE iff
  the actual data matches the calculated one.
-*****************************************************************************/
+****************************************************************************/
 static bool apply_result_on_server(struct city *pcity,
                                    const struct cm_result *result)
 {
@@ -319,9 +319,9 @@ static bool apply_result_on_server(struct city *pcity,
   return success;
 }
 
-/****************************************************************************
- Prints the data of the stats struct via log_test(...).
-*****************************************************************************/
+/************************************************************************//**
+  Prints the data of the stats struct via log_test(...).
+****************************************************************************/
 static void report_stats(void)
 {
 #if SHOW_TIME_STATS
@@ -338,9 +338,9 @@ static void report_stats(void)
 #endif /* SHOW_TIME_STATS */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove governor setting from city.
-*****************************************************************************/
+****************************************************************************/
 static void release_city(int city_id)
 {
   attr_city_set(ATTR_CITY_CMA_PARAMETER, city_id, 0, NULL);
@@ -348,13 +348,13 @@ static void release_city(int city_id)
 
 /****************************************************************************
                            algorithmic functions
-*****************************************************************************/
+****************************************************************************/
 
-/****************************************************************************
- The given city has changed. handle_city ensures that either the city
- follows the set CMA goal or that the CMA detaches itself from the
- city.
-*****************************************************************************/
+/************************************************************************//**
+  The given city has changed. handle_city ensures that either the city
+  follows the set CMA goal or that the CMA detaches itself from the
+  city.
+****************************************************************************/
 static void handle_city(struct city *pcity)
 {
   struct cm_result *result = cm_result_new(pcity);
@@ -428,9 +428,9 @@ static void handle_city(struct city *pcity)
   log_handle_city2("END handle city=(%d)", city_id);
 }
 
-/****************************************************************************
- Callback for the agent interface.
-*****************************************************************************/
+/************************************************************************//**
+  Callback for the agent interface.
+****************************************************************************/
 static void city_changed(int city_id)
 {
   struct city *pcity = game_city_by_number(city_id);
@@ -441,26 +441,26 @@ static void city_changed(int city_id)
   }
 }
 
-/****************************************************************************
- Callback for the agent interface.
-*****************************************************************************/
+/************************************************************************//**
+  Callback for the agent interface.
+****************************************************************************/
 static void city_remove(int city_id)
 {
   release_city(city_id);
 }
 
-/****************************************************************************
- Callback for the agent interface.
-*****************************************************************************/
+/************************************************************************//**
+  Callback for the agent interface.
+****************************************************************************/
 static void new_turn(void)
 {
   report_stats();
 }
 
-/*************************** public interface *******************************/
-/****************************************************************************
+/*************************** public interface ******************************/
+/************************************************************************//**
   Initialize city governor code
-*****************************************************************************/
+****************************************************************************/
 void cma_init(void)
 {
   struct agent self;
@@ -489,9 +489,9 @@ void cma_init(void)
   register_agent(&self);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply result on server if it's valid
-*****************************************************************************/
+****************************************************************************/
 bool cma_apply_result(struct city *pcity, const struct cm_result *result)
 {
   fc_assert(!cma_is_city_under_agent(pcity, NULL));
@@ -501,9 +501,9 @@ bool cma_apply_result(struct city *pcity, const struct cm_result *result)
     return TRUE; /* ???????? */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Put city under governor control
-*****************************************************************************/
+****************************************************************************/
 void cma_put_city_under_agent(struct city *pcity,
                               const struct cm_parameter *const parameter)
 {
@@ -519,9 +519,9 @@ void cma_put_city_under_agent(struct city *pcity,
   log_debug("cma_put_city_under_agent: return");
 }
 
-/****************************************************************************
+/************************************************************************//**
   Release city from governor control.
-*****************************************************************************/
+****************************************************************************/
 void cma_release_city(struct city *pcity)
 {
   release_city(pcity->id);
@@ -529,11 +529,11 @@ void cma_release_city(struct city *pcity)
   city_report_dialog_update_city(pcity);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Check whether city is under governor control, and fill parameter if it is.
-*****************************************************************************/
+****************************************************************************/
 bool cma_is_city_under_agent(const struct city *pcity,
-			     struct cm_parameter *parameter)
+                             struct cm_parameter *parameter)
 {
   struct cm_parameter my_parameter;
 
@@ -547,15 +547,15 @@ bool cma_is_city_under_agent(const struct city *pcity,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Get the parameter.
 
   Don't bother to cm_init_parameter, since we set all the fields anyway.
   But leave the comment here so we can find this place when searching
   for all the creators of a parameter.
-**************************************************************************/
+****************************************************************************/
 bool cma_get_parameter(enum attr_city attr, int city_id,
-		       struct cm_parameter *parameter)
+                       struct cm_parameter *parameter)
 {
   size_t len;
   char buffer[SAVED_PARAMETER_SIZE];
@@ -592,11 +592,11 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Set attribute block for city from parameter.
-**************************************************************************/
+****************************************************************************/
 void cma_set_parameter(enum attr_city attr, int city_id,
-		       const struct cm_parameter *parameter)
+                       const struct cm_parameter *parameter)
 {
   char buffer[SAVED_PARAMETER_SIZE];
   struct raw_data_out dout;

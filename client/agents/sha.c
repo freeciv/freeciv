@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2004 - A. Gorshenev
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,17 +31,17 @@
 
 
 /**************************************************************************
-This is the simple historian agent.
-It just saves the last states of all tiles and units.
-The trick is just to call this agent the last of all
-so it still keeps old values whereas all other agents 
-allready got the new ones.
+  This is the simple historian agent.
+  It just saves the last states of all tiles and units.
+  The trick is just to call this agent the last of all
+  so it still keeps old values whereas all other agents
+  already got the new ones.
 **************************************************************************/
 
 static struct tile *previous_tiles = NULL;
 static struct unit_list *previous_units;
 
-/**************************************************************************
+/**********************************************************************//**
   Tile changed callback
 **************************************************************************/
 static void sha_tile_update(struct tile *ptile)
@@ -54,7 +54,7 @@ static void sha_tile_update(struct tile *ptile)
 #endif
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unit changed callback
 **************************************************************************/
 static void sha_unit_change(int id)
@@ -68,7 +68,7 @@ static void sha_unit_change(int id)
   *pold_unit = *punit;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   New unit callback
 **************************************************************************/
 static void sha_unit_new(int id)
@@ -82,7 +82,7 @@ static void sha_unit_new(int id)
   unit_list_prepend(previous_units, pold_unit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unit removed callback
 **************************************************************************/
 static void sha_unit_remove(int id)
@@ -98,7 +98,7 @@ static void sha_unit_remove(int id)
   free(pold_unit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize simple historian agent
 **************************************************************************/
 void simple_historian_init(void)
@@ -124,7 +124,7 @@ void simple_historian_init(void)
   register_agent(&self);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free resources allocated for simple historian agent.
 **************************************************************************/
 void simple_historian_done(void)
@@ -133,10 +133,10 @@ void simple_historian_done(void)
 }
 
 /**************************************************************************
-Public interface
+  Public interface
 **************************************************************************/
 
-/**************************************************************************
+/**********************************************************************//**
   Return pointer to tile as it was last reported to us.
 **************************************************************************/
 struct tile *sha_tile_recall(struct tile *ptile)
@@ -144,7 +144,7 @@ struct tile *sha_tile_recall(struct tile *ptile)
   return &previous_tiles[tile_index(ptile)];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Report pointer to unit as it was last reported to us.
 **************************************************************************/
 struct unit *sha_unit_recall(int id)
