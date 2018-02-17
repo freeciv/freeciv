@@ -218,7 +218,7 @@ bool tileset_is_fully_loaded(void);
 
 void finish_loading_sprites(struct tileset *t);
 
-void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
+bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
                        bool global_default);
 void tilespec_reread(const char *tileset_name, bool game_fully_initialized,
                      float scale);
