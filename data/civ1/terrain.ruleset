@@ -952,11 +952,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Construction", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Construction", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -964,7 +964,7 @@ defense_bonus  = 100
 native_to      = "Land"
 flags          = "NoStackDeath"
 helptext       = _("\
-Fortresses improve defense for land units.\
+Fortresses improve defense for land units outside cities.\
 "),
 ; /* xgettext:no-c-format */
 _("\

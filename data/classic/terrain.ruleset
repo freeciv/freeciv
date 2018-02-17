@@ -1271,11 +1271,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Construction", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Construction", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1283,10 +1283,10 @@ defense_bonus  = 100
 native_to      = "Land"
 flags          = "NoStackDeath"
 helptext       = _("\
-Fortresses improve defense for land units. Among other effects, a land \
-unit remaining in a fortress for a whole turn without moving recovers \
-a quarter of its hit points. With Invention, fortresses gain watchtowers \
-from which land units can see further afield.\
+Fortresses improve defense for land units outside cities. Among other \
+effects, a land unit remaining in a fortress for a whole turn without \
+moving recovers a quarter of its hit points. With Invention, fortresses \
+gain watchtowers from which land units can see further afield.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1306,19 +1306,19 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Radio", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 flags          = "Refuel", "NoStackDeath"
 helptext       = _("\
-Airbases allow your air units to land and refuel. Air units in an \
-airbase may be attacked by land units.\
+Airbases allow your air units to land and refuel outside cities. \
+Air units in an airbase may be attacked by land units.\
 "), _("\
 Units can paradrop from this tile.\
 ")
@@ -1336,11 +1336,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Oceanic", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Radio", "Player", TRUE, FALSE
+      "TerrainClass", "Oceanic", "Local", TRUE, FALSE
+      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -1362,9 +1362,9 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 buildable      = FALSE
 removal_time   = 0
