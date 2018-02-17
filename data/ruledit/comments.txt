@@ -539,9 +539,7 @@ terrains = "\
 ;\n\
 ; Notes:\n\
 ;\n\
-; name                 = translatable name as seen by user; if \"unused\", it is\n\
-;                        not used, but is included for conversion and/or the\n\
-;                        editor.\n\
+; name                 = translatable name as seen by user\n\
 ; rule_name            = (optional) internal name for savegames, rulesets etc;\n\
 ;                        if not present, \"name\" is used for this purpose too.\n\
 ;                        Since the name used in savegames must not change, if\n\

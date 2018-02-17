@@ -2465,10 +2465,6 @@ static bool load_terrain_names(struct section_file *file,
         break;
       }
 
-      if (0 == strcmp(rule_name_get(&pterrain->name), "unused")) {
-        name_set(&pterrain->name, NULL, "");
-      }
-
       section_strlcpy(&terrain_sections[terri * MAX_SECTION_LABEL], sec_name);
     } terrain_type_iterate_end;
   }
