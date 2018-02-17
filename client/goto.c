@@ -97,12 +97,12 @@ static void fill_parameter_part(struct pf_parameter *param,
                                 const struct goto_map *goto_map,
                                 const struct part *p);
 
-/**************************************************************************
+/****************************************************************************
   Various stuff for the goto routes
-**************************************************************************/
+****************************************************************************/
 static struct tile *goto_destination = NULL;
 
-/****************************************************************************
+/************************************************************************//**
   Create a new goto map.
 ****************************************************************************/
 static struct goto_map *goto_map_new(struct unit *punit)
@@ -116,7 +116,7 @@ static struct goto_map *goto_map_new(struct unit *punit)
   return goto_map;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free an existing goto map.
 ****************************************************************************/
 static void goto_map_free(struct goto_map *goto_map)
@@ -133,7 +133,7 @@ static void goto_map_free(struct goto_map *goto_map)
   free(goto_map);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the unit associated with the goto map.
 ****************************************************************************/
 static struct unit *goto_map_unit(const struct goto_map *goto_map)
@@ -146,9 +146,9 @@ static struct unit *goto_map_unit(const struct goto_map *goto_map)
   return punit;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Called only by handle_map_info() in client/packhand.c.
-***********************************************************************/
+****************************************************************************/
 void init_client_goto(void)
 {
   free_client_goto();
@@ -156,9 +156,9 @@ void init_client_goto(void)
   goto_maps = goto_map_list_new();
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Called above, and by control_done() in client/control.c.
-***********************************************************************/
+****************************************************************************/
 void free_client_goto(void)
 {
   if (NULL != goto_maps) {
@@ -173,15 +173,15 @@ void free_client_goto(void)
   goto_warned = FALSE;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Determines if a goto to the destination tile is allowed.
-***********************************************************************/
+****************************************************************************/
 bool is_valid_goto_destination(const struct tile *ptile) 
 {
   return (NULL != goto_destination && ptile == goto_destination);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Show goto lines.
 ****************************************************************************/
 static void goto_path_redraw(const struct pf_path *new_path,
@@ -230,7 +230,7 @@ static void goto_path_redraw(const struct pf_path *new_path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove goto lines.
 ****************************************************************************/
 static void goto_path_undraw(const struct pf_path *path)
@@ -250,11 +250,11 @@ static void goto_path_undraw(const struct pf_path *path)
   }
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Change the destination of the last part to the given location.
   If a path cannot be found, the destination is set to the start.
   Return TRUE when the new path is valid.
-***********************************************************************/
+****************************************************************************/
 static bool update_last_part(struct goto_map *goto_map,
 			     struct tile *ptile)
 {
@@ -380,10 +380,10 @@ static bool update_last_part(struct goto_map *goto_map,
   return TRUE;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Change the drawn path to a size of 0 steps by setting it to the
   start position.
-***********************************************************************/
+****************************************************************************/
 static void reset_last_part(struct goto_map *goto_map)
 {
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
@@ -394,7 +394,7 @@ static void reset_last_part(struct goto_map *goto_map)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill pathfinding parameter for adding a new part.
 ****************************************************************************/
 static void fill_parameter_part(struct pf_parameter *param,
@@ -423,11 +423,11 @@ static void fill_parameter_part(struct pf_parameter *param,
   }
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Add a part. Depending on the num of already existing parts the start
   of the new part is either the unit position (for the first part) or
   the destination of the last part (not the first part).
-***********************************************************************/
+****************************************************************************/
 static void add_part(struct goto_map *goto_map)
 {
   struct part *p;
@@ -456,9 +456,9 @@ static void add_part(struct goto_map *goto_map)
   p->map = pf_map_new(&parameter);
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Remove the last part, erasing the corresponding path segment.
-***********************************************************************/
+****************************************************************************/
 static void remove_last_part(struct goto_map *goto_map)
 {
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
@@ -474,9 +474,9 @@ static void remove_last_part(struct goto_map *goto_map)
   goto_map->num_parts--;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Inserts a waypoint at the end of the current goto line.
-***********************************************************************/
+****************************************************************************/
 bool goto_add_waypoint(void)
 {
   bool duplicate_of_last = TRUE;
@@ -510,10 +510,10 @@ bool goto_add_waypoint(void)
   return TRUE;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Returns whether there were any waypoint popped (we don't remove the
   initial position)
-***********************************************************************/
+****************************************************************************/
 bool goto_pop_waypoint(void)
 {
   bool popped = FALSE;
@@ -541,20 +541,20 @@ bool goto_pop_waypoint(void)
   return popped;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback to get the path with the minimal number of steps (out of 
   all shortest paths).
-***********************************************************************/
+****************************************************************************/
 static int get_EC(const struct tile *ptile, enum known_type known,
                   const struct pf_parameter *param)
 {
   return 1;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback to prohibit going into the unknown.  Also makes sure we 
   don't plan our route through enemy city/tile.
-***********************************************************************/
+****************************************************************************/
 static enum tile_behavior get_TB_aggr(const struct tile *ptile,
                                       enum known_type known,
                                       const struct pf_parameter *param)
@@ -571,10 +571,10 @@ static enum tile_behavior get_TB_aggr(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback for caravans. Caravans doesn't go into the unknown and
   don't attack enemy units but enter enemy cities.
-***********************************************************************/
+****************************************************************************/
 static enum tile_behavior get_TB_caravan(const struct tile *ptile,
                                          enum known_type known,
                                          const struct pf_parameter *param)
@@ -597,7 +597,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
   return TB_NORMAL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of MP needed to do the connect activity at this
   position.  A negative number means it's impossible.
 ****************************************************************************/
@@ -653,8 +653,8 @@ static int get_activity_time(const struct tile *ptile,
   return activity_mc;
 }
 
-/****************************************************************************
-  When building a road or a railroad, we don't want to go next to 
+/************************************************************************//**
+  When building a road or a railroad, we don't want to go next to
   nonallied cities
 ****************************************************************************/
 static bool is_non_allied_city_adjacent(const struct player *pplayer,
@@ -669,9 +669,9 @@ static bool is_non_allied_city_adjacent(const struct player *pplayer,
   return FALSE;
 }
 
-/****************************************************************************
-  PF jumbo callback for the cost of a connect by road. 
-  In road-connect mode we are concerned with 
+/************************************************************************//**
+  PF jumbo callback for the cost of a connect by road.
+  In road-connect mode we are concerned with
   (1) the number of steps of the resulting path
   (2) (the tie-breaker) time to build the path (travel plus activity time).
   In rail-connect the priorities are reversed.
@@ -782,8 +782,8 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 	  total_cost * PF_TURN_FACTOR + total_extra);
 }
 
-/****************************************************************************
-  PF jumbo callback for the cost of a connect by irrigation. 
+/************************************************************************//**
+  PF jumbo callback for the cost of a connect by irrigation.
   Here we are only interested in how long it will take to irrigate the path.
 
   param->data should contain the result of get_activity_rate(punit) / 10.
@@ -857,10 +857,10 @@ static int get_connect_irrig(const struct tile *src_tile,
   return total_cost;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   PF callback to prohibit going into the unknown (conditionally).  Also
   makes sure we don't plan to attack anyone.
-***********************************************************************/
+****************************************************************************/
 static enum tile_behavior
 no_fights_or_unknown_goto(const struct tile *ptile,
                           enum known_type known,
@@ -874,7 +874,7 @@ no_fights_or_unknown_goto(const struct tile *ptile,
   return no_fights_or_unknown(ptile, known, p);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the PF parameter with the correct client-goto values.
   See also goto_fill_parameter_full().
 ****************************************************************************/
@@ -900,7 +900,7 @@ static void goto_fill_parameter_base(struct pf_parameter *parameter,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the PF parameter with the correct client-goto values.
   The storage behind "connect_speed" must remain valid for the lifetime
   of the pf_map.
@@ -978,10 +978,10 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
   };
 }
 
-/********************************************************************** 
-  Enter the goto state: activate, prepare PF-template and add the 
+/************************************************************************//**
+  Enter the goto state: activate, prepare PF-template and add the
   initial part.
-***********************************************************************/
+****************************************************************************/
 void enter_goto_state(struct unit_list *punits)
 {
   fc_assert_ret(!goto_is_active());
@@ -1000,9 +1000,9 @@ void enter_goto_state(struct unit_list *punits)
   goto_warned = FALSE;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Tidy up and deactivate goto state.
-***********************************************************************/
+****************************************************************************/
 void exit_goto_state(void)
 {
   if (!goto_is_active()) {
@@ -1018,9 +1018,9 @@ void exit_goto_state(void)
   goto_warned = FALSE;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Called from control_unit_killed() in client/control.c
-***********************************************************************/
+****************************************************************************/
 void goto_unit_killed(struct unit *punit)
 {
   if (!goto_is_active()) {
@@ -1039,18 +1039,18 @@ void goto_unit_killed(struct unit *punit)
   } goto_map_unit_iterate_end;
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Is goto state active?
-***********************************************************************/
+****************************************************************************/
 bool goto_is_active(void)
 {
   return (NULL != goto_maps && 0 != goto_map_list_size(goto_maps));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Return the path length (in turns).
   WARNING: not useful for determining paths of scattered groups.
-***************************************************************************/
+****************************************************************************/
 bool goto_get_turns(int *min, int *max)
 {
   fc_assert_ret_val(min != NULL, FALSE);
@@ -1123,7 +1123,7 @@ bool goto_get_turns(int *min, int *max)
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the state of 'ptile': turn number to print, and whether 'ptile'
   is a waypoint.
 ****************************************************************************/
@@ -1296,11 +1296,11 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
   return (*turns != -1 || *waypoint);
 }
 
-/********************************************************************** 
+/************************************************************************//**
   Puts a line to dest_tile on the map according to the current
   goto_map.
   If there is no route to the dest then don't draw anything.
-***********************************************************************/
+****************************************************************************/
 bool is_valid_goto_draw_line(struct tile *dest_tile)
 {
   fc_assert_ret_val(goto_is_active(), FALSE);
@@ -1322,7 +1322,7 @@ bool is_valid_goto_draw_line(struct tile *dest_tile)
   return (NULL != goto_destination);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Send a packet to the server to request that the current orders be
   cleared.
 ****************************************************************************/
@@ -1344,9 +1344,9 @@ void request_orders_cleared(struct unit *punit)
   send_packet_unit_orders(&client.conn, &p);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send a path as a goto or patrol route to the server.
-**************************************************************************/
+****************************************************************************/
 static void send_path_orders(struct unit *punit, struct pf_path *path,
                              bool repeat, bool vigilant,
                              enum unit_orders orders,
@@ -1443,16 +1443,16 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   send_packet_unit_orders(&client.conn, &p);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send an arbitrary goto path for the unit to the server.
-**************************************************************************/
+****************************************************************************/
 void send_goto_path(struct unit *punit, struct pf_path *path,
 		    struct unit_order *final_order)
 {
   send_path_orders(punit, path, FALSE, FALSE, ORDER_MOVE, final_order);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Send orders for the unit to move it to the arbitrary tile.  Returns
   FALSE if no path is found.
 ****************************************************************************/
@@ -1476,7 +1476,7 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Send orders for the unit to move it to the arbitrary tile and attack
   everything it approaches. Returns FALSE if no path is found.
 ****************************************************************************/
@@ -1502,10 +1502,10 @@ bool send_attack_tile(struct unit *punit, struct tile *ptile)
   return FALSE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send the current patrol route (i.e., the one generated via HOVER_STATE)
   to the server.
-**************************************************************************/
+****************************************************************************/
 void send_patrol_route(void)
 {
   fc_assert_ret(goto_is_active());
@@ -1530,9 +1530,9 @@ void send_patrol_route(void)
   } goto_map_unit_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Fill orders to build recursive roads.
-**************************************************************************/
+****************************************************************************/
 static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
                                  struct packet_unit_orders *p, int rec)
 {
@@ -1562,10 +1562,10 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send the current connect route (i.e., the one generated via HOVER_STATE)
   to the server.
-**************************************************************************/
+****************************************************************************/
 void send_connect_route(enum unit_activity activity,
                         struct extra_type *tgt)
 {
@@ -1640,13 +1640,13 @@ void send_connect_route(enum unit_activity activity,
   } goto_map_unit_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE if the order preferably should be performed from an
   adjacent tile.
 
   This function doesn't care if a direction is required or just possible.
   Use order_demands_direction() for that.
-**************************************************************************/
+****************************************************************************/
 static bool order_wants_direction(enum unit_orders order, int act_id,
                                   struct tile *tgt_tile)
 {
@@ -1682,10 +1682,10 @@ static bool order_wants_direction(enum unit_orders order, int act_id,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Returns TRUE if it is certain that the order must be performed from an
   adjacent tile.
-**************************************************************************/
+****************************************************************************/
 static bool order_demands_direction(enum unit_orders order, int act_id)
 {
   switch (order) {
@@ -1705,11 +1705,11 @@ static bool order_demands_direction(enum unit_orders order, int act_id)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Send the current goto route (i.e., the one generated via
   HOVER_STATE) to the server.  The route might involve more than one
   part if waypoints were used.  FIXME: danger paths are not supported.
-**************************************************************************/
+****************************************************************************/
 void send_goto_route(void)
 {
   fc_assert_ret(goto_is_active());
@@ -1803,10 +1803,10 @@ void send_goto_route(void)
   } goto_map_unit_iterate_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Find the path to the nearest (fastest to reach) allied city for the
   unit, or NULL if none is reachable.
-***************************************************************************/
+****************************************************************************/
 struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 {
   struct pf_parameter parameter;
@@ -1833,9 +1833,9 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
   return path;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Finds penultimate tile on path for given unit going to ptile
-***************************************************************************/
+****************************************************************************/
 struct tile *tile_before_end_path(struct unit *punit, struct tile *ptile)
 {
   struct pf_parameter parameter;
