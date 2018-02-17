@@ -79,25 +79,25 @@ static void popdown_diplomacy_dialog(int counterpart);
 static void popdown_diplomacy_dialogs(void);
 static void popdown_sdip_dialog(void);
 
-/****************************************************************
+/**********************************************************************//**
   Initialialize diplomacy dialog system.
-*****************************************************************/
+**************************************************************************/
 void diplomacy_dialog_init()
 {
   dialog_list = dialog_list_new();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Free resources allocated for diplomacy dialog system.
-*****************************************************************/
+**************************************************************************/
 void diplomacy_dialog_done()
 {
   dialog_list_destroy(dialog_list);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Get diplomacy dialog between client user and other player.
-*****************************************************************/
+**************************************************************************/
 static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
 {
   struct player *plr0 = client.conn.playing;
@@ -113,7 +113,7 @@ static struct diplomacy_dialog *get_diplomacy_dialog(int other_player_id)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update a player's acceptance status of a treaty (traditionally shown
   with the thumbs-up/thumbs-down sprite).
 **************************************************************************/
@@ -132,7 +132,7 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
   update_acceptance_icons(pdialog);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog when the meeting is canceled (the dialog
   should be closed).
 **************************************************************************/
@@ -144,7 +144,7 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 
 /* ----------------------------------------------------------------------- */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with remove clause -widget.
 **************************************************************************/
 static int remove_clause_callback(struct widget *pWidget)
@@ -167,7 +167,7 @@ static int remove_clause_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog by adding a clause.
 **************************************************************************/
 void handle_diplomacy_create_clause(int counterpart, int giver,
@@ -192,7 +192,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
   update_acceptance_icons(pdialog);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the diplomacy dialog by removing a clause.
 **************************************************************************/
 void handle_diplomacy_remove_clause(int counterpart, int giver,
@@ -219,7 +219,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 
 /* ================================================================= */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cancel meeting -widget.
 **************************************************************************/
 static int cancel_meeting_callback(struct widget *pWidget)
@@ -232,7 +232,7 @@ static int cancel_meeting_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with accept treaty -widget.
 **************************************************************************/
 static int accept_treaty_callback(struct widget *pWidget)
@@ -247,7 +247,7 @@ static int accept_treaty_callback(struct widget *pWidget)
 
 /* ------------------------------------------------------------------------ */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with pact selection -widget.
 **************************************************************************/
 static int pact_callback(struct widget *pWidget)
@@ -281,7 +281,7 @@ static int pact_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with shared vision -widget.
 **************************************************************************/
 static int vision_callback(struct widget *pWidget)
@@ -302,7 +302,7 @@ static int vision_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with embassy -widget.
 **************************************************************************/
 static int embassy_callback(struct widget *pWidget)
@@ -323,7 +323,7 @@ static int embassy_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with map -widget.
 **************************************************************************/
 static int maps_callback(struct widget *pWidget)
@@ -354,7 +354,7 @@ static int maps_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with tech -widget.
 **************************************************************************/
 static int techs_callback(struct widget *pWidget)
@@ -376,7 +376,7 @@ static int techs_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with gold -widget.
 **************************************************************************/
 static int gold_callback(struct widget *pWidget)
@@ -422,7 +422,7 @@ static int gold_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with city -widget.
 **************************************************************************/
 static int cities_callback(struct widget *pWidget)
@@ -444,7 +444,7 @@ static int cities_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Diplomacy meeting -window.
 **************************************************************************/
 static int dipomatic_window_callback(struct widget *pWindow)
@@ -452,7 +452,7 @@ static int dipomatic_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create treaty widgets. Pact (that will always be both ways) related
   widgets are created only when pPlayer0 is client user.
 **************************************************************************/
@@ -825,7 +825,7 @@ static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pPlayer0,
   return pDlg;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open new diplomacy dialog between players.
 **************************************************************************/
 static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
@@ -842,9 +842,9 @@ static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   return pdialog;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Update diplomacy dialog information.
-*****************************************************************/
+**************************************************************************/
 static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
@@ -1014,9 +1014,9 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Update treaty acceptance icons (accepted / rejected)
-*****************************************************************/
+**************************************************************************/
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 {
   struct widget *pLabel;
@@ -1061,9 +1061,9 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   widget_flush(pLabel);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Refresh diplomacy dialog when list of clauses has been changed.
-*****************************************************************/
+**************************************************************************/
 static void update_clauses_list(struct diplomacy_dialog *pdialog)
 {
   utf8_str *pstr;
@@ -1124,9 +1124,9 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
   flush_dirty();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Remove widget related to clause from list of widgets.
-*****************************************************************/
+**************************************************************************/
 static void remove_clause_widget_from_list(int counterpart, int giver,
                                            enum clause_type type, int value)
 {
@@ -1182,7 +1182,7 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the start of a diplomacy meeting - usually by poping up a
   diplomacy dialog.
 **************************************************************************/
@@ -1210,7 +1210,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   update_diplomacy_dialog(pdialog);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close diplomacy dialog between client user and given counterpart.
 **************************************************************************/
 static void popdown_diplomacy_dialog(int counterpart)
@@ -1239,7 +1239,7 @@ static void popdown_diplomacy_dialog(int counterpart)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown all diplomacy dialogs
 **************************************************************************/
 static void popdown_diplomacy_dialogs(void)
@@ -1249,7 +1249,7 @@ static void popdown_diplomacy_dialogs(void)
   } dialog_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close all open diplomacy dialogs, for when client disconnects from game.
 **************************************************************************/
 void close_all_diplomacy_dialogs(void)
@@ -1263,7 +1263,7 @@ void close_all_diplomacy_dialogs(void)
 /* ================================================================= */
 static struct SMALL_DLG *pSDip_Dlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Close small diplomacy dialog.
 **************************************************************************/
 static void popdown_sdip_dialog(void)
@@ -1275,7 +1275,7 @@ static void popdown_sdip_dialog(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with small diplomacy window.
 **************************************************************************/
 static int sdip_window_callback(struct widget *pWindow)
@@ -1287,7 +1287,7 @@ static int sdip_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with withdraw vision -widget.
 **************************************************************************/
 static int withdraw_vision_dlg_callback(struct widget *pWidget)
@@ -1305,7 +1305,7 @@ static int withdraw_vision_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cancel pact -widget.
 **************************************************************************/
 static int cancel_pact_dlg_callback(struct widget *pWidget)
@@ -1323,7 +1323,7 @@ static int cancel_pact_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with call meeting -widget.
 **************************************************************************/
 static int call_meeting_dlg_callback(struct widget *pWidget)
@@ -1343,7 +1343,7 @@ static int call_meeting_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cancel small diplomacy dialog -widget.
 **************************************************************************/
 static int cancel_sdip_dlg_callback(struct widget *pWidget)
@@ -1356,7 +1356,7 @@ static int cancel_sdip_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open war declaring dialog after some incident caused by pPlayer.
 **************************************************************************/
 static void popup_war_dialog(struct player *pPlayer)
@@ -1476,7 +1476,7 @@ static void popup_war_dialog(struct player *pPlayer)
 
 /* ===================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Open diplomacy dialog between client user and given player.
 **************************************************************************/
 void popup_diplomacy_dialog(struct player *pPlayer)
