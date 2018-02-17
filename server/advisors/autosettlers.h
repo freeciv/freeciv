@@ -57,7 +57,7 @@ void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
 bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
                            struct tile *ptile);
 
-int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad);
+adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad);
 
 extern Activity_type_id as_activities_transform[ACTIVITY_LAST];
 

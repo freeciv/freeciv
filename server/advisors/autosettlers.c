@@ -120,7 +120,7 @@ void advisors_init(void)
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
 **************************************************************************/
-int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
+adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 {
 #define MAX_DEP_ROADS 5
 
@@ -298,7 +298,7 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 static void consider_settler_action(const struct player *pplayer, 
                                     enum unit_activity act,
                                     struct extra_type *target,
-                                    int extra,
+                                    adv_want extra,
                                     int new_tile_value, int old_tile_value,
                                     bool in_use, int delay,
                                     adv_want *best_value,
@@ -532,7 +532,6 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                 /* These need separate implementations. */
                 && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
-              int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
 
               turns = pos.turn + get_turns_for_activity_at(punit, act, ptile,
@@ -542,7 +541,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                 turns++;
               }
 
-              consider_settler_action(pplayer, act, target, extra, base_value,
+              consider_settler_action(pplayer, act, target, 0.0, base_value,
                                       oldv, in_use, turns,
                                       &best_newv, &best_oldv, &best_extra,
                                       &improve_worked,
@@ -596,7 +595,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
             }
 
             if (base_value >= 0) {
-              int extra;
+              adv_want extra;
               struct road_type *proad;
 
               turns = pos.turn + get_turns_for_activity_at(punit, eval_act,
@@ -716,7 +715,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                                                            dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
-                                            0, dep_value, oldv, in_use,
+                                            0.0, dep_value, oldv, in_use,
                                             dep_turns, &best_newv, &best_oldv,
                                             &best_extra, &improve_worked,
                                             &best_delay,
