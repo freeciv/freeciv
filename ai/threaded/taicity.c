@@ -225,9 +225,9 @@ static void tai_tile_worker_task_select(struct player *pplayer,
     } unit_list_iterate_end;
 
     if (act != ACTIVITY_LAST) {
-      int base_value;
+      adv_want base_value;
       int value;
-      int extra;
+      adv_want extra;
       bool consider = TRUE;
       struct road_type *proad;
 
