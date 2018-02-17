@@ -1781,30 +1781,30 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
     /* ----------- */
-    
+
     create_active_iconlabel(pBuf, pWindow->dst, pStr, _("Patrol here"),
-						    patrol_here_callback);
+                            patrol_here_callback);
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
-        
+
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, pBuf);
-    
+
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
     /* ----------- */
 
 #if 0 /* FIXME: specific connect buttons */
-    if(unit_has_type_flag(pFocus_Unit, F_SETTLERS)) {
+    if (unit_has_type_flag(pFocus_Unit, UTYF_SETTLERS)) {
       create_active_iconlabel(pBuf, pWindow->dst->surface, pStr, _("Connect here"),
-						    connect_here_callback);
+                              connect_here_callback);
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
-  
+
       add_to_gui_list(ID_LABEL, pBuf);
-    
+
       area.w = MAX(area.w, pBuf->size.w);
       area.h += pBuf->size.h;
-      
+
     }
 #endif /* 0 */
 
