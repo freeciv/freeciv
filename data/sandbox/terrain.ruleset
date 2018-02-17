@@ -1155,9 +1155,9 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Oceanic", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainClass", "Oceanic", "Local", FALSE, TRUE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
     }
 build_time     = 0
 removal_time   = 0
@@ -1177,11 +1177,11 @@ act_gfx_alt2   = "unit.plant"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Refining", "Player", TRUE
-      "TerrainFlag", "Oil", "Local", TRUE
-      "Extra", "Mine", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Refining", "Player", TRUE, FALSE
+      "TerrainFlag", "Oil", "Local", TRUE, FALSE
+      "Extra", "Mine", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
     }
 build_time     = 0
 removal_time   = 0
@@ -1271,11 +1271,11 @@ act_gfx_alt      = "-"
 rmact_gfx        = "None"
 rmact_gfx_alt    = "-"
 appearance_reqs  =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Land", "Local", TRUE
-      "MinYear", "1000", "World", FALSE
-      "CityTile", "Center", "Local", FALSE
-      "Extra", "Hut", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "MinYear", "1000", "World", FALSE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
+      "Extra", "Hut", "Local", FALSE, FALSE
     }
 appearance_chance = 1
 ; /* xgettext:no-c-format */
@@ -1342,12 +1342,12 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Construction", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Construction", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 2
 removal_time   = 0
@@ -1375,14 +1375,14 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Extra", "Fort", "Local", TRUE
-      "Tech", "Construction", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-      "CityTile", "Center", "Local", FALSE
-      "Extra", "River", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Fort", "Local", TRUE, FALSE
+      "Tech", "Construction", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "CityTile", "Center", "Local", FALSE, TRUE
+      "Extra", "River", "Local", FALSE, FALSE
     }
 build_time     = 2
 removal_time   = 0
@@ -1420,11 +1420,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Radio", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 2
 removal_time   = 0
@@ -1434,10 +1434,10 @@ hidden_by      = "Airbase"
 flags          = "Refuel", "ParadropFrom"
 helptext       = _("\
 Airstrips are rapidly-built runways allowing air units to land, refuel, \
-and recover; an aircraft remaining on an airstrip for a whole turn \
-without moving recovers a tenth of its hit points (that is, the amount \
-it loses each turn while airborne). However, air units on an airstrip \
-are vulnerable to attack by land units.\
+and recover outside cities; an aircraft remaining on an airstrip for a \
+whole turn without moving recovers a tenth of its hit points (that is, \
+the amount it loses each turn while airborne). However, air units on an \
+airstrip are vulnerable to attack by land units.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1460,13 +1460,13 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Extra", "Airstrip", "Local", TRUE
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
-      "Extra", "River", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Airstrip", "Local", TRUE, FALSE
+      "Tech", "Radio", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
+      "Extra", "River", "Local", FALSE, FALSE
     }
 build_time     = 2
 removal_time   = 0
@@ -1501,11 +1501,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Radio", "Player", TRUE
-      "TerrainClass", "Oceanic", "Local", TRUE
-      "UnitFlag", "Airbase", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Radio", "Player", TRUE, FALSE
+      "TerrainClass", "Oceanic", "Local", TRUE, FALSE
+      "UnitFlag", "Airbase", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 visibility_req = "Radio"
 build_time     = 3
@@ -1532,9 +1532,9 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 buildable      = FALSE
 removal_time   = 0
@@ -1557,10 +1557,10 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "UnitFlag", "Settlers", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-      "TerrainClass", "Land", "Local", TRUE
+    { "type", "name", "range", "present", "quiet"
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
     }
 build_time     = 0
 removal_time   = 0
@@ -1593,12 +1593,12 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Railroad", "Player", TRUE
-      "Extra", "Road", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-      "TerrainClass", "Land", "Local", TRUE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Railroad", "Player", TRUE, FALSE
+      "Extra", "Road", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
     }
 build_time     = 3
 removal_time   = 0
@@ -1631,12 +1631,12 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Superconductors", "Player", TRUE
-      "Extra", "Railroad", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-      "TerrainClass", "Land", "Local", TRUE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Superconductors", "Player", TRUE, FALSE
+      "Extra", "Railroad", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
     }
 build_time     = 3
 removal_time   = 0

@@ -865,11 +865,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Strong Force", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Strong Force", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -891,11 +891,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Force Channeling", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Force Channeling", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
@@ -916,11 +916,11 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range", "present"
-      "Tech", "Commercial Antigravity", "Player", TRUE
-      "TerrainClass", "Land", "Local", TRUE
-      "UnitFlag", "Settlers", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Tech", "Commercial Antigravity", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "CityTile", "Center", "Local", FALSE, TRUE
     }
 build_time     = 3
 removal_time   = 0
