@@ -3095,16 +3095,20 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, vrbuf);
   }
 
-  /* XXX Non-zero requirement vector is not a good test of whether
-   * req_text_insert_nl() will give any output. */
   if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
-      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
-    }
+    char reqsbuf[8192] = "";
+
     requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
+      (void) req_text_insert_nl(reqsbuf, sizeof(reqsbuf), pplayer, preq,
+                                VERB_DEFAULT);
     } requirement_vector_iterate_end;
-    CATLSTR(buf, bufsz, "\n");
+    if (reqsbuf[0] != '\0') {
+      if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
+        CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+      }
+      CATLSTR(buf, bufsz, reqsbuf);
+      CATLSTR(buf, bufsz, "\n");
+    }
   }
 
   {
