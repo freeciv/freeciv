@@ -186,7 +186,7 @@ struct unit {
                            * transporter is known. */
       bool occupied;      /* TRUE if at least one cargo on the transporter. */
 
-      /* Equivalent to pcity->client.color. Only for F_CITIES units. */
+      /* Equivalent to pcity->client.color. Only for cityfounder units. */
       bool colored;
       int color_index;
 
