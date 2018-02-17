@@ -460,8 +460,8 @@ helptext      = _("\
 Settlers are one of the key units in the game, as they are your main\
  means of founding new cities.\
 "), _("\
-Settlers can also perform some of the same terrain alterations as\
- Workers.\
+Settlers can also perform most of the same terrain alterations as\
+ Workers (but cannot build Airbases or Buoys).\
 "), _("\
 Upkeep for Settlers is in food as well as production, and a Settler\
  can die if its supporting city runs out of food. Settlers in a\
@@ -502,32 +502,11 @@ veteran_power_fact = 100
 veteran_move_bonus = 0
 roles         = "Settlers", "WorkerStartUnit"
 helptext      = _("\
-Workers have the ability to improve terrain tiles.\
-"), _("\
-Building an irrigation system on a suitable tile causes it to \
-produce some extra food each turn. This requires a nearby source of \
-water: an ocean, lake, or river tile, or another tile with an \
-irrigation system, must share an edge (not just a corner) with the \
-target tile. Once irrigated, land remains so even if the water source \
-is removed. When Refrigeration is known, irrigation systems can be \
-upgraded to Farmland by irrigating them a second time; this provides \
-more food to a city if it has a Supermarket.\
-"), _("\
-Building a mine on suitable terrain increases the \
-number of production points produced by that tile. However, it is not \
-possible to have an irrigation system and a mine on the same tile.\
-"), _("\
-On terrain unsuitable for irrigation systems or mines, issuing the \
-\"irrigate\" or \"mine\" order may permanently convert the terrain \
-to another type; this is usually more expensive. For instance, Swamp \
-may be \"irrigated\" to yield Grassland. (Terrain conversion with \
-the \"irrigate\" order does not require a water source.)\
+Workers have the ability to improve terrain tiles. See the help on \
+Terrain and Terrain Alterations for the effects of their actions.\
 "), _("\
 Workers can build airbases and buoys, which Settlers cannot. \
 Workers must be on board a ship to build buoys.\
-"), _("\
-See the help on Terrain and Terrain Alterations for the effects of \
-these actions.\
 ")
 
 [unit_engineers]
@@ -1974,10 +1953,8 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
  Any city within the blast area loses half its population, and\
  land tiles within the blast area are subject to nuclear fallout.\
 "), _("\
-Similar to pollution and global warming, the risk of global nuclear\
- winter increases with fallout. If nuclear winter occurs, terrain\
- across the globe changes into desert, tundra, and ice. Settlers,\
- Workers, and Engineers can clean up nuclear fallout.\
+Nuclear fallout reduces tile output and increases the risk of global\
+ nuclear winter; see the help on Fallout.\
 "), _("\
 TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\

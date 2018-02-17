@@ -743,13 +743,16 @@ removal_time   = 0
 conflicts      = "Mine"
 hidden_by      = "Farmland"
 helptext = _("\
-Greenhouses can be built on certain terrain types only. In addition to that \
-tile has to have one of the following water sources:\n\
-- Greenhouses can be built tiles cardinally adjacent to Oceanic tiles and \
-on river tiles once Manufacturing is known.\n\
-- Once Water Flow is known, Greenhouses can be built to tiles cardinally adjacent \
-to river tiles or city center.\n\
-- Deep Pumping technology enables building Greenhouses anywhere.\
+Greenhouses can be built on certain terrain types to give a food bonus. \
+Building Greenhouses requires the tile to have a water source:\n\
+- Cities have Greenhouses built in, unless there is a Mine on the tile. \
+They do not need to be built.\n\
+- With Manufacturing, Greenhouses can be built outside cities directly on \
+river tiles, or cardinally adjacent to Oceanic tiles.\n\
+- With Water Flow, it becomes possible to also build Greenhouses \
+cardinally adjacent to river tiles or city centers.\n\
+- Deep Pumping allows water to be drawn from the depths of the crust, \
+allowing Greenhouses to be built anywhere.\
 ")
 
 [extra_mine]
@@ -767,6 +770,10 @@ rmact_gfx_alt  = "-"
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation", "Farmland"
+helptext       = _("\
+Mines can be built on Hills for an extra production point. Once Burrowing \
+is known, Thick Mountains can also be mined.\
+")
 
 [extra_pollution]
 name           = _("Pollution")
@@ -786,6 +793,17 @@ reqs           =
     }
 removal_time   = 0
 flags          = "GlobalWarming"
+helptext       = _("\
+Pollution appears on tiles around cities with high production. \
+It halves all output from its tile.\
+"), _("\
+The pollution can only be cleared by dispatching Engineer or Hunter \
+units with the \"clean pollution\" order.\
+"), _("\
+The contribution of production to pollution can be seen in the city \
+dialog; once it exceeds a threshold, the excess is the percent chance \
+of pollution appearing each turn.\
+")
 
 [extra_capsule]
 name           = _("Space Capsule")
@@ -834,6 +852,13 @@ reqs           =
 build_time     = 0
 removal_time   = 0
 conflicts      = "Mine"
+; /* xgettext:no-c-format */
+helptext       = _("\
+Once Protein Modifications are understood, Greenhouses can be upgraded to \
+Protein Houses, giving 50% more food. Once Food Regeneration is known, \
+Protein Houses give a further 50% food. City center tiles automatically \
+get Protein Houses as soon as they are available.\
+")
 
 [extra_fallout]
 name           = _("Fallout")
@@ -853,6 +878,13 @@ reqs           =
     }
 removal_time   = 0
 flags          = "NuclearWinter"
+helptext       = _("\
+Fallout appears after Rebels strike a city. It halves all output from \
+its tile.\
+"), _("\
+Fallout can only be cleared by dispatching Engineer or Hunter \
+units with the \"clean fallout\" order.\
+")
 
 [extra_tower]
 name           = _("Tower")
