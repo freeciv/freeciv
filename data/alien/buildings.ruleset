@@ -322,7 +322,7 @@ sound		= "w_isaac_newtons_college"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Improved information gathering. Only 2 other civilizations needs to know \
+Improved information gathering. Only 2 other factions needs to know \
 given technology before we gain access to it.")
 
 [building_mood_center]
