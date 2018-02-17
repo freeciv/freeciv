@@ -1196,15 +1196,20 @@ void tileset_free(struct tileset *t)
 
   Call this function with the (guessed) name of the tileset, when
   starting the client.
+
+  Returns TRUE iff tileset with suggested tileset_name was loaded.
 ***********************************************************************/
-void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
+bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
                        bool global_default)
 {
+  bool original;
+
   if (tileset_name == NULL
       || !(tileset = tileset_read_toplevel(tileset_name, verbose,
                                            topo_id, 1.0f))) {
     struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
+    original = FALSE;
     strvec_iterate(list, file) {
       struct tileset *t = tileset_read_toplevel(file, FALSE, topo_id, 1.0f);
 
@@ -1228,12 +1233,16 @@ void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
     }
 
     log_verbose("Trying tileset \"%s\".", tileset->name);
+  } else {
+    original = TRUE;
   }
   option_set_default_ts(tileset);
 
   if (global_default) {
     sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
   }
+
+  return original;
 }
 
 /**********************************************************************

@@ -667,7 +667,11 @@ int client_main(int argc, char *argv[])
   fill_topo_ts_default();
 
   if (forced_tileset_name[0] != '\0') {
-    tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE);
+    if (!tilespec_try_read(forced_tileset_name, TRUE, -1, TRUE)) {
+      log_error(_("Can't load requested tileset %s!"), forced_tileset_name);
+      client_exit();
+      return EXIT_FAILURE;
+    }
   } else {
     tilespec_try_read(gui_options.default_tileset_name, FALSE, -1, TRUE);
   }

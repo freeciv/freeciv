@@ -250,12 +250,12 @@ void editor_clear(void)
 ****************************************************************************/
 void editor_free(void)
 {
-  fc_assert_ret(editor != NULL);
-
-  edit_buffer_free(editor->copybuf);
-  tile_hash_destroy(editor->selected_tile_table);
-  free(editor);
-  editor = NULL;
+  if (editor != NULL) {
+    edit_buffer_free(editor->copybuf);
+    tile_hash_destroy(editor->selected_tile_table);
+    free(editor);
+    editor = NULL;
+  }
 }
 
 /****************************************************************************
