@@ -3323,16 +3323,19 @@ void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  /* XXX Non-zero requirement vector is not a good test of whether
-   * insert_requirement() will give any output. */
   if (requirement_vector_size(&pbase->reqs) > 0) {
-    if (pbase->buildable) {
-      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
-    }
+    char reqsbuf[8192] = "";
+
     requirement_vector_iterate(&pbase->reqs, preq) {
-      (void) insert_requirement(buf, bufsz, pplayer, preq);
+      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq);
     } requirement_vector_iterate_end;
-    CATLSTR(buf, bufsz, "\n");
+    if (reqsbuf[0] != '\0') {
+      if (pbase->buildable) {
+        CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+      }
+      CATLSTR(buf, bufsz, reqsbuf);
+      CATLSTR(buf, bufsz, "\n");
+    }
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
@@ -3475,16 +3478,19 @@ void helptext_road(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  /* XXX Non-zero requirement vector is not a good test of whether
-   * insert_requirement() will give any output. */
   if (requirement_vector_size(&proad->reqs) > 0) {
-    if (proad->buildable) {
-      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
-    }
+    char reqsbuf[8192] = "";
+
     requirement_vector_iterate(&proad->reqs, preq) {
-      (void) insert_requirement(buf, bufsz, pplayer, preq);
+      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq);
     } requirement_vector_iterate_end;
-    CATLSTR(buf, bufsz, "\n");
+    if (reqsbuf[0] != '\0') {
+      if (proad->buildable) {
+        CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+      }
+      CATLSTR(buf, bufsz, reqsbuf);
+      CATLSTR(buf, bufsz, "\n");
+    }
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
