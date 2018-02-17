@@ -547,8 +547,8 @@ flags    = ""
 graphic     = "a.miniaturization"
 graphic_alt = "-"
 helptext = _("\
-Allows Settlers, Migrants, Workers, Engineers and Transports to build \
-oil platforms on deep ocean, required to get the bonus from \
+Allows Settlers, Migrants, Workers, Engineers, and Transports to build \
+oil platforms on Deep Ocean, required to get the bonus from \
 Offshore Platforms.\
 ")
 cost     = 480
@@ -714,7 +714,7 @@ graphic     = "a.refining"
 graphic_alt = "-"
 helptext = _("\
 Allows Settlers, Migrants, Workers and Engineers to upgrade \
-mines to oil wells on desert and glacier.\
+mines to oil wells on Desert and Glacier.\
 ")
 cost     = 400
 

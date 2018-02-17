@@ -455,7 +455,7 @@ Settlers are one of the key units in the game, as they are your main \
 means of founding new cities.\
 "), _("\
 Settlers can also perform some of the same terrain alterations as \
-Workers.\
+Workers (but cannot build airstrips, airbases, or buoys).\
 "), _("\
 TIP: optimal production of Settlers occurs in cities of at most \
 size 4, or cities with a Granary of at most size 6.\
@@ -497,7 +497,8 @@ roles         = "Settlers"
 helptext      = _("\
 Migrants can be used to transfer population to other cities, but \
 may not found new cities. They can also perform some of the same \
-terrain alterations as Workers.\
+terrain alterations as Workers (but cannot build airstrips, \
+airbases, or buoys).\
 ")
 
 [unit_worker]
@@ -534,34 +535,11 @@ veteran_power_fact = 100
 veteran_move_bonus = 0
 roles         = "Settlers", "WorkerStartUnit"
 helptext      = _("\
-Workers have the ability to improve terrain tiles.\
-"), _("\
-Building an irrigation system on a suitable tile causes it to \
-produce some extra food each turn. Without knowledge of Electricity, \
-this requires a nearby source of water: an ocean, lake, or river tile, \
-or another tile with an irrigation system, must share an edge (not \
-just a corner) with the target tile. Once Electricity is known, \
-irrigation systems may be built without a water source. Once \
-irrigated, land remains so even if the water source is removed. \
-When Refrigeration is known, irrigation systems can be upgraded to \
-Farmland by irrigating them a second time; this provides more food \
-to a city if it has a Supermarket.\
-"), _("\
-Building a mine on suitable terrain increases the \
-number of production points produced by that tile. However, it is not \
-possible to have an irrigation system and a mine on the same tile.\
-"), _("\
-On terrain unsuitable for irrigation systems or mines, issuing the \
-\"irrigate\" or \"mine\" order may permanently convert the terrain \
-to another type; this is usually more expensive. For instance, Forest \
-may be \"irrigated\" to yield Plains. (Terrain conversion with \
-the \"irrigate\" order does not require a water source.)\
+Workers have the ability to improve terrain tiles. See the help on \
+Terrain and Terrain Alterations for the effects of their actions.\
 "), _("\
 Workers can build airstrips, airbases, and buoys, which Settlers \
 and Migrants cannot. Workers must be on board a ship to build buoys.\
-"), _("\
-See the help on Terrain and Terrain Alterations for the effects of \
-these actions.\
 ")
 
 [unit_engineers]
@@ -2064,7 +2042,7 @@ The Transport cannot attack on its own but\
  may defend itself when under attack.\
 "), _("\
 Transports can also clean pollution and fallout on water tiles, and \
-with knowledge of Miniaturization, may build Oil Platforms on deep ocean \
+with knowledge of Miniaturization, may build oil platforms on deep ocean \
 tiles (for use by Offshore Platforms).\
 ")
 ; FIXME: also cleans pollution/fallout in coastal cities (and faster
@@ -2153,11 +2131,8 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
  Any city within the blast area loses half its population, and\
  land tiles within the blast area are subject to nuclear fallout.\
 "), _("\
-Similar to pollution and global warming, the risk of global nuclear\
- winter increases with fallout. If nuclear winter occurs, terrain\
- across the globe changes into desert, tundra, and ice. Settlers,\
- Migrants, Workers, and Engineers and (for fallout on water)\
- Transports can clean up nuclear fallout.\
+Nuclear fallout reduces tile output and increases the risk of global\
+ nuclear winter; see the help on Fallout.\
 "), _("\
 TIP:  You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\

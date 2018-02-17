@@ -862,6 +862,23 @@ rmact_gfx_alt  = "-"
 build_time     = 0
 removal_time   = 0
 conflicts      = "Mine"
+helptext       = _("\
+Building an irrigation system on a suitable tile causes it to \
+produce one extra food each turn. This requires a nearby source of \
+water: an ocean or river tile, or another tile with an \
+irrigation system, must share an edge (not just a corner) with the \
+target tile. However, once irrigated, land remains so even if the \
+water source is removed.\
+"), _("\
+Building irrigation on a tile with a mine will destroy it.\
+"), _("\
+City center tiles get their terrain's irrigation bonus automatically, \
+if there is no conflicting mine on the tile; however, \
+this does not make cities count as a water source for further \
+irrigation. Irrigation can be built on the city tile simply to allow \
+building further irrigation elsewhere, but will not give the tile any \
+further bonus.\
+")
 
 [extra_mine]
 name           = _("Mine")
@@ -878,6 +895,14 @@ rmact_gfx_alt  = "-"
 build_time     = 0
 removal_time   = 0
 conflicts      = "Irrigation"
+helptext       = _("\
+Mines can be built on some types of terrain, which increases the \
+number of production points produced by that tile. Hills get an extra \
+3 production points per tile; other terrains get 1 extra production \
+point.\
+"), _("\
+Building a mine on an irrigated tile will destroy the irrigation.\
+")
 
 [extra_pollution]
 name           = _("Pollution")
@@ -897,6 +922,45 @@ reqs           =
     }
 removal_time   = 0
 flags          = "GlobalWarming"
+helptext       = _("\
+Pollution appears on land tiles around cities with high production or \
+population, or when a Nuclear unit is detonated. \
+It halves all output from its tile, and contributes to the risk of \
+global warming.\
+"), _("\
+The pollution can only be cleared by dispatching Settlers \
+with the \"clean pollution\" order.\
+"), _("\
+Pollution from production is likely to start becoming important as \
+your civilization becomes more industrialized, giving you buildings \
+such as Factory and Power Plant which boost production. Replacing a \
+Power Plant with cleaner forms of energy -- a Hydro Plant / Hoover \
+Dam, Nuclear Plant, or Solar Plant -- will reduce pollution from \
+production, as will a Recycling Center.\
+"), _("\
+The city's population starts adding to pollution with the discovery of \
+Industrialization, and Automobile, Mass Production, and Plastics make \
+this worse. Building a Mass Transit in a city eliminates the \
+population's contribution to pollution.\
+"), _("\
+The contribution of these factors can be seen in the city dialog; once \
+it exceeds a threshold, the excess is the percent chance of pollution \
+appearing each turn.\
+"), _("\
+When an unused tile becomes polluted, there is the temptation to avoid \
+the effort of cleaning it; but the spread of pollution has far more \
+terrible results than the immediate economic impact -- every polluted \
+tile increases the chance of global warming. Each time global warming \
+advances, the entire world loses coastal land to jungles and swamps, \
+and inland tiles are lost to desert. This tends to devastate cities \
+and leads to global impoverishment.\
+"), _("\
+The risk of global warming is cumulative; the longer polluted tiles \
+are left uncleaned, the higher the risk becomes, and the risk can \
+linger for some time even after all pollution has been cleaned. If a \
+long time passes with an elevated risk of warming, its effects will be \
+all the more severe when it does occur.\
+")
 
 [extra_hut]
 name           = _("Minor Tribe Village")

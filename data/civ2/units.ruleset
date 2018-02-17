@@ -337,29 +337,8 @@ flags         = "Settlers", "Cant_Fortify", "NonMil", "Airbase", "AddToCity", "C
 roles         = "Settlers", "WorkerStartUnit", "CitiesStartUnit"
 helptext      = _("\
 Settlers are one of the key units in the game, as they are your main \
-means of founding new cities, and can also improve terrain.\
-"), _("\
-Building an irrigation system on a suitable tile causes it to \
-produce some extra food each turn. This requires a nearby source of \
-water: an ocean or river tile, or another tile with an \
-irrigation system, must share an edge (not just a corner) with the \
-target tile. Once irrigated, land remains so even if the water source \
-is removed. When Refrigeration is known, irrigation systems can be \
-upgraded to Farmland by irrigating them a second time; this provides \
-more food to a city if it has a Supermarket.\
-"), _("\
-Building a mine on suitable terrain increases the \
-number of production points produced by that tile. However, it is not \
-possible to have an irrigation system and a mine on the same tile.\
-"), _("\
-On terrain unsuitable for irrigation systems or mines, issuing the \
-\"irrigate\" or \"mine\" order may permanently convert the terrain \
-to another type; this is usually more expensive. For instance, Swamp \
-may be \"irrigated\" to yield Grassland. (Terrain conversion with \
-the \"irrigate\" order does not require a water source.)\
-"), _("\
-See the help on Terrain and Terrain Alterations for the effects of \
-these actions.\
+means of founding new cities, and can also improve terrain; see the \
+help on Terrain and Terrain Alterations.\
 "), _("\
 Upkeep for Settlers is in food as well as production, and a Settler\
  can die if its supporting city runs out of food. Settlers require\
@@ -1890,12 +1869,8 @@ You can build Nuclear units when you have the required advance, and\
 On impact, the blast will destroy any unit in an area 3 tiles wide\
  (3x3 squares for rectangular grids), including friendly units.\
  Any city within the blast area loses half its population, and\
- land tiles within the blast area are subject to nuclear fallout.\
-"), _("\
-Similar to pollution and global warming, the risk of global nuclear\
- winter increases with fallout. If nuclear winter occurs, terrain\
- across the globe changes into desert, tundra, and ice. Settlers\
- and Engineers can clean up nuclear fallout.\
+ land tiles within the blast area are subject to nuclear fallout,\
+ which appears as pollution and contributes to global warming.\
 "), _("\
 TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
@@ -1906,7 +1881,7 @@ TIP 2:  You may be involved in a situation where you've invaded an\
  Before using a Nuclear unit, assemble a gang of Settlers\
  and/or Engineers next to the city and have them ready to fix\
  the fallout on the same turn it occurs!  This minimizes the\
- chance of nuclear winter.  Eco-friendly nukes!\
+ chance of global warming.  Eco-friendly nukes!\
 ")
 
 [unit_diplomat]

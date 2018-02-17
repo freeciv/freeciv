@@ -317,9 +317,7 @@ The net benefit of a tile for your city depends on your government \
 type as well as city improvements and wonders.\
 "), _("\
 It is possible for your units to change the terrain and hence its \
-effects; see the section on Terrain Alterations for more details. \
-City centers (the tile a city is on) may get some of these benefits \
-for free; see the section on Cities for more detail.\
+effects; see the section on Terrain Alterations for more details.\
 ")
 
 [help_gen_terrain]
@@ -333,31 +331,21 @@ categories = "Natural"
 ; /* TRANS: Preserve the leading space: it controls nesting */
 name = _(" Terrain Alterations")
 text = _("\
-Certain units (Settlers, Workers, and Engineers in the classic \
-ruleset) have the ability to alter terrain tiles in several ways. \
-The following description uses the classic ruleset to illustrate \
-this; other rulesets may have different rules, or even omit some \
-of these alterations entirely.\
+Certain units have the ability to alter terrain tiles in several \
+ways: they may add or remove tile improvements, remove unwanted \
+features such as pollution, or change the base terrain type entirely.\
 "), _("\
-Irrigation systems can be built on suitable types of terrain; \
-these cause a tile to produce some extra food each turn. There may \
-be restrictions on where an irrigation system can be built; for \
-instance, in the classic ruleset, a water source is required. \
-See the ruleset help for details. However, once irrigated, land \
-remains so even if its requirements are removed.\
+Tile improvements typically provide some lasting bonus for as long as \
+they are present, such as a production bonus when a city works the \
+tile. Roads or paths typically ease movement, if they connect to a \
+similar road on an adjacent tile, and bases often provide protection \
+and refueling. The available tile improvements are described in the \
+following sections.\
 "), _("\
-In some rulesets, given sufficient technology, you may upgrade \
-an irrigation system on a tile into even more productive Farmland, \
-by irrigating it a second time.\
-"), _("\
-Mines can be built on some types of terrain, which increases the \
-number of production points (shields) produced by that tile.\
-"), _("\
-Units may be able to build other terrain improvements; see the \
-following sections for details. Roads typically ease movement, if \
-adjacent tiles have the same road, and bases often provide protection \
-and refueling. Such improvements can also provide other bonuses such \
-as production bonuses; this is up to the ruleset.\
+Improvements can be built by issuing one of several orders to a suitable \
+unit while on a suitable tile: \"mine\", \"irrigate\", \"road\", or \
+\"build base\" (although whether the order builds an improvement of the \
+same name is up to the ruleset).\
 "), _("\
 Terrain can sometimes be permanently converted into a type more suitable \
 to the player's needs, although this usually takes longer than adding \
@@ -370,7 +358,7 @@ The requirements for terrain conversion are set by the ruleset. \
 It can be initiated in several ways:\
 "), _("\
  - By issuing \"irrigate\" or \"mine\" orders when on terrain unsuitable \
-for such improvements.\
+for tile improvements.\
 "), _("\
  - By issuing the special \"transform\" order. This often causes more \
 radical transformations.\
@@ -383,12 +371,16 @@ cannot reach the existing terrain may have to be loaded onto a \
 suitable vessel, and if necessary and possible, they will move to \
 safe neighboring tiles when the conversion is complete.\
 "), _("\
-Many units -- in the classic rules, all land units -- also have the \
-ability to destroy terrain alterations, by pillaging. Terrain conversions \
-cannot be undone by pillaging; for example, in the classic ruleset, if a \
-Forest tile has been irrigated to convert it into a Plain, you cannot \
-convert it back into a Forest by pillaging -- to do so, you would have \
-to convert the tile again with a Settler, Worker, or Engineer.\
+Units may also be able to destroy terrain alterations, by pillaging; \
+typically more kinds of unit can pillage an improvement than \
+could build it in the first place. Some tile features can only be \
+removed by specialized units, with the \"clean pollution\" or \
+\"clean fallout\" orders.\
+"), _("\
+Terrain conversions cannot be undone in this way; for example, in the \
+classic ruleset, if a Forest tile has been irrigated to convert it into \
+Plains, you cannot convert it back into a Forest by pillaging -- to do \
+so, you would have to convert the tile again with a suitable unit.\
 "), _("\
 The time it takes a unit to alter terrain depends on its movement rate. \
 The following table shows the number of turns required for a unit \
@@ -542,8 +534,8 @@ Some production points may be lost to waste, although there is no \
 waste in the classic rules. Waste can result in your cities not \
 building anything.\
 "), _("\
-Cities with a large production output generate pollution; see the \
-section on Cities for more information.\
+Cities with a large production output contribute to pollution, which \
+affects the tiles around the city. See the Terrain help.\
 ")
 
 [help_trade]
@@ -643,6 +635,11 @@ with the loss of its last citizen a city disappears (in the classic \
 ruleset, this can leave ruins, although these have no effect on \
 gameplay).\
 "), _("\
+While city growth should usually be your aim, it comes with challenges. \
+As cities grow, managing happiness becomes a problem; this is described \
+in its own section. Depending on the ruleset, pollution (described in \
+the Terrain help), plague, and migration can also be issues.\
+"), _("\
 Each city may work the terrain within its reach. In the classic ruleset, \
 this is a fixed radius of approximately three tiles, giving access to \
 20 tiles on rectangular maps, or 18 tiles on hexagonal ones, in addition \
@@ -661,17 +658,14 @@ the terrain to make the tile less productive.\
 "), _("\
 The section on Terrain describes how the output of each tile is \
 affected by the terrain, the presence of special resources such as \
-game or minerals, and improvements like roads, irrigation, and mines. \
-Note that the tile on which the city itself rests -- the city center \
--- gets worked for free, without being assigned a citizen. The city's \
-tile may also receive other benefits. In the classic ruleset, it \
-always produces at least one food and one production point regardless \
-of terrain; gains whatever advantages the terrain offers with an \
-irrigation system (because cities come with water systems built-in), \
-although this may not be used as a basis for irrigating other tiles; \
-and is usually developed with roads (unless on a river and you do not \
-yet know Bridge Building; upon learning it, river cities will also \
-acquire roads). Other rulesets may differ in detail.\
+game or minerals, and tile improvements built by units. Note that the \
+tile on which the city itself rests -- the city center -- gets worked \
+for free, without being assigned a citizen. The city's tile may also \
+receive other benefits. In the classic ruleset, it always produces at \
+least one food and one production point regardless of terrain; gains \
+whatever advantages the terrain offers with an irrigation system \
+(because cities come with water systems built-in); and is usually \
+developed with roads. Other rulesets may differ in detail.\
 "), _("\
 The roles of citizens are controlled from the City dialog. Citizens \
 working the land are represented by three numbers showing their output \
@@ -851,39 +845,6 @@ even that caused by military or diplomatic tensions.\
 "), _("\
 The Happiness tab on the city dialog will give detailed insight into \
 the mood of the citizenry and its causes.\
-")
-
-[help_pollution]
-; /* TRANS: Preserve the leading space: it controls nesting */
-name = _(" Pollution")
-text = _("\
-Pollution can plague large cities, especially as your civilization \
-becomes more industrialized. The chance of pollution appearing around \
-a city depends on the sum of its population, aggravated by several \
-technology advances, and its production point output. When this sum \
-exceeds 20, the excess is the percent chance of pollution appearing \
-each turn; this percentage is shown in the city dialog. (This chance \
-of pollution also affects the risk of plague, if enabled in the \
-ruleset; see the section on Plague.)\
-"), _("\
-Pollution appears as gunk covering the terrain tiles around the \
-city. A polluted tile generates only half its usual food, production, \
-and trade. The pollution can only be cleared by dispatching Workers, \
-Settlers, or Engineers with the \"clean pollution\" order.\
-"), _("\
-When an unused tile becomes polluted, there is the temptation to avoid \
-the effort of cleaning it; but the spread of pollution has far more \
-terrible results -- every polluted tile increases the chance of global \
-warming. Each time global warming advances, the entire world loses \
-coastal land for jungles and swamps, and inland tiles are lost to \
-desert. This tends to devastate cities and leads to global \
-impoverishment.\
-"), _("\
-The risk of global warming is cumulative; the longer polluted tiles \
-are left uncleaned, the higher the risk becomes, and the risk can \
-linger for some time even after all pollution has been cleaned. If a \
-long time passes with an elevated risk of warming, its effects will be \
-all the more severe when it does occur.\
 ")
 
 [help_plague]
