@@ -643,7 +643,6 @@ city_dialog::city_dialog(QWidget *parent): QDialog(parent)
 {
   QSizePolicy size_expanding_policy(QSizePolicy::Expanding,
                                     QSizePolicy::Expanding);
-  QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   QStringList info_list;
   QFont *small_font;
   QFont f = QApplication::font();
