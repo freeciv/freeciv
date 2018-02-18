@@ -261,7 +261,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-        if (clean_pollution_time != 0) {
+        if (clean_pollution_time != 0 && pterrain->clean_pollution_time != 0) {
           if (clean_pollution_time < 0) {
             clean_pollution_time = pterrain->clean_pollution_time;
           } else {
@@ -270,7 +270,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             }
           }
         }
-        if (clean_fallout_time != 0) {
+        if (clean_fallout_time != 0 && pterrain->clean_fallout_time != 0) {
           if (clean_fallout_time < 0) {
             clean_fallout_time = pterrain->clean_fallout_time;
           } else {
