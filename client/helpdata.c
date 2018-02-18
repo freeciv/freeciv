@@ -287,6 +287,130 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       }
     } terrain_type_iterate_end;
 
+    /* Examine extras to see if time of removal activities really is
+     * terrain-independent, and take into account removal_time_factor.
+     * XXX: this is rather overwrought to handle cases which the ruleset
+     *      author could express much more simply for the same result */
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent clean time; use extra's time */
+        if (time >= 0) {
+          clean_pollution_time = time;
+        } else {
+          clean_pollution_time = 0;
+        }
+      } else if (clean_pollution_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(clean_pollution_time > 0);
+        if (time > 0 && factor > 0 && time != clean_pollution_time * factor) {
+          clean_pollution_time = 0;
+        } else if (time >= 0) {
+          clean_pollution_time = time;
+        } else if (factor >= 0) {
+          clean_pollution_time = clean_pollution_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent clean time; use extra's time */
+        if (time >= 0) {
+          clean_fallout_time = time;
+        } else {
+          clean_fallout_time = 0;
+        }
+      } else if (clean_fallout_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(clean_fallout_time > 0);
+        if (time > 0 && factor > 0 && time != clean_fallout_time * factor) {
+          clean_fallout_time = 0;
+        } else if (time >= 0) {
+          clean_fallout_time = time;
+        } else if (factor >= 0) {
+          clean_fallout_time = clean_fallout_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_PILLAGE, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent pillage time; use extra's time */
+        if (time >= 0) {
+          pillage_time = time;
+        } else {
+          pillage_time = 0;
+        }
+      } else if (pillage_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(pillage_time > 0);
+        if (time > 0 && factor > 0 && time != pillage_time * factor) {
+          pillage_time = 0;
+        } else if (time >= 0) {
+          pillage_time = time;
+        } else if (factor >= 0) {
+          pillage_time = pillage_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    /* Check whether there are any bases or roads whose build time is
+     * independent of terrain */
+
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable && pextra->build_time > 0) {
         terrain_independent_extras = TRUE;
@@ -3188,12 +3312,82 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
   }
 
   if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be pillaged by units.\n"));
+    int pillage_time = -1;
+
+    if (pextra->removal_time != 0) {
+      pillage_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_pillage_time = pterrain->pillage_time
+                                * pextra->removal_time_factor;
+
+        if (terr_pillage_time != 0) {
+          if (pillage_time < 0) {
+            pillage_time = terr_pillage_time;
+          } else if (pillage_time != terr_pillage_time) {
+            /* Give up */
+            pillage_time = -1;
+            break;
+          }
+        }
+      } terrain_type_iterate_end;
+    }
+    if (pillage_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("* Can be pillaged by units (time is terrain-dependent).\n"));
+    } else if (pillage_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("* Can be pillaged by units (takes %d turn).\n",
+                       "* Can be pillaged by units (takes %d turns).\n",
+                       pillage_time), pillage_time);
+    }
   }
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION) || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be cleaned by units.\n"));
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+    int clean_time = -1;
+
+    if (pextra->removal_time != 0) {
+      clean_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_clean_time = -1;
+
+        if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+            && pterrain->clean_pollution_time != 0) {
+          terr_clean_time = pterrain->clean_pollution_time
+                            * pextra->removal_time_factor;
+        }
+        if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
+            && pterrain->clean_fallout_time != 0) {
+          int terr_clean_fall_time = pterrain->clean_fallout_time
+                                     * pextra->removal_time_factor;
+          if (terr_clean_time > 0
+              && terr_clean_time != terr_clean_fall_time) {
+            /* Pollution/fallout cleaning activities taking different time
+             * on same terrain. Give up. */
+            clean_time = -1;
+            break;
+          }
+          terr_clean_time = terr_clean_fall_time;
+        }
+        if (clean_time < 0) {
+          clean_time = terr_clean_time;
+        } else if (clean_time != terr_clean_time) {
+          /* Give up */
+          clean_time = -1;
+          break;
+        }
+      } terrain_type_iterate_end;
+    }
+    if (clean_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("* Can be cleaned by units (time is terrain-dependent).\n"));
+    } else if (clean_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("* Can be cleaned by units (takes %d turn).\n",
+                       "* Can be cleaned by units (takes %d turns).\n",
+                       clean_time), clean_time);
+    }
   }
   if (game.info.killstack
       && extra_has_flag(pextra, EF_NO_STACK_DEATH)) {
