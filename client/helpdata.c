@@ -208,7 +208,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
   }
 
   if (0 == strcmp(name, "TerrainAlterations")) {
-    int clean_pollution_time = -1, clean_fallout_time = -1;
+    int clean_pollution_time = -1, clean_fallout_time = -1, pillage_time = -1;
     bool terrain_independent_extras = FALSE;
 
     CATLSTR(outbuf, outlen,
@@ -279,6 +279,15 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             }
           }
         }
+        if (pillage_time != 0 && pterrain->pillage_time != 0) {
+          if (pillage_time < 0) {
+            pillage_time = pterrain->pillage_time;
+          } else {
+            if (pillage_time != pterrain->pillage_time) {
+              pillage_time = 0; /* give up */
+            }
+          }
+        }
       }
     } terrain_type_iterate_end;
 
@@ -297,7 +306,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       } extra_type_by_cause_iterate_end;
     }
 
-    if (clean_pollution_time > 0 || clean_fallout_time > 0
+    if (clean_pollution_time > 0 || clean_fallout_time > 0 || pillage_time > 0
         || terrain_independent_extras) {
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
@@ -316,6 +325,9 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       if (clean_fallout_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
+      if (pillage_time > 0)
+	cat_snprintf(outbuf, outlen,
+		     _("\nPillage            %3d"), pillage_time);
       extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *rname = extra_name_translation(pextra);
