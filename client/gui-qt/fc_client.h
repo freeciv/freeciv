@@ -188,7 +188,7 @@ public:
   fc_client();
   ~fc_client();
 
-  void main(QApplication *);
+  void fc_main(QApplication *);
   map_view *mapview_wdg;
   minimap_view *minimapview_wdg;
   unit_label *unitinfo_wdg;

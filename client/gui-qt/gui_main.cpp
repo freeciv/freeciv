@@ -168,7 +168,7 @@ void qtg_ui_main(int argc, char *argv[])
     qapp->setWindowIcon(app_icon);
     qapp->setStyle(QStyleFactory::create(gui_qt_default_theme_name));
     freeciv_qt = new fc_client();
-    freeciv_qt->main(qapp);
+    freeciv_qt->fc_main(qapp);
   }
 }
 
