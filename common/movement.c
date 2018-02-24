@@ -707,14 +707,26 @@ bool can_unit_type_transport(const struct unit_type *transporter,
 
 /************************************************************************//**
   Return whether we can find a suitable transporter for given unit at
-  'ptile'. It needs to have free space. To find the best transporter, see
-  transporter_for_unit().
+  current location. It needs to have free space. To find the best transporter,
+  see transporter_for_unit().
 ****************************************************************************/
 bool unit_can_load(const struct unit *punit)
 {
+  if (unit_transported(punit)) {
+    /* In another transport already. Can it unload first? */
+    if (!can_unit_unload(punit, punit->transporter)) {
+      return FALSE;
+    }
+  }
+
   unit_list_iterate(unit_tile(punit)->units, ptransport) {
-    if (can_unit_load(punit, ptransport)) {
-      return TRUE;
+    /* could_unit_load() instead of can_unit_load() since latter
+     * would check against unit already being transported, and we need
+     * to support unload+load to a new transport. */
+    if (ptransport != punit->transporter) {
+      if (could_unit_load(punit, ptransport)) {
+        return TRUE;
+      }
     }
   } unit_list_iterate_end;
 
