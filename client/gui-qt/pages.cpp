@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -79,10 +79,10 @@ static struct terrain *char2terrain(char ch);
 static void cycle_enemy_units();
 int last_center_enemy = 0;
 
-/****************************************************************************
+/**********************************************************************//**
   Helper function for drawing map of savegames. Converts stored map char in
   savefile to proper terrain.
-****************************************************************************/
+**************************************************************************/
 static struct terrain *char2terrain(char ch)
 {
   if (ch == TERRAIN_UNKNOWN_IDENTIFIER) {
@@ -97,7 +97,7 @@ static struct terrain *char2terrain(char ch)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
 void qtg_real_set_client_page(enum client_pages page)
@@ -105,17 +105,17 @@ void qtg_real_set_client_page(enum client_pages page)
   gui()->switch_page(page);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set the list of available rulesets.  The default ruleset should be
   "default", and if the user changes this then set_ruleset() should be
   called.
-****************************************************************************/
+**************************************************************************/
 void qtg_set_rulesets(int num_rulesets, char **rulesets)
 {
   gui()->pr_options->set_rulesets(num_rulesets, rulesets);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns current client page
 **************************************************************************/
 enum client_pages qtg_get_current_client_page()
@@ -123,21 +123,19 @@ enum client_pages qtg_get_current_client_page()
   return gui()->current_page();
 }
 
-/**************************************************************************
-  update the start page.
+/**********************************************************************//**
+  Update the start page.
 **************************************************************************/
 void update_start_page(void)
 {
   gui()->update_start_page();
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Creates buttons and layouts for start page.
 **************************************************************************/
 void fc_client::create_main_page(void)
 {
-
   QPixmap main_graphics(tileset_main_intro_filename(tileset));
   QLabel* free_main_pic = new QLabel;
   QPainter painter(&main_graphics);
@@ -237,7 +235,7 @@ void fc_client::create_main_page(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update network page connection state.
 **************************************************************************/
 void fc_client::set_connection_state(enum connection_state state)
@@ -274,9 +272,9 @@ void fc_client::set_connection_state(enum connection_state state)
   connection_status = state;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Creates buttons and layouts for network page.
-***************************************************************************/
+**************************************************************************/
 void fc_client::create_network_page(void)
 {
   QHeaderView *header;
@@ -422,9 +420,9 @@ void fc_client::create_network_page(void)
 
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Sets application status bar for given time in miliseconds
-***************************************************************************/
+**************************************************************************/
 void fc_client::set_status_bar(QString message, int timeout)
 {
   if (status_bar_label->text().isEmpty()) {
@@ -438,12 +436,13 @@ void fc_client::set_status_bar(QString message, int timeout)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Clears status bar or shows next message in queue if exists
-***************************************************************************/
+**************************************************************************/
 void fc_client::clear_status_bar()
 {
   QString str;
+
   if (status_bar_queue.isEmpty() == false) {
     str = status_bar_queue.takeFirst();
     status_bar_label->setText(str);
@@ -453,20 +452,21 @@ void fc_client::clear_status_bar()
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Creates page LOADING, showing label with Loading text
-***************************************************************************/
+**************************************************************************/
 void fc_client::create_loading_page()
 {
-  pages_layout[PAGE_GAME + 1] = new QGridLayout;
   QLabel *label = new QLabel(_("Loading..."));
+
+  pages_layout[PAGE_GAME + 1] = new QGridLayout;
   pages_layout[PAGE_GAME + 1]->addWidget(label, 0, 0, 1, 1,
                                          Qt::AlignHCenter);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Creates buttons and layouts for load page.
-***************************************************************************/
+**************************************************************************/
 void fc_client::create_load_page()
 {
   pages_layout[PAGE_LOAD] = new QGridLayout;
@@ -544,9 +544,9 @@ void fc_client::create_load_page()
 
 }
 
-/***************************************************************************
- * Creates buttons and layouts for scenario page.
- **************************************************************************/
+/**********************************************************************//**
+  Creates buttons and layouts for scenario page.
+**************************************************************************/
 void fc_client::create_scenario_page()
 {
   QPushButton *but;
@@ -612,9 +612,9 @@ void fc_client::create_scenario_page()
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 4);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Creates buttons and layouts for start page.
-***************************************************************************/
+**************************************************************************/
 void fc_client::create_start_page()
 {
   QPushButton *but;
@@ -696,9 +696,9 @@ void fc_client::create_start_page()
   pages_layout[PAGE_START]->addWidget(splitter);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Creates buttons and layouts for game page.
-***************************************************************************/
+**************************************************************************/
 void fc_client::create_game_page()
 {
   QGridLayout *game_layout;
@@ -782,9 +782,9 @@ void fc_client::create_game_page()
   pages_layout[PAGE_GAME]->setSpacing(0);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Inserts tab widget to game view page
-***************************************************************************/
+**************************************************************************/
 int fc_client::add_game_tab(QWidget *widget)
 {
   int i;
@@ -794,17 +794,17 @@ int fc_client::add_game_tab(QWidget *widget)
   return i;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Removes given tab widget from game page
-***************************************************************************/
+**************************************************************************/
 void fc_client::rm_game_tab(int index)
 {
   game_tab_widget->removeWidget(game_tab_widget->widget(index));
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Browse saves directory
-***************************************************************************/
+**************************************************************************/
 void fc_client::browse_saves(void)
 {
   QString str;
@@ -818,29 +818,31 @@ void fc_client::browse_saves(void)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   State of preview has been changed
-***************************************************************************/
+**************************************************************************/
 void fc_client::state_preview(int new_state)
 {
- QItemSelection slctn;
- if (show_preview->checkState() == Qt::Unchecked) {
-   gui_options.gui_qt_show_preview = false;
- } else {
-   gui_options.gui_qt_show_preview = true;
- }
- slctn = saves_load->selectionModel()->selection();
- saves_load->selectionModel()->clearSelection();
- saves_load->selectionModel()->select(slctn, QItemSelectionModel::Rows
-                                    | QItemSelectionModel::SelectCurrent);
+  QItemSelection slctn;
+
+  if (show_preview->checkState() == Qt::Unchecked) {
+    gui_options.gui_qt_show_preview = false;
+  } else {
+    gui_options.gui_qt_show_preview = true;
+  }
+  slctn = saves_load->selectionModel()->selection();
+  saves_load->selectionModel()->clearSelection();
+  saves_load->selectionModel()->select(slctn, QItemSelectionModel::Rows
+                                       | QItemSelectionModel::SelectCurrent);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Browse scenarios directory
-***************************************************************************/
+**************************************************************************/
 void fc_client::browse_scenarios(void)
 {
   QString str;
+
   str = QString(_("Scenarios Files"))
         + QString(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz)");
   current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
@@ -851,9 +853,9 @@ void fc_client::browse_scenarios(void)
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Updates list of servers in network page in proper QTableViews
-***************************************************************************/
+**************************************************************************/
 void fc_client::update_server_list(enum server_scan_type sstype,
                                    const struct server_list *list)
 {
@@ -890,6 +892,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
   row = 0;
   server_list_iterate(list, pserver) {
     char buf[20];
+
     if (old_row_count <= row) {
       sel->insertRow(row);
     }
@@ -947,7 +950,7 @@ void fc_client::update_server_list(enum server_scan_type sstype,
 
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback function for when there's an error in the server scan.
 **************************************************************************/
 void server_scan_error(struct server_scan *scan, const char *message)
@@ -960,7 +963,7 @@ void server_scan_error(struct server_scan *scan, const char *message)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Free the server scans.
 **************************************************************************/
 void fc_client::destroy_server_scans(void)
@@ -990,7 +993,7 @@ void fc_client::destroy_server_scans(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Stop and restart the metaserver and lan server scans.
 **************************************************************************/
 void fc_client::update_network_lists(void)
@@ -1009,7 +1012,7 @@ void fc_client::update_network_lists(void)
 
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function updates the list of servers every so often.
 **************************************************************************/
 bool fc_client::check_server_scan(server_scan *scan_data)
@@ -1043,9 +1046,9 @@ bool fc_client::check_server_scan(server_scan *scan_data)
   return true;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Executes lan scan network
-***************************************************************************/
+**************************************************************************/
 void fc_client::slot_lan_scan()
 {
   if (lan_scan_timer == NULL) {
@@ -1054,9 +1057,9 @@ void fc_client::slot_lan_scan()
   check_server_scan(lan_scan);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Executes metaserver scan network
-***************************************************************************/
+**************************************************************************/
 void fc_client::slot_meta_scan()
 {
   if (meta_scan_timer == NULL) {
@@ -1065,7 +1068,7 @@ void fc_client::slot_meta_scan()
   check_server_scan(meta_scan);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   spawn a server, if there isn't one, using the default settings.
 **************************************************************************/
 void fc_client::start_new_game()
@@ -1075,7 +1078,7 @@ void fc_client::start_new_game()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Starts game from chosen scenario - chosen_file (save or scenario)
 **************************************************************************/
 void fc_client::start_scenario()
@@ -1090,7 +1093,7 @@ void fc_client::start_scenario()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Starts game from chosen save - chosen_file (save or scenario)
 **************************************************************************/
 void fc_client::start_from_save()
@@ -1105,9 +1108,9 @@ void fc_client::start_from_save()
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Selection chnaged in some tableview on some page
-***************************************************************************/
+**************************************************************************/
 void fc_client::slot_selection_changed(const QItemSelection &selected,
                                        const QItemSelection &deselected)
 {
@@ -1349,9 +1352,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Updates saves to load and updates in tableview = saves_load
-***************************************************************************/
+**************************************************************************/
 void fc_client::update_load_page(void)
 {
   struct fileinfo_list *files;
@@ -1378,9 +1381,9 @@ void fc_client::update_load_page(void)
   fileinfo_list_destroy(files);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Gets scenarios list and updates it in TableWidget = scenarios_load
-***************************************************************************/
+**************************************************************************/
 void fc_client::update_scenarios_page(void)
 {
   struct fileinfo_list *files;
@@ -1497,8 +1500,8 @@ void fc_client::update_scenarios_page(void)
 }
 
 
-/**************************************************************************
-  configure the dialog depending on what type of authentication request the
+/**********************************************************************//**
+  Configure the dialog depending on what type of authentication request the
   server is making.
 **************************************************************************/
 void fc_client::handle_authentication_req(enum authentication_type type,
@@ -1534,7 +1537,7 @@ void fc_client::handle_authentication_req(enum authentication_type type,
   log_error("Unsupported authentication type %d: %s.", type, message);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   if on the network page, switch page to the login page (with new server
   and port). if on the login page, send connect and/or authentication
   requests to the server.
@@ -1586,10 +1589,10 @@ void fc_client::slot_connect()
   log_error("Unsupported connection status: %d", connection_status);
 }
 
-/***************************************************************************
- Updates start page (start page = client connected to server, but game not
- started)
-***************************************************************************/
+/**********************************************************************//**
+  Updates start page (start page = client connected to server, but game not
+  started)
+**************************************************************************/
 void fc_client::update_start_page()
 {
   int conn_num, i;
@@ -1818,9 +1821,9 @@ void fc_client::update_start_page()
   update_buttons();
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Updates observe button in case user started observing manually
-***************************************************************************/
+**************************************************************************/
 void fc_client::update_buttons()
 {
   bool sensitive;
@@ -1884,9 +1887,9 @@ void fc_client::update_buttons()
   gui()->pr_options->update_buttons();
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Context menu on some player, arg Qpoint specifies some pixel on screen
-***************************************************************************/
+**************************************************************************/
 void fc_client::start_page_menu(QPoint pos)
 {
   QAction *action;
@@ -2036,17 +2039,17 @@ void fc_client::start_page_menu(QPoint pos)
   delete player_menu_mapper;
 }
 
-/***************************************************************************
- Calls dialg selecting nations
-***************************************************************************/
+/**********************************************************************//**
+  Calls dialg selecting nations
+**************************************************************************/
 void fc_client::slot_pick_nation()
 {
   popup_races_dialog(client_player());
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Reloads sidebar icons (useful on theme change)
-***************************************************************************/
+**************************************************************************/
 void fc_client::reload_sidebar_icons()
 {
   sw_map->set_pixmap(fc_icons::instance()->get_pixmap("view"));
@@ -2059,9 +2062,10 @@ void fc_client::reload_sidebar_icons()
   sidebar_wdg->resize_me(game_tab_widget->width(),
                          game_tab_widget->height(), true);
 }
-/***************************************************************************
+
+/**********************************************************************//**
   Updates sidebar tooltips
-***************************************************************************/
+**************************************************************************/
 void fc_client::update_sidebar_tooltips()
 {
   QString str;
@@ -2115,9 +2119,9 @@ void fc_client::update_sidebar_tooltips()
   sw_indicators->set_tooltip(QString(get_info_label_text_popup()));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Centers next enemy city on view
-****************************************************************************/
+**************************************************************************/
 void center_next_enemy_city()
 {
   bool center_next = false;
@@ -2151,9 +2155,9 @@ void center_next_enemy_city()
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Centers next player city on view
-****************************************************************************/
+**************************************************************************/
 void center_next_player_city()
 {
   bool center_next = false;
@@ -2187,9 +2191,9 @@ void center_next_player_city()
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Centers next enemy capital
-****************************************************************************/
+**************************************************************************/
 void center_next_player_capital()
 {
   struct city *capital;
@@ -2229,9 +2233,9 @@ void center_next_player_capital()
 
 }
 
-/***************************************************************************
-  Update postion 
-***************************************************************************/
+/**********************************************************************//**
+  Update position
+**************************************************************************/
 void fc_client::update_sidebar_position()
 {
   pages_layout[PAGE_GAME]->removeWidget(gui()->sidebar_wdg);
@@ -2242,9 +2246,9 @@ void fc_client::update_sidebar_position()
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Center on next enemy unit
-***************************************************************************/
+**************************************************************************/
 void cycle_enemy_units()
 {
   bool center_next = false;
