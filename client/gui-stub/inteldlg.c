@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "inteldlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Close an intelligence dialog for the given player.
 **************************************************************************/
 void close_intel_dialog(struct player *p)
@@ -28,7 +28,7 @@ void close_intel_dialog(struct player *p)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup an intelligence dialog for the given player.
 **************************************************************************/
 void popup_intel_dialog(struct player *p)
@@ -36,10 +36,10 @@ void popup_intel_dialog(struct player *p)
   /* PORTME */
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update the intelligence dialog for the given player.  This is called by
   the core client code when that player's information changes.
-****************************************************************************/
+**************************************************************************/
 void update_intel_dialog(struct player *p)
 {
   /* PORTME */

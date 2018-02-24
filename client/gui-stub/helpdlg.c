@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 #include "helpdlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Popup the help dialog to get help on the given string topic.  Note
   that the topic may appear in multiple sections of the help (it may
   be both an improvement and a unit, for example).
@@ -35,7 +35,7 @@ void popup_help_dialog_string(const char *item)
   popup_help_dialog_typed(Q_(item), HELP_ANY);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup the help dialog to display help on the given string topic from
   the given section.
 
@@ -46,7 +46,7 @@ void popup_help_dialog_typed(const char *item, enum help_page_type htype)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close the help dialog.
 **************************************************************************/
 void popdown_help_dialog(void)
