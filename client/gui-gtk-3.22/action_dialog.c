@@ -84,10 +84,10 @@ struct action_data {
   int value;
 };
 
-/****************************************************************
+/**********************************************************************//**
   Create a new action data structure that can be stored in the
   dialogs.
-*****************************************************************/
+**************************************************************************/
 static struct action_data *act_data(int action_id,
                                     int actor_id,
                                     int target_city_id,
@@ -107,7 +107,7 @@ static struct action_data *act_data(int action_id,
   return data;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move the queue of units that need user input forward unless the current
   unit are going to need more input.
 **************************************************************************/
@@ -154,7 +154,7 @@ static void diplomat_queue_handle_primary(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move the queue of diplomats that need user input forward since the
   current diplomat got the extra input that was required.
 **************************************************************************/
@@ -165,10 +165,10 @@ static void diplomat_queue_handle_secondary(void)
   diplomat_queue_handle_primary();
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
-***************************************************************************/
+**************************************************************************/
 static int get_non_targeted_action_id(int tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
@@ -188,10 +188,10 @@ static int get_non_targeted_action_id(int tgt_action_id)
   return ACTION_NONE;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
-***************************************************************************/
+**************************************************************************/
 static int get_targeted_action_id(int non_tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
@@ -211,9 +211,9 @@ static int get_targeted_action_id(int non_tgt_action_id)
   return ACTION_NONE;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected build city from the choice dialog
-*****************************************************************/
+**************************************************************************/
 static void found_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -225,9 +225,9 @@ static void found_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Explode Nuclear" from the choice dialog
-*****************************************************************/
+**************************************************************************/
 static void nuke_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -242,9 +242,9 @@ static void nuke_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Paradrop Unit" from the choice dialog
-*****************************************************************/
+**************************************************************************/
 static void paradrop_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -259,9 +259,9 @@ static void paradrop_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Attack" from the choice dialog
-*****************************************************************/
+**************************************************************************/
 static void attack_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -276,9 +276,9 @@ static void attack_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected join city from caravan dialog
-*****************************************************************/
+**************************************************************************/
 static void join_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -293,9 +293,9 @@ static void join_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected enter market place from caravan dialog
-*****************************************************************/
+**************************************************************************/
 static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -310,9 +310,9 @@ static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected traderoute from caravan dialog
-*****************************************************************/
+**************************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -327,9 +327,9 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected wonder building helping from caravan dialog
-*****************************************************************/
+**************************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -344,9 +344,9 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected recycle unit from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void recycle_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -358,9 +358,9 @@ static void recycle_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected set home city from choice dialog.
-*****************************************************************/
+**************************************************************************/
 static void home_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -375,9 +375,9 @@ static void home_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Upgrade Unit" from choice dialog.
-*****************************************************************/
+**************************************************************************/
 static void upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
@@ -398,9 +398,9 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Airlift Unit" from choice dialog.
-*****************************************************************/
+**************************************************************************/
 static void airlift_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -415,9 +415,9 @@ static void airlift_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Conquer City" from choice dialog.
-*****************************************************************/
+**************************************************************************/
 static void conquer_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -432,8 +432,7 @@ static void conquer_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Returns a string with how many shields remains of the current production.
   This is useful as custom information on the help build wonder button.
 **************************************************************************/
@@ -452,9 +451,9 @@ static const gchar *city_prod_remaining(struct city* destcity)
                          - destcity->shield_stock);
 }
 
-/**********************************************************************
+/**********************************************************************//**
   User responded to bribe dialog
-**********************************************************************/
+**************************************************************************/
 static void bribe_response(GtkWidget *w, gint response, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -471,9 +470,9 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
   diplomat_queue_handle_secondary();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Ask the server how much the bribe is
-*****************************************************************/
+**************************************************************************/
 static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -492,7 +491,7 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/*************************************************************************
+/**********************************************************************//**
   Popup unit bribe dialog
 **************************************************************************/
 void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
@@ -529,9 +528,9 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
                    act_data(paction->id, actor->id, 0, punit->id, 0, cost));
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected sabotaging from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -546,9 +545,9 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected sabotaging (and escape) from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_sabotage_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -563,9 +562,9 @@ static void diplomat_sabotage_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected investigating from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_investigate_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -580,9 +579,9 @@ static void spy_investigate_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected investigating from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -597,9 +596,9 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected unit sabotaging from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -611,9 +610,9 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Sabotage Unit Escape" from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -625,9 +624,9 @@ static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/*****************************************************************
+/**********************************************************************//**
   User selected "Heal Unit" from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void heal_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -639,9 +638,9 @@ static void heal_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected capture units from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void capture_units_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -653,9 +652,9 @@ static void capture_units_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected expel unit from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void expel_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -667,9 +666,9 @@ static void expel_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected disband unit from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void disband_unit_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -681,9 +680,9 @@ static void disband_unit_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected bombard from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void bombard_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -695,9 +694,9 @@ static void bombard_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected embassy establishing from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_embassy_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -712,9 +711,9 @@ static void spy_embassy_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected embassy establishing from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -729,9 +728,9 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected to steal gold from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -746,7 +745,7 @@ static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User selected to steal gold and escape from choice dialog
 **************************************************************************/
 static void spy_steal_gold_esc_callback(GtkWidget *w, gpointer data)
@@ -763,9 +762,9 @@ static void spy_steal_gold_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected to steal maps from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_steal_maps_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -780,9 +779,9 @@ static void spy_steal_maps_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected to steal maps escape from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_steal_maps_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -797,9 +796,9 @@ static void spy_steal_maps_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected poisoning from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -814,9 +813,9 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Poison City Escape" from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_poison_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -831,9 +830,9 @@ static void spy_poison_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected suitcase nuke from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -848,9 +847,9 @@ static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected suitcase nuke escape from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_nuke_city_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -865,10 +864,9 @@ static void spy_nuke_city_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-
-/****************************************************************
+/**********************************************************************//**
   User selected destroy city from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void destroy_city_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -883,9 +881,9 @@ static void destroy_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected stealing from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -900,9 +898,9 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected "Steal Tech Escape Expected" from choice dialog
-*****************************************************************/
+**************************************************************************/
 static void diplomat_steal_esc_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -917,9 +915,9 @@ static void diplomat_steal_esc_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User responded to steal advances dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_advances_response(GtkWidget *w, gint response,
                                   gpointer data)
 {
@@ -950,9 +948,9 @@ static void spy_advances_response(GtkWidget *w, gint response,
   diplomat_queue_handle_secondary();
 }
 
-/****************************************************************
+/**********************************************************************//**
   User selected entry in steal advances dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_advances_callback(GtkTreeSelection *select,
                                   gpointer data)
 {
@@ -974,9 +972,9 @@ static void spy_advances_callback(GtkTreeSelection *select,
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Create spy's tech stealing dialog
-*****************************************************************/
+**************************************************************************/
 static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim,
 				 struct action_data *args)
@@ -1098,9 +1096,9 @@ static void create_advances_list(struct player *pplayer,
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************
+/**********************************************************************//**
   User has responded to spy's sabotage building dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_improvements_response(GtkWidget *w, gint response, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1132,9 +1130,9 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   diplomat_queue_handle_secondary();
 }
 
-/****************************************************************
+/**********************************************************************//**
   User has selected new building from spy's sabotage dialog
-*****************************************************************/
+**************************************************************************/
 static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1155,9 +1153,9 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Creates spy's building sabotaging dialog
-*****************************************************************/
+**************************************************************************/
 static void create_improvements_list(struct player *pplayer,
 				     struct city *pcity,
 				     struct action_data *args)
@@ -1266,9 +1264,9 @@ static void create_improvements_list(struct player *pplayer,
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************
+/**********************************************************************//**
   Popup tech stealing dialog with list of possible techs
-*****************************************************************/
+**************************************************************************/
 static void spy_steal_popup_shared(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1301,30 +1299,30 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   gtk_widget_destroy(act_sel_dialog);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Popup tech stealing dialog with list of possible techs for
   "Targeted Steal Tech"
-***************************************************************************/
+**************************************************************************/
 static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
   ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
   spy_steal_popup_shared(w, data);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Popup tech stealing dialog with list of possible techs for
   "Targeted Steal Tech Escape Expected"
-***************************************************************************/
+**************************************************************************/
 static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 {
   ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   spy_steal_popup_shared(w, data);
 }
 
-/****************************************************************
- Requests up-to-date list of improvements, the return of
- which will trigger the popup_sabotage_dialog() function.
-*****************************************************************/
+/**********************************************************************//**
+  Requests up-to-date list of improvements, the return of
+  which will trigger the popup_sabotage_dialog() function.
+**************************************************************************/
 static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1344,11 +1342,11 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
- Requests up-to-date list of improvements, the return of
- which will trigger the popup_sabotage_dialog() function.
- (Escape version)
-*****************************************************************/
+/**********************************************************************//**
+  Requests up-to-date list of improvements, the return of
+  which will trigger the popup_sabotage_dialog() function.
+  (Escape version)
+**************************************************************************/
 static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1368,9 +1366,9 @@ static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/*************************************************************************
- Pops-up the Spy sabotage dialog, upon return of list of
- available improvements requested by the above function.
+/**********************************************************************//**
+  Pops-up the Spy sabotage dialog, upon return of list of
+  available improvements requested by the above function.
 **************************************************************************/
 void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                            const struct action *paction)
@@ -1384,9 +1382,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   }
 }
 
-/****************************************************************
-...  Ask the server how much the revolt is going to cost us
-*****************************************************************/
+/**********************************************************************//**
+  Ask the server how much the revolt is going to cost us
+**************************************************************************/
 static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1405,9 +1403,9 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/***************************************************************************
-...  Ask the server how much the revolt is going to cost us
-***************************************************************************/
+/**********************************************************************//**
+  Ask the server how much the revolt is going to cost us
+**************************************************************************/
 static void spy_incite_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1426,9 +1424,9 @@ static void spy_incite_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/************************************************************************
+/**********************************************************************//**
   User has responded to incite dialog
-************************************************************************/
+**************************************************************************/
 static void incite_response(GtkWidget *w, gint response, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
@@ -1445,8 +1443,8 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
   diplomat_queue_handle_secondary();
 }
 
-/*************************************************************************
-Popup the yes/no dialog for inciting, since we know the cost now
+/**********************************************************************//**
+  Popup the yes/no dialog for inciting, since we know the cost now
 **************************************************************************/
 void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                          const struct action *paction)
@@ -1490,7 +1488,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                    act_data(paction->id, actor->id, pcity->id, 0, 0, cost));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback from the unit target selection dialog.
 **************************************************************************/
 static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
@@ -1531,7 +1529,7 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
   gtk_widget_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback from action selection dialog for "Change unit target".
 **************************************************************************/
 static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
@@ -1559,7 +1557,7 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback from action selection dialog for "Show Location".
 **************************************************************************/
 static void act_sel_location_callback(GtkWidget *w, gpointer data)
@@ -1573,7 +1571,7 @@ static void act_sel_location_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback from action selection dialog for "keep moving".
   (This should only occur when entering a tile that has an allied city or
   an allied unit.)
@@ -1595,7 +1593,7 @@ static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Delay selection of what action to take.
 **************************************************************************/
 static void act_sel_wait_callback(GtkWidget *w, gpointer data)
@@ -1610,27 +1608,27 @@ static void act_sel_wait_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Action selection dialog has been destroyed
-*****************************************************************/
+**************************************************************************/
 static void act_sel_destroy_callback(GtkWidget *w, gpointer data)
 {
   act_sel_dialog = NULL;
   diplomat_queue_handle_primary();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Action selection dialog has been canceled
-*****************************************************************/
+**************************************************************************/
 static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(act_sel_dialog);
   free(data);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Action selection dialog has been closed
-*****************************************************************/
+**************************************************************************/
 static void act_sel_close_callback(GtkWidget *w,
                                    gint response_id,
                                    gpointer data)
@@ -1700,9 +1698,9 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
 };
 
-/******************************************************************
+/**********************************************************************//**
   Show the user the action if it is enabled.
-*******************************************************************/
+**************************************************************************/
 static void action_entry(GtkWidget *shl,
                          int action_id,
                          const struct act_prob *act_probs,
@@ -1743,9 +1741,9 @@ static void action_entry(GtkWidget *shl,
                     FALSE, tooltip);
 }
 
-/******************************************************************
+/**********************************************************************//**
   Update an existing button.
-*******************************************************************/
+**************************************************************************/
 static void action_entry_update(GtkWidget *shl,
                                 int action_id,
                                 const struct act_prob *act_probs,
@@ -1776,7 +1774,7 @@ static void action_entry_update(GtkWidget *shl,
                                    tooltip);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -1987,7 +1985,7 @@ void popup_action_selection(struct unit *actor_unit,
   astr_free(&text);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the id of the actor unit currently handled in action selection
   dialog when the action selection dialog is open.
   Returns IDENTITY_NUMBER_ZERO if no action selection dialog is open.
@@ -2000,7 +1998,7 @@ int action_selection_actor_unit(void)
   return actor_unit_id;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns id of the target city of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   city target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
@@ -2014,7 +2012,7 @@ int action_selection_target_city(void)
   return target_ids[ATK_CITY];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns id of the target unit of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   unit target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
@@ -2029,7 +2027,7 @@ int action_selection_target_unit(void)
   return target_ids[ATK_UNIT];
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
@@ -2104,9 +2102,9 @@ void action_selection_refresh(struct unit *actor_unit,
   choice_dialog_end(act_sel_dialog);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Closes the action selection dialog
-****************************************************************/
+**************************************************************************/
 void action_selection_close(void)
 {
   if (act_sel_dialog != NULL) {
