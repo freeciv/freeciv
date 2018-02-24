@@ -46,7 +46,7 @@ static GtkSizeGroup *gui_action;
 static GtkCssProvider *dlg_tab_provider = NULL;
 
 
-/**************************************************************************
+/**********************************************************************//**
   Draw widget now
 **************************************************************************/
 void gtk_expose_now(GtkWidget *w)
@@ -54,7 +54,7 @@ void gtk_expose_now(GtkWidget *w)
   gtk_widget_queue_draw(w);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set window position relative to reference window
 **************************************************************************/
 void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py)
@@ -70,7 +70,7 @@ void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py)
   gtk_window_move(w, x, y);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create new icon button with label
 **************************************************************************/
 GtkWidget *icon_label_button_new(const gchar *icon_name,
@@ -87,7 +87,7 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
   return button;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes the label (with mnemonic) on an existing stockbutton.  See
   gtk_stockbutton_new.
 **************************************************************************/
@@ -96,7 +96,7 @@ void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
   gtk_button_set_label(GTK_BUTTON(button), label_text);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns gettext-converted list of n strings.  The individual strings
   in the list are as returned by gettext().  In case of no NLS, the strings
   will be the original strings, so caller should ensure that the originals
@@ -119,34 +119,34 @@ void intl_slist(int n, const char **s, bool *done)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Set itree to the beginning
-*****************************************************************/
+**************************************************************************/
 void itree_begin(GtkTreeModel *model, ITree *it)
 {
   it->model = model;
   it->end = !gtk_tree_model_get_iter_first(it->model, &it->it);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Return whether itree end has been reached
-*****************************************************************/
+**************************************************************************/
 gboolean itree_end(ITree *it)
 {
   return it->end;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Make itree to go forward one step
-*****************************************************************/
+**************************************************************************/
 void itree_next(ITree *it)
 {
   it->end = !gtk_tree_model_iter_next(it->model, &it->it);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Store values to itree
-*****************************************************************/
+**************************************************************************/
 void itree_set(ITree *it, ...)
 {
   va_list ap;
@@ -156,9 +156,9 @@ void itree_set(ITree *it, ...)
   va_end(ap);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Get values from itree
-*****************************************************************/
+**************************************************************************/
 void itree_get(ITree *it, ...)
 {
   va_list ap;
@@ -168,9 +168,9 @@ void itree_get(ITree *it, ...)
   va_end(ap);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Append one item to the end of tree store
-*****************************************************************/
+**************************************************************************/
 void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
 {
   it->model = GTK_TREE_MODEL(store);
@@ -181,31 +181,31 @@ void tstore_append(GtkTreeStore *store, ITree *it, ITree *parent)
   it->end = FALSE;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Return whether current itree item is selected 
-*****************************************************************/
+**************************************************************************/
 gboolean itree_is_selected(GtkTreeSelection *selection, ITree *it)
 {
   return gtk_tree_selection_iter_is_selected(selection, &it->it);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Add current itree item to selection
-*****************************************************************/
+**************************************************************************/
 void itree_select(GtkTreeSelection *selection, ITree *it)
 {
   gtk_tree_selection_select_iter(selection, &it->it);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Remove current itree item from selection
-*****************************************************************/
+**************************************************************************/
 void itree_unselect(GtkTreeSelection *selection, ITree *it)
 {
   gtk_tree_selection_unselect_iter(selection, &it->it);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return the selected row in a GtkTreeSelection.
   If no row is selected return -1.
 **************************************************************************/
@@ -227,7 +227,7 @@ gint gtk_tree_selection_get_row(GtkTreeSelection *selection)
   return row;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Give focus to view
 **************************************************************************/
 void gtk_tree_view_focus(GtkTreeView *view)
@@ -245,11 +245,12 @@ void gtk_tree_view_focus(GtkTreeView *view)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create an auxiliary menubar (i.e., not the main menubar at the top of
   the window).
 **************************************************************************/
-GtkWidget *gtk_aux_menu_bar_new(void) {
+GtkWidget *gtk_aux_menu_bar_new(void)
+{
   GtkWidget *menubar = gtk_menu_bar_new();
 
   /*
@@ -267,7 +268,7 @@ GtkWidget *gtk_aux_menu_bar_new(void) {
   return menubar;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Generic close callback for all widgets
 **************************************************************************/
 static void close_callback(GtkDialog *dialog, gpointer data)
@@ -275,11 +276,11 @@ static void close_callback(GtkDialog *dialog, gpointer data)
   gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-/**********************************************************************
+/**********************************************************************//**
   This function handles new windows which are subwindows to the
   toplevel window. It must be called on every dialog in the game,
   so fullscreen windows are handled properly by the window manager.
-***********************************************************************/
+**************************************************************************/
 void setup_dialog(GtkWidget *shell, GtkWidget *parent)
 {
   if (GUI_GTK_OPTION(dialogs_on_top) || GUI_GTK_OPTION(fullscreen)) {
@@ -298,7 +299,7 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Emit a dialog response.
 **************************************************************************/
 static void gui_dialog_response(struct gui_dialog *dlg, int response)
@@ -308,7 +309,7 @@ static void gui_dialog_response(struct gui_dialog *dlg, int response)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Default dialog response handler. Destroys the dialog.
 **************************************************************************/
 static void gui_dialog_destroyed(struct gui_dialog *dlg, int response,
@@ -317,7 +318,7 @@ static void gui_dialog_destroyed(struct gui_dialog *dlg, int response,
   gui_dialog_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Cleanups the leftovers after a dialog is destroyed.
 **************************************************************************/
 static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
@@ -336,33 +337,35 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
   }
 
   dialog_list = g_list_remove(dialog_list, dlg);
-  
+
   /* Raise the return dialog set by gui_dialog_set_return_dialog() */
   if (dlg->return_dialog_id != -1) {
     GList *it;
+
     for (it = dialog_list; it; it = g_list_next(it)) {
-      struct gui_dialog * adialog = (struct gui_dialog *)it->data;
+      struct gui_dialog *adialog = (struct gui_dialog *)it->data;
+
       if (adialog->id == dlg->return_dialog_id) {
         gui_dialog_raise(adialog);
 	break;
       }
     }
   }
-  
+
   if (dlg->title) {
     free(dlg->title);
   }
-  
+
   free(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Emit a delete event response on dialog deletion in case the end-user
   needs to know when a deletion took place.
   Popup dialog version
 **************************************************************************/
 static gint gui_dialog_delete_handler(GtkWidget *widget,
-				      GdkEventAny *ev, gpointer data)
+                                      GdkEventAny *ev, gpointer data)
 {
   struct gui_dialog *dlg = data;
 
@@ -373,7 +376,7 @@ static gint gui_dialog_delete_handler(GtkWidget *widget,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Emit a delete event response on dialog deletion in case the end-user
   needs to know when a deletion took place.
   TAB version
@@ -382,32 +385,32 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
 {
   GtkWidget* notebook;
   int n;
-  
+
   notebook = dlg->v.tab.notebook;
   n = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
   if (gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), n)
       != dlg->v.tab.child) {
     gui_dialog_set_return_dialog(dlg, NULL);
   }			                                  
-  
+
   /* emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
-                                                                               
+
   /* do the destroy by default. */
   return FALSE;
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Allow the user to close a dialog using Escape or CTRL+W.
 **************************************************************************/
 static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEventKey *ev,
-					     gpointer data)
+                                             gpointer data)
 {
   struct gui_dialog *dlg = data;
 
   if (ev->keyval == GDK_KEY_Escape
-	|| ((ev->state & GDK_CONTROL_MASK) && ev->keyval == GDK_KEY_w)) {
+      || ((ev->state & GDK_CONTROL_MASK) && ev->keyval == GDK_KEY_w)) {
     /* emit response signal. */
     gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
   }
@@ -416,13 +419,13 @@ static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEventKey *ev,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Resets tab colour on tab activation.
 **************************************************************************/
 static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
-					   GtkWidget *page,
-					   guint num,
-					   struct gui_dialog *dlg)
+                                           GtkWidget *page,
+                                           guint num,
+                                           struct gui_dialog *dlg)
 {
   gint n;
 
@@ -434,7 +437,7 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes a tab into a window.
 **************************************************************************/
 static void gui_dialog_detach(struct gui_dialog* dlg)
@@ -447,8 +450,8 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
     return;
   }
   dlg->type = GUI_DIALOG_WINDOW;
-  
-  /* Create a new reference to the main widget, so it won't be 
+
+  /* Create a new reference to the main widget, so it won't be
    * destroyed in gtk_notebook_remove_page() */
   g_object_ref(dlg->vbox);
 
@@ -477,12 +480,12 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
   gtk_widget_show(window);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Someone has clicked on a label in a notebook
-***************************************************************************/
+**************************************************************************/
 static gboolean click_on_tab_callback(GtkWidget* w,
-                                     GdkEventButton* button,
-				     gpointer data)
+                                      GdkEventButton* button,
+                                      gpointer data)
 {
   if (button->type != GDK_2BUTTON_PRESS) {
     return FALSE;
@@ -494,8 +497,7 @@ static gboolean click_on_tab_callback(GtkWidget* w,
   return TRUE;
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Creates a new dialog. It will be a tab or a window depending on the
   current user setting of 'enable_tabs' gtk-gui option.
   Sets pdlg to point to the dialog once it is create, Zeroes pdlg on
@@ -517,7 +519,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   *pdlg = dlg;
   dlg->user_data = user_data;
   dlg->title = NULL;
-  
+
   dlg->default_width = 200;
   dlg->default_height = 300;
 
@@ -536,8 +538,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   action_area = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(action_area), 4);
   gtk_grid_set_column_spacing(GTK_GRID(action_area), 4);
-  if (GUI_GTK_OPTION(enable_tabs) &&
-      (check_top && notebook != GTK_NOTEBOOK(top_notebook))
+  if (GUI_GTK_OPTION(enable_tabs)
+      && (check_top && notebook != GTK_NOTEBOOK(top_notebook))
       && !GUI_GTK_OPTION(small_display_layout)) {
     /* We expect this to be short (as opposed to tall); maximise usable
      * height by putting buttons down the right hand side */
@@ -655,7 +657,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   g_object_set_data(G_OBJECT(vbox), "gui-dialog-data", dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called when a dialog button is activated.
 **************************************************************************/
 static void action_widget_activated(GtkWidget *button, GtkWidget *vbox)
@@ -668,7 +670,7 @@ static void action_widget_activated(GtkWidget *button, GtkWidget *vbox)
   gui_dialog_response(dlg, GPOINTER_TO_INT(arg2));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Places a button into a dialog, taking care of setting up signals, etc.
 **************************************************************************/
 static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
@@ -694,7 +696,7 @@ static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
   gtk_size_group_add_widget(dlg->gui_button, button);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adds a button to a dialog.
 **************************************************************************/
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
@@ -710,11 +712,11 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
   return button;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adds a widget to a dialog.
 **************************************************************************/
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
-				 GtkWidget *widget)
+                                 GtkWidget *widget)
 {
   gtk_container_add(GTK_CONTAINER(dlg->action_area), widget);
   gtk_size_group_add_widget(gui_action, widget);
@@ -722,7 +724,7 @@ GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
   return widget;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes the default dialog response.
 **************************************************************************/
 void gui_dialog_set_default_response(struct gui_dialog *dlg, int response)
@@ -748,11 +750,11 @@ void gui_dialog_set_default_response(struct gui_dialog *dlg, int response)
   g_list_free(children);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change the sensitivity of a dialog button.
 **************************************************************************/
 void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
-				       int response, bool setting)
+                                       int response, bool setting)
 {
   GList *children;
   GList *list;
@@ -775,7 +777,7 @@ void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
   g_list_free(children);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get the dialog's toplevel window.
 **************************************************************************/
 GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg)
@@ -783,7 +785,7 @@ GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg)
   return gtk_widget_get_toplevel(dlg->vbox);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Show the dialog contents, but not the dialog per se.
 **************************************************************************/
 void gui_dialog_show_all(struct gui_dialog *dlg)
@@ -823,7 +825,7 @@ void gui_dialog_show_all(struct gui_dialog *dlg)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Notify the user the dialog has changed.
 **************************************************************************/
 void gui_dialog_present(struct gui_dialog *dlg)
@@ -853,7 +855,7 @@ void gui_dialog_present(struct gui_dialog *dlg)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Raise dialog to top.
 **************************************************************************/
 void gui_dialog_raise(struct gui_dialog *dlg)
@@ -876,7 +878,7 @@ void gui_dialog_raise(struct gui_dialog *dlg)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Alert the user to an important event.
 **************************************************************************/
 void gui_dialog_alert(struct gui_dialog *dlg)
@@ -905,7 +907,7 @@ void gui_dialog_alert(struct gui_dialog *dlg)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the dialog's default size (applies to toplevel windows only).
 **************************************************************************/
 void gui_dialog_set_default_size(struct gui_dialog *dlg, int width, int height)
@@ -921,7 +923,7 @@ void gui_dialog_set_default_size(struct gui_dialog *dlg, int width, int height)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes a dialog's title.
 **************************************************************************/
 void gui_dialog_set_title(struct gui_dialog *dlg, const char *title)
@@ -940,7 +942,7 @@ void gui_dialog_set_title(struct gui_dialog *dlg, const char *title)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destroy a dialog.
 **************************************************************************/
 void gui_dialog_destroy(struct gui_dialog *dlg)
@@ -960,7 +962,7 @@ void gui_dialog_destroy(struct gui_dialog *dlg)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destroy all dialogs.
 **************************************************************************/
 void gui_dialog_destroy_all(void)
@@ -974,7 +976,7 @@ void gui_dialog_destroy_all(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the response callback for a dialog.
 **************************************************************************/
 void gui_dialog_response_set_callback(struct gui_dialog *dlg,
@@ -983,7 +985,7 @@ void gui_dialog_response_set_callback(struct gui_dialog *dlg,
   dlg->response_callback = fun;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   When the dlg dialog is destroyed the return_dialog will be raised
 **************************************************************************/
 void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
@@ -996,7 +998,7 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Updates a gui font style.
 **************************************************************************/
 void gui_update_font(const char *font_name, const char *font_value)
@@ -1054,9 +1056,9 @@ void gui_update_font(const char *font_name, const char *font_value)
   g_free(str);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update a font option which is not attached to a widget.
-****************************************************************************/
+**************************************************************************/
 void gui_update_font_full(const char *font_name, const char *font_value,
                           PangoFontDescription **font_desc)
 {
@@ -1070,10 +1072,10 @@ void gui_update_font_full(const char *font_name, const char *font_value,
   *font_desc = f_desc;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Temporarily disable signal invocation of the given callback for the given
   GObject. Re-enable the signal with enable_gobject_callback.
-****************************************************************************/
+**************************************************************************/
 void disable_gobject_callback(GObject *obj, GCallback cb)
 {
   gulong hid;
@@ -1087,9 +1089,9 @@ void disable_gobject_callback(GObject *obj, GCallback cb)
   g_signal_handler_block(obj, hid);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Re-enable a signal callback blocked by disable_gobject_callback.
-****************************************************************************/
+**************************************************************************/
 void enable_gobject_callback(GObject *obj, GCallback cb)
 {
   gulong hid;
@@ -1103,7 +1105,7 @@ void enable_gobject_callback(GObject *obj, GCallback cb)
   g_signal_handler_unblock(obj, hid);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convenience function to add a column to a GtkTreeView. Returns the added
   column, or NULL if an error occurred.
 **************************************************************************/
@@ -1136,7 +1138,7 @@ GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
   return col;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Prepare dialog tab style provider.
 **************************************************************************/
 void dlg_tab_provider_prepare(void)
