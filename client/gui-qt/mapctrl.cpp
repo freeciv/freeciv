@@ -105,7 +105,6 @@ void update_rect_at_mouse_pos(void)
 **************************************************************************/
 void map_view::keyPressEvent(QKeyEvent * event)
 {
-  QPoint local_pos;
   Qt::KeyboardModifiers key_mod = QApplication::keyboardModifiers();
   bool is_shift = key_mod.testFlag(Qt::ShiftModifier);
 

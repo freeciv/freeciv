@@ -250,7 +250,7 @@ void unittype_item::enterEvent(QEvent *event)
 ****************************************************************************/
 void unittype_item::paintEvent(QPaintEvent *event)
 {
-  QRect rx, ry, rfull;
+  QRect rfull;
   QPainter p;
 
   if (entered) {
