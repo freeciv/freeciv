@@ -221,3 +221,33 @@ void citizens_convert(struct city *pcity)
                player_name(city_owner(pcity)), player_name(pplayer));
   citizens_nation_move(pcity, pslot, city_owner(pcity)->slot, 1);
 }
+
+/*************************************************************************//**
+  Convert citizens to the nationality of the one conquering the city.
+*****************************************************************************/
+void citizens_convert_conquest(struct city *pcity)
+{
+  struct player_slot *conqueror;
+
+  if (!game.info.citizen_nationality || game.info.conquest_convert_pct == 0) {
+    return;
+  }
+
+  conqueror = city_owner(pcity)->slot;
+
+  citizens_foreign_iterate(pcity, pslot, nat) {
+    /* Convert 'game.info.conquest_convert_pct' citizens of each foreign
+     * nationality to the nation of the new owner (but at least 1). */
+    citizens convert = MAX(1, nat * game.info.conquest_convert_pct
+                           / 100);
+    struct player *pplayer = player_slot_get_player(pslot);
+
+    fc_assert_ret(pplayer != NULL);
+
+    log_citizens("%s (size %d; %s): convert %d citizen from %s (conquered)",
+                 city_name_get(pcity), city_size_get(pcity),
+                 player_name(city_owner(pcity)), convert,
+                 player_name(pplayer));
+    citizens_nation_move(pcity, pslot, conqueror, convert);
+  } citizens_foreign_iterate_end;
+}

@@ -5367,6 +5367,8 @@ static bool load_ruleset_cities(struct section_file *file,
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
+    game.info.conquest_convert_pct =
+      secfile_lookup_int_default(file, 0, "citizen.conquest_convert_pct");
   }
 
   if (ok) {

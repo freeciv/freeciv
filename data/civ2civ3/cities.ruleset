@@ -97,15 +97,19 @@ changable_tax = TRUE            ; set to FALSE to disallow changing of tax rates
 ;forced_luxury = 100
 ;forced_gold = 0
 
-vision_reveal_tiles = TRUE      ; civ1 & 2 default FALSE
+vision_reveal_tiles  = TRUE     ; civ1 & 2 default FALSE
 
-pop_report_zeroes = 4           ; Population in reports in tens of thousands
+pop_report_zeroes    = 4        ; Population in reports in tens of thousands
 
 [citizen]
-nationality   = TRUE            ; account for the nationality of the citizens
-convert_speed = 50              ; base probability 50/1000 -> once every 20 turns
-partisans_pct = 75              ; percentage of own nationality to inspire partisans
+nationality          = TRUE     ; account for the nationality of the citizens
+convert_speed        = 50       ; base probability 50/1000 -> once every 20 turns
+partisans_pct        = 75       ; percentage of own nationality to inspire partisans
                                 ; if 0, original city owner information is used instead
+conquest_convert_pct = 0        ; percentage which converts to the new nation
+                                ; after a city was conquered. Applied separately for each
+                                ; nationality present in the city, and number of
+                                ; converted people rounded up
 
 [missing_unit_upkeep]
 ; Get rid of a unit the city is unable to pay the X upkeep of.

@@ -1239,6 +1239,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       ptaker->server.got_first_city = TRUE;
     }
 
+    citizens_convert_conquest(pcity);
+
     /* Restore any global improvement effects that this city confers */
     city_built_iterate(pcity, pimprove) {
       city_add_improvement(pcity, pimprove);
