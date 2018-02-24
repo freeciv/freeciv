@@ -1410,7 +1410,6 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   QScrollArea *scroll, *scroll2, *scroll3, *scroll_info, *scroll_unit;
   QSizePolicy size_expanding_policy(QSizePolicy::Expanding,
                                     QSizePolicy::Expanding);
-  QSizePolicy size_fixed_policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   QSlider *slider;
   QStringList info_list, str_list;
   QVBoxLayout *lefttop_layout, *units_layout, *worklist_layout,
@@ -3239,7 +3238,6 @@ void city_dialog::update_improvements()
   struct item items[MAX_NUM_PRODUCTION_TARGETS];
   struct universal targets[MAX_NUM_PRODUCTION_TARGETS];
   struct worklist queue;
-  QSize size;
   impr_item *ui;
 
   upkeep = 0;
