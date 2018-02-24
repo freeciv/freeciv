@@ -77,11 +77,11 @@ struct city *city_workers_display = NULL;
 static void clipboard_send_production_packet(struct city *pcity);
 static void define_tiles_within_rectangle(bool append);
 
-/**************************************************************************
- Called when Right Mouse Button is depressed. Record the canvas
- coordinates of the center of the tile, which may be unreal. This
- anchor is not the drawing start point, but is used to calculate
- width, height. Also record the current mapview centering.
+/**********************************************************************//**
+  Called when Right Mouse Button is depressed. Record the canvas
+  coordinates of the center of the tile, which may be unreal. This
+  anchor is not the drawing start point, but is used to calculate
+  width, height. Also record the current mapview centering.
 **************************************************************************/
 void anchor_selection_rectangle(int canvas_x, int canvas_y)
 {
@@ -95,19 +95,19 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
   rec_w = rec_h = 0;
 }
 
-/**************************************************************************
- Iterate over the pixel boundaries of the rectangle and pick the tiles
- whose center falls within. Axis pixel incrementation is half tile size to
- accomodate tilesets with varying tile shapes and proportions of X/Y.
+/**********************************************************************//**
+  Iterate over the pixel boundaries of the rectangle and pick the tiles
+  whose center falls within. Axis pixel incrementation is half tile size to
+  accomodate tilesets with varying tile shapes and proportions of X/Y.
 
- These operations are performed on the tiles:
- -  Make tiles that contain owned cities hilited
-    on the map and hilited in the City List Window.
+  These operations are performed on the tiles:
+  -  Make tiles that contain owned cities hilited
+     on the map and hilited in the City List Window.
 
- Later, I'll want to add unit hiliting for mass orders.       -ali
+  Later, I'll want to add unit hiliting for mass orders.       -ali
 
- NB: At the end of this function the current selection rectangle will be
- erased (by being redrawn).
+  NB: At the end of this function the current selection rectangle will be
+  erased (by being redrawn).
 **************************************************************************/
 static void define_tiles_within_rectangle(bool append)
 {
@@ -193,8 +193,8 @@ static void define_tiles_within_rectangle(bool append)
   }
 }
 
-/**************************************************************************
- Called when mouse pointer moves and rectangle is active.
+/**********************************************************************//**
+  Called when mouse pointer moves and rectangle is active.
 **************************************************************************/
 void update_selection_rectangle(float canvas_x, float canvas_y)
 {
@@ -271,7 +271,7 @@ void update_selection_rectangle(float canvas_x, float canvas_y)
   rec_corner_y = canvas_y;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Redraws the selection rectangle after a map flush.
 **************************************************************************/
 void redraw_selection_rectangle(void)
@@ -281,7 +281,7 @@ void redraw_selection_rectangle(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Redraws the selection rectangle after a map flush.
 **************************************************************************/
 void cancel_selection_rectangle(void)
@@ -295,7 +295,7 @@ void cancel_selection_rectangle(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Is city highlighted
 **************************************************************************/
 bool is_city_hilited(struct city *pcity)
@@ -303,8 +303,8 @@ bool is_city_hilited(struct city *pcity)
   return pcity && mapdeco_is_highlight_set(city_tile(pcity));
 }
 
-/**************************************************************************
- Remove hiliting from all tiles, but not from rows in the City List window.
+/**********************************************************************//**
+  Remove hiliting from all tiles, but not from rows in the City List window.
 **************************************************************************/
 void cancel_tile_hiliting(void)
 {
@@ -314,9 +314,9 @@ void cancel_tile_hiliting(void)
   }
 }
 
-/**************************************************************************
- Action depends on whether the mouse pointer moved
- a tile between press and release.
+/**********************************************************************//**
+  Action depends on whether the mouse pointer moved
+  a tile between press and release.
 **************************************************************************/
 void release_right_button(int canvas_x, int canvas_y, bool shift)
 {
@@ -330,8 +330,8 @@ void release_right_button(int canvas_x, int canvas_y, bool shift)
   rbutton_down = FALSE;
 }
 
-/**************************************************************************
- Left Mouse Button in Area Selection mode.
+/**********************************************************************//**
+  Left Mouse Button in Area Selection mode.
 **************************************************************************/
 void toggle_tile_hilite(struct tile *ptile)
 {
@@ -347,13 +347,12 @@ void toggle_tile_hilite(struct tile *ptile)
     mapdeco_set_highlight(ptile, TRUE);
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
-  }
-  else  {
+  } else  {
     return;
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   The user pressed the overlay-city button (t) while the mouse was at the
   given canvas position.
 **************************************************************************/
@@ -373,7 +372,7 @@ void key_city_overlay(int canvas_x, int canvas_y)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Shift-Left-Click on owned city or any visible unit to copy.
   Returns whether it found anything to try to copy.
 **************************************************************************/
@@ -414,9 +413,9 @@ bool clipboard_copy_production(struct tile *ptile)
   return TRUE;
 }
 
-/**************************************************************************
- If City tiles are hilited, paste into all those cities.
- Otherwise paste into the one city under the mouse pointer.
+/**********************************************************************//**
+  If City tiles are hilited, paste into all those cities.
+  Otherwise paste into the one city under the mouse pointer.
 **************************************************************************/
 void clipboard_paste_production(struct city *pcity)
 {
@@ -433,8 +432,7 @@ void clipboard_paste_production(struct city *pcity)
       clipboard_send_production_packet(pcity);
     }
     return;
-  }
-  else {
+  } else {
     connection_do_buffer(&client.conn);
     city_list_iterate(client.conn.playing->cities, hilicity) {
       if (is_city_hilited(hilicity)) {
@@ -445,7 +443,7 @@ void clipboard_paste_production(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Send request to build production in clipboard to server.
 **************************************************************************/
 static void clipboard_send_production_packet(struct city *pcity)
@@ -460,9 +458,9 @@ static void clipboard_send_production_packet(struct city *pcity)
                            universal_number(&clipboard));
 }
 
-/**************************************************************************
- A newer technology may be available for units.
- Also called from packhand.c.
+/**********************************************************************//**
+  A newer technology may be available for units.
+  Also called from packhand.c.
 **************************************************************************/
 void upgrade_canvas_clipboard(void)
 {
@@ -479,7 +477,7 @@ void upgrade_canvas_clipboard(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Goto button has been released. Finish goto.
 **************************************************************************/
 void release_goto_button(int canvas_x, int canvas_y)
@@ -498,7 +496,7 @@ void release_goto_button(int canvas_x, int canvas_y)
   keyboardless_goto_start_tile = NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
  The goto hover state is only activated when the mouse pointer moves
  beyond the tile where the button was depressed, to avoid mouse typos.
 **************************************************************************/
@@ -514,8 +512,8 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
   }
 }
 
-/**************************************************************************
- Return TRUE iff the turn done button should be enabled.
+/**********************************************************************//**
+  Return TRUE iff the turn done button should be enabled.
 **************************************************************************/
 bool get_turn_done_button_state(void)
 {
@@ -523,7 +521,7 @@ bool get_turn_done_button_state(void)
     && (is_human(client.conn.playing) || gui_options.ai_manual_turn_done);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return TRUE iff client can end turn.
 **************************************************************************/
 bool can_end_turn(void)
@@ -543,7 +541,7 @@ bool can_end_turn(void)
           && !agents_busy());
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Scroll the mapview half a screen in the given direction.  This is a GUI
   direction; i.e., DIR8_NORTH is "up" on the mapview.
 **************************************************************************/
@@ -560,13 +558,13 @@ void scroll_mapview(enum direction8 gui_dir)
   set_mapview_origin(gui_x, gui_y);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Do some appropriate action when the "main" mouse button (usually
   left-click) is pressed.  For more sophisticated user control use (or
   write) a different xxx_button_pressed function.
 **************************************************************************/
 void action_button_pressed(int canvas_x, int canvas_y,
-			   enum quickselect_type qtype)
+                           enum quickselect_type qtype)
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
@@ -577,7 +575,7 @@ void action_button_pressed(int canvas_x, int canvas_y,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Wakeup sentried units on the tile of the specified location.
 **************************************************************************/
 void wakeup_button_pressed(int canvas_x, int canvas_y)
@@ -589,7 +587,7 @@ void wakeup_button_pressed(int canvas_x, int canvas_y)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust the position of city workers from the mapview.
 **************************************************************************/
 void adjust_workers_button_pressed(int canvas_x, int canvas_y)
@@ -622,7 +620,7 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Recenter the map on the canvas location, on user request.  Usually this
   is done with a right-click.
 **************************************************************************/
@@ -636,7 +634,7 @@ void recenter_button_pressed(int canvas_x, int canvas_y)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the turn done button state.
 **************************************************************************/
 void update_turn_done_button_state(void)
@@ -654,7 +652,7 @@ void update_turn_done_button_state(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the goto/patrol line to the given map canvas location.
 **************************************************************************/
 void update_line(int canvas_x, int canvas_y)
@@ -675,9 +673,9 @@ void update_line(int canvas_x, int canvas_y)
   };
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update the goto/patrol line to the given overview canvas location.
-****************************************************************************/
+**************************************************************************/
 void overview_update_line(int overview_x, int overview_y)
 {
   struct tile *ptile;
@@ -698,13 +696,13 @@ void overview_update_line(int overview_x, int overview_y)
   };
 }
 
-/****************************************************************************
+/**********************************************************************//**
   We sort according to the following logic:
 
   - Transported units should immediately follow their transporter (note that
     transporting may be recursive).
   - Otherwise we sort by ID (which is what the list is originally sorted by).
-****************************************************************************/
+**************************************************************************/
 static int unit_list_compare(const void *a, const void *b)
 {
   const struct unit *punit1 = *(struct unit **)a;
@@ -735,9 +733,9 @@ static int unit_list_compare(const void *a, const void *b)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Fill and sort the list of units on the tile.
-****************************************************************************/
+**************************************************************************/
 void fill_tile_unit_list(const struct tile *ptile, struct unit **unit_list)
 {
   int i = 0;

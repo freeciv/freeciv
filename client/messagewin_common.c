@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - R. Falke
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ static struct message **messages = NULL;
 static int messages_total = 0;
 static int messages_alloc = 0;
 
-/****************************************************************************
+/************************************************************************//**
   Update the message dialog if needed.
 ****************************************************************************/
 static void meswin_dialog_update(void)
@@ -59,7 +59,7 @@ static void meswin_dialog_update(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Clear all messages.
 ****************************************************************************/
 void meswin_clear_older(int turn, int phase)
@@ -94,7 +94,7 @@ void meswin_clear_older(int turn, int phase)
   meswin_dialog_update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add a message.
 ****************************************************************************/
 void meswin_add(const char *message, const struct text_tag_list *tags,
@@ -148,7 +148,7 @@ void meswin_add(const char *message, const struct text_tag_list *tags,
   meswin_dialog_update();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the pointer to a message.  Returns NULL on error.
 ****************************************************************************/
 const struct message *meswin_get_message(int message_index)
@@ -161,7 +161,7 @@ const struct message *meswin_get_message(int message_index)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the number of message in the window.
 ****************************************************************************/
 int meswin_get_num_messages(void)
@@ -169,7 +169,7 @@ int meswin_get_num_messages(void)
   return messages_total;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sets the visited-state of a message
 ****************************************************************************/
 void meswin_set_visited_state(int message_index, bool state)
@@ -179,7 +179,7 @@ void meswin_set_visited_state(int message_index, bool state)
   messages[message_index]->visited = state;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called from messagewin.c if the user clicks on the popup-city button.
 ****************************************************************************/
 void meswin_popup_city(int message_index)
@@ -207,9 +207,9 @@ void meswin_popup_city(int message_index)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Called from messagewin.c if the user clicks on the goto button.
-**************************************************************************/
+****************************************************************************/
 void meswin_goto(int message_index)
 {
   fc_assert_ret(0 <= message_index && message_index < messages_total);
@@ -219,7 +219,7 @@ void meswin_goto(int message_index)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called from messagewin.c if the user double clicks on a message.
 ****************************************************************************/
 void meswin_double_click(int message_index)
