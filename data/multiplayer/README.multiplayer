@@ -7,6 +7,7 @@ issues encountered on multiplayer servers with the classic ruleset.
 It is based on the 'rewonder' ruleset designed by Madeline Book for
 Freeciv 2.1.
 
+This ruleset is also suited for LongTurn and Play-By-Email games.
 
 
 1. Changes compared to the classic ruleset
@@ -18,6 +19,9 @@ The differences can be extracted by
 
 Gameplay
 --------
+
+Unit movement rates are twice that of the classic ruleset, to
+make this ruleset usable for LongTurn games.
 
 Trade routes are disabled. (The Marco Polo's Embassy wonder provides
 an alternative way to increase trade; see below.)
@@ -116,7 +120,7 @@ Technology changes
 
 Unit changes
 ------------
-
+- Unit movement rates are twice the values in the classic ruleset.
 - Caravans and Freight cannot create trade routes.
 - Caravans cost 30 production (was 50); Freight remain at 50.
 - Elephants, Crusaders, and Fanatics added from the civ2 ruleset.
