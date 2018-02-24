@@ -33,7 +33,7 @@
 
 
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a line of text to the output ("chatline") window, like puts() would
   do it in the console.
 *****************************************************************************/
@@ -66,7 +66,7 @@ void luaconsole_append(const struct ft_color color,
   text_tag_list_destroy(tags);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 *****************************************************************************/
@@ -80,7 +80,7 @@ void luaconsole_vprintf(const struct ft_color color,
 }
 
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a line of text to the output ("chatline") window.  The text is
   constructed in printf style.
 *****************************************************************************/
@@ -94,7 +94,7 @@ void luaconsole_printf(const struct ft_color color,
   va_end(args);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a line of text to the output ("chatline") window from server event.
 *****************************************************************************/
 void luaconsole_event(const char *plain_text,
@@ -103,7 +103,7 @@ void luaconsole_event(const char *plain_text,
   real_luaconsole_append(plain_text, tags);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Standard welcome message.
 *****************************************************************************/
 void luaconsole_welcome_message(void)
