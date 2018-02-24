@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,10 +24,10 @@
 
 // gui-qt
 #include "fc_client.h"
+
 #include "voteinfo_bar.h"
 
-
-/***************************************************************************
+/***********************************************************************//**
   Constructor for pregamevote
 ***************************************************************************/
 pregamevote::pregamevote(QWidget *parent)
@@ -63,12 +63,13 @@ pregamevote::pregamevote(QWidget *parent)
 
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Slot vote abstain
 ***************************************************************************/
 void pregamevote::v_abstain()
 {
   struct voteinfo *vi;
+
   vi = voteinfo_queue_get_current(NULL);
   if (vi == NULL) {
     return;
@@ -76,12 +77,13 @@ void pregamevote::v_abstain()
   voteinfo_do_vote(vi->vote_no, CVT_ABSTAIN);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Slot vote no
 ***************************************************************************/
 void pregamevote::v_no()
 {
   struct voteinfo *vi;
+
   vi = voteinfo_queue_get_current(NULL);
   if (vi == NULL) {
     return;
@@ -89,12 +91,13 @@ void pregamevote::v_no()
   voteinfo_do_vote(vi->vote_no, CVT_NO);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Slot vote yes
 ***************************************************************************/
 void pregamevote::v_yes()
 {
   struct voteinfo *vi;
+
   vi = voteinfo_queue_get_current(NULL);
   if (vi == NULL) {
     return;
@@ -102,7 +105,7 @@ void pregamevote::v_yes()
   voteinfo_do_vote(vi->vote_no, CVT_YES);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Updates text on vote
 ***************************************************************************/
 void pregamevote::update_vote()
@@ -168,19 +171,20 @@ void pregamevote::update_vote()
   update();
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Destructor for pregamevote
 ***************************************************************************/
 pregamevote::~pregamevote()
 {
 }
 
-/***************************************************************************
+/***********************************************************************//**
   pregamevote class used for displaying vote bar in PAGE START
 ***************************************************************************/
 xvote::xvote(QWidget *parent) : pregamevote(parent)
 {
   QPalette palette;
+
   setParent(parent);
   palette.setColor(QPalette::WindowText, QColor(0, 255, 255));
   label_text->setPalette(palette);
@@ -192,7 +196,7 @@ xvote::xvote(QWidget *parent) : pregamevote(parent)
   voters->setPalette(palette);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Paints frames for xvote
 ***************************************************************************/
 void xvote::paint(QPainter *painter, QPaintEvent *event)
@@ -203,7 +207,7 @@ void xvote::paint(QPainter *painter, QPaintEvent *event)
   painter->drawRect(5, 5, width() - 10, height() - 10);
 }
 
-/***************************************************************************
+/***********************************************************************//**
   Paint event for xvote
 ***************************************************************************/
 void xvote::paintEvent(QPaintEvent *event)
@@ -215,10 +219,10 @@ void xvote::paintEvent(QPaintEvent *event)
   painter.end();
 }
 
-/****************************************************************************
+/***********************************************************************//**
   Refresh all vote related GUI widgets. Called by the voteinfo module when
   the client receives new vote information from the server.
-****************************************************************************/
+***************************************************************************/
 void voteinfo_gui_update(void)
 {
   if (gui()->current_page() == PAGE_START) {
