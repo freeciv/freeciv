@@ -701,6 +701,10 @@ static bool save_cities_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, game.info.citizen_convert_speed,
                        "citizen.convert_speed");
   }
+  if (game.info.conquest_convert_pct != 0) {
+    secfile_insert_int(sfile, game.info.conquest_convert_pct,
+                       "citizen.conquest_convert_pct");
+  }
   if (game.info.citizen_partisans_pct != 0) {
     secfile_insert_int(sfile, game.info.citizen_partisans_pct,
                        "citizen.partisans_pct");
