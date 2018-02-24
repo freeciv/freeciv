@@ -820,7 +820,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 helptext = _("\
-Space Capsules have landed to the surface of Deneb Seven's \
+Space Capsules have landed to the surface of Deneb Seven. \
 Any unit can enter tile with a capsule to open it. Capsule disappears \
 from the map in the process. \
 There can be gold, blueprints of new technologies, equipment for a unit, \
@@ -1169,7 +1169,7 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
-There is more than avarage amount of various resources,\
+There is more than average amount of various resources,\
  but nothing exciting.\
 ")
 
@@ -1241,8 +1241,8 @@ rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 ; /* xgettext:no-c-format */
 helptext       = _("\
-Weird alien fish might look like something escaped from nighmares,\
- but are in fact very tasty.\
+Weird alien fish might look like something escaped from nightmares, \
+but are in fact very tasty.\
 ")
 
 [extra_glowing_rocks]
