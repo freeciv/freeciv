@@ -37,7 +37,7 @@
 static int scale_to_mult(const struct multiplier *pmul, int scale);
 static int mult_to_scale(const struct multiplier *pmul, int val);
 
-/**************************************************************************
+/**********************************************************************//**
   Dialog constructor for changing rates with sliders.
   Automatic destructor will clean qobjects, so there is no one
 **************************************************************************/
@@ -95,17 +95,17 @@ tax_rates_dialog::tax_rates_dialog(QWidget *parent)
   setLayout(main_layout);
 }
 
-/***************************************************************************
+/**********************************************************************//**
   When cancel in qtpushbutton pressed selfdestruction :D.
-***************************************************************************/
+**************************************************************************/
 void tax_rates_dialog::slot_cancel_button_pressed()
 {
   delete this;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   When ok in qpushbutton pressed send info to server and selfdestroy :D.
-***************************************************************************/
+**************************************************************************/
 void tax_rates_dialog::slot_ok_button_pressed()
 {
   dsend_packet_player_rates(&client.conn, 10 * fcde->current_min,
@@ -114,9 +114,9 @@ void tax_rates_dialog::slot_ok_button_pressed()
   delete this;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Pressed "apply" in tax rates dialog.
-***************************************************************************/
+**************************************************************************/
 void tax_rates_dialog::slot_apply_button_pressed()
 {
   dsend_packet_player_rates(&client.conn, 10 * fcde->current_min,
@@ -124,7 +124,7 @@ void tax_rates_dialog::slot_apply_button_pressed()
                             10 * (fcde->current_max - fcde->current_min));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Multipler rates dialog constructor
 **************************************************************************/
 multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
@@ -177,7 +177,7 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
   setLayout(main_layout);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Slider value changed
 **************************************************************************/
 void multipler_rates_dialog::slot_set_value(int i)
@@ -192,19 +192,18 @@ void multipler_rates_dialog::slot_set_value(int i)
   lab->setText(QString::number(qo->value()));
 }
 
-
-/***************************************************************************
+/**********************************************************************//**
   Cancel pressed
-***************************************************************************/
+**************************************************************************/
 void multipler_rates_dialog::slot_cancel_button_pressed()
 {
   close();
   deleteLater();
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Ok pressed - send mulipliers value.
-***************************************************************************/
+**************************************************************************/
 void multipler_rates_dialog::slot_ok_button_pressed()
 {
   int j = 0;
@@ -213,6 +212,7 @@ void multipler_rates_dialog::slot_ok_button_pressed()
 
   multipliers_iterate(pmul) {
     Multiplier_type_id i = multiplier_index(pmul);
+
     value = slider_list.at(j)->value();
     mul.multipliers[i] = scale_to_mult(pmul, value);
     j++;
@@ -223,8 +223,7 @@ void multipler_rates_dialog::slot_ok_button_pressed()
   deleteLater();
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Convert real multiplier display value to scale value
 **************************************************************************/
 int mult_to_scale(const struct multiplier *pmul, int val)
@@ -232,7 +231,7 @@ int mult_to_scale(const struct multiplier *pmul, int val)
   return (val - pmul->start) / pmul->step;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert scale units to real multiplier display value
 **************************************************************************/
 int scale_to_mult(const struct multiplier *pmul, int scale)
@@ -240,7 +239,7 @@ int scale_to_mult(const struct multiplier *pmul, int scale)
   return scale * pmul->step + pmul->start;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the (tax/science/luxury) rates selection dialog.
 **************************************************************************/
 void popup_rates_dialog(void)
@@ -265,7 +264,7 @@ void popup_rates_dialog(void)
   trd->show();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update multipliers (policies) dialog.
 **************************************************************************/
 void real_multipliers_dialog_update(void)
@@ -273,12 +272,13 @@ void real_multipliers_dialog_update(void)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popups multiplier dialog
 **************************************************************************/
 void popup_multiplier_dialog(void)
 {
   multipler_rates_dialog *mrd;
+
   if (!can_client_issue_orders()) {
     return;
   }
@@ -286,7 +286,7 @@ void popup_multiplier_dialog(void)
   mrd->show();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Double edged slider constructor
 **************************************************************************/
 fc_double_edge::fc_double_edge(QWidget *parent)
@@ -309,14 +309,14 @@ fc_double_edge::fc_double_edge(QWidget *parent)
   setMouseTracking(true);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Double edged slider destructor
 **************************************************************************/
 fc_double_edge::~fc_double_edge()
 {
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Default size for double edge slider
 **************************************************************************/
 QSize fc_double_edge::sizeHint() const
@@ -325,7 +325,7 @@ QSize fc_double_edge::sizeHint() const
                3 * get_tax_sprite(tileset, O_LUXURY)->pm->height());
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Double edge paint event
 **************************************************************************/
 void fc_double_edge::paintEvent(QPaintEvent *event)
@@ -381,7 +381,7 @@ void fc_double_edge::paintEvent(QPaintEvent *event)
   p.end();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Double edged slider mouse press event
 **************************************************************************/
 void fc_double_edge::mousePressEvent(QMouseEvent *event)
@@ -401,12 +401,13 @@ void fc_double_edge::mousePressEvent(QMouseEvent *event)
   update();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Double edged slider mouse move event
 **************************************************************************/
 void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
 {
   float x_min, x_max, x_mouse;
+
   if (on_max || on_min) {
     setCursor(Qt::SizeHorCursor);
   } else {
@@ -447,8 +448,12 @@ void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
     } else if ((moved != 1) && on_max) {
       x_max = x_mouse * width() /
               ((width() - 1)  - 2 * cursor_size) - cursor_size;
-      if (x_max < 0) x_max = 0;
-      if (x_max > width()) x_max = width();
+      if (x_max < 0) {
+        x_max = 0;
+      }
+      if (x_max > width()) {
+        x_max = width();
+      }
       current_max = (x_max * 10 / (width() - 1));
       if (current_max > max_rates + current_min) {
         current_max = max_rates + current_min;
@@ -456,8 +461,9 @@ void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
       if (current_max < 10 - max_rates) {
         current_max = 10 - max_rates;
       }
-      if (current_min > current_max)
+      if (current_min > current_max) {
         current_min = current_max;
+      }
       moved = 2;
     }
     update();
@@ -467,4 +473,3 @@ void fc_double_edge::mouseMoveEvent(QMouseEvent *event)
 
   mouse_x = x_mouse;
 }
-

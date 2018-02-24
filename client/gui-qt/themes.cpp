@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ static QString def_app_style;
 static QString real_data_dir;
 static QString stylestring;
 
-/*****************************************************************************
+/*************************************************************************//**
   Loads a qt theme directory/theme_name
 *****************************************************************************/
 void qtg_gui_load_theme(const char *directory, const char *theme_name)
@@ -101,7 +101,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   QApplication::setPalette(pal);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Clears a theme (sets default system theme)
 *****************************************************************************/
 void qtg_gui_clear_theme()
@@ -113,7 +113,7 @@ void qtg_gui_clear_theme()
   qtg_gui_load_theme(name.toLocal8Bit().data(), FC_QT_DEFAULT_THEME_NAME);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Each gui has its own themes directories.
 
   Returns an array containing these strings and sets array size in count.
@@ -139,7 +139,7 @@ char **qtg_get_gui_specific_themes_directories(int *count)
   return array;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
   The caller is responsible for freeing the array and the names

@@ -27,7 +27,7 @@
 
 static const char **gfx_array_extensions = nullptr;
 
-/****************************************************************************
+/************************************************************************//**
   Return a NULL-terminated, permanently allocated array of possible
   graphics types extensions.  Extensions listed first will be checked
   first.
@@ -57,7 +57,7 @@ const char **gfx_fileextensions(void)
   return gfx_array_extensions;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
@@ -71,7 +71,7 @@ struct sprite *qtg_load_gfxfile(const char *filename)
   return entire;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite by cropping and taking only the given portion of
   the image.
 
@@ -148,7 +148,7 @@ struct sprite *qtg_crop_sprite(struct sprite *source,
   return cropped;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the dimensions of the sprite.
 ****************************************************************************/
 void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
@@ -157,7 +157,7 @@ void qtg_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
   *height = sprite->pm->height();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a sprite and all associated image data.
 ****************************************************************************/
 void qtg_free_sprite(struct sprite *s)
@@ -166,7 +166,7 @@ void qtg_free_sprite(struct sprite *s)
   delete s;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite with the given height, width and color.
 ****************************************************************************/
 struct sprite *qtg_create_sprite(int width, int height, struct color *pcolor)
