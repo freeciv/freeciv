@@ -51,8 +51,8 @@ SDL_Cursor *pDisabledCursor = NULL;
 
 struct color_cursor current_color_cursor;
 
-/**************************************************************************
-  convert SDL surface to SDL cursor format (code from SDL-dev mailing list)
+/**********************************************************************//**
+  Convert SDL surface to SDL cursor format (code from SDL-dev mailing list)
 **************************************************************************/
 static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
 {
@@ -94,7 +94,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
   return cursor;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draw current cursor.
 **************************************************************************/
 void draw_mouse_cursor(void)
@@ -129,7 +129,7 @@ void draw_mouse_cursor(void)
   } 
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load the cursors (mouse substitute sprites), including a goto cursor,
   an airdrop cursor, a nuke cursor, and a patrol cursor.
 **************************************************************************/
@@ -158,7 +158,7 @@ void load_cursors(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free all cursors
 **************************************************************************/
 void unload_cursors(void)
@@ -176,7 +176,7 @@ void unload_cursors(void)
   SDL_FreeCursor(pDisabledCursor);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function is used to animate the mouse cursor. 
 **************************************************************************/
 void animate_mouse_cursor(void)
@@ -206,7 +206,7 @@ void animate_mouse_cursor(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function will change the current mouse cursor.
 **************************************************************************/
 void update_mouse_cursor(enum cursor_type new_cursor_type)

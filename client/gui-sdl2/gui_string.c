@@ -63,11 +63,12 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_utf8_surf(utf8_str *pstr);
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 
-/**************************************************************************
+/**********************************************************************//**
   Adjust font sizes for small screen.
 **************************************************************************/
 #ifdef SMALL_SCREEN
-int adj_font(int size) {
+int adj_font(int size)
+{
   switch(size) {
     case 24:
       return 12;
@@ -93,7 +94,7 @@ int adj_font(int size) {
 }
 #endif /* SMALL_SCREEN */
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate display size of string.
 **************************************************************************/
 void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
@@ -154,7 +155,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create utf8_str struct with ptsize font.
   Font will be loaded or aliased with existing font of that size.
   pInTextString must be allocated in memory (MALLOC/fc_calloc)
@@ -188,7 +189,7 @@ utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize)
   return str;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert char array to utf8_str. Pointer to target string is needed
   as parameter, but also returned for convenience.
 **************************************************************************/
@@ -214,7 +215,7 @@ utf8_str *copy_chars_to_utf8_str(utf8_str *pstr, const char *pchars)
   return pstr;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Blit text to surface.
 **************************************************************************/
 int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
@@ -235,7 +236,7 @@ int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Text Surface from utf8_str
 **************************************************************************/
 static SDL_Surface *create_utf8_surf(utf8_str *pstr)
@@ -280,7 +281,7 @@ static SDL_Surface *create_utf8_surf(utf8_str *pstr)
   return text;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create surface with multiline text drawn.
 **************************************************************************/
 static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
@@ -359,7 +360,7 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
   return text;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Generic function to create surface with any kind of text, single line or
   multiline, drawn.
 **************************************************************************/
@@ -384,7 +385,7 @@ SDL_Surface *create_text_surf_from_utf8(utf8_str *pstr)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Wrap text to make it fit to given screen width.
 **************************************************************************/
 bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
@@ -473,7 +474,7 @@ bool convert_utf8_str_to_const_surface_width(utf8_str *pstr, int width)
   return converted;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create surface with text drawn to it. Wrap text as needed to make it
   fit in given width.
 **************************************************************************/
@@ -494,7 +495,7 @@ SDL_Surface *create_text_surf_smaller_than_w(utf8_str *pstr, int w)
   return text;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change font size of text.
 **************************************************************************/
 void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
@@ -517,7 +518,7 @@ void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
 
 /* =================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Load font of given pointsize.
 **************************************************************************/
 static TTF_Font *load_font(Uint16 ptsize)
@@ -575,7 +576,7 @@ static TTF_Font *load_font(Uint16 ptsize)
   return font_tmp;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free font of given pointsize.
 **************************************************************************/
 void unload_font(Uint16 ptsize)
@@ -621,7 +622,7 @@ void unload_font(Uint16 ptsize)
   FC_FREE(Font_TAB_TMP);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free all fonts.
 **************************************************************************/
 void free_font_system(void)

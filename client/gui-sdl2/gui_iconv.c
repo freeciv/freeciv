@@ -61,7 +61,7 @@
 
 #include "gui_iconv.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Return the display charset encoding (which is always a variant of
   UTF-16, but must be adjusted for byteorder since SDL_ttf is not
   byteorder-clean).
@@ -75,7 +75,7 @@ static const char *get_display_encoding(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert string from local encoding (8 bit char) to
   display encoding (16 bit unicode) and resut put in pToUniString.
   if pToUniString == NULL then resulting string will be allocate automaticaly.
@@ -156,7 +156,7 @@ Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulength,
   return (Uint16 *) pResult;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert string from display encoding (16 bit unicode) to
   local encoding (8 bit char) and result put in 'pToString'.
   if 'pToString' == NULL then resulting string will be allocated automatically.

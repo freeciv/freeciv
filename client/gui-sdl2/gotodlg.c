@@ -57,7 +57,7 @@ static bool GOTO = TRUE;
 
 static void update_goto_dialog(void);
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with goto dialog window.
 **************************************************************************/
 static int goto_dialog_window_callback(struct widget *pWindow)
@@ -69,7 +69,7 @@ static int goto_dialog_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close goto dialog.
 **************************************************************************/
 static int exit_goto_dialog_callback(struct widget *pWidget)
@@ -82,7 +82,7 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Toggle whether player cities are listed as possible destinations.
 **************************************************************************/
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
@@ -101,7 +101,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has selected city for unit to go to.
 **************************************************************************/
 static int goto_city_callback(struct widget *pWidget)
@@ -128,7 +128,7 @@ static int goto_city_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh goto dialog.
 **************************************************************************/
 static void update_goto_dialog(void)
@@ -238,7 +238,7 @@ static void update_goto_dialog(void)
   widget_flush(pGotoDlg->pEndWidgetList);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to have the focus unit goto to a city.
 **************************************************************************/
 static void popup_goto_airlift_dialog(void)
@@ -381,7 +381,7 @@ static void popup_goto_airlift_dialog(void)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to have the focus unit goto to a city.
 **************************************************************************/
 void popup_goto_dialog(void)
@@ -396,7 +396,7 @@ void popup_goto_dialog(void)
   popup_goto_airlift_dialog();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to have the focus unit airlift to a city.
 **************************************************************************/
 void popup_airlift_dialog(void)
@@ -412,7 +412,7 @@ void popup_airlift_dialog(void)
   popup_goto_airlift_dialog();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown goto/airlift to a city dialog.
 **************************************************************************/
 void popdown_goto_airlift_dialog(void)
