@@ -2571,9 +2571,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
 
         if (action_id_would_be_blocked_by(act, blocker)) {
-          char *quoted = fc_malloc(MAX_LEN_NAME);
+          /* action name alone can be MAX_LEN_NAME, leave space for extra characters */
+          int maxlen = MAX_LEN_NAME + 16;
+          char *quoted = fc_malloc(maxlen);
 
-          fc_snprintf(quoted, MAX_LEN_NAME,
+          fc_snprintf(quoted, maxlen,
                       /* TRANS: %s is an action that can block another. */
                       _("\'%s\'"), action_id_name_translation(blocker));
           blockers[i] = quoted;
