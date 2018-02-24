@@ -107,39 +107,39 @@
 
 #include "support.h"
 
-static int cmp_buffer_uchars = 0;
-static UChar *cmp_buffer0 = NULL;
-static UChar *cmp_buffer1 = NULL;
-fc_mutex cmp_buffer_mutex;
+static int icu_buffer_uchars = 0;
+static UChar *icu_buffer1 = NULL;
+static UChar *icu_buffer2 = NULL;
+fc_mutex icu_buffer_mutex;
 
 /************************************************************************//**
   Initial allocation of string comparison buffers.
 ****************************************************************************/
-static void cmp_buffers_initial(void)
+static void icu_buffers_initial(void)
 {
-  if (cmp_buffer0 == NULL) {
-    cmp_buffer_uchars = 255;
-    cmp_buffer0 = fc_malloc((cmp_buffer_uchars + 1) * sizeof(UChar));
-    cmp_buffer1 = fc_malloc((cmp_buffer_uchars + 1) * sizeof(UChar));
+  if (icu_buffer1 == NULL) {
+    icu_buffer_uchars = 1024;
+    icu_buffer1 = fc_malloc((icu_buffer_uchars + 1) * sizeof(UChar));
+    icu_buffer2 = fc_malloc((icu_buffer_uchars + 1) * sizeof(UChar));
 
     /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
-    cmp_buffer0[cmp_buffer_uchars] = 0;
-    cmp_buffer1[cmp_buffer_uchars] = 0;
+    icu_buffer1[icu_buffer_uchars] = 0;
+    icu_buffer2[icu_buffer_uchars] = 0;
   }
 }
 
 /************************************************************************//**
   Make string comparison buffers bigger
 ****************************************************************************/
-static void cmp_buffers_increase(void)
+static void icu_buffers_increase(void)
 {
-  cmp_buffer_uchars *= 1.5;
-  cmp_buffer0 = fc_realloc(cmp_buffer0, (cmp_buffer_uchars + 1) * sizeof(UChar));
-  cmp_buffer1 = fc_realloc(cmp_buffer1, (cmp_buffer_uchars + 1) * sizeof(UChar));
+  icu_buffer_uchars *= 1.5;
+  icu_buffer1 = fc_realloc(icu_buffer1, (icu_buffer_uchars + 1) * sizeof(UChar));
+  icu_buffer2 = fc_realloc(icu_buffer2, (icu_buffer_uchars + 1) * sizeof(UChar));
 
   /* Make sure there's zero after the buffer published with cmp_buffer_uchars */
-  cmp_buffer0[cmp_buffer_uchars] = 0;
-  cmp_buffer1[cmp_buffer_uchars] = 0;
+  icu_buffer1[icu_buffer_uchars] = 0;
+  icu_buffer2[icu_buffer_uchars] = 0;
 }
 
 /************************************************************************//**
@@ -147,9 +147,9 @@ static void cmp_buffers_increase(void)
 ****************************************************************************/
 void fc_strAPI_init(void)
 {
-  if (cmp_buffer_uchars == 0) {
-    fc_init_mutex(&cmp_buffer_mutex);
-    cmp_buffers_initial();
+  if (icu_buffer_uchars == 0) {
+    fc_init_mutex(&icu_buffer_mutex);
+    icu_buffers_initial();
   }
 }
 
@@ -158,14 +158,14 @@ void fc_strAPI_init(void)
 ****************************************************************************/
 void fc_strAPI_free(void)
 {
-  if (cmp_buffer0 != NULL) {
-    free(cmp_buffer0);
-    cmp_buffer0 = NULL;
-    free(cmp_buffer1);
-    cmp_buffer1 = NULL;
-    cmp_buffer_uchars = 0;
+  if (icu_buffer1 != NULL) {
+    free(icu_buffer1);
+    icu_buffer1 = NULL;
+    free(icu_buffer2);
+    icu_buffer2 = NULL;
+    icu_buffer_uchars = 0;
   }
-  fc_destroy_mutex(&cmp_buffer_mutex);
+  fc_destroy_mutex(&icu_buffer_mutex);
 }
 
 /************************************************************************//**
@@ -186,32 +186,32 @@ int fc_strcasecmp(const char *str0, const char *str1)
     return 1;
   }
 
-  if (cmp_buffer_uchars == 0) {
+  if (icu_buffer_uchars == 0) {
     fc_strAPI_init();
   }
 
-  fc_allocate_mutex(&cmp_buffer_mutex);
+  fc_allocate_mutex(&icu_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8Lenient(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
-    u_strFromUTF8Lenient(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
+    u_strFromUTF8Lenient(icu_buffer1, icu_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8Lenient(icu_buffer2, icu_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
     if (err_code0 == U_BUFFER_OVERFLOW_ERROR || err_code1 == U_BUFFER_OVERFLOW_ERROR) {
-      cmp_buffers_increase();
+      icu_buffers_increase();
     } else {
       enough_mem = TRUE;
     }
   }
 
-  ret = u_strCaseCompare(cmp_buffer0, -1, cmp_buffer1, -1,
+  ret = u_strCaseCompare(icu_buffer1, -1, icu_buffer2, -1,
                          0, &err_code);
 
-  fc_release_mutex(&cmp_buffer_mutex);
+  fc_release_mutex(&icu_buffer_mutex);
 
   return ret;
 }
@@ -235,23 +235,23 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     return 1;
   }
 
-  if (cmp_buffer_uchars == 0) {
+  if (icu_buffer_uchars == 0) {
     fc_strAPI_init();
   }
 
-  fc_allocate_mutex(&cmp_buffer_mutex);
+  fc_allocate_mutex(&icu_buffer_mutex);
 
   while (!enough_mem) {
     UErrorCode err_code0 = U_ZERO_ERROR;
     UErrorCode err_code1 = U_ZERO_ERROR;
 
-    u_strFromUTF8Lenient(cmp_buffer0, cmp_buffer_uchars, &len0, str0, -1, &err_code0);
-    u_strFromUTF8Lenient(cmp_buffer1, cmp_buffer_uchars, &len1, str1, -1, &err_code1);
+    u_strFromUTF8Lenient(icu_buffer1, icu_buffer_uchars, &len0, str0, -1, &err_code0);
+    u_strFromUTF8Lenient(icu_buffer2, icu_buffer_uchars, &len1, str1, -1, &err_code1);
 
     /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
      * the buffers we were using */
     if (err_code0 == U_BUFFER_OVERFLOW_ERROR || err_code1 == U_BUFFER_OVERFLOW_ERROR) {
-      cmp_buffers_increase();
+      icu_buffers_increase();
     } else {
       enough_mem = TRUE;
     }
@@ -264,10 +264,10 @@ int fc_strncasecmp(const char *str0, const char *str1, size_t n)
     len1 = n;
   }
 
-  ret = u_strCaseCompare(cmp_buffer0, len0, cmp_buffer1, len1,
+  ret = u_strCaseCompare(icu_buffer1, len0, icu_buffer2, len1,
                          0, &err_code);
 
-  fc_release_mutex(&cmp_buffer_mutex);
+  fc_release_mutex(&icu_buffer_mutex);
 
   return ret;
 }
@@ -728,6 +728,8 @@ bool fc_strrep(char *str, size_t len, const char *search,
   use safely and correctly, and ensuring nul-terminated results
   while being able to detect truncation.
 
+  fc_strlcpy() is UTF-8 aware.
+
   n is the full size of the destination buffer, including
   space for trailing nul, and including the pre-existing
   string for fc_strlcat().  Thus can eg use sizeof(buffer),
@@ -738,34 +740,48 @@ bool fc_strrep(char *str, size_t len, const char *search,
   without truncation.  I.e., a return value >= input n indicates
   truncation occurred.
 
-  Will assume that if configure found strlcpy/strlcat they are ok.
-  For replacement implementations, will keep it simple rather
-  than try for super-efficiency.
-
   Not sure about the asserts below, but they are easier than
   trying to ensure correct behaviour on strange inputs.
   In particular note that n == 0 is prohibited (e.g., since there
   must at least be room for a nul); could consider other options.
-
-  See also fc_utf8_strlcpy_trunc(), fc_utf8_strlcpy_rep().
 ****************************************************************************/
 size_t fc_strlcpy(char *dest, const char *src, size_t n)
 {
+  bool enough_mem = FALSE;
+  int slen;
+  int dlen;
+  UErrorCode err_code = U_ZERO_ERROR;
+
   fc_assert_ret_val(NULL != dest, -1);
   fc_assert_ret_val(NULL != src, -1);
   fc_assert_ret_val(0 < n, -1);
-#ifdef HAVE_STRLCPY
-  return strlcpy(dest, src, n);
-#else
-  {
-    size_t len = strlen(src);
-    size_t num_to_copy = (len >= n) ? n-1 : len;
-    if (num_to_copy>0)
-      memcpy(dest, src, num_to_copy);
-    dest[num_to_copy] = '\0';
-    return len;
+
+  if (icu_buffer_uchars == 0) {
+    fc_strAPI_init();
   }
-#endif /* HAVE_STRLCPY */
+
+  fc_allocate_mutex(&icu_buffer_mutex);
+
+  while (!enough_mem) {
+    u_strFromUTF8(icu_buffer1, icu_buffer_uchars, &slen, src, -1, &err_code);
+
+    /* No need to handle U_STRING_NOT_TERMINATED_WARNING here as there's '0' after
+     * the buffers we were using */
+    if (err_code == U_BUFFER_OVERFLOW_ERROR) {
+      icu_buffers_increase();
+      err_code = U_ZERO_ERROR;
+    } else {
+      enough_mem = TRUE;
+    }
+  }
+
+  u_strToUTF8(dest, n - 1, &dlen, icu_buffer1, slen, &err_code);
+
+  fc_release_mutex(&icu_buffer_mutex);
+
+  dest[n - 1] = '\0';
+
+  return dlen;
 }
 
 /************************************************************************//**
