@@ -1354,11 +1354,11 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
     }
 
-[effect_irrigation_2]
+[effect_irrigation_center]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
