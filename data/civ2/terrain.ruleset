@@ -1160,15 +1160,10 @@ unit_seen      = "Hidden"
 native_to      = "Air", "Helicopter", "Missile"
 flags          = "Refuel", "NoStackDeath"
 helptext       = _("\
-<<<<<<< HEAD
-Airbases allow your air units to land and refuel. Air units in an \
-airbase may be attacked by land units.\
-"), _("\
-Units can paradrop from this tile.\
-=======
 Airbases allow your air units to land and refuel outside cities. \
 Air units in an airbase may be attacked by land units.\
->>>>>>> 01b0e866ed... Reduce clutter in extra help with 'quiet' attribute.
+"), _("\
+Units can paradrop from this tile.\
 ")
 
 [extra_road]
