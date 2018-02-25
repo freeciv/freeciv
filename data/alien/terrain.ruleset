@@ -800,7 +800,7 @@ reqs           =
       "TerrainClass", "Land", "Local"
     }
 helptext = _("\
-Space Capsules have landed to the surface of Deneb Seven's \
+Space Capsules have landed to the surface of Deneb Seven. \
 Any unit can enter tile with a capsule to open it. Capsule disappears \
 from the map in the process. \
 There can be gold, blueprints of new technologies, equipment for a unit, \
