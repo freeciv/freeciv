@@ -2482,7 +2482,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                   ? _("yourself")
                   : nation_plural_for_player(pplayer));
     if (unit_owner(punit) != pplayer) {
-      notify_player(pplayer, ptile, E_UNIT_WIN, ftc_server,
+      notify_player(pplayer, ptile, E_UNIT_WIN_ATT, ftc_server,
                     _("The %s %s was nuked."),
                     nation_adjective_for_player(unit_owner(punit)),
                     unit_tile_link(punit));
