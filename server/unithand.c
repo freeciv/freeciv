@@ -3322,7 +3322,7 @@ static bool unit_do_destroy_city(struct player *act_player,
 
   /* Let the actor know. */
   notify_player(act_player, city_tile(tgt_city),
-                E_UNIT_WIN, ftc_server,
+                E_UNIT_WIN_ATT, ftc_server,
                 _("You destroy %s completely."),
                 city_tile_link(tgt_city));
 
