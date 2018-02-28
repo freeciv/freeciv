@@ -329,12 +329,6 @@
               <object class="GtkMenuItem" id="BUILD_CITY" />
             </child>
             <child>
-              <object class="GtkMenuItem" id="GO_BUILD_CITY" />
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="GO_JOIN_CITY" />
-            </child>
-            <child>
               <object class="GtkMenuItem" id="AUTO_SETTLER" />
             </child>
             <child>
@@ -409,9 +403,6 @@
             </child>
             <child>
               <object class="GtkMenuItem" id="DIPLOMAT_ACTION" />
-            </child>
-            <child>
-              <object class="GtkMenuItem" id="EXPLODE_NUKE" />
             </child>
           </object>
         </child>
