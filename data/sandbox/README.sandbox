@@ -114,3 +114,9 @@ Units inside fort and airstrip can still be seen.
 Buoys visible only once Radio known:
 One can see Buoys only when one knows Radio. The leading player
 may build Buoys that others can't yet see.
+
+Stealing techs on city conquest
+Getting a tech with city conquest is never guaranteed to give techs.
+In early game you randomly either get no techs, or one tech from
+the player losing the city. After University is known, no techs are
+got from the city conquest.
