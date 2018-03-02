@@ -4032,3 +4032,24 @@ const struct action_auto_perf *action_auto_perf_by_number(const int num)
 {
   return action_auto_perf_slot_number(num);
 }
+
+/**********************************************************************//**
+  Is there any action enablers of the given type not blocked by universals?
+**************************************************************************/
+bool univs_have_action_enabler(enum gen_action action,
+                               struct universal *actor_uni,
+                               struct universal *target_uni)
+{
+  action_enabler_list_iterate(action_enablers_for_action(action), enab) {
+    if ((actor_uni == NULL
+         || universal_fulfills_requirements(FALSE, &(enab->actor_reqs),
+                                            actor_uni))
+        && (target_uni == NULL
+            || universal_fulfills_requirements(FALSE, &(enab->target_reqs),
+                                               target_uni))) {
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  return FALSE;
+}

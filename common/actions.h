@@ -445,6 +445,10 @@ const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
 void action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
+bool univs_have_action_enabler(enum gen_action action,
+                               struct universal *actor_uni,
+                               struct universal *target_uni);
+
 struct action *action_is_blocked_by(const int action_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
