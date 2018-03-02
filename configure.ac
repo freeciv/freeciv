@@ -1364,7 +1364,7 @@ fi
 
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
 		getpwuid inet_aton select snooze strcasestr \
-		strerror strlcat strstr uname usleep \
+		strerror strstr uname usleep \
                 getline _strcoll stricoll _stricoll strcasecoll \
                 backtrace setenv putenv])
 

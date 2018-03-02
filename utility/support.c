@@ -721,14 +721,10 @@ bool fc_strrep(char *str, size_t len, const char *search,
 }
 
 /****************************************************************************
-  fc_strlcpy() and fc_strlcat() provide (non-standard) functions
-  strlcpy() and strlcat(), with semantics following OpenBSD (and
-  maybe others).  They are intended as more user-friendly
-  versions of strncpy and strncat, in particular easier to
-  use safely and correctly, and ensuring nul-terminated results
+  fc_strlcpy() provides utf-8 version of (non-standard) function strlcpy()
+  It is intended as more user-friendly version of strncpy(), in particular
+  easier to use safely and correctly, and ensuring nul-terminated results
   while being able to detect truncation.
-
-  fc_strlcpy() is UTF-8 aware.
 
   n is the full size of the destination buffer, including
   space for trailing nul, and including the pre-existing
@@ -784,39 +780,21 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
   return dlen;
 }
 
-/****************************************************************************
-  See also fc_utf8_strlcat_trunc(), fc_utf8_strlcat_rep().
+/************************************************************************//**
+  fc_strlcat() provides utf-8 version of (non-standard) function strlcat()
+  It is intended as more user-friendly version of strncat(), in particular
+  easier to use safely and correctly, and ensuring nul-terminated results
+  while being able to detect truncation.
 ****************************************************************************/
 size_t fc_strlcat(char *dest, const char *src, size_t n)
 {
-  fc_assert_ret_val(NULL != dest, -1);
-  fc_assert_ret_val(NULL != src, -1);
-  fc_assert_ret_val(0 < n, -1);
-#ifdef HAVE_STRLCAT
-  return strlcat(dest, src, n);
-#else
-  {
-    size_t num_to_copy, len_dest, len_src;
-    
-    len_dest = strlen(dest);
-    fc_assert_ret_val(len_dest < n, -1);
-    /* Otherwise have bad choice of leaving dest not nul-terminated
-     * within the specified length n (which should be assumable as
-     * a post-condition of fc_strlcat), or modifying dest before end
-     * of existing string (which breaks strcat semantics).
-     */
-       
-    dest += len_dest;
-    n -= len_dest;
-    
-    len_src = strlen(src);
-    num_to_copy = (len_src >= n) ? n-1 : len_src;
-    if (num_to_copy>0)
-      memcpy(dest, src, num_to_copy);
-    dest[num_to_copy] = '\0';
-    return len_dest + len_src;
-  }
-#endif /* HAVE_STRLCAT */
+  size_t start;
+
+  start = strlen(dest);
+
+  fc_assert(start < n);
+
+  return fc_strlcpy(dest + start, src, n - start) + start;
 }
 
 /****************************************************************************
