@@ -257,7 +257,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 }
 
 /**********************************************************************//**
-  Initialize player for use with threxpr AI.
+  Initialize player for use with tex AI.
 **************************************************************************/
 void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
 {
@@ -267,10 +267,12 @@ void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
 
   /* Default AI */
   dai_data_init(ait, pplayer);
+
+  player_data->units = unit_list_new();
 }
 
 /**********************************************************************//**
-  Free player from use with threxpr AI.
+  Free player from use with tex AI.
 **************************************************************************/
 void texai_player_free(struct ai_type *ait, struct player *pplayer)
 {
@@ -281,6 +283,7 @@ void texai_player_free(struct ai_type *ait, struct player *pplayer)
 
   if (player_data != NULL) {
     player_set_ai_data(pplayer, ait, NULL);
+    unit_list_destroy(player_data->units);
     FC_FREE(player_data);
   }
 }

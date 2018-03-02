@@ -41,7 +41,6 @@ const char *fc_ai_tex_capstr(void);
 bool fc_ai_tex_setup(struct ai_type *ai);
 
 static void texai_init_self(struct ai_type *ai);
-static struct ai_type *texai_get_self(void);
 
 static struct ai_type *self = NULL;
 
@@ -58,7 +57,7 @@ static void texai_init_self(struct ai_type *ai)
 /**********************************************************************//**
   Get pointer to ai type of the tex ai.
 **************************************************************************/
-static struct ai_type *texai_get_self(void)
+struct ai_type *texai_get_self(void)
 {
   return self;
 }

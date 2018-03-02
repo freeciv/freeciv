@@ -254,11 +254,14 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
   struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
   if (msgtype == TEXAI_MSG_UNIT_CREATED) {
+    struct texai_plr *plr_data = player_ai_data(pplayer, texai_get_self());
+
     punit = unit_virtual_create(pplayer, NULL, type, 0);
     punit->id = info->id;
 
     idex_register_unit(&texai_world, punit);
     unit_list_prepend(ptile->units, punit);
+    unit_list_prepend(plr_data->units, punit);
   } else {
     struct tile *old_tile;
 
@@ -295,8 +298,11 @@ void texai_unit_destruction_recv(void *data)
 {
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct unit *punit = idex_lookup_unit(&texai_world, info->id);
+  struct texai_plr *plr_data = player_ai_data(punit->owner,
+                                              texai_get_self());
 
   unit_list_remove(punit->tile->units, punit);
+  unit_list_remove(plr_data->units, punit);
   idex_unregister_unit(&texai_world, punit);
   unit_virtual_destroy(punit);
 }
