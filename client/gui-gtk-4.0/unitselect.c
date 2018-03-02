@@ -187,7 +187,7 @@ static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
 static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data);
 
 
-/*****************************************************************************
+/*************************************************************************//**
   Popup the unit selection dialog.
 *****************************************************************************/
 void unit_select_dialog_popup_main(struct tile *ptile, bool create)
@@ -208,7 +208,7 @@ void unit_select_dialog_popup_main(struct tile *ptile, bool create)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Popdown the unit selection dialog.
 *****************************************************************************/
 void unit_select_dialog_popdown(void)
@@ -216,7 +216,7 @@ void unit_select_dialog_popdown(void)
   usdlg_destroy();
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the current unit selection dialog. Create it if needed and 'create' is
   TRUE.
 *****************************************************************************/
@@ -235,7 +235,7 @@ static struct unit_select_dialog *usdlg_get(bool create)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a new unit selection dialog.
 *****************************************************************************/
 static struct unit_select_dialog *usdlg_create(void)
@@ -287,7 +287,7 @@ static struct unit_select_dialog *usdlg_create(void)
   return pdialog;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Destroy a unit selection dialog.
 *****************************************************************************/
 static void usdlg_destroy(void)
@@ -299,7 +299,7 @@ static void usdlg_destroy(void)
   unit_select_dlg = NULL;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the destruction of the dialog.
 *****************************************************************************/
 static void usdlg_destroy_callback(GObject *object, gpointer data)
@@ -307,7 +307,7 @@ static void usdlg_destroy_callback(GObject *object, gpointer data)
   usdlg_destroy();
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Set the reference tile.
 *****************************************************************************/
 static void usdlg_tile(struct unit_select_dialog *pdialog,
@@ -332,7 +332,7 @@ static void usdlg_tile(struct unit_select_dialog *pdialog,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Refresh the dialog.
 *****************************************************************************/
 static void usdlg_refresh(struct unit_select_dialog *pdialog)
@@ -371,7 +371,7 @@ static void usdlg_refresh(struct unit_select_dialog *pdialog)
   usdlg_data_destroy(ushash);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   +--------------------------------+
   | +-----------------+----------+ |
   | | (unit list)     | select   | |
@@ -537,7 +537,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]), FALSE);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a player dialog store.
 *****************************************************************************/
 static GtkTreeStore *usdlg_tab_store_new(void)
@@ -565,7 +565,7 @@ static GtkTreeStore *usdlg_tab_store_new(void)
   return store;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Update on tab of the dialog.
 *****************************************************************************/
 static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
@@ -675,7 +675,7 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
   return show;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Append the data for one unit type.
 *****************************************************************************/
 static void usdlg_tab_append_utype(GtkTreeStore *store,
@@ -724,7 +724,7 @@ static void usdlg_tab_append_utype(GtkTreeStore *store,
   g_object_unref(pix);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Append the unit activity.
 *****************************************************************************/
 static void usdlg_tab_append_activity(GtkTreeStore *store,
@@ -760,11 +760,11 @@ static void usdlg_tab_append_activity(GtkTreeStore *store,
                      -1);
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Get an unit selection list item suitable image of the specified unit.
 
   Caller is responsible for getting rid of the returned image after use.
-**************************************************************************/
+*****************************************************************************/
 GdkPixbuf *usdlg_get_unit_image(const struct unit *punit)
 {
   GdkPixbuf *out;
@@ -782,10 +782,10 @@ GdkPixbuf *usdlg_get_unit_image(const struct unit *punit)
   return out;
 }
 
-/**************************************************************************
+/*************************************************************************//**
   Get an unit selection list item suitable description of the specified
   unit.
-**************************************************************************/
+*****************************************************************************/
 const char *usdlg_get_unit_descr(const struct unit *punit)
 {
   static char buf[248] = "";
@@ -825,7 +825,7 @@ const char *usdlg_get_unit_descr(const struct unit *punit)
   return buf;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Append units (recursively).
 *****************************************************************************/
 static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
@@ -898,7 +898,7 @@ static void usdlg_tab_append_units(struct unit_select_dialog *pdialog,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the ready button.
 *****************************************************************************/
 static void usdlg_cmd_ready(GObject *object, gpointer data)
@@ -906,7 +906,7 @@ static void usdlg_cmd_ready(GObject *object, gpointer data)
   usdlg_cmd_exec(object, data, USDLG_CMD_READY);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the sentry button.
 *****************************************************************************/
 static void usdlg_cmd_sentry(GObject *object, gpointer data)
@@ -914,7 +914,7 @@ static void usdlg_cmd_sentry(GObject *object, gpointer data)
   usdlg_cmd_exec(object, data, USDLG_CMD_SENTRY);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the select button.
 *****************************************************************************/
 static void usdlg_cmd_select(GObject *object, gpointer data)
@@ -922,7 +922,7 @@ static void usdlg_cmd_select(GObject *object, gpointer data)
   usdlg_cmd_exec(object, data, USDLG_CMD_SELECT);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the deselect button.
 *****************************************************************************/
 static void usdlg_cmd_deselect(GObject *object, gpointer data)
@@ -930,7 +930,7 @@ static void usdlg_cmd_deselect(GObject *object, gpointer data)
   usdlg_cmd_exec(object, data, USDLG_CMD_DESELECT);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Main function for the callbacks.
 *****************************************************************************/
 static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
@@ -1040,7 +1040,7 @@ static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
   usdlg_refresh(pdialog);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Update one unit (select/deselect/ready/sentry).
 *****************************************************************************/
 static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd)
@@ -1079,7 +1079,7 @@ static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the center button.
 *****************************************************************************/
 static void usdlg_cmd_center(GObject *object, gpointer data)
@@ -1117,7 +1117,7 @@ static void usdlg_cmd_center(GObject *object, gpointer data)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for the focus button.
 *****************************************************************************/
 static void usdlg_cmd_focus(GObject *object, gpointer data)
@@ -1131,7 +1131,7 @@ static void usdlg_cmd_focus(GObject *object, gpointer data)
   usdlg_cmd_focus_real(GTK_TREE_VIEW(pdialog->tabs[loc].view));
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback if a row is activated.
 *****************************************************************************/
 static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
@@ -1140,7 +1140,7 @@ static void usdlg_cmd_row_activated(GtkTreeView *view, GtkTreePath *path,
   usdlg_cmd_focus_real(view);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Focus to the currently selected unit.
 *****************************************************************************/
 static void usdlg_cmd_focus_real(GtkTreeView *view)
@@ -1174,7 +1174,7 @@ static void usdlg_cmd_focus_real(GtkTreeView *view)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback if the row is changed.
 *****************************************************************************/
 static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data)

@@ -72,18 +72,18 @@ static void popdown_worklist(struct global_worklist *pgwl);
 static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
                              GtkTreeViewColumn *col, gpointer data);
 
-/****************************************************************
+/************************************************************************//**
   Illegal initialization value for max unit size variables
-*****************************************************************/
+****************************************************************************/
 void blank_max_unit_size(void)
 {
   max_unit_height = -1;
   max_unit_width = -1;
 }
 
-/****************************************************************
+/************************************************************************//**
   Setup max unit sprite size.
-*****************************************************************/
+****************************************************************************/
 static void update_max_unit_size(void)
 {
   max_unit_height = 0;
@@ -100,19 +100,17 @@ static void update_max_unit_size(void)
   } unit_type_iterate_end;
 }
 
-
-/****************************************************************
+/************************************************************************//**
   Worklists dialog being destroyed
-*****************************************************************/
+****************************************************************************/
 static void worklists_destroy_callback(GtkWidget *w, gpointer data)
 {
   worklists_shell = NULL;
 }
 
-
-/****************************************************************
+/************************************************************************//**
   Refresh global worklists list
-*****************************************************************/
+****************************************************************************/
 void update_worklist_report_dialog(void)
 {
   GtkTreeIter it;
@@ -124,13 +122,13 @@ void update_worklist_report_dialog(void)
     gtk_list_store_set(worklists_store, &it,
                        0, global_worklist_name(pgwl),
                        1, global_worklist_id(pgwl),
-                       -1); 
+                       -1);
   } global_worklists_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   User has responded to worklist report
-*****************************************************************/
+****************************************************************************/
 static void worklists_response(GtkWidget *w, gint response)
 {
   struct global_worklist *pgwl;
@@ -179,9 +177,9 @@ static void worklists_response(GtkWidget *w, gint response)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Worklist cell edited
-*****************************************************************/
+****************************************************************************/
 static void cell_edited(GtkCellRendererText *cell,
                         const gchar *spath,
                         const gchar *text, gpointer data)
@@ -207,9 +205,9 @@ static void cell_edited(GtkCellRendererText *cell,
   gtk_list_store_set(worklists_store, &it, 0, text, -1);
 }
 
-/****************************************************************
+/************************************************************************//**
   Bring up the global worklist report.
-*****************************************************************/
+****************************************************************************/
 static GtkWidget *create_worklists_report(void)
 {
   GtkWidget *shell, *list;
@@ -258,7 +256,7 @@ static GtkWidget *create_worklists_report(void)
   g_signal_connect(rend, "edited",
 		   G_CALLBACK(cell_edited), NULL);
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list), -1, NULL,
-    rend, "text", 0, NULL);
+                                              rend, "text", 0, NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(sw), 200);
@@ -281,9 +279,9 @@ static GtkWidget *create_worklists_report(void)
   return shell;
 }
 
-/****************************************************************
+/************************************************************************//**
   Open worklists report
-*****************************************************************/
+****************************************************************************/
 void popup_worklists_report(void)
 {
   if (!worklists_shell) {
@@ -296,10 +294,8 @@ void popup_worklists_report(void)
 }
 
 
-
-
 /****************************************************************
-...
+  ...
 *****************************************************************/
 struct worklist_data {
   int global_worklist_id;
@@ -333,20 +329,19 @@ static GtkTargetEntry wl_dnd_targets[] = {
 };
 
 
-
-/****************************************************************
+/************************************************************************//**
   Add drag&drop target
-*****************************************************************/
+****************************************************************************/
 void add_worklist_dnd_target(GtkWidget *w)
 {
   gtk_drag_dest_set(w, GTK_DEST_DEFAULT_ALL,
-		    wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
-		    GDK_ACTION_COPY);
+                    wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
+                    GDK_ACTION_COPY);
 }
 
-/****************************************************************
+/************************************************************************//**
   Get worklist by id
-*****************************************************************/
+****************************************************************************/
 static GtkWidget *get_worklist(int global_worklist_id)
 {
   if (hash) {
@@ -359,9 +354,9 @@ static GtkWidget *get_worklist(int global_worklist_id)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Insert worklist to editor
-*****************************************************************/
+****************************************************************************/
 static void insert_worklist(int global_worklist_id, GtkWidget *editor)
 {
   if (!hash) {
@@ -370,9 +365,9 @@ static void insert_worklist(int global_worklist_id, GtkWidget *editor)
   g_hash_table_insert(hash, GINT_TO_POINTER(global_worklist_id), editor);
 }
 
-/****************************************************************
+/************************************************************************//**
   Remove worklist from hash
-*****************************************************************/
+****************************************************************************/
 static void delete_worklist(int global_worklist_id)
 {
   if (hash) {
@@ -380,17 +375,17 @@ static void delete_worklist(int global_worklist_id)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   User responded to worklist report
-*****************************************************************/
+****************************************************************************/
 static void worklist_response(GtkWidget *shell, gint response)
 {
   gtk_widget_destroy(shell);
 }
 
-/****************************************************************
+/************************************************************************//**
   Worklist editor window used by the global worklist report.
-*****************************************************************/
+****************************************************************************/
 static void popup_worklist(struct global_worklist *pgwl)
 {
   GtkWidget *shell;
@@ -422,13 +417,13 @@ static void popup_worklist(struct global_worklist *pgwl)
   gtk_window_present(GTK_WINDOW(shell));
 }
 
-/****************************************************************
+/************************************************************************//**
   Close worklist
-*****************************************************************/
+****************************************************************************/
 static void popdown_worklist(struct global_worklist *pgwl)
 {
   GtkWidget *shell;
-  
+
   if ((shell = get_worklist(global_worklist_id(pgwl)))) {
     GtkWidget *parent;
 
@@ -437,9 +432,9 @@ static void popdown_worklist(struct global_worklist *pgwl)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Destroy worklist
-*****************************************************************/
+****************************************************************************/
 static void worklist_destroy(GtkWidget *editor, gpointer data)
 {
   struct worklist_data *ptr;
@@ -453,9 +448,9 @@ static void worklist_destroy(GtkWidget *editor, gpointer data)
   free(ptr);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item activated from menu
-*****************************************************************/
+****************************************************************************/
 static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
 {
   struct global_worklist *pgwl;
@@ -486,9 +481,9 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   commit_worklist(ptr);
 }
 
-/****************************************************************
+/************************************************************************//**
   Open menu for adding items to worklist
-*****************************************************************/
+****************************************************************************/
 static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 {
   GtkWidget *item;
@@ -520,9 +515,9 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
   		   G_CALLBACK(popup_worklists_report), NULL);
 }
 
-/****************************************************************
+/************************************************************************//**
   Help button clicked
-*****************************************************************/
+****************************************************************************/
 static void help_callback(GtkWidget *w, gpointer data)
 {
   struct worklist_data *ptr;
@@ -542,22 +537,22 @@ static void help_callback(GtkWidget *w, gpointer data)
 
     if (VUT_UTYPE == target.kind) {
       popup_help_dialog_typed(utype_name_translation(target.value.utype),
-			      HELP_UNIT);
+                              HELP_UNIT);
     } else if (is_great_wonder(target.value.building)) {
       popup_help_dialog_typed(improvement_name_translation(target.value.building),
-			      HELP_WONDER);
+                              HELP_WONDER);
     } else {
       popup_help_dialog_typed(improvement_name_translation(target.value.building),
-			      HELP_IMPROVEMENT);
+                              HELP_IMPROVEMENT);
     }
   } else {
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   "Change Production" clicked
-*****************************************************************/
+****************************************************************************/
 static void change_callback(GtkWidget *w, gpointer data)
 {
   struct worklist_data *ptr;
@@ -578,9 +573,9 @@ static void change_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Showing of future targets toggled
-*****************************************************************/
+****************************************************************************/
 static void future_callback(GtkToggleButton *toggle, gpointer data)
 {
   struct worklist_data *ptr;
@@ -591,9 +586,9 @@ static void future_callback(GtkToggleButton *toggle, gpointer data)
   refresh_worklist(ptr->editor);
 }
 
-/****************************************************************
+/************************************************************************//**
   Move item up in worklist
-*****************************************************************/
+****************************************************************************/
 static void queue_bubble_up(struct worklist_data *ptr)
 {
   GtkTreePath *path;
@@ -623,9 +618,9 @@ static void queue_bubble_up(struct worklist_data *ptr)
   gtk_tree_path_free(path);
 }
 
-/****************************************************************
+/************************************************************************//**
   Removal of the item requested
-*****************************************************************/
+****************************************************************************/
 static void queue_remove(struct worklist_data *ptr)
 {
   GtkTreePath *path;
@@ -638,9 +633,9 @@ static void queue_remove(struct worklist_data *ptr)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Move item down in queue
-*****************************************************************/
+****************************************************************************/
 static void queue_bubble_down(struct worklist_data *ptr)
 {
   GtkTreePath *path;
@@ -669,9 +664,9 @@ static void queue_bubble_down(struct worklist_data *ptr)
   gtk_tree_path_free(path);
 }
 
-/****************************************************************
+/************************************************************************//**
   Insert item to queue
-*****************************************************************/
+****************************************************************************/
 static void queue_insert(struct worklist_data *ptr, bool prepend)
 {
   GtkTreeModel *model;
@@ -715,27 +710,27 @@ static void queue_insert(struct worklist_data *ptr, bool prepend)
   gtk_tree_path_free(path);
 }
 
-/****************************************************************
+/************************************************************************//**
   Prepend item to worklist
-*****************************************************************/
+****************************************************************************/
 static void queue_prepend(struct worklist_data *ptr)
 {
   queue_insert(ptr, TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Append item to worklist
-*****************************************************************/
+****************************************************************************/
 static void queue_append(struct worklist_data *ptr)
 {
   queue_insert(ptr, FALSE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Source row activated
-*****************************************************************/
+****************************************************************************/
 static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
-			     GtkTreeViewColumn *col, gpointer data)
+                             GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
   GtkTreeModel *src_model, *dst_model;
@@ -765,11 +760,11 @@ static void src_row_callback(GtkTreeView *view, GtkTreePath *path,
   commit_worklist(ptr);
 }
 
-/****************************************************************
+/************************************************************************//**
   Destination row activated
-*****************************************************************/
+****************************************************************************/
 static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
-			     GtkTreeViewColumn *col, gpointer data)
+                             GtkTreeViewColumn *col, gpointer data)
 {
   struct worklist_data *ptr;
   GtkTreeModel *dst_model;
@@ -784,20 +779,20 @@ static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
   commit_worklist(ptr);
 }
 
-/****************************************************************
+/************************************************************************//**
   Key press for source
-*****************************************************************/
+****************************************************************************/
 static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
-				       gpointer data)
+                                       gpointer data)
 {
   struct worklist_data *ptr;
-    
+
   ptr = data;
 
   if (!gtk_widget_is_sensitive(ptr->dst_view)) {
     return FALSE;
   }
-  
+
   if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
     return TRUE;
@@ -809,11 +804,11 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Key press for destination
-*****************************************************************/
+****************************************************************************/
 static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
-				       gpointer data)
+                                       gpointer data)
 {
   GtkTreeModel *model;
   struct worklist_data *ptr;
@@ -829,14 +824,14 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
       bool more;
 
       do {
-	it_next = it;
-	more = gtk_tree_model_iter_next(model, &it_next);
+        it_next = it;
+        more = gtk_tree_model_iter_next(model, &it_next);
 
-	if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
-	  gtk_list_store_remove(GTK_LIST_STORE(model), &it);
-	  deleted = TRUE;
-	}
-	it = it_next;
+        if (gtk_tree_selection_iter_is_selected(ptr->dst_selection, &it)) {
+          gtk_list_store_remove(GTK_LIST_STORE(model), &it);
+          deleted = TRUE;
+        }
+        it = it_next;
 
       } while (more);
     }
@@ -859,9 +854,9 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Selection from source
-*****************************************************************/
+****************************************************************************/
 static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
 {
   struct worklist_data *ptr;
@@ -871,7 +866,7 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
   /* update widget sensitivity. */
   if (gtk_tree_selection_get_selected(selection, NULL, NULL)) {
     if (can_client_issue_orders()
-      && (!ptr->pcity || city_owner(ptr->pcity) == client.conn.playing)) {
+        && (!ptr->pcity || city_owner(ptr->pcity) == client.conn.playing)) {
       /* if ptr->pcity is NULL, this is a global worklist */
       gtk_widget_set_sensitive(ptr->change_cmd, TRUE);
       gtk_widget_set_sensitive(ptr->prepend_cmd, TRUE);
@@ -890,9 +885,9 @@ static void src_selection_callback(GtkTreeSelection *selection, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Selection from destination
-*****************************************************************/
+****************************************************************************/
 static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
 {
   struct worklist_data *ptr;
@@ -903,12 +898,12 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
   if (gtk_tree_selection_count_selected_rows(selection) > 0) {
     int num_rows = 0;
     GtkTreeIter it;
-    
+
     gtk_widget_set_sensitive(ptr->up_cmd, TRUE);
     gtk_widget_set_sensitive(ptr->down_cmd, TRUE);
     if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(ptr->dst), &it)) {
       do {
-	num_rows++;
+        num_rows++;
       } while (gtk_tree_model_iter_next(GTK_TREE_MODEL(ptr->dst), &it));
     }
     if (num_rows > 1) {
@@ -923,19 +918,19 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Drag&drop to destination
-*****************************************************************/
+****************************************************************************/
 static gboolean dst_dnd_callback(GtkWidget *w, GdkDragContext *context,
-				 struct worklist_data *ptr)
+                                 struct worklist_data *ptr)
 {
   commit_worklist(ptr);
   return FALSE;
 }
 
-/****************************************************************
+/************************************************************************//**
   Render worklist cell
-*****************************************************************/
+****************************************************************************/
 static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
                              GtkTreeModel *model, GtkTreeIter *it,
                              gpointer data)
@@ -990,11 +985,11 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Populate view with buildable item information
-*****************************************************************/
+****************************************************************************/
 static void populate_view(GtkTreeView *view, struct city **ppcity,
-			  GtkTreeViewColumn **pcol)
+                          GtkTreeViewColumn **pcol)
 {
   static const char *titles[] =
   { N_("Type"), N_("Name"), N_("Info"), N_("Cost"), N_("Turns") };
@@ -1029,14 +1024,14 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
   }
 
   for (i = 1; i < ARRAY_SIZE(titles); i++) {
-
     gint pos = i-1;
 
     rend = gtk_cell_renderer_text_new();
     g_object_set_data(G_OBJECT(rend), "column", GINT_TO_POINTER(pos));
 
     gtk_tree_view_insert_column_with_data_func(view,
-	i, titles[i], rend, cell_render_func, ppcity, NULL); 
+                                               i, titles[i], rend,
+                                               cell_render_func, ppcity, NULL);
     col = gtk_tree_view_get_column(view, i);
 
     if (pos >= 2) {
@@ -1053,9 +1048,9 @@ static void populate_view(GtkTreeView *view, struct city **ppcity,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Worklist editor shell.
-*****************************************************************/
+****************************************************************************/
 GtkWidget *create_worklist(void)
 {
   GtkWidget *editor, *table, *sw, *bbox;
@@ -1276,10 +1271,9 @@ GtkWidget *create_worklist(void)
   return editor;
 }
 
-
-/****************************************************************
+/************************************************************************//**
   Reset worklist for city
-*****************************************************************/
+****************************************************************************/
 void reset_city_worklist(GtkWidget *editor, struct city *pcity)
 {
   struct worklist_data *ptr;
@@ -1302,9 +1296,9 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
                                          GDK_ACTION_COPY);
 }
 
-/****************************************************************
+/************************************************************************//**
   Reset one of the global worklists
-*****************************************************************/
+****************************************************************************/
 static void reset_global_worklist(GtkWidget *editor,
                                   struct global_worklist *pgwl)
 {
@@ -1325,9 +1319,9 @@ static void reset_global_worklist(GtkWidget *editor,
   gtk_tree_view_unset_rows_drag_source(GTK_TREE_VIEW(ptr->src_view));
 }
 
-/****************************************************************
+/************************************************************************//**
   Refresh worklist info
-*****************************************************************/
+****************************************************************************/
 void refresh_worklist(GtkWidget *editor)
 {
   struct worklist_data *ptr;
@@ -1434,9 +1428,9 @@ void refresh_worklist(GtkWidget *editor)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Commit worklist data to worklist
-*****************************************************************/
+****************************************************************************/
 static void commit_worklist(struct worklist_data *ptr)
 {
   struct worklist queue;
