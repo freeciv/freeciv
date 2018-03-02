@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ static char *background_names[] = {
   "wldlg",
 };
 
-/****************************************************************************
+/************************************************************************//**
   Read theme background system from a file.
 ****************************************************************************/
 struct theme_background_system *theme_background_system_read(struct section_file *file)
@@ -73,7 +73,7 @@ struct theme_background_system *theme_background_system_read(struct section_file
   return backgrounds;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when the client first starts to free any allocated backgrounds.
 ****************************************************************************/
 void theme_background_system_free(struct theme_background_system *backgrounds)
@@ -87,7 +87,7 @@ void theme_background_system_free(struct theme_background_system *backgrounds)
   free(backgrounds);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a pointer to the given theme background.
 ****************************************************************************/
 SDL_Surface *theme_get_background(const struct theme *t,

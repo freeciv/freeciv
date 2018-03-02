@@ -37,7 +37,7 @@
 
 static struct sprite *ctor_sprite(SDL_Surface *pSurface);
 
-/****************************************************************************
+/************************************************************************//**
   Return a NULL-terminated, permanently allocated array of possible
   graphics types extensions.  Extensions listed first will be checked
   first.
@@ -53,7 +53,7 @@ const char **gfx_fileextensions(void)
   return ext;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
@@ -77,7 +77,7 @@ struct sprite *load_gfxfile(const char *filename)
   return ctor_sprite(pbuf);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite by cropping and taking only the given portion of
   the image.
 
@@ -121,7 +121,7 @@ struct sprite *crop_sprite(struct sprite *source,
   return ctor_sprite(pSrc);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a sprite with the given height, width and color.
 ****************************************************************************/
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
@@ -152,7 +152,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   return ctor_sprite(mypixbuf);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the dimensions of the sprite.
 ****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
@@ -161,7 +161,7 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
   *height = GET_SURF(sprite)->h;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a sprite and all associated image data.
 ****************************************************************************/
 void free_sprite(struct sprite *s)
@@ -171,9 +171,9 @@ void free_sprite(struct sprite *s)
   FC_FREE(s);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Create a sprite struct and fill it with SDL_Surface pointer
-**************************************************************************/
+****************************************************************************/
 static struct sprite *ctor_sprite(SDL_Surface *pSurface)
 {
   struct sprite *result = fc_malloc(sizeof(struct sprite));

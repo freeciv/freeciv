@@ -153,7 +153,7 @@ struct theme {
 struct theme *theme = NULL;
 
 
-/****************************************************************************
+/************************************************************************//**
   Return the name of the given theme.
 ****************************************************************************/
 const char *theme_get_name(const struct theme *t)
@@ -161,7 +161,7 @@ const char *theme_get_name(const struct theme *t)
   return t->name;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the path within the data directories where the font file can be
   found.  (It is left up to the GUI code to load and unload this file.)
 ****************************************************************************/
@@ -170,7 +170,7 @@ const char *theme_font_filename(const struct theme *t)
   return t->font_filename;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the default font size.
 ****************************************************************************/
 int theme_default_font_size(const struct theme *t)
@@ -178,9 +178,9 @@ int theme_default_font_size(const struct theme *t)
   return t->default_font_size;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Initialize.
-**************************************************************************/
+****************************************************************************/
 static struct theme *theme_new(void)
 {
   struct theme *t = fc_calloc(1, sizeof(*t));
@@ -191,11 +191,11 @@ static struct theme *theme_new(void)
   return t;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Returns a static list of themes available on the system by
   searching all data directories for files matching THEMESPEC_SUFFIX.
   The list is NULL-terminated.
-***********************************************************************/
+****************************************************************************/
 const char **get_theme_list(void)
 {
   static const char **themes = NULL;
@@ -222,13 +222,13 @@ const char **get_theme_list(void)
   return themes;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Gets full filename for themespec file, based on input name.
   Returned data is allocated, and freed by user as required.
   Input name may be null, in which case uses default.
   Falls back to default if can't find specified name;
   dies if can't find default.
-***********************************************************************/
+****************************************************************************/
 static char *themespec_fullname(const char *theme_name)
 {
   if (theme_name) {
@@ -247,11 +247,11 @@ static char *themespec_fullname(const char *theme_name)
   return NULL;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Checks options in filename match what we require and support.
   Die if not.
   'which' should be "themespec" or "spec".
-***********************************************************************/
+****************************************************************************/
 static bool check_themespec_capabilities(struct section_file *file,
                                          const char *which,
                                          const char *us_capstr,
@@ -285,11 +285,11 @@ static bool check_themespec_capabilities(struct section_file *file,
   return TRUE;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Frees the themespec toplevel data, in preparation for re-reading it.
 
   See themespec_read_toplevel().
-***********************************************************************/
+****************************************************************************/
 static void theme_free_toplevel(struct theme *t)
 {
   if (t->font_filename) {
@@ -309,9 +309,9 @@ static void theme_free_toplevel(struct theme *t)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Free resources allocated for the theme.
-**************************************************************************/
+****************************************************************************/
 void theme_free(struct theme *ftheme)
 {
   if (ftheme != NULL) {
@@ -323,12 +323,12 @@ void theme_free(struct theme *ftheme)
   }
 }
 
-/**********************************************************************
+/************************************************************************//**
   Read a new themespec in when first starting the game.
 
   Call this function with the (guessed) name of the theme, when
   starting the client.
-***********************************************************************/
+****************************************************************************/
 void themespec_try_read(const char *theme_name)
 {
   if (!(theme = theme_read_toplevel(theme_name))) {
@@ -357,7 +357,7 @@ void themespec_try_read(const char *theme_name)
 /*  sz_strlcpy(gui_sdl2_default_theme_name, theme_get_name(theme));*/
 }
 
-/**********************************************************************
+/************************************************************************//**
   Read a new themespec in from scratch.
 
   Unlike the initial reading code, which reads pieces one at a time,
@@ -367,7 +367,7 @@ void themespec_try_read(const char *theme_name)
   reread.
 
   It will also call the necessary functions to redraw the graphics.
-***********************************************************************/
+****************************************************************************/
 void themespec_reread(const char *new_theme_name)
 {
   struct tile *center_tile;
@@ -443,10 +443,10 @@ void themespec_reread(const char *new_theme_name)
   can_slide = TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Loads the given graphics file (found in the data path) into a newly
   allocated sprite.
-**************************************************************************/
+****************************************************************************/
 static struct sprite *load_gfx_file(const char *gfx_filename)
 {
   const char **gfx_fileexts = gfx_fileextensions(), *gfx_fileext;
@@ -472,9 +472,9 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
   return NULL;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Ensure that the big sprite of the given spec file is loaded.
-**************************************************************************/
+****************************************************************************/
 static void ensure_big_sprite(struct specfile *sf)
 {
   struct section_file *file;
@@ -510,11 +510,11 @@ static void ensure_big_sprite(struct specfile *sf)
   secfile_destroy(file);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Scan all sprites declared in the given specfile.  This means that the
   positions of the sprites in the big_sprite are saved in the
   small_sprite structs.
-**************************************************************************/
+****************************************************************************/
 static void scan_specfile(struct theme *t, struct specfile *sf,
                           bool duplicates_ok)
 {
@@ -668,10 +668,10 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
   secfile_destroy(file);
 }
 
-/**********************************************************************
+/************************************************************************//**
   Returns the correct name of the gfx file (with path and extension)
   Must be free'd when no longer used
-***********************************************************************/
+****************************************************************************/
 char *themespec_gfx_filename(const char *gfx_filename)
 {
   const char  *gfx_current_fileext;
@@ -698,11 +698,11 @@ char *themespec_gfx_filename(const char *gfx_filename)
   return NULL;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Finds and reads the toplevel themespec file based on given name.
   Sets global variables, including tile sizes and full names for
   intro files.
-***********************************************************************/
+****************************************************************************/
 struct theme *theme_read_toplevel(const char *theme_name)
 {
   struct section_file *file;
@@ -825,12 +825,11 @@ struct theme *theme_read_toplevel(const char *theme_name)
   return t;
 }
 
-
-/**************************************************************************
+/************************************************************************//**
   Loads the sprite. If the sprite is already loaded a reference
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.
-**************************************************************************/
+****************************************************************************/
 static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
@@ -876,10 +875,10 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
   return ss->sprite;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Unloads the sprite. Decrease the reference counter. If the last
   reference is removed the sprite is freed.
-**************************************************************************/
+****************************************************************************/
 static void theme_unload_sprite(struct theme *t, const char *tag_name)
 {
   struct small_sprite *ss;
@@ -930,10 +929,10 @@ static void theme_unload_sprite(struct theme *t, const char *tag_name)
 						   "sprite", #field);	    \
   } while (FALSE)
 
-/**********************************************************************
+/************************************************************************//**
   Initialize 'sprites' structure based on hardwired tags which the
   client always requires.
-***********************************************************************/
+****************************************************************************/
 static void theme_lookup_sprite_tags(struct theme *t)
 {
   /* the 'sprites' structure is currently not used, for now we call some
@@ -944,12 +943,12 @@ static void theme_lookup_sprite_tags(struct theme *t)
   tilespec_setup_city_icons();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Frees any internal buffers which are created by theme_load_sprite. Should
   be called after the last (for a given period of time) theme_load_sprite
   call.  This saves a fair amount of memory, but it will take extra time
   the next time we start loading sprites again.
-**************************************************************************/
+****************************************************************************/
 static void theme_finish_loading_sprites(struct theme *t)
 {
   specfile_list_iterate(t->specfiles, sf) {
@@ -960,22 +959,22 @@ static void theme_finish_loading_sprites(struct theme *t)
   } specfile_list_iterate_end;
 }
 
-/**********************************************************************
+/************************************************************************//**
   Load the tiles; requires themespec_read_toplevel() called previously.
   Leads to tile_sprites being allocated and filled with pointers
   to sprites.   Also sets up and populates sprite_hash, and calls func
   to initialize 'sprites' structure.
-***********************************************************************/
+****************************************************************************/
 void theme_load_sprites(struct theme *t)
 {
   theme_lookup_sprite_tags(t);
   theme_finish_loading_sprites(t);
 }
 
-/**********************************************************************
+/************************************************************************//**
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
-***********************************************************************/
+****************************************************************************/
 struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
                                            enum log_level level,
                                            const char *tag, const char *alt,
@@ -1024,7 +1023,7 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
 #define ADD_SPRITE_FULL(s)						    \
   ADD_SPRITE(s, TRUE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET)
 
-/****************************************************************************
+/************************************************************************//**
   Unload all sprites from theme sprite hash (the hash itself is left intact).
 ****************************************************************************/
 static void theme_unload_all_sprites(struct theme *t)
@@ -1038,9 +1037,9 @@ static void theme_unload_all_sprites(struct theme *t)
   }
 }
 
-/**********************************************************************
+/************************************************************************//**
   Free all sprites for the theme.
-***********************************************************************/
+****************************************************************************/
 void theme_free_sprites(struct theme *t)
 {
   log_debug("theme_free_sprites()");
@@ -1087,7 +1086,7 @@ void theme_free_sprites(struct theme *t)
   tilespec_free_city_icons();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the theme's background system.
 ****************************************************************************/
 struct theme_background_system *theme_get_background_system(const struct theme *t)
@@ -1095,7 +1094,7 @@ struct theme_background_system *theme_get_background_system(const struct theme *
   return t->background_system;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the theme's color system.
 ****************************************************************************/
 struct theme_color_system *theme_get_color_system(const struct theme *t)

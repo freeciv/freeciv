@@ -33,7 +33,7 @@
 #include "themes_common.h"
 #include "themes_g.h"
 
-/*****************************************************************************
+/*************************************************************************//**
   Loads a gui-sdl2 theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
@@ -57,7 +57,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   theme_load_sprites(theme);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Clears a theme (sets default system theme)
 *****************************************************************************/
 void gui_clear_theme(void)
@@ -70,7 +70,7 @@ void gui_clear_theme(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Each gui has its own themes directories.
 
   Returns an array containing these strings and sets array size in count.
@@ -94,7 +94,7 @@ char **get_gui_specific_themes_directories(int *count)
   return directories;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
   Useable theme for gui-sdl2 is a directory which contains file theme.themespec.

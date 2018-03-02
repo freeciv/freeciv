@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -145,7 +145,7 @@ static char *color_names[] = {
   "wldlg_frame",
 };
 
-/****************************************************************************
+/************************************************************************//**
   Read theme color system from a file.
 ****************************************************************************/
 struct theme_color_system *theme_color_system_read(struct section_file *file)
@@ -169,7 +169,7 @@ struct theme_color_system *theme_color_system_read(struct section_file *file)
   return colors;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when the client first starts to free any allocated colors.
 ****************************************************************************/
 void theme_color_system_free(struct theme_color_system *colors)
@@ -185,7 +185,7 @@ void theme_color_system_free(struct theme_color_system *colors)
   free(colors);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the RGBA color, allocating it if necessary.
 ****************************************************************************/
 static struct color *ensure_color_rgba(struct rgbacolor *rgba)
@@ -197,7 +197,7 @@ static struct color *ensure_color_rgba(struct rgbacolor *rgba)
   return rgba->color;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a pointer to the given "theme" color.
 ****************************************************************************/
 struct color *theme_get_color(const struct theme *t, enum theme_color color)
