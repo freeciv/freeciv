@@ -96,11 +96,11 @@ static int selected_style;
 static int is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a generic dialog to display some generic information.
 **************************************************************************/
 void popup_notify_dialog(const char *caption, const char *headline,
-			 const char *lines)
+                         const char *lines)
 {
   static struct gui_dialog *shell;
   GtkWidget *vbox, *label, *headline_label, *sw;
@@ -151,10 +151,10 @@ void popup_notify_dialog(const char *caption, const char *headline,
   shell = NULL;
 }
 
-/****************************************************************
+/**********************************************************************//**
   User has responded to notify dialog with possibility to
   center (goto) on event location.
-*****************************************************************/
+**************************************************************************/
 static void notify_goto_response(GtkWidget *w, gint response)
 {
   struct city *pcity = NULL;
@@ -179,15 +179,15 @@ static void notify_goto_response(GtkWidget *w, gint response)
   gtk_widget_destroy(w);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User clicked close for connect message dialog
-*****************************************************************/
+**************************************************************************/
 static void notify_connect_msg_response(GtkWidget *w, gint response)
 {
   gtk_widget_destroy(w);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to display information about an event that has a
   specific location.  The user should be given the option to goto that
   location.
@@ -197,7 +197,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               struct tile *ptile)
 {
   GtkWidget *shell, *label;
-  
+
   if (ptile == NULL) {
     shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
                                         _("Close"), GTK_RESPONSE_CLOSE,
@@ -232,7 +232,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   gtk_widget_show(shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to display connection message from server.
 **************************************************************************/
 void popup_connect_msg(const char *headline, const char *message)
@@ -258,9 +258,9 @@ void popup_connect_msg(const char *headline, const char *message)
   gtk_widget_show(shell);
 }
 
-/****************************************************************
+/**********************************************************************//**
   User has responded to revolution dialog
-*****************************************************************/
+**************************************************************************/
 static void revolution_response(GtkWidget *w, gint response, gpointer data)
 {
   struct government *government = data;
@@ -277,9 +277,9 @@ static void revolution_response(GtkWidget *w, gint response, gpointer data)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Popup revolution dialog for user
-*****************************************************************/
+**************************************************************************/
 void popup_revolution_dialog(struct government *government)
 {
   static GtkWidget *shell = NULL;
@@ -306,10 +306,9 @@ void popup_revolution_dialog(struct government *government)
   }
 }
 
-
-/***********************************************************************
+/**********************************************************************//**
   NB: 'data' is a value of enum tile_special_type casted to a pointer.
-***********************************************************************/
+**************************************************************************/
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
@@ -324,17 +323,17 @@ static void pillage_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Pillage dialog destroyed
-*****************************************************************/
+**************************************************************************/
 static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 {
   is_showing_pillage_dialog = FALSE;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Opens pillage dialog listing possible pillage targets.
-*****************************************************************/
+**************************************************************************/
 void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
   GtkWidget *shl;
@@ -370,32 +369,32 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Popup unit selection dialog. It is a wrapper for the main function; see
   unitselect.c:unit_select_dialog_popup_main().
-*****************************************************************************/
+**************************************************************************/
 void unit_select_dialog_popup(struct tile *ptile)
 {
   unit_select_dialog_popup_main(ptile, TRUE);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Update unit selection dialog. It is a wrapper for the main function; see
   unitselect.c:unit_select_dialog_popup_main().
-*****************************************************************************/
+**************************************************************************/
 void unit_select_dialog_update_real(void)
 {
   unit_select_dialog_popup_main(NULL, FALSE);
 }
 
-/*****************************************************************************
+/**************************************************************************
   NATION SELECTION DIALOG
-*****************************************************************************/
-/*****************************************************************************
+**************************************************************************/
+/**********************************************************************//**
   Return the GtkTreePath for a given nation on the specified list, or NULL
   if it's not there at all.
   Caller must free with gtk_tree_path_free().
-*****************************************************************************/
+**************************************************************************/
 static GtkTreePath *path_to_nation_on_list(Nation_type_id nation,
                                            GtkTreeView *list)
 {
@@ -418,18 +417,19 @@ static GtkTreePath *path_to_nation_on_list(Nation_type_id nation,
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Make sure the given nation is selected in the list on a given groups
   notebook tab, if it's present on that tab.
   Intended for synchronising the tabs to the current selection, so does not
   disturb the controls on the right-hand side.
-*****************************************************************************/
+**************************************************************************/
 static void select_nation_on_tab(GtkWidget *tab_list, int nation)
 {
   /* tab_list is a GtkTreeView (not its enclosing GtkScrolledWindow). */
   GtkTreeView *list = GTK_TREE_VIEW(tab_list);
   GtkTreeSelection *select = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
   GtkTreePath *path = path_to_nation_on_list(nation, list);
+
   /* Suppress normal effects of selection change to avoid loops. */
   g_signal_handlers_block_by_func(select, races_nation_callback, NULL);
   if (path) {
@@ -464,13 +464,14 @@ static void select_nation_on_tab(GtkWidget *tab_list, int nation)
   g_signal_handlers_unblock_by_func(select, races_nation_callback, NULL);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Select the given nation in the nation lists in the left-hand-side notebook.
-*****************************************************************************/
+**************************************************************************/
 static void sync_tabs_to_nation(int nation)
 {
   /* Ensure that all tabs are in sync with the new selection */
   int i;
+
   for (i = 0; i <= nation_group_count(); i++) {
     if (races_nation_list[i]) {
       select_nation_on_tab(races_nation_list[i], nation);
@@ -478,10 +479,10 @@ static void sync_tabs_to_nation(int nation)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Populates leader list.
   If no nation selected, blanks it.
-*****************************************************************************/
+**************************************************************************/
 static void populate_leader_list(void)
 {
   int i;
@@ -502,12 +503,12 @@ static void populate_leader_list(void)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Update dialog state by selecting a nation and choosing values for its
   parameters, and update the right-hand side of the dialog accordingly.
   If 'leadername' is NULL, pick a random leader name and sex from the
   nation's list (ignoring the 'is_male' parameter).
-*****************************************************************************/
+**************************************************************************/
 static void select_nation(int nation,
                           const char *leadername, bool is_male,
                           int style_id)
@@ -529,6 +530,7 @@ static void select_nation(int nation,
     } else {
       int idx = fc_rand(nation_leader_list_size(
                         nation_leaders(nation_by_number(selected_nation))));
+
       gtk_combo_box_set_active(GTK_COMBO_BOX(races_leader), idx);
       /* This also updates the leader sex, eventually. */
     }
@@ -559,6 +561,7 @@ static void select_nation(int nation,
     /* Update nation description. */
     {
       char buf[4096];
+
       helptext_nation(buf, sizeof(buf),
                       nation_by_number(selected_nation), NULL);
       gtk_text_buffer_set_text(races_text, buf, -1);
@@ -579,6 +582,7 @@ static void select_nation(int nation,
     {
       GtkTreeSelection* select
         = gtk_tree_view_get_selection(GTK_TREE_VIEW(races_style_list));
+
       gtk_tree_selection_unselect_all(select);
     }
     /* Nation description */
@@ -595,12 +599,12 @@ static void select_nation(int nation,
   sync_tabs_to_nation(selected_nation);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Creates a list of currently-pickable nations in the given group
   Inserts appropriate gtk_tree_view into races_nation_list[index] (or NULL if
   the group has no nations)
   If group == NULL, create a list of all nations
-*****************************************************************************/
+**************************************************************************/
 static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 						  int index)
 {
@@ -685,9 +689,9 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
   return sw;
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Creates lists of nations for left side of nation selection dialog
-*****************************************************************************/
+**************************************************************************/
 static void create_nation_selection_lists(void)
 {
   GtkWidget *nation_list;
@@ -719,10 +723,10 @@ static void create_nation_selection_lists(void)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   The server has changed the set of selectable nations.
   Update any current nations dialog accordingly.
-*****************************************************************************/
+**************************************************************************/
 void races_update_pickable(bool nationset_change)
 {
   int tab, groupidx;
@@ -790,27 +794,29 @@ void races_update_pickable(bool nationset_change)
   sync_tabs_to_nation(selected_nation);
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Sync nationset control with the current state of the server.
-*****************************************************************************/
+**************************************************************************/
 void nationset_sync_to_server(const char *nationset)
 {
   if (nationsets_chooser) {
     struct nation_set *set = nation_set_by_setting_value(nationset);
+
     gtk_combo_box_set_active(GTK_COMBO_BOX(nationsets_chooser),
                              nation_set_index(set));
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Called when the nationset control's value has changed.
-*****************************************************************************/
+**************************************************************************/
 static void nationset_callback(GtkComboBox *b, gpointer data)
 {
   GtkTreeIter iter;
   if (gtk_combo_box_get_active_iter(b, &iter)) {
     struct option *poption = optset_option_by_name(server_optset, "nationset");
     gchar *rule_name;
+
     gtk_tree_model_get(gtk_combo_box_get_model(b), &iter,
                        0, &rule_name, -1);
     /* Suppress propagation of an option value equivalent to the current
@@ -826,9 +832,9 @@ static void nationset_callback(GtkComboBox *b, gpointer data)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Create nations dialog
-*****************************************************************************/
+**************************************************************************/
 static void create_races_dialog(struct player *pplayer)
 {
   GtkWidget *shell;
@@ -837,13 +843,11 @@ static void create_races_dialog(struct player *pplayer)
   GtkWidget *frame, *label, *combo;
   GtkWidget *text;
   GtkWidget *notebook;
-  
   GtkWidget *sw;
   GtkWidget *list;  
   GtkListStore *store;
   GtkCellRenderer *render;
   GtkTreeViewColumn *column;
-  
   int i;
   char *title;
 
@@ -905,6 +909,7 @@ static void create_races_dialog(struct player *pplayer)
         gchar *escaped;
         struct astring s = ASTRING_INIT;
         int num_nations = 0;
+
         nations_iterate(pnation) {
           if (is_nation_playable(pnation) && nation_is_in_set(pnation, pset)) {
             num_nations++;
@@ -923,11 +928,15 @@ static void create_races_dialog(struct player *pplayer)
            * to specify the indentation we want. So we do it ourselves. */
           char *desc = fc_strdup(_(nation_set_description(pset)));
           char *p = desc;
+
           fc_break_lines(desc, 70);
           astr_add(&s, "\n");
           while (*p) {
             int len = strcspn(p, "\n");
-            if (p[len] == '\n') len++;
+
+            if (p[len] == '\n') {
+              len++;
+            }
             escaped = g_markup_escape_text(p, len);
             astr_add(&s, "\t%s", escaped);
             g_free(escaped);
@@ -953,6 +962,7 @@ static void create_races_dialog(struct player *pplayer)
          * like a cell-view: disable editing, and focusing (which removes
          * the caret). */
         GtkWidget *entry = gtk_bin_get_child(GTK_BIN(nationsets_chooser));
+
         gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
         gtk_widget_set_can_focus(entry, FALSE);
       }
@@ -1002,6 +1012,7 @@ static void create_races_dialog(struct player *pplayer)
     /* Suppress notebook tabs if there will be only one ("All") */
     {
       bool show_groups = FALSE;
+
       nation_groups_iterate(pgroup) {
         if (!is_nation_group_hidden(pgroup)) {
           show_groups = TRUE;
@@ -1048,6 +1059,7 @@ static void create_races_dialog(struct player *pplayer)
   /* Leader. */ 
   {
     GtkListStore *model = gtk_list_store_new(1, G_TYPE_STRING);
+
     combo = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(model));
     gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(combo), 0);
     g_object_unref(G_OBJECT(model));
@@ -1194,9 +1206,9 @@ static void create_races_dialog(struct player *pplayer)
   }
 }
 
-/****************************************************************
-  popup the dialog 10% inside the main-window 
- *****************************************************************/
+/**********************************************************************//**
+  Popup the dialog 10% inside the main-window
+**************************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
   if (!pplayer) {
@@ -1209,9 +1221,9 @@ void popup_races_dialog(struct player *pplayer)
   }
 }
 
-/****************************************************************
-  Close nations dialog  
-*****************************************************************/
+/**********************************************************************//**
+  Close nations dialog
+**************************************************************************/
 void popdown_races_dialog(void)
 {
   if (races_shell) {
@@ -1223,7 +1235,7 @@ void popdown_races_dialog(void)
   blank_max_unit_size();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update which nations are allowed to be selected (due to e.g. another
   player choosing a nation).
 **************************************************************************/
@@ -1272,9 +1284,9 @@ void races_toggles_set_sensitive(void)
   }
 }
 
-/*****************************************************************************
+/**********************************************************************//**
   Called whenever a user selects a nation in nation list
-*****************************************************************************/
+**************************************************************************/
 static void races_nation_callback(GtkTreeSelection *select, gpointer data)
 {
   GtkTreeModel *model;
@@ -1301,7 +1313,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
   select_nation(-1, NULL, FALSE, 0);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Leader name has been chosen
 **************************************************************************/
 static void races_leader_callback(void)
@@ -1321,7 +1333,7 @@ static void races_leader_callback(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Leader sex has been chosen
 **************************************************************************/
 static void races_sex_callback(GtkWidget *w, gpointer data)
@@ -1329,12 +1341,12 @@ static void races_sex_callback(GtkWidget *w, gpointer data)
   selected_sex = GPOINTER_TO_INT(data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Determines which nations can be selected in the UI
 **************************************************************************/
 static gboolean races_selection_func(GtkTreeSelection *select,
-				     GtkTreeModel *model, GtkTreePath *path,
-				     gboolean selected, gpointer data)
+                                     GtkTreeModel *model, GtkTreePath *path,
+                                     gboolean selected, gpointer data)
 {
   GtkTreeIter it;
   gboolean chosen;
@@ -1344,7 +1356,7 @@ static gboolean races_selection_func(GtkTreeSelection *select,
   return (!chosen || selected);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   City style has been chosen
 **************************************************************************/
 static void races_style_callback(GtkTreeSelection *select, gpointer data)
@@ -1359,7 +1371,7 @@ static void races_style_callback(GtkTreeSelection *select, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has selected some of the responses for whole nations dialog
 **************************************************************************/
 static void races_response(GtkWidget *w, gint response, gpointer data)
@@ -1404,8 +1416,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
   popdown_races_dialog();
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Adjust tax rates from main window
 **************************************************************************/
 gboolean taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
@@ -1414,9 +1425,9 @@ gboolean taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Pops up a dialog to confirm upgrading of the unit.
-****************************************************************************/
+**************************************************************************/
 void popup_upgrade_dialog(struct unit_list *punits)
 {
   GtkWidget *shell;
@@ -1452,9 +1463,9 @@ void popup_upgrade_dialog(struct unit_list *punits)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Pops up a dialog to confirm disband of the unit(s).
-****************************************************************************/
+**************************************************************************/
 void popup_disband_dialog(struct unit_list *punits)
 {
   GtkWidget *shell;
@@ -1492,10 +1503,10 @@ void popup_disband_dialog(struct unit_list *punits)
   }
 }
 
-/********************************************************************** 
+/**********************************************************************//**
   This function is called when the client disconnects or the game is
   over.  It should close all dialog windows for that game.
-***********************************************************************/
+**************************************************************************/
 void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
@@ -1503,9 +1514,9 @@ void popdown_all_game_dialogs(void)
   unit_select_dialog_popdown();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Player has gained a new tech.
-*****************************************************************/
+**************************************************************************/
 void show_tech_gained_dialog(Tech_type_id tech)
 {
   const struct advance *padvance = valid_advance_by_number(tech);
@@ -1518,10 +1529,10 @@ void show_tech_gained_dialog(Tech_type_id tech)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Show tileset error dialog. It's blocking as client will
   shutdown as soon as this function returns.
-*****************************************************************/
+**************************************************************************/
 void show_tileset_error(const char *msg)
 {
   if (is_gui_up()) {
@@ -1539,20 +1550,20 @@ void show_tileset_error(const char *msg)
   }
 }
 
-/****************************************************************
+/**********************************************************************//**
   Give a warning when user is about to edit scenario with manually
   set properties.
-*****************************************************************/
+**************************************************************************/
 bool handmade_scenario_warning(void)
 {
   /* Just tell the client common code to handle this. */
   return FALSE;
 }
 
-/***************************************************************************
+/**********************************************************************//**
   Popup detailed information about battle or save information for
   some kind of statistics
-***************************************************************************/
+**************************************************************************/
 void popup_combat_info(int attacker_unit_id, int defender_unit_id,
                        int attacker_hp, int defender_hp,
                        bool make_winner_veteran)
