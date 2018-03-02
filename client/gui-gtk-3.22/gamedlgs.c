@@ -65,7 +65,7 @@ static int rates_tax_value, rates_lux_value, rates_sci_value;
 
 static void rates_changed_callback(GtkWidget *range);
 
-/**************************************************************************
+/**********************************************************************//**
   Set tax values to display
 **************************************************************************/
 static void rates_set_values(int tax, int no_tax_scroll,
@@ -173,7 +173,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User changes rates
 **************************************************************************/
 static void rates_changed_callback(GtkWidget *range)
@@ -201,7 +201,7 @@ static void rates_changed_callback(GtkWidget *range)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has responded to rates dialog
 **************************************************************************/
 static void rates_command_callback(GtkWidget *w, gint response_id)
@@ -213,7 +213,7 @@ static void rates_command_callback(GtkWidget *w, gint response_id)
   gtk_widget_destroy(rates_dialog_shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert real multiplier display value to scale value
 **************************************************************************/
 static int mult_to_scale(const struct multiplier *pmul, int val)
@@ -221,7 +221,7 @@ static int mult_to_scale(const struct multiplier *pmul, int val)
   return (val - pmul->start) / pmul->step;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert scale units to real multiplier display value
 **************************************************************************/
 static int scale_to_mult(const struct multiplier *pmul, int scale)
@@ -229,7 +229,7 @@ static int scale_to_mult(const struct multiplier *pmul, int scale)
   return scale * pmul->step + pmul->start;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Format value for multiplier scales
 **************************************************************************/
 static gchar *multiplier_value_callback(GtkScale *scale, gdouble value,
@@ -240,7 +240,7 @@ static gchar *multiplier_value_callback(GtkScale *scale, gdouble value,
   return g_strdup_printf("%d", scale_to_mult(pmul, value));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User has responded to multipliers dialog
 **************************************************************************/
 static void multipliers_command_callback(GtkWidget *w, gint response_id)
@@ -260,7 +260,7 @@ static void multipliers_command_callback(GtkWidget *w, gint response_id)
   gtk_widget_destroy(multiplier_dialog_shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update values in multipliers dialog
 **************************************************************************/
 static void multiplier_dialog_update_values(bool set_positions)
@@ -287,7 +287,7 @@ static void multiplier_dialog_update_values(bool set_positions)
   } multipliers_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback when server indicates multiplier values have changed
 **************************************************************************/
 void real_multipliers_dialog_update(void)
@@ -302,9 +302,9 @@ void real_multipliers_dialog_update(void)
   multiplier_dialog_update_values(!can_client_issue_orders());
 }
 
-/****************************************************************
+/**********************************************************************//**
   Create multipliers dialog
-****************************************************************/
+**************************************************************************/
 static GtkWidget *create_multiplier_dialog(void)
 {
   GtkWidget     *shell, *content;
@@ -374,9 +374,9 @@ static GtkWidget *create_multiplier_dialog(void)
   return shell;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Popup multipliers dialog
-*****************************************************************/
+**************************************************************************/
 void popup_multiplier_dialog(void)
 {
   if (!multiplier_dialog_shell) {
@@ -390,9 +390,9 @@ void popup_multiplier_dialog(void)
   gtk_window_present(GTK_WINDOW(multiplier_dialog_shell));
 }
 
-/****************************************************************
+/**********************************************************************//**
   Create rates dialog
-*****************************************************************/
+**************************************************************************/
 static GtkWidget *create_rates_dialog(void)
 {
   GtkWidget     *shell, *content;
@@ -524,10 +524,9 @@ static GtkWidget *create_rates_dialog(void)
   return shell;
 }
 
-
-/****************************************************************
+/**********************************************************************//**
   Popup rates dialog
-*****************************************************************/
+**************************************************************************/
 void popup_rates_dialog(void)
 {
   if (!can_client_issue_orders()) {

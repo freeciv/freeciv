@@ -84,7 +84,7 @@ enum {
   GD_COL_NUM
 };
 
-/**************************************************************************
+/**********************************************************************//**
   User has responded to goto dialog
 **************************************************************************/
 static void goto_cmd_callback(GtkWidget *dlg, gint arg)
@@ -129,7 +129,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Create goto -dialog for gotoing or airlifting unit
 **************************************************************************/
 static void create_goto_dialog(void)
@@ -252,9 +252,9 @@ static void create_goto_dialog(void)
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************
-popup the dialog
-*****************************************************************/
+/**********************************************************************//**
+  Popup the dialog
+**************************************************************************/
 void popup_goto_dialog(void)
 {
   if (!can_client_issue_orders() || get_num_units_in_focus() == 0) {
@@ -268,7 +268,7 @@ void popup_goto_dialog(void)
   gtk_window_present(GTK_WINDOW(dshell));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return currently selected city
 **************************************************************************/
 static struct city *get_selected_city(void)
@@ -288,7 +288,7 @@ static struct city *get_selected_city(void)
   return game_city_by_number(city_id);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Appends the list of the city owned by the player in the goto dialog.
 **************************************************************************/
 static bool list_store_append_player_cities(GtkListStore *store,
@@ -320,7 +320,7 @@ static bool list_store_append_player_cities(GtkListStore *store,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh the label that shows where the selected unit(s) currently are
   (and the relevant cities' airlift capacities, if relevant).
 **************************************************************************/
@@ -426,7 +426,7 @@ static void update_source_label(void)
   free(last_str); /* might have been NULL */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh city list (in response to "all cities" checkbox changing).
 **************************************************************************/
 static void update_goto_dialog(GtkToggleButton *button)
@@ -461,7 +461,7 @@ static void update_goto_dialog(GtkToggleButton *button)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh airlift column in city list (without tearing everything down).
 **************************************************************************/
 static void refresh_airlift_column(void)
@@ -486,7 +486,7 @@ static void refresh_airlift_column(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh the state of the "Airlift" button for the currently selected
   unit(s) and city.
 **************************************************************************/
@@ -514,7 +514,7 @@ static void refresh_airlift_button(void)
   gtk_dialog_set_response_sensitive(GTK_DIALOG(dshell), CMD_AIRLIFT, FALSE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update goto dialog. button tells if cities of all players or just
   client's player should be listed.
 **************************************************************************/
@@ -535,7 +535,7 @@ static void goto_selection_callback(GtkTreeSelection *selection,
   refresh_airlift_button();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called when the set of units in focus has changed; updates airlift info
 **************************************************************************/
 void goto_dialog_focus_units_changed(void)
