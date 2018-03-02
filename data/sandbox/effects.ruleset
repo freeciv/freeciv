@@ -359,9 +359,14 @@ reqs    =
 type    = "Max_Trade_Routes"
 value   = 2
 
-[effect_conquer_techs_base]
-type    = "Conquer_Techs_Min"
+; Conquer_Techs_Min is always 0
+[effect_conquer_techs_random]
+type    = "Conquer_Techs_Max"
 value   = 1
+reqs    =
+    { "type", "name",       "range", "present"
+      "Tech", "University", "Player", FALSE
+    }
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
