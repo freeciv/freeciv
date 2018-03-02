@@ -49,7 +49,7 @@ GUI_FUNC_PROTO(void, races_update_pickable, bool nationset_change)
 
 GUI_FUNC_PROTO(void, popup_combat_info, int attacker_unit_id,
                int defender_unit_id, int attacker_hp, int defender_hp,
-               bool make_winner_veteran)
+               bool make_att_veteran, bool make_def_veteran)
 GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
                struct tile *target_tile,

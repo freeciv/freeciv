@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -286,7 +286,8 @@ class hud_unit_combat : public QWidget
 public:
   hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                   int attacker_hp, int defender_hp,
-                  bool make_winner_veteran, QWidget *parent);
+                  bool make_att_veteran, bool make_def_veteran,
+                  QWidget *parent);
   ~hud_unit_combat();
   bool get_focus();
   void set_fading(float fade);
@@ -300,11 +301,11 @@ private:
   int def_hp;
   int att_hp_loss;
   int def_hp_loss;
-  bool winner_veteran;
+  bool att_veteran;
+  bool def_veteran;
   struct unit *attacker;
   struct unit *defender;
-  struct unit *winner;
-  struct tile *winner_tile;
+  struct tile *center_tile;
   bool focus;
   float fading;
   QImage dimg, aimg;

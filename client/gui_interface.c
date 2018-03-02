@@ -505,10 +505,11 @@ void editgui_popdown_all(void)
 ****************************************************************************/
 void popup_combat_info(int attacker_unit_id, int defender_unit_id,
                        int attacker_hp, int defender_hp,
-                       bool make_winner_veteran)
+                       bool make_att_veteran, bool make_def_veteran)
 {
   funcs.popup_combat_info(attacker_unit_id, defender_unit_id,
-                          attacker_hp, defender_hp, make_winner_veteran);
+                          attacker_hp, defender_hp, make_att_veteran,
+                          make_def_veteran);
 }
 
 /****************************************************************************

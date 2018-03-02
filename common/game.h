@@ -167,6 +167,7 @@ struct civ_game {
       int pingtime;
       int pingtimeout;
       int ransom_gold;
+      int combat_rounds;
       int razechance;
       unsigned revealmap;
       int revolution_length;
@@ -586,6 +587,10 @@ extern struct world wld;
 #define GAME_DEFAULT_ONSETBARBARIAN  60
 #define GAME_MIN_ONSETBARBARIAN      1
 #define GAME_MAX_ONSETBARBARIAN      GAME_MAX_END_TURN
+
+#define GAME_DEFAULT_COMBATROUNDS    0
+#define GAME_MIN_COMBATROUNDS        0
+#define GAME_MAX_COMBATROUNDS        100
 
 #define GAME_DEFAULT_OCCUPYCHANCE    0
 #define GAME_MIN_OCCUPYCHANCE        0

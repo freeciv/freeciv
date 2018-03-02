@@ -1004,7 +1004,8 @@ PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
   UNIT defender_unit_id;
   HP attacker_hp;
   HP defender_hp;
-  BOOL make_winner_veteran;
+  BOOL make_att_veteran;
+  BOOL make_def_veteran;
 end
 
 PACKET_UNIT_SSCS_SET = 71; cs, dsend
