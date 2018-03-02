@@ -27,7 +27,7 @@
 
 #define MAX_FILE_EXTENSIONS 50
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite by cropping and taking only the given portion of
   the image.
 
@@ -49,10 +49,10 @@
   neighbor
 ****************************************************************************/
 struct sprite *crop_sprite(struct sprite *source,
-			   int x, int y,
-			   int width, int height,
-			   struct sprite *mask, int mask_offset_x, int mask_offset_y,
-               float scale, bool smooth)
+                           int x, int y,
+                           int width, int height,
+                           struct sprite *mask, int mask_offset_x, int mask_offset_y,
+                           float scale, bool smooth)
 {
   struct sprite *new = fc_malloc(sizeof(*new));
   cairo_t *cr;
@@ -77,7 +77,7 @@ struct sprite *crop_sprite(struct sprite *source,
   return new;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a sprite with the given height, width and color.
 ****************************************************************************/
 struct sprite *create_sprite(int width, int height, struct color *pcolor)
@@ -90,7 +90,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   fc_assert_ret_val(pcolor != NULL, NULL);
 
   sprite->surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
-         width, height);
+                                               width, height);
 
   cr = cairo_create(sprite->surface);
   gdk_cairo_set_source_rgba(cr, &pcolor->color);
@@ -100,7 +100,7 @@ struct sprite *create_sprite(int width, int height, struct color *pcolor)
   return sprite;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the dimensions of the sprite.
 ****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
@@ -109,7 +109,7 @@ void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
   *height = cairo_image_surface_get_height(sprite->surface);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the filename extensions the client supports
   Order is important.
 ****************************************************************************/
@@ -153,7 +153,7 @@ const char **gfx_fileextensions(void)
   return ext;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when the cairo surface with freeciv allocated data is destroyed.
 ****************************************************************************/
 static void surf_destroy_callback(void *data)
@@ -161,7 +161,7 @@ static void surf_destroy_callback(void *data)
   free(data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
@@ -265,7 +265,7 @@ struct sprite *load_gfxfile(const char *filename)
   return spr;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a sprite and all associated image data.
 ****************************************************************************/
 void free_sprite(struct sprite * s)
@@ -274,7 +274,7 @@ void free_sprite(struct sprite * s)
   free(s);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Scales a sprite. If the sprite contains a mask, the mask is scaled
   as as well.
 ****************************************************************************/
@@ -303,7 +303,7 @@ struct sprite *sprite_scale(struct sprite *src, int new_w, int new_h)
   return new;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Method returns the bounding box of a sprite. It assumes a rectangular
   object/mask. The bounding box contains the border (pixel which have
   unset pixel as neighbours) pixel.
@@ -370,7 +370,7 @@ void sprite_get_bounding_box(struct sprite * sprite, int *start_x,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Crops all blankspace from a sprite (insofar as is possible as a rectangle)
 ****************************************************************************/
 struct sprite *crop_blankspace(struct sprite *s)
@@ -383,12 +383,12 @@ struct sprite *crop_blankspace(struct sprite *s)
                      1.0, FALSE);
 }
 
-/********************************************************************
+/************************************************************************//**
   Render a pixbuf from the sprite.
 
   NOTE: the pixmap and mask of a sprite must not change after this
         function is called!
-********************************************************************/
+****************************************************************************/
 GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite)
 {
   int width, height;
@@ -402,9 +402,9 @@ GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite)
   return surface_get_pixbuf(sprite->surface, width, height);
 }
 
-/********************************************************************
+/************************************************************************//**
   Render a pixbuf from the cairo surface
-********************************************************************/
+****************************************************************************/
 GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
 {
   cairo_t *cr;

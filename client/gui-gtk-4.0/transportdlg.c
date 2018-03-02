@@ -42,9 +42,9 @@ struct transport_radio_cb_data {
   int tp_id;
 };
 
-/****************************************************************
+/************************************************************************//**
   Handle user response to transport dialog.
-*****************************************************************/
+****************************************************************************/
 static void transport_response_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
@@ -75,7 +75,7 @@ static void transport_response_callback(GtkWidget *dlg, gint arg)
   gtk_widget_destroy(dlg);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle transport request automatically when there's nothing to
   choose from. Otherwise open up transport dialog for the unit
 ****************************************************************************/
