@@ -116,7 +116,7 @@ static void disable_unitinfo_widgets(void);
 
 /* ================================================================ */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with nations button.
 **************************************************************************/
 static int players_action_callback(struct widget *pWidget)
@@ -148,7 +148,7 @@ static int players_action_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with units button.
 **************************************************************************/
 static int units_action_callback(struct widget *pWidget)
@@ -163,7 +163,7 @@ static int units_action_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with cities button.
 **************************************************************************/
 static int cities_action_callback(struct widget *pButton)
@@ -195,7 +195,7 @@ static int cities_action_callback(struct widget *pButton)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Turn Done button.
 **************************************************************************/
 static int end_turn_callback(struct widget *pButton)
@@ -212,7 +212,7 @@ static int end_turn_callback(struct widget *pButton)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Revolution button.
 **************************************************************************/
 static int revolution_callback(struct widget *pButton)
@@ -227,7 +227,7 @@ static int revolution_callback(struct widget *pButton)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Research button.
 **************************************************************************/
 static int research_callback(struct widget *pButton)
@@ -239,7 +239,7 @@ static int research_callback(struct widget *pButton)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Economy button.
 **************************************************************************/
 static int economy_callback(struct widget *pButton)
@@ -253,7 +253,7 @@ static int economy_callback(struct widget *pButton)
 
 /* ====================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Show/Hide Units Info Window
 **************************************************************************/
 static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
@@ -379,7 +379,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Show/Hide Mini Map
 **************************************************************************/
 static int toggle_map_window_callback(struct widget *pMap_Button)
@@ -517,7 +517,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 
 /* ====================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap toggling button.
 **************************************************************************/
 static int toggle_minimap_mode_callback(struct widget *pWidget)
@@ -535,7 +535,7 @@ static int toggle_minimap_mode_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with messages toggling button.
 **************************************************************************/
 static int toggle_msg_window_callback(struct widget *pWidget)
@@ -560,7 +560,7 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the size of the minimap
 **************************************************************************/
 int resize_minimap(void)
@@ -583,7 +583,7 @@ int resize_minimap(void)
 #ifdef SCALE_MINIMAP
 /* ============================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap scaling dialog
 **************************************************************************/
 static int move_scale_minimap_dlg_callback(struct widget *pWindow)
@@ -595,7 +595,7 @@ static int move_scale_minimap_dlg_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap scaling dialog closing button.
 **************************************************************************/
 static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
@@ -614,7 +614,7 @@ static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap width increase button.
 **************************************************************************/
 static int up_width_callback(struct widget *pWidget)
@@ -641,7 +641,7 @@ static int up_width_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap width decrease button.
 **************************************************************************/
 static int down_width_callback(struct widget *pWidget)
@@ -665,7 +665,7 @@ static int down_width_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap height increase button.
 **************************************************************************/
 static int up_height_callback(struct widget *pWidget)
@@ -690,7 +690,7 @@ static int up_height_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap height decrease button.
 **************************************************************************/
 static int down_height_callback(struct widget *pWidget)
@@ -715,7 +715,7 @@ static int down_height_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open minimap scaling dialog.
 **************************************************************************/
 static void popup_minimap_scale_dialog(void)
@@ -880,7 +880,7 @@ static void popup_minimap_scale_dialog(void)
 /* ==================================================================== */
 #ifdef SCALE_UNITINFO
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo scaling dialog.
 **************************************************************************/
 static int move_scale_unitinfo_dlg_callback(struct widget *pWindow)
@@ -892,7 +892,7 @@ static int move_scale_unitinfo_dlg_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close unitinfo scaling dialog.
 **************************************************************************/
 static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget)
@@ -911,7 +911,7 @@ static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rebuild unitinfo widget.
 **************************************************************************/
 static void remake_unitinfo(int w, int h)
@@ -995,7 +995,7 @@ static void remake_unitinfo(int w, int h)
   unitinfo_h = h;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Resize unitinfo widget.
 **************************************************************************/
 int resize_unit_info(void)
@@ -1022,7 +1022,7 @@ int resize_unit_info(void)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo width increase button.
 **************************************************************************/
 static int up_info_width_callback(struct widget *pWidget)
@@ -1042,7 +1042,7 @@ static int up_info_width_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo width decrease button.
 **************************************************************************/
 static int down_info_width_callback(struct widget *pWidget)
@@ -1060,7 +1060,7 @@ static int down_info_width_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo height increase button.
 **************************************************************************/
 static int up_info_height_callback(struct widget *pWidget)
@@ -1079,7 +1079,7 @@ static int up_info_height_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo height decrease button.
 **************************************************************************/
 static int down_info_height_callback(struct widget *pWidget)
@@ -1097,7 +1097,7 @@ static int down_info_height_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open unitinfo scaling dialog.
 **************************************************************************/
 static void popup_unitinfo_scale_dialog(void)
@@ -1258,7 +1258,7 @@ static void popup_unitinfo_scale_dialog(void)
 
 /* ==================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with minimap window.
 **************************************************************************/
 static int minimap_window_callback(struct widget *pWidget)
@@ -1294,7 +1294,7 @@ static int minimap_window_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with unitinfo window.
 **************************************************************************/
 static int unit_info_window_callback(struct widget *pWidget)
@@ -1323,7 +1323,7 @@ static int unit_info_window_callback(struct widget *pWidget)
 
 /* ============================== Public =============================== */
 
-/**************************************************************************
+/**********************************************************************//**
   This Function is used when resize Main.screen.
   We must set new Units Info Win. start position.
 **************************************************************************/
@@ -1377,7 +1377,7 @@ void set_new_unitinfo_window_pos(void)
                       area.y + area.h - pWidget->size.h - 2);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This Function is used when resize Main.screen.
   We must set new MiniMap start position.
 **************************************************************************/
@@ -1453,7 +1453,7 @@ void set_new_minimap_window_pos(void)
                       area.y + area.h - pWidget->size.h - 2);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open unitinfo window.
 **************************************************************************/
 void popup_unitinfo_window(void)
@@ -1567,7 +1567,7 @@ void popup_unitinfo_window(void)
   widget_redraw(pUnits_Info_Window);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make unitinfo buttons visible.
 **************************************************************************/
 void show_unitinfo_window_buttons(void)
@@ -1591,7 +1591,7 @@ void show_unitinfo_window_buttons(void)
   clear_wflag(pWidget, WF_HIDDEN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make unitinfo buttons hidden.
 **************************************************************************/
 void hide_unitinfo_window_buttons(void)
@@ -1615,7 +1615,7 @@ void hide_unitinfo_window_buttons(void)
   set_wflag(pWidget, WF_HIDDEN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make unitinfo buttons disabled.
 **************************************************************************/
 void disable_unitinfo_window_buttons(void)
@@ -1635,7 +1635,7 @@ void disable_unitinfo_window_buttons(void)
   set_wstate(pWidget, FC_WS_DISABLED);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close unitinfo window.
 **************************************************************************/
 void popdown_unitinfo_window(void)
@@ -1647,7 +1647,7 @@ void popdown_unitinfo_window(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open minimap area.
 **************************************************************************/
 void popup_minimap_window(void)
@@ -1803,7 +1803,7 @@ void popup_minimap_window(void)
   widget_redraw(pMiniMap_Window);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make minimap window buttons visible.
 **************************************************************************/
 void show_minimap_window_buttons(void)
@@ -1845,7 +1845,7 @@ void show_minimap_window_buttons(void)
   clear_wflag(pWidget, WF_HIDDEN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make minimap window buttons hidden.
 **************************************************************************/
 void hide_minimap_window_buttons(void)
@@ -1887,7 +1887,7 @@ void hide_minimap_window_buttons(void)
   set_wflag(pWidget, WF_HIDDEN);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Redraw minimap window buttons.
 **************************************************************************/
 void redraw_minimap_window_buttons(void)
@@ -1928,7 +1928,7 @@ void redraw_minimap_window_buttons(void)
   widget_redraw(pWidget);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make minimap window buttons disabled.
 **************************************************************************/
 void disable_minimap_window_buttons(void)
@@ -1962,7 +1962,7 @@ void disable_minimap_window_buttons(void)
 #endif /* SMALL_SCREEN */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close minimap window.
 **************************************************************************/
 void popdown_minimap_window(void)
@@ -1974,7 +1974,7 @@ void popdown_minimap_window(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create and show game page.
 **************************************************************************/
 void show_game_page(void)
@@ -2037,7 +2037,7 @@ void show_game_page(void)
   enable_order_buttons();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close game page.
 **************************************************************************/
 void close_game_page(void)
@@ -2059,7 +2059,7 @@ void close_game_page(void)
   SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make minimap window buttons disabled and redraw.
   TODO: Use disable_minimap_window_buttons() for disabling buttons.
 **************************************************************************/
@@ -2108,7 +2108,7 @@ static void disable_minimap_widgets(void)
   redraw_group(pBuf, pEnd, TRUE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make unitinfo window buttons disabled and redraw.
   TODO: Use disable_unitinfo_window_buttons() for disabling buttons.
 **************************************************************************/
@@ -2122,7 +2122,7 @@ static void disable_unitinfo_widgets(void)
   redraw_group(pBuf, pEnd, TRUE);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Disable game page widgets.
 **************************************************************************/
 void disable_main_widgets(void)
@@ -2137,7 +2137,7 @@ void disable_main_widgets(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make minimap window buttons enabled and redraw.
 **************************************************************************/
 static void enable_minimap_widgets(void)
@@ -2187,7 +2187,7 @@ static void enable_minimap_widgets(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make unitinfo window buttons enabled and redraw.
 **************************************************************************/
 static void enable_unitinfo_widgets(void)
@@ -2204,7 +2204,7 @@ static void enable_unitinfo_widgets(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Enable game page widgets.
 **************************************************************************/
 void enable_main_widgets(void)
@@ -2219,7 +2219,7 @@ void enable_main_widgets(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get main unitinfo widget.
 **************************************************************************/
 struct widget *get_unit_info_window_widget(void)
@@ -2227,7 +2227,7 @@ struct widget *get_unit_info_window_widget(void)
   return pUnits_Info_Window;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get main minimap widget.
 **************************************************************************/
 struct widget *get_minimap_window_widget(void)
@@ -2235,7 +2235,7 @@ struct widget *get_minimap_window_widget(void)
   return pMiniMap_Window;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get main tax rates widget.
 **************************************************************************/
 struct widget *get_tax_rates_widget(void)
@@ -2243,7 +2243,7 @@ struct widget *get_tax_rates_widget(void)
   return pTax_Button;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get main research widget.
 **************************************************************************/
 struct widget *get_research_widget(void)
@@ -2251,7 +2251,7 @@ struct widget *get_research_widget(void)
   return pResearch_Button;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get main revolution widget.
 **************************************************************************/
 struct widget *get_revolution_widget(void)
@@ -2259,7 +2259,7 @@ struct widget *get_revolution_widget(void)
   return pRevolution_Button;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make Find City button available.
 **************************************************************************/
 void enable_and_redraw_find_city_button(void)
@@ -2269,7 +2269,7 @@ void enable_and_redraw_find_city_button(void)
   widget_mark_dirty(pFind_City_Button);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make Revolution button available.
 **************************************************************************/
 void enable_and_redraw_revolution_button(void)
@@ -2279,8 +2279,8 @@ void enable_and_redraw_revolution_button(void)
   widget_mark_dirty(pRevolution_Button);
 }
 
-/**************************************************************************
-  mouse click handler
+/**********************************************************************//**
+  Mouse click handler
 **************************************************************************/
 void button_down_on_map(struct mouse_button_behavior *button_behavior)
 {
@@ -2348,8 +2348,8 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
   }
 }
 
-/**************************************************************************
-  Use released mouse button over map. 
+/**********************************************************************//**
+  Use released mouse button over map.
 **************************************************************************/
 void button_up_on_map(struct mouse_button_behavior *button_behavior)
 {
@@ -2440,7 +2440,7 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Toggle map drawing stuff.
 **************************************************************************/
 bool map_event_handler(SDL_Keysym key)
@@ -2690,7 +2690,7 @@ bool map_event_handler(SDL_Keysym key)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the edit button of the new city dialog.
 **************************************************************************/
 static int newcity_name_edit_callback(struct widget *pEdit)
@@ -2708,7 +2708,7 @@ static int newcity_name_edit_callback(struct widget *pEdit)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Ok button of the new city dialog.
 **************************************************************************/
 static int newcity_ok_callback(struct widget *ok_button)
@@ -2731,7 +2731,7 @@ static int newcity_ok_callback(struct widget *ok_button)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Cancel button of the new city dialog.
 **************************************************************************/
 static int newcity_cancel_callback(struct widget *pCancel_Button)
@@ -2752,7 +2752,7 @@ static int newcity_cancel_callback(struct widget *pCancel_Button)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the new city dialog.
 **************************************************************************/
 static int move_new_city_dlg_callback(struct widget *pWindow)
@@ -2767,7 +2767,7 @@ static int move_new_city_dlg_callback(struct widget *pWindow)
 /* ============================== Native =============================== */
 
   
-/**************************************************************************
+/**********************************************************************//**
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.
 **************************************************************************/
@@ -2896,7 +2896,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   widget_flush(pWindow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close new city dialog.
 **************************************************************************/
 void popdown_newcity_dialog(void)
@@ -2909,7 +2909,7 @@ void popdown_newcity_dialog(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   A turn done button should be provided for the player. This function
   is called to toggle it between active/inactive.
 **************************************************************************/
@@ -2928,7 +2928,7 @@ void set_turn_done_button_state(bool state)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draw a goto or patrol line at the current mouse position.
 **************************************************************************/
 void create_line_at_mouse_pos(void)
@@ -2940,9 +2940,9 @@ void create_line_at_mouse_pos(void)
   draw_goto_patrol_lines = TRUE;
 }
 
-/**************************************************************************
- The Area Selection rectangle. Called by center_tile_mapcanvas() and
- when the mouse pointer moves.
+/**********************************************************************//**
+  The Area Selection rectangle. Called by center_tile_mapcanvas() and
+  when the mouse pointer moves.
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {

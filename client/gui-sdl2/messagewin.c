@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@
 
 static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Called from default clicks on a message.
 **************************************************************************/
 static int msg_callback(struct widget *pWidget)
@@ -81,7 +81,7 @@ static int msg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called from default clicks on a messages window.
 **************************************************************************/
 static int move_msg_window_callback(struct widget *pWindow)
@@ -97,7 +97,7 @@ static int move_msg_window_callback(struct widget *pWindow)
 				Public
    ====================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Really update message window.
 **************************************************************************/
 void real_meswin_dialog_update(void)
@@ -236,7 +236,7 @@ void real_meswin_dialog_update(void)
   widget_flush(pWindow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the message dialog; typically triggered by 'F9'.
 **************************************************************************/
 void meswin_dialog_popup(bool raise)
@@ -301,9 +301,9 @@ void meswin_dialog_popup(bool raise)
   real_meswin_dialog_update();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Popdown the messages dialog; called by void popdown_all_game_dialogs(void)
-****************************************************************************/
+**************************************************************************/
 void meswin_dialog_popdown(void)
 {
   if (pMsg_Dlg) {
@@ -314,7 +314,7 @@ void meswin_dialog_popdown(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return whether the message dialog is open.
 **************************************************************************/
 bool meswin_dialog_is_open(void)
