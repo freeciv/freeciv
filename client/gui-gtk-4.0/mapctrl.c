@@ -59,7 +59,7 @@
 struct tmousepos { int x, y; };
 extern gint cur_x, cur_y;
 
-/**************************************************************************
+/**********************************************************************//**
   Button released when showing info label
 **************************************************************************/
 static gboolean popit_button_release(GtkWidget *w, GdkEventButton *ev)
@@ -71,7 +71,7 @@ static gboolean popit_button_release(GtkWidget *w, GdkEventButton *ev)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Put the popup on a smart position, after the real size of the widget is
   known: left of the cursor if within the right half of the map, and vice
   versa; displace the popup so as not to obscure it by the mouse cursor;
@@ -111,7 +111,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup a label with information about the tile, unit, city, when the user
   used the middle mouse button on the map.
 **************************************************************************/
@@ -161,7 +161,7 @@ static void popit(GdkEventButton *ev, struct tile *ptile)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Information label destruction requested
 **************************************************************************/
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
@@ -170,7 +170,7 @@ void popupinfo_popdown_callback(GtkWidget *w, gpointer data)
   mapdeco_clear_gotoroutes();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback from city name dialog for new city.
 **************************************************************************/
 static void name_new_city_popup_callback(gpointer data, gint response,
@@ -189,10 +189,10 @@ static void name_new_city_popup_callback(gpointer data, gint response,
   }
 }
 
-/**************************************************************************
- Popup dialog where the user choose the name of the new city
- punit = (settler) unit which builds the city
- suggestname = suggetion of the new city's name
+/**********************************************************************//**
+  Popup dialog where the user choose the name of the new city
+  punit = (settler) unit which builds the city
+  suggestname = suggetion of the new city's name
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
@@ -203,18 +203,18 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
                       GINT_TO_POINTER(tile_index(unit_tile(punit))));
 }
 
-/**************************************************************************
- Enable or disable the turn done button.
- Should probably some where else.
+/**********************************************************************//**
+  Enable or disable the turn done button.
+  Should probably some where else.
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
   gtk_widget_set_sensitive(turn_done_button, state);
 }
 
-/**************************************************************************
- Handle 'Mouse button released'. Because of the quickselect feature,
- the release of both left and right mousebutton can launch the goto.
+/**********************************************************************//**
+  Handle 'Mouse button released'. Because of the quickselect feature,
+  the release of both left and right mousebutton can launch the goto.
 **************************************************************************/
 gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
@@ -233,9 +233,9 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
- Handle all mouse button press on canvas.
- Future feature: User-configurable mouse clicks.
+/**********************************************************************//**
+  Handle all mouse button press on canvas.
+  Future feature: User-configurable mouse clicks.
 **************************************************************************/
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
@@ -343,7 +343,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update goto line so that destination is at current mouse pointer location.
 **************************************************************************/
 void create_line_at_mouse_pos(void)
@@ -367,7 +367,7 @@ void create_line_at_mouse_pos(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   The Area Selection rectangle. Called by center_tile_mapcanvas() and
   when the mouse pointer moves.
 **************************************************************************/
@@ -393,9 +393,9 @@ void update_rect_at_mouse_pos(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Triggered by the mouse moving on the mapcanvas, this function will
-  update the mouse cursor and goto lines. 
+  update the mouse cursor and goto lines.
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
@@ -423,7 +423,7 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function will reset the mouse cursor if it leaves the map.
 **************************************************************************/
 gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
@@ -450,7 +450,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Overview canvas moved
 **************************************************************************/
 gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
@@ -459,7 +459,7 @@ gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Button pressed at overview
 **************************************************************************/
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
@@ -482,7 +482,7 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Best effort to center the map on the currently selected unit(s)
 **************************************************************************/
 void center_on_unit(void)

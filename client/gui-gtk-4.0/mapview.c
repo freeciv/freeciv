@@ -66,7 +66,7 @@ static GtkAdjustment *map_hadj, *map_vadj;
 static int cursor_timer_id = 0, cursor_type = -1, cursor_frame = 0;
 static int mapview_frozen_level = 0;
 
-/**************************************************************************
+/**********************************************************************//**
   If do_restore is FALSE it will invert the turn done button style. If
   called regularly from a timer this will give a blinking turn done
   button. If do_restore is TRUE this will reset the turn done button
@@ -109,7 +109,7 @@ void update_turn_done_button(bool do_restore)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Timeout label requires refreshing
 **************************************************************************/
 void update_timeout_label(void)
@@ -129,7 +129,7 @@ void update_timeout_label(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh info label
 **************************************************************************/
 void update_info_label(void)
@@ -209,8 +209,8 @@ void update_info_label(void)
   gtk_widget_set_tooltip_text(government_ebox, get_government_tooltip());
 }
 
-/**************************************************************************
-  This function is used to animate the mouse cursor. 
+/**********************************************************************//**
+  This function is used to animate the mouse cursor.
 **************************************************************************/
 static gboolean anim_cursor_cb(gpointer data)
 {
@@ -235,7 +235,7 @@ static gboolean anim_cursor_cb(gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function will change the current mouse cursor.
 **************************************************************************/
 void update_mouse_cursor(enum cursor_type new_cursor_type)
@@ -246,7 +246,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the information label which gives info on the current unit and the
   square under the current unit, for specified unit.  Note that in practice
   punit is always the focus unit.
@@ -270,7 +270,7 @@ void update_unit_info_label(struct unit_list *punits)
   update_unit_pix_label(punits);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get sprite for treaty acceptance or rejection.
 **************************************************************************/
 GdkPixbuf *get_thumb_pixbuf(int onoff)
@@ -278,11 +278,11 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
   return sprite_get_pixbuf(get_treaty_thumb_sprite(tileset, BOOL_VAL(onoff)));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set information for the indicator icons typically shown in the main
   client window.  The parameters tell which sprite to use for the
   indicator.
-****************************************************************************/
+**************************************************************************/
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
@@ -292,19 +292,19 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   gtk_image_set_from_surface(GTK_IMAGE(government_label), gov->surface);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return the maximum dimensions of the area (container widget) for the
   overview. Due to the fact that the scaling factor is at least 1, the real
   size could be larger. The calculation in calculate_overview_dimensions()
   limit it to the smallest possible size.
-****************************************************************************/
+**************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
   *width = GUI_GTK_OVERVIEW_MIN_XSIZE;
   *height = GUI_GTK_OVERVIEW_MIN_YSIZE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Size of overview changed
 **************************************************************************/
 void overview_size_changed(void)
@@ -315,9 +315,9 @@ void overview_size_changed(void)
   update_map_canvas_scrollbars_size();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return a canvas that is the overview window.
-****************************************************************************/
+**************************************************************************/
 struct canvas *get_overview_window(void)
 {
 #if 0
@@ -334,7 +334,7 @@ struct canvas *get_overview_window(void)
   return NULL;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Redraw overview canvas
 **************************************************************************/
 void overview_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
@@ -351,17 +351,17 @@ void overview_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Freeze the drawing of the map.
-****************************************************************************/
+**************************************************************************/
 void mapview_freeze(void)
 {
   mapview_frozen_level++;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Thaw the drawing of the map.
-****************************************************************************/
+**************************************************************************/
 void mapview_thaw(void)
 {
   if (1 < mapview_frozen_level) {
@@ -373,15 +373,15 @@ void mapview_thaw(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Return whether the map should be drawn or not.
-****************************************************************************/
+**************************************************************************/
 bool mapview_is_frozen(void)
 {
   return (0 < mapview_frozen_level);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update on canvas widget size change
 **************************************************************************/
 void map_canvas_configure(GtkWidget *w, GdkRectangle *allocation,
@@ -390,7 +390,7 @@ void map_canvas_configure(GtkWidget *w, GdkRectangle *allocation,
   map_canvas_resized(allocation->width, allocation->height);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Redraw map canvas.
 **************************************************************************/
 void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
@@ -408,7 +408,7 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
@@ -421,7 +421,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Mark the rectangular region as "dirty" so that we know to flush it
   later.
 **************************************************************************/
@@ -434,7 +434,7 @@ void dirty_rect(int canvas_x, int canvas_y,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Mark the entire screen area as "dirty" so that we can flush it later.
 **************************************************************************/
 void dirty_all(void)
@@ -444,7 +444,7 @@ void dirty_all(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Flush all regions that have been previously marked as dirty.  See
   dirty_rect and dirty_all.  This function is generally called after we've
   processed a batch of drawing operations.
@@ -453,17 +453,17 @@ void flush_dirty(void)
 {
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Do any necessary synchronization to make sure the screen is up-to-date.
   The canvas should have already been flushed to screen via flush_dirty -
   all this function does is make sure the hardware has caught up.
-****************************************************************************/
+**************************************************************************/
 void gui_flush(void)
 {
   cairo_surface_flush(mapview.store->surface);
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Update display of descriptions associated with cities on the main map.
 **************************************************************************/
 void update_city_descriptions(void)
@@ -471,7 +471,7 @@ void update_city_descriptions(void)
   update_map_canvas_visible();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Fill image with unit gfx
 **************************************************************************/
 void put_unit_image(struct unit *punit, GtkImage *p, int height)
@@ -493,7 +493,7 @@ void put_unit_image(struct unit *punit, GtkImage *p, int height)
   cairo_surface_destroy(store.surface);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   FIXME:
   For now only two food, two gold one shield and two masks can be drawn per
   unit, the proper way to do this is probably something like what Civ II does.
@@ -518,7 +518,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
   cairo_surface_destroy(store.surface);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Put overlay tile to pixmap
 **************************************************************************/
 void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
@@ -541,7 +541,7 @@ void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
   gdk_window_end_draw_frame(pixmap, ctx);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Only used for isometric view.
 **************************************************************************/
 void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
@@ -614,7 +614,7 @@ void pixmap_put_overlay_tile_draw(struct canvas *pcanvas,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
  Draws a cross-hair overlay on a tile
 **************************************************************************/
 void put_cross_overlay_tile(struct tile *ptile)
@@ -628,9 +628,9 @@ void put_cross_overlay_tile(struct tile *ptile)
   }
 }
 
-/*****************************************************************************
- Sets the position of the overview scroll window based on mapview position.
-*****************************************************************************/
+/**********************************************************************//**
+  Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
 void update_overview_scroll_window_pos(int x, int y)
 {
   gdouble ov_scroll_x, ov_scroll_y;
@@ -652,7 +652,7 @@ void update_overview_scroll_window_pos(int x, int y)
   gtk_adjustment_set_value(ov_vadj, ov_scroll_y);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh map canvas scrollbars
 **************************************************************************/
 void update_map_canvas_scrollbars(void)
@@ -667,7 +667,7 @@ void update_map_canvas_scrollbars(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh map canvas scrollbar as canvas size changes
 **************************************************************************/
 void update_map_canvas_scrollbars_size(void)
@@ -692,7 +692,7 @@ void update_map_canvas_scrollbars_size(void)
 	GINT_TO_POINTER(FALSE));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Scrollbar has moved
 **************************************************************************/
 void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
@@ -714,7 +714,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
   set_mapview_scroll_pos(scroll_x, scroll_y);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draws a rectangle with top left corner at (canvas_x, canvas_y), and
   width 'w' and height 'h'. It is drawn using the 'selection_gc' context,
   so the pixel combining function is XOR. This means that drawing twice
@@ -753,7 +753,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   gdk_window_end_draw_frame(wndw, ctx);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function is called when the tileset is changed.
 **************************************************************************/
 void tileset_changed(void)

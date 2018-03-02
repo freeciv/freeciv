@@ -45,25 +45,26 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
 static void item_toggled(GtkCellRendererToggle *cell,
                          gchar *spath, gpointer data);
 
-/**************************************************************************
+/**********************************************************************//**
   Open messageoptions dialog
 **************************************************************************/
 void popup_messageopt_dialog(void)
 {
-  if (!shell)
+  if (!shell) {
     create_messageopt_dialog();
+  }
 
   gui_dialog_raise(shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create messageoptions dialog
 **************************************************************************/
 static void create_messageopt_dialog(void)
 {
   GtkWidget *form, *explanation;
   int n, i = 0, j;
-  
+
   gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, _("Message Options"));
 
@@ -167,8 +168,8 @@ static void create_messageopt_dialog(void)
   gui_dialog_show_all(shell);
 }
 
-/**************************************************************************
-  Use responded to messageoptions dialog
+/**********************************************************************//**
+  User responded to messageoptions dialog
 **************************************************************************/
 static void messageopt_response(struct gui_dialog *dlg, int response,
                                 gpointer data)
@@ -199,7 +200,7 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
   gui_dialog_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User toggled item
 **************************************************************************/
 static void item_toggled(GtkCellRendererToggle *cell,

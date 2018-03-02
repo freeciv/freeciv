@@ -538,79 +538,79 @@ static struct menu_entry_info menu_entries[] =
 
 static struct menu_entry_info *menu_entry_info_find(const char *key);
 
-/****************************************************************
+/************************************************************************//**
   Item "CLEAR_CHAT_LOGS" callback.
-*****************************************************************/
+****************************************************************************/
 static void clear_chat_logs_callback(GtkMenuItem *item, gpointer data)
 {
   clear_output_window();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_CHAT_LOGS" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_chat_logs_callback(GtkMenuItem *item, gpointer data)
 {
   log_output_window();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "LOCAL_OPTIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void local_options_callback(GtkMenuItem *item, gpointer data)
 {
   option_dialog_popup(_("Set local options"), client_optset);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "MESSAGE_OPTIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void message_options_callback(GtkMenuItem *item, gpointer data)
 {
   popup_messageopt_dialog();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SERVER_OPTIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void server_options_callback(GtkMenuItem *item, gpointer data)
 {
   option_dialog_popup(_("Game Settings"), server_optset);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_OPTIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_options_callback(GtkMenuItem *item, gpointer data)
 {
   options_save(NULL);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "RELOAD_TILESET" callback.
-*****************************************************************/
+****************************************************************************/
 static void reload_tileset_callback(GtkMenuItem *item, gpointer data)
 {
   tilespec_reread(NULL, TRUE, 1.0);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_GAME" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_game_callback(GtkMenuItem *item, gpointer data)
 {
   send_save_game(NULL);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_GAME_AS" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_game_as_callback(GtkMenuItem *item, gpointer data)
 {
   save_game_dialog_popup();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Item "SAVE_MAPIMG" callback.
 ****************************************************************************/
 static void save_mapimg_callback(GtkMenuItem *item, gpointer data)
@@ -618,7 +618,7 @@ static void save_mapimg_callback(GtkMenuItem *item, gpointer data)
   mapimg_client_save(NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Item "SAVE_MAPIMG_AS" callback.
 ****************************************************************************/
 static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data)
@@ -626,10 +626,10 @@ static void save_mapimg_as_callback(GtkMenuItem *item, gpointer data)
   save_mapimg_dialog_popup();
 }
 
-/****************************************************************
+/************************************************************************//**
   This is the response callback for the dialog with the message:
   Leaving a local game will end it!
-****************************************************************/
+****************************************************************************/
 static void leave_local_game_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
@@ -642,9 +642,9 @@ static void leave_local_game_response(GtkWidget *dialog, gint response)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "LEAVE" callback.
-*****************************************************************/
+****************************************************************************/
 static void leave_callback(GtkMenuItem *item, gpointer data)
 {
   if (is_server_running()) {
@@ -662,314 +662,314 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "QUIT" callback.
-*****************************************************************/
+****************************************************************************/
 static void quit_callback(GtkMenuItem *item, gpointer data)
 {
   popup_quit_dialog();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "FIND_CITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void find_city_callback(GtkMenuItem *item, gpointer data)
 {
   popup_find_dialog();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "WORKLISTS" callback.
-*****************************************************************/
+****************************************************************************/
 static void worklists_callback(GtkMenuItem *item, gpointer data)
 {
   popup_worklists_report();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "MAP_VIEW" callback.
-*****************************************************************/
+****************************************************************************/
 static void map_view_callback(GtkMenuItem *item, gpointer data)
 {
   map_canvas_focus();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_NATIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_nations_callback(GtkMenuItem *item, gpointer data)
 {
   popup_players_dialog(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_WOW" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_wow_callback(GtkMenuItem *item, gpointer data)
 {
   send_report_request(REPORT_WONDERS_OF_THE_WORLD);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_TOP_CITIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_top_cities_callback(GtkMenuItem *item, gpointer data)
 {
   send_report_request(REPORT_TOP_5_CITIES);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_MESSAGES" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_messages_callback(GtkMenuItem *item, gpointer data)
 {
   meswin_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "CLIENT_LUA_SCRIPT" callback.
-*****************************************************************/
+****************************************************************************/
 static void client_lua_script_callback(GtkMenuItem *item, gpointer data)
 {
   luaconsole_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_DEMOGRAPHIC" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_demographic_callback(GtkMenuItem *item, gpointer data)
 {
   send_report_request(REPORT_DEMOGRAPHIC);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "REPORT_ACHIEVEMENTS" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_achievements_callback(GtkMenuItem *item, gpointer data)
 {
   send_report_request(REPORT_ACHIEVEMENTS);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_LANGUAGE" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_language_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_LANGUAGES_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_POLICIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_policies_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_MULTIPLIER_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_CONNECTING" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_connecting_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CONNECTING_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_CONTROLS" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_controls_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CONTROLS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_CHATLINE" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_chatline_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CHATLINE_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_WORKLIST_EDITOR" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_worklist_editor_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_CMA" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_cma_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CMA_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_OVERVIEW" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_overview_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_OVERVIEW_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_PLAYING" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_playing_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_PLAYING_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_RULESET" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_ruleset_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_RULESET_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_TILESET" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_tileset_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_TILESET_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_ECONOMY" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_economy_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_ECONOMY_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_CITIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_cities_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_CITIES_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_IMPROVEMENTS" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_improvements_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_UNITS" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_units_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_UNITS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_COMBAT" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_combat_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_COMBAT_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_ZOC" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_zoc_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_ZOC_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_TECH" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_tech_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_TECHS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_TERRAIN" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_terrain_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_TERRAIN_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_WONDERS" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_wonders_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_WONDERS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_GOVERNMENT" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_government_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_GOVERNMENT_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_DIPLOMACY" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_diplomacy_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_SPACE_RACE" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_space_race_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_NATIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_nations_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_NATIONS_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_COPYING" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_copying_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_COPYING_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "HELP_ABOUT" callback.
-*****************************************************************/
+****************************************************************************/
 static void help_about_callback(GtkMenuItem *item, gpointer data)
 {
   popup_help_dialog_string(HELP_ABOUT_ITEM);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_OPTIONS_ON_EXIT" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_options_on_exit_callback(GtkCheckMenuItem *item,
                                           gpointer data)
 {
   gui_options.save_options_on_exit = gtk_check_menu_item_get_active(item);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "EDIT_MODE" callback.
-*****************************************************************/
+****************************************************************************/
 static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (game.info.is_edit_mode ^ gtk_check_menu_item_get_active(item)) {
@@ -979,9 +979,9 @@ static void edit_mode_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_OUTLINES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_outlines_callback(GtkCheckMenuItem *item,
                                         gpointer data)
 {
@@ -990,9 +990,9 @@ static void show_city_outlines_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_OUTPUT" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_output_callback(GtkCheckMenuItem *item,
                                       gpointer data)
 {
@@ -1001,9 +1001,9 @@ static void show_city_output_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_MAP_GRID" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_map_grid_callback(GtkCheckMenuItem *item,
                                    gpointer data)
 {
@@ -1012,9 +1012,9 @@ static void show_map_grid_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_NATIONAL_BORDERS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_national_borders_callback(GtkCheckMenuItem *item,
                                            gpointer data)
 {
@@ -1023,9 +1023,9 @@ static void show_national_borders_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_NATIVE_TILES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_native_tiles_callback(GtkCheckMenuItem *item,
                                        gpointer data)
 {
@@ -1034,9 +1034,9 @@ static void show_native_tiles_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_FULL_BAR" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_full_bar_callback(GtkCheckMenuItem *item,
                                         gpointer data)
 {
@@ -1046,9 +1046,9 @@ static void show_city_full_bar_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_NAMES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_names_callback(GtkCheckMenuItem *item,
                                      gpointer data)
 {
@@ -1058,9 +1058,9 @@ static void show_city_names_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_GROWTH" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_growth_callback(GtkCheckMenuItem *item,
                                       gpointer data)
 {
@@ -1069,9 +1069,9 @@ static void show_city_growth_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_PRODUCTIONS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_productions_callback(GtkCheckMenuItem *item,
                                            gpointer data)
 {
@@ -1081,9 +1081,9 @@ static void show_city_productions_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_BUY_COST" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_buy_cost_callback(GtkCheckMenuItem *item,
                                         gpointer data)
 {
@@ -1092,9 +1092,9 @@ static void show_city_buy_cost_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITY_TRADE_ROUTES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_city_trade_routes_callback(GtkCheckMenuItem *item,
                                             gpointer data)
 {
@@ -1103,9 +1103,9 @@ static void show_city_trade_routes_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_TERRAIN" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_terrain_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_terrain ^ gtk_check_menu_item_get_active(item)) {
@@ -1114,9 +1114,9 @@ static void show_terrain_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_COASTLINE" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_coastline_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_coastline ^ gtk_check_menu_item_get_active(item)) {
@@ -1124,9 +1124,9 @@ static void show_coastline_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_ROAD_RAILS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_road_rails_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_roads_rails ^ gtk_check_menu_item_get_active(item)) {
@@ -1134,9 +1134,9 @@ static void show_road_rails_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_IRRIGATION" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_irrigation_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_irrigation ^ gtk_check_menu_item_get_active(item)) {
@@ -1144,9 +1144,9 @@ static void show_irrigation_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_MINE" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_mine_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_mines ^ gtk_check_menu_item_get_active(item)) {
@@ -1154,9 +1154,9 @@ static void show_mine_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_BASES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_bases_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_fortress_airbase ^ gtk_check_menu_item_get_active(item)) {
@@ -1164,9 +1164,9 @@ static void show_bases_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_RESOURCES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_resources_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_specials ^ gtk_check_menu_item_get_active(item)) {
@@ -1174,9 +1174,9 @@ static void show_resources_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_HUTS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_huts_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_huts ^ gtk_check_menu_item_get_active(item)) {
@@ -1184,9 +1184,9 @@ static void show_huts_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_POLLUTION" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_pollution_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_pollution ^ gtk_check_menu_item_get_active(item)) {
@@ -1194,9 +1194,9 @@ static void show_pollution_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_CITIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_cities_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_cities ^ gtk_check_menu_item_get_active(item)) {
@@ -1204,9 +1204,9 @@ static void show_cities_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_UNITS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_units_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_units ^ gtk_check_menu_item_get_active(item)) {
@@ -1215,9 +1215,9 @@ static void show_units_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_UNIT_SOLID_BG" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_unit_solid_bg_callback(GtkCheckMenuItem *item,
                                         gpointer data)
 {
@@ -1226,9 +1226,9 @@ static void show_unit_solid_bg_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_UNIT_SHIELDS" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_unit_shields_callback(GtkCheckMenuItem *item,
                                        gpointer data)
 {
@@ -1237,9 +1237,9 @@ static void show_unit_shields_callback(GtkCheckMenuItem *item,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_FOCUS_UNIT" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_focus_unit ^ gtk_check_menu_item_get_active(item)) {
@@ -1248,9 +1248,9 @@ static void show_focus_unit_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SHOW_FOG_OF_WAR" callback.
-*****************************************************************/
+****************************************************************************/
 static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (gui_options.draw_fog_of_war ^ gtk_check_menu_item_get_active(item)) {
@@ -1259,9 +1259,9 @@ static void show_fog_of_war_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "FULL_SCREEN" callback.
-*****************************************************************/
+****************************************************************************/
 static void full_screen_callback(GtkCheckMenuItem *item, gpointer data)
 {
   if (GUI_GTK_OPTION(fullscreen) ^ gtk_check_menu_item_get_active(item)) {
@@ -1275,25 +1275,25 @@ static void full_screen_callback(GtkCheckMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "RECALC_BORDERS" callback.
-*****************************************************************/
+****************************************************************************/
 static void recalc_borders_callback(GtkMenuItem *item, gpointer data)
 {
   key_editor_recalculate_borders();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "TOGGLE_FOG" callback.
-*****************************************************************/
+****************************************************************************/
 static void toggle_fog_callback(GtkMenuItem *item, gpointer data)
 {
   key_editor_toggle_fogofwar();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SCENARIO_PROPERTIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void scenario_properties_callback(GtkMenuItem *item, gpointer data)
 {
   struct property_editor *pe;
@@ -1303,89 +1303,89 @@ static void scenario_properties_callback(GtkMenuItem *item, gpointer data)
   property_editor_popup(pe, OBJTYPE_GAME);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SAVE_SCENARIO" callback.
-*****************************************************************/
+****************************************************************************/
 static void save_scenario_callback(GtkMenuItem *item, gpointer data)
 {
   save_scenario_dialog_popup();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SELECT_SINGLE" callback.
-*****************************************************************/
+****************************************************************************/
 static void select_single_callback(GtkMenuItem *item, gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SELECT_ALL_ON_TILE" callback.
-*****************************************************************/
+****************************************************************************/
 static void select_all_on_tile_callback(GtkMenuItem *item, gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SELECT_SAME_TYPE_TILE" callback.
-*****************************************************************/
+****************************************************************************/
 static void select_same_type_tile_callback(GtkMenuItem *item, gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SELECT_SAME_TYPE_CONT" callback.
-*****************************************************************/
+****************************************************************************/
 static void select_same_type_cont_callback(GtkMenuItem *item, gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "SELECT_SAME_TYPE" callback.
-*****************************************************************/
+****************************************************************************/
 static void select_same_type_callback(GtkMenuItem *item, gpointer data)
 {
   request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
 }
 
-/*****************************************************************************
+/************************************************************************//**
   Open unit selection dialog.
-*****************************************************************************/
+****************************************************************************/
 static void select_dialog_callback(GtkMenuItem *item, gpointer data)
 {
   unit_select_dialog_popup(NULL);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_WAIT" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_wait_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_wait();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_DONE" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_done_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_done();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_GOTO" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_goto_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_goto();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Activate the goto system with an action to perform once there.
-**************************************************************************/
+****************************************************************************/
 static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
 {
   struct action *action = data;
@@ -1400,9 +1400,9 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
   request_unit_goto(ORDER_PERFORM_ACTION, action->id, EXTRA_NONE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_GOTO_CITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_goto_city_callback(GtkMenuItem *item, gpointer data)
 {
   if (get_num_units_in_focus() > 0) {
@@ -1410,9 +1410,9 @@ static void unit_goto_city_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_RETURN" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_return_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1420,41 +1420,41 @@ static void unit_return_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_EXPLORE" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_explore_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_auto_explore();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_PATROL" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_patrol_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_patrol();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_SENTRY" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_sentry_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_sentry();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_UNSENTRY" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_unsentry_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_wakeup_others();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_LOAD" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_load_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1462,9 +1462,9 @@ static void unit_load_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_UNLOAD" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_unload_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1472,50 +1472,50 @@ static void unit_unload_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_UNLOAD_TRANSPORTER" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_unload_transporter_callback(GtkMenuItem *item,
                                              gpointer data)
 {
   key_unit_unload_all();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_HOMECITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_homecity_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_homecity();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_UPGRADE" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_upgrade_callback(GtkMenuItem *item, gpointer data)
 {
   popup_upgrade_dialog(get_units_in_focus());
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_CONVERT" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_convert_callback(GtkMenuItem *item, gpointer data)
 {
   key_unit_convert();
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "UNIT_DISBAND" callback.
-*****************************************************************/
+****************************************************************************/
 static void unit_disband_callback(GtkMenuItem *item, gpointer data)
 {
   popup_disband_dialog(get_units_in_focus());
 }
 
-/****************************************************************
+/************************************************************************//**
   Item "BUILD_CITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_city_callback(GtkMenuItem *item, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1532,35 +1532,35 @@ static void build_city_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "GO_BUILD_CITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void go_build_city_callback(GtkMenuItem *action, gpointer data)
 {
   request_unit_goto(ORDER_PERFORM_ACTION,
                     ACTION_FOUND_CITY, EXTRA_NONE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "GO_JOIN_CITY" callback.
-*****************************************************************/
+****************************************************************************/
 static void go_join_city_callback(GtkMenuItem *action, gpointer data)
 {
   request_unit_goto(ORDER_PERFORM_ACTION,
                     ACTION_JOIN_CITY, EXTRA_NONE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "AUTO_SETTLE" callback.
-*****************************************************************/
+****************************************************************************/
 static void auto_settle_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_auto_settle();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "BUILD_ROAD" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_road_callback(GtkMenuItem *action, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1584,25 +1584,25 @@ static void build_road_callback(GtkMenuItem *action, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "BUILD_IRRIGATION" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_irrigation_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_irrigate();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "BUILD_MINE" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_mine_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_mine();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CONNECT_ROAD" callback.
-*****************************************************************/
+****************************************************************************/
 static void connect_road_callback(GtkMenuItem *action, gpointer data)
 {
   struct road_type *proad = road_by_compat_special(ROCO_ROAD);
@@ -1616,9 +1616,9 @@ static void connect_road_callback(GtkMenuItem *action, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CONNECT_RAIL" callback.
-*****************************************************************/
+****************************************************************************/
 static void connect_rail_callback(GtkMenuItem *action, gpointer data)
 {
   struct road_type *prail = road_by_compat_special(ROCO_RAILROAD);
@@ -1632,9 +1632,9 @@ static void connect_rail_callback(GtkMenuItem *action, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CONNECT_IRRIGATION" callback.
-*****************************************************************/
+****************************************************************************/
 static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
 {
   struct extra_type_list *extras = extra_type_list_by_cause(EC_IRRIGATION);
@@ -1648,17 +1648,17 @@ static void connect_irrigation_callback(GtkMenuItem *action, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "TRANSFORM_TERRAIN" callback.
-*****************************************************************/
+****************************************************************************/
 static void transform_terrain_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_transform();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CLEAN_POLLUTION" callback.
-*****************************************************************/
+****************************************************************************/
 static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1679,25 +1679,25 @@ static void clean_pollution_callback(GtkMenuItem *action, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CLEAN_FALLOUT" callback.
-*****************************************************************/
+****************************************************************************/
 static void clean_fallout_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_fallout();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "BUILD_FORTRESS" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_fortress_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_fortress();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "FORTIFY" callback.
-*****************************************************************/
+****************************************************************************/
 static void fortify_callback(GtkMenuItem *action, gpointer data)
 {
   unit_list_iterate(get_units_in_focus(), punit) {
@@ -1705,63 +1705,63 @@ static void fortify_callback(GtkMenuItem *action, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "BUILD_AIRBASE" callback.
-*****************************************************************/
+****************************************************************************/
 static void build_airbase_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_airbase();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "DO_PILLAGE" callback.
-*****************************************************************/
+****************************************************************************/
 static void do_pillage_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_pillage();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "DIPLOMAT_ACTION" callback.
-*****************************************************************/
+****************************************************************************/
 static void diplomat_action_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_action_select_tgt();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "EXPLODE_NUKE" callback.
-*****************************************************************/
+****************************************************************************/
 static void explode_nuke_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_nuke();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "TAX_RATE" callback.
-*****************************************************************/
+****************************************************************************/
 static void tax_rate_callback(GtkMenuItem *action, gpointer data)
 {
   popup_rates_dialog();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "MULTIPLIERS" callback.
-*****************************************************************/
+****************************************************************************/
 static void multiplier_callback(GtkMenuItem *action, gpointer data)
 {
   popup_multiplier_dialog();
 }
 
-/****************************************************************
+/************************************************************************//**
   The player has chosen a government from the menu.
-*****************************************************************/
+****************************************************************************/
 static void government_callback(GtkMenuItem *item, gpointer data)
 {
   popup_revolution_dialog((struct government *) data);
 }
 
-/****************************************************************************
+/************************************************************************//**
   The player has chosen a base to build from the menu.
 ****************************************************************************/
 static void base_callback(GtkMenuItem *item, gpointer data)
@@ -1773,7 +1773,7 @@ static void base_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   The player has chosen a road to build from the menu.
 ****************************************************************************/
 static void road_callback(GtkMenuItem *item, gpointer data)
@@ -1786,49 +1786,49 @@ static void road_callback(GtkMenuItem *item, gpointer data)
   } unit_list_iterate_end;
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "CENTER_VIEW" callback.
-*****************************************************************/
+****************************************************************************/
 static void center_view_callback(GtkMenuItem *action, gpointer data)
 {
   center_on_unit();
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "REPORT_UNITS" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_units_callback(GtkMenuItem *action, gpointer data)
 {
   units_report_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "REPORT_CITIES" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_cities_callback(GtkMenuItem *action, gpointer data)
 {
   city_report_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "REPORT_ECONOMY" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_economy_callback(GtkMenuItem *action, gpointer data)
 {
   economy_report_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "REPORT_RESEARCH" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_research_callback(GtkMenuItem *action, gpointer data)
 {
   science_report_dialog_popup(TRUE);
 }
 
-/****************************************************************
+/************************************************************************//**
   Action "REPORT_SPACESHIP" callback.
-*****************************************************************/
+****************************************************************************/
 static void report_spaceship_callback(GtkMenuItem *action, gpointer data)
 {
   if (NULL != client.conn.playing) {
@@ -1836,9 +1836,9 @@ static void report_spaceship_callback(GtkMenuItem *action, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Set name of the menu item.
-*****************************************************************/
+****************************************************************************/
 static void menu_entry_init(GtkBuildable *item)
 {
   const char *key = gtk_buildable_get_name(item);
@@ -1875,9 +1875,9 @@ static void menu_entry_init(GtkBuildable *item)
   gtk_menu_item_set_label(GTK_MENU_ITEM(item), key);
 }
 
-/****************************************************************
+/************************************************************************//**
   Returns the name of the file readable by the GtkUIManager.
-*****************************************************************/
+****************************************************************************/
 static const gchar *get_ui_filename(void)
 {
   static char filename[256];
@@ -1895,9 +1895,9 @@ static const gchar *get_ui_filename(void)
   return filename;
 }
 
-/****************************************************************
+/************************************************************************//**
   Creates the menu bar.
-*****************************************************************/
+****************************************************************************/
 GtkWidget *setup_menus(GtkWidget *window)
 {
   GtkWidget *menubar = NULL;
@@ -1955,9 +1955,9 @@ GtkWidget *setup_menus(GtkWidget *window)
   return menubar;
 }
 
-/****************************************************************
+/************************************************************************//**
   Find menu entry constrution data
-*****************************************************************/
+****************************************************************************/
 static struct menu_entry_info *menu_entry_info_find(const char *key)
 {
   int i;
@@ -1971,9 +1971,9 @@ static struct menu_entry_info *menu_entry_info_find(const char *key)
   return NULL;
 }
 
-/****************************************************************
+/************************************************************************//**
   Sets an menu entry sensitive.
-*****************************************************************/
+****************************************************************************/
 static void menu_entry_set_active(const char *key,
                                   gboolean is_active)
 {
@@ -1984,9 +1984,9 @@ static void menu_entry_set_active(const char *key,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Sets sensitivity of an menu entry.
-*****************************************************************/
+****************************************************************************/
 static void menu_entry_set_sensitive(const char *key,
                                      gboolean is_sensitive)
 {
@@ -1997,9 +1997,9 @@ static void menu_entry_set_sensitive(const char *key,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Set sensitivity of all entries in the group.
-*****************************************************************/
+****************************************************************************/
 static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
                                            gboolean is_sensitive)
 {
@@ -2012,9 +2012,9 @@ static void menu_entry_group_set_sensitive(enum menu_entry_grouping group,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Sets an action visible.
-*****************************************************************/
+****************************************************************************/
 #ifndef FREECIV_DEBUG
 static void menu_entry_set_visible(const char *key,
                                    gboolean is_visible,
@@ -2029,9 +2029,9 @@ static void menu_entry_set_visible(const char *key,
 }
 #endif /* FREECIV_DEBUG */
 
-/****************************************************************
+/************************************************************************//**
   Renames an action.
-*****************************************************************/
+****************************************************************************/
 static void menus_rename(const char *key,
                          const gchar *new_label)
 {
@@ -2042,17 +2042,17 @@ static void menus_rename(const char *key,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Find the child menu of an action.
-*****************************************************************/
+****************************************************************************/
 static GtkMenu *find_menu(const char *key)
 {
   return GTK_MENU(gtk_builder_get_object(ui_builder, key));
 }
 
-/****************************************************************
+/************************************************************************//**
   Update the sensitivity of the items in the view menu.
-*****************************************************************/
+****************************************************************************/
 static void view_menu_update_sensitivity(void)
 {
   /* The "full" city bar (i.e. the new way of drawing the
@@ -2077,7 +2077,7 @@ static void view_menu_update_sensitivity(void)
   menu_entry_set_sensitive("SHOW_FOCUS_UNIT", !gui_options.draw_units);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the text for the tile, changed by the activity.
 
   Should only be called for irrigation, mining, or transformation, and
@@ -2095,9 +2095,9 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   return text;
 }
 
-/****************************************************************
+/************************************************************************//**
   Updates the menus.
-*****************************************************************/
+****************************************************************************/
 void real_menus_update(void)
 {
   struct unit_list *punits = NULL;
@@ -2116,6 +2116,7 @@ void real_menus_update(void)
   if (get_num_units_in_focus() > 0) {
     const struct tile *ptile = NULL;
     const struct unit_type *ptype = NULL;
+
     punits = get_units_in_focus();
     unit_list_iterate(punits, punit) {
       fc_assert((ptile==NULL) == (ptype==NULL));
@@ -2550,10 +2551,10 @@ void real_menus_update(void)
                action_id_name_translation(ACTION_HOME_CITY));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
-**************************************************************************/
+****************************************************************************/
 void real_menus_init(void)
 {
   GtkMenu *menu;
