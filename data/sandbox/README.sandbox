@@ -120,3 +120,7 @@ Getting a tech with city conquest is never guaranteed to give techs.
 In early game you randomly either get no techs, or one tech from
 the player losing the city. After University is known, no techs are
 got from the city conquest.
+
+Nationality conversion on conquest
+When a city is conquered, 25% of its inhabitants convert to the nationality
+of the conqueror.
