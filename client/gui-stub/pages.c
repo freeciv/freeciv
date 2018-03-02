@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 
 #include "pages.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
 void gui_real_set_client_page(enum client_pages page)
@@ -31,17 +31,17 @@ void gui_real_set_client_page(enum client_pages page)
   /* PORTME */
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set the list of available rulesets.  The default ruleset should be
   "default", and if the user changes this then set_ruleset() should be
   called.
-****************************************************************************/
+**************************************************************************/
 void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns current client page
 **************************************************************************/
 enum client_pages gui_get_current_client_page(void)
@@ -50,8 +50,8 @@ enum client_pages gui_get_current_client_page(void)
   return PAGE_MAIN;
 }
 
-/**************************************************************************
-  update the start page.
+/**********************************************************************//**
+  Update the start page.
 **************************************************************************/
 void update_start_page(void)
 {

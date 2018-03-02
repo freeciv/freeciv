@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "plrdlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Display the player list dialog.  Optionally raise it.
 **************************************************************************/
 void popup_players_dialog(bool raise)
@@ -28,7 +28,7 @@ void popup_players_dialog(bool raise)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update all information in the player list dialog.
 **************************************************************************/
 void real_players_dialog_update(void)

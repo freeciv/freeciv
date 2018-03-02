@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "menu.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
 **************************************************************************/
@@ -29,7 +29,7 @@ void real_menus_init(void)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update all of the menus (sensitivity, name, etc.) based on the
   current state.
 **************************************************************************/

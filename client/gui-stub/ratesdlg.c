@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
 #include "ratesdlg.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the (tax/science/luxury) rates selection dialog.
 **************************************************************************/
 void popup_rates_dialog(void)
@@ -28,7 +28,7 @@ void popup_rates_dialog(void)
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update multipliers (policies) dialog.
 **************************************************************************/
 void real_multipliers_dialog_update(void)
