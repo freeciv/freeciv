@@ -106,7 +106,7 @@ nationality          = TRUE     ; account for the nationality of the citizens
 convert_speed        = 50       ; base probability 50/1000 -> once every 20 turns
 partisans_pct        = 75       ; percentage of own nationality to inspire partisans
                                 ; if 0, original city owner information is used instead
-conquest_convert_pct = 0        ; percentage which converts to the new nation
+conquest_convert_pct = 25       ; percentage which converts to the new nation
                                 ; after a city was conquered. Applied separately for each
                                 ; nationality present in the city, and number of
                                 ; converted people rounded up
