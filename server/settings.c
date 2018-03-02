@@ -1395,7 +1395,7 @@ static struct setting settings[] = {
               N_("Map topology index"),
 #ifdef FREECIV_WEB
               /* TRANS: Freeciv-web version of the help text. */
-              N_("Freeciv maps are always two-dimensional. They may wrap "
+              N_("Freeciv-web maps are always two-dimensional. They may wrap "
                  "at the east-west directions to form a flat map or a "
                  "cylinder.\n"),
 #else /* FREECIV_WEB */
