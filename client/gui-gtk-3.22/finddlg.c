@@ -52,9 +52,9 @@ static void find_selection_callback(GtkTreeSelection *selection,
 
 static struct tile *pos;
 
-/****************************************************************
-popup the dialog 10% inside the main-window 
-*****************************************************************/
+/**********************************************************************//**
+  Popup the dialog 10% inside the main-window
+**************************************************************************/
 void popup_find_dialog(void)
 {
   if (!find_dialog_shell) {
@@ -96,31 +96,31 @@ void popup_find_dialog(void)
 
     renderer = gtk_cell_renderer_text_new();
     column = gtk_tree_view_column_new_with_attributes(NULL, renderer,
-	"text", 0, NULL);
+                                                      "text", 0, NULL);
     gtk_tree_view_column_set_sort_order(column, GTK_SORT_ASCENDING);
     gtk_tree_view_append_column(GTK_TREE_VIEW(find_view), column);
 
     sw = gtk_scrolled_window_new(NULL, NULL);
     g_object_set(sw, "margin", 2, NULL);
     gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-	GTK_SHADOW_ETCHED_IN);
+                                        GTK_SHADOW_ETCHED_IN);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-	GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+                                   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
     gtk_container_add(GTK_CONTAINER(sw), find_view);
 
     gtk_widget_set_hexpand(GTK_WIDGET(find_view), TRUE);
     gtk_widget_set_vexpand(GTK_WIDGET(find_view), TRUE);
 
     label = g_object_new(GTK_TYPE_LABEL,
-	"use-underline", TRUE,
-	"mnemonic-widget", find_view,
-	"label", _("Ci_ties:"),
-	"xalign", 0.0, "yalign", 0.5, NULL);
+                         "use-underline", TRUE,
+                         "mnemonic-widget", find_view,
+                         "label", _("Ci_ties:"),
+                         "xalign", 0.0, "yalign", 0.5, NULL);
     gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), label);
     gtk_container_add(GTK_CONTAINER(find_dialog_shell->vbox), sw);
 
     g_signal_connect(selection, "changed",
-	G_CALLBACK(find_selection_callback), store);
+                     G_CALLBACK(find_selection_callback), store);
 
     update_find_dialog(store);
     gtk_tree_view_focus(GTK_TREE_VIEW(find_view));
@@ -131,7 +131,7 @@ void popup_find_dialog(void)
   gui_dialog_raise(find_dialog_shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update find dialog with current cities
 **************************************************************************/
 static void update_find_dialog(GtkListStore *store)
@@ -156,7 +156,7 @@ static void update_find_dialog(GtkListStore *store)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User responded to find dialog
 **************************************************************************/
 static void find_response(struct gui_dialog *dlg, int response, gpointer data)
@@ -181,7 +181,7 @@ static void find_response(struct gui_dialog *dlg, int response, gpointer data)
   gui_dialog_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find dialog destroyed
 **************************************************************************/
 static void find_destroy_callback(GtkWidget *w, gpointer data)
@@ -191,17 +191,18 @@ static void find_destroy_callback(GtkWidget *w, gpointer data)
   can_slide = TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User selected city from find dialog
 **************************************************************************/
 static void find_selection_callback(GtkTreeSelection *selection,
-				    GtkTreeModel *model)
+                                    GtkTreeModel *model)
 {
   GtkTreeIter it;
   struct city *pcity;
 
-  if (!gtk_tree_selection_get_selected(selection, NULL, &it))
+  if (!gtk_tree_selection_get_selected(selection, NULL, &it)) {
     return;
+  }
 
   gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
