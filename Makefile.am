@@ -74,7 +74,8 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/testmatic.m4			\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
-		scripts/diff_ignore
+		scripts/diff_ignore		\
+		scripts/freeciv.supp
 # On branch: add NEWS-x.x here and remove this comment (1 of 2)
 
 noinst_HEADERS= fc_version
