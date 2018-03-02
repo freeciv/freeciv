@@ -73,7 +73,7 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
 
 static void script_client_signal_create(void);
 
-/*****************************************************************************
+/*************************************************************************//**
   Parse and execute the script in str
 *****************************************************************************/
 bool script_client_do_string(const char *str)
@@ -83,7 +83,7 @@ bool script_client_do_string(const char *str)
   return (status == 0);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Parse and execute the script at filename.
 *****************************************************************************/
 bool script_client_do_file(const char *filename)
@@ -93,7 +93,7 @@ bool script_client_do_file(const char *filename)
   return (status == 0);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Invoke the 'callback_name' Lua function.
 *****************************************************************************/
 bool script_client_callback_invoke(const char *callback_name, int nargs,
@@ -103,7 +103,7 @@ bool script_client_callback_invoke(const char *callback_name, int nargs,
                                    args);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Mark any, if exported, full userdata representing 'object' in
   the current script state as 'Nonexistent'.
   This changes the type of the lua variable.
@@ -113,7 +113,7 @@ void script_client_remove_exported_object(void *object)
   luascript_remove_exported_object(main_fcl, object);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialize the game script variables.
 *****************************************************************************/
 static void script_client_vars_init(void)
@@ -121,7 +121,7 @@ static void script_client_vars_init(void)
   /* nothing */
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free the game script variables.
 *****************************************************************************/
 static void script_client_vars_free(void)
@@ -129,7 +129,7 @@ static void script_client_vars_free(void)
   /* nothing */
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Load the game script variables in file.
 *****************************************************************************/
 static void script_client_vars_load(struct section_file *file)
@@ -137,7 +137,7 @@ static void script_client_vars_load(struct section_file *file)
   luascript_vars_load(main_fcl, file, "script.vars");
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Save the game script variables to file.
 *****************************************************************************/
 static void script_client_vars_save(struct section_file *file)
@@ -145,7 +145,7 @@ static void script_client_vars_save(struct section_file *file)
   luascript_vars_save(main_fcl, file, "script.vars");
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialize the optional game script code (useful for scenarios).
 *****************************************************************************/
 static void script_client_code_init(void)
@@ -153,7 +153,7 @@ static void script_client_code_init(void)
   script_client_code = NULL;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free the optional game script code (useful for scenarios).
 *****************************************************************************/
 static void script_client_code_free(void)
@@ -164,7 +164,7 @@ static void script_client_code_free(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Load the optional game script code from file (useful for scenarios).
 *****************************************************************************/
 static void script_client_code_load(struct section_file *file)
@@ -179,7 +179,7 @@ static void script_client_code_load(struct section_file *file)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Save the optional game script code to file (useful for scenarios).
 *****************************************************************************/
 static void script_client_code_save(struct section_file *file)
@@ -189,7 +189,7 @@ static void script_client_code_save(struct section_file *file)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialize the scripting state.
 *****************************************************************************/
 bool script_client_init(void)
@@ -224,7 +224,7 @@ bool script_client_init(void)
   return TRUE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Ouput a message on the client lua console.
 *****************************************************************************/
 static void script_client_output(struct fc_lua *fcl, enum log_level level,
@@ -268,7 +268,7 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
   va_end(args);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free the scripting data.
 *****************************************************************************/
 void script_client_free(void)
@@ -284,7 +284,7 @@ void script_client_free(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Load the scripting state from file.
 *****************************************************************************/
 void script_client_state_load(struct section_file *file)
@@ -296,7 +296,7 @@ void script_client_state_load(struct section_file *file)
   script_client_vars_load(file);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Save the scripting state to file.
 *****************************************************************************/
 void script_client_state_save(struct section_file *file)
@@ -305,7 +305,7 @@ void script_client_state_save(struct section_file *file)
   script_client_vars_save(file);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Invoke all the callback functions attached to a given signal.
 *****************************************************************************/
 void script_client_signal_emit(const char *signal_name, int nargs, ...)
@@ -317,7 +317,7 @@ void script_client_signal_emit(const char *signal_name, int nargs, ...)
   va_end(args);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Declare any new signal types you need here.
 *****************************************************************************/
 static void script_client_signal_create(void)
