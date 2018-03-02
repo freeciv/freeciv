@@ -48,7 +48,7 @@ struct overview overview = {
  */
 static bool overview_dirty = FALSE;
 
-/****************************************************************************
+/************************************************************************//**
   Translate from gui to natural coordinate systems.  This provides natural
   coordinates as a floating-point value so there is no loss of information
   in the resulting values.
@@ -79,7 +79,7 @@ static void gui_to_natural_pos(const struct tileset *t,
 
 }
 
-/****************************************************************************
+/************************************************************************//**
   Translate from gui to overview coordinate systems.
 ****************************************************************************/
 static void gui_to_overview_pos(const struct tileset *t,
@@ -112,7 +112,7 @@ static void gui_to_overview_pos(const struct tileset *t,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return color for overview map tile.
 ****************************************************************************/
 static struct color *overview_tile_color(struct tile *ptile)
@@ -178,13 +178,14 @@ static struct color *overview_tile_color(struct tile *ptile)
   return get_color(tileset, COLOR_OVERVIEW_UNKNOWN);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Copies the current centred image + viewrect unchanged to the client's
   overview window (for expose events etc).
-**************************************************************************/
+****************************************************************************/
 void refresh_overview_from_canvas(void)
 {
   struct canvas *dest = get_overview_window();
+
   if (!dest) {
     return;
   }
@@ -193,10 +194,10 @@ void refresh_overview_from_canvas(void)
               gui_options.overview.width, gui_options.overview.height);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Copies the overview image from the backing store to the window and
   draws the viewrect on top of it.
-**************************************************************************/
+****************************************************************************/
 static void redraw_overview(void)
 {
   int i, x[4], y[4];
@@ -246,7 +247,7 @@ static void redraw_overview(void)
   overview_dirty = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mark the overview as "dirty" so that it will be redrawn soon.
 ****************************************************************************/
 static void dirty_overview(void)
@@ -254,7 +255,7 @@ static void dirty_overview(void)
   overview_dirty = TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Redraw the overview if it is "dirty".
 ****************************************************************************/
 void flush_dirty_overview(void)
@@ -266,7 +267,7 @@ void flush_dirty_overview(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Equivalent to FC_WRAP, but it works for doubles.
 ****************************************************************************/
 static double wrap_double(double value, double wrap)
@@ -280,9 +281,9 @@ static double wrap_double(double value, double wrap)
   return value;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Center the overview around the mapview.
-**************************************************************************/
+****************************************************************************/
 void center_tile_overviewcanvas(void)
 {
   double ntl_x, ntl_y;
@@ -315,11 +316,11 @@ void center_tile_overviewcanvas(void)
   update_overview_scroll_window_pos(ox, oy);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Finds the overview (canvas) coordinates for a given map position.
-**************************************************************************/
+****************************************************************************/
 void map_to_overview_pos(int *overview_x, int *overview_y,
-			 int map_x, int map_y)
+                         int map_x, int map_y)
 {
   /* The map position may not be normal, for instance when the mapview
    * origin is not a normal position.
@@ -333,12 +334,12 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
       ovr_x = FC_WRAP(ovr_x, NATURAL_WIDTH);
     } else {
       if (MAP_IS_ISOMETRIC) {
-	/* HACK: For iso-maps that don't wrap in the X direction we clip
-	 * a half-tile off of the left and right of the overview.  This
-	 * means some tiles only are halfway shown.  However it means we
-	 * don't show any unreal tiles, which we'd otherwise be doing.  The
-	 * rest of the code can't handle unreal tiles in the overview. */
-	ovr_x--;
+        /* HACK: For iso-maps that don't wrap in the X direction we clip
+         * a half-tile off of the left and right of the overview.  This
+         * means some tiles only are halfway shown.  However it means we
+         * don't show any unreal tiles, which we'd otherwise be doing.  The
+         * rest of the code can't handle unreal tiles in the overview. */
+        ovr_x--;
       }
     }
     if (current_topo_has_flag(TF_WRAPY)) {
@@ -349,11 +350,11 @@ void map_to_overview_pos(int *overview_x, int *overview_y,
   } do_in_natural_pos_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Finds the map coordinates for a given overview (canvas) position.
-**************************************************************************/
+****************************************************************************/
 void overview_to_map_pos(int *map_x, int *map_y,
-			 int overview_x, int overview_y)
+                         int overview_x, int overview_y)
 {
   int ntl_x = overview_x / OVERVIEW_TILE_SIZE + gui_options.overview.map_x0;
   int ntl_y = overview_y / OVERVIEW_TILE_SIZE + gui_options.overview.map_y0;
@@ -368,9 +369,9 @@ void overview_to_map_pos(int *map_x, int *map_y,
   fc_assert(normalize_map_pos(&(wld.map), map_x, map_y));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Redraw the entire backing store for the overview minimap.
-**************************************************************************/
+****************************************************************************/
 void refresh_overview_canvas(void)
 {
   if (!can_client_change_view()) {
@@ -382,29 +383,29 @@ void refresh_overview_canvas(void)
   redraw_overview();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draws the color for this tile onto the given rectangle of the canvas.
 
   This is just a simple helper function for overview_update_tile, since
   sometimes a tile may cover more than one rectangle.
 ****************************************************************************/
 static void put_overview_tile_area(struct canvas *pcanvas,
-				   struct tile *ptile,
-				   int x, int y, int w, int h)
+                                   struct tile *ptile,
+                                   int x, int y, int w, int h)
 {
   canvas_put_rectangle(pcanvas,
-		       overview_tile_color(ptile),
-		       x, y, w, h);
+                       overview_tile_color(ptile),
+                       x, y, w, h);
   if (gui_options.overview.fog
       && TILE_KNOWN_UNSEEN == client_tile_get_known(ptile)) {
     canvas_put_sprite(pcanvas, x, y, get_basic_fog_sprite(tileset),
-		      0, 0, w, h);
+                      0, 0, w, h);
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Redraw the given map position in the overview canvas.
-**************************************************************************/
+****************************************************************************/
 void overview_update_tile(struct tile *ptile)
 {
   int tile_x, tile_y;
@@ -418,32 +419,32 @@ void overview_update_tile(struct tile *ptile)
 
     if (MAP_IS_ISOMETRIC) {
       if (current_topo_has_flag(TF_WRAPX)) {
-	if (overview_x > gui_options.overview.width - OVERVIEW_TILE_WIDTH) {
-	  /* This tile is shown half on the left and half on the right
-	   * side of the overview.  So we have to draw it in two parts. */
-	  put_overview_tile_area(gui_options.overview.map, ptile,
-				 overview_x - gui_options.overview.width,
+        if (overview_x > gui_options.overview.width - OVERVIEW_TILE_WIDTH) {
+          /* This tile is shown half on the left and half on the right
+           * side of the overview.  So we have to draw it in two parts. */
+          put_overview_tile_area(gui_options.overview.map, ptile,
+                                 overview_x - gui_options.overview.width,
                                  overview_y,
-				 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
-	}     
+                                 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+        }
       } else {
-	/* Clip half tile left and right.
-	 * See comment in map_to_overview_pos. */
-	overview_x -= OVERVIEW_TILE_SIZE;
+        /* Clip half tile left and right.
+         * See comment in map_to_overview_pos. */
+        overview_x -= OVERVIEW_TILE_SIZE;
       }
-    } 
+    }
 
     put_overview_tile_area(gui_options.overview.map, ptile,
-			   overview_x, overview_y,
-			   OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+                           overview_x, overview_y,
+                           OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 
     dirty_overview();
   } do_in_natural_pos_end;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Called if the map size is know or changes.
-**************************************************************************/
+****************************************************************************/
 void calculate_overview_dimensions(void)
 {
   int w, h;
@@ -487,8 +488,8 @@ void calculate_overview_dimensions(void)
   gui_options.overview.window = canvas_create(gui_options.overview.width,
                                               gui_options.overview.height);
   canvas_put_rectangle(gui_options.overview.map,
-		       get_color(tileset, COLOR_OVERVIEW_UNKNOWN),
-		       0, 0,
+                       get_color(tileset, COLOR_OVERVIEW_UNKNOWN),
+                       0, 0,
                        gui_options.overview.width, gui_options.overview.height);
   update_map_canvas_scrollbars_size();
 
@@ -502,7 +503,7 @@ void calculate_overview_dimensions(void)
   recursion--;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free overview resources.
 ****************************************************************************/
 void overview_free(void)
@@ -515,7 +516,7 @@ void overview_free(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Callback to be called when an overview option is changed.
 ****************************************************************************/
 void overview_redraw_callback(struct option *option)
