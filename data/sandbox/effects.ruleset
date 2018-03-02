@@ -449,6 +449,10 @@ reqs    =
       "UnitType", "Nuclear", "Local"
     }
 
+[effect_combat_rounds_base]
+type    = "Combat_Rounds"
+value   = 15
+
 ; Invention halves unit upgrade prices
 [effect_upgrade_price_halfed]
 type    = "Upgrade_Price_Pct"
