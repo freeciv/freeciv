@@ -237,7 +237,7 @@ static void notify_actor_caught(struct player *receiver,
   case ATK_UNITS:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Bribe Enemy Unit ... American ... Partisan */
+                  /* TRANS: Bribe Enemy Unit ... American ... Partisan */
                   _("You have caused an incident getting caught"
                     " trying to do %s to %s %s."),
                   action_name_translation(paction),
@@ -245,9 +245,9 @@ static void notify_actor_caught(struct player *receiver,
                   victim_link);
     break;
   case ATK_TILE:
-    /* Explode Nuclear ... (54, 26) */
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
+                  /* TRANS: Explode Nuclear ... (54, 26) */
                   _("You have caused an incident getting caught"
                     " trying to do %s at %s."),
                   action_name_translation(paction),
@@ -294,7 +294,7 @@ static void notify_victim_caught(struct player *receiver,
   case ATK_UNITS:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Europeans ... Bribe Enemy Unit ... Partisan */
+                  /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
                   _("The %s have caused an incident getting caught"
                     " trying to do %s to your %s."),
                   nation_plural_for_player(offender),
@@ -304,7 +304,7 @@ static void notify_victim_caught(struct player *receiver,
   case ATK_TILE:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Europeans ... Explode Nuclear ... (54, 26) */
+                  /* TRANS: Europeans ... Explode Nuclear ... (54, 26) */
                   _("The %s have caused an incident getting caught"
                     " trying to do %s at %s."),
                   nation_plural_for_player(offender),
@@ -417,7 +417,7 @@ static void notify_actor_success(struct player *receiver,
   case ATK_UNITS:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Bribe Enemy Unit ... American ... Partisan */
+                  /* TRAND: Bribe Enemy Unit ... American ... Partisan */
                   _("You have caused an incident doing %s to %s %s."),
                   action_name_translation(paction),
                   nation_adjective_for_player(victim_player),
@@ -426,7 +426,7 @@ static void notify_actor_success(struct player *receiver,
   case ATK_TILE:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Explode Nuclear ... (54, 26) */
+                  /* TRANS: Explode Nuclear ... (54, 26) */
                   _("You have caused an incident doing %s at %s."),
                   action_name_translation(paction),
                   victim_link);
@@ -471,7 +471,7 @@ static void notify_victim_success(struct player *receiver,
   case ATK_UNITS:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Europeans ... Bribe Enemy Unit ... Partisan */
+                  /* TRANS: Europeans ... Bribe Enemy Unit ... Partisan */
                   _("The %s have caused an incident doing "
                     "%s to your %s."),
                   nation_plural_for_player(offender),
@@ -481,7 +481,7 @@ static void notify_victim_success(struct player *receiver,
   case ATK_TILE:
     notify_player(receiver, victim_tile,
                   E_DIPLOMATIC_INCIDENT, ftc_server,
-                  /* Europeans ... Explode Nuclear ... (54, 26) */
+                  /* TRANS: Europeans ... Explode Nuclear ... (54, 26) */
                   _("The %s have caused an incident doing %s at %s."),
                   nation_plural_for_player(offender),
                   action_name_translation(paction),
