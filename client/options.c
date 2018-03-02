@@ -21,6 +21,7 @@
 #include <sys/types.h>
 
 /* utility */
+#include "deprecations.h"
 #include "fcintl.h"
 #include "ioz.h"
 #include "log.h"
@@ -4971,7 +4972,7 @@ static void message_options_load(struct section_file *file,
       E_IMP_AUTO, E_IMP_SOLD, E_TECH_GAIN, E_TECH_LEARNED, E_TREATY_ALLIANCE,
       E_TREATY_BROKEN, E_TREATY_CEASEFIRE, E_TREATY_PEACE,
       E_TREATY_SHARED_VISION, E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_UNIT_BUY,
-      E_UNIT_BUILT, E_UNIT_LOST_DEF, E_UNIT_WIN, E_UNIT_BECAME_VET,
+      E_UNIT_BUILT, E_UNIT_LOST_DEF, E_UNIT_WIN_DEF, E_UNIT_BECAME_VET,
       E_UNIT_UPGRADED, E_UNIT_RELOCATED, E_UNIT_ORDERS, E_WONDER_BUILD,
       E_WONDER_OBSOLETE, E_WONDER_STARTED, E_WONDER_STOPPED,
       E_WONDER_WILL_BE_BUILT, E_DIPLOMACY, E_TREATY_EMBASSY,
@@ -4994,6 +4995,11 @@ static void message_options_load(struct section_file *file,
       log_error("Corruption in file %s: %s",
                 secfile_name(file), secfile_error());
       continue;
+    }
+    /* Compatibility: Before 3.0 E_UNIT_WIN_DEF was called E_UNIT_WIN. */
+    if (!fc_strcasecmp("E_UNIT_WIN", p)) {
+      log_deprecation(_("Deprecated event type E_UNIT_WIN in client options."));
+      p = "E_UNIT_WIN_DEF";
     }
     event = event_type_by_name(p, strcmp);
     if (!event_type_is_valid(event)) {
