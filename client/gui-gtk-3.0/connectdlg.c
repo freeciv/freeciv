@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,16 +44,16 @@
 #include "connectdlg.h"
 
 
-/**************************************************************************
- really close and destroy the dialog.
+/**********************************************************************//**
+  Really close and destroy the dialog.
 **************************************************************************/
 void really_close_connection_dialog(void)
 {
 }
 
-/**************************************************************************
- close and destroy the dialog but only if we don't have a local
- server running (that we started).
+/**********************************************************************//**
+  Close and destroy the dialog but only if we don't have a local
+  server running (that we started).
 **************************************************************************/
 void close_connection_dialog() 
 {   
@@ -62,7 +62,7 @@ void close_connection_dialog()
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   gtk client does nothing here. This gets called when one is rejected
   from game.
 **************************************************************************/
