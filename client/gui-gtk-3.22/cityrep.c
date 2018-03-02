@@ -163,9 +163,9 @@ static int city_dialog_shell_is_modal;
 
 bool select_menu_cached;
 
-/****************************************************************
- Return text line for the column headers for the city report
-*****************************************************************/
+/************************************************************************//**
+  Return text line for the column headers for the city report
+****************************************************************************/
 static void get_city_table_header(char **text, int n)
 {
   struct city_report_spec *spec;
@@ -182,7 +182,7 @@ static void get_city_table_header(char **text, int n)
                         CITY REPORT DIALOG
 ****************************************************************************/
 
-/****************************************************************************
+/************************************************************************//**
   Returns a new tree model for the city report.
 ****************************************************************************/
 static GtkListStore *city_report_dialog_store_new(void)
@@ -201,7 +201,7 @@ static GtkListStore *city_report_dialog_store_new(void)
   return gtk_list_store_newv(i, model_types);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the values of the iterator.
 ****************************************************************************/
 static void city_model_set(GtkListStore *store, GtkTreeIter *iter,
@@ -220,7 +220,7 @@ static void city_model_set(GtkListStore *store, GtkTreeIter *iter,
   gtk_list_store_set(store, iter, CRD_COL_CITY_ID, pcity->id, -1);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the values of the iterator.
 ****************************************************************************/
 static struct city *city_model_get(GtkTreeModel *model, GtkTreeIter *iter)
@@ -236,7 +236,7 @@ static struct city *city_model_get(GtkTreeModel *model, GtkTreeIter *iter)
           ? NULL : pcity);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE if 'iter' has been set to the city row.
 ****************************************************************************/
 static gboolean city_model_find(GtkTreeModel *model, GtkTreeIter *iter,
@@ -256,7 +256,7 @@ static gboolean city_model_find(GtkTreeModel *model, GtkTreeIter *iter,
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the model with the current configuration.
 ****************************************************************************/
 static void city_model_fill(GtkListStore *store,
@@ -286,9 +286,9 @@ static void city_model_fill(GtkListStore *store,
   }
 }
 
-/****************************************************************
- Popup the city report dialog, and optionally raise it.
-****************************************************************/
+/************************************************************************//**
+  Popup the city report dialog, and optionally raise it.
+****************************************************************************/
 void city_report_dialog_popup(bool raise)
 {
   if (!city_dialog_shell) {
@@ -306,9 +306,9 @@ void city_report_dialog_popup(bool raise)
   }
 }
 
-/****************************************************************
- Closes the city report dialog.
-****************************************************************/
+/************************************************************************//**
+  Closes the city report dialog.
+****************************************************************************/
 void city_report_dialog_popdown(void)
 {
   if (city_dialog_shell) {
@@ -316,9 +316,9 @@ void city_report_dialog_popdown(void)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Make submenu listing possible build targets
-*****************************************************************/
+****************************************************************************/
 static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
                                              bool append_units,
                                              bool append_wonders,
@@ -450,7 +450,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (targets_used > 0));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Change the production of one single selected city.
 ****************************************************************************/
 static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -464,7 +464,7 @@ static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called by select_impr_or_unit_callback for each city that is selected in
   the city list dialog to have a object appended to the worklist. Sends a
   packet adding the item to the end of the worklist.
@@ -483,7 +483,7 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
   /* perhaps should warn the user if not successful? */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called by select_impr_or_unit_callback for each city that is selected in
   the city list dialog to have a object inserted first to the worklist.
   Sends a packet adding the current production to the first place after the
@@ -504,7 +504,7 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
   /* perhaps should warn the user if not successful? */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called by select_impr_or_unit_callback for each city that is selected in
   the city list dialog to have a object added next to the worklist. Sends a
   packet adding the item to the first place after the current production of
@@ -524,7 +524,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   /* perhaps should warn the user if not successful? */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called by select_impr_or_unit_callback for each city that is selected in
   the city list dialog to have an object added before the last position in
   the worklist.
@@ -542,7 +542,7 @@ static void worklist_next_to_last_impr_or_unit_iterate(GtkTreeModel *model,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Iterate the cities going to sell.
 ****************************************************************************/
 static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -560,7 +560,7 @@ static void sell_impr_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Some build target, either improvement or unit, has been selected from
   some menu.
 ****************************************************************************/
@@ -587,6 +587,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
     }
   } else {
     GtkTreeSelectionForeachFunc foreach_func;
+
     connection_do_buffer(&client.conn);
     switch (city_operation) {
     case CO_LAST:
@@ -667,7 +668,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   CMA callback.
 ****************************************************************************/
 static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -686,11 +687,11 @@ static void cma_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************
- Called when one clicks on an CMA item to make a selection or to
- change a selection's preset.
-*****************************************************************/
-static void select_cma_callback(GtkWidget * w, gpointer data)
+/************************************************************************//**
+  Called when one clicks on an CMA item to make a selection or to
+  change a selection's preset.
+****************************************************************************/
+static void select_cma_callback(GtkWidget *w, gpointer data)
 {
   int idx = GPOINTER_TO_INT(data);
   GObject *parent = G_OBJECT(gtk_widget_get_parent(w));
@@ -741,12 +742,12 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
   }
 }
 
-/****************************************************************
- Create the cma entries in the change menu and the select menu. The
- indices CMA_NONE and CMA_CUSTOM are special.
- CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
- "custom" preset.
-*****************************************************************/
+/************************************************************************//**
+  Create the cma entries in the change menu and the select menu. The
+  indices CMA_NONE and CMA_CUSTOM are special.
+  CMA_NONE signifies a preset of "none" and CMA_CUSTOM a
+  "custom" preset.
+****************************************************************************/
 static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
 {
   GtkWidget *menu;
@@ -847,7 +848,7 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   gtk_widget_show_all(menu);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function to append a worklist to the current work list of one city
   in the city report. This function is called over all selected rows in the
   list view.
@@ -865,11 +866,11 @@ static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Menu item callback to append the global worklist associated with this
   item to the worklists of all selected cities. The worklist pointer is
   passed in 'data'.
-**************************************************************************/
+****************************************************************************/
 static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 {
   struct global_worklist *pgwl =
@@ -887,7 +888,7 @@ static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
                                       (gpointer) global_worklist_get(pgwl));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Helper function to set a worklist for one city in the city report. This
   function is called over all selected rows in the list view.
 ****************************************************************************/
@@ -904,10 +905,10 @@ static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Menu item callback to set a city's worklist to the global worklist
   associated with this menu item. The worklist pointer is passed in 'data'.
-**************************************************************************/
+****************************************************************************/
 static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 {
   struct global_worklist *pgwl =
@@ -927,10 +928,10 @@ static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
                                       (gpointer) global_worklist_get(pgwl));
 }
 
-/**************************************************************************
+/************************************************************************//**
   Empty and refill the submenu of the menu item passed as 'data'. The menu
   will be filled with menu items corresponding to the global worklists.
-**************************************************************************/
+****************************************************************************/
 static void production_menu_shown(GtkWidget *widget, gpointer data)
 {
   GtkWidget *menu, *item;
@@ -978,9 +979,9 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
   gtk_widget_show_all(menu);
 }
 
-/****************************************************************
+/************************************************************************//**
   Update city report views
-*****************************************************************/
+****************************************************************************/
 static void city_report_update_views(void)
 {
   struct city_report_spec *spec;
@@ -1002,9 +1003,9 @@ static void city_report_update_views(void)
   g_list_free(columns);
 }
 
-/****************************************************************
+/************************************************************************//**
   User has toggled some column viewing option
-*****************************************************************/
+****************************************************************************/
 static void toggle_view(GtkCheckMenuItem *item, gpointer data)
 {
   struct city_report_spec *spec = data;
@@ -1013,9 +1014,9 @@ static void toggle_view(GtkCheckMenuItem *item, gpointer data)
   city_report_update_views();
 }
 
-/****************************************************************
+/************************************************************************//**
   Create view menu for city report menubar.
-*****************************************************************/
+****************************************************************************/
 static void update_view_menu(GtkWidget *show_item)
 {
   GtkWidget *menu, *item;
@@ -1032,9 +1033,9 @@ static void update_view_menu(GtkWidget *show_item)
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(show_item), menu);
 }
 
-/****************************************************************
+/************************************************************************//**
   Create menubar for city report
-*****************************************************************/
+****************************************************************************/
 static GtkWidget *create_city_report_menubar(void)
 {
   GtkWidget *vbox, *sep, *menubar, *menu, *item;
@@ -1115,7 +1116,7 @@ static GtkWidget *create_city_report_menubar(void)
   return vbox;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Sort callback.
 ****************************************************************************/
 static gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a,
@@ -1130,15 +1131,14 @@ static gint cityrep_sort_func(GtkTreeModel *model, GtkTreeIter *a,
   return cityrepfield_compare(str1, str2);
 }
 
-/****************************************************************
+/************************************************************************//**
   Create city report dialog.
-*****************************************************************/
+****************************************************************************/
 static void create_city_report_dialog(bool make_modal)
 {
   static char **titles;
   static char (*buf)[128];
   struct city_report_spec *spec;
-
   GtkWidget *w, *sw, *menubar;
   int i;
 
@@ -1236,25 +1236,25 @@ static void create_city_report_dialog(bool make_modal)
   city_selection_changed_callback(city_selection);
 }
 
-/****************************************************************
+/************************************************************************//**
   User has chosen to select all cities
-*****************************************************************/
+****************************************************************************/
 static void city_select_all_callback(GtkMenuItem *item, gpointer data)
 {
   gtk_tree_selection_select_all(city_selection);
 }
 
-/****************************************************************
+/************************************************************************//**
   User has chosen to unselect all cities
-*****************************************************************/
+****************************************************************************/
 static void city_unselect_all_callback(GtkMenuItem *item, gpointer data)
 {
   gtk_tree_selection_unselect_all(city_selection);
 }
 
-/****************************************************************
+/************************************************************************//**
   User has chosen to invert selection
-*****************************************************************/
+****************************************************************************/
 static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
 {
   ITree it;
@@ -1269,9 +1269,9 @@ static void city_invert_selection_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   User has chosen to select coastal cities
-*****************************************************************/
+****************************************************************************/
 static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
 {
   ITree it;
@@ -1288,7 +1288,7 @@ static void city_select_coastal_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Select all cities on the same continent.
 ****************************************************************************/
 static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -1312,17 +1312,17 @@ static void same_island_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   User has chosen to select all cities on same island
-*****************************************************************/
+****************************************************************************/
 static void city_select_same_island_callback(GtkMenuItem *item, gpointer data)
 {
   gtk_tree_selection_selected_foreach(city_selection,same_island_iterate,NULL);
 }
-      
-/****************************************************************
+
+/************************************************************************//**
   User has chosen to select cities with certain target in production
-*****************************************************************/
+****************************************************************************/
 static void city_select_building_callback(GtkMenuItem *item, gpointer data)
 {
   enum production_class_type which = GPOINTER_TO_INT(data);
@@ -1347,7 +1347,7 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Buy the production in one single city.
 ****************************************************************************/
 static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -1360,7 +1360,7 @@ static void buy_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Center to one single city.
 ****************************************************************************/
 static void center_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -1373,7 +1373,7 @@ static void center_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the dialog of a single city.
 ****************************************************************************/
 static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
@@ -1389,7 +1389,7 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   gui_dialog response callback.
 ****************************************************************************/
 static void city_command_callback(struct gui_dialog *dlg, int response,
@@ -1415,9 +1415,9 @@ static void city_command_callback(struct gui_dialog *dlg, int response,
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   User has selected city row from city report.
-*****************************************************************/
+****************************************************************************/
 static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
                                     GtkTreeViewColumn *col, gpointer data)
 {
@@ -1446,7 +1446,7 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the city report dialog
 ****************************************************************************/
 void real_city_report_dialog_update(void)
@@ -1481,7 +1481,7 @@ void real_city_report_dialog_update(void)
   select_menu_cached = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the text for a single city in the city report
 ****************************************************************************/
 void real_city_report_update_city(struct city *pcity)
@@ -1500,9 +1500,9 @@ void real_city_report_update_city(struct city *pcity)
   update_total_buy_cost();
 }
 
-/****************************************************************
+/************************************************************************//**
   Create submenu for changing production target
-*****************************************************************/
+****************************************************************************/
 static void create_change_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1519,9 +1519,9 @@ static void create_change_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), change_wonders_item);
 }
 
-/****************************************************************
-Creates the last menu.
-*****************************************************************/
+/************************************************************************//**
+  Creates the last menu.
+****************************************************************************/
 static void create_last_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1538,9 +1538,9 @@ static void create_last_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), last_wonders_item);
 }
 
-/****************************************************************
-Creates the first menu.
-*****************************************************************/
+/************************************************************************//**
+  Creates the first menu.
+****************************************************************************/
 static void create_first_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1557,9 +1557,9 @@ static void create_first_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), first_wonders_item);
 }
 
-/****************************************************************
-Creates the next menu.
-*****************************************************************/
+/************************************************************************//**
+  Creates the next menu.
+****************************************************************************/
 static void create_next_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1576,9 +1576,9 @@ static void create_next_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), next_wonders_item);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Append the "next to last" submenu to the given menu item.
-**************************************************************************/
+****************************************************************************/
 static void create_next_to_last_menu(GtkWidget *parent_item)
 {
   GtkWidget *menu, *item;
@@ -1601,9 +1601,9 @@ static void create_next_to_last_menu(GtkWidget *parent_item)
   next_to_last_wonders_item = item;
 }
 
-/****************************************************************
+/************************************************************************//**
   Create the sell menu (empty).
-*****************************************************************/
+****************************************************************************/
 static void create_sell_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1612,10 +1612,9 @@ static void create_sell_menu(GtkWidget *item)
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
 }
 
-
-/****************************************************************
+/************************************************************************//**
   Pops up menu where user can select build target.
-*****************************************************************/
+****************************************************************************/
 static void popup_change_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1636,9 +1635,9 @@ static void popup_change_menu(GtkMenuShell *menu, gpointer data)
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
-/****************************************************************
-pops up the last menu.
-*****************************************************************/
+/************************************************************************//**
+  Pops up the last menu.
+****************************************************************************/
 static void popup_last_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1659,9 +1658,9 @@ static void popup_last_menu(GtkMenuShell *menu, gpointer data)
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
-/****************************************************************
+/************************************************************************//**
   Pops up the first menu.
-*****************************************************************/
+****************************************************************************/
 static void popup_first_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1682,9 +1681,9 @@ static void popup_first_menu(GtkMenuShell *menu, gpointer data)
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
-/****************************************************************
-pops up the next menu.
-*****************************************************************/
+/************************************************************************//**
+  Pops up the next menu.
+****************************************************************************/
 static void popup_next_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1705,9 +1704,9 @@ static void popup_next_menu(GtkMenuShell *menu, gpointer data)
                                    G_CALLBACK(select_impr_or_unit_callback), n);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Re-create the submenus in the next-to-last production change menu.
-**************************************************************************/
+****************************************************************************/
 static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
 {
   GtkWidget *item;
@@ -1736,9 +1735,9 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
                                    callback, n);
 }
 
-/****************************************************************
+/************************************************************************//**
   Update the sell menu.
-*****************************************************************/
+****************************************************************************/
 static void recreate_sell_menu(void)
 {
   int n;
@@ -1763,9 +1762,9 @@ static void recreate_sell_menu(void)
   g_list_free(children);
 }
 
-/****************************************************************
+/************************************************************************//**
   Creates select menu
-*****************************************************************/
+****************************************************************************/
 static void create_select_menu(GtkWidget *item)
 {
   GtkWidget *menu;
@@ -1882,18 +1881,18 @@ static void create_select_menu(GtkWidget *item)
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), select_cma_item);
 }
 
-/****************************************************************
+/************************************************************************//**
   Returns whether city is building given target
-*****************************************************************/
+****************************************************************************/
 static bool city_building_impr_or_unit(const struct city *pcity,
                                        const struct universal *target)
 {
   return are_universals_equal(&pcity->production, target);
 }
 
-/****************************************************************
+/************************************************************************//**
   Popup select menu
-*****************************************************************/
+****************************************************************************/
 static void popup_select_menu(GtkMenuShell *menu, gpointer data)
 {
   int n;
@@ -1951,10 +1950,10 @@ static void popup_select_menu(GtkMenuShell *menu, gpointer data)
   select_menu_cached = TRUE;
 }
 
-/***************************************************************************
+/************************************************************************//**
   Update the value displayed by the "total buy cost" label in the city
   report, or make it blank if nothing can be bought.
-***************************************************************************/
+****************************************************************************/
 static void update_total_buy_cost(void)
 {
   GtkWidget *label, *view;
@@ -1989,6 +1988,7 @@ static void update_total_buy_cost(void)
 
   if (total > 0) {
     gchar *buf = g_strdup_printf(_("Total Buy Cost: %d"), total);
+
     gtk_label_set_text(GTK_LABEL(label), buf);
     g_free(buf);
   } else {
@@ -1996,10 +1996,10 @@ static void update_total_buy_cost(void)
   }
 }
 
-/***************************************************************************
+/************************************************************************//**
   Update city report button sensitivity and total buy cost label when the
   user makes a change in the selection of cities.
-***************************************************************************/
+****************************************************************************/
 static void city_selection_changed_callback(GtkTreeSelection *selection)
 {
   int n;
@@ -2023,9 +2023,9 @@ static void city_selection_changed_callback(GtkTreeSelection *selection)
   update_total_buy_cost();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Clear the worklist in one selected city in the city report.
-**************************************************************************/
+****************************************************************************/
 static void clear_worklist_foreach_func(GtkTreeModel *model,
                                         GtkTreePath *path,
                                         GtkTreeIter *iter,
@@ -2041,9 +2041,9 @@ static void clear_worklist_foreach_func(GtkTreeModel *model,
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Called when the "clear worklist" menu item is activated.
-**************************************************************************/
+****************************************************************************/
 static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
 {
   struct connection *pconn = &client.conn;
@@ -2056,11 +2056,11 @@ static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
   connection_do_unbuffer(pconn);
 }
 
-/****************************************************************
- After a selection rectangle is defined, make the cities that
- are hilited on the canvas exclusively hilited in the
- City List window.
-*****************************************************************/
+/************************************************************************//**
+  After a selection rectangle is defined, make the cities that
+  are hilited on the canvas exclusively hilited in the
+  City List window.
+****************************************************************************/
 void hilite_cities_from_canvas(void)
 {
   ITree it;
@@ -2081,9 +2081,9 @@ void hilite_cities_from_canvas(void)
   }
 }
 
-/****************************************************************
- Toggle a city's hilited status.
-*****************************************************************/
+/************************************************************************//**
+  Toggle a city's hilited status.
+****************************************************************************/
 void toggle_city_hilite(struct city *pcity, bool on_off)
 {
   GtkTreeIter iter;

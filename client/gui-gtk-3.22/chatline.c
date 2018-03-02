@@ -65,7 +65,7 @@ static struct inputline_toolkit {
 
 static void inputline_make_tag(GtkEntry *entry, enum text_tag_type type);
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the input line has focus.
 **************************************************************************/
 bool inputline_has_focus(void)
@@ -73,7 +73,7 @@ bool inputline_has_focus(void)
   return gtk_widget_has_focus(toolkit.entry);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Gives the focus to the intput line.
 **************************************************************************/
 void inputline_grab_focus(void)
@@ -81,7 +81,7 @@ void inputline_grab_focus(void)
   gtk_widget_grab_focus(toolkit.entry);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns TRUE iff the input line is currently visible.
 **************************************************************************/
 bool inputline_is_visible(void)
@@ -89,7 +89,7 @@ bool inputline_is_visible(void)
   return gtk_widget_get_mapped(toolkit.entry);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Helper function to determine if a given client input line is intended as
   a "plain" public message. Note that messages prefixed with : are a
   special case (explicit public messages), and will return FALSE.
@@ -133,8 +133,7 @@ static bool is_plain_public_message(const char *s)
   return TRUE;
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Called when the return key is pressed.
 **************************************************************************/
 static void inputline_return(GtkEntry *w, gpointer data)
@@ -170,7 +169,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
   gtk_entry_set_text(w, "");
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the name of player or user, set in the same list.
 **************************************************************************/
 static const char *get_player_or_user_name(int id)
@@ -191,7 +190,7 @@ static const char *get_player_or_user_name(int id)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find a player or a user by prefix.
 
   prefix - The prefix.
@@ -246,7 +245,7 @@ static int check_player_or_user_name(const char *prefix,
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find the larger common prefix.
 
   prefixes - A list of prefixes.
@@ -279,7 +278,7 @@ static size_t get_common_prefix(const char *const *prefixes,
  return g_utf8_strlen(buf, -1);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Autocompletes the input line with a player or user name.
   Returns FALSE if there is no string to complete.
 **************************************************************************/
@@ -341,7 +340,7 @@ static bool chatline_autocomplete(GtkEditable *editable)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Called when a key is pressed.
 **************************************************************************/
 static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
@@ -411,7 +410,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make a text tag for the selected text.
 **************************************************************************/
 void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
@@ -468,7 +467,7 @@ CLEAN_UP:
   g_free(bg_color_text);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make a chat link at the current position or make the current selection
   clickable.
 **************************************************************************/
@@ -549,7 +548,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
   g_free(chars);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Scroll a textview so that the given mark is visible, but only if the
   scroll window containing the textview is very close to the bottom. The
   text mark 'scroll_target' should probably be the first character of the
@@ -579,7 +578,7 @@ void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Click a link.
 **************************************************************************/
 static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
@@ -669,7 +668,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the "hand" cursor when moving over a link.
 **************************************************************************/
 static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
@@ -723,7 +722,7 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Maybe are the mouse is moving over a link.
 **************************************************************************/
 static gboolean motion_notify_event(GtkWidget *text_view,
@@ -739,7 +738,7 @@ static gboolean motion_notify_event(GtkWidget *text_view,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the appropriate callbacks for the message buffer.
 **************************************************************************/
 void set_message_buffer_view_link_handlers(GtkWidget *view)
@@ -750,7 +749,7 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 		   G_CALLBACK(motion_notify_event), NULL);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert a struct text_tag to a GtkTextTag.
 **************************************************************************/
 void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
@@ -870,7 +869,7 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 **************************************************************************/
@@ -923,10 +922,10 @@ void real_output_window_append(const char *astring,
   append_network_statusbar(astring, FALSE);
 }
 
-/**************************************************************************
- I have no idea what module this belongs in -- Syela
- I've decided to put output_window routines in chatline.c, because
- the are somewhat related and output_window_* is already here.  --dwp
+/**********************************************************************//**
+  I have no idea what module this belongs in -- Syela
+  I've decided to put output_window routines in chatline.c, because
+  the are somewhat related and output_window_* is already here.  --dwp
 **************************************************************************/
 void log_output_window(void)
 {
@@ -940,7 +939,7 @@ void log_output_window(void)
   g_free(txt);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear output window. This does *not* destroy it, or free its resources
 **************************************************************************/
 void clear_output_window(void)
@@ -948,7 +947,7 @@ void clear_output_window(void)
   set_output_window_text(_("Cleared output window."));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set given text to output window
 **************************************************************************/
 void set_output_window_text(const char *text)
@@ -956,7 +955,7 @@ void set_output_window_text(const char *text)
   gtk_text_buffer_set_text(message_buffer, text, -1);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns whether the chatline is scrolled to the bottom.
 **************************************************************************/
 bool chatline_is_scrolled_to_bottom(void)
@@ -986,7 +985,7 @@ bool chatline_is_scrolled_to_bottom(void)
   return max - val < 0.00000001;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Scrolls the pregame and in-game chat windows all the way to the bottom.
 
   Why do we do it in such a convuluted fasion rather than calling
@@ -1002,7 +1001,7 @@ static gboolean chatline_scroll_callback(gpointer data)
   return FALSE;         /* Remove this idle function. */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Scrolls the pregame and in-game chat windows all the way to the bottom.
   If delayed is TRUE, it will be done in a idle_callback.
 **************************************************************************/
@@ -1030,7 +1029,7 @@ void chatline_scroll_to_bottom(bool delayed)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Tool button clicked.
 **************************************************************************/
 static void make_tag_callback(GtkToolButton *button, gpointer data)
@@ -1040,7 +1039,7 @@ static void make_tag_callback(GtkToolButton *button, gpointer data)
                                                        "text_tag_type")));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set the color for an object.  Update the button if not NULL.
 **************************************************************************/
 static void color_set(GObject *object, const gchar *color_target,
@@ -1091,7 +1090,7 @@ static void color_set(GObject *object, const gchar *color_target,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Color selection dialog response.
 **************************************************************************/
 static void color_selected(GtkDialog *dialog, gint res, gpointer data)
@@ -1117,7 +1116,7 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
   gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Color selection tool button clicked.
 **************************************************************************/
 static void select_color_callback(GtkToolButton *button, gpointer data)
@@ -1152,7 +1151,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   g_free(buf);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Moves the tool kit to the toolkit view.
 **************************************************************************/
 static gboolean move_toolkit(GtkWidget *toolkit_view,
@@ -1213,7 +1212,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Show/Hide the toolbar.
 **************************************************************************/
 static gboolean set_toolbar_visibility(GtkWidget *w,
@@ -1243,7 +1242,7 @@ static gboolean set_toolbar_visibility(GtkWidget *w,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Show/Hide the toolbar.
 **************************************************************************/
 static void button_toggled(GtkToggleButton *button, gpointer data)
@@ -1263,7 +1262,7 @@ static void button_toggled(GtkToggleButton *button, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns a new inputline toolkit view widget that can contain the
   inputline.
 
@@ -1289,7 +1288,7 @@ GtkWidget *inputline_toolkit_view_new(void)
   return toolkit_view;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Appends a button to the inputline toolkit view widget.
 **************************************************************************/
 void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
@@ -1299,7 +1298,7 @@ void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
                     "button_box")), button);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Initializes the chatline stuff.
 **************************************************************************/
 void chatline_init(void)
@@ -1460,7 +1459,7 @@ void chatline_init(void)
   toolkit.button_box = bbox;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Main thread side callback to print version message
 **************************************************************************/
 static gboolean version_message_main_thread(gpointer user_data)
@@ -1474,7 +1473,7 @@ static gboolean version_message_main_thread(gpointer user_data)
   return G_SOURCE_REMOVE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Got version message from metaserver thread.
 **************************************************************************/
 void version_message(const char *vertext)
