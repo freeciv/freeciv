@@ -68,7 +68,7 @@ struct units_entry {
   int soonest_completions;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Fill unit types specific report data + totals.
 **************************************************************************/
 static void get_units_report_data(struct units_entry *entries,
@@ -114,7 +114,7 @@ static void get_units_report_data(struct units_entry *entries,
   } city_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Units Report button.
 **************************************************************************/
 static int units_dialog_callback(struct widget *pWindow)
@@ -128,7 +128,7 @@ static int units_dialog_callback(struct widget *pWindow)
 
 /* --------------------------------------------------------------- */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with accept button of the unit upgrade dialog.
 **************************************************************************/
 static int ok_upgrade_unit_window_callback(struct widget *pWidget)
@@ -147,7 +147,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Upgrade Obsolete button of the unit upgrade dialog.
 **************************************************************************/
 static int upgrade_unit_window_callback(struct widget *pWindow)
@@ -159,7 +159,7 @@ static int upgrade_unit_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Cancel button of the unit upgrade dialog.
 **************************************************************************/
 static int cancel_upgrade_unit_callback(struct widget *pWidget)
@@ -176,7 +176,7 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open dialog for upgrading units.
 **************************************************************************/
 static int popup_upgrade_unit_callback(struct widget *pWidget)
@@ -324,7 +324,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with units dialog Close Dialog button.
 **************************************************************************/
 static int exit_units_dlg_callback(struct widget *pWidget)
@@ -347,7 +347,7 @@ static int exit_units_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rebuild the units report.
 **************************************************************************/
 static void real_activeunits_report_dialog_update(struct units_entry *units,
@@ -879,8 +879,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   flush_dirty();
 }
 
-/**************************************************************************
-  update the units report.
+/**********************************************************************//**
+  Update the units report.
 **************************************************************************/
 void real_units_report_dialog_update(void)
 {
@@ -1059,7 +1059,7 @@ void real_units_report_dialog_update(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the units report (F2).  It may or may not be modal.
 **************************************************************************/
 void units_report_dialog_popup(bool make_modal)
@@ -1106,7 +1106,7 @@ struct rates_move {
   struct widget *pLabel_Src, *pLabel_Dst;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Economy Report window.
 **************************************************************************/
 static int economy_dialog_callback(struct widget *pWindow)
@@ -1118,7 +1118,7 @@ static int economy_dialog_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Economy dialog Close Dialog button.
 **************************************************************************/
 static int exit_economy_dialog_callback(struct widget *pWidget)
@@ -1144,7 +1144,7 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Toggle Rates dialog locking checkbox.
 **************************************************************************/
 static int toggle_block_callback(struct widget *pCheckBox)
@@ -1167,7 +1167,7 @@ static int toggle_block_callback(struct widget *pCheckBox)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User released mouse button while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
@@ -1176,7 +1176,7 @@ static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
   return (Uint16)ID_SCROLLBAR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User moved a mouse while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
@@ -1292,8 +1292,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
   return ID_ERROR;
 }
 
-
-/**************************************************************************
+/**********************************************************************//**
   Handle Rates sliders.
 **************************************************************************/
 static int horiz_taxrate_callback(struct widget *pHoriz_Src)
@@ -1381,7 +1380,7 @@ END:
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Update button of the Rates.
 **************************************************************************/
 static int apply_taxrates_callback(struct widget *pButton)
@@ -1418,7 +1417,7 @@ static int apply_taxrates_callback(struct widget *pButton)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set economy dialog widgets enabled.
 **************************************************************************/
 static void enable_economy_dlg(void)
@@ -1457,7 +1456,7 @@ static void enable_economy_dlg(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set economy dialog widgets disabled.
 **************************************************************************/
 static void disable_economy_dlg(void)
@@ -1498,7 +1497,7 @@ static void disable_economy_dlg(void)
 
 /* --------------------------------------------------------------- */
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Yes button of the improvement selling dialog.
 **************************************************************************/
 static int ok_sell_impr_callback(struct widget *pWidget)
@@ -1533,7 +1532,7 @@ static int ok_sell_impr_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the improvement selling window.
 **************************************************************************/
 static int sell_impr_window_callback(struct widget *pWindow)
@@ -1545,7 +1544,7 @@ static int sell_impr_window_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with Cancel button of the improvement selling dialog.
 **************************************************************************/
 static int cancel_sell_impr_callback(struct widget *pWidget)
@@ -1563,7 +1562,7 @@ static int cancel_sell_impr_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open improvement selling dialog.
 **************************************************************************/
 static int popup_sell_impr_callback(struct widget *pWidget)
@@ -1719,7 +1718,7 @@ static int popup_sell_impr_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the economy report.
 **************************************************************************/
 void real_economy_report_dialog_update(void)
@@ -1767,7 +1766,7 @@ void real_economy_report_dialog_update(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown the economy report.
 **************************************************************************/
 void economy_report_dialog_popdown(void)
@@ -1791,7 +1790,7 @@ void economy_report_dialog_popdown(void)
 #define TARGETS_ROW     2
 #define TARGETS_COL     4
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the economy report (F5).  It may or may not be modal.
 **************************************************************************/
 void economy_report_dialog_popup(bool make_modal)
@@ -2387,7 +2386,7 @@ static struct SMALL_DLG *pScienceDlg = NULL;
 
 static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   Create icon surface for a tech.
 **************************************************************************/
 SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
@@ -2564,8 +2563,8 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   return pSurf;
 }
 
-/**************************************************************************
-  enable science dialog group ( without window )
+/**********************************************************************//**
+  Enable science dialog group ( without window )
 **************************************************************************/
 static void enable_science_dialog(void)
 {
@@ -2573,8 +2572,8 @@ static void enable_science_dialog(void)
                   pScienceDlg->pEndWidgetList->prev, FC_WS_NORMAL);
 }
 
-/**************************************************************************
-  disable science dialog group ( without window )
+/**********************************************************************//**
+  Disable science dialog group ( without window )
 **************************************************************************/
 static void disable_science_dialog(void)
 {
@@ -2582,7 +2581,7 @@ static void disable_science_dialog(void)
                   pScienceDlg->pEndWidgetList->prev, FC_WS_DISABLED);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the science report.
 **************************************************************************/
 void real_science_report_dialog_update(void)
@@ -2834,7 +2833,7 @@ void real_science_report_dialog_update(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close science report dialog.
 **************************************************************************/
 static void science_report_dialog_popdown(void)
@@ -2850,7 +2849,7 @@ static void science_report_dialog_popdown(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close research target changing dialog.
 **************************************************************************/
 static int exit_change_tech_dlg_callback(struct widget *pWidget)
@@ -2871,7 +2870,7 @@ static int exit_change_tech_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with button of specific Tech.
 **************************************************************************/
 static int change_research_callback(struct widget *pWidget)
@@ -2886,7 +2885,7 @@ static int change_research_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function is used by change research and change goals dlgs.
 **************************************************************************/
 static int change_research_goal_dialog_callback(struct widget *pWindow)
@@ -2900,7 +2899,7 @@ static int change_research_goal_dialog_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup dialog to change current research.
 **************************************************************************/
 static void popup_change_research_dialog(void)
@@ -3066,7 +3065,7 @@ static void popup_change_research_dialog(void)
   widget_flush(pWindow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User chose spesic tech as research goal.
 **************************************************************************/
 static int change_research_goal_callback(struct widget *pWidget)
@@ -3086,7 +3085,7 @@ static int change_research_goal_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup dialog to change research goal.
 **************************************************************************/
 static void popup_change_research_goal_dialog(void)
@@ -3279,7 +3278,7 @@ static int science_dialog_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open research target changing dialog.
 **************************************************************************/
 static int popup_change_research_dialog_callback(struct widget *pWidget)
@@ -3295,7 +3294,7 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Open research goal changing dialog.
 **************************************************************************/
 static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
@@ -3311,7 +3310,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close science dialog.
 **************************************************************************/
 static int popdown_science_dialog_callback(struct widget *pWidget)
@@ -3323,7 +3322,7 @@ static int popdown_science_dialog_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the science report(F6).  It may or may not be modal.
 **************************************************************************/
 void science_report_dialog_popup(bool raise)
@@ -3432,7 +3431,7 @@ void science_report_dialog_popup(bool raise)
   real_science_report_dialog_update();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown all the science reports (report, change tech, change goals).
 **************************************************************************/
 void science_report_dialogs_popdown_all(void)
@@ -3453,9 +3452,9 @@ void science_report_dialogs_popdown_all(void)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Resize and redraw the requirement tree.
-****************************************************************************/
+**************************************************************************/
 void science_report_dialog_redraw(void)
 {
   /* No requirement tree yet. */
@@ -3469,10 +3468,10 @@ static char eg_buffer[150 * MAX_NUM_PLAYERS];
 static int eg_player_count = 0;
 static int eg_players_received = 0;
 
-/****************************************************************
+/**********************************************************************//**
   Show a dialog with player statistics at endgame.
   TODO: Display all statistics in packet_endgame_report.
-*****************************************************************/
+**************************************************************************/
 void endgame_report_dialog_start(const struct packet_endgame_report *packet)
 {
   eg_buffer[0] = '\0';
@@ -3480,9 +3479,9 @@ void endgame_report_dialog_start(const struct packet_endgame_report *packet)
   eg_players_received = 0;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Received endgame report information about single player
-*****************************************************************/
+**************************************************************************/
 void endgame_report_dialog_player(const struct packet_endgame_player *packet)
 {
   const struct player *pplayer = player_by_number(packet->player_id);

@@ -52,7 +52,7 @@ static struct SMALL_DLG *pStartMenu = NULL;
 
 static void popdown_start_menu(void);
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Start New Game button.
 **************************************************************************/
 static int start_new_game_callback(struct widget *pWidget)
@@ -67,7 +67,7 @@ static int start_new_game_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Load Game button.
 **************************************************************************/
 static int load_game_callback(struct widget *pWidget)
@@ -79,7 +79,7 @@ static int load_game_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Join Game button.
 **************************************************************************/
 static int join_game_callback(struct widget *pWidget)
@@ -91,7 +91,7 @@ static int join_game_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Join Pubserver button - open connection dialog.
 **************************************************************************/
 static int servers_callback(struct widget *pWidget)
@@ -106,7 +106,7 @@ static int servers_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Options button - open options dialog.
 **************************************************************************/
 static int options_callback(struct widget *pWidget)
@@ -120,7 +120,7 @@ static int options_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with the Quit button.
 **************************************************************************/
 static int quit_callback(struct widget *pWidget)
@@ -132,7 +132,7 @@ static int quit_callback(struct widget *pWidget)
   return 0;/* exit from main game loop */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update view to show main page.
 **************************************************************************/
 static void show_main_page(void)
@@ -351,7 +351,7 @@ static void show_main_page(void)
   flush_all();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close start menu
 **************************************************************************/
 static void popdown_start_menu()
@@ -368,7 +368,7 @@ static void popdown_start_menu()
                              PUBLIC FUNCTIONS
 **************************************************************************/
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the "page" that the client should show.  See documentation in
   pages_g.h.
 **************************************************************************/
@@ -424,17 +424,17 @@ void real_set_client_page(enum client_pages page)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Set the list of available rulesets.  The default ruleset should be
   "default", and if the user changes this then set_ruleset() should be
   called.
-****************************************************************************/
+**************************************************************************/
 void set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns current client page
 **************************************************************************/
 enum client_pages get_current_client_page(void)
@@ -442,10 +442,10 @@ enum client_pages get_current_client_page(void)
   return old_page;
 }
 
-/**************************************************************************
-  update the start page.
+/**********************************************************************//**
+  Update the start page.
 **************************************************************************/
 void update_start_page(void)
 {
-  /* PORTME*/    
+  /* PORTME */
 }

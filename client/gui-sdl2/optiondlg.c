@@ -121,7 +121,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
 
 static void option_dialog_worklist(struct option_dialog *pdialog);
 
-/****************************************************************************
+/************************************************************************//**
   Arrange the widgets. NB: end argument is excluded. End the argument
   list with the icons on the top, terminated by NULL.
 ****************************************************************************/
@@ -221,7 +221,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
   flush_all();
 }
 
-/****************************************************************************
+/************************************************************************//**
   User interacted with the option dialog window.
 ****************************************************************************/
 static int main_optiondlg_callback(struct widget *pWindow)
@@ -234,7 +234,7 @@ static int main_optiondlg_callback(struct widget *pWindow)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Back requested.
 ****************************************************************************/
 static int back_callback(struct widget *pWidget)
@@ -310,7 +310,7 @@ static int back_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the client options dialog.
 ****************************************************************************/
 static int client_options_callback(struct widget *pWidget)
@@ -322,7 +322,7 @@ static int client_options_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the server options dialog.
 ****************************************************************************/
 static int server_options_callback(struct widget *pWidget)
@@ -334,7 +334,7 @@ static int server_options_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the worklist editor.
 ****************************************************************************/
 static int work_lists_callback(struct widget *widget)
@@ -346,7 +346,7 @@ static int work_lists_callback(struct widget *widget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Option set category selected.
 ****************************************************************************/
 static int save_client_options_callback(struct widget *pWidget)
@@ -358,7 +358,7 @@ static int save_client_options_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Save game callback.
 ****************************************************************************/
 static int save_game_callback(struct widget *pWidget)
@@ -371,7 +371,7 @@ static int save_game_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Open Help Browser callback
 ****************************************************************************/
 static int help_browser_callback(struct widget *pwidget)
@@ -383,7 +383,7 @@ static int help_browser_callback(struct widget *pwidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Client disconnect from server callback.
 ****************************************************************************/
 static int disconnect_callback(struct widget *pWidget)
@@ -397,7 +397,7 @@ static int disconnect_callback(struct widget *pWidget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Exit callback.
 ****************************************************************************/
 static int exit_callback(struct widget *pWidget)
@@ -410,7 +410,7 @@ static int exit_callback(struct widget *pWidget)
   return 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Option set category selected.
 ****************************************************************************/
 static int option_category_callback(struct widget *widget)
@@ -422,7 +422,7 @@ static int option_category_callback(struct widget *widget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply the changes for the option category.
 ****************************************************************************/
 static int apply_callback(struct widget *widget)
@@ -441,7 +441,7 @@ static int apply_callback(struct widget *widget)
   return back_callback(widget);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Dummy callback. Disable exit().
 ****************************************************************************/
 static int none_callback(struct widget *widget)
@@ -449,7 +449,7 @@ static int none_callback(struct widget *widget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a string vector containing all video modes.
 ****************************************************************************/
 static struct strvec *video_mode_list(void)
@@ -476,7 +476,7 @@ static struct strvec *video_mode_list(void)
   return video_modes;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free correctly the memory assigned to the enum_widget.
 ****************************************************************************/
 static void enum_widget_destroy(struct widget *widget)
@@ -484,7 +484,7 @@ static void enum_widget_destroy(struct widget *widget)
   strvec_destroy((struct strvec *) widget->data.vector);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free correctly the memory assigned to the video_mode_widget.
 ****************************************************************************/
 static void video_mode_widget_destroy(struct widget *widget)
@@ -493,7 +493,7 @@ static void video_mode_widget_destroy(struct widget *widget)
   strvec_destroy((struct strvec *) widget->data.vector);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a widget for the option.
 ****************************************************************************/
 static struct widget *option_widget_new(struct option *poption,
@@ -624,7 +624,7 @@ static struct widget *option_widget_new(struct option *poption,
   return widget;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the widget of the option.
 ****************************************************************************/
 static void option_widget_update(struct option *poption)
@@ -692,7 +692,7 @@ static void option_widget_update(struct option *poption)
   widget_mark_dirty(widget);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply the changes for the option.
 ****************************************************************************/
 static void option_widget_apply(struct option *poption)
@@ -760,7 +760,7 @@ static void option_widget_apply(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a new option dialog.
 ****************************************************************************/
 static struct option_dialog *option_dialog_new(void)
@@ -883,7 +883,7 @@ static struct option_dialog *option_dialog_new(void)
   return pdialog;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroys an option dialog.
 ****************************************************************************/
 static void option_dialog_destroy(struct option_dialog *pdialog)
@@ -909,7 +909,7 @@ static void option_dialog_destroy(struct option_dialog *pdialog)
   free(pdialog);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the number of options of the category.
 ****************************************************************************/
 static int optset_category_option_count(const struct option_set *poptset,
@@ -926,7 +926,7 @@ static int optset_category_option_count(const struct option_set *poptset,
   return count;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a option set page.
 ****************************************************************************/
 static void option_dialog_optset(struct option_dialog *pdialog,
@@ -977,7 +977,7 @@ static void option_dialog_optset(struct option_dialog *pdialog,
                   pdialog->core_widget_list, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a option set category page.
 ****************************************************************************/
 static void option_dialog_optset_category(struct option_dialog *pdialog,
@@ -1058,7 +1058,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Clicked on a global worklist name.
 ****************************************************************************/
 static int edit_worklist_callback(struct widget *widget)
@@ -1110,8 +1110,7 @@ static int edit_worklist_callback(struct widget *widget)
   return -1;
 }
 
-
-/****************************************************************************
+/************************************************************************//**
   Callback to append a global worklist.
 ****************************************************************************/
 static int add_new_worklist_callback(struct widget *widget)
@@ -1182,7 +1181,7 @@ static int add_new_worklist_callback(struct widget *widget)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   The Worklist Report part of Options dialog shows all the global worklists
   that the player has defined.
 ****************************************************************************/
@@ -1304,9 +1303,9 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   widget_flush(window);
 }
 
-/**************************************************************************
+/************************************************************************//**
   User interacted with the option dialog button.
-**************************************************************************/
+****************************************************************************/
 int optiondlg_callback(struct widget *pbutton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
@@ -1321,29 +1320,29 @@ int optiondlg_callback(struct widget *pbutton)
   return -1;
 }
 
-/* ===================================================================== */
-/* =================================== Public ========================== */
-/* ===================================================================== */
+/* ======================================================================= */
+/* =================================== Public ============================ */
+/* ======================================================================= */
 
-/**************************************************************************
+/************************************************************************//**
   Enable button to open option dialog.
-**************************************************************************/
+****************************************************************************/
 void enable_options_button(void)
 {
   set_wstate(pOptions_Button, FC_WS_NORMAL);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Disable button to open option dialog.
-**************************************************************************/
+****************************************************************************/
 void disable_options_button(void)
 {
   set_wstate(pOptions_Button, FC_WS_DISABLED);
 }
 
-/**************************************************************************
+/************************************************************************//**
   Create button to open option dialog.
-**************************************************************************/
+****************************************************************************/
 void init_options_button(void)
 {
   char buf[256];
@@ -1365,11 +1364,11 @@ void init_options_button(void)
   enable_options_button();
 }
 
-/**************************************************************************
+/************************************************************************//**
   If the Options Dlg is open, force Worklist List contents to be updated.
   This function is call by exiting worklist editor to update changed
   worklist name in global worklist report ( Options Dlg )
-**************************************************************************/
+****************************************************************************/
 void update_worklist_report_dialog(void)
 {
   struct global_worklist *pgwl;
@@ -1390,7 +1389,7 @@ void update_worklist_report_dialog(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the main option menu dialog.
 ****************************************************************************/
 void popup_optiondlg(void)
@@ -1409,9 +1408,9 @@ void popup_optiondlg(void)
   flush_dirty();
 }
 
-/**************************************************************************
+/************************************************************************//**
   Close option dialog.
-**************************************************************************/
+****************************************************************************/
 void popdown_optiondlg(bool leave_game)
 {
   if (NULL == option_dialog) {
@@ -1430,7 +1429,7 @@ void popdown_optiondlg(bool leave_game)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the option dialog for the option set.
 ****************************************************************************/
 void option_dialog_popup(const char *name, const struct option_set *poptset)
@@ -1450,7 +1449,7 @@ void option_dialog_popup(const char *name, const struct option_set *poptset)
   option_dialog_optset(option_dialog, poptset);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popdown the option dialog for the option set.
 ****************************************************************************/
 void option_dialog_popdown(const struct option_set *poptset)
@@ -1462,7 +1461,7 @@ void option_dialog_popdown(const struct option_set *poptset)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the GUI for the option.
 ****************************************************************************/
 void option_gui_update(struct option *poption)
@@ -1479,7 +1478,7 @@ void option_gui_update(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the GUI for the option.
 ****************************************************************************/
 void option_gui_add(struct option *poption)
@@ -1493,7 +1492,7 @@ void option_gui_add(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the GUI for the option.
 ****************************************************************************/
 void option_gui_remove(struct option *poption)

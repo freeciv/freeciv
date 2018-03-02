@@ -54,7 +54,7 @@
 
 static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with player dialog close button.
 **************************************************************************/
 static int exit_players_dlg_callback(struct widget *pWidget)
@@ -67,7 +67,7 @@ static int exit_players_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with player widget.
 **************************************************************************/
 static int player_callback(struct widget *pWidget)
@@ -100,7 +100,7 @@ static int player_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with player dialog window.
 **************************************************************************/
 static int players_window_dlg_callback(struct widget *pWindow)
@@ -119,7 +119,7 @@ static int players_window_dlg_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with 'draw war status' toggle.
 **************************************************************************/
 static int toggle_draw_war_status_callback(struct widget *pWidget)
@@ -140,7 +140,7 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with 'draw cease-fire status' toggle.
 **************************************************************************/
 static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
@@ -161,7 +161,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with 'draw peace status' toggle.
 **************************************************************************/
 static int toggle_draw_peace_status_callback(struct widget *pWidget)
@@ -182,7 +182,7 @@ static int toggle_draw_peace_status_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with 'draw alliance status' toggle.
 **************************************************************************/
 static int toggle_draw_alliance_status_callback(struct widget *pWidget)
@@ -203,7 +203,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with 'draw neutral status' toggle.
 **************************************************************************/
 static int toggle_draw_neutral_status_callback(struct widget *pWidget)
@@ -224,7 +224,7 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Does the attached player have embassy-level information about the player.
 **************************************************************************/
 static bool have_diplomat_info_about(struct player *pPlayer)
@@ -234,7 +234,7 @@ static bool have_diplomat_info_about(struct player *pPlayer)
               && player_has_embassy(client.conn.playing, pPlayer)));
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update all information in the player list dialog.
 **************************************************************************/
 void real_players_dialog_update(void)
@@ -349,7 +349,7 @@ void real_players_dialog_update(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the player list dialog.
 **************************************************************************/
 void popup_players_dialog(bool raise)
@@ -581,8 +581,8 @@ void popup_players_dialog(bool raise)
   players_dialog_update();
 }
 
-/**************************************************************************
-  Popdownown the player list dialog.
+/**********************************************************************//**
+  Popdown the player list dialog.
 **************************************************************************/
 void popdown_players_dialog(void)
 {
@@ -597,7 +597,7 @@ void popdown_players_dialog(void)
 /* ============================== SHORT =============================== */
 static struct ADVANCED_DLG  *pShort_Players_Dlg = NULL;
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with nations window.
 **************************************************************************/
 static int players_nations_window_dlg_callback(struct widget *pWindow)
@@ -605,7 +605,7 @@ static int players_nations_window_dlg_callback(struct widget *pWindow)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with nations window close button.
 **************************************************************************/
 static int exit_players_nations_dlg_callback(struct widget *pWidget)
@@ -618,7 +618,7 @@ static int exit_players_nations_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User interacted with widget of a single nation/player.
 **************************************************************************/
 static int player_nation_callback(struct widget *pWidget)
@@ -652,7 +652,7 @@ static int player_nation_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popup (or raise) the short player list dialog version.
 **************************************************************************/
 void popup_players_nations_dialog(void)
@@ -861,7 +861,7 @@ void popup_players_nations_dialog(void)
   flush_dirty();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdown the short player list dialog version.
 **************************************************************************/
 void popdown_players_nations_dialog(void)
