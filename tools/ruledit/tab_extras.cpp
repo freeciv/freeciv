@@ -33,7 +33,6 @@
 #include "extras.h"
 
 // ruledit
-#include "effect_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -290,15 +289,12 @@ void tab_extras::edit_reqs()
 void tab_extras::edit_effects()
 {
   if (selected != nullptr) {
-    effect_edit *e_edit;
     struct universal uni;
 
     uni.value.extra = selected;
     uni.kind = VUT_EXTRA;
 
-    e_edit = new effect_edit(ui, QString::fromUtf8(extra_rule_name(selected)),
-                             &uni);
-
-    e_edit->show();
+    ui->open_effect_edit(QString::fromUtf8(extra_rule_name(selected)),
+                         &uni);
   }
 }

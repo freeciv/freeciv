@@ -39,6 +39,7 @@
 #include "ruleset.h"
 
 // ruledit
+#include "effect_edit.h"
 #include "requirers_dlg.h"
 #include "req_edit.h"
 #include "ruledit.h"
@@ -271,7 +272,7 @@ void ruledit_gui::flush_widgets()
 **************************************************************************/
 void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs)
 {
-  req_edit *redit;  
+  req_edit *redit;
   
   req_edit_list_iterate(req_edits, old_edit) {
     if (old_edit->req_vector == preqs) {
@@ -293,6 +294,18 @@ void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs
 void ruledit_gui::unregister_req_edit(class req_edit *redit)
 {
   req_edit_list_remove(req_edits, redit);
+}
+
+/**********************************************************************//**
+  Open effect_edit dialog
+**************************************************************************/
+void ruledit_gui::open_effect_edit(QString target, struct universal *uni)
+{
+  effect_edit *e_edit;
+
+  e_edit = new effect_edit(this, target, uni);
+
+  e_edit->show();
 }
 
 /**********************************************************************//**

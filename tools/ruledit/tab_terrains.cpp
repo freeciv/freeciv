@@ -33,7 +33,6 @@
 #include "terrain.h"
 
 // ruledit
-#include "effect_edit.h"
 #include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -275,15 +274,12 @@ void tab_terrains::same_name_toggle(bool checked)
 void tab_terrains::edit_effects()
 {
   if (selected != nullptr) {
-    effect_edit *e_edit;
     struct universal uni;
 
     uni.value.terrain = selected;
     uni.kind = VUT_TERRAIN;
 
-    e_edit = new effect_edit(ui, QString::fromUtf8(terrain_rule_name(selected)),
-                             &uni);
-
-    e_edit->show();
+    ui->open_effect_edit(QString::fromUtf8(terrain_rule_name(selected)),
+                         &uni);
   }
 }

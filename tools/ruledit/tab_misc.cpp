@@ -39,7 +39,6 @@
 #include "rssanity.h"
 
 // ruledit
-#include "effect_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "rulesave.h"
@@ -347,10 +346,6 @@ void tab_misc::refresh_stats()
 **************************************************************************/
 void tab_misc::edit_aae_effects()
 {
-  effect_edit *e_edit;
-
-  e_edit = new effect_edit(ui, QString::fromUtf8(R__("Always active")),
-                           nullptr);
-
-  e_edit->show();
+  ui->open_effect_edit(QString::fromUtf8(R__("Always active")),
+                       nullptr);
 }

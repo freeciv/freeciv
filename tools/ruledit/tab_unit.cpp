@@ -33,7 +33,6 @@
 #include "unittype.h"
 
 // ruledit
-#include "effect_edit.h"
 #include "edit_utype.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -291,15 +290,12 @@ void tab_unit::same_name_toggle(bool checked)
 void tab_unit::edit_effects()
 {
   if (selected != nullptr) {
-    effect_edit *e_edit;
     struct universal uni;
 
     uni.value.utype = selected;
     uni.kind = VUT_UTYPE;
 
-    e_edit = new effect_edit(ui, QString::fromUtf8(utype_rule_name(selected)),
-                             &uni);
-
-    e_edit->show();
+    ui->open_effect_edit(QString::fromUtf8(utype_rule_name(selected)),
+                         &uni);
   }
 }

@@ -33,7 +33,6 @@
 #include "improvement.h"
 
 // ruledit
-#include "effect_edit.h"
 #include "req_edit.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
@@ -293,15 +292,12 @@ void tab_good::edit_reqs()
 void tab_good::edit_effects()
 {
   if (selected != nullptr) {
-    effect_edit *e_edit;
     struct universal uni;
 
     uni.value.good = selected;
     uni.kind = VUT_GOOD;
 
-    e_edit = new effect_edit(ui, QString::fromUtf8(goods_rule_name(selected)),
-                             &uni);
-
-    e_edit->show();
+    ui->open_effect_edit(QString::fromUtf8(goods_rule_name(selected)),
+                         &uni);
   }
 }

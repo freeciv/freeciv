@@ -79,6 +79,8 @@ class ruledit_gui : public QObject
     void open_req_edit(QString target, struct requirement_vector *preqs);
     void unregister_req_edit(class req_edit *redit);
 
+    void open_effect_edit(QString target, struct universal *uni);
+
     struct rule_data data;
 
   private:
