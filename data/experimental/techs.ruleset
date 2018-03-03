@@ -690,7 +690,7 @@ flags    = ""
 graphic     = "a.refining"
 graphic_alt = "-"
 helptext = _("\
-Allows Settlers, Workers and Engineers to build to build oil wells on \
+Allows Settlers, Workers and Engineers to build oil wells on \
 Glacier tiles.\
 ")
 
