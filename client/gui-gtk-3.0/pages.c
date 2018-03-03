@@ -732,7 +732,7 @@ static void update_server_list(enum server_scan_type sstype,
     if (pserver->humans >= 0) {
       fc_snprintf(buf, sizeof(buf), "%d", pserver->humans);
     } else {
-      strncpy(buf, _("Unknown"), sizeof(buf));
+      sz_strlcpy(buf, _("Unknown"));
     }
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,

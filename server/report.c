@@ -1574,8 +1574,7 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
 
   sz_strlcpy(packet_old.caption, caption);
   sz_strlcpy(packet_old.headline, headline);
-  strncpy(packet_old.lines, lines, MIN(MAX_LEN_MSG, strlen(lines) + 1));
-  packet_old.lines[MAX_LEN_MSG - 1] = '\0';
+  sz_strlcpy(packet_old.lines, lines);
   packet_old.event = event;
 
   conn_list_iterate(dest, pconn) {

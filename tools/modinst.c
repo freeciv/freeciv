@@ -131,7 +131,7 @@ void update_install_info_lists(const char *name,
       }
 
       ii->type = type;
-      strncpy(ii->version, version, sizeof(ii->version));
+      sz_strlcpy(ii->version, version);
 
       return;
     }
@@ -140,9 +140,9 @@ void update_install_info_lists(const char *name,
   /* No existing entry with that name found, creating new one */
   new_ii = fc_malloc(sizeof(*new_ii));
 
-  strncpy(new_ii->name, name, sizeof(new_ii->name));
+  sz_strlcpy(new_ii->name, name);
   new_ii->type = type;
-  strncpy(new_ii->version, version, sizeof(new_ii->version));
+  sz_strlcpy(new_ii->version, version);
 
   install_info_list_append(ii_list, new_ii);
 }
