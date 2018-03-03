@@ -3142,6 +3142,13 @@ void destroy_city_virtual(struct city *pcity)
 
   citizens_free(pcity);
 
+  while (worker_task_list_size(pcity->task_reqs) > 0) {
+    struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
+
+    worker_task_list_remove(pcity->task_reqs, ptask);
+
+    free(ptask);
+  }
   worker_task_list_destroy(pcity->task_reqs);
 
   unit_list_destroy(pcity->units_supported);
