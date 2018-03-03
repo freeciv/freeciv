@@ -18792,7 +18792,7 @@ msgstr ""
 "en massa, però les ciutats enemigues són massa fortes. Abans de fer servir "
 "un Míssil Nuclear, ajunta una colla de Colons al costat de la ciutat, i "
 "tingues-los preparats per netejar la radioactivitat en el mateix torn en què "
-"ocorreixi! Això minimitza el risc d'hivern nuclear. Nuclears ecològiques!"
+"ocorri! Això minimitza el risc d'hivern nuclear. Nuclears ecològiques!"
 
 #: data/civ1/units.ruleset:1163 data/civ2/units.ruleset:1874
 #: data/classic/units.ruleset:1948 data/experimental/units.ruleset:1974
@@ -20914,7 +20914,7 @@ msgstr ""
 "en massa, però les ciutats enemigues són massa fortes. Abans de fer servir "
 "un Míssil Nuclear, ajunta una colla de Colons i/o Enginyers al costat de la "
 "ciutat, i tingues-los preparats per netejar la radioactivitat en el mateix "
-"torn en què ocorreixi! Això minimitza el risc d'hivern nuclear. Nuclears "
+"torn en què ocorri! Això minimitza el risc d'hivern nuclear. Nuclears "
 "ecològiques!"
 
 #: data/civ2/units.ruleset:1969 data/classic/units.ruleset:2058
@@ -21780,7 +21780,7 @@ msgstr ""
 "en massa, però les ciutats enemigues són massa fortes. Abans de fer servir "
 "un Míssil Nuclear, ajunta una colla de Colons, Treballadors, i/o Enginyers "
 "al costat de la ciutat, i tingues-los preparats per netejar la "
-"radioactivitat en el mateix torn en què ocorreixi! Això minimitza el risc "
+"radioactivitat en el mateix torn en què ocorri! Això minimitza el risc "
 "d'hivern nuclear. Nuclears ecològiques!"
 
 #. TRANS: diplomatic rank.
@@ -24039,7 +24039,7 @@ msgstr ""
 "massa, però les ciutats enemigues són massa fortes. Abans de fer servir un "
 "Míssil Nuclear, ajunta una colla d'unitats de neteja al costat de la ciutat, "
 "i tingues-los preparats per netejar la radioactivitat en el mateix torn en "
-"què ocorreixi! Això minimitza el risc d'hivern nuclear. Nuclears ecològiques!"
+"què ocorri! Això minimitza el risc d'hivern nuclear. Nuclears ecològiques!"
 
 #: data/civ2civ3/units.ruleset:2183
 msgid ""
