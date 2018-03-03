@@ -1153,6 +1153,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 
   if (preferred == A_UNSET) {
     int j = 0;
+
     advance_index_iterate(A_FIRST, i) {
       if (research_invention_gettable(presearch, i,
                                       game.info.tech_steal_allow_holes)
@@ -1165,7 +1166,6 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
     if (j == 0)  {
       /* we've moved on to future tech */
       if (vresearch->future_tech > presearch->future_tech) {
-        found_new_tech(presearch, A_FUTURE, FALSE, TRUE);
         stolen_tech = A_FUTURE;
       } else {
         return A_NONE;
