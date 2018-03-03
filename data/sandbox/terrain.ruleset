@@ -1057,7 +1057,8 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ;                           "Infra", "Natural", "Nuisance", or "Bonus"
 ; causes                  = events that can create extra type.
 ;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
-;                           "Base", or "Road"
+;                           "Base", or "Road" (last two require a corresponding
+;                           [base_*] or [road_*] section)
 ; rmcauses                = events that can remove extra type.
 ;                           "CleanPollution", "CleanFallout", or "Pillage"
 ; graphic                 = tag specifying preferred graphic
@@ -1769,6 +1770,7 @@ Cities built on or next to rivers incur a small risk of flooding,\
 ; Base types:
 ;
 ; extra                   = name of the extra this base section is part of
+;                           (must have "Base" in its causes)
 ; gui_type                = How gui should handle this base.
 ;                           Value can be "Fortress", "Airbase", or "Other"
 ; border_sq               = Base will claim land ownership up to this radius,
@@ -1822,6 +1824,7 @@ gui_type       = "Other"
 ; Road types:
 ;
 ; extra                   = name of the extra this road section is part of
+;                           (must have "Road" in its causes)
 ; first_reqs              = additional requirements to build the first part of
 ;                           the road, when none of the adjacent tiles have any
 ;                           integrating roads (see effects.ruleset and
