@@ -507,7 +507,9 @@ static void insert_allows_single(struct universal *psource,
                                  struct requirement_vector *psubjreqs,
                                  const char *subjstr,
                                  const char *const *strs,
-                                 char *buf, size_t bufsz) {
+                                 char *buf, size_t bufsz,
+                                 const char *prefix)
+{
   struct strvec *coreqs = strvec_new();
   struct strvec *conoreqs = strvec_new();
   struct astring coreqstr = ASTRING_INIT;
@@ -518,6 +520,8 @@ static void insert_allows_single(struct universal *psource,
 
   requirement_vector_iterate(psubjreqs, req) {
     if (!req->quiet && are_universals_equal(psource, &req->source)) {
+      /* We're definitely going to print _something_. */
+      CATLSTR(buf, bufsz, prefix);
       if (req->present) {
         /* psource enables the subject, but other sources may
          * also be required (or required to be absent). */
@@ -586,44 +590,44 @@ static void insert_allows_single(struct universal *psource,
   NOT append like cat_snprintf).
 ****************************************************************************/
 static void insert_allows(struct universal *psource,
-			  char *buf, size_t bufsz)
+			  char *buf, size_t bufsz, const char *prefix)
 {
   buf[0] = '\0';
 
   governments_iterate(pgov) {
     static const char *const govstrs[] = {
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s but no %s)."),
+      N_("?gov:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s)."),
+      N_("?gov:Allows %s (with %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (absent %s)."),
+      N_("?gov:Allows %s (absent %s)."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Allows %s."),
+      N_("?gov:Allows %s."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Prevents %s.")
+      N_("?gov:Prevents %s.")
     };
     insert_allows_single(psource, &pgov->reqs,
                          government_name_translation(pgov), govstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } governments_iterate_end;
 
   improvement_iterate(pimprove) {
     static const char *const imprstrs[] = {
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s but no %s)."),
+      N_("?improvement:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s)."),
+      N_("?improvement:Allows %s (with %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (absent %s)."),
+      N_("?improvement:Allows %s (absent %s)."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Allows %s."),
+      N_("?improvement:Allows %s."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Prevents %s.")
+      N_("?improvement:Prevents %s.")
     };
     insert_allows_single(psource, &pimprove->reqs,
                          improvement_name_translation(pimprove), imprstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } improvement_iterate_end;
 }
 
@@ -1267,7 +1271,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for improvement itself */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -1313,7 +1317,9 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		 utype_name_translation(u));
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   unit_type_iterate(u) {
     if (u->need_improvement == pimprove) {
@@ -1930,6 +1936,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = unit_type_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -2788,12 +2795,14 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (requirement_vector_size(&vap->research_reqs) > 0) {
     CATLSTR(buf, bufsz, _("Requirements to research:\n"));
     requirement_vector_iterate(&vap->research_reqs, preq) {
-      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
+      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "");
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   {
     int j;
@@ -2844,6 +2853,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = tech_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -2892,7 +2902,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
     CATLSTR(buf, bufsz,
 	    _("* You cannot build cities on this terrain."));
@@ -2966,6 +2978,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = terrain_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -3196,7 +3209,9 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   if (is_extra_caused_by(pextra, EC_POLLUTION)) {
     CATLSTR(buf, bufsz,
@@ -3238,7 +3253,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
 
     requirement_vector_iterate(&pextra->reqs, preq) {
       (void) req_text_insert_nl(reqsbuf, sizeof(reqsbuf), pplayer, preq,
-                                VERB_DEFAULT);
+                                VERB_DEFAULT, "");
     } requirement_vector_iterate_end;
     if (reqsbuf[0] != '\0') {
       if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
@@ -3543,7 +3558,7 @@ void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this good. */
   requirement_vector_iterate(&pgood->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3576,7 +3591,7 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this specialist. */
   requirement_vector_iterate(&pspec->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3615,7 +3630,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3625,7 +3640,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Effects */
   CATLSTR(buf, bufsz, _("Features:\n"));
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
@@ -4442,7 +4459,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
   if (buf[0] != '\0') {
     CATLSTR(buf, bufsz, "\n");
   }
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf), "");
 
   if (user_text && user_text[0] != '\0') {
     if (buf[0] != '\0') {
