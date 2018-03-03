@@ -80,6 +80,7 @@ EXTRA_DIST =	autogen.sh 			\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\
+		scripts/freeciv.supp		\
 		NEWS-2.6
 
 noinst_HEADERS= fc_version
