@@ -3301,6 +3301,15 @@ static bool load_ruleset_terrain(struct section_file *file,
       char identifier[MAX_LEN_NAME];
       const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
 
+      if (!presource->data.resource) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Resource\" cause but no "
+                      "corresponding [resource_*] section",
+                      filename, extra_rule_name(presource));
+        ok = FALSE;
+        break;
+      }
+
       output_type_iterate (o) {
         presource->data.resource->output[o] =
 	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
@@ -3331,6 +3340,20 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       i++;
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_resource_types; j++) {
+      const char *section = &resource_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_RESOURCE)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" resource section [%s]: extra \"%s\" does not "
+                      "have \"Resource\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
@@ -3361,10 +3384,20 @@ static bool load_ruleset_terrain(struct section_file *file,
     /* base details */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
-      const char *section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
+      const char *section;
       int bj;
       const char **slist;
       const char *gui_str;
+
+      if (!pbase) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Base\" cause but no "
+                      "corresponding [base_*] section",
+                      filename, extra_rule_name(pextra));
+        ok = FALSE;
+        break;
+      }
+      section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
 
       gui_str = secfile_lookup_str(file,"%s.gui_type", section);
       pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
@@ -3435,16 +3468,40 @@ static bool load_ruleset_terrain(struct section_file *file,
         } extra_type_by_cause_iterate_end;
       }
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_base_types; j++) {
+      const char *section = &base_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_BASE)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" base section [%s]: extra \"%s\" does not have "
+                      "\"Base\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
-      const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
+      const char *section;
       const char **slist;
       const char *special;
       const char *modestr;
       struct requirement_vector *reqs;
+
+      if (!proad) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Road\" cause but no "
+                      "corresponding [road_*] section",
+                      filename, extra_rule_name(pextra));
+        ok = FALSE;
+        break;
+      }
+      section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
 
       reqs = lookup_req_list(file, compat, section, "first_reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
@@ -3567,6 +3624,20 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_road_types; j++) {
+      const char *section = &road_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_ROAD)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" road section [%s]: extra \"%s\" does not have "
+                      "\"Road\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
