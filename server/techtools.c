@@ -1092,6 +1092,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 
   if (preferred == A_UNSET) {
     int j = 0;
+
     advance_index_iterate(A_FIRST, i) {
       if (player_invention_reachable(pplayer, i, FALSE)
 	  && player_invention_state(pplayer, i) != TECH_KNOWN
@@ -1104,7 +1105,6 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       /* we've moved on to future tech */
       if (player_research_get(victim)->future_tech
         > player_research_get(pplayer)->future_tech) {
-        found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
         stolen_tech = A_FUTURE;
       } else {
         return A_NONE;
