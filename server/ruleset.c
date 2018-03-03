@@ -3571,7 +3571,7 @@ static void send_ruleset_control(struct conn_list *dest)
   if (game.ruleset_summary != NULL) {
     struct packet_ruleset_summary summary;
 
-    strncpy(summary.text, game.ruleset_summary, MAX_LEN_CONTENT);
+    sz_strlcpy(summary.text, game.ruleset_summary);
 
     lsend_packet_ruleset_summary(dest, &summary);
   }

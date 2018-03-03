@@ -76,7 +76,7 @@ bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
   LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tag, 3, API_TYPE_STRING, FALSE);
 
-  strncpy(p.tag, tag, sizeof(p.tag));
+  sz_strlcpy(p.tag, tag);
 
   lsend_packet_play_music(pplayer->connections, &p);
 

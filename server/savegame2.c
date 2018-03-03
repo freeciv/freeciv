@@ -7277,10 +7277,10 @@ static void sg_load_history(struct loaddata *loading)
     hist->turn = turn;
     str = secfile_lookup_str(loading->file, "history.title");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->title, str, REPORT_TITLESIZE);
+    sz_strlcpy(hist->title, str);
     str = secfile_lookup_str(loading->file, "history.body");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->body, str, REPORT_BODYSIZE);
+    sz_strlcpy(hist->body, str);
   }
 }
 

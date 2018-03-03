@@ -184,7 +184,7 @@ static const char *download_modpack_recursive(const char *URL,
     fc_snprintf(baseURL, sizeof(baseURL), "%s%s",
                 URLstart, baseURLpart + 1);
   } else {
-    strncpy(baseURL, baseURLpart, sizeof(baseURL));
+    sz_strlcpy(baseURL, baseURLpart);
   }
 
   dep = 0;
@@ -242,7 +242,7 @@ static const char *download_modpack_recursive(const char *URL,
           fc_snprintf(dep_URL_full, sizeof(dep_URL_full), "%s%s",
                       URLstart, dep_URL + 1);
         } else {
-          strncpy(dep_URL_full, dep_URL, sizeof(dep_URL_full));
+          sz_strlcpy(dep_URL_full, dep_URL);
         }
 
         msg = download_modpack_recursive(dep_URL_full, fcmp, mcb, pbcb, recursion + 1);
@@ -488,7 +488,7 @@ const char *download_modpack_list(const struct fcmp_params *fcmp,
         fc_snprintf(mpURL_full, sizeof(mpURL_full), "%s%s",
                     URLstart, mpURL + 1);
       } else {
-        strncpy(mpURL_full, mpURL, sizeof(mpURL_full));
+        sz_strlcpy(mpURL_full, mpURL);
       }
       
       cb(mp_name, mpURL_full, mpver, mplic, type, _(mp_subtype), mp_notes);
