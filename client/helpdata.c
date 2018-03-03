@@ -510,7 +510,8 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 *****************************************************************/
 static bool insert_requirement(char *buf, size_t bufsz,
                                struct player *pplayer,
-                               const struct requirement *preq)
+                               const struct requirement *preq,
+                               const char *prefix)
 {
   if (preq->quiet) {
     return FALSE;
@@ -523,6 +524,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_ADVANCE:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires knowledge of the technology %s.\n"),
@@ -534,6 +536,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that a player on your team knows the "
@@ -547,6 +550,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that a player allied to you knows the "
@@ -560,6 +564,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->survives) {
         if (preq->present) {
           cat_snprintf(buf, bufsz,
@@ -601,6 +606,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_TECHFLAG:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
@@ -616,6 +622,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
@@ -631,6 +638,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
@@ -646,6 +654,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) tech flag. */
@@ -676,6 +685,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_PLAYER) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz, _("Requires the %s government.\n"),
                    government_name_translation(preq->source.value.govern));
@@ -688,6 +698,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_ACHIEVEMENT:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires you to have achieved \"%s\".\n"),
                      achievement_name_translation(preq->source.value.achievement));
@@ -698,6 +709,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one of your "
                                    "team-mates has achieved \"%s\".\n"),
@@ -709,6 +721,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one of your allies "
                                    "has achieved \"%s\".\n"),
@@ -720,6 +733,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz, _("Requires that at least one player "
                                    "has achieved \"%s\".\n"),
@@ -746,6 +760,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_WORLD:
       if (is_great_wonder(preq->source.value.building)) {
+        CATLSTR(buf, bufsz, prefix);
         if (preq->survives) {
           if (preq->present) {
             if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -820,6 +835,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       break;
     case REQ_RANGE_ALLIANCE:
       if (is_wonder(preq->source.value.building)) {
+        CATLSTR(buf, bufsz, prefix);
         if (preq->survives) {
           if (preq->present) {
             if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -897,6 +913,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       break;
     case REQ_RANGE_TEAM:
       if (is_wonder(preq->source.value.building)) {
+        CATLSTR(buf, bufsz, prefix);
         if (preq->survives) {
           if (preq->present) {
             if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -973,6 +990,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       break;
     case REQ_RANGE_PLAYER:
       if (is_wonder(preq->source.value.building)) {
+        CATLSTR(buf, bufsz, prefix);
         if (preq->survives) {
           if (preq->present) {
             if (can_improvement_go_obsolete(preq->source.value.building)) {
@@ -1046,6 +1064,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       break;
     case REQ_RANGE_CONTINENT:
       if (is_wonder(preq->source.value.building)) {
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           if (can_improvement_go_obsolete(preq->source.value.building)) {
             cat_snprintf(buf, bufsz,
@@ -1084,6 +1103,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       /* surviving or non-wonder continent-ranged requirements not supported */
       break;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         if (can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
@@ -1119,6 +1139,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         if (can_improvement_go_obsolete(preq->source.value.building)) {
           /* Should only apply to wonders */
@@ -1153,6 +1174,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Only applies to \"%s\" buildings.\n"),
@@ -1176,6 +1198,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_EXTRA:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on the tile.\n"),
@@ -1187,6 +1210,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on the tile or a cardinally "
@@ -1200,6 +1224,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
         }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on the tile or an adjacent "
@@ -1213,6 +1238,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on a tile within the city "
@@ -1226,6 +1252,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?extra:Requires %s on a tile within the city "
@@ -1252,6 +1279,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_TERRAIN:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz, Q_("?terrain:Requires %s on the tile.\n"),
                      terrain_name_translation(preq->source.value.terrain));
@@ -1261,6 +1289,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on the tile or a cardinally "
@@ -1274,6 +1303,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on the tile or an adjacent "
@@ -1287,6 +1317,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on a tile within the city "
@@ -1300,6 +1331,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?terrain:Requires %s on a tile within the city "
@@ -1326,6 +1358,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_RESOURCE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Requires %s on the tile.\n"),
@@ -1337,6 +1370,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Requires %s on the tile or a cardinally "
@@ -1350,6 +1384,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Requires %s on the tile or an adjacent "
@@ -1363,6 +1398,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Requires %s on a tile within the "
@@ -1376,6 +1412,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      Q_("?resource:Requires %s on a tile within the "
@@ -1402,6 +1439,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_NATION:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... playing as the Swedes." */
@@ -1415,6 +1453,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... same team as the Indonesians." */
@@ -1430,6 +1469,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "... allied with the Koreans." */
@@ -1443,6 +1483,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->survives) {
         if (preq->present) {
           cat_snprintf(buf, bufsz,
@@ -1485,6 +1526,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_NATIONGROUP:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "... playing African nation." */
@@ -1498,6 +1540,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Medieval nation ..." */
@@ -1511,6 +1554,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Modern nation ..." */
@@ -1524,6 +1568,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: nation group: "Requires Asian nation ..." */
@@ -1552,6 +1597,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_PLAYER) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: "Requires that you are playing Asian style 
@@ -1570,6 +1616,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_NATIONALITY:
     switch (preq->range) {
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "Requires at least one Barbarian citizen ..." */
@@ -1585,6 +1632,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: "Requires at least one Barbarian citizen ..." */
@@ -1615,6 +1663,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_DIPLREL:
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: in this and following strings, '%s' can be one
@@ -1632,6 +1681,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that somebody on your team has the "
@@ -1646,6 +1696,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that somebody in your alliance has the "
@@ -1660,6 +1711,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires the relationship '%s' between two living "
@@ -1673,6 +1725,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires that you have the relationship '%s' with the "
@@ -1699,6 +1752,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_UTYPE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         /* TRANS: %s is a single kind of unit (e.g., "Settlers"). */
         cat_snprintf(buf, bufsz, Q_("?unit:Requires %s.\n"),
@@ -1734,6 +1788,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
          * types with those flags. */
         if (role_units_translations(&astr, preq->source.value.unitflag,
                                     TRUE)) {
+          CATLSTR(buf, bufsz, prefix);
           if (preq->present) {
             /* TRANS: %s is a list of unit types separated by "or". */
             cat_snprintf(buf, bufsz, Q_("?ulist:Requires %s.\n"),
@@ -1766,6 +1821,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_UCLASS:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         /* TRANS: %s is a single unit class (e.g., "Air"). */
         cat_snprintf(buf, bufsz, Q_("?uclass:Requires %s units.\n"),
@@ -1807,6 +1863,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
       switch (preq->range) {
       case REQ_RANGE_LOCAL:
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           /* TRANS: %s is a list of unit classes separated by "or". */
           cat_snprintf(buf, bufsz, Q_("?uclasslist:Requires %s units.\n"),
@@ -1845,6 +1902,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       case REQ_RANGE_LOCAL:
         switch (preq->source.value.unit_state) {
         case USP_TRANSPORTED:
+          CATLSTR(buf, bufsz, prefix);
           if (preq->present) {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit is transported.\n"));
@@ -1854,6 +1912,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
           }
           return TRUE;
         case USP_LIVABLE_TILE:
+          CATLSTR(buf, bufsz, prefix);
           if (preq->present) {
             cat_snprintf(buf, bufsz,
                          _("Requires that the unit is on livable tile.\n"));
@@ -1887,6 +1946,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     {
       switch (preq->range) {
       case REQ_RANGE_LOCAL:
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        /* %s is numeric move points; it may have a
@@ -1921,6 +1981,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_LOCAL) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     /* FIXME: this would be better with veteran level names, but that's
      * potentially unit type dependent. */
     if (preq->present) {
@@ -1943,6 +2004,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
         break;
       }
 
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a unit with at least %d hit point left.\n",
@@ -1964,6 +2026,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_LOCAL) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       /* TRANS: "Applies only to Food." */
       cat_snprintf(buf, bufsz, Q_("?output:Applies only to %s.\n"),
@@ -1979,6 +2042,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_LOCAL) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       /* TRANS: "Applies only to Scientists." */
       cat_snprintf(buf, bufsz, Q_("?specialist:Applies only to %s.\n"),
@@ -1993,6 +2057,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_MINSIZE:
     switch (preq->range) {
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum city size of %d for this "
@@ -2012,6 +2077,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum city size of %d.\n",
@@ -2042,6 +2108,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_MINCULTURE:
     switch (preq->range) {
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum culture of %d in the city.\n",
@@ -2059,6 +2126,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires a minimum culture of %d in this city or "
@@ -2078,6 +2146,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_PLAYER:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires your nation to have culture "
@@ -2097,6 +2166,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TEAM:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires someone on your team to have culture of "
@@ -2116,6 +2186,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ALLIANCE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires someone in your current alliance to "
@@ -2135,6 +2206,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_WORLD:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("Requires that some player has culture of at "
@@ -2165,6 +2237,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_MAXTILEUNITS:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("At most %d unit may be present on the tile.\n",
@@ -2182,6 +2255,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one cardinally adjacent tile "
@@ -2201,6 +2275,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      PL_("The tile or at least one adjacent tile must have "
@@ -2235,6 +2310,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_PLAYER) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    /* TRANS: AI level (e.g., "Handicapped") */
@@ -2251,6 +2327,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_TERRAINCLASS:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
@@ -2266,6 +2343,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
@@ -2283,6 +2361,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
@@ -2300,6 +2379,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
@@ -2317,6 +2397,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a terrain class */
@@ -2349,6 +2430,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_TERRFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
@@ -2363,6 +2445,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
@@ -2378,6 +2461,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
@@ -2393,6 +2477,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
@@ -2408,6 +2493,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) terrain flag. */
@@ -2438,6 +2524,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_BASEFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
@@ -2452,6 +2539,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
@@ -2467,6 +2555,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
@@ -2482,6 +2571,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
@@ -2497,6 +2587,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) base flag. */
@@ -2527,6 +2618,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_ROADFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
@@ -2541,6 +2633,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
@@ -2556,6 +2649,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
@@ -2571,6 +2665,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
@@ -2586,6 +2681,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) road flag. */
@@ -2616,6 +2712,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_EXTRAFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
@@ -2630,6 +2727,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
@@ -2645,6 +2743,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_ADJACENT:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
@@ -2660,6 +2759,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_CITY:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
@@ -2675,6 +2775,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       }
       return TRUE;
     case REQ_RANGE_TRADEROUTE:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a (translatable) extra flag. */
@@ -2706,6 +2807,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_WORLD) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    _("Requires the game to have reached the year %s.\n"),
@@ -2722,6 +2824,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     if (preq->range != REQ_RANGE_WORLD) {
       break;
     }
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    _("Requires %s map.\n"),
@@ -2734,6 +2837,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     return TRUE;
 
   case VUT_AGE:
+    CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
                    _("Requires age of %d turns.\n"),
@@ -2748,6 +2852,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
   case VUT_TERRAINALTER:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
+      CATLSTR(buf, bufsz, prefix);
       if (preq->present) {
         cat_snprintf(buf, bufsz,
                      _("Requires terrain on which alteration %s is "
@@ -2795,6 +2900,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
       switch (preq->range) {
       case REQ_RANGE_LOCAL:
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: tile property ("city centers", etc) */
@@ -2806,6 +2912,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
         }
         return TRUE;
       case REQ_RANGE_CADJACENT:
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
@@ -2819,6 +2926,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
         }
         return TRUE;
       case REQ_RANGE_ADJACENT:
+        CATLSTR(buf, bufsz, prefix);
         if (preq->present) {
           /* TRANS: tile property ("city centers", etc) */
           cat_snprintf(buf, bufsz, Q_("?tileprop:Applies only to %s and "
@@ -2869,7 +2977,9 @@ static void insert_allows_single(struct universal *psource,
                                  struct requirement_vector *psubjreqs,
                                  const char *subjstr,
                                  const char *const *strs,
-                                 char *buf, size_t bufsz) {
+                                 char *buf, size_t bufsz,
+                                 const char *prefix)
+{
   struct strvec *coreqs = strvec_new();
   struct strvec *conoreqs = strvec_new();
   struct astring coreqstr = ASTRING_INIT;
@@ -2880,6 +2990,8 @@ static void insert_allows_single(struct universal *psource,
 
   requirement_vector_iterate(psubjreqs, req) {
     if (!req->quiet && are_universals_equal(psource, &req->source)) {
+      /* We're definitely going to print _something_. */
+      CATLSTR(buf, bufsz, prefix);
       if (req->present) {
         /* psource enables the subject, but other sources may
          * also be required (or required to be absent). */
@@ -2948,44 +3060,44 @@ static void insert_allows_single(struct universal *psource,
   NOT append like cat_snprintf).
 ****************************************************************************/
 static void insert_allows(struct universal *psource,
-			  char *buf, size_t bufsz)
+			  char *buf, size_t bufsz, const char *prefix)
 {
   buf[0] = '\0';
 
   governments_iterate(pgov) {
     static const char *const govstrs[] = {
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s but no %s)."),
+      N_("?gov:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s)."),
+      N_("?gov:Allows %s (with %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (absent %s)."),
+      N_("?gov:Allows %s (absent %s)."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Allows %s."),
+      N_("?gov:Allows %s."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Prevents %s.")
+      N_("?gov:Prevents %s.")
     };
     insert_allows_single(psource, &pgov->reqs,
                          government_name_translation(pgov), govstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } governments_iterate_end;
 
   improvement_iterate(pimprove) {
     static const char *const imprstrs[] = {
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s but no %s)."),
+      N_("?improvement:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s)."),
+      N_("?improvement:Allows %s (with %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (absent %s)."),
+      N_("?improvement:Allows %s (absent %s)."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Allows %s."),
+      N_("?improvement:Allows %s."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Prevents %s.")
+      N_("?improvement:Prevents %s.")
     };
     insert_allows_single(psource, &pimprove->reqs,
                          improvement_name_translation(pimprove), imprstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } improvement_iterate_end;
 }
 
@@ -3616,7 +3728,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for improvement itself */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+    if (insert_requirement(buf, bufsz, pplayer, preq, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3662,7 +3774,9 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		 utype_name_translation(u));
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   unit_type_iterate(u) {
     if (u->need_improvement == pimprove) {
@@ -4001,6 +4115,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = unit_type_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -4680,7 +4795,9 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n");
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   {
     int j;
@@ -4731,6 +4848,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = tech_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -4779,7 +4897,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
     CATLSTR(buf, bufsz,
 	    _("* You cannot build cities on this terrain."));
@@ -4853,6 +4973,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = terrain_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -5079,7 +5200,9 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   if (is_extra_caused_by(pextra, EC_POLLUTION)) {
     CATLSTR(buf, bufsz,
@@ -5101,7 +5224,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     char reqsbuf[8192] = "";
 
     requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq);
+      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq, "");
     } requirement_vector_iterate_end;
     if (reqsbuf[0] != '\0') {
       if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
@@ -5394,7 +5517,7 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this specialist. */
   requirement_vector_iterate(&pspec->reqs, preq) {
-    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+    if (insert_requirement(buf, bufsz, pplayer, preq, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -5433,7 +5556,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    if (insert_requirement(buf, bufsz, pplayer, preq)) {
+    if (insert_requirement(buf, bufsz, pplayer, preq, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -5443,7 +5566,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Effects */
   CATLSTR(buf, bufsz, _("Features:\n"));
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
@@ -6243,7 +6368,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
   if (buf[0] != '\0') {
     CATLSTR(buf, bufsz, "\n");
   }
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf), "");
 
   if (user_text && user_text[0] != '\0') {
     if (buf[0] != '\0') {
