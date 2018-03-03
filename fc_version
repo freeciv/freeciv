@@ -55,7 +55,9 @@ DEFAULT_FOLLOW_TAG=stable
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-2.5-network"
-NETWORK_CAPSTRING_OPTIONAL="nationset_change tech_cost split_reports extended_move_rate illness_ranges nonnatdef"
+# NB: "cheaper_small_wonders" was added late; it covers the bug fix for
+# hrm bug #706727, but 2.5.10 had that bugfix but not the capability.
+NETWORK_CAPSTRING_OPTIONAL="nationset_change tech_cost split_reports extended_move_rate illness_ranges nonnatdef cheaper_small_wonders"
 
 FREECIV_DISTRIBUTOR=""
 
