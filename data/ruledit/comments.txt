@@ -670,6 +670,7 @@ resources = "\
 ; Notes:\n\
 ;\n\
 ; extra                = name of the extra this resource section is part of\n\
+;                        (must have \"Resource\" in its causes)\n\
 ; identifier           = single-character identifier used in old savegames. This\n\
 ;                        must be unique for each resource, and changing it will\n\
 ;                        break loading those old savegames.\n\
@@ -698,10 +699,13 @@ extras = "\
 ;                           ruleset has been released, you should set\n\
 ;                           \"rule_name\" to the original value of \"name\".\n\
 ; category                = How UI should categorize this extra. One of\n\
-;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\", or \"Bonus\"\n\
+;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\",\n\
+;                           or \"Bonus\"\n\
 ; causes                  = events that can create extra type.\n\
 ;                           \"Irrigation\", \"Mine\", \"Hut\", \"Pollution\", \"Fallout\",\n\
-;                           \"Base\", \"Road\", \"Resource\", or \"Appear\"\n\
+;                           \"Appear\", \"Resource\", \"Base\", or \"Road\"\n\
+;                           (the last three require a corresponding\n\
+;                           [resource_*] / [base_*] / [road_*] section)\n\
 ; rmcauses                = events that can remove extra type.\n\
 ;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
 ;                           \"Disappear\"\n\
@@ -802,6 +806,7 @@ bases = "\
 ; Base types:\n\
 ;\n\
 ; extra                   = name of the extra this base section is part of\n\
+;                           (must have \"Base\" in its causes)\n\
 ; gui_type                = How gui should handle this base.\n\
 ;                           Value can be \"Fortress\", \"Airbase\", or \"Other\"\n\
 ; border_sq               = Base will claim land ownership up to this radius,\n\
@@ -823,6 +828,7 @@ roads = "\
 ; Road types:\n\
 ;\n\
 ; extra                   = name of the extra this road section is part of\n\
+;                           (must have \"Road\" in its causes)\n\
 ; first_reqs              = additional requirements to build the first part of\n\
 ;                           the road, when none of the adjacent tiles have any\n\
 ;                           integrating roads (see effects.ruleset and\n\

@@ -842,6 +842,7 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
+;                        (must have "Resource" in its causes)
 ; identifier           = single-character identifier used in old savegames. This
 ;                        must be unique for each resource, and changing it will
 ;                        break loading those old savegames.
@@ -1013,10 +1014,13 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ;                           ruleset has been released, you should set
 ;                           "rule_name" to the original value of "name".
 ; category                = How UI should categorize this extra. One of
-;                           "Infra", "Natural", "Nuisance", "Resource", or "Bonus"
+;                           "Infra", "Natural", "Nuisance", "Resource",
+;                           or "Bonus"
 ; causes                  = events that can create extra type.
 ;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
-;                           "Base", "Road", "Resource", or "Appear"
+;                           "Appear", "Resource", "Base", or "Road"
+;                           (the last three require a corresponding
+;                           [resource_*] / [base_*] / [road_*] section)
 ; rmcauses                = events that can remove extra type.
 ;                           "CleanPollution", "CleanFallout", "Pillage", or
 ;                           "Disappear"
@@ -1823,6 +1827,7 @@ rmact_gfx_alt  = "-"
 ; Base types:
 ;
 ; extra                   = name of the extra this base section is part of
+;                           (must have "Base" in its causes)
 ; gui_type                = How gui should handle this base.
 ;                           Value can be "Fortress", "Airbase", or "Other"
 ; border_sq               = Base will claim land ownership up to this radius,
@@ -1856,6 +1861,7 @@ vision_main_sq = 5
 ; Road types:
 ;
 ; extra                   = name of the extra this road section is part of
+;                           (must have "Road" in its causes)
 ; first_reqs              = additional requirements to build the first part of
 ;                           the road, when none of the adjacent tiles have any
 ;                           integrating roads (see effects.ruleset and
