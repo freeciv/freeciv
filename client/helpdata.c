@@ -5167,6 +5167,7 @@ const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
 void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                     const char *user_text, struct extra_type *pextra)
 {
+  size_t group_start;
   struct base_type *pbase;
   struct road_type *proad;
   struct universal source = {
@@ -5200,40 +5201,183 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
-                /* TRANS: bullet point; note trailing space */
-                Q_("?bullet:* "));
+  /* Describe how extra is created and destroyed */
+
+  group_start = strlen(buf);
+
+  if (pextra->buildable) {
+    if (is_extra_caused_by(pextra, EC_IRRIGATION)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing an \"irrigate\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_MINE)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing a \"mine\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_ROAD)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing a \"road\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_BASE)) {
+      fc_assert(pbase);
+      if (pbase->gui_type == BASE_GUI_OTHER) {
+        cat_snprintf(buf, bufsz,
+                _("Build by issuing a \"build base\" order.\n"));
+      } else {
+        const char *order = "";
+
+        switch (pbase->gui_type) {
+        case BASE_GUI_FORTRESS:
+          order = Q_(terrain_control.gui_type_base0);
+          break;
+        case BASE_GUI_AIRBASE:
+          order = Q_(terrain_control.gui_type_base1);
+          break;
+        default:
+          fc_assert(FALSE);
+          break;
+        }
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a gui_type base string from a ruleset */
+                     _("Build by issuing a \"%s\" order.\n"), order);
+      }
+    }
+  }
 
   if (is_extra_caused_by(pextra, EC_POLLUTION)) {
     CATLSTR(buf, bufsz,
-            _("* May randomly appear around polluting city.\n"));
+            _("May randomly appear around polluting city.\n"));
   }
 
   if (is_extra_caused_by(pextra, EC_FALLOUT)) {
     CATLSTR(buf, bufsz,
-            _("* May randomly appear around nuclear blast.\n"));
+            _("May randomly appear around nuclear blast.\n"));
   }
 
   if (is_extra_caused_by(pextra, EC_HUT)
       || (proad != NULL && road_has_flag(proad, RF_RIVER))) {
     CATLSTR(buf, bufsz,
-            _("* Placed by map generator.\n"));
+            _("Placed by map generator.\n"));
   }
 
   if (requirement_vector_size(&pextra->reqs) > 0) {
     char reqsbuf[8192] = "";
+    bool buildable = pextra->buildable
+      && is_extra_caused_by_worker_action(pextra);
 
     requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq, "");
+      (void) insert_requirement(reqsbuf, sizeof(reqsbuf), pplayer, preq,
+                                /* TRANS: bullet point; note trailing space */
+                                buildable ? Q_("?bullet:* ") : "");
     } requirement_vector_iterate_end;
     if (reqsbuf[0] != '\0') {
-      if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
+      if (buildable) {
         CATLSTR(buf, bufsz, _("Requirements to build:\n"));
       }
       CATLSTR(buf, bufsz, reqsbuf);
-      CATLSTR(buf, bufsz, "\n");
     }
   }
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  group_start = strlen(buf);
+
+  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
+    int pillage_time = -1;
+
+    if (pextra->removal_time != 0) {
+      pillage_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_pillage_time = pterrain->pillage_time
+                                * pextra->removal_time_factor;
+
+        if (terr_pillage_time != 0) {
+          if (pillage_time < 0) {
+            pillage_time = terr_pillage_time;
+          } else if (pillage_time != terr_pillage_time) {
+            /* Give up */
+            pillage_time = -1;
+            break;
+          }
+        }
+      } terrain_type_iterate_end;
+    }
+    if (pillage_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("Can be pillaged by units (time is terrain-dependent).\n"));
+    } else if (pillage_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("Can be pillaged by units (takes %d turn).\n",
+                       "Can be pillaged by units (takes %d turns).\n",
+                       pillage_time), pillage_time);
+    }
+  }
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+    int clean_time = -1;
+
+    if (pextra->removal_time != 0) {
+      clean_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_clean_time = -1;
+
+        if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+            && pterrain->clean_pollution_time != 0) {
+          terr_clean_time = pterrain->clean_pollution_time
+                            * pextra->removal_time_factor;
+        }
+        if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
+            && pterrain->clean_fallout_time != 0) {
+          int terr_clean_fall_time = pterrain->clean_fallout_time
+                                     * pextra->removal_time_factor;
+          if (terr_clean_time > 0
+              && terr_clean_time != terr_clean_fall_time) {
+            /* Pollution/fallout cleaning activities taking different time
+             * on same terrain. Give up. */
+            clean_time = -1;
+            break;
+          }
+          terr_clean_time = terr_clean_fall_time;
+        }
+        if (clean_time < 0) {
+          clean_time = terr_clean_time;
+        } else if (clean_time != terr_clean_time) {
+          /* Give up */
+          clean_time = -1;
+          break;
+        }
+      } terrain_type_iterate_end;
+    }
+    if (clean_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("Can be cleaned by units (time is terrain-dependent).\n"));
+    } else if (clean_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("Can be cleaned by units (takes %d turn).\n",
+                       "Can be cleaned by units (takes %d turns).\n",
+                       clean_time), clean_time);
+    }
+  }
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  /* Describe what other elements are enabled by extra */
+
+  group_start = strlen(buf);
+
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf), "");
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  /* Describe other properties of extras */
 
   {
     const char *classes[uclass_count()];
@@ -5307,84 +5451,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
-    int pillage_time = -1;
-
-    if (pextra->removal_time != 0) {
-      pillage_time = pextra->removal_time;
-    } else {
-      terrain_type_iterate(pterrain) {
-        int terr_pillage_time = pterrain->pillage_time
-                                * pextra->removal_time_factor;
-
-        if (terr_pillage_time != 0) {
-          if (pillage_time < 0) {
-            pillage_time = terr_pillage_time;
-          } else if (pillage_time != terr_pillage_time) {
-            /* Give up */
-            pillage_time = -1;
-            break;
-          }
-        }
-      } terrain_type_iterate_end;
-    }
-    if (pillage_time < 0) {
-      CATLSTR(buf, bufsz,
-              _("* Can be pillaged by units (time is terrain-dependent).\n"));
-    } else if (pillage_time > 0) {
-      cat_snprintf(buf, bufsz,
-                   PL_("* Can be pillaged by units (takes %d turn).\n",
-                       "* Can be pillaged by units (takes %d turns).\n",
-                       pillage_time), pillage_time);
-    }
-  }
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-    int clean_time = -1;
-
-    if (pextra->removal_time != 0) {
-      clean_time = pextra->removal_time;
-    } else {
-      terrain_type_iterate(pterrain) {
-        int terr_clean_time = -1;
-
-        if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-            && pterrain->clean_pollution_time != 0) {
-          terr_clean_time = pterrain->clean_pollution_time
-                            * pextra->removal_time_factor;
-        }
-        if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
-            && pterrain->clean_fallout_time != 0) {
-          int terr_clean_fall_time = pterrain->clean_fallout_time
-                                     * pextra->removal_time_factor;
-          if (terr_clean_time > 0
-              && terr_clean_time != terr_clean_fall_time) {
-            /* Pollution/fallout cleaning activities taking different time
-             * on same terrain. Give up. */
-            clean_time = -1;
-            break;
-          }
-          terr_clean_time = terr_clean_fall_time;
-        }
-        if (clean_time < 0) {
-          clean_time = terr_clean_time;
-        } else if (clean_time != terr_clean_time) {
-          /* Give up */
-          clean_time = -1;
-          break;
-        }
-      } terrain_type_iterate_end;
-    }
-    if (clean_time < 0) {
-      CATLSTR(buf, bufsz,
-              _("* Can be cleaned by units (time is terrain-dependent).\n"));
-    } else if (clean_time > 0) {
-      cat_snprintf(buf, bufsz,
-                   PL_("* Can be cleaned by units (takes %d turn).\n",
-                       "* Can be cleaned by units (takes %d turns).\n",
-                       clean_time), clean_time);
-    }
-  }
   if (pbase != NULL) {
     if (game.info.killstack
         && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
