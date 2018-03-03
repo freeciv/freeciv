@@ -150,6 +150,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
     fill->w = w;
     fill->h = h;
   } else {
+    fill->w = 0;
     fill->h = (pstr ? TTF_FontHeight(pstr->font) : 0);
   }
 }
