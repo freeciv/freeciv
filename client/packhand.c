@@ -2890,7 +2890,7 @@ void handle_tile_info(const struct packet_tile_info *packet)
       if (NULL == pwork) {
         char named[MAX_LEN_CITYNAME];
 
-        /* new unseen city, or before city_info */
+        /* new unseen ("invisible") city, or before city_info */
         fc_snprintf(named, sizeof(named), "%06u", packet->worked);
 
         pwork = create_city_virtual(invisible.placeholder, NULL, named);
@@ -2902,13 +2902,15 @@ void handle_tile_info(const struct packet_tile_info *packet)
         log_debug("(%d,%d) invisible city %d, %s",
                   TILE_XY(ptile), pwork->id, city_name_get(pwork));
       } else if (NULL == city_tile(pwork)) {
-        /* old unseen city, or before city_info */
+        /* old unseen ("invisible") city, or before city_info */
         if (NULL != powner && city_owner(pwork) != powner) {
           /* update placeholder with current owner */
           pwork->owner = powner;
           pwork->original = powner;
         }
       } else {
+        /* We have a real (not invisible) city record for this ID, but
+         * perhaps our info about that city is out of date. */
         int dist_sq = sq_map_distance(city_tile(pwork), ptile);
 
         if (dist_sq > city_map_radius_sq_get(pwork)) {
@@ -2917,13 +2919,32 @@ void handle_tile_info(const struct packet_tile_info *packet)
            * that all workers fit in, so set it so. */
           city_map_radius_sq_set(pwork, dist_sq);
         }
+        /* This might be a known city that is open in a dialog.
+         * (And this might be our only prompt to refresh the worked tiles
+         * display in its city map, if a worker rearrangement does not
+         * change anything else about the city such as output.) */
+        {
+          struct city *oldwork = tile_worked(ptile);
+          if (oldwork && NULL != city_tile(oldwork)) {
+            /* Refresh previous city too if it's real and different */
+            refresh_city_dialog(oldwork);
+          }
+          /* Refresh new city working tile (which we already know is real) */
+          refresh_city_dialog(pwork);
+        }
       }
 
-      /* This marks tile worked by invisible city. Other
+      /* This marks tile worked by (possibly invisible) city. Other
        * parts of the code have to handle invisible cities correctly
        * (ptile->worked->tile == NULL) */
       tile_set_worked(ptile, pwork);
     } else {
+      /* Tile is no longer being worked by a city.
+       * (Again, this might be our only prompt to refresh the worked tiles
+       * display for the previous working city.) */
+      if (tile_worked(ptile) && NULL != city_tile(tile_worked(ptile))) {
+        refresh_city_dialog(tile_worked(ptile));
+      }
       tile_set_worked(ptile, NULL);
     }
 
@@ -3032,6 +3053,11 @@ void handle_tile_info(const struct packet_tile_info *packet)
       menus_update();
     }
   }
+
+  /* FIXME: we really ought to call refresh_city_dialog() for any city
+   * whose radii include this tile, to update the city map display.
+   * But that would be expensive. We deal with the (common) special
+   * case of changes in worked tiles above. */
 }
 
 /************************************************************************//**
