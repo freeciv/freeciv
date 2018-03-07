@@ -110,6 +110,7 @@ struct unit_list;
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
+  int refcount;
   enum direction8 facing;
   struct player *owner; /* Cannot be NULL. */
   struct player *nationality;
