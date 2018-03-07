@@ -1594,6 +1594,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->owner = pplayer;
   punit->nationality = pplayer;
 
+  punit->refcount = 1;
   punit->facing = rand_direction();
 
   if (pcity) {
@@ -1701,7 +1702,9 @@ void unit_virtual_destroy(struct unit *punit)
     }
   }
 
-  FC_FREE(punit);
+  if (--punit->refcount <= 0) {
+    FC_FREE(punit);
+  }
 }
 
 /**********************************************************************//**
