@@ -481,17 +481,16 @@ void handle_team_name_info(int team_id, const char *team_name)
   unit always dies and their HP drops to zero).  If make_winner_veteran is
   set then the surviving unit becomes veteran.
 ****************************************************************************/
-void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
-			     int attacker_hp, int defender_hp,
-			     bool make_winner_veteran)
+void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
 {
   bool show_combat = FALSE;
-  struct unit *punit0 = game_unit_by_number(attacker_unit_id);
-  struct unit *punit1 = game_unit_by_number(defender_unit_id);
+  struct unit *punit0 = game_unit_by_number(packet->attacker_unit_id);
+  struct unit *punit1 = game_unit_by_number(packet->defender_unit_id);
 
   if (punit0 && punit1) {
-    popup_combat_info(attacker_unit_id, defender_unit_id, attacker_hp,
-                      defender_hp, make_winner_veteran);
+    popup_combat_info(packet->attacker_unit_id, packet->defender_unit_id,
+                      packet->attacker_hp, packet->defender_hp,
+                      packet->make_att_veteran, packet->make_def_veteran);
     if (tile_visible_mapcanvas(unit_tile(punit0)) &&
 	tile_visible_mapcanvas(unit_tile(punit1))) {
       show_combat = TRUE;
@@ -505,7 +504,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
     }
 
     if (show_combat) {
-      int hp0 = attacker_hp, hp1 = defender_hp;
+      int hp0 = packet->attacker_hp, hp1 = packet->defender_hp;
 
       audio_play_sound(unit_type_get(punit0)->sound_fight,
 		       unit_type_get(punit0)->sound_fight_alt);
@@ -523,11 +522,13 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
       }
     }
-    if (make_winner_veteran) {
-      struct unit *pwinner = (defender_hp == 0 ? punit0 : punit1);
-
-      pwinner->veteran++;
-      refresh_unit_mapcanvas(pwinner, unit_tile(pwinner), TRUE, FALSE);
+    if (packet->make_att_veteran && punit0) {
+      punit0->veteran++;
+      refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
+    }
+    if (packet->make_def_veteran && punit1) {
+      punit1->veteran++;
+      refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
     }
   }
 }

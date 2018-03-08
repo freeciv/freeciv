@@ -2109,6 +2109,15 @@ static struct setting settings[] = {
            N_("How trait values are given to AI players."),
            NULL, NULL, NULL, trait_dist_name, GAME_DEFAULT_TRAIT_DIST_MODE)
 
+  GEN_INT("combatrounds", game.server.combat_rounds,
+          SSET_RULES, SSET_MILITARY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("How many rounds combat lasts"),
+          N_("Maximum number of rounds one combat lasts. If neither side "
+             "has died or escaped in this many rounds, attack just ends. "
+             "Value zero means that combat is always fought until one side "
+             "has died or escaped."), NULL, NULL, NULL,
+          GAME_MIN_COMBATROUNDS, GAME_MAX_COMBATROUNDS, GAME_DEFAULT_COMBATROUNDS)
+
   GEN_INT("razechance", game.server.razechance,
           SSET_RULES, SSET_MILITARY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Chance for conquered building destruction"),
@@ -2126,7 +2135,7 @@ static struct setting settings[] = {
              "set to a value between 0 and 100, this will be used as "
              "the percent chance of \"occupying\" territory."),
           NULL, NULL, NULL,
-          GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, 
+          GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE,
           GAME_DEFAULT_OCCUPYCHANCE)
 
   GEN_BOOL("autoattack", game.server.autoattack, SSET_RULES_FLEXIBLE, SSET_MILITARY,

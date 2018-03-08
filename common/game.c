@@ -393,6 +393,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
     game.server.pingtime          = GAME_DEFAULT_PINGTIME;
     game.server.pingtimeout       = GAME_DEFAULT_PINGTIMEOUT;
+    game.server.combat_rounds     = GAME_DEFAULT_COMBATROUNDS;
     game.server.razechance        = GAME_DEFAULT_RAZECHANCE;
     game.server.revealmap         = GAME_DEFAULT_REVEALMAP;
     game.server.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;

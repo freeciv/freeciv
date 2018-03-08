@@ -3761,6 +3761,6 @@ bool request_transport(struct unit *pcargo, struct tile *ptile)
 **************************************************************************/
 void popup_combat_info(int attacker_unit_id, int defender_unit_id,
                        int attacker_hp, int defender_hp,
-                       bool make_winner_veteran)
+                       bool make_att_veteran, bool make_def_veteran)
 {
 }

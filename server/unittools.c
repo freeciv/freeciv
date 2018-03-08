@@ -279,6 +279,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
   struct player *plr2 = unit_owner(defender);
+  int rounds;
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
@@ -297,7 +298,10 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   } else if (defensepower == 0) {
     *def_hp = 0;
   }
-  while (*att_hp > 0 && *def_hp > 0) {
+  for (rounds = 0;
+       *att_hp > 0 && *def_hp > 0
+         && (game.server.combat_rounds == 0 || game.server.combat_rounds > rounds);
+       rounds++) {
     if (fc_rand(attackpower + defensepower) >= defensepower) {
       *def_hp -= attack_firepower;
     } else {
@@ -354,13 +358,14 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
 }
 
 /**********************************************************************//**
-  Make maybe make either side of combat veteran 
+  Maybe make either side of combat veteran
 **************************************************************************/
 void combat_veterans(struct unit *attacker, struct unit *defender)
 {
   if (attacker->hp > 0) {
     maybe_make_veteran(attacker); 
-  } else if (defender->hp > 0) {
+  }
+  if (defender->hp > 0) {
     maybe_make_veteran(defender); 
   }
 }

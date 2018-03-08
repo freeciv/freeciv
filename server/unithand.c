@@ -3077,15 +3077,16 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
   Send combat info to players.
 **************************************************************************/
 static void send_combat(struct unit *pattacker, struct unit *pdefender, 
-			int veteran, int bombard)
+                        int att_veteran, int def_veteran, int bombard)
 {
   struct packet_unit_combat_info combat;
 
-  combat.attacker_unit_id=pattacker->id;
-  combat.defender_unit_id=pdefender->id;
-  combat.attacker_hp=pattacker->hp;
-  combat.defender_hp=pdefender->hp;
-  combat.make_winner_veteran=veteran;
+  combat.attacker_unit_id = pattacker->id;
+  combat.defender_unit_id = pdefender->id;
+  combat.attacker_hp = pattacker->hp;
+  combat.defender_hp = pdefender->hp;
+  combat.make_att_veteran = att_veteran;
+  combat.make_def_veteran = def_veteran;
 
   players_iterate(other_player) {
     /* NOTE: this means the player can see combat between submarines even
@@ -3175,7 +3176,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       punit->hp = att_hp;
       pdefender->hp = def_hp;
 
-      send_combat(punit, pdefender, 0, 1);
+      send_combat(punit, pdefender, 0, 0, 1);
   
       send_unit_info(NULL, pdefender);
 
@@ -3457,7 +3458,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   unit_did_action(punit);
   unit_forget_last_activity(punit);
 
-  if (punit->hp > 0
+  if (pdefender->hp <= 0
       && (pcity = tile_city(def_tile))
       && city_size_get(pcity) > 1
       && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
@@ -3469,6 +3470,12 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
     punit->moves_left = 0;
   }
+  if (punit->hp > 0 && pdefender->hp > 0) {
+    /* Neither died */
+    send_combat(punit, pdefender, punit->veteran - old_unit_vet,
+                pdefender->veteran - old_defender_vet, 0);
+    return TRUE;
+  }
   pwinner = (punit->hp > 0) ? punit : pdefender;
   winner_id = pwinner->id;
   ploser = (pdefender->hp > 0) ? punit : pdefender;
@@ -3476,7 +3483,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   vet = (pwinner->veteran == ((punit->hp > 0) ? old_unit_vet :
 	old_defender_vet)) ? 0 : 1;
 
-  send_combat(punit, pdefender, vet, 0);
+  send_combat(punit, pdefender, punit->veteran - old_unit_vet,
+              pdefender->veteran - old_defender_vet, 0);
 
   /* N.B.: unit_link always returns the same pointer. */
   sz_strlcpy(loser_link, unit_tile_link(ploser));
