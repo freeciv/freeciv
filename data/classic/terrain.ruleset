@@ -830,10 +830,10 @@ Tundra are broad, cold regions, fit for some agriculture and little\
 ;
 ; name                 = name as seen by user
 ; graphic              = tag specifying preferred graphic
-; graphic_alt	       = tag for alternate garphic if preferred graphic is not 
-;		         present; especially if preferred graphic is non-standard, 
-;		         this should be a standard tag.  Otherwise can use eg "-" 
-;		         for no alternate graphic.
+; graphic_alt          = tag for alternate graphic if preferred graphic is not
+;                        present; especially if preferred graphic is non-standard,
+;                        this should be a standard tag.  Otherwise can use eg "-"
+;                        for no alternate graphic.
 ; identifier           = single-character identifier used in savegames.  This
 ;                        must be unique for each resource, and changing it will
 ;                        break savegame compatibility.
