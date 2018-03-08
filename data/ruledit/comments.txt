@@ -313,10 +313,10 @@ utypes = "\
 ;                 to rename an item after a ruleset has been released, you\n\
 ;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; graphic       = tag specifying preferred graphic\n\
-; graphic_alt	= tag for alternate graphic if preferred graphic is not\n\
-;		  present; especially if preferred graphic is non-standard,\n\
-;		  this should be a standard tag.  Otherwise can use eg \"-\"\n\
-;		  for no alternate graphic.\n\
+; graphic_alt   = tag for alternate graphic if preferred graphic is not\n\
+;                 present; especially if preferred graphic is non-standard,\n\
+;                 this should be a standard tag.  Otherwise can use eg \"-\"\n\
+;                 for no alternate graphic.\n\
 ; tech_req      = required advance, names from techs.ruleset, or special:\n\
 ;                 \"None\" => available from start\n\
 ; impr_req	= required city improvement, names from buildings.ruleset\n\
