@@ -201,7 +201,7 @@ void tab_gov::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_gov_info(0);
+    update_gov_info(nullptr);
   }
 }
 

@@ -201,7 +201,7 @@ void tab_unit::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_utype_info(0);
+    update_utype_info(nullptr);
   }
 }
 
