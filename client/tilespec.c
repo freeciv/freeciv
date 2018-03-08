@@ -2688,7 +2688,7 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   const char *graphic_alt = spe->graphic_alt;
 
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
-    /* Try rule name + index number */
+    /* Try tag name + index number */
     fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
     t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
                                                       FALSE);
@@ -2699,8 +2699,33 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
     }
   }
 
-  /* Nothing? Try the alt tag */
   if (j == 0) {
+    /* Try non-indexed */
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, tag, FALSE,
+                                                      FALSE);
+
+    if (t->sprites.specialist[id].sprite[j]) {
+      j = 1;
+    }
+  }
+
+  if (j == 0) {
+    /* Try the alt tag */
+    for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
+      /* Try alt tag name + index number */
+      fc_snprintf(buffer, sizeof(buffer), "%s_%d", graphic_alt, j);
+      t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
+                                                        FALSE);
+
+      /* Break if no more index specific sprites are defined */
+      if (!t->sprites.specialist[id].sprite[j]) {
+        break;
+      }
+    }
+  }
+
+  if (j == 0) {
+    /* Try alt tag non-indexed */
     t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE,
                                                       FALSE);
 

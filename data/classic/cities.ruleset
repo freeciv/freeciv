@@ -32,11 +32,11 @@ format_version=10
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
 ; graphic       = tag specifying preferred graphic
+;                 Different images based on citizen number are supported.
+;                 If no such images indexed with citizen number are found,
+;                 plain tag is used instead.
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
-;                 found. Example value: "specialist.scientist_0"
-;                 The specialist graphic allow different images based on
-;                 citizen number. The alt tag don't. To use another
-;                 specialist's tag use specialist.<otherrulename>_<number>.
+;                 found.
 ; reqs          = requirements to have the specialist pick (see
 ;                 effects.ruleset and README.effects for help on requirements)
 ; helptext      = optional help text string; should escape all raw newlines
