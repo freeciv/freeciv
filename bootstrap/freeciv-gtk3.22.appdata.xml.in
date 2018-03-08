@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
     <name>Freeciv gtk+-3.22 client</name>
-    <id type="desktop">freeciv.desktop</id>
+    <id type="desktop">freeciv-gtk3.22.desktop</id>
     <metadata_license>CC0</metadata_license>
     <summary>Gtk+-3.22 based client for the Freeciv game</summary>
     <description>
