@@ -31,6 +31,7 @@ void multipliers_init(void)
 
   for (i = 0; i < ARRAY_SIZE(multipliers); i++) {
     name_init(&multipliers[i].name);
+    requirement_vector_init(&multipliers[i].reqs);
     multipliers[i].helptext = NULL;
   }
 }
@@ -41,6 +42,7 @@ void multipliers_init(void)
 void multipliers_free(void)
 {
   multipliers_iterate(pmul) {
+    requirement_vector_free(&(pmul->reqs));
     if (pmul->helptext) {
       strvec_destroy(pmul->helptext);
       pmul->helptext = NULL;
@@ -126,4 +128,13 @@ struct multiplier *multiplier_by_rule_name(const char *name)
   } multipliers_iterate_end;
 
   return NULL;
+}
+
+/************************************************************************//**
+  Can player change multiplier value
+****************************************************************************/
+bool multiplier_can_be_changed(struct multiplier *pmul, struct player *pplayer)
+{
+  return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                         NULL, &pmul->reqs, RPT_CERTAIN);
 }

@@ -3596,6 +3596,7 @@ void handle_ruleset_building(const struct packet_ruleset_building *p)
 void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
 {
   struct multiplier *pmul = multiplier_by_number(p->id);
+  int j;
 
   fc_assert_ret_msg(NULL != pmul, "Bad multiplier %d.", p->id);
 
@@ -3607,6 +3608,11 @@ void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
   pmul->factor = p->factor;
 
   names_set(&pmul->name, NULL, p->name, p->rule_name);
+
+  for (j = 0; j < p->reqs_count; j++) {
+    requirement_vector_append(&pmul->reqs, p->reqs[j]);
+  }
+  fc_assert(pmul->reqs.size == p->reqs_count);
 
   PACKET_STRVEC_EXTRACT(pmul->helptext, p->helptext);
 }

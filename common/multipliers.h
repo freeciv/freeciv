@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2014 - Sławomir Lach
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,8 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
-  
+#include "requirements.h"
+
 struct multiplier
 {
   Multiplier_type_id id;
@@ -36,6 +37,7 @@ struct multiplier
   int def;   /* default value, in display units */
   int offset;
   int factor;
+  struct requirement_vector reqs;
   struct strvec *helptext;
 };
 
@@ -51,6 +53,8 @@ struct multiplier *multiplier_by_number(Multiplier_type_id id);
 const char *multiplier_name_translation(const struct multiplier *pmul);
 const char *multiplier_rule_name(const struct multiplier *pmul);
 struct multiplier *multiplier_by_rule_name(const char *name);
+
+bool multiplier_can_be_changed(struct multiplier *pmul, struct player *pplayer);
 
 #define multipliers_iterate(_mul_) \
 {      \

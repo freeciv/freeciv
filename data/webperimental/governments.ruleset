@@ -203,6 +203,7 @@ Under Democracy, citizens govern directly by voting on issues.\
 ;                           effect_value = (ui_value + offset) * (factor/100)
 ;                           Optional; by default offset=0, factor=100, so
 ;                           that UI values are used as-is.
+; reqs                    = requirements for adjusting this policy (see README.effects)
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;

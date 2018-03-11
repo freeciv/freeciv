@@ -1534,6 +1534,8 @@ static bool save_governments_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, pmul->step, "%s.step", path);
     secfile_insert_int(sfile, pmul->def, "%s.default", path);
 
+    save_reqs_vector(sfile, &(pmul->reqs), path, "reqs");
+
     save_strvec(sfile, pmul->helptext, path, "helptext");
   } multipliers_iterate_end;
 

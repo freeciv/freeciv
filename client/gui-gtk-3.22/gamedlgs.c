@@ -358,7 +358,8 @@ static GtkWidget *create_multiplier_dialog(void)
     gtk_box_pack_start( GTK_BOX( content ), label, TRUE, TRUE, 5 );
     gtk_box_pack_start( GTK_BOX( content ), scale, TRUE, TRUE, 5 );
     gtk_widget_set_sensitive(multipliers_scale[multiplier],
-                             can_client_issue_orders());
+                             can_client_issue_orders()
+                             && multiplier_can_be_changed(pmul, client_player()));
   } multipliers_iterate_end;
 
   multiplier_dialog_update_values(TRUE);

@@ -3109,24 +3109,22 @@ void handle_player_multiplier(struct player *pplayer, int count,
   for (i = 0; i < count; i++) {
     struct multiplier *pmul = multiplier_by_number(i);
 
-    if (multipliers[i] < pmul->start || multipliers[i] > pmul->stop) {
-      log_error("Multiplier value %d for %s out of range for %s",
-                multipliers[i], multiplier_rule_name(pmul),
-                player_name(pplayer));
-      return;
+    if (multiplier_can_be_changed(pmul, pplayer)) {
+      if (multipliers[i] < pmul->start || multipliers[i] > pmul->stop) {
+        log_error("Multiplier value %d for %s out of range for %s",
+                  multipliers[i], multiplier_rule_name(pmul),
+                  player_name(pplayer));
+      } else {
+        rval = (multipliers[i] - pmul->start) / pmul->step * pmul->step + pmul->start;
+        if (rval != multipliers[i]) {
+          log_error("Multiplier value %d between valid values for %s for %s",
+                    multipliers[i], multiplier_rule_name(pmul),
+                    player_name(pplayer));
+        } else {
+          pplayer->multipliers_target[i] = multipliers[i];
+        }
+      }
     }
-
-    rval = (multipliers[i] - pmul->start) / pmul->step * pmul->step + pmul->start;
-    if (rval != multipliers[i]) {
-      log_error("Multiplier value %d between valid values for %s for %s",
-                multipliers[i], multiplier_rule_name(pmul),
-                player_name(pplayer));
-      return;
-    }
-  }
-
-  for (i = 0; i < count; i++) {
-    pplayer->multipliers_target[i] = multipliers[i];
   }
 
   send_player_info_c(pplayer, NULL);

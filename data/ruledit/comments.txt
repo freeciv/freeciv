@@ -216,6 +216,7 @@ policies = "\
 ;                           effect_value = (ui_value + offset) * (factor/100)\n\
 ;                           Optional; by default offset=0, factor=100, so\n\
 ;                           that UI values are used as-is.\n\
+; reqs                    = requirements for adjusting this policy (see README.effects)\n\
 ; helptext                = optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
 ;\n\

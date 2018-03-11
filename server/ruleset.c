@@ -3933,6 +3933,7 @@ static bool load_ruleset_governments(struct section_file *file,
     multipliers_iterate(pmul) {
       int id = multiplier_index(pmul);
       const char *sec_name = section_name(section_list_get(sec, id));
+      struct requirement_vector *reqs;
 
       if (!secfile_lookup_int(file, &pmul->start, "%s.start", sec_name)) {
         ruleset_error(LOG_ERROR, "Error: %s", secfile_error());
@@ -3993,6 +3994,14 @@ static bool load_ruleset_governments(struct section_file *file,
         ok = FALSE;
         break;
       }
+
+      reqs = lookup_req_list(file, compat, sec_name, "reqs",
+                             multiplier_rule_name(pmul));
+      if (reqs == NULL) {
+        ok = FALSE;
+        break;
+      }
+      requirement_vector_copy(&pmul->reqs, reqs);
 
       pmul->helptext = lookup_strvec(file, sec_name, "helptext");   
     } multipliers_iterate_end;
@@ -8005,18 +8014,27 @@ static void send_ruleset_styles(struct conn_list *dest)
 **************************************************************************/
 static void send_ruleset_multipliers(struct conn_list *dest)
 {
-  char helptext[MAX_LEN_PACKET];
-
   multipliers_iterate(pmul) {
-    PACKET_STRVEC_COMPUTE(helptext, pmul->helptext);
+    int j;
+    struct packet_ruleset_multiplier packet;
 
-    dlsend_packet_ruleset_multiplier(dest, multiplier_number(pmul),
-                                     pmul->start, pmul->stop,
-                                     pmul->step, pmul->def,
-                                     pmul->offset, pmul->factor,
-                                     untranslated_name(&pmul->name),
-                                     rule_name_get(&pmul->name), 
-                                     helptext);
+    packet.id     = multiplier_number(pmul);
+    packet.start  = pmul->start;
+    packet.stop   = pmul->stop;
+    packet.step   = pmul->step;
+    packet.def    = pmul->def;
+    packet.offset = pmul->offset;
+    packet.factor = pmul->factor;
+
+    j = 0;
+    requirement_vector_iterate(&pmul->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, pmul->helptext);
+
+    lsend_packet_ruleset_multiplier(dest, &packet);
   } multipliers_iterate_end;
 }
 

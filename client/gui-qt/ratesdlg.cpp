@@ -157,6 +157,7 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
     slider_list.append(slider);
     label = new QLabel(QString::number(val));
     hb->addWidget(slider);
+    slider->setEnabled(multiplier_can_be_changed(pmul, client_player()));
     hb->addWidget(label);
     group_box->setLayout(hb);
     slider->setProperty("lab", QVariant::fromValue((void *) label));
