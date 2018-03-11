@@ -52,9 +52,9 @@ static void find_selection_callback(GtkTreeSelection *selection,
 
 static struct tile *pos;
 
-/****************************************************************
-popup the dialog 10% inside the main-window 
-*****************************************************************/
+/**********************************************************************//**
+  Popup the dialog 10% inside the main-window
+**************************************************************************/
 void popup_find_dialog(void)
 {
   if (!find_dialog_shell) {
@@ -131,9 +131,7 @@ void popup_find_dialog(void)
   gui_dialog_raise(find_dialog_shell);
 }
 
-
-
-/**************************************************************************
+/**********************************************************************//**
   Update find dialog with current cities
 **************************************************************************/
 static void update_find_dialog(GtkListStore *store)
@@ -158,7 +156,7 @@ static void update_find_dialog(GtkListStore *store)
   } players_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User responded to find dialog
 **************************************************************************/
 static void find_response(struct gui_dialog *dlg, int response, gpointer data)
@@ -183,7 +181,7 @@ static void find_response(struct gui_dialog *dlg, int response, gpointer data)
   gui_dialog_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find dialog destroyed
 **************************************************************************/
 static void find_destroy_callback(GtkWidget *w, gpointer data)
@@ -193,7 +191,7 @@ static void find_destroy_callback(GtkWidget *w, gpointer data)
   can_slide = TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User selected city from find dialog
 **************************************************************************/
 static void find_selection_callback(GtkTreeSelection *selection,
@@ -202,8 +200,9 @@ static void find_selection_callback(GtkTreeSelection *selection,
   GtkTreeIter it;
   struct city *pcity;
 
-  if (!gtk_tree_selection_get_selected(selection, NULL, &it))
+  if (!gtk_tree_selection_get_selected(selection, NULL, &it)) {
     return;
+  }
 
   gtk_tree_model_get(model, &it, 1, &pcity, -1);
 
