@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 #include "sprite.h"
 
-/****************************************************************************
+/************************************************************************//**
   Return a NULL-terminated, permanently allocated array of possible
   graphics types extensions.  Extensions listed first will be checked
   first.
@@ -41,7 +41,7 @@ const char **gfx_fileextensions(void)
   return ext;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Load the given graphics file into a sprite.  This function loads an
   entire image file, which may later be broken up into individual sprites
   with crop_sprite.
@@ -52,7 +52,7 @@ struct sprite *gui_load_gfxfile(const char *filename)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite by cropping and taking only the given portion of
   the image.
 
@@ -83,7 +83,7 @@ struct sprite *gui_crop_sprite(struct sprite *source,
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new sprite with the given height, width and color.
 ****************************************************************************/
 struct sprite *gui_create_sprite(int width, int height, struct color *pcolor)
@@ -92,7 +92,7 @@ struct sprite *gui_create_sprite(int width, int height, struct color *pcolor)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Find the dimensions of the sprite.
 ****************************************************************************/
 void gui_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
@@ -104,7 +104,7 @@ void gui_get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 #endif
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a sprite and all associated image data.
 ****************************************************************************/
 void gui_free_sprite(struct sprite *s)
