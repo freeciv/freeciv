@@ -104,9 +104,9 @@ extern enum announce_type announce;
 static bool begin_metaserver_scan(struct server_scan *scan);
 static void delete_server_list(struct server_list *server_list);
 
-/**************************************************************************
- The server sends a stream in a registry 'ini' type format.
- Read it using secfile functions and fill the server_list structs.
+/**********************************************************************//**
+  The server sends a stream in a registry 'ini' type format.
+  Read it using secfile functions and fill the server_list structs.
 **************************************************************************/
 static struct server_list *parse_metaserver_data(fz_FILE *f)
 {
@@ -219,9 +219,9 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   return server_list;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Read the reply string from the metaserver.
-****************************************************************************/
+**************************************************************************/
 static bool meta_read_response(struct server_scan *scan)
 {
   fz_FILE *f;
@@ -260,9 +260,9 @@ static bool meta_read_response(struct server_scan *scan)
   return TRUE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Metaserver scan thread entry point
-****************************************************************************/
+**************************************************************************/
 static void metaserver_scan(void *arg)
 {
   struct server_scan *scan = arg;
@@ -285,12 +285,12 @@ static void metaserver_scan(void *arg)
   fc_release_mutex(&scan->meta.mutex);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Begin a metaserver scan for servers.
 
   Returns FALSE on error (in which case errbuf will contain an error
   message).
-****************************************************************************/
+**************************************************************************/
 static bool begin_metaserver_scan(struct server_scan *scan)
 {
   struct netfile_post *post;
@@ -309,10 +309,10 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   return retval;
 }
 
-/**************************************************************************
- Frees everything associated with a server list including
- the server list itself (so the server_list is no longer
- valid after calling this function)
+/**********************************************************************//**
+  Frees everything associated with a server list including
+  the server list itself (so the server_list is no longer
+  valid after calling this function)
 **************************************************************************/
 static void delete_server_list(struct server_list *server_list)
 {
@@ -345,8 +345,8 @@ static void delete_server_list(struct server_list *server_list)
   server_list_destroy(server_list);
 }
 
-/**************************************************************************
-  Broadcast an UDP package to all servers on LAN, requesting information 
+/**********************************************************************//**
+  Broadcast an UDP package to all servers on LAN, requesting information
   about the server. The packet is send to all Freeciv servers in the same
   multicast group as the client.
 **************************************************************************/
@@ -554,9 +554,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Listens for UDP packets broadcasted from a server that responded
-  to the request-packet sent from the client. 
+  to the request-packet sent from the client.
 **************************************************************************/
 static enum server_scan_status
 get_lan_server_list(struct server_scan *scan)
@@ -684,7 +684,7 @@ get_lan_server_list(struct server_scan *scan)
   return SCAN_STATUS_WAITING;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Creates a new server scan and returns it, or NULL if impossible.
 
   Depending on 'type' the scan will look for either local or internet
@@ -695,9 +695,9 @@ get_lan_server_list(struct server_scan *scan)
 
   NB: You must call server_scan_finish() when you are done with the
   scan to free the memory and resources allocated by it.
-****************************************************************************/
+**************************************************************************/
 struct server_scan *server_scan_begin(enum server_scan_type type,
-				      ServerScanErrorFunc error_func)
+                                      ServerScanErrorFunc error_func)
 {
   struct server_scan *scan;
   bool ok = FALSE;
@@ -738,10 +738,10 @@ struct server_scan *server_scan_begin(enum server_scan_type type,
   return scan;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   A simple query function to determine the type of a server scan (previously
   allocated in server_scan_begin).
-****************************************************************************/
+**************************************************************************/
 enum server_scan_type server_scan_get_type(const struct server_scan *scan)
 {
   if (!scan) {
@@ -750,7 +750,7 @@ enum server_scan_type server_scan_get_type(const struct server_scan *scan)
   return scan->type;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   A function to query servers of the server scan. This will check any
   pending network data and update the server list.
 
@@ -764,7 +764,7 @@ enum server_scan_type server_scan_get_type(const struct server_scan *scan)
                           Get the servers with server_scan_get_list(), and
                           stop calling this function.
     SCAN_STATUS_ABORT   - The scan has been aborted
-****************************************************************************/
+**************************************************************************/
 enum server_scan_status server_scan_poll(struct server_scan *scan)
 {
   if (!scan) {
@@ -793,7 +793,7 @@ enum server_scan_status server_scan_poll(struct server_scan *scan)
   return SCAN_STATUS_ERROR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Returns the srv_list currently held by the scan (may be NULL).
 **************************************************************************/
 struct srv_list *
@@ -806,7 +806,7 @@ server_scan_get_list(struct server_scan *scan)
   return &scan->srvrs;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Closes the socket listening on the scan, frees the list of servers, and
   frees the memory allocated for 'scan' by server_scan_begin().
 **************************************************************************/
