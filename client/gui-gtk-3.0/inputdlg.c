@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ struct input_dialog_data {
   gpointer response_cli_data;
 };
 
-/**************************************************************************
+/**********************************************************************//**
   Called when user dismisses dialog -- either to accept or to cancel.
 **************************************************************************/
 static void input_dialog_response(GtkDialog *shell, gint response,
@@ -52,7 +52,7 @@ static void input_dialog_response(GtkDialog *shell, gint response,
   FC_FREE(cb);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a popup with a text entry box and "OK" and "Cancel" buttons.
 **************************************************************************/
 GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname, 

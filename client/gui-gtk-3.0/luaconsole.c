@@ -77,7 +77,7 @@ static void luaconsole_load_file_popup(void);
 static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
                                           gpointer data);
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a lua console.
 *****************************************************************************/
 void luaconsole_dialog_init(void)
@@ -95,7 +95,7 @@ void luaconsole_dialog_init(void)
   luaconsole_welcome_message();
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Free a script lua console.
 *****************************************************************************/
 void luaconsole_dialog_done(void)
@@ -112,7 +112,7 @@ void luaconsole_dialog_done(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Get the data for the lua console.
 *****************************************************************************/
 static struct luaconsole_data *luaconsole_dialog_get(void)
@@ -120,7 +120,7 @@ static struct luaconsole_data *luaconsole_dialog_get(void)
   return luaconsole;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Popup the lua console inside the main-window, and optionally raise it.
 *****************************************************************************/
 void luaconsole_dialog_popup(bool raise)
@@ -138,7 +138,7 @@ void luaconsole_dialog_popup(bool raise)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Closes the lua console; the content is saved till the client is done.
 *****************************************************************************/
 void luaconsole_dialog_popdown(void)
@@ -151,7 +151,7 @@ void luaconsole_dialog_popdown(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return TRUE iff the lua console is open.
 *****************************************************************************/
 bool luaconsole_dialog_is_open(void)
@@ -163,7 +163,7 @@ bool luaconsole_dialog_is_open(void)
   return (NULL != pdialog->shell);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Update the lua console.
 *****************************************************************************/
 void real_luaconsole_dialog_update(void)
@@ -177,7 +177,7 @@ void real_luaconsole_dialog_update(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Initialize a lua console.
 *****************************************************************************/
 static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
@@ -250,7 +250,7 @@ static void luaconsole_dialog_create(struct luaconsole_data *pdialog)
   gui_dialog_show_all(pdialog->shell);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Called when the return key is pressed.
 *****************************************************************************/
 static void luaconsole_input_return(GtkEntry *w, gpointer data)
@@ -282,7 +282,7 @@ static void luaconsole_input_return(GtkEntry *w, gpointer data)
   gtk_entry_set_text(w, "");
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Dialog response callback.
 *****************************************************************************/
 static void luaconsole_response_callback(struct gui_dialog *pgui_dialog,
@@ -303,7 +303,7 @@ static void luaconsole_response_callback(struct gui_dialog *pgui_dialog,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a file selector for loading a lua file..
 *****************************************************************************/
 static void luaconsole_load_file_popup(void)
@@ -326,7 +326,7 @@ static void luaconsole_load_file_popup(void)
   gtk_window_present(GTK_WINDOW(filesel));
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Callback for luaconsole_load_file_popup().
 *****************************************************************************/
 static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
@@ -346,7 +346,7 @@ static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
   gtk_widget_destroy(widget);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Called when a key is pressed.
 *****************************************************************************/
 static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev)
@@ -386,7 +386,7 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev)
   return FALSE;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   When the luaconsole text view is resized, scroll it to the bottom. This
   prevents users from accidentally missing messages when the chatline
   gets scrolled up a small amount and stops scrolling down automatically.
@@ -404,7 +404,7 @@ static void luaconsole_dialog_area_size_allocate(GtkWidget *widget,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Scrolls the luaconsole all the way to the bottom.
   If delayed is TRUE, it will be done in a idle_callback.
 
@@ -428,7 +428,7 @@ static void luaconsole_dialog_scroll_to_bottom(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Refresh a lua console.
 *****************************************************************************/
 static void luaconsole_dialog_refresh(struct luaconsole_data *pdialog)
@@ -436,7 +436,7 @@ static void luaconsole_dialog_refresh(struct luaconsole_data *pdialog)
   fc_assert_ret(NULL != pdialog);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Closes a lua console.
 *****************************************************************************/
 static void luaconsole_dialog_destroy(struct luaconsole_data *pdialog)
@@ -451,7 +451,7 @@ static void luaconsole_dialog_destroy(struct luaconsole_data *pdialog)
   fc_assert(NULL == pdialog->entry);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Appends the string to the chat output window.  The string should be
   inserted on its own line, although it will have no newline.
 *****************************************************************************/

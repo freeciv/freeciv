@@ -78,25 +78,25 @@ static gboolean show_happiness_button_release(GtkWidget *w,
                                               GdkEventButton *ev,
                                               gpointer data);
 
-/****************************************************************
+/**********************************************************************//**
   Create happiness dialog
-*****************************************************************/
+**************************************************************************/
 void happiness_dialog_init()
 {
   dialog_list = dialog_list_new();
 }
 
-/****************************************************************
+/**********************************************************************//**
   Remove happiness dialog
-*****************************************************************/
+**************************************************************************/
 void happiness_dialog_done()
 {
   dialog_list_destroy(dialog_list);
 }
 
-/****************************************************************
+/**********************************************************************//**
   Return happiness dialog for a city
-*****************************************************************/
+**************************************************************************/
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
 {
   dialog_list_iterate(dialog_list, pdialog) {
@@ -108,9 +108,9 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
   return NULL;
 }
 
-/****************************************************************
+/**********************************************************************//**
   Popup for the happiness display.
-*****************************************************************/
+**************************************************************************/
 static gboolean show_happiness_popup(GtkWidget *w,
                                      GdkEventButton *ev,
                                      gpointer data)
@@ -174,7 +174,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear the happiness popup.
 **************************************************************************/
 static gboolean show_happiness_button_release(GtkWidget *w,
@@ -187,7 +187,7 @@ static gboolean show_happiness_button_release(GtkWidget *w,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create the happiness notebook page.
 **************************************************************************/
 static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
@@ -278,7 +278,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
   return pdialog;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh citizens surface
 **************************************************************************/
 static void refresh_feeling_surface(cairo_surface_t *dst, struct city *pcity,
@@ -303,7 +303,7 @@ static void refresh_feeling_surface(cairo_surface_t *dst, struct city *pcity,
   cairo_destroy(cr);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Refresh whole happiness dialog
 **************************************************************************/
 void refresh_happiness_dialog(struct city *pcity)
@@ -316,7 +316,7 @@ void refresh_happiness_dialog(struct city *pcity)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close happiness dialog of given city
 **************************************************************************/
 void close_happiness_dialog(struct city *pcity)
@@ -342,7 +342,7 @@ void close_happiness_dialog(struct city *pcity)
   free(pdialog);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create happiness dialog and get its widget
 **************************************************************************/
 GtkWidget *get_top_happiness_display(struct city *pcity, bool low_dlg)

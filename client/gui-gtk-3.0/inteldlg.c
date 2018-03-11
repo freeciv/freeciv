@@ -92,26 +92,26 @@ struct intel_dialog {
 static struct dialog_list *dialog_list;
 static struct intel_dialog *create_intel_dialog(struct player *p);
 
-/****************************************************************
-  Initialize intelligenze dialogs
-*****************************************************************/
+/**********************************************************************//**
+  Initialize intelligence dialogs
+**************************************************************************/
 void intel_dialog_init()
 {
   dialog_list = dialog_list_new();
 }
 
-/****************************************************************
-  Free resources allocated for intelligenze dialogs
-*****************************************************************/
+/**********************************************************************//**
+  Free resources allocated for intelligence dialogs
+**************************************************************************/
 void intel_dialog_done()
 {
   dialog_list_destroy(dialog_list);
 }
 
-/****************************************************************
-  Get intelligenze dialog between client user and other player
+/**********************************************************************//**
+  Get intelligence dialog between client user and other player
   passed as parameter.
-*****************************************************************/
+**************************************************************************/
 static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 {
   dialog_list_iterate(dialog_list, pdialog) {
@@ -123,9 +123,9 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
   return NULL;
 }
 
-/****************************************************************
-  Open intelligenze dialog
-*****************************************************************/
+/**********************************************************************//**
+  Open intelligence dialog
+**************************************************************************/
 void popup_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog;
@@ -139,9 +139,9 @@ void popup_intel_dialog(struct player *p)
   gtk_window_present(GTK_WINDOW(pdialog->shell));
 }
 
-/****************************************************************
-  Intelligenze dialog destruction requested
-*****************************************************************/
+/**********************************************************************//**
+  Intelligence dialog destruction requested
+**************************************************************************/
 static void intel_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct intel_dialog *pdialog = (struct intel_dialog *)data;
@@ -151,7 +151,7 @@ static void intel_destroy_callback(GtkWidget *w, gpointer data)
   free(pdialog);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close an intelligence dialog for the given player.
 **************************************************************************/
 void close_intel_dialog(struct player *p)
@@ -160,10 +160,10 @@ void close_intel_dialog(struct player *p)
   intel_destroy_callback(NULL, pdialog);
 }
 
-/****************************************************************
-  Create new intelligenze dialog between client user and player
+/**********************************************************************//**
+  Create new intelligence dialog between client user and player
   given as parameter.
-*****************************************************************/
+**************************************************************************/
 static struct intel_dialog *create_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog;
@@ -295,10 +295,10 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   return pdialog;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update the intelligence dialog for the given player.  This is called by
   the core client code when that player's information changes.
-****************************************************************************/
+**************************************************************************/
 void update_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog = get_intel_dialog(p);
