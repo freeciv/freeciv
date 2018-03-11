@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
 
 #include "unistring.h"
 
-/**************************************************************************
+/**********************************************************************//**
   Return length of string in characters.
 **************************************************************************/
 size_t unistrlen(const Uint16 *pUniString)
@@ -54,7 +54,7 @@ size_t unistrlen(const Uint16 *pUniString)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Copy unistring. If destination is NULL, allocates the destination buffer
   Returns the copy.
 **************************************************************************/
@@ -69,7 +69,7 @@ Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString)
   return memcpy(pToUniString, pFromUniString, size);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Catenates unistrings. Destination must have enough space.
 **************************************************************************/
 Uint16 *unistrcat(Uint16 *pToUniString,
@@ -84,7 +84,7 @@ Uint16 *unistrcat(Uint16 *pToUniString,
                 pFromUniString, src_size);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Creates copy of the unistring.
 **************************************************************************/
 Uint16 *unistrdup(const Uint16 *pUniString)
@@ -95,7 +95,7 @@ Uint16 *unistrdup(const Uint16 *pUniString)
   return memcpy(pNewUniString, pUniString, size);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Don't free return array, only arrays members
 **************************************************************************/
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
