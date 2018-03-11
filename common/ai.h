@@ -24,7 +24,7 @@ extern "C" {
  * structure below. When changing mandatory capability part, check that
  * there's enough reserved_xx pointers in the end of the structure for
  * taking to use without need to bump mandatory capability again. */
-#define FC_AI_MOD_CAPSTR "+Freeciv-3.1-ai-module-2017.Sep.26"
+#define FC_AI_MOD_CAPSTR "+Freeciv-3.1-ai-module-2018.Feb.06"
 
 /* Timers for all AI activities. Define it to get statistics about the AI. */
 #ifdef FREECIV_DEBUG
@@ -212,6 +212,9 @@ struct ai_type
     /* Called for unit owner AI type when advisors goto moves unit. */
     void (*unit_move)(struct unit *punit, struct tile *ptile,
                       struct pf_path *path, int step);
+
+    /* Called for all AI types when ever unit has moved. */
+    void (*unit_move_seen)(struct unit *punit);
 
     /* Called for unit owner AI type when new advisor task is set for unit. */
     void (*unit_task)(struct unit *punit, enum adv_unit_task task,

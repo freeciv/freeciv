@@ -622,6 +622,7 @@ bool fc_ai_tex_setup(struct ai_type *ai)
 
   ai->funcs.unit_turn_end = texwai_unit_turn_end;
   ai->funcs.unit_move = texwai_unit_move_or_attack;
+  ai->funcs.unit_move_seen = texai_unit_move_seen;
   ai->funcs.unit_task = texwai_unit_new_adv_task;
 
   ai->funcs.unit_save = texwai_unit_save;

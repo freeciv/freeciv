@@ -57,6 +57,12 @@ struct texai_unit_info_msg
   int type;
 };
 
+struct texai_unit_move_msg
+{
+  int id;
+  int tindex;
+};
+
 /**********************************************************************//**
   Initialize world object for texai
 **************************************************************************/
@@ -305,4 +311,34 @@ void texai_unit_destruction_recv(void *data)
   unit_list_remove(plr_data->units, punit);
   idex_unregister_unit(&texai_world, punit);
   unit_virtual_destroy(punit);
+}
+
+/**********************************************************************//**
+  Unit has moved in the main map.
+**************************************************************************/
+void texai_unit_move_seen(struct unit *punit)
+{
+  if (texai_thread_running()) {
+    struct texai_unit_move_msg *info = fc_malloc(sizeof(struct texai_unit_move_msg));
+
+    info->id = punit->id;
+    info->tindex = tile_index(unit_tile(punit));
+
+    texai_send_msg(TEXAI_MSG_UNIT_MOVED, NULL, info);
+  }
+}
+
+/**********************************************************************//**
+  Receive unit move to the thread.
+**************************************************************************/
+void texai_unit_moved_recv(void *data)
+{
+  struct texai_unit_move_msg *info = (struct texai_unit_move_msg *)data;
+  struct unit *punit = idex_lookup_unit(&texai_world, info->id);
+  struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
+
+  unit_list_remove(punit->tile->units, punit);
+  unit_list_prepend(ptile->units, punit);
+
+  unit_tile_set(punit, ptile);
 }

@@ -3960,6 +3960,10 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   conn_list_do_unbuffer(game.est_connections);
 
+  if (unit_lives) {
+    CALL_FUNC_EACH_AI(unit_move_seen, punit);
+  }
+
   return unit_lives;
 }
 

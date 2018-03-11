@@ -34,6 +34,8 @@
 #define SPECENUM_VALUE8NAME "UnitCreated"
 #define SPECENUM_VALUE9 TEXAI_MSG_UNIT_DESTROYED
 #define SPECENUM_VALUE9NAME "UnitDestroyed"
+#define SPECENUM_VALUE10 TEXAI_MSG_UNIT_MOVED
+#define SPECENUM_VALUE10NAME "UnitMoved"
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME texaireqtype

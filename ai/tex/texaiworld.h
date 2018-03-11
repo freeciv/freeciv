@@ -35,5 +35,7 @@ void texai_unit_created(struct unit *punit);
 void texai_unit_info_recv(void *data, enum texaimsgtype msgtype);
 void texai_unit_destroyed(struct unit *punit);
 void texai_unit_destruction_recv(void *data);
+void texai_unit_move_seen(struct unit *punit);
+void texai_unit_moved_recv(void *data);
 
 #endif /* FC__TEXAIWORLD_H */

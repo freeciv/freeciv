@@ -652,6 +652,7 @@ bool fc_ai_classic_setup(struct ai_type *ai)
 
   ai->funcs.unit_turn_end = cai_unit_turn_end;
   ai->funcs.unit_move = cai_unit_move_or_attack;
+  /* ai->funcs.unit_move_seen = NULL; */
   ai->funcs.unit_task = cai_unit_new_adv_task;
 
   ai->funcs.unit_save = cai_unit_save;
