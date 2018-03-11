@@ -16,7 +16,7 @@ set -e
 uname -a
 
 # Based on fresh install of Ubuntu 14.04
-dependencies="libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev qt5-default libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev"
+dependencies="gettext libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.4 python3.4-dev liblzma-dev libicu-dev libsdl1.2-dev libsqlite3-dev qt5-default libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev"
 
 ## Dependencies
 echo "==== Installing Updates and Dependencies ===="
@@ -26,7 +26,7 @@ echo "apt-get install dependencies"
 apt-get -y install ${dependencies}
 
 # Configure and build Freeciv
-./autogen.sh CFLAGS="-O3" --disable-nls --enable-client=gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual=html --enable-ai-static=classic,threaded,tex --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
+./autogen.sh CFLAGS="-O3" --enable-client=gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual=html --enable-ai-static=classic,threaded,tex --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 sudo -u travis make install
 echo "Freeciv build successful!"
 
