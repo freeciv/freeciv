@@ -90,5 +90,7 @@ void adv_units_ruleset_init(void)
         break;
       }
     } effect_list_iterate_end;
+
+    ptype->adv.worker = utype_has_flag(ptype, UTYF_SETTLERS);
   } unit_type_iterate_end;
 }

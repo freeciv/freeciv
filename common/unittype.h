@@ -545,6 +545,7 @@ struct unit_type {
 
   struct {
     bool igwall;
+    bool worker;
   } adv;
 
   struct {
