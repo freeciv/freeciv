@@ -170,10 +170,19 @@ void effect_edit::add_effect_to_list(struct effect *peffect,
 }
 
 /**********************************************************************//**
+  Getter for filter
+**************************************************************************/
+struct universal *effect_edit::filter_get()
+{
+  return &filter;
+}
+
+/**********************************************************************//**
   User pushed close button
 **************************************************************************/
 void effect_edit::close_now()
 {
+  ui->unregister_effect_edit(this);
   done(0);
 }
 
@@ -247,4 +256,12 @@ void effect_edit::edit_reqs()
 
     ui->open_req_edit(QString::fromUtf8(buf), &selected->reqs);
   }
+}
+
+/**********************************************************************//**
+  User clicked windows close button.
+**************************************************************************/
+void effect_edit::closeEvent(QCloseEvent *event)
+{
+  ui->unregister_effect_edit(this);
 }

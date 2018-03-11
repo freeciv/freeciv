@@ -191,6 +191,7 @@ void ruledit_gui::setup(QWidget *central_in)
   central->setLayout(full_layout);
 
   req_edits = req_edit_list_new();
+  effect_edits = effect_edit_list_new();
 }
 
 /**********************************************************************//**
@@ -273,7 +274,7 @@ void ruledit_gui::flush_widgets()
 void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs)
 {
   req_edit *redit;
-  
+
   req_edit_list_iterate(req_edits, old_edit) {
     if (old_edit->req_vector == preqs) {
       // Already open
@@ -303,9 +304,33 @@ void ruledit_gui::open_effect_edit(QString target, struct universal *uni)
 {
   effect_edit *e_edit;
 
+  effect_edit_list_iterate(effect_edits, old_edit) {
+    struct universal *old = old_edit->filter_get();
+
+    if (uni != nullptr) {
+      if (are_universals_equal(old, uni)) {
+        // Already open
+        return;
+      }
+    } else if (old->kind == VUT_NONE) {
+      // Already open
+      return;
+    }
+  } effect_edit_list_iterate_end;
+
   e_edit = new effect_edit(this, target, uni);
 
   e_edit->show();
+
+  effect_edit_list_append(effect_edits, e_edit);
+}
+
+/**********************************************************************//**
+  Unregisted closed effect_edit dialog
+**************************************************************************/
+void ruledit_gui::unregister_effect_edit(class effect_edit *e_edit)
+{
+  effect_edit_list_remove(effect_edits, e_edit);
 }
 
 /**********************************************************************//**

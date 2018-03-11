@@ -50,6 +50,8 @@ class effect_edit : public QDialog
     void add_effect_to_list(struct effect *peffect,
                             struct effect_list_fill_data *data);
 
+    struct universal *filter_get();
+
   private:
     ruledit_gui *ui;
 
@@ -72,6 +74,9 @@ class effect_edit : public QDialog
 
     void effect_type_menu(QAction *action);
     void set_value(int value);
+
+ protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // FC__EFFECT_EDIT_H

@@ -65,6 +65,15 @@ protected:
   TYPED_LIST_ITERATE(class req_edit, reqeditlist, preqedit)
 #define req_edit_list_iterate_end LIST_ITERATE_END
 
+/* get 'struct effect_edit_list' and related functions: */
+#define SPECLIST_TAG effect_edit
+#define SPECLIST_TYPE class effect_edit
+#include "speclist.h"
+
+#define effect_edit_list_iterate(effecteditlist, peffectedit) \
+  TYPED_LIST_ITERATE(class effect_edit, effecteditlist, peffectedit)
+#define effect_edit_list_iterate_end LIST_ITERATE_END
+
 class ruledit_gui : public QObject
 {
   Q_OBJECT
@@ -80,6 +89,7 @@ class ruledit_gui : public QObject
     void unregister_req_edit(class req_edit *redit);
 
     void open_effect_edit(QString target, struct universal *uni);
+    void unregister_effect_edit(class effect_edit *e_edit);
 
     struct rule_data data;
 
@@ -102,6 +112,7 @@ class ruledit_gui : public QObject
     tab_nation *nation;
 
     struct req_edit_list *req_edits;
+    struct effect_edit_list *effect_edits;
 
   private slots:
     void launch_now();
