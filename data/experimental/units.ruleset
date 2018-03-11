@@ -221,10 +221,10 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 to rename an item after a ruleset has been released, you
 ;                 should set "rule_name" to the original value of "name".
 ; graphic       = tag specifying preferred graphic
-; graphic_alt	= tag for alternate graphic if preferred graphic is not
-;		  present; especially if preferred graphic is non-standard,
-;		  this should be a standard tag.  Otherwise can use eg "-"
-;		  for no alternate graphic.
+; graphic_alt   = tag for alternate graphic if preferred graphic is not
+;                 present; especially if preferred graphic is non-standard,
+;                 this should be a standard tag.  Otherwise can use eg "-"
+;                 for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
 ; impr_req	= required city improvement, names from buildings.ruleset
