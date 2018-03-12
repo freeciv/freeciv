@@ -166,7 +166,7 @@ reqs    =
 ; Barbarian no waste by distance
 [effect_barb2]
 type    = "Output_Waste_By_Distance"
-value   = -2
+value   = -200
 reqs    =
     { "type", "name", "range"
       "NationGroup", "Barbarian", "Player"
@@ -469,7 +469,7 @@ reqs    =
 ; Base -1% food each 1 tile
 [effect_food_waste_distance]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "OutputType", "Food", "Local"
@@ -487,7 +487,7 @@ reqs    =
 ; Base 0% food waste with Anarchy
 [effect_food_waste_distance_2]
 type    = "Output_Waste_By_Distance"
-value   = -1
+value   = -100
 reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -497,7 +497,7 @@ reqs    =
 ; base -1% trade each tile
 [effect_corruption_distance]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "OutputType", "Trade", "Local"
@@ -506,7 +506,7 @@ reqs    =
 ; 1 + 1 => -2% each tile without advanced tech / govs
 [effect_corruption_distance_ancient]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "OutputType", "Trade", "Local", TRUE
@@ -517,7 +517,7 @@ reqs    =
 ; Total = 0 for Communism
 [effect_corruption_distance_communism]
 type    = "Output_Waste_By_Distance"
-value   = -1
+value   = -100
 reqs    =
     { "type", "name", "range"
       "Gov", "Communism", "Player"
@@ -527,7 +527,7 @@ reqs    =
 ; Total = 0 for Federation with The Corporation, -1% for Federation alone
 [effect_corruption_distance_federation]
 type    = "Output_Waste_By_Distance"
-value   = -1
+value   = -100
 reqs    =
     { "type", "name", "range"
       "Gov", "Federation", "Player"
@@ -602,7 +602,7 @@ reqs    =
 ; base -1% shields each tile
 [effect_waste_distance]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "OutputType", "Shield", "Local"
@@ -611,7 +611,7 @@ reqs    =
 ; 1 + 1 => -2% each tile without Trade or advanced govs
 [effect_waste_distance_ancient]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range", "present"
       "OutputType", "Shield", "Local", TRUE
@@ -623,7 +623,7 @@ reqs    =
 ; 1 - 1 = 0% with Communism
 [effect_waste_distance_communism]
 type    = "Output_Waste_By_Distance"
-value   = -1
+value   = -100
 reqs    =
     { "type", "name", "range"
       "Gov", "Communism", "Player"
@@ -633,7 +633,7 @@ reqs    =
 ; 1 - 1 = 0% with Federation
 [effect_waste_distance_federation]
 type    = "Output_Waste_By_Distance"
-value   = -1
+value   = -100
 reqs    =
     { "type", "name", "range"
       "Gov", "Federation", "Player"

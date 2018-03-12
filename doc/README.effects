@@ -479,11 +479,11 @@ with any output type, use an OutputType requirement to specify which.
 
 Output_Waste_By_Distance
     For each tile in real distance that a city is from nearest
-Government Center, it gets amount of extra waste.
+Government Center, it gets amount / 100 of extra waste.
 
 Output_Waste_By_Rel_Distance
     City gets extra waste based on distance to nearest Government Center, relative
-    to world size. The amount of this extra waste is (distance * amount / max_distance)
+    to world size. The amount of this extra waste is (distance * amount / 100 / max_distance)
 
 Output_Penalty_Tile
     When a tile yields more output than amount, it gets a penalty of -1.

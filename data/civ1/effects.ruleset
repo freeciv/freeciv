@@ -101,7 +101,7 @@ reqs    =
 
 [effect_corruption_anarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -119,7 +119,7 @@ reqs    =
 
 [effect_corruption_despotism1]
 type    = "Output_Waste_By_Distance"
-value   = 4
+value   = 400
 reqs    =
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -137,7 +137,7 @@ reqs    =
 
 [effect_corruption_monarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -164,7 +164,7 @@ reqs    =
 
 [effect_corruption_republic1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Republic", "Player"

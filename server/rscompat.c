@@ -337,6 +337,10 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                               FALSE, TRUE, "Join City"));
     }
+
+    if (peffect->type == EFT_OUTPUT_WASTE_BY_DISTANCE) {
+      peffect->value *= 100;
+    }
   }
 
   /* Go to the next effect. */
