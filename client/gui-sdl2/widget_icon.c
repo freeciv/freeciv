@@ -39,7 +39,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /* ===================== ICON ======================== */
 /* =================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Blit icon gfx to surface its on.
 **************************************************************************/
 static int redraw_icon(struct widget *pIcon)
@@ -72,7 +72,7 @@ static int redraw_icon(struct widget *pIcon)
   return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area, 255);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Blit icon2 gfx to surface its on.
 **************************************************************************/
 static int redraw_icon2(struct widget *pIcon)
@@ -139,8 +139,8 @@ static int redraw_icon2(struct widget *pIcon)
   return 0;
 }
 
-/**************************************************************************
-  set new theme and callculate new size.
+/**********************************************************************//**
+  Set new theme and callculate new size.
 **************************************************************************/
 void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme)
 {
@@ -152,7 +152,7 @@ void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ugly hack to create 4-state icon theme from static icon;
 **************************************************************************/
 SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
@@ -202,7 +202,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
   return pTheme;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create ( malloc ) Icon Widget ( flat Button )
 **************************************************************************/
 struct widget *create_themeicon(SDL_Surface *pIcon_theme,
@@ -230,7 +230,7 @@ struct widget *create_themeicon(SDL_Surface *pIcon_theme,
   return pIcon_Widget;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draw the icon.
 **************************************************************************/
 int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
@@ -246,7 +246,7 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
                               pIcon->size.x, pIcon->size.y);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Blit Icon image to pDest(ination) on positon
   start_x , start_y. WARRING: pDest must exist.
 
@@ -277,7 +277,7 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
   return alphablit(pIcon_theme, &src, pDest->surface, &des, 255);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Icon image then return pointer to this image.
 
   Graphic is take from pIcon_theme surface and blit to new created image.
@@ -310,8 +310,8 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
 /* ===================== ICON2 ======================= */
 /* =================================================== */
 
-/**************************************************************************
-  set new theme and calculate new size.
+/**********************************************************************//**
+  Set new theme and calculate new size.
 **************************************************************************/
 void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
                          bool free_old_theme)
@@ -326,7 +326,7 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create ( malloc ) Icon2 Widget ( flat Button )
 **************************************************************************/
 struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest,

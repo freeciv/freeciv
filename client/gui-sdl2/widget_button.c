@@ -36,7 +36,7 @@
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 
-/**************************************************************************
+/**********************************************************************//**
   Create Icon Button image with text and Icon then blit to Dest(ination)
   on positon pIButton->size.x , pIButton->size.y.
   WARNING: pDest must exist.
@@ -210,7 +210,7 @@ static int redraw_ibutton(struct widget *pIButton)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Icon Button image with text and Icon then blit to Dest(ination)
   on positon pTIButton->size.x , pTIButton->size.y. WARRING: pDest must
   exist.
@@ -249,7 +249,7 @@ static int redraw_tibutton(struct widget *pTIButton)
   return iRet;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create ( malloc ) Icon (theme)Button Widget structure.
 
   Icon graphic is taken from 'pIcon' surface (don't change with button
@@ -327,7 +327,7 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   return pButton;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create ( malloc ) Theme Icon (theme)Button Widget structure.
 
   Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
@@ -357,7 +357,7 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
   return pButton;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Button image with text and Icon. Then blit to Main.screen on
   position start_x, start_y.
 
@@ -380,7 +380,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
   return redraw_tibutton(pButton);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Button image with text and Icon.
   Then blit to Main.screen on positon start_x , start_y.
 

@@ -44,7 +44,7 @@ struct combo_menu {
 static int (*baseclass_redraw) (struct widget *widget) = NULL;
 
 
-/****************************************************************************
+/************************************************************************//**
   Redraw the combo box widget.
 ****************************************************************************/
 static int combo_redraw(struct widget *combo)
@@ -101,7 +101,7 @@ static int combo_redraw(struct widget *combo)
   return ret;
 }
 
-/****************************************************************************
+/************************************************************************//**
   User interacted with the combo menu window.
 ****************************************************************************/
 static int combo_menu_callback(struct widget *window)
@@ -116,7 +116,7 @@ static int combo_menu_callback(struct widget *window)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   User interacted with a single item of the combo menu.
 ****************************************************************************/
 static int combo_menu_item_callback(struct widget *label)
@@ -133,7 +133,7 @@ static int combo_menu_item_callback(struct widget *label)
   return -1;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the combo box widget.
 ****************************************************************************/
 void combo_popup(struct widget *combo)
@@ -207,7 +207,7 @@ void combo_popup(struct widget *combo)
   flush_dirty();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popdown the combo box widget.
 ****************************************************************************/
 void combo_popdown(struct widget *combo)
@@ -230,7 +230,7 @@ void combo_popdown(struct widget *combo)
   flush_dirty();
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a combo box widget.
 ****************************************************************************/
 struct widget *combo_new(SDL_Surface *background, struct gui_layer *dest,

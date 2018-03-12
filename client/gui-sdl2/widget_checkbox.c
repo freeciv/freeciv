@@ -37,7 +37,7 @@
 static int (*checkbox_baseclass_redraw)(struct widget *pwidget);
 static int (*textcheckbox_baseclass_redraw)(struct widget *pwidget);
 
-/**************************************************************************
+/**********************************************************************//**
   Blit checkbox gfx to surface its on.
 **************************************************************************/
 static int redraw_checkbox(struct widget *pIcon)
@@ -70,7 +70,7 @@ static int redraw_checkbox(struct widget *pIcon)
   return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area, 255);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Blit checkbox-with-text gfx to surface its on.
 **************************************************************************/
 static int redraw_textcheckbox(struct widget *pCBox)
@@ -105,7 +105,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a new checkbox widget.
 **************************************************************************/
 struct widget *create_checkbox(struct gui_layer *pDest, bool state,
@@ -139,7 +139,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state,
   return pCBox;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a new checkbox-with-text widget.
 **************************************************************************/
 struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
@@ -185,7 +185,7 @@ struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
   return pCBox;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set theme surfaces for a checkbox.
 **************************************************************************/
 int set_new_checkbox_theme(struct widget *pCBox,
@@ -215,7 +215,7 @@ int set_new_checkbox_theme(struct widget *pCBox,
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change the state of the checkbox.
 **************************************************************************/
 void toggle_checkbox(struct widget *pCBox)
@@ -229,7 +229,7 @@ void toggle_checkbox(struct widget *pCBox)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Check state of the checkbox.
 **************************************************************************/
 bool get_checkbox_state(struct widget *pCBox)

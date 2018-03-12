@@ -62,7 +62,7 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len, size_t *siz
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 
-/**************************************************************************
+/**********************************************************************//**
   Draw the text being edited.
 **************************************************************************/
 static int redraw_edit_chain(struct EDIT *pEdt)
@@ -128,7 +128,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create Edit Field surface ( with Text) and blit them to Main.screen,
   on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
 
@@ -213,7 +213,7 @@ static int redraw_edit(struct widget *pEdit_Widget)
   return 0;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return length of Utf8Char chain.
   WARRNING: if struct Utf8Char has 1 member and Utf8Char->chr == 0 then
   this function return 1 ( not 0 like in strlen )
@@ -235,7 +235,7 @@ static size_t chainlen(const struct Utf8Char *pChain)
   return length;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Delete Utf8Char structure.
 **************************************************************************/
 static void del_chain(struct Utf8Char *pChain)
@@ -260,7 +260,7 @@ static void del_chain(struct Utf8Char *pChain)
   FC_FREE(pChain);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert utf8 string to Utf8Char structure.
   Memory alocation -> after all use need call del_chain(...) !
 **************************************************************************/
@@ -303,7 +303,7 @@ static struct Utf8Char *text2chain(const char *text_in)
   return out_chain;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Convert Utf8Char structure to chars
   WARNING: Do not free Utf8Char structure but allocates new char array.
 **************************************************************************/
@@ -338,7 +338,7 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len,
 
 /* =================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Create ( malloc ) Edit Widget structure.
 
   Edit Theme graphic is taken from current_theme->Edit surface;
@@ -390,7 +390,7 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   return pEdit;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   set new x, y position and redraw edit.
 **************************************************************************/
 int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
@@ -405,7 +405,7 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   return redraw_edit(pEdit);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This functions are pure madness :)
   Create Edit Field surface ( with Text) and blit them to Main.screen,
   on position 'pEdit_Widget->size.x , pEdit_Widget->size.y'
@@ -587,7 +587,7 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
   return ID_ERROR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle textinput strings coming to the edit widget
 **************************************************************************/
 static Uint16 edit_textinput(char *text, void *pData)
@@ -657,7 +657,7 @@ static Uint16 edit_textinput(char *text, void *pData)
   return ID_ERROR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle mouse down events on edit widget.
 **************************************************************************/
 static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent,
@@ -678,7 +678,7 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent,
   return (Uint16)ID_ERROR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle active edit. Returns what should happen to the edit
   next.
 **************************************************************************/

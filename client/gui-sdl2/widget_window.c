@@ -45,7 +45,7 @@ struct MOVE {
 
 static int (*baseclass_redraw)(struct widget *pwidget);
 
-/**************************************************************************
+/**********************************************************************//**
   Redraw Window Graphic ( without other Widgets )
 **************************************************************************/
 static int redraw_window(struct widget *pWindow)
@@ -118,7 +118,7 @@ static int redraw_window(struct widget *pWindow)
     pointer to Active Window not to this Widget.
 **************************************************************************/
 
-/**************************************************************************
+/**********************************************************************//**
   Set position for the window.
 **************************************************************************/
 static void window_set_position(struct widget *pWindow, int x, int y)
@@ -133,7 +133,7 @@ static void window_set_position(struct widget *pWindow, int x, int y)
   gui_layer->dest_rect.y = y;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Selected callback for the window widget.
 **************************************************************************/
 static void window_select(struct widget *pWindow)
@@ -141,7 +141,7 @@ static void window_select(struct widget *pWindow)
   /* nothing */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Unselected callback for the window widget.
 **************************************************************************/
 static void window_unselect(struct widget *pWindow)
@@ -149,7 +149,7 @@ static void window_unselect(struct widget *pWindow)
   /* nothing */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Set area for the window widget.
 **************************************************************************/
 static void set_client_area(struct widget *pWindow)
@@ -173,8 +173,8 @@ static void set_client_area(struct widget *pWindow)
   widget_set_area(pWindow, area);
 }
 
-/**************************************************************************
-  Allocate Widow Widget Structute.
+/**********************************************************************//**
+  Allocate Window Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
 struct widget *create_window_skeleton(struct gui_layer *pDest,
@@ -225,7 +225,7 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
   return pWindow;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create window widget
 **************************************************************************/
 struct widget *create_window(struct gui_layer *pDest, utf8_str *title, 
@@ -238,7 +238,7 @@ struct widget *create_window(struct gui_layer *pDest, utf8_str *title,
   return pWindow;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Resize Window 'pWindow' to 'new_w' and 'new_h'.
   and refresh window background ( save screen under window ).
 
@@ -301,7 +301,7 @@ int resize_window(struct widget *pWindow, SDL_Surface *pBcgd,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move window as event instructs.
 **************************************************************************/
 static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
@@ -331,7 +331,7 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
   return ID_ERROR;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Button up event handler for the window moving event loop.
 **************************************************************************/
 static Uint16 move_window_button_up(SDL_MouseButtonEvent *pButtonEvent,
@@ -346,7 +346,7 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent *pButtonEvent,
   return (Uint16)ID_WINDOW;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Move window in a event loop.
 **************************************************************************/
 bool move_window(struct widget *pWindow)

@@ -36,7 +36,7 @@
 
 static int (*baseclass_redraw)(struct widget *pwidget);
   
-/**************************************************************************
+/**********************************************************************//**
   Blit themelabel2 gfx to surface its on.
 **************************************************************************/
 static inline int redraw_themelabel2(struct widget *pLabel)
@@ -55,7 +55,7 @@ static inline int redraw_themelabel2(struct widget *pLabel)
   return alphablit(pLabel->theme, &src, pLabel->dst->surface, &dst, 255);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Blit label gfx to surface its on.
 **************************************************************************/
 static int redraw_label(struct widget *pLabel)
@@ -112,7 +112,7 @@ static int redraw_label(struct widget *pLabel)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Calculate new size for a label.
 **************************************************************************/
 void remake_label_size(struct widget *pLabel)
@@ -174,7 +174,7 @@ void remake_label_size(struct widget *pLabel)
   pLabel->size.h = h;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   ThemeLabel is utf8_str with Background ( pIcon ).
 **************************************************************************/
 struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
@@ -209,7 +209,7 @@ struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   return pLabel;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This Label is UTF8 string with Icon.
 **************************************************************************/
 struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
@@ -235,7 +235,7 @@ struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   return pILabel;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   ThemeLabel is UTF8 string with Background ( pIcon ).
 **************************************************************************/
 struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
@@ -315,7 +315,7 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   return pLabel;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Make themeiconlabel2 widget out of iconlabel widget.
 **************************************************************************/
 struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
@@ -385,7 +385,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
 }
 
 #if 0
-/**************************************************************************
+/**********************************************************************//**
   Blit themelabel gfx to surface its on.
 **************************************************************************/
 static int redraw_themelabel(struct widget *pLabel)
@@ -430,7 +430,7 @@ static int redraw_themelabel(struct widget *pLabel)
 }
 #endif /* 0 */
 
-/**************************************************************************
+/**********************************************************************//**
   Blit iconlabel gfx to surface its on.
 **************************************************************************/
 int redraw_iconlabel(struct widget *pLabel)
@@ -568,7 +568,7 @@ int redraw_iconlabel(struct widget *pLabel)
   return ret;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Draw the label widget.
 **************************************************************************/
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y)

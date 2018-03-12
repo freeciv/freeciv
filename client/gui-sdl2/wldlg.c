@@ -98,7 +98,7 @@ static void refresh_production_label(int stock);
 
 /* =========================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Worklist Editor Window Callback
 **************************************************************************/
 static int window_worklist_editor_callback(struct widget *pWidget)
@@ -106,7 +106,7 @@ static int window_worklist_editor_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Popdwon Worklist Editor
 **************************************************************************/
 static int popdown_worklist_editor_callback(struct widget *pWidget)
@@ -118,7 +118,7 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Commit changes to city/global worklist.
   In City Mode Remove Double entry of Imprv/Woder Targets from list.
 **************************************************************************/
@@ -178,7 +178,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
   return -1;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Rename Global Worklist
 **************************************************************************/
 static int rename_worklist_editor_callback(struct widget *pWidget)
@@ -201,7 +201,7 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
 
 /* ====================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Add target to worklist.
 **************************************************************************/
 static void add_target_to_worklist(struct widget *pTarget)
@@ -295,7 +295,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   flush_dirty();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Find if two targets are the same class (unit, imprv. , wonder).
   This is needed by calculation of change production shields penalty.
   [similar to are_universals_equal()]
@@ -318,7 +318,7 @@ static bool are_prods_same_class(const struct universal *one,
   return FALSE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change production in editor shell, calculate production shields penalty and
   refresh production progress label
 **************************************************************************/
@@ -339,7 +339,7 @@ static void change_production(struct universal *prod)
   refresh_production_label(pEditor->stock);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Change production of city but only in Editor.
   You must commit this changes by exit editor via OK button (commit function).
 
@@ -382,7 +382,7 @@ static void add_target_to_production(struct widget *pTarget)
   flush_dirty();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Get Help Info about target
 **************************************************************************/
 static void get_target_help_data(struct widget *pTarget)
@@ -405,7 +405,7 @@ static void get_target_help_data(struct widget *pTarget)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Targets callback
   left mouse button -> In city mode change production to target.
                        In global mode add target to worklist.
@@ -438,7 +438,7 @@ static int worklist_editor_targets_callback(struct widget *pWidget)
 
 /* ====================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Remove element from worklist or
   remove currently building imprv/unit and change production to first worklist
   element (or Capitalizations if worklist is empty)
@@ -508,7 +508,7 @@ static void remove_item_from_worklist(struct widget *pItem)
   flush_dirty();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Swap worklist entries DOWN.
   Fuction swap current element with next element of worklist.
 
@@ -564,7 +564,7 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Swap worklist entries UP.
   Fuction swap current element with prev. element of worklist.
 
@@ -621,7 +621,7 @@ static void swap_item_up_from_worklist(struct widget *pItem)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   worklist callback
   left mouse button -> swap entries up.
   middle mouse button -> remove element from list
@@ -648,7 +648,7 @@ static int worklist_editor_item_callback(struct widget *pWidget)
 }
 /* ======================================================= */
 
-/**************************************************************************
+/**********************************************************************//**
   Add global worklist to city worklist starting from last free entry.
   Add only avilable targets in current game state.
   If global worklist have more targets that city worklist have free
@@ -727,9 +727,9 @@ static void add_global_worklist(struct widget *pWidget)
   flush_dirty();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Clear city worklist and copy here global worklist.
-  Copy only avilable targets in current game state.
+  Copy only available targets in current game state.
   If all targets are unavilable then leave city worklist untouched.
 **************************************************************************/
 static void set_global_worklist(struct widget *pWidget)
@@ -823,7 +823,7 @@ static void set_global_worklist(struct widget *pWidget)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Global worklist callback
   left mouse button -> add global worklist to current city list
   right mouse button -> clear city worklist and copy here global worklist.
@@ -856,7 +856,7 @@ static int global_worklist_callback(struct widget *pWidget)
 
 /* ======================================================= */
 
-/**************************************************************************
+/**********************************************************************//**
   Return full unit/imprv. name and build cost in "cost" pointer.
 **************************************************************************/
 static const char *get_production_name(struct city *pCity,
@@ -872,7 +872,7 @@ static const char *get_production_name(struct city *pCity,
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Return progress icon (bar) of current production state
   stock - current shields stocks
   cost - unit/imprv. cost
@@ -911,7 +911,7 @@ static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
   return pIcon;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update and redraw production name label in worklist editor.
   stock - pCity->shields_stock or current stock after change production lost.
 **************************************************************************/
@@ -979,7 +979,7 @@ static void refresh_production_label(int stock)
   widget_mark_dirty(pEditor->pProduction_Progres);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update and redraw worklist length counter in worklist editor
 **************************************************************************/
 static void refresh_worklist_count_label(void)
@@ -1020,7 +1020,7 @@ static void refresh_worklist_count_label(void)
 
 /* ====================================================================== */
 
-/**************************************************************************
+/**********************************************************************//**
   Global/City worklist editor.
   if pCity == NULL then fucnction take pWorklist as global worklist.
   pWorklist must be not NULL.
@@ -1805,7 +1805,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   widget_flush(pWindow);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Close worklist from view.
 **************************************************************************/
 void popdown_worklist_editor(void)
