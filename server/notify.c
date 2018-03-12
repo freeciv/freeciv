@@ -82,7 +82,7 @@ static void package_event_full(struct packet_chat_msg *packet,
                             TTT_COLOR, 0, FT_OFFSET_UNSET, color);
   } else {
     /* Simple case */
-    strncpy(packet->message, str, sizeof(packet->message));
+    sz_strlcpy(packet->message, str);
   }
 
   if (is_capitalization_enabled()) {

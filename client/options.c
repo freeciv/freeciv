@@ -5946,8 +5946,7 @@ void options_load(void)
 
   str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_name");
   if (str != NULL) {
-    strncpy(gui_options.default_tileset_name, str,
-            sizeof(gui_options.default_tileset_name));
+    sz_strlcpy(gui_options.default_tileset_name, str);
   }
 
   /* Backwards compatibility for removed options replaced by entirely "new"
@@ -6097,7 +6096,7 @@ void options_save(option_save_log_callback log_cb)
   global_worklists_save(sf);
 
   /* Directory name */
-  strncpy(dir_name, name, sizeof(dir_name));
+  sz_strlcpy(dir_name, name);
   for (i = strlen(dir_name) - 1 ; dir_name[i] != DIR_SEPARATOR_CHAR && i >= 0; i--) {
     /* Nothing */
   }

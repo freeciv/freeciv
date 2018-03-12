@@ -1626,7 +1626,7 @@ static void fill_tile_edit_packet(struct packet_edit_tile *packet,
   if (ptile->label == NULL) {
     packet->label[0] = '\0';
   } else {
-    strncpy(packet->label, ptile->label, sizeof(packet->label));
+    sz_strlcpy(packet->label, ptile->label);
   }
 }
 

@@ -561,7 +561,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
 
       /* Labels never change, so they are not subject to fog of war */
       if (ptile->label != NULL) {
-        strncpy(info.label, ptile->label, sizeof(info.label));
+        sz_strlcpy(info.label, ptile->label);
       } else {
         info.label[0] = '\0';
       }
