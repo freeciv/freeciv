@@ -51,7 +51,7 @@
 
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs);
 
-/****************************************************************************
+/************************************************************************//**
   Return a (static) string with a tile's food/prod/trade
 ****************************************************************************/
 const char *get_tile_output_text(const struct tile *ptile)
@@ -83,7 +83,7 @@ const char *get_tile_output_text(const struct tile *ptile)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   For AIs, fill the buffer with their player name prefixed with "AI". For
   humans, just fill it with their username.
 ****************************************************************************/
@@ -107,7 +107,7 @@ static inline void get_full_username(char *buf, int buflen,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill the buffer with the player's nation name (in adjective form) and
   optionally add the player's team name.
 ****************************************************************************/
@@ -133,7 +133,7 @@ static inline void get_full_nation(char *buf, int buflen,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Text to popup on a middle-click in the mapview.
 ****************************************************************************/
 const char *popup_info_text(struct tile *ptile)
@@ -454,7 +454,7 @@ const char *popup_info_text(struct tile *ptile)
 }
 
 #define FAR_CITY_SQUARE_DIST (2*(6*6))
-/****************************************************************************
+/************************************************************************//**
   Returns the text describing the city and its distance.
 ****************************************************************************/
 const char *get_nearest_city_text(struct city *pcity, int sq_dist)
@@ -485,7 +485,7 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the unit description.
   Used in e.g. city report tooltips.
 
@@ -549,7 +549,7 @@ const char *unit_description(struct unit *punit)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describe the airlift capacity of a city for the given units (from their
   current positions).
   If pdest is non-NULL, describe its capacity as a destination, otherwise
@@ -595,6 +595,7 @@ const char *get_airlift_text(const struct unit_list *punits,
        * later */
       {
         const struct city *pcity = src ? tile_city(unit_tile(punit)) : pdest;
+
         fc_assert_ret_val(pcity != NULL, fc_strdup("-"));
         if (!src && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
           /* No restrictions on destination (and we can infer this even for
@@ -603,6 +604,7 @@ const char *get_airlift_text(const struct unit_list *punits,
         } else if (client_player() == city_owner(pcity)) {
           /* A city we know about. */
           int this_cur = pcity->airlift, this_max = city_airlift_max(pcity);
+
           if (this_max <= 0) {
             /* City known not to be airlift-capable. */
             this = AL_IMPOSSIBLE;
@@ -652,7 +654,7 @@ const char *get_airlift_text(const struct unit_list *punits,
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return total expected bulbs.
 ****************************************************************************/
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
@@ -695,7 +697,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
   return ours + theirs;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the text to display in the science dialog.
 ****************************************************************************/
 const char *science_dialog_text(void)
@@ -766,7 +768,7 @@ const char *science_dialog_text(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the short science-target text.  This is usually shown directly in
   the progress bar.
 
@@ -819,7 +821,7 @@ const char *get_science_target_text(double *percent)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the science-goal-label text as if we're researching the given goal.
 ****************************************************************************/
 const char *get_science_goal_text(Tech_type_id goal)
@@ -865,7 +867,7 @@ const char *get_science_goal_text(Tech_type_id goal)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the text for the label on the info panel.  (This is traditionally
   shown to the left of the mapview.)
 
@@ -916,7 +918,7 @@ const char *get_info_label_text(bool moreinfo)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the text for the popup label on the info panel.  (This is
   traditionally done as a popup whenever the regular info text is clicked
   on.)
@@ -990,7 +992,7 @@ const char *get_info_label_text_popup(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the title text for the unit info shown in the info panel.
 
   FIXME: this should be renamed.
@@ -1013,7 +1015,7 @@ const char *get_unit_info_label_text1(struct unit_list *punits)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the text body for the unit info shown in the info panel.
 
   FIXME: this should be renamed.
@@ -1188,7 +1190,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return text about upgrading these unit lists.
 
   Returns TRUE iff any units can be upgraded.
@@ -1253,7 +1255,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return text about disbanding these units.
 
   Returns TRUE iff any units can be disbanded.
@@ -1295,7 +1297,7 @@ bool get_units_disband_info(char *buf, size_t bufsz,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get a tooltip text for the info panel research indicator.  See
   client_research_sprite().
 ****************************************************************************/
@@ -1350,7 +1352,7 @@ const char *get_bulb_tooltip(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get a tooltip text for the info panel global warning indicator.  See also
   client_warming_sprite().
 ****************************************************************************/
@@ -1374,7 +1376,7 @@ const char *get_global_warming_tooltip(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get a tooltip text for the info panel nuclear winter indicator.  See also
   client_cooling_sprite().
 ****************************************************************************/
@@ -1398,7 +1400,7 @@ const char *get_nuclear_winter_tooltip(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get a tooltip text for the info panel government indicator.  See also
   government_by_number(...)->sprite.
 ****************************************************************************/
@@ -1417,7 +1419,7 @@ const char *get_government_tooltip(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns a description of the given spaceship.  If there is no spaceship
   (pship is NULL) then text with dummy values is returned.
 ****************************************************************************/
@@ -1472,7 +1474,7 @@ const char *get_spaceship_descr(struct player_spaceship *pship)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the text showing the timeout.  This is generally disaplyed on the info
   panel.
 ****************************************************************************/
@@ -1501,7 +1503,7 @@ const char *get_timeout_label_text(void)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Format a duration, in seconds, so it comes up in minutes or hours if
   that would be more meaningful.
 
@@ -1532,7 +1534,7 @@ const char *format_duration(int duration)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return text giving the ping time for the player.  This is generally used
   used in the playerdlg.  This should only be used in playerdlg_common.c.
 ****************************************************************************/
@@ -1559,8 +1561,8 @@ const char *get_ping_time_text(const struct player *pplayer)
   return astr_str(&str);
 }
 
-/****************************************************************************
-  Return text giving the score of the player. This should only be used 
+/************************************************************************//**
+  Return text giving the score of the player. This should only be used
   in playerdlg_common.c.
 ****************************************************************************/
 const char *get_score_text(const struct player *pplayer)
@@ -1580,7 +1582,7 @@ const char *get_score_text(const struct player *pplayer)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the title for a "report".  This may include the city, economy,
   military, trade, player, etc., reports.  Some clients may generate the
   text themselves to get a better GUI layout.
@@ -1616,7 +1618,7 @@ const char *get_report_title(const char *report_name)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing buildings that affect happiness.
 ****************************************************************************/
 const char *text_happiness_buildings(const struct city *pcity)
@@ -1642,7 +1644,7 @@ const char *text_happiness_buildings(const struct city *pcity)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing nationality effects that affect happiness.
 ****************************************************************************/
 const char *text_happiness_nationality(const struct city *pcity)
@@ -1680,7 +1682,7 @@ const char *text_happiness_nationality(const struct city *pcity)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing wonders that affect happiness.
 ****************************************************************************/
 const char *text_happiness_wonders(const struct city *pcity)
@@ -1707,7 +1709,7 @@ const char *text_happiness_wonders(const struct city *pcity)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing city factors that affect happiness.
 ****************************************************************************/
 const char *text_happiness_cities(const struct city *pcity)
@@ -1839,7 +1841,7 @@ const char *text_happiness_cities(const struct city *pcity)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing units that affect happiness.
 ****************************************************************************/
 const char *text_happiness_units(const struct city *pcity)
@@ -1874,7 +1876,7 @@ const char *text_happiness_units(const struct city *pcity)
   return astr_str(&str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Describing luxuries that affect happiness.
 ****************************************************************************/
 const char *text_happiness_luxuries(const struct city *pcity)

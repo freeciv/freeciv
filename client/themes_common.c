@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ struct theme_directory {
 static int num_directories;
 struct theme_directory *directories;
 
-/****************************************************************************
+/************************************************************************//**
   Initialized themes data
 ****************************************************************************/
 void init_themes(void)
@@ -84,7 +84,7 @@ void init_themes(void)
   free(gui_directories);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return a static string vector of useable theme names.
 ****************************************************************************/
 const struct strvec *get_themes_list(const struct option *poption)
@@ -113,25 +113,26 @@ const struct strvec *get_themes_list(const struct option *poption)
   return themes_list;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Loads a theme with the given name. First matching directory will be used.
   If there's no such theme the function returns FALSE.
 ****************************************************************************/
 bool load_theme(const char *theme_name)
 {
   int i, j;
+
   for (i = 0; i < num_directories; i++) {
     for (j = 0; j < directories[i].num_themes; j++) {
       if (strcmp(theme_name, directories[i].themes[j]) == 0) {
-	gui_load_theme(directories[i].path, directories[i].themes[j]);
-	return TRUE;
+        gui_load_theme(directories[i].path, directories[i].themes[j]);
+        return TRUE;
       }
     }
   }
   return FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Wrapper for load_theme. It's is used by local options dialog
 ****************************************************************************/
 void theme_reread_callback(struct option *poption)
