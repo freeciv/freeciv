@@ -152,7 +152,7 @@ reqs    =
 
 [effect_corruption_anarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -170,7 +170,7 @@ reqs    =
 
 [effect_corruption_despotism1]
 type    = "Output_Waste_By_Distance"
-value   = 4
+value   = 400
 reqs    =
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -188,7 +188,7 @@ reqs    =
 
 [effect_corruption_monarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -215,7 +215,7 @@ reqs    =
 
 [effect_corruption_republic1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -233,7 +233,7 @@ reqs    =
 
 [effect_corruption_fundamentalism1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
@@ -251,7 +251,7 @@ reqs    =
 
 [effect_waste_anarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -269,7 +269,7 @@ reqs    =
 
 [effect_waste_despotism1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -287,7 +287,7 @@ reqs    =
 
 [effect_waste_monarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -314,7 +314,7 @@ reqs    =
 
 [effect_waste_republic1]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -332,7 +332,7 @@ reqs    =
 
 [effect_waste_fundamentalism1]
 type    = "Output_Waste_By_Distance"
-value   = 1
+value   = 100
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"

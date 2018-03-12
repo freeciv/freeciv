@@ -4259,13 +4259,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         /* fall through to: */
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (world_value_valid) {
-          if (net_value >= 3) {
+          if (net_value >= 300) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is list of output types, with 'and' */
                          _("* %s losses will increase quickly"
                            " with distance from capital.\n"),
                          astr_str(&outputs_and));
-          } else if (net_value == 2) {
+          } else if (net_value >= 200) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is list of output types, with 'and' */
                          _("* %s losses will increase"
