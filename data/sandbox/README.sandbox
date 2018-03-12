@@ -124,3 +124,6 @@ got from the city conquest.
 Nationality conversion on conquest
 When a city is conquered, 25% of its inhabitants convert to the nationality
 of the conqueror.
+
+Combat Rounds
+Each combat lasts 15 rounds at max, even if neither side dies in that time.
