@@ -25,6 +25,8 @@
 #define AI_HANDICAP_DISTANCE_LIMIT         6  //TODO: 20 for non-web
 #endif /* FREECIV_WEB */
 
+typedef struct unit_list *(player_unit_list_getter)(struct player *pplayer);
+
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
@@ -32,7 +34,8 @@ void military_advisor_choose_tech(struct player *pplayer,
 struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
                                                  struct player *pplayer,
                                                  struct city *pcity,
-                                                 const struct civ_map *mamap);
+                                                 const struct civ_map *mamap,
+                                                 player_unit_list_getter ul_cb);
 void dai_assess_danger_player(struct ai_type *ait, struct player *pplayer,
                               const struct civ_map *dmap);
 int assess_defense_quadratic(struct ai_type *ait, struct city *pcity);

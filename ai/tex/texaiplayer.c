@@ -151,6 +151,16 @@ static void texai_map_free_recv(void)
 }
 
 /**********************************************************************//**
+  Callback that returns unit list from player tex ai data.
+**************************************************************************/
+static struct unit_list *texai_player_units(struct player *pplayer)
+{
+  struct texai_plr *plr_data = player_ai_data(pplayer, texai_get_self());
+
+  return plr_data->units;
+}
+
+/**********************************************************************//**
   Handle messages from message queue.
 **************************************************************************/
 static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
@@ -187,7 +197,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 
         if (tex_city != NULL) {
           choice = military_advisor_choose_build(ait, msg->plr, tex_city,
-                                                 texai_map_get());
+                                                 texai_map_get(), texai_player_units);
           choice_req->city_id = tex_city->id;
           adv_choice_copy(&(choice_req->choice), choice);
           adv_free_choice(choice);
