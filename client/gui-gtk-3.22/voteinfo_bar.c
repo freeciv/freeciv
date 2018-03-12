@@ -49,7 +49,7 @@ struct voteinfo_bar {
 GtkWidget *pregame_votebar = NULL;      /* PAGE_START voteinfo bar. */
 GtkWidget *ingame_votebar = NULL;       /* PAGE_GAME voteinfo bar. */
 
-/**************************************************************************
+/**********************************************************************//**
   Called after a click on a vote button.
 **************************************************************************/
 static void voteinfo_bar_do_vote_callback(GtkWidget *w, gpointer userdata)
@@ -67,7 +67,7 @@ static void voteinfo_bar_do_vote_callback(GtkWidget *w, gpointer userdata)
   voteinfo_do_vote(vi->vote_no, vote);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Switch to the next vote.
 **************************************************************************/
 static void voteinfo_bar_next_callback(GtkWidget *w, gpointer userdata)
@@ -76,7 +76,7 @@ static void voteinfo_bar_next_callback(GtkWidget *w, gpointer userdata)
   voteinfo_gui_update();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Destroy the voteinfo_bar data structure.
 **************************************************************************/
 static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
@@ -84,7 +84,7 @@ static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
   free((struct voteinfo_bar *) userdata);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create a voteinfo_bar structure. "split_bar" controls whether to split
   voteinfo bar over two lines (for narrow windows) or put on a single line
   to save vertical space.
@@ -207,10 +207,10 @@ GtkWidget *voteinfo_bar_new(bool split_bar)
   return vib->box;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Refresh all vote related GUI widgets. Called by the voteinfo module when
   the client receives new vote information from the server.
-****************************************************************************/
+**************************************************************************/
 void voteinfo_gui_update(void)
 {
   int vote_count, index;

@@ -42,7 +42,7 @@ struct unit_sel_unit_cb_data {
   int tp_id;
 };
 
-/****************************************************************************
+/************************************************************************//**
   Callback to handle toggling of one of the target unit buttons.
 ****************************************************************************/
 static void unit_sel_unit_toggled(GtkToggleButton *tb, gpointer userdata)
@@ -56,7 +56,7 @@ static void unit_sel_unit_toggled(GtkToggleButton *tb, gpointer userdata)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Callback to handle destruction of one of the target unit buttons.
 ****************************************************************************/
 static void unit_sel_unit_destroyed(GtkWidget *radio, gpointer userdata)
@@ -64,7 +64,7 @@ static void unit_sel_unit_destroyed(GtkWidget *radio, gpointer userdata)
   free(userdata);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a dialog where a unit select what other unit to act on.
 ****************************************************************************/
 bool select_tgt_unit(struct unit *actor, struct tile *ptile,
