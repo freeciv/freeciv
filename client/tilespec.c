@@ -1274,8 +1274,10 @@ bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
   reread.
 
   It will also call the necessary functions to redraw the graphics.
+
+  Returns TRUE iff new tileset has been succesfully loaded.
 ****************************************************************************/
-void tilespec_reread(const char *new_tileset_name,
+bool tilespec_reread(const char *new_tileset_name,
                      bool game_fully_initialized, float scale)
 {
   int id;
@@ -1283,6 +1285,7 @@ void tilespec_reread(const char *new_tileset_name,
   enum client_states state = client_state();
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
+  bool new_tileset_in_use;
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(tileset_name, name);
@@ -1306,7 +1309,12 @@ void tilespec_reread(const char *new_tileset_name,
    *
    * We read in the new tileset.  This should be pretty straightforward.
    */
-  if (!(tileset = tileset_read_toplevel(tileset_name, FALSE, -1, scale))) {
+  tileset = tileset_read_toplevel(tileset_name, FALSE, -1, scale);
+  if (tileset != NULL) {
+    new_tileset_in_use = TRUE;
+  } else {
+    new_tileset_in_use = FALSE;
+
     if (!(tileset = tileset_read_toplevel(old_name, FALSE, -1, scale))) {
       /* Always fails. */
       fc_assert_exit_msg(NULL != tileset,
@@ -1343,7 +1351,7 @@ void tilespec_reread(const char *new_tileset_name,
    */
   if (!game.client.ruleset_ready) {
     /* The ruleset data is not sent until this point. */
-    return;
+    return new_tileset_in_use;
   }
 
   if (tileset_map_topo_compatible(wld.map.topology_id, tileset)
@@ -1382,7 +1390,7 @@ void tilespec_reread(const char *new_tileset_name,
 
   if (state < C_S_RUNNING) {
     /* Below redraws do not apply before this. */
-    return;
+    return new_tileset_in_use;
   }
 
   /* Step 4:  Draw.
@@ -1397,6 +1405,8 @@ void tilespec_reread(const char *new_tileset_name,
    * drawing we might not get one.  Of course this is slower. */
   update_map_canvas_visible();
   can_slide = TRUE;
+
+  return new_tileset_in_use;
 }
 
 /************************************************************************//**
