@@ -35,9 +35,9 @@
 extern char forced_tileset_name[512];
 static void tileset_suggestion_callback(GtkWidget *dlg, gint arg);
 
-/****************************************************************
+/************************************************************************//**
   Callback either loading suggested tileset or doing nothing
-*****************************************************************/
+****************************************************************************/
 static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
@@ -47,10 +47,10 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Popup dialog asking if ruleset suggested tileset should be
   used.
-*****************************************************************/
+****************************************************************************/
 void popup_tileset_suggestion_dialog(void)
 {
   GtkWidget *dialog, *label;
