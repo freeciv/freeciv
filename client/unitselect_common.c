@@ -42,7 +42,7 @@ static bool usdlg_check_unit_location(const struct unit *punit,
 static struct usdata *usdata_new(void);
 static void usdata_destroy(struct usdata *data);
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a unit selection data struct.
 *****************************************************************************/
 static struct usdata *usdata_new(void)
@@ -66,7 +66,7 @@ static struct usdata *usdata_new(void)
   return data;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Destroy a unit selection struct.
 *****************************************************************************/
 static void usdata_destroy(struct usdata *data)
@@ -88,7 +88,7 @@ static void usdata_destroy(struct usdata *data)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Create a unit selection data set.
 *****************************************************************************/
 struct usdata_hash *usdlg_data_new(const struct tile *ptile)
@@ -132,7 +132,7 @@ struct usdata_hash *usdlg_data_new(const struct tile *ptile)
   return ushash;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Destroy a unit selection data set.
 *****************************************************************************/
 void usdlg_data_destroy(struct usdata_hash *ushash)
@@ -143,7 +143,7 @@ void usdlg_data_destroy(struct usdata_hash *ushash)
   usdata_hash_destroy(ushash);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Add a unit into the unit selection data hash.
 *****************************************************************************/
 static void usdlg_data_add_unit(struct usdata_hash *ushash,
@@ -180,7 +180,7 @@ static void usdlg_data_add_unit(struct usdata_hash *ushash,
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Returns TRUE if the unit activity is equal to 'act'.
 *****************************************************************************/
 static bool usdlg_check_unit_activity(const struct unit *punit,
@@ -191,7 +191,7 @@ static bool usdlg_check_unit_activity(const struct unit *punit,
   return (punit->activity == act);
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Returns TRUE if the unit locations corresponds to 'loc'.
 *****************************************************************************/
 static bool usdlg_check_unit_location(const struct unit *punit,
