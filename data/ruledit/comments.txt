@@ -1072,11 +1072,11 @@ specialists = "\
 ; short_name    = one-character \"short name\" used (for instance) in cityrep;\n\
 ;                 should be first character/abbrevation of \"name\"\n\
 ; graphic       = tag specifying preferred graphic\n\
+;                 Different images based on citizen number are supported.\n\
+;                 If no such images indexed with citizen number are found,\n\
+;                 plain tag is used instead.\n\
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't\n\
-;                 found. Example value: \"specialist.scientist_0\"\n\
-;                 The specialist graphic allow different images based on\n\
-;                 citizen number. The alt tag don't. To use another\n\
-;                 specialist's tag use specialist.<otherrulename>_<number>.\n\
+;                 found.\n\
 ; reqs	        = requirements to have the specialist pick (see\n\
 ;                 effects.ruleset and README.effects for help on requirements)\n\
 ; helptext      = optional help text string; should escape all raw newlines\n\
