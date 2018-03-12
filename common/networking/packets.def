@@ -1352,6 +1352,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
 
   BV_UTYPE_FLAGS flags;
   BV_UTYPE_ROLES roles;
+
+  BOOL worker;
 end
 
 PACKET_RULESET_UNIT_BONUS = 228; sc, lsend

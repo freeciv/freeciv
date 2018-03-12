@@ -3328,6 +3328,8 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
 
   PACKET_STRVEC_EXTRACT(u->helptext, p->helptext);
 
+  u->adv.worker = p->worker;
+
   tileset_setup_unit_type(tileset, u);
 }
 

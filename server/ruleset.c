@@ -7192,6 +7192,8 @@ static void send_ruleset_units(struct conn_list *dest)
     }
     PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
 
+    packet.worker = u->adv.worker;
+
     lsend_packet_ruleset_unit(dest, &packet);
 
     combat_bonus_list_iterate(u->bonuses, pbonus) {

@@ -487,7 +487,7 @@ bool activity_requires_target(enum unit_activity activity)
 **************************************************************************/
 bool can_unit_do_autosettlers(const struct unit *punit) 
 {
-  return unit_has_type_flag(punit, UTYF_SETTLERS);
+  return unit_type_get(punit)->adv.worker;
 }
 
 /**********************************************************************//**
