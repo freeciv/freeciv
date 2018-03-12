@@ -200,6 +200,7 @@ static void effect_to_enabler(enum gen_action action, struct section_file *file,
     /* It was an enabling effect. Add enabler */
     struct action_enabler *enabler;
     struct requirement_vector *reqs;
+    struct requirement settler_req;
 
     enabler = action_enabler_new();
     enabler->action = action;
@@ -209,6 +210,10 @@ static void effect_to_enabler(enum gen_action action, struct section_file *file,
     /* TODO: Divide requirements to actor_reqs and target_reqs depending
      *       their type. */
     requirement_vector_copy(&enabler->actor_reqs, reqs);
+
+    settler_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                                  UTYF_SETTLERS);
+    requirement_vector_append(&enabler->actor_reqs, settler_req);
 
     if (compat->log_cb != NULL) {
       fc_snprintf(buf, sizeof(buf),
