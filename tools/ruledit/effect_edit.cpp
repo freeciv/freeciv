@@ -228,7 +228,7 @@ void effect_edit::effect_type_menu(QAction *action)
     selected->type = type;
   }
 
-  refresh();
+  ui->refresh_effect_edits();
 }
 
 /**********************************************************************//**
@@ -240,7 +240,7 @@ void effect_edit::set_value(int value)
     selected->value = value;
   }
 
-  refresh();
+  ui->refresh_effect_edits();
 }
 
 /**********************************************************************//**

@@ -334,6 +334,16 @@ void ruledit_gui::unregister_effect_edit(class effect_edit *e_edit)
 }
 
 /**********************************************************************//**
+  Refresh all effect edit dialogs
+**************************************************************************/
+void ruledit_gui::refresh_effect_edits()
+{
+  effect_edit_list_iterate(effect_edits, e_edit) {
+    e_edit->refresh();
+  } effect_edit_list_iterate_end;
+}
+
+/**********************************************************************//**
   Main window constructor
 **************************************************************************/
 ruledit_main::ruledit_main(QApplication *qapp_in, QWidget *central_in) : QMainWindow()

@@ -90,6 +90,7 @@ class ruledit_gui : public QObject
 
     void open_effect_edit(QString target, struct universal *uni);
     void unregister_effect_edit(class effect_edit *e_edit);
+    void refresh_effect_edits();
 
     struct rule_data data;
 
