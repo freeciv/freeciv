@@ -300,7 +300,8 @@ void ruledit_gui::unregister_req_edit(class req_edit *redit)
 /**********************************************************************//**
   Open effect_edit dialog
 **************************************************************************/
-void ruledit_gui::open_effect_edit(QString target, struct universal *uni)
+void ruledit_gui::open_effect_edit(QString target, struct universal *uni,
+                                   enum effect_filter_main_class efmc)
 {
   effect_edit *e_edit;
 
@@ -312,13 +313,13 @@ void ruledit_gui::open_effect_edit(QString target, struct universal *uni)
         // Already open
         return;
       }
-    } else if (old->kind == VUT_NONE) {
+    } else if (old->kind == VUT_NONE && old_edit->efmc == efmc) {
       // Already open
       return;
     }
   } effect_edit_list_iterate_end;
 
-  e_edit = new effect_edit(this, target, uni);
+  e_edit = new effect_edit(this, target, uni, efmc);
 
   e_edit->show();
 

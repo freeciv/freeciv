@@ -295,6 +295,6 @@ void tab_extras::edit_effects()
     uni.kind = VUT_EXTRA;
 
     ui->open_effect_edit(QString::fromUtf8(extra_rule_name(selected)),
-                         &uni);
+                         &uni, EFMC_NORMAL);
   }
 }

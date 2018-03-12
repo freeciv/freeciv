@@ -280,6 +280,6 @@ void tab_terrains::edit_effects()
     uni.kind = VUT_TERRAIN;
 
     ui->open_effect_edit(QString::fromUtf8(terrain_rule_name(selected)),
-                         &uni);
+                         &uni, EFMC_NORMAL);
   }
 }

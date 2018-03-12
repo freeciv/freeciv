@@ -447,6 +447,6 @@ void tab_tech::edit_effects()
     uni.kind = VUT_ADVANCE;
 
     ui->open_effect_edit(QString::fromUtf8(advance_rule_name(selected)),
-                         &uni);
+                         &uni, EFMC_NORMAL);
   }
 }

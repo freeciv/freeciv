@@ -298,6 +298,6 @@ void tab_good::edit_effects()
     uni.kind = VUT_GOOD;
 
     ui->open_effect_edit(QString::fromUtf8(goods_rule_name(selected)),
-                         &uni);
+                         &uni, EFMC_NORMAL);
   }
 }

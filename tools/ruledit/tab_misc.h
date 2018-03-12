@@ -36,6 +36,7 @@ class tab_misc : public QWidget
     void save_now();
     void refresh_stats();
     void edit_aae_effects();
+    void edit_all_effects();
 
   private:
     ruledit_gui *ui;

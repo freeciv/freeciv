@@ -57,6 +57,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   QLabel *version_label;
   QPushButton *save_button;
   QPushButton *always_active_effects;
+  QPushButton *all_effects;
   QPushButton *refresh_button;
   int row = 0;
   QTableWidgetItem *item;
@@ -93,6 +94,9 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   always_active_effects = new QPushButton(QString::fromUtf8(R__("Always active Effects")), this);
   connect(always_active_effects, SIGNAL(pressed()), this, SLOT(edit_aae_effects()));
   main_layout->addWidget(always_active_effects, row++, 1);
+  all_effects = new QPushButton(QString::fromUtf8(R__("All Effects")), this);
+  connect(all_effects, SIGNAL(pressed()), this, SLOT(edit_all_effects()));
+  main_layout->addWidget(all_effects, row++, 1);
 
   stats = new QTableWidget(this);
   stats->setColumnCount(8);
@@ -357,5 +361,14 @@ void tab_misc::refresh_stats()
 void tab_misc::edit_aae_effects()
 {
   ui->open_effect_edit(QString::fromUtf8(R__("Always active")),
-                       nullptr);
+                       nullptr, EFMC_NONE);
+}
+
+/**********************************************************************//**
+  User wants to edit effects from full list
+**************************************************************************/
+void tab_misc::edit_all_effects()
+{
+  ui->open_effect_edit(QString::fromUtf8(R__("All effects")),
+                       nullptr, EFMC_ALL);
 }

@@ -40,7 +40,8 @@
   Setup effect_edit object
 **************************************************************************/
 effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
-                         struct universal *filter_in) : QDialog()
+                         struct universal *filter_in,
+                         enum effect_filter_main_class efmc_in) : QDialog()
 {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *effect_edit_layout = new QGridLayout();
@@ -54,11 +55,15 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   ui = ui_in;
   selected = nullptr;
   if (filter_in == nullptr) {
+    fc_assert(efmc_in != EFMC_NORMAL);
     filter.kind = VUT_NONE;
   } else {
+    fc_assert(efmc_in == EFMC_NORMAL);
     filter = *filter_in;
   }
   name = target;
+
+  efmc = efmc_in;
 
   list_widget = new QListWidget(this);
   effects = effect_list_new();
@@ -120,8 +125,13 @@ static bool effect_list_fill_cb(struct effect *peffect, void *data)
   struct effect_list_fill_data *cbdata = (struct effect_list_fill_data *)data;
 
   if (cbdata->filter->kind == VUT_NONE) {
-    // Look for empty req lists.
-    if (requirement_vector_size(&peffect->reqs) == 0) {
+    if (cbdata->efmc == EFMC_NONE) {
+      // Look for empty req lists.
+      if (requirement_vector_size(&peffect->reqs) == 0) {
+        cbdata->edit->add_effect_to_list(peffect, cbdata);
+      }
+    } else {
+      fc_assert(cbdata->efmc == EFMC_ALL);
       cbdata->edit->add_effect_to_list(peffect, cbdata);
     }
   } else if (universal_in_req_vec(cbdata->filter, &peffect->reqs)) {
@@ -141,6 +151,7 @@ void effect_edit::refresh()
   list_widget->clear();
   effect_list_clear(effects);
   cb_data.filter = &filter;
+  cb_data.efmc = efmc;
   cb_data.edit = this;
   cb_data.num = 0;
 

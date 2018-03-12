@@ -296,6 +296,6 @@ void tab_gov::edit_effects()
     uni.kind = VUT_GOVERNMENT;
 
     ui->open_effect_edit(QString::fromUtf8(government_rule_name(selected)),
-                         &uni);
+                         &uni, EFMC_NORMAL);
   }
 }

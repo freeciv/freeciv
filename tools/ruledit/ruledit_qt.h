@@ -22,6 +22,7 @@
 #include <QTabWidget>
 
 // ruledit
+#include "effect_edit.h"
 #include "rulesave.h"
 
 class QLineEdit;
@@ -88,7 +89,8 @@ class ruledit_gui : public QObject
     void open_req_edit(QString target, struct requirement_vector *preqs);
     void unregister_req_edit(class req_edit *redit);
 
-    void open_effect_edit(QString target, struct universal *uni);
+    void open_effect_edit(QString target, struct universal *uni,
+                          enum effect_filter_main_class efmc);
     void unregister_effect_edit(class effect_edit *e_edit);
     void refresh_effect_edits();
 
