@@ -124,6 +124,7 @@ static char *road_sections = NULL;
 static struct requirement_vector reqs_list;
 
 static bool load_rulesetdir(const char *rsdir, bool compat_mode,
+                            rs_conversion_logger logger,
                             bool act, bool buffer_script);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
@@ -8196,15 +8197,17 @@ static void notify_ruleset_fallback(const char *msg)
   Loads the rulesets.
 **************************************************************************/
 bool load_rulesets(const char *restore, bool compat_mode,
+                   rs_conversion_logger logger,
                    bool act, bool buffer_script)
 {
-  if (load_rulesetdir(game.server.rulesetdir, compat_mode, act, buffer_script)) {
+  if (load_rulesetdir(game.server.rulesetdir, compat_mode, logger,
+                      act, buffer_script)) {
     return TRUE;
   }
 
   /* Fallback to previous one. */
   if (restore != NULL) {
-    if (load_rulesetdir(restore, compat_mode, act, buffer_script)) {
+    if (load_rulesetdir(restore, compat_mode, logger, act, buffer_script)) {
       sz_strlcpy(game.server.rulesetdir, restore);
 
       notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
@@ -8219,7 +8222,7 @@ bool load_rulesets(const char *restore, bool compat_mode,
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
       && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
-    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, FALSE, act, buffer_script)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, FALSE, NULL, act, buffer_script)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
@@ -8265,6 +8268,7 @@ void rulesets_deinit(void)
   This may be called more than once and it will free any stale data.
 **************************************************************************/
 static bool load_rulesetdir(const char *rsdir, bool compat_mode,
+                            rs_conversion_logger logger,
                             bool act, bool buffer_script)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
@@ -8276,6 +8280,7 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
 
   rscompat_init_info(&compat_info);
   compat_info.compat_mode = compat_mode;
+  compat_info.log_cb = logger;
 
   game_ruleset_free();
   /* Reset the list of available player colors. */

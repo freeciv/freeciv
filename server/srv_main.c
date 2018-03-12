@@ -2822,7 +2822,7 @@ static void srv_prepare(void)
       || !load_command(NULL, srvarg.load_filename, FALSE, TRUE)) {
     /* Rulesets are loaded on game initialization, but may be changed later
      * if /load or /rulesetdir is done. */
-    load_rulesets(NULL, FALSE, TRUE, FALSE);
+    load_rulesets(NULL, FALSE, NULL, TRUE, FALSE);
   }
 
   maybe_automatic_meta_message(default_meta_message_string());
@@ -3277,7 +3277,7 @@ void srv_main(void)
     server_game_free();
     server_game_init(FALSE);
     mapimg_reset();
-    load_rulesets(NULL, FALSE, TRUE, FALSE);
+    load_rulesets(NULL, FALSE, NULL, TRUE, FALSE);
     game.info.is_new_game = TRUE;
   } while (TRUE);
 

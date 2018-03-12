@@ -20,11 +20,15 @@ extern "C" {
 /* utility */
 #include "support.h"
 
+/* server */
+#include "ruleset.h"
+
 #define RULESET_COMPAT_CAP "+Freeciv-ruleset-Devel-2015.January.14"
 
 struct rscompat_info
 {
   bool compat_mode;
+  rs_conversion_logger log_cb;
   int ver_buildings;
   int ver_cities;
   int ver_effects;

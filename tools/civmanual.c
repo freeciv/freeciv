@@ -224,7 +224,7 @@ static bool manual_command(void)
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
-  if (!load_rulesets(NULL, FALSE, FALSE, FALSE)) {
+  if (!load_rulesets(NULL, FALSE, NULL, FALSE, FALSE)) {
     /* Failed to load correct ruleset */
     return FALSE;
   }

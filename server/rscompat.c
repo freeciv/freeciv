@@ -194,6 +194,7 @@ static void effect_to_enabler(enum gen_action action, struct section_file *file,
                               const char *type)
 {
   int value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
+  char buf[1024];
 
   if (value > 0) {
     /* It was an enabling effect. Add enabler */
@@ -209,13 +210,20 @@ static void effect_to_enabler(enum gen_action action, struct section_file *file,
      *       their type. */
     requirement_vector_copy(&enabler->actor_reqs, reqs);
 
-    log_normal("Converted effect %s to an action enabler. Make sure requirements "
-               "are correctly divided to actor and target requirements.",
-               type);
+    if (compat->log_cb != NULL) {
+      fc_snprintf(buf, sizeof(buf),
+                  "Converted effect %s to an action enabler. Make sure requirements "
+                  "are correctly divided to actor and target requirements.",
+                  type);
+      compat->log_cb(buf);
+    }
   } else if (value < 0) {
-    /* TODO: Warn user that value < 0 effects are not migrated. */
-    log_normal("%s effect with negative value can't be automatically converted "
-               "to an action enabler. Do that manually.", type);
+    if (compat->log_cb != NULL) {
+      fc_snprintf(buf, sizeof(buf),
+                  "%s effect with negative value can't be automatically converted "
+                  "to an action enabler. Do that manually.", type);
+      compat->log_cb(buf);
+    }
   }
 }
 
