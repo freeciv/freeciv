@@ -165,6 +165,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(4, 6, item);
   item = new QTableWidgetItem("-");
   stats->setItem(4, 7, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Multipliers")));
+  stats->setItem(5, 6, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(5, 7, item);
   stats->verticalHeader()->setVisible(false);
   stats->horizontalHeader()->setVisible(false);
   stats->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -336,6 +340,12 @@ void tab_misc::refresh_stats()
   goods_active_type_iterate(pg) {
     count++;
   } goods_active_type_iterate_end;
+  stats->item(row++, 7)->setText(QString::number(count));
+
+  count = 0;
+  multipliers_active_iterate(pmul) {
+    count++;
+  } multipliers_active_iterate_end;
   stats->item(row++, 7)->setText(QString::number(count));
 
   stats->resizeColumnsToContents();

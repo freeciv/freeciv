@@ -31,6 +31,7 @@ struct multiplier
 {
   Multiplier_type_id id;
   struct name_translation name;
+  bool disabled; /* Does not really exist - hole in multipliers array */
   int start; /* display units */
   int stop;  /* display units */
   int step;  /* display units */
@@ -65,6 +66,14 @@ bool multiplier_can_be_changed(struct multiplier *pmul, struct player *pplayer);
 #define multipliers_iterate_end \
       }  \
 }
+
+#define multipliers_active_iterate(_mul_) \
+  multipliers_iterate(_mul_) {            \
+    if (!_mul_->disabled) {
+
+#define multipliers_active_iterate_end    \
+    }                                     \
+  } multipliers_iterate_end;
 
 #ifdef __cplusplus
 }
