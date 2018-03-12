@@ -365,11 +365,11 @@ static struct section_file *openload_luadata_file(const char *rsdir)
   Load a requirement list.  The list is returned as a static vector
   (callers need not worry about freeing anything).
 **************************************************************************/
-static struct requirement_vector *lookup_req_list(struct section_file *file,
-                                                  struct rscompat_info *compat,
-                                                  const char *sec,
-                                                  const char *sub,
-                                                  const char *rfor)
+struct requirement_vector *lookup_req_list(struct section_file *file,
+                                           struct rscompat_info *compat,
+                                           const char *sec,
+                                           const char *sub,
+                                           const char *rfor)
 {
   const char *type, *name;
   int j;
@@ -5566,10 +5566,14 @@ static bool load_ruleset_effects(struct section_file *file,
       break;
     }
 
+    if (compat->compat_mode && rscompat_old_effect_3_1(type, file, sec_name, compat)) {
+      break;
+    }
+
     eff = effect_type_by_name(type, fc_strcasecmp);
     if (!effect_type_is_valid(eff)) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown effect type \"%s\".",
-                filename, sec_name, type);
+                    filename, sec_name, type);
       ok = FALSE;
       break;
     }

@@ -616,6 +616,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_AIRLIFT:
   case ACTION_HEAL_UNIT:
   case ACTION_CONQUER_CITY:
+  case ACTION_TRANSFORM_TERRAIN:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2585,6 +2586,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_paradrop(actor_unit, target_tile));
     break;
+  case ACTION_TRANSFORM_TERRAIN:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling(actor_unit,
+                                                    ACTIVITY_TRANSFORM));
+    break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
               "invalid action.",
@@ -4406,13 +4412,13 @@ static void unit_activity_dependencies(struct unit *punit,
 /**********************************************************************//**
   Handle request for changing activity.
 **************************************************************************/
-void unit_activity_handling(struct unit *punit,
+bool unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity)
 {
   /* Must specify target for ACTIVITY_BASE */
-  fc_assert_ret(new_activity != ACTIVITY_BASE
-                && new_activity != ACTIVITY_GEN_ROAD);
-  
+  fc_assert_ret_val(new_activity != ACTIVITY_BASE
+                    && new_activity != ACTIVITY_GEN_ROAD, FALSE);
+
   if (new_activity == ACTIVITY_PILLAGE) {
     struct extra_type *target = NULL;
 
@@ -4427,6 +4433,8 @@ void unit_activity_handling(struct unit *punit,
     send_unit_info(NULL, punit);
     unit_activity_dependencies(punit, old_activity, old_target);
   }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -4835,6 +4843,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
+      case ACTION_TRANSFORM_TERRAIN:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

@@ -1332,7 +1332,7 @@ void city_map::context_menu(QPoint point)
   }
 
   if (pterr->transform_result != pterr && pterr->transform_result != NULL
-      && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+      && univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, NULL, &for_terr)) {
     con_menu.addAction(&con_trfrm);
   }
 

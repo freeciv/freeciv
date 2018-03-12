@@ -1273,7 +1273,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_time != 0
-        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->transform_time),
                   pterrain->transform_time);

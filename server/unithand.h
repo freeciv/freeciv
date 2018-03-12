@@ -93,7 +93,7 @@ enum ane_kind {
   ANEK_UNKNOWN,
 };
 
-void unit_activity_handling(struct unit *punit,
+bool unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity);
 void unit_activity_handling_targeted(struct unit *punit,
                                      enum unit_activity new_activity,

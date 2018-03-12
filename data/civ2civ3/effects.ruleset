@@ -4124,15 +4124,6 @@ reqs    =
       "UnitClass", "Sea", "Local", FALSE
     }
 
-[effect_transform]
-type    = "Transform_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Tech", "Fusion Power", "Player"
-      "UnitFlag", "Transform", "Local"
-    }
-
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50

@@ -618,7 +618,6 @@ static bool sanity_check_boolean_effects(void)
       EFT_NO_DIPLOMACY,
       EFT_IRRIG_POSSIBLE,
       EFT_GOV_CENTER,
-      EFT_TRANSFORM_POSSIBLE,
       EFT_MINING_POSSIBLE,
       EFT_IRRIG_TF_POSSIBLE,
       EFT_MINING_TF_POSSIBLE,

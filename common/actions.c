@@ -541,6 +541,10 @@ static void hard_code_actions(void)
       action_new(ACTION_HEAL_UNIT, ATK_UNIT,
                  FALSE, FALSE, FALSE, TRUE,
                  0, 1, FALSE);
+  actions[ACTION_TRANSFORM_TERRAIN] =
+      action_new(ACTION_TRANSFORM_TERRAIN, ATK_TILE,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1591,6 +1595,13 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
     break;
 
+  case ACTION_TRANSFORM_TERRAIN:
+    if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
+      /* Reason: Must have "Settlers" flag. */
+      return FALSE;
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -1773,6 +1784,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_ATTACK:
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
+  case ACTION_TRANSFORM_TERRAIN:
     /* No hard unit type requirements. */
     break;
 
@@ -1829,6 +1841,7 @@ is_action_possible(const enum gen_action wanted_action,
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
   enum fc_tristate out;
+  struct terrain *pterrain;
 
   fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -2260,6 +2273,18 @@ is_action_possible(const enum gen_action wanted_action,
     /* Reason: It is not the healthy who need a doctor, but the sick. */
     /* Info leak: the actor can see the target's HP. */
     if (!(target_unit->hp < target_unittype->hp)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSFORM_TERRAIN:
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->transform_result == T_NONE
+        || pterrain == pterrain->transform_result
+        || !terrain_surroundings_allow_change(target_tile,
+                                              pterrain->transform_result)
+        || (terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
+            && (tile_city(target_tile)))) {
       return TRI_NO;
     }
     break;
@@ -3175,6 +3200,9 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_HEAL_UNIT:
     /* No battle is fought first. */
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTION_TRANSFORM_TERRAIN:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:

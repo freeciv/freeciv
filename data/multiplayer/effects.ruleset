@@ -2396,14 +2396,6 @@ value   = 1
 type    = "Mining_TF_Possible"
 value   = 1
 
-[effect_transform]
-type    = "Transform_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "UnitFlag", "Transform", "Local"
-    }
-
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50

@@ -240,7 +240,8 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         transform_result =
           (pterrain->transform_result == pterrain
            || pterrain->transform_result == T_NONE
-           || effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) <= 0) ? ""
+           || !univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN,
+                                         NULL, &for_terr)) ? ""
           : terrain_name_translation(pterrain->transform_result);
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */
@@ -2161,7 +2162,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
                             "irrigation.\n"));
     }
-    if (effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_utype) > 0) {
+    if (univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, &for_utype, NULL)) {
       CATLSTR(buf, bufsz, _("* Can transform terrain to another type.\n"));
     }
 

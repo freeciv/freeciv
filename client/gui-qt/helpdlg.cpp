@@ -1315,7 +1315,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_time != 0
-        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 

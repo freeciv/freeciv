@@ -30,6 +30,8 @@ extern "C" {
 /* Type of effects. Add new values via SPECENUM_VALUE%d and
  * SPECENUM_VALUE%dNAME at the end of the list.
  * Used in the network protocol.
+ *
+ * Value 87 is currently unused
  */
 #define SPECENUM_NAME effect_type
 #define SPECENUM_VALUE0 EFT_TECH_PARASITE
@@ -233,8 +235,8 @@ extern "C" {
 #define SPECENUM_VALUE85NAME "Max_Trade_Routes"
 #define SPECENUM_VALUE86 EFT_GOV_CENTER
 #define SPECENUM_VALUE86NAME "Gov_Center"
-#define SPECENUM_VALUE87 EFT_TRANSFORM_POSSIBLE
-#define SPECENUM_VALUE87NAME "Transform_Possible"
+#define SPECENUM_VALUE87 EFT_UNUSED
+#define SPECENUM_VALUE87NAME "Unused"
 #define SPECENUM_VALUE88 EFT_MINING_POSSIBLE
 #define SPECENUM_VALUE88NAME "Mining_Possible"
 #define SPECENUM_VALUE89 EFT_IRRIG_TF_POSSIBLE

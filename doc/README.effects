@@ -526,10 +526,6 @@ Mining_Possible
     requirements given to this effect, terrain type must be one to which mine
     can be built.
 
-Transform_Possible
-    If value > 0, unit can transform target tile. In addition to requirements
-    given to this effect, terrain type needs to be one that can be transformed.
-
 Irrig_TF_Possible
     If value > 0, unit can transform target tile terrain to another by irrigating.
     In addition to requirements given to this effect, terrain must be one that

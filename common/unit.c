@@ -1042,13 +1042,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));
 
   case ACTIVITY_TRANSFORM:
-    return (pterrain->transform_result != T_NONE
-	    && pterrain != pterrain->transform_result
-            && terrain_surroundings_allow_change(ptile,
-                                                 pterrain->transform_result)
-	    && (!terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
-		|| !(tile_city(ptile)))
-            && get_tile_bonus(ptile, punit, EFT_TRANSFORM_POSSIBLE) > 0);
+    return is_action_enabled_unit_on_tile(ACTION_TRANSFORM_TERRAIN,
+                                          punit, ptile);
 
   case ACTIVITY_CONVERT:
     return unit_can_convert(punit);

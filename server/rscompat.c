@@ -187,6 +187,56 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 }
 
 /**********************************************************************//**
+  Turn old effect to an action enabler.
+**************************************************************************/
+static void effect_to_enabler(enum gen_action action, struct section_file *file,
+                              const char *sec_name, struct rscompat_info *compat,
+                              const char *type)
+{
+  int value = secfile_lookup_int_default(file, 1, "%s.value", sec_name);
+
+  if (value > 0) {
+    /* It was an enabling effect. Add enabler */
+    struct action_enabler *enabler;
+    struct requirement_vector *reqs;
+
+    enabler = action_enabler_new();
+    enabler->action = action;
+
+    reqs = lookup_req_list(file, compat, sec_name, "reqs", "old effect");
+
+    /* TODO: Divide requirements to actor_reqs and target_reqs depending
+     *       their type. */
+    requirement_vector_copy(&enabler->actor_reqs, reqs);
+
+    log_normal("Converted effect %s to an action enabler. Make sure requirements "
+               "are correctly divided to actor and target requirements.",
+               type);
+  } else if (value < 0) {
+    /* TODO: Warn user that value < 0 effects are not migrated. */
+    log_normal("%s effect with negative value can't be automatically converted "
+               "to an action enabler. Do that manually.", type);
+  }
+}
+
+/**********************************************************************//**
+  Check if effect name refers to one of the removed effects, and handle it
+  if it does. Returns TRUE iff name was a valid old name.
+**************************************************************************/
+bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
+                             const char *sec_name, struct rscompat_info *compat)
+{
+  if (compat->ver_effects < 20) {
+    if (!fc_strcasecmp(type, "Transform_Possible")) {
+      effect_to_enabler(ACTION_TRANSFORM_TERRAIN, file, sec_name, compat, type);
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Do compatibility things after regular ruleset loading.
 **************************************************************************/
 void rscompat_postprocess(struct rscompat_info *info)

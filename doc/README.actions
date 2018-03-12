@@ -524,6 +524,10 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the target tile is known (doesn't have to be seen) by the actor
 
+"Transform Terrain" - Transform tile terrain type.
+ * the actor unit has "Settlers" flag
+ * terrain type must be one that can be transformed
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

@@ -2917,7 +2917,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_GEN_ROAD), FALSE, NULL);
     }
     if (pterr->transform_result != pterr && pterr->transform_result != NULL
-        && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, NULL, &for_terr)) {
       choice_dialog_add(shl, _("Transform"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_TRANSFORM), FALSE, NULL);

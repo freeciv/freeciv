@@ -773,6 +773,13 @@ actor_reqs    =
       "MinMoveFrags",  "1",            "Local", TRUE
     }
 
+[actionenabler_transform_terrain]
+action        = "Transform Terrain"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Transform",    "Local"
+    }
+
 [borders]
 ; Base border radius from city.
 radius_sq_city = 17

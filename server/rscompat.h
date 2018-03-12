@@ -46,6 +46,13 @@ bool rscompat_names(struct rscompat_info *info);
 
 void rscompat_postprocess(struct rscompat_info *info);
 
+/* Functions from ruleset.c made visible to rscompat.c */
+struct requirement_vector *lookup_req_list(struct section_file *file,
+                                           struct rscompat_info *compat,
+                                           const char *sec,
+                                           const char *sub,
+                                           const char *rfor);
+
 /* Functions specific to 3.0 -> 3.1 transition */
 const char *rscompat_req_type_name_3_1(const char *type, const char *range,
                                        bool survives, bool present,
@@ -54,6 +61,8 @@ const char *rscompat_req_name_3_1(const char *type,
                                   const char *old_name);
 const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
+bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
+                             const char *sec_name, struct rscompat_info *compat);
 
 #ifdef __cplusplus
 }
