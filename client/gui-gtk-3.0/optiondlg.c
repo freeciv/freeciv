@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ static void option_dialog_option_reset(struct option *poption);
 static void option_dialog_option_apply(struct option *poption);
 
 
-/****************************************************************************
+/************************************************************************//**
   Option dialog widget response callback.
 ****************************************************************************/
 static void option_dialog_reponse_callback(GtkDialog *dialog,
@@ -123,7 +123,7 @@ static void option_dialog_reponse_callback(GtkDialog *dialog,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Option dialog widget destroyed callback.
 ****************************************************************************/
 static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
@@ -137,9 +137,9 @@ static void option_dialog_destroy_callback(GtkWidget *object, gpointer data)
   }
 }
 
-/*************************************************************************
+/************************************************************************//**
   Option refresh requested from menu.
-*************************************************************************/
+****************************************************************************/
 static void option_refresh_callback(GtkMenuItem *menuitem, gpointer data)
 {
   struct option *poption = (struct option *) data;
@@ -150,9 +150,9 @@ static void option_refresh_callback(GtkMenuItem *menuitem, gpointer data)
   }
 }
 
-/*************************************************************************
+/************************************************************************//**
   Option reset requested from menu.
-*************************************************************************/
+****************************************************************************/
 static void option_reset_callback(GtkMenuItem *menuitem, gpointer data)
 {
   struct option *poption = (struct option *) data;
@@ -163,9 +163,9 @@ static void option_reset_callback(GtkMenuItem *menuitem, gpointer data)
   }
 }
 
-/*************************************************************************
+/************************************************************************//**
   Option apply requested from menu.
-*************************************************************************/
+****************************************************************************/
 static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
 {
   struct option *poption = (struct option *) data;
@@ -176,9 +176,9 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
   }
 }
 
-/*************************************************************************
+/************************************************************************//**
   Called when a button is pressed on a option.
-*************************************************************************/
+****************************************************************************/
 static gboolean option_button_press_callback(GtkWidget *widget,
                                              GdkEventButton *event,
                                              gpointer data)
@@ -221,7 +221,7 @@ static gboolean option_button_press_callback(GtkWidget *widget,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the option dialog which fit the option set.
 ****************************************************************************/
 static struct option_dialog *
@@ -237,7 +237,7 @@ option_dialog_get(const struct option_set *poptset)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   GDestroyNotify callback.
 ****************************************************************************/
 static void option_color_destroy_notify(gpointer data)
@@ -249,7 +249,7 @@ static void option_color_destroy_notify(gpointer data)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the color of a button.
 ****************************************************************************/
 static void option_color_set_button_color(GtkButton *button,
@@ -300,7 +300,7 @@ static void option_color_set_button_color(GtkButton *button,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   "response" signal callback.
 ****************************************************************************/
 static void color_selector_response_callback(GtkDialog *dialog,
@@ -322,7 +322,7 @@ static void color_selector_response_callback(GtkDialog *dialog,
   gtk_widget_destroy(GTK_WIDGET(dialog));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when the user press a color button.
 ****************************************************************************/
 static void option_color_select_callback(GtkButton *button, gpointer data)
@@ -351,7 +351,7 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
 }
 
 
-/****************************************************************************
+/************************************************************************//**
   Creates a new option dialog.
 ****************************************************************************/
 static struct option_dialog *
@@ -406,7 +406,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   return pdialog;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Destroys an option dialog.
 ****************************************************************************/
 static void option_dialog_destroy(struct option_dialog *pdialog)
@@ -432,7 +432,7 @@ static void option_dialog_destroy(struct option_dialog *pdialog)
   free(pdialog);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Utility for sorting the pages of a option dialog.
 ****************************************************************************/
 static int option_dialog_pages_sort_func(const void *w1, const void *w2)
@@ -444,7 +444,7 @@ static int option_dialog_pages_sort_func(const void *w1, const void *w2)
           - GPOINTER_TO_INT(g_object_get_data(obj2, "category")));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Reoder the pages of the notebook of the option dialog.
 ****************************************************************************/
 static void option_dialog_reorder_notebook(struct option_dialog *pdialog)
@@ -466,7 +466,7 @@ static void option_dialog_reorder_notebook(struct option_dialog *pdialog)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Do an action for all options of the option dialog.
 ****************************************************************************/
 static inline void option_dialog_foreach(struct option_dialog *pdialog,
@@ -480,7 +480,7 @@ static inline void option_dialog_foreach(struct option_dialog *pdialog,
   } options_iterate_end;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add an option to the option dialog.
 ****************************************************************************/
 static void option_dialog_option_add(struct option_dialog *pdialog,
@@ -665,7 +665,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
   option_dialog_option_refresh(poption);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove an option from the option dialog.
 ****************************************************************************/
 static void option_dialog_option_remove(struct option_dialog *pdialog,
@@ -687,7 +687,7 @@ static void option_dialog_option_remove(struct option_dialog *pdialog,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the boolean value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_bool_set(struct option *poption,
@@ -698,7 +698,7 @@ static inline void option_dialog_option_bool_set(struct option *poption,
                                value);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the integer value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_int_set(struct option *poption,
@@ -708,7 +708,7 @@ static inline void option_dialog_option_int_set(struct option *poption,
                             value);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the string value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_str_set(struct option *poption,
@@ -722,7 +722,7 @@ static inline void option_dialog_option_str_set(struct option *poption,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the enum value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_enum_set(struct option *poption,
@@ -747,7 +747,7 @@ static inline void option_dialog_option_enum_set(struct option *poption,
             value, option_name(poption), option_number(poption));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the enum value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_bitwise_set(struct option *poption,
@@ -763,7 +763,7 @@ static inline void option_dialog_option_bitwise_set(struct option *poption,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the font value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_font_set(struct option *poption,
@@ -773,7 +773,7 @@ static inline void option_dialog_option_font_set(struct option *poption,
                                 (option_get_gui_data(poption)), font);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the font value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_color_set(struct option *poption,
@@ -807,7 +807,7 @@ static inline void option_dialog_option_color_set(struct option *poption,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update an option in the option dialog.
 ****************************************************************************/
 static void option_dialog_option_refresh(struct option *poption)
@@ -845,7 +845,7 @@ static void option_dialog_option_refresh(struct option *poption)
                            option_is_changeable(poption));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Reset the option.
 ****************************************************************************/
 static void option_dialog_option_reset(struct option *poption)
@@ -880,7 +880,7 @@ static void option_dialog_option_reset(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Apply the option change.
 ****************************************************************************/
 static void option_dialog_option_apply(struct option *poption)
@@ -973,7 +973,7 @@ static void option_dialog_option_apply(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the option dialog for the option set.
 ****************************************************************************/
 void option_dialog_popup(const char *name, const struct option_set *poptset)
@@ -987,7 +987,7 @@ void option_dialog_popup(const char *name, const struct option_set *poptset)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popdown the option dialog for the option set.
 ****************************************************************************/
 void option_dialog_popdown(const struct option_set *poptset)
@@ -999,7 +999,7 @@ void option_dialog_popdown(const struct option_set *poptset)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Pass on updated option values to controls outside the main option
   dialogs.
 ****************************************************************************/
@@ -1014,7 +1014,7 @@ static void option_gui_update_extra(struct option *poption)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the GUI for the option.
 ****************************************************************************/
 void option_gui_update(struct option *poption)
@@ -1028,7 +1028,7 @@ void option_gui_update(struct option *poption)
   option_gui_update_extra(poption);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Add the GUI for the option.
 ****************************************************************************/
 void option_gui_add(struct option *poption)
@@ -1042,7 +1042,7 @@ void option_gui_add(struct option *poption)
   option_gui_update_extra(poption);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Remove the GUI for the option.
 ****************************************************************************/
 void option_gui_remove(struct option *poption)

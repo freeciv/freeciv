@@ -96,8 +96,8 @@ static bool holding_srv_list_mutex = FALSE;
 
 static void connection_state_reset(void);
 
-/**************************************************************************
-  spawn a server, if there isn't one, using the default settings.
+/**********************************************************************//**
+  Spawn a server, if there isn't one, using the default settings.
 **************************************************************************/
 static void start_new_game_callback(GtkWidget *w, gpointer data)
 {
@@ -106,8 +106,8 @@ static void start_new_game_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
-  go to the scenario page, spawning a server,
+/**********************************************************************//**
+  Go to the scenario page, spawning a server,
 **************************************************************************/
 static void start_scenario_callback(GtkWidget *w, gpointer data)
 {
@@ -115,33 +115,33 @@ static void start_scenario_callback(GtkWidget *w, gpointer data)
   client_start_server_and_set_page(PAGE_SCENARIO);
 }
 
-/**************************************************************************
-  go to the load page, spawning a server.
+/**********************************************************************//**
+  Go to the load page, spawning a server.
 **************************************************************************/
 static void load_saved_game_callback(GtkWidget *w, gpointer data)
 {
   client_start_server_and_set_page(PAGE_LOAD);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Reset the connection status and switch to network page.
-****************************************************************************/
+**************************************************************************/
 static void connect_network_game_callback(GtkWidget *w, gpointer data)
 {
   connection_state_reset();
   set_client_page(PAGE_NETWORK);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Callback to open settings dialog.
-****************************************************************************/
+**************************************************************************/
 static void open_settings(void)
 {
   option_dialog_popup(_("Set local options"), client_optset);
 }
 
-/**************************************************************************
-  cancel, by terminating the connection and going back to main page.
+/**********************************************************************//**
+  Cancel, by terminating the connection and going back to main page.
 **************************************************************************/
 static void main_callback(GtkWidget *w, gpointer data)
 {
@@ -155,7 +155,7 @@ static void main_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is called whenever the intro graphic needs a graphics refresh.
 **************************************************************************/
 static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
@@ -210,7 +210,7 @@ static gboolean intro_expose(GtkWidget *w, cairo_t *cr, gpointer *data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This is called when main page is getting destroyed.
 **************************************************************************/
 static void intro_free(GtkWidget *w, gpointer *data)
@@ -220,8 +220,8 @@ static void intro_free(GtkWidget *w, gpointer *data)
   free_sprite(intro);
 }
 
-/**************************************************************************
-  create the main page.
+/**********************************************************************//**
+  Create the main page.
 **************************************************************************/
 GtkWidget *create_main_page(void)
 {
@@ -374,9 +374,9 @@ enum save_dialog_response {
   SD_RES_SAVE
 };
 
-/****************************************************************************
+/**********************************************************************//**
   Create a new file list store.
-****************************************************************************/
+**************************************************************************/
 static inline GtkListStore *save_dialog_store_new(void)
 {
   return gtk_list_store_new(SD_COL_NUM,
@@ -384,9 +384,9 @@ static inline GtkListStore *save_dialog_store_new(void)
                             G_TYPE_STRING);     /* SD_COL_FULL_PATH */
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Fill a file list store with 'files'.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_store_update(GtkListStore *store,
                                      const struct fileinfo_list *files)
 {
@@ -402,9 +402,9 @@ static void save_dialog_store_update(GtkListStore *store,
   } fileinfo_list_iterate_end;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update a save dialog.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_update(struct save_dialog *pdialog)
 {
   struct fileinfo_list *files;
@@ -419,7 +419,7 @@ static void save_dialog_update(struct save_dialog *pdialog)
   fileinfo_list_destroy(files);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback for save_dialog_file_chooser_new().
 **************************************************************************/
 static void save_dialog_file_chooser_callback(GtkWidget *widget,
@@ -439,9 +439,9 @@ static void save_dialog_file_chooser_callback(GtkWidget *widget,
   gtk_widget_destroy(widget);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Create a file chooser for both the load and save commands.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_file_chooser_popup(const char *title,
                                            GtkFileChooserAction action,
                                            save_dialog_action_fn_t cb)
@@ -463,9 +463,9 @@ static void save_dialog_file_chooser_popup(const char *title,
   gtk_window_present(GTK_WINDOW(filechoose));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Handle save dialog response.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_response_callback(GtkWidget *w, gint response,
                                           gpointer data)
 {
@@ -512,9 +512,9 @@ static void save_dialog_response_callback(GtkWidget *w, gint response,
   gtk_widget_destroy(GTK_WIDGET(pdialog->shell));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Handle save list double click.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_row_callback(GtkTreeView *tree_view,
                                      GtkTreePath *path,
                                      GtkTreeViewColumn *column,
@@ -523,7 +523,7 @@ static void save_dialog_row_callback(GtkTreeView *tree_view,
   save_dialog_response_callback(NULL, SD_RES_SAVE, data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle save filename entry activation.
 **************************************************************************/
 static void save_dialog_entry_callback(GtkEntry *entry, gpointer data)
@@ -531,7 +531,7 @@ static void save_dialog_entry_callback(GtkEntry *entry, gpointer data)
   save_dialog_response_callback(NULL, SD_RES_SAVE, data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Handle the save list selection changes.
 **************************************************************************/
 static void save_dialog_list_callback(GtkTreeSelection *selection,
@@ -552,9 +552,9 @@ static void save_dialog_list_callback(GtkTreeSelection *selection,
   gtk_entry_set_text(pdialog->entry, filename);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Create a new save dialog.
-****************************************************************************/
+**************************************************************************/
 static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
                                   const char *savefilelabel,
                                   save_dialog_action_fn_t action,
@@ -678,8 +678,8 @@ static GtkWidget *network_port_label, *network_port;
 static GtkWidget *network_password_label, *network_password;
 static GtkWidget *network_confirm_password_label, *network_confirm_password;
 
-/**************************************************************************
-  update a server list.
+/**********************************************************************//**
+  Update a server list.
 **************************************************************************/
 static void update_server_list(enum server_scan_type sstype,
                                const struct server_list *list)
@@ -742,7 +742,7 @@ static void update_server_list(enum server_scan_type sstype,
   } server_list_iterate_end;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Free the server scans.
 **************************************************************************/
 void destroy_server_scans(void)
@@ -765,7 +765,7 @@ void destroy_server_scans(void)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   This function updates the list of servers every so often.
 **************************************************************************/
 static gboolean check_server_scan(gpointer data)
@@ -799,11 +799,11 @@ static gboolean check_server_scan(gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Callback function for when there's an error in the server scan.
 **************************************************************************/
 static void server_scan_error(struct server_scan *scan,
-			      const char *message)
+                              const char *message)
 {
   output_window_append(ftc_client, message);
   log_error("%s", message);
@@ -812,7 +812,7 @@ static void server_scan_error(struct server_scan *scan,
    * do not do anything here to cause double free or raze condition. */
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Stop and restart the metaserver and lan server scans.
 **************************************************************************/
 static void update_network_lists(void)
@@ -838,7 +838,7 @@ enum connection_state {
 
 static enum connection_state connection_status;
 
-/**************************************************************************
+/**********************************************************************//**
   Update statusbar label text.
 **************************************************************************/
 static gboolean update_network_statusbar(gpointer data)
@@ -854,8 +854,8 @@ static gboolean update_network_statusbar(gpointer data)
   return TRUE;
 }
 
-/**************************************************************************
-  clear statusbar queue.
+/**********************************************************************//**
+  Clear statusbar queue.
 **************************************************************************/
 static void clear_network_statusbar(void)
 {
@@ -868,8 +868,8 @@ static void clear_network_statusbar(void)
   gtk_label_set_text(GTK_LABEL(statusbar), "");
 }
 
-/**************************************************************************
-  queue statusbar label text change.
+/**********************************************************************//**
+  Queue statusbar label text change.
 **************************************************************************/
 void append_network_statusbar(const char *text, bool force)
 {
@@ -883,8 +883,8 @@ void append_network_statusbar(const char *text, bool force)
   }
 }
 
-/**************************************************************************
-  create statusbar.
+/**********************************************************************//**
+  Create statusbar.
 **************************************************************************/
 GtkWidget *create_statusbar(void)
 {
@@ -904,8 +904,8 @@ GtkWidget *create_statusbar(void)
   return statusbar_frame;
 }
 
-/**************************************************************************
-  update network page connection state.
+/**********************************************************************//**
+  Update network page connection state.
 **************************************************************************/
 static void set_connection_state(enum connection_state state)
 {
@@ -972,17 +972,17 @@ static void set_connection_state(enum connection_state state)
   connection_status = state;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Reset the connection state.
-****************************************************************************/
+**************************************************************************/
 static void connection_state_reset(void)
 {
   set_connection_state(LOGIN_TYPE);
 }
 
-/**************************************************************************
- configure the dialog depending on what type of authentication request the
- server is making.
+/**********************************************************************//**
+  Configure the dialog depending on what type of authentication request the
+  server is making.
 **************************************************************************/
 void handle_authentication_req(enum authentication_type type,
                                const char *message)
@@ -1015,10 +1015,10 @@ void handle_authentication_req(enum authentication_type type,
   log_error("Unsupported authentication type %d: %s.", type, message);
 }
 
-/**************************************************************************
- if on the network page, switch page to the login page (with new server
- and port). if on the login page, send connect and/or authentication 
- requests to the server.
+/**********************************************************************//**
+  If on the network page, switch page to the login page (with new server
+  and port). if on the login page, send connect and/or authentication
+  requests to the server.
 **************************************************************************/
 static void connect_callback(GtkWidget *w, gpointer data)
 {
@@ -1072,18 +1072,18 @@ static void connect_callback(GtkWidget *w, gpointer data)
   log_error("Unsupported connection status: %d", connection_status);
 }
 
-/**************************************************************************
-  connect on list item double-click.
-***************************************************************************/
+/**********************************************************************//**
+  Connect on list item double-click.
+**************************************************************************/
 static void network_activate_callback(GtkTreeView *view,
                       		      GtkTreePath *arg1,
-				      GtkTreeViewColumn *arg2,
-				      gpointer data)
+                                      GtkTreeViewColumn *arg2,
+                                      gpointer data)
 {
   connect_callback(NULL, data);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Fills the server player list with the players in the given server, or
   clears it if there is no player data.
 **************************************************************************/
@@ -1113,7 +1113,7 @@ static void update_server_playerlist(const struct server *pserver)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Sets the host, port and player list of the selected server.
 **************************************************************************/
 static void network_list_callback(GtkTreeSelection *select, gpointer data)
@@ -1158,8 +1158,8 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
   gtk_entry_set_text(GTK_ENTRY(network_port), portstr);
 }
 
-/**************************************************************************
-  update the network page.
+/**********************************************************************//**
+  Update the network page.
 **************************************************************************/
 static void update_network_page(void)
 {
@@ -1174,8 +1174,8 @@ static void update_network_page(void)
   gtk_entry_set_text(GTK_ENTRY(network_port), buf);
 }
 
-/**************************************************************************
-  create the network page.
+/**********************************************************************//**
+  Create the network page.
 **************************************************************************/
 GtkWidget *create_network_page(void)
 {
@@ -1460,9 +1460,9 @@ enum connection_list_columns {
   CL_NUM_COLUMNS
 };
 
-/****************************************************************************
+/**********************************************************************//**
   Create a new tree store for connection list.
-****************************************************************************/
+**************************************************************************/
 static inline GtkTreeStore *connection_list_store_new(void)
 {
   return gtk_tree_store_new(CL_NUM_COLUMNS,
@@ -1480,10 +1480,10 @@ static inline GtkTreeStore *connection_list_store_new(void)
                             G_TYPE_BOOLEAN);    /* CL_COL_COLLAPSED */
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Maybe toggle AI of the player if the client could take the player. This
   function shouldn't be used directly, see in client_take_player().
-****************************************************************************/
+**************************************************************************/
 static void client_aitoggle_player(void *data)
 {
   struct player *pplayer = player_by_number(FC_PTR_TO_INT(data));
@@ -1495,9 +1495,9 @@ static void client_aitoggle_player(void *data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Send the /take command by chat and toggle AI if needed (after that).
-****************************************************************************/
+**************************************************************************/
 static void client_take_player(struct player *pplayer)
 {
   int request_id = send_chat_printf("/take \"%s\"", player_name(pplayer));
@@ -1507,9 +1507,9 @@ static void client_take_player(struct player *pplayer)
                                            client_aitoggle_player, data);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Connect the object to the player and the connection.
-****************************************************************************/
+**************************************************************************/
 static void object_put(GObject *object, struct player *pplayer,
                        struct connection *pconn)
 {
@@ -1525,10 +1525,10 @@ static void object_put(GObject *object, struct player *pplayer,
                     GINT_TO_POINTER(NULL != pconn ? pconn->id : 0));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Extract the player and the connection set with object_put(). Returns TRUE
   if at least one of them isn't NULL.
-****************************************************************************/
+**************************************************************************/
 static bool object_extract(GObject *object, struct player **ppplayer,
                            struct connection **ppconn)
 {
@@ -1553,15 +1553,15 @@ static bool object_extract(GObject *object, struct player **ppplayer,
   return ret;
 }
 
-/**************************************************************************
-  request the game options dialog.
+/**********************************************************************//**
+  Request the game options dialog.
 **************************************************************************/
 static void game_options_callback(GtkWidget *w, gpointer data)
 {
   option_dialog_popup(_("Game Settings"), server_optset);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   AI skill setting callback.
 **************************************************************************/
 static void ai_skill_callback(GtkWidget *w, gpointer data)
@@ -1588,7 +1588,7 @@ static void ai_skill_callback(GtkWidget *w, gpointer data)
  * the user's control.  In this case we don't want to do a /read. */
 static bool no_ruleset_callback = FALSE;
 
-/**************************************************************************
+/**********************************************************************//**
   Ruleset name has been given
 **************************************************************************/
 static void ruleset_selected(const char *name)
@@ -1598,7 +1598,7 @@ static void ruleset_selected(const char *name)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Ruleset selection callback. Note that this gets also called when ever
   user types to entry box. In that case we don't want to set_ruleset()
   after each letter.
@@ -1614,7 +1614,7 @@ static void ruleset_entry_changed(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User changed AI fill setting.
 **************************************************************************/
 static bool send_new_aifill_to_server = TRUE;
@@ -1626,7 +1626,7 @@ static void ai_fill_changed_by_user(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Server changed AI fill setting.
 **************************************************************************/
 void ai_fill_changed_by_server(int aifill)
@@ -1647,7 +1647,7 @@ void ai_fill_changed_by_server(int aifill)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the start page.
 **************************************************************************/
 void update_start_page(void)
@@ -1655,9 +1655,9 @@ void update_start_page(void)
   conn_list_dialog_update();
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Callback for when a team is chosen from the conn menu.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_team_chosen(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1672,9 +1672,9 @@ static void conn_menu_team_chosen(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Callback for when the "ready" entry is chosen from the conn menu.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_ready_chosen(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1685,9 +1685,9 @@ static void conn_menu_ready_chosen(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Callback for when the pick-nation entry is chosen from the conn menu.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_nation_chosen(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1697,10 +1697,10 @@ static void conn_menu_nation_chosen(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Miscellaneous callback for the conn menu that allows an arbitrary command
   (/observe, /remove, /hard, etc.) to be run on the player.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_player_command(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1712,9 +1712,9 @@ static void conn_menu_player_command(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Take command in the conn menu.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_player_take(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1724,10 +1724,10 @@ static void conn_menu_player_take(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Miscellaneous callback for the conn menu that allows an arbitrary command
   (/cmdlevel, /cut, etc.) to be run on the connection.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_connection_command(GObject *object, gpointer data)
 {
   struct connection *pconn;
@@ -1739,8 +1739,8 @@ static void conn_menu_connection_command(GObject *object, gpointer data)
   }
 }
 
-/**************************************************************************
- Show details about a user in the Connected Users dialog in a popup.
+/**********************************************************************//**
+  Show details about a user in the Connected Users dialog in a popup.
 **************************************************************************/
 static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 {
@@ -1770,9 +1770,9 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
   gtk_window_present(GTK_WINDOW(popup));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Callback for when the "info" entry is chosen from the conn menu.
-****************************************************************************/
+**************************************************************************/
 static void conn_menu_info_chosen(GObject *object, gpointer data)
 {
   struct player *pplayer;
@@ -1783,10 +1783,10 @@ static void conn_menu_info_chosen(GObject *object, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Called when you click on a player; this function pops up a menu
   to allow changing the team.
-****************************************************************************/
+**************************************************************************/
 static GtkWidget *create_conn_menu(struct player *pplayer,
                                    struct connection *pconn)
 {
@@ -1945,9 +1945,9 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   return menu;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Unselect a tree path.
-****************************************************************************/
+**************************************************************************/
 static gboolean delayed_unselect_path(gpointer data)
 {
   if (NULL != connection_list_view) {
@@ -1961,9 +1961,9 @@ static gboolean delayed_unselect_path(gpointer data)
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Called on a button event on the pregame player list.
-****************************************************************************/
+**************************************************************************/
 static gboolean connection_list_event(GtkWidget *widget,
                                       GdkEventButton *event,
                                       gpointer data)
@@ -2016,9 +2016,9 @@ static gboolean connection_list_event(GtkWidget *widget,
   return ret;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Mark a row as collapsed or expanded.
-****************************************************************************/
+**************************************************************************/
 static void connection_list_row_callback(GtkTreeView *tree_view,
                                          GtkTreeIter *iter,
                                          GtkTreePath *path,
@@ -2030,10 +2030,10 @@ static void connection_list_row_callback(GtkTreeView *tree_view,
                      CL_COL_COLLAPSED, GPOINTER_TO_INT(data), -1);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns TRUE if a row is selected in the connection/player list. Fills
   the not null data.
-****************************************************************************/
+**************************************************************************/
 static bool conn_list_selection(struct player **ppplayer,
                                 struct connection **ppconn)
 {
@@ -2067,10 +2067,10 @@ static bool conn_list_selection(struct player **ppplayer,
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Returns TRUE if a row is selected in the connection/player list. Fills
   the not null data.
-****************************************************************************/
+**************************************************************************/
 static void conn_list_select_conn(struct connection *pconn)
 {
   GtkTreeModel *model;
@@ -2119,7 +2119,7 @@ static void conn_list_select_conn(struct connection *pconn)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   'ready_button' clicked callback.
 **************************************************************************/
 static void ready_button_callback(GtkWidget *w, gpointer data)
@@ -2133,7 +2133,7 @@ static void ready_button_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   'nation_button' clicked callback.
 **************************************************************************/
 static void nation_button_callback(GtkWidget *w, gpointer data)
@@ -2153,7 +2153,7 @@ static void nation_button_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   'observe_button' clicked callback.
 **************************************************************************/
 static void observe_button_callback(GtkWidget *w, gpointer data)
@@ -2173,9 +2173,9 @@ static void observe_button_callback(GtkWidget *w, gpointer data)
   }
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update the buttons of the start page.
-****************************************************************************/
+**************************************************************************/
 static void update_start_page_buttons(void)
 {
   char buf[2 * MAX_LEN_NAME];
@@ -2257,10 +2257,10 @@ static void update_start_page_buttons(void)
   gtk_widget_set_sensitive(observe_button, sensitive);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Search a player iterator in the model. Begin the iteration at 'start' or
   at the start of the model if 'start' is set to NULL.
-****************************************************************************/
+**************************************************************************/
 static bool model_get_player_iter(GtkTreeModel *model,
                                   GtkTreeIter *iter,
                                   GtkTreeIter *start,
@@ -2288,10 +2288,10 @@ static bool model_get_player_iter(GtkTreeModel *model,
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Search a connection iterator in the model. Begin the iteration at 'start'
   or at the start of the model if 'start' is set to NULL.
-****************************************************************************/
+**************************************************************************/
 static bool model_get_conn_iter(GtkTreeModel *model, GtkTreeIter *iter,
                                 GtkTreeIter *parent, GtkTreeIter *start,
                                 const struct connection *pconn)
@@ -2318,9 +2318,9 @@ static bool model_get_conn_iter(GtkTreeModel *model, GtkTreeIter *iter,
   return FALSE;
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Update the connected users list at pregame state.
-****************************************************************************/
+**************************************************************************/
 void real_conn_list_dialog_update(void)
 {
   if (client_state() == C_S_PREPARING
@@ -2541,7 +2541,7 @@ void real_conn_list_dialog_update(void)
   update_start_page_buttons();
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Helper function for adding columns to a tree view. If 'key' is not NULL
   then the added column is added to the object data of the treeview using
   g_object_set_data under 'key'.
@@ -2577,8 +2577,8 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
   }
 }
 
-/**************************************************************************
-  create start page.
+/**********************************************************************//**
+  Create start page.
 **************************************************************************/
 GtkWidget *create_start_page(void)
 {
@@ -2795,8 +2795,8 @@ GtkWidget *create_start_page(void)
 }
 
 
-/**************************************************************************
-  this regenerates the player information from a loaded game on the server.
+/**********************************************************************//**
+  This regenerates the player information from a loaded game on the server.
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
 {
@@ -2810,7 +2810,7 @@ void handle_game_load(bool load_successful, const char *filename)
   }
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Load a savegame/scenario.
 **************************************************************************/
 static void load_filename(const char *filename)
@@ -2818,8 +2818,8 @@ static void load_filename(const char *filename)
   send_chat_printf("/load %s", filename);
 }
 
-/**************************************************************************
-  loads the currently selected game.
+/**********************************************************************//**
+  Loads the currently selected game.
 **************************************************************************/
 static void load_callback(void)
 {
@@ -2835,8 +2835,8 @@ static void load_callback(void)
   load_filename(filename);
 }
 
-/**************************************************************************
-  call the default GTK+ requester for saved game loading.
+/**********************************************************************//**
+  Call the default GTK+ requester for saved game loading.
 **************************************************************************/
 static void load_browse_callback(GtkWidget *w, gpointer data)
 {
@@ -2845,8 +2845,8 @@ static void load_browse_callback(GtkWidget *w, gpointer data)
                                  load_filename);
 }
 
-/**************************************************************************
- update the load page.
+/**********************************************************************//**
+  Update the load page.
 **************************************************************************/
 static void update_load_page(void)
 {
@@ -2858,8 +2858,8 @@ static void update_load_page(void)
   fileinfo_list_destroy(files);
 }
 
-/**************************************************************************
-  create the load page.
+/**********************************************************************//**
+  Create the load page.
 **************************************************************************/
 GtkWidget *create_load_page(void)
 {
@@ -2942,7 +2942,7 @@ GtkWidget *create_load_page(void)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Updates the info for the currently selected scenario.
 **************************************************************************/
 static void scenario_list_callback(void)
@@ -2992,8 +2992,8 @@ static void scenario_list_callback(void)
   gtk_label_set_text(GTK_LABEL(scenario_version), vername);
 }
 
-/**************************************************************************
-  loads the currently selected scenario.
+/**********************************************************************//**
+  Loads the currently selected scenario.
 **************************************************************************/
 static void scenario_callback(void)
 {
@@ -3008,8 +3008,8 @@ static void scenario_callback(void)
   load_filename(filename);
 }
 
-/**************************************************************************
-  call the default GTK+ requester for scenario loading.
+/**********************************************************************//**
+  Call the default GTK+ requester for scenario loading.
 **************************************************************************/
 static void scenario_browse_callback(GtkWidget *w, gpointer data)
 {
@@ -3018,7 +3018,7 @@ static void scenario_browse_callback(GtkWidget *w, gpointer data)
                                  load_filename);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Update the scenario page.
 **************************************************************************/
 static void update_scenario_page(void)
@@ -3122,7 +3122,7 @@ static void update_scenario_page(void)
   fileinfo_list_destroy(files);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create the scenario page.
 **************************************************************************/
 GtkWidget *create_scenario_page(void)
@@ -3283,7 +3283,7 @@ GtkWidget *create_scenario_page(void)
 }
 
 
-/**************************************************************************
+/**********************************************************************//**
   Returns current client page
 **************************************************************************/
 enum client_pages get_current_client_page(void)
@@ -3291,7 +3291,7 @@ enum client_pages get_current_client_page(void)
   return current_page;
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Changes the current page.  The action is delayed.
 **************************************************************************/
 void real_set_client_page(enum client_pages new_page)
@@ -3417,17 +3417,17 @@ void real_set_client_page(enum client_pages new_page)
                             SAVE GAME DIALOGs
 ****************************************************************************/
 
-/****************************************************************************
+/**********************************************************************//**
   Save game 'save_dialog_files_fn_t' implementation.
-****************************************************************************/
+**************************************************************************/
 static struct fileinfo_list *save_dialog_savegame_list(void)
 {
   return fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save game dialog.
-****************************************************************************/
+**************************************************************************/
 void save_game_dialog_popup(void)
 {
   static GtkWidget *shell = NULL;
@@ -3444,25 +3444,25 @@ void save_game_dialog_popup(void)
   gtk_window_present(GTK_WINDOW(shell));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save scenario 'save_dialog_action_fn_t' implementation.
-****************************************************************************/
+**************************************************************************/
 static void save_dialog_save_scenario(const char *filename)
 {
   dsend_packet_save_scenario(&client.conn, filename);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save scenario 'save_dialog_files_fn_t' implementation.
-****************************************************************************/
+**************************************************************************/
 static struct fileinfo_list *save_dialog_scenario_list(void)
 {
   return fileinfolist_infix(get_scenario_dirs(), ".sav", FALSE);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save scenario dialog.
-****************************************************************************/
+**************************************************************************/
 void save_scenario_dialog_popup(void)
 {
   static GtkWidget *shell = NULL;
@@ -3479,19 +3479,19 @@ void save_scenario_dialog_popup(void)
   gtk_window_present(GTK_WINDOW(shell));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save mapimg 'save_dialog_files_fn_t' implementation. If possible, only the
   current directory is used. As fallback, the files in the save directories
   are listed.
-****************************************************************************/
+**************************************************************************/
 static struct fileinfo_list *save_dialog_mapimg_list(void)
 {
   return fileinfolist_infix(get_save_dirs(), ".map", FALSE);
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save scenario dialog.
-****************************************************************************/
+**************************************************************************/
 void save_mapimg_dialog_popup(void)
 {
   static GtkWidget *shell = NULL;
@@ -3508,9 +3508,9 @@ void save_mapimg_dialog_popup(void)
   gtk_window_present(GTK_WINDOW(shell));
 }
 
-/****************************************************************************
+/**********************************************************************//**
   Save map image. On error popup a message window for the user.
-****************************************************************************/
+**************************************************************************/
 void mapimg_client_save(const char *filename)
 {
   if (!mapimg_client_createmap(filename)) {
@@ -3522,11 +3522,11 @@ void mapimg_client_save(const char *filename)
 }
 
 
-/****************************************************************************
+/**********************************************************************//**
   Set the list of available rulesets.  The default ruleset should be
   "default", and if the user changes this then set_ruleset() should be
   called.
-****************************************************************************/
+**************************************************************************/
 void set_rulesets(int num_rulesets, char **rulesets)
 {
   int i;

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -119,7 +119,7 @@ enum science_report_columns {
   SRD_COL_NUM
 };
 
-/****************************************************************************
+/************************************************************************//**
   Create a science report list store.
 ****************************************************************************/
 static GtkListStore *science_report_store_new(void)
@@ -130,7 +130,7 @@ static GtkListStore *science_report_store_new(void)
                             G_TYPE_INT);        /* SRD_COL_ID */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Append a technology to the list store.
 ****************************************************************************/
 static inline void science_report_store_set(GtkListStore *store,
@@ -148,7 +148,7 @@ static inline void science_report_store_set(GtkListStore *store,
                      -1);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the active tech of the combo.
 ****************************************************************************/
 static bool science_report_combo_get_active(GtkComboBox *combo,
@@ -169,7 +169,7 @@ static bool science_report_combo_get_active(GtkComboBox *combo,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the active tech of the combo.
 ****************************************************************************/
 static void science_report_combo_set_active(GtkComboBox *combo,
@@ -191,7 +191,7 @@ static void science_report_combo_set_active(GtkComboBox *combo,
   log_error("%s(): Tech %d not found in the combo.", __FUNCTION__, tech);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Change tech goal, research or open help dialog.
 ****************************************************************************/
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
@@ -229,7 +229,7 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
 static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -263,7 +263,7 @@ static gboolean science_diagram_update(GtkWidget *widget, cairo_t *cr, gpointer 
   return TRUE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the drawing area widget of new technology diagram. Set in 'x' the
   position of the current tech to center to it.
 ****************************************************************************/
@@ -284,7 +284,7 @@ static GtkWidget *science_diagram_new(void)
   return diagram;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Recreate the req tree.
 ****************************************************************************/
 static void science_diagram_data(GtkWidget *widget, bool show_all)
@@ -306,7 +306,7 @@ static void science_diagram_data(GtkWidget *widget, bool show_all)
                          (GDestroyNotify) destroy_reqtree);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the diagram parent to point to 'tech' location.
 ****************************************************************************/
 static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
@@ -341,7 +341,7 @@ static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Resize and redraw the requirement tree.
 ****************************************************************************/
 static void science_report_redraw(struct science_report *preport)
@@ -364,7 +364,7 @@ static void science_report_redraw(struct science_report *preport)
   gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Utility for g_list_sort.
 ****************************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
@@ -379,7 +379,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
   return fc_strcoll(a_str, b_str);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update a science report dialog.
 ****************************************************************************/
 static void science_report_update(struct science_report *preport)
@@ -482,7 +482,7 @@ static void science_report_update(struct science_report *preport)
   science_report_no_combo_callback = FALSE;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Actived item in the reachable techs combo box.
 ****************************************************************************/
 static void science_report_current_callback(GtkComboBox *combo,
@@ -505,7 +505,7 @@ static void science_report_current_callback(GtkComboBox *combo,
                                   (client_player())->researching);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Show or hide unreachable techs.
 ****************************************************************************/
 static void science_report_show_all_callback(GtkComboBox *combo,
@@ -516,7 +516,7 @@ static void science_report_show_all_callback(GtkComboBox *combo,
   science_report_redraw(preport);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Actived item in the reachable goals combo box.
 ****************************************************************************/
 static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
@@ -538,7 +538,7 @@ static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
                                   (client_player())->tech_goal);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initialize a science report.
 ****************************************************************************/
 static void science_report_init(struct science_report *preport)
@@ -660,7 +660,7 @@ static void science_report_init(struct science_report *preport)
   science_report_redraw(preport);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free a science report.
 ****************************************************************************/
 static void science_report_free(struct science_report *preport)
@@ -673,7 +673,7 @@ static void science_report_free(struct science_report *preport)
   memset(preport, 0, sizeof(*preport));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the science report is needed.
 ****************************************************************************/
 void science_report_dialog_popup(bool raise)
@@ -697,7 +697,7 @@ void science_report_dialog_popup(bool raise)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Closes the science report dialog.
 ****************************************************************************/
 void science_report_dialog_popdown(void)
@@ -708,7 +708,7 @@ void science_report_dialog_popdown(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the science report dialog.
 ****************************************************************************/
 void real_science_report_dialog_update(void)
@@ -718,7 +718,7 @@ void real_science_report_dialog_update(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Resize and redraw the requirement tree.
 ****************************************************************************/
 void science_report_dialog_redraw(void)
@@ -763,7 +763,7 @@ enum economy_report_columns {
   ERD_COL_NUM
 };
 
-/****************************************************************************
+/************************************************************************//**
   Create a new economy report list store.
 ****************************************************************************/
 static GtkListStore *economy_report_store_new(void)
@@ -780,7 +780,7 @@ static GtkListStore *economy_report_store_new(void)
                             G_TYPE_INT);        /* ERD_COL_UNI_VALUE_ID */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the title of the column (translated).
 ****************************************************************************/
 static const char *
@@ -810,7 +810,7 @@ economy_report_column_name(enum economy_report_columns col)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the economy report dialog.
 ****************************************************************************/
 static void economy_report_update(struct economy_report *preport)
@@ -902,7 +902,7 @@ static void economy_report_update(struct economy_report *preport)
   gtk_label_set_text(preport->label, buf);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Issue a command on the economy report.
 ****************************************************************************/
 static void economy_report_command_callback(struct gui_dialog *pdialog,
@@ -1017,7 +1017,7 @@ static void economy_report_command_callback(struct gui_dialog *pdialog,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Called when a building or a unit type is selected in the economy list.
 ****************************************************************************/
 static void economy_report_selection_callback(GtkTreeSelection *selection,
@@ -1066,7 +1066,7 @@ static void economy_report_selection_callback(GtkTreeSelection *selection,
   gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS, FALSE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a new economy report.
 ****************************************************************************/
 static void economy_report_init(struct economy_report *preport)
@@ -1178,7 +1178,7 @@ static void economy_report_init(struct economy_report *preport)
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free an economy report.
 ****************************************************************************/
 static void economy_report_free(struct economy_report *preport)
@@ -1191,7 +1191,7 @@ static void economy_report_free(struct economy_report *preport)
   memset(preport, 0, sizeof(*preport));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the economy report if needed.
 ****************************************************************************/
 void economy_report_dialog_popup(bool raise)
@@ -1206,7 +1206,7 @@ void economy_report_dialog_popup(bool raise)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Close the economy report dialog.
 ****************************************************************************/
 void economy_report_dialog_popdown(void)
@@ -1216,7 +1216,7 @@ void economy_report_dialog_popdown(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the economy report dialog.
 ****************************************************************************/
 void real_economy_report_dialog_update(void)
@@ -1292,7 +1292,7 @@ static const struct {
   { /* URD_COL_UTYPE_ID */     G_TYPE_INT,     NULL /* ... */ }
 };
 
-/****************************************************************************
+/************************************************************************//**
   Create a new units report list store.
 ****************************************************************************/
 static GtkListStore *units_report_store_new(void)
@@ -1308,7 +1308,7 @@ static GtkListStore *units_report_store_new(void)
   return gtk_list_store_newv(URD_COL_NUM, cols);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the units report.
 ****************************************************************************/
 static void units_report_update(struct units_report *preport)
@@ -1442,7 +1442,7 @@ static void units_report_update(struct units_report *preport)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   GtkTreeSelection "changed" signal handler.
 ****************************************************************************/
 static void units_report_selection_callback(GtkTreeSelection *selection,
@@ -1479,7 +1479,7 @@ static void units_report_selection_callback(GtkTreeSelection *selection,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Returns the nearest unit of the type 'utype'.
 ****************************************************************************/
 static struct unit *find_nearest_unit(const struct unit_type *utype,
@@ -1511,7 +1511,7 @@ static struct unit *find_nearest_unit(const struct unit_type *utype,
   return best_candidate;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Gui dialog handler.
 ****************************************************************************/
 static void units_report_command_callback(struct gui_dialog *pdialog,
@@ -1593,7 +1593,7 @@ static void units_report_command_callback(struct gui_dialog *pdialog,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create a units report.
 ****************************************************************************/
 static void units_report_init(struct units_report *preport)
@@ -1694,7 +1694,7 @@ static void units_report_init(struct units_report *preport)
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Free an units report.
 ****************************************************************************/
 static void units_report_free(struct units_report *preport)
@@ -1707,7 +1707,7 @@ static void units_report_free(struct units_report *preport)
   memset(preport, 0, sizeof(*preport));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Create the units report if needed.
 ****************************************************************************/
 void units_report_dialog_popup(bool raise)
@@ -1722,7 +1722,7 @@ void units_report_dialog_popup(bool raise)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Closes the units report dialog.
 ****************************************************************************/
 void units_report_dialog_popdown(void)
@@ -1733,7 +1733,7 @@ void units_report_dialog_popdown(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the units report dialog.
 ****************************************************************************/
 void real_units_report_dialog_update(void)
@@ -1765,7 +1765,7 @@ enum endgame_report_columns {
 
 static struct endgame_report endgame_report = { NULL, NULL };
 
-/****************************************************************************
+/************************************************************************//**
   Returns the title of the column (translated).
 ****************************************************************************/
 static const char *
@@ -1785,7 +1785,7 @@ endgame_report_column_name(enum endgame_report_columns col)
   return NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Fill a final report with statistics for each player.
 ****************************************************************************/
 static void endgame_report_update(struct endgame_report *preport,
@@ -1848,7 +1848,7 @@ static void endgame_report_update(struct endgame_report *preport,
   preport->players_received = 0;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Handle endgame report information about one player.
 ****************************************************************************/
 void endgame_report_dialog_player(const struct packet_endgame_player *packet)
@@ -1878,7 +1878,7 @@ void endgame_report_dialog_player(const struct packet_endgame_player *packet)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Prepare a final report.
 ****************************************************************************/
 static void endgame_report_init(struct endgame_report *preport)
@@ -1913,7 +1913,7 @@ static void endgame_report_init(struct endgame_report *preport)
   gui_dialog_show_all(preport->shell);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Start building a dialog with player statistics at endgame.
 ****************************************************************************/
 void endgame_report_dialog_start(const struct packet_endgame_report *packet)
