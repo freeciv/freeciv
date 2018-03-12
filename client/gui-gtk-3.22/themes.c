@@ -37,7 +37,7 @@
 
 #include "themes_g.h"
 
-/*****************************************************************************
+/*************************************************************************//**
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
@@ -64,7 +64,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Clears a theme (sets default system theme)
 *****************************************************************************/
 void gui_clear_theme(void)
@@ -91,7 +91,7 @@ void gui_clear_theme(void)
   }
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Each gui has its own themes directories.
   For gtk3x these are:
   - /usr/share/themes
@@ -138,7 +138,7 @@ char **get_gui_specific_themes_directories(int *count)
   return directories;
 }
 
-/*****************************************************************************
+/*************************************************************************//**
   Return an array of names of usable themes in the given directory.
   Array size is stored in count.
   Useable theme for gtk+ is a directory which contains file gtk-3.0/gtk.css.

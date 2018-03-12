@@ -36,9 +36,9 @@
 static void soundset_suggestion_callback(GtkWidget *dlg, gint arg);
 static void musicset_suggestion_callback(GtkWidget *dlg, gint arg);
 
-/****************************************************************
+/************************************************************************//**
   Callback either loading suggested soundset or doing nothing
-*****************************************************************/
+****************************************************************************/
 static void soundset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
@@ -48,10 +48,10 @@ static void soundset_suggestion_callback(GtkWidget *dlg, gint arg)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Popup dialog asking if ruleset suggested soundset should be
   used.
-*****************************************************************/
+****************************************************************************/
 void popup_soundset_suggestion_dialog(void)
 {
   GtkWidget *dialog, *label;
@@ -91,9 +91,9 @@ void popup_soundset_suggestion_dialog(void)
   gtk_widget_destroy(dialog);
 }
 
-/****************************************************************
+/************************************************************************//**
   Callback either loading suggested musicset or doing nothing
-*****************************************************************/
+****************************************************************************/
 static void musicset_suggestion_callback(GtkWidget *dlg, gint arg)
 {
   if (arg == GTK_RESPONSE_YES) {
@@ -102,10 +102,10 @@ static void musicset_suggestion_callback(GtkWidget *dlg, gint arg)
   }
 }
 
-/****************************************************************
+/************************************************************************//**
   Popup dialog asking if ruleset suggested musicset should be
   used.
-*****************************************************************/
+****************************************************************************/
 void popup_musicset_suggestion_dialog(void)
 {
   GtkWidget *dialog, *label;
