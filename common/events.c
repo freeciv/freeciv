@@ -169,7 +169,7 @@ static struct {
   GEN_EV(E_UNIT_BUY,		E_S_UNIT,	N_("Bought")),
   GEN_EV(E_UNIT_BUILT,		E_S_UNIT,	N_("Built")),
   GEN_EV(E_UNIT_LOST_DEF,	E_S_UNIT,	N_("Defender Destroyed")),
-  GEN_EV(E_UNIT_WIN,		E_S_UNIT,	N_("Defender Survived")),
+  GEN_EV(E_UNIT_WIN_DEF,	E_S_UNIT,	N_("Defender Survived")),
   GEN_EV(E_UNIT_BECAME_VET,	E_S_UNIT,	N_("Promoted to Veteran")),
   GEN_EV(E_UNIT_LOST_MISC,      E_S_UNIT,       N_("Lost outside battle")),
   GEN_EV(E_UNIT_UPGRADED,	E_S_UNIT,	N_("Production Upgraded")),
@@ -285,7 +285,7 @@ bool is_city_event(enum event_type event)
   case E_UNIT_LOST_DEF:  /* FIXME: Is this correct.
                           * I'd like to find now defendeseless city quickly! */
   case E_UNIT_LOST_MISC:
-  case E_UNIT_WIN:
+  case E_UNIT_WIN_DEF:
   case E_ENEMY_DIPLOMAT_FAILED:
   case E_ENEMY_DIPLOMAT_EMBASSY:
   case E_ENEMY_DIPLOMAT_POISON:

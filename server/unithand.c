@@ -3238,7 +3238,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
                   _("Your %s was shot down by "
                     "SDI defenses, what a waste."), unit_tile_link(punit));
-    notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
+    notify_player(city_owner(pcity), def_tile, E_UNIT_WIN_DEF, ftc_server,
                   _("The nuclear attack on %s was avoided by"
                     " your SDI defense."), city_link(pcity));
 
@@ -3501,7 +3501,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
               unit_rule_name(pdefender));
 
     notify_player(unit_owner(pwinner), unit_tile(pwinner),
-                  E_UNIT_WIN, ftc_server,
+                  E_UNIT_WIN_DEF, ftc_server,
                   /* TRANS: "Your Cannon ... the Polish Destroyer." */
                   _("Your %s survived the pathetic attack from the %s %s."),
                   winner_link,
