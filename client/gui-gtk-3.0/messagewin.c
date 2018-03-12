@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ enum meswin_responses {
 
 static struct meswin_dialog meswin = { NULL, };
 
-/****************************************************************************
+/************************************************************************//**
   Create a tree model for the message window.
 ****************************************************************************/
 static GtkListStore *meswin_dialog_store_new(void)
@@ -82,7 +82,7 @@ static GtkListStore *meswin_dialog_store_new(void)
                             G_TYPE_INT);        /* MESWIN_COL_ID */
 }
 
-/****************************************************************************
+/************************************************************************//**
   Get the pango attributes for the visited state.
 ****************************************************************************/
 static void meswin_dialog_visited_get_attr(bool visited, gint *weight,
@@ -96,7 +96,7 @@ static void meswin_dialog_visited_get_attr(bool visited, gint *weight,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the visited state of the store.
 ****************************************************************************/
 static void meswin_dialog_set_visited(GtkTreeModel *model,
@@ -113,7 +113,7 @@ static void meswin_dialog_set_visited(GtkTreeModel *model,
   meswin_set_visited_state(row, visited);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Refresh a message window dialog.
 ****************************************************************************/
 static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
@@ -190,9 +190,9 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
   }
 }
 
-/**************************************************************************
+/************************************************************************//**
   Selection changed callback.
-**************************************************************************/
+****************************************************************************/
 static void meswin_dialog_selection_callback(GtkTreeSelection *selection,
                                              gpointer data)
 {
@@ -215,9 +215,9 @@ static void meswin_dialog_selection_callback(GtkTreeSelection *selection,
                                     NULL != pmsg && pmsg->city_ok);
 }
 
-/**************************************************************************
+/************************************************************************//**
   A row has been activated by the user.
-**************************************************************************/
+****************************************************************************/
 static void meswin_dialog_row_activated_callback(GtkTreeView *view,
                                                  GtkTreePath *path,
                                                  GtkTreeViewColumn *col,
@@ -239,7 +239,7 @@ static void meswin_dialog_row_activated_callback(GtkTreeView *view,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Mouse button press handler for the message window treeview. We only
   care about right clicks on a row; this action centers on the tile
   associated with the event at that row (if applicable).
@@ -274,9 +274,9 @@ static gboolean meswin_dialog_button_press_callback(GtkWidget *widget,
   return TRUE;
 }
 
-/**************************************************************************
+/************************************************************************//**
   Dialog response callback.
-**************************************************************************/
+****************************************************************************/
 static void meswin_dialog_response_callback(struct gui_dialog *pgui_dialog,
                                             int response, gpointer data)
 {
@@ -313,7 +313,7 @@ static void meswin_dialog_response_callback(struct gui_dialog *pgui_dialog,
   meswin_dialog_set_visited(model, &iter, TRUE);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Initilialize a message window dialog.
 ****************************************************************************/
 static void meswin_dialog_init(struct meswin_dialog *pdialog)
@@ -397,7 +397,7 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   gui_dialog_show_all(pdialog->shell);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Closes a message window dialog.
 ****************************************************************************/
 static void meswin_dialog_free(struct meswin_dialog *pdialog)
@@ -410,7 +410,7 @@ static void meswin_dialog_free(struct meswin_dialog *pdialog)
   memset(pdialog, 0, sizeof(*pdialog));
 }
 
-/****************************************************************************
+/************************************************************************//**
   Popup the dialog inside the main-window, and optionally raise it.
 ****************************************************************************/
 void meswin_dialog_popup(bool raise)
@@ -425,7 +425,7 @@ void meswin_dialog_popup(bool raise)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Closes the message window dialog.
 ****************************************************************************/
 void meswin_dialog_popdown(void)
@@ -436,7 +436,7 @@ void meswin_dialog_popdown(void)
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return TRUE iff the message window is open.
 ****************************************************************************/
 bool meswin_dialog_is_open(void)
@@ -444,7 +444,7 @@ bool meswin_dialog_is_open(void)
   return (NULL != meswin.shell);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Update the message window dialog.
 ****************************************************************************/
 void real_meswin_dialog_update(void)

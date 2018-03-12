@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
 static void item_toggled(GtkCellRendererToggle *cell,
                          gchar *spath, gpointer data);
 
-/**************************************************************************
+/**********************************************************************//**
   Open messageoptions dialog
 **************************************************************************/
 void popup_messageopt_dialog(void)
@@ -56,7 +56,7 @@ void popup_messageopt_dialog(void)
   gui_dialog_raise(shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Create messageoptions dialog
 **************************************************************************/
 static void create_messageopt_dialog(void)
@@ -167,7 +167,7 @@ static void create_messageopt_dialog(void)
   gui_dialog_show_all(shell);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   Use responded to messageoptions dialog
 **************************************************************************/
 static void messageopt_response(struct gui_dialog *dlg, int response,
@@ -199,7 +199,7 @@ static void messageopt_response(struct gui_dialog *dlg, int response,
   gui_dialog_destroy(dlg);
 }
 
-/**************************************************************************
+/**********************************************************************//**
   User toggled item
 **************************************************************************/
 static void item_toggled(GtkCellRendererToggle *cell,
