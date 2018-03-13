@@ -25,6 +25,7 @@ format_version=20
 ;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
+; graphic       = tag specifying preferred graphic
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
 ;                 found. Example value: "specialist.scientist_0"
 ;                 The specialist graphic allow different images based on
@@ -38,8 +39,9 @@ format_version=20
 ; */ <-- avoid gettext warnings
 
 [specialist_generic]
-name            = _("elvis") ; This cannot be 'generic' as graphics tag is based on this
+name            = _("Generic")
 short_name      = _("?gspecialist:G")
+graphic         = "specialist.elvis"
 reqs            =
     { "type", "name", "range"
 ; No requirements

@@ -5354,6 +5354,7 @@ static bool load_ruleset_cities(struct section_file *file,
 
   if (ok) {
     int i = 0;
+    const char *tag;
 
     game.control.num_specialist_types = section_list_size(sec);
 
@@ -5371,6 +5372,15 @@ static bool load_ruleset_cities(struct section_file *file,
                                         "%s.short_name", sec_name);
       name_set(&s->abbreviation, NULL, item);
 
+      tag = secfile_lookup_str(file, "%s.graphic", sec_name);
+      if (tag == NULL) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\": No graphic tag for specialist at %s.",
+                      filename, sec_name);
+        ok = FALSE;
+        break;
+      }
+      sz_strlcpy(s->graphic_str, tag);
       sz_strlcpy(s->graphic_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", sec_name));
@@ -7230,6 +7240,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&s->name));
     sz_strlcpy(packet.short_name, untranslated_name(&s->abbreviation));
+    sz_strlcpy(packet.graphic_str, s->graphic_str);
     sz_strlcpy(packet.graphic_alt, s->graphic_alt);
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {

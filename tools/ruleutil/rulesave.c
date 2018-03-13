@@ -650,6 +650,7 @@ static bool save_cities_ruleset(const char *filename, const char *name)
 
     save_reqs_vector(sfile, &(s->reqs), path, "reqs");
 
+    secfile_insert_str(sfile, s->graphic_str, "%s.graphic", path);
     if (strcmp(s->graphic_alt, "-")) {
       secfile_insert_str(sfile, s->graphic_alt, "%s.graphic_alt", path);
     }
