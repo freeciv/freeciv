@@ -2673,12 +2673,13 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   /* Load the specialist sprite graphics. */
   char buffer[512];
   int j;
-  const char *name = specialist_rule_name(specialist_by_number(id));
-  const char *graphic_alt = specialist_by_number(id)->graphic_alt;
+  struct specialist *spe = specialist_by_number(id);
+  const char *tag = spe->graphic_str;
+  const char *graphic_alt = spe->graphic_alt;
 
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
     /* Try rule name + index number */
-    fc_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
+    fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
     t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
                                                       FALSE);
 
@@ -2702,7 +2703,7 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 
   /* Still nothing? Give up. */
   if (j == 0) {
-    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), name);
+    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), tag);
   }
 }
 

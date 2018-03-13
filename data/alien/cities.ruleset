@@ -35,6 +35,7 @@ format_version=10
 ;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
+; graphic       = tag specifying preferred graphic
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
 ;                 found. Example value: "specialist.scientist_0"
 ;                 The specialist graphic allow different images based on
@@ -50,6 +51,7 @@ format_version=10
 [specialist_culturists]
 name            = _("Culturists")
 short_name      = _("?Culturists:C")
+graphic         = "specialist.culturists"
 graphic_alt     = "specialist.elvis_0"
 reqs            =
     { "type", "name", "range"
@@ -62,6 +64,7 @@ points per turn, four if Specialist Training tech is known.")
 [specialist_scientist]
 name		= _("Scientists")
 short_name	= _("?Scientist:S")
+graphic         = "specialist.scientists"
 graphic_alt     = "specialist.scientist_0"
 reqs		=
     { "type", "name", "range"
@@ -75,6 +78,7 @@ when Specialist Training tech is known.")
 name		= _("Government Merchants")
 rule_name       = "Government_Merchants"
 short_name	= _("?Merchant:M")
+graphic         = "specialist.government_merchants"
 graphic_alt     = "specialist.taxman_0"
 reqs		=
     { "type", "name", "range"

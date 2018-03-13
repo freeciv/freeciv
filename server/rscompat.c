@@ -30,6 +30,7 @@
 #include "effects.h"
 #include "game.h"
 #include "requirements.h"
+#include "specialist.h"
 #include "unittype.h"
 
 /* server */
@@ -1604,4 +1605,23 @@ const char *rscompat_utype_flag_name_3_0(struct rscompat_info *compat,
   }
 
   return old_type;
+}
+
+/**************************************************************************
+  Construct specialist graphic tag.
+
+  Returns static buffer that gets overwritten on next call.
+**************************************************************************/
+const char *rscompat_specialist_gfx_tag_3_0(struct rscompat_info *info,
+                                            struct specialist *spe)
+{
+  if (info->ver_cities < 10) {
+    static char buffer[MAX_LEN_NAME];
+
+    fc_snprintf(buffer, sizeof(buffer), "specialist.%s", specialist_rule_name(spe));
+
+    return buffer;
+  }
+
+  return NULL;
 }

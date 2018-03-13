@@ -4363,6 +4363,7 @@ void handle_ruleset_specialist(const struct packet_ruleset_specialist *p)
   names_set(&s->name, NULL, p->plural_name, p->rule_name);
   name_set(&s->abbreviation, NULL, p->short_name);
 
+  sz_strlcpy(s->graphic_str, p->graphic_str);
   sz_strlcpy(s->graphic_alt, p->graphic_alt);
 
   for (j = 0; j < p->reqs_count; j++) {

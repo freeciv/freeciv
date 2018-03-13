@@ -1072,6 +1072,7 @@ specialists = "\
 ;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; short_name    = one-character \"short name\" used (for instance) in cityrep;\n\
 ;                 should be first character/abbrevation of \"name\"\n\
+; graphic       = tag specifying preferred graphic\n\
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't\n\
 ;                 found. Example value: \"specialist.scientist_0\"\n\
 ;                 The specialist graphic allow different images based on\n\

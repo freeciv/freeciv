@@ -1396,6 +1396,7 @@ PACKET_RULESET_SPECIALIST = 142; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   STRING short_name[MAX_LEN_NAME];
 
+  STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
 
   UINT8 reqs_count;

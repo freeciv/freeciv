@@ -31,6 +31,7 @@ format_version=10
 ;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
+; graphic       = tag specifying preferred graphic
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
 ;                 found. Example value: "specialist.scientist_0"
 ;                 The specialist graphic allow different images based on
@@ -49,6 +50,7 @@ name            = _("Entertainers")
 ; not designed to be user-visible.)
 rule_name       = "elvis"
 short_name	= _("?Elvis:E")
+graphic         = "specialist.elvis"
 reqs		=
     { "type", "name", "range"
 ; Nothing
@@ -62,6 +64,7 @@ See the section on Happiness for the effects of luxury points.\
 name            = _("Scientists")
 rule_name       = "scientist"
 short_name	= _("?Scientist:S")
+graphic         = "specialist.scientist"
 reqs		=
     { "type", "name", "range"
 ; Nothing
@@ -75,6 +78,7 @@ per turn.\
 name            = _("Taxmen")
 rule_name       = "taxman"
 short_name	= _("?Taxman:T")
+graphic         = "specialist.taxman"
 reqs		=
     { "type", "name", "range"
 ; Nothing
