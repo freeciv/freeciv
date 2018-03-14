@@ -297,6 +297,8 @@ extern "C" {
 #define SPECENUM_VALUE117NAME "Conquer_Techs_Min"
 #define SPECENUM_VALUE118 EFT_CONQUER_TECHS_MAX
 #define SPECENUM_VALUE118NAME "Conquer_Techs_Max"
+#define SPECENUM_VALUE119 EFT_COMBAT_ROUNDS
+#define SPECENUM_VALUE119NAME "Combat_Rounds"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

@@ -279,6 +279,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
   struct player *plr2 = unit_owner(defender);
+  int max_rounds;
   int rounds;
 
   *att_hp = attacker->hp;
@@ -298,9 +299,10 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   } else if (defensepower == 0) {
     *def_hp = 0;
   }
+  max_rounds = get_unit_bonus(attacker, EFT_COMBAT_ROUNDS);
   for (rounds = 0;
        *att_hp > 0 && *def_hp > 0
-         && (game.server.combat_rounds == 0 || game.server.combat_rounds > rounds);
+         && (max_rounds <= 0 || max_rounds > rounds);
        rounds++) {
     if (fc_rand(attackpower + defensepower) >= defensepower) {
       *def_hp -= attack_firepower;

@@ -555,6 +555,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_ACTION_ODDS_PCT:
   case EFT_BORDER_VISION:
   case EFT_STEALINGS_IGNORE:
+  case EFT_COMBAT_ROUNDS:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:
