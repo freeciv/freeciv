@@ -355,6 +355,10 @@ Veteran_Combat
     Increases the chance of units of this type becoming veteran after combat 
 by amount percent.
 
+Combat_Rounds
+    Maximum number of rounds combat lasts. Unit is the attacker. Zero and
+    negative values mean that combat continues until either side dies.
+
 HP_Regen
     Units that do not move recover amount percentage of their full hitpoints 
 per turn.
