@@ -6530,6 +6530,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       sz_strlcpy(action_by_number(ACTION_HEAL_UNIT)->ui_name,
                  text);
 
+      text = secfile_lookup_str_default(file,
+          /* TRANS: _Transform Terrain (3% chance of success). */
+          N_("%sTransform Terrain%s"),
+          "actions.ui_name_transform_terrain");
+      sz_strlcpy(action_by_number(ACTION_TRANSFORM_TERRAIN)->ui_name,
+                 text);
+
       /* The quiet (don't auto generate help for) property of all actions
        * live in a single enum vector. This avoids generic action
        * expectations. */

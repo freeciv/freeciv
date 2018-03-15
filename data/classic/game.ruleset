@@ -326,6 +326,9 @@ ui_name_attack = _("%sAttack%s")
 ; /* TRANS: _Conquer City (100% chance of success). */
 ui_name_conquer_city = _("%sConquer City%s")
 
+; /* TRANS: _Transform Terrain (3% chance of success). */
+ui_name_transform_terrain = _("%sTransform Terrain%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;

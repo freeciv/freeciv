@@ -525,6 +525,7 @@ Actions done by a unit against a tile
  * the target tile is known (doesn't have to be seen) by the actor
 
 "Transform Terrain" - Transform tile terrain type.
+ * UI name can be set using ui_name_transform_terrain
  * the actor unit has "Settlers" flag
  * terrain type must be one that can be transformed
 

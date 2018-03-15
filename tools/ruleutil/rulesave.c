@@ -1178,6 +1178,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile,
                      action_by_number(ACTION_HEAL_UNIT)->ui_name,
                      "actions.ui_name_heal_unit");
+  secfile_insert_str(sfile,
+                     action_by_number(ACTION_TRANSFORM_TERRAIN)->ui_name,
+                     "actions.ui_name_transform_terrain");
 
   i = 0;
   action_iterate(act) {
