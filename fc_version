@@ -6,10 +6,10 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="93"
-PATCH_VERSION="99"
+MINOR_VERSION="94"
+PATCH_VERSION="90"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha"
+VERSION_LABEL="-alpha1"
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
