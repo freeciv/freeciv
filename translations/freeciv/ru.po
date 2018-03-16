@@ -9,13 +9,13 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2017.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-11 00:31+0000\n"
-"PO-Revision-Date: 2017-12-26 20:34+0500\n"
+"POT-Creation-Date: 2018-03-17 03:39+0500\n"
+"PO-Revision-Date: 2018-03-17 03:38+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -450,7 +450,7 @@ msgstr "специальный"
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:283 client/citydlg_common.c:336
 #: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1562
-#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1870
+#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1869
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1417 client/gui-sdl/wldlg.c:1422
 #: client/gui-xaw/citydlg.c:252 client/text.c:971
@@ -459,7 +459,7 @@ msgstr "никогда"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1568
-#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1876
+#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1875
 #: client/gui-xaw/citydlg.c:257 client/text.c:969 client/text.c:1446
 #, c-format
 msgid "%d turn"
@@ -830,7 +830,7 @@ msgstr "Название города"
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-3.0/citizensinfo.c:65
 #: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1403
-#: client/gui-gtk-3.0/pages.c:2770 client/gui-qt/citydlg.cpp:1767
+#: client/gui-gtk-3.0/pages.c:2770 client/gui-qt/citydlg.cpp:1766
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:276
 #: client/gui-qt/pages.cpp:547 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
@@ -955,7 +955,7 @@ msgstr "Количество присутствующих соединений"
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:673
 msgid "?Supported (units):Owned"
-msgstr "Подд."
+msgstr "Подд"
 
 #: client/cityrepdata.c:674
 msgid "Number of units supported"
@@ -1123,7 +1123,7 @@ msgid "Maximum units buildable per turn"
 msgstr "Максимальное количество соединений, формируемых за ход"
 
 #: client/cityrepdata.c:718 client/cityrepdata.c:720
-#: client/gui-qt/citydlg.cpp:680 client/gui-qt/cityrep.cpp:497
+#: client/gui-qt/citydlg.cpp:679 client/gui-qt/cityrep.cpp:497
 #: client/gui-sdl/cityrep.c:201 server/report.c:164
 msgid "Production"
 msgstr "Произв."
@@ -1938,7 +1938,7 @@ msgid "Chat tools"
 msgstr "Вид текста"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
-#: client/gui-qt/citydlg.cpp:1767
+#: client/gui-qt/citydlg.cpp:1766
 msgid "#"
 msgstr "К-во"
 
@@ -1946,7 +1946,7 @@ msgstr "К-во"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2701
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2768
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:547
+#: client/gui-qt/citydlg.cpp:1766 client/gui-qt/pages.cpp:547
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "Флаг"
@@ -1957,17 +1957,17 @@ msgid "Citizens"
 msgstr "Жители"
 
 #: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:716
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:829
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/helpdlg.cpp:829
 msgid "Food:"
 msgstr "Еда:"
 
 #: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:717
-#: client/gui-qt/citydlg.cpp:710
+#: client/gui-qt/citydlg.cpp:709
 msgid "Prod:"
 msgstr "Производство:"
 
 #: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:718
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:833
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/helpdlg.cpp:833
 msgid "Trade:"
 msgstr "Торговля:"
 
@@ -1975,50 +1975,50 @@ msgstr "Торговля:"
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/diplodlg.cpp:135
 #: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "Золото:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "Роскошь:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:721 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "Наука:"
 
 #: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:722
-#: client/gui-qt/citydlg.cpp:711
+#: client/gui-qt/citydlg.cpp:710
 msgid "Granary:"
 msgstr "Запас еды:"
 
 #: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:723
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Change in:"
 msgstr "Рост (ходы):"
 
 #: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:724
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Corruption:"
 msgstr "Коррупция:"
 
 #: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:725
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Waste:"
 msgstr "Растраты:"
 
 #: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:726
-#: client/gui-qt/citydlg.cpp:713
+#: client/gui-qt/citydlg.cpp:712
 msgid "Pollution:"
 msgstr "Загрязнение:"
 
 #: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:727
-#: client/gui-qt/citydlg.cpp:713
+#: client/gui-qt/citydlg.cpp:712
 msgid "Plague Risk:"
 msgstr "Риск эпидемии:"
 
@@ -2033,13 +2033,13 @@ msgstr "(_O) Обзор"
 
 #: client/gui-gtk-2.0/citydlg.c:774 client/gui-gtk-2.0/citydlg.c:1090
 #: client/gui-gtk-3.0/citydlg.c:803 client/gui-gtk-3.0/citydlg.c:1278
-#: client/gui-qt/citydlg.cpp:759 client/gui-sdl/citydlg.c:2526
+#: client/gui-qt/citydlg.cpp:758 client/gui-sdl/citydlg.c:2526
 msgid "City map"
 msgstr "Карта города"
 
 #: client/gui-gtk-2.0/citydlg.c:796 client/gui-gtk-3.0/citydlg.c:835
 msgid "Press <b>ENTER</b> or double-click to sell an improvement."
-msgstr "Нажмите <b>Enter</b> или дважды кликните мышкой, чтобы продать здание."
+msgstr "Для продажи здания нажмите на нём <b>Enter</b> или дважды кликните."
 
 #: client/gui-gtk-2.0/citydlg.c:814 client/gui-gtk-2.0/citydlg.c:1003
 #: client/gui-gtk-2.0/citydlg.c:1696 client/gui-gtk-3.0/citydlg.c:910
@@ -2110,7 +2110,7 @@ msgid "Taxmen"
 msgstr "Налоговики"
 
 #: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1336
-#: client/gui-qt/citydlg.cpp:815
+#: client/gui-qt/citydlg.cpp:814
 msgid "Disband if build settler at size 1"
 msgstr "Город размера 1 будет разрушен после постройки Колонистов"
 
@@ -2189,7 +2189,7 @@ msgstr "<b>%s</b> — жителей: %s"
 
 #. TRANS: city growth is blocked.  Keep short.
 #: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1762
-#: client/gui-qt/citydlg.cpp:1867 client/gui-sdl/citydlg.c:3306
+#: client/gui-qt/citydlg.cpp:1866 client/gui-sdl/citydlg.c:3306
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
 msgstr "сразу"
@@ -2205,13 +2205,13 @@ msgstr[1] "Производство (до %d соединений) за ход:"
 msgstr[2] "Производство (до %d соединений) за ход:"
 
 #: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2120
-#: client/gui-qt/citydlg.cpp:2022
+#: client/gui-qt/citydlg.cpp:2021
 #, c-format
 msgid "Supported units %d"
 msgstr "Поддерживает соединений: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2223
-#: client/gui-qt/citydlg.cpp:2043
+#: client/gui-qt/citydlg.cpp:2042
 #, c-format
 msgid "Present units %d"
 msgstr "Присутствует соединений: %d"
@@ -2265,7 +2265,7 @@ msgstr "(_p) Модернизировать"
 #: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-gtk-2.0/repodlgs.c:1525
 #: client/gui-gtk-3.0/citydlg.c:2839 client/gui-gtk-3.0/diplomat_dialog.c:124
 #: client/gui-gtk-3.0/diplomat_dialog.c:677 client/gui-gtk-3.0/repodlgs.c:1560
-#: client/gui-qt/citydlg.cpp:2194 client/gui-qt/dialogs.cpp:1584
+#: client/gui-qt/citydlg.cpp:2193 client/gui-qt/dialogs.cpp:1584
 #: client/gui-qt/dialogs.cpp:1645 client/gui-qt/repodlgs.cpp:978
 #: client/gui-sdl/citydlg.c:1144 client/gui-sdl/diplomat_dialog.c:1163
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
@@ -2326,7 +2326,7 @@ msgstr[2] ""
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2914
-#: client/gui-qt/citydlg.cpp:1952 client/gui-sdl/citydlg.c:1405
+#: client/gui-qt/citydlg.cpp:1951 client/gui-sdl/citydlg.c:1405
 #: client/gui-xaw/citydlg.c:2349
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -2341,12 +2341,12 @@ msgid "Sell It!"
 msgstr "Продать!"
 
 #: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2995
-#: client/gui-qt/citydlg.cpp:1220
+#: client/gui-qt/citydlg.cpp:1219
 msgid "Rename City"
 msgstr "Переименовать город"
 
 #: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2996
-#: client/gui-qt/citydlg.cpp:1221 client/gui-xaw/citydlg.c:1438
+#: client/gui-qt/citydlg.cpp:1220 client/gui-xaw/citydlg.c:1438
 msgid "What should we rename the city to?"
 msgstr "Как теперь назовём город?"
 
@@ -2374,7 +2374,7 @@ msgid "No %s could be sold."
 msgstr "Ни одно здание %s не может быть продано."
 
 #: client/gui-gtk-2.0/cityrep.c:966 client/gui-gtk-3.0/cityrep.c:974
-#: client/gui-qt/citydlg.cpp:1552 client/gui-qt/cityrep.cpp:490
+#: client/gui-qt/citydlg.cpp:1551 client/gui-qt/cityrep.cpp:490
 msgid "(no worklists defined)"
 msgstr "(план не установлен)"
 
@@ -2585,7 +2585,7 @@ msgid "Results"
 msgstr "Итого"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:340
-#: client/gui-qt/citydlg.cpp:1037 client/gui-sdl/cma_fe.c:928
+#: client/gui-qt/citydlg.cpp:1036 client/gui-sdl/cma_fe.c:928
 msgid "Minimal Surplus"
 msgstr "Минимальный избыток"
 
@@ -2595,7 +2595,7 @@ msgid "Factor"
 msgstr "Множитель"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:389
-#: client/gui-qt/citydlg.cpp:1036 client/gui-sdl/cma_fe.c:978
+#: client/gui-qt/citydlg.cpp:1035 client/gui-sdl/cma_fe.c:978
 #: client/gui-xaw/cma_fe.c:184 client/gui-xaw/cma_fe.c:226
 msgid "Celebrate"
 msgstr "Праздник"
@@ -2609,23 +2609,23 @@ msgid "Governor Disabl_ed"
 msgstr "(_e) Губернатор Выключен"
 
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:573
-#: client/gui-qt/citydlg.cpp:1241 client/gui-sdl/cma_fe.c:259
+#: client/gui-qt/citydlg.cpp:1240 client/gui-sdl/cma_fe.c:259
 #: client/gui-sdl/cma_fe.c:334 client/gui-xaw/cma_fe.c:439
 msgid "new preset"
 msgstr "новые установки"
 
 #: client/gui-gtk-2.0/cma_fe.c:543 client/gui-gtk-3.0/cma_fe.c:577
-#: client/gui-qt/citydlg.cpp:1238 client/gui-sdl/cma_fe.c:307
+#: client/gui-qt/citydlg.cpp:1237 client/gui-sdl/cma_fe.c:307
 msgid "Name new preset"
 msgstr "Назовите новые установки"
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:578
-#: client/gui-qt/citydlg.cpp:1239 client/gui-sdl/cma_fe.c:323
+#: client/gui-qt/citydlg.cpp:1238 client/gui-sdl/cma_fe.c:323
 msgid "What should we name the preset?"
 msgstr "Как назвать установки?"
 
 #: client/gui-gtk-2.0/cma_fe.c:630 client/gui-gtk-3.0/cma_fe.c:664
-#: client/gui-qt/citydlg.cpp:1446
+#: client/gui-qt/citydlg.cpp:1445
 msgid "Remove this preset?"
 msgstr "Удалить эти установки?"
 
@@ -3525,18 +3525,17 @@ msgstr "Открытия"
 
 #: client/gui-gtk-2.0/editprop.c:4275 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4305 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/ratesdlg.cpp:94
 #: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "Наука"
 
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
-#: common/city.c:86 data/civ1/terrain.ruleset:637
-#: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
-#: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
-#: data/multiplayer/terrain.ruleset:774
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
+#: common/city.c:86 data/civ1/terrain.ruleset:637 data/civ2/terrain.ruleset:631
+#: data/classic/terrain.ruleset:800 data/experimental/terrain.ruleset:776
+#: data/civ2civ3/terrain.ruleset:814 data/multiplayer/terrain.ruleset:774
 msgid "Gold"
 msgstr "Золото"
 
@@ -3686,7 +3685,7 @@ msgid "Lock"
 msgstr "Заблокировать"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/ratesdlg.cpp:117
 #: common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "Роскошь"
@@ -3833,37 +3832,37 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:195 client/gui-gtk-3.0/happiness.c:202
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Cities:"
 msgstr "Города:"
 
 #: client/gui-gtk-2.0/happiness.c:196 client/gui-gtk-3.0/happiness.c:203
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Luxuries:"
 msgstr "Роскошь:"
 
 #: client/gui-gtk-2.0/happiness.c:197 client/gui-gtk-3.0/happiness.c:204
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Buildings:"
 msgstr "Здания:"
 
 #: client/gui-gtk-2.0/happiness.c:198 client/gui-gtk-3.0/happiness.c:205
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Nationality:"
 msgstr "Народ:"
 
 #: client/gui-gtk-2.0/happiness.c:199 client/gui-gtk-3.0/happiness.c:206
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Units:"
 msgstr "Соединения:"
 
 #: client/gui-gtk-2.0/happiness.c:200 client/gui-gtk-3.0/happiness.c:207
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Wonders:"
 msgstr "Чудеса:"
 
 #: client/gui-gtk-2.0/happiness.c:209 client/gui-gtk-3.0/happiness.c:218
-#: client/gui-qt/citydlg.cpp:682 client/gui-qt/citydlg.cpp:955
+#: client/gui-qt/citydlg.cpp:681 client/gui-qt/citydlg.cpp:954
 #: client/gui-sdl/citydlg.c:2055 client/gui-sdl/citydlg.c:3687
 msgid "Happiness"
 msgstr "Счастье"
@@ -3876,7 +3875,7 @@ msgstr "Дополнительная информация доступна по 
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-2.0/helpdlg.c:101
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:98
 #: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2694 client/gui-qt/helpdlg.cpp:635
+#: client/gui-qt/citydlg.cpp:2693 client/gui-qt/helpdlg.cpp:635
 #: client/gui-sdl/helpdlg.c:357 client/gui-sdl/helpdlg.c:759
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
@@ -3904,41 +3903,41 @@ msgid "Obsolete by:"
 msgstr "Упраздняется:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2687 client/gui-qt/helpdlg.cpp:625
+#: client/gui-qt/citydlg.cpp:2686 client/gui-qt/helpdlg.cpp:625
 #: client/gui-sdl/helpdlg.c:792 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Атака:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/helpdlg.cpp:627
+#: client/gui-qt/citydlg.cpp:2688 client/gui-qt/helpdlg.cpp:627
 #: client/gui-sdl/helpdlg.c:793 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Защита:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2691 client/gui-sdl/helpdlg.c:794
+#: client/gui-qt/citydlg.cpp:2690 client/gui-sdl/helpdlg.c:794
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Очки Движения:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2701 client/gui-sdl/helpdlg.c:796
+#: client/gui-qt/citydlg.cpp:2700 client/gui-sdl/helpdlg.c:796
 msgid "FirePower:"
 msgstr "Огневая мощь:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2699 client/gui-qt/helpdlg.cpp:634
+#: client/gui-qt/citydlg.cpp:2698 client/gui-qt/helpdlg.cpp:634
 #: client/gui-sdl/helpdlg.c:797 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "Здоровье:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2696 data/Freeciv.in:930
+#: client/gui-qt/citydlg.cpp:2695 data/Freeciv.in:930
 msgid "Basic Upkeep:"
 msgstr "Базовое Содержание:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2703 client/gui-sdl/helpdlg.c:795
+#: client/gui-qt/citydlg.cpp:2702 client/gui-sdl/helpdlg.c:795
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "Дистанция обзора:"
@@ -4195,7 +4194,7 @@ msgstr ""
 "Отключаем"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:715 client/gui-qt/menu.cpp:422
+#: client/gui-qt/fc_client.cpp:718 client/gui-qt/menu.cpp:422
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Установка локальных параметров"
@@ -4335,14 +4334,12 @@ msgstr "(_D) Демография"
 
 #. TRANS: "Overview" topic in built-in help
 #: client/gui-gtk-2.0/menu.c:1400 client/gui-gtk-3.0/menu.c:1388
-#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30
-#: data/helpdata.txt:43
+#: client/gui-xaw/menu.c:244 client/include/helpdlg_g.h:30 data/helpdata.txt:43
 msgid "?help:Overview"
 msgstr "Обзор"
 
 #: client/gui-gtk-2.0/menu.c:1402 client/gui-gtk-3.0/menu.c:1390
-#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31
-#: data/helpdata.txt:82
+#: client/gui-xaw/menu.c:245 client/include/helpdlg_g.h:31 data/helpdata.txt:82
 msgid "Strategy and Tactics"
 msgstr "Стратегия и тактика"
 
@@ -5223,7 +5220,7 @@ msgid "AI Skill _Level:"
 msgstr "(_L) Уровень компьютерного противника (AI):"
 
 #: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2731
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 msgid "Ruleset:"
 msgstr "Набор правил:"
 
@@ -5416,7 +5413,7 @@ msgstr "Название"
 #: client/gui-gtk-2.0/repodlgs.c:762 client/gui-gtk-3.0/repodlgs.c:790
 #: client/gui-qt/repodlgs.cpp:1054
 msgid "Redundant"
-msgstr "Ненужное"
+msgstr "Ненужных"
 
 #: client/gui-gtk-2.0/repodlgs.c:766 client/gui-gtk-2.0/wldlg.c:998
 #: client/gui-gtk-3.0/repodlgs.c:794 client/gui-gtk-3.0/wldlg.c:1001
@@ -5507,7 +5504,7 @@ msgid "Active"
 msgstr "Действующих"
 
 #: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1277
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
 #: common/city.c:84
 msgid "Shield"
 msgstr "Щиты"
@@ -5517,7 +5514,7 @@ msgid "Total shield upkeep"
 msgstr "Общие затраты Щитов"
 
 #: client/gui-gtk-2.0/repodlgs.c:1244 client/gui-gtk-3.0/repodlgs.c:1279
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
 #: common/city.c:83
 msgid "Food"
 msgstr "Еда"
@@ -5889,104 +5886,104 @@ msgstr "Модернизировать"
 msgid "Governor %1"
 msgstr "Губернатор: %1"
 
-#: client/gui-qt/citydlg.cpp:673 client/gui-qt/citydlg.cpp:847
+#: client/gui-qt/citydlg.cpp:672 client/gui-qt/citydlg.cpp:846
 msgid "Click to change city name"
 msgstr "Нажмите для переименования города"
 
-#: client/gui-qt/citydlg.cpp:678
+#: client/gui-qt/citydlg.cpp:677
 msgid "Overview"
 msgstr "Обзор"
 
-#: client/gui-qt/citydlg.cpp:684 client/gui-qt/cityrep.cpp:527
+#: client/gui-qt/citydlg.cpp:683 client/gui-qt/cityrep.cpp:527
 msgid "Governor"
 msgstr "Губернатор"
 
-#: client/gui-qt/citydlg.cpp:728
+#: client/gui-qt/citydlg.cpp:727
 msgid "Click to change current production"
 msgstr "Нажмите для изменения производства"
 
-#: client/gui-qt/citydlg.cpp:737 client/gui-qt/citydlg.cpp:839
+#: client/gui-qt/citydlg.cpp:736 client/gui-qt/citydlg.cpp:838
 msgid "Click left button to change current production"
 msgstr "Нажмите левую кнопку мыши для изменения производства"
 
-#: client/gui-qt/citydlg.cpp:820
+#: client/gui-qt/citydlg.cpp:819
 msgid "Worklist Option"
 msgstr "План"
 
-#: client/gui-qt/citydlg.cpp:843
+#: client/gui-qt/citydlg.cpp:842
 msgid "Show future targets"
 msgstr "Показать будущие цели"
 
-#: client/gui-qt/citydlg.cpp:845 client/options.c:2170
+#: client/gui-qt/citydlg.cpp:844 client/options.c:2170
 msgid "Show units"
 msgstr "Показывать соединения"
 
-#: client/gui-qt/citydlg.cpp:850
+#: client/gui-qt/citydlg.cpp:849
 msgid "Click to change worklist production"
 msgstr "Нажмите для изменения Плана"
 
-#: client/gui-qt/citydlg.cpp:859 client/gui-qt/cityrep.cpp:498
+#: client/gui-qt/citydlg.cpp:858 client/gui-qt/cityrep.cpp:498
 #: client/gui-qt/cityrep.cpp:521 data/Freeciv.in:1405 data/Freeciv.in:1655
 #: data/Freeciv.in:1811 data/Freeciv.in:2114
 msgid "Change"
 msgstr "Изменить"
 
-#: client/gui-qt/citydlg.cpp:860
+#: client/gui-qt/citydlg.cpp:859
 msgid "Insert Before"
 msgstr "Вставить до"
 
-#: client/gui-qt/citydlg.cpp:861
+#: client/gui-qt/citydlg.cpp:860
 msgid "Insert After"
 msgstr "Вставить после"
 
-#: client/gui-qt/citydlg.cpp:862
+#: client/gui-qt/citydlg.cpp:861
 msgid "Add Last"
 msgstr "Добавить последним"
 
-#: client/gui-qt/citydlg.cpp:885 client/gui-qt/cityrep.cpp:511
+#: client/gui-qt/citydlg.cpp:884 client/gui-qt/cityrep.cpp:511
 msgid "Worklist"
 msgstr "План"
 
-#: client/gui-qt/citydlg.cpp:901
+#: client/gui-qt/citydlg.cpp:900
 msgid "Worklist menu"
 msgstr "План производства"
 
-#: client/gui-qt/citydlg.cpp:904
+#: client/gui-qt/citydlg.cpp:903
 msgid "Save worklist"
 msgstr "Сохранить план"
 
-#: client/gui-qt/citydlg.cpp:990
+#: client/gui-qt/citydlg.cpp:989
 msgid "Presets:"
 msgstr "Установки:"
 
-#: client/gui-qt/citydlg.cpp:991
+#: client/gui-qt/citydlg.cpp:990
 msgid "Governor settings"
 msgstr "Настройки Губернатора"
 
-#: client/gui-qt/citydlg.cpp:992
+#: client/gui-qt/citydlg.cpp:991
 msgid "Results:"
 msgstr "Результат:"
 
-#: client/gui-qt/citydlg.cpp:1001 data/Freeciv.in:2034 data/Freeciv.in:2183
+#: client/gui-qt/citydlg.cpp:1000 data/Freeciv.in:2034 data/Freeciv.in:2183
 msgid "Delete"
 msgstr "Удалить"
 
-#: client/gui-qt/citydlg.cpp:1004 client/gui-qt/optiondlg.cpp:155
+#: client/gui-qt/citydlg.cpp:1003 client/gui-qt/optiondlg.cpp:155
 msgid "Save"
 msgstr "Сохранить"
 
-#: client/gui-qt/citydlg.cpp:1035 common/city.c:85 data/civ1/techs.ruleset:583
+#: client/gui-qt/citydlg.cpp:1034 common/city.c:85 data/civ1/techs.ruleset:583
 #: data/civ2/techs.ruleset:748 data/classic/techs.ruleset:757
 #: data/experimental/techs.ruleset:837 data/civ2civ3/techs.ruleset:859
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:762
 msgid "Trade"
 msgstr "Торговля"
 
-#: client/gui-qt/citydlg.cpp:1040
+#: client/gui-qt/citydlg.cpp:1039
 msgid "Priority"
 msgstr "Приоритет"
 
-#: client/gui-qt/citydlg.cpp:1100 client/gui-xaw/connectdlg.c:680
+#: client/gui-qt/citydlg.cpp:1099 client/gui-xaw/connectdlg.c:680
 #: data/Freeciv.in:180 data/Freeciv.in:230 data/Freeciv.in:255
 #: data/Freeciv.in:559 data/Freeciv.in:578 data/Freeciv.in:623
 #: data/Freeciv.in:1467 data/Freeciv.in:1485 data/Freeciv.in:1624
@@ -5997,67 +5994,67 @@ msgstr "Приоритет"
 msgid "Close"
 msgstr "Закрыть"
 
-#: client/gui-qt/citydlg.cpp:1106
+#: client/gui-qt/citydlg.cpp:1105
 msgid "Next City"
 msgstr "Следующий город"
 
-#: client/gui-qt/citydlg.cpp:1111
+#: client/gui-qt/citydlg.cpp:1110
 msgid "Previous City"
 msgstr "Предыдущий город"
 
-#: client/gui-qt/citydlg.cpp:1394
+#: client/gui-qt/citydlg.cpp:1393
 msgid "No governor defined"
 msgstr "Губернатор не назначен"
 
 #. TRANS: %1 is custom string chosen player
-#: client/gui-qt/citydlg.cpp:1405
+#: client/gui-qt/citydlg.cpp:1404
 msgid "<h3>Governor Enabled - %1</h3>"
 msgstr "<h3>Губернатор Включён - %1</h3>"
 
-#: client/gui-qt/citydlg.cpp:1413
+#: client/gui-qt/citydlg.cpp:1412
 msgid "<h3>Governor Disabled</h3>"
 msgstr "<h3>Губернатор Выключен</h3>"
 
-#: client/gui-qt/citydlg.cpp:1425
+#: client/gui-qt/citydlg.cpp:1424
 msgid "Disable"
 msgstr "Отключить"
 
-#: client/gui-qt/citydlg.cpp:1427
+#: client/gui-qt/citydlg.cpp:1426
 msgid "Enable"
 msgstr "Включить"
 
-#: client/gui-qt/citydlg.cpp:1549 client/gui-qt/cityrep.cpp:489
+#: client/gui-qt/citydlg.cpp:1548 client/gui-qt/cityrep.cpp:489
 msgid "Clear"
 msgstr "Очистить"
 
-#: client/gui-qt/citydlg.cpp:1559
+#: client/gui-qt/citydlg.cpp:1558
 msgid "Change worklist"
 msgstr "Изменить план"
 
-#: client/gui-qt/citydlg.cpp:1560
+#: client/gui-qt/citydlg.cpp:1559
 msgid "Insert worklist"
 msgstr "Вставить план"
 
-#: client/gui-qt/citydlg.cpp:1623
+#: client/gui-qt/citydlg.cpp:1622
 msgid "Buy (%1 gold)"
 msgid_plural "Buy (%1 gold)"
 msgstr[0] "Купить (%1 золотой)"
 msgstr[1] "Купить (%1 золотых)"
 msgstr[2] "Купить (%1 золотых)"
 
-#: client/gui-qt/citydlg.cpp:1629 data/Freeciv.in:1647
+#: client/gui-qt/citydlg.cpp:1628 data/Freeciv.in:1647
 msgid "Buy"
 msgstr "Купить"
 
-#: client/gui-qt/citydlg.cpp:1960
+#: client/gui-qt/citydlg.cpp:1959
 msgid "Sell improvement?"
 msgstr "Продать здание?"
 
-#: client/gui-qt/citydlg.cpp:2187
+#: client/gui-qt/citydlg.cpp:2186
 msgid "Buy ?"
 msgstr "Купить?"
 
-#: client/gui-qt/citydlg.cpp:2199
+#: client/gui-qt/citydlg.cpp:2198
 #, c-format
 msgid "Buy %s for %d gold?"
 msgid_plural "Buy %s for %d gold?"
@@ -6065,39 +6062,39 @@ msgstr[0] "Купить %s за %d золотой?"
 msgstr[1] "Купить %s за %d золотых?"
 msgstr[2] "Купить %s за %d золотых?"
 
-#: client/gui-qt/citydlg.cpp:2478
+#: client/gui-qt/citydlg.cpp:2477
 msgid "Save current worklist"
 msgstr "Сохранить текущий план"
 
-#: client/gui-qt/citydlg.cpp:2479
+#: client/gui-qt/citydlg.cpp:2478
 msgid "What should we name new worklist?"
 msgstr "Как мы назовём новый план?"
 
-#: client/gui-qt/citydlg.cpp:2481
+#: client/gui-qt/citydlg.cpp:2480
 msgid "New worklist"
 msgstr "Новый план"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2501
+#: client/gui-qt/citydlg.cpp:2500
 msgid "%1 - %2 citizens - DISORDER"
 msgstr "%1 — жителей: %2 — БЕСПОРЯДКИ"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2505
+#: client/gui-qt/citydlg.cpp:2504
 msgid "%1 - %2 citizens - celebrating"
 msgstr "%1 — жителей: %2 — праздник"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2509
+#: client/gui-qt/citydlg.cpp:2508
 msgid "%1 - %2 citizens - happy"
 msgstr "%1 — жителей: %2 — счастливы"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2513
+#: client/gui-qt/citydlg.cpp:2512
 msgid "%1 - %2 citizens"
 msgstr "%1 — жителей: %2"
 
-#: client/gui-qt/citydlg.cpp:2673
+#: client/gui-qt/citydlg.cpp:2672
 msgid ""
 "Cost: %1, Upkeep: %2\n"
 "\n"
@@ -6105,7 +6102,7 @@ msgstr ""
 "Цена: %1, Содержание: %2\n"
 "\n"
 
-#: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
+#: client/gui-qt/citydlg.cpp:2797 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
 #: client/gui-qt/pages.cpp:351 client/gui-qt/pages.cpp:457
 #: client/gui-qt/pages.cpp:515 client/gui-qt/ratesdlg.cpp:140
@@ -6384,20 +6381,20 @@ msgstr "Пакты"
 msgid "Welcome to Freeciv"
 msgstr "Добро пожаловать в игру Freeciv"
 
-#: client/gui-qt/fc_client.cpp:203
+#: client/gui-qt/fc_client.cpp:206
 msgid "This is Qt-client for Freeciv."
 msgstr "Это — Qt-клиент игры Freeciv."
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1440
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:1440
 msgid "Don't Observe"
 msgstr "Прекратить наблюдение"
 
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:576
+#: client/gui-qt/fc_client.cpp:509 client/gui-qt/pages.cpp:576
 #: client/gui-qt/pages.cpp:1442 client/gui-qt/pages.cpp:1543
 msgid "Observe"
 msgstr "Наблюдать"
 
-#: client/gui-qt/fc_client.cpp:884
+#: client/gui-qt/fc_client.cpp:887
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6405,15 +6402,15 @@ msgstr ""
 "Число игроков\n"
 "(в т.ч. комп.):"
 
-#: client/gui-qt/fc_client.cpp:885
+#: client/gui-qt/fc_client.cpp:888
 msgid "AI Skill Level:"
 msgstr "Уровень компьютерных игроков (AI):"
 
-#: client/gui-qt/fc_client.cpp:909
+#: client/gui-qt/fc_client.cpp:912
 msgid "More Game Options"
 msgstr "Дополнительные настройки игры"
 
-#: client/gui-qt/fc_client.cpp:960
+#: client/gui-qt/fc_client.cpp:963
 msgid "Set server options"
 msgstr "Установить параметры сервера"
 
@@ -6882,7 +6879,7 @@ msgstr "Лучшие пять городов"
 msgid "Demographics"
 msgstr "Демография"
 
-#: client/gui-qt/menu.cpp:828 client/gui-qt/spaceshipdlg.cpp:71
+#: client/gui-qt/menu.cpp:828 client/gui-qt/spaceshipdlg.cpp:70
 #: client/gui-xaw/menu.c:232 data/Freeciv.in:3310
 msgid "Spaceship"
 msgstr "Космический корабль"
@@ -7085,7 +7082,7 @@ msgstr "Продать ненужные здания"
 msgid "Disband Results"
 msgstr "Результат расформирования"
 
-#: client/gui-qt/spaceshipdlg.cpp:48 client/gui-sdl/spaceshipdlg.c:175
+#: client/gui-qt/spaceshipdlg.cpp:47 client/gui-sdl/spaceshipdlg.c:175
 #: data/Freeciv.in:1727
 msgid "Launch"
 msgstr "Запустить"
@@ -8080,7 +8077,7 @@ msgid "Barracks"
 msgstr "Казармы"
 
 #: client/gui-sdl/mapview.c:633 client/gui-sdl/mapview.c:639
-#: client/gui-sdl/mapview.c:645 client/helpdata.c:4303 client/helpdata.c:4311
+#: client/gui-sdl/mapview.c:645 client/helpdata.c:4311 client/helpdata.c:4319
 msgid "?blistmore:, "
 msgstr ", "
 
@@ -9076,17 +9073,17 @@ msgstr "--------------------------------------------"
 msgid "Terrain       Irrigation       Mining           Transform\n"
 msgstr "Рельеф        Орошение         Шахта            Преобразование\n"
 
-#: client/helpdata.c:289
+#: client/helpdata.c:291
 msgid "Time taken for the following activities is independent of terrain:\n"
 msgstr "Время, необходимое для преобразований, не зависящих от типа рельефа:\n"
 
 #. TRANS: Header for fixed-width terrain alteration table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:295
+#: client/helpdata.c:297
 msgid "Activity            Time\n"
 msgstr "Деятельность        Время\n"
 
-#: client/helpdata.c:300
+#: client/helpdata.c:302
 #, c-format
 msgid ""
 "\n"
@@ -9095,7 +9092,7 @@ msgstr ""
 "\n"
 "Очистка загрязн.   %3d"
 
-#: client/helpdata.c:303
+#: client/helpdata.c:305
 #, c-format
 msgid ""
 "\n"
@@ -9104,80 +9101,80 @@ msgstr ""
 "\n"
 "Дезактивация       %3d"
 
-#: client/helpdata.c:329
+#: client/helpdata.c:331
 msgid "In this ruleset, the following veteran levels are defined:"
 msgstr "В этом наборе правил установлены следующие ветеранские ранги:"
 
-#: client/helpdata.c:330
+#: client/helpdata.c:332
 msgid "This ruleset has no default veteran levels defined."
 msgstr "В этом наборе правил ветеранские ранги не различаются."
 
 #. TRANS: First %s is version string, e.g.,
 #. * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
 #. * Second %s is client_string, e.g., "gui-gtk-2.0".
-#: client/helpdata.c:337
+#: client/helpdata.c:339
 #, c-format
 msgid "This is %s, %s client."
 msgstr "Это %s, клиент %s."
 
-#: client/helpdata.c:369
+#: client/helpdata.c:371
 #, c-format
 msgid "Requires knowledge of the technology %s.\n"
 msgstr "Требуется исследовать технологию %s.\n"
 
-#: client/helpdata.c:374
+#: client/helpdata.c:376
 #, c-format
 msgid "Prevented by knowledge of the technology %s.\n"
 msgstr "Недоступно, если есть технология %s.\n"
 
-#: client/helpdata.c:382
+#: client/helpdata.c:384
 #, c-format
 msgid "Requires that someone has discovered the technology %s.\n"
 msgstr "Требуется, чтобы кто-либо из игроков изучил технологию %s.\n"
 
-#: client/helpdata.c:388
+#: client/helpdata.c:390
 #, c-format
 msgid "Requires that no-one has yet discovered the technology %s.\n"
 msgstr "Требуется, чтобы никто из игроков ещё не открыл технологию %s.\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:411
+#: client/helpdata.c:413
 #, c-format
 msgid "Requires knowledge of a technology with the \"%s\" flag.\n"
 msgstr "Требуется знание любой технологии с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:417
+#: client/helpdata.c:419
 #, c-format
 msgid "Prevented by knowledge of any technology with the \"%s\" flag.\n"
 msgstr "Недоступно, если Вы изучили какую-либо технологию с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:426
+#: client/helpdata.c:428
 #, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
 msgstr ""
 "Требуется, чтобы кто-либо из игроков изучил технологию с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:432
+#: client/helpdata.c:434
 #, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
 msgstr ""
 "Недоступно, если кто-либо из игроков изучил технологию с флагом \"%s\".\n"
 
-#: client/helpdata.c:453
+#: client/helpdata.c:455
 #, c-format
 msgid "Requires the %s government.\n"
 msgstr "Требуется форма правления %s.\n"
 
-#: client/helpdata.c:456
+#: client/helpdata.c:458
 #, c-format
 msgid "Not available under the %s government.\n"
 msgstr "Недоступно при форме правления %s.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:470
+#: client/helpdata.c:472
 #, c-format
 msgid ""
 "Requires that %s was built at some point, and that it has not yet been "
@@ -9187,13 +9184,13 @@ msgstr ""
 "было объявлено устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:478
+#: client/helpdata.c:480
 #, c-format
 msgid "Requires that %s was built at some point.\n"
 msgstr "Требуется, чтобы в каком-нибудь городе было построено Чудо %s.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:486
+#: client/helpdata.c:488
 #, c-format
 msgid "Prevented if %s has ever been built, unless it would be obsolete.\n"
 msgstr ""
@@ -9201,13 +9198,13 @@ msgstr ""
 "объявлено устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:493
+#: client/helpdata.c:495
 #, c-format
 msgid "Prevented if %s has ever been built.\n"
 msgstr "Недоступно, если кем-либо было построено Чудо %s.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:504
+#: client/helpdata.c:506
 #, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete.\n"
 msgstr ""
@@ -9215,13 +9212,13 @@ msgstr ""
 "было объявлено устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:511
+#: client/helpdata.c:513
 #, c-format
 msgid "Requires %s to be owned by any player.\n"
 msgstr "Требуется, чтобы город с Чудом %s принадлежал живому игроку.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:519
+#: client/helpdata.c:521
 #, c-format
 msgid ""
 "Prevented if %s is currently owned by any player, unless it is obsolete.\n"
@@ -9230,13 +9227,13 @@ msgstr ""
 "было объявлено устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:526
+#: client/helpdata.c:528
 #, c-format
 msgid "Prevented if %s is currently owned by any player.\n"
 msgstr "Недоступно, если город с Чудом %s принадлежит живому игроку.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:544
+#: client/helpdata.c:546
 #, c-format
 msgid ""
 "Requires you to have built %s at some point, and for it not to have been "
@@ -9246,13 +9243,13 @@ msgstr ""
 "устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:552
+#: client/helpdata.c:554
 #, c-format
 msgid "Requires you to have built %s at some point.\n"
 msgstr "Требуется, чтобы Вами было построено Чудо %s.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:560
+#: client/helpdata.c:562
 #, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
 msgstr ""
@@ -9260,37 +9257,37 @@ msgstr ""
 "устарело.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:567
+#: client/helpdata.c:569
 #, c-format
 msgid "Prevented if you have ever built %s.\n"
 msgstr "Недоступно, если Вы ранее уже когда-либо построили Чудо %s.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:578
+#: client/helpdata.c:580
 #, c-format
 msgid "Requires you to own %s, which must not be obsolete.\n"
 msgstr "Требуется, чтобы Чудо %s принадлежало Вам, и оно ещё не устарело.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:585
+#: client/helpdata.c:587
 #, c-format
 msgid "Requires you to own %s.\n"
 msgstr "Требуется, чтобы Чудо %s принадлежало Вам.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:593
+#: client/helpdata.c:595
 #, c-format
 msgid "Prevented if you own %s, unless it is obsolete.\n"
 msgstr "Недоступно, если Чудо %s принадлежит Вам, и оно ещё не устарело.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:600
+#: client/helpdata.c:602
 #, c-format
 msgid "Prevented if you own %s.\n"
 msgstr "Недоступно, если Чудо %s принадлежит Вам.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:616
+#: client/helpdata.c:618
 #, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
@@ -9300,13 +9297,13 @@ msgstr ""
 "не устарело.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:623
+#: client/helpdata.c:625
 #, c-format
 msgid "Requires %s in one of your cities on the same continent.\n"
 msgstr "Требуется Чудо %s в одном из Ваших городов на том же континенте.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:632
+#: client/helpdata.c:634
 #, c-format
 msgid ""
 "Prevented if %s is in one of your cities on the same continent, unless it is "
@@ -9316,7 +9313,7 @@ msgstr ""
 "континенте, и ещё не было объявлено устаревшим.\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:639
+#: client/helpdata.c:641
 #, c-format
 msgid "Prevented if %s is in one of your cities on the same continent.\n"
 msgstr ""
@@ -9324,147 +9321,147 @@ msgstr ""
 "континенте.\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:655
+#: client/helpdata.c:657
 #, c-format
 msgid "Requires %s in the city (and not yet obsolete).\n"
 msgstr "В городе требуется здание %s (и оно ещё не устарело).\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:661
+#: client/helpdata.c:663
 #, c-format
 msgid "Requires %s in the city.\n"
 msgstr "В городе должно быть здание %s.\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:670
+#: client/helpdata.c:672
 #, c-format
 msgid "Prevented by %s in the city (unless it is obsolete).\n"
 msgstr "Недоступно, если в городе построено ещё не устаревшее здание %s.\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:677
+#: client/helpdata.c:679
 #, c-format
 msgid "Prevented by %s in the city.\n"
 msgstr "Недоступно, если город имеет %s.\n"
 
-#: client/helpdata.c:686
+#: client/helpdata.c:688
 #, c-format
 msgid "Only applies to \"%s\" buildings.\n"
 msgstr "Применяется только для зданий \"%s\".\n"
 
-#: client/helpdata.c:691
+#: client/helpdata.c:693
 #, c-format
 msgid "Does not apply to \"%s\" buildings.\n"
 msgstr "Не применяется для зданий \"%s\".\n"
 
-#: client/helpdata.c:709
+#: client/helpdata.c:711
 #, c-format
 msgid "?special:Requires %s on the tile.\n"
 msgstr "На поле должно быть построено улучшение %s.\n"
 
-#: client/helpdata.c:713
+#: client/helpdata.c:715
 #, c-format
 msgid "?special:Prevented by %s on the tile.\n"
 msgstr "Недоступно, если на поле есть улучшение %s.\n"
 
-#: client/helpdata.c:720
+#: client/helpdata.c:722
 #, c-format
 msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
 "Требует наличия улучшения %s на поле или на любом из плотно примыкающих к "
 "нему полей.\n"
 
-#: client/helpdata.c:725
+#: client/helpdata.c:727
 #, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "Недоступно, если на поле или на любом из плотно примыкающих к нему есть "
 "улучшение %s.\n"
 
-#: client/helpdata.c:733
+#: client/helpdata.c:735
 #, c-format
 msgid "?special:Requires %s on the tile or an adjacent tile.\n"
 msgstr "Требует наличия улучшения %s на поле или на любом из соседних полей.\n"
 
-#: client/helpdata.c:738
+#: client/helpdata.c:740
 #, c-format
 msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr ""
 "Недоступно, если на поле или на каком-либо из соседних есть улучшение %s.\n"
 
-#: client/helpdata.c:746
+#: client/helpdata.c:748
 #, c-format
 msgid "?special:Requires %s on a tile within the city radius.\n"
 msgstr "На каком-либо из доступных городу полей должна быть улучшение %s.\n"
 
-#: client/helpdata.c:751
+#: client/helpdata.c:753
 #, c-format
 msgid "?special:Prevented by %s on any tile within the city radius.\n"
 msgstr ""
 "Недоступно, если на каком-либо из доступных городу полей есть улучшение %s.\n"
 
-#: client/helpdata.c:769
+#: client/helpdata.c:771
 #, c-format
 msgid "?terrain:Requires %s on the tile.\n"
 msgstr "Поле должно иметь рельеф %s.\n"
 
-#: client/helpdata.c:772
+#: client/helpdata.c:774
 #, c-format
 msgid "?terrain:Prevented by %s on the tile.\n"
 msgstr "Недоступно, если рельеф поля — %s.\n"
 
-#: client/helpdata.c:779
+#: client/helpdata.c:781
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
 "Поле, или какое-либо из плотно примыкающих к нему должно иметь рельеф %s.\n"
 
-#: client/helpdata.c:784
+#: client/helpdata.c:786
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "Недоступно, если рельеф этого поля или любого из плотно примыкающих к нему — "
 "%s.\n"
 
-#: client/helpdata.c:792
+#: client/helpdata.c:794
 #, c-format
 msgid "?terrain:Requires %s on the tile or an adjacent tile.\n"
 msgstr "Поле, или какое-либо из соседних должно иметь рельеф %s.\n"
 
-#: client/helpdata.c:797
+#: client/helpdata.c:799
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "Недоступно, если рельеф этого поля или любого из соседних — %s.\n"
 
-#: client/helpdata.c:805
+#: client/helpdata.c:807
 #, c-format
 msgid "?terrain:Requires %s on a tile within the city radius.\n"
 msgstr "Требуется рельеф %s на каком-либо из доступных городу полей.\n"
 
-#: client/helpdata.c:810
+#: client/helpdata.c:812
 #, c-format
 msgid "?terrain:Prevented by %s on any tile within the city radius.\n"
 msgstr ""
 "Недоступно, если какое-либо из доступных городу полей имеет рельеф %s.\n"
 
-#: client/helpdata.c:829
+#: client/helpdata.c:831
 #, c-format
 msgid "?resource:Requires %s on the tile.\n"
 msgstr "На поле должен быть специальный ресурс %s.\n"
 
-#: client/helpdata.c:833
+#: client/helpdata.c:835
 #, c-format
 msgid "?resource:Prevented by %s on the tile.\n"
 msgstr "Недоступно, если на поле есть специальный ресурс %s.\n"
 
-#: client/helpdata.c:840
+#: client/helpdata.c:842
 #, c-format
 msgid "?resource:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
 "На поле, или на каком-либо из плотно примыкающих к нему полей должен быть "
 "специальный ресурс %s.\n"
 
-#: client/helpdata.c:845
+#: client/helpdata.c:847
 #, c-format
 msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
@@ -9472,26 +9469,26 @@ msgstr ""
 "Недоступно, если на поле или на любом из плотно примыкающих к нему полей "
 "есть специальный ресурс %s.\n"
 
-#: client/helpdata.c:853
+#: client/helpdata.c:855
 #, c-format
 msgid "?resource:Requires %s on the tile or an adjacent tile.\n"
 msgstr ""
 "На поле, или на каком-либо из соседних должен быть специальный ресурс %s.\n"
 
-#: client/helpdata.c:858
+#: client/helpdata.c:860
 #, c-format
 msgid "?resource:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr ""
 "Недоступно, если на поле или на любом из соседних есть специальный ресурс "
 "%s.\n"
 
-#: client/helpdata.c:866
+#: client/helpdata.c:868
 #, c-format
 msgid "?resource:Requires %s on a tile within the city radius.\n"
 msgstr ""
 "На каком-либо из доступных городу полей должен быть специальный ресурс %s.\n"
 
-#: client/helpdata.c:871
+#: client/helpdata.c:873
 #, c-format
 msgid "?resource:Prevented by %s on any tile within the city radius.\n"
 msgstr ""
@@ -9499,128 +9496,128 @@ msgstr ""
 "%s.\n"
 
 #. TRANS: "... playing as the Swedes."
-#: client/helpdata.c:891
+#: client/helpdata.c:893
 #, c-format
 msgid "Requires that you are playing as the %s.\n"
 msgstr "Вы должны играть за народ %s.\n"
 
 #. TRANS: "... playing as the Turks."
-#: client/helpdata.c:896
+#: client/helpdata.c:898
 #, c-format
 msgid "Requires that you are not playing as the %s.\n"
 msgstr "Недоступно, если Вы играете за народ %s.\n"
 
 #. TRANS: "Requires the Apaches to have ..."
-#: client/helpdata.c:905
+#: client/helpdata.c:907
 #, c-format
 msgid "Requires the %s to have been in the game.\n"
 msgstr "В игре в какое-то время должен присутствовать народ %s.\n"
 
 #. TRANS: "Requires the Celts never to have ..."
-#: client/helpdata.c:910
+#: client/helpdata.c:912
 #, c-format
 msgid "Requires the %s never to have been in the game.\n"
 msgstr "Требуется, чтобы на всём протяжении игры в ней не было народа %s.\n"
 
 #. TRANS: "Requires the Belgians in the game."
-#: client/helpdata.c:918
+#: client/helpdata.c:920
 #, c-format
 msgid "Requires the %s in the game.\n"
 msgstr "В игре должен присутствовать народ %s.\n"
 
 #. TRANS: "Requires that the Russians are not ...
-#: client/helpdata.c:923
+#: client/helpdata.c:925
 #, c-format
 msgid "Requires that the %s are not in the game.\n"
 msgstr "Недоступно, если в игре есть народ %s.\n"
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
-#: client/helpdata.c:945
+#: client/helpdata.c:947
 #, c-format
 msgid "Requires at least one %s citizen in the city.\n"
 msgstr ""
 "Требуется, чтобы в этом городе жил хотя бы один житель национальности %s.\n"
 
 #. TRANS: "... no Pirate citizens ..."
-#: client/helpdata.c:950
+#: client/helpdata.c:952
 #, c-format
 msgid "Requires that there are no %s citizens in the city.\n"
 msgstr ""
 "Недоступно, если в этом городе есть хотя бы один житель национальности %s.\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
-#: client/helpdata.c:972
+#: client/helpdata.c:974
 #, c-format
 msgid "?unit:Requires %s.\n"
 msgstr "Необходимо соединение %s.\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
-#: client/helpdata.c:976
+#: client/helpdata.c:978
 #, c-format
 msgid "?unit:Does not apply to %s.\n"
 msgstr "Не применимо к соединению типа %s.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:1004
+#: client/helpdata.c:1006
 #, c-format
 msgid "?ulist:Requires %s.\n"
 msgstr "Необходимо соединение типа %s.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:1008
+#: client/helpdata.c:1010
 #, c-format
 msgid "?ulist:Does not apply to %s.\n"
 msgstr "Не применимо к соединениям типа %s.\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: client/helpdata.c:1033
+#: client/helpdata.c:1035
 #, c-format
 msgid "?uclass:Requires %s units.\n"
 msgstr "Необходимо соединение класса %s.\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: client/helpdata.c:1037
+#: client/helpdata.c:1039
 #, c-format
 msgid "?uclass:Does not apply to %s units.\n"
 msgstr "Не применимо к соединениям класса %s.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:1071
+#: client/helpdata.c:1073
 #, c-format
 msgid "?uclasslist:Requires %s units.\n"
 msgstr "Необходимо соединение класса %s.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:1075
+#: client/helpdata.c:1077
 #, c-format
 msgid "?uclasslist:Does not apply to %s units.\n"
 msgstr "Не применимо к соединениям класса %s.\n"
 
 #. TRANS: "Applies only to Food."
-#: client/helpdata.c:1104
+#: client/helpdata.c:1106
 #, c-format
 msgid "?output:Applies only to %s.\n"
 msgstr "Применимо только к ресурсу %s.\n"
 
 #. TRANS: "Does not apply to Food."
-#: client/helpdata.c:1108
+#: client/helpdata.c:1110
 #, c-format
 msgid "?output:Does not apply to %s.\n"
 msgstr "Не применимо к ресурсу %s.\n"
 
 #. TRANS: "Applies only to Scientists."
-#: client/helpdata.c:1119
+#: client/helpdata.c:1121
 #, c-format
 msgid "?specialist:Applies only to %s.\n"
 msgstr "Применимо только к специалистам типа %s.\n"
 
 #. TRANS: "Does not apply to Scientists."
-#: client/helpdata.c:1123
+#: client/helpdata.c:1125
 #, c-format
 msgid "?specialist:Does not apply to %s.\n"
 msgstr "Не применимо к специалистам типа %s.\n"
 
-#: client/helpdata.c:1134
+#: client/helpdata.c:1136
 #, c-format
 msgid "Requires a minimum city size of %d.\n"
 msgid_plural "Requires a minimum city size of %d.\n"
@@ -9628,7 +9625,7 @@ msgstr[0] "Требуется, чтобы размер города был ка�
 msgstr[1] "Требуется, чтобы размер города был как минимум %d.\n"
 msgstr[2] "Требуется, чтобы размер города был как минимум %d.\n"
 
-#: client/helpdata.c:1140
+#: client/helpdata.c:1142
 #, c-format
 msgid "Requires the city size to be less than %d.\n"
 msgid_plural "Requires the city size to be less than %d.\n"
@@ -9637,31 +9634,31 @@ msgstr[1] "Требуется, чтобы размер города был ме�
 msgstr[2] "Требуется, чтобы размер города был меньше, чем %d.\n"
 
 #. TRANS: AI level (e.g., "Easy")
-#: client/helpdata.c:1154
+#: client/helpdata.c:1156
 #, c-format
 msgid "Applies to %s AI players.\n"
 msgstr "Относится к компьютерным игрокам уровня сложности %s.\n"
 
 #. TRANS: AI level (e.g., "Cheating")
-#: client/helpdata.c:1159
+#: client/helpdata.c:1161
 #, c-format
 msgid "Does not apply to %s AI players.\n"
 msgstr "Не применимо к компьютерным игрокам уровня сложности %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1170
+#: client/helpdata.c:1172
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile.\n"
 msgstr "Требуется, чтобы поле имело рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1176
+#: client/helpdata.c:1178
 #, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile.\n"
 msgstr "Недоступно, если поле имеет рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1185
+#: client/helpdata.c:1187
 #, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
@@ -9671,7 +9668,7 @@ msgstr ""
 "имело рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1192
+#: client/helpdata.c:1194
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
@@ -9681,7 +9678,7 @@ msgstr ""
 "рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1202
+#: client/helpdata.c:1204
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile.\n"
 msgstr ""
@@ -9689,14 +9686,14 @@ msgstr ""
 "рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1209
+#: client/helpdata.c:1211
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile.\n"
 msgstr "Недоступно, если поле или любое из соседних имеет рельеф класса %s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1219
+#: client/helpdata.c:1221
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius.\n"
 msgstr ""
@@ -9704,7 +9701,7 @@ msgstr ""
 "%s.\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1226
+#: client/helpdata.c:1228
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius.\n"
@@ -9713,19 +9710,19 @@ msgstr ""
 "%s.\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1247
+#: client/helpdata.c:1249
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile.\n"
 msgstr "На поле должен быть рельеф с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1252
+#: client/helpdata.c:1254
 #, c-format
 msgid "Prevented by terrain with the \"%s\" flag on the tile.\n"
 msgstr "Недоступно, если рельеф на поле имеет флаг \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1261
+#: client/helpdata.c:1263
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
@@ -9735,7 +9732,7 @@ msgstr ""
 "имело рельеф с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1267
+#: client/helpdata.c:1269
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
@@ -9745,7 +9742,7 @@ msgstr ""
 "рельеф с флагом \"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1276
+#: client/helpdata.c:1278
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or an adjacent tile.\n"
@@ -9754,7 +9751,7 @@ msgstr ""
 "\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1282
+#: client/helpdata.c:1284
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile.\n"
@@ -9763,7 +9760,7 @@ msgstr ""
 "\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1291
+#: client/helpdata.c:1293
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
@@ -9772,7 +9769,7 @@ msgstr ""
 "\"%s\".\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1297
+#: client/helpdata.c:1299
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city "
@@ -9781,190 +9778,190 @@ msgstr ""
 "Недоступно, если какое-нибудь из доступных городу полей имеет рельеф с "
 "флагом \"%s\".\n"
 
-#: client/helpdata.c:1316
+#: client/helpdata.c:1318
 #, c-format
 msgid "?base:Requires %s on the tile.\n"
 msgstr "На поле должна быть построена %s.\n"
 
-#: client/helpdata.c:1320
+#: client/helpdata.c:1322
 #, c-format
 msgid "?base:Prevented by %s on the tile.\n"
 msgstr "Недоступно, если на поле построена %s.\n"
 
-#: client/helpdata.c:1327
+#: client/helpdata.c:1329
 #, c-format
 msgid "?base:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr ""
 "Требует наличия базы %s на поле или на любом из плотно примыкающих к нему "
 "полей.\n"
 
-#: client/helpdata.c:1332
+#: client/helpdata.c:1334
 #, c-format
 msgid "?base:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "Недоступно, если на поле или на любом из плотно примыкающих к нему построена "
 "%s.\n"
 
-#: client/helpdata.c:1340
+#: client/helpdata.c:1342
 #, c-format
 msgid "?base:Requires %s on the tile or an adjacent tile.\n"
 msgstr "Требует наличия базы %s на поле или на любом из соседних полей.\n"
 
-#: client/helpdata.c:1345
+#: client/helpdata.c:1347
 #, c-format
 msgid "?base:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "Недоступно, если на поле или на каком-либо из соседних построена %s.\n"
 
-#: client/helpdata.c:1353
+#: client/helpdata.c:1355
 #, c-format
 msgid "?base:Requires %s on a tile within the city radius.\n"
 msgstr "На каком-либо из доступных городу полей должна быть %s.\n"
 
-#: client/helpdata.c:1358
+#: client/helpdata.c:1360
 #, c-format
 msgid "?base:Prevented by %s on any tile within the city radius.\n"
 msgstr "Недоступно, если на каком-либо из доступных городу полей есть %s.\n"
 
-#: client/helpdata.c:1377
+#: client/helpdata.c:1379
 #, c-format
 msgid "?road:Requires %s on the tile.\n"
 msgstr "На поле должна быть %s.\n"
 
-#: client/helpdata.c:1381
+#: client/helpdata.c:1383
 #, c-format
 msgid "?road:Prevented by %s on the tile.\n"
 msgstr "Недоступно, если на поле есть %s.\n"
 
-#: client/helpdata.c:1388
+#: client/helpdata.c:1390
 #, c-format
 msgid "?road:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "Требуется %s на поле или на любом из плотно примыкающих к нему.\n"
 
-#: client/helpdata.c:1393
+#: client/helpdata.c:1395
 #, c-format
 msgid "?road:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "Недоступно, если на поле или на любом из плотно примыкающих к нему есть %s.\n"
 
-#: client/helpdata.c:1401
+#: client/helpdata.c:1403
 #, c-format
 msgid "?road:Requires %s on the tile or an adjacent tile.\n"
 msgstr "Требуется %s на поле или на любом из соседних.\n"
 
-#: client/helpdata.c:1406
+#: client/helpdata.c:1408
 #, c-format
 msgid "?road:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "Недоступно, если на поле или на каком-либо из соседних есть %s.\n"
 
-#: client/helpdata.c:1414
+#: client/helpdata.c:1416
 #, c-format
 msgid "?road:Requires %s on a tile within the city radius.\n"
 msgstr "На каком-либо из доступных городу полей должна быть %s.\n"
 
-#: client/helpdata.c:1419
+#: client/helpdata.c:1421
 #, c-format
 msgid "?road:Prevented by %s on any tile within the city radius.\n"
 msgstr "Недоступно, если на каком-либо из доступных городу полей есть %s.\n"
 
-#: client/helpdata.c:1439
+#: client/helpdata.c:1441
 #, c-format
 msgid "Requires the game to have reached the year %s.\n"
 msgstr "Требуется, чтобы игра достигла %s года.\n"
 
-#: client/helpdata.c:1443
+#: client/helpdata.c:1445
 #, c-format
 msgid "Requires that the game has not yet reached the year %s.\n"
 msgstr "Требуется, чтобы игра ещё не достигла %s года.\n"
 
-#: client/helpdata.c:1454
+#: client/helpdata.c:1456
 #, c-format
 msgid "Requires terrain on which alteration %s is possible.\n"
 msgstr "Требуется рельеф, который может быть преобразован в %s.\n"
 
-#: client/helpdata.c:1460
+#: client/helpdata.c:1462
 #, c-format
 msgid "Prevented by terrain on which alteration %s can be made.\n"
 msgstr "Недоступно, если рельеф может быть преобразован в %s.\n"
 
-#: client/helpdata.c:1483
+#: client/helpdata.c:1485
 msgid "Applies only to city centers.\n"
 msgstr "Применяется только для поля, на котором стоит город.\n"
 
-#: client/helpdata.c:1485
+#: client/helpdata.c:1487
 msgid "Does not apply to city centers.\n"
 msgstr "Недоступно для поля, на котором стоит город.\n"
 
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1602
+#: client/helpdata.c:1604
 #, c-format
 msgid "?gov:* Allows %s (with %s but no %s)."
 msgstr ""
 "  • Позволяет установить Форму правления %s (при наличии %s, но без %s)."
 
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1604
+#: client/helpdata.c:1606
 #, c-format
 msgid "?gov:* Allows %s (with %s)."
 msgstr "  • Позволяет установить Форму правления %s (при наличии %s)."
 
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1606
+#: client/helpdata.c:1608
 #, c-format
 msgid "?gov:* Allows %s (absent %s)."
 msgstr "  • Позволяет установить Форму правления %s (при отсутствии %s)."
 
 #. TRANS: %s is a government name.
-#: client/helpdata.c:1608
+#: client/helpdata.c:1610
 #, c-format
 msgid "?gov:* Allows %s."
 msgstr "  • Позволяет установить Форму правления %s."
 
 #. TRANS: %s is a government name.
-#: client/helpdata.c:1610
+#: client/helpdata.c:1612
 #, c-format
 msgid "?gov:* Prevents %s."
 msgstr "  • Делает недоступной Форму правления %s."
 
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1620
+#: client/helpdata.c:1622
 #, c-format
 msgid "?improvement:* Allows %s (with %s but no %s)."
 msgstr "  • Позволяет строить здание %s (при наличии %s, но без %s)."
 
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1622
+#: client/helpdata.c:1624
 #, c-format
 msgid "?improvement:* Allows %s (with %s)."
 msgstr "  • Позволяет строить здание %s (при наличии %s)."
 
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1624
+#: client/helpdata.c:1626
 #, c-format
 msgid "?improvement:* Allows %s (absent %s)."
 msgstr "  • Позволяет строить здание %s (при отсутствии %s)."
 
 #. TRANS: %s is a building name.
-#: client/helpdata.c:1626
+#: client/helpdata.c:1628
 #, c-format
 msgid "?improvement:* Allows %s."
 msgstr "  • Позволяет строить здание %s."
 
 #. TRANS: %s is a building name.
-#: client/helpdata.c:1628
+#: client/helpdata.c:1630
 #, c-format
 msgid "?improvement:* Prevents %s."
 msgstr "  • Делает недоступным строительство здания %s."
 
-#: client/helpdata.c:1895
+#: client/helpdata.c:1897
 msgid "Current ruleset contains no description."
 msgstr "У этого набора правил нет описания."
 
-#: client/helpdata.c:2046
+#: client/helpdata.c:2048
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "Извините, нет справки для %s.\n"
 
-#: client/helpdata.c:2050
+#: client/helpdata.c:2052
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -9975,12 +9972,12 @@ msgstr ""
 "Эта страница была создана автоматически.\n"
 "\n"
 
-#: client/helpdata.c:2144
+#: client/helpdata.c:2146
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "  • С получением технологии %s здание %s становится устаревшим.\n"
 
-#: client/helpdata.c:2152
+#: client/helpdata.c:2154
 msgid ""
 "* A 'small wonder': at most one of your cities may possess this "
 "improvement.\n"
@@ -9990,35 +9987,35 @@ msgstr ""
 
 #. TRANS: 'Allows all players with knowledge of atomic
 #. * power to build nuclear units.'
-#: client/helpdata.c:2165
+#: client/helpdata.c:2167
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr ""
 "  • Позволяет всем игрокам, имеющим технологию %s, строить %s соединения.\n"
 
 #
-#: client/helpdata.c:2177
+#: client/helpdata.c:2179
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr "  • Позволяет строить соединения %s (при наличии технологии %s).\n"
 
-#: client/helpdata.c:2182
+#: client/helpdata.c:2184
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "  • Позволяет строить соединения %s.\n"
 
-#: client/helpdata.c:2197
+#: client/helpdata.c:2199
 msgid "* All players start with this improvement in their first city.\n"
 msgstr "  • Все игроки начинают с этим зданием в их первом городе.\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2220
+#: client/helpdata.c:2222
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
 msgstr "  • Народ %s начинает с этим зданием в их первом городе.\n"
 
 #. TRANS: don't translate 'savepalace'
-#: client/helpdata.c:2230
+#: client/helpdata.c:2232
 msgid ""
 "* If you lose the city containing this improvement, it will be rebuilt for "
 "free in another of your cities (if the 'savepalace' server setting is "
@@ -10029,96 +10026,96 @@ msgstr ""
 "сервера 'savepalace').\n"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: client/helpdata.c:2274
+#: client/helpdata.c:2276
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: client/helpdata.c:2337
+#: client/helpdata.c:2339
 #, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "  • Соединение относится к классу %s.\n"
 
-#: client/helpdata.c:2341
+#: client/helpdata.c:2343
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "  • Может захватывать пустые вражеские города.\n"
 
-#: client/helpdata.c:2344
+#: client/helpdata.c:2346
 msgid "  * Speed is not affected by terrain.\n"
 msgstr "  • Скорость перемещения не зависит от рельефа.\n"
 
-#: client/helpdata.c:2347
+#: client/helpdata.c:2349
 msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr "  • Не получает от рельефа никакого бонуса к защите.\n"
 
-#: client/helpdata.c:2350
+#: client/helpdata.c:2352
 msgid "  * Not subject to zones of control.\n"
 msgstr "  • Игнорирует зоны контроля.\n"
 
-#: client/helpdata.c:2353
+#: client/helpdata.c:2355
 msgid "  * Slowed down while damaged.\n"
 msgstr "  • Замедляется при повреждениях.\n"
 
-#: client/helpdata.c:2356
+#: client/helpdata.c:2358
 msgid "  * Gets used up in making an attack.\n"
 msgstr "  • Становится использованным по нанесении удара.\n"
 
-#: client/helpdata.c:2363
+#: client/helpdata.c:2365
 #, no-c-format
 msgid "  * Gets a 50% defensive bonus while in cities.\n"
 msgstr "  • Получает бонус 50% к защите в городе.\n"
 
-#: client/helpdata.c:2366
+#: client/helpdata.c:2368
 #, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
 msgstr "  • Вне города может укрепиться, что даст 50% бонус к защите.\n"
 
-#: client/helpdata.c:2370
+#: client/helpdata.c:2372
 msgid "  * May fortify to stay put.\n"
 msgstr "  • Может укрепиться, чтобы стоять на месте.\n"
 
-#: client/helpdata.c:2375
+#: client/helpdata.c:2377
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr "  • Недостижимое. Большинство соединений не могут его атаковать.\n"
 
-#: client/helpdata.c:2379
+#: client/helpdata.c:2381
 msgid "  * Can pillage tile improvements.\n"
 msgstr "  • Может разрушать инженерные сооружения.\n"
 
-#: client/helpdata.c:2384 client/helpdata.c:2844
+#: client/helpdata.c:2386 client/helpdata.c:2846
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
 msgstr ""
 "  • Не препятствует сбору ресурсов вражескими городами с поля, на котором "
 "находится.\n"
 
-#: client/helpdata.c:2388
+#: client/helpdata.c:2390
 msgid "  * Can attack units on non-native tiles.\n"
 msgstr "  • Может атаковать соединения на неродном рельефе.\n"
 
-#: client/helpdata.c:2394
+#: client/helpdata.c:2396
 msgid "  * Can launch attack from non-native tiles.\n"
 msgstr "  • Может атаковать с неподходящего рельефа.\n"
 
-#: client/helpdata.c:2399
+#: client/helpdata.c:2401
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "  • Может быть построено только при наличии в городе здания %s.\n"
 
-#: client/helpdata.c:2405
+#: client/helpdata.c:2407
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "  • Может быть построено только при форме правления %s.\n"
 
-#: client/helpdata.c:2410
+#: client/helpdata.c:2412
 msgid "* May not be built in cities.\n"
 msgstr "  • Не может быть построено в городах.\n"
 
-#: client/helpdata.c:2413
+#: client/helpdata.c:2415
 msgid "* Only barbarians may build this.\n"
 msgstr "  • Только варвары могут строить это соединение.\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2432
+#: client/helpdata.c:2434
 #, c-format
 msgid "* The %s start the game with %d of these units.\n"
 msgid_plural "* The %s start the game with %d of these units.\n"
@@ -10127,13 +10124,13 @@ msgstr[1] "  • Народ %s начинает игру с %d такими со
 msgstr[2] "  • Народ %s начинает игру с %d такими соединениями.\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:2451
+#: client/helpdata.c:2453
 #, c-format
 msgid "* May be obtained by conversion of %s.\n"
 msgstr "  • Может быть получено преобразованием соединения типа %s.\n"
 
 #. TRANS: %s is a unit type. "MP" = movement points.
-#: client/helpdata.c:2459
+#: client/helpdata.c:2461
 #, c-format
 msgid "* May be converted into %s (takes %d MP).\n"
 msgid_plural "* May be converted into %s (takes %d MP).\n"
@@ -10146,23 +10143,23 @@ msgstr[2] ""
 "  • Может быть преобразовано в соединение %s (с затратой %d очков "
 "движения).\n"
 
-#: client/helpdata.c:2466
+#: client/helpdata.c:2468
 msgid "* Never has a home city.\n"
 msgstr "  • Не может иметь родного города.\n"
 
-#: client/helpdata.c:2469
+#: client/helpdata.c:2471
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "  • При потере этого соединения Вы немедленно проигрываете!\n"
 
-#: client/helpdata.c:2473
+#: client/helpdata.c:2475
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "  • Каждый игрок может иметь только одно соединение этого типа.\n"
 
-#: client/helpdata.c:2480 client/helpdata.c:3109 client/helpdata.c:3223
+#: client/helpdata.c:2482 client/helpdata.c:3111 client/helpdata.c:3225
 msgid "?bullet:* "
 msgstr "• "
 
-#: client/helpdata.c:2488
+#: client/helpdata.c:2490
 #, c-format
 msgid "* Costs %d population to build.\n"
 msgid_plural "* Costs %d population to build.\n"
@@ -10171,7 +10168,7 @@ msgstr[1] "* Строительство уменьшит размер город
 msgstr[2] "* Строительство уменьшит размер города на %d жителей.\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:2506
+#: client/helpdata.c:2508
 #, c-format
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
@@ -10179,7 +10176,7 @@ msgstr[0] "  • Способно перевозить и заправлять %
 msgstr[1] "  • Способно перевозить и заправлять до %d соединений типа %s.\n"
 msgstr[2] "  • Способно перевозить и заправлять до %d соединений типа %s.\n"
 
-#: client/helpdata.c:2534
+#: client/helpdata.c:2536
 msgid ""
 "  * Some cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
@@ -10187,7 +10184,7 @@ msgstr ""
 "  • Некоторые соединения не могут быть погружены за пределами городов и баз, "
 "подходящих для транспорта.\n"
 
-#: client/helpdata.c:2539
+#: client/helpdata.c:2541
 msgid ""
 "  * Cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
@@ -10195,7 +10192,7 @@ msgstr ""
 "  • Соединение не может быть погружено за пределами городов и баз, "
 "подходящих для транспорта.\n"
 
-#: client/helpdata.c:2547
+#: client/helpdata.c:2549
 msgid ""
 "  * Some cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
@@ -10203,7 +10200,7 @@ msgstr ""
 "  • Некоторые соединения не могут быть выгружены за пределами городов и баз, "
 "подходящих для транспорта.\n"
 
-#: client/helpdata.c:2552
+#: client/helpdata.c:2554
 msgid ""
 "  * Cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
@@ -10211,13 +10208,13 @@ msgstr ""
 "  • Соединение не может быть выгружено за пределами городов и баз, "
 "подходящих для транспорта.\n"
 
-#: client/helpdata.c:2559
+#: client/helpdata.c:2561
 msgid "* Must stay next to coast.\n"
 msgstr "  • Должно оставаться рядом с берегом.\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2617
+#: client/helpdata.c:2619
 #, c-format
 msgid "* May load onto and unload from %s transports even when underway.\n"
 msgstr ""
@@ -10226,7 +10223,7 @@ msgstr ""
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2624
+#: client/helpdata.c:2626
 #, c-format
 msgid "* May load onto %s transports even when underway.\n"
 msgstr ""
@@ -10234,36 +10231,36 @@ msgstr ""
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2644
+#: client/helpdata.c:2646
 #, c-format
 msgid "* May unload from %s transports even when underway.\n"
 msgstr ""
 "  • Может быть выгружено из транспорта класса %s, даже если он вдали от "
 "баз.\n"
 
-#: client/helpdata.c:2651
+#: client/helpdata.c:2653
 msgid "* Can establish trade routes (must travel to target city).\n"
 msgstr ""
 "  • Может устанавливать торговые пути (должен прибыть в целевой город).\n"
 
-#: client/helpdata.c:2655
+#: client/helpdata.c:2657
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr ""
 "  • Может помогать строить Чудеса (добавляет %d единиц производства).\n"
 
-#: client/helpdata.c:2659
+#: client/helpdata.c:2661
 msgid "* May not be disbanded.\n"
 msgstr "  • Не может быть расформировано.\n"
 
-#: client/helpdata.c:2663
+#: client/helpdata.c:2665
 #, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 "  • Может быть расформировано в городе с возмещением 50% от стоимости его "
 "строительства.\n"
 
-#: client/helpdata.c:2668
+#: client/helpdata.c:2670
 #, c-format
 msgid "* Can build new cities (initial population %d).\n"
 msgid_plural "* Can build new cities (initial population %d).\n"
@@ -10272,7 +10269,7 @@ msgstr[1] "* Может основывать новые города (со ст�
 msgstr[2] "* Может основывать новые города (со стартовым размером %d).\n"
 
 #. TRANS: Plural in "%d population", not "size %d".
-#: client/helpdata.c:2676
+#: client/helpdata.c:2678
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgid_plural "* Can add on %d population to cities of no more than size %d.\n"
@@ -10287,91 +10284,91 @@ msgstr[2] ""
 "превышает %d.\n"
 
 #. TRANS: %s is list of extra types separated by ',' and 'and'
-#: client/helpdata.c:2697 client/helpdata.c:2743
+#: client/helpdata.c:2699 client/helpdata.c:2745
 #, c-format
 msgid "* Can build %s on tiles.\n"
 msgstr "  • Может строить на полях %s.\n"
 
-#: client/helpdata.c:2703
+#: client/helpdata.c:2705
 msgid "* Can build mines on tiles.\n"
 msgstr "  • Может строить шахты.\n"
 
-#: client/helpdata.c:2706
+#: client/helpdata.c:2708
 msgid "* Can convert terrain to another type by mining.\n"
 msgstr "  • Может преобразовывать рельеф поля командой «Построить Шахту».\n"
 
-#: client/helpdata.c:2711
+#: client/helpdata.c:2713
 msgid "* Can build irrigation on tiles.\n"
 msgstr "  • Может строить оросительные системы.\n"
 
-#: client/helpdata.c:2719
+#: client/helpdata.c:2721
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "  • Может строить фермы (если известна технология %s).\n"
 
-#: client/helpdata.c:2723
+#: client/helpdata.c:2725
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "  • Может построить ферму (если известно хотя бы одно из: %s).\n"
 
-#: client/helpdata.c:2729
+#: client/helpdata.c:2731
 msgid "* Can convert terrain to another type by irrigation.\n"
 msgstr "  • Может преобразовывать рельеф поля командой «построить Орошение».\n"
 
-#: client/helpdata.c:2733
+#: client/helpdata.c:2735
 msgid "* Can transform terrain to another type.\n"
 msgstr "  • Может преобразовывать рельеф поля в другой тип.\n"
 
-#: client/helpdata.c:2749
+#: client/helpdata.c:2751
 msgid "* Can clean pollution from tiles.\n"
 msgstr "  • Может очищать загрязнение.\n"
 
-#: client/helpdata.c:2750
+#: client/helpdata.c:2752
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "  • Может проводить дезактивацию (очищать радиоактивное заражение).\n"
 
-#: client/helpdata.c:2755
+#: client/helpdata.c:2757
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "  • Может выполнять дипломатические действия и обладает специальными "
 "шпионскими способностями.\n"
 
-#: client/helpdata.c:2758
+#: client/helpdata.c:2760
 msgid "* Can perform diplomatic actions.\n"
 msgstr "  • Может выполнять дипломатические действия.\n"
 
-#: client/helpdata.c:2763
+#: client/helpdata.c:2765
 msgid "* Defends cities against diplomatic actions.\n"
 msgstr "  • Может защищать города от враждебных дипломатических действий.\n"
 
-#: client/helpdata.c:2766
+#: client/helpdata.c:2768
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "  • Никогда не проигрывает в сражении с вражеским дипломатом.\n"
 
-#: client/helpdata.c:2770
+#: client/helpdata.c:2772
 msgid "* Will always survive a spy mission.\n"
 msgstr "  • Всегда выживает после шпионской миссии.\n"
 
-#: client/helpdata.c:2773
+#: client/helpdata.c:2775
 msgid "* May not be bribed.\n"
 msgstr "  • Не может быть подкуплено.\n"
 
-#: client/helpdata.c:2777
+#: client/helpdata.c:2779
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "  • Невидимо, если не находится в поле зрения вражеского соединения, города "
 "или базы.\n"
 
-#: client/helpdata.c:2781
+#: client/helpdata.c:2783
 msgid "* Can only attack units on native tiles.\n"
 msgstr ""
 "  • Может атаковать только соединения, находящиеся на подходящем рельефе.\n"
 
-#: client/helpdata.c:2786
+#: client/helpdata.c:2788
 msgid "* Can launch attack from non-native tiles.\n"
 msgstr "  • Может атаковать с неподходящего рельефа.\n"
 
-#: client/helpdata.c:2790
+#: client/helpdata.c:2792
 #, c-format
 msgid ""
 "* Can be paradropped from a friendly city or suitable base (range: %d "
@@ -10389,23 +10386,23 @@ msgstr[2] ""
 "  • Могут десантироваться из дружественного города или с подходящей базы "
 "(дистанция: %d полей).\n"
 
-#: client/helpdata.c:2800
+#: client/helpdata.c:2802
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "  • Атака завершает ходы этого соединения.\n"
 
-#: client/helpdata.c:2804
+#: client/helpdata.c:2806
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "  • Атака этого соединения вызывает ядерный взрыв!\n"
 
-#: client/helpdata.c:2808
+#: client/helpdata.c:2810
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "  • При атаке города огневая мощь соединения удваивается.\n"
 
-#: client/helpdata.c:2811
+#: client/helpdata.c:2813
 msgid "* Ignores the effects of city walls.\n"
 msgstr "  • Игнорирует эффекты городских стен.\n"
 
-#: client/helpdata.c:2817
+#: client/helpdata.c:2819
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn). These attacks will only damage (never "
@@ -10419,50 +10416,50 @@ msgstr ""
 
 #. TRANS: "MP" = movement points. %s may have a
 #. * fractional part.
-#: client/helpdata.c:2827
+#: client/helpdata.c:2829
 #, c-format
 msgid "* Ignores terrain effects (moving costs at most %s MP per tile).\n"
 msgstr ""
 "  • Игнорирует эффекты рельефа (тратит на одно перемещение не более %s "
 "хода).\n"
 
-#: client/helpdata.c:2832
+#: client/helpdata.c:2834
 msgid "* Ignores zones of control.\n"
 msgstr "  • Игнорирует зоны контроля.\n"
 
-#: client/helpdata.c:2836
+#: client/helpdata.c:2838
 msgid "* A non-military unit:\n"
 msgstr "  • Небоевое соединение:\n"
 
-#: client/helpdata.c:2838
+#: client/helpdata.c:2840
 msgid "  * Cannot attack.\n"
 msgstr "  • Не может атаковать.\n"
 
-#: client/helpdata.c:2840
+#: client/helpdata.c:2842
 msgid "  * Doesn't impose martial law.\n"
 msgstr "  • Не навязывает военное положение.\n"
 
-#: client/helpdata.c:2842
+#: client/helpdata.c:2844
 msgid "  * Can enter foreign territory regardless of peace treaty.\n"
 msgstr ""
 "  • Может заходить на иностранную территорию, не нарушая при этом мирный "
 "договор.\n"
 
-#: client/helpdata.c:2848
+#: client/helpdata.c:2850
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "  • Соединение-агрессор: добавляет одно несчастье, даже если не на чужой "
 "территории.\n"
 
-#: client/helpdata.c:2851
+#: client/helpdata.c:2853
 msgid "* Can capture some enemy units.\n"
 msgstr "  • Может захватить в плен некоторые вражеские соединения.\n"
 
-#: client/helpdata.c:2854
+#: client/helpdata.c:2856
 msgid "* Can be captured by some enemy units.\n"
 msgstr "  • Может быть взято в плен некоторыми вражескими соединениями.\n"
 
-#: client/helpdata.c:2861
+#: client/helpdata.c:2863
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
@@ -10470,14 +10467,14 @@ msgstr ""
 "  • При определённых условиях Щиты, тратящиеся на поддержку этого "
 "соединения, могут быть заменены на денежное довольствие.\n"
 
-#: client/helpdata.c:2869
+#: client/helpdata.c:2871
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 "  • Может атаковать соединения типа %s, недостижимые для других видов "
 "вооружения.\n"
 
-#: client/helpdata.c:2886
+#: client/helpdata.c:2888
 #, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
@@ -10486,7 +10483,7 @@ msgstr[1] "  • Соединение должно быть в городе ил
 msgstr[2] "  • Соединение должно быть в городе или на базе после %d ходов.\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:2897
+#: client/helpdata.c:2899
 #, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
@@ -10500,36 +10497,36 @@ msgstr[2] ""
 "  • Соединение должно быть в городе, на базе, или на соединении %s после %d "
 "ходов.\n"
 
-#: client/helpdata.c:2909
+#: client/helpdata.c:2911
 msgid "* Will never achieve veteran status.\n"
 msgstr "  • Никогда не достигнет ветеранского ранга.\n"
 
-#: client/helpdata.c:2924
+#: client/helpdata.c:2926
 msgid "* May acquire veteran status.\n"
 msgstr "  • Может достичь ветеранского ранга.\n"
 
-#: client/helpdata.c:2929
+#: client/helpdata.c:2931
 msgid "  * Veterans have increased strength in combat.\n"
 msgstr "  • Ветераны более сильны в бою.\n"
 
-#: client/helpdata.c:2936
+#: client/helpdata.c:2938
 msgid "  * Veterans have improved chances in diplomatic contests.\n"
 msgstr ""
 "  • У ветеранов выше шанс успеха при совершении дипломатических акций.\n"
 
-#: client/helpdata.c:2940
+#: client/helpdata.c:2942
 msgid "  * Veterans are more likely to survive missions.\n"
 msgstr "  • У ветеранов выше шанс выжить после выполнения миссий.\n"
 
-#: client/helpdata.c:2945
+#: client/helpdata.c:2947
 msgid "  * Veterans work faster.\n"
 msgstr "  • Ветераны быстрее работают.\n"
 
-#: client/helpdata.c:2956
+#: client/helpdata.c:2958
 msgid "This type of unit has its own veteran levels:"
 msgstr "Этот тип соединений имеет собственные ветеранские ранги:"
 
-#: client/helpdata.c:2998
+#: client/helpdata.c:3000
 #, c-format
 msgid "Starting now, researching %s would need %d bulb."
 msgid_plural "Starting now, researching %s would need %d bulbs."
@@ -10542,7 +10539,7 @@ msgstr[2] ""
 
 #. TRANS: appended to another sentence. Preserve the
 #. * leading space.
-#: client/helpdata.c:3010
+#: client/helpdata.c:3012
 #, c-format
 msgid " The whole project will require %d bulb to complete."
 msgid_plural " The whole project will require %d bulbs to complete."
@@ -10551,7 +10548,7 @@ msgstr[1] " На завершение всего проекта потребуе
 msgstr[2] " На завершение всего проекта потребуется %d лампочек."
 
 #. TRANS: last %s is a sentence pluralized separately.
-#: client/helpdata.c:3016
+#: client/helpdata.c:3018
 #, c-format
 msgid "To reach %s you need to obtain %d other technology first.%s"
 msgid_plural "To reach %s you need to obtain %d other technologies first.%s"
@@ -10565,43 +10562,43 @@ msgstr[2] ""
 "Для открытия технологии %s необходимо предварительно исследовать %d "
 "технологий.%s"
 
-#: client/helpdata.c:3025
+#: client/helpdata.c:3027
 msgid "You cannot research this technology."
 msgstr "Вы не можете исследовать эту технологию."
 
 #. TRANS: Appended to another sentence. Preserve the
 #. * leading space.
-#: client/helpdata.c:3032
+#: client/helpdata.c:3034
 msgid " This number may vary depending on what other players research.\n"
 msgstr " Это число может зависеть от того, что исследуют другие игроки.\n"
 
-#: client/helpdata.c:3050
+#: client/helpdata.c:3052
 msgid "* All players start the game with knowledge of this technology.\n"
 msgstr "  • Все игроки начинают игру со знанием этой технологии.\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:3072
+#: client/helpdata.c:3074
 #, c-format
 msgid "* The %s start the game with knowledge of this technology.\n"
 msgstr "  • Народ %s начинает игру со знанием этой технологии.\n"
 
-#: client/helpdata.c:3081
+#: client/helpdata.c:3083
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "  • Первый игрок, открывший %s, немедленно получает ещё одну технологию.\n"
 
-#: client/helpdata.c:3093
+#: client/helpdata.c:3095
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "  • Увеличивает загрязнение, создаваемое перенаселением.\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:3100
+#: client/helpdata.c:3102
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "  • %s смогут улучшать орошённые поля до ферм.\n"
 
-#: client/helpdata.c:3121
+#: client/helpdata.c:3123
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
@@ -10609,47 +10606,47 @@ msgstr ""
 "  • Во избежание утраты нашим народом этой технологии нам каждый ход "
 "необходимо производить несколько лампочек.\n"
 
-#: client/helpdata.c:3160
+#: client/helpdata.c:3162
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "  • Этот рельеф не подвержен загрязнению."
 
-#: client/helpdata.c:3163
+#: client/helpdata.c:3165
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "  • Этот рельеф не подвержен радиоактивному заражению."
 
-#: client/helpdata.c:3168
+#: client/helpdata.c:3170
 msgid "* You cannot build cities on this terrain."
 msgstr "  • Вы не можете строить города на этом рельефе."
 
-#: client/helpdata.c:3176
+#: client/helpdata.c:3178
 msgid "* Paths cannot be built on this terrain."
 msgstr "  • На этом рельефе невозможно строить пути сообщения."
 
-#: client/helpdata.c:3187
+#: client/helpdata.c:3189
 msgid "* Bases cannot be built on this terrain."
 msgstr "  • На этом рельефе невозможно строить базы."
 
-#: client/helpdata.c:3196
+#: client/helpdata.c:3198
 msgid "* The coastline of this terrain is unsafe."
 msgstr "  • Берег с этим рельефом небезопасен."
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3213 client/helpdata.c:3506
+#: client/helpdata.c:3215 client/helpdata.c:3514
 #, c-format
 msgid "* Can be traveled by %s units.\n"
 msgstr "  • Может перевозиться соединениями класса %s.\n"
 
-#: client/helpdata.c:3330 client/helpdata.c:3482
+#: client/helpdata.c:3336 client/helpdata.c:3491
 msgid "Requirements to build:\n"
 msgstr "Требования для строительства:\n"
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3354
+#: client/helpdata.c:3359
 #, c-format
 msgid "* Native to %s units.\n"
 msgstr "  • Доступно для соединений типа %s.\n"
 
-#: client/helpdata.c:3360 client/helpdata.c:3512
+#: client/helpdata.c:3365 client/helpdata.c:3520
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
@@ -10657,7 +10654,7 @@ msgstr ""
 "  • Такие соединения могут передвинуться на это поле, даже если обычно им "
 "недоступен этот рельеф.\n"
 
-#: client/helpdata.c:3366
+#: client/helpdata.c:3371
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
@@ -10665,7 +10662,7 @@ msgstr ""
 "  • Такие соединения, размещённые на этом поле, не считаются действующей "
 "армией, если оно в радиусе 3 полей от дружественного города.\n"
 
-#: client/helpdata.c:3371
+#: client/helpdata.c:3376
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
@@ -10673,47 +10670,47 @@ msgstr ""
 "  • Может быть захвачено в плен соединениями такого типа, принадлежащими "
 "народу, находящемуся в состоянии войны с владельцем поля с Базой.\n"
 
-#: client/helpdata.c:3376 client/helpdata.c:3517
+#: client/helpdata.c:3381 client/helpdata.c:3525
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
 "  • Соединения такого типа получают на этом поле бонус %d%% к защите.\n"
 
-#: client/helpdata.c:3383
+#: client/helpdata.c:3388
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr ""
 "  • Дипломатические соединения получают бонус 25% к защите в дипломатической "
 "дуэли.\n"
 
-#: client/helpdata.c:3391
+#: client/helpdata.c:3396
 msgid "* Cannot be built.\n"
 msgstr "  • Не могут быть построены.\n"
 
-#: client/helpdata.c:3395 client/helpdata.c:3539
+#: client/helpdata.c:3400 client/helpdata.c:3547
 msgid "* Can be pillaged by units.\n"
 msgstr "  • Может быть уничтожено соединениями.\n"
 
-#: client/helpdata.c:3400
+#: client/helpdata.c:3405
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 "  • Гибель одного соединения не вызывает гибели остальных соединений на "
 "поле.\n"
 
-#: client/helpdata.c:3405
+#: client/helpdata.c:3410
 msgid "* Units can paradrop from this tile.\n"
 msgstr "  • Соединения могут десантироваться с этого поля.\n"
 
-#: client/helpdata.c:3409
+#: client/helpdata.c:3414
 msgid "* Extends national borders of the building nation.\n"
 msgstr "  • Расширяет государственные границы построившего её народа.\n"
 
-#: client/helpdata.c:3413
+#: client/helpdata.c:3418
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr "  • Даёт владельцу постоянное видение окружающей поле области.\n"
 
-#: client/helpdata.c:3418
+#: client/helpdata.c:3423
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
@@ -10721,7 +10718,7 @@ msgstr ""
 "  • Позволяет владельцу видеть обычно невидимые соединения в окружающей поле "
 "области.\n"
 
-#: client/helpdata.c:3426 client/helpdata.c:3567
+#: client/helpdata.c:3431 client/helpdata.c:3575
 msgid ""
 "\n"
 "Time to build depends on terrain:\n"
@@ -10735,7 +10732,7 @@ msgstr ""
 #. * TRANS: Translators cannot change column widths :(
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3430 client/helpdata.c:3571
+#: client/helpdata.c:3435 client/helpdata.c:3579
 msgid ""
 "Terrain       Time\n"
 "------------------\n"
@@ -10743,18 +10740,18 @@ msgstr ""
 "Рельеф        Время\n"
 "-------------------\n"
 
-#: client/helpdata.c:3526
+#: client/helpdata.c:3534
 msgid "* Allows infinite movement.\n"
 msgstr "  • Позволяют перемещаться бесконечно.\n"
 
 #. TRANS: "MP" = movement points. Second %s may have a
 #. * fractional part.
-#: client/helpdata.c:3531
+#: client/helpdata.c:3539
 #, c-format
 msgid "* Movement cost along %s is %s MP.\n"
 msgstr "  • Затраты на передвижение по дороге типа %s — %s хода.\n"
 
-#: client/helpdata.c:3559
+#: client/helpdata.c:3567
 msgid ""
 "\n"
 "Time to build and output bonus depends on terrain:\n"
@@ -10766,7 +10763,7 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3563
+#: client/helpdata.c:3571
 msgid ""
 "Terrain       Time     Bonus F/P/T\n"
 "----------------------------------\n"
@@ -10776,7 +10773,7 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3578
+#: client/helpdata.c:3586
 msgid ""
 "\n"
 "Yields an output bonus with some terrains:\n"
@@ -10786,7 +10783,7 @@ msgstr ""
 "Увеличение урожайности на разном рельефе:\n"
 "\n"
 
-#: client/helpdata.c:3580
+#: client/helpdata.c:3588
 msgid ""
 "Terrain       Bonus F/P/T\n"
 "-------------------------\n"
@@ -10794,16 +10791,16 @@ msgstr ""
 "Рельеф        Бонус Е/П/Т\n"
 "-------------------------\n"
 
-#: client/helpdata.c:3684
+#: client/helpdata.c:3692
 msgid "Features:\n"
 msgstr "Особенности:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:3801 client/helpdata.c:3802
+#: client/helpdata.c:3809 client/helpdata.c:3810
 msgid "?outputlist: Nothing "
 msgstr " Ничего "
 
-#: client/helpdata.c:3814
+#: client/helpdata.c:3822
 #, c-format
 msgid ""
 "* Military units away from home and field units will each cause %d citizen "
@@ -10821,7 +10818,7 @@ msgstr[2] ""
 "  • Каждое военное соединения вне города и соединения-агрессоры делают %d "
 "жителей недовольными.\n"
 
-#: client/helpdata.c:3827
+#: client/helpdata.c:3835
 #, c-format
 msgid ""
 "* Unhappiness from foreign citizens due to war with their home state is %d%% "
@@ -10830,7 +10827,7 @@ msgstr ""
 "  • Несчастье, вызываемое жителями-иностранцами из-за войны с их родной "
 "страной на %d%% выше обычного значения.\n"
 
-#: client/helpdata.c:3833
+#: client/helpdata.c:3841
 msgid ""
 "* No unhappiness from foreign citizens even when at war with their home "
 "state.\n"
@@ -10840,7 +10837,7 @@ msgstr ""
 
 #. TRANS: not pluralised as gettext doesn't support
 #. * fractional numbers, which this might be
-#: client/helpdata.c:3840
+#: client/helpdata.c:3848
 #, c-format
 msgid ""
 "* Each foreign citizen causes %.2g unhappiness in their city while you are "
@@ -10849,7 +10846,7 @@ msgstr ""
 "  • Каждый житель-иностранец вызывает %.2g несчастья в городе, если с его "
 "родной страной идёт война.\n"
 
-#: client/helpdata.c:3850
+#: client/helpdata.c:3858
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
@@ -10864,7 +10861,7 @@ msgstr[2] ""
 "  • В каждом из Ваших городов число недовольных, вызванных соединениями, "
 "снизится на %d жителей.\n"
 
-#: client/helpdata.c:3861
+#: client/helpdata.c:3869
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
@@ -10882,7 +10879,7 @@ msgstr[2] ""
 "  • В каждом из Ваших городов число недовольных снизится на %d жителей, за "
 "исключением недовольных агрессивными военными действиями.\n"
 
-#: client/helpdata.c:3872
+#: client/helpdata.c:3880
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
@@ -10902,25 +10899,25 @@ msgstr[2] ""
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3887
+#: client/helpdata.c:3895
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "  • Вы не будете тратить ресурс %s на поддержку соединений.\n"
 
-#: client/helpdata.c:3891
+#: client/helpdata.c:3899
 msgid "* You pay no upkeep for your units.\n"
 msgstr "  • Вы не будете тратиться на поддержку соединений.\n"
 
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3899
+#: client/helpdata.c:3907
 #, c-format
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr ""
 "  • На поддержку соединений тратится в %.2g раз бо́льшее количество ресурсов "
 "%s.\n"
 
-#: client/helpdata.c:3904
+#: client/helpdata.c:3912
 #, c-format
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr "  • Затраты на денежное довольствие соединений вырастут в %.2g раз.\n"
@@ -10929,7 +10926,7 @@ msgstr "  • Затраты на денежное довольствие сое
 #. * 'gold'; pluralised in %d but there is currently
 #. * no way to control the singular/plural name of the
 #. * output type; sorry
-#: client/helpdata.c:3919
+#: client/helpdata.c:3927
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
@@ -10946,7 +10943,7 @@ msgstr[2] ""
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:3928
+#: client/helpdata.c:3936
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
@@ -10958,14 +10955,14 @@ msgstr[1] ""
 msgstr[2] ""
 "  • Каждый из Ваших городов снизит затраты на поддержку соединений на %d.\n"
 
-#: client/helpdata.c:3939
+#: client/helpdata.c:3947
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr ""
 "  • Если Вы потеряете свою столицу, вероятность начала гражданской войны "
 "будет составлять %d%%.\n"
 
-#: client/helpdata.c:3947
+#: client/helpdata.c:3955
 #, c-format
 msgid ""
 "* You can have %d city before an additional unhappy citizen appears in each "
@@ -10983,7 +10980,7 @@ msgstr[2] ""
 "  • Вы можете иметь %d городов до того как в каждом городе появится "
 "дополнительный житель, недовольный большим размером Вашей империи.\n"
 
-#: client/helpdata.c:3959
+#: client/helpdata.c:3967
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -11001,7 +10998,7 @@ msgstr[2] ""
 "  • После появления первого жителя, недовольного размером страны, каждые %d "
 "новых городов приведут к появлению ещё одного недовольного жителя.\n"
 
-#: client/helpdata.c:3973
+#: client/helpdata.c:3981
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
@@ -11009,11 +11006,11 @@ msgstr ""
 "  • Максимальный уровень, который Вы можете установить для науки, золота или "
 "роскоши равен %d%%.\n"
 
-#: client/helpdata.c:3978
+#: client/helpdata.c:3986
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "  • Нет ограничений на уровень науки/золота/роскоши.\n"
 
-#: client/helpdata.c:3985
+#: client/helpdata.c:3993
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -11031,7 +11028,7 @@ msgstr[2] ""
 "  • Ваши соединения могут навязать военное положение. Каждое военное "
 "соединение в городе сделает %d недовольных жителей довольными.\n"
 
-#: client/helpdata.c:3998
+#: client/helpdata.c:4006
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
@@ -11045,27 +11042,27 @@ msgstr[2] ""
 "  • В каждом городе не более %d соединений может быть использовано для "
 "введения военного положения.\n"
 
-#: client/helpdata.c:4009
+#: client/helpdata.c:4017
 msgid "* You may grow your cities by means of celebrations."
 msgstr "  • Ваши города могут расти по причине непрекращающегося ликования."
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4015
+#: client/helpdata.c:4023
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr ""
 " (Население городов с размером меньше %d не может расти этим способом.)"
 
-#: client/helpdata.c:4023
+#: client/helpdata.c:4031
 msgid "* Your units cannot be bribed.\n"
 msgstr "  • Ваши соединения не могут быть подкуплены.\n"
 
-#: client/helpdata.c:4028
+#: client/helpdata.c:4036
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "  • В Ваших городах нельзя устроить бунт.\n"
 
-#: client/helpdata.c:4035
+#: client/helpdata.c:4043
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -11073,17 +11070,17 @@ msgstr ""
 "  • Если в любом городе беспорядки продолжаются дольше, чем 2 хода подряд, в "
 "стране наступает Анархия.\n"
 
-#: client/helpdata.c:4042
+#: client/helpdata.c:4050
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 "  • Имеется парламент, который может воспрепятствовать объявлению войны.\n"
 
-#: client/helpdata.c:4048
+#: client/helpdata.c:4056
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 "  • При захвате города противником на соседних полях появляются Партизаны.\n"
 
-#: client/helpdata.c:4055
+#: client/helpdata.c:4063
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -11092,42 +11089,42 @@ msgstr ""
 "золото.\n"
 
 #. TRANS: %s is list of unit types separated by 'or'
-#: client/helpdata.c:4071
+#: client/helpdata.c:4079
 #, c-format
 msgid "* Pays no upkeep for %s.\n"
 msgstr "  • Соединения %s не нуждаются в поддержке.\n"
 
-#: client/helpdata.c:4079
+#: client/helpdata.c:4087
 msgid "* Has no unhappy citizens.\n"
 msgstr "  • Нет недовольных жителей.\n"
 
 #. TRANS: %s is a unit class
-#: client/helpdata.c:4104
+#: client/helpdata.c:4112
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
 msgstr "  • Новые соединения класса %s сразу становятся ветеранами.\n"
 
 #. TRANS: %s is a (translatable) unit type flag
-#: client/helpdata.c:4110
+#: client/helpdata.c:4118
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
 msgstr "  • Новые соединения с флагом \"%s\" сразу становятся ветеранами.\n"
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
-#: client/helpdata.c:4122
+#: client/helpdata.c:4130
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
 msgstr "  • Новые соединения %s сразу получают ветеранский ранг \"%s\".\n"
 
-#: client/helpdata.c:4131
+#: client/helpdata.c:4139
 msgid "* New units will be veteran.\n"
 msgstr "  • Новые соединения сразу становятся ветеранами.\n"
 
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
-#: client/helpdata.c:4141
+#: client/helpdata.c:4149
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -11147,13 +11144,13 @@ msgstr[2] ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4152 client/helpdata.c:4172
+#: client/helpdata.c:4160 client/helpdata.c:4180
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr " (Города, не достигшие размера %d, не будут праздновать.)"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4161
+#: client/helpdata.c:4169
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -11172,7 +11169,7 @@ msgstr[2] ""
 "ресурс %s, будет выдавать на %d больше."
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4180
+#: client/helpdata.c:4188
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
@@ -11188,39 +11185,39 @@ msgstr[2] ""
 "выдавать на %d больше.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4191
+#: client/helpdata.c:4199
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "  • Сбор ресурсов %s увеличивается на %d%%.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4199
+#: client/helpdata.c:4207
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "  • Сбор ресурсов %s будет сопровождаться значительными потерями.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4204
+#: client/helpdata.c:4212
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "  • Сбор ресурсов %s будет сопровождаться некоторыми потерями.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4209
+#: client/helpdata.c:4217
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "  • Сбор ресурсов %s будет сопровождаться небольшими потерями.\n"
 
-#: client/helpdata.c:4218
+#: client/helpdata.c:4226
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "  • Увеличивает подверженность Ваших городов эпидемии.\n"
 
-#: client/helpdata.c:4221
+#: client/helpdata.c:4229
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "  • Снижает подверженность Ваших городов эпидемии.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4231
+#: client/helpdata.c:4239
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr ""
@@ -11228,7 +11225,7 @@ msgstr ""
 "от столицы.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4237
+#: client/helpdata.c:4245
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr ""
@@ -11236,45 +11233,45 @@ msgstr ""
 "столицы.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4243
+#: client/helpdata.c:4251
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr ""
 "  • Потери при сборе ресурсов %s будут незначительно расти с увеличением "
 "расстояния от столицы.\n"
 
-#: client/helpdata.c:4252
+#: client/helpdata.c:4260
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "  • Увеличивается вероятность миграции в Ваши города.\n"
 
-#: client/helpdata.c:4255
+#: client/helpdata.c:4263
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "  • Уменьшается вероятность миграции в Ваши города.\n"
 
-#: client/helpdata.c:4274
+#: client/helpdata.c:4282
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "  • Позволяет строить соединения %s.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:4302
+#: client/helpdata.c:4310
 #, c-format
 msgid "%s%d %s"
 msgstr "%1$s%3$s: %2$d"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:4310
+#: client/helpdata.c:4318
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%sНедовольных: %d"
 
-#: client/helpdata.c:4342
+#: client/helpdata.c:4350
 #, c-format
 msgid "Initial government is %s.\n"
 msgstr "Начальная форма правления: %s.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4359
+#: client/helpdata.c:4367
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -11284,7 +11281,7 @@ msgstr ""
 "технологиям.\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4364
+#: client/helpdata.c:4372
 #, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "Начинают игру со знанием технологии %s.\n"
@@ -11292,7 +11289,7 @@ msgstr "Начинают игру со знанием технологии %s.\n
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:4401
+#: client/helpdata.c:4409
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
@@ -11300,7 +11297,7 @@ msgstr "%s (%d)"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:4421
+#: client/helpdata.c:4429
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
@@ -11309,7 +11306,7 @@ msgstr[1] "Начинают игру со следующими дополнит�
 msgstr[2] "Начинают игру со следующими дополнительными соединениями: %s.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4443
+#: client/helpdata.c:4451
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
@@ -11318,7 +11315,7 @@ msgstr ""
 "зданиям.\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4448
+#: client/helpdata.c:4456
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr "Первый основанный город бесплатно получит %s.\n"
@@ -13904,23 +13901,23 @@ msgstr ""
 msgid "No graphics for base \"%s\" at all!"
 msgstr "Вообще нет никаких изображения для базы \"%s\"!"
 
-#: client/tilespec.c:3326
+#: client/tilespec.c:3322
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr "Рельеф \"%s\": отсутствует графика для поля \"%s\" или \"%s\"."
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3361
+#: client/tilespec.c:3357
 #, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Отсутствует спрайт базы для тега \"%s\"."
 
-#: client/tilespec.c:3621
+#: client/tilespec.c:3617
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr "Народ %s: отсутствует государственный флаг."
 
-#: client/tilespec.c:4809
+#: client/tilespec.c:4805
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -13929,7 +13926,7 @@ msgstr ""
 "Набор графики \"%s\" не поддерживает длинные пути передвижения, например, "
 "длины %d. Путь не отрисовывается так, как ожидалось."
 
-#: client/tilespec.c:5179
+#: client/tilespec.c:5175
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -13938,17 +13935,17 @@ msgstr ""
 "Набор графики \"%s\" не поддерживает города большого размера, например %d. "
 "Размер города не показан так, как ожидалось."
 
-#: client/tilespec.c:5254
+#: client/tilespec.c:5250
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr "Стиль городов \"%s\": отсутствуют изображения городов."
 
-#: client/tilespec.c:5258
+#: client/tilespec.c:5254
 #, c-format
 msgid "City style \"%s\": no wall graphics."
 msgstr "Стиль городов \"%s\": отсутствуют изображения стен."
 
-#: client/tilespec.c:5262
+#: client/tilespec.c:5258
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr "Стиль городов \"%s\": отсутствуют изображения принадлежности."
@@ -16163,10 +16160,9 @@ msgstr ""
 #: data/civ1/buildings.ruleset:658 data/civ1/techs.ruleset:591
 #: data/civ2/buildings.ruleset:942 data/civ2/techs.ruleset:756
 #: data/classic/buildings.ruleset:1016 data/classic/techs.ruleset:765
-#: data/experimental/buildings.ruleset:1070
-#: data/experimental/techs.ruleset:846 data/civ2civ3/buildings.ruleset:1150
-#: data/civ2civ3/techs.ruleset:871 data/multiplayer/buildings.ruleset:994
-#: data/multiplayer/techs.ruleset:770
+#: data/experimental/buildings.ruleset:1070 data/experimental/techs.ruleset:846
+#: data/civ2civ3/buildings.ruleset:1150 data/civ2civ3/techs.ruleset:871
+#: data/multiplayer/buildings.ruleset:994 data/multiplayer/techs.ruleset:770
 msgid "University"
 msgstr "Университет"
 
@@ -16180,10 +16176,8 @@ msgstr ""
 "городе на 100%."
 
 #: data/civ1/buildings.ruleset:680 data/civ2/buildings.ruleset:964
-#: data/classic/buildings.ruleset:1038
-#: data/experimental/buildings.ruleset:1092
-#: data/civ2civ3/buildings.ruleset:1178
-#: data/multiplayer/buildings.ruleset:1016
+#: data/classic/buildings.ruleset:1038 data/experimental/buildings.ruleset:1092
+#: data/civ2civ3/buildings.ruleset:1178 data/multiplayer/buildings.ruleset:1016
 msgid "Apollo Program"
 msgstr "Программа «Восток»"
 
@@ -16201,18 +16195,14 @@ msgstr ""
 "обладают всеми необходимыми технологиями)."
 
 #: data/civ1/buildings.ruleset:701 data/civ2/buildings.ruleset:1007
-#: data/classic/buildings.ruleset:1081
-#: data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1232
-#: data/multiplayer/buildings.ruleset:1057
+#: data/classic/buildings.ruleset:1081 data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1232 data/multiplayer/buildings.ruleset:1057
 msgid "Colossus"
 msgstr "Колосс"
 
 #: data/civ1/buildings.ruleset:715 data/civ2/buildings.ruleset:1021
-#: data/classic/buildings.ruleset:1095
-#: data/experimental/buildings.ruleset:1149
-#: data/civ2civ3/buildings.ruleset:1246
-#: data/multiplayer/buildings.ruleset:1071
+#: data/classic/buildings.ruleset:1095 data/experimental/buildings.ruleset:1149
+#: data/civ2civ3/buildings.ruleset:1246 data/multiplayer/buildings.ruleset:1071
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -16221,10 +16211,8 @@ msgstr ""
 "Торговля, производит ещё один дополнительный такой ресурс."
 
 #: data/civ1/buildings.ruleset:721 data/civ2/buildings.ruleset:1027
-#: data/classic/buildings.ruleset:1101
-#: data/experimental/buildings.ruleset:1155
-#: data/civ2civ3/buildings.ruleset:1252
-#: data/multiplayer/buildings.ruleset:1077
+#: data/classic/buildings.ruleset:1101 data/experimental/buildings.ruleset:1155
+#: data/civ2civ3/buildings.ruleset:1252 data/multiplayer/buildings.ruleset:1077
 msgid "Copernicus' Observatory"
 msgstr "Обсерватория Коперника"
 
@@ -16234,10 +16222,8 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Ускоряет развитие науки на 50% в том городе где она построена."
 
 #: data/civ1/buildings.ruleset:741 data/civ2/buildings.ruleset:1047
-#: data/classic/buildings.ruleset:1121
-#: data/experimental/buildings.ruleset:1175
-#: data/civ2civ3/buildings.ruleset:1272
-#: data/multiplayer/buildings.ruleset:1097
+#: data/classic/buildings.ruleset:1121 data/experimental/buildings.ruleset:1175
+#: data/civ2civ3/buildings.ruleset:1272 data/multiplayer/buildings.ruleset:1097
 msgid "Cure For Cancer"
 msgstr "Лекарство от рака"
 
@@ -16252,16 +16238,13 @@ msgstr ""
 "военными действиями)."
 
 #: data/civ1/buildings.ruleset:762 data/civ2/buildings.ruleset:1068
-#: data/classic/buildings.ruleset:1145
-#: data/experimental/buildings.ruleset:1199
-#: data/civ2civ3/buildings.ruleset:1296
-#: data/multiplayer/buildings.ruleset:1121
+#: data/classic/buildings.ruleset:1145 data/experimental/buildings.ruleset:1199
+#: data/civ2civ3/buildings.ruleset:1296 data/multiplayer/buildings.ruleset:1121
 msgid "Darwin's Voyage"
 msgstr "Путешествие Дарвина"
 
 #: data/civ1/buildings.ruleset:776 data/civ2/buildings.ruleset:1082
-#: data/classic/buildings.ruleset:1159
-#: data/experimental/buildings.ruleset:1213
+#: data/classic/buildings.ruleset:1159 data/experimental/buildings.ruleset:1213
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -16271,16 +16254,13 @@ msgstr ""
 "прилив доверия к науке. Даёт два немедленных научных открытия."
 
 #: data/civ1/buildings.ruleset:783 data/civ2/buildings.ruleset:1110
-#: data/classic/buildings.ruleset:1187
-#: data/experimental/buildings.ruleset:1241
-#: data/civ2civ3/buildings.ruleset:1342
-#: data/multiplayer/buildings.ruleset:1162
+#: data/classic/buildings.ruleset:1187 data/experimental/buildings.ruleset:1241
+#: data/civ2civ3/buildings.ruleset:1342 data/multiplayer/buildings.ruleset:1162
 msgid "Great Library"
 msgstr "Великая Библиотека"
 
 #: data/civ1/buildings.ruleset:797 data/civ2/buildings.ruleset:1124
-#: data/classic/buildings.ruleset:1201
-#: data/experimental/buildings.ruleset:1255
+#: data/classic/buildings.ruleset:1201 data/experimental/buildings.ruleset:1255
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -16289,24 +16269,19 @@ msgstr ""
 "имеющуюся хотя бы у двух других команд."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1130
-#: data/classic/buildings.ruleset:1207
-#: data/experimental/buildings.ruleset:1261
-#: data/civ2civ3/buildings.ruleset:1366
-#: data/multiplayer/buildings.ruleset:1182
+#: data/classic/buildings.ruleset:1207 data/experimental/buildings.ruleset:1261
+#: data/civ2civ3/buildings.ruleset:1366 data/multiplayer/buildings.ruleset:1182
 msgid "Great Wall"
 msgstr "Великая Стена"
 
 #: data/civ1/buildings.ruleset:817 data/civ2/buildings.ruleset:1144
-#: data/classic/buildings.ruleset:1221
-#: data/experimental/buildings.ruleset:1275
+#: data/classic/buildings.ruleset:1221 data/experimental/buildings.ruleset:1275
 msgid "Works as a City Wall in all your cities."
 msgstr "Действует как Городская Стена для всех Ваших городов."
 
 #: data/civ1/buildings.ruleset:824 data/civ2/buildings.ruleset:1151
-#: data/classic/buildings.ruleset:1229
-#: data/experimental/buildings.ruleset:1283
-#: data/civ2civ3/buildings.ruleset:1389
-#: data/multiplayer/buildings.ruleset:1201
+#: data/classic/buildings.ruleset:1229 data/experimental/buildings.ruleset:1283
+#: data/civ2civ3/buildings.ruleset:1389 data/multiplayer/buildings.ruleset:1201
 msgid "Hanging Gardens"
 msgstr "Висячие Сады"
 
@@ -16323,10 +16298,8 @@ msgstr ""
 "недовольных военными действиями), делая каждого из них довольным."
 
 #: data/civ1/buildings.ruleset:846 data/civ2/buildings.ruleset:1175
-#: data/classic/buildings.ruleset:1253
-#: data/experimental/buildings.ruleset:1307
-#: data/civ2civ3/buildings.ruleset:1411
-#: data/multiplayer/buildings.ruleset:1224
+#: data/classic/buildings.ruleset:1253 data/experimental/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1411 data/multiplayer/buildings.ruleset:1224
 msgid "Hoover Dam"
 msgstr "ДнепроГЭС"
 
@@ -16341,26 +16314,21 @@ msgstr ""
 "загрязнение и увеличивает эффект Фабрик и Заводов)."
 
 #: data/civ1/buildings.ruleset:868 data/civ2/buildings.ruleset:1195
-#: data/classic/buildings.ruleset:1274
-#: data/experimental/buildings.ruleset:1328
-#: data/civ2civ3/buildings.ruleset:1435
-#: data/multiplayer/buildings.ruleset:1246
+#: data/classic/buildings.ruleset:1274 data/experimental/buildings.ruleset:1328
+#: data/civ2civ3/buildings.ruleset:1435 data/multiplayer/buildings.ruleset:1246
 msgid "Isaac Newton's College"
 msgstr "Колледж Исаака Ньютона"
 
 #: data/civ1/buildings.ruleset:883 data/civ2/buildings.ruleset:1210
-#: data/classic/buildings.ruleset:1116
-#: data/experimental/buildings.ruleset:1170
+#: data/classic/buildings.ruleset:1116 data/experimental/buildings.ruleset:1170
 #: data/multiplayer/buildings.ruleset:1092
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Увеличивает скорость развития науки в построившем Чудо городе на 100%."
 
 #: data/civ1/buildings.ruleset:888 data/civ2/buildings.ruleset:1215
-#: data/classic/buildings.ruleset:1295
-#: data/experimental/buildings.ruleset:1349
-#: data/civ2civ3/buildings.ruleset:1459
-#: data/multiplayer/buildings.ruleset:1267
+#: data/classic/buildings.ruleset:1295 data/experimental/buildings.ruleset:1349
+#: data/civ2civ3/buildings.ruleset:1459 data/multiplayer/buildings.ruleset:1267
 msgid "J.S. Bach's Cathedral"
 msgstr "Собор Иоганна Себастьяна Баха"
 
@@ -16375,10 +16343,8 @@ msgstr ""
 "недовольных военными действиями)."
 
 #: data/civ1/buildings.ruleset:909 data/civ2/buildings.ruleset:1274
-#: data/classic/buildings.ruleset:1354
-#: data/experimental/buildings.ruleset:1408
-#: data/civ2civ3/buildings.ruleset:1522
-#: data/multiplayer/buildings.ruleset:1326
+#: data/classic/buildings.ruleset:1354 data/experimental/buildings.ruleset:1408
+#: data/civ2civ3/buildings.ruleset:1522 data/multiplayer/buildings.ruleset:1326
 msgid "Lighthouse"
 msgstr "Маяк"
 
@@ -16387,10 +16353,8 @@ msgid "Gives all your sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:928 data/civ2/buildings.ruleset:1294
-#: data/classic/buildings.ruleset:1375
-#: data/experimental/buildings.ruleset:1429
-#: data/civ2civ3/buildings.ruleset:1544
-#: data/multiplayer/buildings.ruleset:1346
+#: data/classic/buildings.ruleset:1375 data/experimental/buildings.ruleset:1429
+#: data/civ2civ3/buildings.ruleset:1544 data/multiplayer/buildings.ruleset:1346
 msgid "Magellan's Expedition"
 msgstr "Экспедиция Магеллана"
 
@@ -16399,18 +16363,14 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Даёт всем Вашим Водным соединениям 1 дополнительный ход."
 
 #: data/civ1/buildings.ruleset:947 data/civ2/buildings.ruleset:1313
-#: data/classic/buildings.ruleset:1395
-#: data/experimental/buildings.ruleset:1449
-#: data/civ2civ3/buildings.ruleset:1566
-#: data/multiplayer/buildings.ruleset:1368
+#: data/classic/buildings.ruleset:1395 data/experimental/buildings.ruleset:1449
+#: data/civ2civ3/buildings.ruleset:1566 data/multiplayer/buildings.ruleset:1368
 msgid "Manhattan Project"
 msgstr "Манхэттенский Проект"
 
 #: data/civ1/buildings.ruleset:965 data/civ2/buildings.ruleset:1350
-#: data/classic/buildings.ruleset:1432
-#: data/experimental/buildings.ruleset:1486
-#: data/civ2civ3/buildings.ruleset:1606
-#: data/multiplayer/buildings.ruleset:1407
+#: data/classic/buildings.ruleset:1432 data/experimental/buildings.ruleset:1486
+#: data/civ2civ3/buildings.ruleset:1606 data/multiplayer/buildings.ruleset:1407
 msgid "Michelangelo's Chapel"
 msgstr "Капелла Микеланджело"
 
@@ -16419,8 +16379,7 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Удваивает эффект Соборов во всех городах."
 
 #: data/civ1/buildings.ruleset:984 data/civ2/buildings.ruleset:1375
-#: data/classic/buildings.ruleset:1457
-#: data/experimental/buildings.ruleset:1511
+#: data/classic/buildings.ruleset:1457 data/experimental/buildings.ruleset:1511
 #: data/multiplayer/buildings.ruleset:1432
 msgid "Oracle"
 msgstr "Оракул"
@@ -16434,10 +16393,8 @@ msgstr ""
 "военными действиями."
 
 #: data/civ1/buildings.ruleset:1004 data/civ2/buildings.ruleset:1395
-#: data/classic/buildings.ruleset:1478
-#: data/experimental/buildings.ruleset:1532
-#: data/civ2civ3/buildings.ruleset:1693
-#: data/multiplayer/buildings.ruleset:1453
+#: data/classic/buildings.ruleset:1478 data/experimental/buildings.ruleset:1532
+#: data/civ2civ3/buildings.ruleset:1693 data/multiplayer/buildings.ruleset:1453
 msgid "Pyramids"
 msgstr "Пирамиды"
 
@@ -16454,8 +16411,7 @@ msgstr ""
 "Правления, в том числе и тем, которые ещё не были открыты Вашей цивилизацией."
 
 #: data/civ1/buildings.ruleset:1025 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500
-#: data/experimental/buildings.ruleset:1554
+#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1554
 msgid "SETI Program"
 msgstr "Программа S.E.T.I."
 
@@ -16465,16 +16421,13 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Увеличивает скорость развития науки в каждом Вашем городе на 50%."
 
 #: data/civ1/buildings.ruleset:1045 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1520
-#: data/experimental/buildings.ruleset:1574
-#: data/civ2civ3/buildings.ruleset:1741
-#: data/multiplayer/buildings.ruleset:1495
+#: data/classic/buildings.ruleset:1520 data/experimental/buildings.ruleset:1574
+#: data/civ2civ3/buildings.ruleset:1741 data/multiplayer/buildings.ruleset:1495
 msgid "Shakespeare's Theater"
 msgstr "Театр Шекспира"
 
 #: data/civ1/buildings.ruleset:1060 data/civ2/buildings.ruleset:1450
-#: data/classic/buildings.ruleset:1535
-#: data/experimental/buildings.ruleset:1589
+#: data/classic/buildings.ruleset:1535 data/experimental/buildings.ruleset:1589
 #: data/multiplayer/buildings.ruleset:1510
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -16484,18 +16437,14 @@ msgstr ""
 "довольными, в том числе и недовольных военными действиями."
 
 #: data/civ1/buildings.ruleset:1066 data/civ2/buildings.ruleset:1499
-#: data/classic/buildings.ruleset:1584
-#: data/experimental/buildings.ruleset:1638
-#: data/civ2civ3/buildings.ruleset:1809
-#: data/multiplayer/buildings.ruleset:1558
+#: data/classic/buildings.ruleset:1584 data/experimental/buildings.ruleset:1638
+#: data/civ2civ3/buildings.ruleset:1809 data/multiplayer/buildings.ruleset:1558
 msgid "United Nations"
 msgstr "ООН"
 
 #: data/civ1/buildings.ruleset:1092 data/civ2/buildings.ruleset:1526
-#: data/classic/buildings.ruleset:1611
-#: data/experimental/buildings.ruleset:1665
-#: data/civ2civ3/buildings.ruleset:1837
-#: data/multiplayer/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1611 data/experimental/buildings.ruleset:1665
+#: data/civ2civ3/buildings.ruleset:1837 data/multiplayer/buildings.ruleset:1579
 msgid "Women's Suffrage"
 msgstr "Женское Избирательное Право"
 
@@ -16681,16 +16630,13 @@ msgid "Team 3"
 msgstr "Команда 3"
 
 #: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59
-#: data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59
-#: data/multiplayer/governments.ruleset:59
+#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
+#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
 msgid "Anarchy"
 msgstr "Анархия"
 
 #: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64
-#: data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
 #: data/multiplayer/governments.ruleset:64
 #, c-format
@@ -16698,8 +16644,7 @@ msgid "Warlord %s"
 msgstr "Военачальник %s"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65
-#: data/experimental/governments.ruleset:67
+#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
 #: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
 #: data/multiplayer/governments.ruleset:65
 #, c-format
@@ -16707,10 +16652,8 @@ msgid "Warlady %s"
 msgstr "Военачальница %s"
 
 #: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67
-#: data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67
-#: data/multiplayer/governments.ruleset:67
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16732,16 +16675,14 @@ msgstr ""
 "стране немного больше несчастья."
 
 #: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80
-#: data/experimental/governments.ruleset:84
+#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
 #: data/civ2civ3/governments.ruleset:124
 #: data/multiplayer/governments.ruleset:80
 msgid "Despotism"
 msgstr "Деспотизм"
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86
-#: data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:129
 #: data/multiplayer/governments.ruleset:86
 #, c-format
@@ -16749,8 +16690,7 @@ msgid "Chief %s"
 msgstr "Вождь %s"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87
-#: data/experimental/governments.ruleset:91
+#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
 #: data/civ2civ3/governments.ruleset:130
 #: data/multiplayer/governments.ruleset:87
 #, c-format
@@ -16758,8 +16698,7 @@ msgid "?female:Chief %s"
 msgstr "Владычица %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
-#: data/classic/governments.ruleset:89
-#: data/experimental/governments.ruleset:93
+#: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
 msgid ""
@@ -19606,8 +19545,8 @@ msgstr ""
 "СЭС — на 150%."
 
 #: data/civ2/buildings.ruleset:853 data/classic/buildings.ruleset:925
-#: data/experimental/buildings.ruleset:974
-#: data/civ2civ3/buildings.ruleset:1054 data/multiplayer/buildings.ruleset:905
+#: data/experimental/buildings.ruleset:974 data/civ2civ3/buildings.ruleset:1054
+#: data/multiplayer/buildings.ruleset:905
 msgid "Stock Exchange"
 msgstr "Фондовая Биржа"
 
@@ -19624,8 +19563,8 @@ msgstr ""
 "Вместе с Рынком и Банком — на 150%."
 
 #: data/civ2/buildings.ruleset:877 data/classic/buildings.ruleset:949
-#: data/experimental/buildings.ruleset:998
-#: data/civ2civ3/buildings.ruleset:1078 data/multiplayer/buildings.ruleset:929
+#: data/experimental/buildings.ruleset:998 data/civ2civ3/buildings.ruleset:1078
+#: data/multiplayer/buildings.ruleset:929
 msgid "Super Highways"
 msgstr "Автомагистрали"
 
@@ -19672,8 +19611,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:987 data/classic/buildings.ruleset:1061
 #: data/experimental/buildings.ruleset:1115
-#: data/civ2civ3/buildings.ruleset:1206
-#: data/multiplayer/buildings.ruleset:1037
+#: data/civ2civ3/buildings.ruleset:1206 data/multiplayer/buildings.ruleset:1037
 msgid "A.Smith's Trading Co."
 msgstr "Компания Aдама Смита"
 
@@ -19687,8 +19625,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1089 data/classic/buildings.ruleset:1166
 #: data/experimental/buildings.ruleset:1220
-#: data/civ2civ3/buildings.ruleset:1320
-#: data/multiplayer/buildings.ruleset:1141
+#: data/civ2civ3/buildings.ruleset:1320 data/multiplayer/buildings.ruleset:1141
 msgid "Eiffel Tower"
 msgstr "Эйфелева башня"
 
@@ -19737,8 +19674,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1235 data/classic/buildings.ruleset:1315
 #: data/experimental/buildings.ruleset:1369
-#: data/civ2civ3/buildings.ruleset:1479
-#: data/multiplayer/buildings.ruleset:1287
+#: data/civ2civ3/buildings.ruleset:1479 data/multiplayer/buildings.ruleset:1287
 msgid "King Richard's Crusade"
 msgstr "Крестовый поход"
 
@@ -19754,8 +19690,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1255 data/classic/buildings.ruleset:1335
 #: data/experimental/buildings.ruleset:1389
-#: data/civ2civ3/buildings.ruleset:1503
-#: data/multiplayer/buildings.ruleset:1307
+#: data/civ2civ3/buildings.ruleset:1503 data/multiplayer/buildings.ruleset:1307
 msgid "Leonardo's Workshop"
 msgstr "Мастерская Леонардо"
 
@@ -19779,8 +19714,7 @@ msgstr "Даёт всем Водным соединениям 2 дополнит
 
 #: data/civ2/buildings.ruleset:1331 data/classic/buildings.ruleset:1413
 #: data/experimental/buildings.ruleset:1467
-#: data/civ2civ3/buildings.ruleset:1584
-#: data/multiplayer/buildings.ruleset:1386
+#: data/civ2civ3/buildings.ruleset:1584 data/multiplayer/buildings.ruleset:1386
 msgid "Marco Polo's Embassy"
 msgstr "Посольство Марко Поло"
 
@@ -19822,15 +19756,13 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1456 data/classic/buildings.ruleset:1541
 #: data/experimental/buildings.ruleset:1595
-#: data/civ2civ3/buildings.ruleset:1765
-#: data/multiplayer/buildings.ruleset:1516
+#: data/civ2civ3/buildings.ruleset:1765 data/multiplayer/buildings.ruleset:1516
 msgid "Statue of Liberty"
 msgstr "Статуя свободы"
 
 #: data/civ2/buildings.ruleset:1477 data/classic/buildings.ruleset:1562
 #: data/experimental/buildings.ruleset:1616
-#: data/civ2civ3/buildings.ruleset:1788
-#: data/multiplayer/buildings.ruleset:1537
+#: data/civ2civ3/buildings.ruleset:1788 data/multiplayer/buildings.ruleset:1537
 msgid "Sun Tzu's War Academy"
 msgstr "Военная академия Сунь Цзы"
 
@@ -20556,8 +20488,7 @@ msgid "Airbase"
 msgstr "Авиабаза"
 
 #: data/civ2/terrain.ruleset:902 data/classic/terrain.ruleset:1073
-#: data/experimental/terrain.ruleset:1049
-#: data/multiplayer/terrain.ruleset:1047
+#: data/experimental/terrain.ruleset:1049 data/multiplayer/terrain.ruleset:1047
 msgid ""
 "Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units."
@@ -21507,8 +21438,7 @@ msgstr ""
 "только с ТЭС; СЭС, Фабрика и Завод вместе дают увеличение производства на "
 "150%, полностью ликвидируя промышленное загрязнение в городе."
 
-#: data/classic/buildings.ruleset:1008
-#: data/experimental/buildings.ruleset:1060
+#: data/classic/buildings.ruleset:1008 data/experimental/buildings.ruleset:1060
 #: data/multiplayer/buildings.ruleset:986
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -21519,8 +21449,7 @@ msgstr ""
 "удваивает этот эффект, ну а строительство Чуда Оракул делает довольными 4-х "
 "жителей.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1032
-#: data/experimental/buildings.ruleset:1086
+#: data/classic/buildings.ruleset:1032 data/experimental/buildings.ruleset:1086
 #: data/multiplayer/buildings.ruleset:1010
 #, no-c-format
 msgid ""
@@ -21530,8 +21459,7 @@ msgstr ""
 "Вместе с Библиотекой Университет увеличивает скорость развития науки в "
 "городе на 250%."
 
-#: data/classic/buildings.ruleset:1075
-#: data/experimental/buildings.ruleset:1129
+#: data/classic/buildings.ruleset:1075 data/experimental/buildings.ruleset:1129
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -21539,8 +21467,7 @@ msgstr ""
 "Городские здания, обычно требующие 1 единицу золота на поддержку, становятся "
 "бесплатными, для всех городов."
 
-#: data/classic/buildings.ruleset:1181
-#: data/experimental/buildings.ruleset:1235
+#: data/classic/buildings.ruleset:1181 data/experimental/buildings.ruleset:1235
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -21548,8 +21475,7 @@ msgstr ""
 "Ваша репутация и доброе к Вам отношение других народов восстанавливается в "
 "два раза быстрее."
 
-#: data/classic/buildings.ruleset:1289
-#: data/experimental/buildings.ruleset:1343
+#: data/classic/buildings.ruleset:1289 data/experimental/buildings.ruleset:1343
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -21558,8 +21484,7 @@ msgstr ""
 "Ускоряет развитие науки на 100% в каждом из Ваших городов, где построен "
 "Университет."
 
-#: data/classic/buildings.ruleset:1369
-#: data/experimental/buildings.ruleset:1423
+#: data/classic/buildings.ruleset:1369 data/experimental/buildings.ruleset:1423
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -21567,13 +21492,11 @@ msgstr ""
 "Даёт всем Водным соединением 1 дополнительный ход. Делает все новые Водные "
 "соединения Ветеранами (во всех городах)."
 
-#: data/classic/buildings.ruleset:1390
-#: data/experimental/buildings.ruleset:1444
+#: data/classic/buildings.ruleset:1390 data/experimental/buildings.ruleset:1444
 msgid "Gives all your sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
-#: data/classic/buildings.ruleset:1471
-#: data/experimental/buildings.ruleset:1525
+#: data/classic/buildings.ruleset:1471 data/experimental/buildings.ruleset:1525
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -21581,8 +21504,7 @@ msgstr ""
 "Дополнительно делает двух недовольных жителей довольными в каждом городе с "
 "Храмом.  Не затрагивает жителей, недовольных военными действиями."
 
-#: data/classic/buildings.ruleset:1493
-#: data/experimental/buildings.ruleset:1547
+#: data/classic/buildings.ruleset:1493 data/experimental/buildings.ruleset:1547
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -21593,16 +21515,14 @@ msgstr ""
 "уменьшается на 25%.  Это способствует более быстрому росту города.  Эффект "
 "добавляется к эффекту Амбара."
 
-#: data/classic/buildings.ruleset:1515
-#: data/experimental/buildings.ruleset:1569
+#: data/classic/buildings.ruleset:1515 data/experimental/buildings.ruleset:1569
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Увеличивает на 100% научный выход каждого города с Исследовательской "
 "лабораторией."
 
-#: data/classic/buildings.ruleset:1576
-#: data/experimental/buildings.ruleset:1630
+#: data/classic/buildings.ruleset:1576 data/experimental/buildings.ruleset:1630
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -21614,17 +21534,13 @@ msgstr ""
 "соединения при создании получат ранг Закалённый). Шансы Наземных соединений "
 "на повышение в ранге после битвы увеличиваются в полтора раза."
 
-#: data/classic/buildings.ruleset:1638
-#: data/experimental/buildings.ruleset:1692
-#: data/civ2civ3/buildings.ruleset:1859
-#: data/multiplayer/buildings.ruleset:1603
+#: data/classic/buildings.ruleset:1638 data/experimental/buildings.ruleset:1692
+#: data/civ2civ3/buildings.ruleset:1859 data/multiplayer/buildings.ruleset:1603
 msgid "Coinage"
 msgstr "Монетный двор"
 
-#: data/classic/buildings.ruleset:1659
-#: data/experimental/buildings.ruleset:1713
-#: data/civ2civ3/buildings.ruleset:1880
-#: data/multiplayer/buildings.ruleset:1616
+#: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1713
+#: data/civ2civ3/buildings.ruleset:1880 data/multiplayer/buildings.ruleset:1616
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -30726,8 +30642,7 @@ msgstr ""
 "Существует несколько путей решения этой проблемы.  Очень быстрый способ —\n"
 "постройка Храма (или другого сооружения культуры), который успокоит одного\n"
 "недовольного жителя (см. раздел «Городские здания» в Справке о влиянии\n"
-"различных зданий).  С увеличением количества больших городов сто ́ит "
-"обратить\n"
+"различных зданий).  С увеличением количества больших городов сто́ит обратить\n"
 "внимание на бюджет (Ctrl-T), чтобы направить часть поступлений на роскошь\n"
 "(каждые две единицы роскоши умиротворяют одного жителя). Строительство "
 "Рынка\n"
@@ -31072,7 +30987,7 @@ msgstr ""
 
 #: data/scenarios/tutorial.sav:286
 msgid "Loading tutorial events."
-msgstr "Загрузка событий для обучения."
+msgstr "Загрузка событий обучающей игры."
 
 #. TRANS: Version tag name received from metaserver
 #: translations/Strings.txt:12
@@ -31828,9 +31743,9 @@ msgstr "Вы уже что-то продали здесь на этом ходу
 #, c-format
 msgid "You sell %s in %s for %d gold."
 msgid_plural "You sell %s in %s for %d gold."
-msgstr[0] "Вы продали здание %s города %s за %d золотой."
-msgstr[1] "Вы продали здание %s города %s за %d золота."
-msgstr[2] "Вы продали здание %s города %s за %d золота."
+msgstr[0] "Вы продали здание %s в городе %s за %d золотой."
+msgstr[1] "Вы продали здание %s в городе %s за %d золотых."
+msgstr[2] "Вы продали здание %s в городе %s за %d золотых."
 
 #: server/cityhand.c:317
 msgid "Cannot buy in city created this turn."
@@ -34630,7 +34545,8 @@ msgstr "Ваш %s был схвачен после выполнения свое
 #: server/diplomats.c:1415
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
-msgstr "Вы вызвали дипломатический инцидент при подкупе %2$s народа %1$s."
+msgstr ""
+"Вы вызвали дипломатический инцидент при подкупе соединения %2$s народа %1$s."
 
 #: server/diplomats.c:1420
 #, c-format
@@ -41403,8 +41319,7 @@ msgstr[2] ""
 #: server/unittools.c:2578
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr ""
-"Ваше соединение %s было уничтожено ядерной бомбардировкой (инициатор — %s)."
+msgstr "%2$s уничтожили ядерным ударом Ваше соединение %1$s."
 
 #: server/unittools.c:2581 server/unittools.c:2599
 msgid "yourself"
@@ -41413,18 +41328,17 @@ msgstr "Вы"
 #: server/unittools.c:2585
 #, c-format
 msgid "The %s %s was nuked."
-msgstr "Соединение %2$s народа %1$s было уничтожено ядерной бомбардировкой."
+msgstr "Соединение %2$s народа %1$s было уничтожено ядерным ударом."
 
-# FIXME: another string for the "yourself" variant
 #: server/unittools.c:2596
 #, c-format
 msgid "%s was nuked by %s."
-msgstr "Игрок %2$s произвёл ядерную бомбардировку города %1$s."
+msgstr "%2$s произвёли ядерный удар по городу %1$s."
 
 #: server/unittools.c:2604
 #, c-format
 msgid "You nuked %s."
-msgstr "Вы подвергли город %s ядерной бомбардировке."
+msgstr "Вы подвергли город %s ядерному удару."
 
 #: server/unittools.c:2656
 #, c-format
