@@ -50,6 +50,7 @@
 #include "tab_good.h"
 #include "tab_gov.h"
 #include "tab_misc.h"
+#include "tab_multiplier.h"
 #include "tab_nation.h"
 #include "tab_tech.h"
 #include "tab_terrains.h"
@@ -173,6 +174,8 @@ void ruledit_gui::setup(QWidget *central_in)
   stack->addTab(extras, QString::fromUtf8(R__("Extras")));
   terrains = new tab_terrains(this);
   stack->addTab(terrains, QString::fromUtf8(R__("Terrains")));
+  multipliers = new tab_multiplier(this);
+  stack->addTab(multipliers, QString::fromUtf8(R__("Multipliers")));
   nation = new tab_nation(this);
   stack->addTab(nation, QString::fromUtf8(R__("Nations")));
 
@@ -232,6 +235,7 @@ void ruledit_gui::launch_now()
     gov->refresh();
     enablers->refresh();
     extras->refresh();
+    multipliers->refresh();
     terrains->refresh();
     main_layout->setCurrentIndex(1);
   } else {

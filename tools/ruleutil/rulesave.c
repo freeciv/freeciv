@@ -1527,20 +1527,22 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   multipliers_iterate(pmul) {
-    char path[512];
+    if (!pmul->disabled) {
+      char path[512];
 
-    fc_snprintf(path, sizeof(path), "multiplier_%d", sect_idx++);
+      fc_snprintf(path, sizeof(path), "multiplier_%d", sect_idx++);
 
-    save_name_translation(sfile, &(pmul->name), path);
+      save_name_translation(sfile, &(pmul->name), path);
 
-    secfile_insert_int(sfile, pmul->start, "%s.start", path);
-    secfile_insert_int(sfile, pmul->stop, "%s.stop", path);
-    secfile_insert_int(sfile, pmul->step, "%s.step", path);
-    secfile_insert_int(sfile, pmul->def, "%s.default", path);
+      secfile_insert_int(sfile, pmul->start, "%s.start", path);
+      secfile_insert_int(sfile, pmul->stop, "%s.stop", path);
+      secfile_insert_int(sfile, pmul->step, "%s.step", path);
+      secfile_insert_int(sfile, pmul->def, "%s.default", path);
 
-    save_reqs_vector(sfile, &(pmul->reqs), path, "reqs");
+      save_reqs_vector(sfile, &(pmul->reqs), path, "reqs");
 
-    save_strvec(sfile, pmul->helptext, path, "helptext");
+      save_strvec(sfile, pmul->helptext, path, "helptext");
+    }
   } multipliers_iterate_end;
 
   return save_ruleset_file(sfile, filename);

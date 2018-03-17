@@ -33,6 +33,7 @@ class tab_building;
 class tab_good;
 class tab_gov;
 class tab_misc;
+class tab_multiplier;
 class tab_tech;
 class tab_unit;
 class tab_nation;
@@ -111,6 +112,7 @@ class ruledit_gui : public QObject
     tab_gov *gov;
     tab_enabler *enablers;
     tab_extras *extras;
+    tab_multiplier *multipliers;
     tab_terrains *terrains;
     tab_nation *nation;
 

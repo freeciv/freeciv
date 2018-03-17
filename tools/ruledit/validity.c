@@ -302,3 +302,47 @@ bool is_government_needed(struct government *pgov, requirers_cb cb, void *data)
 
   return needed;
 }
+
+struct effect_list_multiplier_data
+{
+  bool needed;
+  struct multiplier *pmul;
+  requirers_cb cb;
+  void *requirers_data;
+};
+
+/**********************************************************************//**
+  Callback to check if effect needs universal.
+**************************************************************************/
+static bool effect_list_multiplier_cb(struct effect *peffect,
+                                      void *data)
+{
+  struct effect_list_multiplier_data *cbdata = (struct effect_list_multiplier_data *)data;
+
+  if (peffect->multiplier == cbdata->pmul) {
+    cbdata->cb(R__("Effect"), cbdata->requirers_data);
+    cbdata->needed = TRUE;
+  }
+
+  /* Always continue to next until all effects checked */
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Check if anything in ruleset needs multiplier
+**************************************************************************/
+bool is_multiplier_needed(struct multiplier *pmul, requirers_cb cb, void *data)
+{
+  struct effect_list_multiplier_data cb_data;
+  bool needed = FALSE;
+
+  cb_data.needed = FALSE;
+  cb_data.pmul = pmul;
+  cb_data.cb = cb;
+  cb_data.requirers_data = data;
+
+  iterate_effect_cache(effect_list_multiplier_cb, &cb_data);
+  needed |= cb_data.needed;
+
+  return needed;
+}

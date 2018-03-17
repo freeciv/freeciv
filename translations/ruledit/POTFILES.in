@@ -9,6 +9,7 @@ tools/ruledit/tab_building.cpp
 tools/ruledit/tab_enablers.cpp
 tools/ruledit/tab_good.cpp
 tools/ruledit/tab_misc.cpp
+tools/ruledit/tab_multiplier.cpp
 tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
 tools/ruledit/tab_unit.cpp
