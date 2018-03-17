@@ -5541,7 +5541,6 @@ static bool load_ruleset_effects(struct section_file *file,
   const char *type;
   const char *filename;
   bool ok = TRUE;
-  bool effect_type_warned = FALSE;
 
   filename = secfile_name(file);
 
@@ -5563,14 +5562,7 @@ static bool load_ruleset_effects(struct section_file *file,
     struct requirement_vector *reqs;
 
     type = secfile_lookup_str(file, "%s.type", sec_name);
-    if (type == NULL && compat->compat_mode) {
-      /* Backward compatibility. Field used to be named "name" */
-      type = secfile_lookup_str(file, "%s.name", sec_name);
-      if (type != NULL && !effect_type_warned) {
-        log_deprecation(_("Effects should have \"type\", not the same field with old name \"name\"."));
-        effect_type_warned = TRUE;
-      }
-    }
+
     if (type == NULL) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] missing effect type.", filename, sec_name);
       ok = FALSE;
