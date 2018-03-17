@@ -25,7 +25,7 @@ else
 DSUBDIRS =
 endif
 
-SUBDIRS = $(DSUBDIRS) dependencies utility common tests windows $(SSUBDIRS) $(CSUBDIRS) translations doc tools gen_headers lua bootstrap
+SUBDIRS = gen_headers $(DSUBDIRS) dependencies utility common tests windows $(SSUBDIRS) $(CSUBDIRS) translations doc tools lua bootstrap
 
 EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
