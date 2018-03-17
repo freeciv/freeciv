@@ -4123,3 +4123,156 @@ bool univs_have_action_enabler(enum gen_action action,
 
   return FALSE;
 }
+
+/**********************************************************************//**
+  Return default ui_name for the action
+**************************************************************************/
+const char *action_ui_name_default(int act)
+{
+  switch (act) {
+  case ACTION_SPY_POISON:
+    /* TRANS: _Poison City (3% chance of success). */
+    return N_("%sPoison City%s");
+  case ACTION_SPY_POISON_ESC:
+    /* TRANS: _Poison City and Escape (3% chance of success). */
+    return N_("%sPoison City and Escape%s");
+  case ACTION_SPY_SABOTAGE_UNIT:
+    /* TRANS: S_abotage Enemy Unit (3% chance of success). */
+    return N_("S%sabotage Enemy Unit%s");
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+    /* TRANS: S_abotage Enemy Unit and Escape (3% chance of success). */
+    return N_("S%sabotage Enemy Unit and Escape%s");
+  case ACTION_SPY_BRIBE_UNIT:
+    /* TRANS: Bribe Enemy _Unit (3% chance of success). */
+    return N_("Bribe Enemy %sUnit%s");
+  case ACTION_SPY_SABOTAGE_CITY:
+    /* TRANS: _Sabotage City (3% chance of success). */
+    return N_("%sSabotage City%s");
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    /* TRANS: _Sabotage City and Escape (3% chance of success). */
+    return N_("%sSabotage City and Escape%s");
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    /* TRANS: Industria_l Sabotage (3% chance of success). */
+    return N_("Industria%sl Sabotage%s");
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    /* TRANS: Industria_l Sabotage and Escape (3% chance of success). */
+    return N_("Industria%sl Sabotage and Escape%s");
+  case ACTION_SPY_INCITE_CITY:
+    /* TRANS: Incite a Re_volt (3% chance of success). */
+    return N_("Incite a Re%svolt%s");
+  case ACTION_SPY_INCITE_CITY_ESC:
+    /* TRANS: Incite a Re_volt and Escape (3% chance of success). */
+    return N_("Incite a Re%svolt and Escape%s");
+  case ACTION_ESTABLISH_EMBASSY:
+    /* TRANS: Establish _Embassy (100% chance of success). */
+    return N_("Establish %sEmbassy%s");
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+    /* TRANS: Becom_e Ambassador (100% chance of success). */
+    return N_("Becom%se Ambassador%s");
+  case ACTION_SPY_STEAL_TECH:
+    /* TRANS: Steal _Technology (3% chance of success). */
+    return N_("Steal %sTechnology%s");
+  case ACTION_SPY_STEAL_TECH_ESC:
+    /* TRANS: Steal _Technology and Escape (3% chance of success). */
+    return N_("Steal %sTechnology and Escape%s");
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    /* TRANS: In_dustrial Espionage (3% chance of success). */
+    return N_("In%sdustrial Espionage%s");
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    /* TRANS: In_dustrial Espionage and Escape (3% chance of success). */
+    return N_("In%sdustrial Espionage and Escape%s");
+  case ACTION_SPY_INVESTIGATE_CITY:
+    /* TRANS: _Investigate City (100% chance of success). */
+    return N_("%sInvestigate City%s");
+  case ACTION_INV_CITY_SPEND:
+    /* TRANS: _Investigate City (spends the unit) (100% chance of
+     * success). */
+    return N_("%sInvestigate City (spends the unit)%s");
+  case ACTION_SPY_STEAL_GOLD:
+    /* TRANS: Steal _Gold (100% chance of success). */
+    return N_("Steal %sGold%s");
+  case ACTION_SPY_STEAL_GOLD_ESC:
+    /* TRANS: Steal _Gold and Escape (100% chance of success). */
+    return N_("Steal %sGold and Escape%s");
+  case ACTION_STEAL_MAPS:
+    /* TRANS: Steal _Maps (100% chance of success). */
+    return N_("Steal %sMaps%s");
+  case ACTION_STEAL_MAPS_ESC:
+    /* TRANS: Steal _Maps and Escape (100% chance of success). */
+    return N_("Steal %sMaps and Escape%s");
+  case ACTION_TRADE_ROUTE:
+    /* TRANS: Establish Trade _Route (100% chance of success). */
+    return N_("Establish Trade %sRoute%s");
+  case ACTION_MARKETPLACE:
+    /* TRANS: Enter _Marketplace (100% chance of success). */
+    return N_("Enter %sMarketplace%s");
+  case ACTION_HELP_WONDER:
+    /* TRANS: Help _build Wonder (100% chance of success). */
+    return N_("Help %sbuild Wonder%s");
+  case ACTION_CAPTURE_UNITS:
+    /* TRANS: _Capture Units (100% chance of success). */
+    return N_("%sCapture Units%s");
+  case ACTION_EXPEL_UNIT:
+    /* TRANS: _Expel Unit (100% chance of success). */
+    return N_("%sExpel Unit%s");
+  case ACTION_FOUND_CITY:
+    /* TRANS: _Found City (100% chance of success). */
+    return N_("%sFound City%s");
+  case ACTION_JOIN_CITY:
+    /* TRANS: _Join City (100% chance of success). */
+    return N_("%sJoin City%s");
+  case ACTION_BOMBARD:
+    /* TRANS: B_ombard (100% chance of success). */
+    return N_("B%sombard%s");
+  case ACTION_SPY_NUKE:
+    /* TRANS: Suitcase _Nuke (100% chance of success). */
+    return N_("Suitcase %sNuke%s");
+  case ACTION_SPY_NUKE_ESC:
+    /* TRANS: Suitcase _Nuke and Escape (100% chance of success). */
+    return N_("Suitcase %sNuke and Escape%s");
+  case ACTION_NUKE:
+    /* TRANS: Explode _Nuclear (100% chance of success). */
+    return N_("Explode %sNuclear%s");
+  case ACTION_DESTROY_CITY:
+    /* TRANS: Destroy _City (100% chance of success). */
+    return N_("Destroy %sCity%s");
+  case ACTION_RECYCLE_UNIT:
+    /* TRANS: Rec_ycle Unit (100% chance of success). */
+    return N_("Rec%sycle Unit%s");
+  case ACTION_DISBAND_UNIT:
+    /* TRANS: _You're Fired (100% chance of success). */
+    return N_("%sYou're Fired%s");
+  case ACTION_HOME_CITY:
+    /* TRANS: Set _Home City (100% chance of success). */
+    return N_("Set %sHome City%s");
+  case ACTION_UPGRADE_UNIT:
+    /* TRANS: _Upgrade Unit (100% chance of success). */
+    return N_("%sUpgrade Unit%s");
+  case ACTION_PARADROP:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
+  case ACTION_AIRLIFT:
+    /* TRANS: _Airlift to City (100% chance of success). */
+    return N_("%sAirlift to City%s");
+  case ACTION_ATTACK:
+    /* TRANS: _Attack (100% chance of success). */
+    return N_("%sAttack%s");
+  case ACTION_CONQUER_CITY:
+    /* TRANS: _Conquer City (100% chance of success). */
+    return N_("%sConquer City%s");
+  case ACTION_HEAL_UNIT:
+    /* TRANS: Heal _Unit (3% chance of success). */
+    return N_("Heal %sUnit%s");
+  case ACTION_TRANSFORM_TERRAIN:
+    /* TRANS: _Transform Terrain (3% chance of success). */
+    return N_("%sTransform Terrain%s");
+  case ACTION_IRRIGATE_TF:
+    /* TRANS: Transform by _Irrigate (3% chance of success). */
+    return N_("Transform by %sIrrigate%s");
+  case ACTION_MINE_TF:
+    /* TRANS: Transform %sMine (3% chance of success). */
+    return N_("Transform by %sMine%s");
+  }
+
+  return NULL;
+}
