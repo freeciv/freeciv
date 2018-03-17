@@ -543,8 +543,8 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_IRRIG_POSSIBLE:
   case EFT_COMBAT_ROUNDS:
   case EFT_MINING_POSSIBLE:
-  case EFT_IRRIG_TF_POSSIBLE:
-  case EFT_MINING_TF_POSSIBLE:
+  case EFT_UNUSED1:
+  case EFT_UNUSED2:
   case EFT_PERFORMANCE:
   case EFT_HISTORY:
   case EFT_NATION_PERFORMANCE:

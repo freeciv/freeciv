@@ -2922,7 +2922,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if ((pterr->mining_result == pterr
          && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
         || (pterr->mining_result != pterr && pterr->mining_result != NULL
-            && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0)) {
+            && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
@@ -2930,7 +2930,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if ((pterr->irrigation_result == pterr
          && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
         || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
-            && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0)) {
+            && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Irrigate"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_IRRIGATE), FALSE, NULL);

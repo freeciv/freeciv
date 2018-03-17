@@ -6529,6 +6529,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       sz_strlcpy(action_by_number(ACTION_TRANSFORM_TERRAIN)->ui_name,
                  text);
 
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Transform by _Irrigate (3% chance of success). */
+          N_("Transform by %sIrrigate%s"),
+          "actions.ui_name_irrigate_tf");
+      sz_strlcpy(action_by_number(ACTION_IRRIGATE_TF)->ui_name,
+                 text);
+
+      text = secfile_lookup_str_default(file,
+          /* TRANS: Transform %sMine (3% chance of success). */
+          N_("Transform by %sMine%s"),
+          "actions.ui_name_mine_tf");
+      sz_strlcpy(action_by_number(ACTION_MINE_TF)->ui_name,
+                 text);
+
       /* The quiet (don't auto generate help for) property of all actions
        * live in a single enum vector. This avoids generic action
        * expectations. */

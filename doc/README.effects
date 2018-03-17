@@ -530,16 +530,6 @@ Mining_Possible
     requirements given to this effect, terrain type must be one to which mine
     can be built.
 
-Irrig_TF_Possible
-    If value > 0, unit can transform target tile terrain to another by irrigating.
-    In addition to requirements given to this effect, terrain must be one that
-    can be transformed by irrigating.
-
-Mining_TF_Possible
-    If value > 0, unit can transform target tile terrain to another by mining.
-    In addition to requirements given to this effect, terrain must be one that
-    can be transformed by mining.
-
 Migration_Pct
     Increase the calculated migration score for the a city by amount in
     percent.

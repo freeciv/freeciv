@@ -617,6 +617,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_HEAL_UNIT:
   case ACTION_CONQUER_CITY:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_IRRIGATE_TF:
+  case ACTION_MINE_TF:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2254,6 +2256,7 @@ bool unit_perform_action(struct player *pplayer,
   struct tile *target_tile = index_to_tile(&(wld.map), target_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+  struct extra_type *tgt = NULL;
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -2590,6 +2593,18 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling(actor_unit,
                                                     ACTIVITY_TRANSFORM));
+    break;
+  case ACTION_IRRIGATE_TF:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_IRRIGATE,
+                                                             &tgt));
+    break;
+  case ACTION_MINE_TF:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_MINE,
+                                                             &tgt));
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
@@ -4440,7 +4455,7 @@ bool unit_activity_handling(struct unit *punit,
 /**********************************************************************//**
   Handle request for targeted activity.
 **************************************************************************/
-void unit_activity_handling_targeted(struct unit *punit,
+bool unit_activity_handling_targeted(struct unit *punit,
                                      enum unit_activity new_activity,
                                      struct extra_type **new_target)
 {
@@ -4465,6 +4480,8 @@ void unit_activity_handling_targeted(struct unit *punit,
       unit_activity_dependencies(punit, old_activity, old_target);
     }
   }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -4844,6 +4861,8 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
       case ACTION_TRANSFORM_TERRAIN:
+      case ACTION_IRRIGATE_TF:
+      case ACTION_MINE_TF:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

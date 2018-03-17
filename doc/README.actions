@@ -529,6 +529,16 @@ Actions done by a unit against a tile
  * the actor unit has "Settlers" flag
  * terrain type must be one that can be transformed
 
+"Irrigate_TF"       - Transform tile terrain type by irrigating
+ * UI name can be set using ui_name_irrigate_tf
+ * the actor unit has "Settlers" flag
+ * terrain type must be one that can be transformed by irrigating
+
+"Mine_TF"           - Transform tile terrain type by mining
+ * UI name can be set using ui_name_mine_tf
+ * the actor unit has "Settlers" flag
+ * terrain type must be one that can be transformed by mining
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

@@ -326,6 +326,12 @@ ui_name_conquer_city = _("%sConquer City%s")
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
+; /* TRANS: Transform by _Irrigate (3% chance of success). */
+ui_name_irrigate_tf = _("Transform by %sIrrigate%s")
+
+; /* TRANS: Transform by _Mine (3% chance of success). */
+ui_name_mine_tf = _("Transform by %sMine%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -750,6 +756,20 @@ action        = "Transform Terrain"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Transform",    "Local"
+    }
+
+[actionenabler_irrigate_tf]
+action        = "Irrigate TF"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
+[actionenabler_mine_tf]
+action        = "Mine TF"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
 [borders]

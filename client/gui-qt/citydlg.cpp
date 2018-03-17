@@ -1316,7 +1316,7 @@ void city_map::context_menu(QPoint point)
   con_menu.addAction(wid_act);
 
   if (pterr->mining_result != pterr && pterr->mining_result != NULL
-      && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+      && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr)) {
     con_menu.addAction(&con_mine_tf);
   } else if (pterr->mining_result == pterr
              && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
@@ -1324,7 +1324,7 @@ void city_map::context_menu(QPoint point)
   }
 
   if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
-      && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+      && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) {
     con_menu.addAction(&con_irrig_tf);
   } else if (pterr->irrigation_result == pterr
              && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {

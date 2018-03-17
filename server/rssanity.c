@@ -619,8 +619,6 @@ static bool sanity_check_boolean_effects(void)
       EFT_IRRIG_POSSIBLE,
       EFT_GOV_CENTER,
       EFT_MINING_POSSIBLE,
-      EFT_IRRIG_TF_POSSIBLE,
-      EFT_MINING_TF_POSSIBLE,
       EFT_NOT_TECH_SOURCE,
       EFT_VICTORY,
       EFT_HAVE_CONTACTS,

@@ -874,64 +874,66 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_MINE:
-    if (pterrain->mining_result == pterrain) {
-      if (target == NULL) {
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE) {
+      if (target != NULL) {
         return FALSE;
       }
 
-      if (pterrain->mining_time == 0) {
-        return FALSE;
-      }
+      return is_action_enabled_unit_on_tile(ACTION_MINE_TF,
+                                            punit, ptile);
+    }
 
-      if (!is_extra_caused_by(target, EC_MINE)) {
-        return FALSE;
-      }
+    if (target == NULL) {
+      return FALSE;
+    }
+
+    if (pterrain->mining_time == 0) {
+      return FALSE;
+    }
+
+    if (!is_extra_caused_by(target, EC_MINE)) {
+      return FALSE;
     }
 
     if (unit_has_type_flag(punit, UTYF_SETTLERS)
-        && ((pterrain == pterrain->mining_result
-             && can_build_extra(target, punit, ptile)
-             && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0)
-            || (pterrain != pterrain->mining_result
-                && pterrain->mining_result != T_NONE
-                && get_tile_bonus(ptile, punit, EFT_MINING_TF_POSSIBLE) > 0
-                && target == NULL
-                && terrain_surroundings_allow_change(ptile,
-                                                     pterrain->mining_result)
-                && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
-                    || !tile_city(ptile))))) {
+        && can_build_extra(target, punit, ptile)
+        && get_tile_bonus(ptile, punit, EFT_MINING_POSSIBLE) > 0) {
       return TRUE;
     } else {
       return FALSE;
     }
 
   case ACTIVITY_IRRIGATE:
-    if (pterrain->irrigation_result == pterrain) {
-      if (target == NULL) {
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE) {
+      if (target != NULL) {
         return FALSE;
       }
 
-      if (pterrain->irrigation_time == 0) {
-        return FALSE;
-      }
+      return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
+                                            punit, ptile);
+    }
 
-      if (!is_extra_caused_by(target, EC_IRRIGATION)) {
-        return FALSE;
-      }
+    if (pterrain->irrigation_result != pterrain) {
+      return FALSE;
+    }
+
+    if (target == NULL) {
+      return FALSE;
+    }
+
+    if (pterrain->irrigation_time == 0) {
+      return FALSE;
+    }
+
+    if (!is_extra_caused_by(target, EC_IRRIGATION)) {
+      return FALSE;
     }
 
     if (unit_has_type_flag(punit, UTYF_SETTLERS)
-        && ((pterrain == pterrain->irrigation_result
-             && can_build_extra(target, punit, ptile)
-             && can_be_irrigated(ptile, punit))
-            || (pterrain != pterrain->irrigation_result
-                && pterrain->irrigation_result != T_NONE
-                && get_tile_bonus(ptile, punit, EFT_IRRIG_TF_POSSIBLE) > 0
-                && target == NULL
-                && terrain_surroundings_allow_change(ptile,
-                                                     pterrain->irrigation_result)
-                && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
-                    || !tile_city(ptile))))) {
+        && can_build_extra(target, punit, ptile)
+        && can_be_irrigated(ptile, punit)) {
       return TRUE;
     } else {
       return FALSE;

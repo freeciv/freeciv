@@ -545,6 +545,14 @@ static void hard_code_actions(void)
       action_new(ACTION_TRANSFORM_TERRAIN, ATK_TILE,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_IRRIGATE_TF] =
+      action_new(ACTION_IRRIGATE_TF, ATK_TILE,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
+  actions[ACTION_MINE_TF] =
+      action_new(ACTION_MINE_TF, ATK_TILE,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1596,6 +1604,8 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     break;
 
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_IRRIGATE_TF:
+  case ACTION_MINE_TF:
     if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
       /* Reason: Must have "Settlers" flag. */
       return FALSE;
@@ -1785,6 +1795,8 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_IRRIGATE_TF:
+  case ACTION_MINE_TF:
     /* No hard unit type requirements. */
     break;
 
@@ -2285,6 +2297,34 @@ is_action_possible(const enum gen_action wanted_action,
                                               pterrain->transform_result)
         || (terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
             && (tile_city(target_tile)))) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_IRRIGATE_TF:
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->irrigation_result == pterrain
+        || pterrain->irrigation_result == T_NONE) {
+      return TRI_NO;
+    }
+    if (!terrain_surroundings_allow_change(target_tile,
+                                           pterrain->irrigation_result)
+        || (terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
+            && tile_city(target_tile))) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_MINE_TF:
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->mining_result == pterrain
+        || pterrain->mining_result == T_NONE) {
+      return TRI_NO;
+    }
+    if (!terrain_surroundings_allow_change(target_tile,
+                                           pterrain->mining_result)
+        || (terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
+            && tile_city(target_tile))) {
       return TRI_NO;
     }
     break;
@@ -3203,6 +3243,8 @@ action_prob(const enum gen_action wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_IRRIGATE_TF:
+  case ACTION_MINE_TF:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:

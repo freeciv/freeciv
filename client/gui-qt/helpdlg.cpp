@@ -1266,7 +1266,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_time != 0
-        && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 
@@ -1291,7 +1291,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->mining_result != pterrain
         && pterrain->mining_result != T_NONE
         && pterrain->mining_time != 0
-        && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 

@@ -95,7 +95,7 @@ enum ane_kind {
 
 bool unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity);
-void unit_activity_handling_targeted(struct unit *punit,
+bool unit_activity_handling_targeted(struct unit *punit,
                                      enum unit_activity new_activity,
                                      struct extra_type **new_target);
 void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,

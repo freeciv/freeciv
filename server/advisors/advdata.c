@@ -862,6 +862,10 @@ void adv_best_government(struct player *pplayer)
           case ACTION_TRANSFORM_TERRAIN:
             bonus += 1.5;
             break;
+          case ACTION_IRRIGATE_TF:
+          case ACTION_MINE_TF:
+            bonus += 0.3;
+            break;
           case ACTION_SPY_INVESTIGATE_CITY:
           case ACTION_INV_CITY_SPEND:
           case ACTION_SPY_POISON:
