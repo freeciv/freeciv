@@ -168,6 +168,7 @@ somehow. Some options are:
 > make <targets>
 
   Target can be:
+  - "all" (default), build all installers
   - "<gui>-installer", where <gui> is
      - gtk3
      - gtk3.22
@@ -175,7 +176,8 @@ somehow. Some options are:
      - sdl2
      - qt
   - "ruledit-installer"
-  - "snapshot", if your freeciv sources are in git checkout directory
+  - "snapshot", if your freeciv sources are in git checkout directory,
+                builds all installers with commit id in version number
 
  You can also set minimum Windows version targeted. While setting this
  to an older version allows those Windows versions to run the created
