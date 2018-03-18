@@ -41,7 +41,7 @@ format_version=10
 [specialist_generic]
 name            = _("Generic")
 short_name      = _("?gspecialist:G")
-graphic         = "specialist.elvis"
+graphic         = "specialist.entertainer"
 reqs            =
     { "type", "name", "range"
 ; No requirements

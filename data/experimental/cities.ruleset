@@ -52,7 +52,7 @@ name            = _("Entertainers")
 ; not designed to be user-visible.)
 rule_name       = "elvis"
 short_name	= _("?Elvis:E")
-graphic         = "specialist.elvis"
+graphic         = "specialist.entertainer"
 reqs		=
     { "type", "name", "range"
 ; Nothing
