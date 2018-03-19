@@ -19,8 +19,8 @@ gfx = "hexemplio/water1"
 
 x_top_left = 1
 y_top_left = 1
-dx = 63
-dy = 16
+dx = 64
+dy = 34
 pixel_border = 1
 
 tiles = { "row", "column","tag"
@@ -56,24 +56,25 @@ tiles = { "row", "column","tag"
  2, 7,  "t.l1.coast_cell_u111"
 
 ; Deep Ocean cell sprites
- 3, 0,  "t.l1.floor_cell_u000"
- 3, 1,  "t.l1.floor_cell_u100"
- 3, 2,  "t.l1.floor_cell_u010"
- 3, 3,  "t.l1.floor_cell_u110"
- 3, 4,  "t.l1.floor_cell_u001"
- 3, 5,  "t.l1.floor_cell_u101"
- 3, 6,  "t.l1.floor_cell_u011"
- 3, 7,  "t.l1.floor_cell_u111"
+ 2, 0,  "t.l1.floor_cell_u000"
+ 2, 1,  "t.l1.floor_cell_u100"
+ 2, 2,  "t.l1.floor_cell_u010"
+ 2, 3,  "t.l1.floor_cell_u110"
+ 2, 4,  "t.l1.floor_cell_u001"
+ 2, 5,  "t.l1.floor_cell_u101"
+ 2, 6,  "t.l1.floor_cell_u011"
+ 2, 7,  "t.l1.floor_cell_u111"
 
 ; Lake cell sprites
- 4, 0,  "t.l1.lake_cell_u000"
- 4, 1,  "t.l1.lake_cell_u100"
- 4, 2,  "t.l1.lake_cell_u010"
- 4, 3,  "t.l1.lake_cell_u110"
- 4, 4,  "t.l1.lake_cell_u001"
- 4, 5,  "t.l1.lake_cell_u101"
- 4, 6,  "t.l1.lake_cell_u011"
- 4, 7,  "t.l1.lake_cell_u111"
+ 2, 0,  "t.l1.lake_cell_u000"
+ 2, 1,  "t.l1.lake_cell_u100"
+ 2, 2,  "t.l1.lake_cell_u010"
+ 2, 3,  "t.l1.lake_cell_u110"
+ 2, 4,  "t.l1.lake_cell_u001"
+ 2, 5,  "t.l1.lake_cell_u101"
+ 2, 6,  "t.l1.lake_cell_u011"
+ 2, 7,  "t.l1.lake_cell_u111"
+
 
 }
 

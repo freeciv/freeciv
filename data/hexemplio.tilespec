@@ -204,12 +204,14 @@ layer1_match_type = "water"
 tag = "desert"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_forest]
 tag = "forest"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
@@ -218,12 +220,14 @@ layer2_match_with = "foliage"
 tag = "grassland"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_hills]
 tag = "hills"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
@@ -232,6 +236,7 @@ layer2_match_with = "hills"
 tag = "jungle"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
@@ -240,6 +245,7 @@ layer2_match_with = "foliage"
 tag = "mountains"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
@@ -248,18 +254,21 @@ layer2_match_with = "hills"
 tag = "plains"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_swamp]
 tag = "swamp"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_tundra]
 tag = "tundra"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [extras]
