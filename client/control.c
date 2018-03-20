@@ -1710,7 +1710,8 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0] = ORDER_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = EXTRA_NONE;
+  p.target[0] = 0;
+  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
@@ -1762,7 +1763,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.orders[0] = ORDER_ACTION_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = EXTRA_NONE;
+  p.target[0] = 0;
+  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
