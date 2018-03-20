@@ -84,6 +84,7 @@ struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
   int target;
+  int extra;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
   /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and

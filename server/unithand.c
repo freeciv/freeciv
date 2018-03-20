@@ -4655,20 +4655,20 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTIVITY_BASE:
-        if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_BASE)) {
+        if (!is_extra_caused_by(extra_by_number(packet->extra[i]), EC_BASE)) {
           log_error("handle_unit_orders() %s isn't a base. "
                     "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->target[i])), i,
+                    extra_rule_name(extra_by_number(packet->extra[i])), i,
                     player_name(pplayer), packet->unit_id);
 
           return;
         }
         break;
       case ACTIVITY_GEN_ROAD:
-        if (!is_extra_caused_by(extra_by_number(packet->target[i]), EC_ROAD)) {
+        if (!is_extra_caused_by(extra_by_number(packet->extra[i]), EC_ROAD)) {
           log_error("handle_unit_orders() %s isn't a road. "
                     "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->target[i])), i,
+                    extra_rule_name(extra_by_number(packet->extra[i])), i,
                     player_name(pplayer), packet->unit_id);
 
           return;
@@ -4697,7 +4697,7 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
-      if (packet->target[i] == EXTRA_NONE
+      if (packet->extra[i] == EXTRA_NONE
           && unit_activity_needs_target_from_client(packet->activity[i])) {
         /* The orders system can't do server side target assignment for
          * this activity. */
@@ -4892,6 +4892,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
     punit->orders.list[i].target = packet->target[i];
+    punit->orders.list[i].extra = packet->extra[i];
     punit->orders.list[i].action = packet->action[i];
   }
 
