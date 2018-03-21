@@ -3,7 +3,7 @@
 SUBDIRS =
 
 if CLIENT_GUI_GTK_2_0
-SUBDIRS += gui-gtk-2.0
+SUBDIRS += gtk2
 endif
 
 if CLIENT_GUI_GTK_3_0

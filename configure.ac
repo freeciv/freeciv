@@ -1629,27 +1629,27 @@ AC_CONFIG_FILES([Makefile
 	  data/nation/Makefile
           data/ruledit/Makefile
 	  data/themes/Makefile
-	  data/themes/gui-gtk-2.0/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Arrows/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Buttons/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Check-Radio/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Combo/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Frame-Gap/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Handles/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Lines/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ListHeaders/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Menu-Menubar/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Others/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Panel/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/ProgressBar/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Range/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Scrollbars/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Shadows/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Spin/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Tabs/Makefile
-	  data/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Toolbar/Makefile
+	  data/themes/gtk2/Makefile
+	  data/themes/gtk2/Freeciv/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Arrows/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Buttons/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Check-Radio/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Combo/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Frame-Gap/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Handles/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Lines/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/ListHeaders/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Menu-Menubar/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Others/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Panel/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/ProgressBar/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Range/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Scrollbars/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Shadows/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Spin/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Tabs/Makefile
+	  data/themes/gtk2/Freeciv/gtk-2.0/Toolbar/Makefile
 	  data/themes/gtk3/Makefile
 	  data/themes/gtk3/Freeciv/Makefile
 	  data/themes/gtk3/Freeciv/gtk-3.0/Makefile

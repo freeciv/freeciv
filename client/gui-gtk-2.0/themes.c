@@ -155,9 +155,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   /* Freeciv-specific GTK+ themes directories */
   strvec_iterate(data_dirs, dir_name) {
-    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-2.0") + 1];
+    char buf[strlen(dir_name) + strlen("/themes/gtk2") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-2.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gtk2", dir_name);
 
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
@@ -171,7 +171,7 @@ char **get_gui_specific_themes_directories(int *count)
   home_dir = user_home_dir();
   if (home_dir) {
     char buf[strlen(home_dir) + 16];
-    
+
     fc_snprintf(buf, sizeof(buf), "%s/.themes/", home_dir);
     directories[(*count)++] = fc_strdup(buf);
   }
