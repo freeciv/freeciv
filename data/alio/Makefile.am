@@ -12,6 +12,8 @@ pkgdata_DATA =          \
 	riversbrown.spec \
 	riversgreen.png	\
 	riversgreen.spec \
+	roads.png	\
+	roads.spec	\
 	terrain.png     \
 	terrain.spec    \
 	tunnels.png	\
