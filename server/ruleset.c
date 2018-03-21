@@ -6167,9 +6167,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       load_action_ui_name(file, ACTION_RECYCLE_UNIT, "ui_name_recycle_unit");
       load_action_ui_name(file, ACTION_DISBAND_UNIT, "ui_name_disband_unit");
       load_action_ui_name(file, ACTION_HOME_CITY, "ui_name_home_city");
-      load_action_ui_name(file, ACTION_UPGRADE_UNIT, "ui_upgrade_unit");
-      load_action_ui_name(file, ACTION_PARADROP, "ui_paradrop_unit");
-      load_action_ui_name(file, ACTION_AIRLIFT, "ui_airlift_unit");
+      load_action_ui_name(file, ACTION_UPGRADE_UNIT, "ui_name_upgrade_unit");
+      load_action_ui_name(file, ACTION_PARADROP, "ui_name_paradrop_unit");
+      load_action_ui_name(file, ACTION_AIRLIFT, "ui_name_airlift_unit");
       load_action_ui_name(file, ACTION_ATTACK, "ui_name_attack");
       load_action_ui_name(file, ACTION_CONQUER_CITY, "ui_name_conquer_city");
       load_action_ui_name(file, ACTION_HEAL_UNIT, "ui_name_heal_unit");
