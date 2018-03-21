@@ -142,6 +142,7 @@ files =
   "alio/terrain.spec",
   "alio/tunnels.spec",
   "alio/burrowtubes.spec",
+  "alio/fortresses.spec",
   "alio/hills.spec"
 
 
