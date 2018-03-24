@@ -3,17 +3,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv (ruledit) S2_6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
-"PO-Revision-Date: 2018-01-11 08:23+0100\n"
+"POT-Creation-Date: 2018-01-30 15:27+0200\n"
+"PO-Revision-Date: 2018-02-15 16:38+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
-"Language-Team: polski <hubkow@gmail.com>\n"
+"Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
