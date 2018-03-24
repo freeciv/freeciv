@@ -6,8 +6,8 @@
 
 MAJOR_VERSION="2"
 MINOR_VERSION="5"
-PATCH_VERSION="10"
-VERSION_LABEL="+"
+PATCH_VERSION="11"
+VERSION_LABEL=""
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
