@@ -3,17 +3,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-16 02:20+0300\n"
-"PO-Revision-Date: 2017-12-24 00:54+0100\n"
-"Last-Translator: Hubert Kowalewski\n"
-"Language-Team: polski <hubkow@gmail.com>\n"
+"POT-Creation-Date: 2018-02-14 02:26+0200\n"
+"PO-Revision-Date: 2018-02-15 16:37+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
+"Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
 msgid "Close"
@@ -165,7 +165,6 @@ msgid "Remove this Building"
 msgstr "Usuń ten budynek"
 
 #: tools/ruledit/tab_building.cpp:169
-#, fuzzy
 msgid "A building with that rule name already exists!"
 msgstr "Budynek o tej nazwie reguły już istnieje!"
 
@@ -214,10 +213,8 @@ msgid "Remove this Good"
 msgstr "Usuń to dobro"
 
 #: tools/ruledit/tab_good.cpp:171
-#, fuzzy
-#| msgid "Tech with that rule name already exist!"
 msgid "A good with that rule name already exists!"
-msgstr "Gracz o takiej nazwie już bierze udział w grze."
+msgstr "Gracz o tej nazwie już bierze udział w grze!"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
@@ -348,9 +345,8 @@ msgid "Never"
 msgstr "Nigdy"
 
 #: tools/ruledit/tab_tech.cpp:330
-#, fuzzy
 msgid "A tech with that rule name already exists!"
-msgstr "Technologia o takiej nazwie reguły istnieje!"
+msgstr "Technologia o tej nazwie reguły istnieje!"
 
 #: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
@@ -365,7 +361,6 @@ msgid "Remove this Unit"
 msgstr "Usuń tą jednostkę"
 
 #: tools/ruledit/tab_unit.cpp:170
-#, fuzzy
 msgid "A unit type with that rule name already exists!"
 msgstr "Typ jednostki o tej nazwie reguły już istnieje!"
 
