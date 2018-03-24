@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Freeciv S3_0 (nations)\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2018-01-18 01:09+0000\n"
-"PO-Revision-Date: 2018-01-18 01:06+0000\n"
+"PO-Revision-Date: 2018-02-08 18:59+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: polski <hubkow@gmail.com>\n"
 "Language: pl\n"
@@ -4401,6 +4401,7 @@ msgid "?plural:Cuyavians"
 msgstr "?plural:Kujawianie"
 
 #: data/nation/cuyavian.ruleset:6
+#, fuzzy
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "East by Masovia, on the West by Greater Poland and on the North by Pomerania."
