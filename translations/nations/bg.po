@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 23:34+0000\n"
+"POT-Creation-Date: 2018-03-03 11:08+0000\n"
 "PO-Revision-Date: 2012-06-10 00:52+0200\n"
 "Last-Translator: Bogdan Marinov <bogdan.marinov84@gmail.com>\n"
 "Language-Team: Bulgarian\n"
@@ -3874,7 +3874,7 @@ msgstr "?мнч:Латвийци"
 #: data/nation/cuyavian.ruleset:6
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
-"West by Masovia, on the East by Greater Poland and on the North by Pomerania."
+"East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 
 #: data/nation/cypriot.ruleset:3

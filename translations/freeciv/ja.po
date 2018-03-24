@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-11 00:31+0000\n"
+"POT-Creation-Date: 2018-03-24 11:56+0000\n"
 "PO-Revision-Date: 2016-07-18 02:12+0900\n"
 "Last-Translator: Belgae <freeciv.belgae AT gmail.com>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -575,7 +575,7 @@ msgstr "カスタム"
 #: client/agents/cma_fec.c:257 client/agents/cma_fec.c:291
 #: client/citydlg_common.c:283 client/citydlg_common.c:336
 #: client/citydlg_common.c:427 client/gui-gtk-2.0/citydlg.c:1562
-#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1870
+#: client/gui-gtk-3.0/citydlg.c:1765 client/gui-qt/citydlg.cpp:1869
 #: client/gui-sdl/cityrep.c:554 client/gui-sdl/cityrep.c:1086
 #: client/gui-sdl/wldlg.c:1417 client/gui-sdl/wldlg.c:1422
 #: client/gui-xaw/citydlg.c:252 client/text.c:971
@@ -584,7 +584,7 @@ msgstr "なし"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:333 client/gui-gtk-2.0/citydlg.c:1568
-#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1876
+#: client/gui-gtk-3.0/citydlg.c:1771 client/gui-qt/citydlg.cpp:1875
 #: client/gui-xaw/citydlg.c:257 client/text.c:969 client/text.c:1446
 #, c-format
 msgid "%d turn"
@@ -972,7 +972,7 @@ msgstr "都市名"
 #: client/gui-gtk-2.0/pages.c:2703 client/gui-gtk-3.0/citizensinfo.c:65
 #: client/gui-gtk-3.0/editprop.c:3516 client/gui-gtk-3.0/editprop.c:4301
 #: client/gui-gtk-3.0/gotodlg.c:219 client/gui-gtk-3.0/pages.c:1403
-#: client/gui-gtk-3.0/pages.c:2770 client/gui-qt/citydlg.cpp:1767
+#: client/gui-gtk-3.0/pages.c:2770 client/gui-qt/citydlg.cpp:1766
 #: client/gui-qt/gotodlg.cpp:68 client/gui-qt/pages.cpp:276
 #: client/gui-qt/pages.cpp:547 client/gui-qt/plrdlg.cpp:447
 #: client/gui-qt/repodlgs.cpp:1402 client/gui-sdl/repodlgs.c:2079
@@ -1282,7 +1282,7 @@ msgid "Maximum units buildable per turn"
 msgstr "各ターンに生産可能な最大ユニット数"
 
 #: client/cityrepdata.c:718 client/cityrepdata.c:720
-#: client/gui-qt/citydlg.cpp:680 client/gui-qt/cityrep.cpp:497
+#: client/gui-qt/citydlg.cpp:679 client/gui-qt/cityrep.cpp:497
 #: client/gui-sdl/cityrep.c:201 server/report.c:164
 msgid "Production"
 msgstr "生産物"
@@ -2125,7 +2125,7 @@ msgid "Chat tools"
 msgstr "チャットツール"
 
 #: client/gui-gtk-2.0/citizensinfo.c:63 client/gui-gtk-3.0/citizensinfo.c:63
-#: client/gui-qt/citydlg.cpp:1767
+#: client/gui-qt/citydlg.cpp:1766
 msgid "#"
 msgstr "数"
 
@@ -2133,7 +2133,7 @@ msgstr "数"
 #: client/gui-gtk-2.0/editprop.c:3528 client/gui-gtk-2.0/pages.c:2701
 #: client/gui-gtk-3.0/citizensinfo.c:64 client/gui-gtk-3.0/editprop.c:3547
 #: client/gui-gtk-3.0/editprop.c:3559 client/gui-gtk-3.0/pages.c:2768
-#: client/gui-qt/citydlg.cpp:1767 client/gui-qt/pages.cpp:547
+#: client/gui-qt/citydlg.cpp:1766 client/gui-qt/pages.cpp:547
 #: client/plrdlg_common.c:306
 msgid "Flag"
 msgstr "旗"
@@ -2144,17 +2144,17 @@ msgid "Citizens"
 msgstr "市民"
 
 #: client/gui-gtk-2.0/citydlg.c:681 client/gui-gtk-3.0/citydlg.c:716
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:829
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/helpdlg.cpp:829
 msgid "Food:"
 msgstr "食料:"
 
 #: client/gui-gtk-2.0/citydlg.c:682 client/gui-gtk-3.0/citydlg.c:717
-#: client/gui-qt/citydlg.cpp:710
+#: client/gui-qt/citydlg.cpp:709
 msgid "Prod:"
 msgstr "生産:"
 
 #: client/gui-gtk-2.0/citydlg.c:683 client/gui-gtk-3.0/citydlg.c:718
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/helpdlg.cpp:833
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/helpdlg.cpp:833
 msgid "Trade:"
 msgstr "交易:"
 
@@ -2162,51 +2162,51 @@ msgstr "交易:"
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk-2.0/inteldlg.c:51
 #: client/gui-gtk-3.0/citydlg.c:719 client/gui-gtk-3.0/diplodlg.c:761
 #: client/gui-gtk-3.0/diplodlg.c:846 client/gui-gtk-3.0/inteldlg.c:51
-#: client/gui-qt/citydlg.cpp:710 client/gui-qt/diplodlg.cpp:135
+#: client/gui-qt/citydlg.cpp:709 client/gui-qt/diplodlg.cpp:135
 #: client/gui-qt/diplodlg.cpp:137 client/gui-qt/plrdlg.cpp:456
 msgid "Gold:"
 msgstr "金:"
 
 #: client/gui-gtk-2.0/citydlg.c:685 client/gui-gtk-2.0/inteldlg.c:55
 #: client/gui-gtk-3.0/citydlg.c:720 client/gui-gtk-3.0/inteldlg.c:55
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:462
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/plrdlg.cpp:462
 msgid "Luxury:"
 msgstr "贅沢:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-gtk-3.0/citydlg.c:721 client/gui-gtk-3.0/inteldlg.c:54
-#: client/gui-qt/citydlg.cpp:711 client/gui-qt/plrdlg.cpp:460
+#: client/gui-qt/citydlg.cpp:710 client/gui-qt/plrdlg.cpp:460
 msgid "Science:"
 msgstr "科学:"
 
 #: client/gui-gtk-2.0/citydlg.c:687 client/gui-gtk-3.0/citydlg.c:722
-#: client/gui-qt/citydlg.cpp:711
+#: client/gui-qt/citydlg.cpp:710
 msgid "Granary:"
 msgstr "穀物庫:"
 
 #: client/gui-gtk-2.0/citydlg.c:688 client/gui-gtk-3.0/citydlg.c:723
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Change in:"
 msgstr "増減"
 
 #: client/gui-gtk-2.0/citydlg.c:689 client/gui-gtk-3.0/citydlg.c:724
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Corruption:"
 msgstr "汚職:"
 
 #: client/gui-gtk-2.0/citydlg.c:690 client/gui-gtk-3.0/citydlg.c:725
-#: client/gui-qt/citydlg.cpp:712
+#: client/gui-qt/citydlg.cpp:711
 msgid "Waste:"
 msgstr "浪費:"
 
 #: client/gui-gtk-2.0/citydlg.c:691 client/gui-gtk-3.0/citydlg.c:726
-#: client/gui-qt/citydlg.cpp:713
+#: client/gui-qt/citydlg.cpp:712
 msgid "Pollution:"
 msgstr "公害:"
 
 # Belgae
 #: client/gui-gtk-2.0/citydlg.c:692 client/gui-gtk-3.0/citydlg.c:727
-#: client/gui-qt/citydlg.cpp:713
+#: client/gui-qt/citydlg.cpp:712
 msgid "Plague Risk:"
 msgstr "疫病発生率:"
 
@@ -2221,7 +2221,7 @@ msgstr "概観(_O)"
 
 #: client/gui-gtk-2.0/citydlg.c:774 client/gui-gtk-2.0/citydlg.c:1090
 #: client/gui-gtk-3.0/citydlg.c:803 client/gui-gtk-3.0/citydlg.c:1278
-#: client/gui-qt/citydlg.cpp:759 client/gui-sdl/citydlg.c:2526
+#: client/gui-qt/citydlg.cpp:758 client/gui-sdl/citydlg.c:2526
 msgid "City map"
 msgstr "都市マップ"
 
@@ -2300,7 +2300,7 @@ msgid "Taxmen"
 msgstr "徴税官"
 
 #: client/gui-gtk-2.0/citydlg.c:1145 client/gui-gtk-3.0/citydlg.c:1336
-#: client/gui-qt/citydlg.cpp:815
+#: client/gui-qt/citydlg.cpp:814
 msgid "Disband if build settler at size 1"
 msgstr "都市サイズ1で開拓者を生産したら解散する"
 
@@ -2380,7 +2380,7 @@ msgstr "<b>%s</b> - %s 人"
 # clefs
 #. TRANS: city growth is blocked.  Keep short.
 #: client/gui-gtk-2.0/citydlg.c:1559 client/gui-gtk-3.0/citydlg.c:1762
-#: client/gui-qt/citydlg.cpp:1867 client/gui-sdl/citydlg.c:3306
+#: client/gui-qt/citydlg.cpp:1866 client/gui-sdl/citydlg.c:3306
 #: client/gui-xaw/citydlg.c:250
 msgid "blocked"
 msgstr "拡大不能"
@@ -2394,13 +2394,13 @@ msgid_plural "Production (up to %d units per turn):"
 msgstr[0] "生産（1ターンに最大 %dユニットまで）"
 
 #: client/gui-gtk-2.0/citydlg.c:1915 client/gui-gtk-3.0/citydlg.c:2120
-#: client/gui-qt/citydlg.cpp:2022
+#: client/gui-qt/citydlg.cpp:2021
 #, c-format
 msgid "Supported units %d"
 msgstr "支援ユニット: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:2022 client/gui-gtk-3.0/citydlg.c:2223
-#: client/gui-qt/citydlg.cpp:2043
+#: client/gui-qt/citydlg.cpp:2042
 #, c-format
 msgid "Present units %d"
 msgstr "駐留ユニット: %d"
@@ -2456,7 +2456,7 @@ msgstr "新型にする(_P)"
 #: client/gui-gtk-2.0/diplomat_dialog.c:667 client/gui-gtk-2.0/repodlgs.c:1525
 #: client/gui-gtk-3.0/citydlg.c:2839 client/gui-gtk-3.0/diplomat_dialog.c:124
 #: client/gui-gtk-3.0/diplomat_dialog.c:677 client/gui-gtk-3.0/repodlgs.c:1560
-#: client/gui-qt/citydlg.cpp:2194 client/gui-qt/dialogs.cpp:1584
+#: client/gui-qt/citydlg.cpp:2193 client/gui-qt/dialogs.cpp:1584
 #: client/gui-qt/dialogs.cpp:1645 client/gui-qt/repodlgs.cpp:978
 #: client/gui-sdl/citydlg.c:1144 client/gui-sdl/diplomat_dialog.c:1163
 #: client/gui-sdl/diplomat_dialog.c:1423 client/gui-sdl/repodlgs.c:188
@@ -2503,7 +2503,7 @@ msgstr[0] ""
 "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:2698 client/gui-gtk-3.0/citydlg.c:2914
-#: client/gui-qt/citydlg.cpp:1952 client/gui-sdl/citydlg.c:1405
+#: client/gui-qt/citydlg.cpp:1951 client/gui-sdl/citydlg.c:1405
 #: client/gui-xaw/citydlg.c:2349
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -2516,12 +2516,12 @@ msgid "Sell It!"
 msgstr "売る"
 
 #: client/gui-gtk-2.0/citydlg.c:2771 client/gui-gtk-3.0/citydlg.c:2995
-#: client/gui-qt/citydlg.cpp:1220
+#: client/gui-qt/citydlg.cpp:1219
 msgid "Rename City"
 msgstr "都市名の変更"
 
 #: client/gui-gtk-2.0/citydlg.c:2772 client/gui-gtk-3.0/citydlg.c:2996
-#: client/gui-qt/citydlg.cpp:1221 client/gui-xaw/citydlg.c:1438
+#: client/gui-qt/citydlg.cpp:1220 client/gui-xaw/citydlg.c:1438
 msgid "What should we rename the city to?"
 msgstr "新しい都市名は何にしますか?"
 
@@ -2547,7 +2547,7 @@ msgid "No %s could be sold."
 msgstr "%sは全く売却できませんでした。"
 
 #: client/gui-gtk-2.0/cityrep.c:966 client/gui-gtk-3.0/cityrep.c:974
-#: client/gui-qt/citydlg.cpp:1552 client/gui-qt/cityrep.cpp:490
+#: client/gui-qt/citydlg.cpp:1551 client/gui-qt/cityrep.cpp:490
 msgid "(no worklists defined)"
 msgstr "(作業リスト未定義)"
 
@@ -2765,7 +2765,7 @@ msgid "Results"
 msgstr "結果"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-gtk-3.0/cma_fe.c:340
-#: client/gui-qt/citydlg.cpp:1037 client/gui-sdl/cma_fe.c:928
+#: client/gui-qt/citydlg.cpp:1036 client/gui-sdl/cma_fe.c:928
 msgid "Minimal Surplus"
 msgstr "最小余剰"
 
@@ -2777,7 +2777,7 @@ msgid "Factor"
 msgstr "重み"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-gtk-3.0/cma_fe.c:389
-#: client/gui-qt/citydlg.cpp:1036 client/gui-sdl/cma_fe.c:978
+#: client/gui-qt/citydlg.cpp:1035 client/gui-sdl/cma_fe.c:978
 #: client/gui-xaw/cma_fe.c:184 client/gui-xaw/cma_fe.c:226
 msgid "Celebrate"
 msgstr "祝祭"
@@ -2797,23 +2797,23 @@ msgid "Governor Disabl_ed"
 msgstr "総督府停止中(_E)"
 
 #: client/gui-gtk-2.0/cma_fe.c:539 client/gui-gtk-3.0/cma_fe.c:573
-#: client/gui-qt/citydlg.cpp:1241 client/gui-sdl/cma_fe.c:259
+#: client/gui-qt/citydlg.cpp:1240 client/gui-sdl/cma_fe.c:259
 #: client/gui-sdl/cma_fe.c:334 client/gui-xaw/cma_fe.c:439
 msgid "new preset"
 msgstr "新しいプリセット"
 
 #: client/gui-gtk-2.0/cma_fe.c:543 client/gui-gtk-3.0/cma_fe.c:577
-#: client/gui-qt/citydlg.cpp:1238 client/gui-sdl/cma_fe.c:307
+#: client/gui-qt/citydlg.cpp:1237 client/gui-sdl/cma_fe.c:307
 msgid "Name new preset"
 msgstr "新しいプリセットの名前"
 
 #: client/gui-gtk-2.0/cma_fe.c:544 client/gui-gtk-3.0/cma_fe.c:578
-#: client/gui-qt/citydlg.cpp:1239 client/gui-sdl/cma_fe.c:323
+#: client/gui-qt/citydlg.cpp:1238 client/gui-sdl/cma_fe.c:323
 msgid "What should we name the preset?"
 msgstr "新しいプリセット名は何にしますか?"
 
 #: client/gui-gtk-2.0/cma_fe.c:630 client/gui-gtk-3.0/cma_fe.c:664
-#: client/gui-qt/citydlg.cpp:1446
+#: client/gui-qt/citydlg.cpp:1445
 msgid "Remove this preset?"
 msgstr "このプリセットを削除していいですか?"
 
@@ -3713,14 +3713,14 @@ msgstr "科学技術"
 
 #: client/gui-gtk-2.0/editprop.c:4275 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-gtk-3.0/editprop.c:4305 client/gui-gtk-3.0/gamedlgs.c:297
-#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:94
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/ratesdlg.cpp:94
 #: common/city.c:88 server/plrhand.c:282
 msgid "Science"
 msgstr "科学"
 
 #: client/gui-gtk-2.0/editprop.c:4277 client/gui-gtk-2.0/repodlgs.c:1246
 #: client/gui-gtk-3.0/editprop.c:4307 client/gui-gtk-3.0/repodlgs.c:1281
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
 #: common/city.c:86 data/civ1/terrain.ruleset:637
 #: data/civ2/terrain.ruleset:631 data/classic/terrain.ruleset:800
 #: data/experimental/terrain.ruleset:776 data/civ2civ3/terrain.ruleset:814
@@ -3879,7 +3879,7 @@ msgid "Lock"
 msgstr "固定"
 
 #: client/gui-gtk-2.0/gamedlgs.c:267 client/gui-gtk-3.0/gamedlgs.c:272
-#: client/gui-qt/citydlg.cpp:1036 client/gui-qt/ratesdlg.cpp:117
+#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/ratesdlg.cpp:117
 #: common/city.c:87 server/plrhand.c:280
 msgid "Luxury"
 msgstr "贅沢"
@@ -4033,37 +4033,37 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:195 client/gui-gtk-3.0/happiness.c:202
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Cities:"
 msgstr "都市:"
 
 #: client/gui-gtk-2.0/happiness.c:196 client/gui-gtk-3.0/happiness.c:203
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Luxuries:"
 msgstr "贅沢:"
 
 #: client/gui-gtk-2.0/happiness.c:197 client/gui-gtk-3.0/happiness.c:204
-#: client/gui-qt/citydlg.cpp:967
+#: client/gui-qt/citydlg.cpp:966
 msgid "Buildings:"
 msgstr "建造物: "
 
 #: client/gui-gtk-2.0/happiness.c:198 client/gui-gtk-3.0/happiness.c:205
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Nationality:"
 msgstr "国籍:"
 
 #: client/gui-gtk-2.0/happiness.c:199 client/gui-gtk-3.0/happiness.c:206
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Units:"
 msgstr "ユニット: "
 
 #: client/gui-gtk-2.0/happiness.c:200 client/gui-gtk-3.0/happiness.c:207
-#: client/gui-qt/citydlg.cpp:968
+#: client/gui-qt/citydlg.cpp:967
 msgid "Wonders:"
 msgstr "不思議: "
 
 #: client/gui-gtk-2.0/happiness.c:209 client/gui-gtk-3.0/happiness.c:218
-#: client/gui-qt/citydlg.cpp:682 client/gui-qt/citydlg.cpp:955
+#: client/gui-qt/citydlg.cpp:681 client/gui-qt/citydlg.cpp:954
 #: client/gui-sdl/citydlg.c:2055 client/gui-sdl/citydlg.c:3687
 msgid "Happiness"
 msgstr "幸福"
@@ -4080,7 +4080,7 @@ msgstr "詳細な情報は市民を左クリックすると表示されます。
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-2.0/helpdlg.c:101
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:98
 #: client/gui-gtk-3.0/helpdlg.c:101 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2694 client/gui-qt/helpdlg.cpp:635
+#: client/gui-qt/citydlg.cpp:2693 client/gui-qt/helpdlg.cpp:635
 #: client/gui-sdl/helpdlg.c:357 client/gui-sdl/helpdlg.c:759
 #: data/Freeciv.in:654 data/Freeciv.in:796
 msgid "Cost:"
@@ -4115,13 +4115,13 @@ msgid "Obsolete by:"
 msgstr "旧式化:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:105
-#: client/gui-qt/citydlg.cpp:2687 client/gui-qt/helpdlg.cpp:625
+#: client/gui-qt/citydlg.cpp:2686 client/gui-qt/helpdlg.cpp:625
 #: client/gui-sdl/helpdlg.c:792 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "攻撃力:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2689 client/gui-qt/helpdlg.cpp:627
+#: client/gui-qt/citydlg.cpp:2688 client/gui-qt/helpdlg.cpp:627
 #: client/gui-sdl/helpdlg.c:793 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "防御力:"
@@ -4129,18 +4129,18 @@ msgstr "防御力:"
 # Belgae
 # was:移動
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:106
-#: client/gui-qt/citydlg.cpp:2691 client/gui-sdl/helpdlg.c:794
+#: client/gui-qt/citydlg.cpp:2690 client/gui-sdl/helpdlg.c:794
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "移動力:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2701 client/gui-sdl/helpdlg.c:796
+#: client/gui-qt/citydlg.cpp:2700 client/gui-sdl/helpdlg.c:796
 msgid "FirePower:"
 msgstr "火力:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-qt/citydlg.cpp:2699 client/gui-qt/helpdlg.cpp:634
+#: client/gui-qt/citydlg.cpp:2698 client/gui-qt/helpdlg.cpp:634
 #: client/gui-sdl/helpdlg.c:797 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "体力:"
@@ -4149,12 +4149,12 @@ msgstr "体力:"
 # ただ長くなるのが難 (clefs)
 # 長いですが，「コスト」に変更(Belgae)
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2696 data/Freeciv.in:930
+#: client/gui-qt/citydlg.cpp:2695 data/Freeciv.in:930
 msgid "Basic Upkeep:"
 msgstr "基礎維持コスト:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-qt/citydlg.cpp:2703 client/gui-sdl/helpdlg.c:795
+#: client/gui-qt/citydlg.cpp:2702 client/gui-sdl/helpdlg.c:795
 #: data/Freeciv.in:912
 msgid "Vision:"
 msgstr "視界:"
@@ -4423,7 +4423,7 @@ msgid "Better fog will only work in truecolor. Disabling it"
 msgstr "改善された霧表示はトゥルーカラーでないと機能しません。無効にします。"
 
 #: client/gui-gtk-2.0/menu.c:115 client/gui-gtk-3.0/menu.c:115
-#: client/gui-qt/fc_client.cpp:715 client/gui-qt/menu.cpp:422
+#: client/gui-qt/fc_client.cpp:718 client/gui-qt/menu.cpp:422
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "ローカルオプション"
@@ -5506,7 +5506,7 @@ msgid "AI Skill _Level:"
 msgstr "AIのレベル(_L):"
 
 #: client/gui-gtk-2.0/pages.c:2666 client/gui-gtk-3.0/pages.c:2731
-#: client/gui-qt/fc_client.cpp:886
+#: client/gui-qt/fc_client.cpp:889
 msgid "Ruleset:"
 msgstr "ルールセット :"
 
@@ -5812,7 +5812,7 @@ msgstr "運用中"
 
 # 実情は「鉱工業生産」みたいなものなんですけどね (clefs)
 #: client/gui-gtk-2.0/repodlgs.c:1242 client/gui-gtk-3.0/repodlgs.c:1277
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
 #: common/city.c:84
 msgid "Shield"
 msgstr "シールド"
@@ -5822,7 +5822,7 @@ msgid "Total shield upkeep"
 msgstr "維持コスト(シールド)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1244 client/gui-gtk-3.0/repodlgs.c:1279
-#: client/gui-qt/citydlg.cpp:1035 client/gui-qt/repodlgs.cpp:682
+#: client/gui-qt/citydlg.cpp:1034 client/gui-qt/repodlgs.cpp:682
 #: common/city.c:83
 msgid "Food"
 msgstr "食料"
@@ -6197,104 +6197,104 @@ msgstr "アップグレード"
 msgid "Governor %1"
 msgstr "総督府 : %1"
 
-#: client/gui-qt/citydlg.cpp:673 client/gui-qt/citydlg.cpp:847
+#: client/gui-qt/citydlg.cpp:672 client/gui-qt/citydlg.cpp:846
 msgid "Click to change city name"
 msgstr "クリックで都市名を変更"
 
-#: client/gui-qt/citydlg.cpp:678
+#: client/gui-qt/citydlg.cpp:677
 msgid "Overview"
 msgstr "概観"
 
-#: client/gui-qt/citydlg.cpp:684 client/gui-qt/cityrep.cpp:527
+#: client/gui-qt/citydlg.cpp:683 client/gui-qt/cityrep.cpp:527
 msgid "Governor"
 msgstr "総督府"
 
-#: client/gui-qt/citydlg.cpp:728
+#: client/gui-qt/citydlg.cpp:727
 msgid "Click to change current production"
 msgstr "クリックで現在の生産物を変更"
 
-#: client/gui-qt/citydlg.cpp:737 client/gui-qt/citydlg.cpp:839
+#: client/gui-qt/citydlg.cpp:736 client/gui-qt/citydlg.cpp:838
 msgid "Click left button to change current production"
 msgstr "クリックで現在の生産物を変更"
 
-#: client/gui-qt/citydlg.cpp:820
+#: client/gui-qt/citydlg.cpp:819
 msgid "Worklist Option"
 msgstr "作業リストオプション"
 
-#: client/gui-qt/citydlg.cpp:843
+#: client/gui-qt/citydlg.cpp:842
 msgid "Show future targets"
 msgstr "全表示"
 
-#: client/gui-qt/citydlg.cpp:845 client/options.c:2170
+#: client/gui-qt/citydlg.cpp:844 client/options.c:2170
 msgid "Show units"
 msgstr "ユニットの描写"
 
-#: client/gui-qt/citydlg.cpp:850
+#: client/gui-qt/citydlg.cpp:849
 msgid "Click to change worklist production"
 msgstr "クリックで作業リストに追加"
 
-#: client/gui-qt/citydlg.cpp:859 client/gui-qt/cityrep.cpp:498
+#: client/gui-qt/citydlg.cpp:858 client/gui-qt/cityrep.cpp:498
 #: client/gui-qt/cityrep.cpp:521 data/Freeciv.in:1405 data/Freeciv.in:1655
 #: data/Freeciv.in:1811 data/Freeciv.in:2114
 msgid "Change"
 msgstr "変更"
 
-#: client/gui-qt/citydlg.cpp:860
+#: client/gui-qt/citydlg.cpp:859
 msgid "Insert Before"
 msgstr "前に加える"
 
-#: client/gui-qt/citydlg.cpp:861
+#: client/gui-qt/citydlg.cpp:860
 msgid "Insert After"
 msgstr "後ろに加える"
 
-#: client/gui-qt/citydlg.cpp:862
+#: client/gui-qt/citydlg.cpp:861
 msgid "Add Last"
 msgstr "最後に加える"
 
-#: client/gui-qt/citydlg.cpp:885 client/gui-qt/cityrep.cpp:511
+#: client/gui-qt/citydlg.cpp:884 client/gui-qt/cityrep.cpp:511
 msgid "Worklist"
 msgstr "作業リスト"
 
-#: client/gui-qt/citydlg.cpp:901
+#: client/gui-qt/citydlg.cpp:900
 msgid "Worklist menu"
 msgstr "作業リストメニュー"
 
-#: client/gui-qt/citydlg.cpp:904
+#: client/gui-qt/citydlg.cpp:903
 msgid "Save worklist"
 msgstr "作業リストを保存"
 
-#: client/gui-qt/citydlg.cpp:990
+#: client/gui-qt/citydlg.cpp:989
 msgid "Presets:"
 msgstr "プリセット"
 
-#: client/gui-qt/citydlg.cpp:991
+#: client/gui-qt/citydlg.cpp:990
 msgid "Governor settings"
 msgstr "設定"
 
-#: client/gui-qt/citydlg.cpp:992
+#: client/gui-qt/citydlg.cpp:991
 msgid "Results:"
 msgstr "結果:"
 
-#: client/gui-qt/citydlg.cpp:1001 data/Freeciv.in:2034 data/Freeciv.in:2183
+#: client/gui-qt/citydlg.cpp:1000 data/Freeciv.in:2034 data/Freeciv.in:2183
 msgid "Delete"
 msgstr "削除"
 
-#: client/gui-qt/citydlg.cpp:1004 client/gui-qt/optiondlg.cpp:155
+#: client/gui-qt/citydlg.cpp:1003 client/gui-qt/optiondlg.cpp:155
 msgid "Save"
 msgstr "保存"
 
-#: client/gui-qt/citydlg.cpp:1035 common/city.c:85 data/civ1/techs.ruleset:583
+#: client/gui-qt/citydlg.cpp:1034 common/city.c:85 data/civ1/techs.ruleset:583
 #: data/civ2/techs.ruleset:748 data/classic/techs.ruleset:757
 #: data/experimental/techs.ruleset:837 data/civ2civ3/techs.ruleset:859
 #: data/Freeciv.in:3108 data/multiplayer/techs.ruleset:762
 msgid "Trade"
 msgstr "交易"
 
-#: client/gui-qt/citydlg.cpp:1040
+#: client/gui-qt/citydlg.cpp:1039
 msgid "Priority"
 msgstr "優先度"
 
-#: client/gui-qt/citydlg.cpp:1100 client/gui-xaw/connectdlg.c:680
+#: client/gui-qt/citydlg.cpp:1099 client/gui-xaw/connectdlg.c:680
 #: data/Freeciv.in:180 data/Freeciv.in:230 data/Freeciv.in:255
 #: data/Freeciv.in:559 data/Freeciv.in:578 data/Freeciv.in:623
 #: data/Freeciv.in:1467 data/Freeciv.in:1485 data/Freeciv.in:1624
@@ -6305,15 +6305,15 @@ msgstr "優先度"
 msgid "Close"
 msgstr "閉じる"
 
-#: client/gui-qt/citydlg.cpp:1106
+#: client/gui-qt/citydlg.cpp:1105
 msgid "Next City"
 msgstr "次の都市へ"
 
-#: client/gui-qt/citydlg.cpp:1111
+#: client/gui-qt/citydlg.cpp:1110
 msgid "Previous City"
 msgstr "前の都市へ"
 
-#: client/gui-qt/citydlg.cpp:1394
+#: client/gui-qt/citydlg.cpp:1393
 msgid "No governor defined"
 msgstr ""
 
@@ -6322,94 +6322,94 @@ msgstr ""
 # Belgae
 # was:Governor 稼働中(_E)
 #. TRANS: %1 is custom string chosen player
-#: client/gui-qt/citydlg.cpp:1405
+#: client/gui-qt/citydlg.cpp:1404
 msgid "<h3>Governor Enabled - %1</h3>"
 msgstr "<h3>総督府統治中 - %1</h3>"
 
 # Belgae
 # was:Governor 停止中(_E)
-#: client/gui-qt/citydlg.cpp:1413
+#: client/gui-qt/citydlg.cpp:1412
 msgid "<h3>Governor Disabled</h3>"
 msgstr "<h3>総督府停止中</h3>"
 
-#: client/gui-qt/citydlg.cpp:1425
+#: client/gui-qt/citydlg.cpp:1424
 msgid "Disable"
 msgstr "無効にする"
 
-#: client/gui-qt/citydlg.cpp:1427
+#: client/gui-qt/citydlg.cpp:1426
 msgid "Enable"
 msgstr "有効にする"
 
-#: client/gui-qt/citydlg.cpp:1549 client/gui-qt/cityrep.cpp:489
+#: client/gui-qt/citydlg.cpp:1548 client/gui-qt/cityrep.cpp:489
 msgid "Clear"
 msgstr "全消去"
 
-#: client/gui-qt/citydlg.cpp:1559
+#: client/gui-qt/citydlg.cpp:1558
 msgid "Change worklist"
 msgstr "作業リストを変更する"
 
-#: client/gui-qt/citydlg.cpp:1560
+#: client/gui-qt/citydlg.cpp:1559
 msgid "Insert worklist"
 msgstr "作業リストを追加する"
 
-#: client/gui-qt/citydlg.cpp:1623
+#: client/gui-qt/citydlg.cpp:1622
 msgid "Buy (%1 gold)"
 msgid_plural "Buy (%1 gold)"
 msgstr[0] "購入(金%1)"
 
-#: client/gui-qt/citydlg.cpp:1629 data/Freeciv.in:1647
+#: client/gui-qt/citydlg.cpp:1628 data/Freeciv.in:1647
 msgid "Buy"
 msgstr "買う"
 
-#: client/gui-qt/citydlg.cpp:1960
+#: client/gui-qt/citydlg.cpp:1959
 msgid "Sell improvement?"
 msgstr "売却する？"
 
-#: client/gui-qt/citydlg.cpp:2187
+#: client/gui-qt/citydlg.cpp:2186
 msgid "Buy ?"
 msgstr "購入する？"
 
-#: client/gui-qt/citydlg.cpp:2199
+#: client/gui-qt/citydlg.cpp:2198
 #, c-format
 msgid "Buy %s for %d gold?"
 msgid_plural "Buy %s for %d gold?"
 msgstr[0] "%sを金%dで買いますか?"
 
-#: client/gui-qt/citydlg.cpp:2478
+#: client/gui-qt/citydlg.cpp:2477
 msgid "Save current worklist"
 msgstr "現在の作業リストを保存"
 
 # Daniel
-#: client/gui-qt/citydlg.cpp:2479
+#: client/gui-qt/citydlg.cpp:2478
 msgid "What should we name new worklist?"
 msgstr "新しい作業リストの名前は何にしますか？"
 
-#: client/gui-qt/citydlg.cpp:2481
+#: client/gui-qt/citydlg.cpp:2480
 #, fuzzy
 msgid "New worklist"
 msgstr "新規作業リスト追加"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2501
+#: client/gui-qt/citydlg.cpp:2500
 msgid "%1 - %2 citizens - DISORDER"
 msgstr "%1 - %2 人 - 暴動"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2505
+#: client/gui-qt/citydlg.cpp:2504
 msgid "%1 - %2 citizens - celebrating"
 msgstr "%1 - %2 人 - 祝祭"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2509
+#: client/gui-qt/citydlg.cpp:2508
 msgid "%1 - %2 citizens - happy"
 msgstr "%1 - %2 人 - 幸福"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:2513
+#: client/gui-qt/citydlg.cpp:2512
 msgid "%1 - %2 citizens"
 msgstr "%1 - %2 人"
 
-#: client/gui-qt/citydlg.cpp:2673
+#: client/gui-qt/citydlg.cpp:2672
 msgid ""
 "Cost: %1, Upkeep: %2\n"
 "\n"
@@ -6417,7 +6417,7 @@ msgstr ""
 "建設費: %1, 維持費: %2\n"
 "\n"
 
-#: client/gui-qt/citydlg.cpp:2798 client/gui-qt/dialogs.cpp:229
+#: client/gui-qt/citydlg.cpp:2797 client/gui-qt/dialogs.cpp:229
 #: client/gui-qt/messagedlg.cpp:61 client/gui-qt/optiondlg.cpp:132
 #: client/gui-qt/pages.cpp:351 client/gui-qt/pages.cpp:457
 #: client/gui-qt/pages.cpp:515 client/gui-qt/ratesdlg.cpp:140
@@ -6705,22 +6705,22 @@ msgstr "条約"
 msgid "Welcome to Freeciv"
 msgstr ""
 
-#: client/gui-qt/fc_client.cpp:203
+#: client/gui-qt/fc_client.cpp:206
 msgid "This is Qt-client for Freeciv."
 msgstr "これはFreeciv Qtクライアントです。"
 
-#: client/gui-qt/fc_client.cpp:503 client/gui-qt/pages.cpp:1440
+#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:1440
 msgid "Don't Observe"
 msgstr "観察終了"
 
 # Daniel
-#: client/gui-qt/fc_client.cpp:506 client/gui-qt/pages.cpp:576
+#: client/gui-qt/fc_client.cpp:509 client/gui-qt/pages.cpp:576
 #: client/gui-qt/pages.cpp:1442 client/gui-qt/pages.cpp:1543
 msgid "Observe"
 msgstr "観察"
 
 # Daniel
-#: client/gui-qt/fc_client.cpp:884
+#: client/gui-qt/fc_client.cpp:887
 msgid ""
 "Number of Players\n"
 "(including AI):"
@@ -6730,16 +6730,16 @@ msgstr ""
 
 # Daniel
 # Belgae
-#: client/gui-qt/fc_client.cpp:885
+#: client/gui-qt/fc_client.cpp:888
 msgid "AI Skill Level:"
 msgstr "AIのレベル :"
 
 # clefs
-#: client/gui-qt/fc_client.cpp:909
+#: client/gui-qt/fc_client.cpp:912
 msgid "More Game Options"
 msgstr "詳細なゲーム設定"
 
-#: client/gui-qt/fc_client.cpp:960
+#: client/gui-qt/fc_client.cpp:963
 msgid "Set server options"
 msgstr "サーバーオプション"
 
@@ -7212,7 +7212,7 @@ msgstr "上位5位の都市"
 msgid "Demographics"
 msgstr "人口統計"
 
-#: client/gui-qt/menu.cpp:828 client/gui-qt/spaceshipdlg.cpp:71
+#: client/gui-qt/menu.cpp:828 client/gui-qt/spaceshipdlg.cpp:70
 #: client/gui-xaw/menu.c:232 data/Freeciv.in:3310
 msgid "Spaceship"
 msgstr "宇宙船"
@@ -7432,7 +7432,7 @@ msgstr "冗長を売る"
 msgid "Disband Results"
 msgstr ""
 
-#: client/gui-qt/spaceshipdlg.cpp:48 client/gui-sdl/spaceshipdlg.c:175
+#: client/gui-qt/spaceshipdlg.cpp:47 client/gui-sdl/spaceshipdlg.c:175
 #: data/Freeciv.in:1727
 msgid "Launch"
 msgstr "発射"
@@ -8426,7 +8426,7 @@ msgid "Barracks"
 msgstr "兵舍"
 
 #: client/gui-sdl/mapview.c:633 client/gui-sdl/mapview.c:639
-#: client/gui-sdl/mapview.c:645 client/helpdata.c:4303 client/helpdata.c:4311
+#: client/gui-sdl/mapview.c:645 client/helpdata.c:4311 client/helpdata.c:4319
 msgid "?blistmore:, "
 msgstr ", "
 
@@ -9440,17 +9440,17 @@ msgstr ""
 msgid "Terrain       Irrigation       Mining           Transform\n"
 msgstr "地形        道路   灌漑           鉱山         地形改造\n"
 
-#: client/helpdata.c:289
+#: client/helpdata.c:291
 msgid "Time taken for the following activities is independent of terrain:\n"
 msgstr "以下の作業に必要な時間は地形によらず一定です。\n"
 
 #. TRANS: Header for fixed-width terrain alteration table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:295
+#: client/helpdata.c:297
 msgid "Activity            Time\n"
 msgstr "作業            時間\n"
 
-#: client/helpdata.c:300
+#: client/helpdata.c:302
 #, c-format
 msgid ""
 "\n"
@@ -9459,7 +9459,7 @@ msgstr ""
 "\n"
 "公害の除去    %3d"
 
-#: client/helpdata.c:303
+#: client/helpdata.c:305
 #, c-format
 msgid ""
 "\n"
@@ -9468,57 +9468,57 @@ msgstr ""
 "\n"
 "死の灰の除去      %3d"
 
-#: client/helpdata.c:329
+#: client/helpdata.c:331
 msgid "In this ruleset, the following veteran levels are defined:"
 msgstr "このルールセットでは，以下の練度が設定されています:"
 
-#: client/helpdata.c:330
+#: client/helpdata.c:332
 msgid "This ruleset has no default veteran levels defined."
 msgstr "このルールセットにおいてユニットの練度は存在しません。"
 
 #. TRANS: First %s is version string, e.g.,
 #. * "Freeciv version 2.3.0-beta1 (beta version)" (translated).
 #. * Second %s is client_string, e.g., "gui-gtk-2.0".
-#: client/helpdata.c:337
+#: client/helpdata.c:339
 #, c-format
 msgid "This is %s, %s client."
 msgstr "これは %s， %sクライアントです。"
 
-#: client/helpdata.c:369
+#: client/helpdata.c:371
 #, c-format
 msgid "Requires knowledge of the technology %s.\n"
 msgstr "・科学技術「%s」が必要です。\n"
 
-#: client/helpdata.c:374
+#: client/helpdata.c:376
 #, c-format
 msgid "Prevented by knowledge of the technology %s.\n"
 msgstr "・科学技術「%s」を獲得していないことが必要です。\n"
 
-#: client/helpdata.c:382
+#: client/helpdata.c:384
 #, c-format
 msgid "Requires that someone has discovered the technology %s.\n"
 msgstr ""
 "・いずれかのプレイヤーが科学技術「 %s 」を発見していることが必要です。\n"
 
-#: client/helpdata.c:388
+#: client/helpdata.c:390
 #, c-format
 msgid "Requires that no-one has yet discovered the technology %s.\n"
 msgstr "・まだどのプレイヤーも科学技術「%s」を発見していないことが必要です。\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:411
+#: client/helpdata.c:413
 #, c-format
 msgid "Requires knowledge of a technology with the \"%s\" flag.\n"
 msgstr "・「%s」フラグ付きの科学技術が必要です。\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:417
+#: client/helpdata.c:419
 #, c-format
 msgid "Prevented by knowledge of any technology with the \"%s\" flag.\n"
 msgstr "・「%s」フラグ付きの科学技術を獲得していないことが必要です。\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:426
+#: client/helpdata.c:428
 #, c-format
 msgid "Requires that some player knows a technology with the \"%s\" flag.\n"
 msgstr ""
@@ -9526,25 +9526,25 @@ msgstr ""
 "です。\n"
 
 #. TRANS: %s is a (translatable) tech flag.
-#: client/helpdata.c:432
+#: client/helpdata.c:434
 #, c-format
 msgid "Requires that no player knows any technology with the \"%s\" flag.\n"
 msgstr ""
 "・まだどのプレイヤーも「%s」フラグ付きの科学技術を発見していないことが必要で"
 "す。\n"
 
-#: client/helpdata.c:453
+#: client/helpdata.c:455
 #, c-format
 msgid "Requires the %s government.\n"
 msgstr "・政治体制が「%s」であることが必要です。\n"
 
-#: client/helpdata.c:456
+#: client/helpdata.c:458
 #, c-format
 msgid "Not available under the %s government.\n"
 msgstr "・政治体制が「%s」でないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:470
+#: client/helpdata.c:472
 #, c-format
 msgid ""
 "Requires that %s was built at some point, and that it has not yet been "
@@ -9554,13 +9554,13 @@ msgstr ""
 "いことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:478
+#: client/helpdata.c:480
 #, c-format
 msgid "Requires that %s was built at some point.\n"
 msgstr "・不思議「%s」が建設されたことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:486
+#: client/helpdata.c:488
 #, c-format
 msgid "Prevented if %s has ever been built, unless it would be obsolete.\n"
 msgstr ""
@@ -9568,13 +9568,13 @@ msgstr ""
 "ことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:493
+#: client/helpdata.c:495
 #, c-format
 msgid "Prevented if %s has ever been built.\n"
 msgstr "・不思議「%s」がまだ建設されていないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:504
+#: client/helpdata.c:506
 #, c-format
 msgid "Requires %s to be owned by any player and not yet obsolete.\n"
 msgstr ""
@@ -9582,13 +9582,13 @@ msgstr ""
 "が必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:511
+#: client/helpdata.c:513
 #, c-format
 msgid "Requires %s to be owned by any player.\n"
 msgstr "・いずれかのプレイヤーが不思議「%s」を保有していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:519
+#: client/helpdata.c:521
 #, c-format
 msgid ""
 "Prevented if %s is currently owned by any player, unless it is obsolete.\n"
@@ -9597,13 +9597,13 @@ msgstr ""
 "式化していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:526
+#: client/helpdata.c:528
 #, c-format
 msgid "Prevented if %s is currently owned by any player.\n"
 msgstr "・不思議「%s」をどのプレイヤーも保有していないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:544
+#: client/helpdata.c:546
 #, c-format
 msgid ""
 "Requires you to have built %s at some point, and for it not to have been "
@@ -9613,13 +9613,13 @@ msgstr ""
 "す。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:552
+#: client/helpdata.c:554
 #, c-format
 msgid "Requires you to have built %s at some point.\n"
 msgstr "・あなたが不思議「%s」を保有したことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:560
+#: client/helpdata.c:562
 #, c-format
 msgid "Prevented if you have ever built %s, unless it would be obsolete.\n"
 msgstr ""
@@ -9627,26 +9627,26 @@ msgstr ""
 "旧式化していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:567
+#: client/helpdata.c:569
 #, c-format
 msgid "Prevented if you have ever built %s.\n"
 msgstr "・あなたが不思議「%s」を現在まで保有していないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:578
+#: client/helpdata.c:580
 #, c-format
 msgid "Requires you to own %s, which must not be obsolete.\n"
 msgstr ""
 "・あなたが不思議「%s」を保有していて，かつ旧式化していないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:585
+#: client/helpdata.c:587
 #, c-format
 msgid "Requires you to own %s.\n"
 msgstr "・あなたが不思議「%s」を保有していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:593
+#: client/helpdata.c:595
 #, c-format
 msgid "Prevented if you own %s, unless it is obsolete.\n"
 msgstr ""
@@ -9654,13 +9654,13 @@ msgstr ""
 "ことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:600
+#: client/helpdata.c:602
 #, c-format
 msgid "Prevented if you own %s.\n"
 msgstr "・あなたが不思議「%s」を保有していないことが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:616
+#: client/helpdata.c:618
 #, c-format
 msgid ""
 "Requires %s in one of your cities on the same continent, and not yet "
@@ -9670,13 +9670,13 @@ msgstr ""
 "必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:623
+#: client/helpdata.c:625
 #, c-format
 msgid "Requires %s in one of your cities on the same continent.\n"
 msgstr "・あなたが不思議「%s」を同じ大陸内に保有していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:632
+#: client/helpdata.c:634
 #, c-format
 msgid ""
 "Prevented if %s is in one of your cities on the same continent, unless it is "
@@ -9686,26 +9686,26 @@ msgstr ""
 "既に旧式化していることが必要です。\n"
 
 #. TRANS: %s is a wonder
-#: client/helpdata.c:639
+#: client/helpdata.c:641
 #, c-format
 msgid "Prevented if %s is in one of your cities on the same continent.\n"
 msgstr ""
 "・あなたが不思議「%s」を同じ大陸内の都市に保有していないことが必要です。\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:655
+#: client/helpdata.c:657
 #, c-format
 msgid "Requires %s in the city (and not yet obsolete).\n"
 msgstr "・都市に「%s」があり，かつ旧式化していないことが必要です。\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:661
+#: client/helpdata.c:663
 #, c-format
 msgid "Requires %s in the city.\n"
 msgstr "・都市に「%s」が必要です。\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:670
+#: client/helpdata.c:672
 #, c-format
 msgid "Prevented by %s in the city (unless it is obsolete).\n"
 msgstr ""
@@ -9713,178 +9713,178 @@ msgstr ""
 "ことが必要です。\n"
 
 #. TRANS: %s is a building or wonder
-#: client/helpdata.c:677
+#: client/helpdata.c:679
 #, c-format
 msgid "Prevented by %s in the city.\n"
 msgstr "・都市に「%s」がないことが必要です。\n"
 
-#: client/helpdata.c:686
+#: client/helpdata.c:688
 #, c-format
 msgid "Only applies to \"%s\" buildings.\n"
 msgstr "・「%s」のみに適用されます。\n"
 
-#: client/helpdata.c:691
+#: client/helpdata.c:693
 #, c-format
 msgid "Does not apply to \"%s\" buildings.\n"
 msgstr "・「%s」には適用されません。\n"
 
-#: client/helpdata.c:709
+#: client/helpdata.c:711
 #, c-format
 msgid "?special:Requires %s on the tile.\n"
 msgstr "・そのタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:713
+#: client/helpdata.c:715
 #, c-format
 msgid "?special:Prevented by %s on the tile.\n"
 msgstr "・そのタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:720
+#: client/helpdata.c:722
 #, c-format
 msgid "?special:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "・そのタイルまたは辺を共有して隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:725
+#: client/helpdata.c:727
 #, c-format
 msgid "?special:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "・そのタイルまたは辺を共有して隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:733
+#: client/helpdata.c:735
 #, c-format
 msgid "?special:Requires %s on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに地形「%s」が必要です。\n"
 
-#: client/helpdata.c:738
+#: client/helpdata.c:740
 #, c-format
 msgid "?special:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに地形「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:746
+#: client/helpdata.c:748
 #, c-format
 msgid "?special:Requires %s on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が必要です。\n"
 
-#: client/helpdata.c:751
+#: client/helpdata.c:753
 #, c-format
 msgid "?special:Prevented by %s on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:769
+#: client/helpdata.c:771
 #, c-format
 msgid "?terrain:Requires %s on the tile.\n"
 msgstr "・そのタイルが「%s」であることが必要です。\n"
 
-#: client/helpdata.c:772
+#: client/helpdata.c:774
 #, c-format
 msgid "?terrain:Prevented by %s on the tile.\n"
 msgstr "・そのタイルが「%s」では無いことが必要です。\n"
 
-#: client/helpdata.c:779
+#: client/helpdata.c:781
 #, c-format
 msgid "?terrain:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "・そのタイルまたは辺を共有して隣接するタイルに地形「%s」が必要です。\n"
 
-#: client/helpdata.c:784
+#: client/helpdata.c:786
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "・そのタイルまたは辺を共有して隣接するタイルに地形「%s」が無いことが必要で"
 "す。\n"
 
-#: client/helpdata.c:792
+#: client/helpdata.c:794
 #, c-format
 msgid "?terrain:Requires %s on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルが「%s」であることが必要です。\n"
 
-#: client/helpdata.c:797
+#: client/helpdata.c:799
 #, c-format
 msgid "?terrain:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルが地形「%s」では無いことが必要です。\n"
 
-#: client/helpdata.c:805
+#: client/helpdata.c:807
 #, c-format
 msgid "?terrain:Requires %s on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が必要です。\n"
 
-#: client/helpdata.c:810
+#: client/helpdata.c:812
 #, c-format
 msgid "?terrain:Prevented by %s on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:829
+#: client/helpdata.c:831
 #, c-format
 msgid "?resource:Requires %s on the tile.\n"
 msgstr "・そのタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:833
+#: client/helpdata.c:835
 #, c-format
 msgid "?resource:Prevented by %s on the tile.\n"
 msgstr "・そのタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:840
+#: client/helpdata.c:842
 #, c-format
 msgid "?resource:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "・そのタイルまたは辺を共有して隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:845
+#: client/helpdata.c:847
 #, c-format
 msgid ""
 "?resource:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "・そのタイルまたは辺を共有して隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:853
+#: client/helpdata.c:855
 #, c-format
 msgid "?resource:Requires %s on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:858
+#: client/helpdata.c:860
 #, c-format
 msgid "?resource:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:866
+#: client/helpdata.c:868
 #, c-format
 msgid "?resource:Requires %s on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が必要です。\n"
 
-#: client/helpdata.c:871
+#: client/helpdata.c:873
 #, c-format
 msgid "?resource:Prevented by %s on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が無いことが必要です。\n"
 
 #. TRANS: "... playing as the Swedes."
-#: client/helpdata.c:891
+#: client/helpdata.c:893
 #, c-format
 msgid "Requires that you are playing as the %s.\n"
 msgstr "・あなたが「%s」でゲームをプレイしていることが必要です。\n"
 
 #. TRANS: "... playing as the Turks."
-#: client/helpdata.c:896
+#: client/helpdata.c:898
 #, c-format
 msgid "Requires that you are not playing as the %s.\n"
 msgstr "・あなたが「%s」でゲームをプレイしていないことが必要です。\n"
 
 #. TRANS: "Requires the Apaches to have ..."
-#: client/helpdata.c:905
+#: client/helpdata.c:907
 #, c-format
 msgid "Requires the %s to have been in the game.\n"
 msgstr "・民族「%s」がゲームに参加していることが必要です。\n"
 
 #. TRANS: "Requires the Celts never to have ..."
-#: client/helpdata.c:910
+#: client/helpdata.c:912
 #, c-format
 msgid "Requires the %s never to have been in the game.\n"
 msgstr "・民族「 %s 」がゲームに参加していないことが必要です。\n"
 
 #. TRANS: "Requires the Belgians in the game."
-#: client/helpdata.c:918
+#: client/helpdata.c:920
 #, c-format
 msgid "Requires the %s in the game.\n"
 msgstr "・民族「%s」がゲームに参加し、かつ生存していることが必要です。\n"
 
 #. TRANS: "Requires that the Russians are not ...
-#: client/helpdata.c:923
+#: client/helpdata.c:925
 #, c-format
 msgid "Requires that the %s are not in the game.\n"
 msgstr ""
@@ -9892,135 +9892,135 @@ msgstr ""
 "が必要です。\n"
 
 #. TRANS: "Requires at least one Barbarian citizen ..."
-#: client/helpdata.c:945
+#: client/helpdata.c:947
 #, c-format
 msgid "Requires at least one %s citizen in the city.\n"
 msgstr "・都市の住民の中に，民族「%s」がいることが必要です。\n"
 
 #. TRANS: "... no Pirate citizens ..."
-#: client/helpdata.c:950
+#: client/helpdata.c:952
 #, c-format
 msgid "Requires that there are no %s citizens in the city.\n"
 msgstr "・都市の住民の中に，民族「%s」がいないことが必要です。\n"
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
-#: client/helpdata.c:972
+#: client/helpdata.c:974
 #, c-format
 msgid "?unit:Requires %s.\n"
 msgstr "・%sが必要です。\n"
 
 # clefs
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
-#: client/helpdata.c:976
+#: client/helpdata.c:978
 #, c-format
 msgid "?unit:Does not apply to %s.\n"
 msgstr "・「 %s 」には適用されません。\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:1004
+#: client/helpdata.c:1006
 #, c-format
 msgid "?ulist:Requires %s.\n"
 msgstr "・%sが必要です。\n"
 
 # clefs
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:1008
+#: client/helpdata.c:1010
 #, c-format
 msgid "?ulist:Does not apply to %s.\n"
 msgstr "・「 %s 」には適用されません。\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: client/helpdata.c:1033
+#: client/helpdata.c:1035
 #, c-format
 msgid "?uclass:Requires %s units.\n"
 msgstr "・「 %s 」ユニットが必要です。\n"
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: client/helpdata.c:1037
+#: client/helpdata.c:1039
 #, c-format
 msgid "?uclass:Does not apply to %s units.\n"
 msgstr "・「 %s 」ユニットには適用されません。\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:1071
+#: client/helpdata.c:1073
 #, c-format
 msgid "?uclasslist:Requires %s units.\n"
 msgstr "・「 %s 」ユニットが必要です。\n"
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:1075
+#: client/helpdata.c:1077
 #, c-format
 msgid "?uclasslist:Does not apply to %s units.\n"
 msgstr "・「 %s 」ユニットには適用されません。\n"
 
 # clefs
 #. TRANS: "Applies only to Food."
-#: client/helpdata.c:1104
+#: client/helpdata.c:1106
 #, c-format
 msgid "?output:Applies only to %s.\n"
 msgstr "・「 %s 」のみに適用されます。\n"
 
 # clefs
 #. TRANS: "Does not apply to Food."
-#: client/helpdata.c:1108
+#: client/helpdata.c:1110
 #, c-format
 msgid "?output:Does not apply to %s.\n"
 msgstr "・「 %s 」には適用されません。\n"
 
 # clefs
 #. TRANS: "Applies only to Scientists."
-#: client/helpdata.c:1119
+#: client/helpdata.c:1121
 #, c-format
 msgid "?specialist:Applies only to %s.\n"
 msgstr "・「 %s 」のみに適用されます。\n"
 
 # clefs
 #. TRANS: "Does not apply to Scientists."
-#: client/helpdata.c:1123
+#: client/helpdata.c:1125
 #, c-format
 msgid "?specialist:Does not apply to %s.\n"
 msgstr "・「 %s 」には適用されません。\n"
 
 # clefs
-#: client/helpdata.c:1134
+#: client/helpdata.c:1136
 #, c-format
 msgid "Requires a minimum city size of %d.\n"
 msgid_plural "Requires a minimum city size of %d.\n"
 msgstr[0] "・都市の大きさが%d以上であることが必要です。\n"
 
 # clefs
-#: client/helpdata.c:1140
+#: client/helpdata.c:1142
 #, c-format
 msgid "Requires the city size to be less than %d.\n"
 msgid_plural "Requires the city size to be less than %d.\n"
 msgstr[0] "・都市の大きさが%d未満であることが必要です。\n"
 
 #. TRANS: AI level (e.g., "Easy")
-#: client/helpdata.c:1154
+#: client/helpdata.c:1156
 #, c-format
 msgid "Applies to %s AI players.\n"
 msgstr "・%sAIに適用されます。\n"
 
 #. TRANS: AI level (e.g., "Cheating")
-#: client/helpdata.c:1159
+#: client/helpdata.c:1161
 #, c-format
 msgid "Does not apply to %s AI players.\n"
 msgstr "・%sAIには適用されません。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1170
+#: client/helpdata.c:1172
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile.\n"
 msgstr "・そのタイルが「%s」タイルであることが必要です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1176
+#: client/helpdata.c:1178
 #, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile.\n"
 msgstr "・そのタイルが「%s」タイルでは無いことが必要です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1185
+#: client/helpdata.c:1187
 #, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent "
@@ -10030,7 +10030,7 @@ msgstr ""
 "す。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1192
+#: client/helpdata.c:1194
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
@@ -10040,13 +10040,13 @@ msgstr ""
 "です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1202
+#: client/helpdata.c:1204
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルが「%s」タイルであることが必要です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1209
+#: client/helpdata.c:1211
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile.\n"
@@ -10054,32 +10054,32 @@ msgstr ""
 "・そのタイルまたは隣接するタイルが「%s」タイルでは無いことが必要です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1219
+#: client/helpdata.c:1221
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」タイルが必要です。\n"
 
 #. TRANS: %s is a terrain class
-#: client/helpdata.c:1226
+#: client/helpdata.c:1228
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」タイルが無いことが必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1247
+#: client/helpdata.c:1249
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile.\n"
 msgstr "・そのタイルが「%s」フラグ付きの地形であることが必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1252
+#: client/helpdata.c:1254
 #, c-format
 msgid "Prevented by terrain with the \"%s\" flag on the tile.\n"
 msgstr "・そのタイルが「%s」フラグ付きの地形では無いことが必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1261
+#: client/helpdata.c:1263
 #, fuzzy, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
@@ -10089,7 +10089,7 @@ msgstr ""
 "す。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1267
+#: client/helpdata.c:1269
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
@@ -10099,7 +10099,7 @@ msgstr ""
 "ことが必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1276
+#: client/helpdata.c:1278
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or an adjacent tile.\n"
@@ -10108,7 +10108,7 @@ msgstr ""
 "す。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1282
+#: client/helpdata.c:1284
 #, fuzzy, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile.\n"
@@ -10117,133 +10117,133 @@ msgstr ""
 "ことが必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1291
+#: client/helpdata.c:1293
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」フラグ付きの地形が必要です。\n"
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: client/helpdata.c:1297
+#: client/helpdata.c:1299
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city "
 "radius.\n"
 msgstr "・都市圏内に「%s」フラグ付きの地形が無いことが必要です。\n"
 
-#: client/helpdata.c:1316
+#: client/helpdata.c:1318
 #, c-format
 msgid "?base:Requires %s on the tile.\n"
 msgstr "・そのタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1320
+#: client/helpdata.c:1322
 #, c-format
 msgid "?base:Prevented by %s on the tile.\n"
 msgstr "・そのタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1327
+#: client/helpdata.c:1329
 #, c-format
 msgid "?base:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "・そのタイルまたは辺を共有して隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1332
+#: client/helpdata.c:1334
 #, c-format
 msgid "?base:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "・そのタイルまたは辺を共有して隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1340
+#: client/helpdata.c:1342
 #, c-format
 msgid "?base:Requires %s on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1345
+#: client/helpdata.c:1347
 #, c-format
 msgid "?base:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1353
+#: client/helpdata.c:1355
 #, c-format
 msgid "?base:Requires %s on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が必要です。\n"
 
-#: client/helpdata.c:1358
+#: client/helpdata.c:1360
 #, c-format
 msgid "?base:Prevented by %s on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1377
+#: client/helpdata.c:1379
 #, c-format
 msgid "?road:Requires %s on the tile.\n"
 msgstr "・そのタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1381
+#: client/helpdata.c:1383
 #, c-format
 msgid "?road:Prevented by %s on the tile.\n"
 msgstr "・そのタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1388
+#: client/helpdata.c:1390
 #, c-format
 msgid "?road:Requires %s on the tile or a cardinally adjacent tile.\n"
 msgstr "・そのタイルまたは辺を共有して隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1393
+#: client/helpdata.c:1395
 #, c-format
 msgid "?road:Prevented by %s on the tile or any cardinally adjacent tile.\n"
 msgstr ""
 "・そのタイルまたは辺を共有して隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1401
+#: client/helpdata.c:1403
 #, c-format
 msgid "?road:Requires %s on the tile or an adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が必要です。\n"
 
-#: client/helpdata.c:1406
+#: client/helpdata.c:1408
 #, c-format
 msgid "?road:Prevented by %s on the tile or any adjacent tile.\n"
 msgstr "・そのタイルまたは隣接するタイルに「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1414
+#: client/helpdata.c:1416
 #, c-format
 msgid "?road:Requires %s on a tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が必要です。\n"
 
-#: client/helpdata.c:1419
+#: client/helpdata.c:1421
 #, c-format
 msgid "?road:Prevented by %s on any tile within the city radius.\n"
 msgstr "・都市圏内に「%s」が無いことが必要です。\n"
 
-#: client/helpdata.c:1439
+#: client/helpdata.c:1441
 #, c-format
 msgid "Requires the game to have reached the year %s.\n"
 msgstr "・ゲームが%s年に達していることが必要です。\n"
 
-#: client/helpdata.c:1443
+#: client/helpdata.c:1445
 #, c-format
 msgid "Requires that the game has not yet reached the year %s.\n"
 msgstr "・ゲームがまだ%s年に達していないことが必要です。\n"
 
-#: client/helpdata.c:1454
+#: client/helpdata.c:1456
 #, c-format
 msgid "Requires terrain on which alteration %s is possible.\n"
 msgstr ""
 
-#: client/helpdata.c:1460
+#: client/helpdata.c:1462
 #, c-format
 msgid "Prevented by terrain on which alteration %s can be made.\n"
 msgstr ""
 
-#: client/helpdata.c:1483
+#: client/helpdata.c:1485
 msgid "Applies only to city centers.\n"
 msgstr "・都市の中心のみに適用されます。\n"
 
-#: client/helpdata.c:1485
+#: client/helpdata.c:1487
 msgid "Does not apply to city centers.\n"
 msgstr "・都市の中心には適用されません。\n"
 
 # clefs
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1602
+#: client/helpdata.c:1604
 #, fuzzy, c-format
 msgid "?gov:* Allows %s (with %s but no %s)."
 msgstr ""
@@ -10251,7 +10251,7 @@ msgstr ""
 
 # clefs
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1604
+#: client/helpdata.c:1606
 #, c-format
 msgid "?gov:* Allows %s (with %s)."
 msgstr ""
@@ -10261,7 +10261,7 @@ msgstr ""
 # XXX "大学 を建設可能にします(大学も必要です)。" 施設／技術
 # "with %s" は「海」とかかもしれないので「技術」と決め打ちもできない
 #. TRANS: First %s is a government name.
-#: client/helpdata.c:1606
+#: client/helpdata.c:1608
 #, c-format
 msgid "?gov:* Allows %s (absent %s)."
 msgstr ""
@@ -10269,20 +10269,20 @@ msgstr ""
 
 # clefs
 #. TRANS: %s is a government name.
-#: client/helpdata.c:1608
+#: client/helpdata.c:1610
 #, c-format
 msgid "?gov:* Allows %s."
 msgstr "・政治体制を%sにすることができるようになります。"
 
 #. TRANS: %s is a government name.
-#: client/helpdata.c:1610
+#: client/helpdata.c:1612
 #, c-format
 msgid "?gov:* Prevents %s."
 msgstr "・政治体制を%sにすることができなくなります。"
 
 # clefs
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1620
+#: client/helpdata.c:1622
 #, fuzzy, c-format
 msgid "?improvement:* Allows %s (with %s but no %s)."
 msgstr ""
@@ -10290,7 +10290,7 @@ msgstr ""
 
 # clefs
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1622
+#: client/helpdata.c:1624
 #, c-format
 msgid "?improvement:* Allows %s (with %s)."
 msgstr "・｢%s｣を建設することができるようになります（ただし「%s」が必要です）。"
@@ -10299,7 +10299,7 @@ msgstr "・｢%s｣を建設することができるようになります（た�
 # XXX "大学 を建設可能にします(大学も必要です)。" 施設／技術
 # "with %s" は「海」とかかもしれないので「技術」と決め打ちもできない
 #. TRANS: First %s is a building name.
-#: client/helpdata.c:1624
+#: client/helpdata.c:1626
 #, c-format
 msgid "?improvement:* Allows %s (absent %s)."
 msgstr ""
@@ -10307,27 +10307,27 @@ msgstr ""
 "す）。"
 
 #. TRANS: %s is a building name.
-#: client/helpdata.c:1626
+#: client/helpdata.c:1628
 #, c-format
 msgid "?improvement:* Allows %s."
 msgstr "・｢%s｣を建設することができるようになります。"
 
 #. TRANS: %s is a building name.
-#: client/helpdata.c:1628
+#: client/helpdata.c:1630
 #, c-format
 msgid "?improvement:* Prevents %s."
 msgstr "・｢%s｣を建設することができなくなります。"
 
-#: client/helpdata.c:1895
+#: client/helpdata.c:1897
 msgid "Current ruleset contains no description."
 msgstr "現在のルールセットには説明がありません。"
 
-#: client/helpdata.c:2046
+#: client/helpdata.c:2048
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
 msgstr "すみません。 %sのヘルプトピックはありません。\n"
 
-#: client/helpdata.c:2050
+#: client/helpdata.c:2052
 #, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
@@ -10340,12 +10340,12 @@ msgstr ""
 
 # Daniel
 # Belgae
-#: client/helpdata.c:2144
+#: client/helpdata.c:2146
 #, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "・科学技術「%s」が発見されると%sは旧式化します。\n"
 
-#: client/helpdata.c:2152
+#: client/helpdata.c:2154
 msgid ""
 "* A 'small wonder': at most one of your cities may possess this "
 "improvement.\n"
@@ -10355,7 +10355,7 @@ msgstr ""
 
 #. TRANS: 'Allows all players with knowledge of atomic
 #. * power to build nuclear units.'
-#: client/helpdata.c:2165
+#: client/helpdata.c:2167
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr ""
@@ -10363,7 +10363,7 @@ msgstr ""
 "きるようになります。\n"
 
 # clefs
-#: client/helpdata.c:2177
+#: client/helpdata.c:2179
 #, c-format
 msgid "* Allows %s (with %s).\n"
 msgstr ""
@@ -10371,23 +10371,23 @@ msgstr ""
 "す）。\n"
 
 # clefs
-#: client/helpdata.c:2182
+#: client/helpdata.c:2184
 #, c-format
 msgid "* Allows %s.\n"
 msgstr "・%sを生産することができるようになります。\n"
 
-#: client/helpdata.c:2197
+#: client/helpdata.c:2199
 msgid "* All players start with this improvement in their first city.\n"
 msgstr "・この建造物は最初の都市に付属します。\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2220
+#: client/helpdata.c:2222
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
 msgstr "・%sの最初の都市に付属します。\n"
 
 #. TRANS: don't translate 'savepalace'
-#: client/helpdata.c:2230
+#: client/helpdata.c:2232
 msgid ""
 "* If you lose the city containing this improvement, it will be rebuilt for "
 "free in another of your cities (if the 'savepalace' server setting is "
@@ -10397,144 +10397,144 @@ msgstr ""
 "ション'savepalace'が有効である場合）。\n"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: client/helpdata.c:2274
+#: client/helpdata.c:2276
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: client/helpdata.c:2337
+#: client/helpdata.c:2339
 #, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "・%sユニットです。\n"
 
 # clefs
-#: client/helpdata.c:2341
+#: client/helpdata.c:2343
 msgid "  * Can occupy empty enemy cities.\n"
 msgstr "　・守備兵のいない敵都市を占領できます。\n"
 
 # clefs
 # 速度というよりは移動力かなあ？
-#: client/helpdata.c:2344
+#: client/helpdata.c:2346
 msgid "  * Speed is not affected by terrain.\n"
 msgstr "　・移動力は地形の影響を受けません。\n"
 
-#: client/helpdata.c:2347
+#: client/helpdata.c:2349
 msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr "　・地形による防御力のボーナスはありません。\n"
 
-#: client/helpdata.c:2350
+#: client/helpdata.c:2352
 msgid "  * Not subject to zones of control.\n"
 msgstr "　・敵のZOCの影響を受けません。\n"
 
-#: client/helpdata.c:2353
+#: client/helpdata.c:2355
 msgid "  * Slowed down while damaged.\n"
 msgstr "　・損傷すると移動力が低下します。\n"
 
 # yasu, ama, clefs
 # ミサイル
 # was "  * 攻撃開始時に使い切ります。\n"
-#: client/helpdata.c:2356
+#: client/helpdata.c:2358
 msgid "  * Gets used up in making an attack.\n"
 msgstr ""
 "　・このユニットは使い捨てです。敵を攻撃した後に生き残ることはありません。\n"
 
-#: client/helpdata.c:2363
+#: client/helpdata.c:2365
 #, no-c-format
 msgid "  * Gets a 50% defensive bonus while in cities.\n"
 msgstr "　・都市内にいるとき，防御力が50%増加します。\n"
 
-#: client/helpdata.c:2366
+#: client/helpdata.c:2368
 #, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus when not in a city.\n"
 msgstr "　・都市外で防御態勢をとると，防御力が50%増加します。\n"
 
-#: client/helpdata.c:2370
+#: client/helpdata.c:2372
 msgid "  * May fortify to stay put.\n"
 msgstr "　・防御態勢を取っても，防御力は増加しません。\n"
 
-#: client/helpdata.c:2375
+#: client/helpdata.c:2377
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr "　・このユニットはほとんどのユニットにとって射程外です。\n"
 
-#: client/helpdata.c:2379
+#: client/helpdata.c:2381
 msgid "  * Can pillage tile improvements.\n"
 msgstr "　・略奪によりタイル上のインフラを破壊することができます。\n"
 
-#: client/helpdata.c:2384 client/helpdata.c:2844
+#: client/helpdata.c:2386 client/helpdata.c:2846
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
 msgstr "　・敵国の市民がタイルで労働することを妨害できません。\n"
 
-#: client/helpdata.c:2388
+#: client/helpdata.c:2390
 msgid "  * Can attack units on non-native tiles.\n"
 msgstr "　・自分が侵入できないタイル上にいる敵ユニットを攻撃できます。\n"
 
-#: client/helpdata.c:2394
+#: client/helpdata.c:2396
 msgid "  * Can launch attack from non-native tiles.\n"
 msgstr ""
 "　・都市内や，他ユニットに積載されているときなど，本来は自分が侵入できないタ"
 "イル上にいるときも敵ユニットを攻撃できます。\n"
 
 # Daniel
-#: client/helpdata.c:2399
+#: client/helpdata.c:2401
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "・生産するには「%s」が必要です。\n"
 
 # clefs
-#: client/helpdata.c:2405
+#: client/helpdata.c:2407
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "・政治体制が「%s」であれば生産可能です。\n"
 
-#: client/helpdata.c:2410
+#: client/helpdata.c:2412
 msgid "* May not be built in cities.\n"
 msgstr "・都市で生産されることはありません。\n"
 
-#: client/helpdata.c:2413
+#: client/helpdata.c:2415
 msgid "* Only barbarians may build this.\n"
 msgstr "・バーバリアンのみが生産できます。\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:2432
+#: client/helpdata.c:2434
 #, c-format
 msgid "* The %s start the game with %d of these units.\n"
 msgid_plural "* The %s start the game with %d of these units.\n"
 msgstr[0] "・%sにはゲーム開始時に%dユニットが与えられます。\n"
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: client/helpdata.c:2451
+#: client/helpdata.c:2453
 #, c-format
 msgid "* May be obtained by conversion of %s.\n"
 msgstr "・%sを転換することで取得できます。\n"
 
 # clefs
 #. TRANS: %s is a unit type. "MP" = movement points.
-#: client/helpdata.c:2459
+#: client/helpdata.c:2461
 #, c-format
 msgid "* May be converted into %s (takes %d MP).\n"
 msgid_plural "* May be converted into %s (takes %d MP).\n"
 msgstr[0] ""
 
-#: client/helpdata.c:2466
+#: client/helpdata.c:2468
 msgid "* Never has a home city.\n"
 msgstr "・都市に所属しません。\n"
 
 # clefs
-#: client/helpdata.c:2469
+#: client/helpdata.c:2471
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "・このユニットを失うとゲームは負けになります！\n"
 
-#: client/helpdata.c:2473
+#: client/helpdata.c:2475
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr ""
 "・このユニットは各プレイヤーにつき1ユニットしか持つことができません。\n"
 
-#: client/helpdata.c:2480 client/helpdata.c:3109 client/helpdata.c:3223
+#: client/helpdata.c:2482 client/helpdata.c:3111 client/helpdata.c:3225
 msgid "?bullet:* "
 msgstr ""
 
 # clefs
-#: client/helpdata.c:2488
+#: client/helpdata.c:2490
 #, c-format
 msgid "* Costs %d population to build.\n"
 msgid_plural "* Costs %d population to build.\n"
@@ -10543,83 +10543,83 @@ msgstr[0] "・生産すると都市の人口が%d減少します。\n"
 # Belgae
 # これを単複処理するのはどうやったらいいのか
 #. TRANS: %s is a list of unit classes separated by "or".
-#: client/helpdata.c:2506
+#: client/helpdata.c:2508
 #, c-format
 msgid "* Can carry and refuel %d %s unit.\n"
 msgid_plural "* Can carry and refuel up to %d %s units.\n"
 msgstr[0] "・%2$sユニットを%1$dユニット輸送・給油できます。\n"
 
-#: client/helpdata.c:2534
+#: client/helpdata.c:2536
 msgid ""
 "  * Some cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr " ・都市または適切な基地でのみ載せることのできるユニットがあります。\n"
 
-#: client/helpdata.c:2539
+#: client/helpdata.c:2541
 msgid ""
 "  * Cargo cannot be loaded except in a city or a base native to this "
 "transport.\n"
 msgstr " ・ユニットは全て都市または適切な基地でのみ載せることができます。\n"
 
-#: client/helpdata.c:2547
+#: client/helpdata.c:2549
 msgid ""
 "  * Some cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
 msgstr " ・都市または適切な基地でのみ降ろすことのできるユニットがあります。\n"
 
-#: client/helpdata.c:2552
+#: client/helpdata.c:2554
 msgid ""
 "  * Cargo cannot be unloaded except in a city or a base native to this "
 "transport.\n"
 msgstr " ・ユニットは全て都市または適切な基地でのみ降ろすことができます。\n"
 
-#: client/helpdata.c:2559
+#: client/helpdata.c:2561
 msgid "* Must stay next to coast.\n"
 msgstr "・海岸線に接していなければなりません。\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2617
+#: client/helpdata.c:2619
 #, c-format
 msgid "* May load onto and unload from %s transports even when underway.\n"
 msgstr "・%sへ乗降することができる場所に制限はありません。\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2624
+#: client/helpdata.c:2626
 #, c-format
 msgid "* May load onto %s transports even when underway.\n"
 msgstr "・%sへ乗ることができる場所に制限はありません。\n"
 
 #. TRANS: %s is a list of unit classes separated
 #. * by "or".
-#: client/helpdata.c:2644
+#: client/helpdata.c:2646
 #, c-format
 msgid "* May unload from %s transports even when underway.\n"
 msgstr "・%sから降りることができる場所に制限はありません。\n"
 
-#: client/helpdata.c:2651
+#: client/helpdata.c:2653
 msgid "* Can establish trade routes (must travel to target city).\n"
 msgstr ""
 "・所属する都市から別の都市に移動させると，交易路を結ぶことができます。\n"
 
-#: client/helpdata.c:2655
+#: client/helpdata.c:2657
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "・不思議建設を手伝うことができます(シールド%dを加えます)。\n"
 
 # ntaka これでいいとは思うが
-#: client/helpdata.c:2659
+#: client/helpdata.c:2661
 msgid "* May not be disbanded.\n"
 msgstr "・解散することはありません。\n"
 
 # clefs
-#: client/helpdata.c:2663
+#: client/helpdata.c:2665
 #, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr "・都市で解散させると生産コストの50%を再利用できます。\n"
 
-#: client/helpdata.c:2668
+#: client/helpdata.c:2670
 #, c-format
 msgid "* Can build new cities (initial population %d).\n"
 msgid_plural "* Can build new cities (initial population %d).\n"
@@ -10627,100 +10627,100 @@ msgstr[0] "・新しい都市を建設することができます。最初の都
 
 # clefs XXX
 #. TRANS: Plural in "%d population", not "size %d".
-#: client/helpdata.c:2676
+#: client/helpdata.c:2678
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgid_plural "* Can add on %d population to cities of no more than size %d.\n"
 msgstr[0] "・大きさが%2$d以下の都市に編入すると人口が%1$d増加します。\n"
 
 #. TRANS: %s is list of extra types separated by ',' and 'and'
-#: client/helpdata.c:2697 client/helpdata.c:2743
+#: client/helpdata.c:2699 client/helpdata.c:2745
 #, c-format
 msgid "* Can build %s on tiles.\n"
 msgstr "・タイル上に%sを建設できます。\n"
 
-#: client/helpdata.c:2703
+#: client/helpdata.c:2705
 msgid "* Can build mines on tiles.\n"
 msgstr "・タイル上に鉱山を建設できます。\n"
 
-#: client/helpdata.c:2706
+#: client/helpdata.c:2708
 msgid "* Can convert terrain to another type by mining.\n"
 msgstr ""
 
-#: client/helpdata.c:2711
+#: client/helpdata.c:2713
 msgid "* Can build irrigation on tiles.\n"
 msgstr "・タイルの灌漑を行えます。\n"
 
-#: client/helpdata.c:2719
+#: client/helpdata.c:2721
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "・農地を建設できます（ただし科学技術「%s」が必要です）。\n"
 
 # clefs
 # Belgae
-#: client/helpdata.c:2723
+#: client/helpdata.c:2725
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "・農場を建設できます (もし以下のものが知られていれば: %s)。\n"
 
-#: client/helpdata.c:2729
+#: client/helpdata.c:2731
 msgid "* Can convert terrain to another type by irrigation.\n"
 msgstr ""
 
-#: client/helpdata.c:2733
+#: client/helpdata.c:2735
 #, fuzzy
 msgid "* Can transform terrain to another type.\n"
 msgstr "・タイルの地形改造ができます。\n"
 
-#: client/helpdata.c:2749
+#: client/helpdata.c:2751
 msgid "* Can clean pollution from tiles.\n"
 msgstr "・タイル上の公害を除去することができます。\n"
 
-#: client/helpdata.c:2750
+#: client/helpdata.c:2752
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "・タイル上の死の灰を除去することができます。\n"
 
-#: client/helpdata.c:2755
+#: client/helpdata.c:2757
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "・諜報および秘密工作が可能で，さらに高度なスパイ活動を行えます。\n"
 
-#: client/helpdata.c:2758
+#: client/helpdata.c:2760
 msgid "* Can perform diplomatic actions.\n"
 msgstr "・諜報および秘密工作が可能です。\n"
 
-#: client/helpdata.c:2763
+#: client/helpdata.c:2765
 msgid "* Defends cities against diplomatic actions.\n"
 msgstr "・他国による秘密工作を妨害することができます。\n"
 
 # いまいち (clefs)
-#: client/helpdata.c:2766
+#: client/helpdata.c:2768
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "・諜報戦で敗れることはありません。\n"
 
-#: client/helpdata.c:2770
+#: client/helpdata.c:2772
 msgid "* Will always survive a spy mission.\n"
 msgstr ""
 
-#: client/helpdata.c:2773
+#: client/helpdata.c:2775
 msgid "* May not be bribed.\n"
 msgstr "・買収されることはありません。\n"
 
-#: client/helpdata.c:2777
+#: client/helpdata.c:2779
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "・ステルスユニットです。都市やユニットに隣接しない限り視認できません。\n"
 
-#: client/helpdata.c:2781
+#: client/helpdata.c:2783
 msgid "* Can only attack units on native tiles.\n"
 msgstr "・自分が侵入できるタイル上にいる敵だけを攻撃できます。\n"
 
-#: client/helpdata.c:2786
+#: client/helpdata.c:2788
 msgid "* Can launch attack from non-native tiles.\n"
 msgstr ""
 "・都市内や，他のユニットに積載されているときなど，自分が侵入できないタイル上"
 "にいるときも敵ユニットを攻撃できます。\n"
 
-#: client/helpdata.c:2790
+#: client/helpdata.c:2792
 #, fuzzy, c-format
 msgid ""
 "* Can be paradropped from a friendly city or suitable base (range: %d "
@@ -10734,25 +10734,25 @@ msgstr[0] ""
 
 # ama, clefs
 # (修正前)msgstr "* ターンの終わりに攻撃します。\n"
-#: client/helpdata.c:2800
+#: client/helpdata.c:2802
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "・攻撃するとそのターンはそれ以上行動できません。\n"
 
-#: client/helpdata.c:2804
+#: client/helpdata.c:2806
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "・このユニットの攻撃は核爆発を引き起こします！\n"
 
-#: client/helpdata.c:2808
+#: client/helpdata.c:2810
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "・都市を攻撃するときは火力が2倍になります。\n"
 
-#: client/helpdata.c:2811
+#: client/helpdata.c:2813
 msgid "* Ignores the effects of city walls.\n"
 msgstr "・城壁の効果を無視します。\n"
 
 # clefs
 # 未実装のfeatureなのかな
-#: client/helpdata.c:2817
+#: client/helpdata.c:2819
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn). These attacks will only damage (never "
@@ -10764,46 +10764,46 @@ msgstr ""
 
 #. TRANS: "MP" = movement points. %s may have a
 #. * fractional part.
-#: client/helpdata.c:2827
+#: client/helpdata.c:2829
 #, c-format
 msgid "* Ignores terrain effects (moving costs at most %s MP per tile).\n"
 msgstr ""
 "・地形効果を無視します(1タイル移動するにあたり移動力を%sポイント消費しま"
 "す)。\n"
 
-#: client/helpdata.c:2832
+#: client/helpdata.c:2834
 msgid "* Ignores zones of control.\n"
 msgstr "・ZOCを無視します。\n"
 
-#: client/helpdata.c:2836
+#: client/helpdata.c:2838
 msgid "* A non-military unit:\n"
 msgstr "・非戦闘ユニットです。\n"
 
-#: client/helpdata.c:2838
+#: client/helpdata.c:2840
 msgid "  * Cannot attack.\n"
 msgstr "　・敵ユニットへの攻撃はできません。\n"
 
-#: client/helpdata.c:2840
+#: client/helpdata.c:2842
 msgid "  * Doesn't impose martial law.\n"
 msgstr "　・戒厳令を布くことはできません。\n"
 
-#: client/helpdata.c:2842
+#: client/helpdata.c:2844
 msgid "  * Can enter foreign territory regardless of peace treaty.\n"
 msgstr "　・平和条約に関係なく他国領内に侵入することができます。\n"
 
-#: client/helpdata.c:2848
+#: client/helpdata.c:2850
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "・フィールドユニットです。常に不幸市民を生み出します。\n"
 
-#: client/helpdata.c:2851
+#: client/helpdata.c:2853
 msgid "* Can capture some enemy units.\n"
 msgstr "・敵のユニットを捕獲することができます。\n"
 
-#: client/helpdata.c:2854
+#: client/helpdata.c:2856
 msgid "* Can be captured by some enemy units.\n"
 msgstr "・敵のユニットによって捕獲される可能性があります。\n"
 
-#: client/helpdata.c:2861
+#: client/helpdata.c:2863
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
@@ -10811,14 +10811,14 @@ msgstr ""
 "・特定の条件の下では，このユニットのシールド維持コストを金維持コストに変更で"
 "きます。\n"
 
-#: client/helpdata.c:2869
+#: client/helpdata.c:2871
 #, c-format
 msgid "* Can attack against %s units, which are usually not reachable.\n"
 msgstr ""
 "・ほとんどのユニットが射程外で攻撃できない %sユニットを攻撃することが可能で"
 "す。\n"
 
-#: client/helpdata.c:2886
+#: client/helpdata.c:2888
 #, c-format
 msgid "* Unit has to be in a city or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city or a base after %d turns.\n"
@@ -10826,7 +10826,7 @@ msgstr[0] ""
 "・%dターン経過する前に都市または適切な基地へ帰還しなければなりません。\n"
 
 #. TRANS: %s is a list of unit types separated by "or"
-#: client/helpdata.c:2897
+#: client/helpdata.c:2899
 #, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
@@ -10834,38 +10834,38 @@ msgstr[0] ""
 "・%2$dターン経過する前に都市，適切な基地，%1$sのいずれかへ帰還しなければなり"
 "ません。\n"
 
-#: client/helpdata.c:2909
+#: client/helpdata.c:2911
 msgid "* Will never achieve veteran status.\n"
 msgstr "・練度が上昇することはありません。\n"
 
-#: client/helpdata.c:2924
+#: client/helpdata.c:2926
 msgid "* May acquire veteran status.\n"
 msgstr "・練度が上がることがあります。\n"
 
-#: client/helpdata.c:2929
+#: client/helpdata.c:2931
 msgid "  * Veterans have increased strength in combat.\n"
 msgstr "　・練度が上がると戦闘においてより強力です。\n"
 
-#: client/helpdata.c:2936
+#: client/helpdata.c:2938
 msgid "  * Veterans have improved chances in diplomatic contests.\n"
 msgstr "　・練度が上がると諜報戦に勝利する確率が高くなります。\n"
 
-#: client/helpdata.c:2940
+#: client/helpdata.c:2942
 msgid "  * Veterans are more likely to survive missions.\n"
 msgstr ""
 "　・練度が上がると任務を終えた後，無事に帰還する可能性が高くなります。\n"
 
 # clefs
 # 政治体制「共産主義」の説明文です。%sは"Diplomat"に置換され，外交官およびスパイが対応することになりますが，これに対応する項目がないようです(Belgae)
-#: client/helpdata.c:2945
+#: client/helpdata.c:2947
 msgid "  * Veterans work faster.\n"
 msgstr "　・練度が上がるとより早く作業を終えます。\n"
 
-#: client/helpdata.c:2956
+#: client/helpdata.c:2958
 msgid "This type of unit has its own veteran levels:"
 msgstr "このユニットには固有の練度が設定されています。"
 
-#: client/helpdata.c:2998
+#: client/helpdata.c:3000
 #, c-format
 msgid "Starting now, researching %s would need %d bulb."
 msgid_plural "Starting now, researching %s would need %d bulbs."
@@ -10873,7 +10873,7 @@ msgstr[0] "「%s」の研究を完了するには，研究ポイントが%dpt必
 
 #. TRANS: appended to another sentence. Preserve the
 #. * leading space.
-#: client/helpdata.c:3010
+#: client/helpdata.c:3012
 #, c-format
 msgid " The whole project will require %d bulb to complete."
 msgid_plural " The whole project will require %d bulbs to complete."
@@ -10881,7 +10881,7 @@ msgstr[0] ""
 " それらも含め全ての研究を完了させるには，研究ポイントが %dpt必要です。"
 
 #. TRANS: last %s is a sentence pluralized separately.
-#: client/helpdata.c:3016
+#: client/helpdata.c:3018
 #, c-format
 msgid "To reach %s you need to obtain %d other technology first.%s"
 msgid_plural "To reach %s you need to obtain %d other technologies first.%s"
@@ -10890,45 +10890,45 @@ msgstr[0] ""
 "す。%s"
 
 # clefs
-#: client/helpdata.c:3025
+#: client/helpdata.c:3027
 msgid "You cannot research this technology."
 msgstr "この科学技術は研究できません。"
 
 #. TRANS: Appended to another sentence. Preserve the
 #. * leading space.
-#: client/helpdata.c:3032
+#: client/helpdata.c:3034
 msgid " This number may vary depending on what other players research.\n"
 msgstr ""
 "ただし他のプレイヤーが既に研究を終えている場合、この数値は減少することがあり"
 "ます。\n"
 
-#: client/helpdata.c:3050
+#: client/helpdata.c:3052
 msgid "* All players start the game with knowledge of this technology.\n"
 msgstr "・ゲーム開始時点で全てのプレイヤーが研究済みです。\n"
 
 #. TRANS: %s is a nation plural
-#: client/helpdata.c:3072
+#: client/helpdata.c:3074
 #, c-format
 msgid "* The %s start the game with knowledge of this technology.\n"
 msgstr "・%sはゲーム開始時点で既にこれを研究済みです。\n"
 
-#: client/helpdata.c:3081
+#: client/helpdata.c:3083
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "・最初に「%s」を発見したプレイヤーは，即座にもう1つ科学技術を得ます。\n"
 
-#: client/helpdata.c:3093
+#: client/helpdata.c:3095
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "・過密によって引き起こされる都市公害が増加します。\n"
 
 #. TRANS: %s is list of units separated by "and".
-#: client/helpdata.c:3100
+#: client/helpdata.c:3102
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "・%sで灌漑済みのタイルに農地を建設できるようになります。\n"
 
-#: client/helpdata.c:3121
+#: client/helpdata.c:3123
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
@@ -10936,50 +10936,50 @@ msgstr ""
 "・この研究成果を途絶させることなく継承し続けてゆくためには，毎ターンいくらか"
 "の研究ポイントが必要です。\n"
 
-#: client/helpdata.c:3160
+#: client/helpdata.c:3162
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "・この地形には公害は発生しません。"
 
-#: client/helpdata.c:3163
+#: client/helpdata.c:3165
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "・この地形には死の灰は発生しません。"
 
-#: client/helpdata.c:3168
+#: client/helpdata.c:3170
 msgid "* You cannot build cities on this terrain."
 msgstr "・この地形に都市は建設できません。"
 
-#: client/helpdata.c:3176
+#: client/helpdata.c:3178
 msgid "* Paths cannot be built on this terrain."
 msgstr "・この地形に交通路は敷設できません。"
 
-#: client/helpdata.c:3187
+#: client/helpdata.c:3189
 msgid "* Bases cannot be built on this terrain."
 msgstr "・この地形に基地は建設できません。"
 
 # clefs
 # まだ存在しないが，将来導入されるらしい
-#: client/helpdata.c:3196
+#: client/helpdata.c:3198
 msgid "* The coastline of this terrain is unsafe."
 msgstr "・この地形の海岸線は危険です。"
 
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3213 client/helpdata.c:3506
+#: client/helpdata.c:3215 client/helpdata.c:3514
 #, c-format
 msgid "* Can be traveled by %s units.\n"
 msgstr "・%sユニットが侵入できます。\n"
 
-#: client/helpdata.c:3330 client/helpdata.c:3482
+#: client/helpdata.c:3336 client/helpdata.c:3491
 msgid "Requirements to build:\n"
 msgstr "建設可能となる条件:\n"
 
 # clefs
 #. TRANS: %s is a list of unit classes separated by "and".
-#: client/helpdata.c:3354
+#: client/helpdata.c:3359
 #, c-format
 msgid "* Native to %s units.\n"
 msgstr "・%sユニットが侵入できます。\n"
 
-#: client/helpdata.c:3360 client/helpdata.c:3512
+#: client/helpdata.c:3365 client/helpdata.c:3520
 msgid ""
 "  * Such units can move onto this tile even if it would not normally be "
 "suitable terrain.\n"
@@ -10987,7 +10987,7 @@ msgstr ""
 "　・これらのユニットが通常は侵入できない地形であっても，侵入可能になりま"
 "す。\n"
 
-#: client/helpdata.c:3366
+#: client/helpdata.c:3371
 msgid ""
 "  * Such units situated here are not considered aggressive if this tile is "
 "within 3 tiles of a friendly city.\n"
@@ -10995,51 +10995,51 @@ msgstr ""
 "　・このタイルが友好的な都市から3タイル以内にある場合は，ここに駐留するユニッ"
 "トは不幸市民を発生させません。\n"
 
-#: client/helpdata.c:3371
+#: client/helpdata.c:3376
 msgid ""
 "  * Can be captured by such units if at war with the nation that currently "
 "owns it.\n"
 msgstr "　・戦時には，敵が所有している対象種ユニットにより占領可能です。\n"
 
-#: client/helpdata.c:3376 client/helpdata.c:3517
+#: client/helpdata.c:3381 client/helpdata.c:3525
 #, c-format
 msgid "  * Such units get a %d%% defense bonus on this tile.\n"
 msgstr ""
 "　・対象種ユニットがこのタイルにいる場合， %d%%の防御力ボーナスを得ます。\n"
 
-#: client/helpdata.c:3383
+#: client/helpdata.c:3388
 #, no-c-format
 msgid "  * Diplomatic units get a 25% defense bonus in diplomatic fights.\n"
 msgstr "　・諜報ユニットは諜報戦時に25%の防御力ボーナスを得ます。\n"
 
-#: client/helpdata.c:3391
+#: client/helpdata.c:3396
 msgid "* Cannot be built.\n"
 msgstr "・建設することはできません。\n"
 
-#: client/helpdata.c:3395 client/helpdata.c:3539
+#: client/helpdata.c:3400 client/helpdata.c:3547
 msgid "* Can be pillaged by units.\n"
 msgstr "・ユニットによる略奪が可能です。\n"
 
-#: client/helpdata.c:3400
+#: client/helpdata.c:3405
 msgid ""
 "* Defeat of one unit does not cause death of all other units on this tile.\n"
 msgstr ""
 "・あるユニットが撃破されても，このタイルにいる他のユニットと共に全滅すること"
 "はありません。\n"
 
-#: client/helpdata.c:3405
+#: client/helpdata.c:3410
 msgid "* Units can paradrop from this tile.\n"
 msgstr "・このタイルからユニットを落下傘降下させることができます。\n"
 
-#: client/helpdata.c:3409
+#: client/helpdata.c:3414
 msgid "* Extends national borders of the building nation.\n"
 msgstr "・建設した民族の国境線が拡大します。\n"
 
-#: client/helpdata.c:3413
+#: client/helpdata.c:3418
 msgid "* Grants permanent vision of an area around the tile to its owner.\n"
 msgstr "・このタイル周囲の領域が常に所有者の視界内になります。\n"
 
-#: client/helpdata.c:3418
+#: client/helpdata.c:3423
 msgid ""
 "* Allows the owner to see normally invisible units in an area around the "
 "tile.\n"
@@ -11047,7 +11047,7 @@ msgstr ""
 "・このタイルの所有者は，タイル周囲の領域にいる通常なら不可視のユニットを見る"
 "ことができます。\n"
 
-#: client/helpdata.c:3426 client/helpdata.c:3567
+#: client/helpdata.c:3431 client/helpdata.c:3575
 msgid ""
 "\n"
 "Time to build depends on terrain:\n"
@@ -11059,24 +11059,24 @@ msgstr ""
 #. * TRANS: Translators cannot change column widths :(
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3430 client/helpdata.c:3571
+#: client/helpdata.c:3435 client/helpdata.c:3579
 msgid ""
 "Terrain       Time\n"
 "------------------\n"
 msgstr ""
 
-#: client/helpdata.c:3526
+#: client/helpdata.c:3534
 msgid "* Allows infinite movement.\n"
 msgstr "・移動力を消費しないため，無限に移動できます。\n"
 
 #. TRANS: "MP" = movement points. Second %s may have a
 #. * fractional part.
-#: client/helpdata.c:3531
+#: client/helpdata.c:3539
 #, c-format
 msgid "* Movement cost along %s is %s MP.\n"
 msgstr "・%sの上を移動するとき，消費する移動力が%sptになります。\n"
 
-#: client/helpdata.c:3559
+#: client/helpdata.c:3567
 msgid ""
 "\n"
 "Time to build and output bonus depends on terrain:\n"
@@ -11088,7 +11088,7 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3563
+#: client/helpdata.c:3571
 msgid ""
 "Terrain       Time     Bonus F/P/T\n"
 "----------------------------------\n"
@@ -11098,14 +11098,14 @@ msgstr ""
 
 #. TRANS: Header for fixed-width road properties table.
 #. * TRANS: Translators cannot change column widths :(
-#: client/helpdata.c:3578
+#: client/helpdata.c:3586
 msgid ""
 "\n"
 "Yields an output bonus with some terrains:\n"
 "\n"
 msgstr ""
 
-#: client/helpdata.c:3580
+#: client/helpdata.c:3588
 #, fuzzy
 msgid ""
 "Terrain       Bonus F/P/T\n"
@@ -11114,16 +11114,16 @@ msgstr ""
 "地形          時間    ボーナス 食/生/交\n"
 "----------------------------------\n"
 
-#: client/helpdata.c:3684
+#: client/helpdata.c:3692
 msgid "Features:\n"
 msgstr "特徴:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:3801 client/helpdata.c:3802
+#: client/helpdata.c:3809 client/helpdata.c:3810
 msgid "?outputlist: Nothing "
 msgstr " なし "
 
-#: client/helpdata.c:3814
+#: client/helpdata.c:3822
 #, c-format
 msgid ""
 "* Military units away from home and field units will each cause %d citizen "
@@ -11135,14 +11135,14 @@ msgstr[0] ""
 "・都市外の戦闘ユニット，およびフィールドユニットはそれぞれ %d人の不幸市民を発"
 "生させます。\n"
 
-#: client/helpdata.c:3827
+#: client/helpdata.c:3835
 #, c-format
 msgid ""
 "* Unhappiness from foreign citizens due to war with their home state is %d%% "
 "the usual value.\n"
 msgstr "・敵国の国籍を持つ市民(敵国人)による不幸は，通常の%d%%になります。\n"
 
-#: client/helpdata.c:3833
+#: client/helpdata.c:3841
 msgid ""
 "* No unhappiness from foreign citizens even when at war with their home "
 "state.\n"
@@ -11150,7 +11150,7 @@ msgstr "・敵国の国籍を持つ市民(敵国人)による不幸はありま�
 
 #. TRANS: not pluralised as gettext doesn't support
 #. * fractional numbers, which this might be
-#: client/helpdata.c:3840
+#: client/helpdata.c:3848
 #, c-format
 msgid ""
 "* Each foreign citizen causes %.2g unhappiness in their city while you are "
@@ -11158,7 +11158,7 @@ msgid ""
 msgstr ""
 
 # clefs
-#: client/helpdata.c:3850
+#: client/helpdata.c:3858
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness caused by units.\n"
 msgid_plural ""
@@ -11166,7 +11166,7 @@ msgid_plural ""
 msgstr[0] "・各都市で，戦闘ユニットが原因の不幸市民は%d人だけ免除されます。\n"
 
 # clefs
-#: client/helpdata.c:3861
+#: client/helpdata.c:3869
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
@@ -11179,7 +11179,7 @@ msgstr[0] ""
 "みません）。\n"
 
 # clefs
-#: client/helpdata.c:3872
+#: client/helpdata.c:3880
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including that caused by "
@@ -11194,26 +11194,26 @@ msgstr[0] ""
 # Daniel
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3887
+#: client/helpdata.c:3895
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "・ユニット維持に%sの必要はありません。\n"
 
 # Daniel
-#: client/helpdata.c:3891
+#: client/helpdata.c:3899
 msgid "* You pay no upkeep for your units.\n"
 msgstr "・ユニット維持コストはありません。\n"
 
 # clefs
 #. TRANS: %s is the output type, like 'shield'
 #. * or 'gold'.
-#: client/helpdata.c:3899
+#: client/helpdata.c:3907
 #, c-format
 msgid "* You pay %.2g times normal %s upkeep for your units.\n"
 msgstr "・ユニット維持に必要な%2$sは通常の%1$.2g倍になります。\n"
 
 # clefs
-#: client/helpdata.c:3904
+#: client/helpdata.c:3912
 #, c-format
 msgid "* You pay %.2g times normal upkeep for your units.\n"
 msgstr "・ユニット維持コストは通常の%2g倍になります。\n"
@@ -11224,7 +11224,7 @@ msgstr "・ユニット維持コストは通常の%2g倍になります。\n"
 #. * 'gold'; pluralised in %d but there is currently
 #. * no way to control the singular/plural name of the
 #. * output type; sorry
-#: client/helpdata.c:3919
+#: client/helpdata.c:3927
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgid_plural ""
@@ -11234,14 +11234,14 @@ msgstr[0] "・各都市で，%2$s %1$dまでのユニット維持コストが免
 # clefs
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:3928
+#: client/helpdata.c:3936
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgid_plural ""
 "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr[0] "・各都市で， %dまでのユニット維持コストが免除されます。\n"
 
-#: client/helpdata.c:3939
+#: client/helpdata.c:3947
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgstr "・首都を占領または破壊された場合， %d%%の確率で内戦が勃発します。\n"
@@ -11249,7 +11249,7 @@ msgstr "・首都を占領または破壊された場合， %d%%の確率で内�
 # clefs
 # XXX
 # Belgae改訳
-#: client/helpdata.c:3947
+#: client/helpdata.c:3955
 #, c-format
 msgid ""
 "* You can have %d city before an additional unhappy citizen appears in each "
@@ -11262,7 +11262,7 @@ msgstr[0] ""
 
 # clefs
 # Belgae
-#: client/helpdata.c:3959
+#: client/helpdata.c:3967
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -11276,20 +11276,20 @@ msgstr[0] ""
 
 # clefs
 # Belgae
-#: client/helpdata.c:3973
+#: client/helpdata.c:3981
 #, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr "・税/贅沢/科学に投入できる交易ポイントの割合は，最大%d%%です。\n"
 
 # clefs
-#: client/helpdata.c:3978
+#: client/helpdata.c:3986
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "・税/贅沢/科学に投入できる交易ポイントの割合に制限はありません。\n"
 
 # clefs
 # Belgae
-#: client/helpdata.c:3985
+#: client/helpdata.c:3993
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -11302,31 +11302,31 @@ msgstr[0] ""
 "き %d人の不幸市民を強制的に平静にします。\n"
 
 # clefs
-#: client/helpdata.c:3998
+#: client/helpdata.c:4006
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] "・1都市につき最大%dユニットで戒厳令を布くことができます。\n"
 
 # clefs
-#: client/helpdata.c:4009
+#: client/helpdata.c:4017
 msgid "* You may grow your cities by means of celebrations."
 msgstr "・祝祭によって都市を成長させることができます。"
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4015
+#: client/helpdata.c:4023
 #, c-format
 msgid " (Cities below size %d cannot grow in this way.)"
 msgstr " （サイズ%d以下の都市はこの方法では成長させられません）"
 
 # clefs
-#: client/helpdata.c:4023
+#: client/helpdata.c:4031
 msgid "* Your units cannot be bribed.\n"
 msgstr "・各ユニットは他国による買収に決して応じません。\n"
 
 # clefs
-#: client/helpdata.c:4028
+#: client/helpdata.c:4036
 msgid "* Your cities cannot be incited to revolt.\n"
 msgstr "・各都市は叛乱を煽動されません。\n"
 
@@ -11334,7 +11334,7 @@ msgstr "・各都市は叛乱を煽動されません。\n"
 # 「政府は無政府」いやん
 # Belgae
 # 補いました。
-#: client/helpdata.c:4035
+#: client/helpdata.c:4043
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
 "will fall into anarchy.\n"
@@ -11344,18 +11344,18 @@ msgstr ""
 
 # clefs
 # was「上院が内戦の宣戦を防ぎ止めてくれるかもしれません。」senateは元老院の方が気分が出るのですが、日本では現在の各国議会は「上院」と呼ぶのが普通なので，民主主義の場合は違和感があるかもしれません。(Belgae)
-#: client/helpdata.c:4042
+#: client/helpdata.c:4050
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "・議会が条約破棄を承認しないことがあります。\n"
 
 # clefs
 # やや意訳
-#: client/helpdata.c:4048
+#: client/helpdata.c:4056
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "・都市が敵に占領された際にパルチザンの蜂起があるかもしれません。\n"
 
 # clefs
-#: client/helpdata.c:4055
+#: client/helpdata.c:4063
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
@@ -11363,36 +11363,36 @@ msgstr "・通常では不幸対策となる建造物は代わりに現金をも
 
 # clefs
 #. TRANS: %s is list of unit types separated by 'or'
-#: client/helpdata.c:4071
+#: client/helpdata.c:4079
 #, c-format
 msgid "* Pays no upkeep for %s.\n"
 msgstr "・%sの維持費が無償になります。\n"
 
 # clefs
-#: client/helpdata.c:4079
+#: client/helpdata.c:4087
 msgid "* Has no unhappy citizens.\n"
 msgstr "・不幸市民は存在しません。\n"
 
 #. TRANS: %s is a unit class
-#: client/helpdata.c:4104
+#: client/helpdata.c:4112
 #, c-format
 msgid "?unitclass:* New %s units will be veteran.\n"
 msgstr "・新たに生産された%sユニットがベテランになります。\n"
 
 #. TRANS: %s is a (translatable) unit type flag
-#: client/helpdata.c:4110
+#: client/helpdata.c:4118
 #, c-format
 msgid "?unitflag:* New %s units will be veteran.\n"
 msgstr "・新たに生産された%sユニットがベテランになります。\n"
 
 #. TRANS: "* New Partisan units will have the rank
 #. * of elite."
-#: client/helpdata.c:4122
+#: client/helpdata.c:4130
 #, c-format
 msgid "?unittype:* New %s units will have the rank of %s.\n"
 msgstr ""
 
-#: client/helpdata.c:4131
+#: client/helpdata.c:4139
 msgid "* New units will be veteran.\n"
 msgstr ""
 
@@ -11404,7 +11404,7 @@ msgstr ""
 #. TRANS: %s is list of output types, with 'or';
 #. * pluralised in %d but of course the output types
 #. * can't be pluralised; sorry
-#: client/helpdata.c:4141
+#: client/helpdata.c:4149
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty, "
@@ -11418,7 +11418,7 @@ msgstr[0] ""
 
 #. TRANS: Preserve leading space. %d should always be
 #. * 2 or greater.
-#: client/helpdata.c:4152 client/helpdata.c:4172
+#: client/helpdata.c:4160 client/helpdata.c:4180
 #, c-format
 msgid " (Cities below size %d will not celebrate.)"
 msgstr "（サイズ%d未満の都市で祝祭は催されません）"
@@ -11426,7 +11426,7 @@ msgstr "（サイズ%d未満の都市で祝祭は催されません）"
 # clefs
 # Belgae
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4161
+#: client/helpdata.c:4169
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while the "
@@ -11440,7 +11440,7 @@ msgstr[0] ""
 
 # clefs
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:4180
+#: client/helpdata.c:4188
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgid_plural ""
@@ -11451,7 +11451,7 @@ msgstr[0] ""
 
 # Daniel
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4191
+#: client/helpdata.c:4199
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "・%sの生産は%d%%増えます。\n"
@@ -11459,86 +11459,86 @@ msgstr "・%sの生産は%d%%増えます。\n"
 # clefs
 # 「交易の生産」とかになってしまうのだけれど、まあ仕方ないか
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4199
+#: client/helpdata.c:4207
 #, c-format
 msgid "* %s production will suffer massive losses.\n"
 msgstr "・%sポイントの産出量が大きく減少します。\n"
 
 # clefs
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4204
+#: client/helpdata.c:4212
 #, c-format
 msgid "* %s production will suffer some losses.\n"
 msgstr "・%sポイントの産出量がやや減少します。\n"
 
 # clefs
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4209
+#: client/helpdata.c:4217
 #, c-format
 msgid "* %s production will suffer a small amount of losses.\n"
 msgstr "・%sポイントの産出量がわずかに減少します。\n"
 
-#: client/helpdata.c:4218
+#: client/helpdata.c:4226
 msgid "* Increases the chance of plague within your cities.\n"
 msgstr "・その都市での疫病発生率が増加します。\n"
 
-#: client/helpdata.c:4221
+#: client/helpdata.c:4229
 msgid "* Decreases the chance of plague within your cities.\n"
 msgstr "・その都市での疫病発生率が減少します。\n"
 
 # clefs
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4231
+#: client/helpdata.c:4239
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
 msgstr "・%sポイントの産出量が首都からの距離に比例して急激に減少します。\n"
 
 # clefs
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4237
+#: client/helpdata.c:4245
 #, c-format
 msgid "* %s losses will increase with distance from capital.\n"
 msgstr "・%sポイントの産出量が首都からの距離に比例して減少します。\n"
 
 # clefs
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:4243
+#: client/helpdata.c:4251
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr "・%sポイントの産出量が首都からの距離に比例して少しずつ減少します。\n"
 
-#: client/helpdata.c:4252
+#: client/helpdata.c:4260
 msgid "* Increases the chance of migration into your cities.\n"
 msgstr "・他国からの移民が増加します。\n"
 
-#: client/helpdata.c:4255
+#: client/helpdata.c:4263
 msgid "* Decreases the chance of migration into your cities.\n"
 msgstr "・他国からの移民が減少します。\n"
 
-#: client/helpdata.c:4274
+#: client/helpdata.c:4282
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "・%sを生産することができます。\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
-#: client/helpdata.c:4302
+#: client/helpdata.c:4310
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
-#: client/helpdata.c:4310
+#: client/helpdata.c:4318
 #, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d 不幸"
 
-#: client/helpdata.c:4342
+#: client/helpdata.c:4350
 #, c-format
 msgid "Initial government is %s.\n"
 msgstr "ゲーム開始時の政治体制は%sです。\n"
 
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4359
+#: client/helpdata.c:4367
 #, c-format
 msgid ""
 "Starts with knowledge of %s in addition to the standard starting "
@@ -11547,7 +11547,7 @@ msgstr "ルールセットで指定された科学技術に加えて，既に「
 
 # yasu
 #. TRANS: %s is an and-separated list of techs
-#: client/helpdata.c:4364
+#: client/helpdata.c:4372
 #, c-format
 msgid "Starts with knowledge of %s.\n"
 msgstr "既に科学技術「%s」を研究済みです。\n"
@@ -11555,7 +11555,7 @@ msgstr "既に科学技術「%s」を研究済みです。\n"
 #. TRANS: a unit type followed by a count. For instance,
 #. * "Fighter (2)" means two Fighters. Count is never 1.
 #. * Used in a list.
-#: client/helpdata.c:4401
+#: client/helpdata.c:4409
 #, c-format
 msgid "%s (%d)"
 msgstr "%2$dユニットの%1$s"
@@ -11563,14 +11563,14 @@ msgstr "%2$dユニットの%1$s"
 #. TRANS: %s is an and-separated list of unit types
 #. * possibly with counts. Plurality is in total number of
 #. * units represented.
-#: client/helpdata.c:4421
+#: client/helpdata.c:4429
 #, c-format
 msgid "Starts with the following additional unit: %s.\n"
 msgid_plural "Starts with the following additional units: %s.\n"
 msgstr[0] "初期ユニットに加え%sが与えられます。\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4443
+#: client/helpdata.c:4451
 #, c-format
 msgid ""
 "First city will get %s for free in addition to the standard improvements.\n"
@@ -11579,7 +11579,7 @@ msgstr ""
 "す。\n"
 
 #. TRANS: %s is an and-separated list of improvements
-#: client/helpdata.c:4448
+#: client/helpdata.c:4456
 #, c-format
 msgid "First city will get %s for free.\n"
 msgstr ""
@@ -14174,23 +14174,23 @@ msgstr ""
 msgid "No graphics for base \"%s\" at all!"
 msgstr "・そのタイルに「%s」が無いことが必要です。\n"
 
-#: client/tilespec.c:3326
+#: client/tilespec.c:3322
 #, fuzzy, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr "load_gfxfile:グラフィックファイル %sをロードできません!"
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3361
+#: client/tilespec.c:3357
 #, fuzzy, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: client/tilespec.c:3621
+#: client/tilespec.c:3617
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr ""
 
-#: client/tilespec.c:4809
+#: client/tilespec.c:4805
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
@@ -14199,7 +14199,7 @@ msgstr ""
 "タイルセット \"%s\" は %dもの長距離のgotoパスをサポートしていません。パスが表"
 "示されないのは仕様です。"
 
-#: client/tilespec.c:5179
+#: client/tilespec.c:5175
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
@@ -14208,17 +14208,17 @@ msgstr ""
 "タイルセット \"%s\" は %dもの巨大な都市サイズをサポートしていません。サイズが"
 "表示されないのは仕様です。"
 
-#: client/tilespec.c:5254
+#: client/tilespec.c:5250
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr ""
 
-#: client/tilespec.c:5258
+#: client/tilespec.c:5254
 #, c-format
 msgid "City style \"%s\": no wall graphics."
 msgstr ""
 
-#: client/tilespec.c:5262
+#: client/tilespec.c:5258
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
