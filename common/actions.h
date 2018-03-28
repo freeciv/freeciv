@@ -481,7 +481,8 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
 
 bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
-                                    const struct tile *target_tile);
+                                    const struct tile *target_tile,
+                                    const struct extra_type *target_extra);
 
 bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                                     const struct unit *actor_unit);
@@ -500,7 +501,8 @@ struct act_prob action_prob_vs_units(const struct unit* actor,
 
 struct act_prob action_prob_vs_tile(const struct unit *actor,
                                     const int action_id,
-                                    const struct tile *victims);
+                                    const struct tile *victims,
+                                    const struct extra_type *target_extra);
 
 struct act_prob action_prob_self(const struct unit *actor,
                                  const int action_id);

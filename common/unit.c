@@ -346,7 +346,7 @@ bool unit_can_add_or_build_city(const struct unit *punit)
         ACTION_JOIN_CITY, tgt_city));
   } else {
     return action_prob_possible(action_prob_vs_tile(punit,
-        ACTION_FOUND_CITY, unit_tile(punit)));
+        ACTION_FOUND_CITY, unit_tile(punit), NULL));
   }
 }
 
@@ -881,7 +881,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       }
 
       return is_action_enabled_unit_on_tile(ACTION_MINE_TF,
-                                            punit, ptile);
+                                            punit, ptile, NULL);
     }
 
     if (target == NULL) {
@@ -912,7 +912,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       }
 
       return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
-                                            punit, ptile);
+                                            punit, ptile, NULL);
     }
 
     if (pterrain->irrigation_result != pterrain) {
@@ -1045,7 +1045,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_TRANSFORM:
     return is_action_enabled_unit_on_tile(ACTION_TRANSFORM_TERRAIN,
-                                          punit, ptile);
+                                          punit, ptile, NULL);
 
   case ACTIVITY_CONVERT:
     return unit_can_convert(punit);

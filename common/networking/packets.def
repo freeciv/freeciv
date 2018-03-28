@@ -1062,6 +1062,7 @@ end
 PACKET_UNIT_DO_ACTION = 84; cs, dsend
   UNIT actor_id;
   SINT32 target_id;   # city_id, unit_id or tile_id
+  EXTRA extra_id;
   ACTION_TGT value;
   ESTRING name[MAX_LEN_NAME];
   GEN_ACTION action_type;
@@ -1078,6 +1079,7 @@ PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
   UNIT actor_unit_id;
   UNIT target_unit_id;
   TILE target_tile_id;
+  EXTRA target_extra_id;
 
   BOOL disturb_player;
 end

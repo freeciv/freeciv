@@ -1530,7 +1530,7 @@ struct action *action_is_blocked_by(const int action_id,
         continue;
       }
       if (is_action_enabled_unit_on_tile(blocker_id,
-                                         actor_unit, target_tile)) {
+                                         actor_unit, target_tile, NULL)) {
         return action_by_number(blocker_id);
       }
       break;
@@ -1846,6 +1846,7 @@ is_action_possible(const enum gen_action wanted_action,
                    const struct unit_type *target_unittype,
                    const struct output_type *target_output,
                    const struct specialist *target_specialist,
+                   const struct extra_type *target_extra,
                    const bool omniscient,
                    const struct city *homecity,
                    bool ignore_dist)
@@ -2416,6 +2417,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist,
+                              const struct extra_type *target_extra,
                               const struct city *homecity, bool ignore_dist)
 {
   enum fc_tristate possible;
@@ -2429,6 +2431,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                                 target_building, target_tile,
                                 target_unit, target_unittype,
                                 target_output, target_specialist,
+                                target_extra,
                                 TRUE, homecity, ignore_dist);
 
   if (possible != TRI_YES) {
@@ -2525,7 +2528,7 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                            NULL, NULL,
                            city_owner(target_city), target_city,
                            target_building, city_tile(target_city),
-                           NULL, target_utype, NULL, NULL, homecity,
+                           NULL, target_utype, NULL, NULL, NULL, homecity,
                            ignore_dist);
 }
 
@@ -2575,7 +2578,7 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL,
+                           NULL, NULL, NULL,
                            game_city_by_number(actor_unit->homecity),
                            FALSE);
 }
@@ -2631,7 +2634,7 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL, homecity, FALSE)) {
+                           NULL, NULL, NULL, homecity, FALSE)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
     }
@@ -2649,7 +2652,8 @@ bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
 **************************************************************************/
 bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
-                                    const struct tile *target_tile)
+                                    const struct tile *target_tile,
+                                    const struct extra_type *target_extra)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
 
@@ -2685,6 +2689,7 @@ bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
                            target_tile, NULL, NULL, NULL, NULL,
+                           target_extra,
                            game_city_by_number(actor_unit->homecity),
                            FALSE);
 }
@@ -2731,7 +2736,7 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                            NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
-                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                           NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                            game_city_by_number(actor_unit->homecity), FALSE);
 }
 
@@ -3014,7 +3019,8 @@ action_prob(const enum gen_action wanted_action,
             const struct unit *target_unit,
             const struct unit_type *target_unittype_p,
             const struct output_type *target_output,
-            const struct specialist *target_specialist)
+            const struct specialist *target_specialist,
+            const struct extra_type *target_extra)
 {
   int known;
   struct act_prob chance;
@@ -3049,6 +3055,7 @@ action_prob(const enum gen_action wanted_action,
                              target_building, target_tile,
                              target_unit, target_unittype,
                              target_output, target_specialist,
+                             target_extra,
                              FALSE, homecity, FALSE);
 
   if (known == TRI_NO) {
@@ -3346,7 +3353,7 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
                      NULL, NULL,
                      city_owner(target_city), target_city,
                      target_building, city_tile(target_city),
-                     NULL, target_utype, NULL, NULL);
+                     NULL, target_utype, NULL, NULL, NULL);
 }
 
 /**********************************************************************//**
@@ -3401,7 +3408,7 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
                      unit_owner(target_unit),
                      tile_city(unit_tile(target_unit)), NULL,
                      unit_tile(target_unit),
-                     target_unit, NULL, NULL, NULL);
+                     target_unit, NULL, NULL, NULL, NULL);
 }
 
 /**********************************************************************//**
@@ -3522,7 +3529,7 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
                             unit_owner(target_unit),
                             tile_city(unit_tile(target_unit)), NULL,
                             unit_tile(target_unit),
-                            target_unit, NULL,
+                            target_unit, NULL, NULL,
                             NULL, NULL);
 
     if (!action_prob_possible(prob_unit)) {
@@ -3557,9 +3564,10 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
   Get the actor unit's probability of successfully performing the chosen
   action on the target tile.
 **************************************************************************/
-struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
+struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
                                     const int action_id,
-                                    const struct tile* target_tile)
+                                    const struct tile *target_tile,
+                                    const struct extra_type *target_extra)
 {
   struct tile *actor_tile = unit_tile(actor_unit);
 
@@ -3603,7 +3611,7 @@ struct act_prob action_prob_vs_tile(const struct unit* actor_unit,
                      NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
                      tile_owner(target_tile), NULL, NULL,
-                     target_tile, NULL, NULL, NULL, NULL);
+                     target_tile, NULL, NULL, NULL, NULL, target_extra);
 }
 
 /**********************************************************************//**
@@ -3647,7 +3655,8 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
-                     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+                     NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                     NULL);
 }
 
 /**********************************************************************//**

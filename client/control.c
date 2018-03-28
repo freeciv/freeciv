@@ -356,6 +356,7 @@ static void ask_server_for_actions(struct unit *punit)
                                 punit->id,
                                 IDENTITY_NUMBER_ZERO,
                                 tile_index(punit->action_decision_tile),
+                                EXTRA_NONE,
                                 TRUE);
 }
 
@@ -1639,7 +1640,7 @@ void request_do_action(enum gen_action action, int actor_id,
                        int target_id, int value, const char *name)
 {
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, value, name,
+                              actor_id, target_id, EXTRA_NONE, value, name,
                               action);
 }
 
@@ -1869,7 +1870,7 @@ static void do_disband_alternative(void *p)
     break;
   case ATK_TILE:
     if ((ptile = unit_tile(punit))
-        && action_prob_possible(action_prob_vs_tile(punit, act, ptile))) {
+        && action_prob_possible(action_prob_vs_tile(punit, act, ptile, NULL))) {
       request_do_action(act, punit->id, ptile->index, 0, "");
     }
     break;

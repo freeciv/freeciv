@@ -1532,11 +1532,13 @@ void choice_dialog::switch_target()
   if (targeted_unit == nullptr) {
     return;
   }
+
   unit_skip->setParent(nullptr);
   dsend_packet_unit_get_actions(&client.conn,
                                 unit_id,
                                 targeted_unit->id,
                                 targeted_unit->tile->index,
+                                EXTRA_NONE,
                                 TRUE);
   layout->addLayout(unit_skip);
 }

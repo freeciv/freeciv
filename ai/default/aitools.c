@@ -786,8 +786,8 @@ bool dai_unit_make_homecity(struct unit *punit, struct city *pcity)
   }
   if (pcity->surplus[O_SHIELD] >= unit_type_get(punit)->upkeep[O_SHIELD]
       && pcity->surplus[O_FOOD] >= unit_type_get(punit)->upkeep[O_FOOD]) {
-    handle_unit_do_action(unit_owner(punit), punit->id, pcity->id,
-                          0, "", ACTION_HOME_CITY);
+    unit_do_action(unit_owner(punit), punit->id, pcity->id, EXTRA_NONE,
+                   0, "", ACTION_HOME_CITY);
     return TRUE;
   }
   return FALSE;
@@ -849,29 +849,29 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
   if (is_action_enabled_unit_on_units(ACTION_CAPTURE_UNITS,
                                       punit, ptile)) {
     /* Choose capture. */
-    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                          0, "", ACTION_CAPTURE_UNITS);
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   EXTRA_NONE, 0, "", ACTION_CAPTURE_UNITS);
   } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
                                         punit, ptile)) {
     /* Choose bombard. */
-    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                          0, "", ACTION_BOMBARD);
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   EXTRA_NONE, 0, "", ACTION_BOMBARD);
   } else if (is_action_enabled_unit_on_tile(ACTION_NUKE,
-                                       punit, ptile)) {
+                                            punit, ptile, NULL)) {
     /* Choose explode nuclear. */
-    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                          0, "", ACTION_NUKE);
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   EXTRA_NONE, 0, "", ACTION_NUKE);
   } else if (is_action_enabled_unit_on_units(ACTION_ATTACK,
                                              punit, ptile)) {
     /* Choose regular attack. */
-    handle_unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                          0, "", ACTION_ATTACK);
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   EXTRA_NONE, 0, "", ACTION_ATTACK);
   } else if ((tcity = tile_city(ptile))
              && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
                                                punit, tcity)) {
     /* Choose "Conquer City". */
-    handle_unit_do_action(unit_owner(punit), punit->id, tcity->id,
-                          0, "", ACTION_CONQUER_CITY);
+    unit_do_action(unit_owner(punit), punit->id, tcity->id,
+                   EXTRA_NONE, 0, "", ACTION_CONQUER_CITY);
   } else {
     /* Other move. */
     (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);

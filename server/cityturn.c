@@ -684,7 +684,7 @@ static bool upkeep_kill_unit(struct unit *punit, Output_type_id outp,
   /* Try to perform this unit's can't upkeep actions. */
   action_auto_perf_unit_do(AAPC_UNIT_UPKEEP, punit,
                            NULL, get_output_type(outp),
-                           NULL, NULL, NULL);
+                           NULL, NULL, NULL, NULL);
 
   if (wipe_in_the_end && unit_is_alive(punit_id)) {
     /* No forced action was able to kill the unit. Finish the job. */

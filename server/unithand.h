@@ -105,9 +105,18 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool igzoc, bool move_diplomat_city,
                         struct unit *embark_to);
 
+void unit_do_action(struct player *pplayer,
+                    const int actor_id,
+                    const int target_id,
+                    const int extra_id,
+                    const int value,
+                    const char *name,
+                    const enum gen_action action_type);
+
 bool unit_perform_action(struct player *pplayer,
                          const int actor_id,
                          const int target_id,
+                         const int extra_id,
                          const int value,
                          const char *name,
                          const enum gen_action action_type,

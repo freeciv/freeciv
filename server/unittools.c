@@ -3126,7 +3126,7 @@ static bool unit_survive_autoattack(struct unit *punit)
           action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
                                      penemy, unit_owner(punit), NULL,
                                      tgt_tile, tile_city(tgt_tile),
-                                     punit);
+                                     punit, NULL);
 
       if (action_prob_possible(probability->prob)) {
         probability->unit_id = penemy->id;
@@ -3168,7 +3168,7 @@ static bool unit_survive_autoattack(struct unit *punit)
         action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
                                    penemy, unit_owner(punit), NULL,
                                    tgt_tile, tile_city(tgt_tile),
-                                   punit);
+                                   punit, NULL);
 
     if (!action_prob_possible(peprob->prob)) {
       /* No longer legal. */
@@ -3192,7 +3192,7 @@ static bool unit_survive_autoattack(struct unit *punit)
       unit_activity_handling(penemy, ACTIVITY_IDLE);
       action_auto_perf_unit_do(AAPC_UNIT_MOVED_ADJ,
                                penemy, unit_owner(punit), NULL,
-                               tgt_tile, tile_city(tgt_tile), punit);
+                               tgt_tile, tile_city(tgt_tile), punit, NULL);
     } else {
 #ifdef REALLY_DEBUG_THIS
       log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
@@ -4353,7 +4353,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         break;
       case ATK_TILE:
         prob = action_prob_vs_tile(punit, order.action,
-                                   dst_tile);
+                                   dst_tile, NULL);
         tgt_id = dst_tile->index;
         break;
       case ATK_CITY:
@@ -4412,6 +4412,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
                                       unitid,
                                       tgt_id,
                                       order.target,
+                                      EXTRA_NONE,
                                       name,
                                       order.action,
                                       ACT_REQ_PLAYER);

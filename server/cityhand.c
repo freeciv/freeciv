@@ -64,7 +64,7 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
   }
 
   if (action_prob_possible(action_prob_vs_tile(punit, ACTION_FOUND_CITY,
-                                               unit_tile(punit)))) {
+                                               unit_tile(punit), NULL))) {
     log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
                 TILE_XY(unit_tile(punit)));
     dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,

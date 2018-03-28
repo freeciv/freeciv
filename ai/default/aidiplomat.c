@@ -388,8 +388,8 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
     log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",             \
              nation_rule_name(nation_of_unit(punit)),                      \
              unit_rule_name(punit), punit->id, city_name_get(ctarget));    \
-    handle_unit_do_action(pplayer, punit->id,                              \
-                          ctarget->id, my_val, "", my_act);                \
+    unit_do_action(pplayer, punit->id,                                     \
+                   EXTRA_NONE, ctarget->id, my_val, "", my_act);           \
     return;                                                                \
   }
 
@@ -779,9 +779,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     if (action_prob_possible(action_prob_vs_unit(punit,
                                  ACTION_SPY_BRIBE_UNIT,
                                  pvictim))) {
-      handle_unit_do_action(pplayer, punit->id,
-                            pvictim->id, -1, "",
-                            ACTION_SPY_BRIBE_UNIT);
+      unit_do_action(pplayer, punit->id,
+                     pvictim->id, EXTRA_NONE, -1, "",
+                     ACTION_SPY_BRIBE_UNIT);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;
@@ -793,9 +793,9 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
                                         pvictim))
                && threat) {
       /* don't stand around waiting for the final blow */
-      handle_unit_do_action(pplayer, punit->id,
-                            pvictim->id, -1, "",
-                            ACTION_SPY_SABOTAGE_UNIT_ESC);
+      unit_do_action(pplayer, punit->id,
+                     pvictim->id, EXTRA_NONE, -1, "",
+                     ACTION_SPY_SABOTAGE_UNIT_ESC);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
         return TRUE;

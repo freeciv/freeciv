@@ -1251,9 +1251,9 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
               player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
-  handle_unit_do_action(pplayer, punit->id, ptile->index,
-                        0, city_name_suggestion(pplayer, ptile),
-                        ACTION_FOUND_CITY);
+  unit_do_action(pplayer, punit->id, ptile->index, EXTRA_NONE,
+                 0, city_name_suggestion(pplayer, ptile),
+                 ACTION_FOUND_CITY);
   pcity = tile_city(ptile);
   if (!pcity && punit) {
     enum ane_kind reason = action_not_enabled_reason(punit,

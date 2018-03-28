@@ -882,6 +882,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                   action_selection_actor_unit(),
                                   action_selection_target_unit(),
                                   city_tile(pcity)->index,
+                                  EXTRA_NONE,
                                   FALSE);
   }
 
@@ -2585,6 +2586,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
                                     action_selection_actor_unit(),
                                     action_selection_target_unit(),
                                     tgt_tile->index,
+                                    MAX_EXTRA_TYPES,
                                     FALSE);
     }
   }

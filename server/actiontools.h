@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2015 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,6 +57,7 @@ struct tile *action_tgt_tile_units(struct unit *actor,
 
 struct tile *action_tgt_tile(struct unit *actor,
                              struct tile *target_tile,
+                             const struct extra_type *target_extra,
                              bool accept_all_actions);
 
 const struct action_auto_perf *
@@ -72,7 +73,8 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          const struct output_type *output,
                          const struct tile *target_tile,
                          const struct city *target_city,
-                         const struct unit *target_unit);
+                         const struct unit *target_unit,
+                         const struct extra_type *target_extra);
 
 struct act_prob
 action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
@@ -81,6 +83,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            const struct output_type *output,
                            const struct tile *target_tile,
                            const struct city *target_city,
-                           const struct unit *target_unit);
+                           const struct unit *target_unit,
+                           const struct extra_type *target_extra);
 
 #endif /* FC__ACTIONTOOLS_H */

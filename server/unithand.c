@@ -175,7 +175,8 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
       struct city *pcity = tile_city(unit_tile(punit));
 
       if (is_action_enabled_unit_on_city(ACTION_UPGRADE_UNIT, punit, pcity)
-          && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
+          && unit_perform_action(pplayer, punit->id, pcity->id, EXTRA_NONE,
+                                 0, "",
                                  ACTION_UPGRADE_UNIT, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
       } else if (UU_NO_MONEY == unit_upgrade_test(punit, FALSE)) {
@@ -1468,16 +1469,16 @@ void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
                              const int target_unit_id_client,
                              const int target_tile_id,
+                             const int target_extra_id,
                              const bool disturb_player)
 {
   struct player *actor_player;
   struct unit *actor_unit;
   struct tile *target_tile;
   struct act_prob probabilities[MAX_NUM_ACTIONS];
-
   struct unit *target_unit;
   struct city *target_city;
-
+  struct extra_type *target_extra;
   int actor_target_distance;
   const struct player_tile *plrtile;
 
@@ -1492,6 +1493,11 @@ void handle_unit_get_actions(struct connection *pc,
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(&(wld.map), target_tile_id);
+  if (target_extra_id != EXTRA_NONE) {
+    target_extra = extra_by_number(target_extra_id);
+  } else {
+    target_extra = NULL;
+  }
 
   /* Initialize the action probabilities. */
   action_iterate(act) {
@@ -1605,7 +1611,7 @@ void handle_unit_get_actions(struct connection *pc,
       if (target_tile) {
         /* Calculate the probabilities. */
         probabilities[act] = action_prob_vs_tile(actor_unit, act,
-                                                 target_tile);
+                                                 target_tile, target_extra);
       } else {
         /* No target to act against. */
         probabilities[act] = ACTPROB_IMPOSSIBLE;
@@ -2224,14 +2230,29 @@ void handle_unit_action_query(struct connection *pc,
   action_type must be a valid action.
 **************************************************************************/
 void handle_unit_do_action(struct player *pplayer,
-			   const int actor_id,
-			   const int target_id,
-			   const int value,
-                           const char *name,
-                           const enum gen_action action_type)
+                           const struct packet_unit_do_action *packet)
 {
-  (void) unit_perform_action(pplayer, actor_id, target_id, value, name,
-                             action_type, ACT_REQ_PLAYER);
+  (void) unit_perform_action(pplayer, packet->actor_id, packet->target_id,
+                             packet->extra_id,
+                             packet->value, packet->name,
+                             packet->action_type, ACT_REQ_PLAYER);
+}
+
+/**********************************************************************//**
+  Handle unit action
+
+  action_type must be a valid action.
+**************************************************************************/
+void unit_do_action(struct player *pplayer,
+                    const int actor_id,
+                    const int target_id,
+                    const int extra_id,
+                    const int value,
+                    const char *name,
+                    const enum gen_action action_type)
+{
+  unit_perform_action(pplayer, actor_id, target_id, extra_id,
+                      value, name, action_type, ACT_REQ_PLAYER);
 }
 
 /**********************************************************************//**
@@ -2246,6 +2267,7 @@ void handle_unit_do_action(struct player *pplayer,
 bool unit_perform_action(struct player *pplayer,
                          const int actor_id,
                          const int target_id,
+                         const int extra_id,
                          const int value,
                          const char *name,
                          const enum gen_action action_type,
@@ -2254,6 +2276,7 @@ bool unit_perform_action(struct player *pplayer,
   struct action *paction;
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = index_to_tile(&(wld.map), target_id);
+  struct extra_type *target_extra;
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
   struct extra_type *tgt = NULL;
@@ -2264,6 +2287,12 @@ bool unit_perform_action(struct player *pplayer,
               action_type);
 
     return FALSE;
+  }
+
+  if (extra_id != EXTRA_NONE) {
+    target_extra = extra_by_number(extra_id);
+  } else {
+    target_extra = NULL;
   }
 
   paction = action_by_number(action_type);
@@ -2392,7 +2421,8 @@ bool unit_perform_action(struct player *pplayer,
 #define ACTION_STARTED_UNIT_TILE(action, actor, target, action_performer) \
   if (target_tile                                                         \
       && is_action_enabled_unit_on_tile(action_type,                      \
-                                        actor_unit, target_tile)) {       \
+                                        actor_unit, target_tile,          \
+                                        target_extra)) {                  \
     bool success;                                                         \
     script_server_signal_emit("action_started_unit_tile", 3,              \
                               API_TYPE_ACTION, action_by_number(action),  \
@@ -3580,7 +3610,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
          && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
                                            punit, pcity)
          && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
-                                0, "", ACTION_CONQUER_CITY, ACT_REQ_RULES))
+                                EXTRA_NONE, 0, "",
+                                ACTION_CONQUER_CITY, ACT_REQ_RULES))
         || (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
@@ -3767,7 +3798,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
                                                      igzoc, FALSE);
-    struct tile *ttile = action_tgt_tile(punit, pdesttile, can_not_move);
+    struct tile *ttile = action_tgt_tile(punit, pdesttile, NULL, can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target

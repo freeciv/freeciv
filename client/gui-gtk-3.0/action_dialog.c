@@ -1518,12 +1518,14 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
                                        * unit. */
                                       IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
+                                      EXTRA_NONE,
                                       TRUE);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
                                       actor->id,
                                       tgt_id,
                                       tgt_tile->index,
+                                      EXTRA_NONE,
                                       TRUE);
       }
     }

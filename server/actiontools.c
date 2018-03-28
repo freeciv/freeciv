@@ -750,6 +750,7 @@ struct tile *action_tgt_tile_units(struct unit *actor,
 **************************************************************************/
 struct tile *action_tgt_tile(struct unit *actor,
                              struct tile *target,
+                             const struct extra_type *target_extra,
                              bool accept_all_actions)
 {
   if (actor == NULL || target == NULL) {
@@ -769,7 +770,8 @@ struct tile *action_tgt_tile(struct unit *actor,
       continue;
     }
 
-    if (action_prob_possible(action_prob_vs_tile(actor, act, target))) {
+    if (action_prob_possible(action_prob_vs_tile(actor, act, target,
+                                                 target_extra))) {
       /* The actor unit may be able to do this action to the target
        * tile. */
       return target;
@@ -805,12 +807,13 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
   return NULL;
 }
 
-#define action_auto_perf_acquire_targets                                   \
+#define action_auto_perf_acquire_targets(_target_extra_)                   \
   tgt_city = (target_city ? target_city                                    \
                           : action_tgt_city(actor, unit_tile(actor),       \
                                             TRUE));                        \
   tgt_tile = (target_tile ? target_tile                                    \
                           : action_tgt_tile(actor, unit_tile(actor),       \
+                                            _target_extra_,                \
                                             TRUE));                        \
   tgt_unit = (target_unit ? target_unit                                    \
                           : action_tgt_unit(actor, unit_tile(actor),       \
@@ -834,7 +837,8 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          const struct output_type *output,
                          const struct tile *target_tile,
                          const struct city *target_city,
-                         const struct unit *target_unit)
+                         const struct unit *target_unit,
+                         const struct extra_type *target_extra)
 {
   int actor_id;
 
@@ -854,15 +858,15 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   actor_id = actor->id;
 
   /* Acquire the targets. */
-  action_auto_perf_acquire_targets;
+  action_auto_perf_acquire_targets(target_extra);
 
   action_auto_perf_actions_iterate(autoperf, act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT) {
       /* This action can be done by units. */
 
-#define perform_action_to(act, actor, tgtid)                              \
+#define perform_action_to(act, actor, tgtid, tgt_extra)                   \
   if (unit_perform_action(unit_owner(actor),                              \
-                          actor->id, tgtid,                               \
+                          actor->id, tgtid, tgt_extra,                    \
                           0, NULL, act, ACT_REQ_RULES)) {                 \
     return action_by_number(act);                                         \
   }
@@ -871,31 +875,32 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
       case ATK_UNITS:
         if (tgt_units
             && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
-          perform_action_to(act, actor, tgt_units->index);
+          perform_action_to(act, actor, tgt_units->index, EXTRA_NONE);
         }
         break;
       case ATK_TILE:
         if (tgt_tile
-            && is_action_enabled_unit_on_tile(act, actor, tgt_tile)) {
-          perform_action_to(act, actor, tgt_tile->index);
+            && is_action_enabled_unit_on_tile(act, actor, tgt_tile,
+                                              target_extra)) {
+          perform_action_to(act, actor, tgt_tile->index, extra_number(target_extra));
         }
         break;
       case ATK_CITY:
         if (tgt_city
             && is_action_enabled_unit_on_city(act, actor, tgt_city)) {
-          perform_action_to(act, actor, tgt_city->id)
+          perform_action_to(act, actor, tgt_city->id, EXTRA_NONE)
         }
         break;
       case ATK_UNIT:
         if (tgt_unit
             && is_action_enabled_unit_on_unit(act, actor, tgt_unit)) {
-          perform_action_to(act, actor, tgt_unit->id);
+          perform_action_to(act, actor, tgt_unit->id, EXTRA_NONE);
         }
         break;
       case ATK_SELF:
         if (actor
             && is_action_enabled_unit_on_self(act, actor)) {
-          perform_action_to(act, actor, actor->id);
+          perform_action_to(act, actor, actor->id, EXTRA_NONE);
         }
         break;
       case ATK_COUNT:
@@ -923,7 +928,8 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            const struct output_type *output,
                            const struct tile *target_tile,
                            const struct city *target_city,
-                           const struct unit *target_unit)
+                           const struct unit *target_unit,
+                           const struct extra_type *target_extra)
 {
   struct act_prob out;
 
@@ -943,7 +949,7 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   out = ACTPROB_IMPOSSIBLE;
 
   /* Acquire the targets. */
-  action_auto_perf_acquire_targets;
+  action_auto_perf_acquire_targets(target_extra);
 
   action_auto_perf_actions_iterate(autoperf, act) {
     struct act_prob current = ACTPROB_IMPOSSIBLE;
@@ -960,8 +966,8 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
         break;
       case ATK_TILE:
         if (tgt_tile
-            && is_action_enabled_unit_on_tile(act, actor, tgt_tile)) {
-          current = action_prob_vs_tile(actor, act, tgt_tile);
+            && is_action_enabled_unit_on_tile(act, actor, tgt_tile, target_extra)) {
+          current = action_prob_vs_tile(actor, act, tgt_tile, target_extra);
         }
         break;
       case ATK_CITY:
