@@ -370,7 +370,7 @@ Actions done by a unit against a city
    unit. (No problem if the actor unit spends 0 city slots)
 
 "Upgrade Unit" - Upgrade the actor unit using the target's facilities.
- * UI name can be set using ui_upgrade_unit.
+ * UI name can be set using ui_name_upgrade_unit.
  * actor must be aware that the target exists
  * actor must be on the same tile as the target.
  * actor player must have enough gold to pay for the upgrade.
@@ -382,7 +382,7 @@ Actions done by a unit against a city
  * target city must be domestic. (!)
 
 "Airlift Unit" - Airlift actor unit to target city.
- * UI name can be set using ui_airlift_unit
+ * UI name can be set using ui_name_airlift_unit
  * actor must be aware that the target exists
  * the actor unit isn't transporting another unit (!)
  * the actor unit isn't inside the target city
@@ -511,7 +511,7 @@ Actions done by a unit against a tile
    - a unit at the target tile must be reachable unless it has a city
 
 "Paradrop Unit" - move the actor unit to the target tile.
- * UI name can be set using ui_paradrop_unit
+ * UI name can be set using ui_name_paradrop_unit
  * can result in the conquest of the city at the target tile if
    - the actor player isn't an animal barbarian.
    - the actor unit has the "CanOccupyCity" unit class flag

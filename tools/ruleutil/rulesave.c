@@ -1138,11 +1138,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_action_ui_name(sfile, ACTION_HOME_CITY,
                       "ui_name_home_city");
   save_action_ui_name(sfile, ACTION_UPGRADE_UNIT,
-                      "ui_upgrade_unit");
+                      "ui_name_upgrade_unit");
   save_action_ui_name(sfile, ACTION_PARADROP,
-                      "ui_paradrop_unit");
+                      "ui_name_paradrop_unit");
   save_action_ui_name(sfile, ACTION_AIRLIFT,
-                      "ui_airlift_unit");
+                      "ui_name_airlift_unit");
   save_action_ui_name(sfile, ACTION_ATTACK,
                       "ui_name_attack");
   save_action_ui_name(sfile, ACTION_CONQUER_CITY,
