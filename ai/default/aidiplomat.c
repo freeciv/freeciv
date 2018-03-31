@@ -389,7 +389,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
              nation_rule_name(nation_of_unit(punit)),                      \
              unit_rule_name(punit), punit->id, city_name_get(ctarget));    \
     unit_do_action(pplayer, punit->id,                                     \
-                   EXTRA_NONE, ctarget->id, my_val, "", my_act);           \
+                   ctarget->id, EXTRA_NONE, my_val, "", my_act);           \
     return;                                                                \
   }
 
