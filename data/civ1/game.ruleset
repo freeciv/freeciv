@@ -260,9 +260,6 @@ ui_name_explode_nuclear = _("Explode %sNuclear%s")
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
 
-; /* TRANS: _Upgrade Unit (100% chance of success). */
-ui_name_upgrade_unit = _("%sUpgrade Unit%s")
-
 ; /* TRANS: _Airlift to City (100% chance of success). */
 ui_name_airlift_unit = _("%sAirlift to City%s")
 
@@ -517,13 +514,6 @@ actor_reqs    =
       "UnitFlag",  "NoHome",      "Local", FALSE
       "UnitState", "HasHomeCity", "Local", TRUE
       "DiplRel",   "Is foreign",  "Local", FALSE
-    }
-
-[actionenabler_upgrade_unit]
-action = "Upgrade Unit"
-actor_reqs    =
-    { "type",    "name",       "range", "present"
-      "DiplRel", "Is foreign", "Local", FALSE
     }
 
 [actionenabler_airlift_unit]
