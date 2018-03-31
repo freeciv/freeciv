@@ -281,6 +281,9 @@ ui_name_irrigate_tf = _("Transform by %sIrrigate%s")
 ; /* TRANS: Transform by _Mine (3% chance of success). */
 ui_name_mine_tf = _("Transform by %sMine%s")
 
+; /* TRANS: Pilla_ge (100% chance of success). */
+ui_name_pillage = _("Pilla%sge%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -556,6 +559,13 @@ action        = "Mine TF"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
+[actionenabler_pillage]
+action        = "Pillage"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitClassFlag", "CanPillage",   "Local"
     }
 
 [borders]

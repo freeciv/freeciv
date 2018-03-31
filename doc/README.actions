@@ -539,6 +539,11 @@ Actions done by a unit against a tile
  * the actor unit has "Settlers" flag
  * terrain type must be one that can be transformed by mining
 
+"Pillage"           - Pillage extra from tile
+ * UI name can be set using ui_name_pillage
+ * the actor unit has "CanPillage" unit class flag
+ * terrain type must be one where pillaging is possible
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

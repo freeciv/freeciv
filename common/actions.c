@@ -553,6 +553,10 @@ static void hard_code_actions(void)
       action_new(ACTION_MINE_TF, ATK_TILE,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_PILLAGE] =
+      action_new(ACTION_PILLAGE, ATK_TILE,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1652,6 +1656,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_AIRLIFT:
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
+  case ACTION_PILLAGE:
     /* No hard unit type requirements. */
     break;
 
@@ -1797,6 +1802,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
+  case ACTION_PILLAGE:
     /* No hard unit type requirements. */
     break;
 
@@ -2327,6 +2333,72 @@ is_action_possible(const enum gen_action wanted_action,
         || (terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
             && tile_city(target_tile))) {
       return TRI_NO;
+    }
+    break;
+
+  case ACTION_PILLAGE:
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->pillage_time == 0) {
+      return TRI_NO;
+    }
+
+    {
+      bv_extras pspresent = get_tile_infrastructure_set(target_tile, NULL);
+      bv_extras psworking = get_unit_tile_pillage_set(target_tile);
+      bv_extras pspossible;
+
+      BV_CLR_ALL(pspossible);
+      extra_type_iterate(pextra) {
+        int idx = extra_index(pextra);
+
+        /* Only one unit can pillage a given improvement at a time */
+        if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)
+            && can_remove_extra(pextra, actor_unit, target_tile)) {
+          bool required = FALSE;
+
+          extra_type_iterate(pdepending) {
+            if (BV_ISSET(pspresent, extra_index(pdepending))) {
+              extra_deps_iterate(&(pdepending->reqs), pdep) {
+                if (pdep == pextra) {
+                  required = TRUE;
+                  break;
+                }
+              } extra_deps_iterate_end;
+            }
+            if (required) {
+              break;
+            }
+          } extra_type_iterate_end;
+
+          if (!required) {
+            BV_SET(pspossible, idx);
+          }
+        }
+      } extra_type_iterate_end;
+
+      if (!BV_ISSET_ANY(pspossible)) {
+        /* Nothing available to pillage */
+        return TRI_NO;
+      }
+
+      if (target_extra != NULL) {
+        if (!game.info.pillage_select) {
+          /* Hobson's choice (this case mostly exists for old clients) */
+          /* Needs to match what unit_activity_assign_target chooses */
+          struct extra_type *tgt;
+
+          tgt = get_preferred_pillage(pspossible);
+
+          if (tgt != target_extra) {
+            /* Only one target allowed, which wasn't the requested one */
+            return TRI_NO;
+          }
+        }
+
+        if (!BV_ISSET(pspossible, extra_index(target_extra))) {
+          return TRI_NO;
+        }
+      }
     }
     break;
 
@@ -3252,6 +3324,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
+  case ACTION_PILLAGE:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4279,8 +4352,11 @@ const char *action_ui_name_default(int act)
     /* TRANS: Transform by _Irrigate (3% chance of success). */
     return N_("Transform by %sIrrigate%s");
   case ACTION_MINE_TF:
-    /* TRANS: Transform %sMine (3% chance of success). */
+    /* TRANS: Transform by _Mine (3% chance of success). */
     return N_("Transform by %sMine%s");
+  case ACTION_PILLAGE:
+    /* TRANS: Pilla_ge (100% chance of success). */
+    return N_("Pilla%sge%s");
   }
 
   return NULL;

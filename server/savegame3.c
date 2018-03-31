@@ -5608,6 +5608,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
               order->target = order_tgt;
             }
             break;
+          case ACTION_PILLAGE:
+            /* Target is a tile, has also extra target */
+            order->target = order_tgt;
+            order->extra = order_extra;
+            break;
           case ACTION_ESTABLISH_EMBASSY:
           case ACTION_ESTABLISH_EMBASSY_STAY:
           case ACTION_SPY_INVESTIGATE_CITY:

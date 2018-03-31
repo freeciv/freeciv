@@ -969,76 +969,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_PILLAGE:
-    {
-      if (pterrain->pillage_time == 0) {
-        return FALSE;
-      }
-
-      if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
-        bv_extras pspresent = get_tile_infrastructure_set(ptile, NULL);
-        bv_extras psworking = get_unit_tile_pillage_set(ptile);
-
-        bv_extras pspossible;
-
-        BV_CLR_ALL(pspossible);
-        extra_type_iterate(pextra) {
-          int idx = extra_index(pextra);
-
-          /* Only one unit can pillage a given improvement at a time */
-          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)
-              && can_remove_extra(pextra, punit, ptile)) {
-            bool required = FALSE;
-
-            extra_type_iterate(pdepending) {
-              if (BV_ISSET(pspresent, extra_index(pdepending))) {
-                extra_deps_iterate(&(pdepending->reqs), pdep) {
-                  if (pdep == pextra) {
-                    required = TRUE;
-                    break;
-                  }
-                } extra_deps_iterate_end;
-              }
-              if (required) {
-                break;
-              }
-            } extra_type_iterate_end;
-
-            if (!required) {
-              BV_SET(pspossible, idx);
-            }
-          }
-        } extra_type_iterate_end;
-
-        if (!BV_ISSET_ANY(pspossible)) {
-          /* Nothing available to pillage */
-          return FALSE;
-        }
-
-        if (target == NULL) {
-          /* Undirected pillaging. If we've got this far, then there's
-           * *something* we can pillage; work out what when we come to it */
-          return TRUE;
-        } else {
-          if (!game.info.pillage_select) {
-            /* Hobson's choice (this case mostly exists for old clients) */
-            /* Needs to match what unit_activity_assign_target chooses */
-            struct extra_type *tgt;
-
-            tgt = get_preferred_pillage(pspossible);
-
-            if (tgt != target) {
-              /* Only one target allowed, which wasn't the requested one */
-              return FALSE;
-            }
-          }
-
-          return BV_ISSET(pspossible, extra_index(target));
-        }
-      } else {
-        /* Unit is not a type that can pillage at all */
-        return FALSE;
-      }
-    }
+    return is_action_enabled_unit_on_tile(ACTION_PILLAGE,
+                                          punit, ptile, target);
 
   case ACTIVITY_EXPLORE:
     return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));

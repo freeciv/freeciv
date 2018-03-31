@@ -141,6 +141,8 @@ extern "C" {
 #define SPECENUM_VALUE45NAME "Irrigate TF"
 #define SPECENUM_VALUE46 ACTION_MINE_TF
 #define SPECENUM_VALUE46NAME "Mine TF"
+#define SPECENUM_VALUE47 ACTION_PILLAGE
+#define SPECENUM_VALUE47NAME "Pillage"
 #define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */
