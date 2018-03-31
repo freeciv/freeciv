@@ -52,7 +52,7 @@ format_version=10
 name            = _("Culturists")
 short_name      = _("?Culturists:C")
 graphic         = "specialist.culturists"
-graphic_alt     = "specialist.entertainer_0"
+graphic_alt     = "specialist.entertainer"
 reqs            =
     { "type", "name", "range"
 ; No requirements
@@ -65,7 +65,7 @@ points per turn, four if Specialist Training tech is known.")
 name		= _("Scientists")
 short_name	= _("?Scientist:S")
 graphic         = "specialist.scientists"
-graphic_alt     = "specialist.scientist_0"
+graphic_alt     = "specialist.scientist"
 reqs		=
     { "type", "name", "range"
 ; Nothing
@@ -79,7 +79,7 @@ name		= _("Government Merchants")
 rule_name       = "Government_Merchants"
 short_name	= _("?Merchant:M")
 graphic         = "specialist.government_merchants"
-graphic_alt     = "specialist.taxman_0"
+graphic_alt     = "specialist.taxman"
 reqs		=
     { "type", "name", "range"
 ; Nothing
