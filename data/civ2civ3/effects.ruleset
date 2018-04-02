@@ -359,13 +359,9 @@ reqs    =
 type    = "Max_Trade_Routes"
 value   = 2
 
-[effect_conquer_techs_base]
-type    = "Conquer_Techs_Min"
-value   = 1
-
-[effect_conquer_techs_max]
-type    = "Conquer_Techs_Max"
-value   = 2
+[effect_conquest_tech]
+type    = "Conquest_Tech_Pct"
+value   = 100
 
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]

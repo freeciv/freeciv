@@ -1476,7 +1476,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
      /* Conquering a city now steals tech only when there's an effect
       * enabling it. */
-     peffect = effect_new(EFT_CONQUER_TECHS_MIN, 1, NULL);
+     peffect = effect_new(EFT_CONQUEST_TECH_PCT, 100, NULL);
   }
 
   if (info->ver_terrain < 10) {

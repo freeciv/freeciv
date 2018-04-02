@@ -359,10 +359,9 @@ reqs    =
 type    = "Max_Trade_Routes"
 value   = 2
 
-; Conquer_Techs_Min is always 0
-[effect_conquer_techs_random]
-type    = "Conquer_Techs_Max"
-value   = 1
+[effect_conquest_tech_random]
+type    = "Conquest_Tech_Pct"
+value   = 50
 reqs    =
     { "type", "name",       "range", "present"
       "Tech", "University", "Player", FALSE
