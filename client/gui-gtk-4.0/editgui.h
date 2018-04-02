@@ -36,10 +36,10 @@ struct editbar {
   GtkWidget *player_pov_combobox;
 };
 
-gboolean handle_edit_mouse_button_press(GdkEventButton *ev);
-gboolean handle_edit_mouse_button_release(GdkEventButton *ev);
-gboolean handle_edit_mouse_move(GdkEventMotion *ev);
-gboolean handle_edit_key_press(GdkEventKey *ev);
+gboolean handle_edit_mouse_button_press(GdkEvent *ev);
+gboolean handle_edit_mouse_button_release(GdkEvent *ev);
+gboolean handle_edit_mouse_move(GdkEvent *ev);
+gboolean handle_edit_key_press(GdkEvent *ev);
 gboolean handle_edit_key_release(GdkEventKey *ev);
 
 struct editinfobox {

@@ -69,7 +69,7 @@ static void luaconsole_dialog_area_size_allocate(GtkWidget *widget,
 static void luaconsole_dialog_scroll_to_bottom(void);
 
 static void luaconsole_input_return(GtkEntry *w, gpointer data);
-static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev);
+static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev);
 
 static void luaconsole_response_callback(struct gui_dialog *pgui_dialog,
                                          int response, gpointer data);
@@ -350,14 +350,16 @@ static void luaconsole_load_file_callback(GtkWidget *widget, gint response,
 /*************************************************************************//**
   Called when a key is pressed.
 *****************************************************************************/
-static gboolean luaconsole_input_handler(GtkWidget *w, GdkEventKey *ev)
+static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
 {
   struct luaconsole_data *pdialog = luaconsole_dialog_get();
+  guint keyval;
 
   fc_assert_ret_val(pdialog, FALSE);
   fc_assert_ret_val(pdialog->history_list, FALSE);
 
-  switch (ev->keyval) {
+  gdk_event_get_keyval(ev, &keyval);
+  switch (keyval) {
   case GDK_KEY_Up:
     if (pdialog->history_pos < genlist_size(pdialog->history_list) - 1) {
       gtk_entry_set_text(GTK_ENTRY(w), genlist_get(pdialog->history_list,

@@ -224,12 +224,12 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
 static void city_dialog_map_recenter(GtkWidget *map_canvas_sw);
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
-static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
-				 struct city_dialog *pdialog);
+static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
+                                 struct city_dialog *pdialog);
 
 static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
-    					 GtkWidget **info_ebox,
-					 GtkWidget **info_label);
+                                         GtkWidget **info_ebox,
+                                         GtkWidget **info_label);
 static void create_and_append_overview_page(struct city_dialog *pdialog);
 static void create_and_append_map_page(struct city_dialog *pdialog);
 static void create_and_append_buildings_page(struct city_dialog *pdialog);
@@ -256,23 +256,23 @@ static void city_dialog_update_prev_next(void);
 
 static void show_units_response(void *data);
 
-static gboolean supported_unit_callback(GtkWidget * w, GdkEventButton * ev,
-				        gpointer data);
-static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
-				      gpointer data);
-static gboolean supported_unit_middle_callback(GtkWidget * w,
-					       GdkEventButton * ev,
-					       gpointer data);
-static gboolean present_unit_middle_callback(GtkWidget * w,
-					     GdkEventButton * ev,
-					     gpointer data);
+static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
+                                        gpointer data);
+static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
+                                      gpointer data);
+static gboolean supported_unit_middle_callback(GtkWidget *w,
+                                               GdkEvent *ev,
+                                               gpointer data);
+static gboolean present_unit_middle_callback(GtkWidget *w,
+                                             GdkEvent *ev,
+                                             gpointer data);
 
-static void unit_center_callback(GtkWidget * w, gpointer data);
-static void unit_activate_callback(GtkWidget * w, gpointer data);
-static void supported_unit_activate_close_callback(GtkWidget * w,
-						   gpointer data);
-static void present_unit_activate_close_callback(GtkWidget * w,
-						 gpointer data);
+static void unit_center_callback(GtkWidget *w, gpointer data);
+static void unit_activate_callback(GtkWidget *w, gpointer data);
+static void supported_unit_activate_close_callback(GtkWidget *w,
+                                                   gpointer data);
+static void present_unit_activate_close_callback(GtkWidget *w,
+                                                 gpointer data);
 static void unit_load_callback(GtkWidget * w, gpointer data);
 static void unit_unload_callback(GtkWidget * w, gpointer data);
 static void unit_sentry_callback(GtkWidget * w, gpointer data);
@@ -281,10 +281,10 @@ static void unit_disband_callback(GtkWidget * w, gpointer data);
 static void unit_homecity_callback(GtkWidget * w, gpointer data);
 static void unit_upgrade_callback(GtkWidget * w, gpointer data);
 
-static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
-			      gpointer data);
-static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
-				    gpointer data);
+static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
+                                  gpointer data);
+static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
+                                    gpointer data);
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
@@ -606,11 +606,17 @@ void popdown_all_city_dialogs(void)
 /***********************************************************************//**
   Keyboard handler for city dialog
 ***************************************************************************/
-static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
+static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
                                  struct city_dialog *pdialog)
 {
-  if (event->state & GDK_CONTROL_MASK) {
-    switch (event->keyval) {
+  GdkModifierType state;
+
+  gdk_event_get_state(event, &state);
+  if (state & GDK_CONTROL_MASK) {
+    guint keyval;
+
+    gdk_event_get_keyval(event, &keyval);
+    switch (keyval) {
     case GDK_KEY_Left:
       gtk_notebook_prev_page(GTK_NOTEBOOK(pdialog->notebook));
       return TRUE;
@@ -630,11 +636,11 @@ static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
 /***********************************************************************//**
   Destroy info popup dialog when button released
 ***************************************************************************/
-static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
+static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev,
                                          gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
+  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
   gtk_widget_destroy(w);
 
   return FALSE;
@@ -648,15 +654,17 @@ enum { FIELD_FOOD, FIELD_SHIELD, FIELD_TRADE, FIELD_GOLD, FIELD_LUXURY,
 /***********************************************************************//**
   Popup info dialog
 ***************************************************************************/
-static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
-    				gpointer data)
+static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
+                                gpointer data)
 {
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
+  guint button;
 
-  if (ev->button == 1) {
+  gdk_event_get_button(ev, &button);
+  if (button == 1) {
     GtkWidget *p, *label, *frame;
     char buf[1024];
-    
+
     switch (GPOINTER_TO_UINT(data)) {
     case FIELD_FOOD:
       get_city_dialog_output_text(pdialog->pcity, O_FOOD, buf, sizeof(buf));
@@ -713,7 +721,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show(p);
 
-    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
+                  gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
@@ -721,6 +730,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     g_signal_connect_after(p, "button_release_event",
                            G_CALLBACK(show_info_button_release), NULL);
   }
+
   return TRUE;
 }
 
@@ -2387,7 +2397,7 @@ static void destroy_func(GtkWidget *w, gpointer data)
 /***********************************************************************//**
   Pop-up menu to change attributes of supported units
 ***************************************************************************/
-static gboolean supported_unit_callback(GtkWidget *w, GdkEventButton *ev,
+static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
                                         gpointer data)
 {
   GtkWidget *menu, *item;
@@ -2399,9 +2409,14 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEventButton *ev,
   if (NULL != punit
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))) {
+    guint button;
 
-    if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
-	|| !can_client_issue_orders()) {
+    if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
+      return FALSE;
+    }
+
+    gdk_event_get_button(ev, &button);
+    if (button == 2 || button == 3 || !can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2449,7 +2464,7 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEventButton *ev,
 /***********************************************************************//**
   Pop-up menu to change attributes of units, ex. change homecity.
 ***************************************************************************/
-static gboolean present_unit_callback(GtkWidget *w, GdkEventButton *ev,
+static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
                                       gpointer data)
 {
   GtkWidget *menu, *item;
@@ -2461,9 +2476,14 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEventButton *ev,
   if (NULL != punit
       && NULL != (pcity = tile_city(unit_tile(punit)))
       && NULL != (pdialog = get_city_dialog(pcity))) {
+    guint button;
 
-    if (ev->type != GDK_BUTTON_PRESS || ev->button == 2 || ev->button == 3
-	|| !can_client_issue_orders()) {
+    if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
+      return FALSE;
+    }
+
+    gdk_event_get_button(ev, &button);
+    if (button == 2 || button == 3 || !can_client_issue_orders()) {
       return FALSE;
     }
 
@@ -2569,7 +2589,7 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEventButton *ev,
   If user middle-clicked on a unit, activate it and close dialog
 ***************************************************************************/
 static gboolean present_unit_middle_callback(GtkWidget *w,
-                                             GdkEventButton *ev,
+                                             GdkEvent *ev,
                                              gpointer data)
 {
   struct city_dialog *pdialog;
@@ -2581,10 +2601,12 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
    && NULL != (pcity = tile_city(unit_tile(punit)))
    && NULL != (pdialog = get_city_dialog(pcity))
    && can_client_issue_orders()) {
+    guint button;
 
-    if (ev->button == 3) {
+    gdk_event_get_button(ev, &button);
+    if (button == 3) {
       unit_focus_set(punit);
-    } else if (ev->button == 2) {
+    } else if (button == 2) {
       unit_focus_set(punit);
       close_city_dialog(pdialog);
     }
@@ -2597,7 +2619,7 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
   If user middle-clicked on a unit, activate it and close dialog
 ***************************************************************************/
 static gboolean supported_unit_middle_callback(GtkWidget *w,
-                                               GdkEventButton *ev,
+                                               GdkEvent *ev,
                                                gpointer data)
 {
   struct city_dialog *pdialog;
@@ -2609,10 +2631,12 @@ static gboolean supported_unit_middle_callback(GtkWidget *w,
       && NULL != (pcity = game_city_by_number(punit->homecity))
       && NULL != (pdialog = get_city_dialog(pcity))
       && can_client_issue_orders()) {
+    guint button;
 
-    if (ev->button == 3) {
+    gdk_event_get_button(ev, &button);
+    if (button == 3) {
       unit_focus_set(punit);
-    } else if (ev->button == 2) {
+    } else if (button == 2) {
       unit_focus_set(punit);
       close_city_dialog(pdialog);
     }
@@ -2806,12 +2830,13 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
   Somebody clicked our list of citizens. If they clicked a specialist
   then change the type of him, else do nothing.
 ***************************************************************************/
-static gboolean citizens_callback(GtkWidget *w, GdkEventButton *ev,
+static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
                                   gpointer data)
 {
   struct city_dialog *pdialog = data;
   struct city *pcity = pdialog->pcity;
   int citnum, tlen, len;
+  gdouble e_x, e_y;
 
   if (!can_client_issue_orders()) {
     return FALSE;
@@ -2819,11 +2844,13 @@ static gboolean citizens_callback(GtkWidget *w, GdkEventButton *ev,
 
   tlen = tileset_small_sprite_width(tileset);
   len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
-  if (ev->x > len) {
+
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  if (e_x > len) {
     /* no citizen that far to the right */
     return FALSE;
   }
-  citnum = MIN(city_size_get(pcity) - 1, ev->x / pdialog->cwidth);
+  citnum = MIN(city_size_get(pcity) - 1, e_x / pdialog->cwidth);
 
   city_rotate_specialist(pcity, citnum);
 
@@ -2958,25 +2985,30 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
 /***********************************************************************//**
   User has pressed button on citymap
 ***************************************************************************/
-static gboolean button_down_citymap(GtkWidget *w, GdkEventButton *ev,
+static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
                                     gpointer data)
 {
   struct city_dialog *pdialog = data;
   int canvas_x, canvas_y, city_x, city_y;
+  gdouble e_x, e_y;
 
   if (!can_client_issue_orders()) {
     return FALSE;
   }
 
-  canvas_x = ev->x * (double)canvas_width / (double)CITYMAP_WIDTH;
-  canvas_y = ev->y * (double)canvas_height / (double)CITYMAP_HEIGHT;
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  canvas_x = e_x * (double)canvas_width / (double)CITYMAP_WIDTH;
+  canvas_y = e_y * (double)canvas_height / (double)CITYMAP_HEIGHT;
 
   if (canvas_to_city_pos(&city_x, &city_y,
                          city_map_radius_sq_get(pdialog->pcity),
                          canvas_x, canvas_y)) {
-    if (ev->button == 1) {
+    guint button;
+
+    gdk_event_get_button(ev, &button);
+    if (button == 1) {
       city_toggle_worker(pdialog->pcity, city_x, city_y);
-    } else if (ev->button == 3) {
+    } else if (button == 3) {
       struct city *pcity = pdialog->pcity;
 
       popup_workertask_dlg(pdialog->pcity,

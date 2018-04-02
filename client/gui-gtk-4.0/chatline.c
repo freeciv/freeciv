@@ -344,11 +344,17 @@ static bool chatline_autocomplete(GtkEditable *editable)
 /**********************************************************************//**
   Called when a key is pressed.
 **************************************************************************/
-static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
+static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
 {
-  if ((ev->state & GDK_CONTROL_MASK)) {
+  GdkModifierType state;
+
+  gdk_event_get_state(ev, &state);
+  if ((state & GDK_CONTROL_MASK)) {
     /* Chatline featured text support. */
-    switch (ev->keyval) {
+    guint keyval;
+
+    gdk_event_get_keyval(ev, &keyval);
+    switch (keyval) {
     case GDK_KEY_b:
       inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
       return TRUE;
@@ -375,7 +381,10 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
 
   } else {
     /* Chatline history controls. */
-    switch (ev->keyval) {
+    guint keyval;
+
+    gdk_event_get_keyval(ev, &keyval);
+    switch (keyval) {
     case GDK_KEY_Up:
       if (history_pos < genlist_size(history_list) - 1) {
         gtk_entry_set_text(GTK_ENTRY(w),
@@ -582,15 +591,22 @@ void scroll_if_necessary(GtkTextView *textview, GtkTextMark *scroll_target)
 /**********************************************************************//**
   Click a link.
 **************************************************************************/
-static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
+static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
 {
   GtkTextIter start, end, iter;
   GtkTextBuffer *buffer;
   GSList *tags, *tagp;
   gint x, y;
   struct tile *ptile = NULL;
+  guint button;
+  gdouble e_x, e_y;
 
-  if (event->type != GDK_BUTTON_RELEASE || event->button != 1) {
+  if (gdk_event_get_event_type(event) != GDK_BUTTON_RELEASE) {
+    return FALSE;
+  }
+
+  gdk_event_get_button(event, &button);
+  if (button != 1) {
     return FALSE;
   }
 
@@ -602,9 +618,10 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
     return FALSE;
   }
 
+  gdk_event_get_coords(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
                                         GTK_TEXT_WINDOW_WIDGET,
-                                        event->x, event->y, &x, &y);
+                                        e_x, e_y, &x, &y);
 
   gtk_text_view_get_iter_at_location(GTK_TEXT_VIEW(text_view), &iter, x, y);
 
@@ -727,13 +744,15 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
   Maybe are the mouse is moving over a link.
 **************************************************************************/
 static gboolean motion_notify_event(GtkWidget *text_view,
-                                    GdkEventMotion *event)
+                                    GdkEvent *event)
 {
   gint x, y;
+  gdouble e_x, e_y;
 
+  gdk_event_get_coords(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), 
                                         GTK_TEXT_WINDOW_WIDGET,
-                                        event->x, event->y, &x, &y);
+                                        e_x, e_y, &x, &y);
   set_cursor_if_appropriate(GTK_TEXT_VIEW(text_view), x, y);
 
   return FALSE;

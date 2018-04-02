@@ -387,12 +387,14 @@ static bool editgui_run_tool_selection(enum editor_tool_type ett)
   Handle a mouse click on any of the tool buttons.
 ****************************************************************************/
 static gboolean editbar_tool_button_mouse_click(GtkWidget *w,
-                                                GdkEventButton *ev,
+                                                GdkEvent *ev,
                                                 gpointer userdata)
 {
   int ett;
+  guint button;
 
-  if (ev->button != 3) {
+  gdk_event_get_button(ev, &button);
+  if (button != 3) {
     return FALSE; /* Propagate event further. */
   }
 
@@ -975,15 +977,22 @@ static int convert_mouse_button(int gdk_mouse_button)
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_button_press(GdkEventButton *ev)
+gboolean handle_edit_mouse_button_press(GdkEvent *ev)
 {
-  if (ev->type != GDK_BUTTON_PRESS) {
+  gdouble e_x, e_y;
+  guint button;
+  GdkModifierType state;
+
+  if (gdk_event_get_event_type(ev) != GDK_BUTTON_PRESS) {
     return TRUE;
   }
 
-  editor_mouse_button_press(ev->x, ev->y,
-                            convert_mouse_button(ev->button),
-                            convert_modifiers(ev->state));
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_button(ev, &button);
+  gdk_event_get_state(ev, &state);
+  editor_mouse_button_press(e_x, e_y,
+                            convert_mouse_button(button),
+                            convert_modifiers(state));
 
   return TRUE;
 }
@@ -991,24 +1000,37 @@ gboolean handle_edit_mouse_button_press(GdkEventButton *ev)
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_button_release(GdkEventButton *ev)
+gboolean handle_edit_mouse_button_release(GdkEvent *ev)
 {
-  if (ev->type != GDK_BUTTON_RELEASE) {
+  gdouble e_x, e_y;
+  guint button;
+  GdkModifierType state;
+
+  if (gdk_event_get_event_type(ev) != GDK_BUTTON_RELEASE) {
     return TRUE;
   }
 
-  editor_mouse_button_release(ev->x, ev->y,
-                              convert_mouse_button(ev->button),
-                              convert_modifiers(ev->state));
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_button(ev, &button);
+  gdk_event_get_state(ev, &state);
+  editor_mouse_button_release(e_x, e_y,
+                              convert_mouse_button(button),
+                              convert_modifiers(state));
   return TRUE;
 }
 
 /************************************************************************//**
   Pass on the gdk mouse event to the editor's handler.
 ****************************************************************************/
-gboolean handle_edit_mouse_move(GdkEventMotion *ev)
+gboolean handle_edit_mouse_move(GdkEvent *ev)
 {
-  editor_mouse_move(ev->x, ev->y, convert_modifiers(ev->state));
+  gdouble e_x, e_y;
+  GdkModifierType state;
+
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_state(ev, &state);
+  editor_mouse_move(e_x, e_y, convert_modifiers(state));
+
   return TRUE;
 }
 
@@ -1646,7 +1668,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
 /************************************************************************//**
   Handle ctrl+<key> combinations.
 ****************************************************************************/
-static gboolean handle_edit_key_press_with_ctrl(GdkEventKey *ev)
+static gboolean handle_edit_key_press_with_ctrl(GdkEvent *ev)
 {
   return FALSE; /* Don't gobble. */
 }
@@ -1654,12 +1676,14 @@ static gboolean handle_edit_key_press_with_ctrl(GdkEventKey *ev)
 /************************************************************************//**
   Handle shift+<key> combinations.
 ****************************************************************************/
-static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
+static gboolean handle_edit_key_press_with_shift(GdkEvent *ev)
 {
   enum editor_tool_type ett;
+  guint keyval;
 
   ett = editor_get_tool();
-  switch (ev->keyval) {
+  gdk_event_get_keyval(ev, &keyval);
+  switch (keyval) {
   case GDK_KEY_D:
     editor_tool_toggle_mode(ett, ETM_ERASE);
     break;
@@ -1702,21 +1726,25 @@ static gboolean handle_edit_key_press_with_shift(GdkEventKey *ev)
 /************************************************************************//**
   Handle any kind of key press event.
 ****************************************************************************/
-gboolean handle_edit_key_press(GdkEventKey *ev)
+gboolean handle_edit_key_press(GdkEvent *ev)
 {
   enum editor_tool_type ett, new_ett = NUM_EDITOR_TOOL_TYPES;
+  GdkModifierType state;
+  guint keyval;
 
-  if (ev->state & GDK_SHIFT_MASK) {
+  gdk_event_get_state(ev, &state);
+  if (state & GDK_SHIFT_MASK) {
     return handle_edit_key_press_with_shift(ev);
   }
 
-  if (ev->state & GDK_CONTROL_MASK) {
+  if (state & GDK_CONTROL_MASK) {
     return handle_edit_key_press_with_ctrl(ev);
   }
 
   ett = editor_get_tool();
 
-  switch (ev->keyval) {
+  gdk_event_get_keyval(ev, &keyval);
+  switch (keyval) {
   case GDK_KEY_t:
     new_ett = ETT_TERRAIN;
     break;
@@ -1749,9 +1777,11 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   case GDK_KEY_KP_Add:
     if (editor_tool_has_size(ett)) {
       int size = editor_tool_get_size(ett);
+
       editor_tool_set_size(ett, size + 1);
     } else if (editor_tool_has_count(ett)) {
       int count = editor_tool_get_count(ett);
+
       editor_tool_set_count(ett, count + 1);
     }
     break;
@@ -1760,9 +1790,11 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   case GDK_KEY_KP_Subtract:
     if (editor_tool_has_size(ett)) {
       int size = editor_tool_get_size(ett);
+
       editor_tool_set_size(ett, size - 1);
     } else if (editor_tool_has_count(ett)) {
       int count = editor_tool_get_count(ett);
+
       editor_tool_set_count(ett, count - 1);
     }
     break;
@@ -1776,9 +1808,9 @@ gboolean handle_edit_key_press(GdkEventKey *ev)
   case GDK_KEY_8:
   case GDK_KEY_9:
     if (editor_tool_has_size(ett)) {
-      editor_tool_set_size(ett, ev->keyval - GDK_KEY_1 + 1);
+      editor_tool_set_size(ett, keyval - GDK_KEY_1 + 1);
     } else if (editor_tool_has_count(ett)) {
-      editor_tool_set_count(ett, ev->keyval - GDK_KEY_1 + 1);
+      editor_tool_set_count(ett, keyval - GDK_KEY_1 + 1);
     }
     break;
   case GDK_KEY_space:

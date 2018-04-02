@@ -202,9 +202,9 @@ static void selection_callback(GtkTreeSelection *selection, gpointer data)
 /**********************************************************************//**
   Button pressed on player list
 **************************************************************************/
-static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
+static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev)
 {
-  if (ev->type == GDK_2BUTTON_PRESS) {
+  if (gdk_event_get_event_type(ev) == GDK_2BUTTON_PRESS) {
     GtkTreePath *path;
 
     gtk_tree_view_get_cursor(view, &path, NULL);
@@ -213,6 +213,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
       GtkTreeIter it;
       gint id;
       struct player *plr;
+      guint button;
 
       gtk_tree_model_get_iter(model, &it, path);
       gtk_tree_path_free(path);
@@ -220,7 +221,8 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
       gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &id, -1);
       plr = player_by_number(id);
 
-      if (ev->button == 1) {
+      gdk_event_get_button(ev, &button);
+      if (button == 1) {
         if (can_intel_with_player(plr)) {
           popup_intel_dialog(plr);
         }

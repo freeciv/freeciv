@@ -782,10 +782,12 @@ static void dst_row_callback(GtkTreeView *view, GtkTreePath *path,
 /************************************************************************//**
   Key press for source
 ****************************************************************************/
-static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
+static gboolean src_key_press_callback(GtkWidget *w, GdkEvent *ev,
                                        gpointer data)
 {
   struct worklist_data *ptr;
+  GdkModifierType state;
+  guint keyval;
 
   ptr = data;
 
@@ -793,10 +795,12 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
 
-  if ((ev->state & GDK_SHIFT_MASK) && ev->keyval == GDK_KEY_Insert) {
+  gdk_event_get_state(ev, &state);
+  gdk_event_get_keyval(ev, &keyval);
+  if ((state & GDK_SHIFT_MASK) && keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
     return TRUE;
-  } else if (ev->keyval == GDK_KEY_Insert) {
+  } else if (keyval == GDK_KEY_Insert) {
     queue_append(ptr);
     return TRUE;
   } else {
@@ -807,16 +811,20 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEventKey *ev,
 /************************************************************************//**
   Key press for destination
 ****************************************************************************/
-static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
+static gboolean dst_key_press_callback(GtkWidget *w, GdkEvent *ev,
                                        gpointer data)
 {
   GtkTreeModel *model;
   struct worklist_data *ptr;
+  guint keyval;
+  GdkModifierType state;
 
   ptr = data;
   model = GTK_TREE_MODEL(ptr->dst);
 
-  if (ev->keyval == GDK_KEY_Delete) {
+  gdk_event_get_state(ev, &state);
+  gdk_event_get_keyval(ev, &keyval);
+  if (keyval == GDK_KEY_Delete) {
     GtkTreeIter it, it_next;
     bool deleted = FALSE;
 
@@ -841,11 +849,11 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEventKey *ev,
     }
     return TRUE;
 
-  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_KEY_Up) {
+  } else if ((state & GDK_MOD1_MASK) && keyval == GDK_KEY_Up) {
     queue_bubble_up(ptr);
     return TRUE;
 
-  } else if ((ev->state & GDK_MOD1_MASK) && ev->keyval == GDK_KEY_Down) {
+  } else if ((state & GDK_MOD1_MASK) && keyval == GDK_KEY_Down) {
     queue_bubble_down(ptr);
     return TRUE;
 

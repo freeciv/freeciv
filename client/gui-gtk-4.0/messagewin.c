@@ -245,21 +245,25 @@ static void meswin_dialog_row_activated_callback(GtkTreeView *view,
   associated with the event at that row (if applicable).
 ****************************************************************************/
 static gboolean meswin_dialog_button_press_callback(GtkWidget *widget,
-                                                    GdkEventButton *ev,
+                                                    GdkEvent *ev,
                                                     gpointer data)
 {
   GtkTreePath *path = NULL;
   GtkTreeModel *model;
   GtkTreeIter iter;
   gint row;
+  guint button;
+  gdouble e_x, e_y;
 
   fc_assert_ret_val(GTK_IS_TREE_VIEW(widget), FALSE);
 
-  if (GDK_BUTTON_PRESS  != ev->type || 3 != ev->button) {
+  gdk_event_get_button(ev, &button);
+  if (GDK_BUTTON_PRESS != gdk_event_get_event_type(ev) || 3 != button) {
     return FALSE;
   }
 
-  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), ev->x, ev->y,
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), e_x, e_y,
                                      &path, NULL, NULL, NULL)) {
     return TRUE;
   }

@@ -188,8 +188,8 @@ static bool gui_up = FALSE;
 
 static struct video_mode vmode = { -1, -1 };
 
-static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
-static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data);
+static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev, gpointer data);
+static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data);
 
 static void end_turn_callback(GtkWidget *w, gpointer data);
 static gboolean get_net_input(GIOChannel *source, GIOCondition condition,
@@ -199,9 +199,9 @@ static void set_wait_for_writable_socket(struct connection *pc,
 
 static void print_usage(void);
 static void parse_options(int argc, char **argv);
-static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
+static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
-static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev);
+static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
@@ -426,11 +426,16 @@ static gboolean toplevel_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 /**********************************************************************//**
   Handle keypress events when map canvas is in focus
 **************************************************************************/
-static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
+static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
                                      gpointer data)
 {
-  if ((ev->state & GDK_SHIFT_MASK)) {
-    switch (ev->keyval) {
+  GdkModifierType state;
+  guint keyval;
+
+  gdk_event_get_state(ev, &state);
+  gdk_event_get_keyval(ev, &keyval);
+  if ((state & GDK_SHIFT_MASK)) {
+    switch (keyval) {
 
     case GDK_KEY_Left:
       scroll_mapview(DIR8_WEST);
@@ -465,16 +470,16 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     default:
       break;
     }
-  } else if (!(ev->state & GDK_CONTROL_MASK)) {
-    switch (ev->keyval) {
+  } else if (!(state & GDK_CONTROL_MASK)) {
+    switch (keyval) {
     default:
       break;
     }
   }
 
 #ifdef GTK3_ZOOM_ENABLED
-  if (!(ev->state & GDK_CONTROL_MASK)) {
-    switch (ev->keyval) {
+  if (!(state & GDK_CONTROL_MASK)) {
+    switch (keyval) {
     case GDK_KEY_plus:
       zoom_step_up();
       return TRUE;
@@ -496,30 +501,30 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
 
   fc_assert(MAX_NUM_BATTLEGROUPS == 4);
 
-  if ((ev->state & GDK_CONTROL_MASK)) {
-    switch (ev->keyval) {
+  if ((state & GDK_CONTROL_MASK)) {
+    switch (keyval) {
 
     case GDK_KEY_F1:
-      key_unit_assign_battlegroup(0, (ev->state & GDK_SHIFT_MASK));
+      key_unit_assign_battlegroup(0, (state & GDK_SHIFT_MASK));
       return TRUE;
 
     case GDK_KEY_F2:
-      key_unit_assign_battlegroup(1, (ev->state & GDK_SHIFT_MASK));
+      key_unit_assign_battlegroup(1, (state & GDK_SHIFT_MASK));
       return TRUE;
 
     case GDK_KEY_F3:
-      key_unit_assign_battlegroup(2, (ev->state & GDK_SHIFT_MASK));
+      key_unit_assign_battlegroup(2, (state & GDK_SHIFT_MASK));
       return TRUE;
 
     case GDK_KEY_F4:
-      key_unit_assign_battlegroup(3, (ev->state & GDK_SHIFT_MASK));
+      key_unit_assign_battlegroup(3, (state & GDK_SHIFT_MASK));
       return TRUE;
 
     default:
       break;
     };
-  } else if ((ev->state & GDK_SHIFT_MASK)) {
-    switch (ev->keyval) {
+  } else if ((state & GDK_SHIFT_MASK)) {
+    switch (keyval) {
 
     case GDK_KEY_F1:
       key_unit_select_battlegroup(0, FALSE);
@@ -542,7 +547,7 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     };
   }
 
-  switch (ev->keyval) {
+  switch (keyval) {
 
   case GDK_KEY_KP_Up:
   case GDK_KEY_KP_8:
@@ -645,14 +650,18 @@ static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
 /**********************************************************************//**
   Handle a keyboard key press made in the client's toplevel window.
 **************************************************************************/
-static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
+static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
                                            gpointer data)
 {
+  guint keyval;
+  GdkModifierType state;
+
   if (inputline_has_focus()) {
     return FALSE;
   }
 
-  switch (ev->keyval) {
+  gdk_event_get_keyval(ev, &keyval);
+  switch (keyval) {
 
   case GDK_KEY_apostrophe:
     /* Allow this even if not in main map view; chatline is present on
@@ -695,8 +704,9 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
     }
   }
 
-  if (ev->state & GDK_SHIFT_MASK) {
-    switch (ev->keyval) {
+  gdk_event_get_state(ev, &state);
+  if (state & GDK_SHIFT_MASK) {
+    switch (keyval) {
 
     case GDK_KEY_Return:
     case GDK_KEY_KP_Enter:
@@ -715,10 +725,10 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
 
 #if 0
   /* We are focused some other dialog, tab, or widget. */
-  if ((ev->state & GDK_CONTROL_MASK)) {
-  } else if ((ev->state & GDK_SHIFT_MASK)) {
+  if ((state & GDK_CONTROL_MASK)) {
+  } else if ((state & GDK_SHIFT_MASK)) {
   } else {
-    switch (ev->keyval) {
+    switch (keyval) {
 
     case GDK_KEY_F4:
       map_canvas_focus();
@@ -736,9 +746,12 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
 /**********************************************************************//**
   Mouse/touchpad scrolling over the mapview
 **************************************************************************/
-static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
+static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
 {
   int scroll_x, scroll_y, xstep, ystep;
+  GdkScrollDirection direction;
+  gdouble e_x, e_y;
+  GdkModifierType state;
 
   if (!can_client_change_view()) {
     return FALSE;
@@ -747,7 +760,8 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
   get_mapview_scroll_pos(&scroll_x, &scroll_y);
   get_mapview_scroll_step(&xstep, &ystep);
 
-  switch (ev->direction) {
+  gdk_event_get_scroll_direction(ev, &direction);
+  switch (direction) {
     case GDK_SCROLL_UP:
       scroll_y -= ystep*2;
       break;
@@ -771,9 +785,11 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEventScroll *ev)
     gtk_widget_grab_focus(map_canvas);
   }
 
-  update_line(ev->x, ev->y);
-  if (rbutton_down && (ev->state & GDK_BUTTON3_MASK)) {
-    update_selection_rectangle(ev->x, ev->y);
+  gdk_event_get_coords(ev, &e_x, &e_y);
+  update_line(e_x, e_y);
+  gdk_event_get_state(ev, &state);
+  if (rbutton_down && (state & GDK_BUTTON3_MASK)) {
+    update_selection_rectangle(e_x, e_y);
   }
 
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
@@ -1081,9 +1097,9 @@ void enable_menus(bool enable)
   gtk/gtknotebook.c checks for NULL notebook->cur_page.
 **************************************************************************/
 static gboolean right_notebook_button_release(GtkWidget *widget,
-                                              GdkEventButton *event)
+                                              GdkEvent *event)
 {
-  if (event->type != GDK_BUTTON_RELEASE) {
+  if (gdk_event_get_event_type(event) != GDK_BUTTON_RELEASE) {
     return FALSE;
   }
 
@@ -2009,11 +2025,11 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 /**********************************************************************//**
   Button released when showing info popup
 **************************************************************************/
-static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
+static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev,
                                          gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
+  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
   gtk_widget_destroy(w);
 
   return FALSE;
@@ -2022,9 +2038,12 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev,
 /**********************************************************************//**
   Popup info box
 **************************************************************************/
-static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
+static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
-  if (ev->button == 1) {
+  guint button;
+
+  gdk_event_get_button(ev, &button);
+  if (button == 1) {
     GtkWidget *p;
 
     p = gtk_window_new(GTK_WINDOW_POPUP);
@@ -2041,7 +2060,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
                    NULL);
     gtk_widget_show(p);
 
-    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
+                  gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);

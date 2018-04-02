@@ -72,10 +72,10 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
 static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
                                                         bool low_dlg);
 static gboolean show_happiness_popup(GtkWidget *w,
-                                     GdkEventButton *ev,
+                                     GdkEvent *ev,
                                      gpointer data);
 static gboolean show_happiness_button_release(GtkWidget *w,
-                                              GdkEventButton *ev,
+                                              GdkEvent *ev,
                                               gpointer data);
 
 /**********************************************************************//**
@@ -112,13 +112,15 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
   Popup for the happiness display.
 **************************************************************************/
 static gboolean show_happiness_popup(GtkWidget *w,
-                                     GdkEventButton *ev,
+                                     GdkEvent *ev,
                                      gpointer data)
 {
   struct happiness_dialog *pdialog = g_object_get_data(G_OBJECT(w),
                                                        "pdialog");
+  guint button;
 
-  if (ev->button == 1) {
+  gdk_event_get_button(ev, &button);
+  if (button == 1) {
     GtkWidget *p, *label, *frame;
     char buf[1024];
 
@@ -165,7 +167,8 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show(p);
 
-    gdk_seat_grab(gdk_device_get_seat(ev->device), gtk_widget_get_window(p),
+    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
+                  gtk_widget_get_window(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
@@ -180,11 +183,11 @@ static gboolean show_happiness_popup(GtkWidget *w,
 /**********************************************************************//**
   Clear the happiness popup.
 **************************************************************************/
-static gboolean show_happiness_button_release(GtkWidget *w, GdkEventButton *ev,
+static gboolean show_happiness_button_release(GtkWidget *w, GdkEvent *ev,
                                               gpointer data)
 {
   gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(ev->device));
+  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
   gtk_widget_destroy(w);
 
   return FALSE;
