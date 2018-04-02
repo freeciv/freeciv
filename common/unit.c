@@ -775,7 +775,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      const struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
-  struct unit_class *pclass = unit_class_get(punit);
 
   /* Check that no build activity conflicting with one already in progress
    * gets executed. */
@@ -940,10 +939,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
-    return (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
-            && !unit_has_type_flag(punit, UTYF_CANT_FORTIFY)
-	    && punit->activity != ACTIVITY_FORTIFIED
-	    && (!terrain_has_flag(pterrain, TER_NO_FORTIFY) || tile_city(ptile)));
+    return is_action_enabled_unit_on_tile(ACTION_FORTIFY,
+                                          punit, ptile, NULL);
 
   case ACTIVITY_FORTIFIED:
     return FALSE;

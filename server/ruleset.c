@@ -6295,6 +6295,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                           "ui_name_irrigate_tf");
       load_action_ui_name(file, ACTION_MINE_TF, "ui_name_mine_tf");
       load_action_ui_name(file, ACTION_PILLAGE, "ui_name_pillage");
+      load_action_ui_name(file, ACTION_FORTIFY, "ui_name_fortify");
 
       /* The quiet (don't auto generate help for) property of all actions
        * live in a single enum vector. This avoids generic action

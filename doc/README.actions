@@ -544,6 +544,11 @@ Actions done by a unit against a tile
  * the actor unit has "CanPillage" unit class flag
  * terrain type must be one where pillaging is possible
 
+"Fortify"           - Fortify at tile
+ * UI name can be set using ui_name_fortify
+ * the actor unit has "CanFortify" unit class flag
+ * terrain type must be one where fortifying is possible
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

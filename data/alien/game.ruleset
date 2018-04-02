@@ -314,6 +314,9 @@ ui_name_mine_tf = _("Transform by %sMine%s")
 ; /* TRANS: Pilla_ge (100% chance of success). */
 ui_name_pillage = _("Pilla%sge%s")
 
+; /* TRANS: _Fortify (100% chance of success). */
+ui_name_fortify = _("%sFortify%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -621,6 +624,13 @@ action        = "Pillage"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitClassFlag", "CanPillage",   "Local"
+    }
+
+[actionenabler_fortify]
+action        = "Fortify"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitClassFlag", "CanFortify",   "Local"
     }
 
 [borders]

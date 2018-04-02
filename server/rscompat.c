@@ -287,14 +287,19 @@ void rscompat_postprocess(struct rscompat_info *info)
   if (info->ver_game < 20) {
     /* New enablers */
     struct action_enabler *enabler;
-    struct requirement pillage_req;
+    struct requirement e_req;
 
     enabler = action_enabler_new();
     enabler->action = ACTION_PILLAGE;
+    e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                            UCF_CAN_PILLAGE);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
 
-    pillage_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
-                                  UCF_CAN_PILLAGE);
-    requirement_vector_append(&enabler->actor_reqs, pillage_req);
+    enabler = action_enabler_new();
+    enabler->action = ACTION_FORTIFY;
+    e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                            UCF_CAN_FORTIFY);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

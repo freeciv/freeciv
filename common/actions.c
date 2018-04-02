@@ -557,6 +557,10 @@ static void hard_code_actions(void)
       action_new(ACTION_PILLAGE, ATK_TILE,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_FORTIFY] =
+      action_new(ACTION_FORTIFY, ATK_TILE,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1616,6 +1620,13 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
     break;
 
+  case ACTION_FORTIFY:
+    if (utype_has_flag(actor_unittype, UTYF_CANT_FORTIFY)) {
+      /* Reason: Shouldn't have "Can't fortify" flag. */
+      return FALSE;
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -1803,6 +1814,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
+  case ACTION_FORTIFY:
     /* No hard unit type requirements. */
     break;
 
@@ -2399,6 +2411,16 @@ is_action_possible(const enum gen_action wanted_action,
           return TRI_NO;
         }
       }
+    }
+    break;
+
+  case ACTION_FORTIFY:
+    if (actor_unit->activity == ACTIVITY_FORTIFIED) {
+      return TRI_NO;
+    }
+    pterrain = tile_terrain(target_tile);
+    if (terrain_has_flag(pterrain, TER_NO_FORTIFY) && !tile_city(target_tile)) {
+      return TRI_NO;
     }
     break;
 
@@ -3325,6 +3347,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
+  case ACTION_FORTIFY:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4357,6 +4380,9 @@ const char *action_ui_name_default(int act)
   case ACTION_PILLAGE:
     /* TRANS: Pilla_ge (100% chance of success). */
     return N_("Pilla%sge%s");
+  case ACTION_FORTIFY:
+    /* TRANS: _Fortify (100% chance of success). */
+    return N_("%sFortify%s");
   }
 
   return NULL;

@@ -1157,6 +1157,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       "ui_name_mine_tf");
   save_action_ui_name(sfile, ACTION_PILLAGE,
                       "ui_name_pillage");
+  save_action_ui_name(sfile, ACTION_FORTIFY,
+                      "ui_name_fortify");
 
   i = 0;
   action_iterate(act) {
