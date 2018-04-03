@@ -1286,11 +1286,13 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_city);
   act = menu->addAction(_("Go And Build City"));
   menu_list.insertMulti(GO_AND_BUILD_CITY, act);
-  act->setShortcut(QKeySequence(tr("shift+b")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_GOBUILDCITY))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_go_build_city);
   act = menu->addAction(_("Go And Join City"));
   menu_list.insertMulti(MIGRANT, act);
-  act->setShortcut(QKeySequence(tr("shift+j")));
+  act->setShortcut(QKeySequence(shortcut_to_string(
+                   fc_shortcuts::sc()->get_shortcut(SC_GOJOINCITY))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_go_join_city);
   act = menu->addAction(_("Auto Settler"));
   act->setShortcut(QKeySequence(shortcut_to_string(
