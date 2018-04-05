@@ -116,7 +116,7 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 static bool do_unit_establish_trade(struct player *pplayer,
                                     struct unit *punit,
                                     struct city *pcity_dest,
-                                    bool est_if_able);
+                                    const struct action *paction);
 
 static bool unit_do_recycle(struct player *pplayer,
                             struct unit *punit,
@@ -2508,12 +2508,12 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_TRADE_ROUTE:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_establish_trade(pplayer, actor_unit,
-                                                     pcity, TRUE));
+                                                     pcity, paction));
     break;
   case ACTION_MARKETPLACE:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_establish_trade(pplayer, actor_unit,
-                                                     pcity, FALSE));
+                                                     pcity, paction));
     break;
   case ACTION_HELP_WONDER:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -3905,7 +3905,7 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
 static bool do_unit_establish_trade(struct player *pplayer,
                                     struct unit *punit,
                                     struct city *pcity_dest,
-                                    bool est_if_able)
+                                    const struct action *paction)
 {
   char homecity_link[MAX_LEN_LINK], destcity_link[MAX_LEN_LINK];
   char punit_link[MAX_LEN_LINK];
@@ -3973,7 +3973,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
    * that we actually do the action of making the trade route. */
 
   /* If we can't make a new trade route we can still get the trade bonus. */
-  can_establish = est_if_able
+  can_establish = action_has_result(paction, ACTION_TRADE_ROUTE)
                   && !have_cities_trade_route(pcity_homecity, pcity_dest);
 
   if (can_establish) {
@@ -4244,12 +4244,10 @@ static bool do_unit_establish_trade(struct player *pplayer,
   }
 
   /* May cause an incident */
-  action_id_consequence_success(est_if_able ?
-                                  ACTION_TRADE_ROUTE :
-                                  ACTION_MARKETPLACE,
-                                pplayer, city_owner(pcity_dest),
-                                city_tile(pcity_dest),
-                                city_link(pcity_dest));
+  action_consequence_success(paction,
+                             pplayer, city_owner(pcity_dest),
+                             city_tile(pcity_dest),
+                             city_link(pcity_dest));
 
   conn_list_do_unbuffer(pplayer->connections);
 
