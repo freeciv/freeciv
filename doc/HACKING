@@ -1098,7 +1098,7 @@ server/stdinhand.[ch]
 When a player starts a client, he is presents with several options: start
 a new game, continue a saved game and connect to a networked game. For the 
 latter option, connect_to_server() is called and login proceeeds as normal.
-The the first two options, connectdlg_common.c:client_start_server() is 
+The first two options, connectdlg_common.c:client_start_server() is
 called. Here, a server is spawned, standard input and outputs to that process
 are closed, and then connect_to_server() is called so the client connects to 
 that server.
