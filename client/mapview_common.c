@@ -667,7 +667,7 @@ bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
   int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
   /*
-   * First we wrap the coordinates to hopefully be within the the mapview
+   * First we wrap the coordinates to hopefully be within the mapview
    * window.  We do this by finding the position closest to the center
    * of the window.
    */

@@ -447,7 +447,7 @@ static void select_nation_on_tab(GtkWidget *tab_list, int nation)
     GtkTreePath *cursorpath;
     /* If there is no cursor, Gtk tends to focus and select the first row
      * at the first opportunity, disturbing any existing state. We want to
-     * allow the the no-rows-selected state, so detect this case and defuse
+     * allow the no-rows-selected state, so detect this case and defuse
      * it by setting a cursor. */
     gtk_tree_view_get_cursor(list, &cursorpath, NULL);
     /* Set the cursor in the case above, or if there was a previous

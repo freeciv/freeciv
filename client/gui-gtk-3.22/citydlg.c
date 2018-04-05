@@ -2287,7 +2287,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 }
 
 /****************************************************************
- updates the sensitivity of the the prev and next buttons.
+ updates the sensitivity of the prev and next buttons.
  this does not need pdialog as a parameter, since it iterates
  over all the open dialogs.
  note: we still need the sensitivity code in create_city_dialog()
