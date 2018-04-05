@@ -44,7 +44,7 @@ enum bodyguard_enum {
 
   Inconsistent references do not always indicate an error, because units
   can change owners (for example, because of civil war) outside the control
-  the the AI code.
+  of the AI code.
 **************************************************************************/
 void aiguard_check_guard(struct ai_type *ait, const struct unit *guard)
 {
@@ -86,7 +86,7 @@ void aiguard_check_guard(struct ai_type *ait, const struct unit *guard)
 
   Inconsistent references do not always indicate an error, because units
   can change owners (for example, because of civil war) outside the control
-  the the AI code.
+  of the AI code.
 **************************************************************************/
 void aiguard_check_charge_unit(struct ai_type *ait, const struct unit *charge)
 {

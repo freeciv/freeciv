@@ -992,7 +992,7 @@ bool normalize_map_pos(const struct civ_map *nmap, int *x, int *y)
 }
 
 /*******************************************************************//**
-  Twiddle *x and *y to point the the nearest real tile, and ensure that the
+  Twiddle *x and *y to point to the nearest real tile, and ensure that the
   position is normalized.
 ***********************************************************************/
 struct tile *nearest_real_tile(const struct civ_map *nmap, int x, int y)

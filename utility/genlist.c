@@ -591,7 +591,7 @@ struct genlist_link *genlist_search_if(const struct genlist *pgenlist,
   void*", where the void* being pointed to are the genlist dataptrs.
   That is, there are two levels of indirection.
   To do the sort we first construct an array of pointers corresponding
-  the the genlist dataptrs, then sort those and put them back into
+  to the genlist dataptrs, then sort those and put them back into
   the genlist.
 ****************************************************************************/
 void genlist_sort(struct genlist *pgenlist,
