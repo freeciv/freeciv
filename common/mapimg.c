@@ -1611,7 +1611,7 @@ static bool mapimg_def2str(struct mapdef *pmapdef, char *str, size_t str_len)
 }
 
 /************************************************************************//**
-  Check the player selection. This needs to be done befor _each_ image
+  Check the player selection. This needs to be done before _each_ image
   creationcall (see mapimg_create()) to test the the selection is still
   valid as players can be added or removed during the game.
 ****************************************************************************/
