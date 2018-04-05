@@ -3126,14 +3126,6 @@ void key_unit_goto(void)
 }
 
 /**********************************************************************//**
-  Explode nuclear at a tile without enemy units
-**************************************************************************/
-void key_unit_nuke(void)
-{
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
-}
-
-/**********************************************************************//**
   Handle user 'paradrop' input
 **************************************************************************/
 void key_unit_paradrop(void)

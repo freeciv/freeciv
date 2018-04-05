@@ -240,7 +240,6 @@ void key_unit_goto(void);
 void key_unit_homecity(void);
 void key_unit_irrigate(void);
 void key_unit_mine(void);
-void key_unit_nuke(void);
 void key_unit_patrol(void);
 void key_unit_paradrop(void);
 void key_unit_pillage(void);
