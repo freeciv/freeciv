@@ -968,7 +968,7 @@ bool normalize_map_pos(int *x, int *y)
 }
 
 /**************************************************************************
-Twiddle *x and *y to point the the nearest real tile, and ensure that the
+Twiddle *x and *y to point to the nearest real tile, and ensure that the
 position is normalized.
 **************************************************************************/
 struct tile *nearest_real_tile(int x, int y)
