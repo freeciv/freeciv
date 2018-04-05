@@ -159,7 +159,7 @@ extern bool sg_success;
  *   GET_XY_CHAR:   macro returning the map character for each position
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   SAVE_MAP_CHAR(ptile, terrain2char(ptile->terrain), file, "map.t%04d");
  */
@@ -197,7 +197,7 @@ extern bool sg_success;
  *   SET_XY_CHAR:   macro to load the map character at each (map_x, map_y)
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   LOAD_MAP_CHAR(ch, ptile,
  *                 map_get_player_tile(ptile, plr)->terrain

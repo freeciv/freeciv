@@ -201,7 +201,7 @@ void city_dialog_redraw_map(struct city *pcity,
 }
 
 /**********************************************************************//**
-  Return a string describing the the cost for the production of the city
+  Return a string describing the cost for the production of the city
   considerung several build slots for units.
 **************************************************************************/
 char *city_production_cost_str(const struct city *pcity)

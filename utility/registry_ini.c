@@ -2973,7 +2973,7 @@ const struct entry_list *section_entries(const struct section *psection)
 }
 
 /**********************************************************************//**
-  Returns the the first entry matching the name.
+  Returns the first entry matching the name.
 **************************************************************************/
 struct entry *section_entry_by_name(const struct section *psection,
                                     const char *name)
