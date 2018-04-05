@@ -48,7 +48,7 @@ space of the 16bit length field (>48kb) the chunk is sent as a jumbo
 packet. The difference between a normal chunk packet and a jumbo chunk
 packet is that the jumbo packet has JUMBO_SIZE in the size field and
 has an additional 4 byte len field after the 2 byte len field. The
-second len field contains the the size of the whole packet (2 byte
+second len field contains the size of the whole packet (2 byte
 first length field + 4 byte second length field + compressed data).
 The size field of a normal chunk packet is its size + COMPRESSION_BORDER.
 
