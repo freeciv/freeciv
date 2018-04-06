@@ -124,12 +124,15 @@ static bool unit_do_recycle(struct player *pplayer,
 static bool do_unit_help_build_wonder(struct player *pplayer,
                                       struct unit *punit,
                                       struct city *pcity_dest);
-static bool unit_bombard(struct unit *punit, struct tile *ptile);
+static bool unit_bombard(struct unit *punit, struct tile *ptile,
+                         const struct action *paction);
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
-                      struct tile *def_tile);
+                      struct tile *def_tile,
+                      const struct action *paction);
 static bool unit_do_destroy_city(struct player *act_player,
                                  struct unit *act_unit,
-                                 struct city *tgt_city);
+                                 struct city *tgt_city,
+                                 const struct action *paction);
 static bool do_unit_change_homecity(struct unit *punit,
                                     struct city *pcity);
 static bool do_unit_upgrade(struct player *pplayer,
@@ -257,7 +260,8 @@ static bool do_unit_upgrade(struct player *pplayer,
 **************************************************************************/
 static bool do_capture_units(struct player *pplayer,
                              struct unit *punit,
-                             struct tile *pdesttile)
+                             struct tile *pdesttile,
+                             const struct action *paction)
 {
   struct city *pcity;
   char capturer_link[MAX_LEN_LINK];
@@ -340,9 +344,9 @@ static bool do_capture_units(struct player *pplayer,
                   victim_link, capturer_nation);
 
     /* May cause an incident */
-    action_id_consequence_success(ACTION_CAPTURE_UNITS, pplayer,
-                                  unit_owner(to_capture),
-                                  pdesttile, victim_link);
+    action_consequence_success(paction, pplayer,
+                               unit_owner(to_capture),
+                               pdesttile, victim_link);
 
     if (NULL != pcity) {
       /* The captured unit is in a city. Bounce it. */
@@ -372,7 +376,8 @@ static bool do_capture_units(struct player *pplayer,
 **************************************************************************/
 static bool do_expel_unit(struct player *pplayer,
                           struct unit *actor,
-                          struct unit *target)
+                          struct unit *target,
+                          const struct action *paction)
 {
   char target_link[MAX_LEN_LINK];
   struct player *uplayer;
@@ -444,8 +449,8 @@ static bool do_expel_unit(struct player *pplayer,
   }
 
   /* This may cause a diplomatic incident */
-  action_id_consequence_success(ACTION_EXPEL_UNIT, pplayer, uplayer,
-                                target_tile, target_link);
+  action_consequence_success(paction, pplayer, uplayer,
+                             target_tile, target_link);
 
   /* Mission accomplished. */
   return TRUE;
@@ -2461,7 +2466,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_EXPEL_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
-                             do_expel_unit(pplayer, actor_unit, punit));
+                             do_expel_unit(pplayer, actor_unit, punit,
+                                           paction));
     break;
   case ACTION_HEAL_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
@@ -2571,7 +2577,8 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_DESTROY_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              unit_do_destroy_city(pplayer,
-                                                  actor_unit, pcity));
+                                                  actor_unit, pcity,
+                                                  paction));
     break;
   case ACTION_RECYCLE_UNIT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -2598,11 +2605,12 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_CAPTURE_UNITS:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
-                                               target_tile));
+                                               target_tile, paction));
     break;
   case ACTION_BOMBARD:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
-                              unit_bombard(actor_unit, target_tile));
+                              unit_bombard(actor_unit, target_tile,
+                                           paction));
     break;
   case ACTION_ATTACK:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
@@ -2615,7 +2623,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_NUKE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_nuke(pplayer, actor_unit, target_tile));
+                             unit_nuke(pplayer, actor_unit, target_tile,
+                                       paction));
     break;
   case ACTION_PARADROP:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
@@ -3188,7 +3197,8 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
-static bool unit_bombard(struct unit *punit, struct tile *ptile)
+static bool unit_bombard(struct unit *punit, struct tile *ptile,
+                         const struct action *paction)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
@@ -3244,10 +3254,10 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
       send_unit_info(NULL, pdefender);
 
       /* May cause an incident */
-      action_id_consequence_success(ACTION_BOMBARD, unit_owner(punit),
-                                    unit_owner(pdefender),
-                                    unit_tile(pdefender),
-                                    unit_link(pdefender));
+      action_consequence_success(paction, unit_owner(punit),
+                                 unit_owner(pdefender),
+                                 unit_tile(pdefender),
+                                 unit_link(pdefender));
     }
 
   } unit_list_iterate_safe_end;
@@ -3283,7 +3293,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
-                      struct tile *def_tile)
+                      struct tile *def_tile, const struct action *paction)
 {
   struct city *pcity;
 
@@ -3306,9 +3316,9 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
                     " your SDI defense."), city_link(pcity));
 
     /* Trying to nuke something this close can be... unpopular. */
-    action_id_consequence_caught(ACTION_NUKE, pplayer,
-                                 city_owner(pcity),
-                                 def_tile, unit_tile_link(punit));
+    action_consequence_caught(paction, pplayer,
+                              city_owner(pcity),
+                              def_tile, unit_tile_link(punit));
 
     /* Remove the destroyed nuke. */
     wipe_unit(punit, ULR_SDI, city_owner(pcity));
@@ -3319,7 +3329,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
   dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
   /* A nuke is always consumed when it detonates. See below. */
-  fc_assert(action_by_number(ACTION_NUKE)->actor_consuming_always);
+  fc_assert(paction->actor_consuming_always);
 
   /* The nuke must be wiped here so it won't be seen as a victim of its own
    * detonation. */
@@ -3331,10 +3341,10 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the tile nuker. A rule
    * like that would make sense in a story where detonating any nuke at all
    * could be forbidden. */
-  action_id_consequence_success(ACTION_NUKE, pplayer,
-                                tile_owner(def_tile),
-                                def_tile,
-                                tile_link(def_tile));
+  action_consequence_success(paction, pplayer,
+                             tile_owner(def_tile),
+                             def_tile,
+                             tile_link(def_tile));
 
   return TRUE;
 }
@@ -3350,7 +3360,8 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 **************************************************************************/
 static bool unit_do_destroy_city(struct player *act_player,
                                  struct unit *act_unit,
-                                 struct city *tgt_city)
+                                 struct city *tgt_city,
+                                 const struct action *paction)
 {
   int tgt_city_id;
   struct player *tgt_player;
@@ -3402,9 +3413,9 @@ static bool unit_do_destroy_city(struct player *act_player,
   }
 
   /* May cause an incident */
-  action_id_consequence_success(ACTION_DESTROY_CITY, act_player,
-                                tgt_player, city_tile(tgt_city),
-                                city_link(tgt_city));
+  action_consequence_success(paction, act_player,
+                             tgt_player, city_tile(tgt_city),
+                             city_link(tgt_city));
 
   /* Run post city destruction Lua script. */
   script_server_signal_emit("city_destroyed", 3,
