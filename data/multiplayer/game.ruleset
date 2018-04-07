@@ -580,6 +580,19 @@ target_reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
+[actionenabler_help_build_small_wonder]
+action = "Help Wonder"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "HelpWonder", "Local", TRUE
+      "DiplRel", "Foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "BuildingGenus", "SmallWonder", "Local", TRUE
+      "Building", "Palace", "Local", FALSE
+    }
+
 [actionenabler_recycle_unit]
 action = "Recycle Unit"
 actor_reqs    =
