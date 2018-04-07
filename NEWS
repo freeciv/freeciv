@@ -371,7 +371,7 @@ Changes affecting other rulesets / modders
             any of the new extra categories (Infra, Natural, Bonus, or
             Nuisance). (This mainly affects how they are presented in the
             help and user interface.) For instance, it would be possible
-            to have a hut-type base generated at game start (Bonus
+            to have a base generated at game start like a hut (Bonus
             category).
           + The total limit on extras of any kind is now 64 (previously
             there were limits of 32 base types and 8 road types).
@@ -510,7 +510,7 @@ Changes affecting other rulesets / modders
             effect from a disaster. GNA#22082
 
      * Terrain
-          + Terrain defense bonuses that aren't multiple of 10% now work
+          + Terrain defense bonuses that aren't a multiple of 10% now work
             as expected (previously they were rounded down to the nearest
             10%). GNA#25432
           + Map generation:
@@ -1221,10 +1221,6 @@ Known issues
        2.6.
      * The new tileset selection arrangements can still be a little
        confused/confusing. HRM#685235
-     * The Gtk3 client has laggy and uneven animations such as map
-       scrolling. (As of beta2, we've tried to address this in the Gtk3.22
-       client; we hope to backport it to Gtk3 if testing goes well.)
-       HRM#700707
      * The Gtk3 clients' theming has bugs with recent versions of Gtk3.
        HRM#693382
      * The Gtk3 clients' zoom function still has some glitches. HRM#696027

@@ -1,10 +1,159 @@
 ==============================
-Welcome to Freeciv 2.6.0-beta2
+Welcome to Freeciv 2.6.0-beta3
 ==============================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.0-beta2 to 2.6.0-beta3
+---------------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.0-beta3>)
+
+   Beta3 is mainly a bugfix release. Notably, it should fix crashes in the
+   Windows Gtk clients when moving or resizing dialogs, and the default
+   Gtk3 client now draws animations in a new way which is less laggy.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Units were prevented from moving between transports on different
+       tiles in some circumstances. HRM#693380
+     * In the Gtk3.x and Qt clients, it's now possible to move a unit
+       between transports on the same tile. HRM#732489
+     * Stealing a future technology was accidentally yielding two of them.
+       HRM#736836
+     * Units can no longer help to build small wonders such as the Palace.
+       (However, this is likely to be reverted before 2.6.0; see known
+       issues.) HRM#705580
+     * Fix a cause of error messages like "Team 0 had invalid technology
+       goal" when loading savegames with AI players. HRM#695971
+     * Put a message about nuclear attack in a more appropriate category.
+       HRM#735934
+     * The tutorial scenario was not displaying messages about technology
+       if you acquired them by means other than research (for instance,
+       from a hut). HRM#657359
+     * Changes to the civ1 ruleset to improve its fidelity:
+          + It's no longer possible to know a tech without its
+            prerequisites. HRM#729171
+          + Adjusted the progress of years to be more like the original.
+            HRM#731631
+
+Changes affecting other rulesets / modders
+
+     * More checking (and documentation) of the relationship between extra
+       and base/road sections in the ruleset. HRM#736838 HRM#736837
+     * Fix a crash with a malformed tileset. HRM#729532
+     * Remove any special handling of terrain name "unused" (which hasn't
+       done anything useful for some time). HRM#707585
+     * The new help system for extras works best if their main effect
+       clause is simplified and any special cases moved to subsidiary
+       clauses; this particularly affects the standard pattern of
+       irrigation and farmland effects. 2.6 ruleset authors may wish to
+       compare their effects.ruleset to the changes in supplied rulesets;
+       without these changes, the terrain help may not show the bonuses of
+       your extras.
+     * The onus is now on rulesets to describe the effects of irrigation,
+       mining, and pollution if relevant. 2.6 ruleset authors may wish to
+       change their help in line with the changes to supplied rulesets.
+
+General
+
+     * Fix an erroneous diagnostic for a malformed savegame. HRM#729275
+     * Fix a minor server memory leak. HRM#735637
+     * Various internal changes which should only affect developers.
+       HRM#715161 HRM#730564 HRM#696674 HRM#729900 HRM#733792 HRM#735850
+       HRM#735940 HRM#740444
+
+Clients
+
+     * The Windows builds of the Gtk clients tended to crash when certain
+       dialogs were moved or resized. This was a regression since beta1.
+       (This fix unfortunately leads to the rubber-band selection
+       rectangle in the Windows Gtk3 client becoming uglier.) HRM#735238
+     * Less laggy animations in the Gtk3 client (these were already in
+       Gtk3.22). However, map scrolling animation is still absent.
+       HRM#726552
+     * In the city dialog, clicking on the middle tile to rearrange
+       workers could fail to update the city dialog map display.
+       HRM#736822
+     * Music system: in-game music could be played even after leaving a
+       game. HRM#730597
+     * Give error messages when the tileset specified with the --tiles
+       command-line option, or suggested by the ruleset, can't be loaded.
+       HRM#730777 HRM#657414
+     * Gtk3.22: when a unit died while the client was still showing its
+       earlier movement (for instance when attacking), the animation of
+       its movement was not shown fully. HRM#737277
+     * Gtk3.22: remove some spurious underscores from UI element names.
+       HRM#719507
+     * SDL2: fix "Unable to create Sprite" errors on console when city
+       dialog is opened. HRM#684183
+
+Tools
+
+     * The ruleset editor statistics now include the number of
+       multipliers. HRM#735246
+
+Tilesets / Art
+
+     * Updates for the Hexemplio/Toonhex tilesets: hex-shaped
+       forts/fortresses and city walls, less obtrusive ruins, and improved
+       water. HRM#729151 HRM#729137 HRM#731454
+     * Less obtrusive ruins in Amplio2. HRM#697692
+     * Other very minor tileset tweaks. HRM#692596 HRM#729141
+
+Help / Documentation
+
+     * The built-in help now fully covers the updated 2.6 terrain
+       improvement and conversion system and corresponding ruleset
+       features. Some errors in the already existing help were also fixed.
+       HRM#732512 HRM#733895 HRM#733989 HRM#657410 HRM#732507 HRM#733863
+       HRM#733865 HRM#733902 HRM#736795 HRM#736830 HRM#736833
+     * The help for the 'sandbox' ruleset now notes that savegames may not
+       be portable even between minor releases. HRM#732480
+     * Miscellaneous improvements to in-game text and user documentation.
+       HRM#699164 HRM#696673 HRM#691877 HRM#660409 HRM#733864 HRM#733913
+       HRM#733929 HRM#730586
+     * Miscellaneous changes to developer/ruleset docs. HRM#732479
+       HRM#699149 HRM#736837 HRM#738322 HRM#738321 HRM#738908 HRM#740593
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Russian.
+          + Incomplete translations: Catalan (100% core, 100% nations,
+            98.2% ruledit), Polish (99.6% core, 100% nations, 98.2%
+            ruledit), Finnish (98.5% core, 91% nations, 98.2% ruledit),
+            British English (95.1% core, 100% nations, 100% ruledit).
+
+Build/portability
+
+     * Fix a possible failure to build the Qt client (undefined reference
+       to SDL_main), observed on Mac OS X Sierra. HRM#734798
+     * We now recommend that packagers favor the Gtk3.22 client over the
+       Gtk3 one. HRM#726799
+     * The supplied appdata .xml files have been updated to a more modern
+       format. HRM#690231
+     * The appdata .xml file for the Gtk3.22 client referred to the wrong
+       .desktop file. HRM#738290
+     * Fix some compiler warnings with Clang 6.0 HRM#733013 and GCC 8
+       HRM#731162.
+
+Known issues
+
+     * The rule change which disallows caravans/freight from helping build
+       small wonders breaks the multiplayer ruleset, where most wonders
+       are small wonders. We may revert it from 2.6 and postpone to 3.0.
+       HRM#745360
+     * The Gtk3 clients currently don't have animation for moving the map
+       view. HRM#735217
+     * The right-click map selection rectangle in the supplied Windows
+       Gtk3 package is ugly and leaves trails behind on the map view.
+       HRM#736230
 
 
 CHANGES FROM 2.6.0-beta1 to 2.6.0-beta2
