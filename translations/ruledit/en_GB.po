@@ -5,7 +5,7 @@
 # ...
 # Daniel Markstedt <himasaram@spray.se>, 2009.
 # "TimR" (timr@gna), 2010.
-# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2017.
+# Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>, 2010-2018.
 #
 # This file aims to provide a translation for every string, even those that
 # are identical (previously it only included msgstrs that were different).
@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
-"PO-Revision-Date: 2017-08-13 09:49+0100\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
+"PO-Revision-Date: 2018-04-07 11:33+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -216,7 +216,11 @@ msgstr "?stat:Bases"
 msgid "?stat:Roads"
 msgstr "?stat:Roads"
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+msgid "?stat:Multipliers"
+msgstr "?stat:Multipliers"
+
+#: tools/ruledit/tab_misc.cpp:202
 msgid "Ruleset saved"
 msgstr "Ruleset saved"
 
