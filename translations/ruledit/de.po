@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2014-08-12 15:00+0200\n"
 "Last-Translator: Marvin Gülker <quintus@quintilianus.eu>\n"
 "Language-Team: German Freeciv Translators <freeciv-de@googlegroups.com>\n"
@@ -255,7 +255,13 @@ msgstr ""
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+#, fuzzy
+#| msgid "Nations"
+msgid "?stat:Multipliers"
+msgstr "Nationen"
+
+#: tools/ruledit/tab_misc.cpp:202
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Regelsatz"

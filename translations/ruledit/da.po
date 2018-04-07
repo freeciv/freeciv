@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2011-01-30 14:56+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -254,7 +254,11 @@ msgstr ""
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+msgid "?stat:Multipliers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:202
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Nulstil"

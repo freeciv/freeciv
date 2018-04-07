@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -222,7 +222,11 @@ msgstr ""
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+msgid "?stat:Multipliers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:202
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Çöl"

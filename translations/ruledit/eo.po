@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2008-07-10 17:52+0200\n"
 "Last-Translator: Antonio Codazzi <f_sophia@libero.it>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -224,7 +224,11 @@ msgstr ""
 msgid "?stat:Roads"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+msgid "?stat:Multipliers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:202
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "Dezerto"

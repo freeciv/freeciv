@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-11 00:41+0000\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2017-08-27 09:14+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -210,7 +210,13 @@ msgstr "Bases"
 msgid "?stat:Roads"
 msgstr "Camins"
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+#, fuzzy
+#| msgid "?stat:Styles"
+msgid "?stat:Multipliers"
+msgstr "Estils"
+
+#: tools/ruledit/tab_misc.cpp:202
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 

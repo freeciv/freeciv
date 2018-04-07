@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S2_6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-01-30 15:27+0200\n"
+"POT-Creation-Date: 2018-03-24 11:13+0000\n"
 "PO-Revision-Date: 2018-02-15 16:38+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -203,7 +203,13 @@ msgstr "?stat:Bazy"
 msgid "?stat:Roads"
 msgstr "?stat:Drogi"
 
-#: tools/ruledit/tab_misc.cpp:198
+#: tools/ruledit/tab_misc.cpp:145
+#, fuzzy
+#| msgid "?stat:Styles"
+msgid "?stat:Multipliers"
+msgstr "?stat:Style"
+
+#: tools/ruledit/tab_misc.cpp:202
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
 
