@@ -705,12 +705,12 @@ static bool is_action_possible(const enum gen_action wanted_action,
     break;
 
   case ACTION_HELP_WONDER:
-    /* It is only possible to help the production of a great wonder. */
+    /* It is only possible to help the production of a wonder. */
     /* Info leak: It is already known when a foreign city is building a
      * wonder. */
     /* TODO: Do this rule belong in the ruleset? */
     if (!(VUT_IMPROVEMENT == target_city->production.kind
-        && is_great_wonder(target_city->production.value.building))) {
+        && is_wonder(target_city->production.value.building))) {
       return FALSE;
     }
 
