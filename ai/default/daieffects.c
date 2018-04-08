@@ -277,16 +277,10 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       v += value;
       break;
     }
-  case EFT_CONQUER_TECHS_MIN:
+  case EFT_CONQUEST_TECH_PCT:
     /* Compare to EFT_GIVE_IMM_TECH which gives game.info.sciencebox * num_techs */
-    v +=  game.info.sciencebox * (100 - game.server.conquercost) / 200;
-    break;
-  case EFT_CONQUER_TECHS_MAX:
-    /* Value is that of EFT_CONQUER_TECHS_MIN / 2.5
-     * - Increase here is never guaranteed to give extra tecsh.
-     *   It only increase potential to get them from fc_rand()
-     * - Increase here is often only to catch up EFT_CONQUER_TECHS_MIN */
-    v +=  game.info.sciencebox * (100 - game.server.conquercost) / 600;
+    v +=  game.info.sciencebox * (100 - game.server.conquercost) / 200
+      * amount / 100;
     break;
   case EFT_GROWTH_FOOD:
     v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];

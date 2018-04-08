@@ -164,12 +164,9 @@ penalties.
 Give_Imm_Tech
     Give amount techs immediately.
 
-Conquer_Techs_Min
-Conquer_Techs_Max
-    When a city is conquered, conqueror gets Conquer_Techs_Min value
-    tech from the player losing the city.
-    If value of Conquer_Techs_Max is higher than that of Conquer_Techs_Min,
-    random number of techs is given from the range between the values.
+Conquest_Tech_Pct
+    Percent chance that a player conquering a city learns a tech from the
+    former owner.
 
 Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 

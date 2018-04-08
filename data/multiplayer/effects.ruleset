@@ -133,9 +133,9 @@ reqs    =
 type    = "City_Vision_Radius_Sq"
 value   = 5
 
-[effect_conquer_techs_base]
-type    = "Conquer_Techs_Min"
-value   = 1
+[effect_conquest_tech]
+type    = "Conquest_Tech_Pct"
+value   = 100
 
 ; Nuclear power gives +1 moves to sea units
 [effect_nuclear_powered_boats]
