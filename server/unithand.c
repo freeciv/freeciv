@@ -110,9 +110,10 @@ static void illegal_action(struct player *pplayer,
                            const struct unit *target_unit,
                            const enum action_requester requester);
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
-                          struct city *pcity);
+                          struct city *pcity, const struct action *paction);
 static bool city_build(struct player *pplayer, struct unit *punit,
-                       struct tile *ptile, const char *name);
+                       struct tile *ptile, const char *name,
+                       const struct action *paction);
 static bool do_unit_establish_trade(struct player *pplayer,
                                     struct unit *punit,
                                     struct city *pcity_dest,
@@ -2535,7 +2536,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_JOIN_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             city_add_unit(pplayer, actor_unit, pcity));
+                             city_add_unit(pplayer, actor_unit, pcity,
+                                           paction));
     break;
   case ACTION_DESTROY_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -2582,7 +2584,7 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_FOUND_CITY:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              city_build(pplayer, actor_unit,
-                                        target_tile, name));
+                                        target_tile, name, paction));
     break;
   case ACTION_NUKE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
@@ -2787,7 +2789,7 @@ static bool unit_do_recycle(struct player *pplayer,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
-                          struct city *pcity)
+                          struct city *pcity, const struct action *paction)
 {
   int amount = unit_pop_value(punit);
 
@@ -2822,9 +2824,9 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                   city_link(pcity));;
   }
 
-  action_id_consequence_success(ACTION_JOIN_CITY, pplayer,
-                                city_owner(pcity), city_tile(pcity),
-                                city_link(pcity));
+  action_consequence_success(paction, pplayer,
+                             city_owner(pcity), city_tile(pcity),
+                             city_link(pcity));
 
   sanity_check_city(pcity);
 
@@ -2848,7 +2850,8 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
   this returns TRUE, unit may have died during the action.
 **************************************************************************/
 static bool city_build(struct player *pplayer, struct unit *punit,
-                       struct tile *ptile, const char *name)
+                       struct tile *ptile, const char *name,
+                       const struct action *paction)
 {
   char message[1024];
   int size;
@@ -2883,8 +2886,8 @@ static bool city_build(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the city founder. A rule
    * like that would make sense in a story where deep ecology is on the
    * table. (See also Voluntary Human Extinction Movement) */
-  action_id_consequence_success(ACTION_FOUND_CITY, pplayer, towner,
-                                ptile, tile_link(ptile));
+  action_consequence_success(paction, pplayer, towner,
+                             ptile, tile_link(ptile));
 
   return TRUE;
 }
