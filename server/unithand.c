@@ -326,8 +326,8 @@ static bool do_capture_units(struct player *pplayer,
                                     : IDENTITY_NUMBER_ZERO),
                                    ULR_CAPTURED);
     /* As unit_change_owner() currently remove the old unit and
-       * replace by a new one (with a new id), we want to make link to
-       * the new unit. */
+     * replace by a new one (with a new id), we want to make link to
+     * the new unit. */
     victim_link = unit_link(to_capture);
 
     /* Notify players */
