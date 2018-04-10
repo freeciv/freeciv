@@ -124,7 +124,8 @@ static bool unit_do_recycle(struct player *pplayer,
                             struct city *pcity);
 static bool do_unit_help_build_wonder(struct player *pplayer,
                                       struct unit *punit,
-                                      struct city *pcity_dest);
+                                      struct city *pcity_dest,
+                                      const struct action *paction);
 static bool unit_bombard(struct unit *punit, struct tile *ptile,
                          const struct action *paction);
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
@@ -464,7 +465,8 @@ static bool do_expel_unit(struct player *pplayer,
 **************************************************************************/
 static bool do_heal_unit(struct player *act_player,
                          struct unit *act_unit,
-                         struct unit *tgt_unit)
+                         struct unit *tgt_unit,
+                         const struct action *paction)
 {
   int healing_limit;
   int tgt_hp_max;
@@ -503,8 +505,8 @@ static bool do_heal_unit(struct player *act_player,
   send_unit_info(NULL, act_unit);
 
   /* This may have diplomatic consequences. */
-  action_id_consequence_success(ACTION_HEAL_UNIT, act_player, tgt_player,
-                                tgt_tile, unit_link(tgt_unit));
+  action_consequence_success(paction, act_player, tgt_player,
+                             tgt_tile, unit_link(tgt_unit));
 
   return TRUE;
 }
@@ -2435,7 +2437,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_HEAL_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
-                             do_heal_unit(pplayer, actor_unit, punit));
+                             do_heal_unit(pplayer, actor_unit, punit,
+                                          paction));
     break;
   case ACTION_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
@@ -2525,7 +2528,8 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_HELP_WONDER:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_help_build_wonder(pplayer,
-                                                       actor_unit, pcity));
+                                                       actor_unit, pcity,
+                                                       paction));
     break;
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
@@ -3836,7 +3840,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 **************************************************************************/
 static bool do_unit_help_build_wonder(struct player *pplayer,
                                       struct unit *punit,
-                                      struct city *pcity_dest)
+                                      struct city *pcity_dest,
+                                      const struct action *paction)
 {
   const char *work;
 
@@ -3879,10 +3884,8 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                 work);
 
   /* May cause an incident */
-  action_id_consequence_success(ACTION_HELP_WONDER, pplayer,
-                                city_owner(pcity_dest),
-                                city_tile(pcity_dest),
-                                city_link(pcity_dest));
+  action_consequence_success(paction, pplayer, city_owner(pcity_dest),
+                             city_tile(pcity_dest), city_link(pcity_dest));
 
   if (city_owner(pcity_dest) != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
