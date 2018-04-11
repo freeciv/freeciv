@@ -1655,7 +1655,11 @@ void request_action_details(enum gen_action action, int actor_id,
                             int target_id)
 {
   dsend_packet_unit_action_query(&client.conn,
-                                 actor_id, target_id, action);
+                                 actor_id, target_id, action,
+                                 /* Users that need the answer in the
+                                  * background should send the packet them
+                                  * self. At least for now. */
+                                 TRUE);
 }
 
 /**********************************************************************//**

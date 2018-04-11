@@ -804,6 +804,8 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   CITY city_id;
   BV_IMPRS improvements;
   GEN_ACTION action_id;
+
+  BOOL disturb_player;
 end
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
@@ -1053,6 +1055,8 @@ PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
   GEN_ACTION action_type;
+
+  BOOL disturb_player;
 end
 
 PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend
@@ -1073,6 +1077,8 @@ PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   UNIT target_id;   # city_id or unit_id
   GOLD cost;
   GEN_ACTION action_type;
+
+  BOOL disturb_player;
 end
 
 PACKET_UNIT_GET_ACTIONS = 87; cs, handle-per-conn, dsend
