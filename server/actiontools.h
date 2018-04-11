@@ -25,11 +25,6 @@ void action_consequence_caught(const struct action *paction,
                                struct player *victim_player,
                                const struct tile *victim_tile,
                                const char *victim_link);
-#define action_id_consequence_caught(action_id, offender,                 \
-                                     victim_player, victim_tile,          \
-                                     victim_link)                         \
-action_consequence_caught(action_by_number(action_id), offender,          \
-                          victim_player, victim_tile, victim_link)
 
 void action_consequence_success(const struct action *paction,
                                 struct player *offender,
