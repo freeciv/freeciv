@@ -391,9 +391,9 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (pcity->owner == punit->owner) {
-      struct unit_type *old_type = unit_type_get(punit);
-
       /* Only upgrade units you own, not allied ones */
+
+      struct unit_type *old_type = unit_type_get(punit);
       struct unit_type *punittype = can_upgrade_unittype(pplayer, old_type);
 
       if (military && !IS_ATTACKER(old_type)) {
