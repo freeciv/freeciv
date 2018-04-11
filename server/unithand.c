@@ -2200,6 +2200,8 @@ void handle_unit_action_query(struct connection *pc,
       int upgr_cost;
 
       tgt_utype = can_upgrade_unittype(pplayer, unit_type_get(pactor));
+      /* Already checked via is_action_enabled_unit_on_city() */
+      fc_assert_ret(tgt_utype);
       upgr_cost = unit_upgrade_price(pplayer,
                                       unit_type_get(pactor), tgt_utype);
 
