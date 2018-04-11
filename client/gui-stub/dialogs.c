@@ -154,6 +154,14 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   /* PORTME */
 }
 
+/***********************************************************************//**
+  Popup dialog for upgrade units
+***************************************************************************/
+void popup_upgrade_dialog(struct unit_list *punits)
+{
+  /* PORTME */
+}
+
 /**********************************************************************//**
   Popup a dialog asking the unit which improvement they would like to
   pillage.

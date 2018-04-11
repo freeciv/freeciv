@@ -657,6 +657,19 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
   return -1;
 }
 
+/***********************************************************************//**
+  Popup dialog for upgrade units
+***************************************************************************/
+void popup_upgrade_dialog(struct unit_list *punits)
+{
+  /* PORTME: is support for more than one unit in punits required? */
+
+  /* Assume only one unit for now. */
+  fc_assert_msg(unit_list_size(punits) <= 1,
+                "SDL2 popup_upgrade_dialog() handles max 1 unit.");
+  popup_unit_upgrade_dlg(unit_list_get(punits, 0), FALSE);
+}
+
 /**********************************************************************//**
   Open unit upgrade dialog.
 **************************************************************************/
