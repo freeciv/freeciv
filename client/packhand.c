@@ -4443,7 +4443,8 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
   ACTION_NONE indicates that performing the action is impossible.
 **************************************************************************/
 void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
-                               enum gen_action action_type)
+                               enum gen_action action_type,
+                               bool disturb_player)
 {
   struct city *pcity = game_city_by_number(target_id);
   struct unit *punit = game_unit_by_number(target_id);
@@ -4457,17 +4458,23 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     log_error("handle_unit_action_answer() the action %d doesn't exist.",
               action_type);
 
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_decision_clear_want(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
+
     return;
   }
 
   if (!pdiplomat) {
     log_debug("Bad actor %d.", diplomat_id);
 
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
+
     return;
   }
 
@@ -4475,30 +4482,44 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
         && is_human(client.conn.playing)) {
-      /* Focus on the unit so the player knows where it is */
-      unit_focus_set(pdiplomat);
+      if (disturb_player) {
+        /* Focus on the unit so the player knows where it is */
+        unit_focus_set(pdiplomat);
 
-      popup_bribe_dialog(pdiplomat, punit, cost, paction);
+        popup_bribe_dialog(pdiplomat, punit, cost, paction);
+      } else {
+        /* Not in use (yet). */
+        log_error("Unimplemented: received background unit bribe cost.");
+      }
     } else {
       log_debug("Bad target %d.", target_id);
-      action_selection_no_longer_in_progress(diplomat_id);
-      action_decision_clear_want(diplomat_id);
-      action_selection_next_in_focus(diplomat_id);
+      if (disturb_player) {
+        action_selection_no_longer_in_progress(diplomat_id);
+        action_decision_clear_want(diplomat_id);
+        action_selection_next_in_focus(diplomat_id);
+      }
     }
     break;
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
     if (pcity && client.conn.playing
         && is_human(client.conn.playing)) {
-      /* Focus on the unit so the player knows where it is */
-      unit_focus_set(pdiplomat);
+      if (disturb_player) {
+        /* Focus on the unit so the player knows where it is */
+        unit_focus_set(pdiplomat);
 
-      popup_incite_dialog(pdiplomat, pcity, cost, paction);
+        popup_incite_dialog(pdiplomat, pcity, cost, paction);
+      } else {
+        /* Not in use (yet). */
+        log_error("Unimplemented: received background city incite cost.");
+      }
     } else {
       log_debug("Bad target %d.", target_id);
-      action_selection_no_longer_in_progress(diplomat_id);
-      action_decision_clear_want(diplomat_id);
-      action_selection_next_in_focus(diplomat_id);
+      if (disturb_player) {
+        action_selection_no_longer_in_progress(diplomat_id);
+        action_decision_clear_want(diplomat_id);
+        action_selection_next_in_focus(diplomat_id);
+      }
     }
     break;
   case ACTION_UPGRADE_UNIT:
@@ -4516,16 +4537,20 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     break;
   case ACTION_NONE:
     log_debug("Server didn't respond to query.");
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_decision_clear_want(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
     break;
   default:
     log_error("handle_unit_action_answer() invalid action_type (%d).",
               action_type);
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_decision_clear_want(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
     break;
   };
 }
@@ -4720,7 +4745,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements,
-                               enum gen_action action_id)
+                               enum gen_action action_id,
+                               bool disturb_player)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
@@ -4730,17 +4756,23 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
 
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
+
     return;
   }
 
   if (!pcity) {
     log_debug("Bad city %d.", city_id);
 
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_decision_clear_want(diplomat_id);
-    action_selection_next_in_focus(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+      action_selection_next_in_focus(diplomat_id);
+    }
+
     return;
   }
 
@@ -4751,14 +4783,21 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
                                               improvement_index(pimprove)));
     } improvement_iterate_end;
 
-    /* Focus on the unit so the player knows where it is */
-    unit_focus_set(pdiplomat);
+    if (disturb_player) {
+      /* Focus on the unit so the player knows where it is */
+      unit_focus_set(pdiplomat);
 
-    popup_sabotage_dialog(pdiplomat, pcity, paction);
+      popup_sabotage_dialog(pdiplomat, pcity, paction);
+    } else {
+      /* Not in use (yet). */
+      log_error("Unimplemented: received background city building list.");
+    }
   } else {
     log_debug("Can't issue orders");
-    action_selection_no_longer_in_progress(diplomat_id);
-    action_decision_clear_want(diplomat_id);
+    if (disturb_player) {
+      action_selection_no_longer_in_progress(diplomat_id);
+      action_decision_clear_want(diplomat_id);
+    }
   }
 }
 

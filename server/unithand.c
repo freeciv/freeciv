@@ -108,6 +108,7 @@ static void illegal_action(struct player *pplayer,
                            const struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
+                           bool disturb_player,
                            const enum action_requester requester);
 static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity, const struct action *paction);
@@ -2085,6 +2086,7 @@ static void illegal_action(struct player *pplayer,
                            const struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
+                           bool disturb_player,
                            const enum action_requester requester)
 {
   int punishment_mp;
@@ -2120,6 +2122,8 @@ static void illegal_action(struct player *pplayer,
   send_unit_info(NULL, actor);
 
   if (punishment_mp) {
+    /* The player probably wants to be disturbed if his unit was punished
+     * with the loss of movement points. */
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   /* TRANS: Spy ... movement point text that may include
@@ -2129,22 +2133,28 @@ static void illegal_action(struct player *pplayer,
                   move_points_text(punishment_mp, TRUE));
   }
 
-  illegal_action_msg(pplayer, E_UNIT_ILLEGAL_ACTION,
-                     actor, stopped_action,
-                     target_tile, target_city, target_unit);
+  if (disturb_player || punishment_mp) {
+    /* This is a foreground request or the actor unit was punished with
+     * the loss of movement points. */
+    illegal_action_msg(pplayer, E_UNIT_ILLEGAL_ACTION,
+                       actor, stopped_action,
+                       target_tile, target_city, target_unit);
+  }
 }
 
 /**************************************************************************
   Inform the client that something went wrong during a unit diplomat query
 **************************************************************************/
 static void unit_query_impossible(struct connection *pc,
-				  const int diplomat_id,
-				  const int target_id)
+                                  const int diplomat_id,
+                                  const int target_id,
+                                  bool disturb_player)
 {
   dsend_packet_unit_action_answer(pc,
                                   diplomat_id, target_id,
                                   0,
-                                  ACTION_NONE);
+                                  ACTION_NONE,
+                                  disturb_player);
 }
 
 /**************************************************************************
@@ -2155,9 +2165,10 @@ static void unit_query_impossible(struct connection *pc,
   connections for that player.
 **************************************************************************/
 void handle_unit_action_query(struct connection *pc,
-			      const int actor_id,
-			      const int target_id,
-			      const enum gen_action action_type)
+                              const int actor_id,
+                              const int target_id,
+                              const enum gen_action action_type,
+                              bool disturb_player)
 {
   struct player *pplayer = pc->playing;
   struct unit *pactor = player_unit_by_number(pplayer, actor_id);
@@ -2169,7 +2180,7 @@ void handle_unit_action_query(struct connection *pc,
     log_error("handle_unit_action_query() the action %d doesn't exist.",
               action_type);
 
-    unit_query_impossible(pc, actor_id, target_id);
+    unit_query_impossible(pc, actor_id, target_id, disturb_player);
     return;
   }
 
@@ -2177,7 +2188,7 @@ void handle_unit_action_query(struct connection *pc,
     /* Probably died or bribed. */
     log_verbose("handle_unit_action_query() invalid actor %d",
                 actor_id);
-    unit_query_impossible(pc, actor_id, target_id);
+    unit_query_impossible(pc, actor_id, target_id, disturb_player);
     return;
   }
 
@@ -2185,7 +2196,7 @@ void handle_unit_action_query(struct connection *pc,
     /* Shouldn't happen */
     log_error("handle_unit_action_query() %s (%d) is not an actor",
               unit_rule_name(pactor), actor_id);
-    unit_query_impossible(pc, actor_id, target_id);
+    unit_query_impossible(pc, actor_id, target_id, disturb_player);
     return;
   }
 
@@ -2197,12 +2208,12 @@ void handle_unit_action_query(struct connection *pc,
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       unit_bribe_cost(punit, pplayer),
-                                      action_type);
+                                      action_type, disturb_player);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      punit ? unit_owner(punit) : NULL,
-                     NULL, NULL, punit, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id);
+                     NULL, NULL, punit, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
       return;
     }
     break;
@@ -2214,12 +2225,12 @@ void handle_unit_action_query(struct connection *pc,
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
                                       city_incite_cost(pplayer, pcity),
-                                      action_type);
+                                      action_type, disturb_player);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
-                     NULL, pcity, NULL, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id);
+                     NULL, pcity, NULL, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
       return;
     }
     break;
@@ -2238,12 +2249,13 @@ void handle_unit_action_query(struct connection *pc,
 
       dsend_packet_unit_action_answer(pc,
                                       actor_id, target_id,
-                                      upgr_cost, action_type);
+                                      upgr_cost, action_type,
+                                      disturb_player);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
-                     NULL, pcity, NULL, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id);
+                     NULL, pcity, NULL, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
       return;
     }
     break;
@@ -2253,17 +2265,17 @@ void handle_unit_action_query(struct connection *pc,
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
       spy_send_sabotage_list(pc, pactor, pcity,
-                             action_by_number(action_type));
+                             action_by_number(action_type), disturb_player);
     } else {
       illegal_action(pplayer, pactor, action_type,
                      pcity ? city_owner(pcity) : NULL,
-                     NULL, pcity, NULL, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id);
+                     NULL, pcity, NULL, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
       return;
     }
     break;
   default:
-    unit_query_impossible(pc, actor_id, target_id);
+    unit_query_impossible(pc, actor_id, target_id, disturb_player);
     return;
   };
 }
@@ -2362,7 +2374,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    pcity ? city_owner(pcity) : NULL, NULL, pcity, NULL,   \
-                   requester);                                            \
+                   TRUE, requester);                                      \
   }
 
 #define ACTION_STARTED_UNIT_SELF(action, actor, action_performer)         \
@@ -2384,7 +2396,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    unit_owner(actor_unit), NULL, NULL, actor_unit,        \
-                   requester);                                            \
+                   TRUE, requester);                                      \
   }
 
 #define ACTION_STARTED_UNIT_UNIT(action, actor, target, action_performer) \
@@ -2411,7 +2423,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    punit ? unit_owner(punit) : NULL, NULL, NULL, punit,   \
-                   requester);                                            \
+                   TRUE, requester);                                      \
   }
 
 #define ACTION_STARTED_UNIT_UNITS(action, actor, target, action_performer)\
@@ -2435,7 +2447,7 @@ bool unit_perform_action(struct player *pplayer,
   } else {                                                                \
     illegal_action(pplayer, actor_unit, action_type,                      \
                    NULL, target_tile, NULL, NULL,                         \
-                   requester);                                            \
+                   TRUE, requester);                                      \
   }
 
 #define ACTION_STARTED_UNIT_TILE(action, actor, target, action_performer) \
@@ -2460,7 +2472,7 @@ bool unit_perform_action(struct player *pplayer,
     illegal_action(pplayer, actor_unit, action_type,                      \
                    target_tile ? tile_owner(target_tile) : NULL,          \
                    target_tile, NULL, NULL,                               \
-                   requester);                                            \
+                   TRUE, requester);                                      \
   }
 
   switch(action_type) {
