@@ -1337,7 +1337,7 @@ static int upgrade_callback(struct widget *pWidget)
 
     if ((pcity = game_city_by_number(pDiplomat_Dlg->target_ids[ATK_CITY]))
         && (punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))) {
-      popup_unit_upgrade_dlg(punit, pcity);
+      popup_unit_upgrade_dlg(punit, FALSE);
     }
 
     popdown_diplomat_dialog();
