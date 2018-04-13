@@ -435,9 +435,10 @@ void *get_packet_from_connection(struct connection *pc,
     uLong compressed_size = whole_packet_len - header_size;
     /* 
      * We don't know the decompressed size. We assume a bad case
-     * here: an expansion by an factor of 100. 
+     * here: an expansion by an factor of 150.
+     * We've had a case where factor of 100 was not big enough.
      */
-    unsigned long int decompressed_size = 100 * compressed_size;
+    unsigned long int decompressed_size = 150 * compressed_size;
     void *decompressed = fc_malloc(decompressed_size);
     int error;
     struct socket_packet_buffer *buffer = pc->buffer;
