@@ -1846,7 +1846,7 @@ static void do_disband_alternative(void *p)
   next->unit_id = data->unit_id;
   next->alt = data->alt - 1;
 
-  /* Lates request ID before trying to send a request. */
+  /* Latest request ID before trying to send a request. */
   last_request_id_used = client.conn.client.last_request_id_used;
 
   /* Send a request to the server unless it is known to be pointless. */
