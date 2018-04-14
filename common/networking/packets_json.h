@@ -21,8 +21,6 @@ extern "C" {
 
 #define log_packet_json log_debug
 
-extern bool json_mode;
-
 void *get_packet_from_connection_json(struct connection *pc,
                                       enum packet_type *ptype);
 
@@ -32,13 +30,14 @@ void *get_packet_from_connection_json(struct connection *pc,
   char *json_buffer = NULL;                                             \
   struct json_data_out dout;                                            \
   dio_output_init(&(dout.raw), buffer, sizeof(buffer));                 \
-  if (json_mode) {                                                      \
+  if (pc->json_mode) {                                                      \
     dout.json = json_object();                                          \
     dio_put_uint16_raw(&(dout.raw), 0);                                 \
     pid_addr = plocation_field_new("pid");                              \
     dio_put_uint8_json(&dout, pid_addr, packet_type);                   \
     FC_FREE(pid_addr);                                                  \
   } else {                                                              \
+    dout.json = NULL;                                                   \
     dio_put_type_raw(&dout.raw, pc->packet_header.length, 0);           \
     dio_put_type_raw(&dout.raw, pc->packet_header.type, packet_type);   \
   }
@@ -46,7 +45,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define SEND_PACKET_END(packet_type) \
   {                                                                     \
     size_t size;                                                        \
-    if (json_mode) {                                                    \
+    if (pc->json_mode) {                                                    \
       json_buffer = json_dumps(dout.json, JSON_COMPACT | JSON_ENSURE_ASCII); \
       if (json_buffer) {                                                \
         dio_put_string_raw(&(dout.raw), json_buffer);                   \
@@ -71,7 +70,7 @@ void *get_packet_from_connection_json(struct connection *pc,
 #define RECEIVE_PACKET_START(packet_type, result)       \
   struct packet_type packet_buf, *result = &packet_buf; \
   struct data_in din;                                   \
-  if (!json_mode) { \
+  if (!pc->json_mode) { \
       dio_input_init(&din, pc->buffer->data, \
                  data_type_size(pc->packet_header.length)); \
   { \
@@ -85,7 +84,7 @@ void *get_packet_from_connection_json(struct connection *pc,
   }
 
 #define RECEIVE_PACKET_END(result) \
-  if (json_mode) { \
+  if (pc->json_mode) { \
     json_decref(pc->json_packet);        \
     result = fc_malloc(sizeof(*result)); \
     *result = packet_buf; \

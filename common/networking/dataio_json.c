@@ -57,8 +57,6 @@
 
 #include "dataio.h"
 
-bool json_mode = TRUE;
-
 static bool dio_get_bool8_json_internal(json_t *json_packet,
                                         const struct plocation *location,
                                         bool *dest);
@@ -190,7 +188,7 @@ void dio_put_uint8_json(struct json_data_out *dout,
                         const struct plocation *location,
                         int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint8_raw(&dout->raw, value);
@@ -204,7 +202,7 @@ void dio_put_sint8_json(struct json_data_out *dout,
                         const struct plocation *location,
                         int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint8_raw(&dout->raw, value);
@@ -217,7 +215,7 @@ void dio_put_sint8_json(struct json_data_out *dout,
 void dio_put_uint16_json(struct json_data_out *dout,
                          const struct plocation *location, int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint16_raw(&dout->raw, value);
@@ -230,7 +228,7 @@ void dio_put_uint16_json(struct json_data_out *dout,
 void dio_put_sint16_json(struct json_data_out *dout,
                          const struct plocation *location, int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint16_raw(&dout->raw, value);
@@ -245,7 +243,7 @@ void dio_put_unit_list_json(struct json_data_out *dout,
                             const struct plocation *location,
                             const int *value)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* TODO: implement */
   } else {
     dio_put_unit_list_raw(&dout->raw, value);
@@ -260,7 +258,7 @@ void dio_put_building_list_json(struct json_data_out *dout,
                                 const struct plocation *location,
                                 const int *value)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* TODO: implement */
   } else {
     dio_put_building_list_raw(&dout->raw, value);
@@ -274,7 +272,7 @@ void dio_put_worklist_json(struct json_data_out *dout,
                            struct plocation *location,
                            const struct worklist *pwl)
 {
-  if (json_mode) {
+  if (dout->json) {
     int i;
     const int size = worklist_length(pwl);
 
@@ -331,7 +329,7 @@ static bool dio_get_uint8_json_internal(json_t *json_packet,
 bool dio_get_uint8_json(struct connection *pc, struct data_in *din,
                         const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     return dio_get_uint8_json_internal(pc->json_packet, location, dest);
   } else {
     return dio_get_uint8_raw(din, dest);
@@ -344,7 +342,7 @@ bool dio_get_uint8_json(struct connection *pc, struct data_in *din,
 bool dio_get_uint16_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *pint = plocation_read_data(pc->json_packet, location);
 
     if (!pint) {
@@ -393,7 +391,7 @@ static bool dio_get_uint32_json_internal(json_t *json_packet,
 bool dio_get_uint32_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     return dio_get_uint32_json_internal(pc->json_packet, location, dest);
   } else {
     return dio_get_uint32_raw(din, dest);
@@ -406,7 +404,7 @@ bool dio_get_uint32_json(struct connection *pc, struct data_in *din,
 bool dio_get_sint32_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     return dio_get_uint32_json_internal(pc->json_packet, location, dest);
   } else {
     return dio_get_sint32_raw(din, dest);
@@ -419,7 +417,7 @@ bool dio_get_sint32_json(struct connection *pc, struct data_in *din,
 bool dio_get_tech_list_json(struct connection *pc, struct data_in *din,
                             const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     /* TODO: implement */
   } else {
     return dio_get_tech_list_raw(din, dest);
@@ -434,7 +432,7 @@ bool dio_get_tech_list_json(struct connection *pc, struct data_in *din,
 bool dio_get_unit_list_json(struct connection *pc, struct data_in *din,
                             const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     /* TODO: implement */
   } else {
     return dio_get_unit_list_raw(din, dest);
@@ -449,7 +447,7 @@ bool dio_get_unit_list_json(struct connection *pc, struct data_in *din,
 bool dio_get_building_list_json(struct connection *pc, struct data_in *din,
                                 const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     /* TODO: implement */
   } else {
     return dio_get_building_list_raw(din, dest);
@@ -465,7 +463,7 @@ bool dio_get_worklist_json(struct connection *pc, struct data_in *din,
                            struct plocation *location,
                            struct worklist *pwl)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     int i, length;
 
     const json_t *wlist = plocation_read_data(pc->json_packet, location);
@@ -532,7 +530,7 @@ bool dio_get_uint8_vec8_json(struct connection *pc, struct data_in *din,
                              const struct plocation *location,
                              int **values, int stop_value)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     /* TODO: implement */
   } else {
     return dio_get_uint8_vec8_raw(din, values, stop_value);
@@ -549,7 +547,7 @@ bool dio_get_uint16_vec8_json(struct connection *pc, struct data_in *din,
                               int **values,
                               int stop_value)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     /* TODO: implement */
   } else {
     return dio_get_uint16_vec8_raw(din, values, stop_value);
@@ -565,7 +563,7 @@ bool dio_get_requirement_json(struct connection *pc, struct data_in *din,
                               const struct plocation *location,
                               struct requirement *preq)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     int kind, range, value;
     bool survives, present, quiet;
 
@@ -640,7 +638,7 @@ bool dio_get_action_probability_json(struct connection *pc, struct data_in *din,
                                      const struct plocation *location,
                                      struct act_prob *prob)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     struct plocation *ap_field;
 
     /* Find the action probability object. */
@@ -684,7 +682,7 @@ bool dio_get_action_probability_json(struct connection *pc, struct data_in *din,
 void dio_put_farray_json(struct json_data_out *dout,
                          const struct plocation *location, int size)
 {
-  if (json_mode) {
+  if (dout->json) {
     int i;
     json_t *farray = json_array();
 
@@ -706,7 +704,7 @@ void dio_put_farray_json(struct json_data_out *dout,
 void dio_put_uint32_json(struct json_data_out *dout,
                          const struct plocation *location, int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_uint32_raw(&dout->raw, value);
@@ -719,7 +717,7 @@ void dio_put_uint32_json(struct json_data_out *dout,
 void dio_put_sint32_json(struct json_data_out *dout,
                          const struct plocation *location, int value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_integer(value));
   } else {
     dio_put_sint32_raw(&dout->raw, value);
@@ -732,7 +730,7 @@ void dio_put_sint32_json(struct json_data_out *dout,
 void dio_put_bool8_json(struct json_data_out *dout,
                         const struct plocation *location, bool value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, value ? json_true() : json_false());
   } else {
     dio_put_bool8_raw(&dout->raw, value);
@@ -745,7 +743,7 @@ void dio_put_bool8_json(struct json_data_out *dout,
 void dio_put_bool32_json(struct json_data_out *dout,
                          const struct plocation *location, bool value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, value ? json_true() : json_false());
   } else {
     dio_put_bool32_raw(&dout->raw, value);
@@ -759,7 +757,7 @@ void dio_put_ufloat_json(struct json_data_out *dout,
                          const struct plocation *location,
                          float value, int float_factor)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_real(value));
   } else {
     dio_put_ufloat_raw(&dout->raw, value, float_factor);
@@ -773,7 +771,7 @@ void dio_put_sfloat_json(struct json_data_out *dout,
                          const struct plocation *location,
                          float value, int float_factor)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_real(value));
   } else {
     dio_put_sfloat_raw(&dout->raw, value, float_factor);
@@ -787,7 +785,7 @@ void dio_put_uint8_vec8_json(struct json_data_out *dout,
                              const struct plocation *location,
                              int *values, int stop_value)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* TODO: implement. */
   } else {
     dio_put_uint8_vec8_raw(&dout->raw, values, stop_value);
@@ -801,7 +799,7 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout,
                               const struct plocation *location, int *values,
                               int stop_value)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* TODO: implement. */
   } else {
     dio_put_uint16_vec8_raw(&dout->raw, values, stop_value);
@@ -816,7 +814,7 @@ void dio_put_memory_json(struct json_data_out *dout,
                          const void *value,
                          size_t size)
 {
-  if (json_mode) {
+  if (dout->json) {
     int i;
 
     dio_put_farray_json(dout, location, size);
@@ -843,7 +841,7 @@ void dio_put_string_json(struct json_data_out *dout,
                          const struct plocation *location,
                          const char *value)
 {
-  if (json_mode) {
+  if (dout->json) {
     plocation_write_data(dout->json, location, json_string(value));
   } else {
     dio_put_string_raw(&dout->raw, value);
@@ -857,7 +855,7 @@ void dio_put_estring_json(struct json_data_out *dout,
                           const struct plocation *location,
                           const char *value)
 {
-  if (json_mode) {
+  if (dout->json) {
     char *escaped_value;
 
     /* Let CURL find the length it self by passing 0 */
@@ -880,7 +878,7 @@ void dio_put_tech_list_json(struct json_data_out *dout,
                             const struct plocation *location,
                             const int *value)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* TODO: implement */
   } else {
     dio_put_tech_list_raw(&dout->raw, value);
@@ -894,7 +892,7 @@ void dio_put_requirement_json(struct json_data_out *dout,
                               const struct plocation *location,
                               const struct requirement *preq)
 {
-  if (json_mode) {
+  if (dout->json) {
     int kind, range, value;
     bool survives, present, quiet;
 
@@ -929,7 +927,7 @@ void dio_put_action_probability_json(struct json_data_out *dout,
                                      const struct plocation *location,
                                      const struct act_prob *prob)
 {
-  if (json_mode) {
+  if (dout->json) {
     /* Create the action probability object. */
     json_t *action_probability = json_object();
 
@@ -974,7 +972,7 @@ static bool dio_get_bool8_json_internal(json_t *json_packet,
 bool dio_get_bool8_json(struct connection *pc, struct data_in *din,
                         const struct plocation *location, bool *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     return dio_get_bool8_json_internal(pc->json_packet, location, dest);
   } else {
     return dio_get_bool8_raw(din, dest);
@@ -987,7 +985,7 @@ bool dio_get_bool8_json(struct connection *pc, struct data_in *din,
 bool dio_get_bool32_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location, bool *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *pbool = plocation_read_data(pc->json_packet, location);
 
     if (!pbool) {
@@ -1014,7 +1012,7 @@ bool dio_get_ufloat_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location,
                          float *dest, int float_factor)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *preal = plocation_read_data(pc->json_packet, location);
 
     if (!preal) {
@@ -1036,7 +1034,7 @@ bool dio_get_sfloat_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location,
                          float *dest, int float_factor)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *preal = plocation_read_data(pc->json_packet, location);
 
     if (!preal) {
@@ -1057,7 +1055,7 @@ bool dio_get_sfloat_json(struct connection *pc, struct data_in *din,
 bool dio_get_sint8_json(struct connection *pc, struct data_in *din,
                         const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *pint = plocation_read_data(pc->json_packet, location);
 
     if (!pint) {
@@ -1083,7 +1081,7 @@ bool dio_get_sint8_json(struct connection *pc, struct data_in *din,
 bool dio_get_sint16_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location, int *dest)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     json_t *pint = plocation_read_data(pc->json_packet, location);
 
     if (!pint) {
@@ -1110,7 +1108,7 @@ bool dio_get_memory_json(struct connection *pc, struct data_in *din,
                          struct plocation *location,
                          void *dest, size_t dest_size)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     int i;
 
     location->sub_location = plocation_elem_new(0);
@@ -1168,7 +1166,7 @@ bool dio_get_string_json(struct connection *pc, struct data_in *din,
                          const struct plocation *location,
                          char *dest, size_t max_dest_size)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     return dio_get_string_json_internal(pc->json_packet, location,
                                         dest, max_dest_size);
   } else {
@@ -1185,7 +1183,7 @@ bool dio_get_estring_json(struct connection *pc, struct data_in *din,
                           const struct plocation *location,
                           char *dest, size_t max_dest_size)
 {
-  if (json_mode) {
+  if (pc->json_mode) {
     char *escaped_value;
     char *unescaped_value;
 

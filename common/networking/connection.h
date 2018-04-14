@@ -159,6 +159,7 @@ struct connection {
   struct socket_packet_buffer *send_buffer;
   struct timer *last_write;
 #ifdef FREECIV_JSON_CONNECTION
+  bool json_mode;
   json_t *json_packet;
 #endif /* FREECIV_JSON_CONNECTION */
 

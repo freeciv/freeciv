@@ -594,6 +594,9 @@ void connection_common_init(struct connection *pconn)
   pconn->buffer = new_socket_packet_buffer();
   pconn->send_buffer = new_socket_packet_buffer();
   pconn->statistics.bytes_send = 0;
+#ifdef FREECIV_JSON_CONNECTION
+  pconn->json_mode = TRUE;
+#endif /* FREECIV_JSON_CONNECTION */
 
   init_packet_hashs(pconn);
 

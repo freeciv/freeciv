@@ -113,7 +113,7 @@ void *get_packet_from_connection_json(struct connection *pc,
     return NULL;
   }
 
-  if (json_mode) {
+  if (pc->json_mode) {
     /* Parse JSON packet. Note that json string has '\0' */
     pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
 
