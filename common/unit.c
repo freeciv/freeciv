@@ -952,10 +952,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return can_build_base(punit, extra_base_get(target), ptile);
 
   case ACTIVITY_GEN_ROAD:
-    if (target == NULL) {
-      return FALSE;
-    }
-    return can_build_road(extra_road_get(target), punit, ptile);
+    return is_action_enabled_unit_on_tile(ACTION_ROAD,
+                                          punit, ptile, target);
 
   case ACTIVITY_SENTRY:
     if (!can_unit_survive_at_tile(&(wld.map), punit, unit_tile(punit))

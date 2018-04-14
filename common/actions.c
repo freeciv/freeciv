@@ -561,6 +561,10 @@ static void hard_code_actions(void)
       action_new(ACTION_FORTIFY, ATK_TILE,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_ROAD] =
+      action_new(ACTION_ROAD, ATK_TILE,
+                 FALSE, TRUE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1614,6 +1618,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
+  case ACTION_ROAD:
     if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
       /* Reason: Must have "Settlers" flag. */
       return FALSE;
@@ -1815,6 +1820,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_ROAD:
     /* No hard unit type requirements. */
     break;
 
@@ -2344,6 +2350,15 @@ is_action_possible(const enum gen_action wanted_action,
                                            pterrain->mining_result)
         || (terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
             && tile_city(target_tile))) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_ROAD:
+    if (target_extra == NULL) {
+      return TRI_NO;
+    }
+    if (!can_build_road(extra_road_get(target_extra), actor_unit, target_tile)) {
       return TRI_NO;
     }
     break;
@@ -3348,6 +3363,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_ROAD:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4383,6 +4399,9 @@ const char *action_ui_name_default(int act)
   case ACTION_FORTIFY:
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
+  case ACTION_ROAD:
+    /* TRANS: Build _Road (100% chance of success). */
+    return N_("Build %sRoad%s");
   }
 
   return NULL;

@@ -317,6 +317,9 @@ ui_name_pillage = _("Pilla%sge%s")
 ; /* TRANS: _Fortify (100% chance of success). */
 ui_name_fortify = _("%sFortify%s")
 
+; /* TRANS: Build _Road (100% chance of success). */
+ui_name_road = _("Build %sRoad%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -631,6 +634,13 @@ action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitClassFlag", "CanFortify",   "Local"
+    }
+
+[actionenabler_road]
+action        = "Road"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
     }
 
 [borders]

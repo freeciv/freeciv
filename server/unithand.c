@@ -630,6 +630,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_ROAD:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2662,6 +2663,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_FORTIFYING,
+                                                             &tgt));
+  case ACTION_ROAD:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_GEN_ROAD,
                                                              &tgt));
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
@@ -4923,6 +4929,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_MINE_TF:
       case ACTION_PILLAGE:
       case ACTION_FORTIFY:
+      case ACTION_ROAD:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */
