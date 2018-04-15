@@ -1005,23 +1005,35 @@ static void illegal_action(struct player *pplayer,
                            const struct city *target_city,
                            const struct unit *target_unit)
 {
+  int punishment_mp;
   struct ane_expl *explnat;
 
   /* The mistake may have a cost. */
-  actor->moves_left = MAX(0, actor->moves_left
-      - get_target_bonus_effects(NULL,
-                                 unit_owner(actor),
-                                 tgt_player,
-                                 NULL,
-                                 NULL,
-                                 NULL,
-                                 actor,
-                                 unit_type_get(actor),
-                                 NULL,
-                                 NULL,
-                                 EFT_ILLEGAL_ACTION_MOVE_COST));
+  punishment_mp = get_target_bonus_effects(NULL,
+                                           unit_owner(actor),
+                                           tgt_player,
+                                           NULL,
+                                           NULL,
+                                           NULL,
+                                           actor,
+                                           unit_type_get(actor),
+                                           NULL,
+                                           NULL,
+                                           EFT_ILLEGAL_ACTION_MOVE_COST);
+
+  actor->moves_left = MAX(0, actor->moves_left - punishment_mp);
 
   send_unit_info(NULL, actor);
+
+  if (punishment_mp) {
+    notify_player(pplayer, unit_tile(actor),
+                  E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: Spy ... movement point text that may include
+                   * fractions. */
+                  _("Your %s lost %s MP for attempting an illegal action."),
+                  unit_name_translation(actor),
+                  move_points_text(punishment_mp, TRUE));
+  }
 
   /* Explain why the action was illegal. */
   explnat = expl_act_not_enabl(actor, stopped_action,
