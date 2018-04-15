@@ -97,6 +97,8 @@ tiles = { "row", "column", "tag"
   3, 14,  "e_unit_was_expelled"
   3, 15,  "e_unit_did_expel"
   3, 16,  "e_unit_action_failed"
+  3, 17,  "e_my_unit_did_heal"
+  3, 18,  "e_my_unit_was_healed"
 
   4,  0, "e_my_diplomat_escape" ; base sprite for my diplomats
   4,  1, "e_my_diplomat_bribe"
