@@ -113,6 +113,19 @@ void *get_packet_from_connection_json(struct connection *pc,
     return NULL;
   }
 
+  /*
+   * The server tries to parse as JSON the first packet that it gets on a
+   * connection. If it is a valid JSON packet, the connection is switched
+   * to JSON mode.
+   */
+  if (is_server() && pc->server.last_request_id_seen == 0) {
+    /* Try to parse JSON packet. Note that json string has '\0' */
+    pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
+
+    /* Set the connection mode */
+    pc->json_mode = (pc->json_packet != NULL);
+  }
+
   if (pc->json_mode) {
     /* Parse JSON packet. Note that json string has '\0' */
     pc->json_packet = json_loadb((char*)pc->buffer->data + 2, whole_packet_len - 3, 0, &error);
