@@ -473,6 +473,9 @@ static bool do_heal_unit(struct player *act_player,
   int tgt_hp_max;
   struct player *tgt_player;
   struct tile *tgt_tile;
+  char act_unit_link[MAX_LEN_LINK];
+  char tgt_unit_link[MAX_LEN_LINK];
+  const char *tgt_unit_owner;
 
   /* Sanity checks: got all the needed input. */
   fc_assert_ret_val(act_player, FALSE);
@@ -504,6 +507,34 @@ static bool do_heal_unit(struct player *act_player,
   /* Healing a unit spends the actor's movement. */
   act_unit->moves_left = 0;
   send_unit_info(NULL, act_unit);
+
+  /* Every call to unit_link() overwrites the previous. Two units are being
+   * linked to. */
+  sz_strlcpy(act_unit_link, unit_link(act_unit));
+  sz_strlcpy(tgt_unit_link, unit_link(tgt_unit));
+
+  /* Notify everybody involved. */
+  if (act_player == tgt_player) {
+    /* TRANS: used instead of nation adjective when the nation is
+     * domestic. */
+    tgt_unit_owner = _("your");
+  } else {
+    tgt_unit_owner = nation_adjective_for_player(unit_nationality(tgt_unit));
+  }
+
+  notify_player(act_player, tgt_tile, E_MY_UNIT_DID_HEAL, ftc_server,
+                /* TRANS: If foreign: Your Leader heals Finnish Warrior.
+                 * If domestic: Your Leader heals your Warrior. */
+                _("Your %s heals %s %s."),
+                act_unit_link, tgt_unit_owner, tgt_unit_link);
+
+  if (act_player != tgt_player) {
+    notify_player(tgt_player, tgt_tile, E_MY_UNIT_WAS_HEALED, ftc_server,
+                  /* TRANS: Norwegian ... Leader ... Warrior */
+                  _("%s %s heals your %s."),
+                  nation_adjective_for_player(unit_nationality(act_unit)),
+                  act_unit_link, tgt_unit_link);
+  }
 
   /* This may have diplomatic consequences. */
   action_consequence_success(paction, act_player, tgt_player,
