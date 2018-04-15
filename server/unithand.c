@@ -2056,6 +2056,8 @@ static void illegal_action(struct player *pplayer,
                            const struct unit *target_unit,
                            const enum action_requester requester)
 {
+  int punishment_mp;
+
   /* Why didn't the game check before trying something illegal? Did a good
    * reason to not call is_action_enabled_unit_on...() appear? The game is
    * omniscient... */
@@ -2069,21 +2071,32 @@ static void illegal_action(struct player *pplayer,
                     "The player wasn't responsible for this.");
 
   /* The mistake may have a cost. */
-  actor->moves_left = MAX(0, actor->moves_left
-      - get_target_bonus_effects(NULL,
-                                 unit_owner(actor),
-                                 tgt_player,
-                                 NULL,
-                                 NULL,
-                                 NULL,
-                                 actor,
-                                 unit_type_get(actor),
-                                 NULL,
-                                 NULL,
-                                 action_by_number(stopped_action),
-                                 EFT_ILLEGAL_ACTION_MOVE_COST));
+  punishment_mp = get_target_bonus_effects(NULL,
+                                           unit_owner(actor),
+                                           tgt_player,
+                                           NULL,
+                                           NULL,
+                                           NULL,
+                                           actor,
+                                           unit_type_get(actor),
+                                           NULL,
+                                           NULL,
+                                           action_by_number(stopped_action),
+                                           EFT_ILLEGAL_ACTION_MOVE_COST);
+
+  actor->moves_left = MAX(0, actor->moves_left - punishment_mp);
 
   send_unit_info(NULL, actor);
+
+  if (punishment_mp) {
+    notify_player(pplayer, unit_tile(actor),
+                  E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: Spy ... movement point text that may include
+                   * fractions. */
+                  _("Your %s lost %s MP for attempting an illegal action."),
+                  unit_name_translation(actor),
+                  move_points_text(punishment_mp, TRUE));
+  }
 
   illegal_action_msg(pplayer, E_UNIT_ILLEGAL_ACTION,
                      actor, stopped_action,
