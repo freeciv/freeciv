@@ -20,6 +20,7 @@ add_gtk3_env() {
   cp $1/bin/libepoxy-0.dll $2/ &&
   cp $1/bin/libgdk_pixbuf-2.0-0.dll $2/ &&
   cp $1/bin/libgio-2.0-0.dll $2/ &&
+  cp $1/bin/libfribidi-0.dll $2/ &&
   cp $1/bin/libpango-1.0-0.dll $2/ &&
   cp $1/bin/libpangocairo-1.0-0.dll $2/ &&
   cp $1/bin/libpcre-1.dll $2/ &&
@@ -70,8 +71,8 @@ add_common_env() {
   cp $1/bin/libsqlite3-0.dll $2/ &&
   cp $1/bin/libiconv-2.dll $2/ &&
   cp $1/bin/libz.dll.1.2.11 $2/ &&
-  cp $1/lib/icuuc60.dll $2/ &&
-  cp $1/lib/icudt60.dll $2/ &&
+  cp $1/lib/icuuc61.dll $2/ &&
+  cp $1/lib/icudt61.dll $2/ &&
   cp $1/bin/libpng16-16.dll $2/
 }
 
