@@ -2192,14 +2192,6 @@ void handle_unit_action_query(struct connection *pc,
     return;
   }
 
-  if (!utype_may_act_at_all(unit_type_get(pactor))) {
-    /* Shouldn't happen */
-    log_error("handle_unit_action_query() %s (%d) is not an actor",
-              unit_rule_name(pactor), actor_id);
-    unit_query_impossible(pc, actor_id, target_id, disturb_player);
-    return;
-  }
-
   switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit
@@ -2333,13 +2325,6 @@ bool unit_perform_action(struct player *pplayer,
     /* Probably died or bribed. */
     log_verbose("handle_unit_do_action() invalid actor %d",
                 actor_id);
-    return FALSE;
-  }
-
-  if (!utype_may_act_at_all(unit_type_get(actor_unit))) {
-    /* Shouldn't happen */
-    log_error("handle_unit_do_action() %s (%d) is not an actor unit",
-              unit_rule_name(actor_unit), actor_id);
     return FALSE;
   }
 
