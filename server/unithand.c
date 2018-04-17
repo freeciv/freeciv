@@ -3588,6 +3588,10 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   unit_did_action(punit);
   unit_forget_last_activity(punit);
 
+  /* This may cause a diplomatic incident. */
+  action_consequence_success(paction, pplayer, unit_owner(pdefender),
+                             def_tile, unit_link(pdefender));
+
   if (pdefender->hp <= 0
       && (pcity = tile_city(def_tile))
       && city_size_get(pcity) > 1
