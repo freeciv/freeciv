@@ -162,6 +162,18 @@ static void diplomat_queue_handle_secondary(void)
   diplomat_queue_handle_primary();
 }
 
+/**************************************************************************
+  Let the non shared client code know that the action selection process
+  no longer is in progress for the specified unit.
+
+  This allows the client to clean up any client specific assumptions.
+**************************************************************************/
+void action_selection_no_longer_in_progress_gui_specific(int actor_id)
+{
+  /* Stop assuming the answer to a follow up question will arrive. */
+  is_more_user_input_needed = FALSE;
+}
+
 /****************************************************************
   User selected enter market place from caravan dialog
 *****************************************************************/

@@ -120,6 +120,18 @@ static void act_sel_done_secondary(int actor_unit_id)
   act_sel_done_primary(actor_unit_id);
 }
 
+/**************************************************************************
+  Let the non shared client code know that the action selection process
+  no longer is in progress for the specified unit.
+
+  This allows the client to clean up any client specific assumptions.
+**************************************************************************/
+void action_selection_no_longer_in_progress_gui_specific(int actor_id)
+{
+  /* Stop assuming the answer to a follow up question will arrive. */
+  is_more_user_input_needed = FALSE;
+}
+
 /* ====================================================================== */
 /* ============================ CARAVAN DIALOG ========================== */
 /* ====================================================================== */
