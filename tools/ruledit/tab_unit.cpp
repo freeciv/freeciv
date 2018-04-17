@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@
 #include "tab_unit.h"
 
 /**************************************************************************
-  Setup tab_building object
+  Setup tab_unit object
 **************************************************************************/
 tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
 {
@@ -201,7 +201,7 @@ void tab_unit::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_utype_info(0);
+    update_utype_info(nullptr);
   }
 }
 

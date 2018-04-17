@@ -1278,7 +1278,7 @@ static void diplomat_action_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void explode_nuke_callback(GtkAction *action, gpointer data)
 {
-  key_unit_nuke();
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
 }
 
 /****************************************************************

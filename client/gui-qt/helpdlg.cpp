@@ -664,24 +664,21 @@ void help_widget::add_extras_of_act_for_terrain(struct terrain *pterr,
   for_terr.value.terrain = pterr;
 
   extra_type_by_cause_iterate(cause, pextra) {
-    if (pextra->buildable 
-        && universal_fulfills_requirement(FALSE, &(pextra->reqs),
-                                          &for_terr)) {
-      char buffer[1024];
-      int btime;
+    if (pextra->buildable
+        && universal_fulfills_requirements(FALSE, &(pextra->reqs),
+                                           &for_terr)) {
       QLabel *tb;
       QString str;
+
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
       tb->setTextFormat(Qt::RichText);
 
-      btime = terrain_extra_build_time(pterr, act, pextra);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime),
-                  btime);
-      str = str  + QString(label) 
+      str = str + QString(label) 
             + link_me(extra_name_translation(pextra), HELP_EXTRA)
-            + QString(buffer) + "\n";
+            + QString(helptext_extra_for_terrain_str(pextra, pterr, act))
+            + "\n";
             tb->setText(str.trimmed());
             connect(tb, &QLabel::linkActivated,
                     this, &help_widget::anchor_clicked);
@@ -1268,7 +1265,9 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     add_info_separator();
 
-    if (pterrain->irrigation_result != pterrain && pterrain->irrigation_result != T_NONE
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_TF_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1276,7 +1275,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       tb = new QLabel(this);
       fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
                                               pterrain->irrigation_time),
-                  pterrain->transform_time);
+                  pterrain->irrigation_time);
       str = N_("Irrig. Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->irrigation_result),
                           HELP_TERRAIN)
@@ -1291,7 +1290,9 @@ void help_widget::set_topic_terrain(const help_item *topic,
       info_layout->addWidget(tb);
     }
 
-    if (pterrain->mining_result != pterrain && pterrain->mining_result != T_NONE
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_TF_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1299,8 +1300,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
       tb = new QLabel(this);
       fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
                                               pterrain->mining_time),
-                  pterrain->transform_time);
-      str = N_("Irrig. Rslt/Time:");;
+                  pterrain->mining_time);
+      str = N_("Mine Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->mining_result),
                           HELP_TERRAIN)
             + QString(buffer);
@@ -1315,6 +1316,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->transform_result != T_NONE
+        && pterrain->transform_time != 0
         && effect_cumulative_max(EFT_TRANSFORM_POSSIBLE, &for_terr) > 0) {
       QLabel *tb;
       char buffer[1024];
@@ -1338,15 +1340,21 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->irrigation_result == pterrain
+        && pterrain->irrigation_time != 0
         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain
+        && pterrain->mining_time != 0
         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
-    add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
-    add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    if (pterrain->road_time != 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_GEN_ROAD, _("Build as road"));
+    }
+    if (pterrain->base_time != 0) {
+      add_extras_of_act_for_terrain(pterrain, ACTIVITY_BASE, _("Build as base"));
+    }
 
     info_panel_done();
 

@@ -164,6 +164,10 @@ penalties.
 Give_Imm_Tech
     Give amount techs immediately.
 
+Conquest_Tech_Pct
+    Percent chance that a player conquering a city learns a tech from the
+    former owner.
+
 Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 
 the city's foodbox. This also affects the 'aqueductloss' penalty.
@@ -176,10 +180,12 @@ Have_Embassies
     had contact with.
 
 Irrigation_Pct
-    Irrigation output of the tile is value %.
+    The tile gets value % of its terrain's irrigation_food_incr bonus.
+(This is how irrigation-like extras have an effect.)
 
 Mining_Pct
-    Mining output of the tile is value %.
+    The tile gets value % of its terrain's mining_shield_incr bonus.
+(This is how mine-like extras have an effect.)
 
 Make_Content
     Make amount unhappy citizens content. Applied before martial law and unit 
@@ -346,6 +352,10 @@ Veteran_Combat
     Increases the chance of units of this type becoming veteran after combat 
 by amount percent.
 
+Combat_Rounds
+    Maximum number of rounds combat lasts. Unit is the attacker. Zero and
+    negative values mean that combat continues until either side dies.
+
 HP_Regen
     Units that do not move recover amount percentage of their full hitpoints 
 per turn.
@@ -470,11 +480,11 @@ with any output type, use an OutputType requirement to specify which.
 
 Output_Waste_By_Distance
     For each tile in real distance that a city is from nearest
-Government Center, it gets amount of extra waste.
+Government Center, it gets amount / 100 of extra waste.
 
 Output_Waste_By_Rel_Distance
     City gets extra waste based on distance to nearest Government Center, relative
-    to world size. The amount of this extra waste is (distance * amount / max_distance)
+    to world size. The amount of this extra waste is (distance * amount / 100 / max_distance)
 
 Output_Penalty_Tile
     When a tile yields more output than amount, it gets a penalty of -1.

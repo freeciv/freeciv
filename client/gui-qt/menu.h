@@ -71,10 +71,7 @@ enum munit {
   AUTOTRADEROUTE,
   ORDER_TRADEROUTE,
   ORDER_DIPLOMAT_DLG,
-  NUKE,
   UPGRADE,
-  MIGRANT,
-  GO_AND_BUILD_CITY,
   NOT_4_OBS,
   MULTIPLIERS,
   ENDGAME,
@@ -322,8 +319,6 @@ private slots:
 
   /*used by work menu*/
   void slot_build_city();
-  void slot_go_build_city();
-  void slot_go_join_city();
   void slot_auto_settler();
   void slot_build_road();
   void slot_build_irrigation();
@@ -357,7 +352,6 @@ private slots:
   void slot_unit_airbase();
   void slot_pillage();
   void slot_action();
-  void slot_nuke();
 
   /*used by view menu*/
   void slot_center_view();

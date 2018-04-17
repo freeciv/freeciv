@@ -204,7 +204,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
   }
 
   if (0 == strcmp(name, "TerrainAlterations")) {
-    int clean_pollution_time = -1, clean_fallout_time = -1;
+    int clean_pollution_time = -1, clean_fallout_time = -1, pillage_time = -1;
     bool terrain_independent_extras = FALSE;
 
     CATLSTR(outbuf, outlen,
@@ -257,7 +257,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
-        if (clean_pollution_time != 0) {
+        if (clean_pollution_time != 0 && pterrain->clean_pollution_time != 0) {
           if (clean_pollution_time < 0) {
             clean_pollution_time = pterrain->clean_pollution_time;
           } else {
@@ -266,7 +266,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             }
           }
         }
-        if (clean_fallout_time != 0) {
+        if (clean_fallout_time != 0 && pterrain->clean_fallout_time != 0) {
           if (clean_fallout_time < 0) {
             clean_fallout_time = pterrain->clean_fallout_time;
           } else {
@@ -275,8 +275,141 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             }
           }
         }
+        if (pillage_time != 0 && pterrain->pillage_time != 0) {
+          if (pillage_time < 0) {
+            pillage_time = pterrain->pillage_time;
+          } else {
+            if (pillage_time != pterrain->pillage_time) {
+              pillage_time = 0; /* give up */
+            }
+          }
+        }
       }
     } terrain_type_iterate_end;
+
+    /* Examine extras to see if time of removal activities really is
+     * terrain-independent, and take into account removal_time_factor.
+     * XXX: this is rather overwrought to handle cases which the ruleset
+     *      author could express much more simply for the same result */
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent clean time; use extra's time */
+        if (time >= 0) {
+          clean_pollution_time = time;
+        } else {
+          clean_pollution_time = 0;
+        }
+      } else if (clean_pollution_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(clean_pollution_time > 0);
+        if (time > 0 && factor > 0 && time != clean_pollution_time * factor) {
+          clean_pollution_time = 0;
+        } else if (time >= 0) {
+          clean_pollution_time = time;
+        } else if (factor >= 0) {
+          clean_pollution_time = clean_pollution_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent clean time; use extra's time */
+        if (time >= 0) {
+          clean_fallout_time = time;
+        } else {
+          clean_fallout_time = 0;
+        }
+      } else if (clean_fallout_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(clean_fallout_time > 0);
+        if (time > 0 && factor > 0 && time != clean_fallout_time * factor) {
+          clean_fallout_time = 0;
+        } else if (time >= 0) {
+          clean_fallout_time = time;
+        } else if (factor >= 0) {
+          clean_fallout_time = clean_fallout_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    {
+      int time = -1, factor = -1;
+      extra_type_by_rmcause_iterate(ERM_PILLAGE, pextra) {
+        if (pextra->removal_time == 0) {
+          if (factor < 0) {
+            factor = pextra->removal_time_factor;
+          } else if (factor != pextra->removal_time_factor) {
+            factor = 0; /* give up */
+          }
+        } else {
+          if (time < 0) {
+            time = pextra->removal_time;
+          } else if (time != pextra->removal_time) {
+            time = 0; /* give up */
+          }
+        }
+      } extra_type_by_rmcause_iterate_end;
+      if (factor < 0) {
+        /* No extra has terrain-dependent pillage time; use extra's time */
+        if (time >= 0) {
+          pillage_time = time;
+        } else {
+          pillage_time = 0;
+        }
+      } else if (pillage_time != 0) {
+        /* At least one extra's time depends on terrain */
+        fc_assert(pillage_time > 0);
+        if (time > 0 && factor > 0 && time != pillage_time * factor) {
+          pillage_time = 0;
+        } else if (time >= 0) {
+          pillage_time = time;
+        } else if (factor >= 0) {
+          pillage_time = pillage_time * factor;
+        } else {
+          fc_assert(FALSE);
+        }
+      }
+    }
+
+    /* Check whether there are any bases or roads whose build time is
+     * independent of terrain */
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable && pextra->build_time > 0) {
@@ -293,7 +426,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       } extra_type_by_cause_iterate_end;
     }
 
-    if (clean_pollution_time > 0 || clean_fallout_time > 0
+    if (clean_pollution_time > 0 || clean_fallout_time > 0 || pillage_time > 0
         || terrain_independent_extras) {
       CATLSTR(outbuf, outlen, "\n");
       CATLSTR(outbuf, outlen,
@@ -312,6 +445,9 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
       if (clean_fallout_time > 0)
 	cat_snprintf(outbuf, outlen,
 		     _("\nClean fallout      %3d"), clean_fallout_time);
+      if (pillage_time > 0)
+	cat_snprintf(outbuf, outlen,
+		     _("\nPillage            %3d"), pillage_time);
       extra_type_by_cause_iterate(EC_ROAD, pextra) {
         if (pextra->buildable && pextra->build_time > 0) {
           const char *rname = extra_name_translation(pextra);
@@ -371,7 +507,9 @@ static void insert_allows_single(struct universal *psource,
                                  struct requirement_vector *psubjreqs,
                                  const char *subjstr,
                                  const char *const *strs,
-                                 char *buf, size_t bufsz) {
+                                 char *buf, size_t bufsz,
+                                 const char *prefix)
+{
   struct strvec *coreqs = strvec_new();
   struct strvec *conoreqs = strvec_new();
   struct astring coreqstr = ASTRING_INIT;
@@ -382,6 +520,8 @@ static void insert_allows_single(struct universal *psource,
 
   requirement_vector_iterate(psubjreqs, req) {
     if (!req->quiet && are_universals_equal(psource, &req->source)) {
+      /* We're definitely going to print _something_. */
+      CATLSTR(buf, bufsz, prefix);
       if (req->present) {
         /* psource enables the subject, but other sources may
          * also be required (or required to be absent). */
@@ -450,44 +590,44 @@ static void insert_allows_single(struct universal *psource,
   NOT append like cat_snprintf).
 ****************************************************************************/
 static void insert_allows(struct universal *psource,
-			  char *buf, size_t bufsz)
+			  char *buf, size_t bufsz, const char *prefix)
 {
   buf[0] = '\0';
 
   governments_iterate(pgov) {
     static const char *const govstrs[] = {
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s but no %s)."),
+      N_("?gov:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (with %s)."),
+      N_("?gov:Allows %s (with %s)."),
       /* TRANS: First %s is a government name. */
-      N_("?gov:* Allows %s (absent %s)."),
+      N_("?gov:Allows %s (absent %s)."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Allows %s."),
+      N_("?gov:Allows %s."),
       /* TRANS: %s is a government name. */
-      N_("?gov:* Prevents %s.")
+      N_("?gov:Prevents %s.")
     };
     insert_allows_single(psource, &pgov->reqs,
                          government_name_translation(pgov), govstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } governments_iterate_end;
 
   improvement_iterate(pimprove) {
     static const char *const imprstrs[] = {
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s but no %s)."),
+      N_("?improvement:Allows %s (with %s but no %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (with %s)."),
+      N_("?improvement:Allows %s (with %s)."),
       /* TRANS: First %s is a building name. */
-      N_("?improvement:* Allows %s (absent %s)."),
+      N_("?improvement:Allows %s (absent %s)."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Allows %s."),
+      N_("?improvement:Allows %s."),
       /* TRANS: %s is a building name. */
-      N_("?improvement:* Prevents %s.")
+      N_("?improvement:Prevents %s.")
     };
     insert_allows_single(psource, &pimprove->reqs,
                          improvement_name_translation(pimprove), imprstrs,
-                         buf, bufsz);
+                         buf, bufsz, prefix);
   } improvement_iterate_end;
 }
 
@@ -1131,7 +1271,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for improvement itself */
   requirement_vector_iterate(&pimprove->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -1177,7 +1317,9 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 		 utype_name_translation(u));
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   unit_type_iterate(u) {
     if (u->need_improvement == pimprove) {
@@ -1209,8 +1351,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (universal_fulfills_requirement(TRUE, &(enabler->target_reqs),
-                                         &source)) {
+      if (universal_fulfills_requirements(TRUE, &(enabler->target_reqs),
+                                          &source)) {
         /* The building is needed by this action enabler. */
         demanded = TRUE;
 
@@ -1794,6 +1936,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = unit_type_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -2435,9 +2578,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
 
         if (action_id_would_be_blocked_by(act, blocker)) {
-          char *quoted = fc_malloc(MAX_LEN_NAME);
+          /* action name alone can be MAX_LEN_NAME, leave space for extra characters */
+          int maxlen = MAX_LEN_NAME + 16;
+          char *quoted = fc_malloc(maxlen);
 
-          fc_snprintf(quoted, MAX_LEN_NAME,
+          fc_snprintf(quoted, maxlen,
                       /* TRANS: %s is an action that can block another. */
                       _("\'%s\'"), action_id_name_translation(blocker));
           blockers[i] = quoted;
@@ -2650,12 +2795,14 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (requirement_vector_size(&vap->research_reqs) > 0) {
     CATLSTR(buf, bufsz, _("Requirements to research:\n"));
     requirement_vector_iterate(&vap->research_reqs, preq) {
-      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
+      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "");
     } requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
 
   {
     int j;
@@ -2706,6 +2853,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = tech_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -2754,7 +2902,9 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     return;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
     CATLSTR(buf, bufsz,
 	    _("* You cannot build cities on this terrain."));
@@ -2828,6 +2978,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = terrain_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -2905,6 +3056,115 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
   return has_effect ? str : NULL;
 }
 
+/**********************************************************************//**
+  Calculate any fixed food/prod/trade bonus that 'pextra' will always add
+  to terrain type, independent of any other modifications. Does not
+  consider percentage bonuses.
+  Result written into 'bonus' which should hold 3 ints (F/P/T).
+**************************************************************************/
+static void extra_bonus_for_terrain(struct extra_type *pextra,
+                                    struct terrain *pterrain,
+                                    int *bonus)
+{
+  struct universal req_pattern[] = {
+    { .kind = VUT_EXTRA,   .value.extra = pextra },
+    { .kind = VUT_TERRAIN, .value.terrain = pterrain },
+    { .kind = VUT_OTYPE    /* value filled in later */ }
+  };
+
+  fc_assert_ret(bonus != NULL);
+
+  /* Irrigation-like food bonuses */
+  bonus[0] = (pterrain->irrigation_food_incr
+              * effect_value_from_universals(EFT_IRRIGATION_PCT, req_pattern,
+                                             2 /* just extra+terrain */)) / 100;
+
+  /* Mining-like shield bonuses */
+  bonus[1] = (pterrain->mining_shield_incr
+              * effect_value_from_universals(EFT_MINING_PCT, req_pattern,
+                                             2 /* just extra+terrain */)) / 100;
+
+  bonus[2] = 0; /* no trade bonuses so far */
+
+  /* Now add fixed bonuses from roads (but not percentage bonus) */
+  if (extra_road_get(pextra)) {
+    const struct road_type *proad = extra_road_get(pextra);
+
+    output_type_iterate(o) {
+      switch (o) {
+      case O_FOOD:
+      case O_SHIELD:
+      case O_TRADE:
+        bonus[o] += proad->tile_incr_const[o]
+          + proad->tile_incr[o] * pterrain->road_output_incr_pct[o] / 100;
+        break;
+      default:
+        /* not dealing with other output types here */
+        break;
+      }
+    } output_type_iterate_end;
+  }
+
+  /* Fixed bonuses for extra, possibly unrelated to terrain type */
+
+  output_type_iterate(o) {
+    /* Fill in rest of requirement template */
+    req_pattern[2].value.outputtype = o;
+    switch (o) {
+    case O_FOOD:
+    case O_SHIELD:
+    case O_TRADE:
+      bonus[o] += effect_value_from_universals(EFT_OUTPUT_ADD_TILE,
+                                               req_pattern,
+                                               ARRAY_SIZE(req_pattern));
+      /* Any of the above bonuses is sufficient to trigger
+       * Output_Inc_Tile, if underlying terrain does not */
+      if (bonus[o] > 0 || pterrain->output[o] > 0) {
+        bonus[o] += effect_value_from_universals(EFT_OUTPUT_INC_TILE,
+                                                 req_pattern,
+                                                 ARRAY_SIZE(req_pattern));
+      }
+      break;
+    default:
+      break;
+    }
+  } output_type_iterate_end;
+}
+
+/**********************************************************************//**
+  Return a brief description specific to the extra and terrain, when
+  extra is built by cause 'act'.
+  Returns number of turns to build, and selected bonuses.
+  Returns a pointer to a static string, so caller should not free.
+**************************************************************************/
+const char *helptext_extra_for_terrain_str(struct extra_type *pextra,
+                                           struct terrain *pterrain,
+                                           enum unit_activity act)
+{
+  static char buffer[256];
+  int btime;
+  int bonus[3];
+
+  btime = terrain_extra_build_time(pterrain, act, pextra);
+  fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", btime),
+              btime);
+  extra_bonus_for_terrain(pextra, pterrain, bonus);
+  if (bonus[0] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d food", ", +%d food", bonus[0]), bonus[0]);
+  }
+  if (bonus[1] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d shield", ", +%d shields", bonus[1]), bonus[1]);
+  }
+  if (bonus[2] > 0) {
+    cat_snprintf(buffer, sizeof(buffer),
+                 PL_(", +%d trade", ", +%d trade", bonus[2]), bonus[2]);
+  }
+
+  return buffer;
+}
+
 /****************************************************************************
   Append misc dynamic text for extras.
   Assumes build time and conflicts are handled in the GUI front-end.
@@ -2914,6 +3174,7 @@ const char *helptext_road_bonus_str(const struct terrain *pterrain,
 void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                     const char *user_text, struct extra_type *pextra)
 {
+  size_t group_start;
   struct base_type *pbase;
   struct road_type *proad;
   struct universal source = {
@@ -2949,33 +3210,189 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     } strvec_iterate_end;
   }
 
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  /* Describe how extra is created and destroyed */
+
+  group_start = strlen(buf);
+
+  if (pextra->buildable) {
+    if (is_extra_caused_by(pextra, EC_IRRIGATION)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing an \"irrigate\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_MINE)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing a \"mine\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_ROAD)) {
+      CATLSTR(buf, bufsz,
+              _("Build by issuing a \"road\" order.\n"));
+    }
+    if (is_extra_caused_by(pextra, EC_BASE)) {
+      fc_assert(pbase);
+      if (pbase->gui_type == BASE_GUI_OTHER) {
+        cat_snprintf(buf, bufsz,
+                _("Build by issuing a \"build base\" order.\n"));
+      } else {
+        const char *order = "";
+
+        switch (pbase->gui_type) {
+        case BASE_GUI_FORTRESS:
+          order = Q_(terrain_control.gui_type_base0);
+          break;
+        case BASE_GUI_AIRBASE:
+          order = Q_(terrain_control.gui_type_base1);
+          break;
+        default:
+          fc_assert(FALSE);
+          break;
+        }
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a gui_type base string from a ruleset */
+                     _("Build by issuing a \"%s\" order.\n"), order);
+      }
+    }
+  }
 
   if (is_extra_caused_by(pextra, EC_POLLUTION)) {
     CATLSTR(buf, bufsz,
-            _("* May randomly appear around polluting city.\n"));
+            _("May randomly appear around polluting city.\n"));
   }
 
   if (is_extra_caused_by(pextra, EC_FALLOUT)) {
     CATLSTR(buf, bufsz,
-            _("* May randomly appear around nuclear blast.\n"));
+            _("May randomly appear around nuclear blast.\n"));
   }
 
   if (is_extra_caused_by(pextra, EC_HUT)
       || (proad != NULL && road_has_flag(proad, RF_RIVER))) {
     CATLSTR(buf, bufsz,
-            _("* Placed by map generator.\n"));
+            _("Placed by map generator.\n"));
   }
 
   if (is_extra_caused_by(pextra, EC_APPEARANCE)) {
     CATLSTR(buf, bufsz,
-            _("* May appear spontaneously.\n"));
+            _("May appear spontaneously.\n"));
   }
 
-  if (pextra->eus == EUS_HIDDEN) {
-    CATLSTR(buf, bufsz,
-            _("* Units inside are hidden from non-allied players.\n"));
+  if (requirement_vector_size(&pextra->reqs) > 0) {
+    char reqsbuf[8192] = "";
+    bool buildable = pextra->buildable
+      && is_extra_caused_by_worker_action(pextra);
+
+    requirement_vector_iterate(&pextra->reqs, preq) {
+      (void) req_text_insert_nl(reqsbuf, sizeof(reqsbuf), pplayer, preq,
+                                VERB_DEFAULT,
+                                /* TRANS: bullet point; note trailing space */
+                                buildable ? Q_("?bullet:* ") : "");
+    } requirement_vector_iterate_end;
+    if (reqsbuf[0] != '\0') {
+      if (buildable) {
+        CATLSTR(buf, bufsz, _("Requirements to build:\n"));
+      }
+      CATLSTR(buf, bufsz, reqsbuf);
+    }
   }
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  group_start = strlen(buf);
+
+  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
+    int pillage_time = -1;
+
+    if (pextra->removal_time != 0) {
+      pillage_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_pillage_time = pterrain->pillage_time
+                                * pextra->removal_time_factor;
+
+        if (terr_pillage_time != 0) {
+          if (pillage_time < 0) {
+            pillage_time = terr_pillage_time;
+          } else if (pillage_time != terr_pillage_time) {
+            /* Give up */
+            pillage_time = -1;
+            break;
+          }
+        }
+      } terrain_type_iterate_end;
+    }
+    if (pillage_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("Can be pillaged by units (time is terrain-dependent).\n"));
+    } else if (pillage_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("Can be pillaged by units (takes %d turn).\n",
+                       "Can be pillaged by units (takes %d turns).\n",
+                       pillage_time), pillage_time);
+    }
+  }
+  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+      || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+    int clean_time = -1;
+
+    if (pextra->removal_time != 0) {
+      clean_time = pextra->removal_time;
+    } else {
+      terrain_type_iterate(pterrain) {
+        int terr_clean_time = -1;
+
+        if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+            && pterrain->clean_pollution_time != 0) {
+          terr_clean_time = pterrain->clean_pollution_time
+                            * pextra->removal_time_factor;
+        }
+        if (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
+            && pterrain->clean_fallout_time != 0) {
+          int terr_clean_fall_time = pterrain->clean_fallout_time
+                                     * pextra->removal_time_factor;
+          if (terr_clean_time > 0
+              && terr_clean_time != terr_clean_fall_time) {
+            /* Pollution/fallout cleaning activities taking different time
+             * on same terrain. Give up. */
+            clean_time = -1;
+            break;
+          }
+          terr_clean_time = terr_clean_fall_time;
+        }
+        if (clean_time < 0) {
+          clean_time = terr_clean_time;
+        } else if (clean_time != terr_clean_time) {
+          /* Give up */
+          clean_time = -1;
+          break;
+        }
+      } terrain_type_iterate_end;
+    }
+    if (clean_time < 0) {
+      CATLSTR(buf, bufsz,
+              _("Can be cleaned by units (time is terrain-dependent).\n"));
+    } else if (clean_time > 0) {
+      cat_snprintf(buf, bufsz,
+                   PL_("Can be cleaned by units (takes %d turn).\n",
+                       "Can be cleaned by units (takes %d turns).\n",
+                       clean_time), clean_time);
+    }
+  }
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  /* Describe what other elements are enabled by extra */
+
+  group_start = strlen(buf);
+
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf), "");
+
+  if (buf[group_start] != '\0') {
+    CATLSTR(buf, bufsz, "\n"); /* group separator */
+  }
+
+  /* Describe other properties of extras */
 
   if (pextra->visibility_req != A_NONE) {
     char vrbuf[1024];
@@ -2986,16 +3403,9 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, vrbuf);
   }
 
-  /* XXX Non-zero requirement vector is not a good test of whether
-   * req_text_insert_nl() will give any output. */
-  if (requirement_vector_size(&pextra->reqs) > 0) {
-    if (pextra->buildable && is_extra_caused_by_worker_action(pextra)) {
-      CATLSTR(buf, bufsz, _("Requirements to build:\n"));
-    }
-    requirement_vector_iterate(&pextra->reqs, preq) {
-      (void) req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT);
-    } requirement_vector_iterate_end;
-    CATLSTR(buf, bufsz, "\n");
+  if (pextra->eus == EUS_HIDDEN) {
+    CATLSTR(buf, bufsz,
+            _("* Units inside are hidden from non-allied players.\n"));
   }
 
   {
@@ -3062,14 +3472,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (is_extra_removed_by(pextra, ERM_PILLAGE)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be pillaged by units.\n"));
-  }
-  if (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION) || is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
-    CATLSTR(buf, bufsz,
-            _("* Can be cleaned by units.\n"));
-  }
   if (game.info.killstack
       && extra_has_flag(pextra, EF_NO_STACK_DEATH)) {
     CATLSTR(buf, bufsz,
@@ -3097,6 +3499,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = extra_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: bullet point; note trailing space */
         CATLSTR(buf, bufsz, Q_("?bullet:* "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -3222,7 +3625,7 @@ void helptext_goods(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this good. */
   requirement_vector_iterate(&pgood->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3255,7 +3658,7 @@ void helptext_specialist(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Requirements for this specialist. */
   requirement_vector_iterate(&pspec->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3294,7 +3697,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Add requirement text for government itself */
   requirement_vector_iterate(&gov->reqs, preq) {
-    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT)) {
+    if (req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT, "")) {
       reqs = TRUE;
     }
   } requirement_vector_iterate_end;
@@ -3304,7 +3707,9 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Effects */
   CATLSTR(buf, bufsz, _("Features:\n"));
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
+                /* TRANS: bullet point; note trailing space */
+                Q_("?bullet:* "));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
@@ -3850,13 +4255,13 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         /* fall through to: */
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
         if (world_value_valid) {
-          if (net_value >= 3) {
+          if (net_value >= 300) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is list of output types, with 'and' */
                          _("* %s losses will increase quickly"
                            " with distance from capital.\n"),
                          astr_str(&outputs_and));
-          } else if (net_value == 2) {
+          } else if (net_value >= 200) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: %s is list of output types, with 'and' */
                          _("* %s losses will increase"
@@ -4121,7 +4526,7 @@ void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
   if (buf[0] != '\0') {
     CATLSTR(buf, bufsz, "\n");
   }
-  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf), "");
 
   if (user_text && user_text[0] != '\0') {
     if (buf[0] != '\0') {

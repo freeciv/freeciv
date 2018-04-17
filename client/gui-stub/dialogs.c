@@ -154,6 +154,14 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   /* PORTME */
 }
 
+/***************************************************************************
+  Popup dialog for upgrade units
+***************************************************************************/
+void popup_upgrade_dialog(struct unit_list *punits)
+{
+  /* PORTME */
+}
+
 /**************************************************************************
   Popup a dialog asking the unit which improvement they would like to
   pillage.
@@ -312,6 +320,6 @@ bool gui_request_transport(struct unit *pcargo, struct tile *ptile)
 ***************************************************************************/
 void gui_popup_combat_info(int attacker_unit_id, int defender_unit_id,
                            int attacker_hp, int defender_hp,
-                           bool make_winner_veteran)
+                           bool make_att_veteran, bool make_def_veteran)
 {
 }

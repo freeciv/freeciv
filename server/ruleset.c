@@ -2465,10 +2465,6 @@ static bool load_terrain_names(struct section_file *file,
         break;
       }
 
-      if (0 == strcmp(rule_name_get(&pterrain->name), "unused")) {
-        name_set(&pterrain->name, NULL, "");
-      }
-
       section_strlcpy(&terrain_sections[terri * MAX_SECTION_LABEL], sec_name);
     } terrain_type_iterate_end;
   }
@@ -3305,6 +3301,15 @@ static bool load_ruleset_terrain(struct section_file *file,
       char identifier[MAX_LEN_NAME];
       const char *rsection = &resource_sections[i * MAX_SECTION_LABEL];
 
+      if (!presource->data.resource) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Resource\" cause but no "
+                      "corresponding [resource_*] section",
+                      filename, extra_rule_name(presource));
+        ok = FALSE;
+        break;
+      }
+
       output_type_iterate (o) {
         presource->data.resource->output[o] =
 	  secfile_lookup_int_default(file, 0, "%s.%s", rsection,
@@ -3335,6 +3340,20 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       i++;
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_resource_types; j++) {
+      const char *section = &resource_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_RESOURCE)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" resource section [%s]: extra \"%s\" does not "
+                      "have \"Resource\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
@@ -3365,10 +3384,20 @@ static bool load_ruleset_terrain(struct section_file *file,
     /* base details */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
-      const char *section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
+      const char *section;
       int bj;
       const char **slist;
       const char *gui_str;
+
+      if (!pbase) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Base\" cause but no "
+                      "corresponding [base_*] section",
+                      filename, extra_rule_name(pextra));
+        ok = FALSE;
+        break;
+      }
+      section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
 
       gui_str = secfile_lookup_str(file,"%s.gui_type", section);
       pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
@@ -3439,16 +3468,40 @@ static bool load_ruleset_terrain(struct section_file *file,
         } extra_type_by_cause_iterate_end;
       }
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_base_types; j++) {
+      const char *section = &base_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_BASE)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" base section [%s]: extra \"%s\" does not have "
+                      "\"Base\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
-      const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
+      const char *section;
       const char **slist;
       const char *special;
       const char *modestr;
       struct requirement_vector *reqs;
+
+      if (!proad) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" extra \"%s\" has \"Road\" cause but no "
+                      "corresponding [road_*] section",
+                      filename, extra_rule_name(pextra));
+        ok = FALSE;
+        break;
+      }
+      section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
 
       reqs = lookup_req_list(file, compat, section, "first_reqs", extra_rule_name(pextra));
       if (reqs == NULL) {
@@ -3571,6 +3624,20 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
     } extra_type_by_cause_iterate_end;
+
+    for (j = 0; ok && j < game.control.num_road_types; j++) {
+      const char *section = &road_sections[j * MAX_SECTION_LABEL];
+      const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
+      struct extra_type *pextra = extra_type_by_rule_name(extra_name);
+
+      if (!is_extra_caused_by(pextra, EC_ROAD)) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\" road section [%s]: extra \"%s\" does not have "
+                      "\"Road\" in its causes",
+                      filename, section, extra_name);
+        ok = FALSE;
+      }
+    }
   }
 
   if (ok) {
@@ -3847,7 +3914,7 @@ static void send_ruleset_control(struct conn_list *dest)
   if (game.ruleset_summary != NULL) {
     struct packet_ruleset_summary summary;
 
-    strncpy(summary.text, game.ruleset_summary, MAX_LEN_CONTENT);
+    sz_strlcpy(summary.text, game.ruleset_summary);
 
     lsend_packet_ruleset_summary(dest, &summary);
   }
@@ -5165,6 +5232,7 @@ static bool load_ruleset_cities(struct section_file *file,
 
   if (ok) {
     int i = 0;
+    const char *tag;
 
     game.control.num_specialist_types = section_list_size(sec);
 
@@ -5182,6 +5250,18 @@ static bool load_ruleset_cities(struct section_file *file,
                                         "%s.short_name", sec_name);
       name_set(&s->abbreviation, NULL, item);
 
+      tag = secfile_lookup_str(file, "%s.graphic", sec_name);
+      if (tag == NULL && compat->compat_mode) {
+        tag = rscompat_specialist_gfx_tag_3_0(compat, s);
+      }
+      if (tag == NULL) {
+        ruleset_error(LOG_ERROR,
+                      "\"%s\": No graphic tag for specialist at %s.",
+                      filename, sec_name);
+        ok = FALSE;
+        break;
+      }
+      sz_strlcpy(s->graphic_str, tag);
       sz_strlcpy(s->graphic_alt,
                  secfile_lookup_str_default(file, "-",
                                             "%s.graphic_alt", sec_name));
@@ -5258,6 +5338,8 @@ static bool load_ruleset_cities(struct section_file *file,
                                  "citizen.convert_speed");
     game.info.citizen_partisans_pct =
       secfile_lookup_int_default(file, 0, "citizen.partisans_pct");
+    game.info.conquest_convert_pct =
+      secfile_lookup_int_default(file, 0, "citizen.conquest_convert_pct");
   }
 
   if (ok) {
@@ -5475,7 +5557,23 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   return ival;
 }
 
-/**************************************************************************
+/**********************************************************************//**
+  Load ui_name of one action
+**************************************************************************/
+static bool load_action_ui_name(struct section_file *file, int act,
+                                const char *entry_name)
+{
+  const char *text;
+
+  text = secfile_lookup_str_default(file,
+                                    action_ui_name_default(act),
+                                    "actions.%s", entry_name);
+  sz_strlcpy(action_by_number(act)->ui_name, text);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -5909,7 +6007,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     /* section: actions */
     if (ok) {
-      const char *text;
       int force_capture_units, force_bombard, force_explode_nuclear;
 
       if (secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
@@ -6013,316 +6110,69 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         action_by_number(ACTION_BOMBARD)->max_distance = max_range;
       }
 
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Poison City (3% chance of success). */
-          N_("%sPoison City%s"),
-          "actions.ui_name_poison_city");
-      sz_strlcpy(action_by_number(ACTION_SPY_POISON)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Poison City and Escape (3% chance of success). */
-          N_("%sPoison City and Escape%s"),
-          "actions.ui_name_poison_city_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_POISON_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: S_abotage Enemy Unit (3% chance of success). */
-          N_("S%sabotage Enemy Unit%s"),
-          "actions.ui_name_sabotage_unit");
-      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: S_abotage Enemy Unit and Escape (3% chance of success). */
-          N_("S%sabotage Enemy Unit and Escape%s"),
-          "actions.ui_name_sabotage_unit_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_UNIT_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Bribe Enemy _Unit (3% chance of success). */
-          N_("Bribe Enemy %sUnit%s"),
-          "actions.ui_name_bribe_unit");
-      sz_strlcpy(action_by_number(ACTION_SPY_BRIBE_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Sabotage City (3% chance of success). */
-          N_("%sSabotage City%s"),
-          "actions.ui_name_sabotage_city");
-      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Sabotage City and Escape (3% chance of success). */
-          N_("%sSabotage City and Escape%s"),
-          "actions.ui_name_sabotage_city_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_SABOTAGE_CITY_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Industria_l Sabotage (3% chance of success). */
-          N_("Industria%sl Sabotage%s"),
-          "actions.ui_name_targeted_sabotage_city");
-      sz_strlcpy(
-            action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY)->ui_name,
-            text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Industria_l Sabotage and Escape (3% chance of success). */
-          N_("Industria%sl Sabotage and Escape%s"),
-          "actions.ui_name_targeted_sabotage_city_escape");
-      sz_strlcpy(
-            action_by_number(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)->ui_name,
-            text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Incite a Re_volt (3% chance of success). */
-          N_("Incite a Re%svolt%s"),
-          "actions.ui_name_incite_city");
-      sz_strlcpy(action_by_number(ACTION_SPY_INCITE_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Incite a Re_volt and Escape (3% chance of success). */
-          N_("Incite a Re%svolt and Escape%s"),
-          "actions.ui_name_incite_city_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_INCITE_CITY_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Establish _Embassy (100% chance of success). */
-          N_("Establish %sEmbassy%s"),
-          "actions.ui_name_establish_embassy");
-      sz_strlcpy(action_by_number(ACTION_ESTABLISH_EMBASSY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Becom_e Ambassador (100% chance of success). */
-          N_("Becom%se Ambassador%s"),
-          "actions.ui_name_establish_embassy_stay");
-      sz_strlcpy(action_by_number(ACTION_ESTABLISH_EMBASSY_STAY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Technology (3% chance of success). */
-          N_("Steal %sTechnology%s"),
-          "actions.ui_name_steal_tech");
-      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_TECH)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Technology and Escape (3% chance of success). */
-          N_("Steal %sTechnology and Escape%s"),
-          "actions.ui_name_steal_tech_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_TECH_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: In_dustrial Espionage (3% chance of success). */
-          N_("In%sdustrial Espionage%s"),
-          "actions.ui_name_targeted_steal_tech");
-      sz_strlcpy(action_by_number(ACTION_SPY_TARGETED_STEAL_TECH)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: In_dustrial Espionage and Escape (3% chance of success). */
-          N_("In%sdustrial Espionage and Escape%s"),
-          "actions.ui_name_targeted_steal_tech_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_TARGETED_STEAL_TECH_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Investigate City (100% chance of success). */
-          N_("%sInvestigate City%s"),
-          "actions.ui_name_investigate_city");
-      sz_strlcpy(action_by_number(ACTION_SPY_INVESTIGATE_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Investigate City (spends the unit) (100% chance of
-           * success). */
-          N_("%sInvestigate City (spends the unit)%s"),
-          "actions.ui_name_investigate_city_spend_unit");
-      sz_strlcpy(action_by_number(ACTION_INV_CITY_SPEND)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Gold (100% chance of success). */
-          N_("Steal %sGold%s"),
-          "actions.ui_name_steal_gold");
-      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_GOLD)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Gold and Escape (100% chance of success). */
-          N_("Steal %sGold and Escape%s"),
-          "actions.ui_name_steal_gold_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_STEAL_GOLD_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Maps (100% chance of success). */
-          N_("Steal %sMaps%s"),
-          "actions.ui_name_steal_maps");
-      sz_strlcpy(action_by_number(ACTION_STEAL_MAPS)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Steal _Maps and Escape (100% chance of success). */
-          N_("Steal %sMaps and Escape%s"),
-          "actions.ui_name_steal_maps_escape");
-      sz_strlcpy(action_by_number(ACTION_STEAL_MAPS_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Establish Trade _Route (100% chance of success). */
-          N_("Establish Trade %sRoute%s"),
-          "actions.ui_name_establish_trade_route");
-      sz_strlcpy(action_by_number(ACTION_TRADE_ROUTE)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Enter _Marketplace (100% chance of success). */
-          N_("Enter %sMarketplace%s"),
-          "actions.ui_name_enter_marketplace");
-      sz_strlcpy(action_by_number(ACTION_MARKETPLACE)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Help _build Wonder (100% chance of success). */
-          N_("Help %sbuild Wonder%s"),
-          "actions.ui_name_help_wonder");
-      sz_strlcpy(action_by_number(ACTION_HELP_WONDER)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Capture Units (100% chance of success). */
-          N_("%sCapture Units%s"),
-          "actions.ui_name_capture_units");
-      sz_strlcpy(action_by_number(ACTION_CAPTURE_UNITS)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Expel Unit (100% chance of success). */
-          N_("%sExpel Unit%s"),
-          "actions.ui_name_expel_unit");
-      sz_strlcpy(action_by_number(ACTION_EXPEL_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Found City (100% chance of success). */
-          N_("%sFound City%s"),
-          "actions.ui_name_found_city");
-      sz_strlcpy(action_by_number(ACTION_FOUND_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Join City (100% chance of success). */
-          N_("%sJoin City%s"),
-          "actions.ui_name_join_city");
-      sz_strlcpy(action_by_number(ACTION_JOIN_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: B_ombard (100% chance of success). */
-          N_("B%sombard%s"),
-          "actions.ui_name_bombard");
-      sz_strlcpy(action_by_number(ACTION_BOMBARD)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Suitcase _Nuke (100% chance of success). */
-          N_("Suitcase %sNuke%s"),
-          "actions.ui_name_suitcase_nuke");
-      sz_strlcpy(action_by_number(ACTION_SPY_NUKE)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Suitcase _Nuke and Escape (100% chance of success). */
-          N_("Suitcase %sNuke and Escape%s"),
-          "actions.ui_name_suitcase_nuke_escape");
-      sz_strlcpy(action_by_number(ACTION_SPY_NUKE_ESC)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Explode _Nuclear (100% chance of success). */
-          N_("Explode %sNuclear%s"),
-          "actions.ui_name_explode_nuclear");
-      sz_strlcpy(action_by_number(ACTION_NUKE)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Destroy _City (100% chance of success). */
-          N_("Destroy %sCity%s"),
-          "actions.ui_name_destroy_city");
-      sz_strlcpy(action_by_number(ACTION_DESTROY_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Rec_ycle Unit (100% chance of success). */
-          N_("Rec%sycle Unit%s"),
-          "actions.ui_name_recycle_unit");
-      sz_strlcpy(action_by_number(ACTION_RECYCLE_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _You're Fired (100% chance of success). */
-          N_("%sYou're Fired%s"),
-          "actions.ui_name_disband_unit");
-      sz_strlcpy(action_by_number(ACTION_DISBAND_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Set _Home City (100% chance of success). */
-          N_("Set %sHome City%s"),
-          "actions.ui_name_home_city");
-      sz_strlcpy(action_by_number(ACTION_HOME_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Upgrade Unit (100% chance of success). */
-          N_("%sUpgrade Unit%s"),
-          "actions.ui_upgrade_unit");
-      sz_strlcpy(action_by_number(ACTION_UPGRADE_UNIT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Drop _Paratrooper (100% chance of success). */
-          N_("Drop %sParatrooper%s"),
-          "actions.ui_paradrop_unit");
-      sz_strlcpy(action_by_number(ACTION_PARADROP)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Airlift to City (100% chance of success). */
-          N_("%sAirlift to City%s"),
-          "actions.ui_airlift_unit");
-      sz_strlcpy(action_by_number(ACTION_AIRLIFT)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Attack (100% chance of success). */
-          N_("%sAttack%s"),
-          "actions.ui_name_attack");
-      sz_strlcpy(action_by_number(ACTION_ATTACK)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: _Conquer City (100% chance of success). */
-          N_("%sConquer City%s"),
-          "actions.ui_name_conquer_city");
-      sz_strlcpy(action_by_number(ACTION_CONQUER_CITY)->ui_name,
-                 text);
-
-      text = secfile_lookup_str_default(file,
-          /* TRANS: Heal _Unit (3% chance of success). */
-          N_("Heal %sUnit%s"),
-          "actions.ui_name_heal_unit");
-      sz_strlcpy(action_by_number(ACTION_HEAL_UNIT)->ui_name,
-                 text);
+      load_action_ui_name(file, ACTION_SPY_POISON, "ui_name_poison_city");
+      load_action_ui_name(file, ACTION_SPY_POISON_ESC, "ui_name_poison_city_escape");
+      load_action_ui_name(file, ACTION_SPY_SABOTAGE_UNIT, "ui_name_sabotage_unit");
+      load_action_ui_name(file, ACTION_SPY_SABOTAGE_UNIT_ESC,
+                          "ui_name_sabotage_unit_escape");
+      load_action_ui_name(file, ACTION_SPY_BRIBE_UNIT, "ui_name_bribe_unit");
+      load_action_ui_name(file, ACTION_SPY_SABOTAGE_CITY, "ui_name_sabotage_city");
+      load_action_ui_name(file, ACTION_SPY_SABOTAGE_CITY_ESC,
+                          "ui_name_sabotage_city_escape");
+      load_action_ui_name(file, ACTION_SPY_TARGETED_SABOTAGE_CITY,
+                          "ui_name_targeted_sabotage_city");
+      load_action_ui_name(file, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
+                          "ui_name_targeted_sabotage_city_escape");
+      load_action_ui_name(file, ACTION_SPY_INCITE_CITY, "ui_name_incite_city");
+      load_action_ui_name(file, ACTION_SPY_INCITE_CITY_ESC,
+                          "ui_name_incite_city_escape");
+      load_action_ui_name(file, ACTION_ESTABLISH_EMBASSY,
+                          "ui_name_establish_embassy");
+      load_action_ui_name(file, ACTION_ESTABLISH_EMBASSY_STAY,
+                          "ui_name_establish_embassy_stay");
+      load_action_ui_name(file, ACTION_SPY_STEAL_TECH, "ui_name_steal_tech");
+      load_action_ui_name(file, ACTION_SPY_STEAL_TECH_ESC,
+                          "ui_name_steal_tech_escape");
+      load_action_ui_name(file, ACTION_SPY_TARGETED_STEAL_TECH,
+                          "ui_name_targeted_steal_tech");
+      load_action_ui_name(file, ACTION_SPY_TARGETED_STEAL_TECH_ESC,
+                          "ui_name_targeted_steal_tech_escape");
+      load_action_ui_name(file, ACTION_SPY_INVESTIGATE_CITY,
+                          "ui_name_investigate_city");
+      load_action_ui_name(file, ACTION_INV_CITY_SPEND,
+                          "ui_name_investigate_city_spend_unit");
+      load_action_ui_name(file, ACTION_SPY_STEAL_GOLD,
+                          "ui_name_steal_gold");
+      load_action_ui_name(file, ACTION_SPY_STEAL_GOLD_ESC,
+                          "ui_name_steal_gold_escape");
+      load_action_ui_name(file, ACTION_STEAL_MAPS, "ui_name_steal_maps");
+      load_action_ui_name(file, ACTION_STEAL_MAPS_ESC,
+                          "ui_name_steal_maps_escape");
+      load_action_ui_name(file, ACTION_TRADE_ROUTE,
+                          "ui_name_establish_trade_route");
+      load_action_ui_name(file, ACTION_MARKETPLACE, "ui_name_enter_marketplace");
+      load_action_ui_name(file, ACTION_HELP_WONDER, "ui_name_help_wonder");
+      load_action_ui_name(file, ACTION_CAPTURE_UNITS,
+                          "ui_name_capture_units");
+      load_action_ui_name(file, ACTION_EXPEL_UNIT, "ui_name_expel_unit");
+      load_action_ui_name(file, ACTION_FOUND_CITY, "ui_name_found_city");
+      load_action_ui_name(file, ACTION_JOIN_CITY, "ui_name_join_city");
+      load_action_ui_name(file, ACTION_BOMBARD, "ui_name_bombard");
+      load_action_ui_name(file, ACTION_SPY_NUKE, "ui_name_suitcase_nuke");
+      load_action_ui_name(file, ACTION_SPY_NUKE_ESC,
+                          "ui_name_suitcase_nuke_escape");
+      load_action_ui_name(file, ACTION_NUKE, "ui_name_explode_nuclear");
+      load_action_ui_name(file, ACTION_DESTROY_CITY,
+                          "ui_name_destroy_city");
+      load_action_ui_name(file, ACTION_RECYCLE_UNIT, "ui_name_recycle_unit");
+      load_action_ui_name(file, ACTION_DISBAND_UNIT, "ui_name_disband_unit");
+      load_action_ui_name(file, ACTION_HOME_CITY, "ui_name_home_city");
+      load_action_ui_name(file, ACTION_UPGRADE_UNIT, "ui_name_upgrade_unit");
+      load_action_ui_name(file, ACTION_PARADROP, "ui_name_paradrop_unit");
+      load_action_ui_name(file, ACTION_AIRLIFT, "ui_name_airlift_unit");
+      load_action_ui_name(file, ACTION_ATTACK, "ui_name_attack");
+      load_action_ui_name(file, ACTION_CONQUER_CITY, "ui_name_conquer_city");
+      load_action_ui_name(file, ACTION_HEAL_UNIT, "ui_name_heal_unit");
 
       /* The quiet (don't auto generate help for) property of all actions
        * live in a single enum vector. This avoids generic action
@@ -7036,6 +6886,7 @@ static void send_ruleset_specialists(struct conn_list *dest)
     sz_strlcpy(packet.plural_name, untranslated_name(&s->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&s->name));
     sz_strlcpy(packet.short_name, untranslated_name(&s->abbreviation));
+    sz_strlcpy(packet.graphic_str, s->graphic_str);
     sz_strlcpy(packet.graphic_alt, s->graphic_alt);
     j = 0;
     requirement_vector_iterate(&s->reqs, preq) {
@@ -7643,8 +7494,8 @@ static void send_ruleset_action_auto_performers(struct conn_list *dest)
 }
 
 /**************************************************************************
-  Send the disaster ruleset information (all individual disaster types) to the
-  specified connections.
+  Send the trade route types ruleset information (all individual
+  trade route types) to the specified connections.
 **************************************************************************/
 static void send_ruleset_trade_routes(struct conn_list *dest)
 {

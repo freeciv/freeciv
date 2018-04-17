@@ -629,13 +629,15 @@ void hud_units::update_actions(unit_list *punits)
   num = unit_list_size(punit->tile->units);
   snum = QString::number(unit_list_size(punit->tile->units) - 1);
   if (unit_list_size(get_units_in_focus()) > 1) {
-    text_str = text_str + QString(_(" (Selected %1 units)"))
-               .arg(unit_list_size(get_units_in_focus()));
-  } else if (num > 2) {
-    text_str = text_str + QString(_(" +%1 units"))
+    int n = unit_list_size(get_units_in_focus());
+    /* TRANS: preserve leading space; always at least 2 */
+    text_str = text_str + QString(PL_(" (Selected %1 unit)",
+                                      " (Selected %1 units)", n))
+               .arg(n);
+  } else if (num > 1) {
+    text_str = text_str + QString(PL_(" +%1 unit",
+                                      " +%1 units", num-1))
                                   .arg(snum.toLocal8Bit().data());
-  } else if (num == 2) {
-    text_str = text_str + QString(_(" +1 unit"));
   }
   text_label.setText(text_str);
   font.setPixelSize((text_label.height() * 9) / 10);
@@ -1342,7 +1344,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
 
   no_name = new QGroupBox();
   no_name->setTitle(_("Location"));
-  everywhere = new QRadioButton(_("Everywhere"), no_name);
+  anywhere = new QRadioButton(_("Anywhere"), no_name);
   this_tile = new QRadioButton(_("Current tile"), no_name);
   this_continent = new QRadioButton(_("Current continent"), no_name);
   main_continent = new QRadioButton(_("Main continent"), no_name);
@@ -1359,7 +1361,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
   groupbox_layout->addWidget(this_tile);
   groupbox_layout->addWidget(this_continent);
   groupbox_layout->addWidget(main_continent);
-  groupbox_layout->addWidget(everywhere);
+  groupbox_layout->addWidget(anywhere);
 
   no_name->setLayout(groupbox_layout);
   hibox->addWidget(no_name);
@@ -1367,7 +1369,7 @@ unit_hud_selector::unit_hud_selector(QWidget *parent) : QFrame(parent)
 
   select = new QPushButton(_("Select"));
   cancel = new QPushButton(_("Cancel"));
-  connect(everywhere, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
+  connect(anywhere, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
   connect(this_tile, SIGNAL(toggled(bool)), this, SLOT(select_units(bool)));
   connect(this_continent, SIGNAL(toggled(bool)), this,
           SLOT(select_units(bool)));
@@ -1535,7 +1537,7 @@ bool unit_hud_selector::island_filter(struct unit *punit)
     }
   }
 
-  if (everywhere->isChecked()) {
+  if (anywhere->isChecked()) {
     return true;
   }
   return false;
@@ -1653,7 +1655,7 @@ void show_new_turn_info()
 ****************************************************************************/
 hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                                  int attacker_hp, int defender_hp,
-                                 bool make_winner_veteran,
+                                 bool make_att_veteran, bool make_def_veteran,
                                  QWidget *parent) : QWidget(parent)
 {
   QImage crdimg, acrimg, at, dt;
@@ -1667,17 +1669,16 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
   att_hp = attacker_hp;
   def_hp = defender_hp;
 
-  winner_veteran = make_winner_veteran;
   attacker = game_unit_by_number(attacker_unit_id);
   defender = game_unit_by_number(defender_unit_id);
+  att_veteran = make_att_veteran;
+  def_veteran = make_def_veteran;
   att_hp_loss = attacker->hp - att_hp;
   def_hp_loss = defender->hp - def_hp;
-  if (defender_hp == 0) {
-    winner = attacker;
-    winner_tile = attacker->tile;
+  if (defender_hp <= 0) {
+    center_tile = attacker->tile;
   } else {
-    winner = defender;
-    winner_tile = defender->tile;
+    center_tile = defender->tile;
   }
   setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
   setFixedSize(2 * w, w);
@@ -1801,11 +1802,11 @@ void hud_unit_combat::paintEvent(QPaintEvent *event)
   p.drawImage(left, aimg);
   p.setFont(f);
   p.setPen(QColor(Qt::white));
-  if (winner == defender && winner_veteran) {
+  if (def_veteran) {
     p.drawText(right, Qt::AlignHCenter | Qt::AlignJustify
                | Qt::AlignAbsolute, "*");
   }
-  if (winner == attacker && winner_veteran) {
+  if (att_veteran) {
     p.drawText(left, Qt::AlignHCenter | Qt::AlignJustify
                | Qt::AlignAbsolute, "*");
   }
@@ -1820,7 +1821,7 @@ void hud_unit_combat::paintEvent(QPaintEvent *event)
 ****************************************************************************/
 void hud_unit_combat::mousePressEvent(QMouseEvent *e)
 {
-  center_tile_mapcanvas(winner_tile);
+  center_tile_mapcanvas(center_tile);
 }
 
 /****************************************************************************

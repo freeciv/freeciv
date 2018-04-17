@@ -601,7 +601,7 @@ static int get_settlers(const struct player *pplayer)
 }
 
 /****************************************************************************
-  Wonder scpre
+  Wonder score
 ****************************************************************************/
 static int get_wonders(const struct player *pplayer)
 {

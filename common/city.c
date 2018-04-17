@@ -3098,11 +3098,11 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total,
       if (gov_center == NULL) {
         waste_all = TRUE; /* no gov center - no income */
       } else {
-        waste_level += waste_by_dist * min_dist;
+        waste_level += waste_by_dist * min_dist / 100;
         if (waste_by_rel_dist > 0) {
 	  /* Multiply by 50 as an "standard size" for which EFT_OUTPUT_WASTE_BY_DISTANCE
 	   * and EFT_OUTPUT_WASTE_BY_REL_DISTANCE would give same result. */
-          waste_level += waste_by_rel_dist * 50 * min_dist
+          waste_level += waste_by_rel_dist * 50 * min_dist / 100
 	    / MAX(wld.map.xsize, wld.map.ysize);
         }
       }
@@ -3328,6 +3328,13 @@ void destroy_city_virtual(struct city *pcity)
 
   citizens_free(pcity);
 
+  while (worker_task_list_size(pcity->task_reqs) > 0) {
+    struct worker_task *ptask = worker_task_list_get(pcity->task_reqs, 0);
+
+    worker_task_list_remove(pcity->task_reqs, ptask);
+
+    free(ptask);
+  }
   worker_task_list_destroy(pcity->task_reqs);
 
   unit_list_destroy(pcity->units_supported);

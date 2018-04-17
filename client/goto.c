@@ -1555,7 +1555,7 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
   p->orders[p->length] = ORDER_ACTIVITY;
   p->dir[p->length] = DIR8_ORIGIN;
   p->activity[p->length] = ACTIVITY_GEN_ROAD;
-  p->target[p->length] = extra_index(pextra);
+  p->extra[p->length] = extra_index(pextra);
   p->action[p->length] = ACTION_NONE;
   p->length++;
 
@@ -1625,7 +1625,8 @@ void send_connect_route(enum unit_activity activity,
 	p.orders[p.length] = ORDER_MOVE;
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
         p.activity[p.length] = ACTIVITY_LAST;
-        p.target[p.length] = EXTRA_NONE;
+        p.target[p.length] = 0;
+        p.extra[p.length] = EXTRA_NONE;
         p.action[p.length] = ACTION_NONE;
 	p.length++;
 

@@ -40,7 +40,7 @@
 #include "tab_gov.h"
 
 /**************************************************************************
-  Setup tab_good object
+  Setup tab_gov object
 **************************************************************************/
 tab_gov::tab_gov(ruledit_gui *ui_in) : QWidget()
 {
@@ -201,7 +201,7 @@ void tab_gov::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_gov_info(0);
+    update_gov_info(nullptr);
   }
 }
 

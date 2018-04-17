@@ -6,12 +6,16 @@ pkgdatadir = $(datadir)/$(PACKAGE)/alio
 pkgdata_DATA =          \
 	burrowtubes.png \
 	burrowtubes.spec \
+	fortresses.png  \
+	fortresses.spec \
 	hills.png       \
 	hills.spec      \
 	riversbrown.png	\
 	riversbrown.spec \
 	riversgreen.png	\
 	riversgreen.spec \
+	roads.png	\
+	roads.spec	\
 	terrain.png     \
 	terrain.spec    \
 	tunnels.png	\

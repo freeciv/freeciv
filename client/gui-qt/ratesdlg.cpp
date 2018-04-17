@@ -334,7 +334,6 @@ void fc_double_edge::paintEvent(QPaintEvent *event)
   QPixmap *pix;
   QPixmap pix_scaled;
   QSize s;
-  QRectF rectangle;
   double x_min,  x_max;
 
   cursor_pix = cursor_pix.scaled(width() / 20,  height());

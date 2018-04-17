@@ -817,10 +817,23 @@ void go_act_menu::create()
         continue;
       }
 
+#define ADD_OLD_SHORTCUT(wanted_action_id, sc_id)                         \
+  if (action_id == wanted_action_id) {                                    \
+    item->setShortcut(QKeySequence(shortcut_to_string(                    \
+                      fc_shortcuts::sc()->get_shortcut(sc_id))));         \
+  }
+
       /* Create and add the menu item. It will be hidden or shown based on
        * unit type.  */
       item = addAction(action_id_name_translation(action_id));
       items.insert(item, action_id);
+
+      /* Add the keyboard shortcuts for "Go to and..." menu items that
+       * existed independently before the "Go to and..." menu arrived. */
+      ADD_OLD_SHORTCUT(ACTION_FOUND_CITY, SC_GOBUILDCITY);
+      ADD_OLD_SHORTCUT(ACTION_JOIN_CITY, SC_GOJOINCITY);
+      ADD_OLD_SHORTCUT(ACTION_NUKE, SC_NUKE);
+
       connect(item, SIGNAL(triggered()),
               go_act_mapper, SLOT(map()));
       go_act_mapper->setMapping(item, action_id);
@@ -1276,11 +1289,6 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_DO))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_action);
-  act = menu->addAction(action_id_name_translation(ACTION_NUKE));
-  menu_list.insertMulti(NUKE, act);
-  act->setShortcut(QKeySequence(shortcut_to_string(
-                   fc_shortcuts::sc()->get_shortcut(SC_NUKE))));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_nuke);
 
   /* Work Menu */
   menu = this->addMenu(_("Work"));
@@ -1289,14 +1297,6 @@ void mr_menu::setup_menus()
                    fc_shortcuts::sc()->get_shortcut(SC_BUILDCITY))));
   menu_list.insertMulti(BUILD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_city);
-  act = menu->addAction(_("Go And Build City"));
-  menu_list.insertMulti(GO_AND_BUILD_CITY, act);
-  act->setShortcut(QKeySequence(tr("shift+b")));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_go_build_city);
-  act = menu->addAction(_("Go And Join City"));
-  menu_list.insertMulti(MIGRANT, act);
-  act->setShortcut(QKeySequence(tr("shift+j")));
-  connect(act, &QAction::triggered, this, &mr_menu::slot_go_join_city);
   act = menu->addAction(_("Auto Settler"));
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_AUTOMATE))));
@@ -2082,12 +2082,6 @@ void mr_menu::menus_sensitive()
         }
         break;
 
-      case MIGRANT:
-        if (units_can_do_action(punits, ACTION_JOIN_CITY, true)) {
-          i.value()->setEnabled(true);
-        }
-        break;
-
       case FORTIFY:
         if (can_units_do_activity(punits, ACTIVITY_FORTIFYING)) {
           i.value()->setEnabled(true);
@@ -2156,11 +2150,6 @@ void mr_menu::menus_sensitive()
           i.value()->setText(_("Auto Settler"));
         } else {
           i.value()->setText(_("Auto Worker"));
-        }
-        break;
-      case GO_AND_BUILD_CITY:
-        if (units_contain_cityfounder(punits)) {
-          i.value()->setEnabled(true);
         }
         break;
       case CONNECT_ROAD:
@@ -2241,13 +2230,6 @@ void mr_menu::menus_sensitive()
 
       case ORDER_DIPLOMAT_DLG:
         if (units_can_do_action(punits, ACTION_ANY, TRUE)) {
-          i.value()->setEnabled(true);
-        }
-        break;
-
-      case NUKE:
-        i.value()->setText(action_id_name_translation(ACTION_NUKE));
-        if (units_can_do_action(punits, ACTION_NUKE, TRUE)) {
           i.value()->setEnabled(true);
         }
         break;
@@ -2435,22 +2417,6 @@ void mr_menu::slot_conn_road()
 }
 
 /***************************************************************************
-  Action "GO TO AND BUILD CITY"
-***************************************************************************/
-void mr_menu::slot_go_build_city()
-{
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_FOUND_CITY, EXTRA_NONE);
-}
-
-/***************************************************************************
-  Action "GO TO AND JOIN CITY"
-***************************************************************************/
-void mr_menu::slot_go_join_city()
-{
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_JOIN_CITY, EXTRA_NONE);
-}
-
-/***************************************************************************
   Action "TRANSFROM TERRAIN"
 ***************************************************************************/
 void mr_menu::slot_transform()
@@ -2473,15 +2439,6 @@ void mr_menu::slot_action()
 {
   key_unit_action_select_tgt();
 }
-
-/***************************************************************************
-  Explode Nuclear
-***************************************************************************/
-void mr_menu::slot_nuke()
-{
-  key_unit_nuke();
-}
-
 
 /****************************************************************
   Action "AUTO_SETTLER"

@@ -67,8 +67,8 @@ select_offset_x = 0
 select_offset_y = 21
 
 ; offset the cities by this amount
-city_offset_x = 15
-city_offset_y = 20
+city_offset_x = 17
+city_offset_y = 21
 
 ; offset the city size number by this amount
 ; This is relative to full sprite origin.
@@ -165,9 +165,9 @@ files =
   "cimpletoon/orient_units.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
-  "amplio2/cities.spec",
   "hexemplio/activities.spec",
   "hexemplio/bases.spec",
+  "hexemplio/cities.spec",
   "hexemplio/terrain.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",
@@ -175,7 +175,6 @@ files =
   "hexemplio/tiles.spec",
   "hexemplio/grid.spec",
   "hexemplio/rivers.spec",
-  "hexemplio/roads.spec",
   "hexemplio/roads-rails.spec",
   "hexemplio/roads-maglevs.spec",
   "hexemplio/unitextras.spec",
@@ -184,11 +183,13 @@ files =
   "hexemplio/water1.spec",
   "hexemplio/water2.spec",
   "hexemplio/water3.spec",
+  "alio/roads.spec",
   "alio/riversbrown.spec",
   "alio/riversgreen.spec",
   "alio/terrain.spec",
   "alio/tunnels.spec",
   "alio/burrowtubes.spec",
+  "alio/fortresses.spec",
   "alio/hills.spec"
 
 
@@ -261,12 +262,14 @@ layer1_match_type = "water"
 tag = "desert"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_forest]
 tag = "forest"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
@@ -275,12 +278,14 @@ layer2_match_with = "foliage"
 tag = "grassland"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_hills]
 tag = "hills"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
@@ -289,6 +294,7 @@ layer2_match_with = "hills"
 tag = "jungle"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "foliage"
 layer2_match_with = "foliage"
@@ -297,6 +303,7 @@ layer2_match_with = "foliage"
 tag = "mountains"
 blend_layer = 1
 num_layers = 3
+layer0_match_type = "lake"
 layer1_match_type = "land"
 layer2_match_type = "hills"
 layer2_match_with = "hills"
@@ -305,18 +312,21 @@ layer2_match_with = "hills"
 tag = "plains"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_swamp]
 tag = "swamp"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_tundra]
 tag = "tundra"
 blend_layer = 1
 num_layers = 2
+layer0_match_type = "lake"
 layer1_match_type = "land"
 
 [tile_radiating_rocks]

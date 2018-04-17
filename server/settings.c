@@ -1395,7 +1395,7 @@ static struct setting settings[] = {
               N_("Map topology index"),
 #ifdef FREECIV_WEB
               /* TRANS: Freeciv-web version of the help text. */
-              N_("Freeciv maps are always two-dimensional. They may wrap "
+              N_("Freeciv-web maps are always two-dimensional. They may wrap "
                  "at the east-west directions to form a flat map or a "
                  "cylinder.\n"),
 #else /* FREECIV_WEB */
@@ -2108,7 +2108,7 @@ static struct setting settings[] = {
              "set to a value between 0 and 100, this will be used as "
              "the percent chance of \"occupying\" territory."),
           NULL, NULL, NULL,
-          GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, 
+          GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE,
           GAME_DEFAULT_OCCUPYCHANCE)
 
   GEN_BOOL("autoattack", game.server.autoattack, SSET_RULES_FLEXIBLE, SSET_MILITARY,

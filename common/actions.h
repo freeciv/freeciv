@@ -555,6 +555,8 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
 struct action_auto_perf *action_auto_perf_slot_number(const int num);
 
+const char *action_ui_name_default(int act);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

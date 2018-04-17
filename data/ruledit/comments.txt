@@ -313,10 +313,10 @@ utypes = "\
 ;                 to rename an item after a ruleset has been released, you\n\
 ;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; graphic       = tag specifying preferred graphic\n\
-; graphic_alt	= tag for alternate graphic if preferred graphic is not\n\
-;		  present; especially if preferred graphic is non-standard,\n\
-;		  this should be a standard tag.  Otherwise can use eg \"-\"\n\
-;		  for no alternate graphic.\n\
+; graphic_alt   = tag for alternate graphic if preferred graphic is not\n\
+;                 present; especially if preferred graphic is non-standard,\n\
+;                 this should be a standard tag.  Otherwise can use eg \"-\"\n\
+;                 for no alternate graphic.\n\
 ; tech_req      = required advance, names from techs.ruleset, or special:\n\
 ;                 \"None\" => available from start\n\
 ; impr_req	= required city improvement, names from buildings.ruleset\n\
@@ -539,9 +539,7 @@ terrains = "\
 ;\n\
 ; Notes:\n\
 ;\n\
-; name                 = translatable name as seen by user; if \"unused\", it is\n\
-;                        not used, but is included for conversion and/or the\n\
-;                        editor.\n\
+; name                 = translatable name as seen by user\n\
 ; rule_name            = (optional) internal name for savegames, rulesets etc;\n\
 ;                        if not present, \"name\" is used for this purpose too.\n\
 ;                        Since the name used in savegames must not change, if\n\
@@ -570,20 +568,24 @@ terrains = "\
 ;                        Nonzero values only affect extras with build_time 0.\n\
 ; road_time            = time to build roads; if 0, cannot build any roads.\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
-; irrigation_result    = result of irrigation; one of:\n\
+; irrigation_result    = result of 'irrigate' activity; one of:\n\
 ;                        \"no\"  -- cannot irrigate\n\
-;                        \"yes\" -- can irrigate\n\
+;                        \"yes\" -- can build extra\n\
 ;                        terrain section -- irrigation changes to that terrain\n\
-; irrigation_food_incr = increment to food if tile is irrigated\n\
-; irrigation_time      = time to irrigate; if 0, cannot irrigate\n\
+; irrigation_food_incr = increment to food if tile is 100% irrigated\n\
+;                        (actual bonus controlled by Irrigation_Pct effect)\n\
+; irrigation_time      = time for 'irrigate' activity; if 0, cannot irrigate\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
-; mining_result        = result of mining; one of:\n\
+;                        Such extras can modify time with build_time_factor.\n\
+; mining_result        = result of 'mine' activity; one of:\n\
 ;                        \"no\"  -- cannot mine\n\
-;                        \"yes\" -- can mine\n\
+;                        \"yes\" -- can build extra\n\
 ;                        terrain section -- mining changes to that terrain\n\
-; mining_shield_incr   = increment to shields if tile is mined\n\
-; mining_time          = time to mine; if 0, cannot mine\n\
+; mining_shield_incr   = increment to shields if tile is 100% mined\n\
+;                        (actual bonus controlled by Mining_Pct effect)\n\
+; mining_time          = time for 'mine' activity; if 0, cannot mine\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
+;                        Such extras can modify time with build_time_factor.\n\
 ; transform_result     = result of transformation; one of:\n\
 ;                        \"no\"  -- cannot transform\n\
 ;                        terrain section -- transformation changes to that\n\
@@ -668,6 +670,7 @@ resources = "\
 ; Notes:\n\
 ;\n\
 ; extra                = name of the extra this resource section is part of\n\
+;                        (must have \"Resource\" in its causes)\n\
 ; identifier           = single-character identifier used in old savegames. This\n\
 ;                        must be unique for each resource, and changing it will\n\
 ;                        break loading those old savegames.\n\
@@ -696,10 +699,13 @@ extras = "\
 ;                           ruleset has been released, you should set\n\
 ;                           \"rule_name\" to the original value of \"name\".\n\
 ; category                = How UI should categorize this extra. One of\n\
-;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\", or \"Bonus\"\n\
+;                           \"Infra\", \"Natural\", \"Nuisance\", \"Resource\",\n\
+;                           or \"Bonus\"\n\
 ; causes                  = events that can create extra type.\n\
 ;                           \"Irrigation\", \"Mine\", \"Hut\", \"Pollution\", \"Fallout\",\n\
-;                           \"Base\", \"Road\", \"Resource\", or \"Appear\"\n\
+;                           \"Appear\", \"Resource\", \"Base\", or \"Road\"\n\
+;                           (the last three require a corresponding\n\
+;                           [resource_*] / [base_*] / [road_*] section)\n\
 ; rmcauses                = events that can remove extra type.\n\
 ;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
 ;                           \"Disappear\"\n\
@@ -798,6 +804,7 @@ bases = "\
 ; Base types:\n\
 ;\n\
 ; extra                   = name of the extra this base section is part of\n\
+;                           (must have \"Base\" in its causes)\n\
 ; gui_type                = How gui should handle this base.\n\
 ;                           Value can be \"Fortress\", \"Airbase\", or \"Other\"\n\
 ; border_sq               = Base will claim land ownership up to this radius,\n\
@@ -818,6 +825,7 @@ roads = "\
 ; Road types:\n\
 ;\n\
 ; extra                   = name of the extra this road section is part of\n\
+;                           (must have \"Road\" in its causes)\n\
 ; first_reqs              = additional requirements to build the first part of\n\
 ;                           the road, when none of the adjacent tiles have any\n\
 ;                           integrating roads (see effects.ruleset and\n\
@@ -1064,11 +1072,12 @@ specialists = "\
 ;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; short_name    = one-character \"short name\" used (for instance) in cityrep;\n\
 ;                 should be first character/abbrevation of \"name\"\n\
+; graphic       = tag specifying preferred graphic\n\
+;                 Different images based on citizen number are supported.\n\
+;                 If no such images indexed with citizen number are found,\n\
+;                 plain tag is used instead.\n\
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't\n\
-;                 found. Example value: \"specialist.scientist_0\"\n\
-;                 The specialist graphic allow different images based on\n\
-;                 citizen number. The alt tag don't. To use another\n\
-;                 specialist's tag use specialist.<otherrulename>_<number>.\n\
+;                 found.\n\
 ; reqs	        = requirements to have the specialist pick (see\n\
 ;                 effects.ruleset and README.effects for help on requirements)\n\
 ; helptext      = optional help text string; should escape all raw newlines\n\

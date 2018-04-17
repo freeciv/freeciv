@@ -1215,15 +1215,20 @@ void tileset_free(struct tileset *t)
 
   Call this function with the (guessed) name of the tileset, when
   starting the client.
+
+  Returns TRUE iff tileset with suggested tileset_name was loaded.
 ***********************************************************************/
-void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
+bool tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
                        bool global_default)
 {
+  bool original;
+
   if (tileset_name == NULL
       || !(tileset = tileset_read_toplevel(tileset_name, verbose,
                                            topo_id, 1.0f))) {
     struct strvec *list = fileinfolist(get_data_dirs(), TILESPEC_SUFFIX);
 
+    original = FALSE;
     strvec_iterate(list, file) {
       struct tileset *t = tileset_read_toplevel(file, FALSE, topo_id, 1.0f);
 
@@ -1247,12 +1252,16 @@ void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
     }
 
     log_verbose("Trying tileset \"%s\".", tileset->name);
+  } else {
+    original = TRUE;
   }
   option_set_default_ts(tileset);
 
   if (global_default) {
     sz_strlcpy(gui_options.default_tileset_name, tileset_basename(tileset));
   }
+
+  return original;
 }
 
 /**********************************************************************
@@ -1265,8 +1274,10 @@ void tilespec_try_read(const char *tileset_name, bool verbose, int topo_id,
   reread.
 
   It will also call the necessary functions to redraw the graphics.
+
+  Returns TRUE iff new tileset has been succesfully loaded.
 ***********************************************************************/
-void tilespec_reread(const char *new_tileset_name,
+bool tilespec_reread(const char *new_tileset_name,
                      bool game_fully_initialized, float scale)
 {
   int id;
@@ -1274,6 +1285,7 @@ void tilespec_reread(const char *new_tileset_name,
   enum client_states state = client_state();
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
+  bool new_tileset_in_use;
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(tileset_name, name);
@@ -1297,7 +1309,12 @@ void tilespec_reread(const char *new_tileset_name,
    *
    * We read in the new tileset.  This should be pretty straightforward.
    */
-  if (!(tileset = tileset_read_toplevel(tileset_name, FALSE, -1, scale))) {
+  tileset = tileset_read_toplevel(tileset_name, FALSE, -1, scale);
+  if (tileset != NULL) {
+    new_tileset_in_use = TRUE;
+  } else {
+    new_tileset_in_use = FALSE;
+
     if (!(tileset = tileset_read_toplevel(old_name, FALSE, -1, scale))) {
       /* Always fails. */
       fc_assert_exit_msg(NULL != tileset,
@@ -1334,7 +1351,7 @@ void tilespec_reread(const char *new_tileset_name,
    */
   if (!game.client.ruleset_ready) {
     /* The ruleset data is not sent until this point. */
-    return;
+    return new_tileset_in_use;
   }
 
   if (tileset_map_topo_compatible(wld.map.topology_id, tileset)
@@ -1373,7 +1390,7 @@ void tilespec_reread(const char *new_tileset_name,
 
   if (state < C_S_RUNNING) {
     /* Below redraws do not apply before this. */
-    return;
+    return new_tileset_in_use;
   }
 
   /* Step 4:  Draw.
@@ -1388,6 +1405,8 @@ void tilespec_reread(const char *new_tileset_name,
    * drawing we might not get one.  Of course this is slower. */
   update_map_canvas_visible();
   can_slide = TRUE;
+
+  return new_tileset_in_use;
 }
 
 /**************************************************************************
@@ -2664,12 +2683,13 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
   /* Load the specialist sprite graphics. */
   char buffer[512];
   int j;
-  const char *name = specialist_rule_name(specialist_by_number(id));
-  const char *graphic_alt = specialist_by_number(id)->graphic_alt;
+  struct specialist *spe = specialist_by_number(id);
+  const char *tag = spe->graphic_str;
+  const char *graphic_alt = spe->graphic_alt;
 
   for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
-    /* Try rule name + index number */
-    fc_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
+    /* Try tag name + index number */
+    fc_snprintf(buffer, sizeof(buffer), "%s_%d", tag, j);
     t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
                                                       FALSE);
 
@@ -2679,8 +2699,33 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
     }
   }
 
-  /* Nothing? Try the alt tag */
   if (j == 0) {
+    /* Try non-indexed */
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, tag, FALSE,
+                                                      FALSE);
+
+    if (t->sprites.specialist[id].sprite[j]) {
+      j = 1;
+    }
+  }
+
+  if (j == 0) {
+    /* Try the alt tag */
+    for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
+      /* Try alt tag name + index number */
+      fc_snprintf(buffer, sizeof(buffer), "%s_%d", graphic_alt, j);
+      t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer, FALSE,
+                                                        FALSE);
+
+      /* Break if no more index specific sprites are defined */
+      if (!t->sprites.specialist[id].sprite[j]) {
+        break;
+      }
+    }
+  }
+
+  if (j == 0) {
+    /* Try alt tag non-indexed */
     t->sprites.specialist[id].sprite[j] = load_sprite(t, graphic_alt, FALSE,
                                                       FALSE);
 
@@ -2693,7 +2738,7 @@ void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 
   /* Still nothing? Give up. */
   if (j == 0) {
-    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), name);
+    tileset_error(LOG_FATAL, _("No graphics for specialist \"%s\"."), tag);
   }
 }
 
@@ -3820,10 +3865,6 @@ void tileset_setup_tile_type(struct tileset *t,
   struct sprite *sprite;
   char buffer[MAX_LEN_NAME + 20];
   int i, l;
-  
-  if (0 == strlen(terrain_rule_name(pterrain))) {
-    return;
-  }
 
   if (!drawing_hash_lookup(t->tile_hash, pterrain->graphic_str, &draw)
       && !drawing_hash_lookup(t->tile_hash, pterrain->graphic_alt, &draw)) {

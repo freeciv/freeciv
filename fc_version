@@ -6,10 +6,10 @@
 # Version definition for Freeciv.
 
 MAJOR_VERSION="2"
-MINOR_VERSION="93"
-PATCH_VERSION="99"
+MINOR_VERSION="94"
+PATCH_VERSION="91"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha"
+VERSION_LABEL="-alpha1+"
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
@@ -32,7 +32,7 @@ VERSION_LABEL="-alpha"
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=0
 # (and update DEFAULT_FOLLOW_TAG to "stable", and also
-# windows/installer_msys2/Makefile --follow-tag to "win32")
+# windows/installer_msys2/Makefile --with-followtag to "windows")
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
@@ -56,7 +56,7 @@ DEFAULT_FOLLOW_TAG=S3_0
 #   - Avoid adding a new mandatory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel-3.0-2017.Aug.21"
+NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel-3.0-2018.Apr.17"
 NETWORK_CAPSTRING_OPTIONAL=""
 
 FREECIV_DISTRIBUTOR=""

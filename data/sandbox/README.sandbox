@@ -14,6 +14,17 @@ the default ruleset earlier. As the default ruleset changed, we felt
 the need to base also the testing ruleset to the new default.
 
 
+Warning
+-------
+
+This ruleset is a playpen for demonstrating new features. There's no
+guarantee that games started with one release will continue to be
+playable with another release (even a minor version), nor that the
+game will be any fun to play. Nor are there guaranteed to be
+appropriate graphics for all the game elements in the supplied
+tilesets, so substitutes may be used.
+
+
 Main features relative to civ2civ3 ruleset
 ------------------------------------------
 
@@ -103,3 +114,15 @@ Units inside fort and airstrip can still be seen.
 Buoys visible only once Radio known:
 One can see Buoys only when one knows Radio. The leading player
 may build Buoys that others can't yet see.
+
+Stealing techs on city conquest
+Getting a tech with city conquest is never guaranteed to give techs.
+In early game you have 50% chance to get tech from the player losing the city.
+After University is known, no techs are got from the city conquest.
+
+Nationality conversion on conquest
+When a city is conquered, 25% of its inhabitants convert to the nationality
+of the conqueror.
+
+Combat Rounds
+Each combat lasts 15 rounds at max, even if neither side dies in that time.

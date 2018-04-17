@@ -1126,6 +1126,9 @@ bool tile_set_label(struct tile *ptile, const char *label)
   }
 
   if (label != NULL) {
+    if (strlen(label) >= MAX_LEN_MAP_LABEL) {
+      log_error("Overlong map label '%s'", label);
+    }
     ptile->label = fc_strdup(label);
   }
 

@@ -1239,6 +1239,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
       ptaker->server.got_first_city = TRUE;
     }
 
+    citizens_convert_conquest(pcity);
+
     /* Restore any global improvement effects that this city confers */
     city_built_iterate(pcity, pimprove) {
       city_add_improvement(pcity, pimprove);
@@ -1995,7 +1997,10 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
     }
   }
 
-  steal_a_tech(pplayer, cplayer, A_UNSET);
+  if (fc_rand(100) <  get_unit_bonus(punit, EFT_CONQUEST_TECH_PCT)) {
+    /* Just try to steal. Ignore failures to get tech */
+    steal_a_tech(pplayer, cplayer, A_UNSET);
+  }
 
   /* We transfer the city first so that it is in a consistent state when
    * the size is reduced. */

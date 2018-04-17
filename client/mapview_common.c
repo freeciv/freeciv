@@ -127,6 +127,7 @@ struct animation
   int height;
   union {
     struct {
+      struct unit *mover;
       struct tile *src;
       struct tile *dest;
       float canvas_dx;
@@ -202,7 +203,7 @@ static bool movement_animation(struct animation *anim, double time_gone)
   int new_x, new_y;
   double timing_sec = (double)gui_options.smooth_move_unit_msec / 1000.0;
   double mytime = MIN(time_gone, timing_sec);
-  struct unit *punit = game_unit_by_number(anim->id);
+  struct unit *punit = anim->movement.mover;
 
   if (punit != NULL) {
     tile_to_canvas_pos(&start_x, &start_y, anim->movement.src);
@@ -224,6 +225,9 @@ static bool movement_animation(struct animation *anim, double time_gone)
 
     if (time_gone >= timing_sec) {
       /* Animation over */
+      if (--anim->movement.mover->refcount <= 0) {
+        FC_FREE(anim->movement.mover);
+      }
       return TRUE;
     }
   } else {
@@ -663,7 +667,7 @@ bool tile_to_canvas_pos(float *canvas_x, float *canvas_y, struct tile *ptile)
   int center_map_x, center_map_y, dx, dy, tile_x, tile_y;
 
   /*
-   * First we wrap the coordinates to hopefully be within the the mapview
+   * First we wrap the coordinates to hopefully be within the mapview
    * window.  We do this by finding the position closest to the center
    * of the window.
    */
@@ -2675,6 +2679,8 @@ void move_unit_map_canvas(struct unit *punit,
 
       anim->type = ANIM_MOVEMENT;
       anim->id = punit->id;
+      punit->refcount++;
+      anim->movement.mover = punit;
       anim->movement.src = src_tile;
       anim->movement.dest = dest_tile;
       anim->movement.canvas_dx = canvas_dx;

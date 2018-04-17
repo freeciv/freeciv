@@ -82,11 +82,11 @@ void load_install_info_list(const char *filename,
 
         ii = fc_malloc(sizeof(*ii));
 
-        strncpy(ii->name, str, sizeof(ii->name));
+        sz_strlcpy(ii->name, str);
         str = secfile_lookup_str(file, "%s.type", buf);
         ii->type = modpack_type_by_name(str, fc_strcasecmp);
         str = secfile_lookup_str(file, "%s.version", buf);
-        strncpy(ii->version, str, sizeof(ii->version));
+        sz_strlcpy(ii->version, str);
 
         install_info_list_append(list, ii);
       } else {

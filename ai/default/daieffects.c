@@ -273,10 +273,15 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
 	  
       /* WAG */
       value /= 3;
-	
+
       v += value;
       break;
     }
+  case EFT_CONQUEST_TECH_PCT:
+    /* Compare to EFT_GIVE_IMM_TECH which gives game.info.sciencebox * num_techs */
+    v +=  game.info.sciencebox * (100 - game.server.conquercost) / 200
+      * amount / 100;
+    break;
   case EFT_GROWTH_FOOD:
     v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
     break;
@@ -544,6 +549,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_ACTION_ODDS_PCT:
   case EFT_BORDER_VISION:
   case EFT_STEALINGS_IGNORE:
+  case EFT_COMBAT_ROUNDS:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

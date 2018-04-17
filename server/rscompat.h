@@ -55,6 +55,8 @@ const char *rscompat_req_type_name_3_0(const char *type, const char *range,
                                        bool quiet, const char *value);
 const char *rscompat_utype_flag_name_3_0(struct rscompat_info *info,
                                          const char *old_type);
+const char *rscompat_specialist_gfx_tag_3_0(struct rscompat_info *info,
+                                            struct specialist *spe);
 
 #ifdef __cplusplus
 }

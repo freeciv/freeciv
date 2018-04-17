@@ -222,7 +222,7 @@ public:
   fc_client();
   ~fc_client();
 
-  void main(QApplication *);
+  void fc_main(QApplication *);
   map_view *mapview_wdg;
   fc_sidebar *sidebar_wdg;
   minimap_view *minimapview_wdg;

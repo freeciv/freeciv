@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ extern "C" {
 #define SPECENUM_VALUE78  E_UNIT_BUY
 #define SPECENUM_VALUE79  E_UNIT_BUILT
 #define SPECENUM_VALUE80  E_UNIT_LOST_DEF
-#define SPECENUM_VALUE81  E_UNIT_WIN
+#define SPECENUM_VALUE81  E_UNIT_WIN_DEF
 #define SPECENUM_VALUE82  E_UNIT_BECAME_VET
 #define SPECENUM_VALUE83  E_UNIT_UPGRADED
 #define SPECENUM_VALUE84  E_UNIT_RELOCATED
@@ -164,6 +164,8 @@ extern "C" {
 #define SPECENUM_VALUE126 E_DEPRECATION_WARNING
 /* Used for messages about things experienced players already know. */
 #define SPECENUM_VALUE127 E_BEGINNER_HELP
+#define SPECENUM_VALUE128 E_MY_UNIT_DID_HEAL
+#define SPECENUM_VALUE129 E_MY_UNIT_WAS_HEALED
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to

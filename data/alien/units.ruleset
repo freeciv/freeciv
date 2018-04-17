@@ -202,10 +202,10 @@ flags         = "Missile", "DoesntOccupyTile"
 ;                 to rename an item after a ruleset has been released, you
 ;                 should set "rule_name" to the original value of "name".
 ; graphic       = tag specifying preferred graphic
-; graphic_alt	= tag for alternate graphic if preferred graphic is not
-;		  present; especially if preferred graphic is non-standard,
-;		  this should be a standard tag.  Otherwise can use eg "-"
-;		  for no alternate graphic.
+; graphic_alt   = tag for alternate graphic if preferred graphic is not
+;                 present; especially if preferred graphic is non-standard,
+;                 this should be a standard tag.  Otherwise can use eg "-"
+;                 for no alternate graphic.
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
 ; impr_req	= required city improvement, names from buildings.ruleset
@@ -966,7 +966,7 @@ sound_fight   = "f_bomber"
 sound_fight_alt = "f_generic"
 build_cost    = 90
 pop_cost      = 0
-attack        = 8
+attack        = 9
 defense       = 3
 hitpoints     = 20
 firepower     = 1
@@ -979,7 +979,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Bombarder", "Capturer"
-bombard_rate  = 5
+bombard_rate  = 10
 helptext      = _("\
 Nobody, but some of the other Antigravity and Hunters units can attack this unit.")
 
@@ -996,7 +996,7 @@ sound_fight   = "f_catapult"
 sound_fight_alt = "f_generic"
 build_cost    = 10
 pop_cost      = 0
-attack        = 2
+attack        = 3
 defense       = 1
 hitpoints     = 10
 firepower     = 1
@@ -1009,7 +1009,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Bombarder"
-bombard_rate  = 3
+bombard_rate  = 5
 helptext      = _("\
 This alien lifeform is first bombarding unit.\
 ")
@@ -1027,7 +1027,7 @@ sound_fight   = "f_cannon"
 sound_fight_alt = "f_generic"
 build_cost    = 20
 pop_cost      = 0
-attack        = 4
+attack        = 5
 defense       = 2
 hitpoints     = 20
 firepower     = 1
@@ -1041,7 +1041,7 @@ uk_food       = 0
 uk_gold       = 0
 cargo         = "Missile"
 flags         = "Bombarder", "Provoking"
-bombard_rate  = 5
+bombard_rate  = 10
 helptext      = _("\
 This improved spitter can both make bombard attacks, and transport missiles \
 next to targets.")

@@ -381,19 +381,25 @@ at the wiki:
 Ending the game:
 ================
 
-There are four ways in which a game can end:
+There are six ways in which a game can end:
 
 1) Only winners remain in game
-   1a) If server setting 'alliedvictory' is enabled:
+   1a) If victory condition 'ALLIED' is enabled in server setting 'victories':
        All the remaining nations, short of those who have ceded the game
        (/surrender), are allied or in the same team.
-   1b) If 'alliedvictory' is disabled:
+   1b) If victory condition 'ALLIED' is disabled in server setting 'victories':
        Only one nation or one team is left, or all other players of all
        other teams have ceded the game (/surrender).
 2) The final turn (/show endturn) is reached.
-3) A player builds and launches a spaceship, which reaches Alpha
+3) If victory condition 'SPACERACE' is enabled in server setting 'victories' and
+   a player builds and launches a spaceship, which reaches Alpha
    Centauri first.
-4) The server operator uses the /endgame command.
+4) If victory condition 'CULTURE' is enabled in server setting 'victories' and
+   a player has reached both ruleset-defined minimum number of culture points
+   and ruleset-defined minimum lead in culture points.
+5) If the modpack has special victory conditions and a player has reached one
+   of those.
+6) The server operator uses the /endgame command.
 
 A score-table will be shown in all cases.  Hint: The server operator
 can set the final year while the game is still going by changing the
@@ -457,8 +463,8 @@ Log messages:
 =============
 
 Both the client and server print messages known as "log messages".
-There are five categories of log messages: "fatal", "error", "normal",
-"verbose", and "debug".
+There are four or five categories of log messages: "fatal", "error",
+"normal", "verbose", and in debug builds "debug".
 
 By default, fatal, error and normal messages are printed to standard
 output where the client or server was started.  You can direct log
@@ -466,40 +472,40 @@ messages to a file instead of the screen with the "--log filename",
 or "-l filename" command line options.
 
 You can change the level of log messages displayed with "--debug
-level" or "-d level", where "level" is 0, 1, 2, or 3.
-0 means show fatal messages only, 1 means show fatal
-and error messages, 2 means fatal, error and normal messages (the
-default), and 3 means show all fatal, error, normal, and verbose
-messages.
+level" or "-d level", where "level" is name of the log level,
+or numeric value (one of 0, 1, 2, or 3) corresponding to it.
+All the messages of the selected level, and lower levels,
+are shown. E.g. on the default "normal" level you get all of the
+"fatal", "error", and "normal" level messages.
 
 If you compiled with DEBUG defined (an easy way to do this is to
 configure with --enable-debug), then you can get debug level messages
-by setting the level to 4.  Also, it is possible to control debug
-level messages (but not other messages) on a per-file and per-line
-basis.  To do this use "--debug 4:str1:str2" (as many strings as you
-like, separated by colons) and any filenames which match those strings
-as a substring will have debug log messages turned on, and all other
-debug messages will be suppressed.  To control lines, use:
-"--debug 4:str1,min,max" and for files which match str1 only debug
-messages within the specified minimum and maximum lines will be
-printed.  Only one set of (min,max) can be applied to each file.
+by setting the level to "debug" (or 4).  Also, it is possible to
+control debug level messages (but not other messages) on a per-file
+and per-line basis.  To do this use "--debug debug:str1:str2" (as many
+strings as you like, separated by colons) and any filenames which
+match those strings as a substring will have debug log messages
+turned on, and all other debug messages will be suppressed.
+To control lines, use: "--debug debug:str1,min,max" and for files which
+match str1 only debug messages within the specified minimum and maximum
+lines will be printed.  Only one set of (min,max) can be applied to each file.
 
 Example:
 
-  |  % freeciv-server -l my.log -d 3
+  |  % freeciv-server -l my.log -d verbose
 
 This sends all server log messages to file "my.log", including verbose
 level messages.
 
 Example:
 
-  |  % freeciv-gtk3 --debug 0
+  |  % freeciv-gtk3 --debug fatal
 
 This suppresses all non-fatal client log messages.
 
 Example:
 
-  |  % freeciv-server -d 4:log:civserver,120,500:autoattack
+  |  % freeciv-server -d debug:log:civserver,120,500:autoattack
 
 This turns on all fatal, error, normal and verbose messages for the
 server, and debug level messages for some specified modules.  Note

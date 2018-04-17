@@ -1710,7 +1710,8 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0] = ORDER_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = EXTRA_NONE;
+  p.target[0] = 0;
+  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
@@ -1762,7 +1763,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.orders[0] = ORDER_ACTION_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = EXTRA_NONE;
+  p.target[0] = 0;
+  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
@@ -1843,7 +1845,7 @@ static void do_disband_alternative(void *p)
   next->unit_id = data->unit_id;
   next->alt = data->alt - 1;
 
-  /* Lates request ID before trying to send a request. */
+  /* Latest request ID before trying to send a request. */
   last_request_id_used = client.conn.client.last_request_id_used;
 
   /* Send a request to the server unless it is known to be pointless. */
@@ -3120,14 +3122,6 @@ void key_unit_done(void)
 void key_unit_goto(void)
 {
   request_unit_goto(ORDER_LAST, ACTION_NONE, EXTRA_NONE);
-}
-
-/**************************************************************************
-Explode nuclear at a tile without enemy units
-**************************************************************************/
-void key_unit_nuke(void)
-{
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
 }
 
 /**************************************************************************

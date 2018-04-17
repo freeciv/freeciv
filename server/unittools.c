@@ -279,6 +279,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
   struct player *plr2 = unit_owner(defender);
+  int max_rounds;
+  int rounds;
 
   *att_hp = attacker->hp;
   *def_hp = defender->hp;
@@ -297,7 +299,11 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   } else if (defensepower == 0) {
     *def_hp = 0;
   }
-  while (*att_hp > 0 && *def_hp > 0) {
+  max_rounds = get_unit_bonus(attacker, EFT_COMBAT_ROUNDS);
+  for (rounds = 0;
+       *att_hp > 0 && *def_hp > 0
+         && (max_rounds <= 0 || max_rounds > rounds);
+       rounds++) {
     if (fc_rand(attackpower + defensepower) >= defensepower) {
       *def_hp -= attack_firepower;
     } else {
@@ -354,13 +360,14 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
 }
 
 /***************************************************************************
-  Make maybe make either side of combat veteran 
+  Maybe make either side of combat veteran
 ****************************************************************************/
 void combat_veterans(struct unit *attacker, struct unit *defender)
 {
   if (attacker->hp > 0) {
     maybe_make_veteran(attacker); 
-  } else if (defender->hp > 0) {
+  }
+  if (defender->hp > 0) {
     maybe_make_veteran(defender); 
   }
 }
@@ -2497,6 +2504,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
       packet->orders_targets[i] = punit->orders.list[i].target;
+      packet->orders_extras[i] = punit->orders.list[i].extra;
       packet->orders_actions[i] = punit->orders.list[i].action;
     }
   } else {
@@ -2657,7 +2665,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                   ? _("yourself")
                   : nation_plural_for_player(pplayer));
     if (unit_owner(punit) != pplayer) {
-      notify_player(pplayer, ptile, E_UNIT_WIN, ftc_server,
+      notify_player(pplayer, ptile, E_UNIT_WIN_ATT, ftc_server,
                     _("The %s %s was nuked."),
                     nation_adjective_for_player(unit_owner(punit)),
                     unit_tile_link(punit));
@@ -4135,9 +4143,9 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_ACTIVITY:
       activity = order.activity;
       {
-        struct extra_type *pextra = (order.target == EXTRA_NONE ?
+        struct extra_type *pextra = (order.extra == EXTRA_NONE ?
                                        NULL :
-                                       extra_by_number(order.target));
+                                       extra_by_number(order.extra));
 
         if (pextra == NULL && activity_requires_target(order.activity)) {
           /* Try to find a target extra before giving up this order or, if

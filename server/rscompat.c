@@ -30,6 +30,7 @@
 #include "effects.h"
 #include "game.h"
 #include "requirements.h"
+#include "specialist.h"
 #include "unittype.h"
 
 /* server */
@@ -48,7 +49,7 @@ void rscompat_init_info(struct rscompat_info *info)
 
 /**************************************************************************
   Ruleset files should have a capabilities string datafile.options
-  This checks the string and that the required capabilities are satisified.
+  This checks the string and that the required capabilities are satisfied.
 **************************************************************************/
 int rscompat_check_capabilities(struct section_file *file,
                                 const char *filename,
@@ -265,8 +266,9 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_extra_flags_30[] = {
       { N_("ParadropFrom"), N_("Units can paradrop from this tile.") },
-      { N_("DiplomatDefense"), N_("Diplomatic units get a 25% defense "
-                                  "bonus in diplomatic fights.") },
+      { N_("DiplomatDefense"),
+        /* xgettext:no-c-format */
+        N_("Diplomatic units get a 25% defense bonus in diplomatic fights.") },
     };
 
     int first_free;
@@ -335,6 +337,10 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
                                               FALSE, TRUE, "Found City"));
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                               FALSE, TRUE, "Join City"));
+    }
+
+    if (peffect->type == EFT_OUTPUT_WASTE_BY_DISTANCE) {
+      peffect->value *= 100;
     }
   }
 
@@ -1467,6 +1473,10 @@ void rscompat_postprocess(struct rscompat_info *info)
      effect_req_append(peffect,
                        req_from_str("ExtraFlag", "Local", FALSE,
                                     TRUE, TRUE, "DiplomatDefense"));
+
+     /* Conquering a city now steals tech only when there's an effect
+      * enabling it. */
+     peffect = effect_new(EFT_CONQUEST_TECH_PCT, 100, NULL);
   }
 
   if (info->ver_terrain < 10) {
@@ -1595,4 +1605,23 @@ const char *rscompat_utype_flag_name_3_0(struct rscompat_info *compat,
   }
 
   return old_type;
+}
+
+/**************************************************************************
+  Construct specialist graphic tag.
+
+  Returns static buffer that gets overwritten on next call.
+**************************************************************************/
+const char *rscompat_specialist_gfx_tag_3_0(struct rscompat_info *info,
+                                            struct specialist *spe)
+{
+  if (info->ver_cities < 10) {
+    static char buffer[MAX_LEN_NAME];
+
+    fc_snprintf(buffer, sizeof(buffer), "specialist.%s", specialist_rule_name(spe));
+
+    return buffer;
+  }
+
+  return NULL;
 }

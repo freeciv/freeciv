@@ -116,7 +116,7 @@ tab_tech::tab_tech(ruledit_gui *ui_in) : QWidget()
   show_experimental(delete_button);
 
   refresh();
-  update_tech_info(0);
+  update_tech_info(nullptr);
 
   main_layout->addLayout(tech_layout);
 
@@ -360,7 +360,7 @@ void tab_tech::delete_now()
     selected->require[AR_ONE] = A_NEVER;
 
     refresh();
-    update_tech_info(0);
+    update_tech_info(nullptr);
   }
 }
 

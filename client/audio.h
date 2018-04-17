@@ -54,6 +54,7 @@ void audio_real_init(const char *const soundspec_name,
 void audio_add_plugin(struct audio_plugin *p);
 void audio_shutdown(void);
 void audio_stop(void);
+void audio_stop_usage(void);
 void audio_restart(const char *soundset_name, const char *musicset_name);
 
 void audio_play_sound(const char *const tag, char *const alt_tag);

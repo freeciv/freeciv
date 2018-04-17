@@ -39,14 +39,11 @@
 
 #include "requirements.h"
 
-/* The item contradicts, fulfills or is irrelevant to the requirement */
-enum item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};
-
 /************************************************************************
-  Container for item_found functions
+  Container for req_item_found functions
 ************************************************************************/
-typedef enum item_found (*universal_found)(const struct requirement *,
-                                           const struct universal *);
+typedef enum req_item_found (*universal_found)(const struct requirement *,
+                                               const struct universal *);
 static universal_found universal_found_function[VUT_COUNT] = {NULL};
 
 /**************************************************************************
@@ -3734,12 +3731,31 @@ int universal_build_shield_cost(const struct universal *target)
   return FC_INFINITY;
 }
 
-/*************************************************************************
-  Will the specified universal fulfill the requirements in the list?
+/**********************************************************************//**
+  Will the universal 'source' fulfill this requirement?
 **************************************************************************/
-bool universal_fulfills_requirement(bool check_necessary,
-                                    const struct requirement_vector *reqs,
-                                    const struct universal *source)
+enum req_item_found
+universal_fulfills_requirement(const struct requirement *preq,
+                               const struct universal *source)
+{
+  fc_assert(universal_found_function[source->kind]);
+
+  return (*universal_found_function[source->kind])(preq, source);
+}
+
+/*************************************************************************
+  Will the universal 'source' fulfill the requirements in the list?
+  If 'check_necessary' is FALSE: are there no requirements that 'source'
+    would actively prevent the fulfilment of?
+  If 'check_necessary' is TRUE: does 'source' help the requirements to be
+    fulfilled? (NB 'source' might not be the only source of its type that
+    would be sufficient; for instance, if 'source' is a specific terrain
+    type, we can return TRUE even if the requirement is only for something
+    vague like a TerrainClass.)
+**************************************************************************/
+bool universal_fulfills_requirements(bool check_necessary,
+                                     const struct requirement_vector *reqs,
+                                     const struct universal *source)
 {
   bool necessary = FALSE;
 
@@ -3774,9 +3790,7 @@ bool universal_fulfills_requirement(bool check_necessary,
 bool universal_is_relevant_to_requirement(const struct requirement *req,
                                           const struct universal *source)
 {
-  fc_assert(universal_found_function[source->kind]);
-
-  switch ((*universal_found_function[source->kind])(req, source)) {
+  switch (universal_fulfills_requirement(req, source)) {
   case ITF_NOT_APPLICABLE:
     return FALSE;
   case ITF_NO:
@@ -3791,8 +3805,8 @@ bool universal_is_relevant_to_requirement(const struct requirement *req,
 /*************************************************************************
   Find if a nation fulfills a requirement
 **************************************************************************/
-static enum item_found nation_found(const struct requirement *preq,
-                                    const struct universal *source)
+static enum req_item_found nation_found(const struct requirement *preq,
+                                        const struct universal *source)
 {
   fc_assert(source->value.nation);
 
@@ -3814,8 +3828,8 @@ static enum item_found nation_found(const struct requirement *preq,
 /*************************************************************************
   Find if a government fulfills a requirement
 **************************************************************************/
-static enum item_found government_found(const struct requirement *preq,
-                                        const struct universal *source)
+static enum req_item_found government_found(const struct requirement *preq,
+                                            const struct universal *source)
 {
   fc_assert(source->value.govern);
 
@@ -3830,8 +3844,8 @@ static enum item_found government_found(const struct requirement *preq,
 /*************************************************************************
   Find if an improvement fulfills a requirement
 **************************************************************************/
-static enum item_found improvement_found(const struct requirement *preq,
-                                         const struct universal *source)
+static enum req_item_found improvement_found(const struct requirement *preq,
+                                             const struct universal *source)
 {
   fc_assert(source->value.building);
 
@@ -3861,8 +3875,8 @@ static enum item_found improvement_found(const struct requirement *preq,
 /*************************************************************************
   Find if a unit class fulfills a requirement
 **************************************************************************/
-static enum item_found unit_class_found(const struct requirement *preq,
-                                        const struct universal *source)
+static enum req_item_found unit_class_found(const struct requirement *preq,
+                                            const struct universal *source)
 {
   fc_assert(source->value.uclass);
 
@@ -3884,8 +3898,8 @@ static enum item_found unit_class_found(const struct requirement *preq,
 /*************************************************************************
   Find if a unit type fulfills a requirement
 **************************************************************************/
-static enum item_found unit_type_found(const struct requirement *preq,
-                                       const struct universal *source)
+static enum req_item_found unit_type_found(const struct requirement *preq,
+                                           const struct universal *source)
 {
   fc_assert(source->value.utype);
 
@@ -3911,8 +3925,8 @@ static enum item_found unit_type_found(const struct requirement *preq,
 /*************************************************************************
   Find if a terrain type fulfills a requirement
 **************************************************************************/
-static enum item_found terrain_type_found(const struct requirement *preq,
-                                          const struct universal *source)
+static enum req_item_found terrain_type_found(const struct requirement *preq,
+                                              const struct universal *source)
 {
   fc_assert(source->value.terrain);
 
@@ -3931,8 +3945,56 @@ static enum item_found terrain_type_found(const struct requirement *preq,
   };
 }
 
+/**********************************************************************//**
+  Find if an extra type fulfills a requirement
+**************************************************************************/
+static enum req_item_found extra_type_found(const struct requirement *preq,
+                                            const struct universal *source)
+{
+  fc_assert(source->value.extra);
+
+  switch (preq->source.kind) {
+  case VUT_EXTRA:
+    return source->value.extra == preq->source.value.extra ? ITF_YES : ITF_NO;
+  case VUT_EXTRAFLAG:
+    return extra_has_flag(source->value.extra,
+                          preq->source.value.extraflag) ? ITF_YES : ITF_NO;
+  case VUT_BASEFLAG:
+    {
+      struct base_type *b = extra_base_get(source->value.extra);
+      return b && base_has_flag(b, preq->source.value.baseflag)
+        ? ITF_YES : ITF_NO;
+    }
+  case VUT_ROADFLAG:
+    {
+      struct road_type *r = extra_road_get(source->value.extra);
+      return r && road_has_flag(r, preq->source.value.roadflag)
+        ? ITF_YES : ITF_NO;
+    }
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  }
+}
+
+/**********************************************************************//**
+  Find if an output type fulfills a requirement
+**************************************************************************/
+static enum req_item_found output_type_found(const struct requirement *preq,
+                                             const struct universal *source)
+{
+  switch (preq->source.kind) {
+  case VUT_OTYPE:
+    return source->value.outputtype == preq->source.value.outputtype ? ITF_YES
+                                                                     : ITF_NO;
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  }
+}
+
 /************************************************************************
-  Initialise universal_found_callbacks array.
+  Initialise universal_found_function array.
 *************************************************************************/
 void universal_found_functions_init(void)
 {
@@ -3942,6 +4004,8 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
   universal_found_function[VUT_TERRAIN] = &terrain_type_found;
+  universal_found_function[VUT_EXTRA] = &extra_type_found;
+  universal_found_function[VUT_OTYPE] = &output_type_found;
 }
 
 /**************************************************************************

@@ -226,9 +226,6 @@ static void unit_upgrade_callback(GtkMenuItem *item, gpointer data);
 static void unit_convert_callback(GtkMenuItem *item, gpointer data);
 static void unit_disband_callback(GtkMenuItem *item, gpointer data);
 static void build_city_callback(GtkMenuItem *item, gpointer data);
-static void go_build_city_callback(GtkMenuItem *item, gpointer data);
-static void go_join_city_callback(GtkMenuItem *item, gpointer data);
-static void go_join_city_callback(GtkMenuItem *item, gpointer data);
 static void auto_settle_callback(GtkMenuItem *item, gpointer data);
 static void build_road_callback(GtkMenuItem *item, gpointer data);
 static void build_irrigation_callback(GtkMenuItem *item, gpointer data);
@@ -244,7 +241,6 @@ static void build_fortress_callback(GtkMenuItem *item, gpointer data);
 static void build_airbase_callback(GtkMenuItem *item, gpointer data);
 static void do_pillage_callback(GtkMenuItem *item, gpointer data);
 static void diplomat_action_callback(GtkMenuItem *item, gpointer data);
-static void explode_nuke_callback(GtkMenuItem *item, gpointer data);
 
 static struct menu_entry_info menu_entries[] =
 {
@@ -490,10 +486,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
   { "BUILD_CITY", N_("Build City"), GDK_KEY_b, 0,
     G_CALLBACK(build_city_callback), MGROUP_UNIT },
-  { "GO_BUILD_CITY", N_("Go to and Build city"), GDK_KEY_b, GDK_SHIFT_MASK,
-    G_CALLBACK(go_build_city_callback), MGROUP_UNIT },
-  { "GO_JOIN_CITY", N_("Go to and Join city"), GDK_KEY_j, GDK_SHIFT_MASK,
-    G_CALLBACK(go_join_city_callback), MGROUP_UNIT },
   { "AUTO_SETTLER", N_("Auto Settler"), GDK_KEY_a, 0,
     G_CALLBACK(auto_settle_callback), MGROUP_UNIT },
   { "BUILD_ROAD", N_("Build Road"), GDK_KEY_r, 0,
@@ -524,8 +516,6 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(do_pillage_callback), MGROUP_UNIT },
   { "DIPLOMAT_ACTION", N_("Do..."), GDK_KEY_d, 0,
     G_CALLBACK(diplomat_action_callback), MGROUP_UNIT },
-  { "EXPLODE_NUKE", N_("Explode Nuke"), GDK_KEY_n, GDK_SHIFT_MASK,
-    G_CALLBACK(explode_nuke_callback), MGROUP_UNIT },
 
   { "MENU_GOVERNMENT", N_("Government"), 0, 0,
     NULL, MGROUP_PLAYING },
@@ -1533,24 +1523,6 @@ static void build_city_callback(GtkMenuItem *item, gpointer data)
 }
 
 /****************************************************************
-  Action "GO_BUILD_CITY" callback.
-*****************************************************************/
-static void go_build_city_callback(GtkMenuItem *action, gpointer data)
-{
-  request_unit_goto(ORDER_PERFORM_ACTION,
-                    ACTION_FOUND_CITY, EXTRA_NONE);
-}
-
-/****************************************************************
-  Action "GO_JOIN_CITY" callback.
-*****************************************************************/
-static void go_join_city_callback(GtkMenuItem *action, gpointer data)
-{
-  request_unit_goto(ORDER_PERFORM_ACTION,
-                    ACTION_JOIN_CITY, EXTRA_NONE);
-}
-
-/****************************************************************
   Action "AUTO_SETTLE" callback.
 *****************************************************************/
 static void auto_settle_callback(GtkMenuItem *action, gpointer data)
@@ -1727,14 +1699,6 @@ static void do_pillage_callback(GtkMenuItem *action, gpointer data)
 static void diplomat_action_callback(GtkMenuItem *action, gpointer data)
 {
   key_unit_action_select_tgt();
-}
-
-/****************************************************************
-  Action "EXPLODE_NUKE" callback.
-*****************************************************************/
-static void explode_nuke_callback(GtkMenuItem *action, gpointer data)
-{
-  key_unit_nuke();
 }
 
 /****************************************************************
@@ -2267,10 +2231,6 @@ void real_menus_update(void)
   menu_entry_set_sensitive("BUILD_CITY",
             (can_units_do(punits, unit_can_add_or_build_city)
              || can_units_do(punits, unit_can_help_build_wonder_here)));
-  menu_entry_set_sensitive("GO_BUILD_CITY",
-                      units_contain_cityfounder(punits));
-  menu_entry_set_sensitive("GO_JOIN_CITY",
-                      units_can_do_action(punits, ACTION_JOIN_CITY, TRUE));
   menu_entry_set_sensitive("BUILD_ROAD",
                            (can_units_do_any_road(punits)
                             || can_units_do(punits,
@@ -2359,9 +2319,6 @@ void real_menus_update(void)
 
   menu_entry_set_sensitive("DIPLOMAT_ACTION",
                            units_can_do_action(punits, ACTION_ANY, TRUE));
-
-  menu_entry_set_sensitive("EXPLODE_NUKE",
-                           units_can_do_action(punits, ACTION_NUKE, TRUE));
 
   if (units_can_do_action(punits, ACTION_HELP_WONDER, TRUE)) {
     menus_rename("BUILD_CITY",
@@ -2544,10 +2501,32 @@ void real_menus_update(void)
     menus_rename("CLEAN_POLLUTION", _("Clean Pollution"));
   }
 
-  menus_rename("EXPLODE_NUKE",
-               action_id_name_translation(ACTION_NUKE));
   menus_rename("UNIT_HOMECITY",
                action_id_name_translation(ACTION_HOME_CITY));
+}
+
+/***************************************************************************
+  Add an accelerator to an item in the "Go to and..." menu.
+***************************************************************************/
+static void menu_unit_goto_and_add_accel(GtkWidget *item, int action_id,
+                                         const guint accel_key,
+                                         const GdkModifierType accel_mods)
+{
+  const char *path = gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item));
+
+  if (path == NULL) {
+    char buf[MAX_LEN_NAME + strlen("<MENU>/GOTO_AND/")];
+
+    fc_snprintf(buf, sizeof(buf), "<MENU>/GOTO_AND/%s",
+                action_id_rule_name(action_id));
+    gtk_menu_item_set_accel_path(GTK_MENU_ITEM(item), buf);
+    path = buf; /* Not NULL, but not usable either outside this block */
+  }
+
+  if (path != NULL) {
+    gtk_accel_map_add_entry(gtk_menu_item_get_accel_path(GTK_MENU_ITEM(item)),
+                            accel_key, accel_mods);
+  }
 }
 
 /**************************************************************************
@@ -2716,6 +2695,18 @@ void real_menus_init(void)
         g_object_set_data(G_OBJECT(item), "end_action", paction);
         g_signal_connect(item, "activate",
                          G_CALLBACK(unit_goto_and_callback), paction);
+
+#define ADD_OLD_ACCELERATOR(wanted_action_id, accel_key, accel_mods)      \
+  if (action_id == wanted_action_id) {                                    \
+    menu_unit_goto_and_add_accel(item, action_id, accel_key, accel_mods); \
+  }
+
+        /* Add the keyboard shortcuts for "Go to and..." menu items that
+         * existed independently before the "Go to and..." menu arrived. */
+        ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
+        ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
+        ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
+
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
       } action_iterate_end;

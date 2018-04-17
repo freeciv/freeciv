@@ -159,7 +159,7 @@ extern bool sg_success;
  *   GET_XY_CHAR:   macro returning the map character for each position
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   SAVE_MAP_CHAR(ptile, terrain2char(ptile->terrain), file, "map.t%04d");
  */
@@ -197,7 +197,7 @@ extern bool sg_success;
  *   SET_XY_CHAR:   macro to load the map character at each (map_x, map_y)
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   LOAD_MAP_CHAR(ch, ptile,
  *                 map_get_player_tile(ptile, plr)->terrain
@@ -466,8 +466,6 @@ void savegame3_load(struct section_file *file)
   sg_load_game(loading);
   /* [random] */
   sg_load_random(loading);
-  /* [script] */
-  sg_load_script(loading);
   /* [settings] */
   sg_load_settings(loading);
   /* [ruldata] */
@@ -488,6 +486,8 @@ void savegame3_load(struct section_file *file)
   sg_load_history(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
+  /* [script] -- must come last as may reference game objects */
+  sg_load_script(loading);
 
   /* Sanity checks for the loaded game. */
   sg_load_sanitycheck(loading);
@@ -5460,6 +5460,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
         int order_tgt;
+        int order_extra;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
             || action_unitstr[j] == '\0'
@@ -5505,6 +5506,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order_tgt = secfile_lookup_int_default(loading->file, -1,
                                                "%s.tgt_vec,%d",
                                                unitstr, j);
+        order_extra = secfile_lookup_int_default(loading->file, -1,
+                                                 "%s.extra_vec,%d",
+                                                 unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
           switch ((enum gen_action)order->action) {
@@ -5587,18 +5591,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
             break;
           }
         } else {
-          /* Assume that this is an extra */
-          extra_id = order_tgt;
-
-          if (extra_id < 0 || extra_id >= loading->extra.size) {
-            if (order_tgt != EXTRA_NONE) {
+          if (order_extra < 0 || order_extra >= loading->extra.size) {
+            if (order_extra != EXTRA_NONE) {
               log_sg("Cannot find extra %d for %s to build",
-                     extra_id, unit_rule_name(punit));
+                     order_extra, unit_rule_name(punit));
             }
 
-            order->target = EXTRA_NONE;
+            order->extra = EXTRA_NONE;
           } else {
-            order->target = extra_id;
+            order->extra = order_extra;
           }
         }
       }
@@ -5613,6 +5614,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       (void) secfile_entry_lookup(loading->file, "%s.dir_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.activity_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.tgt_list", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.extra_list", unitstr);
     }
   }
 
@@ -5814,6 +5816,7 @@ static void sg_save_player_units(struct savedata *saving,
       char act_buf[len + 1];
       char action_buf[len + 1];
       int tgt_vec[len];
+      int extra_vec[len];
 
       last_order = len;
 
@@ -5830,6 +5833,7 @@ static void sg_save_player_units(struct savedata *saving,
         dir_buf[j] = '?';
         act_buf[j] = '?';
         tgt_vec[j] = -1;
+        extra_vec[j] = -1;
         action_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
@@ -5837,7 +5841,8 @@ static void sg_save_player_units(struct savedata *saving,
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
-          tgt_vec[j] = punit->orders.list[j].target;
+          tgt_vec[j] = -1;
+          extra_vec[j] = punit->orders.list[j].extra;
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
         case ORDER_PERFORM_ACTION:
@@ -5851,6 +5856,7 @@ static void sg_save_player_units(struct savedata *saving,
                                   can_not_encode_all_actions);
 
           tgt_vec[j] = punit->orders.list[j].target;
+          extra_vec[j] = -1;
           if (direction8_is_valid(punit->orders.list[j].dir)) {
             /* The action target is on another tile. */
             dir_buf[j] = dir2char(punit->orders.list[j].dir);
@@ -5870,6 +5876,18 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_str(saving->file, action_buf, "%s.action_list", buf);
       secfile_insert_int_vec(saving->file, tgt_vec, len,
                              "%s.tgt_vec", buf);
+
+      /* Fill in dummy values for order targets so the registry will save
+       * the unit table in a tabular format. */
+      for (j = last_order; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.tgt_vec,%d", buf, j);
+      }
+
+      secfile_insert_int_vec(saving->file, extra_vec, len,
+                             "%s.extra_vec", buf);
+      for (j = last_order; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.extra_vec,%d", buf, j);
+      }
     } else {
 
       /* Put all the same fields into the savegame - otherwise the
@@ -5886,14 +5904,17 @@ static void sg_save_player_units(struct savedata *saving,
 
       /* The start of a vector has no number. */
       secfile_insert_int(saving->file, -1, "%s.tgt_vec", buf);
-      last_order = 1;
-    }
 
-    for (j = last_order; j < longest_order; j++) {
       /* Fill in dummy values for order targets so the registry will save
        * the unit table in a tabular format. */
+      for (j = 1; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.tgt_vec,%d", buf, j);
+      }
 
-      secfile_insert_int(saving->file, -1, "%s.tgt_vec,%d", buf, j);
+      secfile_insert_int(saving->file, -1, "%s.extra_vec", buf);
+      for (j = 1; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.extra_vec,%d", buf, j);
+      }
     }
 
     i++;
@@ -6775,10 +6796,10 @@ static void sg_load_history(struct loaddata *loading)
     hist->turn = turn;
     str = secfile_lookup_str(loading->file, "history.title");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->title, str, REPORT_TITLESIZE);
+    sz_strlcpy(hist->title, str);
     str = secfile_lookup_str(loading->file, "history.body");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->body, str, REPORT_BODYSIZE);
+    sz_strlcpy(hist->body, str);
   }
 }
 
@@ -6968,7 +6989,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     }
     if (presearch->tech_goal != A_UNSET
         && !is_future_tech(presearch->tech_goal)
-        && (valid_advance_by_number(presearch->researching) == NULL
+        && (valid_advance_by_number(presearch->tech_goal) == NULL
             || !research_invention_reachable(presearch, presearch->tech_goal)
             || (research_invention_state(presearch, presearch->tech_goal)
                 == TECH_KNOWN))) {

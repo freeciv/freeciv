@@ -149,7 +149,7 @@ extern bool sg_success;
  *   GET_XY_CHAR:   macro returning the map character for each position
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   SAVE_MAP_CHAR(ptile, terrain2char(ptile->terrain), file, "map.t%04d");
  */
@@ -187,7 +187,7 @@ extern bool sg_success;
  *   SET_XY_CHAR:   macro to load the map character at each (map_x, map_y)
  *   secfile:       a secfile struct
  *   secpath, ...:  path as used for sprintf() with arguments; the last item
- *                  will be the the y coordinate
+ *                  will be the y coordinate
  * Example:
  *   LOAD_MAP_CHAR(ch, ptile,
  *                 map_get_player_tile(ptile, plr)->terrain
@@ -405,8 +405,6 @@ void savegame2_load(struct section_file *file)
   sg_load_scenario(loading);
   /* [random] */
   sg_load_random(loading);
-  /* [script] */
-  sg_load_script(loading);
   /* [settings] */
   sg_load_settings(loading);
   /* [ruldata] */
@@ -427,6 +425,8 @@ void savegame2_load(struct section_file *file)
   sg_load_history(loading);
   /* [mapimg] */
   sg_load_mapimg(loading);
+  /* [script] -- must come last as may reference game objects */
+  sg_load_script(loading);
 
   /* Sanity checks for the loaded game. */
   sg_load_sanitycheck(loading);
@@ -4244,12 +4244,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
             if (extra_id < 0 || extra_id >= loading->extra.size) {
               log_sg("Cannot find extra %d for %s to build",
                      extra_id, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
+              order->extra = EXTRA_NONE;
             } else {
-              order->target = extra_id;
+              order->extra = extra_id;
             }
           } else {
-            order->target = EXTRA_NONE;
+            order->extra = EXTRA_NONE;
           }
         } else {
           /* In pre-2.6 savegames, base_list and road_list were only saved
@@ -4265,7 +4265,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                          NULL, NULL));
             }
 
-            order->target
+            order->extra
               = extra_number(base_extra_get(base_by_number(base_id)));
           } else if (road_unitstr && road_unitstr[j] != '?'
                      && order->activity == ACTIVITY_GEN_ROAD) {
@@ -4277,19 +4277,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
               road_id = 0;
             }
 
-            order->target
+            order->extra
               = extra_number(road_extra_get(road_by_number(road_id)));
           } else {
-            order->target = EXTRA_NONE;
+            order->extra = EXTRA_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target
+            order->extra
               = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target
+            order->extra
               = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
         }
@@ -4954,10 +4954,10 @@ static void sg_load_history(struct loaddata *loading)
     hist->turn = turn;
     str = secfile_lookup_str(loading->file, "history.title");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->title, str, REPORT_TITLESIZE);
+    sz_strlcpy(hist->title, str);
     str = secfile_lookup_str(loading->file, "history.body");
     sg_failure_ret(str != NULL, "%s", secfile_error());
-    strncpy(hist->body, str, REPORT_BODYSIZE);
+    sz_strlcpy(hist->body, str);
   }
 }
 
@@ -5111,7 +5111,7 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     }
     if (presearch->tech_goal != A_UNSET
         && !is_future_tech(presearch->tech_goal)
-        && (valid_advance_by_number(presearch->researching) == NULL
+        && (valid_advance_by_number(presearch->tech_goal) == NULL
             || !research_invention_reachable(presearch, presearch->tech_goal)
             || (research_invention_state(presearch, presearch->tech_goal)
                 == TECH_KNOWN))) {

@@ -35,11 +35,12 @@ format_version=10
 ;                 should set "rule_name" to the original value of "name".
 ; short_name    = one-character "short name" used (for instance) in cityrep;
 ;                 should be first character/abbrevation of "name"
+; graphic       = tag specifying preferred graphic
+;                 Different images based on citizen number are supported.
+;                 If no such images indexed with citizen number are found,
+;                 plain tag is used instead.
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't
-;                 found. Example value: "specialist.scientist_0"
-;                 The specialist graphic allow different images based on
-;                 citizen number. The alt tag don't. To use another
-;                 specialist's tag use specialist.<otherrulename>_<number>.
+;                 found.
 ; reqs          = requirements to have the specialist pick (see
 ;                 effects.ruleset and README.effects for help on requirements)
 ; helptext      = optional help text string; should escape all raw newlines
@@ -50,7 +51,8 @@ format_version=10
 [specialist_culturists]
 name            = _("Culturists")
 short_name      = _("?Culturists:C")
-graphic_alt     = "specialist.elvis_0"
+graphic         = "specialist.culturists"
+graphic_alt     = "specialist.entertainer"
 reqs            =
     { "type", "name", "range"
 ; No requirements
@@ -62,7 +64,8 @@ points per turn, four if Specialist Training tech is known.")
 [specialist_scientist]
 name		= _("Scientists")
 short_name	= _("?Scientist:S")
-graphic_alt     = "specialist.scientist_0"
+graphic         = "specialist.scientists"
+graphic_alt     = "specialist.scientist"
 reqs		=
     { "type", "name", "range"
 ; Nothing
@@ -75,7 +78,8 @@ when Specialist Training tech is known.")
 name		= _("Government Merchants")
 rule_name       = "Government_Merchants"
 short_name	= _("?Merchant:M")
-graphic_alt     = "specialist.taxman_0"
+graphic         = "specialist.government_merchants"
+graphic_alt     = "specialist.taxman"
 reqs		=
     { "type", "name", "range"
 ; Nothing
@@ -95,15 +99,19 @@ changable_tax = TRUE            ; set to FALSE to disallow changing of tax rates
 ;forced_luxury = 100
 ;forced_gold = 0
 
-vision_reveal_tiles = TRUE      ; civ1 & 2 default FALSE
+vision_reveal_tiles  = TRUE     ; civ1 & 2 default FALSE
 
-pop_report_zeroes = 2           ; Population in reports in hundreds
+pop_report_zeroes    = 2        ; Population in reports in hundreds
 
 [citizen]
-nationality   = TRUE            ; account for the nationality of the citizens
-convert_speed = 50              ; base probability 50/1000 -> once every 20 turns
-partisans_pct = 0               ; percentage of own nationality to inspire partisans
+nationality          = TRUE     ; account for the nationality of the citizens
+convert_speed        = 50       ; base probability 50/1000 -> once every 20 turns
+partisans_pct        = 0        ; percentage of own nationality to inspire partisans
                                 ; if 0, original city owner information is used instead
+conquest_convert_pct = 0        ; percentage which converts to the new nation
+                                ; after a city was conquered. Applied separately for each
+                                ; nationality present in the city, and number of
+                                ; converted people rounded up
 
 [missing_unit_upkeep]
 ; Get rid of a unit the city is unable to pay the X upkeep of.

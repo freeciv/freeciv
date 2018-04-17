@@ -84,6 +84,7 @@ struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
   int target;
+  int extra;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
   /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and
@@ -110,6 +111,7 @@ struct unit_list;
 struct unit {
   struct unit_type *utype; /* Cannot be NULL. */
   struct tile *tile;
+  int refcount;
   enum direction8 facing;
   struct player *owner; /* Cannot be NULL. */
   struct player *nationality;
@@ -186,7 +188,7 @@ struct unit {
                            * transporter is known. */
       bool occupied;      /* TRUE if at least one cargo on the transporter. */
 
-      /* Equivalent to pcity->client.color. Only for F_CITIES units. */
+      /* Equivalent to pcity->client.color. Only for cityfounder units. */
       bool colored;
       int color_index;
 

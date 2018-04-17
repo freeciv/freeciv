@@ -101,7 +101,7 @@ reqs    =
 
 [effect_corruption_anarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -119,7 +119,7 @@ reqs    =
 
 [effect_corruption_despotism1]
 type    = "Output_Waste_By_Distance"
-value   = 4
+value   = 400
 reqs    =
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -137,7 +137,7 @@ reqs    =
 
 [effect_corruption_monarchy1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -164,7 +164,7 @@ reqs    =
 
 [effect_corruption_republic1]
 type    = "Output_Waste_By_Distance"
-value   = 2
+value   = 200
 reqs    =
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -242,6 +242,10 @@ value   = 5
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
 value   = 3
+
+[effect_conquest_tech]
+type    = "Conquest_Tech_Pct"
+value   = 100
 
 [effect_base_unit_upkeep]
 type    = "Upkeep_Factor"
@@ -1251,32 +1255,12 @@ reqs	=
 type	= "Trade_Revenue_Bonus"
 value	= 1585
 
-; FIXME: Calendar effects are copied from default rulesets and are
-; probably wrong for civ1 ruleset.
 [effect_calendar_base]
 type    = "Turn_Years"
-value   = 50
-
-; 50 - 25 = 25
-[effect_calendar_1]
-type    = "Turn_Years"
-value   = -25
-reqs    =
-    { "type", "name", "range"
-      "MinYear", "-1000", "World"
-    }
-
-; 25 - 5 = 20
-[effect_calendar_2]
-type    = "Turn_Years"
-value   = -5
-reqs    =
-    { "type", "name", "range"
-      "MinYear", "0", "World"
-    }
+value   = 20
 
 ; 20 - 10 = 10
-[effect_calendar_3]
+[effect_calendar_1]
 type    = "Turn_Years"
 value   = -10
 reqs    =
@@ -1285,7 +1269,7 @@ reqs    =
     }
 
 ; 10 - 5 = 5
-[effect_calendar_4]
+[effect_calendar_2]
 type    = "Turn_Years"
 value   = -5
 reqs    =
@@ -1294,7 +1278,7 @@ reqs    =
     }
 
 ; 5 - 3 = 2
-[effect_calendar_5]
+[effect_calendar_3]
 type    = "Turn_Years"
 value   = -3
 reqs    =
@@ -1303,12 +1287,12 @@ reqs    =
     }
 
 ; 2 - 1 = 1
-[effect_calendar_6]
+[effect_calendar_4]
 type    = "Turn_Years"
 value   = -1
 reqs    =
     { "type", "name", "range"
-      "MinYear", "1900", "World"
+      "MinYear", "1850", "World"
     }
 
 [effect_tech_cost_base]
@@ -1377,17 +1361,17 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
     }
 
-[effect_irrigation_2]
+[effect_irrigation_center]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
     }

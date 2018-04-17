@@ -224,6 +224,7 @@ void techs_precalc_data(void)
 
     switch (game.info.tech_cost_style) {
     case TECH_COST_CIV1CIV2:
+    case TECH_COST_LINEAR:
       padvance->cost = game.info.base_tech_cost * num_reqs;
       break;
     case TECH_COST_CLASSIC_PRESET:

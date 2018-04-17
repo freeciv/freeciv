@@ -200,7 +200,7 @@ void tab_building::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_bldg_info(0);
+    update_bldg_info(nullptr);
   }
 }
 

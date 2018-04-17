@@ -272,7 +272,7 @@ reqs	=
 
 [effect_corruption_anarchy1]
 type    = "Output_Waste_By_Distance"
-value	= 2
+value	= 200
 reqs	=
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -290,7 +290,7 @@ reqs	=
 
 [effect_corruption_despotism1]
 type    = "Output_Waste_By_Distance"
-value	= 4
+value	= 400
 reqs	=
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -308,7 +308,7 @@ reqs	=
 
 [effect_corruption_monarchy1]
 type    = "Output_Waste_By_Distance"
-value	= 2
+value	= 200
 reqs	=
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
@@ -335,7 +335,7 @@ reqs	=
 
 [effect_corruption_republic1]
 type    = "Output_Waste_By_Distance"
-value	= 2
+value	= 200
 reqs	=
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -1891,17 +1891,17 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
     }
 
-[effect_irrigation_2]
+[effect_irrigation_center]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
       "Extra", "Oil Well", "Local", FALSE
@@ -1911,19 +1911,19 @@ reqs	=
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range", "present"
-      "Extra", "Farmland", "Local", TRUE
-      "Building", "Supermarket", "City", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Farmland", "Local"
+      "Building", "Supermarket", "City"
+      "OutputType", "Food", "Local"
     }
 
-[effect_supermarket_2]
+[effect_supermarket_center]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Farmland", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Building", "Supermarket", "City", TRUE
       "OutputType", "Food", "Local", TRUE
@@ -2553,6 +2553,10 @@ reqs	=
     { "type", "name", "range"
       "Tech", "The Corporation", "Player"
     }
+
+[effect_conquest_tech]
+type    = "Conquest_Tech_Pct"
+value   = 100
 
 ; Base vision range - radius of vision is sqrt(2) = 1.41
 [effect_city_vision_0]

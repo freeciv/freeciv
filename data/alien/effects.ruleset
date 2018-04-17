@@ -501,17 +501,17 @@ reqs    =
 type    = "Irrigation_Pct"
 value   = 100
 reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
     }
 
-[effect_irrigation_2]
+[effect_irrigation_center]
 type    = "Irrigation_Pct"
 value	= 100
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Extra", "Mine", "Local", FALSE
     }
@@ -520,41 +520,41 @@ reqs	=
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range", "present"
-      "Extra", "Farmland", "Local", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Farmland", "Local"
+      "OutputType", "Food", "Local"
     }
 
 [effect_farmland_regeneration]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
-    { "type", "name", "range", "present"
-      "Extra", "Farmland", "Local", TRUE
-      "OutputType", "Food", "Local", TRUE
-      "Tech", "Food Regeneration", "Player", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type", "name", "range"
+      "Extra", "Farmland", "Local"
+      "OutputType", "Food", "Local"
+      "Tech", "Food Regeneration", "Player"
     }
 
-[effect_citycenter]
+[effect_farmland_center]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Farmland", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Tech", "Protein Modifications", "Player", TRUE
       "OutputType", "Food", "Local", TRUE
-     "Extra", "Mine", "Local", FALSE
+      "Extra", "Mine", "Local", FALSE
     }
 
-[effect_citycenter_regeneration]
+[effect_farmland_center_regeneration]
 type    = "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range", "present"
       "CityTile", "Center", "Local", TRUE
+      "Extra", "Farmland", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
       "Tech", "Protein Modifications", "Player", TRUE
       "OutputType", "Food", "Local", TRUE
@@ -1030,6 +1030,10 @@ value	= 1585
 [effect_trade_routes]
 type    = "Max_Trade_Routes"
 value   = 4
+
+[effect_conquest_tech]
+type    = "Conquest_Tech_Pct"
+value   = 100
 
 [effect_incite_cost_empty]
 type = "Incite_Cost_Pct"

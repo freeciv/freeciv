@@ -41,7 +41,6 @@ class QGridLayout;
 ss_report::ss_report(struct player *pplayer)
 {
   int w, h;
-  QSize size;
 
   setAttribute(Qt::WA_DeleteOnClose);
   player = pplayer;

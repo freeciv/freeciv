@@ -140,7 +140,7 @@ extern "C" {
 #define SPECENUM_VALUE46NAME "City_Vision_Radius_Sq"
 #define SPECENUM_VALUE47 EFT_UNIT_VISION_RADIUS_SQ
 #define SPECENUM_VALUE47NAME "Unit_Vision_Radius_Sq"
-/* Interacts with F_BADWALLATTACKER, ignored by F_IGWALL */
+/* Interacts with UTYF_BADWALLATTACKER */
 #define SPECENUM_VALUE48 EFT_DEFEND_BONUS
 #define SPECENUM_VALUE48NAME "Defend_Bonus"
 #define SPECENUM_VALUE49 EFT_TRADEROUTE_PCT
@@ -293,6 +293,10 @@ extern "C" {
 #define SPECENUM_VALUE115NAME "Unit_Slots"
 #define SPECENUM_VALUE116 EFT_ATTACK_BONUS
 #define SPECENUM_VALUE116NAME "Attack_Bonus"
+#define SPECENUM_VALUE117 EFT_CONQUEST_TECH_PCT
+#define SPECENUM_VALUE117NAME "Conquest_Tech_Pct"
+#define SPECENUM_VALUE118 EFT_COMBAT_ROUNDS
+#define SPECENUM_VALUE118NAME "Combat_Rounds"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
@@ -345,6 +349,9 @@ void send_ruleset_cache(struct conn_list *dest);
 
 int effect_cumulative_max(enum effect_type type, struct universal *for_uni);
 int effect_cumulative_min(enum effect_type type, struct universal *for_uni);
+
+int effect_value_from_universals(enum effect_type type,
+                                 struct universal *unis, size_t n_unis);
 
 bool is_building_replaced(const struct city *pcity,
 			  struct impr_type *pimprove,

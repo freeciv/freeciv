@@ -201,7 +201,7 @@ void tab_good::delete_now()
     selected->disabled = true;
 
     refresh();
-    update_good_info(0);
+    update_good_info(nullptr);
   }
 }
 

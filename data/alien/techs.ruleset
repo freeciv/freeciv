@@ -393,7 +393,7 @@ flags       = ""
 graphic     = "a.glob_knowledge"
 graphic_alt = "-"
 helptext    = _("Information flows to us. We learn any tech known by \
-four other civilizations.")
+four other factions.")
 
 [advance_high_tech_filtering]
 name        = _("High-Tech Filtering")
@@ -470,7 +470,7 @@ One way to resist radiation is willpower.\n\n\
 Simply knowing this tech allows cities to grow 3 sizes bigger.")
 
 [advance_mining]
-name        = _("Mining")
+name        = _("?tech:Mining")
 req1        = "Manufacturing"
 req2        = "Cybernetics"
 flags       = ""

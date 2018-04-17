@@ -261,7 +261,10 @@ req2     = "Currency"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
-helptext = _("Allows Settlers, Workers and Engineers to build fortresses.")
+helptext = _("\
+Allows Settlers, Workers and Engineers to build fortresses, and to \
+build oil wells on Desert tiles.\
+")
 
 [advance_currency]
 name     = _("Currency")
@@ -660,6 +663,10 @@ req2     = "The Corporation"
 flags    = ""
 graphic     = "a.refining"
 graphic_alt = "-"
+helptext = _("\
+Allows Settlers, Workers and Engineers to build oil wells on \
+Glacier tiles.\
+")
 
 [advance_refrigeration]
 name     = _("Refrigeration")

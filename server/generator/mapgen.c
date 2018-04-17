@@ -1521,8 +1521,7 @@ static void make_huts(int number)
 
   while (number > 0 && count++ < map_num_tiles() * 2) {
 
-    /* Add a hut.  But not on a polar area, on an ocean, or too close to
-     * another hut. */
+    /* Add a hut.  But not on a polar area, or too close to another hut. */
     if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN, MC_NONE))) {
       struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT);
 

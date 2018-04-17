@@ -113,9 +113,9 @@ char **get_gui_specific_themes_directories(int *count)
 
   /* Freeciv-specific GTK3 themes directories */
   strvec_iterate(data_dirs, dir_name) {
-    char buf[strlen(dir_name) + strlen("/themes/gui-gtk-3.0") + 1];
+    char buf[strlen(dir_name) + strlen("/themes/gtk3") + 1];
 
-    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-3.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gtk3", dir_name);
 
     directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
@@ -132,7 +132,7 @@ char **get_gui_specific_themes_directories(int *count)
   home_dir = user_home_dir();
   if (home_dir) {
     char buf[strlen(home_dir) + 16];
-    
+
     fc_snprintf(buf, sizeof(buf), "%s/.themes/", home_dir);
     directories[(*count)++] = fc_strdup(buf);
   }
@@ -174,14 +174,14 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
       /* File doesn't exist */
       continue;
     }
-    
+
     if (!S_ISREG(stat_result.st_mode)) {
       /* Not a regular file */
       continue;
     }
-    
+
     /* Otherwise it's ok */
-    
+
     /* Increase array size if needed */
     if (*count == t_size) {
       theme_names = fc_realloc(theme_names, t_size * 2 * sizeof(char *));

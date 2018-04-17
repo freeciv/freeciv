@@ -31,6 +31,7 @@ void multipliers_init(void)
 
   for (i = 0; i < ARRAY_SIZE(multipliers); i++) {
     name_init(&multipliers[i].name);
+    multipliers[i].disabled = FALSE;
     multipliers[i].helptext = NULL;
   }
 }

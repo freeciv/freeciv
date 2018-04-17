@@ -75,9 +75,7 @@ ocean_resources = FALSE
 ;
 ; Notes:
 ;
-; name                 = translatable name as seen by user; if "unused", it is
-;                        not used, but is included for conversion and/or the
-;                        editor.
+; name                 = translatable name as seen by user
 ; rule_name            = (optional) internal name for savegames, rulesets etc;
 ;                        if not present, "name" is used for this purpose too.
 ;                        Since the name used in savegames must not change, if
@@ -103,23 +101,27 @@ ocean_resources = FALSE
 ; road_shield_incr_pct = percent of road shield_incr applied to this terrain
 ; road_trade_incr_pct  = percent of road trade_incr applied to this terrain
 ; base_time            = time to build bases; if 0, cannot build any bases.
-;                        Nonzero values only affect bases with build_time 0.
+;                        Nonzero values only affect extras with build_time 0.
 ; road_time            = time to build roads; if 0, cannot build any roads.
-;                        Nonzero values only affect roads with build_time 0.
-; irrigation_result    = result of irrigation; one of:
+;                        Nonzero values only affect extras with build_time 0.
+; irrigation_result    = result of 'irrigate' activity; one of:
 ;                        "no"  -- cannot irrigate
-;                        "yes" -- can irrigate
+;                        "yes" -- can build extra
 ;                        terrain name -- irrigation changes to that terrain
-; irrigation_food_incr = increment to food if square is irrigated
-; irrigation_time      = time to irrigate; if 0, cannot irrigate
+; irrigation_food_incr = increment to food if tile is 100% irrigated
+;                        (actual bonus controlled by Irrigation_Pct effect)
+; irrigation_time      = time for 'irrigate' activity; if 0, cannot irrigate
 ;                        Nonzero values only affect extras with build_time 0.
-; mining_result        = result of mining; one of:
+;                        Such extras can modify time with build_time_factor.
+; mining_result        = result of 'mine' activity; one of:
 ;                        "no"  -- cannot mine
-;                        "yes" -- can mine
+;                        "yes" -- can build extra
 ;                        terrain name -- mining changes to that terrain
-; mining_shield_incr   = increment to shields if square is mined
-; mining_time          = time to mine; if 0, cannot mine
+; mining_shield_incr   = increment to shields if tile is 100% mined
+;                        (actual bonus controlled by Mining_Pct effect)
+; mining_time          = time for 'mine' activity; if 0, cannot mine
 ;                        Nonzero values only affect extras with build_time 0.
+;                        Such extras can modify time with build_time_factor.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
 ;                        terrain name -- transformation changes to that
@@ -127,9 +129,9 @@ ocean_resources = FALSE
 ; transform_time       = time to transform; if 0, cannot transform
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
-; clean_pollution_time = time to clean pollution (0 = impossible)
+; clean_pollution_time = time for 'clean pollution' activity (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
-; clean_fallout_time   = time to clean fallout (0 = impossible)
+; clean_fallout_time   = time for 'clean fallout' activity (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
 ; animal               = unit type that can appear as animal on the terrain
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
@@ -286,6 +288,7 @@ This is only possible oceanic terrain.\
 ; Notes:
 ;
 ; extra                = name of the extra this resource section is part of
+;                        (must have "Resource" in its causes)
 ; identifier           = single-character identifier used in old savegames. This
 ;                        must be unique for each resource, and changing it will
 ;                        break loading those old savegames.
@@ -325,10 +328,13 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;                           ruleset has been released, you should set
 ;                           "rule_name" to the original value of "name".
 ; category                = How UI should categorize this extra. One of
-;                           "Infra", "Natural", "Nuisance", "Resource", or "Bonus"
+;                           "Infra", "Natural", "Nuisance", "Resource",
+;                           or "Bonus"
 ; causes                  = events that can create extra type.
 ;                           "Irrigation", "Mine", "Hut", "Pollution", "Fallout",
-;                           "Base", "Road", "Resource", or "Appear"
+;                           "Appear", "Resource", "Base", or "Road"
+;                           (the last three require a corresponding
+;                           [resource_*] / [base_*] / [road_*] section)
 ; rmcauses                = events that can remove extra type.
 ;                           "CleanPollution", "CleanFallout", "Pillage", or
 ;                           "Disappear"
@@ -495,6 +501,7 @@ rmact_gfx_alt  = "-"
 ; Base types:
 ;
 ; extra                   = name of the extra this base section is part of
+;                           (must have "Base" in its causes)
 ; gui_type                = How gui should handle this base.
 ;                           Value can be "Fortress", "Airbase", or "Other"
 ; border_sq               = Base will claim land ownership up to this radius,
@@ -519,6 +526,7 @@ rmact_gfx_alt  = "-"
 ; Road types:
 ;
 ; extra                   = name of the extra this road section is part of
+;                           (must have "Road" in its causes)
 ; first_reqs              = additional requirements to build the first part of
 ;                           the road, when none of the adjacent tiles have any
 ;                           integrating roads (see effects.ruleset and

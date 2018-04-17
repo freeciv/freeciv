@@ -120,7 +120,7 @@ void advisors_init(void)
   This calculates the overall benefit of connecting the civilization; this
   is independent from the local tile (trade) bonus granted by the road.
 **************************************************************************/
-int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
+adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 {
 #define MAX_DEP_ROADS 5
 
@@ -298,11 +298,12 @@ int adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad)
 static void consider_settler_action(const struct player *pplayer, 
                                     enum unit_activity act,
                                     struct extra_type *target,
-                                    int extra,
+                                    adv_want extra,
                                     int new_tile_value, int old_tile_value,
                                     bool in_use, int delay,
-                                    int *best_value,
+                                    adv_want *best_value,
                                     int *best_old_tile_value,
+                                    int *best_extra,
                                     bool *improve_worked,
                                     int *best_delay,
                                     enum unit_activity *best_act,
@@ -336,6 +337,7 @@ static void consider_settler_action(const struct player *pplayer,
                        || (new_tile_value == *best_value && old_tile_value < *best_old_tile_value))) {
         *best_value = new_tile_value;
         *best_old_tile_value = old_tile_value;
+        *best_extra = extra;
         *best_act = act;
         *best_target = target;
         *best_tile = ptile;
@@ -378,6 +380,7 @@ static void consider_settler_action(const struct player *pplayer,
         *improve_worked = FALSE;
       }
       *best_old_tile_value = old_tile_value;
+      *best_extra = extra;
       *best_act = act;
       *best_target = target;
       *best_tile = ptile;
@@ -419,12 +422,12 @@ autosettler_tile_behavior(const struct tile *ptile,
   is used to possibly displace this previously assigned worker.
   if this array is NULL, workers are never displaced.
 ****************************************************************************/
-int settler_evaluate_improvements(struct unit *punit,
-                                  enum unit_activity *best_act,
-                                  struct extra_type **best_target,
-                                  struct tile **best_tile,
-                                  struct pf_path **path,
-                                  struct settlermap *state)
+adv_want settler_evaluate_improvements(struct unit *punit,
+                                       enum unit_activity *best_act,
+                                       struct extra_type **best_target,
+                                       struct tile **best_tile,
+                                       struct pf_path **path,
+                                       struct settlermap *state)
 {
   const struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
@@ -434,8 +437,9 @@ int settler_evaluate_improvements(struct unit *punit,
   int best_oldv = 9999; /* oldv of best target so far; compared if
                          * newv == best_newv; not initialized to zero,
                          * so that newv = 0 activities are not chosen. */
-  int best_newv = 0;
+  adv_want best_newv = 0;
   bool improve_worked = FALSE;
+  int best_extra = 0;
   int best_delay = 0;
 
   /* closest worker, if any, headed towards target tile */
@@ -528,7 +532,6 @@ int settler_evaluate_improvements(struct unit *punit,
                 /* These need separate implementations. */
                 && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
-              int extra = 0;
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
 
               turns = pos.turn + get_turns_for_activity_at(punit, act, ptile,
@@ -538,9 +541,10 @@ int settler_evaluate_improvements(struct unit *punit,
                 turns++;
               }
 
-              consider_settler_action(pplayer, act, target, extra, base_value,
+              consider_settler_action(pplayer, act, target, 0.0, base_value,
                                       oldv, in_use, turns,
-                                      &best_newv, &best_oldv, &improve_worked,
+                                      &best_newv, &best_oldv, &best_extra,
+                                      &improve_worked,
                                       &best_delay, best_act, best_target,
                                       best_tile, ptile);
 
@@ -591,7 +595,7 @@ int settler_evaluate_improvements(struct unit *punit,
             }
 
             if (base_value >= 0) {
-              int extra;
+              adv_want extra;
               struct road_type *proad;
 
               turns = pos.turn + get_turns_for_activity_at(punit, eval_act,
@@ -656,7 +660,8 @@ int settler_evaluate_improvements(struct unit *punit,
               if (act != ACTIVITY_LAST) {
                 consider_settler_action(pplayer, act, pextra, extra, base_value,
                                         oldv, in_use, turns,
-                                        &best_newv, &best_oldv, &improve_worked,
+                                        &best_newv, &best_oldv, &best_extra,
+                                        &improve_worked,
                                         &best_delay, best_act, best_target,
                                         best_tile, ptile);
               } else {
@@ -684,7 +689,8 @@ int settler_evaluate_improvements(struct unit *punit,
                     consider_settler_action(pplayer, ACTIVITY_GEN_ROAD, dep_tgt, extra,
                                             dep_value,
                                             oldv, in_use, dep_turns,
-                                            &best_newv, &best_oldv, &improve_worked,
+                                            &best_newv, &best_oldv, &best_extra,
+                                            &improve_worked,
                                             &best_delay, best_act, best_target,
                                             best_tile, ptile);
                   }
@@ -709,9 +715,10 @@ int settler_evaluate_improvements(struct unit *punit,
                                                                            dep_tgt);
 
                     consider_settler_action(pplayer, ACTIVITY_BASE, dep_tgt,
-                                            0, dep_value, oldv, in_use,
+                                            0.0, dep_value, oldv, in_use,
                                             dep_turns, &best_newv, &best_oldv,
-                                            &improve_worked, &best_delay,
+                                            &best_extra, &improve_worked,
+                                            &best_delay,
                                             best_act, best_target,
                                             best_tile, ptile);
                   }
@@ -727,14 +734,14 @@ int settler_evaluate_improvements(struct unit *punit,
   if (!improve_worked) {
     /* best_newv contains total value of improved tile. Check amount of improvement
      * instead. */
-    best_newv = amortize((best_newv - best_oldv) * WORKER_FACTOR, best_delay);
+    best_newv = amortize((best_newv - best_oldv + best_extra) * WORKER_FACTOR, best_delay);
   }
   best_newv /= WORKER_FACTOR;
 
   best_newv = MAX(best_newv, 0); /* sanity */
 
   if (best_newv > 0) {
-    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire " ADV_WANT_PRINTF,
               punit->id, TILE_XY(unit_tile(punit)),
               get_activity_text(*best_act), TILE_XY(*best_tile), best_newv);
   } else {
@@ -1100,7 +1107,7 @@ void auto_settlers_player(struct player *pplayer)
   log_debug("Warmth = %d, game.globalwarming=%d",
             pplayer->ai_common.warmth, game.info.globalwarming);
   log_debug("Frost = %d, game.nuclearwinter=%d",
-            pplayer->ai_common.warmth, game.info.nuclearwinter);
+            pplayer->ai_common.frost, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't
