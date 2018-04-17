@@ -18,12 +18,10 @@ extern "C" {
 #include "optiondlg_g.h"
 }
 
+
 // Qt
 #include <QDialog>
 #include <QMap>
-
-// qt-client
-#include <dialogs.h>
 
 class Qdialog;
 class QVBoxLayout;
@@ -38,7 +36,7 @@ QString cut_helptext(QString text);
 /****************************************************************************
   Dialog for client/server options
 ****************************************************************************/
-class option_dialog : public qfc_dialog
+class option_dialog : public QDialog
 {
   Q_OBJECT
   QVBoxLayout * main_layout;

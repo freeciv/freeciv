@@ -26,11 +26,6 @@ QMainWindow {
   border: 2px solid #c3b48e;
 }
 
-qfc_dialog::title {
-  font-weight: bold;
-  background-color: #a1936e;
-}
-
 close_widget 
 {
   background: #ddca97;

@@ -22,9 +22,6 @@
 #include <QHash>
 #include <QList>
 
-// gui-qt
-#include "dialogs.h"
-
 extern "C" {
 #include "helpdlg_g.h"
 }
@@ -43,7 +40,7 @@ class QVBoxLayout;
 
 class help_widget;
 
-class help_dialog : public qfc_dialog
+class help_dialog : public QDialog
 {
   Q_OBJECT
   QPushButton *prev_butt;

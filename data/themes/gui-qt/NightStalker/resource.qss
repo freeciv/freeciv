@@ -100,10 +100,6 @@ unit_hud_selector, tax_rates_dialog QPushButton {
   min-width: 160px;
 }
 
-qfc_dialog::title {
-    font-weight: bold;
-    background-color: #002165;
-}
 
 unit_hud_selector, tax_rates_dialog QPushButton:hover {
   color: white;

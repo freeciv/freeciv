@@ -114,7 +114,8 @@ void update_help_fonts()
 /**************************************************************************
   Constructor for help dialog
 **************************************************************************/
-help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
+help_dialog::help_dialog(QWidget *parent) :
+  QDialog(parent)
 {
   QHBoxLayout *hbox;
   QList<int> sizes;
@@ -125,6 +126,7 @@ help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
   QWidget *buttons;
 
   setWindowTitle(_("Freeciv Help Browser"));
+  setWindowFlags(Qt::WindowStaysOnTopHint);
   resize(750, 450);
   history_pos = -1;
   update_history = true;

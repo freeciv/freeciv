@@ -28,7 +28,6 @@
 
 // gui-qt
 #include "fc_client.h"
-#include "dialogs.h"
 #include "qtg_cxxside.h"
 #include "sprite.h"
 
@@ -42,7 +41,7 @@ static int mult_to_scale(const struct multiplier *pmul, int val);
   Automatic destructor will clean qobjects, so there is no one
 **************************************************************************/
 tax_rates_dialog::tax_rates_dialog(QWidget *parent)
-  : qfc_dialog(parent)
+  : QDialog(parent)
 {
   QHBoxLayout *some_layout;
   QVBoxLayout *main_layout;
@@ -129,7 +128,7 @@ void tax_rates_dialog::slot_apply_button_pressed()
 **************************************************************************/
 multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
                                                Qt::WindowFlags f)
-  : qfc_dialog(parent)
+  : QDialog(parent)
 {
   QGroupBox *group_box;
   QHBoxLayout *some_layout;
@@ -322,7 +321,7 @@ fc_double_edge::~fc_double_edge()
 QSize fc_double_edge::sizeHint() const
 {
   return QSize(30 * get_tax_sprite(tileset, O_LUXURY)->pm->width(),
-               3 * get_tax_sprite(tileset, O_LUXURY)->pm->height());
+               2 * get_tax_sprite(tileset, O_LUXURY)->pm->height());
 }
 
 /**************************************************************************

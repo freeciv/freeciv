@@ -51,7 +51,6 @@ class QVBoxLayout;
 
 // gui-qt
 #include "fonts.h"
-#include "dialogs.h"
 
 // Qt
 #include <QProgressBar>
@@ -397,7 +396,7 @@ protected:
 /****************************************************************************
   City dialog
 ****************************************************************************/
-class city_dialog: public qfc_dialog
+class city_dialog: public QDialog
 {
 
   Q_OBJECT
