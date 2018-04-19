@@ -5570,7 +5570,7 @@ static bool load_ruleset_effects(struct section_file *file,
     }
 
     if (compat->compat_mode && rscompat_old_effect_3_1(type, file, sec_name, compat)) {
-      break;
+      continue;
     }
 
     eff = effect_type_by_name(type, fc_strcasecmp);
