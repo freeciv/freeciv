@@ -215,6 +215,9 @@ static void effect_to_enabler(enum gen_action action, struct section_file *file,
                                   UTYF_SETTLERS);
     requirement_vector_append(&enabler->actor_reqs, settler_req);
 
+    /* Add the enabler to the ruleset. */
+    action_enabler_add(enabler);
+
     if (compat->log_cb != NULL) {
       fc_snprintf(buf, sizeof(buf),
                   "Converted effect %s to an action enabler. Make sure requirements "
@@ -294,18 +297,21 @@ void rscompat_postprocess(struct rscompat_info *info)
     e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UCF_CAN_PILLAGE);
     requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
 
     enabler = action_enabler_new();
     enabler->action = ACTION_FORTIFY;
     e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UCF_CAN_FORTIFY);
     requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
 
     enabler = action_enabler_new();
     enabler->action = ACTION_ROAD;
     e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UTYF_SETTLERS);
     requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
 
     enabler = action_enabler_new();
     enabler->action = ACTION_CONVERT;
