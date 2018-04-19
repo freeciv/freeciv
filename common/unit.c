@@ -975,7 +975,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                           punit, ptile, NULL);
 
   case ACTIVITY_CONVERT:
-    return unit_can_convert(punit);
+    return is_action_enabled_unit_on_self(ACTION_CONVERT, punit);
 
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:

@@ -306,6 +306,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UTYF_SETTLERS);
     requirement_vector_append(&enabler->actor_reqs, e_req);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CONVERT;
+    action_enabler_add(enabler);
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

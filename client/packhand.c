@@ -4587,6 +4587,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
     if (action_prob_possible(act_probs[act])) {
       switch ((enum gen_action)act) {
       case ACTION_DISBAND_UNIT:
+      case ACTION_CONVERT:
         /* Not interesting. */
         break;
       case ACTION_CAPTURE_UNITS:

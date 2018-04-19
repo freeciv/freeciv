@@ -662,6 +662,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_MINE_TF:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_CONVERT:
   case ACTION_ROAD:
     /* No special help. */
     break;
@@ -2524,6 +2525,11 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
+    break;
+  case ACTION_CONVERT:
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             unit_activity_handling(actor_unit,
+                                                    ACTIVITY_CONVERT));
     break;
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -4977,6 +4983,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_PILLAGE:
       case ACTION_FORTIFY:
       case ACTION_ROAD:
+      case ACTION_CONVERT:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

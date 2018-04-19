@@ -565,6 +565,10 @@ static void hard_code_actions(void)
       action_new(ACTION_ROAD, ATK_TILE,
                  FALSE, TRUE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_CONVERT] =
+      action_new(ACTION_CONVERT, ATK_SELF,
+                 FALSE, FALSE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1632,6 +1636,13 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
     break;
 
+  case ACTION_CONVERT:
+    if (!actor_unittype->converted_to) {
+      /* Reason: must be able to convert to something. */
+      return FALSE;
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -1772,6 +1783,14 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
          * See also do_airline() in server/unittools.h. */
         return TRI_NO;
       }
+    }
+    break;
+
+  case ACTION_CONVERT:
+    /* Reason: Keep the old rules. */
+    /* Info leak: The player knows his unit's cargo and location. */
+    if (!unit_can_convert(actor_unit)) {
+      return TRI_NO;
     }
     break;
 
@@ -2460,6 +2479,7 @@ is_action_possible(const enum gen_action wanted_action,
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
   case ACTION_DISBAND_UNIT:
+  case ACTION_CONVERT:
     /* No known hard coded requirements. */
     break;
   case ACTION_COUNT:
@@ -3364,6 +3384,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_CONVERT:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4402,6 +4423,9 @@ const char *action_ui_name_default(int act)
   case ACTION_ROAD:
     /* TRANS: Build _Road (100% chance of success). */
     return N_("Build %sRoad%s");
+  case ACTION_CONVERT:
+    /* TRANS: _Convert Unit (100% chance of success). */
+    return N_("%sConvert Unit%s");
   }
 
   return NULL;

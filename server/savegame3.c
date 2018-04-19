@@ -5658,6 +5658,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_IRRIGATE_TF:
           case ACTION_MINE_TF:
           case ACTION_FORTIFY:
+          case ACTION_CONVERT:
           case ACTION_COUNT:
             /* Target in order unsupported. */
 

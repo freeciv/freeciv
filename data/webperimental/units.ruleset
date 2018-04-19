@@ -389,6 +389,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                         (whole movement points)
 ;  "Upgrade Unit"
 ;   obsolete_by = the unit type upgraded to.
+;  "Convert Unit"
+;   convert_to = the unit type converted to.
 ;
 ; ** Roles **
 ;

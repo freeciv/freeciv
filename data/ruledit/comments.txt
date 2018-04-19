@@ -490,6 +490,8 @@ utypes = "\
 ;                         (whole movement points)\n\
 ;  \"Upgrade Unit\"\n\
 ;   obsolete_by = the unit type upgraded to.\n\
+;  \"Convert Unit\"\n\
+;   convert_to = the unit type converted to.\n\
 ;\n\
 ; ** Roles **\n\
 ;\n\

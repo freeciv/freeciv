@@ -147,6 +147,8 @@ extern "C" {
 #define SPECENUM_VALUE48NAME "Fortify"
 #define SPECENUM_VALUE49 ACTION_ROAD
 #define SPECENUM_VALUE49NAME "Road"
+#define SPECENUM_VALUE50 ACTION_CONVERT
+#define SPECENUM_VALUE50NAME "Convert Unit"
 #define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */

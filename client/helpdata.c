@@ -1898,7 +1898,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     const char *types[utype_count()];
     int i = 0;
     unit_type_iterate(utype2) {
-      if (utype2->converted_to == utype) {
+      if (utype2->converted_to == utype &&
+          utype_can_do_action(utype2, ACTION_CONVERT)) {
         types[i++] = utype_name_translation(utype2);
       }
     } unit_type_iterate_end;
@@ -1911,15 +1912,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    astr_str(&list));
       astr_free(&list);
     }
-  }
-  if (NULL != utype->converted_to) {
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: %s is a unit type. "MP" = movement points. */
-                 PL_("* May be converted into %s (takes %d MP).\n",
-                     "* May be converted into %s (takes %d MP).\n",
-                     utype->convert_time),
-                 utype_name_translation(utype->converted_to),
-                 utype->convert_time);
   }
   if (utype_has_flag(utype, UTYF_NOHOME)) {
     CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
@@ -2566,6 +2558,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          "is reduced accordingly.\n"));
           break;
         }
+      case ACTION_CONVERT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: %s is a unit type. "MP" = movement points. */
+                     PL_("  * is converted into %s (takes %d MP).\n",
+                         "  * is converted into %s (takes %d MP).\n",
+                         utype->convert_time),
+                     utype_name_translation(utype->converted_to),
+                     utype->convert_time);
+        break;
       default:
         /* No action specific details. */
         break;

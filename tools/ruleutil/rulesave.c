@@ -1161,6 +1161,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       "ui_name_fortify");
   save_action_ui_name(sfile, ACTION_ROAD,
                       "ui_name_road");
+  save_action_ui_name(sfile, ACTION_CONVERT,
+                      "ui_name_convert_unit");
 
   i = 0;
   action_iterate(act) {

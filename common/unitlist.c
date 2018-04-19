@@ -311,7 +311,8 @@ bool units_can_upgrade(const struct unit_list *punits)
 bool units_can_convert(const struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    if (unit_can_convert(punit)) {
+    if (utype_can_do_action(unit_type_get(punit), ACTION_CONVERT)
+        && unit_can_convert(punit)) {
       return TRUE;
     }
   } unit_list_iterate_end;

@@ -558,3 +558,10 @@ Actions done by a unit to it self
  * UI name can be set using ui_name_disband_unit
  * "Help Wonder" must be impossible
  * "Recycle Unit" must be impossible
+
+"Convert Unit" - Convert the unit to another unit type.
+ * UI name can be set using ui_name_convert_unit
+ * actor unit must have a type to convert to (convert_to).
+ * actor unit's converted form must be able to exist at its current
+   location.
+ * actor unit's converted form must have room for its current cargo.
