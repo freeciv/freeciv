@@ -2556,8 +2556,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("  * weaker when tired. If performed with less "
                          "than a single move point left the attack power "
                          "is reduced accordingly.\n"));
-          break;
         }
+        break;
       case ACTION_CONVERT:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a unit type. "MP" = movement points. */
