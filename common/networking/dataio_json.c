@@ -245,6 +245,7 @@ void dio_put_unit_list_json(struct json_data_out *dout,
 {
   if (dout->json) {
     /* TODO: implement */
+    log_error("Tried to send unimplemeted data type unit_list.");
   } else {
     dio_put_unit_list_raw(&dout->raw, value);
   }
@@ -260,6 +261,7 @@ void dio_put_building_list_json(struct json_data_out *dout,
 {
   if (dout->json) {
     /* TODO: implement */
+    log_error("Tried to send unimplemeted data type building_list.");
   } else {
     dio_put_building_list_raw(&dout->raw, value);
   }
@@ -419,6 +421,7 @@ bool dio_get_tech_list_json(struct connection *pc, struct data_in *din,
 {
   if (pc->json_mode) {
     /* TODO: implement */
+    log_warn("Received unimplemeted data type tech_list.");
   } else {
     return dio_get_tech_list_raw(din, dest);
   }
@@ -434,6 +437,7 @@ bool dio_get_unit_list_json(struct connection *pc, struct data_in *din,
 {
   if (pc->json_mode) {
     /* TODO: implement */
+    log_warn("Received unimplemeted data type unit_list.");
   } else {
     return dio_get_unit_list_raw(din, dest);
   }
@@ -449,6 +453,7 @@ bool dio_get_building_list_json(struct connection *pc, struct data_in *din,
 {
   if (pc->json_mode) {
     /* TODO: implement */
+    log_warn("Received unimplemeted data type building_list.");
   } else {
     return dio_get_building_list_raw(din, dest);
   }
@@ -532,6 +537,7 @@ bool dio_get_uint8_vec8_json(struct connection *pc, struct data_in *din,
 {
   if (pc->json_mode) {
     /* TODO: implement */
+    log_warn("Received unimplemeted data type uint8_vec8.");
   } else {
     return dio_get_uint8_vec8_raw(din, values, stop_value);
   }
@@ -549,6 +555,7 @@ bool dio_get_uint16_vec8_json(struct connection *pc, struct data_in *din,
 {
   if (pc->json_mode) {
     /* TODO: implement */
+    log_warn("Received unimplemeted data type uint16_vec8.");
   } else {
     return dio_get_uint16_vec8_raw(din, values, stop_value);
   }
@@ -787,6 +794,7 @@ void dio_put_uint8_vec8_json(struct json_data_out *dout,
 {
   if (dout->json) {
     /* TODO: implement. */
+    log_error("Tried to send unimplemeted data type uint8_vec8.");
   } else {
     dio_put_uint8_vec8_raw(&dout->raw, values, stop_value);
   }
@@ -801,6 +809,7 @@ void dio_put_uint16_vec8_json(struct json_data_out *dout,
 {
   if (dout->json) {
     /* TODO: implement. */
+    log_error("Tried to send unimplemeted data type uint16_vec8.");
   } else {
     dio_put_uint16_vec8_raw(&dout->raw, values, stop_value);
   }
@@ -880,6 +889,7 @@ void dio_put_tech_list_json(struct json_data_out *dout,
 {
   if (dout->json) {
     /* TODO: implement */
+    log_error("Tried to send unimplemeted data type tech_list.");
   } else {
     dio_put_tech_list_raw(&dout->raw, value);
   }
