@@ -524,22 +524,6 @@ void dio_put_tech_list_raw(struct raw_data_out *dout, const int *value)
 }
 
 /**************************************************************************
-  Insert unit type numbers from value array as 8 bit values until there is
-  value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
-**************************************************************************/
-void dio_put_unit_list_raw(struct raw_data_out *dout, const int *value)
-{
-  int i;
-
-  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    dio_put_uint8_raw(dout, value[i]);
-    if (value[i] == U_LAST) {
-      break;
-    }
-  }
-}
-
-/**************************************************************************
   Insert building type numbers from value array as 8 bit values until there
   is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
 **************************************************************************/
@@ -862,31 +846,6 @@ bool dio_get_tech_list_raw(struct data_in *din, int *dest)
 
   for (; i < MAX_NUM_TECH_LIST; i++) {
     dest[i] = A_LAST;
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
-  Take unit type numbers until U_LAST encountered, or MAX_NUM_UNIT_LIST
-  types retrieved.
-**************************************************************************/
-bool dio_get_unit_list_raw(struct data_in *din, int *dest)
-{
-  int i;
-
-  for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    if (!dio_get_uint8_raw(din, &dest[i])) {
-      log_packet("Got a too short unit list");
-      return FALSE;
-    }
-    if (dest[i] == U_LAST) {
-      break;
-    }
-  }
-
-  for (; i < MAX_NUM_UNIT_LIST; i++) {
-    dest[i] = U_LAST;
   }
 
   return TRUE;

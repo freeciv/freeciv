@@ -7636,8 +7636,13 @@ static void send_ruleset_nations(struct conn_list *dest)
     fc_assert(ARRAY_SIZE(packet.init_units) == ARRAY_SIZE(n->init_units));
     for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
       const struct unit_type *t = n->init_units[i];
-      packet.init_units[i] = t ? utype_number(t) : U_LAST;
+      if (t) {
+        packet.init_units[i] = utype_number(t);
+      } else {
+        break;
+      }
     }
+    packet.init_units_count = i;
     fc_assert(ARRAY_SIZE(packet.init_buildings)
               == ARRAY_SIZE(n->init_buildings));
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {

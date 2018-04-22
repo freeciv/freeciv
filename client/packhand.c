@@ -4250,7 +4250,12 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     pnation->init_techs[i] = packet->init_techs[i];
   }
   for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    pnation->init_units[i] = utype_by_number(packet->init_units[i]);
+    if (i < packet->init_units_count) {
+      pnation->init_units[i] = utype_by_number(packet->init_units[i]);
+    } else {
+      /* TODO: should init_units be initialized in common/nation.c? */
+      pnation->init_units[i] = utype_by_number(U_LAST);
+    }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
     pnation->init_buildings[i] = packet->init_buildings[i];

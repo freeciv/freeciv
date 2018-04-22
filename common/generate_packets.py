@@ -365,7 +365,7 @@ class Field:
             return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, &real_packet->%(name)s, %(array_size_u)s);"%self.__dict__
 
         arr_types=["string","estring","city_map","tech_list",
-                   "unit_list","building_list"]
+                   "building_list"]
         if (self.dataio_type in arr_types and self.is_array==1) or \
            (self.dataio_type not in arr_types and self.is_array==0):
             return "  DIO_PUT(%(dataio_type)s, &dout, &field_addr, real_packet->%(name)s);"%self.__dict__
@@ -581,7 +581,7 @@ field_addr.name = \"%(name)s\";
             return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, &real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
-        if self.dataio_type in ["tech_list","unit_list","building_list"]:
+        if self.dataio_type in ["tech_list","building_list"]:
             return '''if (!DIO_GET(%(dataio_type)s, &din, &field_addr, real_packet->%(name)s)) {
   RECEIVE_PACKET_FIELD_ERROR(%(name)s);
 }'''%self.__dict__
