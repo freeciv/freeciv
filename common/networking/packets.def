@@ -204,7 +204,6 @@ type STRING             = string(char)
 # used in non vanilla generate_packets.py packet generators.
 type STRVEC             = STRING
 type TECH_LIST          = tech_list(int)
-type UNIT_LIST          = unit_list(int)
 type BUILDING_LIST      = building_list(int)
 type WORKLIST           = worklist(struct worklist)
 # string that is URI encoded in the JSON protocol
@@ -1531,7 +1530,8 @@ PACKET_RULESET_NATION = 148; sc, lsend
 
   GOVERNMENT init_government_id;
   TECH_LIST init_techs[MAX_NUM_TECH_LIST];
-  UNIT_LIST init_units[MAX_NUM_UNIT_LIST];
+  UINT8 init_units_count;
+  UNIT_TYPE init_units[MAX_NUM_UNIT_LIST:init_units_count];
   BUILDING_LIST init_buildings[MAX_NUM_BUILDING_LIST];
 end
 

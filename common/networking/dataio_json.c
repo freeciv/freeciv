@@ -236,22 +236,6 @@ void dio_put_sint16_json(struct json_data_out *dout,
 }
 
 /**********************************************************************//**
-  Insert unit type numbers from value array as 8 bit values until there is
-  value U_LAST or MAX_NUM_UNIT_LIST numbers have been inserted.
-**************************************************************************/
-void dio_put_unit_list_json(struct json_data_out *dout,
-                            const struct plocation *location,
-                            const int *value)
-{
-  if (dout->json) {
-    /* TODO: implement */
-    log_error("Tried to send unimplemeted data type unit_list.");
-  } else {
-    dio_put_unit_list_raw(&dout->raw, value);
-  }
-}
-
-/**********************************************************************//**
   Insert building type numbers from value array as 8 bit values until there
   is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
 **************************************************************************/
@@ -425,23 +409,6 @@ bool dio_get_tech_list_json(struct connection *pc, struct data_in *din,
   } else {
     return dio_get_tech_list_raw(din, dest);
   }
-  return TRUE;
-}
-
-/**********************************************************************//**
-  Take unit type numbers until UTYF_LAST encountered, or MAX_NUM_UNIT_LIST
-  types retrieved.
-**************************************************************************/
-bool dio_get_unit_list_json(struct connection *pc, struct data_in *din,
-                            const struct plocation *location, int *dest)
-{
-  if (pc->json_mode) {
-    /* TODO: implement */
-    log_warn("Received unimplemeted data type unit_list.");
-  } else {
-    return dio_get_unit_list_raw(din, dest);
-  }
-
   return TRUE;
 }
 
