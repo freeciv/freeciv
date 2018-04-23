@@ -113,7 +113,7 @@ cat <<EOF
 EOF
 
 if test "x$3" = "xqt" ; then
-    echo "CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
+    echo "  CreateShortCut \"\$SMPROGRAMS\\\$STARTMENU_FOLDER\\Freeciv Ruleset Editor.lnk\" \"\$INSTDIR\\\\freeciv-ruledit.cmd\" \"\$DefaultLanguageCode\" \"\$INSTDIR\\\\freeciv-ruledit.exe\" 0 SW_SHOWMINIMIZED"
 fi
 
 cat <<EOF

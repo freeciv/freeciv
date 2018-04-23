@@ -2564,8 +2564,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("  * weaker when tired. If performed with less "
                          "than a single move point left the attack power "
                          "is reduced accordingly.\n"));
-          break;
         }
+        break;
       default:
         /* No action specific details. */
         break;

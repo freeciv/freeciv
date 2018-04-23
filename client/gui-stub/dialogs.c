@@ -280,6 +280,17 @@ void action_selection_close(void)
   /* PORTME */
 }
 
+/**************************************************************************
+  Let the non shared client code know that the action selection process
+  no longer is in progress for the specified unit.
+
+  This allows the client to clean up any client specific assumptions.
+**************************************************************************/
+void action_selection_no_longer_in_progress_gui_specific(int actor_id)
+{
+  /* PORTME */
+}
+
 /****************************************************************
   Player has gained a new tech.
 *****************************************************************/

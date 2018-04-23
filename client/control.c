@@ -1029,6 +1029,9 @@ void action_selection_no_longer_in_progress(const int old_actor_id)
 
   /* Stop objecting to allowing the next unit to ask. */
   action_selection_in_progress_for = IDENTITY_NUMBER_ZERO;
+
+  /* Clean up any client specific assumptions. */
+  action_selection_no_longer_in_progress_gui_specific(old_actor_id);
 }
 
 /**************************************************************************
@@ -1654,7 +1657,11 @@ void request_action_details(enum gen_action action, int actor_id,
                             int target_id)
 {
   dsend_packet_unit_action_query(&client.conn,
-                                 actor_id, target_id, action);
+                                 actor_id, target_id, action,
+                                 /* Users that need the answer in the
+                                  * background should send the packet them
+                                  * self. At least for now. */
+                                 TRUE);
 }
 
 /**************************************************************************
