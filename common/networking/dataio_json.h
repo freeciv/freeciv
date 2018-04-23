@@ -71,9 +71,6 @@ bool dio_get_string_json(struct connection *pc, struct data_in *din,
 bool dio_get_estring_json(struct connection *pc, struct data_in *din,
                           const struct plocation *location,
                           char *dest, size_t max_dest_size);
-bool dio_get_building_list_json(struct connection *pc, struct data_in *din,
-                                const struct plocation *location,
-                                int *dest);
 bool dio_get_worklist_json(struct connection *pc, struct data_in *din,
                            struct plocation *location,
                            struct worklist *pwl);
@@ -142,9 +139,6 @@ void dio_put_estring_json(struct json_data_out *dout,
 void dio_put_city_map_json(struct json_data_out *dout,
                            const struct plocation *location,
                            const char *value);
-void dio_put_building_list_json(struct json_data_out *dout,
-                                const struct plocation *location,
-                                const int *value);
 void dio_put_worklist_json(struct json_data_out *dout,
                            struct plocation *location,
                            const struct worklist *pwl);

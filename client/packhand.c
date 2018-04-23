@@ -4282,7 +4282,11 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    pnation->init_buildings[i] = packet->init_buildings[i];
+    if (i < packet->init_buildings_count) {
+      pnation->init_buildings[i] = packet->init_buildings[i];
+    } else {
+      pnation->init_buildings[i] = B_LAST;
+    }
   }
 
   tileset_setup_nation_flag(tileset, pnation);
@@ -4392,7 +4396,11 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
     }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    if (i < packet->global_init_buildings_count) {
+      game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    } else {
+      game.rgame.global_init_buildings[i] = B_LAST;
+    }
   }
 
   for (i = 0; i < packet->veteran_levels; i++) {
