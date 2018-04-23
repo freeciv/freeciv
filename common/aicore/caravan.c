@@ -573,6 +573,8 @@ static bool cewt_callback(void *vdata, const struct city *dest,
 {
   struct cewt_data *data = vdata;
 
+  fc_assert_ret_val(data->result, FALSE);
+
   if (dest == data->result->dest) {
     data->result->arrival_time = arrival_time;
     get_discounted_reward(data->caravan, data->param, data->result);
