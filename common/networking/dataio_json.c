@@ -197,17 +197,6 @@ void dio_put_uint16_json(struct json_data_out *dout,
 }
 
 /**************************************************************************
-  Insert building type numbers from value array as 8 bit values until there
-  is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
-**************************************************************************/
-void dio_put_building_list_json(struct json_data_out *dout,
-                                const struct plocation *location,
-                                const int *value)
-{
-  /* TODO: implement */
-}
-
-/**************************************************************************
   Insert worklist information.
 **************************************************************************/
 void dio_put_worklist_json(struct json_data_out *dout,
@@ -301,16 +290,6 @@ bool dio_get_uint32_json(json_t *json_packet,
     return FALSE;
   }
 
-  return TRUE;
-}
-
-/**************************************************************************
-  Receive building list information.
-**************************************************************************/
-bool dio_get_building_list_json(json_t *json_packet,
-                                const struct plocation *location, int *dest)
-{
-  /* TODO: implement */
   return TRUE;
 }
 

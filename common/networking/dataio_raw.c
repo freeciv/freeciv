@@ -508,22 +508,6 @@ void dio_put_string_raw(struct raw_data_out *dout, const char *value)
 }
 
 /**************************************************************************
-  Insert building type numbers from value array as 8 bit values until there
-  is value B_LAST or MAX_NUM_BUILDING_LIST numbers have been inserted.
-**************************************************************************/
-void dio_put_building_list_raw(struct raw_data_out *dout, const int *value)
-{
-  int i;
-
-  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    dio_put_uint8_raw(dout, value[i]);
-    if (value[i] == B_LAST) {
-      break;
-    }
-  }
-}
-
-/**************************************************************************
   Insert number of worklist items as 8 bit value and then insert
   8 bit kind and 8 bit number for each worklist item.
 **************************************************************************/
@@ -807,31 +791,6 @@ bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size)
   }
 
   din->current += offset + 1;
-  return TRUE;
-}
-
-/**************************************************************************
-  Take building type numbers until B_LAST encountered, or
-  MAX_NUM_BUILDING_LIST types retrieved.
-**************************************************************************/
-bool dio_get_building_list_raw(struct data_in *din, int *dest)
-{
-  int i;
-
-  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    if (!dio_get_uint8_raw(din, &dest[i])) {
-      log_packet("Got a too short building list");
-      return FALSE;
-    }
-    if (dest[i] == B_LAST) {
-      break;
-    }
-  }
-
-  for (; i < MAX_NUM_BUILDING_LIST; i++) {
-    dest[i] = B_LAST;
-  }
-
   return TRUE;
 }
 
