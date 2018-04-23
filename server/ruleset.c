@@ -7757,8 +7757,13 @@ static void send_ruleset_nations(struct conn_list *dest)
       ? government_number(n->init_government) : government_count();
     fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
     for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-      packet.init_techs[i] = n->init_techs[i];
+      if (n->init_techs[i] != A_LAST) {
+        packet.init_techs[i] = n->init_techs[i];
+      } else {
+        break;
+      }
     }
+    packet.init_techs_count = i;
     fc_assert(ARRAY_SIZE(packet.init_units) == ARRAY_SIZE(n->init_units));
     for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
       const struct unit_type *t = n->init_units[i];
@@ -7914,8 +7919,14 @@ static void send_ruleset_game(struct conn_list *dest)
             == sizeof(game.rgame.global_init_techs));
   fc_assert(ARRAY_SIZE(misc_p.global_init_techs)
             == ARRAY_SIZE(game.rgame.global_init_techs));
-  memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
-         sizeof(misc_p.global_init_techs));
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    if (game.rgame.global_init_techs[i] != A_LAST) {
+      misc_p.global_init_techs[i] = game.rgame.global_init_techs[i];
+    } else {
+      break;
+    }
+  }
+  misc_p.global_init_techs_count = i;
 
   fc_assert(ARRAY_SIZE(misc_p.global_init_buildings)
             == ARRAY_SIZE(game.rgame.global_init_buildings));

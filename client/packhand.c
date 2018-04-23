@@ -4267,7 +4267,11 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   /* init_government may be NULL */
   pnation->init_government = government_by_number(packet->init_government_id);
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    pnation->init_techs[i] = packet->init_techs[i];
+    if (i < packet->init_techs_count) {
+      pnation->init_techs[i] = packet->init_techs[i];
+    } else {
+      pnation->init_techs[i] = A_LAST;
+    }
   }
   for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
     if (i < packet->init_units_count) {
@@ -4381,7 +4385,11 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
   game.veteran->levels = packet->veteran_levels;
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    game.rgame.global_init_techs[i] = packet->global_init_techs[i];
+    if (i < packet->global_init_techs_count) {
+      game.rgame.global_init_techs[i] = packet->global_init_techs[i];
+    } else {
+      game.rgame.global_init_techs[i] = A_LAST;
+    }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
     game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];

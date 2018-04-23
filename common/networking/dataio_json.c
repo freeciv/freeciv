@@ -398,21 +398,6 @@ bool dio_get_sint32_json(struct connection *pc, struct data_in *din,
 }
 
 /**********************************************************************//**
-  Receive tech list information.
-**************************************************************************/
-bool dio_get_tech_list_json(struct connection *pc, struct data_in *din,
-                            const struct plocation *location, int *dest)
-{
-  if (pc->json_mode) {
-    /* TODO: implement */
-    log_warn("Received unimplemeted data type tech_list.");
-  } else {
-    return dio_get_tech_list_raw(din, dest);
-  }
-  return TRUE;
-}
-
-/**********************************************************************//**
   Receive building list information.
 **************************************************************************/
 bool dio_get_building_list_json(struct connection *pc, struct data_in *din,
@@ -844,21 +829,6 @@ void dio_put_estring_json(struct json_data_out *dout,
     curl_free(escaped_value);
   } else {
     dio_put_estring_raw(&dout->raw, value);
-  }
-}
-
-/**********************************************************************//**
-  Insert tech list information.
-**************************************************************************/
-void dio_put_tech_list_json(struct json_data_out *dout,
-                            const struct plocation *location,
-                            const int *value)
-{
-  if (dout->json) {
-    /* TODO: implement */
-    log_error("Tried to send unimplemeted data type tech_list.");
-  } else {
-    dio_put_tech_list_raw(&dout->raw, value);
   }
 }
 

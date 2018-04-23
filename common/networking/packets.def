@@ -203,7 +203,6 @@ type STRING             = string(char)
 # Marking it this way is useful as documentation. The marking can also be
 # used in non vanilla generate_packets.py packet generators.
 type STRVEC             = STRING
-type TECH_LIST          = tech_list(int)
 type BUILDING_LIST      = building_list(int)
 type WORKLIST           = worklist(struct worklist)
 # string that is URI encoded in the JSON protocol
@@ -1388,7 +1387,8 @@ end
 PACKET_RULESET_GAME = 141; sc, lsend
   UINT8 default_specialist;
 
-  TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
+  UINT8 global_init_techs_count;
+  TECH global_init_techs[MAX_NUM_TECH_LIST:global_init_techs_count];
   BUILDING_LIST global_init_buildings[MAX_NUM_BUILDING_LIST];
 
   UINT8 veteran_levels;
@@ -1529,7 +1529,8 @@ PACKET_RULESET_NATION = 148; sc, lsend
   UINT8 groups[MAX_NUM_NATION_GROUPS:ngroups];
 
   GOVERNMENT init_government_id;
-  TECH_LIST init_techs[MAX_NUM_TECH_LIST];
+  UINT8 init_techs_count;
+  TECH init_techs[MAX_NUM_TECH_LIST:init_techs_count];
   UINT8 init_units_count;
   UNIT_TYPE init_units[MAX_NUM_UNIT_LIST:init_units_count];
   BUILDING_LIST init_buildings[MAX_NUM_BUILDING_LIST];
