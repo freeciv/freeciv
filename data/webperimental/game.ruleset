@@ -254,6 +254,9 @@ ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 ; /* TRANS: _Use Court Physician (3% chance of success). */
 ui_name_heal_unit = _("%sUse Court Physician%s")
 
+; /* TRANS: _Deploy (3% chance of success). */
+ui_name_convert_unit = _("%sDeploy%s")
+
 ; /* TRANS: _Sabotage City (3% chance of success). */
 ui_name_sabotage_city = _("%sSabotage City%s")
 
@@ -812,6 +815,24 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",          "range", "present"
       "UnitFlag",     "LightWeight",   "Local", TRUE
+    }
+
+[actionenabler_convert_to_leader_yatch]
+action = "Convert Unit"
+actor_reqs    =
+    { "type",     "name",       "range"
+      "UnitFlag", "GameLoss",   "Local"
+      "CityTile", "Center",     "Local"
+      "Tech",     "Map Making", "Player"
+    }
+
+; It is always legal to convert back again.
+[actionenabler_convert_from_leader_yatch]
+action = "Convert Unit"
+actor_reqs    =
+    { "type",     "name",         "range"
+      "UnitType", "Leader Yacht", "Local"
+      "CityTile", "Center",       "Local"
     }
 
 [actionenabler_border_police]

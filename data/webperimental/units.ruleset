@@ -2307,6 +2307,7 @@ hitpoints     = 20
 firepower     = 1
 move_rate     = 2
 vision_radius_sq = 8
+convert_to    = "Leader Yacht"
 transport_cap = 0
 fuel          = 0
 uk_happy      = 0
@@ -2337,6 +2338,47 @@ The Leader unit includes a court physician.\
  All the Leader's remaining movement points are spent.\
  The unit being healed must be allied or domestic.\
  It must be located at or adjacent to the Leader's tile.\
+"), _("\
+Can be converted to a Leader Yacht by performing the 'Deploy' action\
+ inside a city once Map Making has been discovered.\
+")
+
+[unit_yacht]
+; /* TRANS: unit type */
+name          = _("?unit:Leader Yacht")
+class         = "Trireme"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.leader_boat"
+graphic_alt   = "u.leader"
+sound_move    = "m_leader_boat"
+sound_move_alt = "m_trireme"
+sound_fight   = "f_leader_boat"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 15
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 8
+convert_to    = "Leader"
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil", "HasNoZOC", "NoBuild", "NoHome", "SuperSpy",
+                "EvacuateFirst", "Unbribable", "GameLoss", "Unique",
+                "Provoking", "MediumWeight"
+roles         = ""
+helptext      = _("\
+This is you. If you lose this unit, you lose the game. So don't.\
+"), _("\
+Can be converted to a Leader by performing the 'Deploy' action inside a\
+ city.\
 ")
 
 [unit_barbarian_leader]

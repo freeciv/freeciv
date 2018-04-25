@@ -36,6 +36,9 @@ Differences compared to the classic ruleset are:
   and some of his knowledge. Not all his cities will follow you. Some will
   rather turn barbarian.
 - The Leader can heal light weight units belonging to you or to your allies.
+- The Leader can move on shallow water without being transported by becoming
+  a "Leader Yacht". Conversion back and forth can be done inside a city once
+  Map Making has been discovered.
 - Labels the year using AD/BC.
 - All units can be airlifted:
   - Light weight units can be airlifted once Flight is known.
