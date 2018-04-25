@@ -544,12 +544,6 @@ Actions done by a unit against a tile
  * the actor unit has "CanPillage" unit class flag
  * terrain type must be one where pillaging is possible
 
-"Fortify"           - Fortify at tile
- * UI name can be set using ui_name_fortify
- * the actor unit has "CanFortify" unit class flag (!)
- * the actor unit can't have the "Cant_Fortify" unit type flag (!)
- * terrain type must be one where fortifying is possible
-
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.
@@ -559,6 +553,12 @@ Actions done by a unit to it self
  * UI name can be set using ui_name_disband_unit
  * "Help Wonder" must be impossible
  * "Recycle Unit" must be impossible
+
+"Fortify"           - Fortify at tile
+ * UI name can be set using ui_name_fortify
+ * the actor unit has "CanFortify" unit class flag (!)
+ * the actor unit can't have the "Cant_Fortify" unit type flag (!)
+ * terrain type must be one where fortifying is possible
 
 "Convert Unit" - Convert the unit to another unit type.
  * UI name can be set using ui_name_convert_unit

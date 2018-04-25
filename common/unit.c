@@ -939,8 +939,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
-    return is_action_enabled_unit_on_tile(ACTION_FORTIFY,
-                                          punit, ptile, NULL);
+    return is_action_enabled_unit_on_self(ACTION_FORTIFY,
+                                          punit);
 
   case ACTIVITY_FORTIFIED:
     return FALSE;

@@ -2526,6 +2526,12 @@ bool unit_perform_action(struct player *pplayer,
     /* All consequences are handled by the action system. */
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
+  case ACTION_FORTIFY:
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_FORTIFYING,
+                                                             &tgt));
+    break;
   case ACTION_CONVERT:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              unit_activity_handling(actor_unit,
@@ -2707,11 +2713,6 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_PILLAGE,
-                                                             &tgt));
-  case ACTION_FORTIFY:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_FORTIFYING,
                                                              &tgt));
   case ACTION_ROAD:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,

@@ -593,7 +593,7 @@ static void hard_code_actions(void)
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_FORTIFY] =
-      action_new(ACTION_FORTIFY, ATK_TILE,
+      action_new(ACTION_FORTIFY, ATK_SELF,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_ROAD] =
@@ -2481,8 +2481,9 @@ is_action_possible(const enum gen_action wanted_action,
     if (actor_unit->activity == ACTIVITY_FORTIFIED) {
       return TRI_NO;
     }
-    pterrain = tile_terrain(target_tile);
-    if (terrain_has_flag(pterrain, TER_NO_FORTIFY) && !tile_city(target_tile)) {
+    pterrain = tile_terrain(actor_tile);
+    if (terrain_has_flag(pterrain, TER_NO_FORTIFY)
+        && !tile_city(actor_tile)) {
       return TRI_NO;
     }
     break;
