@@ -60,9 +60,9 @@ void action_success_actor_consume(struct action *paction,
 **************************************************************************/
 static void action_give_casus_belli(struct player *offender,
                                     struct player *victim_player,
-                                    const bool global)
+                                    const bool int_outrage)
 {
-  if (global) {
+  if (int_outrage) {
     /* This action is seen as a reason for any other player, no matter who
      * the victim was, to declare war on the actor. It could be used to
      * label certain actions atrocities in rule sets where international
@@ -171,8 +171,9 @@ static void action_consequence_common(const struct action *paction,
     /* In this situation the specified action provides a casus belli
      * against the actor. */
 
-    /* This isn't just between the offender and the victim. */
-    const bool global = casus_belli_amount >= 1000;
+    /* International outrage: This isn't just between the offender and the
+     * victim. */
+    const bool int_outrage = casus_belli_amount >= 1000;
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,
@@ -180,7 +181,7 @@ static void action_consequence_common(const struct action *paction,
     notify_victim(victim_player, paction, offender, victim_player,
                   victim_tile, victim_link);
 
-    if (global) {
+    if (int_outrage) {
       /* Every other player gets a casus belli against the actor. Tell each
        * players about it. */
       players_iterate(oplayer) {
@@ -190,7 +191,7 @@ static void action_consequence_common(const struct action *paction,
     }
 
     /* Give casus belli. */
-    action_give_casus_belli(offender, victim_player, global);
+    action_give_casus_belli(offender, victim_player, int_outrage);
 
     /* Notify players controlled by the built in AI. */
     action_notify_ai(paction, offender, victim_player);
