@@ -1553,7 +1553,7 @@ void handle_unit_get_actions(struct connection *pc,
       || actor_unit->owner != actor_player) {
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id,
+                              target_tile_id, target_extra_id,
                               disturb_player,
                               probabilities);
     return;
@@ -1579,7 +1579,7 @@ void handle_unit_get_actions(struct connection *pc,
                   _("Target not at target tile."));
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id,
+                              target_tile_id, target_extra_id,
                               disturb_player,
                               probabilities);
     return;
@@ -1730,7 +1730,7 @@ void handle_unit_get_actions(struct connection *pc,
   /* Send possible actions and targets. */
   dsend_packet_unit_actions(pc,
                             actor_unit_id, target_unit_id, target_city_id,
-                            target_tile_id,
+                            target_tile_id, target_extra_id,
                             disturb_player,
                             probabilities);
 

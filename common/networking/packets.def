@@ -1091,6 +1091,7 @@ PACKET_UNIT_ACTIONS = 90; sc, dsend
   UNIT target_unit_id;
   CITY target_city_id;
   TILE target_tile_id;
+  EXTRA target_extra_id;
 
   BOOL disturb_player;
 
