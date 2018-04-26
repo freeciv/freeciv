@@ -693,6 +693,20 @@ static void disband_unit_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected convert unit from choice dialog
+**************************************************************************/
+static void convert_unit_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_CONVERT, args->actor_unit_id,
+                    args->target_unit_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected bombard from choice dialog
 **************************************************************************/
 static void bombard_callback(GtkWidget *w, gpointer data)
@@ -1716,6 +1730,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
+  [ACTION_CONVERT] = (GCallback)convert_unit_callback,
 };
 
 /**********************************************************************//**

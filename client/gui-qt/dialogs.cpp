@@ -116,6 +116,7 @@ static void found_city(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
+static void convert_unit(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
@@ -211,6 +212,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
+  action_function[ACTION_CONVERT] = convert_unit;
 
   return action_function;
 }
@@ -2199,6 +2201,18 @@ static void disband_unit(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_DISBAND_UNIT, actor_id,
+                    target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action Convert Unit for choice dialog
+***************************************************************************/
+static void convert_unit(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_CONVERT, actor_id,
                     target_id, 0, "");
 }
 

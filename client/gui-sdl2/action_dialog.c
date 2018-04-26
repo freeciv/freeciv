@@ -1318,6 +1318,23 @@ static int disband_unit_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Convert Unit"
+**************************************************************************/
+static int convert_unit_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_CONVERT,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Set Home City"
 **************************************************************************/
 static int home_city_callback(struct widget *pWidget)
@@ -1487,6 +1504,7 @@ static const act_func af_map[ACTION_COUNT] = {
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = disband_unit_callback,
+  [ACTION_CONVERT] = convert_unit_callback,
 };
 
 /**********************************************************************//**
