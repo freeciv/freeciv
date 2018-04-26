@@ -316,6 +316,14 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler = action_enabler_new();
     enabler->action = ACTION_CONVERT;
     action_enabler_add(enabler);
+
+    /* Update action enablers. */
+    action_enablers_iterate(ae) {
+      if (action_enabler_obligatory_reqs_missing(ae)) {
+        /* Add previously implicit obligatory hard requirement(s). */
+        action_enabler_obligatory_reqs_add(ae);
+      }
+    } action_enablers_iterate_end;
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

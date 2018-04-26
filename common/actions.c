@@ -218,6 +218,36 @@ static void hard_code_oblig_hard_reqs(void)
                           "domestic target.",
                           ACTION_UPGRADE_UNIT, ACTION_NONE);
 
+  /* Why this is a hard requirement:
+   * - Preserve semantics of CanFortify unit class flag and the Cant_Fortify
+   *   unit type flag.
+   * - Corner case that should be worked out: The point of ACTION_FORTIFY
+   *   is to get into the state ACTIVITY_FORTIFIED. ACTIVITY_FORTIFIED has
+   *   two consequences:
+   *   1) Slightly higher hitpoint regeneration. See hp_gain_coord()
+   *   2) Increased defensive power when attacked. But being in a city has
+   *      the same effect. UCF_CAN_FORTIFY and UTYF_CANT_FORTIFY currently
+   *      control if a unit in a city/in the ACTIVITY_FORTIFIED state gets
+   *      the bonus. See defense_multiplication()
+   * - A few other uses should be replaced before these can be demoted to
+   *   ruleset defined flags.
+   */
+  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          UCF_CAN_FORTIFY),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has the CanFortify uclass flag.",
+                          ACTION_FORTIFY, ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          UTYF_CANT_FORTIFY),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor doesn't have the Cant_Fortify utype "
+                          "flag.",
+                          ACTION_FORTIFY, ACTION_NONE);
+
   /* Why this is a hard requirement: Preserve semantics of NoHome
    * flag. Need to replace other uses in game engine before this can
    * be demoted to a regular unit flag. */
@@ -1629,13 +1659,6 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
     }
     break;
 
-  case ACTION_FORTIFY:
-    if (utype_has_flag(actor_unittype, UTYF_CANT_FORTIFY)) {
-      /* Reason: Shouldn't have "Can't fortify" flag. */
-      return FALSE;
-    }
-    break;
-
   case ACTION_CONVERT:
     if (!actor_unittype->converted_to) {
       /* Reason: must be able to convert to something. */
@@ -1684,6 +1707,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
+  case ACTION_FORTIFY:
     /* No hard unit type requirements. */
     break;
 

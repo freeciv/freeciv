@@ -806,8 +806,9 @@ actor_reqs    =
 [actionenabler_fortify]
 action        = "Fortify"
 actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitClassFlag", "CanFortify",   "Local"
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
 
 [actionenabler_road]
