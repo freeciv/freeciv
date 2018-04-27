@@ -611,6 +611,8 @@ const char *city_production_name_translation(const struct city *pcity);
 /* city map functions */
 bool is_valid_city_coords(const int city_radius_sq, const int city_map_x,
                           const int city_map_y);
+bool city_map_includes_tile(const struct city *const pcity,
+                            const struct tile *map_tile);
 bool city_base_to_city_map(int *city_map_x, int *city_map_y,
                            const struct city *const pcity,
                            const struct tile *map_tile);

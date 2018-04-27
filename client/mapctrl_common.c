@@ -605,11 +605,11 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
       fc_assert_ret(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
-	dsend_packet_city_make_specialist(&client.conn, pcity->id,
-					  city_x, city_y);
+        dsend_packet_city_make_specialist(&client.conn,
+                                          pcity->id, ptile->index);
       } else if (city_can_work_tile(pcity, ptile)) {
-	dsend_packet_city_make_worker(&client.conn, pcity->id,
-				      city_x, city_y);
+        dsend_packet_city_make_worker(&client.conn,
+                                      pcity->id, ptile->index);
       } else {
 	return;
       }
