@@ -534,15 +534,6 @@ actor_reqs    =
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
-[actionenabler_airlift_unit]
-action = "Airlift Unit"
-actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitClass",     "Land",         "Local", TRUE
-      "UnitState",     "Transporting", "Local", FALSE
-      "MinMoveFrags",  "1",            "Local", TRUE
-    }
-
 [actionenabler_irrigate_tf]
 action        = "Irrigate TF"
 actor_reqs    =
