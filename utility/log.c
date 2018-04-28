@@ -29,6 +29,7 @@
 #include "support.h"
 
 #include "log.h"
+#include "deprecations.h"
 
 #define MAX_LEN_LOG_LINE 5120
 
@@ -120,6 +121,9 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
         fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
         return FALSE;
       }
+    } else {
+        log_deprecation("Do not provide log level with a numerical value."
+            " Use one of the levels Fatal, Error, Warning, Normal, Verbose, Debug");
     }
     if (level >= LOG_FATAL && level <= max_level) {
       if (NULL != ret_level) {
