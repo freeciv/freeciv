@@ -35,6 +35,7 @@
 #include "registry.h"
 #include "support.h"            /* fc__attribute, bool type, etc. */
 #include "timing.h"
+#include "section_file.h"
 
 /* common */
 #include "capability.h"
@@ -6513,8 +6514,11 @@ static void show_scenarios(struct connection *caller)
   files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
   
   fileinfo_list_iterate(files, pfile) {
-    fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
-    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+    struct section_file *sf = secfile_load_section(pfile->fullname, "scenario", TRUE);
+    if (secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
+        fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
+        cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+    }
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 
