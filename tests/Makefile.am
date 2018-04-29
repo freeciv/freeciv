@@ -22,5 +22,7 @@ EXTRA_DIST =	check_macros.sh			\
 		fcintl.sh			\
 		header_guard.sh			\
 		rulesets_not_broken.sh.in	\
-		ruleset_is.lua			\
+		rs_test_res/ruleset_is.lua	\
+		rs_test_res/ruleset_list.txt	\
+		rs_test_res/ruleset_loads.sh.in	\
 		va_list.sh
