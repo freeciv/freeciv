@@ -1640,7 +1640,12 @@ static struct setting settings[] = {
            GAME_DEFAULT_NUCLEAR_WINTER)
 
   GEN_INT("mapseed", wld.map.server.seed_setting,
-          SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+          SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE,
+#ifdef FREECIV_WEB
+          ALLOW_NONE, ALLOW_BASIC,
+#else /* FREECIV_WEB */
+          ALLOW_HACK, ALLOW_HACK,
+#endif /* FREECIV_WEB */
           N_("Map generation random seed"),
           N_("The same seed will always produce the same map; "
              "for zero (the default) a seed will be chosen based on "
@@ -1654,7 +1659,12 @@ static struct setting settings[] = {
    * fixed after the game has started.
    */
   GEN_INT("gameseed", game.server.seed_setting,
-          SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+          SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE,
+#ifdef FREECIV_WEB
+          ALLOW_NONE, ALLOW_BASIC,
+#else /* FREECIV_WEB */
+          ALLOW_HACK, ALLOW_HACK,
+#endif /* FREECIV_WEB */
           N_("Game random seed"),
           N_("For zero (the default) a seed will be chosen based "
              "on the current time."),
