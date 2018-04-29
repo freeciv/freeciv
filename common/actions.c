@@ -229,6 +229,11 @@ static void hard_code_oblig_hard_reqs(void)
    *      the same effect. UCF_CAN_FORTIFY and UTYF_CANT_FORTIFY currently
    *      control if a unit in a city/in the ACTIVITY_FORTIFIED state gets
    *      the bonus. See defense_multiplication()
+   *   One possible solution is to let UCF_CAN_FORTIFY and UTYF_CANT_FORTIFY
+   *   keep control over 2 but move the rule about doing ACTION_FORTIFY to
+   *   the ruleset. In that case they should probably be renamed since
+   *   doing the action (to reach the state where it gains the HP
+   *   regeneration bonus) is independent.
    * - A few other uses should be replaced before these can be demoted to
    *   ruleset defined flags.
    */
