@@ -604,6 +604,10 @@ static void hard_code_actions(void)
       action_new(ACTION_CONVERT, ATK_SELF,
                  FALSE, FALSE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_BASE] =
+      action_new(ACTION_BASE, ATK_TILE,
+                 FALSE, TRUE, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1658,6 +1662,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_IRRIGATE_TF:
   case ACTION_MINE_TF:
   case ACTION_ROAD:
+  case ACTION_BASE:
     if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
       /* Reason: Must have "Settlers" flag. */
       return FALSE;
@@ -1869,6 +1874,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
+  case ACTION_BASE:
     /* No hard unit type requirements. */
     break;
 
@@ -2411,6 +2417,20 @@ is_action_possible(const enum gen_action wanted_action,
       return TRI_NO;
     }
     if (!can_build_road(extra_road_get(target_extra), actor_unit, target_tile)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_BASE:
+    if (target_extra == NULL) {
+      return TRI_NO;
+    }
+    if (!is_extra_caused_by(target_extra, EC_BASE)) {
+      /* Reason: This is not a base. */
+      return TRI_NO;
+    }
+    if (!can_build_base(actor_unit,
+                        extra_base_get(target_extra), target_tile)) {
       return TRI_NO;
     }
     break;
@@ -3419,6 +3439,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
+  case ACTION_BASE:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4460,6 +4481,9 @@ const char *action_ui_name_default(int act)
   case ACTION_CONVERT:
     /* TRANS: _Convert Unit (100% chance of success). */
     return N_("%sConvert Unit%s");
+  case ACTION_BASE:
+    /* TRANS: _Build Base (100% chance of success). */
+    return N_("%sBuild Base%s");
   }
 
   return NULL;

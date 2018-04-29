@@ -4690,6 +4690,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_MINE_TF:
       case ACTION_PILLAGE:
       case ACTION_ROAD:
+      case ACTION_BASE:
         /* An interesting non attack action has been found. */
         return ACTION_NONE;
         break;

@@ -317,6 +317,13 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_CONVERT;
     action_enabler_add(enabler);
 
+    enabler = action_enabler_new();
+    enabler->action = ACTION_BASE;
+    e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                            UTYF_SETTLERS);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       if (action_enabler_obligatory_reqs_missing(ae)) {
