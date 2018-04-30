@@ -2586,7 +2586,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
                                     action_selection_actor_unit(),
                                     action_selection_target_unit(),
                                     tgt_tile->index,
-                                    MAX_EXTRA_TYPES,
+                                    EXTRA_NONE,
                                     FALSE);
     }
   }
