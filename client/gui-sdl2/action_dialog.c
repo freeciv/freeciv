@@ -1869,6 +1869,21 @@ int action_selection_target_unit(void)
 }
 
 /**************************************************************************
+  Returns id of the target tile of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  tile target. Returns TILE_INDEX_NONE if no action selection dialog is
+  open.
+**************************************************************************/
+int action_selection_target_tile(void)
+{
+  if (!pDiplomat_Dlg) {
+    return TILE_INDEX_NONE;
+  }
+
+  return pDiplomat_Dlg->target_ids[ATK_TILE];
+}
+
+/**************************************************************************
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,

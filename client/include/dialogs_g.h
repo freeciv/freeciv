@@ -57,6 +57,7 @@ GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
 GUI_FUNC_PROTO(int, action_selection_actor_unit, void)
 GUI_FUNC_PROTO(int, action_selection_target_city, void)
 GUI_FUNC_PROTO(int, action_selection_target_unit, void)
+GUI_FUNC_PROTO(int, action_selection_target_tile, void)
 GUI_FUNC_PROTO(void, action_selection_close, void)
 GUI_FUNC_PROTO(void, action_selection_refresh, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
