@@ -2341,7 +2341,6 @@ bool unit_perform_action(struct player *pplayer,
   struct extra_type *target_extra;
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
-  struct extra_type *tgt = NULL;
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -2530,7 +2529,7 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_FORTIFYING,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_CONVERT:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
@@ -2701,25 +2700,25 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_IRRIGATE,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_MINE_TF:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_MINE,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_PILLAGE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_PILLAGE,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_ROAD:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_GEN_ROAD,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
