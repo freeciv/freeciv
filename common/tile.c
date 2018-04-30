@@ -991,7 +991,7 @@ struct tile *tile_virtual_new(const struct tile *ptile)
   vtile = fc_calloc(1, sizeof(*vtile));
 
   /* initialise some values */
-  vtile->index = -1;
+  vtile->index = TILE_INDEX_NONE;
   vtile->continent = -1;
 
   BV_CLR_ALL(vtile->extras);

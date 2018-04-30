@@ -44,6 +44,8 @@ enum known_type {
                        ((ptile) ? index_to_map_pos_y(tile_index(ptile))      \
                                 : -1)
 
+#define TILE_INDEX_NONE (-1)
+
 struct tile {
   int index; /* Index coordinate of the tile. Used to calculate (x, y) pairs
               * (index_to_map_pos()) and (nat_x, nat_y) pairs
