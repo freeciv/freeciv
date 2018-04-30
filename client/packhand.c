@@ -2578,7 +2578,10 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
       }
     }
 
-    if (tgt_tile) {
+    if (tgt_tile
+        || ((tgt_tile = index_to_tile(&(wld.map),
+                                      action_selection_target_tile()))
+            && tile_owner(tgt_tile) == plr1)) {
       /* The diplomatic relationship to the target in an open action
        * selection dialog have changed. This probably changes
        * the set of available actions. */
