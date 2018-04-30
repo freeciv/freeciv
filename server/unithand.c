@@ -2714,11 +2714,13 @@ bool unit_perform_action(struct player *pplayer,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_PILLAGE,
                                                              &tgt));
+    break;
   case ACTION_ROAD:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_GEN_ROAD,
                                                              &tgt));
+    break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
               "invalid action.",
