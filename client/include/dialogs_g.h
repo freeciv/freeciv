@@ -52,16 +52,17 @@ GUI_FUNC_PROTO(void, popup_combat_info, int attacker_unit_id,
                bool make_att_veteran, bool make_def_veteran)
 GUI_FUNC_PROTO(void, popup_action_selection, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
-               struct tile *target_tile,
+               struct tile *target_tile, struct extra_type *target_extra,
                const struct act_prob *act_probs)
 GUI_FUNC_PROTO(int, action_selection_actor_unit, void)
 GUI_FUNC_PROTO(int, action_selection_target_city, void)
 GUI_FUNC_PROTO(int, action_selection_target_unit, void)
 GUI_FUNC_PROTO(int, action_selection_target_tile, void)
+GUI_FUNC_PROTO(int, action_selection_target_extra, void)
 GUI_FUNC_PROTO(void, action_selection_close, void)
 GUI_FUNC_PROTO(void, action_selection_refresh, struct unit *actor_unit,
                struct city *target_city, struct unit *target_unit,
-               struct tile *target_tile,
+               struct tile *target_tile, struct extra_type *target_extra,
                const struct act_prob *act_probs)
 GUI_FUNC_PROTO(void, action_selection_no_longer_in_progress_gui_specific,
                int actor_unit_id)

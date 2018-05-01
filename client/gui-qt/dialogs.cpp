@@ -1279,6 +1279,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  target_extra_id = EXTRA_NONE;
 
   targeted_unit = nullptr;
   /* No buttons are added yet. */
@@ -1522,7 +1523,8 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
   }
   unit_skip->setParent(nullptr);
   action_selection_refresh(game_unit_by_number(unit_id), nullptr,
-                          targeted_unit, targeted_unit->tile, act_probs);
+                           targeted_unit, targeted_unit->tile,
+                           extra_by_number(target_extra_id), act_probs);
   layout->addLayout(unit_skip);
 }
 
@@ -1540,7 +1542,7 @@ void choice_dialog::switch_target()
                                 unit_id,
                                 targeted_unit->id,
                                 targeted_unit->tile->index,
-                                EXTRA_NONE,
+                                action_selection_target_extra(),
                                 TRUE);
   layout->addLayout(unit_skip);
 }
@@ -1841,6 +1843,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
+                            struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
@@ -1962,6 +1965,12 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_TILE] = tile_index(target_tile);
   } else {
     cd->target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  }
+
+  if (target_extra) {
+    cd->target_extra_id = extra_number(target_extra);
+  } else {
+    cd->target_extra_id = EXTRA_NONE;
   }
 
   /* Unit acting against a city */
@@ -3313,6 +3322,23 @@ int action_selection_target_tile(void)
   }
 }
 
+/**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  choice_dialog *cd = gui()->get_diplo_dialog();
+
+  if (cd != NULL) {
+    return cd->target_extra_id;
+  } else {
+    return EXTRA_NONE;
+  }
+}
+
 /***********************************************************************//**
   Returns id of the target unit of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
@@ -3337,6 +3363,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   choice_dialog *asd;

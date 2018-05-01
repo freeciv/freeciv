@@ -882,7 +882,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                   action_selection_actor_unit(),
                                   action_selection_target_unit(),
                                   city_tile(pcity)->index,
-                                  EXTRA_NONE,
+                                  action_selection_target_extra(),
                                   FALSE);
   }
 
@@ -2589,7 +2589,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
                                     action_selection_actor_unit(),
                                     action_selection_target_unit(),
                                     tgt_tile->index,
-                                    EXTRA_NONE,
+                                    action_selection_target_extra(),
                                     FALSE);
     }
   }
@@ -4696,6 +4696,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
 
   struct tile *target_tile = index_to_tile(&(wld.map), packet->target_tile_id);
+  struct extra_type *target_extra = packet->target_extra_id == EXTRA_NONE ?
+      NULL : extra_by_number(packet->target_extra_id);
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
@@ -4771,7 +4773,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     } else {
       /* Show the client specific action dialog */
       popup_action_selection(actor_unit,
-                             target_city, target_unit, target_tile,
+                             target_city, target_unit,
+                             target_tile, target_extra,
                              act_probs);
     }
   } else if (disturb_player) {
@@ -4785,7 +4788,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     if (action_selection_actor_unit() == actor_unit->id) {
       /* The situation may have changed. */
       action_selection_refresh(actor_unit,
-                               target_city, target_unit, target_tile,
+                               target_city, target_unit,
+                               target_tile, target_extra,
                                act_probs);
     }
   }

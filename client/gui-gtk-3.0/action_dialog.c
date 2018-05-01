@@ -65,6 +65,7 @@ static int action_button_map[BUTTON_COUNT];
 
 static int actor_unit_id;
 static int target_ids[ATK_COUNT];
+static int target_extra_id;
 static bool is_more_user_input_needed = FALSE;
 static bool did_not_decide = FALSE;
 static bool action_selection_restart = FALSE;
@@ -1544,14 +1545,14 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
                                        * unit. */
                                       IDENTITY_NUMBER_ZERO,
                                       tgt_tile->index,
-                                      EXTRA_NONE,
+                                      action_selection_target_extra(),
                                       TRUE);
       } else {
         dsend_packet_unit_get_actions(&client.conn,
                                       actor->id,
                                       tgt_id,
                                       tgt_tile->index,
-                                      EXTRA_NONE,
+                                      action_selection_target_extra(),
                                       TRUE);
       }
     }
@@ -1817,6 +1818,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
+                            struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
   GtkWidget *shl;
@@ -1862,6 +1864,9 @@ void popup_action_selection(struct unit *actor_unit,
   target_ids[ATK_TILE] = target_tile ?
                          tile_index(target_tile) :
                          IDENTITY_NUMBER_ZERO;
+  target_extra_id      = target_extra ?
+                         extra_number(target_extra) :
+                         EXTRA_NONE;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -2078,12 +2083,28 @@ int action_selection_target_tile(void)
 }
 
 /**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  if (act_sel_dialog == NULL) {
+    return EXTRA_NONE;
+  }
+
+  return target_extra_id;
+}
+
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   struct action_data *data;

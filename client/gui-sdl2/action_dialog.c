@@ -52,6 +52,7 @@ typedef int (*act_func)(struct widget *);
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
+  int target_extra_id;
   int action_id;
   struct ADVANCED_DLG *pdialog;
 };
@@ -1636,6 +1637,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
+                            struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
@@ -1701,6 +1703,12 @@ void popup_action_selection(struct unit *actor_unit,
   }
 
   pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
+
+  if (target_extra) {
+    pDiplomat_Dlg->target_extra_id = extra_number(target_extra);
+  } else {
+    pDiplomat_Dlg->target_extra_id = EXTRA_NONE;
+  }
 
   pDiplomat_Dlg->target_ids[ATK_SELF] = actor_unit->id;
 
@@ -1903,12 +1911,28 @@ int action_selection_target_tile(void)
 }
 
 /**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  if (!pDiplomat_Dlg) {
+    return EXTRA_NONE;
+  }
+
+  return pDiplomat_Dlg->target_extra_id;
+}
+
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   /* TODO: port me. */
