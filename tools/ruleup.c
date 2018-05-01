@@ -162,7 +162,7 @@ int main(int argc, char **argv)
       log_error(R__("Failed to load comments.txt"));
     }
 
-    save_ruleset(tgt_dir, rs_selected, &data);
+    save_ruleset(tgt_dir, game.control.name, &data);
     log_normal("Saved %s", tgt_dir);
     comments_free();
   } else {
