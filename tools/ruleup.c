@@ -166,7 +166,10 @@ int main(int argc, char **argv)
       fc_snprintf(tgt_dir, sizeof(tgt_dir), "%s.ruleup", rs_selected);
     }
 
-    comments_load();
+    if (!comments_load()) {
+      log_error(R__("Failed to load comments.txt"));
+    }
+
     save_ruleset(tgt_dir, rs_selected, &data);
     log_normal("Saved %s", tgt_dir);
     comments_free();
