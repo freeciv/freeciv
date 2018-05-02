@@ -1727,7 +1727,7 @@ void popup_action_selection(struct unit *actor_unit,
                actor_unit->id,
                (target_city) ? target_city->id : 0,
                (target_unit) ? target_unit->id : 0,
-               (target_tile) ? target_tile->index : 0,
+               (target_tile) ? target_tile->index : TILE_INDEX_NONE,
                0);
 
   /* Could be caused by the server failing to reply to a request for more
@@ -1755,10 +1755,10 @@ void popup_action_selection(struct unit *actor_unit,
                          IDENTITY_NUMBER_ZERO;
   target_ids[ATK_UNITS] = target_tile ?
                           tile_index(target_tile) :
-                          IDENTITY_NUMBER_ZERO;
+                          TILE_INDEX_NONE;
   target_ids[ATK_TILE] = target_tile ?
                          tile_index(target_tile) :
-                         IDENTITY_NUMBER_ZERO;
+                         TILE_INDEX_NONE;
 
   astr_set(&title,
            /* TRANS: %s is a unit name, e.g., Spy */
@@ -1991,7 +1991,7 @@ void action_selection_refresh(struct unit *actor_unit,
                   actor_unit->id,
                   (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
                   (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
-                  (target_tile) ? target_tile->index : 0,
+                  (target_tile) ? target_tile->index : TILE_INDEX_NONE,
                   0);
 
   action_iterate(act) {
