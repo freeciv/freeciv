@@ -1277,8 +1277,8 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_SELF] = unit_id;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
-  target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
-  target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_UNITS] = TILE_INDEX_NONE;
+  target_id[ATK_TILE] = TILE_INDEX_NONE;
   target_extra_id = EXTRA_NONE;
 
   targeted_unit = nullptr;
@@ -1958,13 +1958,13 @@ void popup_action_selection(struct unit *actor_unit,
   if (target_tile) {
     cd->target_id[ATK_UNITS] = tile_index(target_tile);
   } else {
-    cd->target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
+    cd->target_id[ATK_UNITS] = TILE_INDEX_NONE;
   }
 
   if (target_tile) {
     cd->target_id[ATK_TILE] = tile_index(target_tile);
   } else {
-    cd->target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+    cd->target_id[ATK_TILE] = TILE_INDEX_NONE;
   }
 
   if (target_extra) {
@@ -3458,7 +3458,7 @@ void action_selection_refresh(struct unit *actor_unit,
                       "Action enabled against all units on "
                       "non existing tile!");
 
-        qv2 = IDENTITY_NUMBER_ZERO;
+        qv2 = TILE_INDEX_NONE;
       }
       break;
     case ATK_SELF:
