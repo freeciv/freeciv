@@ -2415,6 +2415,15 @@ void handle_player_info(const struct packet_player_info *pinfo)
 }
 
 /************************************************************************//**
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
+  TODO: Do not generate code calling this in the C-client.
+****************************************************************************/
+void handle_web_player_info_addition(int playerno, int expected_income)
+{
+}
+
+/************************************************************************//**
   Receive a research info packet.
 ****************************************************************************/
 void handle_research_info(const struct packet_research_info *packet)

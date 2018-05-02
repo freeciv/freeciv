@@ -2259,3 +2259,9 @@ PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACK
   TURN granary_turns;
   UINT16 buy_gold_cost;
 end
+
+PACKET_WEB_PLAYER_INFO_ADDITION = 257; sc, is-info
+  PLAYER playerno; key
+
+  UINT32 expected_income;
+end
