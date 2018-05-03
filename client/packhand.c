@@ -894,8 +894,8 @@ void handle_city_info(const struct packet_city_info *packet)
 }
 
 /************************************************************************//**
-  This is packet that only the web-client needs. Regular client has no use
-  for it.
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
   TODO: Do not generate code calling this in C-client.
 ****************************************************************************/
 void handle_web_city_info_addition(int id, int granary_size,
