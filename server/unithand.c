@@ -1513,7 +1513,7 @@ void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
                              const int target_unit_id_client,
                              const int target_tile_id,
-                             const int target_extra_id,
+                             const int target_extra_id_client,
                              const bool disturb_player)
 {
   struct player *actor_player;
@@ -1525,6 +1525,7 @@ void handle_unit_get_actions(struct connection *pc,
   struct extra_type *target_extra;
   int actor_target_distance;
   const struct player_tile *plrtile;
+  int target_extra_id = target_extra_id_client;
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -1537,11 +1538,6 @@ void handle_unit_get_actions(struct connection *pc,
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(&(wld.map), target_tile_id);
-  if (target_extra_id != EXTRA_NONE) {
-    target_extra = extra_by_number(target_extra_id);
-  } else {
-    target_extra = NULL;
-  }
 
   /* Initialize the action probabilities. */
   action_iterate(act) {
@@ -1583,6 +1579,14 @@ void handle_unit_get_actions(struct connection *pc,
                               disturb_player,
                               probabilities);
     return;
+  }
+
+  if (target_extra_id_client == EXTRA_NONE) {
+    /* See if a target extra can be found. */
+    target_extra = action_tgt_tile_extra(actor_unit, target_tile, TRUE);
+  } else {
+    /* Use the client selected target extra. */
+    target_extra = extra_by_number(target_extra_id_client);
   }
 
   /* The player may have outdated information about the target tile.
@@ -1705,6 +1709,13 @@ void handle_unit_get_actions(struct connection *pc,
         target_unit_id = target_unit->id;
         break;
       case ATK_TILE:
+        /* The target tile isn't selected here so it hasn't changed. */
+        fc_assert(target_tile != NULL);
+
+        if (action_requires_details(act)) {
+          /* The target extra may have been set here. */
+          target_extra_id = target_extra->id;
+        }
       case ATK_UNITS:
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);

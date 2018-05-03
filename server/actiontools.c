@@ -783,6 +783,78 @@ struct tile *action_tgt_tile(struct unit *actor,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to the target
+  extra located at the target tile.
+
+  If the owner of the actor unit doesn't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+static bool may_unit_act_vs_tile_extra(const struct unit *actor,
+                                       const struct tile *tgt_tile,
+                                       const struct extra_type *tgt_extra,
+                                       bool accept_all_actions)
+{
+  if (actor == NULL || tgt_tile == NULL || tgt_extra == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+          && action_id_get_target_kind(act) == ATK_TILE
+          && action_requires_details(act))) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_tile(actor, act,
+                                                 tgt_tile, tgt_extra))) {
+      /* The actor unit may be able to do this action to the target
+       * extra. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Find an extra to target for an action at the specified tile.
+
+  Returns the first extra found that the actor may act against at the tile
+  or NULL if no proper target is found. (Note that some actions requires
+  the absence of an extra since they result in its creation while other
+  requires its presence.)
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+struct extra_type *action_tgt_tile_extra(const struct unit *actor,
+                                         const struct tile *target_tile,
+                                         bool accept_all_actions)
+{
+  extra_active_type_iterate(target) {
+    if (may_unit_act_vs_tile_extra(actor, target_tile, target,
+                                   accept_all_actions)) {
+      return target;
+    }
+  } extra_active_type_iterate_end;
+
+  return NULL;
+}
+
+/**********************************************************************//**
   Returns the action auto performer that the specified cause can force the
   specified actor to perform. Returns NULL if no such action auto performer
   exists.
