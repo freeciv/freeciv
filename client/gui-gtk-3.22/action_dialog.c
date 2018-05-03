@@ -1807,8 +1807,8 @@ void popup_action_selection(struct unit *actor_unit,
   struct action_data *data =
       act_data(ACTION_ANY, /* Not decided yet */
                actor_unit->id,
-               (target_city) ? target_city->id : 0,
-               (target_unit) ? target_unit->id : 0,
+               (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
+               (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                (target_tile) ? target_tile->index : TILE_INDEX_NONE,
                0);
 
