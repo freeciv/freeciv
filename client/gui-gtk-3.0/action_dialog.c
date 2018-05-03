@@ -239,6 +239,26 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Road" from the choice dialog
+**************************************************************************/
+static void road_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
+      && NULL != extra_by_number(args->value)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                args->actor_unit_id,
+                                args->target_tile_id, args->value,
+                                0, "", ACTION_ROAD);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected "Explode Nuclear" from the choice dialog
 **************************************************************************/
 static void nuke_callback(GtkWidget *w, gpointer data)
@@ -1728,6 +1748,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = (GCallback)nuke_callback,
   [ACTION_PARADROP] = (GCallback)paradrop_callback,
   [ACTION_ATTACK] = (GCallback)attack_callback,
+  [ACTION_ROAD] = (GCallback)road_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
@@ -1833,7 +1854,7 @@ void popup_action_selection(struct unit *actor_unit,
                (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
                (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                (target_tile) ? target_tile->index : TILE_INDEX_NONE,
-               0);
+               target_extra ? target_extra->id : EXTRA_NONE);
 
   /* Could be caused by the server failing to reply to a request for more
    * information or a bug in the client code. */
@@ -2126,7 +2147,7 @@ void action_selection_refresh(struct unit *actor_unit,
                   (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
                   (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                   (target_tile) ? target_tile->index : TILE_INDEX_NONE,
-                  0);
+                  target_extra ? target_extra->id : EXTRA_NONE);
 
   action_iterate(act) {
     const gchar *custom;
