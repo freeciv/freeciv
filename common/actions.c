@@ -2406,6 +2406,10 @@ is_action_possible(const enum gen_action wanted_action,
     if (target_extra == NULL) {
       return TRI_NO;
     }
+    if (!is_extra_caused_by(target_extra, EC_ROAD)) {
+      /* Reason: This is not a road. */
+      return TRI_NO;
+    }
     if (!can_build_road(extra_road_get(target_extra), actor_unit, target_tile)) {
       return TRI_NO;
     }
