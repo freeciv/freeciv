@@ -1692,7 +1692,7 @@ void handle_unit_get_actions(struct connection *pc,
         break;
       case ATK_TILE:
       case ATK_UNITS:
-        /* The target tile aren't selected here so it haven't changed. */
+        /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
         break;
       case ATK_SELF:
