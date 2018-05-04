@@ -567,7 +567,7 @@ void action_consequence_success(const struct action *paction,
   it looks like the actor unit may be able to do any action to the target
   city.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -631,7 +631,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
   it looks like the actor unit may be able to do any action to the target
   unit.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -698,7 +698,7 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
   Returns NULL if the player knows that the actor unit can't do any
   ATK_UNITS action to all units at the target tile.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act the tile will be returned.
 
   If the only action(s) that can be performed against a target has the
