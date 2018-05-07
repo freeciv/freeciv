@@ -239,6 +239,25 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Pillage" from the choice dialog
+**************************************************************************/
+static void pillage_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                args->actor_unit_id,
+                                args->target_tile_id, args->value,
+                                0, "", ACTION_PILLAGE);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected "Road" from the choice dialog
 **************************************************************************/
 static void road_callback(GtkWidget *w, gpointer data)
@@ -252,6 +271,77 @@ static void road_callback(GtkWidget *w, gpointer data)
                                 args->actor_unit_id,
                                 args->target_tile_id, args->value,
                                 0, "", ACTION_ROAD);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
+  User selected "Build Base" from the choice dialog
+**************************************************************************/
+static void base_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
+      && NULL != extra_by_number(args->value)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                args->actor_unit_id,
+                                args->target_tile_id, args->value,
+                                0, "", ACTION_BASE);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
+  User selected "Transform Terrain" from the choice dialog
+**************************************************************************/
+static void transform_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
+    request_do_action(ACTION_TRANSFORM_TERRAIN, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
+  User selected "Irrigate TF" from the choice dialog
+**************************************************************************/
+static void irrig_tf_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
+    request_do_action(ACTION_IRRIGATE_TF, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
+  User selected "Mine TF" from the choice dialog
+**************************************************************************/
+static void mine_tf_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
+    request_do_action(ACTION_MINE_TF, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -707,6 +797,20 @@ static void disband_unit_callback(GtkWidget *w, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   request_do_action(ACTION_DISBAND_UNIT, args->actor_unit_id,
+                    args->target_unit_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
+  User selected "Fortify" from choice dialog
+**************************************************************************/
+static void fortify_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_FORTIFY, args->actor_unit_id,
                     args->target_unit_id, 0, "");
 
   gtk_widget_destroy(act_sel_dialog);
@@ -1742,10 +1846,16 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = (GCallback)nuke_callback,
   [ACTION_PARADROP] = (GCallback)paradrop_callback,
   [ACTION_ATTACK] = (GCallback)attack_callback,
+  [ACTION_TRANSFORM_TERRAIN] = (GCallback)transform_callback,
+  [ACTION_IRRIGATE_TF] = (GCallback)irrig_tf_callback,
+  [ACTION_MINE_TF] = (GCallback)mine_tf_callback,
+  [ACTION_PILLAGE] = (GCallback)pillage_callback,
   [ACTION_ROAD] = (GCallback)road_callback,
+  [ACTION_BASE] = (GCallback)base_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
+  [ACTION_FORTIFY] = (GCallback)fortify_callback,
   [ACTION_CONVERT] = (GCallback)convert_unit_callback,
 };
 
