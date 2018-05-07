@@ -3375,6 +3375,15 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
 }
 
 /************************************************************************//**
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
+  TODO: Do not generate code calling this in the C-client.
+****************************************************************************/
+void handle_web_ruleset_unit_addition(int id, bv_actions utype_actions)
+{
+}
+
+/************************************************************************//**
   Packet ruleset_unit_bonus handler.
 ****************************************************************************/
 void handle_ruleset_unit_bonus(const struct packet_ruleset_unit_bonus *p)

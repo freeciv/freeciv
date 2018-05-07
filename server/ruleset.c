@@ -6876,6 +6876,9 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
 static void send_ruleset_units(struct conn_list *dest)
 {
   struct packet_ruleset_unit packet;
+#ifdef FREECIV_WEB
+  struct packet_web_ruleset_unit_addition web_packet;
+#endif /* FREECIV_WEB */
   struct packet_ruleset_unit_flag fpacket;
   int i;
 
@@ -6978,7 +6981,20 @@ static void send_ruleset_units(struct conn_list *dest)
 
     packet.worker = u->adv.worker;
 
+#ifdef FREECIV_WEB
+    web_packet.id = utype_number(u);
+
+    BV_CLR_ALL(web_packet.utype_actions);
+
+    action_iterate(act) {
+      if (utype_can_do_action(u, act)) {
+        BV_SET(web_packet.utype_actions, act);
+      }
+    } action_iterate_end;
+#endif /* FREECIV_WEB */
+
     lsend_packet_ruleset_unit(dest, &packet);
+    web_lsend_packet(ruleset_unit_addition, dest, &web_packet);
 
     combat_bonus_list_iterate(u->bonuses, pbonus) {
       struct packet_ruleset_unit_bonus bonuspacket;

@@ -2265,3 +2265,9 @@ PACKET_WEB_PLAYER_INFO_ADDITION = 257; sc, is-info
 
   UINT32 expected_income;
 end
+
+PACKET_WEB_RULESET_UNIT_ADDITION = 258; sc, lsend
+  UNIT_TYPE id; key
+
+  BV_ACTIONS utype_actions;
+end
