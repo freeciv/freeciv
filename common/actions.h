@@ -208,6 +208,28 @@ extern "C" {
 /* No action max distance can be bigger than this. */
 #define ACTION_DISTANCE_MAX ACTION_DISTANCE_UNLIMITED
 
+/* Action target complexity */
+#define SPECENUM_NAME act_tgt_compl
+/* The action's target is just the primary target. (Just the tile, unit,
+ * city, etc). */
+#define SPECENUM_VALUE0 ACT_TGT_COMPL_SIMPLE
+#define SPECENUM_VALUE0NAME N_("simple")
+/* The action's target is complex because its target is the primary target
+ * and a sub target. (Examples: Tile + Extra and City + Building.) The
+ * player is able to specify details about this action but the server will
+ * fill in missing details so a client can choose to not specify the sub
+ * target. */
+#define SPECENUM_VALUE1 ACT_TGT_COMPL_FLEXIBLE
+#define SPECENUM_VALUE1NAME N_("flexible")
+/* The action's target is complex because its target is the primary target
+ * and a sub target. (Examples: Tile + Extra and City + Building.) The
+ * player is required to specify details about this action because the
+ * server won't fill inn the missing details when unspecified. A client must
+ * therefore specify the sub target of this action. */
+#define SPECENUM_VALUE2 ACT_TGT_COMPL_MANDATORY
+#define SPECENUM_VALUE2NAME N_("mandatory")
+#include "specenum_gen.h"
+
 struct action
 {
   enum gen_action id;
@@ -216,10 +238,8 @@ struct action
 
   bool hostile; /* TODO: Should this be a scale in stead? */
 
-  /* Is the player required to specify details about this action? Only true
-   * IFF the action needs details AND the server won't fill them in when
-   * unspecified. */
-  bool requires_details;
+  /* Sub target policy. */
+  enum act_tgt_compl target_complexity;
 
   /* A unit's ability to perform this action will pop up the action
    * selection dialog before the player asks for it only in exceptional
@@ -411,6 +431,7 @@ bool action_has_result(const struct action *paction,
 
 bool action_is_hostile(int action_id);
 
+bool action_id_has_complex_target(int action_id);
 bool action_requires_details(int action_id);
 
 bool action_id_is_rare_pop_up(int action_id);
