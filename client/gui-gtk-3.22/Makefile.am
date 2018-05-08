@@ -86,6 +86,8 @@ libgui_gtk3_22_la_SOURCES = \
 	tileset_dlg.c	\
 	transportdlg.c	\
 	transportdlg.h	\
+	unitselextradlg.c	\
+	unitselextradlg.h	\
 	unitselunitdlg.c	\
 	unitselunitdlg.h	\
 	unitselect.h	\
