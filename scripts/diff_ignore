@@ -57,6 +57,7 @@ ref-add.sed
 ref-del.sed
 fcser
 fcruledit
+fcruleup
 stamp-cat-id
 stamp-h
 stamp-h1
