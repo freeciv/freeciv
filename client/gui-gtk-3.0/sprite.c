@@ -22,6 +22,7 @@
 
 /* client/gui-gtk-3.0 */
 #include "colors.h"
+#include "mapview.h"
 
 #include "sprite.h"
 
@@ -468,4 +469,42 @@ GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height)
   cairo_surface_destroy(tmpsurf);
 
   return pb;
+}
+
+/************************************************************************//**
+  Create a pixbuf containing a representative image for the given extra
+  type, to be used as an icon in the GUI.
+
+  May return NULL on error.
+
+  NB: You must call g_object_unref on the non-NULL return value when you
+  no longer need it.
+****************************************************************************/
+GdkPixbuf *create_extra_pixbuf(const struct extra_type *pextra)
+{
+  struct drawn_sprite sprs[80];
+  int count, w, h, canvas_x, canvas_y;
+  GdkPixbuf *pixbuf;
+  struct canvas canvas = FC_STATIC_CANVAS_INIT;
+  cairo_t *cr;
+
+  w = tileset_tile_width(tileset);
+  h = tileset_tile_height(tileset);
+
+  canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
+  canvas_x = 0;
+  canvas_y = 0;
+
+  cr = cairo_create(canvas.surface);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_paint(cr);
+  cairo_destroy(cr);
+
+  count = fill_basic_extra_sprite_array(tileset, sprs, pextra);
+  put_drawn_sprites(&canvas, 1.0, canvas_x, canvas_y, count, sprs, FALSE);
+
+  pixbuf = surface_get_pixbuf(canvas.surface, w, h);
+  cairo_surface_destroy(canvas.surface);
+
+  return pixbuf;
 }

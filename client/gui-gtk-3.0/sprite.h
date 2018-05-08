@@ -34,4 +34,6 @@ struct sprite *crop_blankspace(struct sprite *s);
 GdkPixbuf *sprite_get_pixbuf(struct sprite *sprite);
 GdkPixbuf *surface_get_pixbuf(cairo_surface_t *surf, int width, int height);
 
+GdkPixbuf *create_extra_pixbuf(const struct extra_type *pextra);
+
 #endif  /* FC__SPRITE_H */
