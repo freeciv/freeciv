@@ -46,16 +46,18 @@
 /* client/gui-gtk-3.22 */
 #include "citydlg.h"
 #include "dialogs.h"
+#include "unitselextradlg.h"
 #include "unitselunitdlg.h"
 #include "wldlg.h"
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
 #define BUTTON_NEW_UNIT_TGT BUTTON_MOVE + 1
-#define BUTTON_LOCATION BUTTON_MOVE + 2
-#define BUTTON_WAIT BUTTON_MOVE + 3
-#define BUTTON_CANCEL BUTTON_MOVE + 4
-#define BUTTON_COUNT BUTTON_MOVE + 5
+#define BUTTON_NEW_EXTRA_TGT BUTTON_MOVE + 2
+#define BUTTON_LOCATION BUTTON_MOVE + 3
+#define BUTTON_WAIT BUTTON_MOVE + 4
+#define BUTTON_CANCEL BUTTON_MOVE + 5
+#define BUTTON_COUNT BUTTON_MOVE + 6
 
 #define BUTTON_NOT_THERE -1
 
@@ -1751,6 +1753,112 @@ static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  Callback from the extra target selection dialog.
+**************************************************************************/
+static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
+{
+  int act_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg), "actor"));
+
+  if (arg == GTK_RESPONSE_YES) {
+    struct unit *actor = game_unit_by_number(act_id);
+
+    if (actor != NULL) {
+      int tgt_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
+                                                     "target"));
+      struct extra_type *tgt_extra = extra_by_number(tgt_id);
+      struct tile *tgt_tile = g_object_get_data(G_OBJECT(dlg), "tile");
+
+      if (tgt_extra == NULL) {
+        /* Make the action dialog pop up again. */
+        dsend_packet_unit_get_actions(&client.conn,
+                                      actor->id,
+                                      action_selection_target_unit(),
+                                      tgt_tile->index,
+                                      /* Let the server choose the target
+                                       * extra. */
+                                      action_selection_target_extra(),
+                                      TRUE);
+      } else {
+        dsend_packet_unit_get_actions(&client.conn,
+                                      actor->id,
+                                      action_selection_target_unit(),
+                                      tgt_tile->index,
+                                      tgt_id,
+                                      TRUE);
+      }
+    }
+  } else {
+    /* Dialog canceled. This ends the action selection process. */
+    action_selection_no_longer_in_progress(act_id);
+  }
+
+  gtk_widget_destroy(dlg);
+}
+
+/**********************************************************************//**
+  Callback from action selection dialog for "Change extra target".
+**************************************************************************/
+static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  struct unit *act_unit;
+  struct extra_type *tgt_extra;
+  struct tile *tgt_tile;
+
+  if ((act_unit = game_unit_by_number(args->actor_unit_id))
+      && (tgt_tile = index_to_tile(&(wld.map), args->target_tile_id))
+      && (tgt_extra = extra_by_number(args->value))) {
+    bv_extras potential_targets;
+
+    /* Start with the extras at the tile */
+    potential_targets = *tile_extras(tgt_tile);
+
+    extra_active_type_iterate(pextra) {
+      if (BV_ISSET(potential_targets, extra_number(pextra))) {
+        /* This extra is at the tile. Can anything be done to it? */
+        if (!(is_extra_removed_by(pextra, ERM_PILLAGE)
+              && unit_can_do_action(act_unit, ACTION_PILLAGE))) {
+          /* TODO: add more extra removal actions as they appear. */
+          BV_CLR(potential_targets, extra_number(pextra));
+        }
+      } else {
+        /* This extra isn't at the tile yet. Can it be created? */
+        if (pextra->buildable
+            && ((is_extra_caused_by(pextra, EC_IRRIGATION)
+                 && unit_can_do_action(act_unit, ACTION_IRRIGATE))
+                || (is_extra_caused_by(pextra, EC_MINE)
+                    && unit_can_do_action(act_unit, ACTION_MINE))
+                || (is_extra_caused_by(pextra, EC_BASE)
+                    && unit_can_do_action(act_unit, ACTION_BASE))
+                || (is_extra_caused_by(pextra, EC_ROAD)
+                    && unit_can_do_action(act_unit, ACTION_ROAD)))) {
+          BV_SET(potential_targets, extra_number(pextra));
+        }
+      }
+    } extra_active_type_iterate_end;
+
+    select_tgt_extra(act_unit, tgt_tile, potential_targets, tgt_extra,
+                     /* TRANS: GTK action selection dialog extra target
+                      * selection dialog title. */
+                     _("Target extra selection"),
+                     /* TRANS: GTK action selection dialog extra target
+                      * selection dialog actor unit label. */
+                     _("Looking for target extra:"),
+                     /* TRANS: GTK action selection dialog extra target
+                      * selection dialog extra list label. */
+                     _("Extra targets:"),
+                     _("Select"),
+                     G_CALLBACK(tgt_extra_change_callback));
+  }
+
+  did_not_decide = TRUE;
+  action_selection_restart = TRUE;
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   Callback from action selection dialog for "Show Location".
 **************************************************************************/
 static void act_sel_location_callback(GtkWidget *w, gpointer data)
@@ -2151,6 +2259,14 @@ void popup_action_selection(struct unit *actor_unit,
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Change unit target"),
                       (GCallback)act_sel_new_unit_tgt_callback,
+                      data, TRUE, NULL);
+  }
+
+  if (target_extra != NULL) {
+    action_button_map[BUTTON_NEW_EXTRA_TGT] =
+        choice_dialog_get_number_of_buttons(shl);
+    choice_dialog_add(shl, _("Change extra target"),
+                      (GCallback)act_sel_new_extra_tgt_callback,
                       data, TRUE, NULL);
   }
 
