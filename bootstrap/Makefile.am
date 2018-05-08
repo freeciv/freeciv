@@ -9,6 +9,7 @@ EXTRA_DIST =	freeciv.project		\
 		fcgui.in		\
 		fcser.in		\
 		fcruledit.in		\
+		fcruleup.in		\
 		fc_gitrev_gen.h.tmpl	\
 		generate_gitrev.sh	\
 		generate_langstat.sh	\
