@@ -90,6 +90,7 @@ client/gui-gtk-3.0/theme_dlg.c
 client/gui-gtk-3.0/tileset_dlg.c
 client/gui-gtk-3.0/transportdlg.c
 client/gui-gtk-3.0/unitselect.c
+client/gui-gtk-3.0/unitselextradlg.c
 client/gui-gtk-3.0/unitselunitdlg.c
 client/gui-gtk-3.0/voteinfo_bar.c
 client/gui-gtk-3.0/wldlg.c
@@ -129,6 +130,7 @@ client/gui-gtk-3.22/theme_dlg.c
 client/gui-gtk-3.22/tileset_dlg.c
 client/gui-gtk-3.22/transportdlg.c
 client/gui-gtk-3.22/unitselect.c
+client/gui-gtk-3.22/unitselextradlg.c
 client/gui-gtk-3.22/unitselunitdlg.c
 client/gui-gtk-3.22/voteinfo_bar.c
 client/gui-gtk-3.22/wldlg.c
