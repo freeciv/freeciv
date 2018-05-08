@@ -807,7 +807,7 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
   action_iterate(act) {
     if (!(action_id_get_actor_kind(act) == AAK_UNIT
           && action_id_get_target_kind(act) == ATK_TILE
-          && action_requires_details(act))) {
+          && action_id_has_complex_target(act))) {
       /* Not a relevant action. */
       continue;
     }

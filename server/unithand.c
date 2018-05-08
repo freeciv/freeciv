@@ -1713,7 +1713,7 @@ void handle_unit_get_actions(struct connection *pc,
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
 
-        if (action_requires_details(act)) {
+        if (target_extra && action_id_has_complex_target(act)) {
           /* The target extra may have been set here. */
           target_extra_id = target_extra->id;
         }
