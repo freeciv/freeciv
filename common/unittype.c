@@ -299,6 +299,9 @@ bool utype_may_act_at_all(const struct unit_type *putype)
 /**************************************************************************
   Return TRUE iff units of the given type can do the specified generalized
   (ruleset defined) action enabler controlled action.
+
+  Note that a specific unit in a specific situation still may be unable to
+  perform the specified action.
 **************************************************************************/
 bool utype_can_do_action(const struct unit_type *putype,
                          const int action_id)
