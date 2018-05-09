@@ -3907,7 +3907,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
                                                      igzoc, FALSE);
-    struct tile *ttile = action_tgt_tile(punit, pdesttile, NULL, can_not_move);
+    struct extra_type *textra = action_tgt_tile_extra(punit, pdesttile,
+                                                      can_not_move);
+    struct tile *ttile = action_tgt_tile(punit, pdesttile, textra,
+                                         can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
@@ -3920,7 +3923,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       if ((action_tgt_unit(punit, pdesttile, can_not_move)
            || action_tgt_city(punit, pdesttile, can_not_move)
            || action_tgt_tile_units(punit, pdesttile, can_not_move)
-           || ttile)
+           || ttile || textra)
           || can_not_move) {
         /* There is a target punit, from the player's point of view, may be
          * able to act against OR punit can't do any non action move. The
