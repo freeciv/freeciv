@@ -544,6 +544,27 @@ Actions done by a unit against a tile
  * the actor unit has "CanPillage" unit class flag
  * terrain type must be one where pillaging is possible
 
+"Road"        - Build road at the target tile.
+ * UI name can be set using ui_name_road
+ * actor must be on the same tile as the target.
+ * the actor unit has the "Settlers" unit type flag
+ * the target tile can't have an extra that the target extra must bridge
+   over (see extra type's bridged_over) unless the actor player knows a
+   tech with the "Bridge" tech flag
+ * the target extra (the extra to be built) is an road
+ * the target tile doesn't already have the target extra
+ * the target extra is buildable (see extra type's buildable)
+ * the target tile's terrain's road_time isn't 0
+ * if the target extra is both a road and a base the target tile's terrain's
+   base_time isn't 0
+ * if the target extra is both a road and a base the target extra can't
+   claim land (see base type's border_sq) if the target tile has a city
+ * to begin a road the build requirements of the target road (see road
+   type's first_reqs) must be fulfilled. Building a road when no (cardinal)
+   adjacent tile has the target extra is considered beginning it.
+ * the build requirements of the target extra (see extra type's reqs) must
+   be fulfilled
+
 "Build Base"        - Build base at the target tile.
  * UI name can be set using ui_name_build_base
  * the actor unit has the "Settlers" unit type flag
