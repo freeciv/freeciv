@@ -5,7 +5,7 @@
 #
 # 1. download and extract the MinGW build environment from
 #    https://sourceforge.net/projects/freeciv/files/dependencies/gnuwin32/
-#    Current version is gnuwin32-2017-07-30.
+#    Current version is gnuwin32-2018-05-11.
 # 2. double click on "gnuwin32/msys.bat"
 # 3. install the development packages:
 #    $ hg qpush -a
