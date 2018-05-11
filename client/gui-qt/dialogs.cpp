@@ -113,10 +113,17 @@ static void capture_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
+static void transform_terrain(QVariant data1, QVariant data2);
+static void irrigate_tf(QVariant data1, QVariant data2);
+static void mine_tf(QVariant data1, QVariant data2);
+static void pillage(QVariant data1, QVariant data2);
+static void road(QVariant data1, QVariant data2);
+static void base(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
+static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
@@ -209,9 +216,16 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_NUKE] = nuke;
   action_function[ACTION_PARADROP] = paradrop;
   action_function[ACTION_ATTACK] = attack;
+  action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
+  action_function[ACTION_IRRIGATE_TF] = irrigate_tf;
+  action_function[ACTION_MINE_TF] = mine_tf;
+  action_function[ACTION_PILLAGE] = pillage;
+  action_function[ACTION_ROAD] = road;
+  action_function[ACTION_BASE] = base;
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
+  action_function[ACTION_FORTIFY] = fortify;
   action_function[ACTION_CONVERT] = convert_unit;
 
   return action_function;
@@ -2214,6 +2228,20 @@ static void disband_unit(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Fortify" for choice dialog
+***************************************************************************/
+static void fortify(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)) {
+    request_do_action(ACTION_FORTIFY, actor_id,
+                      target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
   Action Convert Unit for choice dialog
 ***************************************************************************/
 static void convert_unit(QVariant data1, QVariant data2)
@@ -2323,6 +2351,116 @@ static void found_city(QVariant data1, QVariant data2)
 
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         actor_id);
+}
+
+/***********************************************************************//**
+  Action "Transform Terrain" for choice dialog
+***************************************************************************/
+static void transform_terrain(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_TRANSFORM_TERRAIN,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Irrigate TF" for choice dialog
+***************************************************************************/
+static void irrigate_tf(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_IRRIGATE_TF,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Mine TF" for choice dialog
+***************************************************************************/
+static void mine_tf(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_MINE_TF,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Pillage" for choice dialog
+***************************************************************************/
+static void pillage(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_PILLAGE);
+  }
+}
+
+/***********************************************************************//**
+  Action "Road" for choice dialog
+***************************************************************************/
+static void road(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)
+      && NULL != extra_by_number(action_selection_target_extra())) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_ROAD);
+  }
+}
+
+/***********************************************************************//**
+  Action "Build Base" for choice dialog
+***************************************************************************/
+static void base(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)
+      && NULL != extra_by_number(action_selection_target_extra())) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_BASE);
+  }
 }
 
 /***********************************************************************//**
