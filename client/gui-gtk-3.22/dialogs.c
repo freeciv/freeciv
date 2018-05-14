@@ -63,6 +63,7 @@
 #include "plrdlg.h"
 #include "wldlg.h"
 #include "unitselect.h"
+#include "unitselextradlg.h"
 
 #include "dialogs.h"
 
@@ -94,7 +95,6 @@ static int selected_sex;
 static int selected_style;
 
 static int is_showing_pillage_dialog = FALSE;
-static int unit_to_use_to_pillage;
 
 /**********************************************************************//**
   Popup a generic dialog to display some generic information.
@@ -307,28 +307,28 @@ void popup_revolution_dialog(struct government *government)
 }
 
 /**********************************************************************//**
-  NB: 'data' is a value of enum tile_special_type casted to a pointer.
+  Callback for pillage dialog.
 **************************************************************************/
-static void pillage_callback(GtkWidget *w, gpointer data)
-{
-  struct unit *punit;
-  int what = GPOINTER_TO_INT(data);
-
-  punit = game_unit_by_number(unit_to_use_to_pillage);
-  if (punit) {
-    struct extra_type *target = extra_by_number(what);
-
-    request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE,
-                                       target);
-  }
-}
-
-/**********************************************************************//**
-  Pillage dialog destroyed
-**************************************************************************/
-static void pillage_destroy_callback(GtkWidget *w, gpointer data)
+static void pillage_callback(GtkWidget *dlg, gint arg)
 {
   is_showing_pillage_dialog = FALSE;
+
+  if (arg == GTK_RESPONSE_YES) {
+    int act_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
+                                                   "actor"));
+    struct unit *actor = game_unit_by_number(act_id);
+
+    int tgt_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
+                                                   "target"));
+    struct extra_type *tgt_extra = extra_by_number(tgt_id);
+
+    if (actor && tgt_extra) {
+      request_new_unit_activity_targeted(actor, ACTIVITY_PILLAGE,
+                                         tgt_extra);
+    }
+  }
+
+  gtk_widget_destroy(dlg);
 }
 
 /**********************************************************************//**
@@ -336,36 +336,36 @@ static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 {
-  GtkWidget *shl;
-
   if (!is_showing_pillage_dialog) {
+    /* Possibly legal target extras. */
+    bv_extras alternative;
+    /* Selected by default. */
+    struct extra_type *preferred_tgt;
+    /* Current target to check. */
     struct extra_type *tgt;
 
     is_showing_pillage_dialog = TRUE;
-    unit_to_use_to_pillage = punit->id;
 
-    shl = choice_dialog_start(GTK_WINDOW(toplevel),
-			       _("What To Pillage"),
-			       _("Select what to pillage:"));
+    BV_CLR_ALL(alternative);
+    preferred_tgt = get_preferred_pillage(extras);
 
     while ((tgt = get_preferred_pillage(extras))) {
       int what;
 
       what = extra_index(tgt);
       BV_CLR(extras, what);
-
-      choice_dialog_add(shl, extra_name_translation(tgt),
-                        G_CALLBACK(pillage_callback),
-                        GINT_TO_POINTER(what),
-                        FALSE, NULL);
+      BV_SET(alternative, what);
     }
 
-    choice_dialog_add(shl, _("Cancel"), 0, 0, FALSE, NULL);
-
-    choice_dialog_end(shl);
-
-    g_signal_connect(shl, "destroy", G_CALLBACK(pillage_destroy_callback),
-		     NULL);   
+    select_tgt_extra(punit, unit_tile(punit), alternative, preferred_tgt,
+                     /* TRANS: Pillage dialog title. */
+                     _("What To Pillage"),
+                     /* TRANS: Pillage dialog actor text. */
+                     _("Looking for target extra:"),
+                     /* TRANS: Pillage dialog target text. */
+                     _("Select what to pillage:"),
+                     /* TRANS: Pillage dialog do button text. */
+                     _("Pillage"), G_CALLBACK(pillage_callback));
   }
 }
 
