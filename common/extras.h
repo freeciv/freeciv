@@ -173,7 +173,7 @@ bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextr
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
 
 bool extra_can_be_built(const struct extra_type *pextra, const struct tile *ptile);
-bool can_build_extra(struct extra_type *pextra,
+bool can_build_extra(const struct extra_type *pextra,
                      const struct unit *punit,
                      const struct tile *ptile);
 bool player_can_build_extra(const struct extra_type *pextra,
