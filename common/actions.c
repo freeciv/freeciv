@@ -1773,7 +1773,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_ATTACK:
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
-    /* No hard unit type requirements. */
+    /* No hard unit requirements. */
     break;
 
   case ACTION_COUNT:
