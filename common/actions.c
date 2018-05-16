@@ -1888,7 +1888,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_BASE:
-    /* No hard unit type requirements. */
+    /* No hard unit requirements. */
     break;
 
   case ACTION_COUNT:
