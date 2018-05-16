@@ -665,6 +665,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_CONVERT:
   case ACTION_ROAD:
   case ACTION_BASE:
+  case ACTION_MINE:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2736,6 +2737,12 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_BASE,
+                                                             &target_extra));
+    break;
+  case ACTION_MINE:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_MINE,
                                                              &target_extra));
     break;
   case ACTION_COUNT:
@@ -5008,6 +5015,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_ROAD:
       case ACTION_CONVERT:
       case ACTION_BASE:
+      case ACTION_MINE:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

@@ -1362,6 +1362,26 @@ static int base_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Build Mine"
+**************************************************************************/
+static int mine_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+
+    popdown_diplomat_dialog();
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id, sub_target_id,
+                                0, "", ACTION_MINE);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Explode Nuclear"
 **************************************************************************/
 static int nuke_callback(struct widget *pWidget)
@@ -1636,6 +1656,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_PILLAGE] = pillage_callback,
   [ACTION_ROAD] = road_callback,
   [ACTION_BASE] = base_callback,
+  [ACTION_MINE] = mine_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = disband_unit_callback,

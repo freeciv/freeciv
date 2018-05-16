@@ -609,6 +609,10 @@ static void hard_code_actions(void)
       action_new(ACTION_BASE, ATK_TILE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_MINE] =
+      action_new(ACTION_MINE, ATK_TILE,
+                 FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1676,6 +1680,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_MINE_TF:
   case ACTION_ROAD:
   case ACTION_BASE:
+  case ACTION_MINE:
     if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
       /* Reason: Must have "Settlers" flag. */
       return FALSE;
@@ -1888,6 +1893,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_BASE:
+  case ACTION_MINE:
     /* No hard unit requirements. */
     break;
 
@@ -2444,6 +2450,29 @@ is_action_possible(const enum gen_action wanted_action,
     }
     if (!can_build_base(actor_unit,
                         extra_base_get(target_extra), target_tile)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_MINE:
+    if (target_extra == NULL) {
+      return TRI_NO;
+    }
+    if (!is_extra_caused_by(target_extra, EC_MINE)) {
+      /* Reason: This is not a mine. */
+      return TRI_NO;
+    }
+
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->mining_time == 0) {
+      return TRI_NO;
+    }
+    if (pterrain->mining_result != pterrain) {
+      /* Mining is forbidden or will result in a terrain transformation. */
+      return TRI_NO;
+    }
+
+    if (!can_build_extra(target_extra, actor_unit, target_tile)) {
       return TRI_NO;
     }
     break;
@@ -3453,6 +3482,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
+  case ACTION_MINE:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4497,6 +4527,9 @@ const char *action_ui_name_default(int act)
   case ACTION_BASE:
     /* TRANS: _Build Base (100% chance of success). */
     return N_("%sBuild Base%s");
+  case ACTION_MINE:
+    /* TRANS: Build _Mine (100% chance of success). */
+    return N_("Build %sMine%s");
   }
 
   return NULL;

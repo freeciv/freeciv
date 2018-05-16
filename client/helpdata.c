@@ -2117,7 +2117,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       strvec_clear(extras_vec);
     }
 
-    if (effect_cumulative_max(EFT_MINING_POSSIBLE, &for_utype) > 0) {
+    if (utype_can_do_action(utype, ACTION_MINE)) {
       extra_type_by_cause_iterate(EC_MINE, pextra) {
         if (help_is_extra_buildable(pextra, utype)) {
           strvec_append(extras_vec, extra_name_translation(pextra));

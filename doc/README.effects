@@ -522,11 +522,6 @@ Irrig_Possible
     If value > 0, unit can build irrigation to target tile. In addition to
     requirements given to this effect, unit must also have Settlers flag.
 
-Mining_Possible
-    If value > 0, unit can build mine to target tile. In addition to
-    requirements given to this effect, terrain type must be one to which mine
-    can be built.
-
 Migration_Pct
     Increase the calculated migration score for the a city by amount in
     percent.

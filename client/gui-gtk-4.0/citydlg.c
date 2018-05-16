@@ -2947,7 +2947,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     }
 
     if ((pterr->mining_result == pterr
-         && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0)
+         && univs_have_action_enabler(ACTION_MINE, NULL, &for_terr))
         || (pterr->mining_result != pterr && pterr->mining_result != NULL
             && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Mine"),

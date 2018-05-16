@@ -1165,6 +1165,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       "ui_name_convert_unit");
   save_action_ui_name(sfile, ACTION_BASE,
                       "ui_name_build_base");
+  save_action_ui_name(sfile, ACTION_MINE,
+                      "ui_name_build_mine");
 
   i = 0;
   action_iterate(act) {

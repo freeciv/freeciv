@@ -255,6 +255,10 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
       effect_to_enabler(ACTION_MINE_TF, file, sec_name, compat, type);
       return TRUE;
     }
+    if (!fc_strcasecmp(type, "Mining_Possible")) {
+      effect_to_enabler(ACTION_MINE, file, sec_name, compat, type);
+      return TRUE;
+    }
   }
 
   return FALSE;

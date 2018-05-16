@@ -362,6 +362,9 @@ ui_name_road = _("Build %sRoad%s")
 ; /* TRANS: _Build Base (100% chance of success). */
 ui_name_build_base = _("%sBuild Base%s")
 
+; /* TRANS: Build _Mine (100% chance of success). */
+ui_name_build_mine = _("Build %sMine%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -1049,6 +1052,30 @@ action        = "Build Base"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Settlers",     "Local"
+    }
+
+[actionenabler_mining]
+action        = "Build Mine"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Settlers", "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",       "range", "present"
+      "Terrain",   "Deep Ocean", "Local", FALSE
+    }
+
+[actionenabler_mining_ocean]
+action        = "Build Mine"
+actor_reqs    =
+    { "type",      "name",            "range"
+      "UnitFlag",  "Settlers",        "Local"
+      "Tech",      "Miniaturization", "Player"
+    }
+target_reqs    =
+    { "type",    "name",            "range",  "present"
+      "Terrain", "Deep Ocean",      "Local",  TRUE
     }
 
 [borders]

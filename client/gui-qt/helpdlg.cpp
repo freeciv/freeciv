@@ -1344,7 +1344,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
     if (pterrain->mining_result == pterrain
         && pterrain->mining_time != 0
-        && effect_cumulative_max(EFT_MINING_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_MINE, NULL, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
     if (pterrain->road_time != 0) {

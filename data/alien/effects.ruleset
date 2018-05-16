@@ -947,24 +947,6 @@ reqs    =
     "Tech", "Deep Pumping", "Player"
   }
 
-[effect_mining]
-type    = "Mining_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range", "present"
-    "Terrain", "Thick Mountains", "Local", FALSE
-  }
-
-[effect_mine_mountains]
-type    = "Mining_Possible"
-value   = 1
-reqs    =
-  {
-    "type", "name", "range"
-    "Tech", "Burrowing", "Player"
-    "Terrain", "Thick Mountains", "Local"
-  }
-
 [effect_personal_contact]
 type    = "Spy_Resistant"
 value   = 40

@@ -4136,24 +4136,6 @@ reqs    =
       "Extra", "River", "Local", FALSE
     }
 
-[effect_mining]
-type    = "Mining_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Deep Ocean", "Local", FALSE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-[effect_mining_ocean]
-type    = "Mining_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Deep Ocean", "Local", TRUE
-      "Tech", "Miniaturization", "Player", TRUE
-    }
-
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50
