@@ -6515,6 +6515,7 @@ static void show_scenarios(struct connection *caller)
   
   fileinfo_list_iterate(files, pfile) {
     struct section_file *sf = secfile_load_section(pfile->fullname, "scenario", TRUE);
+
     if (secfile_lookup_bool_default(sf, TRUE, "scenario.is_scenario")) {
         fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
         cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
