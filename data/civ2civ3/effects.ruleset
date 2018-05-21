@@ -4050,21 +4050,12 @@ reqs    =
       "UnitClass", "Sea", "Local", FALSE
     }
 
-[effect_irrigate_src_river]
+[effect_irrigate_src_extra]
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "River", "CAdjacent", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-[effect_irrigate_src_irrigation]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "CAdjacent", TRUE
+      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
       "UnitClass", "Sea", "Local", FALSE
     }
 
@@ -4082,8 +4073,7 @@ reqs    =
     { "type", "name", "range", "present"
       "Terrain", "Desert", "Local", TRUE
       "Extra", "Irrigation", "Local", TRUE
-      "Extra", "Oasis", "Local", FALSE
-      "Extra", "River", "Local", FALSE
+      "ExtraFlag", "AllowsFarmlandOnDesert", "Local", FALSE
     }
 
 [effect_mining]
