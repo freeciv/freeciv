@@ -7,7 +7,7 @@
 
 if test x$1 = x ; then
   # Try to load all rulesets that are developed with Freeciv
-  rulesets="alien civ1 civ2 civ2civ3 classic experimental multiplayer sandbox stub webperimental"
+  rulesets=`cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list.txt`
 else
   # Try to load the specified ruleset(s)
   rulesets=$@
@@ -15,10 +15,7 @@ fi
 
 for ruleset in $rulesets; do
   echo "Loading $ruleset"
-  (echo "lua unsafe-file @abs_top_srcdir@/tests/ruleset_is.lua" \
-   | (EXPECTED_RULESET=$ruleset @abs_top_builddir@/fcser \
-        --Announce none --ruleset $ruleset)) \
-  || exit 1
+  @abs_top_builddir@/tests/rs_test_res/ruleset_loads.sh $ruleset || exit 1
 done
 
 echo "No broken rulesets detected."

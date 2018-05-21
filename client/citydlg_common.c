@@ -1155,11 +1155,11 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
   }
 
   if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
-    return dsend_packet_city_make_specialist(&client.conn, pcity->id, city_x,
-                                             city_y);
+    return dsend_packet_city_make_specialist(&client.conn,
+                                             pcity->id, ptile->index);
   } else if (city_can_work_tile(pcity, ptile)) {
-    return dsend_packet_city_make_worker(&client.conn, pcity->id, city_x,
-                                         city_y);
+    return dsend_packet_city_make_worker(&client.conn,
+                                         pcity->id, ptile->index);
   } else {
     return 0;
   }

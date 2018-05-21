@@ -664,6 +664,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_FORTIFY:
   case ACTION_CONVERT:
   case ACTION_ROAD:
+  case ACTION_BASE:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -1513,7 +1514,7 @@ void handle_unit_get_actions(struct connection *pc,
                              const int actor_unit_id,
                              const int target_unit_id_client,
                              const int target_tile_id,
-                             const int target_extra_id,
+                             const int target_extra_id_client,
                              const bool disturb_player)
 {
   struct player *actor_player;
@@ -1525,6 +1526,7 @@ void handle_unit_get_actions(struct connection *pc,
   struct extra_type *target_extra;
   int actor_target_distance;
   const struct player_tile *plrtile;
+  int target_extra_id = target_extra_id_client;
 
   /* No potentially legal action is known yet. If none is found the player
    * should get an explanation. */
@@ -1537,11 +1539,6 @@ void handle_unit_get_actions(struct connection *pc,
   actor_player = pc->playing;
   actor_unit = game_unit_by_number(actor_unit_id);
   target_tile = index_to_tile(&(wld.map), target_tile_id);
-  if (target_extra_id != EXTRA_NONE) {
-    target_extra = extra_by_number(target_extra_id);
-  } else {
-    target_extra = NULL;
-  }
 
   /* Initialize the action probabilities. */
   action_iterate(act) {
@@ -1553,7 +1550,7 @@ void handle_unit_get_actions(struct connection *pc,
       || actor_unit->owner != actor_player) {
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id,
+                              target_tile_id, target_extra_id,
                               disturb_player,
                               probabilities);
     return;
@@ -1579,10 +1576,18 @@ void handle_unit_get_actions(struct connection *pc,
                   _("Target not at target tile."));
     dsend_packet_unit_actions(pc, actor_unit_id,
                               IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
-                              target_tile_id,
+                              target_tile_id, target_extra_id,
                               disturb_player,
                               probabilities);
     return;
+  }
+
+  if (target_extra_id_client == EXTRA_NONE) {
+    /* See if a target extra can be found. */
+    target_extra = action_tgt_tile_extra(actor_unit, target_tile, TRUE);
+  } else {
+    /* Use the client selected target extra. */
+    target_extra = extra_by_number(target_extra_id_client);
   }
 
   /* The player may have outdated information about the target tile.
@@ -1705,8 +1710,15 @@ void handle_unit_get_actions(struct connection *pc,
         target_unit_id = target_unit->id;
         break;
       case ATK_TILE:
+        /* The target tile isn't selected here so it hasn't changed. */
+        fc_assert(target_tile != NULL);
+
+        if (target_extra && action_id_has_complex_target(act)) {
+          /* The target extra may have been set here. */
+          target_extra_id = target_extra->id;
+        }
       case ATK_UNITS:
-        /* The target tile aren't selected here so it haven't changed. */
+        /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
         break;
       case ATK_SELF:
@@ -1730,7 +1742,7 @@ void handle_unit_get_actions(struct connection *pc,
   /* Send possible actions and targets. */
   dsend_packet_unit_actions(pc,
                             actor_unit_id, target_unit_id, target_city_id,
-                            target_tile_id,
+                            target_tile_id, target_extra_id,
                             disturb_player,
                             probabilities);
 
@@ -2341,7 +2353,6 @@ bool unit_perform_action(struct player *pplayer,
   struct extra_type *target_extra;
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
-  struct extra_type *tgt = NULL;
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -2526,6 +2537,12 @@ bool unit_perform_action(struct player *pplayer,
     /* All consequences are handled by the action system. */
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
+  case ACTION_FORTIFY:
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_FORTIFYING,
+                                                             &target_extra));
+    break;
   case ACTION_CONVERT:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              unit_activity_handling(actor_unit,
@@ -2695,29 +2712,32 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_IRRIGATE,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_MINE_TF:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_MINE,
-                                                             &tgt));
+                                                             &target_extra));
     break;
   case ACTION_PILLAGE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_PILLAGE,
-                                                             &tgt));
-  case ACTION_FORTIFY:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_FORTIFYING,
-                                                             &tgt));
+                                                             &target_extra));
+    break;
   case ACTION_ROAD:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_GEN_ROAD,
-                                                             &tgt));
+                                                             &target_extra));
+    break;
+  case ACTION_BASE:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_BASE,
+                                                             &target_extra));
+    break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "
               "invalid action.",
@@ -3887,7 +3907,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
                                                      igzoc, FALSE);
-    struct tile *ttile = action_tgt_tile(punit, pdesttile, NULL, can_not_move);
+    struct extra_type *textra = action_tgt_tile_extra(punit, pdesttile,
+                                                      can_not_move);
+    struct tile *ttile = action_tgt_tile(punit, pdesttile, textra,
+                                         can_not_move);
 
     /* Consider to pop up the action selection dialog if a potential city,
      * unit or units target exists at the destination tile. A tile target
@@ -3900,7 +3923,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       if ((action_tgt_unit(punit, pdesttile, can_not_move)
            || action_tgt_city(punit, pdesttile, can_not_move)
            || action_tgt_tile_units(punit, pdesttile, can_not_move)
-           || ttile)
+           || ttile || textra)
           || can_not_move) {
         /* There is a target punit, from the player's point of view, may be
          * able to act against OR punit can't do any non action move. The
@@ -4984,6 +5007,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_FORTIFY:
       case ACTION_ROAD:
       case ACTION_CONVERT:
+      case ACTION_BASE:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

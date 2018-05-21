@@ -116,10 +116,11 @@ void popup_revolution_dialog(void)
   should take.
 **************************************************************************/
 void popup_action_selection(struct unit *actor_unit,
-                                   struct city *target_city,
-                                   struct unit *target_unit,
-                                   struct tile *target_tile,
-                                   const struct act_prob *act_probs)
+                            struct city *target_city,
+                            struct unit *target_unit,
+                            struct tile *target_tile,
+                            struct extra_type *target_extra,
+                            const struct act_prob *act_probs)
 {
   /* PORTME */
 }
@@ -261,12 +262,37 @@ int action_selection_target_unit(void)
 }
 
 /**********************************************************************//**
+  Returns id of the target tile of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  tile target. Returns TILE_INDEX_NONE if no action selection dialog is
+  open.
+**************************************************************************/
+int action_selection_target_tile(void)
+{
+  /* PORTME */
+  return TILE_INDEX_NONE;
+}
+
+/**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  /* PORTME */
+  return EXTRA_NONE;
+}
+
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   /* TODO: port me. */

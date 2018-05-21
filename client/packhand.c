@@ -882,7 +882,7 @@ void handle_city_info(const struct packet_city_info *packet)
                                   action_selection_actor_unit(),
                                   action_selection_target_unit(),
                                   city_tile(pcity)->index,
-                                  EXTRA_NONE,
+                                  action_selection_target_extra(),
                                   FALSE);
   }
 
@@ -894,9 +894,9 @@ void handle_city_info(const struct packet_city_info *packet)
 }
 
 /************************************************************************//**
-  This is packet that only the web-client needs. Regular client has no use
-  for it.
-  TODO: Do not generate code calling this in C-client.
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
+  TODO: Do not generate code calling this in the C-client.
 ****************************************************************************/
 void handle_web_city_info_addition(int id, int granary_size,
                                    int granary_turns, int buy_gold_cost)
@@ -2415,6 +2415,15 @@ void handle_player_info(const struct packet_player_info *pinfo)
 }
 
 /************************************************************************//**
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
+  TODO: Do not generate code calling this in the C-client.
+****************************************************************************/
+void handle_web_player_info_addition(int playerno, int expected_income)
+{
+}
+
+/************************************************************************//**
   Receive a research info packet.
 ****************************************************************************/
 void handle_research_info(const struct packet_research_info *packet)
@@ -2578,7 +2587,10 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
       }
     }
 
-    if (tgt_tile) {
+    if (tgt_tile
+        || ((tgt_tile = index_to_tile(&(wld.map),
+                                      action_selection_target_tile()))
+            && tile_owner(tgt_tile) == plr1)) {
       /* The diplomatic relationship to the target in an open action
        * selection dialog have changed. This probably changes
        * the set of available actions. */
@@ -2586,7 +2598,7 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
                                     action_selection_actor_unit(),
                                     action_selection_target_unit(),
                                     tgt_tile->index,
-                                    MAX_EXTRA_TYPES,
+                                    action_selection_target_extra(),
                                     FALSE);
     }
   }
@@ -3360,6 +3372,15 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->adv.worker = p->worker;
 
   tileset_setup_unit_type(tileset, u);
+}
+
+/************************************************************************//**
+  This is a packet that only the web-client needs. The regular client has no
+  use for it.
+  TODO: Do not generate code calling this in the C-client.
+****************************************************************************/
+void handle_web_ruleset_unit_addition(int id, bv_actions utype_actions)
+{
 }
 
 /************************************************************************//**
@@ -4282,7 +4303,11 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
     }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    pnation->init_buildings[i] = packet->init_buildings[i];
+    if (i < packet->init_buildings_count) {
+      pnation->init_buildings[i] = packet->init_buildings[i];
+    } else {
+      pnation->init_buildings[i] = B_LAST;
+    }
   }
 
   tileset_setup_nation_flag(tileset, pnation);
@@ -4392,7 +4417,11 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
     }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    if (i < packet->global_init_buildings_count) {
+      game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    } else {
+      game.rgame.global_init_buildings[i] = B_LAST;
+    }
   }
 
   for (i = 0; i < packet->veteran_levels; i++) {
@@ -4600,6 +4629,7 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
     if (action_prob_possible(act_probs[act])) {
       switch ((enum gen_action)act) {
       case ACTION_DISBAND_UNIT:
+      case ACTION_FORTIFY:
       case ACTION_CONVERT:
         /* Not interesting. */
         break;
@@ -4659,8 +4689,8 @@ static enum gen_action auto_attack_act(const struct act_prob *act_probs)
       case ACTION_IRRIGATE_TF:
       case ACTION_MINE_TF:
       case ACTION_PILLAGE:
-      case ACTION_FORTIFY:
       case ACTION_ROAD:
+      case ACTION_BASE:
         /* An interesting non attack action has been found. */
         return ACTION_NONE;
         break;
@@ -4685,6 +4715,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
 
   struct tile *target_tile = index_to_tile(&(wld.map), packet->target_tile_id);
+  struct extra_type *target_extra = packet->target_extra_id == EXTRA_NONE ?
+      NULL : extra_by_number(packet->target_extra_id);
   struct city *target_city = game_city_by_number(packet->target_city_id);
   struct unit *target_unit = game_unit_by_number(packet->target_unit_id);
 
@@ -4760,7 +4792,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     } else {
       /* Show the client specific action dialog */
       popup_action_selection(actor_unit,
-                             target_city, target_unit, target_tile,
+                             target_city, target_unit,
+                             target_tile, target_extra,
                              act_probs);
     }
   } else if (disturb_player) {
@@ -4774,7 +4807,8 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
     if (action_selection_actor_unit() == actor_unit->id) {
       /* The situation may have changed. */
       action_selection_refresh(actor_unit,
-                               target_city, target_unit, target_tile,
+                               target_city, target_unit,
+                               target_tile, target_extra,
                                act_probs);
     }
   }

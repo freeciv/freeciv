@@ -81,7 +81,9 @@
 struct rgbcolor;
 
 static void package_player_common(struct player *plr,
-                                  struct packet_player_info *packet);
+                                  struct packet_player_info *packet,
+                                  struct packet_web_player_info_addition *
+                                  web_packet);
 
 static void package_player_diplstate(struct player *plr1,
                                      struct player *plr2,
@@ -90,6 +92,8 @@ static void package_player_diplstate(struct player *plr1,
                                      enum plr_info_level min_info_level);
 static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
+                                struct packet_web_player_info_addition *
+                                web_packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level);
 static enum plr_info_level player_info_level(struct player *plr,
@@ -952,6 +956,7 @@ static void send_player_info_c_real(struct player *src,
                                     struct conn_list *dest)
 {
   struct packet_player_info info;
+  struct packet_web_player_info_addition web_info;
 
   fc_assert_ret(src != NULL);
 
@@ -959,19 +964,21 @@ static void send_player_info_c_real(struct player *src,
     dest = game.est_connections;
   }
 
-  package_player_common(src, &info);
+  package_player_common(src, &info, &web_info);
 
   conn_list_iterate(dest, pconn) {
     if (NULL == pconn->playing && pconn->observer) {
       /* Global observer. */
-      package_player_info(src, &info, pconn->playing, INFO_FULL);
+      package_player_info(src, &info, &web_info, pconn->playing, INFO_FULL);
     } else if (NULL != pconn->playing) {
       /* Players (including regular observers) */
-      package_player_info(src, &info, pconn->playing, INFO_MINIMUM);
+      package_player_info(src, &info, &web_info,
+                          pconn->playing, INFO_MINIMUM);
     } else {
-      package_player_info(src, &info, NULL, INFO_MINIMUM);
+      package_player_info(src, &info, &web_info, NULL, INFO_MINIMUM);
     }
     send_packet_player_info(pconn, &info);
+    web_send_packet(player_info_addition, pconn, &web_info);
   } conn_list_iterate_end;
 }
 
@@ -1034,7 +1041,9 @@ static void send_player_diplstate_c_real(struct player *plr1,
   Package player information that is always sent.
 **************************************************************************/
 static void package_player_common(struct player *plr,
-                                  struct packet_player_info *packet)
+                                  struct packet_player_info *packet,
+                                  struct packet_web_player_info_addition *
+                                  web_packet)
 {
   int i;
   struct music_style *music;
@@ -1081,6 +1090,10 @@ static void package_player_common(struct player *plr,
     packet->wonders[i] = plr->wonders[i];
   }
   packet->science_cost = plr->ai_common.science_cost;
+
+#ifdef FREECIV_WEB
+  web_packet->playerno = player_number(plr);
+#endif /* FREECIV_WEB */
 }
 
 /**********************************************************************//**
@@ -1094,6 +1107,8 @@ static void package_player_common(struct player *plr,
 **************************************************************************/
 static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
+                                struct packet_web_player_info_addition *
+                                web_packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level)
 {
@@ -1239,6 +1254,14 @@ static void package_player_info(struct player *plr,
   } else {
     packet->culture         = 0;
   }
+
+#ifdef FREECIV_WEB
+  if (info_level >= INFO_FULL) {
+    web_packet->expected_income = player_get_expected_income(plr);
+  } else {
+    web_packet->expected_income = 0;
+  }
+#endif /* FREECIV_WEB */
 }
 
 /**********************************************************************//**

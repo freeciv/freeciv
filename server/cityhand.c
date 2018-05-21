@@ -126,13 +126,11 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 /**********************************************************************//**
   Handle request to change city worker in to specialist.
 **************************************************************************/
-void handle_city_make_specialist(struct player *pplayer, int city_id,
-                                 int worker_x, int worker_y)
+void handle_city_make_specialist(struct player *pplayer,
+                                 int city_id, int tile_id)
 {
-  struct tile *ptile;
-  struct tile *pcenter;
+  struct tile *ptile = index_to_tile(&(wld.map), tile_id);
   struct city *pcity = player_city_by_number(pplayer, city_id);
-  int city_radius_sq;
 
   if (NULL == pcity) {
     /* Probably lost. */
@@ -141,18 +139,14 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
     return;
   }
 
-  city_radius_sq = city_map_radius_sq_get(pcity);
-  if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
-    log_error("handle_city_make_specialist() invalid city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
+  if (NULL == ptile) {
+    log_error("handle_city_make_specialist() bad tile number %d.", tile_id);
     return;
   }
-  pcenter = city_tile(pcity);
 
-  if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
-                                        worker_y))) {
-    log_error("handle_city_make_specialist() unavailable city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
+  if (!city_map_includes_tile(pcity, ptile)) {
+    log_error("handle_city_make_specialist() tile (%d, %d) not in the "
+              "city map of \"%s\".", TILE_XY(ptile), city_name_get(pcity));
     return;
   }
 
@@ -162,8 +156,8 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
     city_map_update_empty(pcity, ptile);
     pcity->specialists[DEFAULT_SPECIALIST]++;
   } else {
-    log_verbose("handle_city_make_specialist() not working {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name_get(pcity));
+    log_verbose("handle_city_make_specialist() not working (%d, %d) "
+                "\"%s\".", TILE_XY(ptile), city_name_get(pcity));
   }
 
   city_refresh(pcity);
@@ -176,13 +170,11 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   tell which kind of specialist is to be taken, but this just makes worker
   from first available specialist.
 **************************************************************************/
-void handle_city_make_worker(struct player *pplayer, int city_id,
-			     int worker_x, int worker_y)
+void handle_city_make_worker(struct player *pplayer,
+                             int city_id, int tile_id)
 {
-  struct tile *ptile;
-  struct tile *pcenter;
+  struct tile *ptile = index_to_tile(&(wld.map), tile_id);
   struct city *pcity = player_city_by_number(pplayer, city_id);
-  int city_radius_sq = city_map_radius_sq_get(pcity);
 
   if (NULL == pcity) {
     /* Probably lost. */
@@ -190,17 +182,14 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
-    log_error("handle_city_make_worker() invalid city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
+  if (NULL == ptile) {
+    log_error("handle_city_make_worker() bad tile number %d.", tile_id);
     return;
   }
-  pcenter = city_tile(pcity);
 
-  if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
-                                        worker_y))) {
-    log_error("handle_city_make_worker() unavailable city map {%d,%d} "
-              "\"%s\".", worker_x, worker_y, city_name_get(pcity));
+  if (!city_map_includes_tile(pcity, ptile)) {
+    log_error("handle_city_make_worker() tile (%d, %d) not in the "
+              "city map of \"%s\".", TILE_XY(ptile), city_name_get(pcity));
     return;
   }
 
@@ -211,20 +200,20 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   }
 
   if (tile_worked(ptile) == pcity) {
-    log_verbose("handle_city_make_worker() already working {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name_get(pcity));
+    log_verbose("handle_city_make_worker() already working (%d, %d) \"%s\".",
+                TILE_XY(ptile), city_name_get(pcity));
     return;
   }
 
   if (0 == city_specialists(pcity)) {
-    log_verbose("handle_city_make_worker() no specialists {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name_get(pcity));
+    log_verbose("handle_city_make_worker() no specialists (%d, %d) \"%s\".",
+                TILE_XY(ptile), city_name_get(pcity));
     return;
   }
 
   if (!city_can_work_tile(pcity, ptile)) {
-    log_verbose("handle_city_make_worker() cannot work here {%d,%d} \"%s\".",
-                worker_x, worker_y, city_name_get(pcity));
+    log_verbose("handle_city_make_worker() cannot work here (%d, %d) \"%s\".",
+                TILE_XY(ptile), city_name_get(pcity));
     return;
   }
 

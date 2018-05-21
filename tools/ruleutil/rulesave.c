@@ -1163,6 +1163,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       "ui_name_road");
   save_action_ui_name(sfile, ACTION_CONVERT,
                       "ui_name_convert_unit");
+  save_action_ui_name(sfile, ACTION_BASE,
+                      "ui_name_build_base");
 
   i = 0;
   action_iterate(act) {

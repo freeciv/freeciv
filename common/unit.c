@@ -939,17 +939,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
-    return is_action_enabled_unit_on_tile(ACTION_FORTIFY,
-                                          punit, ptile, NULL);
+    return is_action_enabled_unit_on_self(ACTION_FORTIFY,
+                                          punit);
 
   case ACTIVITY_FORTIFIED:
     return FALSE;
 
   case ACTIVITY_BASE:
-    if (target == NULL) {
-      return FALSE;
-    }
-    return can_build_base(punit, extra_base_get(target), ptile);
+    return is_action_enabled_unit_on_tile(ACTION_BASE,
+                                          punit, ptile, target);
 
   case ACTIVITY_GEN_ROAD:
     return is_action_enabled_unit_on_tile(ACTION_ROAD,

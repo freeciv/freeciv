@@ -436,39 +436,34 @@ void *get_packet_from_connection_raw(struct connection *pc,
 
   if (compressed_packet) {
     uLong compressed_size = whole_packet_len - header_size;
-    /* 
-     * We don't know the decompressed size. We assume a bad case
-     * here: an expansion by an factor of 150.
-     * We've had a case where factor of 100 was not big enough.
-     */
-    int decompress_factor = 100;
+    int decompress_factor = 80;
     unsigned long int decompressed_size = decompress_factor * compressed_size;
     int error = Z_DATA_ERROR;
     struct socket_packet_buffer *buffer = pc->buffer;
     void *decompressed = fc_malloc(decompressed_size);
 
     do {
-        error = uncompress (decompressed, &decompressed_size,
-                            ADD_TO_POINTER(buffer->data, header_size),
-                            compressed_size);
+      error =
+        uncompress(decompressed, &decompressed_size,
+                   ADD_TO_POINTER(buffer->data, header_size),
+                   compressed_size);
 
-        if (error == Z_DATA_ERROR) {
-            decompress_factor += 100;
-            decompressed_size = decompress_factor * compressed_size;
-            decompressed = fc_realloc(decompressed, decompressed_size);
+      if (error == Z_DATA_ERROR) {
+        decompress_factor += 50;
+        decompressed_size = decompress_factor * compressed_size;
+        decompressed = fc_realloc(decompressed, decompressed_size);
+      }
+
+      if (error != Z_OK) {
+        if (error != Z_DATA_ERROR || decompress_factor > MAX_DECOMPRESSION ) {
+          log_verbose("Uncompressing of the packet stream failed. "
+                      "The connection will be closed now.");
+          connection_close(pc, _("decoding error"));
+          return NULL;
         }
+      }
 
-        if (error != Z_OK) {
-            if (error != Z_DATA_ERROR || decompress_factor > MAX_DECOMPRESSION) {
-                log_verbose("Uncompressing of the packet stream failed. "
-                            "The connection will be closed now.");
-                connection_close (pc, _("decoding error"));
-                return NULL;
-            }
-        }
-
-    }
-    while (error != Z_OK);
+    } while (error != Z_OK);
 
     buffer->ndata -= whole_packet_len;
     /* 

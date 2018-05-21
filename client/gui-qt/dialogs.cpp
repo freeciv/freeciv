@@ -113,9 +113,17 @@ static void capture_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
+static void transform_terrain(QVariant data1, QVariant data2);
+static void irrigate_tf(QVariant data1, QVariant data2);
+static void mine_tf(QVariant data1, QVariant data2);
+static void pillage(QVariant data1, QVariant data2);
+static void road(QVariant data1, QVariant data2);
+static void base(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
+static void convert_unit(QVariant data1, QVariant data2);
+static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
@@ -208,9 +216,17 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_NUKE] = nuke;
   action_function[ACTION_PARADROP] = paradrop;
   action_function[ACTION_ATTACK] = attack;
+  action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
+  action_function[ACTION_IRRIGATE_TF] = irrigate_tf;
+  action_function[ACTION_MINE_TF] = mine_tf;
+  action_function[ACTION_PILLAGE] = pillage;
+  action_function[ACTION_ROAD] = road;
+  action_function[ACTION_BASE] = base;
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
+  action_function[ACTION_FORTIFY] = fortify;
+  action_function[ACTION_CONVERT] = convert_unit;
 
   return action_function;
 }
@@ -1275,8 +1291,9 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_SELF] = unit_id;
   target_id[ATK_CITY] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
-  target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
-  target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+  target_id[ATK_UNITS] = TILE_INDEX_NONE;
+  target_id[ATK_TILE] = TILE_INDEX_NONE;
+  target_extra_id = EXTRA_NONE;
 
   targeted_unit = nullptr;
   /* No buttons are added yet. */
@@ -1520,7 +1537,8 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
   }
   unit_skip->setParent(nullptr);
   action_selection_refresh(game_unit_by_number(unit_id), nullptr,
-                          targeted_unit, targeted_unit->tile, act_probs);
+                           targeted_unit, targeted_unit->tile,
+                           extra_by_number(target_extra_id), act_probs);
   layout->addLayout(unit_skip);
 }
 
@@ -1538,7 +1556,7 @@ void choice_dialog::switch_target()
                                 unit_id,
                                 targeted_unit->id,
                                 targeted_unit->tile->index,
-                                EXTRA_NONE,
+                                action_selection_target_extra(),
                                 TRUE);
   layout->addLayout(unit_skip);
 }
@@ -1839,6 +1857,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
+                            struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
   struct astring title = ASTRING_INIT, text = ASTRING_INIT;
@@ -1953,13 +1972,19 @@ void popup_action_selection(struct unit *actor_unit,
   if (target_tile) {
     cd->target_id[ATK_UNITS] = tile_index(target_tile);
   } else {
-    cd->target_id[ATK_UNITS] = IDENTITY_NUMBER_ZERO;
+    cd->target_id[ATK_UNITS] = TILE_INDEX_NONE;
   }
 
   if (target_tile) {
     cd->target_id[ATK_TILE] = tile_index(target_tile);
   } else {
-    cd->target_id[ATK_TILE] = IDENTITY_NUMBER_ZERO;
+    cd->target_id[ATK_TILE] = TILE_INDEX_NONE;
+  }
+
+  if (target_extra) {
+    cd->target_extra_id = extra_number(target_extra);
+  } else {
+    cd->target_extra_id = EXTRA_NONE;
   }
 
   /* Unit acting against a city */
@@ -2203,6 +2228,32 @@ static void disband_unit(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
+  Action "Fortify" for choice dialog
+***************************************************************************/
+static void fortify(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)) {
+    request_do_action(ACTION_FORTIFY, actor_id,
+                      target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action Convert Unit for choice dialog
+***************************************************************************/
+static void convert_unit(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_CONVERT, actor_id,
+                    target_id, 0, "");
+}
+
+/***********************************************************************//**
   Action bribe unit for choice dialog
 ***************************************************************************/
 static void diplomat_bribe(QVariant data1, QVariant data2)
@@ -2300,6 +2351,116 @@ static void found_city(QVariant data1, QVariant data2)
 
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         actor_id);
+}
+
+/***********************************************************************//**
+  Action "Transform Terrain" for choice dialog
+***************************************************************************/
+static void transform_terrain(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_TRANSFORM_TERRAIN,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Irrigate TF" for choice dialog
+***************************************************************************/
+static void irrigate_tf(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_IRRIGATE_TF,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Mine TF" for choice dialog
+***************************************************************************/
+static void mine_tf(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_MINE_TF,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Pillage" for choice dialog
+***************************************************************************/
+static void pillage(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_PILLAGE);
+  }
+}
+
+/***********************************************************************//**
+  Action "Road" for choice dialog
+***************************************************************************/
+static void road(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)
+      && NULL != extra_by_number(action_selection_target_extra())) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_ROAD);
+  }
+}
+
+/***********************************************************************//**
+  Action "Build Base" for choice dialog
+***************************************************************************/
+static void base(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)
+      && NULL != extra_by_number(action_selection_target_extra())) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_BASE);
+  }
 }
 
 /***********************************************************************//**
@@ -3283,6 +3444,40 @@ int action_selection_target_city(void)
 }
 
 /***********************************************************************//**
+  Returns id of the target tile of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  tile target. Returns TILE_INDEX_NONE if no action selection dialog is
+  open.
+***************************************************************************/
+int action_selection_target_tile(void)
+{
+  choice_dialog *cd = gui()->get_diplo_dialog();
+
+  if (cd != NULL) {
+    return cd->target_id[ATK_TILE];
+  } else {
+    return TILE_INDEX_NONE;
+  }
+}
+
+/**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  choice_dialog *cd = gui()->get_diplo_dialog();
+
+  if (cd != NULL) {
+    return cd->target_extra_id;
+  } else {
+    return EXTRA_NONE;
+  }
+}
+
+/***********************************************************************//**
   Returns id of the target unit of the actions currently handled in action
   selection dialog when the action selection dialog is open and it has a
   unit target. Returns IDENTITY_NUMBER_ZERO if no action selection dialog
@@ -3306,6 +3501,7 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   choice_dialog *asd;
@@ -3400,7 +3596,7 @@ void action_selection_refresh(struct unit *actor_unit,
                       "Action enabled against all units on "
                       "non existing tile!");
 
-        qv2 = IDENTITY_NUMBER_ZERO;
+        qv2 = TILE_INDEX_NONE;
       }
       break;
     case ATK_SELF:

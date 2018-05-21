@@ -52,6 +52,7 @@ typedef int (*act_func)(struct widget *);
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
+  int target_extra_id;
   int action_id;
   struct ADVANCED_DLG *pdialog;
 };
@@ -1250,6 +1251,117 @@ static int found_city_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Transform Terrain"
+**************************************************************************/
+static int transform_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_TRANSFORM_TERRAIN,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Irrigate TF"
+**************************************************************************/
+static int irrig_tf_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_IRRIGATE_TF,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Mine TF"
+**************************************************************************/
+static int mine_tf_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_MINE_TF,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Pillage"
+**************************************************************************/
+static int pillage_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+
+    popdown_diplomat_dialog();
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id, sub_target_id,
+                                0, "", ACTION_PILLAGE);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Road"
+**************************************************************************/
+static int road_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+
+    popdown_diplomat_dialog();
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id, sub_target_id,
+                                0, "", ACTION_ROAD);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Build Base"
+**************************************************************************/
+static int base_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+
+    popdown_diplomat_dialog();
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id, sub_target_id,
+                                0, "", ACTION_BASE);
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Explode Nuclear"
 **************************************************************************/
 static int nuke_callback(struct widget *pWidget)
@@ -1311,6 +1423,40 @@ static int disband_unit_callback(struct widget *pWidget)
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_DISBAND_UNIT,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Fortify"
+**************************************************************************/
+static int fortify_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_FORTIFY,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
+  User clicked "Convert Unit"
+**************************************************************************/
+static int convert_unit_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_CONVERT,
                       actor_id, target_id, 0, "");
   }
 
@@ -1484,9 +1630,17 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = nuke_callback,
   [ACTION_PARADROP] = paradrop_callback,
   [ACTION_ATTACK] = attack_callback,
+  [ACTION_TRANSFORM_TERRAIN] = transform_callback,
+  [ACTION_IRRIGATE_TF] = irrig_tf_callback,
+  [ACTION_MINE_TF] = mine_tf_callback,
+  [ACTION_PILLAGE] = pillage_callback,
+  [ACTION_ROAD] = road_callback,
+  [ACTION_BASE] = base_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = disband_unit_callback,
+  [ACTION_FORTIFY] = fortify_callback,
+  [ACTION_CONVERT] = convert_unit_callback,
 };
 
 /**********************************************************************//**
@@ -1618,6 +1772,7 @@ void popup_action_selection(struct unit *actor_unit,
                             struct city *target_city,
                             struct unit *target_unit,
                             struct tile *target_tile,
+                            struct extra_type *target_extra,
                             const struct act_prob *act_probs)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
@@ -1683,6 +1838,12 @@ void popup_action_selection(struct unit *actor_unit,
   }
 
   pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
+
+  if (target_extra) {
+    pDiplomat_Dlg->target_extra_id = extra_number(target_extra);
+  } else {
+    pDiplomat_Dlg->target_extra_id = EXTRA_NONE;
+  }
 
   pDiplomat_Dlg->target_ids[ATK_SELF] = actor_unit->id;
 
@@ -1870,12 +2031,43 @@ int action_selection_target_unit(void)
 }
 
 /**********************************************************************//**
+  Returns id of the target tile of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  tile target. Returns TILE_INDEX_NONE if no action selection dialog is
+  open.
+**************************************************************************/
+int action_selection_target_tile(void)
+{
+  if (!pDiplomat_Dlg) {
+    return TILE_INDEX_NONE;
+  }
+
+  return pDiplomat_Dlg->target_ids[ATK_TILE];
+}
+
+/**********************************************************************//**
+  Returns id of the target extra of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has an
+  extra target. Returns EXTRA_NONE if no action selection dialog is open
+  or no extra target is present in the action selection dialog.
+**************************************************************************/
+int action_selection_target_extra(void)
+{
+  if (!pDiplomat_Dlg) {
+    return EXTRA_NONE;
+  }
+
+  return pDiplomat_Dlg->target_extra_id;
+}
+
+/**********************************************************************//**
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
                               struct city *target_city,
                               struct unit *target_unit,
                               struct tile *target_tile,
+                              struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
   /* TODO: port me. */

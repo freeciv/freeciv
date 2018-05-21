@@ -50,6 +50,10 @@ struct tile *action_tgt_tile(struct unit *actor,
                              const struct extra_type *target_extra,
                              bool accept_all_actions);
 
+struct extra_type *action_tgt_tile_extra(const struct unit *actor,
+                                         const struct tile *target_tile,
+                                         bool accept_all_actions);
+
 const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,

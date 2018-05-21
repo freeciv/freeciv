@@ -1761,6 +1761,8 @@ if test "x$ruledit" = "xyes" ; then
   AC_CONFIG_FILES([fcruledit:bootstrap/fcruledit.in], [chmod +x fcruledit])
 fi
 AC_CONFIG_FILES([tests/rulesets_not_broken.sh], [chmod +x tests/rulesets_not_broken.sh])
+AC_CONFIG_FILES([tests/rs_test_res/ruleset_loads.sh],
+                [chmod +x tests/rs_test_res/ruleset_loads.sh])
 
 AC_OUTPUT
 

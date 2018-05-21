@@ -60,9 +60,9 @@ void action_success_actor_consume(struct action *paction,
 **************************************************************************/
 static void action_give_casus_belli(struct player *offender,
                                     struct player *victim_player,
-                                    const bool global)
+                                    const bool int_outrage)
 {
-  if (global) {
+  if (int_outrage) {
     /* This action is seen as a reason for any other player, no matter who
      * the victim was, to declare war on the actor. It could be used to
      * label certain actions atrocities in rule sets where international
@@ -171,8 +171,9 @@ static void action_consequence_common(const struct action *paction,
     /* In this situation the specified action provides a casus belli
      * against the actor. */
 
-    /* This isn't just between the offender and the victim. */
-    const bool global = casus_belli_amount >= 1000;
+    /* International outrage: This isn't just between the offender and the
+     * victim. */
+    const bool int_outrage = casus_belli_amount >= 1000;
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,
@@ -180,7 +181,7 @@ static void action_consequence_common(const struct action *paction,
     notify_victim(victim_player, paction, offender, victim_player,
                   victim_tile, victim_link);
 
-    if (global) {
+    if (int_outrage) {
       /* Every other player gets a casus belli against the actor. Tell each
        * players about it. */
       players_iterate(oplayer) {
@@ -190,7 +191,7 @@ static void action_consequence_common(const struct action *paction,
     }
 
     /* Give casus belli. */
-    action_give_casus_belli(offender, victim_player, global);
+    action_give_casus_belli(offender, victim_player, int_outrage);
 
     /* Notify players controlled by the built in AI. */
     action_notify_ai(paction, offender, victim_player);
@@ -566,7 +567,7 @@ void action_consequence_success(const struct action *paction,
   it looks like the actor unit may be able to do any action to the target
   city.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -630,7 +631,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
   it looks like the actor unit may be able to do any action to the target
   unit.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -697,7 +698,7 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
   Returns NULL if the player knows that the actor unit can't do any
   ATK_UNITS action to all units at the target tile.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act the tile will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -777,6 +778,78 @@ struct tile *action_tgt_tile(struct unit *actor,
       return target;
     }
   } action_iterate_end;
+
+  return NULL;
+}
+
+/**********************************************************************//**
+  Returns TRUE iff, from the point of view of the owner of the actor unit,
+  it looks like the actor unit may be able to do any action to the target
+  extra located at the target tile.
+
+  If the owner of the actor unit doesn't have the knowledge needed to know
+  for sure if the unit can act TRUE will be returned.
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+static bool may_unit_act_vs_tile_extra(const struct unit *actor,
+                                       const struct tile *tgt_tile,
+                                       const struct extra_type *tgt_extra,
+                                       bool accept_all_actions)
+{
+  if (actor == NULL || tgt_tile == NULL || tgt_extra == NULL) {
+    /* Can't do any actions if actor or target are missing. */
+    return FALSE;
+  }
+
+  action_iterate(act) {
+    if (!(action_id_get_actor_kind(act) == AAK_UNIT
+          && action_id_get_target_kind(act) == ATK_TILE
+          && action_id_has_complex_target(act))) {
+      /* Not a relevant action. */
+      continue;
+    }
+
+    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
+      /* Not relevant since not accepted here. */
+      continue;
+    }
+
+    if (action_prob_possible(action_prob_vs_tile(actor, act,
+                                                 tgt_tile, tgt_extra))) {
+      /* The actor unit may be able to do this action to the target
+       * extra. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Find an extra to target for an action at the specified tile.
+
+  Returns the first extra found that the actor may act against at the tile
+  or NULL if no proper target is found. (Note that some actions requires
+  the absence of an extra since they result in its creation while other
+  requires its presence.)
+
+  If the only action(s) that can be performed against a target has the
+  rare_pop_up property the target will only be considered valid if the
+  accept_all_actions argument is TRUE.
+**************************************************************************/
+struct extra_type *action_tgt_tile_extra(const struct unit *actor,
+                                         const struct tile *target_tile,
+                                         bool accept_all_actions)
+{
+  extra_active_type_iterate(target) {
+    if (may_unit_act_vs_tile_extra(actor, target_tile, target,
+                                   accept_all_actions)) {
+      return target;
+    }
+  } extra_active_type_iterate_end;
 
   return NULL;
 }
