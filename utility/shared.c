@@ -585,9 +585,9 @@ char *user_home_dir(void)
   if (home_dir_user == NULL) {
     char *env = getenv("HOME");
 
-    if (!env) {
-        env = getenv("APPDATA");
-    }
+#ifdef FREECIV_MSWINDOWS
+    env = getenv("APPDATA");
+#endif /* FREECIV_MSWINDOWS */
 
     if (env) {
       home_dir_user = fc_strdup(env);
