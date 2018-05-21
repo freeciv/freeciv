@@ -40,6 +40,8 @@ extra_flags =
     _("DiplomatDefense"),
         ; /* xgettext:no-c-format */
         _("Diplomatic units get a 25% defense bonus in diplomatic fights.")
+    _("IrrigationSource")
+    _("AllowsFarmlandOnDesert")
   }
 
 [parameters]
@@ -1144,6 +1146,7 @@ build_time     = 0
 removal_time   = 0
 conflicts      = "Mine", "Oil Well"
 hidden_by      = "Farmland"
+flags          = "IrrigationSource"
 helptext       = _("\
 Building an irrigation system on a suitable tile causes it to \
 produce some extra food each turn. Most tiles yield one extra food; \
@@ -1745,7 +1748,7 @@ rmact_gfx_alt  = "-"
 buildable      = FALSE
 native_to      = "Land", "Small Land", "Merchant", "Trireme"
 defense_bonus  = 25
-flags          = "NativeTile"
+flags          = "NativeTile", "IrrigationSource", "AllowsFarmlandOnDesert"
 ; /* xgettext:no-c-format */
 helptext       = _("\
 Any land terrain type may have a River on it. A River adds 1\
@@ -1905,6 +1908,7 @@ act_gfx_alt    = "-"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
+flags          = "AllowsFarmlandOnDesert"
 
 [extra_peat]
 name           = _("Peat")
