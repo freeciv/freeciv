@@ -119,7 +119,8 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   GtkWidget *lbl;
   GtkWidget *sep;
   GtkWidget *radio;
-  GSList *radio_group = NULL;
+  GtkWidget *default_option = NULL;
+  GtkWidget *first_option = NULL;
   struct sprite *spr;
   struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
@@ -177,17 +178,26 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
     cbdata->tp_id = ptgt->id;
     cbdata->dlg = dlg;
 
-    radio = gtk_radio_button_new(radio_group);
-    if (radio_group == NULL) {
-      radio_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(radio));
-      unit_sel_extra_toggled(GTK_TOGGLE_BUTTON(radio), cbdata);
+    radio = gtk_radio_button_new_from_widget(
+          GTK_RADIO_BUTTON(first_option));
+    if (first_option == NULL) {
+      first_option = radio;
+      default_option = first_option;
     }
+    /* The lists must be the same length if they contain the same
+     * elements. */
+    fc_assert_msg(g_slist_length(gtk_radio_button_get_group(
+                                   GTK_RADIO_BUTTON(radio)))
+                  == g_slist_length(gtk_radio_button_get_group(
+                                      GTK_RADIO_BUTTON(first_option))),
+                  "The radio button for '%s' is broken.",
+                  extra_rule_name(ptgt));
     g_signal_connect(radio, "toggled",
                      G_CALLBACK(unit_sel_extra_toggled), cbdata);
     g_signal_connect(radio, "destroy",
                      G_CALLBACK(unit_sel_extra_destroyed), cbdata);
     if (ptgt == suggested_tgt_extra) {
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+      default_option = radio;
     }
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
@@ -206,6 +216,9 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
     tcount++;
   } extra_active_type_iterate_end;
   gtk_container_add(GTK_CONTAINER(main_box), box);
+
+  fc_assert_ret_val(default_option, FALSE);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(default_option), TRUE);
 
   gtk_container_add(
               GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
