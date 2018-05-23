@@ -2900,7 +2900,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
     }
     if ((pterr->irrigation_result == pterr
-         && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0)
+         && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr))
         || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
             && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Irrigate"),

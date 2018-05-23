@@ -1339,7 +1339,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->irrigation_result == pterrain
         && pterrain->irrigation_time != 0
-        && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain

@@ -1389,7 +1389,7 @@ act_gfx_alt2   = "unit.irrigate"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 ; Note, there are extra restrictions on where farmland can be built
-; through Irrig_Possible effects
+; through "Build Irrigation" action enablers
 reqs           =
     { "type", "name", "range"
       "Tech", "Refrigeration", "Player"

@@ -673,22 +673,6 @@ bool is_safe_ocean(const struct civ_map *nmap, const struct tile *ptile)
 }
 
 /*******************************************************************//**
-  Can tile be irrigated by given unit? Unit can be NULL to check if
-  any settler type unit of any player can irrigate.
-***********************************************************************/
-bool can_be_irrigated(const struct tile *ptile,
-                      const struct unit *punit)
-{
-  struct terrain* pterrain = tile_terrain(ptile);
-
-  if (T_UNKNOWN == pterrain) {
-    return FALSE;
-  }
-
-  return get_tile_bonus(ptile, punit, EFT_IRRIG_POSSIBLE) > 0;
-}
-
-/*******************************************************************//**
   This function returns true if the tile at the given location can be
   "reclaimed" from ocean into land.  This is the case only when there are
   a sufficient number of adjacent tiles that are not ocean.

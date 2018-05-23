@@ -1327,7 +1327,7 @@ void city_map::context_menu(QPoint point)
       && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) {
     con_menu.addAction(&con_irrig_tf);
   } else if (pterr->irrigation_result == pterr
-             && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+             && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr)) {
     con_menu.addAction(&con_irrig);
   }
 

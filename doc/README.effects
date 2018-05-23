@@ -518,10 +518,6 @@ Shield2Gold_Factor
 Tile_Workable
     If value > 0, city can work target tile.
 
-Irrig_Possible
-    If value > 0, unit can build irrigation to target tile. In addition to
-    requirements given to this effect, unit must also have Settlers flag.
-
 Migration_Pct
     Increase the calculated migration score for the a city by amount in
     percent.

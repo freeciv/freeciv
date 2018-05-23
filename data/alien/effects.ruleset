@@ -885,68 +885,6 @@ reqs    =
 type    = "City_Build_Slots"
 value   = 1
 
-[effect_irrigate_src_ocean]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Manufacturing", "Player"
-    "TerrainClass", "Oceanic", "CAdjacent"
-  }
-
-[effect_irrigate_src_green_river]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Manufacturing", "Player"
-    "Extra", "Green River", "Local"
-  }
-
-[effect_irrigate_src_brown_river]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Manufacturing", "Player"
-    "Extra", "Brown River", "Local"
-  }
-
-[effect_irrigate_src_green_river_adjacent]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Water Flow", "Player"
-    "Extra", "Green River", "CAdjacent"
-  }
-
-[effect_irrigate_src_brown_river_adjacent]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Water Flow", "Player"
-    "Extra", "Brown River", "CAdjacent"
-  }
-
-[effect_irrigate_src_citycenter]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Water Flow", "Player"
-    "CityTile", "Center", "Adjacent"
-  }
-
-[effect_irrigate_deep_pumping]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-  { "type", "name", "range"
-    "Tech", "Deep Pumping", "Player"
-  }
-
 [effect_personal_contact]
 type    = "Spy_Resistant"
 value   = 40

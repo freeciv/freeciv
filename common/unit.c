@@ -897,28 +897,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
       return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
                                             punit, ptile, NULL);
-    }
-
-    if (pterrain->irrigation_result != pterrain) {
-      return FALSE;
-    }
-
-    if (target == NULL) {
-      return FALSE;
-    }
-
-    if (pterrain->irrigation_time == 0) {
-      return FALSE;
-    }
-
-    if (!is_extra_caused_by(target, EC_IRRIGATION)) {
-      return FALSE;
-    }
-
-    if (unit_has_type_flag(punit, UTYF_SETTLERS)
-        && can_build_extra(target, punit, ptile)
-        && can_be_irrigated(ptile, punit)) {
-      return TRUE;
+    } else if (pterrain->irrigation_result == pterrain) {
+      return is_action_enabled_unit_on_tile(ACTION_IRRIGATE, punit,
+                                            ptile, target);
     } else {
       return FALSE;
     }

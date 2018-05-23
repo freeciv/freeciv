@@ -318,6 +318,26 @@ static void mine_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Build Irrigation" from the choice dialog
+**************************************************************************/
+static void irrigate_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
+      && NULL != extra_by_number(args->value)) {
+    dsend_packet_unit_do_action(&client.conn,
+                                args->actor_unit_id,
+                                args->target_tile_id, args->value,
+                                0, "", ACTION_IRRIGATE);
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected "Transform Terrain" from the choice dialog
 **************************************************************************/
 static void transform_callback(GtkWidget *w, gpointer data)
@@ -1873,6 +1893,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_ROAD] = (GCallback)road_callback,
   [ACTION_BASE] = (GCallback)base_callback,
   [ACTION_MINE] = (GCallback)mine_callback,
+  [ACTION_IRRIGATE] = (GCallback)irrigate_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,

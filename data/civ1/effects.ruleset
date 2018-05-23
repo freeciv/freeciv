@@ -1376,30 +1376,6 @@ reqs	=
       "Extra", "Mine", "Local", FALSE
     }
 
-[effect_irrigate_src_ocean]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "TerrainClass", "Oceanic", "CAdjacent"
-    }
-
-[effect_irrigate_src_river]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Extra", "River", "CAdjacent"
-    }
-
-[effect_irrigate_src_irrigation]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range"
-      "Extra", "Irrigation", "CAdjacent"
-    }
-
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50

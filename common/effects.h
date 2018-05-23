@@ -229,8 +229,8 @@ extern "C" {
 /* The index for the city image of the given city style. */
 #define SPECENUM_VALUE83 EFT_CITY_IMAGE
 #define SPECENUM_VALUE83NAME "City_Image"
-#define SPECENUM_VALUE84 EFT_IRRIG_POSSIBLE
-#define SPECENUM_VALUE84NAME "Irrig_Possible"
+#define SPECENUM_VALUE84 EFT_UNUSED4
+#define SPECENUM_VALUE84NAME "Unused#4"
 #define SPECENUM_VALUE85 EFT_MAX_TRADE_ROUTES
 #define SPECENUM_VALUE85NAME "Max_Trade_Routes"
 #define SPECENUM_VALUE86 EFT_GOV_CENTER

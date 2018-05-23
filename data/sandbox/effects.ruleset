@@ -4081,51 +4081,6 @@ reqs    =
       ; Oil Well also prevents irrigation, but requires Mine so not needed here
     }
 
-; "Sea" nreq is for Transports, which are only supposed to clean pollution
-[effect_irrigate_src_tech]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Tech", "Electricity", "Player", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-[effect_irrigate_src_ocean]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "TerrainClass", "Oceanic", "CAdjacent", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-[effect_irrigate_src_extra]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-; Prevent building farmland on bare deserts. It does not yield any bonus
-; over irrigation, and prevents any Super Highways trade bonus, so it
-; would be a waste of time.
-; (Note that it is still possible to end up with farmland on such terrain
-; through climate change.)
-; Deserts with food bonuses _are_ allowed farmland (hence exceptions).
-; -4 counterbalances all the above positive Irrig_Possible effects
-[effect_no_desert_farmland_1]
-type    = "Irrig_Possible"
-value   = -4
-reqs    =
-    { "type", "name", "range", "present"
-      "Terrain", "Desert", "Local", TRUE
-      "Extra", "Irrigation", "Local", TRUE
-      "ExtraFlag", "AllowsFarmlandOnDesert", "Local", FALSE
-    }
-
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
 value	= 50

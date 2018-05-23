@@ -347,6 +347,9 @@ ui_name_build_base = _("%sBuild Base%s")
 ; /* TRANS: Build _Mine (100% chance of success). */
 ui_name_build_mine = _("Build %sMine%s")
 
+; /* TRANS: Build _Irrigation (100% chance of success). */
+ui_name_irrigate = _("Build %sIrrigation%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -860,6 +863,39 @@ actor_reqs    =
 target_reqs    =
     { "type",    "name",     "range"
       "Terrain", "Glacier",  "Local"
+    }
+
+[actionenabler_irrigate_src_ocean]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+    }
+target_reqs    =
+    { "type",        "name",     "range"
+      "TerrainClass", "Oceanic", "CAdjacent"
+    }
+
+[actionenabler_irrigate_src_river]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+    }
+target_reqs    =
+    { "type",    "name",     "range"
+      "Extra",   "River",    "CAdjacent"
+    }
+
+[actionenabler_irrigate_src_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+    }
+target_reqs    =
+    { "type",    "name",       "range"
+      "Extra",   "Irrigation", "CAdjacent"
     }
 
 [borders]

@@ -1342,6 +1342,26 @@ int check_recursive_road_connect(struct tile *ptile, const struct extra_type *pe
   return activity_mc;
 }
 
+/*******************************************************************//**
+  Can tile be irrigated by given unit? Unit can be NULL to check if
+  any settler type unit of any player can irrigate.
+***********************************************************************/
+static bool can_be_irrigated(const struct tile *ptile,
+                             const struct unit *punit)
+{
+  struct terrain* pterrain = tile_terrain(ptile);
+  struct universal for_unit = { .kind = VUT_UTYPE,
+                                .value.utype = unit_type_get(punit)};
+  struct universal for_tile = { .kind = VUT_TERRAIN,
+                                .value.terrain = tile_terrain(ptile)};
+
+  if (T_UNKNOWN == pterrain) {
+    return FALSE;
+  }
+
+  return univs_have_action_enabler(ACTION_IRRIGATE, &for_unit, &for_tile);
+}
+
 /**********************************************************************//**
   Return whether the unit can connect with given activity (or with
   any activity if activity arg is set to ACTIVITY_IDLE)

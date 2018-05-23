@@ -616,7 +616,6 @@ static bool sanity_check_boolean_effects(void)
       EFT_HAPPINESS_TO_GOLD,
       EFT_FANATICS,
       EFT_NO_DIPLOMACY,
-      EFT_IRRIG_POSSIBLE,
       EFT_GOV_CENTER,
       EFT_NOT_TECH_SOURCE,
       EFT_VICTORY,

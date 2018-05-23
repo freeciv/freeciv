@@ -326,6 +326,9 @@ ui_name_build_base = _("%sBuild Base%s")
 ; /* TRANS: Build _Mine (100% chance of success). */
 ui_name_build_mine = _("Build %sMine%s")
 
+; /* TRANS: Build _Irrigation (100% chance of success). */
+ui_name_irrigate = _("Build %sIrrigation%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -678,6 +681,86 @@ actor_reqs    =
 target_reqs    =
     { "type",    "name",            "range"
       "Terrain", "Thick Mountains", "Local"
+    }
+
+[actionenabler_irrigate_src_ocean]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Settlers" ,     "Local"
+      "Tech",         "Manufacturing", "Player"
+    }
+target_reqs    =
+    { "type",         "name",    "range"
+      "TerrainClass", "Oceanic", "CAdjacent"
+    }
+
+[actionenabler_irrigate_src_green_river]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",     "name",          "range"
+      "UnitFlag", "Settlers",      "Local"
+      "Tech",     "Manufacturing", "Player"
+    }
+target_reqs    =
+    { "type",  "name",        "range"
+      "Extra", "Green River", "Local"
+    }
+
+[actionenabler_irrigate_src_brown_river]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",     "name",          "range"
+      "UnitFlag", "Settlers",      "Local"
+      "Tech",     "Manufacturing", "Player"
+    }
+target_reqs    =
+    { "type",  "name",        "range"
+      "Extra", "Brown River", "Local"
+    }
+
+[actionenabler_irrigate_src_green_river_adjacent]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+      "Tech",          "Water Flow",   "Player"
+    }
+target_reqs    =
+    { "type",  "name",        "range"
+      "Extra", "Green River", "CAdjacent"
+    }
+
+[actionenabler_irrigate_src_brown_river_adjacent]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+      "Tech",          "Water Flow",   "Player"
+    }
+target_reqs    =
+    { "type",  "name",        "range"
+      "Extra", "Brown River", "CAdjacent"
+    }
+
+[actionenabler_irrigate_src_citycenter]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",     "name",       "range"
+      "UnitFlag", "Settlers",   "Local"
+      "Tech",     "Water Flow", "Player"
+    }
+target_reqs    =
+    { "type",     "name",   "range"
+      "CityTile", "Center", "Adjacent"
+    }
+
+[actionenabler_irrigate_src_deep_pumping]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",     "name",         "range"
+      "UnitFlag", "Settlers",     "Local"
+      "Tech",     "Deep Pumping", "Player"
     }
 
 [borders]

@@ -1284,7 +1284,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     if (pterrain->irrigation_result == pterrain
         && pterrain->irrigation_time != 0
-        && effect_cumulative_max(EFT_IRRIG_POSSIBLE, &for_terr) > 0) {
+        && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr)) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain

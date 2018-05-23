@@ -120,6 +120,7 @@ static void pillage(QVariant data1, QVariant data2);
 static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
+static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
@@ -224,6 +225,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
   action_function[ACTION_ROAD] = road;
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
+  action_function[ACTION_IRRIGATE] = irrigate;
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
@@ -2484,6 +2486,28 @@ static void mine(QVariant data1, QVariant data2)
                                  * becomes supported. */
                                 action_selection_target_extra(),
                                 0, "", ACTION_MINE);
+  }
+}
+
+/***********************************************************************//**
+  Action "Build Irrigation" for choice dialog
+***************************************************************************/
+static void irrigate(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)
+      && NULL != extra_by_number(action_selection_target_extra())) {
+    dsend_packet_unit_do_action(&client.conn,
+                                actor_id,
+                                target_id,
+                                /* FIXME: will cause problems if more than
+                                 * one action selection dialog at a time
+                                 * becomes supported. */
+                                action_selection_target_extra(),
+                                0, "", ACTION_IRRIGATE);
   }
 }
 

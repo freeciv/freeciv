@@ -613,6 +613,10 @@ static void hard_code_actions(void)
       action_new(ACTION_MINE, ATK_TILE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_IRRIGATE] =
+      action_new(ACTION_IRRIGATE, ATK_TILE,
+                 FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                 0, 0, FALSE);
 }
 
 /**********************************************************************//**
@@ -1681,6 +1685,7 @@ action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
   case ACTION_ROAD:
   case ACTION_BASE:
   case ACTION_MINE:
+  case ACTION_IRRIGATE:
     if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
       /* Reason: Must have "Settlers" flag. */
       return FALSE;
@@ -1894,6 +1899,7 @@ action_hard_reqs_actor(const enum gen_action wanted_action,
   case ACTION_ROAD:
   case ACTION_BASE:
   case ACTION_MINE:
+  case ACTION_IRRIGATE:
     /* No hard unit requirements. */
     break;
 
@@ -2469,6 +2475,30 @@ is_action_possible(const enum gen_action wanted_action,
     }
     if (pterrain->mining_result != pterrain) {
       /* Mining is forbidden or will result in a terrain transformation. */
+      return TRI_NO;
+    }
+
+    if (!can_build_extra(target_extra, actor_unit, target_tile)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_IRRIGATE:
+    if (target_extra == NULL) {
+      return TRI_NO;
+    }
+    if (!is_extra_caused_by(target_extra, EC_IRRIGATION)) {
+      /* Reason: This is not an irrigation. */
+      return TRI_NO;
+    }
+
+    pterrain = tile_terrain(target_tile);
+    if (pterrain->irrigation_time == 0) {
+      return TRI_NO;
+    }
+    if (pterrain->irrigation_result != pterrain) {
+      /* Irrigation is forbidden or will result in a terrain
+       * transformation. */
       return TRI_NO;
     }
 
@@ -3483,6 +3513,7 @@ action_prob(const enum gen_action wanted_action,
   case ACTION_CONVERT:
   case ACTION_BASE:
   case ACTION_MINE:
+  case ACTION_IRRIGATE:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_COUNT:
@@ -4530,6 +4561,9 @@ const char *action_ui_name_default(int act)
   case ACTION_MINE:
     /* TRANS: Build _Mine (100% chance of success). */
     return N_("Build %sMine%s");
+  case ACTION_IRRIGATE:
+    /* TRANS: Build _Irrigation (100% chance of success). */
+    return N_("Build %sIrrigation%s");
   }
 
   return NULL;

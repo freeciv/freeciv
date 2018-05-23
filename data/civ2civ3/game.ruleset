@@ -361,6 +361,9 @@ ui_name_build_base = _("%sBuild Base%s")
 ; /* TRANS: Build _Mine (100% chance of success). */
 ui_name_build_mine = _("Build %sMine%s")
 
+; /* TRANS: Build _Irrigation (100% chance of success). */
+ui_name_irrigate = _("Build %sIrrigation%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -919,6 +922,135 @@ actor_reqs    =
 target_reqs    =
     { "type",    "name",            "range",  "present"
       "Terrain", "Deep Ocean",      "Local",  TRUE
+    }
+
+; Prevent building farmland on bare deserts. It does not yield any bonus
+; over irrigation, and prevents any Super Highways trade bonus, so it
+; would be a waste of time.
+; (Note that it is still possible to end up with farmland on such terrain
+; through climate change.)
+; Deserts with food bonuses _are_ allowed farmland (hence exceptions).
+
+; "Sea" nreq is for Transports, which are only supposed to clean pollution
+
+[actionenabler_irrigate_src_tech_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Settlers",    "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs    =
+    { "type",  "name",    "range",    "present"
+      "Extra", "Irrigation", "Local", FALSE
+    }
+
+[actionenabler_irrigate_src_ocean_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Settlers",  "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs    =
+    { "type",         "name",       "range",     "present"
+      "TerrainClass", "Oceanic",    "CAdjacent", TRUE
+      "Extra",        "Irrigation", "Local",     FALSE
+    }
+
+[actionenabler_irrigate_src_extra_basic_irrigation]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Settlers", "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",             "range",     "present"
+      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
+      "Extra",     "Irrigation",       "Local",     FALSE
+    }
+
+[actionenabler_irrigate_src_tech_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Settlers",    "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs    =
+    { "type",         "name",    "range",    "present"
+      "Terrain",      "Desert",  "Local",    FALSE
+    }
+
+[actionenabler_irrigate_src_ocean_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Settlers",  "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs    =
+    { "type",         "name",    "range",    "present"
+      "TerrainClass", "Oceanic", "CAdjacent", TRUE
+      "Terrain",      "Desert",  "Local",    FALSE
+    }
+
+[actionenabler_irrigate_src_extra_not_in_desert]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Settlers", "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",             "range",     "present"
+      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
+      "Terrain",   "Desert",           "Local",     FALSE
+    }
+
+[actionenabler_irrigate_src_tech_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",        "range",  "present"
+      "UnitFlag",  "Settlers",    "Local",  TRUE
+      "Tech",      "Electricity", "Player", TRUE
+      "UnitClass", "Sea",         "Local",  FALSE
+    }
+target_reqs    =
+    { "type",         "name",                   "range", "present"
+      "Terrain",      "Desert",                 "Local", TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Local", TRUE
+    }
+
+[actionenabler_irrigate_src_ocean_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",      "range", "present"
+      "UnitFlag",  "Settlers",  "Local", TRUE
+      "UnitClass", "Sea",       "Local", FALSE
+    }
+target_reqs    =
+    { "type",         "name",                   "range",    "present"
+      "TerrainClass", "Oceanic",                "CAdjacent", TRUE
+      "Terrain",      "Desert",                 "Local",     TRUE
+      "ExtraFlag",    "AllowsFarmlandOnDesert", "Local",     TRUE
+    }
+
+[actionenabler_irrigate_src_extra_desert_but_allowed]
+action        = "Build Irrigation"
+actor_reqs    =
+    { "type",      "name",     "range", "present"
+      "UnitFlag",  "Settlers", "Local", TRUE
+      "UnitClass", "Sea",      "Local", FALSE
+    }
+target_reqs    =
+    { "type",      "name",                    "range",     "present"
+      "ExtraFlag", "IrrigationSource",        "CAdjacent", TRUE
+      "Terrain",    "Desert",                 "Local",     TRUE
+      "ExtraFlag",  "AllowsFarmlandOnDesert", "Local",     TRUE
     }
 
 [borders]
