@@ -2159,14 +2159,13 @@ void request_unit_pillage(struct unit *punit)
     /* Leave choice up to the server */
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, NULL);
   } else {
-    struct tile *ptile = unit_tile(punit);
     bv_extras pspossible;
     int count = 0;
 
     BV_CLR_ALL(pspossible);
     extra_type_iterate(potential) {
-      if (can_unit_do_activity_targeted_at(punit, ACTIVITY_PILLAGE,
-                                           potential, ptile)) {
+      if (can_unit_do_activity_targeted(punit, ACTIVITY_PILLAGE,
+                                        potential)) {
         BV_SET(pspossible, extra_index(potential));
         count++;
       }
