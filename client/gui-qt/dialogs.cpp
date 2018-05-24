@@ -1542,7 +1542,10 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
   unit_skip->setParent(nullptr);
   action_selection_refresh(game_unit_by_number(unit_id), nullptr,
                            targeted_unit, targeted_unit->tile,
-                           extra_by_number(target_extra_id), act_probs);
+                           (target_extra_id != EXTRA_NONE
+                              ? extra_by_number(target_extra_id)
+                              : NULL),
+                           act_probs);
   layout->addLayout(unit_skip);
 }
 
