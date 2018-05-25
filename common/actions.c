@@ -1201,6 +1201,39 @@ int action_get_role(const struct action *paction)
 }
 
 /**********************************************************************//**
+  Returns the unit activity this action may cause or ACTIVITY_LAST if the
+  action doesn't result in a unit activity.
+**************************************************************************/
+enum unit_activity action_get_activity(const struct action *paction)
+{
+  fc_assert_msg(AAK_UNIT == action_get_actor_kind(paction),
+                "Action %s isn't performed by a unit",
+                action_rule_name(paction));
+
+  if (action_has_result(paction, ACTION_FORTIFY)) {
+    return ACTIVITY_FORTIFYING;
+  } else if (action_has_result(paction, ACTION_BASE)) {
+    return ACTIVITY_BASE;
+  } else if (action_has_result(paction, ACTION_ROAD)) {
+    return ACTIVITY_GEN_ROAD;
+  } else if (action_has_result(paction, ACTION_PILLAGE)) {
+    return ACTIVITY_PILLAGE;
+  } else if (action_has_result(paction, ACTION_TRANSFORM_TERRAIN)) {
+    return ACTIVITY_TRANSFORM;
+  } else if (action_has_result(paction, ACTION_CONVERT)) {
+    return ACTIVITY_CONVERT;
+  } else if (action_has_result(paction, ACTION_MINE_TF)
+             || action_has_result(paction, ACTION_MINE)) {
+    return ACTIVITY_MINE;
+  } else if (action_has_result(paction, ACTION_IRRIGATE_TF)
+             || action_has_result(paction, ACTION_IRRIGATE)) {
+    return ACTIVITY_IRRIGATE;
+  } else {
+    return ACTIVITY_LAST;
+  }
+}
+
+/**********************************************************************//**
   Create a new action enabler.
 **************************************************************************/
 struct action_enabler *action_enabler_new(void)

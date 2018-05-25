@@ -460,6 +460,10 @@ int action_get_role(const struct action *paction);
 #define action_id_get_role(action_id)                                     \
   action_get_role(action_by_number(action_id))
 
+enum unit_activity action_get_activity(const struct action *paction);
+#define action_id_get_activity(action_id)                                  \
+  action_get_activity(action_by_number(action_id))
+
 const char *action_rule_name(const struct action *action);
 const char *action_id_rule_name(int action_id);
 
