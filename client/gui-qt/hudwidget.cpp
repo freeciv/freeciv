@@ -568,6 +568,7 @@ void hud_units::update_actions(unit_list *punits)
   int num;
   int wwidth;
   int font_width;
+  int expanded_unit_width;
   QFont font = *fc_font::instance()->get_font(fonts::notify_label);
   QFontMetrics *fm;
   QImage cropped_img;
@@ -654,14 +655,16 @@ void hud_units::update_actions(unit_list *punits)
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
   img = cropped_img.scaledToHeight(height(), Qt::SmoothTransformation);
+  expanded_unit_width = tileset_unit_width(tileset) *
+                        ((height() + 0.0) / tileset_unit_height(tileset));
   pix = QPixmap::fromImage(img);
-  /* add transparent borders if image is too slim */
-  if (pix.width() < tileset_unit_width(tileset)) {
-    int px = tileset_full_tile_width(tileset);
-    pix2 = QPixmap(px, pix.height());
+  /* add transparent borders if image is too slim, accounting for the
+   * scaledToHeight() we've applied */
+  if (pix.width() < expanded_unit_width) {
+    pix2 = QPixmap(expanded_unit_width, pix.height());
     pix2.fill(Qt::transparent);
     p.begin(&pix2);
-    p.drawPixmap(px / 2 - pix.width() / 2, 0, pix);
+    p.drawPixmap(expanded_unit_width / 2 - pix.width() / 2, 0, pix);
     p.end();
     pix = pix2;
   }
