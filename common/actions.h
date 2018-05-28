@@ -268,6 +268,22 @@ struct action_enabler
   }                                                    \
 }
 
+#define action_list_iterate(_act_list_, _act_id_)                         \
+{                                                                         \
+  int _pos_;                                                              \
+                                                                          \
+  for (_pos_ = 0; _pos_ < NUM_ACTIONS; _pos_++) {                         \
+    const int _act_id_ = _act_list_[_pos_];                               \
+                                                                          \
+    if (_act_id_ == ACTION_NONE) {                                        \
+      /* No more actions in this list. */                                 \
+      break;                                                              \
+    }
+
+#define action_list_iterate_end                              \
+  }                                                                       \
+}
+
 #define action_enablers_iterate(_enabler_)               \
 {                                                        \
   action_iterate(_act_) {                                \
@@ -342,20 +358,10 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 } action_auto_perf_iterate_end
 
 #define action_auto_perf_actions_iterate(_autoperf_, _act_id_)            \
-{                                                                         \
-  int _perf_pos_;                                                         \
-                                                                          \
-  for (_perf_pos_ = 0; _perf_pos_ < NUM_ACTIONS; _perf_pos_++) {          \
-    const int _act_id_ = _autoperf_->alternatives[_perf_pos_];            \
-                                                                          \
-    if (_act_id_ == ACTION_NONE) {                                        \
-      /* No more alternative actions. */                                  \
-      break;                                                              \
-    }
+  action_list_iterate(_autoperf_->alternatives, _act_id_)
 
 #define action_auto_perf_actions_iterate_end                              \
-  }                                                                       \
-}
+  action_list_iterate_end
 
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset. */
