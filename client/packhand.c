@@ -4821,13 +4821,13 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 ****************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements,
-                               enum gen_action action_id,
+                               enum gen_action act_id,
                                bool disturb_player)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
-  struct action *paction = action_by_number(action_id);
+  struct action *paction = action_by_number(act_id);
 
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);
