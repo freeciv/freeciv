@@ -527,6 +527,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   TECH_LEAKAGE_STYLE tech_leakage;
   UINT16 tech_upkeep_divider;
   TECH_UPKEEP_STYLE tech_upkeep_style;
+  SINT16 techloss_forgiveness; add-cap(techloss_forgiveness)
   FTM free_tech_method;
   GLS gameloss_style;
   UINT32 timeout;

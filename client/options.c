@@ -21,6 +21,7 @@
 #include <sys/types.h>
 
 /* utility */
+#include "capability.h"
 #include "fcintl.h"
 #include "ioz.h"
 #include "log.h"
@@ -4267,6 +4268,14 @@ void handle_server_setting_int
     psoption->integer.def = packet->default_val;
     psoption->integer.min = packet->min_val;
     psoption->integer.max = packet->max_val;
+  }
+
+  /* Backward compatibility hack: early 2.6 beta servers didn't send this
+   * in the GAME_INFO packet, so for their benefit, scrape it from the
+   * option packet. Elsewhere we take care to preserve it. */
+  if (!has_capability("techloss_forgiveness", client.conn.capability)
+      && strcmp(option_name(poption), "techlossforgiveness") == 0) {
+    game.info.techloss_forgiveness = packet->val;
   }
 
   handle_server_setting_common(psoption, packet);

@@ -1847,7 +1847,7 @@ static struct setting settings[] = {
           NULL, NULL, NULL,
           GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
 
-  GEN_INT("techlossforgiveness", game.server.techloss_forgiveness,
+  GEN_INT("techlossforgiveness", game.info.techloss_forgiveness,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
           N_("Research point debt threshold for losing tech"),
           N_("When you have negative research points, and your shortfall is "

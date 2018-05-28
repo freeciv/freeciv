@@ -1978,7 +1978,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
 {
   bool boot_help;
   bool update_aifill_button = FALSE;
-
+  int techloss_forgiveness = game.info.techloss_forgiveness;
 
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
@@ -2002,6 +2002,14 @@ void handle_game_info(const struct packet_game_info *pinfo)
   }
 
   game.info = *pinfo;
+
+  /* Backward compatibility hack: early 2.6 beta servers did not send
+   * techloss_forgiveness in the GAME_INFO packet. Elsewhere we scrape
+   * it out of a SERVER_SETTING_INT packet. Preserve that across GAME_INFO
+   * packets. */
+  if (!has_capability("techloss_forgiveness", client.conn.capability)) {
+    game.info.techloss_forgiveness = techloss_forgiveness;
+  }
 
   /* check the values! */
 #define VALIDATE(_count, _maximum, _string)                                 \
