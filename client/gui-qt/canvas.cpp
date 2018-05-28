@@ -423,6 +423,5 @@ QRect zealous_crop_rect(QImage &p)
       b = y;
     }
   }
-  return QRect(l, t, r - l, b - t);
+  return QRect(l, t, qMax(0, r - l + 1), qMax(0, b - t + 1));
 }
-
