@@ -26,7 +26,7 @@ REV2="dist"
    REVTMP="$(git rev-parse --short HEAD 2>/dev/null)"
    if test "x$REVTMP" != "x" ; then
      # This is git repository. Check for local modifications
-     if test $(cd "$SRCROOT" ; git diff | wc -l) -eq 0 ; then
+     if (cd "$SRCROOT" ; git diff --quiet); then
        REVSTATE=ON
        REV2="$REVTMP"
      else
