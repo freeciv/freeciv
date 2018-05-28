@@ -698,6 +698,52 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 }
 
 /************************************************************************//**
+  Return turns until research complete. -1 for never.
+****************************************************************************/
+static int turns_to_research_done(const struct research *presearch,
+                                  int per_turn)
+{
+  if (per_turn > 0) {
+    return ceil((double)(presearch->client.researching_cost
+                         - presearch->bulbs_researched) / per_turn);
+  } else {
+    return -1;
+  }
+}
+
+/************************************************************************//**
+  Return turns per advance (based on currently researched advance).
+  -1 for no progress.
+****************************************************************************/
+static int turns_per_advance(const struct research *presearch, int per_turn)
+{
+  if (per_turn > 0) {
+    return MAX(1, ceil((double)presearch->client.researching_cost) / per_turn);
+  } else {
+    return -1;
+  }
+}
+
+/************************************************************************//**
+  Return turns until an advance is lost due to tech upkeep.
+  -1 if we're not on the way to losing an advance.
+****************************************************************************/
+static int turns_to_tech_loss(const struct research *presearch, int per_turn)
+{
+  if (per_turn >= 0 || game.info.techloss_forgiveness == -1) {
+    /* With techloss_forgiveness == -1, we'll never lose a tech, just
+     * get further into debt. */
+    return -1;
+  } else {
+    int bulbs_to_loss = presearch->bulbs_researched
+                        + (presearch->client.researching_cost
+                           * game.info.techloss_forgiveness / 100);
+
+    return ceil((double)bulbs_to_loss / -per_turn);
+  }
+}
+
+/************************************************************************//**
   Returns the text to display in the science dialog.
 ****************************************************************************/
 const char *science_dialog_text(void)
@@ -723,25 +769,25 @@ const char *science_dialog_text(void)
   if (A_UNSET == research->researching) {
     astr_add(&str, _("Progress: no research"));
   } else {
-    int done = research->bulbs_researched;
-    int total = research->client.researching_cost;
+    int turns;
 
-    if (perturn > 0) {
-      int turns = MAX(1, ceil((double)total) / perturn);
-
+    if ((turns = turns_per_advance(research, perturn)) >= 0) {
       astr_add(&str, PL_("Progress: %d turn/advance",
                          "Progress: %d turns/advance",
                          turns), turns);
-    } else if (perturn < 0 ) {
-      /* negative number of bulbs per turn due to tech upkeep */
-      int turns = ceil((double) done / -perturn);
-
+    } else if ((turns = turns_to_tech_loss(research, perturn)) >= 0) {
+      /* FIXME: turns to next loss is not a good predictor of turns to
+       * following loss, due to techloss_restore etc. But it'll do. */
       astr_add(&str, PL_("Progress: %d turn/advance loss",
                          "Progress: %d turns/advance loss",
                          turns), turns);
     } else {
-      /* no research */
-      astr_add(&str, _("Progress: none"));
+      /* no forward progress -- no research, or tech loss disallowed */
+      if (perturn < 0) {
+        astr_add(&str, _("Progress: decreasing!"));
+      } else {
+        astr_add(&str, _("Progress: none"));
+      }
     }
   }
   astr_set(&ourbuf, PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
@@ -796,20 +842,17 @@ const char *get_science_target_text(double *percent)
     int total = research->client.researching_cost;
     int done = research->bulbs_researched;
     int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
+    int turns;
 
-    if (perturn > 0) {
-      int turns = ceil( (double)(total - done) / perturn );
-
+    if ((turns = turns_to_research_done(research, perturn)) >= 0) {
       astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
                done, total, turns);
-    } else if (perturn < 0 ) {
-      /* negative number of bulbs per turn due to tech upkeep */
-      int turns = ceil( (double)done / -perturn );
-
-      astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
-               done, perturn, turns);
+    } else if ((turns = turns_to_tech_loss(research, perturn)) >= 0) {
+      astr_add(&str, PL_("%d/%d (%d turn to loss)",
+                         "%d/%d (%d turns to loss)", turns),
+               done, total, turns);
     } else {
-      /* no research */
+      /* no forward progress -- no research, or tech loss disallowed */
       astr_add(&str, _("%d/%d (never)"), done, total);
     }
     if (percent) {
@@ -1314,24 +1357,23 @@ const char *get_bulb_tooltip(void)
     struct research *research = research_get(client_player());
 
     if (research->researching == A_UNSET) {
-      astr_add_line(&str, _("no research target."));
+      astr_add_line(&str, _("No research target."));
     } else {
-      int turns = 0;
+      int turns;
       int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-      int done = research->bulbs_researched;
-      int total = research->client.researching_cost;
       struct astring buf1 = ASTRING_INIT, buf2 = ASTRING_INIT;
 
-      if (perturn > 0) {
-        turns = MAX(1, ceil((double) (total - done) / perturn));
-      } else if (perturn < 0 ) {
-        turns = ceil((double) done / -perturn);
-      }
-
-      if (turns == 0) {
-        astr_set(&buf1, _("No progress"));
-      } else {
+      if ((turns = turns_to_research_done(research, perturn)) >= 0) {
         astr_set(&buf1, PL_("%d turn", "%d turns", turns), turns);
+      } else if ((turns = turns_to_tech_loss(research, perturn)) >= 0) {
+        astr_set(&buf1, PL_("%d turn to loss", "%d turns to loss", turns),
+                 turns);
+      } else {
+        if (perturn < 0) {
+          astr_set(&buf1, _("Decreasing"));
+        } else {
+          astr_set(&buf1, _("No progress"));
+        }
       }
 
       /* TRANS: <perturn> bulbs/turn */
