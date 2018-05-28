@@ -156,6 +156,7 @@ typedef int Disaster_type_id;
 typedef int Multiplier_type_id;
 typedef int Goods_type_id;
 typedef unsigned char citizens;
+typedef int action_id;
 
 struct advance;
 struct city;
