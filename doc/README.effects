@@ -40,6 +40,12 @@ A requirement may have a 'present' field, and if this is 'FALSE',
 the requirement is negated (the condition must not be true for the req to be
 met).
 
+A requirement may have a 'quiet' field, and if this is 'TRUE', the help
+system does not try to autogenerate text about that requirement. This
+can be used if the help system's text is unclear or misleading, or if
+you want to describe the requirement in your own words. The 'quiet'
+field has no effect on the game rules.
+
 
 Requirement types and supported ranges
 ======================================
