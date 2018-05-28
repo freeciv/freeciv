@@ -567,7 +567,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 ****************************************************************************/
 static bool lose_tech(struct research *research)
 {
-  if (game.server.techloss_forgiveness < 0) {
+  if (game.info.techloss_forgiveness < 0) {
     /* Tech loss disabled */
     return FALSE;
   }
@@ -584,7 +584,7 @@ static bool lose_tech(struct research *research)
   if (research->bulbs_researched < 0
       && research->bulbs_researched <
          (-research_total_bulbs_required(research, research->researching, FALSE)
-          * game.server.techloss_forgiveness / 100)) {
+          * game.info.techloss_forgiveness / 100)) {
     return TRUE;
   }
 

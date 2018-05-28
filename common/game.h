@@ -182,7 +182,6 @@ struct civ_game {
       char start_units[MAX_LEN_STARTUNIT];
       bool start_city;
       int start_year;
-      int techloss_forgiveness;
       int techloss_restore;
       int techlost_donor;
       int techlost_recv;
