@@ -267,13 +267,19 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           }
         } as_rmextra_activity_iterate_end;
       } else {
-        as_extra_activity_iterate(try_act) {
-          if (is_extra_caused_by_action(tgt, try_act)
-              && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
-            act = try_act;
+        as_extra_action_iterate(try_act) {
+          if (is_extra_caused_by_action(tgt,
+                                        action_id_get_activity(try_act))
+              && action_prob_possible(
+                action_speculate_unit_on_tile(try_act,
+                                              punit,
+                                              unit_home(punit), ptile,
+                                              TRUE,
+                                              ptile, tgt))) {
+            act = action_id_get_activity(try_act);
             break;
           }
-        } as_extra_activity_iterate_end;
+        } as_extra_action_iterate_end;
       }
     } unit_list_iterate_end;
 

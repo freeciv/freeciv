@@ -69,14 +69,14 @@ extern Activity_type_id as_activities_transform[ACTIVITY_LAST];
   activity_type_list_iterate_end                                            \
 }
 
-extern Activity_type_id as_activities_extra[ACTIVITY_LAST];
+extern action_id as_actions_extra[MAX_NUM_ACTIONS];
 
-#define as_extra_activity_iterate(_act_)                                    \
-{                                                                           \
-  activity_type_list_iterate(as_activities_extra, _act_)
+#define as_extra_action_iterate(_act_)                                    \
+{                                                                         \
+  action_list_iterate(as_actions_extra, _act_)
 
-#define as_extra_activity_iterate_end                                       \
-  activity_type_list_iterate_end                                            \
+#define as_extra_action_iterate_end                                       \
+  action_list_iterate_end                                                 \
 }
 
 extern Activity_type_id as_activities_rmextra[ACTIVITY_LAST];

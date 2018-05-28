@@ -74,7 +74,7 @@ struct settlermap {
 };
 
 Activity_type_id as_activities_transform[ACTIVITY_LAST];
-Activity_type_id as_activities_extra[ACTIVITY_LAST];
+action_id as_actions_extra[MAX_NUM_ACTIONS];
 Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
 
 static struct timer *as_timer = NULL;
@@ -101,11 +101,11 @@ void advisors_init(void)
   as_activities_transform[i++] = ACTIVITY_LAST;
 
   i = 0;
-  as_activities_extra[i++] = ACTIVITY_IRRIGATE;
-  as_activities_extra[i++] = ACTIVITY_MINE;
-  as_activities_extra[i++] = ACTIVITY_GEN_ROAD;
-  as_activities_extra[i++] = ACTIVITY_BASE;
-  as_activities_extra[i++] = ACTIVITY_LAST;
+  as_actions_extra[i++] = ACTION_IRRIGATE;
+  as_actions_extra[i++] = ACTION_MINE;
+  as_actions_extra[i++] = ACTION_ROAD;
+  as_actions_extra[i++] = ACTION_BASE;
+  as_actions_extra[i++] = ACTION_NONE;
 
   i = 0;
   as_activities_rmextra[i++] = ACTIVITY_POLLUTION;
@@ -571,16 +571,22 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                 }
               } as_rmextra_activity_iterate_end;
             } else {
-              as_extra_activity_iterate(try_act) {
-                if (is_extra_caused_by_action(pextra, try_act)) {
-                  eval_act = try_act;
-                  if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
-                                                       ptile)) {
-                    act = try_act;
+              as_extra_action_iterate(try_act) {
+                if (is_extra_caused_by_action(pextra,
+                        action_id_get_activity(try_act))) {
+                  eval_act = action_id_get_activity(try_act);
+                  if (action_prob_possible(
+                        action_speculate_unit_on_tile(try_act,
+                                                      punit,
+                                                      unit_home(punit),
+                                                      ptile,
+                                                      parameter.omniscience,
+                                                      ptile, pextra))) {
+                    act = action_id_get_activity(try_act);
                     break;
                   }
                 }
-              } as_extra_activity_iterate_end;
+              } as_extra_action_iterate_end;
             }
 
             if (eval_act == ACTIVITY_LAST) {
