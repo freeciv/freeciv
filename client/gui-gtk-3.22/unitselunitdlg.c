@@ -90,8 +90,8 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   int tcount;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
-                                    do_label, GTK_RESPONSE_YES,
                                     _("Close"), GTK_RESPONSE_NO,
+                                    do_label, GTK_RESPONSE_YES,
                                     NULL);
   setup_dialog(dlg, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(dlg), GTK_RESPONSE_NO);
