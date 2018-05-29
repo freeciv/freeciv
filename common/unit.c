@@ -970,7 +970,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           int idx = extra_index(pextra);
 
           /* Only one unit can pillage a given improvement at a time */
-          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)
+          if (BV_ISSET(pspresent, idx)
+              && (!BV_ISSET(psworking, idx)
+                  || punit->activity_target == pextra)
               && can_remove_extra(pextra, punit, ptile)) {
             bool required = FALSE;
 
