@@ -377,18 +377,18 @@ void actions_free(void);
 
 bool actions_are_ready(void);
 
-bool action_id_exists(const int action_id);
+bool action_id_exists(const int act_id);
 
-struct action *action_by_number(int action_id);
+struct action *action_by_number(int act_id);
 struct action *action_by_rule_name(const char *name);
 
 enum action_actor_kind action_get_actor_kind(const struct action *paction);
-#define action_id_get_actor_kind(action_id)                               \
-  action_get_actor_kind(action_by_number(action_id))
+#define action_id_get_actor_kind(act_id)                                  \
+  action_get_actor_kind(action_by_number(act_id))
 enum action_target_kind action_get_target_kind(
     const struct action *paction);
-#define action_id_get_target_kind(action_id)                              \
-  action_get_target_kind(action_by_number(action_id))
+#define action_id_get_target_kind(act_id)                                 \
+  action_get_target_kind(action_by_number(act_id))
 
 enum action_battle_kind action_get_battle_kind(const struct action *pact);
 
@@ -396,24 +396,24 @@ int action_number(const struct action *action);
 
 bool action_has_result(const struct action *paction,
                        enum gen_action result);
-#define action_id_has_result(action_id, result)                            \
-  action_has_result(action_by_number(action_id), result)
+#define action_id_has_result(act_id, result)                              \
+  action_has_result(action_by_number(act_id), result)
 
-bool action_is_hostile(int action_id);
+bool action_is_hostile(int act_id);
 
-bool action_requires_details(int action_id);
+bool action_requires_details(int act_id);
 
-bool action_id_is_rare_pop_up(int action_id);
+bool action_id_is_rare_pop_up(int act_id);
 
 bool action_distance_accepted(const struct action *action,
                               const int distance);
-#define action_id_distance_accepted(action_id, distance)                  \
-  action_distance_accepted(action_by_number(action_id), distance)
+#define action_id_distance_accepted(act_id, distance)                     \
+  action_distance_accepted(action_by_number(act_id), distance)
 
 bool action_distance_inside_max(const struct action *action,
                                 const int distance);
-#define action_id_distance_inside_max(action_id, distance)                  \
-  action_distance_inside_max(action_by_number(action_id), distance)
+#define action_id_distance_inside_max(act_id, distance)                   \
+  action_distance_inside_max(action_by_number(act_id), distance)
 
 bool action_would_be_blocked_by(const struct action *blocked,
                                 const struct action *blocker);
@@ -422,20 +422,20 @@ bool action_would_be_blocked_by(const struct action *blocked,
                              action_by_number(blocker_id))
 
 int action_get_role(const struct action *paction);
-#define action_id_get_role(action_id)                                     \
-  action_get_role(action_by_number(action_id))
+#define action_id_get_role(act_id)                                        \
+  action_get_role(action_by_number(act_id))
 
 const char *action_rule_name(const struct action *action);
-const char *action_id_rule_name(int action_id);
+const char *action_id_rule_name(int act_id);
 
 const char *action_name_translation(const struct action *action);
-const char *action_id_name_translation(int action_id);
-const char *action_get_ui_name_mnemonic(int action_id,
+const char *action_id_name_translation(int act_id);
+const char *action_get_ui_name_mnemonic(int act_id,
                                         const char* mnemonic);
-const char *action_prepare_ui_name(int action_id, const char* mnemonic,
+const char *action_prepare_ui_name(int act_id, const char* mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-const char *action_get_tool_tip(const int action_id,
+const char *action_get_tool_tip(const int act_id,
                                 const struct act_prob prob);
 
 struct action_enabler_list *
@@ -451,7 +451,7 @@ const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
 void action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
-struct action *action_is_blocked_by(const int action_id,
+struct action *action_is_blocked_by(const int act_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
                                     const struct city *target_city,
@@ -483,23 +483,23 @@ bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
                                     const struct unit *actor_unit);
 
 struct act_prob action_prob_vs_city(const struct unit* actor,
-                                    const int action_id,
+                                    const int act_id,
                                     const struct city* victim);
 
 struct act_prob action_prob_vs_unit(const struct unit* actor,
-                                    const int action_id,
+                                    const int act_id,
                                     const struct unit* victim);
 
 struct act_prob action_prob_vs_units(const struct unit* actor,
-                                     const int action_id,
+                                     const int act_id,
                                      const struct tile* victims);
 
 struct act_prob action_prob_vs_tile(const struct unit *actor,
-                                    const int action_id,
+                                    const int act_id,
                                     const struct tile *victims);
 
 struct act_prob action_prob_self(const struct unit *actor,
-                                 const int action_id);
+                                 const int act_id);
 
 bool action_prob_possible(const struct act_prob probability);
 
@@ -539,15 +539,15 @@ bool action_immune_government(struct government *gov, int act);
 
 bool action_blocked_by_situation_act(const struct action *paction,
                                      const struct requirement *situation);
-#define action_id_blocked_by_situation_act(action_id, situation)          \
-  action_blocked_by_situation_act(action_by_number(action_id), situation)
+#define action_id_blocked_by_situation_act(act_id, situation)             \
+  action_blocked_by_situation_act(action_by_number(act_id), situation)
 
 bool action_blocked_by_situation_tgt(const struct action *paction,
                                      const struct requirement *situation);
-#define action_id_blocked_by_situation_tgt(action_id, situation)          \
-  action_blocked_by_situation_tgt(action_by_number(action_id), situation)
+#define action_id_blocked_by_situation_tgt(act_id, situation)             \
+  action_blocked_by_situation_tgt(action_by_number(act_id), situation)
 
-bool is_action_possible_on_city(const enum gen_action action_id,
+bool is_action_possible_on_city(const enum gen_action act_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
 
@@ -555,7 +555,7 @@ bool action_maybe_possible_actor_unit(const int wanted_action,
                                       const struct unit* actor_unit);
 
 bool action_mp_full_makes_legal(const struct unit *actor,
-                                const int action_id);
+                                const int act_id);
 
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
