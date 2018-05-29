@@ -142,30 +142,30 @@ void actions_free(void);
 
 bool actions_are_ready(void);
 
-bool action_id_is_valid(const int action_id);
+bool action_id_is_valid(const int act_id);
 
-struct action *action_by_number(int action_id);
+struct action *action_by_number(int act_id);
 
 enum action_actor_kind action_get_actor_kind(const struct action *paction);
-#define action_id_get_actor_kind(action_id)                               \
-  action_get_actor_kind(action_by_number(action_id))
+#define action_id_get_actor_kind(act_id)                                  \
+  action_get_actor_kind(action_by_number(act_id))
 enum action_target_kind action_get_target_kind(
     const struct action *paction);
-#define action_id_get_target_kind(action_id)                              \
-  action_get_target_kind(action_by_number(action_id))
+#define action_id_get_target_kind(act_id)                                 \
+  action_get_target_kind(action_by_number(act_id))
 
-bool action_is_hostile(int action_id);
+bool action_is_hostile(int act_id);
 
-int action_get_role(int action_id);
+int action_get_role(int act_id);
 
-const char *action_id_rule_name(int action_id);
-const char *action_id_name_translation(int action_id);
-const char *action_get_ui_name_mnemonic(int action_id,
+const char *action_id_rule_name(int act_id);
+const char *action_id_name_translation(int act_id);
+const char *action_get_ui_name_mnemonic(int act_id,
                                         const char* mnemonic);
-const char *action_prepare_ui_name(int action_id, const char* mnemonic,
+const char *action_prepare_ui_name(int act_id, const char* mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-const char *action_get_tool_tip(const int action_id,
+const char *action_get_tool_tip(const int act_id,
                                 const struct act_prob prob);
 
 struct action_enabler_list *
@@ -190,11 +190,11 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *target_unit);
 
 struct act_prob action_prob_vs_city(const struct unit* actor,
-                                    const int action_id,
+                                    const int act_id,
                                     const struct city* victim);
 
 struct act_prob action_prob_vs_unit(const struct unit* actor,
-                                    const int action_id,
+                                    const int act_id,
                                     const struct unit* victim);
 
 bool action_prob_possible(const struct act_prob probability);
@@ -221,12 +221,12 @@ struct act_prob action_prob_new_certain(void);
 /* Reasoning about actions */
 bool action_immune_government(struct government *gov, int act);
 
-bool is_action_possible_on_city(const enum gen_action action_id,
+bool is_action_possible_on_city(const enum gen_action act_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
 
 bool action_mp_full_makes_legal(const struct unit *actor,
-                                const int action_id);
+                                const int act_id);
 
 #ifdef __cplusplus
 }
