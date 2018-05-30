@@ -176,11 +176,11 @@ Nation_Type *api_find_nation_type_by_name(lua_State *L, const char *name_orig)
 /***************************************************************************
   Return the action type with the given action_id number.
 ***************************************************************************/
-Action *api_find_action(lua_State *L, int action_id)
+Action *api_find_action(lua_State *L, int act_id)
 {
   LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return action_by_number(action_id);
+  return action_by_number(act_id);
 }
 
 /***************************************************************************
