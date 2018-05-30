@@ -582,24 +582,24 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 
 bool utype_may_act_at_all(const struct unit_type *putype);
 bool utype_can_do_action(const struct unit_type *putype,
-                         const int action_id);
+                         const int act_id);
 bool utype_acts_hostile(const struct unit_type *putype);
 
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
                                  const enum ustate_prop prop,
                                  const bool is_there);
 bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
-                                  const int action_id,
+                                  const int act_id,
                                   const enum ustate_prop prop,
                                   const bool is_there);
 
 bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
-                                     const int action_id,
+                                     const int act_id,
                                      const int prop,
                                      const bool is_there);
 
 bool utype_may_act_move_frags(struct unit_type *punit_type,
-                              const int action_id,
+                              const int act_id,
                               const int move_fragments);
 
 /* Functions to operate on various flag and roles. */

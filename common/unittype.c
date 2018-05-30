@@ -304,9 +304,9 @@ bool utype_may_act_at_all(const struct unit_type *putype)
   perform the specified action.
 **************************************************************************/
 bool utype_can_do_action(const struct unit_type *putype,
-                         const int action_id)
+                         const int act_id)
 {
-  return BV_ISSET(unit_can_act_cache[action_id], utype_index(putype));
+  return BV_ISSET(unit_can_act_cache[act_id], utype_index(putype));
 }
 
 /**************************************************************************
@@ -356,8 +356,8 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 
   /* The unit is not yet known to be allowed to perform any actions no
    * matter what its unit state is. */
-  action_iterate(action_id) {
-    BV_CLR_ALL(ustate_act_cache[uidx][action_id]);
+  action_iterate(act_id) {
+    BV_CLR_ALL(ustate_act_cache[uidx][act_id]);
   } action_iterate_end;
   BV_CLR_ALL(ustate_act_cache[uidx][ACTION_ANY]);
   BV_CLR_ALL(ustate_act_cache[uidx][ACTION_HOSTILE]);
@@ -426,8 +426,8 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
 
   /* The unit is not yet known to be allowed to perform any actions no
    * matter what the diplomatic state is. */
-  action_iterate(action_id) {
-    BV_CLR_ALL(dipl_rel_action_cache[uidx][action_id]);
+  action_iterate(act_id) {
+    BV_CLR_ALL(dipl_rel_action_cache[uidx][act_id]);
   } action_iterate_end;
   BV_CLR_ALL(dipl_rel_action_cache[uidx][ACTION_ANY]);
   BV_CLR_ALL(dipl_rel_action_cache[uidx][ACTION_HOSTILE]);
@@ -562,11 +562,11 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
   is_there.
 **************************************************************************/
 bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
-                                  const int action_id,
+                                  const int act_id,
                                   const enum ustate_prop prop,
                                   const bool is_there)
 {
-  return BV_ISSET(ustate_act_cache[utype_index(punit_type)][action_id],
+  return BV_ISSET(ustate_act_cache[utype_index(punit_type)][act_id],
       requirement_unit_state_ereq(prop, is_there));
 }
 
@@ -580,13 +580,13 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
   ranges are stored in dipl_rel_action_cache.
 **************************************************************************/
 bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
-                                     const int action_id,
+                                     const int act_id,
                                      const int prop,
                                      const bool is_there)
 {
   int utype_id = utype_index(punit_type);
 
-  return BV_ISSET(dipl_rel_action_cache[utype_id][action_id],
+  return BV_ISSET(dipl_rel_action_cache[utype_id][act_id],
       requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
 }
 
@@ -600,19 +600,19 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
   where a unit of the given type can perform the specified action.
 **************************************************************************/
 bool utype_may_act_move_frags(struct unit_type *punit_type,
-                              const int action_id,
+                              const int act_id,
                               const int move_fragments)
 {
   struct range *ml_range;
 
-  fc_assert(action_id_is_valid(action_id) || action_id == ACTION_ANY);
+  fc_assert(action_id_is_valid(act_id) || act_id == ACTION_ANY);
 
   if (!utype_may_act_at_all(punit_type)) {
     /* Not an actor unit. */
     return FALSE;
   }
 
-  if (action_id == ACTION_ANY) {
+  if (act_id == ACTION_ANY) {
     /* Any action is OK. */
     action_iterate(alt_act) {
       if (utype_may_act_move_frags(punit_type, alt_act,
@@ -626,13 +626,13 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
     return FALSE;
   }
 
-  if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
+  if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
     /* This action isn't performed by any unit at all so this unit type
      * can't do it. */
     return FALSE;
   }
 
-  action_enabler_list_iterate(action_enablers_for_action(action_id),
+  action_enabler_list_iterate(action_enablers_for_action(act_id),
                               enabler) {
     if (!requirement_fulfilled_by_unit_type(punit_type,
                                             &(enabler->actor_reqs))) {
