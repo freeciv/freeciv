@@ -1173,10 +1173,10 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
    * action_target_neg_util(Add to population) = -50
    * action_target_neg_util(Subtract from population) = 50
 **************************************************************************/
-static int action_target_neg_util(int action_id,
+static int action_target_neg_util(int act_id,
                                   const struct city *pcity)
 {
-  switch ((enum gen_action)action_id) {
+  switch ((enum gen_action)act_id) {
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
     /* Copied from the evaluation of the No_Incite effect */
@@ -1260,12 +1260,12 @@ static int action_target_neg_util(int action_id,
   case ACTION_MINE:
   case ACTION_IRRIGATE:
   case ACTION_COUNT:
-    fc_assert_msg(action_id_get_target_kind(action_id) == ATK_CITY,
+    fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
   }
 
-  fc_assert_msg(action_id_exists(action_id),
-                "Action %d don't exist.", action_id);
+  fc_assert_msg(action_id_exists(act_id),
+                "Action %d don't exist.", act_id);
 
   /* Wrong action. Ignore it. */
   return 0;
@@ -1672,14 +1672,14 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   } effect_list_iterate_end;
 
   /* Can the city be the target of an action? */
-  action_iterate (action_id) {
+  action_iterate (act_id) {
     bool is_possible;
     bool will_be_possible = FALSE;
     enum req_range max_range;
     int act_neg_util;
 
     /* Is the action relevant? */
-    if (action_id_get_target_kind(action_id) != ATK_CITY) {
+    if (action_id_get_target_kind(act_id) != ATK_CITY) {
       continue;
     }
 
@@ -1689,11 +1689,11 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* Is is possible to do the action to the city right now?
      *
      * (DiplRel requirements are ignored since actor_player is NULL) */
-    is_possible = is_action_possible_on_city(action_id, NULL, pcity);
+    is_possible = is_action_possible_on_city(act_id, NULL, pcity);
 
     /* Will it be possible to do the action to the city if the building is
      * built? */
-    action_enabler_list_iterate(action_enablers_for_action(action_id),
+    action_enabler_list_iterate(action_enablers_for_action(act_id),
                                 enabler) {
       bool active = TRUE;
       enum req_range range = REQ_RANGE_LOCAL;
@@ -1741,7 +1741,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     }
 
     /* How undersireable is it that the city may be a target? */
-    act_neg_util = action_target_neg_util(action_id, pcity);
+    act_neg_util = action_target_neg_util(act_id, pcity);
 
     /* Multiply the desire by number of cities in range.
      * Note: This is a simplification. If the action can be done or not
