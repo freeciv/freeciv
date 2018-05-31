@@ -122,7 +122,7 @@ void illegal_action_msg(struct player *pplayer,
                         const struct unit *target_unit);
 
 enum ane_kind action_not_enabled_reason(struct unit *punit,
-                                        enum gen_action action_id,
+                                        enum gen_action act_id,
                                         const struct tile *target_tile,
                                         const struct city *target_city,
                                         const struct unit *target_unit);
