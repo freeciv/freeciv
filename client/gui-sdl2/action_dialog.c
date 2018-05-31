@@ -884,7 +884,7 @@ static void action_entry(const enum gen_action act,
   Return custom text for the specified action (given that the aciton is
   possible).
 **************************************************************************/
-static const char *action_custom_text(const int action_id,
+static const char *action_custom_text(const int act_id,
                                       const struct act_prob prob,
                                       const struct city *actor_homecity,
                                       const struct city *target_city)
@@ -896,7 +896,7 @@ static const char *action_custom_text(const int action_id,
     return NULL;
   }
 
-  switch (action_id) {
+  switch (act_id) {
   case ACTION_TRADE_ROUTE:
     {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
