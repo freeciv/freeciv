@@ -79,7 +79,7 @@ static GtkWidget  *spy_sabotage_shell;
 /* A structure to hold parameters for actions inside the GUI in stead of
  * storing the needed data in a global variable. */
 struct action_data {
-  int action_id;
+  int act_id;
   int actor_unit_id;
   int target_city_id;
   int target_unit_id;
@@ -91,7 +91,7 @@ struct action_data {
   Create a new action data structure that can be stored in the
   dialogs.
 **************************************************************************/
-static struct action_data *act_data(int action_id,
+static struct action_data *act_data(int act_id,
                                     int actor_id,
                                     int target_city_id,
                                     int target_unit_id,
@@ -100,7 +100,7 @@ static struct action_data *act_data(int action_id,
 {
   struct action_data *data = fc_malloc(sizeof(*data));
 
-  data->action_id = action_id;
+  data->act_id = act_id;
   data->actor_unit_id = actor_id;
   data->target_city_id = target_city_id;
   data->target_unit_id = target_unit_id;
@@ -624,7 +624,7 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_do_action(args->action_id, args->actor_unit_id,
+    request_do_action(args->act_id, args->actor_unit_id,
                       args->target_unit_id, 0, "");
   }
 
@@ -1121,12 +1121,12 @@ static void spy_advances_response(GtkWidget *w, gint response,
         && NULL != game_city_by_number(args->target_city_id)) {
       if (args->value == A_UNSET) {
         /* This is the untargeted version. */
-        request_do_action(get_non_targeted_action_id(args->action_id),
+        request_do_action(get_non_targeted_action_id(args->act_id),
                           args->actor_unit_id, args->target_city_id,
                           args->value, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(args->action_id,
+        request_do_action(args->act_id,
                           args->actor_unit_id, args->target_city_id,
                           args->value, "");
       }
@@ -1256,7 +1256,7 @@ static void create_advances_list(struct player *pplayer,
     } advance_index_iterate_end;
 
     if (action_prob_possible(actor_unit->client.act_prob_cache[
-                             get_non_targeted_action_id(args->action_id)])) {
+                             get_non_targeted_action_id(args->act_id)])) {
       gtk_list_store_append(store, &it);
 
       g_value_init(&value, G_TYPE_STRING);
@@ -1301,13 +1301,13 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
         && NULL != game_city_by_number(args->target_city_id)) {
       if (args->value == B_LAST) {
         /* This is the untargeted version. */
-        request_do_action(get_non_targeted_action_id(args->action_id),
+        request_do_action(get_non_targeted_action_id(args->act_id),
                           args->actor_unit_id,
                           args->target_city_id,
                           args->value + 1, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(args->action_id,
+        request_do_action(args->act_id,
                           args->actor_unit_id,
                           args->target_city_id,
                           args->value + 1, "");
@@ -1429,7 +1429,7 @@ static void create_improvements_list(struct player *pplayer,
   } city_built_iterate_end;
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
-                           get_non_targeted_action_id(args->action_id)])) {
+                           get_non_targeted_action_id(args->act_id)])) {
     struct astring str = ASTRING_INIT;
 
     gtk_list_store_append(store, &it);
@@ -1464,7 +1464,7 @@ static void spy_steal_popup_shared(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
-  args->action_id = args->action_id;
+  args->act_id = args->act_id;
 
   struct city *pvcity = game_city_by_number(args->target_city_id);
   struct player *pvictim = NULL;
@@ -1498,7 +1498,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 **************************************************************************/
 static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
-  ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  ((struct action_data *)data)->act_id = ACTION_SPY_TARGETED_STEAL_TECH;
   spy_steal_popup_shared(w, data);
 }
 
@@ -1508,7 +1508,7 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 {
-  ((struct action_data *)data)->action_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  ((struct action_data *)data)->act_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   spy_steal_popup_shared(w, data);
 }
 
@@ -1625,7 +1625,7 @@ static void incite_response(GtkWidget *w, gint response, gpointer data)
   struct action_data *args = (struct action_data *)data;
 
   if (response == GTK_RESPONSE_YES) {
-    request_do_action(args->action_id, args->actor_unit_id,
+    request_do_action(args->act_id, args->actor_unit_id,
                       args->target_city_id, 0, "");
   }
 
@@ -2013,7 +2013,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   Show the user the action if it is enabled.
 **************************************************************************/
 static void action_entry(GtkWidget *shl,
-                         int action_id,
+                         int act_id,
                          const struct act_prob *act_probs,
                          const gchar *custom,
                          struct action_data *handler_args)
@@ -2021,34 +2021,34 @@ static void action_entry(GtkWidget *shl,
   const gchar *label;
   const gchar *tooltip;
 
-  if (get_targeted_action_id(action_id) != ACTION_NONE
+  if (get_targeted_action_id(act_id) != ACTION_NONE
       && action_prob_possible(act_probs[
-                              get_targeted_action_id(action_id)])) {
+                              get_targeted_action_id(act_id)])) {
     /* The player can select the untargeted version from the target
      * selection dialog. */
     return;
   }
 
-  if (af_map[action_id] == NULL) {
+  if (af_map[act_id] == NULL) {
     /* This client doesn't support ordering this action from the
      * action selection dialog. */
     return;
   }
 
   /* Don't show disabled actions. */
-  if (!action_prob_possible(act_probs[action_id])) {
+  if (!action_prob_possible(act_probs[act_id])) {
     return;
   }
 
-  label = action_prepare_ui_name(action_id, "",
-                                 act_probs[action_id],
+  label = action_prepare_ui_name(act_id, "",
+                                 act_probs[act_id],
                                  custom);
 
-  tooltip = action_get_tool_tip(action_id,
-                                act_probs[action_id]);
+  tooltip = action_get_tool_tip(act_id,
+                                act_probs[act_id]);
 
-  action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, label, af_map[action_id], handler_args,
+  action_button_map[act_id] = choice_dialog_get_number_of_buttons(shl);
+  choice_dialog_add(shl, label, af_map[act_id], handler_args,
                     FALSE, tooltip);
 }
 
@@ -2056,7 +2056,7 @@ static void action_entry(GtkWidget *shl,
   Update an existing button.
 **************************************************************************/
 static void action_entry_update(GtkWidget *shl,
-                                int action_id,
+                                int act_id,
                                 const struct act_prob *act_probs,
                                 const gchar *custom,
                                 struct action_data *handler_args)
@@ -2067,21 +2067,21 @@ static void action_entry_update(GtkWidget *shl,
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
   choice_dialog_button_set_sensitive(act_sel_dialog,
-      action_button_map[action_id],
-      action_prob_possible(act_probs[action_id]));
+      action_button_map[act_id],
+      action_prob_possible(act_probs[act_id]));
 
   /* The probability may have changed. */
-  label = action_prepare_ui_name(action_id, "",
-                                 act_probs[action_id], custom);
+  label = action_prepare_ui_name(act_id, "",
+                                 act_probs[act_id], custom);
 
-  tooltip = action_get_tool_tip(action_id,
-                                act_probs[action_id]);
+  tooltip = action_get_tool_tip(act_id,
+                                act_probs[act_id]);
 
   choice_dialog_button_set_label(act_sel_dialog,
-                                 action_button_map[action_id],
+                                 action_button_map[act_id],
                                  label);
   choice_dialog_button_set_tooltip(act_sel_dialog,
-                                   action_button_map[action_id],
+                                   action_button_map[act_id],
                                    tooltip);
 }
 
