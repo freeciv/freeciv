@@ -1127,7 +1127,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   Show the user the action if it is enabled.
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
-                         int action_id,
+                         int act_id,
                          const struct act_prob *act_probs,
                          const gchar *custom,
                          struct action_data *handler_args)
@@ -1135,7 +1135,7 @@ static void action_entry(GtkWidget *shl,
   const gchar *label;
   const gchar *tooltip;
 
-  if (action_id == ACTION_SPY_SABOTAGE_CITY
+  if (act_id == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
         act_probs[ACTION_SPY_TARGETED_SABOTAGE_CITY])) {
     /* The player can select Sabotage City from the target selection dialog
@@ -1143,7 +1143,7 @@ static void action_entry(GtkWidget *shl,
     return;
   }
 
-  if (action_id == ACTION_SPY_STEAL_TECH
+  if (act_id == ACTION_SPY_STEAL_TECH
       && action_prob_possible(
         act_probs[ACTION_SPY_TARGETED_STEAL_TECH])) {
     /* The player can select Steal Tech from the target selection dialog of
@@ -1152,19 +1152,19 @@ static void action_entry(GtkWidget *shl,
   }
 
   /* Don't show disabled actions. */
-  if (!action_prob_possible(act_probs[action_id])) {
+  if (!action_prob_possible(act_probs[act_id])) {
     return;
   }
 
-  label = action_prepare_ui_name(action_id, "_",
-                                 act_probs[action_id],
+  label = action_prepare_ui_name(act_id, "_",
+                                 act_probs[act_id],
                                  custom);
 
-  tooltip = action_get_tool_tip(action_id,
-                                act_probs[action_id]);
+  tooltip = action_get_tool_tip(act_id,
+                                act_probs[act_id]);
 
-  action_button_map[action_id] = choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, label, af_map[action_id], handler_args,
+  action_button_map[act_id] = choice_dialog_get_number_of_buttons(shl);
+  choice_dialog_add(shl, label, af_map[act_id], handler_args,
                     FALSE, tooltip);
 }
 
@@ -1172,7 +1172,7 @@ static void action_entry(GtkWidget *shl,
   Update an existing button.
 *******************************************************************/
 static void action_entry_update(GtkWidget *shl,
-                                int action_id,
+                                int act_id,
                                 const struct act_prob *act_probs,
                                 const gchar *custom,
                                 struct action_data *handler_args)
@@ -1183,21 +1183,21 @@ static void action_entry_update(GtkWidget *shl,
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
   choice_dialog_button_set_sensitive(act_sel_dialog,
-      action_button_map[action_id],
-      action_prob_possible(act_probs[action_id]));
+      action_button_map[act_id],
+      action_prob_possible(act_probs[act_id]));
 
   /* The probability may have changed. */
-  label = action_prepare_ui_name(action_id, "_",
-                                 act_probs[action_id], custom);
+  label = action_prepare_ui_name(act_id, "_",
+                                 act_probs[act_id], custom);
 
-  tooltip = action_get_tool_tip(action_id,
-                                act_probs[action_id]);
+  tooltip = action_get_tool_tip(act_id,
+                                act_probs[act_id]);
 
   choice_dialog_button_set_label(act_sel_dialog,
-                                 action_button_map[action_id],
+                                 action_button_map[act_id],
                                  label);
   choice_dialog_button_set_tooltip(act_sel_dialog,
-                                   action_button_map[action_id],
+                                   action_button_map[act_id],
                                    tooltip);
 }
 
