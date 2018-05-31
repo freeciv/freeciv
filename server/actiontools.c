@@ -90,9 +90,9 @@ static void action_give_casus_belli(struct player *offender,
 /**********************************************************************//**
   Returns the kind of diplomatic incident an action may cause.
 **************************************************************************/
-static enum incident_type action_to_incident(const int action_id)
+static enum incident_type action_to_incident(const int act_id)
 {
-  switch (action_id) {
+  switch (act_id) {
   case ACTION_NUKE:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
