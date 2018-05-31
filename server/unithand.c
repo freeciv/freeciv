@@ -559,12 +559,12 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   may enable any action at all if war is declared will be returned.
 **************************************************************************/
 static struct player *need_war_player(const struct unit *actor,
-                                      const int action_id,
+                                      const int act_id,
                                       const struct tile *target_tile,
                                       const struct city *target_city,
                                       const struct unit *target_unit)
 {
-  if (action_id == ACTION_ANY) {
+  if (act_id == ACTION_ANY) {
     /* Any action at all will do. */
     action_iterate(act) {
       struct player *war_player;
@@ -583,7 +583,7 @@ static struct player *need_war_player(const struct unit *actor,
     return NULL;
   } else {
     /* Look for the specified action. */
-    return need_war_player_hlp(actor, action_id,
+    return need_war_player_hlp(actor, act_id,
                                target_tile, target_city,
                                target_unit);
   }
@@ -594,12 +594,12 @@ static struct player *need_war_player(const struct unit *actor,
 
   If the "action" is ACTION_ANY all actions are checked.
 **************************************************************************/
-static bool does_terrain_block_action(const int action_id,
+static bool does_terrain_block_action(const int act_id,
                                       bool is_target,
                                       struct unit *actor_unit,
                                       struct terrain *pterrain)
 {
-  if (action_id == ACTION_ANY) {
+  if (act_id == ACTION_ANY) {
     /* Any action is OK. */
     action_iterate(alt_act) {
       if (utype_can_do_action(unit_type_get(actor_unit), alt_act)
@@ -615,9 +615,9 @@ static bool does_terrain_block_action(const int action_id,
   }
 
   /* ACTION_ANY is handled above. */
-  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+  fc_assert_ret_val(action_id_is_valid(act_id), FALSE);
 
-  action_enabler_list_iterate(action_enablers_for_action(action_id),
+  action_enabler_list_iterate(action_enablers_for_action(act_id),
                               enabler) {
     if (requirement_fulfilled_by_terrain(pterrain,
             (is_target ? &enabler->target_reqs : &enabler->actor_reqs))
@@ -636,12 +636,12 @@ static bool does_terrain_block_action(const int action_id,
 
   If the "action" is ACTION_ANY all actions are checked.
 **************************************************************************/
-static bool does_nation_block_action(const int action_id,
+static bool does_nation_block_action(const int act_id,
                                      bool is_target,
                                      struct unit *actor_unit,
                                      struct nation_type *pnation)
 {
-  if (action_id == ACTION_ANY) {
+  if (act_id == ACTION_ANY) {
     /* Any action is OK. */
     action_iterate(alt_act) {
       if (utype_can_do_action(unit_type_get(actor_unit), alt_act)
@@ -657,9 +657,9 @@ static bool does_nation_block_action(const int action_id,
   }
 
   /* ACTION_ANY is handled above. */
-  fc_assert_ret_val(action_id_is_valid(action_id), FALSE);
+  fc_assert_ret_val(action_id_is_valid(act_id), FALSE);
 
-  action_enabler_list_iterate(action_enablers_for_action(action_id),
+  action_enabler_list_iterate(action_enablers_for_action(act_id),
                               enabler) {
     if (requirement_fulfilled_by_nation(pnation,
                                        (is_target ? &enabler->target_reqs
@@ -679,7 +679,7 @@ static bool does_nation_block_action(const int action_id,
   based on the current game state.
 **************************************************************************/
 static struct ane_expl *expl_act_not_enabl(struct unit *punit,
-                                           const int action_id,
+                                           const int act_id,
                                            const struct tile *target_tile,
                                            const struct city *target_city,
                                            const struct unit *target_unit)
@@ -689,7 +689,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
 
-  if (action_id == ACTION_ANY) {
+  if (act_id == ACTION_ANY) {
     /* Find the target player of some actions. */
     if (target_city) {
       /* Individual city targets have the highest priority. */
@@ -700,7 +700,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     }
   } else {
     /* Find the target player of this action. */
-    switch (action_id_get_target_kind(action_id)) {
+    switch (action_id_get_target_kind(act_id)) {
     case ATK_CITY:
       tgt_player = city_owner(target_city);
       break;
@@ -708,52 +708,52 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       tgt_player = unit_owner(target_unit);
       break;
     case ATK_COUNT:
-      fc_assert(action_id_get_target_kind(action_id) != ATK_COUNT);
+      fc_assert(action_id_get_target_kind(act_id) != ATK_COUNT);
       break;
     }
   }
 
   if ((!can_exist
-       && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+       && !utype_can_do_act_when_ustate(unit_type_get(punit), act_id,
                                         USP_LIVABLE_TILE, FALSE))
       || (can_exist
-          && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+          && !utype_can_do_act_when_ustate(unit_type_get(punit), act_id,
                                            USP_LIVABLE_TILE, TRUE))) {
     explnat->kind = ANEK_BAD_TERRAIN_ACT;
     explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (punit
-             && does_terrain_block_action(action_id, FALSE,
+             && does_terrain_block_action(act_id, FALSE,
                  punit, tile_terrain(unit_tile(punit)))) {
     /* No action enabler allows acting against this terrain kind. */
     explnat->kind = ANEK_BAD_TERRAIN_ACT;
     explnat->no_act_terrain = tile_terrain(unit_tile(punit));
   } else if (target_tile
-             && does_terrain_block_action(action_id, TRUE,
+             && does_terrain_block_action(act_id, TRUE,
                  punit, tile_terrain(target_tile))) {
     /* No action enabler allows acting against this terrain kind. */
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
     explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (unit_transported(punit)
-             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), act_id,
                                               USP_TRANSPORTED, TRUE)) {
     explnat->kind = ANEK_IS_TRANSPORTED;
   } else if (!unit_transported(punit)
-             && !utype_can_do_act_when_ustate(unit_type_get(punit), action_id,
+             && !utype_can_do_act_when_ustate(unit_type_get(punit), act_id,
                                               USP_TRANSPORTED, FALSE)) {
     explnat->kind = ANEK_IS_NOT_TRANSPORTED;
   } else if ((must_war_player = need_war_player(punit,
-                                                action_id,
+                                                act_id,
                                                 target_tile,
                                                 target_city,
                                                 target_unit))) {
     explnat->kind = ANEK_NO_WAR;
     explnat->no_war_with = must_war_player;
   } else if (tgt_player
-             && does_nation_block_action(action_id, TRUE,
+             && does_nation_block_action(act_id, TRUE,
                                          punit, tgt_player->nation)) {
     explnat->kind = ANEK_NATION_TGT;
     explnat->no_act_nation = tgt_player->nation;
-  } else if (action_mp_full_makes_legal(punit, action_id)) {
+  } else if (action_mp_full_makes_legal(punit, act_id)) {
     explnat->kind = ANEK_LOW_MP;
   } else {
     explnat->kind = ANEK_UNKNOWN;

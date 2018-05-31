@@ -530,7 +530,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
 /****************************************************************************
   Try to steal a technology from an enemy city.
-  If action_id is ACTION_SPY_STEAL_TECH, steal a random technology.
+  If act_id is ACTION_SPY_STEAL_TECH, steal a random technology.
   Otherwise, steal the technology whose ID is "technology".
   (Note: Only Spies can select what to steal.)
 
@@ -548,7 +548,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
                        struct city  *pcity, Tech_type_id technology,
-                       const enum gen_action action_id)
+                       const enum gen_action act_id)
 {
   struct research *presearch, *cresearch;
   struct player *cplayer;
@@ -571,7 +571,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return;
   }
 
-  if (action_id == ACTION_SPY_STEAL_TECH) {
+  if (act_id == ACTION_SPY_STEAL_TECH) {
     /* Can't choose target. Will steal a random tech. */
     technology = A_UNSET;
   }
@@ -580,7 +580,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
    * "At Spy's Discretion" (A_UNSET) or a future tech (A_FUTURE). */
   if (technology == A_NONE
       || (technology != A_FUTURE
-          && !(technology == A_UNSET && action_id == ACTION_SPY_STEAL_TECH)
+          && !(technology == A_UNSET && act_id == ACTION_SPY_STEAL_TECH)
           && !valid_advance_by_number(technology))) {
     return;
   }
@@ -625,7 +625,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (action_id == ACTION_SPY_TARGETED_STEAL_TECH) {
+    if (act_id == ACTION_SPY_TARGETED_STEAL_TECH) {
       /* Targeted steal tech is more difficult. */
       count++;
     }
@@ -663,7 +663,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                   unit_tile_link(pdiplomat),
                   city_link(pcity));
     /* this may cause a diplomatic incident */
-    action_consequence_caught(action_id, pplayer, cplayer,
+    action_consequence_caught(act_id, pplayer, cplayer,
                               city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
     return;
@@ -688,7 +688,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   (pcity->server.steal)++;
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
+  action_consequence_success(act_id, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */
@@ -843,7 +843,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 **************************************************************************/
 void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
-                       const enum gen_action action_id)
+                       const enum gen_action act_id)
 {
   struct player *cplayer;
   struct impr_type *ptarget;
@@ -903,7 +903,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
-  if (action_id == ACTION_SPY_SABOTAGE_CITY) {
+  if (act_id == ACTION_SPY_SABOTAGE_CITY) {
     /*
      * Pick random:
      * 50/50 chance to pick production or some improvement.
@@ -1076,7 +1076,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   send_city_info(NULL, pcity);
 
   /* this may cause a diplomatic incident */
-  action_consequence_success(action_id, pplayer, cplayer,
+  action_consequence_success(act_id, pplayer, cplayer,
                              city_tile(pcity), city_link(pcity));
 
   /* Check if a spy survives her mission. Diplomats never do. */

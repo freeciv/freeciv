@@ -18,13 +18,13 @@
 #include "player.h"
 #include "tile.h"
 
-void action_consequence_caught(const int action_id,
+void action_consequence_caught(const int act_id,
                                struct player *offender,
                                struct player *victim_player,
                                const struct tile *victim_tile,
                                const char *victim_link);
 
-void action_consequence_success(const int action_id,
+void action_consequence_success(const int act_id,
                                 struct player *offender,
                                 struct player *victim_player,
                                 const struct tile *victim_tile,

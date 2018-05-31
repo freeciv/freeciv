@@ -146,13 +146,13 @@ static void maybe_cause_incident(const enum gen_action action,
   Take care of any consequences (like casus belli) of getting caught while
   trying to perform the given action.
 **************************************************************************/
-void action_consequence_caught(const int action_id,
+void action_consequence_caught(const int act_id,
                                struct player *offender,
                                struct player *victim_player,
                                const struct tile *victim_tile,
                                const char *victim_link)
 {
-  maybe_cause_incident(action_id, offender,
+  maybe_cause_incident(act_id, offender,
                        victim_player, victim_tile, victim_link);
 }
 
@@ -160,12 +160,12 @@ void action_consequence_caught(const int action_id,
   Take care of any consequences (like casus belli) of successfully
   performing the given action.
 **************************************************************************/
-void action_consequence_success(const int action_id,
+void action_consequence_success(const int act_id,
                                 struct player *offender,
                                 struct player *victim_player,
                                 const struct tile *victim_tile,
                                 const char *victim_link)
 {
-  maybe_cause_incident(action_id, offender,
+  maybe_cause_incident(act_id, offender,
                        victim_player, victim_tile, victim_link);
 }
