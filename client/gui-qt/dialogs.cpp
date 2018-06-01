@@ -2577,7 +2577,7 @@ static void join_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal tech with spy for choice dialog
 ***************************************************************************/
-static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
+static void spy_steal_shared(QVariant data1, QVariant data2, int act_id)
 {
   QString str;
   QVariant qv1;
@@ -2608,7 +2608,7 @@ static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
   /* Put both actor and target city in qv1 since qv2 is taken */
   actor_and_target.append(diplomat_id);
   actor_and_target.append(diplomat_target_id);
-  actor_and_target.append(action_id);
+  actor_and_target.append(act_id);
   qv1 = QVariant::fromValue(actor_and_target);
 
   struct player *pplayer = client.conn.playing;
@@ -2628,7 +2628,7 @@ static void spy_steal_shared(QVariant data1, QVariant data2, int action_id)
     } advance_index_iterate_end;
 
     if (action_prob_possible(actor_unit->client.act_prob_cache[
-                             get_non_targeted_action_id(action_id)])) {
+                             get_non_targeted_action_id(act_id)])) {
       astr_set(&stra, _("At %s's Discretion"),
                unit_name_translation(actor_unit));
       func = spy_steal_something;
@@ -2665,17 +2665,17 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
-  int action_id = data1.toList().at(2).toInt();
+  int act_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == A_UNSET) {
       /* This is the untargeted version. */
-      request_do_action((gen_action)get_non_targeted_action_id(action_id),
+      request_do_action((gen_action)get_non_targeted_action_id(act_id),
                         diplomat_id, diplomat_target_id, data2.toInt(), "");
     } else {
       /* This is the targeted version. */
-      request_do_action((gen_action)action_id, diplomat_id,
+      request_do_action((gen_action)act_id, diplomat_id,
                         diplomat_target_id, data2.toInt(), "");
     }
   }
@@ -3166,18 +3166,18 @@ static void spy_sabotage(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
-  int action_id = data1.toList().at(2).toInt();
+  int act_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == B_LAST) {
       /* This is the untargeted version. */
-      request_do_action((gen_action)get_non_targeted_action_id(action_id),
+      request_do_action((gen_action)get_non_targeted_action_id(act_id),
                         diplomat_id, diplomat_target_id, data2.toInt() + 1,
                         "");
     } else {
       /* This is the targeted version. */
-      request_do_action((gen_action)action_id, diplomat_id,
+      request_do_action((gen_action)act_id, diplomat_id,
                         diplomat_target_id, data2.toInt() + 1, "");
     }
   }
