@@ -513,12 +513,6 @@ bool is_action_enabled_unit_on_city(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
 
-bool is_action_enabled_unit_on_city_full(const action_id wanted_action,
-                                         const struct unit *actor_unit,
-                                         const struct city *target_city,
-                                         const struct city *homecity,
-                                         bool ignore_dist);
-
 bool is_action_enabled_unit_on_unit(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
@@ -554,6 +548,13 @@ struct act_prob action_prob_vs_tile(const struct unit *actor,
 
 struct act_prob action_prob_self(const struct unit *actor,
                                  const action_id act_id);
+
+struct act_prob action_speculate_unit_on_city(action_id act_id,
+                                              const struct unit *actor,
+                                              const struct city *actor_home,
+                                              const struct tile *actor_tile,
+                                              bool omniscient_cheat,
+                                              const struct city* target);
 
 bool action_prob_possible(const struct act_prob probability);
 
