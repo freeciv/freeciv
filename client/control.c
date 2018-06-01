@@ -1658,7 +1658,7 @@ void request_unit_select(struct unit_list *punits,
                 building to aim for.
   - name      : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
-void request_do_action(enum gen_action action, int actor_id,
+void request_do_action(action_id action, int actor_id,
                        int target_id, int value, const char *name)
 {
   dsend_packet_unit_do_action(&client.conn,
