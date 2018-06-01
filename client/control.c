@@ -1091,11 +1091,11 @@ void action_decision_request(struct unit *actor_unit)
   Do a goto with an order at the end (or ORDER_LAST).
 **************************************************************************/
 void request_unit_goto(enum unit_orders last_order,
-                       int action_id, int tgt_id)
+                       int act_id, int tgt_id)
 {
   struct unit_list *punits = get_units_in_focus();
 
-  fc_assert_ret(action_id == ACTION_NONE
+  fc_assert_ret(act_id == ACTION_NONE
                 || last_order == ORDER_PERFORM_ACTION);
 
   if (unit_list_size(punits) == 0) {
@@ -1104,23 +1104,23 @@ void request_unit_goto(enum unit_orders last_order,
 
   if (last_order == ORDER_PERFORM_ACTION) {
     /* An action has been specified. */
-    fc_assert_ret(action_id_exists(action_id));
+    fc_assert_ret(action_id_exists(act_id));
 
     /* The order system doesn't support actions that can be done to a
      * target that isn't at or next to the actor unit's tile.
      *
      * Full explanation in handle_unit_orders(). */
-    fc_assert_ret(!action_id_distance_inside_max(action_id, 2));
+    fc_assert_ret(!action_id_distance_inside_max(act_id, 2));
 
     unit_list_iterate(punits, punit) {
-      if (!unit_can_do_action(punit, action_id)) {
+      if (!unit_can_do_action(punit, act_id)) {
         /* This unit can't perform the action specified in the last
          * order. */
 
         struct astring astr = ASTRING_INIT;
 
         if (role_units_translations(&astr,
-                                    action_id_get_role(action_id),
+                                    action_id_get_role(act_id),
                                     TRUE)) {
           /* ...but other units can perform it. */
 
@@ -1129,7 +1129,7 @@ void request_unit_goto(enum unit_orders last_order,
                          * Nuclear. */
                        _("Only %s can do %s."),
                        astr_str(&astr),
-                       action_id_name_translation(action_id));
+                       action_id_name_translation(act_id));
 
           astr_free(&astr);
         } else {
@@ -1137,7 +1137,7 @@ void request_unit_goto(enum unit_orders last_order,
                        /* TRANS: Spy can't do Explode Nuclear. */
                        _("%s can't do %s."),
                        unit_name_translation(punit),
-                       action_id_name_translation(action_id));
+                       action_id_name_translation(act_id));
         }
 
         return;
@@ -1147,7 +1147,7 @@ void request_unit_goto(enum unit_orders last_order,
 
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
-                    tgt_id, action_id, last_order);
+                    tgt_id, act_id, last_order);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
