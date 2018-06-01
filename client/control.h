@@ -93,7 +93,8 @@ void request_unit_connect(enum unit_activity activity,
                           struct extra_type *tgt);
 void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
-void request_unit_goto(enum unit_orders last_order, int action_id, int tgt_id);
+void request_unit_goto(enum unit_orders last_order,
+                       int act_id, int tgt_id);
 void request_unit_move_done(void);
 void request_unit_paradrop(struct unit_list *punits);
 void request_unit_patrol(void);
