@@ -258,7 +258,7 @@ public:
   static void update_all();
 
 public slots:
-  void start_go_act(int action_id);
+  void start_go_act(int act_id);
 
   void reset();
   void create();

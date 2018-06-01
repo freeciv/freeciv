@@ -791,25 +791,25 @@ void go_act_menu::create()
 
   /* Group goto and perform action menu items by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-    action_iterate(action_id) {
-      if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
+    action_iterate(act_id) {
+      if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
         /* This action isn't performed by a unit. */
         continue;
       }
 
-      if (action_id_get_target_kind(action_id) != tgt_kind_group) {
+      if (action_id_get_target_kind(act_id) != tgt_kind_group) {
         /* Wrong group. */
         continue;
       }
 
-      if (action_requires_details(action_id)) {
+      if (action_requires_details(act_id)) {
         /* This menu doesn't support specifying a detailed target (think
          * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
          * action order. */
         continue;
       }
 
-      if (action_id_distance_inside_max(action_id, 2)) {
+      if (action_id_distance_inside_max(act_id, 2)) {
         /* The order system doesn't support actions that can be done to a
          * target that isn't at or next to the actor unit's tile.
          *
@@ -818,15 +818,15 @@ void go_act_menu::create()
       }
 
 #define ADD_OLD_SHORTCUT(wanted_action_id, sc_id)                         \
-  if (action_id == wanted_action_id) {                                    \
+  if (act_id == wanted_action_id) {                                    \
     item->setShortcut(QKeySequence(shortcut_to_string(                    \
                       fc_shortcuts::sc()->get_shortcut(sc_id))));         \
   }
 
       /* Create and add the menu item. It will be hidden or shown based on
        * unit type.  */
-      item = addAction(action_id_name_translation(action_id));
-      items.insert(item, action_id);
+      item = addAction(action_id_name_translation(act_id));
+      items.insert(item, act_id);
 
       /* Add the keyboard shortcuts for "Go to and..." menu items that
        * existed independently before the "Go to and..." menu arrived. */
@@ -836,7 +836,7 @@ void go_act_menu::create()
 
       connect(item, SIGNAL(triggered()),
               go_act_mapper, SLOT(map()));
-      go_act_mapper->setMapping(item, action_id);
+      go_act_mapper->setMapping(item, act_id);
     } action_iterate_end;
   }
 
@@ -886,16 +886,16 @@ void go_act_menu::update()
 /**************************************************************************
   Activate the goto system
 **************************************************************************/
-void go_act_menu::start_go_act(int action_id)
+void go_act_menu::start_go_act(int act_id)
 {
   /* This menu doesn't support specifying a detailed target (think
    * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
    * action order. */
-  fc_assert_ret_msg(!action_requires_details(action_id),
+  fc_assert_ret_msg(!action_requires_details(act_id),
                     "Underspecified target for %s.",
-                    action_id_name_translation(action_id));
+                    action_id_name_translation(act_id));
 
-  request_unit_goto(ORDER_PERFORM_ACTION, action_id, EXTRA_NONE);
+  request_unit_goto(ORDER_PERFORM_ACTION, act_id, EXTRA_NONE);
 }
 
 /**************************************************************************
