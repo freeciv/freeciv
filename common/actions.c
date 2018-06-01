@@ -1824,8 +1824,7 @@ is_action_possible(const action_id wanted_action,
                    const struct output_type *target_output,
                    const struct specialist *target_specialist,
                    const bool omniscient,
-                   const struct city *homecity,
-                   bool ignore_dist)
+                   const struct city *homecity)
 {
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
@@ -1857,7 +1856,7 @@ is_action_possible(const action_id wanted_action,
                       || plr_sees_tile(actor_player, target_tile));
 
   /* Info leak: The player knows where his unit is. */
-  if (!ignore_dist && action_id_get_target_kind(wanted_action) != ATK_SELF
+  if (action_id_get_target_kind(wanted_action) != ATK_SELF
       && !action_id_distance_accepted(wanted_action,
                                       real_map_distance(actor_tile,
                                                         target_tile))) {
@@ -2208,9 +2207,8 @@ is_action_possible(const action_id wanted_action,
     /* Reason: Keep paratroopers_range working. */
     /* Info leak: The player knows the location of the actor and of the
      * target tile. */
-    if (!ignore_dist
-        && (unit_type_get(actor_unit)->paratroopers_range
-            < real_map_distance(actor_tile, target_tile))) {
+    if (unit_type_get(actor_unit)->paratroopers_range
+        < real_map_distance(actor_tile, target_tile)) {
       return TRI_NO;
     }
 
@@ -2349,7 +2347,7 @@ static bool is_action_enabled(const action_id wanted_action,
                               const struct unit_type *target_unittype,
                               const struct output_type *target_output,
                               const struct specialist *target_specialist,
-                              const struct city *homecity, bool ignore_dist)
+                              const struct city *homecity)
 {
   enum fc_tristate possible;
 
@@ -2362,7 +2360,7 @@ static bool is_action_enabled(const action_id wanted_action,
                                 target_building, target_tile,
                                 target_unit, target_unittype,
                                 target_output, target_specialist,
-                                TRUE, homecity, ignore_dist);
+                                TRUE, homecity);
 
   if (possible != TRI_YES) {
     /* This context is omniscient. Should be yes or no. */
@@ -2397,29 +2395,13 @@ static bool is_action_enabled(const action_id wanted_action,
 
   See note in is_action_enabled for why the action may still be disabled.
 **************************************************************************/
-bool is_action_enabled_unit_on_city(const action_id wanted_action,
+static bool
+is_action_enabled_unit_on_city_full(const action_id wanted_action,
                                     const struct unit *actor_unit,
-                                    const struct city *target_city)
+                                    const struct city *target_city,
+                                    const struct city *homecity,
+                                    const struct tile *actor_tile)
 {
-  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
-                                             target_city,
-                                             game_city_by_number(actor_unit->homecity),
-                                             FALSE);
-}
-
-/**************************************************************************
-  Returns TRUE if actor_unit can do wanted_action to target_city as far as
-  action enablers are concerned.
-
-  See note in is_action_enabled for why the action may still be disabled.
-**************************************************************************/
-bool is_action_enabled_unit_on_city_full(const action_id wanted_action,
-                                         const struct unit *actor_unit,
-                                         const struct city *target_city,
-                                         const struct city *homecity,
-                                         bool ignore_dist)
-{
-  struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
   struct unit_type *target_utype;
 
@@ -2443,6 +2425,8 @@ bool is_action_enabled_unit_on_city_full(const action_id wanted_action,
                           action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_CITY));
 
+  fc_assert_ret_val(actor_tile, FALSE);
+
   if (!unit_can_do_action(actor_unit, wanted_action)) {
     /* No point in continuing. */
     return FALSE;
@@ -2458,8 +2442,23 @@ bool is_action_enabled_unit_on_city_full(const action_id wanted_action,
                            NULL, NULL,
                            city_owner(target_city), target_city,
                            target_building, city_tile(target_city),
-                           NULL, target_utype, NULL, NULL, homecity,
-                           ignore_dist);
+                           NULL, target_utype, NULL, NULL, homecity);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_unit can do wanted_action to target_city as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_city(const action_id wanted_action,
+                                    const struct unit *actor_unit,
+                                    const struct city *target_city)
+{
+  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
+                                             target_city,
+                                             unit_home(actor_unit),
+                                             unit_tile(actor_unit));
 }
 
 /**************************************************************************
@@ -2509,8 +2508,7 @@ bool is_action_enabled_unit_on_unit(const action_id wanted_action,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
                            NULL, NULL,
-                           game_city_by_number(actor_unit->homecity),
-                           FALSE);
+                           unit_home(actor_unit));
 }
 
 /**************************************************************************
@@ -2564,7 +2562,7 @@ bool is_action_enabled_unit_on_units(const action_id wanted_action,
                            tile_city(unit_tile(target_unit)), NULL,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
-                           NULL, NULL, homecity, FALSE)) {
+                           NULL, NULL, homecity)) {
       /* One unit makes it impossible for all units. */
       return FALSE;
     }
@@ -2618,8 +2616,7 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
                            NULL, NULL,
                            tile_owner(target_tile), NULL, NULL,
                            target_tile, NULL, NULL, NULL, NULL,
-                           game_city_by_number(actor_unit->homecity),
-                           FALSE);
+                           unit_home(actor_unit));
 }
 
 /**************************************************************************
@@ -2665,7 +2662,7 @@ bool is_action_enabled_unit_on_self(const action_id wanted_action,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
                            NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                           game_city_by_number(actor_unit->homecity), FALSE);
+                           unit_home(actor_unit));
 }
 
 /**************************************************************************
@@ -2940,6 +2937,7 @@ action_prob(const action_id wanted_action,
             const struct unit_type *actor_unittype_p,
             const struct output_type *actor_output,
             const struct specialist *actor_specialist,
+            const struct city *actor_home,
             const struct player *target_player,
             const struct city *target_city,
             const struct impr_type *target_building,
@@ -2953,7 +2951,6 @@ action_prob(const action_id wanted_action,
   struct act_prob chance;
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
-  const struct city *homecity;
 
   if (actor_unittype_p == NULL && actor_unit != NULL) {
     actor_unittype = unit_type_get(actor_unit);
@@ -2967,12 +2964,6 @@ action_prob(const action_id wanted_action,
     target_unittype = target_unittype_p;
   }
 
-  if (actor_unit != NULL) {
-    homecity = game_city_by_number(actor_unit->homecity);
-  } else {
-    homecity = NULL;
-  }
-
   known = is_action_possible(wanted_action,
                              actor_player, actor_city,
                              actor_building, actor_tile,
@@ -2982,7 +2973,7 @@ action_prob(const action_id wanted_action,
                              target_building, target_tile,
                              target_unit, target_unittype,
                              target_output, target_specialist,
-                             FALSE, homecity, FALSE);
+                             FALSE, actor_home);
 
   if (known == TRI_NO) {
     /* The action enablers are irrelevant since the action it self is
@@ -3208,11 +3199,13 @@ action_prob(const action_id wanted_action,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-struct act_prob action_prob_vs_city(const struct unit* actor_unit,
-                                    const action_id act_id,
-                                    const struct city* target_city)
+static struct act_prob
+action_prob_vs_city_full(const struct unit* actor_unit,
+                         const struct city *actor_home,
+                         const struct tile *actor_tile,
+                         const action_id act_id,
+                         const struct city* target_city)
 {
-  struct tile *actor_tile = unit_tile(actor_unit);
   struct impr_type *target_building;
   struct unit_type *target_utype;
 
@@ -3237,6 +3230,8 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
                           action_id_get_target_kind(act_id)),
                         action_target_kind_name(ATK_CITY));
 
+  fc_assert_ret_val(actor_tile, ACTPROB_IMPOSSIBLE);
+
   if (!unit_can_do_action(actor_unit, act_id)) {
     /* No point in continuing. */
     return ACTPROB_IMPOSSIBLE;
@@ -3245,7 +3240,7 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
   /* Doesn't leak information about city position since an unknown city
    * can't be targeted and a city can't move. */
   if (!action_id_distance_accepted(act_id,
-          real_map_distance(unit_tile(actor_unit),
+          real_map_distance(actor_tile,
                             city_tile(target_city)))) {
     /* No point in continuing. */
     return ACTPROB_IMPOSSIBLE;
@@ -3271,13 +3266,27 @@ struct act_prob action_prob_vs_city(const struct unit* actor_unit,
   return action_prob(act_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL,
+                     NULL, NULL, actor_home,
                      city_owner(target_city), target_city,
                      target_building, city_tile(target_city),
                      NULL, target_utype, NULL, NULL);
 }
 
 /**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on the target city.
+**************************************************************************/
+struct act_prob action_prob_vs_city(const struct unit* actor_unit,
+                                    const action_id act_id,
+                                    const struct city* target_city)
+{
+  return action_prob_vs_city_full(actor_unit,
+                                  unit_home(actor_unit),
+                                  unit_tile(actor_unit),
+                                  act_id, target_city);
+}
+
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
@@ -3326,6 +3335,7 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL,
+                     unit_home(actor_unit),
                      unit_owner(target_unit),
                      tile_city(unit_tile(target_unit)), NULL,
                      unit_tile(target_unit),
@@ -3447,6 +3457,7 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
                             tile_city(actor_tile),
                             NULL, actor_tile, actor_unit, NULL,
                             NULL, NULL,
+                            unit_home(actor_unit),
                             unit_owner(target_unit),
                             tile_city(unit_tile(target_unit)), NULL,
                             unit_tile(target_unit),
@@ -3529,7 +3540,7 @@ struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
   return action_prob(act_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL,
+                     NULL, NULL, unit_home(actor_unit),
                      tile_owner(target_tile), NULL, NULL,
                      target_tile, NULL, NULL, NULL, NULL);
 }
@@ -3573,9 +3584,39 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
 
   return action_prob(act_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
-                     NULL, actor_tile, actor_unit, NULL,
-                     NULL, NULL,
+                     NULL, actor_tile, actor_unit, NULL, NULL, NULL,
+                     unit_home(actor_unit),
                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+/**********************************************************************//**
+  Returns a speculation about the actor unit's probability of successfully
+  performing the chosen action on the target city given the specified
+  state changes.
+**************************************************************************/
+struct act_prob action_speculate_unit_on_city(const action_id act_id,
+                                              const struct unit *actor,
+                                              const struct city *actor_home,
+                                              const struct tile *actor_tile,
+                                              const bool omniscient_cheat,
+                                              const struct city* target)
+{
+  /* FIXME: some unit state requirements still depend on the actor unit's
+   * current position rather than on actor_tile. Maybe this function should
+   * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
+   * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+
+  if (omniscient_cheat) {
+    if (is_action_enabled_unit_on_city_full(act_id, actor, target,
+                                            actor_home, actor_tile)) {
+      return ACTPROB_CERTAIN;
+    } else {
+      return ACTPROB_IMPOSSIBLE;
+    }
+  } else {
+    return action_prob_vs_city_full(actor, actor_home, actor_tile,
+                                    act_id, target);
+  }
 }
 
 /**************************************************************************
