@@ -179,12 +179,6 @@ bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
 
-bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
-                                         const struct unit *actor_unit,
-                                         const struct city *target_city,
-                                         const struct city *homecity,
-                                         bool ignore_dist);
-
 bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
@@ -196,6 +190,13 @@ struct act_prob action_prob_vs_city(const struct unit* actor,
 struct act_prob action_prob_vs_unit(const struct unit* actor,
                                     const int act_id,
                                     const struct unit* victim);
+
+struct act_prob action_speculate_unit_on_city(action_id act_id,
+                                              const struct unit *actor,
+                                              const struct city *actor_home,
+                                              const struct tile *actor_tile,
+                                              bool omniscient_cheat,
+                                              const struct city* target);
 
 bool action_prob_possible(const struct act_prob probability);
 

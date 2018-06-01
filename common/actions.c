@@ -563,8 +563,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
 			       const struct output_type *target_output,
                                const struct specialist *target_specialist,
                                const bool omniscient,
-                               const struct city *homecity,
-                               bool ignore_dist)
+                               const struct city *homecity)
 {
   fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -572,7 +571,7 @@ static bool is_action_possible(const enum gen_action wanted_action,
                     && target_unit != NULL),
                 "Missing target!");
 
-  if (!ignore_dist && action_id_get_actor_kind(wanted_action) == AAK_UNIT) {
+  if (action_id_get_actor_kind(wanted_action) == AAK_UNIT) {
     /* The Freeciv code for all actions controlled by enablers assumes that
      * an acting unit is on the same tile as its target or on the tile next
      * to it. */
@@ -803,7 +802,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                               const struct unit_type *target_unittype,
                               const struct output_type *target_output,
                               const struct specialist *target_specialist,
-                              const struct city *homecity, bool ignore_dist)
+                              const struct city *homecity)
 {
   if (!is_action_possible(wanted_action,
                           actor_player, actor_city,
@@ -814,7 +813,7 @@ static bool is_action_enabled(const enum gen_action wanted_action,
                           target_building, target_tile,
                           target_unit, target_unittype,
                           target_output, target_specialist,
-                          TRUE, homecity, ignore_dist)) {
+                          TRUE, homecity)) {
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return FALSE;
@@ -843,30 +842,13 @@ static bool is_action_enabled(const enum gen_action wanted_action,
 
   See note in is_action_enabled for why the action may still be disabled.
 **************************************************************************/
-bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
+static bool
+is_action_enabled_unit_on_city_full(const action_id wanted_action,
                                     const struct unit *actor_unit,
+                                    const struct city *actor_home,
+                                    const struct tile *actor_tile,
                                     const struct city *target_city)
 {
-  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
-                                             target_city,
-                                             game_city_by_number(actor_unit->homecity),
-                                             FALSE);
-}
-
-/**************************************************************************
-  Returns TRUE if actor_unit can do wanted_action to target_city as far as
-  action enablers are concerned.
-
-  See note in is_action_enabled for why the action may still be disabled.
-**************************************************************************/
-bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
-                                         const struct unit *actor_unit,
-                                         const struct city *target_city,
-                                         const struct city *homecity,
-                                         bool ignore_dist)
-{
-  struct tile *actor_tile = unit_tile(actor_unit);
-
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
     return FALSE;
@@ -887,6 +869,8 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                           action_id_get_target_kind(wanted_action)),
                         action_target_kind_name(ATK_CITY));
 
+  fc_assert_ret_val(actor_tile, FALSE);
+
   if (!unit_can_do_action(actor_unit, wanted_action)) {
     /* No point in continuing. */
     return FALSE;
@@ -899,7 +883,23 @@ bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
                            NULL, NULL,
                            city_owner(target_city), target_city, NULL,
                            city_tile(target_city), NULL, NULL, NULL, NULL,
-                           homecity, ignore_dist);
+                           actor_home);
+}
+
+/**************************************************************************
+  Returns TRUE if actor_unit can do wanted_action to target_city as far as
+  action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
+                                    const struct unit *actor_unit,
+                                    const struct city *target_city)
+{
+  return is_action_enabled_unit_on_city_full(wanted_action, actor_unit,
+                                             unit_home(actor_unit),
+                                             unit_tile(actor_unit),
+                                             target_city);
 }
 
 /**************************************************************************
@@ -950,8 +950,7 @@ bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
                            unit_tile(target_unit),
                            target_unit, unit_type_get(target_unit),
                            NULL, NULL,
-                           game_city_by_number(actor_unit->homecity),
-                           FALSE);
+                           unit_home(actor_unit));
 }
 
 /**************************************************************************
@@ -1211,6 +1210,7 @@ action_prob(const enum gen_action wanted_action,
             const struct unit *actor_unit,
             const struct output_type *actor_output,
             const struct specialist *actor_specialist,
+            const struct city *actor_home,
             const struct player *target_player,
             const struct city *target_city,
             const struct impr_type *target_building,
@@ -1223,7 +1223,6 @@ action_prob(const enum gen_action wanted_action,
   struct act_prob chance;
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
-  const struct city *homecity;
 
   if (actor_unit == NULL) {
     actor_unittype = NULL;
@@ -1237,12 +1236,6 @@ action_prob(const enum gen_action wanted_action,
     target_unittype = unit_type_get(target_unit);
   }
 
-  if (actor_unit != NULL) {
-    homecity = game_city_by_number(actor_unit->homecity);
-  } else {
-    homecity = NULL;
-  }
-
   if (!is_action_possible(wanted_action,
                           actor_player, actor_city,
                           actor_building, actor_tile,
@@ -1252,7 +1245,7 @@ action_prob(const enum gen_action wanted_action,
                           target_building, target_tile,
                           target_unit, target_unittype,
                           target_output, target_specialist,
-                          FALSE, homecity, FALSE)) {
+                          FALSE, actor_home)) {
     /* The action enablers are irrelevant since the action it self is
      * impossible. */
     return ACTPROB_IMPOSSIBLE;
@@ -1361,12 +1354,13 @@ action_prob(const enum gen_action wanted_action,
   Get the actor unit's probability of successfully performing the chosen
   action on the target city.
 **************************************************************************/
-struct act_prob action_prob_vs_city(const struct unit *actor_unit,
-                                    const int act_id,
-                                    const struct city *target_city)
+static struct act_prob
+action_prob_vs_city_full(const struct unit* actor_unit,
+                         const struct city *actor_home,
+                         const struct tile *actor_tile,
+                         const action_id act_id,
+                         const struct city* target_city)
 {
-  struct tile *actor_tile = unit_tile(actor_unit);
-
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
     return ACTPROB_IMPOSSIBLE;
@@ -1388,6 +1382,8 @@ struct act_prob action_prob_vs_city(const struct unit *actor_unit,
                           action_id_get_target_kind(act_id)),
                         action_target_kind_name(ATK_CITY));
 
+  fc_assert_ret_val(actor_tile, ACTPROB_IMPOSSIBLE);
+
   if (!unit_can_do_action(actor_unit, act_id)) {
     /* No point in continuing. */
     return ACTPROB_IMPOSSIBLE;
@@ -1396,12 +1392,26 @@ struct act_prob action_prob_vs_city(const struct unit *actor_unit,
   return action_prob(act_id,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit,
-                     NULL, NULL,
+                     NULL, NULL, actor_home,
                      city_owner(target_city), target_city, NULL,
                      city_tile(target_city), NULL, NULL, NULL);
 }
 
 /**************************************************************************
+  Get the actor unit's probability of successfully performing the chosen
+  action on the target city.
+**************************************************************************/
+struct act_prob action_prob_vs_city(const struct unit* actor_unit,
+                                    const action_id act_id,
+                                    const struct city* target_city)
+{
+  return action_prob_vs_city_full(actor_unit,
+                                  unit_home(actor_unit),
+                                  unit_tile(actor_unit),
+                                  act_id, target_city);
+}
+
+/**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
   action on the target unit.
 **************************************************************************/
@@ -1441,10 +1451,42 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit,
                      NULL, NULL,
+                     unit_home(actor_unit),
                      unit_owner(target_unit),
                      tile_city(unit_tile(target_unit)), NULL,
                      unit_tile(target_unit),
                      target_unit, NULL, NULL);
+}
+
+/**********************************************************************//**
+  Returns a speculation about the actor unit's probability of successfully
+  performing the chosen action on the target city given the specified
+  state changes.
+**************************************************************************/
+struct act_prob action_speculate_unit_on_city(const action_id act_id,
+                                              const struct unit *actor,
+                                              const struct city *actor_home,
+                                              const struct tile *actor_tile,
+                                              const bool omniscient_cheat,
+                                              const struct city* target)
+{
+  /* FIXME: some unit state requirements still depend on the actor unit's
+   * current position rather than on actor_tile. Maybe this function should
+   * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
+   * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+
+  if (omniscient_cheat) {
+    if (is_action_enabled_unit_on_city_full(act_id,
+                                            actor, actor_home, actor_tile,
+                                            target)) {
+      return ACTPROB_CERTAIN;
+    } else {
+      return ACTPROB_IMPOSSIBLE;
+    }
+  } else {
+    return action_prob_vs_city_full(actor, actor_home, actor_tile,
+                                    act_id, target);
+  }
 }
 
 /**************************************************************************
