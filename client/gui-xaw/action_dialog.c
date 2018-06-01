@@ -834,18 +834,18 @@ static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 /*************************************************************************
   Control the display of an action
 **************************************************************************/
-static void action_entry(Widget w, int action_id,
+static void action_entry(Widget w, int act_id,
                          const struct act_prob *act_probs)
 {
   Arg arglist[1];
 
-  if (!action_prob_possible(act_probs[action_id])) {
+  if (!action_prob_possible(act_probs[act_id])) {
     XtSetSensitive(w, FALSE);
   }
 
   XtSetArg(arglist[0], "label",
-           action_prepare_ui_name(action_id, "",
-                                  act_probs[action_id], NULL));
+           action_prepare_ui_name(act_id, "",
+                                  act_probs[act_id], NULL));
   XtSetValues(w, arglist, XtNumber(arglist));
 }
 

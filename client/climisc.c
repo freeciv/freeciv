@@ -1216,13 +1216,13 @@ bool can_units_do_connect(struct unit_list *punits,
   Note: only DRO_FOREIGN and the values of diplstate_type are tested.
 **************************************************************************/
 static bool can_unit_act_diplstate(struct unit_type *act_unit_type,
-                                   const int action_id,
+                                   const int act_id,
                                    const struct player *act_player,
                                    const struct player *tgt_player)
 {
   if (act_player == tgt_player) {
     /* The actor player is the target player. */
-    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
+    return can_utype_do_act_if_tgt_diplrel(act_unit_type, act_id,
                                            DRO_FOREIGN, FALSE);
   } else {
     /* The actor player and the target player are different. */
@@ -1232,7 +1232,7 @@ static bool can_unit_act_diplstate(struct unit_type *act_unit_type,
     diplstate = player_diplstate_get(act_player, tgt_player);
     fc_assert(diplstate);
 
-    return can_utype_do_act_if_tgt_diplrel(act_unit_type, action_id,
+    return can_utype_do_act_if_tgt_diplrel(act_unit_type, act_id,
                                            diplstate->type, TRUE);
   }
 }
