@@ -119,8 +119,9 @@ action_prob_not_impl(const struct act_prob probability);
 FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
 
-/**************************************************************************
-  Register an obligatory hard requirement for the actions it applies to.
+/**********************************************************************//**
+  Register an obligatory hard requirement for the action results it
+  applies to.
 
   The vararg parameter is a list of action ids it applies to terminated
   by ACTION_NONE.
