@@ -226,7 +226,7 @@ void tab_enabler::edit_type(QAction *action)
 
   if (selected != nullptr && paction != nullptr) {
     /* Store the old action so it can be changed back. */
-    const enum gen_action old_action = selected->action;
+    const action_id old_action = selected->action;
 
     /* Handle the new action's hard obligatory requirements. */
     selected->action = paction->id;

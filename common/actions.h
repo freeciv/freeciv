@@ -194,7 +194,7 @@ extern "C" {
 
 struct action
 {
-  enum gen_action id;
+  action_id id;
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
 
@@ -245,7 +245,7 @@ struct action
 struct action_enabler
 {
   bool disabled;
-  enum gen_action action;
+  action_id action;
   struct requirement_vector actor_reqs;
   struct requirement_vector target_reqs;
 };
@@ -261,7 +261,7 @@ struct action_enabler
 
 #define action_iterate(_act_)                                             \
 {                                                                         \
-  int _act_;                                                              \
+  action_id _act_;                                                        \
   for (_act_ = 0; _act_ < NUM_ACTIONS; _act_++) {
 
 #define action_iterate_end                             \
@@ -273,7 +273,7 @@ struct action_enabler
   int _pos_;                                                              \
                                                                           \
   for (_pos_ = 0; _pos_ < NUM_ACTIONS; _pos_++) {                         \
-    const int _act_id_ = _act_list_[_pos_];                               \
+    const action_id _act_id_ = _act_list_[_pos_];                         \
                                                                           \
     if (_act_id_ == ACTION_NONE) {                                        \
       /* No more actions in this list. */                                 \
@@ -288,7 +288,7 @@ struct action_enabler
 {                                                        \
   action_iterate(_act_) {                                \
     action_enabler_list_iterate(                         \
-      action_enablers_for_action((enum gen_action)_act_), _enabler_) {
+      action_enablers_for_action(_act_), _enabler_) {
 
 #define action_enablers_iterate_end                      \
     } action_enabler_list_iterate_end;                   \
@@ -329,7 +329,7 @@ struct action_auto_perf
 
   /* Auto perform the first legal action in this list.
    * The list is terminated by ACTION_NONE. */
-  enum gen_action alternatives[MAX_NUM_ACTIONS];
+  action_id alternatives[MAX_NUM_ACTIONS];
 };
 
 #define action_auto_perf_iterate(_act_perf_)                              \
@@ -377,9 +377,9 @@ void actions_free(void);
 
 bool actions_are_ready(void);
 
-bool action_id_exists(const int act_id);
+bool action_id_exists(const action_id act_id);
 
-struct action *action_by_number(int act_id);
+struct action *action_by_number(action_id act_id);
 struct action *action_by_rule_name(const char *name);
 
 enum action_actor_kind action_get_actor_kind(const struct action *paction);
@@ -399,11 +399,11 @@ bool action_has_result(const struct action *paction,
 #define action_id_has_result(act_id, result)                              \
   action_has_result(action_by_number(act_id), result)
 
-bool action_is_hostile(int act_id);
+bool action_is_hostile(action_id act_id);
 
-bool action_requires_details(int act_id);
+bool action_requires_details(action_id act_id);
 
-bool action_id_is_rare_pop_up(int act_id);
+bool action_id_is_rare_pop_up(action_id act_id);
 
 bool action_distance_accepted(const struct action *action,
                               const int distance);
@@ -426,20 +426,20 @@ int action_get_role(const struct action *paction);
   action_get_role(action_by_number(act_id))
 
 const char *action_rule_name(const struct action *action);
-const char *action_id_rule_name(int act_id);
+const char *action_id_rule_name(action_id act_id);
 
 const char *action_name_translation(const struct action *action);
-const char *action_id_name_translation(int act_id);
-const char *action_get_ui_name_mnemonic(int act_id,
+const char *action_id_name_translation(action_id act_id);
+const char *action_get_ui_name_mnemonic(action_id act_id,
                                         const char* mnemonic);
-const char *action_prepare_ui_name(int act_id, const char* mnemonic,
+const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-const char *action_get_tool_tip(const int act_id,
+const char *action_get_tool_tip(const action_id act_id,
                                 const struct act_prob prob);
 
 struct action_enabler_list *
-action_enablers_for_action(enum gen_action action);
+action_enablers_for_action(action_id action);
 
 struct action_enabler *action_enabler_new(void);
 struct action_enabler *
@@ -451,55 +451,55 @@ const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
 void action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
-struct action *action_is_blocked_by(const int act_id,
+struct action *action_is_blocked_by(const action_id act_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
                                     const struct city *target_city,
                                     const struct unit *target_unit);
 
-bool is_action_enabled_unit_on_city(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_city(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct city *target_city);
 
-bool is_action_enabled_unit_on_city_full(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_city_full(const action_id wanted_action,
                                          const struct unit *actor_unit,
                                          const struct city *target_city,
                                          const struct city *homecity,
                                          bool ignore_dist);
 
-bool is_action_enabled_unit_on_unit(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_unit(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct unit *target_unit);
 
-bool is_action_enabled_unit_on_units(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_units(const action_id wanted_action,
                                      const struct unit *actor_unit,
                                      const struct tile *target_tile);
 
-bool is_action_enabled_unit_on_tile(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_tile(const action_id wanted_action,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile);
 
-bool is_action_enabled_unit_on_self(const enum gen_action wanted_action,
+bool is_action_enabled_unit_on_self(const action_id wanted_action,
                                     const struct unit *actor_unit);
 
 struct act_prob action_prob_vs_city(const struct unit* actor,
-                                    const int act_id,
+                                    const action_id act_id,
                                     const struct city* victim);
 
 struct act_prob action_prob_vs_unit(const struct unit* actor,
-                                    const int act_id,
+                                    const action_id act_id,
                                     const struct unit* victim);
 
 struct act_prob action_prob_vs_units(const struct unit* actor,
-                                     const int act_id,
+                                     const action_id act_id,
                                      const struct tile* victims);
 
 struct act_prob action_prob_vs_tile(const struct unit *actor,
-                                    const int act_id,
+                                    const action_id act_id,
                                     const struct tile *victims);
 
 struct act_prob action_prob_self(const struct unit *actor,
-                                 const int act_id);
+                                 const action_id act_id);
 
 bool action_prob_possible(const struct act_prob probability);
 
@@ -531,11 +531,11 @@ struct act_prob action_prob_new_certain(void);
 #define ACTPROB_NOT_KNOWN action_prob_new_unknown()
 
 bool
-action_actor_utype_hard_reqs_ok(const enum gen_action wanted_action,
+action_actor_utype_hard_reqs_ok(const action_id wanted_action,
                                 const struct unit_type *actor_unittype);
 
 /* Reasoning about actions */
-bool action_immune_government(struct government *gov, int act);
+bool action_immune_government(struct government *gov, action_id act);
 
 bool action_blocked_by_situation_act(const struct action *paction,
                                      const struct requirement *situation);
@@ -547,15 +547,15 @@ bool action_blocked_by_situation_tgt(const struct action *paction,
 #define action_id_blocked_by_situation_tgt(act_id, situation)             \
   action_blocked_by_situation_tgt(action_by_number(act_id), situation)
 
-bool is_action_possible_on_city(const enum gen_action act_id,
+bool is_action_possible_on_city(action_id act_id,
                                 const struct player *actor_player,
                                 const struct city* target_city);
 
-bool action_maybe_possible_actor_unit(const int wanted_action,
+bool action_maybe_possible_actor_unit(const action_id wanted_action,
                                       const struct unit* actor_unit);
 
 bool action_mp_full_makes_legal(const struct unit *actor,
-                                const int act_id);
+                                const action_id act_id);
 
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
