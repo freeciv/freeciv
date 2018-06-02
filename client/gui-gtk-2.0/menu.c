@@ -1083,7 +1083,7 @@ static void build_city_callback(GtkAction *action, gpointer data)
 static void go_build_city_callback(GtkAction *action, gpointer data)
 {
   request_unit_goto(ORDER_PERFORM_ACTION,
-                    ACTION_FOUND_CITY, EXTRA_NONE);
+                    ACTION_FOUND_CITY, -1);
 }
 
 /****************************************************************
@@ -1092,7 +1092,7 @@ static void go_build_city_callback(GtkAction *action, gpointer data)
 static void go_join_city_callback(GtkAction *action, gpointer data)
 {
   request_unit_goto(ORDER_PERFORM_ACTION,
-                    ACTION_JOIN_CITY, EXTRA_NONE);
+                    ACTION_JOIN_CITY, -1);
 }
 
 /****************************************************************
@@ -1278,7 +1278,7 @@ static void diplomat_action_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void explode_nuke_callback(GtkAction *action, gpointer data)
 {
-  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
+  request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, -1);
 }
 
 /****************************************************************

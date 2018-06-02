@@ -1573,6 +1573,7 @@ static void player_load_units(struct player *plr, int plrno,
 	  order->order = char2order(orders_buf[j]);
 	  order->dir = char2dir(dir_buf[j]);
 	  order->activity = char2activity(act_buf[j]);
+	  order->target = -1;
 
 	  if (order->order == ORDER_LAST
 	      || (order->order == ORDER_MOVE && !direction8_is_valid(order->dir))
@@ -1604,7 +1605,7 @@ static void player_load_units(struct player *plr, int plrno,
           if (order_base != NULL) {
             /* Either ACTIVITY_FORTRESS or ACTIVITY_AIRBASE */
             order->activity = ACTIVITY_BASE;
-            order->target = extra_number(base_extra_get(order_base));
+            order->extra = extra_number(base_extra_get(order_base));
           } else if (base_buf && base_buf[j] != '?') {
             base = char2num(base_buf[j]);
 
@@ -1616,17 +1617,17 @@ static void player_load_units(struct player *plr, int plrno,
               base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
             }
 
-            order->target = extra_number(base_extra_get(base_by_number(base)));
+            order->extra = extra_number(base_extra_get(base_by_number(base)));
           } else {
-            order->target = EXTRA_NONE;
+            order->extra = EXTRA_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(road_extra_get(road_by_number(road_idx)));
+            order->extra = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->target = extra_number(road_extra_get(road_by_number(rail_idx)));
+            order->extra = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
 	}
         if (punit->orders.list[len - 1].order == ORDER_MOVE) {

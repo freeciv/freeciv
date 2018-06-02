@@ -74,6 +74,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
                      int goto_last_tgt,
                      int goto_last_action,
                      enum unit_orders goto_last_order);
+void clear_hover_state(void);
 void request_center_focus_unit(void);
 void request_unit_non_action_move(struct unit *punit,
                                   struct tile *dest_tile);
