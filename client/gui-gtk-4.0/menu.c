@@ -1387,7 +1387,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
                     "Underspecified target for %s.",
                     action_id_name_translation(action->id));
 
-  request_unit_goto(ORDER_PERFORM_ACTION, action->id, EXTRA_NONE);
+  request_unit_goto(ORDER_PERFORM_ACTION, action->id, -1);
 }
 
 /************************************************************************//**

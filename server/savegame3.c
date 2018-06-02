@@ -5590,7 +5590,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
               /* Sabotage target is invalid. */
               log_sg("Cannot find building %d for %s to sabotage",
                      order_tgt, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
+              order->target = 0;
             } else {
               order->target = order_tgt;
             }
@@ -5603,19 +5603,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
               /* Target tech is invalid. */
               log_sg("Cannot find tech %d for %s to steal",
                      order_tgt, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
+              order->target = A_NONE;
             } else {
               order->target = order_tgt;
             }
-            break;
-          case ACTION_PILLAGE:
-          case ACTION_ROAD:
-          case ACTION_BASE:
-          case ACTION_MINE:
-          case ACTION_IRRIGATE:
-            /* Target is a tile, has also extra target */
-            order->target = order_tgt;
-            order->extra = order_extra;
             break;
           case ACTION_ESTABLISH_EMBASSY:
           case ACTION_ESTABLISH_EMBASSY_STAY:
@@ -5663,28 +5654,36 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_FORTIFY:
           case ACTION_CONVERT:
           case ACTION_COUNT:
-            /* Target in order unsupported. */
-
-            /* Target shouldn't be specified yet. */
+            /* None of these can take an extra. */
+            fc_assert_msg(order_extra == EXTRA_NONE,
+                          "Specified extra for action %d unsupported.",
+                          order->action);
+            order_extra = EXTRA_NONE;
+            /* They can't take a target either, so fall through: */
+          case ACTION_PILLAGE:
+          case ACTION_ROAD:
+          case ACTION_BASE:
+          case ACTION_MINE:
+          case ACTION_IRRIGATE:
+            /* These take an extra but no target. */
             fc_assert_msg(order_tgt == -1,
                           "Specified target for action %d unsupported.",
                           order->action);
 
-            order->target = EXTRA_NONE;
+            order->target = -1;
 
             break;
           }
-        } else {
-          if (order_extra < 0 || order_extra >= loading->extra.size) {
-            if (order_extra != EXTRA_NONE) {
-              log_sg("Cannot find extra %d for %s to build",
-                     order_extra, unit_rule_name(punit));
-            }
-
-            order->extra = EXTRA_NONE;
-          } else {
-            order->extra = order_extra;
+        }
+        if (order_extra < 0 || order_extra >= loading->extra.size) {
+          if (order_extra != EXTRA_NONE) {
+            log_sg("Cannot find extra %d for %s to build",
+                   order_extra, unit_rule_name(punit));
           }
+
+          order->extra = EXTRA_NONE;
+        } else {
+          order->extra = order_extra;
         }
       }
     } else {

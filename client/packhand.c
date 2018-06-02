@@ -2044,9 +2044,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
-    set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
+    clear_hover_state();
 
     if (pinfo->is_edit_mode && game.scenario.handmade) {
       if (!handmade_scenario_warning()) {

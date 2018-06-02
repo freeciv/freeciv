@@ -276,8 +276,7 @@ void map_view::shortcut_pressed(int key)
   if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order == true) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     gui()->menu_bar->set_tile_for_order(ptile);
-    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
+    clear_hover_state();
     exit_goto_state();
     gui()->menu_bar->delayed_order = false;
     return;

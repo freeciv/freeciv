@@ -891,7 +891,7 @@ void go_act_menu::start_go_act(int act_id)
                     "Underspecified target for %s.",
                     action_id_name_translation(act_id));
 
-  request_unit_goto(ORDER_PERFORM_ACTION, act_id, EXTRA_NONE);
+  request_unit_goto(ORDER_PERFORM_ACTION, act_id, -1);
 }
 
 /**************************************************************************
