@@ -73,9 +73,14 @@ Anarchy is simply the absence of any recognizable government.\
 ; /* xgettext:no-c-format */
 _("\
 * Buildings and technologies do not require any upkeep.\n\
+* Each worked tile that gives more than 2 Food, Shield, or Trade will\
+ suffer a -1 penalty, unless the city working it is celebrating.\
+ (Cities below size 3 will not celebrate.)\n\
 * Each city can support up to 2 units for free; further units each cost\
  1 shield per turn.\n\
 * Military units do not cause unhappiness even when deployed aggressively.\n\
+* Military units impose martial law. Up to 3 military units inside a city\
+ will each force 1 unhappy citizen to become content.\n\
 * You have no control over tax rates. Half of the trade income is\
  simply lost to your economy (less if you have luxury-promoting buildings),\
  and the remainder all goes to luxuries.\
@@ -102,12 +107,16 @@ Under a Tribal government, you are part ruler of your people. Your\
  control over your citizens is maintained largely by spiritual counsel.\
 "), _("\
 Compared to Despotism, a Tribal economy is more shield-oriented. Its\
- bonuses to veterancy can be an advantage in wartime.\
+ bonuses to veterancy can be an advantage in wartime, but it lacks the\
+ martial law of other early governments.\
 "),
 ; /* xgettext:no-c-format */
 _("\
 * Increases by half the chance of land units getting the next veteran level\
  after a battle.\n\
+* Each worked tile that gives more than 2 Food, Shield, or Trade will\
+ suffer a -1 penalty, unless the city working it is celebrating.\
+ (Cities below size 3 will not celebrate.)\n\
 * Each city gets 1 extra content citizen.\n\
 * Each city can support up to 2 units for free; further units each cost\
  1 shield per turn.\n\
@@ -140,11 +149,17 @@ Compared to Tribalism, a Despotic economy is more trade-oriented.\
 "),
 ; /* xgettext:no-c-format */
 _("\
-* Your capital city gets a +75% bonus to gold production.\n\
+* Your centers of government (cities with Palace and Ecclesiastical\
+ Palace) get a +75% bonus to gold production.\n\
+* Each worked tile that gives more than 2 Food, Shield, or Trade will\
+ suffer a -1 penalty, unless the city working it is celebrating.\
+ (Cities below size 3 will not celebrate.)\n\
 * Each city can support up to 2 units for free; further units each cost\
  1 gold per turn.\n\
 * Unlike later governments, military units do not cause unhappiness even\
  when deployed aggressively.\n\
+* Military units impose martial law. Up to 3 military units inside a city\
+ will each force 1 unhappy citizen to become content.\n\
 * Base corruption is 20%. This increases with distance from the capital\
  (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 10%. This increases with distance from the\
@@ -172,13 +187,16 @@ Monarchy gives low unit upkeep costs.\
 "),
 ; /* xgettext:no-c-format */
 _("\
-* Your capital city gets a +50% bonus to gold production.\n\
+* Your centers of government (cities with Palace and Ecclesiastical\
+ Palace) get a +50% bonus to gold production.\n\
 * Celebrating cities produce one extra trade point for every tile which is\
  already producing trade. (Cities below size 3 will not celebrate.)\n\
 * Each city can support up to 3 units for free (the maximum possible);\
  further units each cost 1 gold per turn.\n\
 * Each city tolerates up to 3 aggressively deployed military units;\
  each further unit causes 1 unhappy citizen.\n\
+* Military units impose martial law. Up to 3 military units inside a city\
+ will each force 1 unhappy citizen to become content.\n\
 * Base corruption is 10%. This increases with distance from the capital\
  (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 20%. This increases with distance from the\
@@ -215,6 +233,9 @@ _("\
  further units each cost 1 shield per turn.\n\
 * Each city tolerates up to 3 aggressively deployed military units;\
  each further unit causes 1 unhappy citizen.\n\
+* Military units impose martial law. Up to 3 military units inside a city\
+ will each force 2 unhappy citizens to become content (the maximum\
+ possible).\n\
 * Base corruption is 30%, but is not affected by distance to the capital.\n\
 * There is no production waste.\
 "), _("* Your bureaucracy can prevent you from disbanding certain units.\
@@ -298,7 +319,8 @@ _("\
  with distance from the capital (half as much as with most other\
  governments). Knowledge of The Corporation eliminates this corruption.\n\
 * Base production waste is 30%, but is not affected by distance to the\
- capital.\
+ capital.\n\
+* Has a senate that may prevent declaration of war.\
 ")
 
 ;------------------------------------------------------------------------
@@ -373,7 +395,8 @@ _("\
 * Base corruption is 5%. This increases with distance from the capital\
  (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 25%. This increases with distance from the\
- capital (half as fast with knowledge of Trade).\
+ capital (half as fast with knowledge of Trade).\n\
+* Has a senate that may prevent declaration of war.\
 "), _("* Your bureaucracy can prevent you from disbanding certain units.\
 ")
 
