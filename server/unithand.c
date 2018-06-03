@@ -4974,6 +4974,24 @@ void handle_unit_orders(struct player *pplayer,
           return;
         }
         break;
+      case ACTION_ROAD:
+      case ACTION_BASE:
+      case ACTION_MINE:
+      case ACTION_IRRIGATE:
+        if (packet->extra[i] == EXTRA_NONE
+            || (packet->extra[i] < 0
+                || packet->extra[i] >= game.control.num_extra_types)
+            || extra_by_number(packet->extra[i])->disabled) {
+          /* Target extra is invalid. */
+
+          log_error("handle_unit_orders() can't do %s without a target. "
+                    "Sent in order number %d from %s to unit number %d.",
+                    action_id_rule_name(packet->action[i]), i,
+                    player_name(pplayer), packet->unit_id);
+
+          return;
+        }
+        break;
       case ACTION_ESTABLISH_EMBASSY:
       case ACTION_ESTABLISH_EMBASSY_STAY:
       case ACTION_SPY_INVESTIGATE_CITY:
@@ -5019,11 +5037,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_MINE_TF:
       case ACTION_PILLAGE:
       case ACTION_FORTIFY:
-      case ACTION_ROAD:
       case ACTION_CONVERT:
-      case ACTION_BASE:
-      case ACTION_MINE:
-      case ACTION_IRRIGATE:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */
