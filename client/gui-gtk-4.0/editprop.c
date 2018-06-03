@@ -235,7 +235,7 @@ union propval_data {
   struct nation_type *v_nation;
   struct nation_hash *v_nation_hash;
   struct government *v_gov;
-  bool *v_inventions;
+  bv_techs v_bv_inventions;
   struct tile_vision_data *v_tile_vision;
 };
 
@@ -905,7 +905,7 @@ static gchar *propval_as_string(struct propval *pv)
 
   case VALTYPE_INVENTIONS_ARRAY:
     advance_index_iterate(A_FIRST, tech) {
-      if (pv->data.v_inventions[tech]) {
+      if (BV_ISSET(pv->data.v_bv_inventions, tech)) {
         count++;
       }
     } advance_index_iterate_end;
@@ -1092,10 +1092,7 @@ static struct propval *propval_copy(struct propval *pv)
     pv_copy->must_free = TRUE;
     return pv_copy;
   case VALTYPE_INVENTIONS_ARRAY:
-    size = A_LAST * sizeof(bool);
-    pv_copy->data.v_pointer = fc_malloc(size);
-    memcpy(pv_copy->data.v_pointer, pv->data.v_pointer, size);
-    pv_copy->must_free = TRUE;
+    pv_copy->data.v_bv_inventions = pv->data.v_bv_inventions;
     return pv_copy;
   case VALTYPE_TILE_VISION_DATA:
     size = sizeof(struct tile_vision_data);
@@ -1218,18 +1215,7 @@ static bool propval_equal(struct propval *pva,
     } improvement_iterate_end;
     return TRUE;
   case VALTYPE_INVENTIONS_ARRAY:
-    if (pva->data.v_pointer == pvb->data.v_pointer) {
-      return TRUE;
-    } else if (!pva->data.v_pointer || !pvb->data.v_pointer) {
-      return FALSE;
-    }
-
-    advance_index_iterate(A_FIRST, tech) {
-      if (pva->data.v_inventions[tech] != pvb->data.v_inventions[tech]) {
-        return FALSE;
-      }
-    } advance_index_iterate_end;
-    return TRUE;
+    return BV_ARE_EQUAL(pva->data.v_bv_inventions, pvb->data.v_bv_inventions);
   case VALTYPE_BV_SPECIAL:
     return BV_ARE_EQUAL(pva->data.v_bv_special, pvb->data.v_bv_special);
   case VALTYPE_BV_ROADS:
@@ -1785,12 +1771,12 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
 #endif /* FREECIV_DEBUG */
       case OPID_PLAYER_INVENTIONS:
         presearch = research_get(pplayer);
-        pv->data.v_inventions = fc_calloc(A_LAST, sizeof(bool));
+        BV_CLR_ALL(pv->data.v_bv_inventions);
         advance_index_iterate(A_FIRST, tech) {
-          pv->data.v_inventions[tech]
-              = TECH_KNOWN == research_invention_state(presearch, tech);
+          if (TECH_KNOWN == research_invention_state(presearch, tech)) {
+            BV_SET(pv->data.v_bv_inventions, tech);
+          }
         } advance_index_iterate_end;
-        pv->must_free = TRUE;
         break;
       case OPID_PLAYER_SCENARIO_RESERVED:
         pv->data.v_bool = player_has_flag(pplayer, PLRF_SCENARIO_RESERVED);
@@ -2555,7 +2541,7 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_PLAYER_INVENTIONS:
         advance_index_iterate(A_FIRST, tech) {
-          packet->inventions[tech] = pv->data.v_inventions[tech];
+          packet->inventions[tech] = BV_ISSET(pv->data.v_bv_inventions, tech);
         } advance_index_iterate_end;
         return;
       case OPID_PLAYER_SCENARIO_RESERVED:
@@ -4020,7 +4006,7 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
     gtk_list_store_clear(store);
     advance_iterate(A_FIRST, padvance) {
       id = advance_index(padvance);
-      present = pv->data.v_inventions[id];
+      present = BV_ISSET(pv->data.v_bv_inventions, id);
       name = advance_name_translation(padvance);
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, present, 1, id, 2, name, -1);
@@ -4329,7 +4315,11 @@ static void extviewer_view_cell_toggled(GtkCellRendererToggle *cell,
     if (!(A_FIRST <= id && id < advance_count())) {
       return;
     }
-    pv->data.v_inventions[id] = present;
+    if (present) {
+      BV_SET(pv->data.v_bv_inventions, id);
+    } else {
+      BV_CLR(pv->data.v_bv_inventions, id);
+    }
     gtk_list_store_set(ev->store, &iter, 0, present, -1);
     buf = propval_as_string(pv);
     gtk_label_set_text(GTK_LABEL(ev->panel_label), buf);
