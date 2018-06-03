@@ -7847,6 +7847,9 @@ static void send_ruleset_multipliers(struct conn_list *dest)
     packet.offset = pmul->offset;
     packet.factor = pmul->factor;
 
+    sz_strlcpy(packet.name, untranslated_name(&pmul->name));
+    sz_strlcpy(packet.rule_name, rule_name_get(&pmul->name));
+
     j = 0;
     requirement_vector_iterate(&pmul->reqs, preq) {
       packet.reqs[j++] = *preq;
