@@ -483,6 +483,9 @@ const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
 const char *action_get_tool_tip(const action_id act_id,
                                 const struct act_prob prob);
 
+const char *action_ui_name_ruleset_var_name(int act);
+const char *action_ui_name_default(int act);
+
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
@@ -611,8 +614,6 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
 struct action_auto_perf *action_auto_perf_slot_number(const int num);
-
-const char *action_ui_name_default(int act);
 
 #ifdef __cplusplus
 }

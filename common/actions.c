@@ -4432,6 +4432,130 @@ bool univs_have_action_enabler(action_id action,
 }
 
 /**********************************************************************//**
+  Return ui_name ruleset variable name for the action.
+
+  TODO: make actions generic and put ui_name in a field of the action.
+**************************************************************************/
+const char *action_ui_name_ruleset_var_name(int act)
+{
+  switch ((enum gen_action)act) {
+  case ACTION_SPY_POISON:
+    return "ui_name_poison_city";
+  case ACTION_SPY_POISON_ESC:
+    return "ui_name_poison_city_escape";
+  case ACTION_SPY_SABOTAGE_UNIT:
+    return "ui_name_sabotage_unit";
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+    return "ui_name_sabotage_unit_escape";
+  case ACTION_SPY_BRIBE_UNIT:
+    return "ui_name_bribe_unit";
+  case ACTION_SPY_SABOTAGE_CITY:
+    return "ui_name_sabotage_city";
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+    return "ui_name_sabotage_city_escape";
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return "ui_name_targeted_sabotage_city";
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return "ui_name_targeted_sabotage_city_escape";
+  case ACTION_SPY_INCITE_CITY:
+    return "ui_name_incite_city";
+  case ACTION_SPY_INCITE_CITY_ESC:
+    return "ui_name_incite_city_escape";
+  case ACTION_ESTABLISH_EMBASSY:
+    return "ui_name_establish_embassy";
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+    return "ui_name_establish_embassy_stay";
+  case ACTION_SPY_STEAL_TECH:
+    return "ui_name_steal_tech";
+  case ACTION_SPY_STEAL_TECH_ESC:
+    return "ui_name_steal_tech_escape";
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+    return "ui_name_targeted_steal_tech";
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    return "ui_name_targeted_steal_tech_escape";
+  case ACTION_SPY_INVESTIGATE_CITY:
+    return "ui_name_investigate_city";
+  case ACTION_INV_CITY_SPEND:
+    return "ui_name_investigate_city_spend_unit";
+  case ACTION_SPY_STEAL_GOLD:
+    return "ui_name_steal_gold";
+  case ACTION_SPY_STEAL_GOLD_ESC:
+    return "ui_name_steal_gold_escape";
+  case ACTION_STEAL_MAPS:
+    return "ui_name_steal_maps";
+  case ACTION_STEAL_MAPS_ESC:
+    return "ui_name_steal_maps_escape";
+  case ACTION_TRADE_ROUTE:
+    return "ui_name_establish_trade_route";
+  case ACTION_MARKETPLACE:
+    return "ui_name_enter_marketplace";
+  case ACTION_HELP_WONDER:
+    return "ui_name_help_wonder";
+  case ACTION_CAPTURE_UNITS:
+    return "ui_name_capture_units";
+  case ACTION_EXPEL_UNIT:
+    return "ui_name_expel_unit";
+  case ACTION_FOUND_CITY:
+    return "ui_name_found_city";
+  case ACTION_JOIN_CITY:
+    return "ui_name_join_city";
+  case ACTION_BOMBARD:
+    return "ui_name_bombard";
+  case ACTION_SPY_NUKE:
+    return "ui_name_suitcase_nuke";
+  case ACTION_SPY_NUKE_ESC:
+    return "ui_name_suitcase_nuke_escape";
+  case ACTION_NUKE:
+    return "ui_name_explode_nuclear";
+  case ACTION_DESTROY_CITY:
+    return "ui_name_destroy_city";
+  case ACTION_RECYCLE_UNIT:
+    return "ui_name_recycle_unit";
+  case ACTION_DISBAND_UNIT:
+    return "ui_name_disband_unit";
+  case ACTION_HOME_CITY:
+    return "ui_name_home_city";
+  case ACTION_UPGRADE_UNIT:
+    return "ui_name_upgrade_unit";
+  case ACTION_PARADROP:
+    return "ui_name_paradrop_unit";
+  case ACTION_AIRLIFT:
+    return "ui_name_airlift_unit";
+  case ACTION_ATTACK:
+    return "ui_name_attack";
+  case ACTION_CONQUER_CITY:
+    return "ui_name_conquer_city";
+  case ACTION_HEAL_UNIT:
+    return "ui_name_heal_unit";
+  case ACTION_TRANSFORM_TERRAIN:
+    return "ui_name_transform_terrain";
+  case ACTION_IRRIGATE_TF:
+    return "ui_name_irrigate_tf";
+  case ACTION_MINE_TF:
+    return "ui_name_mine_tf";
+  case ACTION_PILLAGE:
+    return "ui_name_pillage";
+  case ACTION_FORTIFY:
+    return "ui_name_fortify";
+  case ACTION_ROAD:
+    return "ui_name_road";
+  case ACTION_CONVERT:
+    return "ui_name_convert_unit";
+  case ACTION_BASE:
+    return "ui_name_build_base";
+  case ACTION_MINE:
+    return "ui_name_build_mine";
+  case ACTION_IRRIGATE:
+    return "ui_name_irrigate";
+  case ACTION_COUNT:
+    break;
+  }
+
+  fc_assert(act >= 0 && act < ACTION_COUNT);
+  return NULL;
+}
+
+/**********************************************************************//**
   Return default ui_name for the action
 **************************************************************************/
 const char *action_ui_name_default(int act)

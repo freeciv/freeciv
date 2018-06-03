@@ -6226,81 +6226,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         action_by_number(ACTION_BOMBARD)->max_distance = max_range;
       }
 
-      load_action_ui_name(file, ACTION_SPY_POISON, "ui_name_poison_city");
-      load_action_ui_name(file, ACTION_SPY_POISON_ESC, "ui_name_poison_city_escape");
-      load_action_ui_name(file, ACTION_SPY_SABOTAGE_UNIT, "ui_name_sabotage_unit");
-      load_action_ui_name(file, ACTION_SPY_SABOTAGE_UNIT_ESC,
-                          "ui_name_sabotage_unit_escape");
-      load_action_ui_name(file, ACTION_SPY_BRIBE_UNIT, "ui_name_bribe_unit");
-      load_action_ui_name(file, ACTION_SPY_SABOTAGE_CITY, "ui_name_sabotage_city");
-      load_action_ui_name(file, ACTION_SPY_SABOTAGE_CITY_ESC,
-                          "ui_name_sabotage_city_escape");
-      load_action_ui_name(file, ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                          "ui_name_targeted_sabotage_city");
-      load_action_ui_name(file, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
-                          "ui_name_targeted_sabotage_city_escape");
-      load_action_ui_name(file, ACTION_SPY_INCITE_CITY, "ui_name_incite_city");
-      load_action_ui_name(file, ACTION_SPY_INCITE_CITY_ESC,
-                          "ui_name_incite_city_escape");
-      load_action_ui_name(file, ACTION_ESTABLISH_EMBASSY,
-                          "ui_name_establish_embassy");
-      load_action_ui_name(file, ACTION_ESTABLISH_EMBASSY_STAY,
-                          "ui_name_establish_embassy_stay");
-      load_action_ui_name(file, ACTION_SPY_STEAL_TECH, "ui_name_steal_tech");
-      load_action_ui_name(file, ACTION_SPY_STEAL_TECH_ESC,
-                          "ui_name_steal_tech_escape");
-      load_action_ui_name(file, ACTION_SPY_TARGETED_STEAL_TECH,
-                          "ui_name_targeted_steal_tech");
-      load_action_ui_name(file, ACTION_SPY_TARGETED_STEAL_TECH_ESC,
-                          "ui_name_targeted_steal_tech_escape");
-      load_action_ui_name(file, ACTION_SPY_INVESTIGATE_CITY,
-                          "ui_name_investigate_city");
-      load_action_ui_name(file, ACTION_INV_CITY_SPEND,
-                          "ui_name_investigate_city_spend_unit");
-      load_action_ui_name(file, ACTION_SPY_STEAL_GOLD,
-                          "ui_name_steal_gold");
-      load_action_ui_name(file, ACTION_SPY_STEAL_GOLD_ESC,
-                          "ui_name_steal_gold_escape");
-      load_action_ui_name(file, ACTION_STEAL_MAPS, "ui_name_steal_maps");
-      load_action_ui_name(file, ACTION_STEAL_MAPS_ESC,
-                          "ui_name_steal_maps_escape");
-      load_action_ui_name(file, ACTION_TRADE_ROUTE,
-                          "ui_name_establish_trade_route");
-      load_action_ui_name(file, ACTION_MARKETPLACE, "ui_name_enter_marketplace");
-      load_action_ui_name(file, ACTION_HELP_WONDER, "ui_name_help_wonder");
-      load_action_ui_name(file, ACTION_CAPTURE_UNITS,
-                          "ui_name_capture_units");
-      load_action_ui_name(file, ACTION_EXPEL_UNIT, "ui_name_expel_unit");
-      load_action_ui_name(file, ACTION_FOUND_CITY, "ui_name_found_city");
-      load_action_ui_name(file, ACTION_JOIN_CITY, "ui_name_join_city");
-      load_action_ui_name(file, ACTION_BOMBARD, "ui_name_bombard");
-      load_action_ui_name(file, ACTION_SPY_NUKE, "ui_name_suitcase_nuke");
-      load_action_ui_name(file, ACTION_SPY_NUKE_ESC,
-                          "ui_name_suitcase_nuke_escape");
-      load_action_ui_name(file, ACTION_NUKE, "ui_name_explode_nuclear");
-      load_action_ui_name(file, ACTION_DESTROY_CITY,
-                          "ui_name_destroy_city");
-      load_action_ui_name(file, ACTION_RECYCLE_UNIT, "ui_name_recycle_unit");
-      load_action_ui_name(file, ACTION_DISBAND_UNIT, "ui_name_disband_unit");
-      load_action_ui_name(file, ACTION_HOME_CITY, "ui_name_home_city");
-      load_action_ui_name(file, ACTION_UPGRADE_UNIT, "ui_name_upgrade_unit");
-      load_action_ui_name(file, ACTION_PARADROP, "ui_name_paradrop_unit");
-      load_action_ui_name(file, ACTION_AIRLIFT, "ui_name_airlift_unit");
-      load_action_ui_name(file, ACTION_ATTACK, "ui_name_attack");
-      load_action_ui_name(file, ACTION_CONQUER_CITY, "ui_name_conquer_city");
-      load_action_ui_name(file, ACTION_HEAL_UNIT, "ui_name_heal_unit");
-      load_action_ui_name(file, ACTION_TRANSFORM_TERRAIN,
-                          "ui_name_transform_terrain");
-      load_action_ui_name(file, ACTION_IRRIGATE_TF,
-                          "ui_name_irrigate_tf");
-      load_action_ui_name(file, ACTION_MINE_TF, "ui_name_mine_tf");
-      load_action_ui_name(file, ACTION_PILLAGE, "ui_name_pillage");
-      load_action_ui_name(file, ACTION_FORTIFY, "ui_name_fortify");
-      load_action_ui_name(file, ACTION_ROAD, "ui_name_road");
-      load_action_ui_name(file, ACTION_CONVERT, "ui_name_convert_unit");
-      load_action_ui_name(file, ACTION_BASE, "ui_name_build_base");
-      load_action_ui_name(file, ACTION_MINE, "ui_name_build_mine");
-      load_action_ui_name(file, ACTION_IRRIGATE, "ui_name_irrigate");
+      action_iterate(act_id) {
+        load_action_ui_name(file, act_id,
+                            action_ui_name_ruleset_var_name(act_id));
+      } action_iterate_end;
 
       /* The quiet (don't auto generate help for) property of all actions
        * live in a single enum vector. This avoids generic action
