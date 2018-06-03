@@ -256,7 +256,9 @@ const struct advance *advance_array_last(void);
   } advance_iterate_end;
 
 
-/* Advance requirements iterator. */
+/* Advance requirements iterator.
+ * Iterates over 'goal' and all its requirements (including root_reqs),
+ * recursively. */
 struct advance_req_iter;
 
 size_t advance_req_iter_sizeof(void);
