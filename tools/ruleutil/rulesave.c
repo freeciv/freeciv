@@ -1061,93 +1061,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      "actions.bombard_max_range", NULL);
   }
 
-  save_action_ui_name(sfile, ACTION_SPY_POISON, "ui_name_poison_city");
-  save_action_ui_name(sfile, ACTION_SPY_POISON_ESC,
-                      "ui_name_poison_city_escape");
-  save_action_ui_name(sfile, ACTION_SPY_SABOTAGE_UNIT,
-                      "ui_name_sabotage_unit");
-  save_action_ui_name(sfile, ACTION_SPY_SABOTAGE_UNIT_ESC,
-                      "ui_name_sabotage_unit_escape");
-  save_action_ui_name(sfile, ACTION_SPY_BRIBE_UNIT,
-                      "ui_name_bribe_unit");
-  save_action_ui_name(sfile, ACTION_SPY_SABOTAGE_CITY,
-                      "ui_name_sabotage_city");
-  save_action_ui_name(sfile, ACTION_SPY_SABOTAGE_CITY_ESC,
-                      "ui_name_sabotage_city_escape");
-  save_action_ui_name(sfile, ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                      "ui_name_targeted_sabotage_city");
-  save_action_ui_name(sfile, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
-                      "ui_name_targeted_sabotage_city_escape");
-  save_action_ui_name(sfile, ACTION_SPY_INCITE_CITY,
-                      "ui_name_incite_city");
-  save_action_ui_name(sfile, ACTION_SPY_INCITE_CITY_ESC,
-                      "ui_name_incite_city_escape");
-  save_action_ui_name(sfile, ACTION_ESTABLISH_EMBASSY,
-                      "ui_name_establish_embassy");
-  save_action_ui_name(sfile, ACTION_ESTABLISH_EMBASSY_STAY,
-                      "ui_name_establish_embassy_stay");
-  save_action_ui_name(sfile, ACTION_SPY_STEAL_TECH,
-                      "ui_name_steal_tech");
-  save_action_ui_name(sfile, ACTION_SPY_STEAL_TECH_ESC,
-                      "ui_name_steal_tech_escape");
-  save_action_ui_name(sfile, ACTION_SPY_TARGETED_STEAL_TECH,
-                      "ui_name_targeted_steal_tech");
-  save_action_ui_name(sfile, ACTION_SPY_TARGETED_STEAL_TECH_ESC,
-                      "ui_name_targeted_steal_tech_escape");
-  save_action_ui_name(sfile, ACTION_SPY_INVESTIGATE_CITY,
-                      "ui_name_investigate_city");
-  save_action_ui_name(sfile, ACTION_INV_CITY_SPEND,
-                      "ui_name_investigate_city_spend_unit");
-  save_action_ui_name(sfile, ACTION_SPY_STEAL_GOLD,
-                      "ui_name_steal_gold");
-  save_action_ui_name(sfile, ACTION_SPY_STEAL_GOLD_ESC,
-                      "ui_name_steal_gold_escape");
-  save_action_ui_name(sfile, ACTION_STEAL_MAPS,
-                      "ui_name_steal_maps");
-  save_action_ui_name(sfile, ACTION_STEAL_MAPS_ESC,
-                      "ui_name_steal_maps_escape");
-  save_action_ui_name(sfile, ACTION_TRADE_ROUTE,
-                      "ui_name_establish_trade_route");
-  save_action_ui_name(sfile, ACTION_MARKETPLACE,
-                      "ui_name_enter_marketplace");
-  save_action_ui_name(sfile, ACTION_HELP_WONDER,
-                      "ui_name_help_wonder");
-  save_action_ui_name(sfile, ACTION_CAPTURE_UNITS,
-                      "ui_name_capture_units");
-  save_action_ui_name(sfile, ACTION_EXPEL_UNIT,
-                      "ui_name_expel_unit");
-  save_action_ui_name(sfile, ACTION_FOUND_CITY,
-                      "ui_name_found_city");
-  save_action_ui_name(sfile, ACTION_JOIN_CITY,
-                      "ui_name_join_city");
-  save_action_ui_name(sfile, ACTION_BOMBARD,
-                      "ui_name_bombard");
-  save_action_ui_name(sfile, ACTION_SPY_NUKE,
-                      "ui_name_suitcase_nuke");
-  save_action_ui_name(sfile, ACTION_SPY_NUKE_ESC,
-                      "ui_name_suitcase_nuke_escape");
-  save_action_ui_name(sfile, ACTION_NUKE,
-                      "ui_name_explode_nuclear");
-  save_action_ui_name(sfile, ACTION_DESTROY_CITY,
-                      "ui_name_destroy_city");
-  save_action_ui_name(sfile, ACTION_RECYCLE_UNIT,
-                      "ui_name_recycle_unit");
-  save_action_ui_name(sfile, ACTION_DISBAND_UNIT,
-                      "ui_name_disband_unit");
-  save_action_ui_name(sfile, ACTION_HOME_CITY,
-                      "ui_name_home_city");
-  save_action_ui_name(sfile, ACTION_UPGRADE_UNIT,
-                      "ui_name_upgrade_unit");
-  save_action_ui_name(sfile, ACTION_PARADROP,
-                      "ui_name_paradrop_unit");
-  save_action_ui_name(sfile, ACTION_AIRLIFT,
-                      "ui_name_airlift_unit");
-  save_action_ui_name(sfile, ACTION_ATTACK,
-                      "ui_name_attack");
-  save_action_ui_name(sfile, ACTION_CONQUER_CITY,
-                      "ui_name_conquer_city");
-  save_action_ui_name(sfile, ACTION_HEAL_UNIT,
-                      "ui_name_heal_unit");
+  action_iterate(act_id) {
+    save_action_ui_name(sfile,
+                        act_id, action_ui_name_ruleset_var_name(act_id));
+  } action_iterate_end;
 
   i = 0;
   action_iterate(act) {
