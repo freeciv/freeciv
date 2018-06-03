@@ -113,6 +113,13 @@ void bv_set_all_from(unsigned char *vec_to,
   bv_set_all_from((vec_to).vec, (vec_from).vec,                           \
                   sizeof((vec_to).vec), sizeof((vec_from).vec))
 
+void bv_clr_all_from(unsigned char *vec_to,
+                     const unsigned char *vec_from,
+                     size_t size_to, size_t size_from);
+#define BV_CLR_ALL_FROM(vec_to, vec_from)                                 \
+  bv_clr_all_from((vec_to).vec, (vec_from).vec,                           \
+                  sizeof((vec_to).vec), sizeof((vec_from).vec))
+
 /* Used to make a BV typedef. Such types are usually called "bv_foo". */
 #define BV_DEFINE(name, bits)                                               \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name
