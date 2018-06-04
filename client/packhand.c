@@ -3838,8 +3838,20 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   names_set(&pextra->name, NULL, p->name, p->rule_name);
 
   pextra->category = p->category;
-  pextra->causes = p->causes;
-  pextra->rmcauses = p->rmcauses;
+
+  pextra->causes = 0;
+  for (i = 0; i < EC_COUNT; i++) {
+    if (BV_ISSET(p->causes, i)) {
+      pextra->causes |= (1 << i);
+    }
+  }
+
+  pextra->rmcauses = 0;
+  for (i = 0; i < ERM_COUNT; i++) {
+    if (BV_ISSET(p->rmcauses, i)) {
+      pextra->rmcauses |= (1 << i);
+    }
+  }
 
   extra_to_category_list(pextra, pextra->category);
 

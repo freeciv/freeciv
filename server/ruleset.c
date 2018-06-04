@@ -7276,8 +7276,20 @@ static void send_ruleset_extras(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name_get(&e->name));
 
     packet.category = e->category;
-    packet.causes = e->causes;
-    packet.rmcauses = e->rmcauses;
+
+    BV_CLR_ALL(packet.causes);
+    for (j = 0; j < EC_COUNT; j++) {
+      if (is_extra_caused_by(e, j)) {
+        BV_SET(packet.causes, j);
+      }
+    }
+
+    BV_CLR_ALL(packet.rmcauses);
+    for (j = 0; j < ERM_COUNT; j++) {
+      if (is_extra_removed_by(e, j)) {
+        BV_SET(packet.rmcauses, j);
+      }
+    }
 
     sz_strlcpy(packet.activity_gfx, e->activity_gfx);
     sz_strlcpy(packet.act_gfx_alt, e->act_gfx_alt);

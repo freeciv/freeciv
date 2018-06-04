@@ -701,6 +701,7 @@ typedef int server_setting_id;
 #define SPECENUM_VALUE8 EC_RESOURCE
 #define SPECENUM_VALUE8NAME "Resource"
 #define SPECENUM_COUNT EC_COUNT
+#define SPECENUM_BITVECTOR bv_causes
 #include "specenum_gen.h"
 #define EC_NONE EC_COUNT
 #define EC_SPECIAL (EC_NONE + 1)
@@ -708,7 +709,7 @@ typedef int server_setting_id;
 #define EC_NATURAL_DEFENSIVE (EC_NONE + 3)
 #define EC_LAST (EC_NONE + 4)
 
-/* packets.def and struct extra_type reserve 16 bits (0-15) for these. */
+/* struct extra_type reserve 16 bits (0-15) for these. */
 FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
 
 /* Used in the network protocol. */
@@ -722,10 +723,11 @@ FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
 #define SPECENUM_VALUE3 ERM_DISAPPEARANCE
 #define SPECENUM_VALUE3NAME "Disappear"
 #define SPECENUM_COUNT ERM_COUNT
+#define SPECENUM_BITVECTOR bv_rmcauses
 #include "specenum_gen.h"
 #define ERM_NONE ERM_COUNT
 
-/* packets.def and struct extra_type reserve 8 bits (0-7) for these. */
+/* struct extra_type reserve 8 bits (0-7) for these. */
 FC_STATIC_ASSERT(ERM_COUNT < 8, extra_rmcauses_over_limit);
 
 #define SPECENUM_NAME extra_unit_seen_type

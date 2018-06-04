@@ -268,6 +268,8 @@ type BV_EXTRAS          = bitvector(bv_extras)
 type BV_BASES           = bitvector(bv_bases)
 type BV_ROADS           = bitvector(bv_roads)
 type BV_ROAD_FLAGS      = bitvector(bv_road_flags)
+type BV_CAUSES          = bitvector(bv_causes)
+type BV_RMCAUSES        = bitvector(bv_rmcauses)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
 type BV_IMPRS           = bitvector(bv_imprs)
@@ -1653,8 +1655,8 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8 category;
-  UINT16 causes;
-  UINT8 rmcauses;
+  BV_CAUSES causes;
+  BV_RMCAUSES rmcauses;
   STRING activity_gfx[MAX_LEN_NAME];
   STRING act_gfx_alt[MAX_LEN_NAME];
   STRING act_gfx_alt2[MAX_LEN_NAME];
