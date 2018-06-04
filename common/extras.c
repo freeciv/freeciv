@@ -317,7 +317,7 @@ void extra_to_removed_by_list(struct extra_type *pextra,
 }
 
 /**************************************************************************
-  Is given cause one of the removal causes for given extra?
+  Is given cause one of the removal causes for the given extra?
 **************************************************************************/
 bool is_extra_removed_by(const struct extra_type *pextra,
                          enum extra_rmcause rmcause)
