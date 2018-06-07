@@ -1322,7 +1322,7 @@ colorlist =
 set =
   { "name", "value", "lock"
     "topology", "WRAPX", FALSE
-    "nationset", "all", TRUE
+    "nationset", "all", FALSE
     "traitdistribution", "EVEN", FALSE
     "maxplayers", 32, TRUE
     "startunits", "ccwwxk", FALSE
