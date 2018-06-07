@@ -677,8 +677,11 @@ adv_want settler_evaluate_improvements(struct unit *punit,
 
                   dep_tgt = road_extra_get(pdep);
 
-                  if (can_unit_do_activity_targeted_at(punit, ACTIVITY_GEN_ROAD,
-                                                       dep_tgt, ptile)) {
+                  if (action_prob_possible(
+                        action_speculate_unit_on_tile(ACTION_ROAD,
+                                                      punit, unit_home(punit), ptile,
+                                                      parameter.omniscience,
+                                                      ptile, dep_tgt))) {
                     /* Consider building dependency road for later upgrade to target extra.
                      * Here we set value to be sum of dependency
                      * road and target extra values, which increases want, and turns is sum
@@ -705,9 +708,11 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                   struct extra_type *dep_tgt;
 
                   dep_tgt = base_extra_get(pdep);
-
-                  if (can_unit_do_activity_targeted_at(punit, ACTIVITY_BASE,
-                                                       dep_tgt, ptile)) {
+                  if (action_prob_possible(
+                        action_speculate_unit_on_tile(ACTION_BASE,
+                                                      punit, unit_home(punit), ptile,
+                                                      parameter.omniscience,
+                                                      ptile, dep_tgt))) {
                     /* Consider building dependency base for later upgrade to
                      * target extra. See similar road implementation above for
                      * extended commentary. */
