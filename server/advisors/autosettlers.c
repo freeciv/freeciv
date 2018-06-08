@@ -315,6 +315,8 @@ static void consider_settler_action(const struct player *pplayer,
   int total_value = 0, base_value = 0;
   int old_improvement_value;
 
+  fc_assert(act != ACTIVITY_LAST);
+
   if (extra < 0) {
     extra = 0;
   }
