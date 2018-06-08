@@ -173,7 +173,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
     potential_worst_worked = TRUE;
   }
 
-  as_transform_activity_iterate(act) {
+  as_transform_action_iterate(act) {
     bool consider = TRUE;
     bool possible = FALSE;
     enum extra_cause cause;
@@ -184,7 +184,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer
           && unit_has_type_flag(punit, UTYF_SETTLERS)
-          && punit->activity == act) {
+          && punit->activity == action_id_get_activity(act)) {
         consider = FALSE;
         break;
       }
@@ -194,8 +194,8 @@ static void texai_tile_worker_task_select(struct player *pplayer,
       continue;
     }
 
-    cause = activity_to_extra_cause(act);
-    rmcause = activity_to_extra_rmcause(act);
+    cause = activity_to_extra_cause(action_id_get_activity(act));
+    rmcause = activity_to_extra_rmcause(action_id_get_activity(act));
 
     unit_list_iterate(units, punit) {
       if (cause != EC_NONE) {
@@ -204,24 +204,34 @@ static void texai_tile_worker_task_select(struct player *pplayer,
         tgt = prev_extra_in_tile(ptile, rmcause, pplayer, punit);
       }
 
-      if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+      if (action_prob_possible(
+            action_speculate_unit_on_tile(act,
+                                          punit, unit_home(punit), ptile,
+                                          TRUE,
+                                          ptile, tgt))) {
         possible = TRUE;
         break;
       }
     } unit_list_iterate_end;
 
     if (possible) {
-      int value = adv_city_worker_act_get(pcity, cindex, act);
+      int value = adv_city_worker_act_get(pcity, cindex,
+                                          action_id_get_activity(act));
 
       if (tile_worked(ptile) == pcity) {
         if ((value - orig_value) * TWMP > worked->want) {
           worked->want       = TWMP * (value - orig_value);
           worked->ptile      = ptile;
-          worked->act        = act;
+          worked->act        = action_id_get_activity(act);
           worked->tgt        = NULL;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+              if (action_prob_possible(
+                    action_speculate_unit_on_tile(act,
+                                                  punit, unit_home(punit),
+                                                  ptile,
+                                                  TRUE,
+                                                  ptile, tgt))) {
                 state->wants[utype_index(unit_type_get(punit))] += worked->want;
               }
             } unit_list_iterate_end;
@@ -239,11 +249,16 @@ static void texai_tile_worker_task_select(struct player *pplayer,
           state->uw_max_base   = value;
           unworked->want       = TWMP * (value - orig_value);
           unworked->ptile      = ptile;
-          unworked->act        = act;
+          unworked->act        = action_id_get_activity(act);
           unworked->tgt        = NULL;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+              if (action_prob_possible(
+                    action_speculate_unit_on_tile(act,
+                                                  punit, unit_home(punit),
+                                                  ptile,
+                                                  TRUE,
+                                                  ptile, tgt))) {
                 state->wants[utype_index(unit_type_get(punit))] += unworked->want;
               }
             } unit_list_iterate_end;
@@ -251,7 +266,7 @@ static void texai_tile_worker_task_select(struct player *pplayer,
         }
       }
     }
-  } as_transform_activity_iterate_end;
+  } as_transform_action_iterate_end;
 
   extra_type_iterate(tgt) {
     enum unit_activity act = ACTIVITY_LAST;

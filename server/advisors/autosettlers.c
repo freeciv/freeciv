@@ -73,7 +73,7 @@ struct settlermap {
   int eta; /* estimated number of turns until enroute arrives */
 };
 
-Activity_type_id as_activities_transform[ACTIVITY_LAST];
+action_id as_actions_transform[MAX_NUM_ACTIONS];
 action_id as_actions_extra[MAX_NUM_ACTIONS];
 Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
 
@@ -95,10 +95,10 @@ void advisors_init(void)
 {
   int i = 0;
 
-  as_activities_transform[i++] = ACTIVITY_IRRIGATE;
-  as_activities_transform[i++] = ACTIVITY_MINE;
-  as_activities_transform[i++] = ACTIVITY_TRANSFORM;
-  as_activities_transform[i++] = ACTIVITY_LAST;
+  as_actions_transform[i++] = ACTION_IRRIGATE_TF;
+  as_actions_transform[i++] = ACTION_MINE_TF;
+  as_actions_transform[i++] = ACTION_TRANSFORM_TERRAIN;
+  as_actions_transform[i++] = ACTION_NONE;
 
   i = 0;
   as_actions_extra[i++] = ACTION_IRRIGATE;
@@ -515,10 +515,12 @@ adv_want settler_evaluate_improvements(struct unit *punit,
           oldv = city_tile_value(pcity, ptile, 0, 0);
 
           /* Now, consider various activities... */
-          as_transform_activity_iterate(act) {
+          as_transform_action_iterate(act) {
             struct extra_type *target = NULL;
-            enum extra_cause cause = activity_to_extra_cause(act);
-            enum extra_rmcause rmcause = activity_to_extra_rmcause(act);
+            enum extra_cause cause =
+                activity_to_extra_cause(action_id_get_activity(act));
+            enum extra_rmcause rmcause =
+                activity_to_extra_rmcause(action_id_get_activity(act));
 
             if (cause != EC_NONE) {
               target = next_extra_for_tile(ptile, cause, pplayer,
@@ -528,19 +530,30 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                           punit);
             }
 
-            if (adv_city_worker_act_get(pcity, cindex, act) >= 0
-                && can_unit_do_activity_targeted_at(punit, act, target,
-                                                    ptile)) {
-              int base_value = adv_city_worker_act_get(pcity, cindex, act);
+            if (adv_city_worker_act_get(pcity, cindex,
+                                        action_id_get_activity(act)) >= 0
+                && action_prob_possible(
+                  action_speculate_unit_on_tile(act,
+                                                punit, unit_home(punit),
+                                                ptile,
+                                                parameter.omniscience,
+                                                ptile, target))) {
+              int base_value =
+                  adv_city_worker_act_get(pcity, cindex,
+                                          action_id_get_activity(act));
 
-              turns = pos.turn + get_turns_for_activity_at(punit, act, ptile,
-                                                           target);
+              turns = pos.turn
+                  + get_turns_for_activity_at(punit,
+                                              action_id_get_activity(act),
+                                              ptile, target);
               if (pos.moves_left == 0) {
                 /* We need moves left to begin activity immediately. */
                 turns++;
               }
 
-              consider_settler_action(pplayer, act, target, 0.0, base_value,
+              consider_settler_action(pplayer,
+                                      action_id_get_activity(act),
+                                      target, 0.0, base_value,
                                       oldv, in_use, turns,
                                       &best_newv, &best_oldv, &best_extra,
                                       &improve_worked,
@@ -548,7 +561,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                       best_tile, ptile);
 
             } /* endif: can the worker perform this action */
-          } as_transform_activity_iterate_end;
+          } as_transform_action_iterate_end;
 
           extra_type_iterate(pextra) {
             enum unit_activity act = ACTIVITY_LAST;
