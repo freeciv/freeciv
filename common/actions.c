@@ -3618,7 +3618,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
   /* Doesn't leak information about city position since an unknown city
    * can't be targeted and a city can't move. */
   if (!action_id_distance_accepted(act_id,
-          real_map_distance(unit_tile(actor_unit),
+          real_map_distance(actor_tile,
                             city_tile(target_city)))) {
     /* No point in continuing. */
     return ACTPROB_IMPOSSIBLE;
