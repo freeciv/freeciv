@@ -529,7 +529,6 @@ adv_want settler_evaluate_improvements(struct unit *punit,
             }
 
             if (adv_city_worker_act_get(pcity, cindex, act) >= 0
-                /* These need separate implementations. */
                 && can_unit_do_activity_targeted_at(punit, act, target,
                                                     ptile)) {
               int base_value = adv_city_worker_act_get(pcity, cindex, act);
