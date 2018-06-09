@@ -43,6 +43,14 @@ struct advance_req_iter {
 };
 #define ADVANCE_REQ_ITER(it) ((struct advance_req_iter *) it)
 
+struct advance_root_req_iter {
+  struct iterator base;
+  bv_techs done, rootdone;
+  const struct advance *array[A_LAST];
+  const struct advance **current, **end;
+};
+#define ADVANCE_ROOT_REQ_ITER(it) ((struct advance_root_req_iter *) it)
+
 /* the advances array is now setup in:
  * server/ruleset.c (for the server)
  * client/packhand.c (for the client)
@@ -493,6 +501,117 @@ struct iterator *advance_req_iter_init(struct advance_req_iter *it,
   it->current = it->array;
   *it->current = goal;
   it->end = it->current + 1;
+
+  return base;
+}
+
+/************************************************************************//**
+  Return the size of the advance root requirements iterator.
+****************************************************************************/
+size_t advance_root_req_iter_sizeof(void)
+{
+  return sizeof(struct advance_root_req_iter);
+}
+
+/************************************************************************//**
+  Return the current root_req.
+****************************************************************************/
+static void *advance_root_req_iter_get(const struct iterator *it)
+{
+  return
+    (void *) advance_requires(*ADVANCE_ROOT_REQ_ITER(it)->current, AR_ROOT);
+}
+
+/************************************************************************//**
+  Return whether we finished to iterate or not.
+****************************************************************************/
+static bool advance_root_req_iter_valid(const struct iterator *it)
+{
+  const struct advance_root_req_iter *iter = ADVANCE_ROOT_REQ_ITER(it);
+
+  return iter->current < iter->end;
+}
+
+/************************************************************************//**
+  Jump to next advance which has a previously unseen root_req.
+****************************************************************************/
+static void advance_root_req_iter_next(struct iterator *it)
+{
+  struct advance_root_req_iter *iter = ADVANCE_ROOT_REQ_ITER(it);
+
+  /* Precondition: either iteration has already finished, or iter->current
+   * points at a tech with an interesting root_req (which means its
+   * requirements may have more). */
+  while (advance_root_req_iter_valid(it)) {
+    const struct advance *padvance = *iter->current;
+    enum tech_req req;
+    bool new = FALSE;
+
+    for (req = AR_ONE; req < AR_SIZE; req++) {
+      const struct advance *preq
+        = valid_advance(advance_requires(padvance, req));
+
+      if (NULL != preq
+          && A_NONE != advance_number(preq)
+          && !BV_ISSET(iter->done, advance_number(preq))) {
+
+        BV_SET(iter->done, advance_number(preq));
+        /* Do we need to look at this subtree at all? If it has A_NONE as
+         * root_req, further root_reqs can't propagate through it, so no. */
+        if (advance_required(advance_number(preq), AR_ROOT) != A_NONE) {
+          /* Yes, this subtree needs iterating over at some point, starting
+           * with preq (whose own root_req we'll consider in a bit) */
+          if (!new) {
+            *iter->current = preq;
+            new = TRUE;
+          } else {
+            *iter->end++ = preq; /* make a note for later */
+          }
+        }
+      }
+    }
+    if (!new) {
+      /* Didn't find an interesting new subtree. */
+      iter->current++;
+    }
+    /* Precondition: *current has been moved on from where we started, and
+     * it has an interesting root_req or it wouldn't be on the list; but
+     * it may be one that we've already yielded. */
+    if (advance_root_req_iter_valid(it)) {
+      Tech_type_id root = advance_required(advance_number(*iter->current),
+                                           AR_ROOT);
+      if (!BV_ISSET(iter->rootdone, root)) {
+        /* A previously unseen root_req. Stop and yield it. */
+        break;
+      } /* else keep looking */
+    }
+  }
+}
+
+/************************************************************************//**
+  Initialize a root requirements iterator.
+****************************************************************************/
+struct iterator *advance_root_req_iter_init(struct advance_root_req_iter *it,
+                                            const struct advance *goal)
+{
+  struct iterator *base = ITERATOR(it);
+
+  base->get = advance_root_req_iter_get;
+  base->next = advance_root_req_iter_next;
+  base->valid = advance_root_req_iter_valid;
+
+  BV_CLR_ALL(it->done);
+  BV_CLR_ALL(it->rootdone);
+  it->current = it->array;
+  if (advance_required(advance_number(goal), AR_ROOT) != A_NONE) {
+    /* First root_req to return is goal's own, and there may be more
+     * for next() to find. */
+    *it->current = goal;
+    it->end = it->current + 1;
+  } else {
+    /* No root_reqs -- go straight to invalid state */
+    it->end = it->current;
+  }
 
   return base;
 }
