@@ -1217,9 +1217,13 @@ static bool load_ruleset_techs(struct section_file *file)
     i++;
   } advance_iterate_end;
 
-  /* Propagate a root tech up into the tech tree.  Thus if a technology
-   * X has Y has a root tech, then any technology requiring X also has
-   * Y as a root tech. */
+  /* Propagate a root tech up into the tech tree. If a technology
+   * X has Y has a root tech, then any technology requiring X (in the
+   * normal way or as a root tech) also has Y as a root tech.
+   * Later techs may gain a whole set of root techs in this way. The one
+   * we store in AR_ROOT is a more or less arbitrary one of these,
+   * also signalling that the set is non-empty; after this, you'll still
+   * have to walk the tech tree to find them all. */
 restart:
 
   if (ok) {

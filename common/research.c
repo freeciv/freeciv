@@ -350,7 +350,8 @@ static bool research_get_reachable(const struct research *presearch,
 
 /****************************************************************************
   Returns TRUE iff the players sharing 'presearch' already have got the
-  knowledge of all root requirement technologies.
+  knowledge of all root requirement technologies for 'tech' (without which
+  it's impossible to gain 'tech').
 
   Helper for research_update().
 ****************************************************************************/
