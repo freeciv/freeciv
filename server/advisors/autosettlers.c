@@ -574,8 +574,8 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                 if (is_extra_removed_by_action(pextra, try_act)) {
                   /* We do not even evaluate actions we can't do.
                    * Removal is not considered prerequisite for anything */
-                  if (can_unit_do_activity_targeted_at(punit, try_act, pextra,
-                                                       ptile)) {
+                  if (auto_settlers_speculate_can_act_at(punit, try_act,
+                          parameter.omniscience, pextra, ptile)) {
                     act = try_act;
                     eval_act = act;
                     break;
@@ -820,8 +820,9 @@ struct city *settler_evaluate_city_requests(struct unit *punit,
       } unit_list_iterate_end;
 
       if (consider
-          && can_unit_do_activity_targeted_at(punit, ptask->act, ptask->tgt,
-                                              ptask->ptile)) {
+          && auto_settlers_speculate_can_act_at(punit, ptask->act,
+                                                parameter.omniscience,
+                                                ptask->tgt, ptask->ptile)) {
         /* closest worker, if any, headed towards target tile */
         struct unit *enroute = NULL;
 
@@ -1205,4 +1206,122 @@ void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
   punit->server.adv->task = task;
 
   CALL_PLR_AI_FUNC(unit_task, unit_owner(punit), punit, task, ptile);
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the unit can do the targeted activity at the given
+  location.
+
+  Some activities aren't actions. They are therefore unable to use
+  action_speculate_*(). Activities that are actions will use the actor's
+  current tile when evaluating distance requirements etc if used with
+  can_unit_do_activity_targeted_at(). This makes them return the wrong
+  result. They must therefore use action_speculate_*(). Call the function
+  that gives the best speculative evaluation for the specified activity.
+
+  FIXME: Get rid of the need for this.
+**************************************************************************/
+bool auto_settlers_speculate_can_act_at(const struct unit *punit,
+                                        enum unit_activity activity,
+                                        bool omniscient_cheat,
+                                        struct extra_type *target,
+                                        const struct tile *ptile)
+{
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  switch (activity) {
+  case ACTIVITY_MINE:
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE) {
+      return action_prob_possible(action_speculate_unit_on_tile(
+                                    ACTION_MINE_TF,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
+    } else if (pterrain->mining_result == pterrain) {
+      return action_prob_possible(action_speculate_unit_on_tile(
+                                    ACTION_MINE,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
+    } else {
+      return FALSE;
+    }
+
+  case ACTIVITY_IRRIGATE:
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE) {
+      return action_prob_possible(action_speculate_unit_on_tile(
+                                    ACTION_IRRIGATE_TF,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
+    } else if (pterrain->irrigation_result == pterrain) {
+      return action_prob_possible(action_speculate_unit_on_tile(
+                                    ACTION_IRRIGATE,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
+    } else {
+      return FALSE;
+    }
+
+  case ACTIVITY_FORTIFYING:
+    return action_prob_possible(action_speculate_unit_on_self(
+                                  ACTION_FORTIFY,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat));
+
+  case ACTIVITY_BASE:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_BASE,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
+
+  case ACTIVITY_GEN_ROAD:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_ROAD,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
+
+  case ACTIVITY_PILLAGE:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_PILLAGE,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
+
+  case ACTIVITY_TRANSFORM:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_TRANSFORM_TERRAIN,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
+
+  case ACTIVITY_CONVERT:
+    return action_prob_possible(action_speculate_unit_on_self(
+                                  ACTION_CONVERT,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat));
+  case ACTIVITY_IDLE:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
+  case ACTIVITY_UNKNOWN:
+    return can_unit_do_activity_targeted_at(punit, activity, target, ptile);
+  }
+
+  fc_assert(FALSE);
+  return FALSE;
 }

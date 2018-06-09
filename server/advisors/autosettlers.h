@@ -59,6 +59,12 @@ bool adv_settler_safe_tile(const struct player *pplayer, struct unit *punit,
 
 adv_want adv_settlers_road_bonus(struct tile *ptile, struct road_type *proad);
 
+bool auto_settlers_speculate_can_act_at(const struct unit *punit,
+                                        enum unit_activity activity,
+                                        bool omniscient_cheat,
+                                        struct extra_type *target,
+                                        const struct tile *ptile);
+
 extern action_id as_actions_transform[MAX_NUM_ACTIONS];
 
 #define as_transform_action_iterate(_act_)                                \

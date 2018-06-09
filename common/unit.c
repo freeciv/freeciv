@@ -879,9 +879,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         return FALSE;
       }
 
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_MINE_TF,
                                             punit, ptile, NULL);
     } else if (pterrain->mining_result == pterrain) {
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_MINE, punit,
                                             ptile, target);
     } else {
@@ -895,9 +901,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
         return FALSE;
       }
 
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
                                             punit, ptile, NULL);
     } else if (pterrain->irrigation_result == pterrain) {
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_IRRIGATE, punit,
                                             ptile, target);
     } else {
@@ -905,6 +917,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     }
 
   case ACTIVITY_FORTIFYING:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_self()");
     return is_action_enabled_unit_on_self(ACTION_FORTIFY,
                                           punit);
 
@@ -912,10 +927,16 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return FALSE;
 
   case ACTIVITY_BASE:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
     return is_action_enabled_unit_on_tile(ACTION_BASE,
                                           punit, ptile, target);
 
   case ACTIVITY_GEN_ROAD:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
     return is_action_enabled_unit_on_tile(ACTION_ROAD,
                                           punit, ptile, target);
 
@@ -928,6 +949,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return TRUE;
 
   case ACTIVITY_PILLAGE:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
     return is_action_enabled_unit_on_tile(ACTION_PILLAGE,
                                           punit, ptile, target);
 
@@ -935,10 +959,16 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));
 
   case ACTIVITY_TRANSFORM:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
     return is_action_enabled_unit_on_tile(ACTION_TRANSFORM_TERRAIN,
                                           punit, ptile, NULL);
 
   case ACTIVITY_CONVERT:
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_self()");
     return is_action_enabled_unit_on_self(ACTION_CONVERT, punit);
 
   case ACTIVITY_OLD_ROAD:

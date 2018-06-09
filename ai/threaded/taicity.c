@@ -223,7 +223,8 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       if (removing) {
         as_rmextra_activity_iterate(try_act) {
           if (is_extra_removed_by_action(tgt, try_act)
-              && can_unit_do_activity_targeted_at(punit, try_act, tgt, ptile)) {
+              && auto_settlers_speculate_can_act_at(punit, try_act, TRUE,
+                                                    tgt, ptile)) {
             act = try_act;
             break;
           }
@@ -326,7 +327,8 @@ static void tai_tile_worker_task_select(struct player *pplayer,
           worked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+              if (auto_settlers_speculate_can_act_at(punit, act, TRUE,
+                                                     tgt, ptile)) {
                 state->wants[utype_index(unit_type_get(punit))] += worked->want;
               }
             } unit_list_iterate_end;
@@ -348,7 +350,8 @@ static void tai_tile_worker_task_select(struct player *pplayer,
           unworked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (can_unit_do_activity_targeted_at(punit, act, tgt, ptile)) {
+              if (auto_settlers_speculate_can_act_at(punit, act, TRUE,
+                                                     tgt, ptile)) {
                 state->wants[utype_index(unit_type_get(punit))] += unworked->want;
               }
             } unit_list_iterate_end;
