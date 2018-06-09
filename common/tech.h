@@ -271,6 +271,22 @@ struct iterator *advance_req_iter_init(struct advance_req_iter *it,
                   _goal)
 #define advance_req_iterate_end generic_iterate_end
 
+/* Iterates over all the root requirements of 'goal'.
+ * (Not including 'goal' itself, unless it is the special case of a
+ * self-root-req technology.) */
+struct advance_root_req_iter;
+
+size_t advance_root_req_iter_sizeof(void);
+struct iterator *advance_root_req_iter_init(struct advance_root_req_iter *it,
+                                            const struct advance *goal);
+
+#define advance_root_req_iterate(_goal, _padvance)                          \
+  generic_iterate(struct advance_root_req_iter, const struct advance *,     \
+                  _padvance, advance_root_req_iter_sizeof,                  \
+                  advance_root_req_iter_init,                               \
+                  _goal)
+#define advance_root_req_iterate_end generic_iterate_end
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
