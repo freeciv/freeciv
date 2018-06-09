@@ -88,7 +88,6 @@ tab_extras::tab_extras(ruledit_gui *ui_in) : QWidget()
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
   extra_layout->addWidget(effects_button, 3, 2);
-  show_experimental(effects_button);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Extra")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
