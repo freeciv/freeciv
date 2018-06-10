@@ -284,6 +284,7 @@ styles =
       "tx.farmland",   "Cardinals"
       "tx.mine",       "Single1"
       "tx.oil_mine",   "Single1"
+      "tx.oil_rig",    "Single1"
       "tx.pollution",  "Single2"
       "tx.fallout",    "Single2"
       "tx.village",    "Single1"
@@ -291,5 +292,6 @@ styles =
       "base.fortress", "3Layer"
       "base.airstrip", "3Layer"
       "base.airbase",  "3Layer"
+      "base.buoy",     "3Layer"
       "base.ruins",    "3Layer"
     }

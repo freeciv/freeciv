@@ -301,9 +301,13 @@ styles =
       "road.road",     "RoadAllSeparate"
       "road.rail",     "RoadAllCombined"
       "road.maglev",   "RoadAllCombined"
-      "road.pave",     "RoadAllSeparate"
+      "road.highway",  "RoadAllSeparate"
       "road.river",    "River"
+      "road.brown_river", "River"
+      "road.green_river", "River"
+      "road.tunnel",   "RoadAllCombined"
       "road.burrow_tube", "RoadAllCombined"
+      "road.burrow",   "RoadAllCombined"
       "tx.irrigation", "River"
       "tx.farmland",   "River"
       "tx.mine",       "Single1"
@@ -311,10 +315,16 @@ styles =
       "tx.pollution",  "Single2"
       "tx.fallout",    "Single2"
       "tx.village",    "Single1"
+      ; tx.greenhouses
+      ; tx.protein_houses
+      ; tx.capsule
       "base.outpost",  "3Layer"
       "base.fortress", "3Layer"
       "base.airstrip", "3Layer"
-      "base.airbase",  "3layer"
-      "base.buoy",     "3layer"
-      "base.ruins",    "3layer"
+      "base.airbase",  "3Layer"
+      "base.buoy",     "3Layer"
+      "base.ruins",    "3Layer"
+      "base.force_fortress", "3Layer"
+      "base.tower",    "3Layer"
+      ; base.antigrav_base
     }
