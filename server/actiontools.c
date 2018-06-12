@@ -90,13 +90,15 @@ static void action_give_casus_belli(struct player *offender,
 /**************************************************************************
   Returns the kind of diplomatic incident an action may cause.
 **************************************************************************/
-static enum incident_type action_to_incident(const int act_id)
+static enum incident_type action_to_incident(const struct action *paction)
 {
-  if (act_id == ACTION_NUKE
-      || act_id == ACTION_SPY_NUKE
-      || act_id == ACTION_SPY_NUKE_ESC) {
+  /* Action id is currently the action's only result. */
+  switch ((enum gen_action)paction->id) {
+  case ACTION_NUKE:
+  case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
     return INCIDENT_NUCLEAR;
-  } else {
+  default:
     /* FIXME: Some actions are neither nuclear nor diplomat. */
     return INCIDENT_DIPLOMAT;
   }
@@ -109,7 +111,7 @@ static void action_notify_ai(const struct action *paction,
                              struct player *offender,
                              struct player *victim_player)
 {
-  const int incident = action_to_incident(paction->id);
+  const enum incident_type incident = action_to_incident(paction);
 
   /* Notify the victim player. */
   call_incident(incident, offender, victim_player);
