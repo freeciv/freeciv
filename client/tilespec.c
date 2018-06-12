@@ -2050,8 +2050,6 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
   t->city_size_offset_y = t->scale * t->city_size_offset_y;
   t->select_offset_x = t->scale * t->select_offset_x;
   t->select_offset_y = t->scale * t->select_offset_y;
-  t->activity_offset_x = t->scale * t->activity_offset_x;
-  t->activity_offset_y = t->scale * t->activity_offset_y;
   t->unit_flag_offset_x = t->scale * t->unit_flag_offset_x;
   t->unit_flag_offset_y = t->scale * t->unit_flag_offset_y;
   t->city_flag_offset_x = t->scale * t->city_flag_offset_x;
