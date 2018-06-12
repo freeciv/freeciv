@@ -1015,12 +1015,12 @@ radius_sq_city_permanent = -3
 ;                     base_tech_cost * reqs
 ;                     where reqs == number of requirement for tech, counted
 ;                     recursively.
-tech_cost_style = "Classic+"
+tech_cost_style = "Linear"
 
 ; Base research cost. Used in tech cost styles where tech cost is generated.
 ; In other words: used everywhere unless the cost of *all* techs are
 ; specified and the tech cost style is "Experimental+" or "Classic+".
-base_tech_cost   = 20
+base_tech_cost   = 10
 
 ; Technology leak from other civilizations
 ; "None"           - No reduction of the technology cost.

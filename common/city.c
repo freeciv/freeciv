@@ -281,6 +281,17 @@ bool city_base_to_city_map(int *city_map_x, int *city_map_y,
                                map_tile);
 }
 
+/**********************************************************************//**
+  Returns TRUE iff pcity's city map includes the specified tile.
+**************************************************************************/
+bool city_map_includes_tile(const struct city *const pcity,
+                            const struct tile *map_tile)
+{
+  int tmp_x, tmp_y;
+
+  return city_base_to_city_map(&tmp_x, &tmp_y, pcity, map_tile);
+}
+
 /**************************************************************************
   Finds the map position for a given city map coordinate of a certain
   city. Returns true if the map position found is real.

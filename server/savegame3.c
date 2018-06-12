@@ -5511,6 +5511,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                  unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
+          order->extra = EXTRA_NONE;
           switch ((enum gen_action)order->action) {
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
@@ -5520,7 +5521,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
               /* Sabotage target is invalid. */
               log_sg("Cannot find building %d for %s to sabotage",
                      order_tgt, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
+              order->target = 0;
             } else {
               order->target = order_tgt;
             }
@@ -5533,7 +5534,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
               /* Target tech is invalid. */
               log_sg("Cannot find tech %d for %s to steal",
                      order_tgt, unit_rule_name(punit));
-              order->target = EXTRA_NONE;
+              order->target = A_NONE;
             } else {
               order->target = order_tgt;
             }
@@ -5586,7 +5587,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                           "Specified target for action %d unsupported.",
                           order->action);
 
-            order->target = EXTRA_NONE;
+            order->target = -1;
 
             break;
           }

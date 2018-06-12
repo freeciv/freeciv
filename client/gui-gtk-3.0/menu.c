@@ -1388,7 +1388,7 @@ static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
                     "Underspecified target for %s.",
                     action_id_name_translation(action->id));
 
-  request_unit_goto(ORDER_PERFORM_ACTION, action->id, EXTRA_NONE);
+  request_unit_goto(ORDER_PERFORM_ACTION, action->id, -1);
 }
 
 /****************************************************************
@@ -2509,7 +2509,7 @@ void real_menus_update(void)
 /***************************************************************************
   Add an accelerator to an item in the "Go to and..." menu.
 ***************************************************************************/
-static void menu_unit_goto_and_add_accel(GtkWidget *item, int action_id,
+static void menu_unit_goto_and_add_accel(GtkWidget *item, int act_id,
                                          const guint accel_key,
                                          const GdkModifierType accel_mods)
 {
@@ -2519,7 +2519,7 @@ static void menu_unit_goto_and_add_accel(GtkWidget *item, int action_id,
     char buf[MAX_LEN_NAME + strlen("<MENU>/GOTO_AND/")];
 
     fc_snprintf(buf, sizeof(buf), "<MENU>/GOTO_AND/%s",
-                action_id_rule_name(action_id));
+                action_id_rule_name(act_id));
     gtk_menu_item_set_accel_path(GTK_MENU_ITEM(item), buf);
     path = buf; /* Not NULL, but not usable either outside this block */
   }
@@ -2675,27 +2675,27 @@ void real_menus_init(void)
 
     /* Add the new action entries grouped by target kind. */
     for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
-      action_iterate(action_id) {
-        struct action *paction = action_by_number(action_id);
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
 
-        if (action_id_get_actor_kind(action_id) != AAK_UNIT) {
+        if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
           /* This action isn't performed by a unit. */
           continue;
         }
 
-        if (action_id_get_target_kind(action_id) != tgt_kind_group) {
+        if (action_id_get_target_kind(act_id) != tgt_kind_group) {
           /* Wrong group. */
           continue;
         }
 
-        if (action_requires_details(action_id)) {
+        if (action_requires_details(act_id)) {
           /* This menu doesn't support specifying a detailed target (think
            * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
            * action order. */
           continue;
         }
 
-        if (action_id_distance_inside_max(action_id, 2)) {
+        if (action_id_distance_inside_max(act_id, 2)) {
           /* The order system doesn't support actions that can be done to a
            * target that isn't at or next to the actor unit's tile.
            *
@@ -2706,14 +2706,14 @@ void real_menus_init(void)
         /* Create and add the menu item. It will be hidden or shown based on
          * unit type.  */
         item = gtk_menu_item_new_with_label(
-              action_id_name_translation(action_id));
+              action_id_name_translation(act_id));
         g_object_set_data(G_OBJECT(item), "end_action", paction);
         g_signal_connect(item, "activate",
                          G_CALLBACK(unit_goto_and_callback), paction);
 
 #define ADD_OLD_ACCELERATOR(wanted_action_id, accel_key, accel_mods)      \
-  if (action_id == wanted_action_id) {                                    \
-    menu_unit_goto_and_add_accel(item, action_id, accel_key, accel_mods); \
+  if (act_id == wanted_action_id) {                                    \
+    menu_unit_goto_and_add_accel(item, act_id, accel_key, accel_mods); \
   }
 
         /* Add the keyboard shortcuts for "Go to and..." menu items that

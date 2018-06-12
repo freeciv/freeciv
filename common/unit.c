@@ -259,9 +259,9 @@ bool is_military_unit(const struct unit *punit)
   defined) action enabler controlled action.
 **************************************************************************/
 bool unit_can_do_action(const struct unit *punit,
-                        const int action_id)
+                        const int act_id)
 {
-  return utype_can_do_action(unit_type_get(punit), action_id);
+  return utype_can_do_action(unit_type_get(punit), act_id);
 }
 
 /**************************************************************************
@@ -970,7 +970,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           int idx = extra_index(pextra);
 
           /* Only one unit can pillage a given improvement at a time */
-          if (BV_ISSET(pspresent, idx) && !BV_ISSET(psworking, idx)
+          if (BV_ISSET(pspresent, idx)
+              && (!BV_ISSET(psworking, idx)
+                  || punit->activity_target == pextra)
               && can_remove_extra(pextra, punit, ptile)) {
             bool required = FALSE;
 

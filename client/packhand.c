@@ -2042,9 +2042,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
     popdown_all_city_dialogs();
     /* Clears the current goto command. */
-    set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
+    clear_hover_state();
 
     if (pinfo->is_edit_mode && game.scenario.handmade) {
       if (!handmade_scenario_warning()) {
@@ -2576,7 +2574,9 @@ void handle_player_diplstate(const struct packet_player_diplstate *packet)
       }
     }
 
-    if (tgt_tile) {
+    if (tgt_tile
+        || ((tgt_tile = index_to_tile(action_selection_target_tile()))
+            && tile_owner(tgt_tile) == plr1)) {
       /* The diplomatic relationship to the target in an open action
        * selection dialog have changed. This probably changes
        * the set of available actions. */
@@ -4247,13 +4247,26 @@ void handle_ruleset_nation(const struct packet_ruleset_nation *packet)
   /* init_government may be NULL */
   pnation->init_government = government_by_number(packet->init_government_id);
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    pnation->init_techs[i] = packet->init_techs[i];
+    if (i < packet->init_techs_count) {
+      pnation->init_techs[i] = packet->init_techs[i];
+    } else {
+      pnation->init_techs[i] = A_LAST;
+    }
   }
   for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    pnation->init_units[i] = utype_by_number(packet->init_units[i]);
+    if (i < packet->init_units_count) {
+      pnation->init_units[i] = utype_by_number(packet->init_units[i]);
+    } else {
+      /* TODO: should init_units be initialized in common/nation.c? */
+      pnation->init_units[i] = utype_by_number(U_LAST);
+    }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    pnation->init_buildings[i] = packet->init_buildings[i];
+    if (i < packet->init_buildings_count) {
+      pnation->init_buildings[i] = packet->init_buildings[i];
+    } else {
+      pnation->init_buildings[i] = B_LAST;
+    }
   }
 
   tileset_setup_nation_flag(tileset, pnation);
@@ -4356,10 +4369,18 @@ void handle_ruleset_game(const struct packet_ruleset_game *packet)
   game.veteran->levels = packet->veteran_levels;
 
   for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-    game.rgame.global_init_techs[i] = packet->global_init_techs[i];
+    if (i < packet->global_init_techs_count) {
+      game.rgame.global_init_techs[i] = packet->global_init_techs[i];
+    } else {
+      game.rgame.global_init_techs[i] = A_LAST;
+    }
   }
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    if (i < packet->global_init_buildings_count) {
+      game.rgame.global_init_buildings[i] = packet->global_init_buildings[i];
+    } else {
+      game.rgame.global_init_buildings[i] = B_LAST;
+    }
   }
 
   for (i = 0; i < packet->veteran_levels; i++) {
@@ -4745,13 +4766,13 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements,
-                               enum gen_action action_id,
+                               enum gen_action act_id,
                                bool disturb_player)
 {
   struct city *pcity = game_city_by_number(city_id);
   struct unit *pdiplomat = player_unit_by_number(client_player(),
                                                  diplomat_id);
-  struct action *paction = action_by_number(action_id);
+  struct action *paction = action_by_number(act_id);
 
   if (!pdiplomat) {
     log_debug("Bad diplomat %d.", diplomat_id);

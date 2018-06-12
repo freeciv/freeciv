@@ -60,9 +60,9 @@ void action_success_actor_consume(struct action *paction,
 **************************************************************************/
 static void action_give_casus_belli(struct player *offender,
                                     struct player *victim_player,
-                                    const bool global)
+                                    const bool int_outrage)
 {
-  if (global) {
+  if (int_outrage) {
     /* This action is seen as a reason for any other player, no matter who
      * the victim was, to declare war on the actor. It could be used to
      * label certain actions atrocities in rule sets where international
@@ -90,11 +90,11 @@ static void action_give_casus_belli(struct player *offender,
 /**************************************************************************
   Returns the kind of diplomatic incident an action may cause.
 **************************************************************************/
-static enum incident_type action_to_incident(const int action_id)
+static enum incident_type action_to_incident(const int act_id)
 {
-  if (action_id == ACTION_NUKE
-      || action_id == ACTION_SPY_NUKE
-      || action_id == ACTION_SPY_NUKE_ESC) {
+  if (act_id == ACTION_NUKE
+      || act_id == ACTION_SPY_NUKE
+      || act_id == ACTION_SPY_NUKE_ESC) {
     return INCIDENT_NUCLEAR;
   } else {
     /* FIXME: Some actions are neither nuclear nor diplomat. */
@@ -171,8 +171,9 @@ static void action_consequence_common(const struct action *paction,
     /* In this situation the specified action provides a casus belli
      * against the actor. */
 
-    /* This isn't just between the offender and the victim. */
-    const bool global = casus_belli_amount >= 1000;
+    /* International outrage: This isn't just between the offender and the
+     * victim. */
+    const bool int_outrage = casus_belli_amount >= 1000;
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,
@@ -180,7 +181,7 @@ static void action_consequence_common(const struct action *paction,
     notify_victim(victim_player, paction, offender, victim_player,
                   victim_tile, victim_link);
 
-    if (global) {
+    if (int_outrage) {
       /* Every other player gets a casus belli against the actor. Tell each
        * players about it. */
       players_iterate(oplayer) {
@@ -190,7 +191,7 @@ static void action_consequence_common(const struct action *paction,
     }
 
     /* Give casus belli. */
-    action_give_casus_belli(offender, victim_player, global);
+    action_give_casus_belli(offender, victim_player, int_outrage);
 
     /* Notify players controlled by the built in AI. */
     action_notify_ai(paction, offender, victim_player);
@@ -566,7 +567,7 @@ void action_consequence_success(const struct action *paction,
   it looks like the actor unit may be able to do any action to the target
   city.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -630,7 +631,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
   it looks like the actor unit may be able to do any action to the target
   unit.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act TRUE will be returned.
 
   If the only action(s) that can be performed against a target has the
@@ -697,7 +698,7 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
   Returns NULL if the player knows that the actor unit can't do any
   ATK_UNITS action to all units at the target tile.
 
-  If the owner of the actor unit don't have the knowledge needed to know
+  If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act the tile will be returned.
 
   If the only action(s) that can be performed against a target has the

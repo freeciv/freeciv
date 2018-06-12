@@ -1031,6 +1031,7 @@ void fc_client::update_info_label(void)
 ****************************************************************************/
 void update_unit_info_label(struct unit_list *punitlist)
 {
+  gui()->unitinfo_wdg->update_actions(nullptr);
 }
 
 

@@ -431,7 +431,7 @@ bool player_can_build_extra(const struct extra_type *pextra,
 /****************************************************************************
   Tells if unit can build extra on tile.
 ****************************************************************************/
-bool can_build_extra(struct extra_type *pextra,
+bool can_build_extra(const struct extra_type *pextra,
                      const struct unit *punit,
                      const struct tile *ptile)
 {

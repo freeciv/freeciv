@@ -67,13 +67,6 @@ bool dio_get_string_json(json_t *json_packet,
 bool dio_get_estring_json(json_t *json_packet,
                           const struct plocation *location,
                           char *dest, size_t max_dest_size);
-bool dio_get_tech_list_json(json_t *json_packet,
-                            const struct plocation *location, int *dest);
-bool dio_get_unit_list_json(json_t *json_packet,
-                            const struct plocation *location, int *dest);
-bool dio_get_building_list_json(json_t *json_packet,
-                                const struct plocation *location,
-                                int *dest);
 bool dio_get_worklist_json(json_t *json_packet,
                            struct plocation *location,
                            struct worklist *pwl);
@@ -141,15 +134,6 @@ void dio_put_estring_json(struct json_data_out *dout,
 void dio_put_city_map_json(struct json_data_out *dout,
                            const struct plocation *location,
                            const char *value);
-void dio_put_tech_list_json(struct json_data_out *dout,
-                            const struct plocation *location,
-                            const int *value);
-void dio_put_unit_list_json(struct json_data_out *dout,
-                            const struct plocation *location,
-                            const int *value);
-void dio_put_building_list_json(struct json_data_out *dout,
-                                const struct plocation *location,
-                                const int *value);
 void dio_put_worklist_json(struct json_data_out *dout,
                            struct plocation *location,
                            const struct worklist *pwl);

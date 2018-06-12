@@ -30,12 +30,18 @@ extern "C" {
 struct road_type;
 struct unit_move_data; /* Actually defined in "server/unittools.c". */
 
-/* Changing this enum will break network compatability. */
+/* Changing this enum will break network compatibility.
+ * Different orders take different parameters; see struct unit_order. */
 enum unit_orders {
+  /* Move without performing any action (dir) */
   ORDER_MOVE = 0,
+  /* Perform activity (activity, extra) */
   ORDER_ACTIVITY = 1,
+  /* Pause to regain movement points (no parameters) */
   ORDER_FULL_MP = 2,
+  /* Move; if necessary prompt for action/target when order executed (dir) */
   ORDER_ACTION_MOVE = 3,
+  /* Perform pre-specified action (action, target, extra, dir) */
   ORDER_PERFORM_ACTION = 4,
   /* and plenty more for later... */
   ORDER_LAST
@@ -83,12 +89,14 @@ struct unit_adv {
 struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
+  /* Only valid for ORDER_PERFORM_ACTION. Validity and meaning depends on
+   * 'action' (building, tech, ...) */
   int target;
+  /* Valid for ORDER_ACTIVITY and ORDER_PERFORM_ACTION */
   int extra;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
-  /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and
-   * ORDER_PERFORM_ACTION. */
+  /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and ORDER_PERFORM_ACTION. */
   enum direction8 dir;
 };
 
@@ -313,7 +321,7 @@ bv_extras get_unit_tile_pillage_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool unit_can_do_action(const struct unit *punit,
-                        const int action_id);
+                        const int act_id);
 bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */

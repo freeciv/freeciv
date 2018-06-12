@@ -79,11 +79,12 @@ sabotage	= 100
 sound		= "b_airport"
 sound_alt	= "b_generic"
 helptext	= _("\
-Allows a city to produce veteran air units (including helicopters). \
+Allows a city to produce veteran air units (including helicopters and\
+ missiles).\
  Also, damaged air units (again, including helicopters) which stay in\
  town for one full turn without moving are completely restored.\
 "), _("\
-A city with an Airport can airlift an extra unit per turn. Airlifting \
+A city with an Airport can airlift an extra unit per turn. Airlifting\
  instantly transports the unit from one city\
  to another and will use all of the unit's movement points. A unit\
  must have some movement points left to be airlifted, and cannot\

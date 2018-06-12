@@ -52,14 +52,14 @@ typedef int (*act_func)(struct widget *);
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
-  int action_id;
+  int act_id;
   struct ADVANCED_DLG *pdialog;
 };
 
 struct small_diplomat_dialog {
   int actor_unit_id;
   int target_id;
-  int action_id;
+  int act_id;
   struct SMALL_DLG *pdialog;
 };
  
@@ -685,13 +685,13 @@ static int spy_steal_callback(struct widget *pWidget)
       if (steal_advance == A_UNSET) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(
-                            pDiplomat_Dlg->action_id),
+                            pDiplomat_Dlg->act_id),
                           pDiplomat_Dlg->actor_unit_id,
                           pDiplomat_Dlg->target_ids[ATK_CITY],
                           steal_advance, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(pDiplomat_Dlg->action_id,
+        request_do_action(pDiplomat_Dlg->act_id,
                           pDiplomat_Dlg->actor_unit_id,
                           pDiplomat_Dlg->target_ids[ATK_CITY],
                           steal_advance, "");
@@ -725,7 +725,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   SDL_Rect area;
 
   struct unit *actor_unit = game_unit_by_number(id);
-  int action_id = pDiplomat_Dlg->action_id;
+  int act_id = pDiplomat_Dlg->act_id;
 
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
@@ -758,7 +758,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
      * send steal order at Spy's Discretion */
     int target_id = pVcity->id;
 
-    request_do_action(get_non_targeted_action_id(action_id),
+    request_do_action(get_non_targeted_action_id(act_id),
                       id, target_id, A_UNSET, "");
 
     act_sel_done_secondary(id);
@@ -771,7 +771,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   pCont->id1 = id;/* spy id */
 
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
-  pDiplomat_Dlg->action_id = action_id;
+  pDiplomat_Dlg->act_id = act_id;
   pDiplomat_Dlg->actor_unit_id = id;
   pDiplomat_Dlg->target_ids[ATK_CITY] = pVcity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -805,7 +805,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   /* ------------------------- */
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
-                           get_non_targeted_action_id(action_id)])) {
+                           get_non_targeted_action_id(act_id)])) {
      /* count + at Spy's Discretion */
     count++;
   }
@@ -867,7 +867,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   tech = advance_number(unit_type_get(actor_unit)->require_advance);
 
   if (action_prob_possible(actor_unit->client.act_prob_cache[
-                           get_non_targeted_action_id(action_id)])) {
+                           get_non_targeted_action_id(act_id)])) {
     struct astring str = ASTRING_INIT;
 
     /* TRANS: %s is a unit name, e.g., Spy */
@@ -953,7 +953,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_popup(struct widget *pWidget)
 {
-  pDiplomat_Dlg->action_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  pDiplomat_Dlg->act_id = ACTION_SPY_TARGETED_STEAL_TECH;
   return spy_steal_popup_shared(pWidget);
 }
 
@@ -962,7 +962,7 @@ static int spy_steal_popup(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_esc_popup(struct widget *pWidget)
 {
-  pDiplomat_Dlg->action_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  pDiplomat_Dlg->act_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
   return spy_steal_popup_shared(pWidget);
 }
 
@@ -1560,7 +1560,7 @@ static void action_entry(const enum gen_action act,
   Return custom text for the specified action (given that the aciton is
   possible).
 **************************************************************************/
-static const char *action_custom_text(const int action_id,
+static const char *action_custom_text(const int act_id,
                                       const struct act_prob prob,
                                       const struct unit *actor_unit,
                                       const struct city *actor_homecity,
@@ -1573,7 +1573,7 @@ static const char *action_custom_text(const int action_id,
     return NULL;
   }
 
-  switch (action_id) {
+  switch (act_id) {
   case ACTION_TRADE_ROUTE:
     {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
@@ -1869,6 +1869,21 @@ int action_selection_target_unit(void)
 }
 
 /**************************************************************************
+  Returns id of the target tile of the actions currently handled in action
+  selection dialog when the action selection dialog is open and it has a
+  tile target. Returns TILE_INDEX_NONE if no action selection dialog is
+  open.
+**************************************************************************/
+int action_selection_target_tile(void)
+{
+  if (!pDiplomat_Dlg) {
+    return TILE_INDEX_NONE;
+  }
+
+  return pDiplomat_Dlg->target_ids[ATK_TILE];
+}
+
+/**************************************************************************
   Updates the action selection dialog with new information.
 **************************************************************************/
 void action_selection_refresh(struct unit *actor_unit,
@@ -1902,7 +1917,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
     int sabotage_improvement = MAX_ID - pWidget->ID;
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
-    int action_id = pWidget->data.cont->value;
+    int act_id = pWidget->data.cont->value;
 
     fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
@@ -1915,12 +1930,12 @@ static int sabotage_impr_callback(struct widget *pWidget)
         && NULL != game_city_by_number(diplomat_target_id)) {
       if (sabotage_improvement == B_LAST) {
         /* This is the untargeted version. */
-        request_do_action(get_non_targeted_action_id(action_id),
+        request_do_action(get_non_targeted_action_id(act_id),
                           diplomat_id, diplomat_target_id,
                           sabotage_improvement + 1, "");
       } else {
         /* This is the targeted version. */
-        request_do_action(action_id,
+        request_do_action(act_id,
                           diplomat_id, diplomat_target_id,
                           sabotage_improvement + 1, "");
       }
@@ -2192,7 +2207,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
         && NULL != game_city_by_number(pIncite_Dlg->target_id)) {
-      request_do_action(pIncite_Dlg->action_id, pIncite_Dlg->actor_unit_id,
+      request_do_action(pIncite_Dlg->act_id, pIncite_Dlg->actor_unit_id,
                         pIncite_Dlg->target_id, 0, "");
     }
 
@@ -2262,7 +2277,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
   pIncite_Dlg->actor_unit_id = actor->id;
   pIncite_Dlg->target_id = pCity->id;
-  pIncite_Dlg->action_id = paction->id;
+  pIncite_Dlg->act_id = paction->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
@@ -2456,7 +2471,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
         && NULL != game_unit_by_number(pBribe_Dlg->target_id)) {
-      request_do_action(pBribe_Dlg->action_id, pBribe_Dlg->actor_unit_id,
+      request_do_action(pBribe_Dlg->act_id, pBribe_Dlg->actor_unit_id,
                         pBribe_Dlg->target_id, 0, "");
     }
     popdown_bribe_dialog();
@@ -2523,7 +2538,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
   is_unit_move_blocked = TRUE;
 
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
-  pBribe_Dlg->action_id = paction->id;
+  pBribe_Dlg->act_id = paction->id;
   pBribe_Dlg->actor_unit_id = actor->id;
   pBribe_Dlg->target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));

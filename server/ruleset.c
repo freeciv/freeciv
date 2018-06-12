@@ -1342,9 +1342,13 @@ static bool load_ruleset_techs(struct section_file *file,
     i++;
   } advance_iterate_end;
 
-  /* Propagate a root tech up into the tech tree.  Thus if a technology
-   * X has Y has a root tech, then any technology requiring X also has
-   * Y as a root tech. */
+  /* Propagate a root tech up into the tech tree. If a technology
+   * X has Y has a root tech, then any technology requiring X (in the
+   * normal way or as a root tech) also has Y as a root tech.
+   * Later techs may gain a whole set of root techs in this way. The one
+   * we store in AR_ROOT is a more or less arbitrary one of these,
+   * also signalling that the set is non-empty; after this, you'll still
+   * have to walk the tech tree to find them all. */
 restart:
 
   if (ok) {
@@ -7631,19 +7635,34 @@ static void send_ruleset_nations(struct conn_list *dest)
       ? government_number(n->init_government) : government_count();
     fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
     for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
-      packet.init_techs[i] = n->init_techs[i];
+      if (n->init_techs[i] != A_LAST) {
+        packet.init_techs[i] = n->init_techs[i];
+      } else {
+        break;
+      }
     }
+    packet.init_techs_count = i;
     fc_assert(ARRAY_SIZE(packet.init_units) == ARRAY_SIZE(n->init_units));
     for (i = 0; i < MAX_NUM_UNIT_LIST; i++) {
       const struct unit_type *t = n->init_units[i];
-      packet.init_units[i] = t ? utype_number(t) : U_LAST;
+      if (t) {
+        packet.init_units[i] = utype_number(t);
+      } else {
+        break;
+      }
     }
+    packet.init_units_count = i;
     fc_assert(ARRAY_SIZE(packet.init_buildings)
               == ARRAY_SIZE(n->init_buildings));
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-      /* Impr_type_id to int */
-      packet.init_buildings[i] = n->init_buildings[i];
+      if (n->init_buildings[i] != B_LAST) {
+        /* Impr_type_id to int */
+        packet.init_buildings[i] = n->init_buildings[i];
+      } else {
+        break;
+      }
     }
+    packet.init_buildings_count = i;
 
     lsend_packet_ruleset_nation(dest, &packet);
   } nations_iterate_end;
@@ -7774,16 +7793,27 @@ static void send_ruleset_game(struct conn_list *dest)
             == sizeof(game.rgame.global_init_techs));
   fc_assert(ARRAY_SIZE(misc_p.global_init_techs)
             == ARRAY_SIZE(game.rgame.global_init_techs));
-  memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
-         sizeof(misc_p.global_init_techs));
+  for (i = 0; i < MAX_NUM_TECH_LIST; i++) {
+    if (game.rgame.global_init_techs[i] != A_LAST) {
+      misc_p.global_init_techs[i] = game.rgame.global_init_techs[i];
+    } else {
+      break;
+    }
+  }
+  misc_p.global_init_techs_count = i;
 
   fc_assert(ARRAY_SIZE(misc_p.global_init_buildings)
             == ARRAY_SIZE(game.rgame.global_init_buildings));
   for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-    /* Impr_type_id to int */
-    misc_p.global_init_buildings[i] =
-      game.rgame.global_init_buildings[i];
+    if (game.rgame.global_init_buildings[i] != B_LAST) {
+      /* Impr_type_id to int */
+      misc_p.global_init_buildings[i] =
+          game.rgame.global_init_buildings[i];
+    } else {
+      break;
+    }
   }
+  misc_p.global_init_buildings_count = i;
 
   misc_p.default_specialist = DEFAULT_SPECIALIST;
 

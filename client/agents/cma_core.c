@@ -202,7 +202,8 @@ static bool apply_result_on_server(struct city *pcity,
       log_apply_result("Removing worker at {%d,%d}.", x, y);
 
       last_request_id =
-        dsend_packet_city_make_specialist(&client.conn, pcity->id, x, y);
+        dsend_packet_city_make_specialist(&client.conn,
+                                          pcity->id, ptile->index);
       if (first_request_id == 0) {
         first_request_id = last_request_id;
       }
@@ -239,7 +240,8 @@ static bool apply_result_on_server(struct city *pcity,
       fc_assert_action(city_can_work_tile(pcity, ptile), break);
 
       last_request_id =
-        dsend_packet_city_make_worker(&client.conn, pcity->id, x, y);
+        dsend_packet_city_make_worker(&client.conn,
+                                      pcity->id, ptile->index);
       if (first_request_id == 0) {
 	first_request_id = last_request_id;
       }

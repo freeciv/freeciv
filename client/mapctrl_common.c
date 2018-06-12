@@ -488,9 +488,7 @@ void release_goto_button(int canvas_x, int canvas_y)
 
   if (keyboardless_goto_active && hover_state == HOVER_GOTO && ptile) {
     do_unit_goto(ptile);
-    set_hover_state(NULL, HOVER_NONE,
-                    ACTIVITY_LAST, NULL,
-                    EXTRA_NONE, ACTION_NONE, ORDER_LAST);
+    clear_hover_state();
     update_unit_info_label(get_units_in_focus());
   }
   keyboardless_goto_active = FALSE;
@@ -510,7 +508,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
       && !same_pos(keyboardless_goto_start_tile, ptile)
       && can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;
-    request_unit_goto(ORDER_LAST, ACTION_NONE, EXTRA_NONE);
+    request_unit_goto(ORDER_LAST, ACTION_NONE, -1);
   }
 }
 
@@ -605,11 +603,11 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
       fc_assert_ret(city_base_to_city_map(&city_x, &city_y, pcity, ptile));
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
-	dsend_packet_city_make_specialist(&client.conn, pcity->id,
-					  city_x, city_y);
+        dsend_packet_city_make_specialist(&client.conn,
+                                          pcity->id, ptile->index);
       } else if (city_can_work_tile(pcity, ptile)) {
-	dsend_packet_city_make_worker(&client.conn, pcity->id,
-				      city_x, city_y);
+        dsend_packet_city_make_worker(&client.conn,
+                                      pcity->id, ptile->index);
       } else {
 	return;
       }

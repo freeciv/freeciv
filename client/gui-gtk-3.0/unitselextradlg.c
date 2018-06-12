@@ -21,6 +21,7 @@
 #include "fcintl.h"
 
 /* common */
+#include "extras.h"
 #include "game.h"
 #include "movement.h"
 #include "unit.h"
@@ -29,26 +30,61 @@
 #include "control.h"
 #include "tilespec.h"
 
-/* client/gui-gtk-3.22 */
+/* client/gui-gtk-3.0 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "sprite.h"
-#include "unitselect.h"
 
-#include "unitselunitdlg.h"
+#include "unitselextradlg.h"
 
-struct unit_sel_unit_cb_data {
+struct unit_sel_extra_cb_data {
   GtkWidget *dlg;
   int tp_id;
 };
 
-/****************************************************************************
-  Callback to handle toggling of one of the target unit buttons.
-****************************************************************************/
-static void unit_sel_unit_toggled(GtkToggleButton *tb, gpointer userdata)
+/***********************************************************************//**
+  Get an extra selection list item suitable description of the specified
+  extra at the specified tile.
+***************************************************************************/
+static const char *tgt_extra_descr(const struct extra_type *tgt_extra,
+                                   const struct tile *tgt_tile)
 {
-  struct unit_sel_unit_cb_data *cbdata
-          = (struct unit_sel_unit_cb_data *)userdata;
+  static char buf[248] = "";
+  static char buf2[248] = "";
+
+  if (tile_has_extra(tgt_tile, tgt_extra)) {
+    if (extra_owner(tgt_tile)) {
+      /* TRANS: nation adjective for extra owner used below if the target
+       * tile has the target extra and it has an owner. */
+      fc_snprintf(buf2, sizeof(buf2), _("%s"),
+                  nation_adjective_for_player(extra_owner(tgt_tile)));
+    } else {
+      /* TRANS: used below if the target tile has the target extra but it
+       * doesn't have an owner. */
+      sz_strlcpy(buf2, _("target"));
+    }
+  } else {
+    /* TRANS: used below if the target tile doesn't have the target
+     * extra (so it is assumed that it will be created). */
+    sz_strlcpy(buf2, _("create"));
+  }
+
+  /* TRANS: extra name ... one of the above strings depending on if the
+   * target extra currently exists at the target tile and if it has an
+   * owner. */
+  fc_snprintf(buf, sizeof(buf), _("%s\n(%s)"),
+              extra_name_translation(tgt_extra), buf2);
+
+  return buf;
+}
+
+/************************************************************************//**
+  Callback to handle toggling of one of the target extra buttons.
+****************************************************************************/
+static void unit_sel_extra_toggled(GtkToggleButton *tb, gpointer userdata)
+{
+  struct unit_sel_extra_cb_data *cbdata
+          = (struct unit_sel_extra_cb_data *)userdata;
 
   if (gtk_toggle_button_get_active(tb)) {
     g_object_set_data(G_OBJECT(cbdata->dlg), "target",
@@ -56,25 +92,25 @@ static void unit_sel_unit_toggled(GtkToggleButton *tb, gpointer userdata)
   }
 }
 
-/****************************************************************************
-  Callback to handle destruction of one of the target unit buttons.
+/************************************************************************//**
+  Callback to handle destruction of one of the target extra buttons.
 ****************************************************************************/
-static void unit_sel_unit_destroyed(GtkWidget *radio, gpointer userdata)
+static void unit_sel_extra_destroyed(GtkWidget *radio, gpointer userdata)
 {
   free(userdata);
 }
 
-/****************************************************************************
-  Create a dialog where a unit select what other unit to act on.
+/************************************************************************//**
+  Create a dialog where a unit select what extra to act on.
 ****************************************************************************/
-bool select_tgt_unit(struct unit *actor, struct tile *ptile,
-                     struct unit_list *potential_tgt_units,
-                     struct unit *suggested_tgt_unit,
-                     const gchar *dlg_title,
-                     const gchar *actor_label,
-                     const gchar *tgt_label,
-                     const gchar *do_label,
-                     GCallback do_callback)
+bool select_tgt_extra(struct unit *actor, struct tile *ptile,
+                      bv_extras potential_tgt_extras,
+                      struct extra_type *suggested_tgt_extra,
+                      const gchar *dlg_title,
+                      const gchar *actor_label,
+                      const gchar *tgt_label,
+                      const gchar *do_label,
+                      GCallback do_callback)
 {
   GtkWidget *dlg;
   GtkWidget *main_box;
@@ -129,11 +165,15 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   box = gtk_grid_new();
 
   tcount = 0;
-  unit_list_iterate(potential_tgt_units, ptgt) {
+  extra_active_type_iterate(ptgt) {
     GdkPixbuf *tubuf;
 
-    struct unit_sel_unit_cb_data *cbdata
-            = fc_malloc(sizeof(struct unit_sel_unit_cb_data));
+    if (!BV_ISSET(potential_tgt_extras, extra_number(ptgt))) {
+      continue;
+    }
+
+    struct unit_sel_extra_cb_data *cbdata
+            = fc_malloc(sizeof(struct unit_sel_extra_cb_data));
 
     cbdata->tp_id = ptgt->id;
     cbdata->dlg = dlg;
@@ -151,17 +191,17 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                   == g_slist_length(gtk_radio_button_get_group(
                                       GTK_RADIO_BUTTON(first_option))),
                   "The radio button for '%s' is broken.",
-                  unit_rule_name(ptgt));
+                  extra_rule_name(ptgt));
     g_signal_connect(radio, "toggled",
-                     G_CALLBACK(unit_sel_unit_toggled), cbdata);
+                     G_CALLBACK(unit_sel_extra_toggled), cbdata);
     g_signal_connect(radio, "destroy",
-                     G_CALLBACK(unit_sel_unit_destroyed), cbdata);
-    if (ptgt == suggested_tgt_unit) {
+                     G_CALLBACK(unit_sel_extra_destroyed), cbdata);
+    if (ptgt == suggested_tgt_extra) {
       default_option = radio;
     }
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
-    tubuf = usdlg_get_unit_image(ptgt);
+    tubuf = create_extra_pixbuf(ptgt);
     if (tubuf != NULL) {
       icon = gtk_image_new_from_pixbuf(tubuf);
       g_object_unref(tubuf);
@@ -170,11 +210,11 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
     }
     gtk_grid_attach(GTK_GRID(box), icon, 1, tcount, 1, 1);
 
-    lbl = gtk_label_new(usdlg_get_unit_descr(ptgt));
+    lbl = gtk_label_new(tgt_extra_descr(ptgt, ptile));
     gtk_grid_attach(GTK_GRID(box), lbl, 2, tcount, 1, 1);
 
     tcount++;
-  } unit_list_iterate_end;
+  } extra_active_type_iterate_end;
   gtk_container_add(GTK_CONTAINER(main_box), box);
 
   fc_assert_ret_val(default_option, FALSE);

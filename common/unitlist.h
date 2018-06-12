@@ -80,7 +80,7 @@ bool units_have_type_flag(const struct unit_list *punits,
                           enum unit_type_flag_id flag, bool has_flag);
 bool units_contain_cityfounder(const struct unit_list *punits);
 bool units_can_do_action(const struct unit_list *punits,
-                         int action_id, bool can_do);
+                         int act_id, bool can_do);
 bool units_are_occupied(const struct unit_list *punits);
 bool units_can_load(const struct unit_list *punits);
 bool units_can_unload(const struct unit_list *punits);

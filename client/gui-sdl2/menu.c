@@ -243,7 +243,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       key_unit_action_select_tgt();
       break;
     case ID_UNIT_ORDER_NUKE:
-      request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, EXTRA_NONE);
+      request_unit_goto(ORDER_PERFORM_ACTION, ACTION_NUKE, -1);
       break;
     case ID_UNIT_ORDER_WAIT:
       key_unit_wait();

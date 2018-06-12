@@ -69,39 +69,26 @@ snapshot:
 	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev" buildable
 
 
-# build Freeciv
+# configure Freeciv
 
-build-freeciv-common:
+configure-freeciv-common:
 	# create build directory
 	mkdir -p build-$(WINARCH)-$(GUI)
 	# configure
 	cd build-$(WINARCH)-$(GUI); ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --enable-client=$(GUI) --with-followtag="windows-S3_0" --with-tinycthread --without-readline --enable-fcdb=sqlite3 --with-sqlite3-prefix=/$(ARCHDIR) --enable-fcmp=$(FCMP) $(EXTRA_CONFIG)
-	# make
-	make -C build-$(WINARCH)-$(GUI) $(MAKE_PARAMS)
-	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
-	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 
-build-freeciv-ruledit:
+configure-freeciv-ruledit:
 	# create build directory
 	mkdir -p build-$(WINARCH)-ruledit
 	# configure
 	cd build-$(WINARCH)-ruledit; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --enable-ruledit --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
-	# make
-	make -C build-$(WINARCH)-ruledit $(MAKE_PARAMS)
-	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
-	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
-
-build-freeciv-gtk3.22: build-freeciv-common
-
-build-freeciv-gtk2: build-freeciv-common
-
-build-freeciv-sdl2: build-freeciv-common
-
-build-freeciv-qt: build-freeciv-common
 
 # install Freeciv
 
-install-freeciv-common:
+install-freeciv-common: configure-freeciv-common
+	# make langstat files
+	make -C build-$(WINARCH)-$(GUI)/translations/core update-po
+	make -C build-$(WINARCH)-$(GUI)/bootstrap langstat_core.txt
 	# make install
 	make -C build-$(WINARCH)-$(GUI) DESTDIR=`pwd`/install-$(WINARCH)-$(GUI) $(MAKE_PARAMS) install
 	# reorder directory layout
@@ -136,7 +123,10 @@ install-freeciv-qt: install-freeciv-common
 install-ruledit-dir:
 	mkdir -p install-$(WINARCH)-ruledit/share
 
-install-ruledit: install-ruledit-dir
+install-ruledit: configure-freeciv-ruledit install-ruledit-dir
+	# make langstat files
+	make -C build-$(WINARCH)-ruledit/translations/ruledit update-po
+	make -C build-$(WINARCH)-ruledit/bootstrap langstat_ruledit.txt
 	# make install
 	make -C build-$(WINARCH)-ruledit DESTDIR=`pwd`/install-$(WINARCH)-ruledit/ $(MAKE_PARAMS) install
 	# reorder directory layout
@@ -369,15 +359,15 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	mkdir -p Output
 	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit.nsi
 
-wrap-gtk3.22: build-freeciv-gtk3.22 installer-common
+wrap-gtk3.22: installer-common
 
-wrap-gtk2: build-freeciv-gtk2 installer-common
+wrap-gtk2: installer-common
 
-wrap-sdl2: build-freeciv-sdl2 installer-common
+wrap-sdl2: installer-common
 
-wrap-qt: build-freeciv-qt installer-common
+wrap-qt: installer-common
 
-wrap-ruledit: build-freeciv-ruledit installer-ruledit
+wrap-ruledit: installer-ruledit
 
 
 # cleanup

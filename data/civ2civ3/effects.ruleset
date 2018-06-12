@@ -515,9 +515,9 @@ reqs    =
 type    = "Output_Waste_By_Distance"
 value   = -100
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 ; Total = 0 for Federation with The Corporation, -1% for Federation alone
@@ -525,9 +525,9 @@ reqs    =
 type    = "Output_Waste_By_Distance"
 value   = -100
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 ; Corruption + waste = 30% for all govs
@@ -536,63 +536,63 @@ reqs    =
 type    = "Output_Waste"
 value   = 30
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Tribal", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_despotism]
 type    = "Output_Waste"
 value   = 20
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_monarchy]
 type    = "Output_Waste"
 value   = 10
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_communism]
 type    = "Output_Waste"
 value   = 30
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_fundamentalism]
 type    = "Output_Waste"
 value   = 15
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_republic]
 type    = "Output_Waste"
 value   = 25
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Republic", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 [effect_corruption_democracy]
 type    = "Output_Waste"
 value   = 5
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-      "OutputType", "Trade", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
+      "OutputType", "Trade", "Local", FALSE
     }
 
 ; base -1% shields each tile
@@ -621,9 +621,9 @@ reqs    =
 type    = "Output_Waste_By_Distance"
 value   = -100
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 ; 1 - 1 = 0% with Federation
@@ -631,96 +631,96 @@ reqs    =
 type    = "Output_Waste_By_Distance"
 value   = -100
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_anarchy]
 type    = "Output_Waste"
 value   = 30
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_despotism]
 type    = "Output_Waste"
 value   = 10
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_monarchy]
 type    = "Output_Waste"
 value   = 20
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_fundamentalism]
 type    = "Output_Waste"
 value   = 15
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_federation]
 type    = "Output_Waste"
 value   = 30
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_republic]
 type    = "Output_Waste"
 value   = 5
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Republic", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_waste_democracy]
 type    = "Output_Waste"
 value   = 25
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_tech_upkeep_anarchy]
 type    = "Tech_Upkeep_Free"
 value   = 99
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
     }
 
 [effect_building_upkeep_anarchy]
 type    = "Upkeep_Free"
 value   = 99
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
     }
 
 [effect_building_upkeep_communism]
 type    = "Upkeep_Free"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
     }
 
 [effect_base_unit_upkeep_gold_1]
@@ -804,8 +804,8 @@ reqs   =
 type    = "Unhappy_Factor"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
     }
 
 ; ...except Women's Suffrage reduces it back to Republic levels
@@ -884,81 +884,81 @@ reqs    =
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_upkeep_free_units_tribal]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Tribal", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_upkeep_free_units_despotism]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_upkeep_free_units_monarchy]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 3
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_upkeep_free_units_fundamentalism]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 4
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_upkeep_free_units_republic]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Republic", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 [effect_upkeep_free_units_democracy]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Democracy", "Player"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_upkeep_free_units_federation]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 4
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_upkeep_free_units_communism]
 type    = "Unit_Upkeep_Free_Per_City"
 value   = 3
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
-      "OutputType", "Shield", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
     }
 
 ; Any city can support up to four units...
@@ -1320,8 +1320,8 @@ reqs    =
 type    = "Max_Rates"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
     }
 
 [effect_max_rates_tribal]
@@ -1392,32 +1392,32 @@ reqs    =
 type    = "Martial_Law_Each"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
     }
 
 [effect_martial_law_each_despotism]
 type    = "Martial_Law_Each"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
     }
 
 [effect_martial_law_each_monarchy]
 type    = "Martial_Law_Each"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
     }
 
 [effect_martial_law_each_communism]
 type    = "Martial_Law_Each"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Communism", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
     }
 
 [effect_martial_law_max]
@@ -1441,86 +1441,86 @@ reqs    =
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Anarchy", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "Player", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Anarchy", "Player", TRUE, TRUE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "Player", FALSE, FALSE
     }
 
 [effect_gov_tile_penalty_tribal]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Tribal", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "Player", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Tribal", "Player", TRUE, TRUE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "Player", FALSE, FALSE
     }
 
 [effect_gov_tile_penalty_despotism]
 type    = "Output_Penalty_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Despotism", "Player", TRUE
-      "Building", "Pyramids", "Player", FALSE
-      "Tech", "Railroad", "Player", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Despotism", "Player", TRUE, TRUE
+      "Building", "Pyramids", "Player", FALSE, FALSE
+      "Tech", "Railroad", "Player", FALSE, FALSE
     }
 
 [effect_gov_tile_bonus_republic]
 type    = "Output_Inc_Tile"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Republic", "Player", TRUE
-      "OutputType", "Trade", "Local", TRUE
-      "TerrainClass", "Oceanic", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Republic", "Player", TRUE, TRUE
+      "OutputType", "Trade", "Local", TRUE, FALSE
+      "TerrainClass", "Oceanic", "Local", FALSE, FALSE
     }
 
 [effect_gov_tile_bonus_democracy]
 type    = "Output_Inc_Tile"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Democracy", "Player", TRUE
-      "OutputType", "Trade", "Local", TRUE
-      "TerrainClass", "Oceanic", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Democracy", "Player", TRUE, TRUE
+      "OutputType", "Trade", "Local", TRUE, FALSE
+      "TerrainClass", "Oceanic", "Local", FALSE, FALSE
     }
 
 [effect_gov_tile_bonus_celebrate]
 type    = "Output_Inc_Tile_Celebrate"
 value   = 1
 reqs    =
-    { "type", "name", "range", "present"
-      "OutputType", "Trade", "Local", TRUE
-      "Gov", "Anarchy", "Player", FALSE
-      "Gov", "Tribal", "Player", FALSE
-      "Gov", "Communism", "Player", FALSE
-      "Gov", "Despotism", "Player", FALSE
-;      "Gov", "Monarchy", "Player", FALSE
-      "Gov", "Fundamentalism", "Player", FALSE
-;      "Gov", "Federation", "Player", FALSE
-;      "Gov", "Republic", "Player", FALSE
-;      "Gov", "Democracy", "Player", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "OutputType", "Trade", "Local", TRUE, TRUE
+      "Gov", "Anarchy", "Player", FALSE, FALSE
+      "Gov", "Tribal", "Player", FALSE, FALSE
+      "Gov", "Communism", "Player", FALSE, FALSE
+      "Gov", "Despotism", "Player", FALSE, FALSE
+;      "Gov", "Monarchy", "Player", FALSE, FALSE
+      "Gov", "Fundamentalism", "Player", FALSE, FALSE
+;      "Gov", "Federation", "Player", FALSE, FALSE
+;      "Gov", "Republic", "Player", FALSE, FALSE
+;      "Gov", "Democracy", "Player", FALSE, FALSE
     }
 
 [effect_content_tribal]
 type    = "Make_Content"
 value   = 1
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Tribal", "Player"
+    { "type", "name", "range", "quiet"
+      "Gov", "Tribal", "Player", TRUE
     }
 
 [effect_combat_tribal]
 type    = "Veteran_Combat"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Tribal", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "UnitFlag", "NonMil", "Local", FALSE
-      "UnitFlag", "NoVeteran", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Tribal", "Player", TRUE, TRUE
+      "UnitClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "NonMil", "Local", FALSE, FALSE
+      "UnitFlag", "NoVeteran", "Local", FALSE, FALSE
     }
 
 [effect_revolution_republic]
@@ -1603,36 +1603,36 @@ reqs    =
 type    = "Output_Add_Tile"
 value   = 2
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Federation", "Player"
-      "CityTile", "Center", "Local"
-      "OutputType", "Luxury", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "CityTile", "Center", "Local", FALSE
+      "OutputType", "Luxury", "Local", FALSE
     }
 
 [effect_bad_lux_anarchy]
 type    = "Output_Bonus"
 value   = -50
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Luxury", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
+      "OutputType", "Luxury", "Local", FALSE
     }
 
 [effect_bad_sci_fundamentalism]
 type    = "Output_Bonus"
 value   = -50
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Science", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
+      "OutputType", "Science", "Local", FALSE
     }
 
 [effect_tithes_fundamentalism]
 type    = "Happiness_To_Gold" 
 value   = 1 
 reqs    = 
-    { "type", "name", "range" 
-      "Gov", "Fundamentalism", "Player" 
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
     }
 
 [effect_fanatics_fundamentalism]
@@ -2438,20 +2438,20 @@ reqs	=
 type    = "Output_Bonus"
 value   = 75
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "Building", "Palace", "City"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
+      "Building", "Palace", "City", FALSE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_palace_monarchy]
 type    = "Output_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "Building", "Palace", "City"
-      "OutputType", "Gold", "Local"
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
+      "Building", "Palace", "City", FALSE
+      "OutputType", "Gold", "Local", FALSE
     }
 
 [effect_palace_culture]
@@ -2513,22 +2513,22 @@ reqs	=
 type    = "Output_Bonus"
 value   = 75
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Despotism", "Player", TRUE
-      "Building", "Ecclesiastical Palace", "City", TRUE
-      "OutputType", "Gold", "Local", TRUE
-      "Building", "Palace", "City", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Despotism", "Player", TRUE, TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE, FALSE
+      "OutputType", "Gold", "Local", TRUE, FALSE
+      "Building", "Palace", "City", FALSE, FALSE
     }
 
 [effect_ecclesiastical_palace_monarchy]
 type    = "Output_Bonus"
 value   = 50
 reqs    =
-    { "type", "name", "range", "present"
-      "Gov", "Monarchy", "Player", TRUE
-      "Building", "Ecclesiastical Palace", "City", TRUE
-      "OutputType", "Gold", "Local", TRUE
-      "Building", "Palace", "City", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Gov", "Monarchy", "Player", TRUE, TRUE
+      "Building", "Ecclesiastical Palace", "City", TRUE, FALSE
+      "OutputType", "Gold", "Local", TRUE, FALSE
+      "Building", "Palace", "City", FALSE, FALSE
     }
 
 [effect_ecclesiastical_palace_culture]
@@ -4050,21 +4050,12 @@ reqs    =
       "UnitClass", "Sea", "Local", FALSE
     }
 
-[effect_irrigate_src_river]
+[effect_irrigate_src_extra]
 type    = "Irrig_Possible"
 value   = 1
 reqs    =
     { "type", "name", "range", "present"
-      "Extra", "River", "CAdjacent", TRUE
-      "UnitClass", "Sea", "Local", FALSE
-    }
-
-[effect_irrigate_src_irrigation]
-type    = "Irrig_Possible"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Extra", "Irrigation", "CAdjacent", TRUE
+      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
       "UnitClass", "Sea", "Local", FALSE
     }
 
@@ -4082,8 +4073,7 @@ reqs    =
     { "type", "name", "range", "present"
       "Terrain", "Desert", "Local", TRUE
       "Extra", "Irrigation", "Local", TRUE
-      "Extra", "Oasis", "Local", FALSE
-      "Extra", "River", "Local", FALSE
+      "ExtraFlag", "AllowsFarmlandOnDesert", "Local", FALSE
     }
 
 [effect_mining]

@@ -1622,7 +1622,12 @@ static struct setting settings[] = {
            GAME_DEFAULT_NUCLEAR_WINTER)
 
   GEN_INT("mapseed", wld.map.server.seed_setting,
-          SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+          SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE,
+#ifdef FREECIV_WEB
+          ALLOW_NONE, ALLOW_BASIC,
+#else /* FREECIV_WEB */
+          ALLOW_HACK, ALLOW_HACK,
+#endif /* FREECIV_WEB */
           N_("Map generation random seed"),
           N_("The same seed will always produce the same map; "
              "for zero (the default) a seed will be chosen based on "
@@ -1636,7 +1641,12 @@ static struct setting settings[] = {
    * fixed after the game has started.
    */
   GEN_INT("gameseed", game.server.seed_setting,
-          SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE, ALLOW_HACK, ALLOW_HACK,
+          SSET_MAP_ADD, SSET_INTERNAL, SSET_RARE,
+#ifdef FREECIV_WEB
+          ALLOW_NONE, ALLOW_BASIC,
+#else /* FREECIV_WEB */
+          ALLOW_HACK, ALLOW_HACK,
+#endif /* FREECIV_WEB */
           N_("Game random seed"),
           N_("For zero (the default) a seed will be chosen based "
              "on the current time."),
@@ -1913,7 +1923,7 @@ static struct setting settings[] = {
           NULL, NULL, NULL,
           GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
 
-  GEN_INT("techlossforgiveness", game.server.techloss_forgiveness,
+  GEN_INT("techlossforgiveness", game.info.techloss_forgiveness,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Research point debt threshold for losing tech"),
           N_("When you have negative research points, and your shortfall is "
