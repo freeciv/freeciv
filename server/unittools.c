@@ -4091,6 +4091,12 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
     order = punit->orders.list[punit->orders.index];
 
+    /* An ORDER_PERFORM_ACTION that doesn't specify an action should not get
+     * this far. */
+    fc_assert_action((order.order != ORDER_PERFORM_ACTION
+                      || action_id_exists(order.action)),
+                     continue);
+
     switch (order.order) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
