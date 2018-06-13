@@ -178,7 +178,7 @@ signal.connect("hut_enter", "_deflua_hut_enter_callback")
 ]]--
 
 function _deflua_make_partisans_callback(city, loser, winner, reason)
-  if not reason == 'conquest' or city:inspire_partisans(loser) <= 0 then
+  if reason ~= 'conquest' or city:inspire_partisans(loser) <= 0 then
     return
   end
 
