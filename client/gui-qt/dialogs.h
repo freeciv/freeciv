@@ -68,6 +68,26 @@ public:
 };
 
 /***************************************************************************
+  Dialog with themed titlebar
+***************************************************************************/
+class qfc_dialog : public QDialog
+{
+  Q_OBJECT
+public:
+  qfc_dialog(QWidget *parent);
+private:
+  int titlebar_height;
+  QPoint point;
+  bool moving_now;
+  QPixmap close_pix;
+protected:
+  void paintEvent(QPaintEvent* event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+};
+
+/***************************************************************************
   Nonmodal message box for disbanding units
 ***************************************************************************/
 class disband_box : public hud_message_box
@@ -104,7 +124,7 @@ private slots:
 /***************************************************************************
  Dialog for selecting nation, style and leader leader
 ***************************************************************************/
-class races_dialog:public QDialog
+class races_dialog:public qfc_dialog
 {
   Q_OBJECT
   QGridLayout *main_layout;

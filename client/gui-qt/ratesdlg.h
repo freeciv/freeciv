@@ -31,6 +31,9 @@
 // client
 #include "client_main.h"
 
+// gui-qt
+#include "dialogs.h"
+
 extern "C" {
 #include "ratesdlg_g.h"
 }
@@ -73,7 +76,7 @@ protected:
 /**************************************************************************
  * Dialog used to change tax rates
  *************************************************************************/
-class tax_rates_dialog: public  QDialog
+class tax_rates_dialog: public qfc_dialog
 {
 Q_OBJECT
 
@@ -91,7 +94,7 @@ private slots:
 /**************************************************************************
  * Dialog used to change policies
  *************************************************************************/
-class multipler_rates_dialog: public  QDialog
+class multipler_rates_dialog: public qfc_dialog
 {
   Q_OBJECT
 

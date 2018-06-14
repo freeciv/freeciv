@@ -220,10 +220,98 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 static const QHash<enum gen_action, pfcn_void> af_map = af_map_init();
 
 /***************************************************************************
+  Constructor for custom dialog with themed titlebar
+***************************************************************************/
+qfc_dialog::qfc_dialog(QWidget* parent) : QDialog(parent,
+                                                  Qt::FramelessWindowHint)
+{
+  titlebar_height = 0;
+  moving_now = false;
+  setSizeGripEnabled(true);
+  close_pix = *fc_icons::instance()->get_pixmap("cclose");
+}
+
+/***************************************************************************
+  Paint event for themed dialog
+***************************************************************************/
+void qfc_dialog::paintEvent(QPaintEvent *event)
+{
+  Q_UNUSED(event)
+
+  QPainter p(this);
+  QStyleOptionTitleBar tbar_opt;
+  QStyleOption win_opt;
+  QStyle *style = this->style();
+  QRect active_area = this->rect();
+  QPalette qpal;
+  QRect close_rect, text_rect;
+
+  qpal.setColor(QPalette::Active, QPalette::ToolTipText, Qt::white);
+  tbar_opt.initFrom(this);
+  titlebar_height = style->pixelMetric(QStyle::PM_TitleBarHeight,
+                                       &tbar_opt, this) + 2;
+  close_pix = close_pix.scaledToHeight(titlebar_height);
+  tbar_opt.rect = QRect(0, 0, this->width(), titlebar_height);
+  text_rect = QRect(0, 0, this->width() - close_pix.width() , titlebar_height);
+  close_rect = QRect(this->width() - close_pix.width(), 0, this->width(),
+                     titlebar_height);
+  tbar_opt.titleBarState = this->windowState();
+  tbar_opt.text = tbar_opt.fontMetrics.elidedText(this->windowTitle(),
+                  Qt::ElideRight,
+                  text_rect.width());
+  style->drawComplexControl(QStyle::CC_TitleBar, &tbar_opt, &p, this);
+  style->drawItemText(&p, text_rect, Qt::AlignCenter, qpal,
+                      true, tbar_opt.text, QPalette::ToolTipText);
+  style->drawItemPixmap(&p, close_rect, Qt::AlignLeft,
+                        close_pix.scaledToHeight(titlebar_height));
+
+  active_area.setTopLeft(QPoint(0, titlebar_height));
+  this->setContentsMargins(0, titlebar_height, 0, 0);
+  win_opt.initFrom(this);
+  win_opt.rect = active_area;
+  style->drawPrimitive(QStyle::PE_Widget, &win_opt, &p, this);
+}
+
+/***************************************************************************
+  Mouse move event for themed titlebar (moves dialog with left mouse)
+***************************************************************************/
+void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
+{
+  if (moving_now == true) {
+    move(event->globalPos() - point);
+  }
+}
+
+/***************************************************************************
+  Mouse press event - catches left click
+***************************************************************************/
+void qfc_dialog::mousePressEvent(QMouseEvent *event)
+{
+  if (event->pos().y() <= titlebar_height
+      && event->pos().x() <= width() - close_pix.width()) {
+    point = event->globalPos() - geometry().topLeft();
+    moving_now = true;
+    setCursor(Qt::SizeAllCursor);
+  } else if (event->pos().y() <= titlebar_height
+      && event->pos().x() > width() - close_pix.width()) {
+    close();
+  }
+}
+
+/***************************************************************************
+  Mouse release event for themed dialog
+***************************************************************************/
+void qfc_dialog::mouseReleaseEvent(QMouseEvent *event)
+{
+  moving_now = false;
+  setCursor(Qt::ArrowCursor);
+}
+
+/***************************************************************************
  Constructor for selecting nations
 ***************************************************************************/
-races_dialog::races_dialog(struct player *pplayer, 
-                           QWidget *parent) : QDialog(parent)
+races_dialog::races_dialog(struct player *pplayer,
+                           QWidget *parent) : qfc_dialog(parent)
 {
   int i;
   QGridLayout *qgroupbox_layout;
