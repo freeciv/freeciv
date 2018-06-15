@@ -4078,6 +4078,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
   enum unit_activity activity;
+  struct extra_type *pextra;
 
   fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
@@ -4124,6 +4125,10 @@ bool execute_orders(struct unit *punit, const bool fresh)
     fc_assert_action((order.order != ORDER_PERFORM_ACTION
                       || action_id_exists(order.action)),
                      continue);
+
+    pextra = (order.extra == EXTRA_NONE ?
+                NULL :
+                extra_by_number(order.extra));
 
     switch (order.order) {
     case ORDER_MOVE:
@@ -4177,10 +4182,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_ACTIVITY:
       activity = order.activity;
       {
-        struct extra_type *pextra = (order.extra == EXTRA_NONE ?
-                                       NULL :
-                                       extra_by_number(order.extra));
-
         if (pextra == NULL && activity_requires_target(order.activity)) {
           /* Try to find a target extra before giving up this order or, if
            * serious enough, all orders. */
@@ -4380,7 +4381,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         break;
       case ATK_TILE:
         prob = action_prob_vs_tile(punit, order.action,
-                                   dst_tile, NULL);
+                                   dst_tile, pextra);
         tgt_id = dst_tile->index;
         break;
       case ATK_CITY:
@@ -4438,7 +4439,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      EXTRA_NONE,
+                                      order.extra,
                                       order.target,
                                       name,
                                       order.action,
@@ -4461,6 +4462,14 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       tile_link(dst_tile));
 
         return TRUE;
+      }
+
+      if (action_id_get_act_time(order.action, punit, dst_tile, pextra)
+          != ACT_TIME_INSTANTANEOUS) {
+        /* Done at turn change. */
+        punit->done_moving = TRUE;
+        send_unit_info(NULL, punit);
+        break;
       }
 
       break;
