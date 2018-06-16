@@ -991,8 +991,8 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                     && (real_map_distance(best_tile, unit_tile(punit))
                         < real_map_distance(best_tile,
                                             unit_tile(displaced)))));
-      UNIT_LOG(LOG_DEBUG, punit,
-               "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
+      UNIT_LOG(displaced->server.debug ? LOG_AI_TEST : LOG_DEBUG, punit,
+               "%d (%d,%d) has displaced %d (%d,%d) for worksite %d,%d",
                punit->id, completion_time,
                real_map_distance(best_tile, unit_tile(punit)),
                displaced->id, state[tile_index(best_tile)].eta,
@@ -1033,6 +1033,12 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       }
     }
 
+    UNIT_LOG(LOG_DEBUG, punit,
+             "is heading to do %s(%s) at (%d, %d)",
+             unit_activity_name(best_act),
+             best_target && *best_target ? extra_rule_name(*best_target) : "-",
+             TILE_XY(best_tile));
+
     if (!path) {
       pft_fill_unit_parameter(&parameter, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);
@@ -1056,11 +1062,19 @@ bool auto_settler_setup_work(struct player *pplayer, struct unit *punit,
         }
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
 
+        UNIT_LOG(LOG_DEBUG, punit,
+                 "reached its worksite and started work");
         working = TRUE;
+      } else if (alive) {
+        UNIT_LOG(LOG_DEBUG, punit,
+                 "didn't start work yet; got to (%d, %d) with "
+                 "%d move frags left", TILE_XY(unit_tile(punit)),
+                 punit->moves_left);
       }
     } else {
-      log_debug("Autosettler does not find path (%d, %d) -> (%d, %d)",
-                TILE_XY(unit_tile(punit)), TILE_XY(best_tile));
+      UNIT_LOG(LOG_DEBUG, punit,
+               "does not find path (%d, %d) -> (%d, %d)",
+               TILE_XY(unit_tile(punit)), TILE_XY(best_tile));
     }
 
     if (pfm) {
