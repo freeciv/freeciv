@@ -2823,10 +2823,13 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
     task.want = 0;
   } else {
     enum extra_cause cause = activity_to_extra_cause(act);
+    enum extra_rmcause rmcause = activity_to_extra_rmcause(act);
     struct extra_type *tgt;
 
     if (cause != EC_NONE) {
       tgt = next_extra_for_tile(ptile, cause, city_owner(pcity), NULL);
+    } else if (rmcause != ERM_NONE) {
+      tgt = prev_extra_in_tile(ptile, rmcause, city_owner(pcity), NULL);
     } else {
       tgt = NULL;
     }
@@ -2921,6 +2924,18 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
       choice_dialog_add(shl, _("Transform"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_TRANSFORM), FALSE, NULL);
+    }
+    if (prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+                           city_owner(pcity), NULL) != NULL) {
+      choice_dialog_add(shl, _("Clean Pollution"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_POLLUTION), FALSE, NULL);
+    }
+    if (prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
+                           city_owner(pcity), NULL) != NULL) {
+      choice_dialog_add(shl, _("Clean Fallout"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_FALLOUT), FALSE, NULL);
     }
 
     choice_dialog_add(shl, _("Cancel"), 0, 0, FALSE, NULL);
