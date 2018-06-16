@@ -135,7 +135,7 @@ Defines a log file, \fIfilename\fP, to be produced during processing. Use the
 .I \-d
 option to set how much is logged.  By default, fatal, error, and normal
 messages are printed to standard output.  With a log file, such messages go
-to the log instead.
+to the log instead.  If \fIfilename\fP already exists, it is appended to.
 .TP
 .BI "\-M \fIURL\fP, \-\-Meta \fIURL\fP"
 Specifies the \fIURL\fP of the metaserver to connect to. A metaserver is a
