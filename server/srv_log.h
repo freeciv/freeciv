@@ -99,8 +99,8 @@ void real_unit_log(const char *file, const char *function, int line,
 {                                                                           \
   bool notify = punit->server.debug;                                        \
   enum log_level level;                                                     \
-  if (!notify && tile_city(unit_tile(punit))                                \
-      && tile_city(unit_tile(punit))->server.debug) {                       \
+  if (notify || (tile_city(unit_tile(punit))                                \
+                 && tile_city(unit_tile(punit))->server.debug)) {           \
     level = LOG_AI_TEST;                                                    \
     notify = TRUE;                                                          \
   } else {                                                                  \
