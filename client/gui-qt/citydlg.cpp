@@ -1288,6 +1288,8 @@ void city_map::context_menu(QPoint point)
   QAction con_mine(_("Mine"), this);
   QAction con_road(_("Road"), this);
   QAction con_trfrm(_("Transform"), this);
+  QAction con_pollution(_("Clean Pollution"), this);
+  QAction con_fallout(_("Clean Fallout"), this);
   QMenu con_menu(this);
   QWidgetAction *wid_act;
   struct packet_worker_task task;
@@ -1345,6 +1347,16 @@ void city_map::context_menu(QPoint point)
     con_menu.addAction(&con_road);
   }
 
+  if (prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
+                         city_owner(mcity), NULL) != NULL) {
+    con_menu.addAction(&con_pollution);
+  }
+
+  if (prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
+                         city_owner(mcity), NULL) != NULL) {
+    con_menu.addAction(&con_fallout);
+  }
+
   if (ptask != NULL) {
     con_menu.addAction(&con_clear);
   }
@@ -1369,15 +1381,28 @@ void city_map::context_menu(QPoint point)
       task.activity = ACTIVITY_IRRIGATE;
     } else if (act == &con_trfrm) {
       task.activity = ACTIVITY_TRANSFORM;
+    } else if (act == &con_pollution) {
+      task.activity = ACTIVITY_POLLUTION;
+      target = TRUE;
+    } else if (act == &con_fallout) {
+      task.activity = ACTIVITY_FALLOUT;
+      target = TRUE;
     }
 
     task.want = 100;
 
     if (target) {
       enum extra_cause cause = activity_to_extra_cause(task.activity);
+      enum extra_rmcause rmcause = activity_to_extra_rmcause(task.activity);
       struct extra_type *tgt;
 
-      tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), NULL);
+      if (cause != EC_NONE) {
+        tgt = next_extra_for_tile(ptile, cause, city_owner(mcity), NULL);
+      } else if (rmcause != ERM_NONE) {
+        tgt = prev_extra_in_tile(ptile, rmcause, city_owner(mcity), NULL);
+      } else {
+        tgt = NULL;
+      }
 
       if (tgt != NULL) {
         task.tgt = extra_index(tgt);
