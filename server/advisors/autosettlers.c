@@ -803,8 +803,8 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                     && (real_map_distance(best_tile, unit_tile(punit))
                         < real_map_distance(best_tile,
                                             unit_tile(displaced)))));
-      UNIT_LOG(LOG_DEBUG, punit,
-               "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
+      UNIT_LOG(displaced->server.debug ? LOG_AI_TEST : LOG_DEBUG, punit,
+               "%d (%d,%d) has displaced %d (%d,%d) for worksite %d,%d",
                punit->id, completion_time,
                real_map_distance(best_tile, unit_tile(punit)),
                displaced->id, state[tile_index(best_tile)].eta,
@@ -845,6 +845,10 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
       }
     }
 
+    UNIT_LOG(LOG_DEBUG, punit,
+             "is heading to do %s at (%d, %d)",
+             unit_activity_name(best_act), TILE_XY(best_tile));
+
     if (!path) {
       pft_fill_unit_parameter(&parameter, punit);
       parameter.can_invade_tile = autosettler_enter_territory;
@@ -866,10 +870,19 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
           unit_activity_handling(punit, best_act);
         }
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
+
+        UNIT_LOG(LOG_DEBUG, punit,
+                 "reached its worksite and started work");
+      } else if (alive) {
+        UNIT_LOG(LOG_DEBUG, punit,
+                 "didn't start work yet; got to (%d, %d) with "
+                 "%d move frags left", TILE_XY(unit_tile(punit)),
+                 punit->moves_left);
       }
     } else {
-      log_debug("Autosettler does not find path (%d, %d) -> (%d, %d)",
-                TILE_XY(unit_tile(punit)), TILE_XY(best_tile));
+      UNIT_LOG(LOG_DEBUG, punit,
+               "does not find path (%d, %d) -> (%d, %d)",
+               TILE_XY(unit_tile(punit)), TILE_XY(best_tile));
     }
 
     if (pfm) {
