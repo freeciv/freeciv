@@ -21,9 +21,6 @@
 
 #include "gui_proto_constructor.h"
 
-GUI_FUNC_PROTO(void, set_city_names_font_sizes, int city_names_font_size,
-               int city_productions_font_size)
-
 GUI_FUNC_PROTO(void, ui_init, void)
 GUI_FUNC_PROTO(void, ui_main, int argc, char *argv[])
 GUI_FUNC_PROTO(void, ui_exit, void)

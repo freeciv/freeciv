@@ -75,8 +75,6 @@ options include:
   type                  : general type of tileset, different types have
                           quite different format. Supported types are
                           "overhead" and "isometric"
-  city_names_font       : an X font string
-  city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
   unit_default_orientation : Specifies a direction to use for unit types in
                           worklists etc. See "Unit Sprites" below.
@@ -167,8 +165,6 @@ options include:
                          "normal" dimensions of 64x32 with a hex_side of 16
                          for an iso-hex tileset will give hexagons of size
                          48x32.
-  city_names_font_size : Font size used in drawing city name
-  city_production_font_size : Font size used in drawing city production
 
   Booleans (FALSE or TRUE)
   ------------------------

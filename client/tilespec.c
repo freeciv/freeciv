@@ -482,8 +482,6 @@ struct tileset {
 
   enum direction8 unit_default_orientation;
 
-  int city_names_font_size, city_productions_font_size;
-
   enum fog_style fogstyle;
   enum darkness_style darkness_style;
 
@@ -2035,11 +2033,7 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
       || !secfile_lookup_int(file, &t->occupied_offset_x,
                              "tilespec.occupied_offset_x")
       || !secfile_lookup_int(file, &t->occupied_offset_y,
-                             "tilespec.occupied_offset_y")
-      || !secfile_lookup_int(file, &t->city_names_font_size,
-                             "tilespec.city_names_font_size")
-      || !secfile_lookup_int(file, &t->city_productions_font_size,
-                             "tilespec.city_productions_font_size")) {
+                             "tilespec.occupied_offset_y")) {
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;
   }
@@ -2074,9 +2068,6 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
       && t->unit_upkeep_small_offset_y != t->unit_upkeep_offset_y) {
     t->unit_upkeep_small_offset_y = t->scale * t->unit_upkeep_small_offset_y;
   }
-
-  set_city_names_font_sizes(t->city_names_font_size,
-                            t->city_productions_font_size);
 
   c = secfile_lookup_str_default(file, NULL,
                                  "tilespec.unit_default_orientation");

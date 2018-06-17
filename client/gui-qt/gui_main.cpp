@@ -88,15 +88,6 @@ class fc_client *gui()
   return freeciv_qt;
 }
 
-/****************************************************************************
-  Called by the tileset code to set the font size that should be used to
-  draw the city names and productions.
-****************************************************************************/
-void qtg_set_city_names_font_sizes(int my_city_names_font_size,
-                                   int my_city_productions_font_size)
-{
-}
-
 /**************************************************************************
   Do any necessary pre-initialization of the UI, if necessary.
 **************************************************************************/

@@ -157,17 +157,6 @@ struct callback_list *callbacks;
 
 /* =========================================================== */
 
-/****************************************************************************
-  Called by the tileset code to set the font size that should be used to
-  draw the city names and productions.
-****************************************************************************/
-void set_city_names_font_sizes(int my_city_names_font_size,
-                               int my_city_productions_font_size)
-{
-  *client_font_sizes[FONT_CITY_NAME] = my_city_names_font_size;
-  *client_font_sizes[FONT_CITY_PROD] = my_city_productions_font_size;
-}
-
 /**************************************************************************
   Print extra usage information, including one line help on each option,
   to stderr.

@@ -113,8 +113,6 @@ struct gui_funcs {
   void (*set_unit_icons_more_arrow)(bool onoff);
   void (*real_focus_units_changed)(void);
   void (*gui_update_font)(const char *font_name, const char *font_value);
-  void (*set_city_names_font_sizes)(int my_city_names_font_size,
-                                    int my_city_productions_font_size);
 
   void (*editgui_refresh)(void);
   void (*editgui_notify_object_created)(int tag, int id);
