@@ -293,14 +293,16 @@ the medium which your cities work to produce resources. The different \
 types of terrain each have different strengths and drawbacks; see the \
 sections on each terrain type for details.\
 "), _("\
-Terrain affects combat very simply: when a land unit is attacked, its \
+Terrain affects combat very simply: when a unit is attacked, its \
 defense strength is multiplied by the defense factor (\"bonus\") of the \
-terrain beneath it. See the help section on Combat for further \
-details.\
+terrain beneath it. (However, some types of units do not enjoy this \
+bonus; in the classic ruleset, only land units do.) See the help \
+section on Combat for further details.\
 "), _("\
-Terrain complicates the movement of land units -- sea and air units \
-always expend one movement point to move one tile, but moving onto \
-rough terrain such as Mountains can cost land units more.\
+Terrain can complicate the movement of units. For instance, in the \
+classic ruleset, moving onto rough terrain such as Mountains can cost \
+land units more than flat terrain like Plains, although sea and air \
+units always expend one movement point to move one tile.\
 "), _("\
 Tiles within range of a city may be worked by that city to produce \
 food, production, and trade points, and the quantity of each produced \
@@ -485,13 +487,13 @@ Happiness.)\
 name = _(" Production")
 text = _("\
 Production points (also known as \"shields\") represent manufacturing \
-output. Most units require production points as upkeep, and demand \
-them from their home city, although under autocratic regimes each city \
-supports a few units for free. If city production drops too low, the \
-units that cannot be supported are automatically disbanded. Most types \
-of unit can also be disbanded at any time. If a unit is disbanded \
-while in a city, half of its production cost will usually be put towards \
-that city's surplus.\
+output. In the classic ruleset, most units require production points \
+as upkeep, and demand them from their home city, although under \
+autocratic regimes each city supports a few units for free. If city \
+production drops too low, the units that cannot be supported are \
+automatically disbanded. Most types of unit can also be disbanded at \
+any time. If a unit is disbanded while in a city, half of its production \
+cost will usually be put towards that city's surplus.\
 "), _("\
 Production points in excess of any required by the city's units are \
 put towards whichever unit, building, or wonder has been selected as \
