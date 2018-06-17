@@ -2570,8 +2570,8 @@ static struct client_option client_options[] = {
                   "Sans Bold 10", NULL),
   GEN_FONT_OPTION(gui_gtk2_font_city_productions, "city_productions",
                   N_("City Productions"),
-                  N_("This font is used to the display the city production "
-                     "names on the map."),
+                  N_("This font is used to display the city production "
+                     "on the map."),
                   COC_FONT, GUI_GTK2,
                   "Serif 10", NULL),
   GEN_FONT_OPTION(gui_gtk2_font_reqtree_text, "reqtree_text",
@@ -2791,8 +2791,8 @@ static struct client_option client_options[] = {
                   "Sans Bold 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_font_city_productions, "city_productions",
                   N_("City Productions"),
-                  N_("This font is used to the display the city production "
-                     "names on the map."),
+                  N_("This font is used to display the city production "
+                     "on the map."),
                   COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_font_reqtree_text, "reqtree_text",
@@ -3012,8 +3012,8 @@ static struct client_option client_options[] = {
                   "Sans Bold 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_22_font_city_productions, "city_productions",
                   N_("City Productions"),
-                  N_("This font is used to the display the city production "
-                     "names on the map."),
+                  N_("This font is used to display the city production "
+                     "on the map."),
                   COC_FONT, GUI_GTK3_22,
                   "Serif 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_22_font_reqtree_text, "reqtree_text",
@@ -3153,8 +3153,8 @@ static struct client_option client_options[] = {
                   "Sans Serif,10,-1,5,75,0,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_city_productions, "city_productions",
                   N_("City Productions"),
-                  N_("This font is used to the display the city production "
-                     "names on the map."),
+                  N_("This font is used to display the city production "
+                     "on the map."),
                   COC_FONT, GUI_QT,
                   "Sans Serif,10,-1,5,50,1,0,0,0,0", font_changed_callback),
   GEN_FONT_OPTION(gui_qt_font_reqtree_text, "reqtree_text",
