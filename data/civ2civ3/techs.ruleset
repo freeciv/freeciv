@@ -718,7 +718,8 @@ graphic     = "a.refining"
 graphic_alt = "-"
 helptext = _("\
 Allows Settlers, Migrants, Workers and Engineers to upgrade \
-mines to oil wells on Desert and Glacier.\
+mines to oil wells on Desert and Glacier tiles, for an extra production \
+point.\
 ")
 cost     = 400
 

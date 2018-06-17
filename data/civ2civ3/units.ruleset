@@ -497,6 +497,9 @@ Migrants can be used to transfer population to other cities, but \
 may not found new cities. They can also perform some of the same \
 terrain alterations as Workers (but cannot build airstrips, \
 airbases, or buoys).\
+"), _("\
+TIP: Migrants can be a good alternative to Workers in overpopulated \
+cities, as they benefit from free food upkeep.\
 ")
 
 [unit_worker]

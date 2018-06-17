@@ -50,7 +50,7 @@ INFO:
   players to use it.
   CHEATING AI: +40% Science, Luxury, Gold and Production, +40 AI love,
   +40% Veteran chance, +40% Bribe and Incite costs, -20% Pollution,
-  +1 Content per city.
+  +1 Content per city, no food penalty from units.
 
 The following is a full list of changes compared to classic ruleset...
 
@@ -66,16 +66,18 @@ CORE CHANGES:
   tiles worked in the newly created city.
 
 - Disabled national Trade Routes: it is still possible to create Trade
-  Routes, but only to foreign cities that you are not at war with.
-  Each city can support a maximum of 2 trade routes. Removed the one
-  time revenues. 
+  Routes, but only to foreign cities that you are not at war with
+  (trade routes are canceled when war breaks out). Each city can
+  support a maximum of 2 trade routes. Removed the one time revenues. 
 
-- Every unit pays some kind of Upkeep cost. Under some governments, this
-  upkeep is changed from Shields to Gold (similar to civ3).
+- Every unit (except Settlers/Migrants, which cost population to build)
+  pays some kind of Upkeep cost. Under some governments, this upkeep is
+  changed from Shields to Gold (similar to civ3).
 
-- A city can support as many Military units as its population size
-  (min 4, max 20). Additional units cause waste of Food. If the city
-  shrinks due to starvation, one of those extra units will be disbanded.
+- A city can support as many military and Settler/Migrant units as its
+  population size (min 4, max 20). Additional units cause waste of Food.
+  If the city shrinks due to starvation, one of those extra units will
+  be disbanded.
 
 - Units lose one Veteran level when upgraded.
 
@@ -117,6 +119,12 @@ CORE CHANGES:
 - No holes allowed in tech tree. To acquire a tech you must know its
   prerequisites, and you cannot lose a tech that another depends on.
 
+- Some buildings, and all wonders, generate culture points in your
+  cities; certain achievements such as mapping the world also generate
+  culture points. By default, this only affects score; it also affects
+  migration (which is not enabled by default), and a cultural victory
+  can optionally be enabled.
+
 - Enabled risk of Plague at cities with population greater than 4. Chances
   reduced by the buildings Aqueduct and Sewer System, the tech Medicine,
   and the wonder Cure for Cancer.
@@ -129,20 +137,26 @@ CORE CHANGES:
 
 OPTIONAL RULES:
 
-- Every player starts with 1 free Tech, 1 Settler, 1 Worker and
-  1 Explorer.
+- Every player starts with 1 free Tech, 1 Settler, 1 Worker,
+  1 Explorer, and 1 Diplomat. ('startunits', 'techlevel')
 
-- Minimum Distance between cities set to 3.
+- Minimum Distance between cities set to 3. ('citymindist')
 
-- Initial National Border equal to city radius (2 tiles).
+- Initial National Border equal to city radius (2 tiles). ('borders')
 
 - Restricted the use of infrastructure (roads, railroads, and rivers)
-  for enemy units.
+  for enemy units. ('restrictinfra')
 
-- Unreachable units do not protect reachable ones.
+- Unreachable units do not protect reachable ones. ('unreachableprotects')
 
 - Set Occupy Chance to 100%: Units automatically move to the target tile
   if the attack is successful and ZoC rules allow the movement.
+  ('occupychance')
+
+- Halved change of building loss when city is conquered. ('razechance')
+
+- Revolutions become quicker the more times any player has changed to
+  the target government. ('revolentype')
 
 
 FOODBOX:
@@ -211,18 +225,21 @@ TERRAIN:
   turn on Mountains).
 
 - The discovery of Refining allows to upgrade the mines placed on
-  Deserts and Glaciers to Oil Wells (+2 Shields).
+  Deserts and Glaciers to Oil Wells (+2 Shields in total).
 
 - Lake tiles receive for free +1 Food (2/0/2), while Harbours and
   Offshore Platforms do not affect them. Lakes do not enable wonders
   that needs a coastal city.
 
-- Deep ocean tiles must be mined (resulting in an Oil Well) in order to
+- Deep ocean tiles must be mined (resulting in an Oil Platform) in order to
   take advantage of the shield bonus from Offshore Platforms.
 
 - Pollution may appear in Ocean tiles, and Transports can clean it
   without the need of Workers/Engineers. Jungles and Forests are less
   affected by global warming.
+
+- Cities on rivers always get roads, even before Bridge Building
+  is known.
 
 - No minimum city output (was 1/1/0). City central tile simply gets
   +1 Shield.
@@ -232,7 +249,7 @@ TERRAIN:
 
 TILE      F/P/T  IRRIG(t)   MINE(t)    ROAD   MAX1   MAX2   TRANSFORM
 Deep      1/0/2  NO         NO         NO     2/0/2  2/1/2  No
-Ocean     1/0/2  NO         NO         NO     2/0/2  2/1/2  Grass(36)
+Ocean     1/0/2  NO         NO         NO     2/0/2  2/1/2 *Grass(36)
 Lake     *2/0/2  NO         NO         NO     2/0/2  2/1/2 *Grass(36)
 Swamp     1/0/0 *+1(5)     *NO         +0(4)  2/0/0  3/0/0 *Grass(24)
 Glacier   0/0/0  NO         +1(10)     +0(4)  0/1/0  0/3/0 *Lake(24)
@@ -345,7 +362,7 @@ Civil war %       99       90       80       70       60       40       30      
 Empire Size       0        /12      /10      /14      /20      /16      /32      /24      /28      
 Special          +NoUpkeep +Veteran +75%Gold +50%Gold +Tithes  +Bribe  +Brib/Sub +Subvert +NoUpkeep
                  -50%Lux  (Land/Mil)(Palace) (Palace) -50%Sci  -Revolt -Rev/Sen  -Senate  (Cost=1) 
-                 -NoTaxes                             +Fanatic         +Partisan +Luxury  +Partisan 
+                 -NoTaxes +Content                    +Fanatic         +Partisan +Luxury  +Partisan 
                                                                                 
 Base Corruption   0%       30%      20%      10%      15%      25%      5%       0%       30%      
 Corrup by Dist *  1        1        1        1        1        1        1        0        0        
@@ -385,7 +402,6 @@ start) and Federation (available with Economics).
 
 - "Martial Law": Max 3 units can apply Martial Law (was max 20 for
   Despotism and Anarchy).
-
 
 - The bonus "+1 Trade" under Republic and Democracy does not affect
   oceanic tiles. This way, oceanic tiles are more even to land tiles
@@ -578,7 +594,7 @@ Settlers:  pop_cost = 2, cost = 30, upkeep = 0
 Migrants:  pop_cost = 1, cost = 10, upkeep = 0
 Workers:   pop_cost = 0, cost = 20, upkeep = 1
 
-- Non-military units now belongs to a new unit class ("Small land") that
+- Non-military units now belongs to a new unit class ("Small Land") that
   can not pillage, nor capture cities, and does not create Zones of
   Control that would affect the movements of enemy units.
 
@@ -589,10 +605,12 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Land units can capture enemy Migrants (as slaves) and
   Caravans/Freights (as loot).
 
-- Wheeled units (new unit class "Big land") can't move to Mountains,
+- Wheeled units (new unit class "Big Land") can't move to Mountains,
   Jungles and Swamps, unless they are travelling on a road. They do not
   get defensive bonuses from the terrain, can not perform pillage, and
   need Galleons or Transports to travel by sea.
+
+- Only "Big Land" units can cause population loss when attacking a city.
 
 - Units can establish embassies or investigate cities directly from boats
   without disembarking. Explorers can also perform those two actions, same
@@ -607,7 +625,6 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
 - Added Fanatics from civ2, available with Guerrilla, under
   Fundamentalism government: (5/5/1-20,20). They cost 1 population, but
   do not cause unhappiness and do not need upkeep.
-
 
 - Archers defense reduced to 1 (was 2), and cost to 20 (was 30). Legion
   cost reduced to 30 (was 40). This way the ratio Attack/Cost of ancient
@@ -662,9 +679,10 @@ Workers:   pop_cost = 0, cost = 20, upkeep = 1
   another. Increased defense of all Air units, in order to discourage
   the use of Land units to protect them.
 
-- Increased fuel of all Air units by one, in order to allow battles for
-  air control. All Air unit lose 10% of HPs, like helicopters, when they
-  end out of a city or airbase.
+- Increased fuel of all planes by one (giving them an extra turn in
+  the air), in order to allow battles for air control. All planes
+  lose 10% of HPs, like helicopters, when they end a turn outside a city,
+  airstrip, or airbase.
 
 - Helicopters can carry 1 military Land unit, and can only be attacked
   by Fighters (with no extra attack bonuses), and by Missiles. Carriers
@@ -753,6 +771,9 @@ Readjusted effects for most wonders. Restored all civ2 costs.
   additional Science in the central city tile. This way, they do not
   multiply the effect of other wonders like Colossus, and it is not an
   advantage to build them all in the same city.
+
+- Your Caravans and Freight can help build allies' or team-mates'
+  wonders.
 
 - Wonders become obsolete by techs researched by the owner (not affected
   by the researches of other players).

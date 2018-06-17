@@ -93,8 +93,9 @@ this file.
 - Custom policy "Personal Freedom". You can trade off a science bonus
   against extra unhappiness from your aggressive military units.
 
-- There's only two disaster types; Earthquake and Fire, and they both
-  can destroy a building from a city.
+- There's only three disaster types: Earthquake and Fire, which can both
+  destroy a building in a city, and Industrial Accident (with Mfg. Plant),
+  which causes pollution and population loss.
 
 - Each movement point is divided to 9 fragments instead of 3. IgTer, road,
   and river moves costs have similarly changed to 3 fragments, so they are
