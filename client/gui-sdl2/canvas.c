@@ -37,12 +37,6 @@
 
 #include "canvas.h"
 
-static int *fonts[FONT_COUNT] = {
-  &city_names_font_size,
-  &city_productions_font_size,
-  &city_productions_font_size
-};
-
 /**********************************************************************//**
   Create a canvas of the given size.
 **************************************************************************/
@@ -200,7 +194,7 @@ void canvas_put_curved_line(struct canvas *pcanvas, struct color *pcolor,
 void get_text_size(int *width, int *height,
                    enum client_font font, const char *text)
 {
-  utf8_str *ptext = create_utf8_str(NULL, 0, *fonts[font]);
+  utf8_str *ptext = create_utf8_str(NULL, 0, *client_font_sizes[font]);
   SDL_Rect size;
 
   fc_assert(width != NULL ||  height != NULL);
@@ -229,7 +223,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
                      const char *text)
 {
   SDL_Surface *ptmp;
-  utf8_str *ptext = create_utf8_str(NULL, 0, *fonts[font]);
+  utf8_str *ptext = create_utf8_str(NULL, 0, *client_font_sizes[font]);
 
   copy_chars_to_utf8_str(ptext, text);
 

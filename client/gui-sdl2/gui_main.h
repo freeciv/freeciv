@@ -81,8 +81,7 @@ extern bool RSHIFT;
 extern bool LCTRL;
 extern bool RCTRL;
 extern bool LALT;
-extern int city_names_font_size;
-extern int city_productions_font_size;
+extern int *client_font_sizes[]; /* indexed by enum client_font */
 
 void force_exit_from_event_loop(void);
 void enable_focus_animation(void);

@@ -595,8 +595,16 @@ static struct widget *option_widget_new(struct option *poption,
     }
     break;
 
-  case OT_BITWISE:
   case OT_FONT:
+    {
+      widget = create_edit_from_chars(NULL, window->dst,
+                                      option_font_get(poption),
+                                      adj_font(12), adj_size(25),
+                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+    }
+    break;
+
+  case OT_BITWISE:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -679,8 +687,11 @@ static void option_widget_update(struct option *poption)
     }
     break;
 
-  case OT_BITWISE:
   case OT_FONT:
+    copy_chars_to_utf8_str(widget->string_utf8, option_font_get(poption));
+    break;
+
+  case OT_BITWISE:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -750,8 +761,11 @@ static void option_widget_apply(struct option *poption)
     }
     break;
 
-  case OT_BITWISE:
   case OT_FONT:
+    (void) option_font_set(poption, widget->string_utf8->text);
+    break;
+
+  case OT_BITWISE:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
