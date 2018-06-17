@@ -4022,7 +4022,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (playerwide) {
           cat_snprintf(buf, bufsz,
                        _("* If you lose your capital,"
-                         " the chance of civil war is %d%%.\n"),
+                         " the base chance of civil war is %d%%.\n"),
                        net_value);
         }
         break;
