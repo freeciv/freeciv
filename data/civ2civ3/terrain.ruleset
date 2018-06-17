@@ -1514,8 +1514,8 @@ helptext       = _("\
 Airstrips are rapidly-built runways allowing air units to land, refuel, \
 and recover outside cities; an aircraft remaining on an airstrip for a \
 whole turn without moving recovers a tenth of its hit points (that is, \
-the amount it loses each turn while airborne). However, air units on an \
-airstrip are vulnerable to attack by land units.\
+the same amount it loses each turn while airborne). However, air units on \
+an airstrip are vulnerable to attack by land units.\
 "),
 ; /* xgettext:no-c-format */
 _("\
@@ -1560,9 +1560,9 @@ cannot be upgraded to Airbases.\
 _("\
 Compared to an airstrip, units in an airbase receive extra defense (+50%) \
 against all units (in total, their defense against air units and missiles \
-is doubled), and do not count as aggressive if near a friendly city. \
-Also, air units recover more hit points (a third per turn, the same as in a \
-city without an Airport).\
+is doubled), do not count as aggressive if near a friendly city, and can \
+see further afield. Also, air units recover more hit points (a third per \
+turn, the same as in a city without an Airport).\
 ")
 
 [extra_buoy]
