@@ -74,7 +74,8 @@ tilelabel_offset_y = 15
 ; not having alternative layout.
 ;unit_upkeep_small_offset_y = 0
 
-; Font size (points) to use to draw city names and productions:
+; Font size (points) to use to draw city names and productions.
+; (Deprecated, and ignored by many clients.)
 city_names_font_size = 10
 city_productions_font_size = 8
 

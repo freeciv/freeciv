@@ -46,7 +46,7 @@ void gui_set_city_names_font_sizes(int my_city_names_font_size,
                                    int my_city_productions_font_size)
 {
   log_error("Unimplemented set_city_names_font_sizes.");
-  /* PORTME */
+  /* PORTME. Optional to pay any attention to this. */
 }
 
 /**************************************************************************

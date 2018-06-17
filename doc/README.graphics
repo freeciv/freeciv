@@ -75,8 +75,6 @@ options include:
   type                  : general type of tileset, different types have
                           quite different format. Supported types are
                           "overhead" and "isometric"
-  city_names_font       : an X font string
-  city_productions_font : an X font string
   main_intro_file       : GFX file for the intro graphics
   minimap_intro_file    : GFX file for the radar screen intro graphics
 
@@ -164,6 +162,7 @@ options include:
                          48x32.
   city_names_font_size : Font size used in drawing city name
   city_production_font_size : Font size used in drawing city production
+                         (Deprecated, ignored by many clients)
 
   Booleans (FALSE or TRUE)
   ------------------------

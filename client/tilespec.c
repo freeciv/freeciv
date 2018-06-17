@@ -2040,6 +2040,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
       && t->unit_upkeep_small_offset_y != t->unit_upkeep_offset_y) {
     t->unit_upkeep_small_offset_y = t->scale * t->unit_upkeep_small_offset_y;
   }
+  /* Tell client, although many clients ignore this in favour of their
+   * own configuration */
   set_city_names_font_sizes(t->city_names_font_size,
                             t->city_productions_font_size);
 

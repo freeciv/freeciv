@@ -135,7 +135,6 @@ GtkWidget *top_notebook, *bottom_notebook, *right_notebook;
 GtkWidget *map_widget;
 static GtkWidget *bottom_hpaned;
 
-int city_names_font_size = 0, city_productions_font_size = 0;
 GtkStyle *city_names_style = NULL;
 GtkStyle *city_productions_style = NULL;
 GtkStyle *reqtree_text_style = NULL;
@@ -241,18 +240,7 @@ static void free_unit_table(void);
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  /* This function may be called before the fonts are allocated.  So we
-   * save the values for later. */
-  city_names_font_size = my_city_names_font_size;
-  city_productions_font_size = my_city_productions_font_size;
-  if (city_names_style) {
-    pango_font_description_set_size(city_names_style->font_desc,
-                                    PANGO_SCALE * city_names_font_size);
-  }
-  if (city_productions_style) {
-    pango_font_description_set_size(city_productions_style->font_desc,
-                                    PANGO_SCALE * city_productions_font_size);
-  }
+  /* Ignored in favour of client configuration */
 }
 
 /**************************************************************************
@@ -1622,8 +1610,6 @@ void ui_main(int argc, char **argv)
     reqtree_text_style = gtk_style_new();
     log_error("reqtree_text_style should have been set by options.");
   }
-
-  set_city_names_font_sizes(city_names_font_size, city_productions_font_size);
 
   fill_bg_gc = gdk_gc_new(root_window);
 

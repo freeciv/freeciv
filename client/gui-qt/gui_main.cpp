@@ -95,6 +95,7 @@ class fc_client *gui()
 void qtg_set_city_names_font_sizes(int my_city_names_font_size,
                                    int my_city_productions_font_size)
 {
+  /* Ignored in favour of client configuration */
 }
 
 /**************************************************************************
