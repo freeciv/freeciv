@@ -310,6 +310,8 @@ struct client_options gui_options = {
   .gui_sdl2_swrenderer = FALSE,
   .gui_sdl2_do_cursor_animation = TRUE,
   .gui_sdl2_use_color_cursors = TRUE,
+  .gui_sdl2_font_city_names = "10",
+  .gui_sdl2_font_city_productions = "10",
 
 /* gui-qt client specific options. */
   .gui_qt_fullscreen = FALSE,
@@ -3063,6 +3065,18 @@ static struct client_option client_options[] = {
                   N_("If this option is disabled, the cursor will "
                      "always be displayed in black and white."),
                   COC_INTERFACE, GUI_SDL2, TRUE, NULL),
+  GEN_FONT_OPTION(gui_sdl2_font_city_names, "FONT_CITY_NAME",
+                  N_("City Names"),
+                  N_("The size of font used to the display the city names "
+                     "on the map."),
+                  COC_FONT, GUI_SDL2,
+                  "10", font_changed_callback),
+  GEN_FONT_OPTION(gui_sdl2_font_city_productions, "FONT_CITY_PROD",
+                  N_("City Productions"),
+                  N_("The size of font used to the display the city "
+                     "production names on the map."),
+                  COC_FONT, GUI_SDL2,
+                  "10", font_changed_callback),
 
   /* gui-qt client specific options. */
   GEN_BOOL_OPTION(gui_qt_fullscreen, N_("Fullscreen"),

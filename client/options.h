@@ -324,6 +324,8 @@ struct client_options
   bool gui_sdl2_swrenderer;
   bool gui_sdl2_do_cursor_animation;
   bool gui_sdl2_use_color_cursors;
+  char gui_sdl2_font_city_names[64];
+  char gui_sdl2_font_city_productions[64];
 
 /* gui-qt client specific options. */
 #define FC_QT_DEFAULT_THEME_NAME "NightStalker"

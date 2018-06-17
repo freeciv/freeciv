@@ -106,8 +106,13 @@ bool RSHIFT;
 bool LCTRL;
 bool RCTRL;
 bool LALT;
-int city_names_font_size = 12;
-int city_productions_font_size = 12;
+static int city_names_font_size = 10;
+static int city_productions_font_size = 10;
+int *client_font_sizes[FONT_COUNT] = {
+  &city_names_font_size,       /* FONT_CITY_NAME */
+  &city_productions_font_size, /* FONT_CITY_PROD */
+  &city_productions_font_size  /* FONT_REQTREE_TEXT; not used yet */
+};
 
 /* ================================ Private ============================ */
 static int net_socket = -1;
@@ -159,8 +164,8 @@ struct callback_list *callbacks;
 void set_city_names_font_sizes(int my_city_names_font_size,
                                int my_city_productions_font_size)
 {
-  city_names_font_size = my_city_names_font_size;
-  city_productions_font_size = my_city_productions_font_size;
+  *client_font_sizes[FONT_CITY_NAME] = my_city_names_font_size;
+  *client_font_sizes[FONT_CITY_PROD] = my_city_productions_font_size;
 }
 
 /**************************************************************************
@@ -1145,7 +1150,23 @@ void editgui_notify_object_created(int tag, int id)
 **************************************************************************/
 void gui_update_font(const char *font_name, const char *font_value)
 {
-  /* PORTME */
+#define CHECK_FONT(client_font, action) \
+  do { \
+    if (strcmp(#client_font, font_name) == 0) { \
+      char *end; \
+      long size = strtol(font_value, &end, 10); \
+      if (end && *end == '\0' && size > 0) { \
+        *client_font_sizes[client_font] = size; \
+        action; \
+      } \
+    } \
+  } while(0)
+
+  CHECK_FONT(FONT_CITY_NAME, update_city_descriptions());
+  CHECK_FONT(FONT_CITY_PROD, update_city_descriptions());
+  /* FONT_REQTREE_TEXT not used yet */
+
+#undef CHECK_FONT
 }
 
 /**************************************************************************
