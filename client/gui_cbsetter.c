@@ -96,7 +96,6 @@ void setup_gui_funcs()
   funcs->set_unit_icons_more_arrow = gui_set_unit_icons_more_arrow;
   funcs->real_focus_units_changed = gui_real_focus_units_changed;
   funcs->gui_update_font = gui_gui_update_font;
-  funcs->set_city_names_font_sizes = gui_set_city_names_font_sizes;
 
   funcs->editgui_refresh = gui_editgui_refresh;
   funcs->editgui_notify_object_created = gui_editgui_notify_object_created;

@@ -87,10 +87,6 @@ tilelabel_offset_y = 28
 ; not having alternative layout.
 ;unit_upkeep_small_offset_y = 0
 
-; Font size (points) to use to draw city names and productions:
-city_names_font_size = 10
-city_productions_font_size = 10
-
 ; For tilesets with oriented units, the directional sprite to use to
 ; represent a unit type rather than a specific unit from the map
 ; (e.g., in worklists, editor, and online help). Does not have to be a
