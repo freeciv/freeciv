@@ -4,12 +4,15 @@
 # stolen back from Frank Belew
 # stolen from Manish Singh
 # Shamelessly stolen from Owen Taylor
-# Taken to Freeciv from SDL release 2.0.0 - modified to work together with sdl1.2
+#
+# Changelog:
+# * also look for SDL2.framework under Mac OS X
+# * Taken to Freeciv from SDL release 2.0.8 - modified to work together with sdl1.2
 
-# serial 1.0.1
+# serial 1.0.2
 
 dnl AM_PATH_SDL2([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
-dnl Test for SDL, and define SDL2_CFLAGS and SDL2_LIBS
+dnl Test for SDL2, and define SDL2_CFLAGS and SDL2_LIBS
 dnl
 AC_DEFUN([AM_PATH_SDL2],
 [dnl 
@@ -26,6 +29,12 @@ AC_ARG_WITH([sdl2-exec-prefix],
 AC_ARG_ENABLE([sdl2test],
   AS_HELP_STRING([--disable-sdl2test], [Do not try to compile and run a test SDL2 program]),
 [], [enable_sdl2test=yes])
+
+AC_ARG_ENABLE([sdl2framework],
+  AS_HELP_STRING([--disable-sdl2framework], [Do not search for SDL2.framework]),
+[], [search_sdl2_framework=yes])
+
+AC_ARG_VAR(SDL2_FRAMEWORK, [Path to SDL2.framework])
 
   min_sdl2_version=ifelse([$1], ,2.0.0,$1)
 
@@ -59,14 +68,36 @@ AC_ARG_ENABLE([sdl2test],
     fi
     AC_PATH_PROG(SDL2_CONFIG, sdl2-config, no, [$PATH])
     PATH="$as_save_PATH"
-    AC_MSG_CHECKING(for SDL2 - version >= $min_sdl2_version)
     no_sdl2=""
 
-    if test "$SDL2_CONFIG" = "no" ; then
-      no_sdl2=yes
-    else
-      SDL2_CFLAGS=`$SDL2_CONFIG $sdl2_config_args --cflags`
-      SDL2_LIBS=`$SDL2_CONFIG $sdl2_config_args --libs`
+    if test "$SDL2_CONFIG" = "no" -a "x$search_sdl2_framework" = "xyes"; then
+      AC_MSG_CHECKING(for SDL2.framework)
+      if test "x$SDL2_FRAMEWORK" != x; then
+        sdl2_framework=$SDL2_FRAMEWORK
+      else
+        for d in / ~/ /System/; do
+          if test -d "$dLibrary/Frameworks/SDL2.framework"; then
+            sdl2_framework="$dLibrary/Frameworks/SDL2.framework"
+          fi
+        done
+      fi
+
+      if test -d $sdl2_framework; then
+        AC_MSG_RESULT($sdl2_framework)
+        sdl2_framework_dir=`dirname $sdl2_framework`
+        SDL_CFLAGS="-F$sdl2_framework_dir -Wl,-framework,SDL2 -I$sdl2_framework/include"
+        SDL_LIBS="-F$sdl2_framework_dir -Wl,-framework,SDL2"
+      else
+        no_sdl2=yes
+      fi
+    fi
+
+    if test "$SDL2_CONFIG" != "no"; then
+      if test "x$sdl2_pc" = "xno"; then
+        AC_MSG_CHECKING(for SDL2 - version >= $min_sdl2_version)
+        SDL_CFLAGS=`$SDL2_CONFIG $sdl2_config_args --cflags`
+        SDL_LIBS=`$SDL2_CONFIG $sdl2_config_args --libs`
+      fi
 
       sdl2_major_version=`$SDL2_CONFIG $sdl2_config_args --version | \
              sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
@@ -147,12 +178,15 @@ int main (int argc, char *argv[])
         CFLAGS="$ac_save_CFLAGS"
         CXXFLAGS="$ac_save_CXXFLAGS"
         LIBS="$ac_save_LIBS"
+
       fi
-    fi
-    if test "x$no_sdl" = x ; then
-      AC_MSG_RESULT(yes)
-    else
-      AC_MSG_RESULT(no)
+      if test "x$sdl2_pc" = "xno"; then
+        if test "x$no_sdl2" = "xyes"; then
+          AC_MSG_RESULT(no)
+        else
+          AC_MSG_RESULT(yes)
+        fi
+      fi
     fi
   fi
   if test "x$no_sdl2" = x ; then
