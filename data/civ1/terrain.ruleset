@@ -54,7 +54,7 @@ min_start_native_area = 0
 ; For example road movement costs are relative to this.
 move_fragments = 3
 
-; Whether diagonal movement has increased cost 
+; Whether diagonal movement has increased cost (no effect with hex topology)
 ; The cost increase is more accurate with larger values for move_fragments
 pythagorean_diagonal = FALSE
 
@@ -102,7 +102,8 @@ igter_cost = 1
 ; irrigation_result    = result of 'irrigate' activity; one of:
 ;                        "no"  -- cannot irrigate
 ;                        "yes" -- can build extra
-;                        terrain section -- irrigation changes to that terrain
+;                        terrain rule_name -- irrigation changes to that
+;                          terrain
 ; irrigation_food_incr = increment to food if tile is 100% irrigated
 ;                        (actual bonus controlled by Irrigation_Pct effect)
 ; irrigation_time      = time for 'irrigate' activity; if 0, cannot irrigate
@@ -111,7 +112,7 @@ igter_cost = 1
 ; mining_result        = result of 'mine' activity; one of:
 ;                        "no"  -- cannot mine
 ;                        "yes" -- can build extra
-;                        terrain section -- mining changes to that terrain
+;                        terrain rule_name -- mining changes to that terrain
 ; mining_shield_incr   = increment to shields if tile is 100% mined
 ;                        (actual bonus controlled by Mining_Pct effect)
 ; mining_time          = time for 'mine' activity; if 0, cannot mine
@@ -119,7 +120,7 @@ igter_cost = 1
 ;                        Such extras can modify time with build_time_factor.
 ; transform_result     = result of transformation; one of:
 ;                        "no"  -- cannot transform
-;                        terrain section -- transformation changes to that
+;                        terrain rule_name -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)
@@ -132,7 +133,7 @@ igter_cost = 1
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
 ;                        "no"  -- no change; does not count for warming
 ;                        "yes" -- no change; counts for warming
-;                        terrain section -- warming changes to that terrain
+;                        terrain rule_name -- warming changes to that terrain
 ; warmer_drier_result  = result of global warming for dry terrains;
 ;                        see warmer_wetter_result
 ; cooler_wetter_result = result of nuclear winter for wet terrains;
@@ -1119,12 +1120,20 @@ Cities built on or next to rivers are at risk of flooding, which\
 ; gui_type                = How gui should handle this base.
 ;                           Value can be "Fortress", "Airbase", or "Other"
 ; border_sq               = Base will claim land ownership up to this radius,
-;                           -1 to disable. If enabled, base cannot exist in city tile.
-; vision_main_sq          = Base will have main layer vision to this radius
+;                           -1 to disable. If enabled, base cannot exist in
+;                           city tile.
+;                           Base (and border) ownership will change hands if
+;                           an enemy unit occupies the tile.
+; vision_main_sq          = Base will have main layer vision to this radius.
+;                           Vision initially provided to owner of unit that
+;                           built base; base will not then change hands unless
+;                           it also claims territory, or tile has another such
+;                           base or city, or another base is built (tile only
+;                           tracks one owner for all bases).
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; flags
-;   - "NoAggressive"      = Units inside are not considered aggressive if there`s
-;                           friendly city within 3 tiles
+;   - "NoAggressive"      = Units inside are not considered aggressive if
+;                           there`s friendly city within 3 tiles
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
@@ -1175,7 +1184,10 @@ flags         = "NoAggressive", "NoStackDeath", "DiplomatDefense"
 ;                           to, if any: "Road", "Railroad", "River, or "None".
 ;                           Used for UI and loading old savegames
 ; integrates              = list of road types that are suitable next steps
-;                           for travel from this road type
+;                           for travel from this road type; such steps are
+;                           possible for units native to both roads and don`t
+;                           get cost from underlying terrain; graphics are
+;                           drawn accordingly
 ; flags
 ;   - "RequiresBridge"    = Technology with "Bridge" flag needed to build this
 ;                           road on the same tile as another road with
