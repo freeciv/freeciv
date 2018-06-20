@@ -837,7 +837,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
 
         comment = entry_comment(pentry);
         if (comment) {
-          fz_fprintf(fs, "#%s\n", comment);
+          fz_fprintf(fs, "  # %s\n", comment);
         } else {
           fz_fprintf(fs, "\n");
         }
