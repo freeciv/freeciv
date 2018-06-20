@@ -4417,8 +4417,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      order.target,
                                       EXTRA_NONE,
+                                      order.target,
                                       name,
                                       order.action,
                                       ACT_REQ_PLAYER);
