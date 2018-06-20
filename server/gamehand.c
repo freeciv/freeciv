@@ -827,8 +827,6 @@ void init_new_game(void)
     fc_assert_msg(game.server.start_city || 0 < placed_units[player_index(pplayer)],
                   _("No units placed for %s!"), player_name(pplayer));
   } players_iterate_end;
-
-  shuffle_players();
 }
 
 /************************************************************************//**
