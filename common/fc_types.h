@@ -137,6 +137,9 @@ enum output_type_id {
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
+/* Happens at once, not during turn change. */
+#define ACT_TIME_INSTANTANEOUS (-1)
+
 enum adv_unit_task { AUT_NONE, AUT_AUTO_SETTLER, AUT_BUILD_CITY };
 
 typedef signed short Continent_id;

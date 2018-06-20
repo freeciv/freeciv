@@ -439,6 +439,8 @@ bool tile_is_seen(const struct tile *target_tile,
 
 /************************************************************************//**
   Time to complete the given activity on the given tile.
+
+  See also action_get_act_time()
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
                        struct extra_type *tgt)

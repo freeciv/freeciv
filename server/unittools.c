@@ -1012,13 +1012,17 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity == ACTIVITY_FORTIFYING) {
-    if (punit->activity_count >= 1) {
+    if (punit->activity_count
+        >= action_id_get_act_time(ACTION_FORTIFY,
+                                  punit, ptile, punit->activity_target)) {
       set_unit_activity(punit, ACTIVITY_FORTIFIED);
     }
   }
 
   if (activity == ACTIVITY_CONVERT) {
-    if (punit->activity_count >= unit_type_get(punit)->convert_time * ACTIVITY_FACTOR) {
+    if (punit->activity_count
+        >= action_id_get_act_time(ACTION_CONVERT,
+                                  punit, ptile, punit->activity_target)) {
       unit_convert(punit);
       set_unit_activity(punit, ACTIVITY_IDLE);
     }
