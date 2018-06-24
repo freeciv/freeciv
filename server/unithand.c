@@ -4968,7 +4968,14 @@ void handle_unit_orders(struct player *pplayer,
 #ifdef FREECIV_DEBUG
   log_debug("Orders for unit %d: length:%d", packet->unit_id, length);
   for (i = 0; i < length; i++) {
-    log_debug("  %d,%s", packet->orders[i], dir_get_name(packet->dir[i]));
+    log_debug("  %d,%s,%s,%d,%d",
+              packet->orders[i], dir_get_name(packet->dir[i]),
+              packet->orders[i] == ORDER_PERFORM_ACTION ?
+                action_id_rule_name(packet->action[i]) :
+                packet->orders[i] == ORDER_ACTIVITY ?
+                  unit_activity_name(packet->activity[i]) :
+                  "no action/activity required",
+              packet->target[i], packet->extra[i]);
   }
 #endif /* FREECIV_DEBUG */
 
