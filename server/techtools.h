@@ -38,13 +38,11 @@ void choose_tech_goal(struct research *presearch, Tech_type_id tech);
 Tech_type_id steal_a_tech(struct player *pplayer, struct player *target,
                 Tech_type_id preferred);
 
-Tech_type_id give_immediate_free_tech(struct research *presearch);
+Tech_type_id pick_free_tech(struct research *presearch);
+void give_immediate_free_tech(struct research *presearch, Tech_type_id tech);
 void give_initial_techs(struct research *presearch, int num_random_techs);
 
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech);
-
-Tech_type_id pick_random_tech(const struct research *presearch);
-Tech_type_id pick_cheapest_tech(const struct research *presearch);
 
 #endif  /* FC__TECHTOOLS_H */

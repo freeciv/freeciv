@@ -346,16 +346,7 @@ Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
   if (ptech) {
     id = advance_number(ptech);
   } else {
-    /* Can't just call give_immediate_free_tech() here as we want
-     * to pass correct reason to emitted signal. */
-    if (game.info.free_tech_method == FTM_CHEAPEST) {
-      id = pick_cheapest_tech(presearch);
-    } else if (presearch->researching == A_UNSET
-               || game.info.free_tech_method == FTM_RANDOM) {
-      id = pick_random_tech(presearch);
-    } else {
-      id = presearch->researching;
-    }
+    id = pick_free_tech(presearch);
   }
 
   if (is_future_tech(id)
