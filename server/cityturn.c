@@ -1684,9 +1684,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 			mod), provider, mod);
 
       for (i = 0; i < mod; i++) {
-	Tech_type_id tech = give_immediate_free_tech(pplayer);
+        Tech_type_id tech = pick_free_tech(pplayer);
         const char *adv_name = advance_name_for_player(pplayer, tech);
 
+        give_immediate_free_tech(pplayer, tech);
         notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                       /* TRANS: Tech from building (Darwin's Voyage) */
                       Q_("?frombldg:Acquired %s from %s."), adv_name, provider);

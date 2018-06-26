@@ -53,6 +53,8 @@
 #undef TECH_UPKEEP_DEBUGGING
 
 static Tech_type_id pick_random_tech_to_lose(struct player* plr);
+static Tech_type_id pick_random_tech(struct player* plr);
+static Tech_type_id pick_cheapest_tech(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
@@ -421,10 +423,11 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     Tech_type_id additional_tech;
     const char *padv_name;
 
-    additional_tech = give_immediate_free_tech(plr);
+    additional_tech = pick_free_tech(plr);
 
     padv_name = advance_name_for_player(plr, additional_tech);
 
+    give_immediate_free_tech(plr, additional_tech);
     if (advance_by_number(tech_found)->bonus_message) {
       notify_research(plr, E_TECH_GAIN, ftc_server,
                       "%s", _(advance_by_number(tech_found)->bonus_message));
@@ -782,7 +785,7 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
   Returns random researchable tech or A_FUTURE.
   No side effects
 ****************************************************************************/
-Tech_type_id pick_random_tech(struct player* plr) 
+static Tech_type_id pick_random_tech(struct player* plr)
 {
   int chosen, researchable = 0;
 
@@ -811,7 +814,7 @@ Tech_type_id pick_random_tech(struct player* plr)
 /****************************************************************************
   Returns cheapest researchable tech, random among equal cost ones.
 ****************************************************************************/
-Tech_type_id pick_cheapest_tech(struct player* plr)
+static Tech_type_id pick_cheapest_tech(struct player* plr)
 {
   int cheapest_cost = -1;
   int cheapest_amount = 0;
@@ -1225,24 +1228,10 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   } players_iterate_alive_end;
 }
 
-/****************************************************************************
-  Gives a player random tech, which he hasn't researched yet. Applies freecost
-  Returns the tech.
+/************************************************************************//**
+  Choose a free tech.
 ****************************************************************************/
-Tech_type_id give_random_free_tech(struct player* pplayer)
-{
-  Tech_type_id tech;
-
-  tech = pick_random_tech(pplayer);
-  do_free_cost(pplayer, tech);
-  found_new_tech(pplayer, tech, FALSE, TRUE);
-  return tech;
-}
-
-/****************************************************************************
-  Gives a player immediate free tech. Applies freecost
-****************************************************************************/
-Tech_type_id give_immediate_free_tech(struct player* pplayer)
+Tech_type_id pick_free_tech(struct player* pplayer)
 {
   Tech_type_id tech;
 
@@ -1250,13 +1239,21 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
     tech = pick_cheapest_tech(pplayer);
   } else if (player_research_get(pplayer)->researching == A_UNSET
       || game.info.free_tech_method == FTM_RANDOM) {
-    return give_random_free_tech(pplayer);
+    tech = pick_random_tech(pplayer);
   } else {
     tech = player_research_get(pplayer)->researching;
   }
+  return tech;
+}
+
+/****************************************************************************
+  Give an immediate free tech (probably chosen with pick_free_tech()).
+  Applies freecost.
+****************************************************************************/
+void give_immediate_free_tech(struct player* pplayer, Tech_type_id tech)
+{
   do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE);
-  return tech;
 }
 
 /****************************************************************************

@@ -268,27 +268,16 @@ void api_edit_change_gold(lua_State *L, Player *pplayer, int amount)
 Tech_Type *api_edit_give_technology(lua_State *L, Player *pplayer,
                                     Tech_Type *ptech, const char *reason)
 {
-  struct player_research *presearch;
   Tech_type_id id;
   Tech_Type *result;
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, pplayer, 2, Player, NULL);
 
-  presearch = player_research_get(pplayer);
   if (ptech) {
     id = advance_number(ptech);
   } else {
-    /* Can't just call give_immediate_free_tech() here as we want
-     * to pass correct reason to emitted signal. */
-    if (game.info.free_tech_method == FTM_CHEAPEST) {
-      id = pick_cheapest_tech(pplayer);
-    } else if (presearch->researching == A_UNSET
-               || game.info.free_tech_method == FTM_RANDOM) {
-      id = pick_random_tech(pplayer);
-    } else {
-      id = presearch->researching;
-    }
+    id = pick_free_tech(pplayer);
   }
 
   if (id == A_FUTURE || player_invention_state(pplayer, id) != TECH_KNOWN) {
