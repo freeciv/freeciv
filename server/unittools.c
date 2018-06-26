@@ -112,7 +112,8 @@ static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
-                             bool helpless, bool teleporting);
+                             bool helpless, bool teleporting,
+                             const struct city *pexclcity);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static void do_upgrade_effects(struct player *pplayer);
 
@@ -1733,9 +1734,20 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   struct unit_list *imperiled = unit_list_new();
   struct unit_list *unsaved = unit_list_new();
   struct unit *ptrans = unit_transport_get(punit);
+  struct city *pexclcity;
 
   /* The unit is doomed. */
   punit->server.dying = TRUE;
+
+  /* If a unit is being lost due to loss of its city, ensure that we don't
+   * try to teleport any of its cargo to that city (which may not yet
+   * have changed hands or disappeared). (It is assumed that the unit's
+   * home city is always the one that is being lost/transferred/etc.) */
+  if (reason == ULR_CITY_LOST) {
+    pexclcity = unit_home(punit);
+  } else {
+    pexclcity = NULL;
+  }
 
   /* Remove unit itself from its transport */
   if (ptrans != NULL) {
@@ -1832,7 +1844,8 @@ static void wipe_unit_full(struct unit *punit, bool transported,
           || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
         if (!try_to_save_unit(pcargo, putype_save, TRUE,
                               unit_has_type_flag(pcargo,
-                                                 UTYF_UNDISBANDABLE))) {
+                                                 UTYF_UNDISBANDABLE),
+                              pexclcity)) {
           unit_list_prepend(unsaved, pcargo);
         }
       } else {
@@ -1842,7 +1855,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
 
     /* Handle non-priority units. */
     unit_list_iterate_safe(remaining, pcargo) {
-      if (!try_to_save_unit(pcargo, putype_save, TRUE, FALSE)) {
+      if (!try_to_save_unit(pcargo, putype_save, TRUE, FALSE, pexclcity)) {
         unit_list_prepend(unsaved, pcargo);
       }
     } unit_list_iterate_safe_end;
@@ -1861,7 +1874,8 @@ static void wipe_unit_full(struct unit *punit, bool transported,
           || unit_has_type_flag(pcargo, UTYF_GAMELOSS)) {
         if (!try_to_save_unit(pcargo, putype_save, FALSE,
                               unit_has_type_flag(pcargo,
-                                                 UTYF_UNDISBANDABLE))) {
+                                                 UTYF_UNDISBANDABLE),
+                              pexclcity)) {
           unit_list_prepend(unsaved, pcargo);
         }
       } else {
@@ -1871,7 +1885,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
 
     /* Handle non-priority units. */
     unit_list_iterate_safe(remaining, pcargo) {
-      if (!try_to_save_unit(pcargo, putype_save, FALSE, FALSE)) {
+      if (!try_to_save_unit(pcargo, putype_save, FALSE, FALSE, pexclcity)) {
         unit_list_prepend(unsaved, pcargo);
       }
     } unit_list_iterate_safe_end;
@@ -1901,11 +1915,13 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
 
 /****************************************************************************
   Determine if it is possible to save a given unit, and if so, save them.
+  'pexclcity' is a city to avoid teleporting to, if 'teleporting' is set.
   Note that despite being saved from drowning, teleporting the units to
   "safety" may have killed them in the end.
 ****************************************************************************/
 static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
-                             bool helpless, bool teleporting)
+                             bool helpless, bool teleporting,
+                             const struct city *pexclcity)
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
@@ -1920,7 +1936,8 @@ static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
   } else {
     /* Only units that cannot find transport are considered for teleport. */
     if (teleporting) {
-      struct city *pcity = find_closest_city(ptile, NULL, unit_owner(punit),
+      struct city *pcity = find_closest_city(ptile, pexclcity,
+                                             unit_owner(punit),
                                              FALSE, FALSE, FALSE, TRUE, FALSE,
                                              utype_class(pttype));
       if (pcity != NULL) {
