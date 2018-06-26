@@ -2221,9 +2221,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
       research_pretty_name(presearch, research_name, sizeof(research_name));
       for (i = 0; i < mod; i++) {
-        Tech_type_id tech = give_immediate_free_tech(presearch);
+        Tech_type_id tech = pick_free_tech(presearch);
         const char *adv_name = research_advance_name_translation(presearch, tech);
 
+        give_immediate_free_tech(presearch, tech);
         notify_research(presearch, NULL, E_TECH_GAIN, ftc_server,
                         /* TRANS: Tech from building (Darwin's Voyage) */
                         Q_("?frombldg:Acquired %s from %s."), adv_name,
