@@ -1554,6 +1554,11 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
     return FALSE;
   }
 
+  if (tile_has_extra(ptile, pextra)) {
+    /* No need to build what is already there. */
+    return TRUE;
+  }
+
   extra_deps_iterate(&(pextra->reqs), pdep) {
     if (!tile_has_extra(ptile, pdep)) {
       if (!order_recursive_roads(ptile, pdep, p, rec + 1)) {
