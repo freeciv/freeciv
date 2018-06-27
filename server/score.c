@@ -362,8 +362,8 @@ static int get_spaceship_score(const struct player *pplayer)
   if (pplayer->score.spaceship == SSHIP_ARRIVED) {
     /* How much should a spaceship be worth?
      * This gives 100 points per 10,000 citizens. */
-    return (int)(100 * pplayer->spaceship.habitation
-		 * pplayer->spaceship.success_rate);
+    return (int)((pplayer->spaceship.population
+		  * pplayer->spaceship.success_rate) / 100.0);
   } else {
     return 0;
   }
