@@ -117,11 +117,15 @@ struct _tthread_timespec {
   time_t tv_sec;
   long   tv_nsec;
 };
-#define timespec _tthread_timespec
+#define timespec_tt _tthread_timespec
+#else
+#define timespec_tt timespec
 #endif
 
-int _tthread_timespec_get(struct timespec *ts, int base);
+int _tthread_timespec_get(struct timespec_tt *ts, int base);
 #define timespec_get _tthread_timespec_get
+#else
+#define timespec_tt timespec
 #endif
 
 /** TinyCThread version (major number). */
@@ -230,7 +234,7 @@ int mtx_lock(mtx_t *mtx);
 * thrd_timedout if the time specified was reached without acquiring the
 * requested resource, or thrd_error if the request could not be honored.
 */
-int mtx_timedlock(mtx_t *mtx, const struct timespec *ts);
+int mtx_timedlock(mtx_t *mtx, const struct timespec_tt *ts);
 
 /** Try to lock the given mutex.
 * The specified mutex shall support either test and return or timeout. If the
@@ -316,7 +320,7 @@ int cnd_wait(cnd_t *cond, mtx_t *mtx);
 * specified in the call was reached without acquiring the requested resource, or
 * @ref thrd_error if the request could not be honored.
 */
-int cnd_timedwait(cnd_t *cond, mtx_t *mtx, const struct timespec *ts);
+int cnd_timedwait(cnd_t *cond, mtx_t *mtx, const struct timespec_tt *ts);
 
 /* Thread */
 #if defined(_TTHREAD_WIN32_)
@@ -393,7 +397,7 @@ int thrd_join(thrd_t thr, int *res);
 * @return 0 (zero) on successful sleep, -1 if an interrupt occurred,
 *         or a negative value if the operation fails.
 */
-int thrd_sleep(const struct timespec *duration, struct timespec *remaining);
+int thrd_sleep(const struct timespec_tt *duration, struct timespec_tt *remaining);
 
 /** Yield execution to another thread.
 * Permit other threads to run, even if the current thread would ordinarily

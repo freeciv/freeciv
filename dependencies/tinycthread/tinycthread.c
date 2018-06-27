@@ -132,10 +132,10 @@ int mtx_lock(mtx_t *mtx)
 #endif
 }
 
-int mtx_timedlock(mtx_t *mtx, const struct timespec *ts)
+int mtx_timedlock(mtx_t *mtx, const struct timespec_tt *ts)
 {
 #if defined(_TTHREAD_WIN32_)
-  struct timespec current_ts;
+  struct timespec_tt current_ts;
   DWORD timeoutMs;
 
   if (!mtx->mTimed)
@@ -187,7 +187,7 @@ int mtx_timedlock(mtx_t *mtx, const struct timespec *ts)
   }
 #else
   int rc;
-  struct timespec cur, dur;
+  struct timespec_tt cur, dur;
 
   /* Try to acquire the lock and, if we fail, sleep for 5ms. */
   while ((rc = pthread_mutex_trylock (mtx)) == EBUSY) {
@@ -446,10 +446,10 @@ int cnd_wait(cnd_t *cond, mtx_t *mtx)
 #endif
 }
 
-int cnd_timedwait(cnd_t *cond, mtx_t *mtx, const struct timespec *ts)
+int cnd_timedwait(cnd_t *cond, mtx_t *mtx, const struct timespec_tt *ts)
 {
 #if defined(_TTHREAD_WIN32_)
-  struct timespec now;
+  struct timespec_tt now;
   if (timespec_get(&now, TIME_UTC) == TIME_UTC)
   {
     unsigned long long nowInMilliseconds = now.tv_sec * 1000 + now.tv_nsec / 1000000;
@@ -697,7 +697,7 @@ int thrd_join(thrd_t thr, int *res)
   return thrd_success;
 }
 
-int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
+int thrd_sleep(const struct timespec_tt *duration, struct timespec_tt *remaining)
 {
 #if !defined(_TTHREAD_WIN32_)
   int res = nanosleep(duration, remaining);
@@ -709,7 +709,7 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
     return -2;
   }
 #else
-  struct timespec start;
+  struct timespec_tt start;
   DWORD t;
 
   timespec_get(&start, TIME_UTC);
@@ -863,7 +863,7 @@ int tss_set(tss_t key, void *val)
 }
 
 #if defined(_TTHREAD_EMULATE_TIMESPEC_GET_)
-int _tthread_timespec_get(struct timespec *ts, int base)
+int _tthread_timespec_get(struct timespec_tt *ts, int base)
 {
 #if defined(_TTHREAD_WIN32_)
   struct _timeb tb;
