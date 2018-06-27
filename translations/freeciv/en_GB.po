@@ -65,8 +65,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-24 11:56+0000\n"
-"PO-Revision-Date: 2018-01-19 08:49+0000\n"
+"POT-Creation-Date: 2018-06-27 23:55+0100\n"
+"PO-Revision-Date: 2018-06-27 23:51+0100\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -14589,11 +14589,11 @@ msgstr "could not open file: %s"
 msgid "illegal packet size"
 msgstr "illegal packet size"
 
-#: common/packets.c:445 common/packets.c:491
+#: common/packets.c:446 common/packets.c:492
 msgid "decoding error"
 msgstr "decoding error"
 
-#: common/packets.c:554
+#: common/packets.c:555
 msgid "incompatible packet contents"
 msgstr "incompatible packet contents"
 
@@ -28021,12 +28021,12 @@ msgstr ""
 msgid ""
 "Freeciv is released under the GNU General Public License (version 2 or, at "
 "your option, any later version).  In short, you may copy this program "
-"(including source) freely, but see the the full license text below for full "
+"(including source) freely, but see the full license text below for full "
 "details."
 msgstr ""
 "Freeciv is released under the GNU General Public Licence (version 2 or, at "
 "your option, any later version).  In short, you may copy this program "
-"(including source) freely, but see the the full licence text below for full "
+"(including source) freely, but see the full licence text below for full "
 "details."
 
 #. TRANS: followed by a URL
