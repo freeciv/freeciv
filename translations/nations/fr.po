@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-03-24 11:13+0000\n"
-"PO-Revision-Date: 2018-01-17 13:42+0100\n"
+"POT-Creation-Date: 2018-05-14 13:22+0200\n"
+"PO-Revision-Date: 2018-06-28 23:48+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -972,8 +972,7 @@ msgstr "Bailli %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -993,13 +992,13 @@ msgstr "Bailli %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:31
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:28 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:31 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:28
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Évêque %s"
@@ -12116,7 +12115,7 @@ msgstr "Suèves"
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
-"included the Germanic tribes from the the Elbe river basin belonging to the "
+"included the Germanic tribes from the Elbe river basin belonging to the "
 "Herminonic language group, such as the Marcomanni and Quadi. Between the "
 "first and fourth centuries CE they were a threat to Rome, often encroaching "
 "on the Danube provinces of the empire. In 405-406 CE the Suebians were "
@@ -12125,17 +12124,7 @@ msgid ""
 "They settled in the northwest of the Iberian Peninsula, where they "
 "established their own kingdom, which was conquered by the Visigoths in 585 "
 "CE."
-msgstr ""
-"Les Suèves étaient une confédération tribale antique d'Allemagne de l'Ouest, "
-"qui peut avoir été formée par Arioviste pour son expédition en Gaule. Les "
-"Suèves comprenaient des tribus germaniques du bassin du Rhin appartenant au "
-"groupe de langues Hermiioniques, comme le Marcoman et le Quade. Entre le Ier "
-"et le IVème siècle EC, ils furent une menace pour Rome, empiétant souvent "
-"sur les provinces du Danube de l'Empire. En 405-406 EC, les Suèves furent "
-"forcés par les Huns à quitter leurs terres, et la nuit du jour de l'an 405 "
-"EC, ils traversèrent le Rhin gelé avec les Vandales et les Alains. Ils se "
-"fixèrent au Nord-Ouest de la péninsule ibérique, où ils établirent leur "
-"propre royaume, qui fut conquit par les Wisigoths en 585 EC."
+msgstr "Les Suèves étaient une confédération tribale antique d'Allemagne de l'Ouest, qui peut avoir été formée par Arioviste pour son expédition en Gaule. Les Suèves comprenaient des tribus germaniques du bassin de l'Elbe appartenant au groupe de langues Hermiioniques, comme le Marcoman et le Quade. Entre le Ier et le IVème siècle EC, ils furent une menace pour Rome, empiétant souvent sur les provinces du Danube de l'Empire. En 405-406 EC, les Suèves furent forcés par les Huns à quitter leurs terres, et la nuit du jour de l'an 405 EC, ils traversèrent le Rhin gelé avec les Vandales et les Alains. Ils se fixèrent au Nord-Ouest de la péninsule ibérique, où ils établirent leur propre royaume, qui fut conquit par les Wisigoths en 585 EC."
 
 #: data/nation/surinamese.ruleset:3
 msgid "Surinamese"

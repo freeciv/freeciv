@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2018-03-24 11:13+0000\n"
-"PO-Revision-Date: 2017-09-16 08:12+0200\n"
+"PO-Revision-Date: 2018-06-28 23:44+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -206,10 +206,8 @@ msgid "?stat:Roads"
 msgstr "Routes"
 
 #: tools/ruledit/tab_misc.cpp:145
-#, fuzzy
-#| msgid "?stat:Styles"
 msgid "?stat:Multipliers"
-msgstr "Styles"
+msgstr "Multiplicateurs"
 
 #: tools/ruledit/tab_misc.cpp:202
 msgid "Ruleset saved"
