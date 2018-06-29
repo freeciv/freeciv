@@ -149,10 +149,9 @@ install-ruledit: configure-freeciv-ruledit install-ruledit-dir
 
 SOUND_DLLS := \
 	SDL2.dll \
-	libSDL2_mixer-2-0-0.dll \
+	SDL2_mixer.dll \
 	libFLAC-8.dll \
 	libfluidsynth-1.dll \
-	libmad-0.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
 	libvorbisenc-2.dll \
@@ -160,7 +159,8 @@ SOUND_DLLS := \
 	libogg-0.dll \
 	libportaudio-2.dll \
 	libsndfile-1.dll \
-	libspeex-1.dll
+	libspeex-1.dll \
+	libmpg123-0.dll
 
 COMMON_DLLS := \
 	libstdc++-6.dll \
@@ -193,16 +193,19 @@ COMMON_DLLS := \
 	libpango-1.0-0.dll \
 	libpangocairo-1.0-0.dll \
 	libpangowin32-1.0-0.dll \
+	libfribidi-0.dll \
 	libpixman-1-0.dll \
 	libpng16-16.dll \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc58.dll \
-	libicudt58.dll \
+	libicuuc61.dll \
+	libicudt61.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
+	libbrotlidec.dll \
+	libbrotlicommon.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -272,9 +275,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin58.dll \
-	libicuuc58.dll \
-	libicudt58.dll \
+	libicuin61.dll \
+	libicuuc61.dll \
+	libicudt61.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
@@ -284,7 +287,9 @@ QT_DLLS := \
 	libgraphite2.dll \
 	libpcre-1.dll \
 	libpcre2-16-0.dll \
-	libunistring-2.dll
+	libunistring-2.dll \
+	libbrotlidec.dll \
+	libbrotlicommon.dll
 
 install-env-qt: install-env-common
 	# add DLLs
