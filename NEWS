@@ -1037,14 +1037,12 @@ Clients
        tileset and map topology by accident. GNA#16668
      * It's now possible to specify work for autosettlers to do from the
        city dialog map. Only supported in Gtk3 and Qt clients.
-     * Units that pop up a menu (such as diplomats and caravans) now only
-       do so when focus reaches them, and the menu can be temporarily
-       dismissed and will return.
+     * Units that pop up a menu of actions (such as diplomats and
+       caravans) now only do so when focus reaches them, and the menu can
+       be temporarily dismissed and will return.
      * When there are multiple possible transports for a unit, it's now
        possible to choose which one the unit is loaded onto. Currently
-       this is only supported in the Gtk3 and Qt clients. (It's not yet
-       possible to move units directly between transports on the same
-       tile.)
+       this is only supported in the Gtk3 and Qt clients.
      * Goto path drawing has been reworked. The goto path now shows turn
        boundaries, waypoints, and whether the unit will have movement
        points at the end of the journey. GNAPATCH#5233 For patrol orders,
@@ -1134,8 +1132,8 @@ Qt client
        the SDL client).
      * Replaced tax rates dialog with a single bar with two sliders.
      * Three UI themes.
-     * Fonts are autoconfigured the first time the new client is launch to
-       depend on screen resolution and DPI.
+     * Fonts are automatically configured the first time the new client is
+       launched, depending on screen resolution and DPI.
      * Requires at least Qt 5.2.
      * Features oriented to multiplayer games (on the 'Multiplayer' menu).
        (These are currently client-side features, so their state is not
@@ -1205,8 +1203,8 @@ Build/portability
        MSYS2 builds are available.
      * It's now possible to disable use of bz2/xz libraries even if they
        are found (--disable-libbz2, --disable-liblzma). GNAPATCH#7023
-     * Work toward being able to compile with tcc. The server compiles;
-       the client does not yet.
+     * Work toward being able to compile with tcc. The server has been
+       seen to compile; the client does not yet.
      * GGZ Gaming Zone support, which had been rotting for some time, has
        been removed. GNAPATCH#4680
 
@@ -1219,11 +1217,16 @@ Known issues
      * As noted above, the AI currently doesn't build Fighter-type units
        in classic rulesets. This is not currently expected to be fixed in
        2.6.
+     * Turn change in AI games has got slower; we suspect this is a result
+       of action generalization.
+     * There's some evidence that autosettlers have got less effective.
      * The new tileset selection arrangements can still be a little
        confused/confusing. HRM#685235
      * The Gtk3 clients' theming has bugs with recent versions of Gtk3.
        HRM#693382
      * The Gtk3 clients' zoom function still has some glitches. HRM#696027
+     * The Gtk3 clients currently don't have animation for moving the map
+       view. HRM#735217
      * The SDL2 client is still more flakey than SDL in various ways.
      * The SDL clients have no UI for manipulating policies. HRM#657404
      * We suspect there are still some bugs lurking in the music

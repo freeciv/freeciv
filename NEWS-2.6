@@ -1,10 +1,143 @@
-==============================
-Welcome to Freeciv 2.6.0-beta3
-==============================
+============================
+Welcome to Freeciv 2.6.0-RC1
+============================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.0-beta3 to 2.6.0-RC1
+-------------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.0-RC1>)
+
+   RC1 is mainly a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Reverted the change in beta3 which prevented units from building
+       small wonders, because it broke the multiplayer ruleset. This
+       change will be made more selectively in the next major version of
+       Freeciv. HRM#745360
+     * Partisans are supposed to only be granted when a city is conquered,
+       but could be granted whenever a city changed hands for any reason
+       (including by treaty. Surprise!) HRM#759770
+     * When a unit such as a Leader was cargo on a transport that was lost
+       with its home city, it could be 'saved' by teleporting to the site
+       of that city. This could leave non-allied units on the same tile
+       (Leader and city's conqueror), and prevent the Leader teleporting
+       to a more distant, safe city. HRM#761808
+     * The end-game score for an arrived spaceship included population in
+       habitation modules that weren't actually attached to the spaceship
+       at launch. HRM#757442
+     * When gaining free Future Techs (for instance from Darwin's Voyage),
+       some messages showed the wrong Future Tech number. HRM#761977
+     * Setting a high "techlevel" setting could give the first player
+       hundreds of spurious messages about newly available governments.
+       HRM#759020
+
+Changes affecting other rulesets / modders
+
+     * Fixed errors in some supplied tilesets that could cause failure to
+       load with errors about missing extrastyles when used with
+       non-default rulesets (such as the Alien World modpack). HRM#758964
+     * Font sizes specified in tilesets (city_names_font_size and
+       city_productions_font_size) are now ignored in clients which have
+       their own font configuration. HRM#760420
+
+Changes affecting server operators
+
+     * The '/list scenarios' command was also listing normal savegames.
+       HRM#731199
+
+General
+
+     * Fix a rare compression failure which could stop commnication
+       between client and server. HRM#746878 HRM#747319
+     * Some improvements to unit debugging (/debug unit). HRM#760368
+       HRM#760370
+     * Tweak format of comments in various output files. HRM#761206
+     * Various internal changes which should only affect developers.
+       HRM#746481 HRM#748740 HRM#750470 HRM#753754 HRM#752336 HRM#756106
+       HRM#756330 HRM#756589 HRM#756596 HRM#756731 HRM#756736 HRM#756880
+       HRM#756893 HRM#756188 HRM#757062 HRM#758949 HRM#758950 HRM#758952
+       HRM#758434 HRM#758725 HRM#750895
+
+Clients
+
+     * In clients which support setting worker tasks from the city map
+       (Gtk3/Qt), you can now request cleaning pollution/fallout.
+       HRM#760367
+     * Improve the display of negative science output, and forecasting of
+       the time to loss of a tech. HRM#756203
+     * Most clients could give trouble such as assertion failures when
+       attempting a new unit action after another action turned out to be
+       illegal. HRM#747465
+     * The pillage select target dialog did not give the option to
+       continue pillaging, and did not pop up at all for a unit that was
+       already pillaging one of two possible targets. HRM#756325
+     * (Gtk) Fix longstanding inability to permanently change the city
+       name font size on the map view. This used to get overridden by the
+       tileset; now the font specified in the options is always used.
+       HRM#760420
+     * (Gtk3) The pillage select target dialog has been reworked; it now
+       shows the owner of the pillage target, if applicable, and an icon.
+       HRM#753268 HRM#753305
+     * (Gtk3) The button order in the dialog used for transport selection
+       is more intuitive. HRM#756225 Also fix possible trouble with the
+       radio buttons in this dialog. HRM#754966
+     * (Gtk3) The right-click map selection rectangle in the supplied
+       Windows Gtk3 package is back to looking as intended. HRM#736230
+     * (Gtk2, Qt) The icon indicating a unit's activity could be drawn in
+       the wrong place when zoomed. HRM#731629
+     * (Qt) Fix assertion failure in science report when no research, or
+       future tech, was selected. HRM#732483
+     * (Qt) Fix a few cosmetic issues, particularly with zoom. HRM#738922
+       HRM#756105 HRM#738921
+
+Tilesets / Art
+
+     * In the Amplio2/Cimpletoon/Hexemplio/Toonhex tilesets, large
+       unwalled 'industrial' style cities used the wrong graphics.
+       HRM#761751
+
+Help / Documentation
+
+     * The civ2civ3/sandbox rulesets' government help now contains less
+       duplication and is more accurate. HRM#657407
+     * The online help now describes the effects of root requirements in
+       the tech tree, in rulesets which have them (such as the
+       experimental ruleset). HRM#758591
+     * Miscellaneous improvements to in-game text and user documentation.
+       HRM#744655 HRM#744672 HRM#747005 HRM#727051 HRM#760366 HRM#760497
+       HRM#689474 HRM#761776
+     * Miscellaneous changes to developer/ruleset docs. HRM#744666
+       HRM#733917 HRM#758948 HRM#761202
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Catalan, Polish, French.
+          + Incomplete translations: British English (95.3% core, 100%
+            nations, 100% ruledit).
+
+Build/portability
+
+     * The Windows .cmd scripts gave a syntax error when started without a
+       parameter. HRM#700914
+
+Known issues in 2.6
+
+     * Turn change in AI games has got slower; we suspect this is a result
+       of action generalization.
+     * There's some evidence that autosettlers have got less effective.
+     * There are still problems in the new way tilesets are selected.
+       HRM#685235
+     * The Gtk3 clients currently don't have animation for moving the map
+       view. HRM#735217
 
 
 CHANGES FROM 2.6.0-beta2 to 2.6.0-beta3
