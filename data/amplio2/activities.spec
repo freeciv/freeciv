@@ -9,7 +9,7 @@ options = "+Freeciv-2.6-spec"
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
-    GriffonSpade
+    GriffonSpade [GS]
 "
 
 [file]
@@ -26,7 +26,7 @@ pixel_border = 1
 tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
-
+; [GS]
   0, 0, "unit.road"
   0, 1, "unit.rail"
   0, 2, "unit.maglev"
@@ -53,5 +53,11 @@ tiles = { "row", "column", "tag"
   4, 1, "unit.convert"
   4, 2, "unit.auto_explore"
 
+; [GS]
+  5,  0, "unit.irrigation"
+  5,  1, "unit.farmland"
+  5,  2, "unit.mine"
+  5,  3, "unit.oil_mine"
+  5,  4, "unit.oil_rig"
 
 }
