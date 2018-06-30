@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-06-29 18:00+0200\n"
+"POT-Creation-Date: 2018-06-29 00:32+0100\n"
 "PO-Revision-Date: 2018-06-29 18:35+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -763,8 +763,8 @@ msgstr "Obsoleta"
 #: client/citydlg_common.c:384 client/citydlg_common.c:394
 #: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1393
 #: client/gui-sdl/wldlg.c:1401 client/gui-sdl2/repodlgs.c:2102
-#: client/gui-sdl2/wldlg.c:1408 client/gui-sdl2/wldlg.c:1416 common/events.c:93
-#: common/events.c:166
+#: client/gui-sdl2/wldlg.c:1408 client/gui-sdl2/wldlg.c:1416
+#: common/events.c:93 common/events.c:166
 msgid "Built"
 msgstr "Construït"
 
@@ -3925,8 +3925,8 @@ msgstr "Estoc d'escuts"
 #: client/gui-gtk-3.0/editprop.c:4507 client/gui-gtk-3.0/menu.c:1471
 #: client/gui-gtk-3.22/editprop.c:4506 client/gui-gtk-3.22/menu.c:327
 #: client/gui-gtk-3.22/menu.c:525 client/gui-qt/menu.cpp:608
-#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:52 data/Freeciv.in:2045
-#: data/helpdata.txt:1346
+#: client/gui-xaw/menu.c:258 client/include/helpdlg_g.h:52
+#: data/Freeciv.in:2045 data/helpdata.txt:1346
 msgid "Government"
 msgstr "Govern"
 
@@ -3950,11 +3950,11 @@ msgstr "Ciència"
 #: client/gui-gtk-2.0/editprop.c:4451 client/gui-gtk-2.0/repodlgs.c:1250
 #: client/gui-gtk-3.0/editprop.c:4517 client/gui-gtk-3.0/repodlgs.c:1287
 #: client/gui-gtk-3.22/editprop.c:4516 client/gui-gtk-3.22/repodlgs.c:1287
-#: client/gui-qt/citydlg.cpp:1851 client/gui-qt/pages.cpp:1275 common/city.c:86
-#: data/civ1/terrain.ruleset:672 data/civ2/terrain.ruleset:666
-#: data/classic/terrain.ruleset:846 data/experimental/terrain.ruleset:822
-#: data/civ2civ3/terrain.ruleset:857 data/multiplayer/terrain.ruleset:820
-#: data/sandbox/terrain.ruleset:857
+#: client/gui-qt/citydlg.cpp:1851 client/gui-qt/pages.cpp:1275
+#: common/city.c:86 data/civ1/terrain.ruleset:672
+#: data/civ2/terrain.ruleset:666 data/classic/terrain.ruleset:846
+#: data/experimental/terrain.ruleset:822 data/civ2civ3/terrain.ruleset:857
+#: data/multiplayer/terrain.ruleset:820 data/sandbox/terrain.ruleset:857
 msgid "Gold"
 msgstr "Or"
 
@@ -6534,7 +6534,8 @@ msgstr "desconegut"
 #. * target extra currently exists at the target tile and if it has an
 #. * owner.
 #: client/gui-gtk-2.0/unitselect.c:829 client/gui-gtk-3.0/unitselect.c:818
-#: client/gui-gtk-3.0/unitselextradlg.c:75 client/gui-gtk-3.22/unitselect.c:818
+#: client/gui-gtk-3.0/unitselextradlg.c:75
+#: client/gui-gtk-3.22/unitselect.c:818
 #: client/gui-gtk-3.22/unitselextradlg.c:75
 #, c-format
 msgid ""
@@ -6714,7 +6715,6 @@ msgstr "Netejar Contaminació"
 
 #: client/gui-gtk-3.0/citydlg.c:2923 client/gui-gtk-3.22/citydlg.c:2940
 #: client/gui-qt/citydlg.cpp:1292
-#| msgid "Clean fallout"
 msgid "Clean Fallout"
 msgstr "Netejar Radioactivitat"
 
@@ -6772,15 +6772,18 @@ msgstr "Nova Contra_senya:"
 msgid "Can't load %s: %s"
 msgstr "No es pot carregar %s: %s"
 
-#: client/gui-gtk-3.0/transportdlg.c:113 client/gui-gtk-3.22/transportdlg.c:113
+#: client/gui-gtk-3.0/transportdlg.c:113
+#: client/gui-gtk-3.22/transportdlg.c:113
 msgid "Transport selection"
 msgstr "Selecció de transport"
 
-#: client/gui-gtk-3.0/transportdlg.c:114 client/gui-gtk-3.22/transportdlg.c:114
+#: client/gui-gtk-3.0/transportdlg.c:114
+#: client/gui-gtk-3.22/transportdlg.c:114
 msgid "Looking for transport:"
 msgstr "Buscant transport:"
 
-#: client/gui-gtk-3.0/transportdlg.c:115 client/gui-gtk-3.22/transportdlg.c:115
+#: client/gui-gtk-3.0/transportdlg.c:115
+#: client/gui-gtk-3.22/transportdlg.c:115
 msgid "Transports available:"
 msgstr "Transports disponibles:"
 
@@ -6839,40 +6842,40 @@ msgstr "Tancar"
 
 #: client/gui-gtk-3.22/action_dialog.c:512
 #: client/gui-gtk-3.22/action_dialog.c:694
-#: client/gui-gtk-3.22/action_dialog.c:1340 client/gui-gtk-3.22/chatline.c:1136
-#: client/gui-gtk-3.22/citydlg.c:2945 client/gui-gtk-3.22/dialogs.c:863
-#: client/gui-gtk-3.22/editgui.c:1017 client/gui-gtk-3.22/finddlg.c:77
-#: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
-#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:72
-#: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:73
-#: client/gui-gtk-3.22/optiondlg.c:328 client/gui-gtk-3.22/optiondlg.c:360
-#: client/gui-gtk-3.22/pages.c:453 client/gui-gtk-3.22/pages.c:583
-#: client/gui-gtk-3.22/pages.c:1420 client/gui-gtk-3.22/pages.c:2772
-#: client/gui-gtk-3.22/pages.c:2929 client/gui-gtk-3.22/pages.c:3263
-#: client/gui-qt/citydlg.cpp:3899 client/gui-qt/dialogs.cpp:380
-#: client/gui-qt/hudwidget.cpp:1374 client/gui-qt/messagedlg.cpp:65
-#: client/gui-qt/optiondlg.cpp:140 client/gui-qt/pages.cpp:393
-#: client/gui-qt/pages.cpp:528 client/gui-qt/pages.cpp:596
-#: client/gui-qt/ratesdlg.cpp:78 client/gui-qt/ratesdlg.cpp:167
-#: client/gui-qt/shortcuts.cpp:581 client/gui-sdl/action_dialog.c:1062
-#: client/gui-sdl/citydlg.c:527 client/gui-sdl/citydlg.c:1419
-#: client/gui-sdl/connectdlg.c:319 client/gui-sdl/connectdlg.c:636
-#: client/gui-sdl/connectdlg.c:829 client/gui-sdl/connectdlg.c:1002
-#: client/gui-sdl/dialogs.c:708 client/gui-sdl/dialogs.c:902
-#: client/gui-sdl/dialogs.c:2578 client/gui-sdl/dialogs.c:3449
-#: client/gui-sdl/mapctrl.c:2631 client/gui-sdl2/action_dialog.c:1066
-#: client/gui-sdl2/citydlg.c:528 client/gui-sdl2/citydlg.c:1417
-#: client/gui-sdl2/connectdlg.c:323 client/gui-sdl2/connectdlg.c:633
-#: client/gui-sdl2/connectdlg.c:829 client/gui-sdl2/connectdlg.c:1001
-#: client/gui-sdl2/dialogs.c:713 client/gui-sdl2/dialogs.c:909
-#: client/gui-sdl2/dialogs.c:2566 client/gui-sdl2/dialogs.c:3430
-#: client/gui-sdl2/mapctrl.c:2817 client/gui-xaw/inputdlg.c:110
-#: data/Freeciv.in:1110 data/Freeciv.in:1166 data/Freeciv.in:1208
-#: data/Freeciv.in:1228 data/Freeciv.in:1265 data/Freeciv.in:1298
-#: data/Freeciv.in:1376 data/Freeciv.in:1571 data/Freeciv.in:1826
-#: data/Freeciv.in:2120 data/Freeciv.in:2201 data/Freeciv.in:2326
-#: data/Freeciv.in:2509 data/Freeciv.in:2519 data/Freeciv.in:3381
-#: data/Freeciv.in:3447
+#: client/gui-gtk-3.22/action_dialog.c:1340
+#: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/citydlg.c:2945
+#: client/gui-gtk-3.22/dialogs.c:863 client/gui-gtk-3.22/editgui.c:1017
+#: client/gui-gtk-3.22/finddlg.c:77 client/gui-gtk-3.22/gamedlgs.c:317
+#: client/gui-gtk-3.22/gamedlgs.c:409 client/gui-gtk-3.22/gotodlg.c:144
+#: client/gui-gtk-3.22/inputdlg.c:72 client/gui-gtk-3.22/luaconsole.c:317
+#: client/gui-gtk-3.22/messagedlg.c:73 client/gui-gtk-3.22/optiondlg.c:328
+#: client/gui-gtk-3.22/optiondlg.c:360 client/gui-gtk-3.22/pages.c:453
+#: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
+#: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
+#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3899
+#: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1374
+#: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
+#: client/gui-qt/pages.cpp:393 client/gui-qt/pages.cpp:528
+#: client/gui-qt/pages.cpp:596 client/gui-qt/ratesdlg.cpp:78
+#: client/gui-qt/ratesdlg.cpp:167 client/gui-qt/shortcuts.cpp:581
+#: client/gui-sdl/action_dialog.c:1062 client/gui-sdl/citydlg.c:527
+#: client/gui-sdl/citydlg.c:1419 client/gui-sdl/connectdlg.c:319
+#: client/gui-sdl/connectdlg.c:636 client/gui-sdl/connectdlg.c:829
+#: client/gui-sdl/connectdlg.c:1002 client/gui-sdl/dialogs.c:708
+#: client/gui-sdl/dialogs.c:902 client/gui-sdl/dialogs.c:2578
+#: client/gui-sdl/dialogs.c:3449 client/gui-sdl/mapctrl.c:2631
+#: client/gui-sdl2/action_dialog.c:1066 client/gui-sdl2/citydlg.c:528
+#: client/gui-sdl2/citydlg.c:1417 client/gui-sdl2/connectdlg.c:323
+#: client/gui-sdl2/connectdlg.c:633 client/gui-sdl2/connectdlg.c:829
+#: client/gui-sdl2/connectdlg.c:1001 client/gui-sdl2/dialogs.c:713
+#: client/gui-sdl2/dialogs.c:909 client/gui-sdl2/dialogs.c:2566
+#: client/gui-sdl2/dialogs.c:3430 client/gui-sdl2/mapctrl.c:2817
+#: client/gui-xaw/inputdlg.c:110 data/Freeciv.in:1110 data/Freeciv.in:1166
+#: data/Freeciv.in:1208 data/Freeciv.in:1228 data/Freeciv.in:1265
+#: data/Freeciv.in:1298 data/Freeciv.in:1376 data/Freeciv.in:1571
+#: data/Freeciv.in:1826 data/Freeciv.in:2120 data/Freeciv.in:2201
+#: data/Freeciv.in:2326 data/Freeciv.in:2509 data/Freeciv.in:2519
+#: data/Freeciv.in:3381 data/Freeciv.in:3447
 msgid "Cancel"
 msgstr "Cancel·lar"
 
@@ -7829,10 +7832,11 @@ msgstr[1] "Segur que voleu desmobilitzar aquestes unitats %1?"
 #: client/gui-xaw/cityrep.c:676 client/gui-xaw/cma_fe.c:332
 #: client/gui-xaw/cma_fe.c:522 client/gui-xaw/cma_fe.c:794
 #: client/gui-xaw/messagedlg.c:71 client/gui-xaw/optiondlg.c:96
-#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1216 client/text.c:648
-#: data/Freeciv.in:1511 data/Freeciv.in:2233 data/Freeciv.in:2247
-#: data/Freeciv.in:2266 data/Freeciv.in:2419 data/Freeciv.in:2430
-#: data/Freeciv.in:2449 data/Freeciv.in:2460 data/Freeciv.in:2479
+#: client/gui-xaw/optiondlg.c:354 client/gui-xaw/wldlg.c:1216
+#: client/text.c:648 data/Freeciv.in:1511 data/Freeciv.in:2233
+#: data/Freeciv.in:2247 data/Freeciv.in:2266 data/Freeciv.in:2419
+#: data/Freeciv.in:2430 data/Freeciv.in:2449 data/Freeciv.in:2460
+#: data/Freeciv.in:2479
 msgid "Yes"
 msgstr "Sí"
 
@@ -9824,19 +9828,23 @@ msgstr "%s Població: %s Any: %s Or %d "
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
 msgstr "%s Població: %s Any: %s Or %d Tax: %d Lux: %d Ciè: %d "
 
-#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:598 client/text.c:145
+#: client/gui-sdl/mapview.c:581 client/gui-sdl2/mapview.c:598
+#: client/text.c:145
 msgid "?nation:Hostile"
 msgstr "?nation:Hostils"
 
-#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600 client/text.c:147
+#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600
+#: client/text.c:147
 msgid "?nation:Peaceful"
 msgstr "?nation:Pacífics"
 
-#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600 client/text.c:147
+#: client/gui-sdl/mapview.c:583 client/gui-sdl2/mapview.c:600
+#: client/text.c:147
 msgid "?nation:Friendly"
 msgstr "?nation:Amistosos"
 
-#: client/gui-sdl/mapview.c:584 client/gui-sdl2/mapview.c:601 client/text.c:148
+#: client/gui-sdl/mapview.c:584 client/gui-sdl2/mapview.c:601
+#: client/text.c:148
 msgid "?nation:Mysterious"
 msgstr "?nation:Misteriosos"
 
@@ -9900,19 +9908,23 @@ msgstr ""
 msgid "?city:Neutral"
 msgstr "?city:Neutrals"
 
-#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:643 client/text.c:150
+#: client/gui-sdl/mapview.c:621 client/gui-sdl2/mapview.c:643
+#: client/text.c:150
 msgid "?city:Hostile"
 msgstr "?city:Hostils"
 
-#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644 client/text.c:152
+#: client/gui-sdl/mapview.c:622 client/gui-sdl2/mapview.c:644
+#: client/text.c:152
 msgid "?city:Peaceful"
 msgstr "?city:Pacífics"
 
-#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645 client/text.c:152
+#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645
+#: client/text.c:152
 msgid "?city:Friendly"
 msgstr "?city:Amistosos"
 
-#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645 client/text.c:152
+#: client/gui-sdl/mapview.c:623 client/gui-sdl2/mapview.c:645
+#: client/text.c:152
 msgid "?city:Mysterious"
 msgstr "?city:Misteriosos"
 
@@ -13454,8 +13466,6 @@ msgstr[1] " Per acabar tot el projecte es necessitaran %d bombetes."
 #. TRANS: last %s is a sentence pluralized separately.
 #: client/helpdata.c:4774
 #, c-format
-#| msgid "To reach %s you need to obtain %d other technology first.%s"
-#| msgid_plural "To reach %s you need to obtain %d other technologies first.%s"
 msgid "To research %s you need to research %d other technology first.%s"
 msgid_plural ""
 "To research %s you need to research %d other technologies first.%s"
@@ -13488,12 +13498,11 @@ msgstr "* Els %s comencen la partida coneixent aquesta tecnologia.\n"
 #, c-format
 msgid "* Only those who know %s can acquire this technology (by any means).\n"
 msgstr ""
-"* Només els que coneixen %s poden adquirir aquesta tecnologia (per qualsevol"
-" mitjà).\n"
+"* Només els que coneixen %s poden adquirir aquesta tecnologia (per qualsevol "
+"mitjà).\n"
 
 #: client/helpdata.c:4895
 #, c-format
-#| msgid "* The first player to research %s gets an immediate advance.\n"
 msgid "* The first player to learn %s gets an immediate advance.\n"
 msgstr "* El primer jugador a descobrir %s obté un avenç immediat.\n"
 
@@ -13928,7 +13937,6 @@ msgstr[1] ""
 
 #: client/helpdata.c:5949
 #, c-format
-#| msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
 msgid "* If you lose your capital, the base chance of civil war is %d%%.\n"
 msgstr ""
 "* Si perds la capital, la probabilitat base de guerra civil és del %d%%.\n"
@@ -15762,12 +15770,10 @@ msgstr "Produccions de ciutats"
 
 #: client/options.c:2573 client/options.c:2794 client/options.c:3015
 #: client/options.c:3156
-#| msgid ""
-#| "This font is used to the display the city production names on the map."
 msgid "This font is used to display the city production on the map."
 msgstr ""
-"Aquest tipus de lletra s'utilitza per mostrar la producció de "
-"les ciutats al mapa."
+"Aquest tipus de lletra s'utilitza per mostrar la producció de les ciutats al "
+"mapa."
 
 #: client/options.c:2578 client/options.c:2799 client/options.c:3020
 #: client/options.c:3161
@@ -19811,9 +19817,10 @@ msgstr ""
 "funcionar. Pots construir fins a 32 Estructures Espacials."
 
 #: data/civ1/buildings.ruleset:683 data/civ2/buildings.ruleset:997
-#: data/classic/buildings.ruleset:1076 data/experimental/buildings.ruleset:1135
-#: data/civ2civ3/buildings.ruleset:1250 data/multiplayer/buildings.ruleset:1051
-#: data/sandbox/buildings.ruleset:1250
+#: data/classic/buildings.ruleset:1076
+#: data/experimental/buildings.ruleset:1135
+#: data/civ2civ3/buildings.ruleset:1250
+#: data/multiplayer/buildings.ruleset:1051 data/sandbox/buildings.ruleset:1250
 msgid "Temple"
 msgstr "Temple"
 
@@ -19840,10 +19847,11 @@ msgstr ""
 #: data/civ1/buildings.ruleset:710 data/civ1/techs.ruleset:601
 #: data/civ2/buildings.ruleset:1021 data/civ2/techs.ruleset:769
 #: data/classic/buildings.ruleset:1100 data/classic/techs.ruleset:784
-#: data/experimental/buildings.ruleset:1161 data/experimental/techs.ruleset:865
-#: data/civ2civ3/buildings.ruleset:1274 data/civ2civ3/techs.ruleset:897
-#: data/multiplayer/buildings.ruleset:1075 data/multiplayer/techs.ruleset:789
-#: data/sandbox/buildings.ruleset:1274 data/sandbox/techs.ruleset:899
+#: data/experimental/buildings.ruleset:1161
+#: data/experimental/techs.ruleset:865 data/civ2civ3/buildings.ruleset:1274
+#: data/civ2civ3/techs.ruleset:897 data/multiplayer/buildings.ruleset:1075
+#: data/multiplayer/techs.ruleset:789 data/sandbox/buildings.ruleset:1274
+#: data/sandbox/techs.ruleset:899
 msgid "University"
 msgstr "Universitat"
 
@@ -19857,9 +19865,10 @@ msgstr ""
 "ciència d'una ciutat en un 100%."
 
 #: data/civ1/buildings.ruleset:734 data/civ2/buildings.ruleset:1045
-#: data/classic/buildings.ruleset:1124 data/experimental/buildings.ruleset:1186
-#: data/civ2civ3/buildings.ruleset:1304 data/multiplayer/buildings.ruleset:1099
-#: data/sandbox/buildings.ruleset:1304
+#: data/classic/buildings.ruleset:1124
+#: data/experimental/buildings.ruleset:1186
+#: data/civ2civ3/buildings.ruleset:1304
+#: data/multiplayer/buildings.ruleset:1099 data/sandbox/buildings.ruleset:1304
 msgid "Apollo Program"
 msgstr "Programa Apollo"
 
@@ -19877,16 +19886,18 @@ msgstr ""
 "tecnologies necessàries)."
 
 #: data/civ1/buildings.ruleset:757 data/civ2/buildings.ruleset:1092
-#: data/classic/buildings.ruleset:1171 data/experimental/buildings.ruleset:1233
-#: data/civ2civ3/buildings.ruleset:1362 data/multiplayer/buildings.ruleset:1146
-#: data/sandbox/buildings.ruleset:1362
+#: data/classic/buildings.ruleset:1171
+#: data/experimental/buildings.ruleset:1233
+#: data/civ2civ3/buildings.ruleset:1362
+#: data/multiplayer/buildings.ruleset:1146 data/sandbox/buildings.ruleset:1362
 msgid "Colossus"
 msgstr "Colós"
 
 #: data/civ1/buildings.ruleset:774 data/civ2/buildings.ruleset:1109
-#: data/classic/buildings.ruleset:1188 data/experimental/buildings.ruleset:1250
-#: data/civ2civ3/buildings.ruleset:1379 data/multiplayer/buildings.ruleset:1164
-#: data/sandbox/buildings.ruleset:1379
+#: data/classic/buildings.ruleset:1188
+#: data/experimental/buildings.ruleset:1250
+#: data/civ2civ3/buildings.ruleset:1379
+#: data/multiplayer/buildings.ruleset:1164 data/sandbox/buildings.ruleset:1379
 msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
@@ -19895,9 +19906,10 @@ msgstr ""
 "estigui generant comerç, genera un punt de comerç addicional."
 
 #: data/civ1/buildings.ruleset:780 data/civ2/buildings.ruleset:1115
-#: data/classic/buildings.ruleset:1194 data/experimental/buildings.ruleset:1256
-#: data/civ2civ3/buildings.ruleset:1385 data/multiplayer/buildings.ruleset:1170
-#: data/sandbox/buildings.ruleset:1385
+#: data/classic/buildings.ruleset:1194
+#: data/experimental/buildings.ruleset:1256
+#: data/civ2civ3/buildings.ruleset:1385
+#: data/multiplayer/buildings.ruleset:1170 data/sandbox/buildings.ruleset:1385
 msgid "Copernicus' Observatory"
 msgstr "Observatori de Copèrnic"
 
@@ -19908,9 +19920,10 @@ msgstr ""
 "Augmenta en un 50% la producció de ciència a la ciutat on es construeix."
 
 #: data/civ1/buildings.ruleset:803 data/civ2/buildings.ruleset:1137
-#: data/classic/buildings.ruleset:1216 data/experimental/buildings.ruleset:1278
-#: data/civ2civ3/buildings.ruleset:1408 data/multiplayer/buildings.ruleset:1193
-#: data/sandbox/buildings.ruleset:1408
+#: data/classic/buildings.ruleset:1216
+#: data/experimental/buildings.ruleset:1278
+#: data/civ2civ3/buildings.ruleset:1408
+#: data/multiplayer/buildings.ruleset:1193 data/sandbox/buildings.ruleset:1408
 msgid "Cure For Cancer"
 msgstr "Cura del càncer"
 
@@ -19925,14 +19938,16 @@ msgstr ""
 "activitats militars)."
 
 #: data/civ1/buildings.ruleset:826 data/civ2/buildings.ruleset:1160
-#: data/classic/buildings.ruleset:1242 data/experimental/buildings.ruleset:1304
-#: data/civ2civ3/buildings.ruleset:1434 data/multiplayer/buildings.ruleset:1219
-#: data/sandbox/buildings.ruleset:1434
+#: data/classic/buildings.ruleset:1242
+#: data/experimental/buildings.ruleset:1304
+#: data/civ2civ3/buildings.ruleset:1434
+#: data/multiplayer/buildings.ruleset:1219 data/sandbox/buildings.ruleset:1434
 msgid "Darwin's Voyage"
 msgstr "Viatge de Darwin"
 
 #: data/civ1/buildings.ruleset:842 data/civ2/buildings.ruleset:1176
-#: data/classic/buildings.ruleset:1258 data/experimental/buildings.ruleset:1320
+#: data/classic/buildings.ruleset:1258
+#: data/experimental/buildings.ruleset:1320
 msgid ""
 "Charles Darwin's voyage sparked the discovery of the evolution of the "
 "species, which inspired greater confidence in science. Gives two immediate "
@@ -19943,14 +19958,16 @@ msgstr ""
 "avenços tecnològics immediats."
 
 #: data/civ1/buildings.ruleset:849 data/civ2/buildings.ruleset:1206
-#: data/classic/buildings.ruleset:1288 data/experimental/buildings.ruleset:1350
-#: data/civ2civ3/buildings.ruleset:1484 data/multiplayer/buildings.ruleset:1266
-#: data/sandbox/buildings.ruleset:1484
+#: data/classic/buildings.ruleset:1288
+#: data/experimental/buildings.ruleset:1350
+#: data/civ2civ3/buildings.ruleset:1484
+#: data/multiplayer/buildings.ruleset:1266 data/sandbox/buildings.ruleset:1484
 msgid "Great Library"
 msgstr "Gran Biblioteca"
 
 #: data/civ1/buildings.ruleset:866 data/civ2/buildings.ruleset:1223
-#: data/classic/buildings.ruleset:1305 data/experimental/buildings.ruleset:1367
+#: data/classic/buildings.ruleset:1305
+#: data/experimental/buildings.ruleset:1367
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other teams have achieved."
@@ -19959,21 +19976,24 @@ msgstr ""
 "que hagin aconseguit dos o més equips."
 
 #: data/civ1/buildings.ruleset:872 data/civ2/buildings.ruleset:1229
-#: data/classic/buildings.ruleset:1311 data/experimental/buildings.ruleset:1373
-#: data/civ2civ3/buildings.ruleset:1510 data/multiplayer/buildings.ruleset:1289
-#: data/sandbox/buildings.ruleset:1510
+#: data/classic/buildings.ruleset:1311
+#: data/experimental/buildings.ruleset:1373
+#: data/civ2civ3/buildings.ruleset:1510
+#: data/multiplayer/buildings.ruleset:1289 data/sandbox/buildings.ruleset:1510
 msgid "Great Wall"
 msgstr "Gran muralla"
 
 #: data/civ1/buildings.ruleset:889 data/civ2/buildings.ruleset:1246
-#: data/classic/buildings.ruleset:1328 data/experimental/buildings.ruleset:1390
+#: data/classic/buildings.ruleset:1328
+#: data/experimental/buildings.ruleset:1390
 msgid "Works as a City Wall in all your cities."
 msgstr "Actua con a Muralla a totes les teves ciutats."
 
 #: data/civ1/buildings.ruleset:896 data/civ2/buildings.ruleset:1253
-#: data/classic/buildings.ruleset:1336 data/experimental/buildings.ruleset:1398
-#: data/civ2civ3/buildings.ruleset:1536 data/multiplayer/buildings.ruleset:1312
-#: data/sandbox/buildings.ruleset:1536
+#: data/classic/buildings.ruleset:1336
+#: data/experimental/buildings.ruleset:1398
+#: data/civ2civ3/buildings.ruleset:1536
+#: data/multiplayer/buildings.ruleset:1312 data/sandbox/buildings.ruleset:1536
 msgid "Hanging Gardens"
 msgstr "Jardins Penjants"
 
@@ -19990,9 +20010,10 @@ msgstr ""
 "estan descontents per activitats militars), fent-los contents."
 
 #: data/civ1/buildings.ruleset:921 data/civ2/buildings.ruleset:1280
-#: data/classic/buildings.ruleset:1363 data/experimental/buildings.ruleset:1425
-#: data/civ2civ3/buildings.ruleset:1561 data/multiplayer/buildings.ruleset:1339
-#: data/sandbox/buildings.ruleset:1561
+#: data/classic/buildings.ruleset:1363
+#: data/experimental/buildings.ruleset:1425
+#: data/civ2civ3/buildings.ruleset:1561
+#: data/multiplayer/buildings.ruleset:1339 data/sandbox/buildings.ruleset:1561
 msgid "Hoover Dam"
 msgstr "Presa de Hoover"
 
@@ -20007,14 +20028,16 @@ msgstr ""
 "contaminació i augmenta els efectes de Fàbriques i Plantes de Fabricació)."
 
 #: data/civ1/buildings.ruleset:945 data/civ2/buildings.ruleset:1302
-#: data/classic/buildings.ruleset:1386 data/experimental/buildings.ruleset:1448
-#: data/civ2civ3/buildings.ruleset:1587 data/multiplayer/buildings.ruleset:1364
-#: data/sandbox/buildings.ruleset:1587
+#: data/classic/buildings.ruleset:1386
+#: data/experimental/buildings.ruleset:1448
+#: data/civ2civ3/buildings.ruleset:1587
+#: data/multiplayer/buildings.ruleset:1364 data/sandbox/buildings.ruleset:1587
 msgid "Isaac Newton's College"
 msgstr "Facultat d'Isaac Newton"
 
 #: data/civ1/buildings.ruleset:963 data/civ2/buildings.ruleset:1319
-#: data/classic/buildings.ruleset:1211 data/experimental/buildings.ruleset:1273
+#: data/classic/buildings.ruleset:1211
+#: data/experimental/buildings.ruleset:1273
 #: data/multiplayer/buildings.ruleset:1188
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
@@ -20022,9 +20045,10 @@ msgstr ""
 "Augmenta en un 100% la producció de ciència a la ciutat on es construeix."
 
 #: data/civ1/buildings.ruleset:968 data/civ2/buildings.ruleset:1324
-#: data/classic/buildings.ruleset:1409 data/experimental/buildings.ruleset:1471
-#: data/civ2civ3/buildings.ruleset:1613 data/multiplayer/buildings.ruleset:1388
-#: data/sandbox/buildings.ruleset:1613
+#: data/classic/buildings.ruleset:1409
+#: data/experimental/buildings.ruleset:1471
+#: data/civ2civ3/buildings.ruleset:1613
+#: data/multiplayer/buildings.ruleset:1388 data/sandbox/buildings.ruleset:1613
 msgid "J.S. Bach's Cathedral"
 msgstr "Catedral de J.S. Bach"
 
@@ -20039,9 +20063,10 @@ msgstr ""
 "per activitats militars)."
 
 #: data/civ1/buildings.ruleset:991 data/civ2/buildings.ruleset:1391
-#: data/classic/buildings.ruleset:1476 data/experimental/buildings.ruleset:1538
-#: data/civ2civ3/buildings.ruleset:1684 data/multiplayer/buildings.ruleset:1458
-#: data/sandbox/buildings.ruleset:1684
+#: data/classic/buildings.ruleset:1476
+#: data/experimental/buildings.ruleset:1538
+#: data/civ2civ3/buildings.ruleset:1684
+#: data/multiplayer/buildings.ruleset:1458 data/sandbox/buildings.ruleset:1684
 msgid "Lighthouse"
 msgstr "Far"
 
@@ -20051,9 +20076,10 @@ msgstr ""
 "Dóna a totes les teves unitats marítimes 1 punt de moviment addicional."
 
 #: data/civ1/buildings.ruleset:1013 data/civ2/buildings.ruleset:1414
-#: data/classic/buildings.ruleset:1500 data/experimental/buildings.ruleset:1562
-#: data/civ2civ3/buildings.ruleset:1709 data/multiplayer/buildings.ruleset:1482
-#: data/sandbox/buildings.ruleset:1709
+#: data/classic/buildings.ruleset:1500
+#: data/experimental/buildings.ruleset:1562
+#: data/civ2civ3/buildings.ruleset:1709
+#: data/multiplayer/buildings.ruleset:1482 data/sandbox/buildings.ruleset:1709
 msgid "Magellan's Expedition"
 msgstr "Expedició de Magallanes"
 
@@ -20062,16 +20088,18 @@ msgid "Gives all sea units 1 additional movement point."
 msgstr "Atorga a totes les unitats marítimes un moviment addicional."
 
 #: data/civ1/buildings.ruleset:1034 data/civ2/buildings.ruleset:1435
-#: data/classic/buildings.ruleset:1522 data/experimental/buildings.ruleset:1584
-#: data/civ2civ3/buildings.ruleset:1734 data/multiplayer/buildings.ruleset:1507
-#: data/sandbox/buildings.ruleset:1734
+#: data/classic/buildings.ruleset:1522
+#: data/experimental/buildings.ruleset:1584
+#: data/civ2civ3/buildings.ruleset:1734
+#: data/multiplayer/buildings.ruleset:1507 data/sandbox/buildings.ruleset:1734
 msgid "Manhattan Project"
 msgstr "Projecte Manhattan"
 
 #: data/civ1/buildings.ruleset:1054 data/civ2/buildings.ruleset:1477
-#: data/classic/buildings.ruleset:1564 data/experimental/buildings.ruleset:1626
-#: data/civ2civ3/buildings.ruleset:1779 data/multiplayer/buildings.ruleset:1551
-#: data/sandbox/buildings.ruleset:1779
+#: data/classic/buildings.ruleset:1564
+#: data/experimental/buildings.ruleset:1626
+#: data/civ2civ3/buildings.ruleset:1779
+#: data/multiplayer/buildings.ruleset:1551 data/sandbox/buildings.ruleset:1779
 msgid "Michelangelo's Chapel"
 msgstr "Capella de Miquel Àngel"
 
@@ -20080,7 +20108,8 @@ msgid "Double effects of Cathedrals, in all cities."
 msgstr "Dobla l'efecte de les catedrals a totes les ciutats."
 
 #: data/civ1/buildings.ruleset:1076 data/civ2/buildings.ruleset:1504
-#: data/classic/buildings.ruleset:1591 data/experimental/buildings.ruleset:1653
+#: data/classic/buildings.ruleset:1591
+#: data/experimental/buildings.ruleset:1653
 #: data/multiplayer/buildings.ruleset:1579
 msgid "Oracle"
 msgstr "Oracle"
@@ -20094,9 +20123,10 @@ msgstr ""
 "descontents per activitats militars."
 
 #: data/civ1/buildings.ruleset:1099 data/civ2/buildings.ruleset:1527
-#: data/classic/buildings.ruleset:1615 data/experimental/buildings.ruleset:1677
-#: data/civ2civ3/buildings.ruleset:1877 data/multiplayer/buildings.ruleset:1604
-#: data/sandbox/buildings.ruleset:1877
+#: data/classic/buildings.ruleset:1615
+#: data/experimental/buildings.ruleset:1677
+#: data/civ2civ3/buildings.ruleset:1877
+#: data/multiplayer/buildings.ruleset:1604 data/sandbox/buildings.ruleset:1877
 msgid "Pyramids"
 msgstr "Piràmides"
 
@@ -20114,7 +20144,8 @@ msgstr ""
 "d'Anarquia."
 
 #: data/civ1/buildings.ruleset:1123 data/civ2/buildings.ruleset:1548
-#: data/classic/buildings.ruleset:1639 data/experimental/buildings.ruleset:1701
+#: data/classic/buildings.ruleset:1639
+#: data/experimental/buildings.ruleset:1701
 msgid "SETI Program"
 msgstr "Programa SETI"
 
@@ -20124,14 +20155,16 @@ msgid "Boosts science production in each city by 50%."
 msgstr "Augmenta la producció de ciència de cada ciutat en un 50%"
 
 #: data/civ1/buildings.ruleset:1145 data/civ2/buildings.ruleset:1571
-#: data/classic/buildings.ruleset:1661 data/experimental/buildings.ruleset:1723
-#: data/civ2civ3/buildings.ruleset:1930 data/multiplayer/buildings.ruleset:1652
-#: data/sandbox/buildings.ruleset:1930
+#: data/classic/buildings.ruleset:1661
+#: data/experimental/buildings.ruleset:1723
+#: data/civ2civ3/buildings.ruleset:1930
+#: data/multiplayer/buildings.ruleset:1652 data/sandbox/buildings.ruleset:1930
 msgid "Shakespeare's Theater"
 msgstr "Teatre de Shakespeare"
 
 #: data/civ1/buildings.ruleset:1163 data/civ2/buildings.ruleset:1588
-#: data/classic/buildings.ruleset:1678 data/experimental/buildings.ruleset:1740
+#: data/classic/buildings.ruleset:1678
+#: data/experimental/buildings.ruleset:1740
 #: data/multiplayer/buildings.ruleset:1670
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
@@ -20142,16 +20175,18 @@ msgstr ""
 "militars."
 
 #: data/civ1/buildings.ruleset:1169 data/civ2/buildings.ruleset:1642
-#: data/classic/buildings.ruleset:1732 data/experimental/buildings.ruleset:1794
-#: data/civ2civ3/buildings.ruleset:2005 data/multiplayer/buildings.ruleset:1725
-#: data/sandbox/buildings.ruleset:2005
+#: data/classic/buildings.ruleset:1732
+#: data/experimental/buildings.ruleset:1794
+#: data/civ2civ3/buildings.ruleset:2005
+#: data/multiplayer/buildings.ruleset:1725 data/sandbox/buildings.ruleset:2005
 msgid "United Nations"
 msgstr "Nacions Unides"
 
 #: data/civ1/buildings.ruleset:1197 data/civ2/buildings.ruleset:1671
-#: data/classic/buildings.ruleset:1761 data/experimental/buildings.ruleset:1823
-#: data/civ2civ3/buildings.ruleset:2035 data/multiplayer/buildings.ruleset:1748
-#: data/sandbox/buildings.ruleset:2035
+#: data/classic/buildings.ruleset:1761
+#: data/experimental/buildings.ruleset:1823
+#: data/civ2civ3/buildings.ruleset:2035
+#: data/multiplayer/buildings.ruleset:1748 data/sandbox/buildings.ruleset:2035
 msgid "Women's Suffrage"
 msgstr "Votació femenina"
 
@@ -20366,14 +20401,16 @@ msgid "Team 3"
 msgstr "Equip 3"
 
 #: data/civ1/governments.ruleset:59 data/civ2/governments.ruleset:57
-#: data/classic/governments.ruleset:58 data/experimental/governments.ruleset:60
-#: data/civ2civ3/governments.ruleset:58 data/multiplayer/governments.ruleset:58
-#: data/sandbox/governments.ruleset:58
+#: data/classic/governments.ruleset:58
+#: data/experimental/governments.ruleset:60
+#: data/civ2civ3/governments.ruleset:58
+#: data/multiplayer/governments.ruleset:58 data/sandbox/governments.ruleset:58
 msgid "Anarchy"
 msgstr "Anarquia"
 
 #: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:63 data/experimental/governments.ruleset:65
+#: data/classic/governments.ruleset:63
+#: data/experimental/governments.ruleset:65
 #: data/civ2civ3/governments.ruleset:63 data/civ2civ3/governments.ruleset:101
 #: data/multiplayer/governments.ruleset:63 data/sandbox/governments.ruleset:63
 #: data/sandbox/governments.ruleset:101
@@ -20382,7 +20419,8 @@ msgid "Warlord %s"
 msgstr "Senyor de la Guerra %s"
 
 #: data/civ1/governments.ruleset:65 data/civ2/governments.ruleset:63
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
+#: data/classic/governments.ruleset:64
+#: data/experimental/governments.ruleset:66
 #: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:102
 #: data/multiplayer/governments.ruleset:64 data/sandbox/governments.ruleset:64
 #: data/sandbox/governments.ruleset:102
@@ -20391,9 +20429,10 @@ msgid "Warlady %s"
 msgstr "Senyora de la Guerra %s"
 
 #: data/civ1/governments.ruleset:67 data/civ2/governments.ruleset:65
-#: data/classic/governments.ruleset:66 data/experimental/governments.ruleset:68
-#: data/civ2civ3/governments.ruleset:66 data/multiplayer/governments.ruleset:66
-#: data/sandbox/governments.ruleset:66
+#: data/classic/governments.ruleset:66
+#: data/experimental/governments.ruleset:68
+#: data/civ2civ3/governments.ruleset:66
+#: data/multiplayer/governments.ruleset:66 data/sandbox/governments.ruleset:66
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -20415,32 +20454,40 @@ msgstr ""
 "un pèl més d'infelicitat."
 
 #: data/civ1/governments.ruleset:80 data/civ2/governments.ruleset:78
-#: data/classic/governments.ruleset:79 data/experimental/governments.ruleset:83
+#: data/classic/governments.ruleset:79
+#: data/experimental/governments.ruleset:83
 #: data/civ2civ3/governments.ruleset:134
-#: data/multiplayer/governments.ruleset:79 data/sandbox/governments.ruleset:134
+#: data/multiplayer/governments.ruleset:79
+#: data/sandbox/governments.ruleset:134
 msgid "Despotism"
 msgstr "Despotisme"
 
 #: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:85 data/experimental/governments.ruleset:89
+#: data/classic/governments.ruleset:85
+#: data/experimental/governments.ruleset:89
 #: data/civ2civ3/governments.ruleset:140
-#: data/multiplayer/governments.ruleset:85 data/sandbox/governments.ruleset:140
+#: data/multiplayer/governments.ruleset:85
+#: data/sandbox/governments.ruleset:140
 #, c-format
 msgid "Chief %s"
 msgstr "Cap %s"
 
 #: data/civ1/governments.ruleset:87 data/civ2/governments.ruleset:85
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
+#: data/classic/governments.ruleset:86
+#: data/experimental/governments.ruleset:90
 #: data/civ2civ3/governments.ruleset:141
-#: data/multiplayer/governments.ruleset:86 data/sandbox/governments.ruleset:141
+#: data/multiplayer/governments.ruleset:86
+#: data/sandbox/governments.ruleset:141
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Cap %s"
 
 #: data/civ1/governments.ruleset:89 data/civ2/governments.ruleset:87
-#: data/classic/governments.ruleset:88 data/experimental/governments.ruleset:92
+#: data/classic/governments.ruleset:88
+#: data/experimental/governments.ruleset:92
 #: data/civ2civ3/governments.ruleset:143
-#: data/multiplayer/governments.ruleset:88 data/sandbox/governments.ruleset:143
+#: data/multiplayer/governments.ruleset:88
+#: data/sandbox/governments.ruleset:143
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law."
@@ -23358,10 +23405,6 @@ msgstr ""
 #: data/civ2/buildings.ruleset:44 data/classic/buildings.ruleset:77
 #: data/experimental/buildings.ruleset:79 data/civ2civ3/buildings.ruleset:77
 #: data/multiplayer/buildings.ruleset:76 data/sandbox/buildings.ruleset:77
-#| msgid ""
-#| "Allows a city to produce veteran air units (including helicopters and  "
-#| "missiles).  Also, damaged air units (again, including helicopters) which "
-#| "stay in town for one full turn without moving are completely restored."
 msgid ""
 "Allows a city to produce veteran air units (including helicopters and "
 "missiles). Also, damaged air units (again, including helicopters) which stay "
@@ -23373,7 +23416,8 @@ msgstr ""
 "moure's queden restaurades completament."
 
 #: data/civ2/buildings.ruleset:49 data/classic/buildings.ruleset:82
-#: data/experimental/buildings.ruleset:84 data/multiplayer/buildings.ruleset:81
+#: data/experimental/buildings.ruleset:84
+#: data/multiplayer/buildings.ruleset:81
 msgid ""
 "Two cities with Airports can airlift one unit per turn.  Airlifting "
 "instantly transports the unit from one city to another and will use all of "
@@ -23681,8 +23725,9 @@ msgstr ""
 "capacitat defensiva de les unitats de la ciutat contra Míssils no nuclears."
 
 #: data/civ2/buildings.ruleset:784 data/classic/buildings.ruleset:851
-#: data/experimental/buildings.ruleset:907 data/civ2civ3/buildings.ruleset:1006
-#: data/multiplayer/buildings.ruleset:828 data/sandbox/buildings.ruleset:1006
+#: data/experimental/buildings.ruleset:907
+#: data/civ2civ3/buildings.ruleset:1006 data/multiplayer/buildings.ruleset:828
+#: data/sandbox/buildings.ruleset:1006
 msgid "Sewer System"
 msgstr "Clavegueram"
 
@@ -23696,8 +23741,9 @@ msgstr ""
 "per poder passar de 8."
 
 #: data/civ2/buildings.ruleset:807 data/classic/buildings.ruleset:876
-#: data/experimental/buildings.ruleset:932 data/civ2civ3/buildings.ruleset:1030
-#: data/multiplayer/buildings.ruleset:853 data/sandbox/buildings.ruleset:1030
+#: data/experimental/buildings.ruleset:932
+#: data/civ2civ3/buildings.ruleset:1030 data/multiplayer/buildings.ruleset:853
+#: data/sandbox/buildings.ruleset:1030
 msgid "Solar Plant"
 msgstr "Central Solar"
 
@@ -23737,8 +23783,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:950 data/classic/buildings.ruleset:1027
 #: data/experimental/buildings.ruleset:1083
-#: data/civ2civ3/buildings.ruleset:1194 data/multiplayer/buildings.ruleset:1004
-#: data/sandbox/buildings.ruleset:1194
+#: data/civ2civ3/buildings.ruleset:1194
+#: data/multiplayer/buildings.ruleset:1004 data/sandbox/buildings.ruleset:1194
 msgid "Super Highways"
 msgstr "Autopistes"
 
@@ -23753,8 +23799,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:973 data/classic/buildings.ruleset:1052
 #: data/experimental/buildings.ruleset:1111
-#: data/civ2civ3/buildings.ruleset:1226 data/multiplayer/buildings.ruleset:1027
-#: data/sandbox/buildings.ruleset:1226
+#: data/civ2civ3/buildings.ruleset:1226
+#: data/multiplayer/buildings.ruleset:1027 data/sandbox/buildings.ruleset:1226
 msgid "Supermarket"
 msgstr "Supermercat"
 
@@ -23787,8 +23833,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1070 data/classic/buildings.ruleset:1149
 #: data/experimental/buildings.ruleset:1211
-#: data/civ2civ3/buildings.ruleset:1334 data/multiplayer/buildings.ruleset:1123
-#: data/sandbox/buildings.ruleset:1334
+#: data/civ2civ3/buildings.ruleset:1334
+#: data/multiplayer/buildings.ruleset:1123 data/sandbox/buildings.ruleset:1334
 msgid "A.Smith's Trading Co."
 msgstr "Companyia Comercial A.Smith"
 
@@ -23802,8 +23848,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1183 data/classic/buildings.ruleset:1265
 #: data/experimental/buildings.ruleset:1327
-#: data/civ2civ3/buildings.ruleset:1460 data/multiplayer/buildings.ruleset:1242
-#: data/sandbox/buildings.ruleset:1460
+#: data/civ2civ3/buildings.ruleset:1460
+#: data/multiplayer/buildings.ruleset:1242 data/sandbox/buildings.ruleset:1460
 msgid "Eiffel Tower"
 msgstr "Torre Eiffel"
 
@@ -23853,8 +23899,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1346 data/classic/buildings.ruleset:1431
 #: data/experimental/buildings.ruleset:1493
-#: data/civ2civ3/buildings.ruleset:1635 data/multiplayer/buildings.ruleset:1411
-#: data/sandbox/buildings.ruleset:1635
+#: data/civ2civ3/buildings.ruleset:1635
+#: data/multiplayer/buildings.ruleset:1411 data/sandbox/buildings.ruleset:1635
 msgid "King Richard's Crusade"
 msgstr "Croada del Rei Ricard"
 
@@ -23870,8 +23916,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1369 data/classic/buildings.ruleset:1454
 #: data/experimental/buildings.ruleset:1516
-#: data/civ2civ3/buildings.ruleset:1662 data/multiplayer/buildings.ruleset:1435
-#: data/sandbox/buildings.ruleset:1662
+#: data/civ2civ3/buildings.ruleset:1662
+#: data/multiplayer/buildings.ruleset:1435 data/sandbox/buildings.ruleset:1662
 msgid "Leonardo's Workshop"
 msgstr "Taller de Leonardo"
 
@@ -23896,8 +23942,8 @@ msgstr "Atorga a les unitats marítimes 2 moviments addicionals."
 
 #: data/civ2/buildings.ruleset:1455 data/classic/buildings.ruleset:1542
 #: data/experimental/buildings.ruleset:1604
-#: data/civ2civ3/buildings.ruleset:1754 data/multiplayer/buildings.ruleset:1527
-#: data/sandbox/buildings.ruleset:1754
+#: data/civ2civ3/buildings.ruleset:1754
+#: data/multiplayer/buildings.ruleset:1527 data/sandbox/buildings.ruleset:1754
 msgid "Marco Polo's Embassy"
 msgstr "Ambaixada de Marco Polo"
 
@@ -23940,15 +23986,15 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1594 data/classic/buildings.ruleset:1684
 #: data/experimental/buildings.ruleset:1746
-#: data/civ2civ3/buildings.ruleset:1956 data/multiplayer/buildings.ruleset:1676
-#: data/sandbox/buildings.ruleset:1956
+#: data/civ2civ3/buildings.ruleset:1956
+#: data/multiplayer/buildings.ruleset:1676 data/sandbox/buildings.ruleset:1956
 msgid "Statue of Liberty"
 msgstr "Estàtua de la Llibertat"
 
 #: data/civ2/buildings.ruleset:1617 data/classic/buildings.ruleset:1707
 #: data/experimental/buildings.ruleset:1769
-#: data/civ2civ3/buildings.ruleset:1981 data/multiplayer/buildings.ruleset:1700
-#: data/sandbox/buildings.ruleset:1981
+#: data/civ2civ3/buildings.ruleset:1981
+#: data/multiplayer/buildings.ruleset:1700 data/sandbox/buildings.ruleset:1981
 msgid "Sun Tzu's War Academy"
 msgstr "Acadèmia Militar de Sun Tzu"
 
@@ -24775,7 +24821,8 @@ msgid "Airbase"
 msgstr "Base aèria"
 
 #: data/civ2/terrain.ruleset:1171 data/classic/terrain.ruleset:1412
-#: data/experimental/terrain.ruleset:1387 data/multiplayer/terrain.ruleset:1386
+#: data/experimental/terrain.ruleset:1387
+#: data/multiplayer/terrain.ruleset:1386
 msgid ""
 "Airbases allow your air units to land and refuel outside cities. Air units "
 "in an airbase may be attacked by land units."
@@ -25709,7 +25756,8 @@ msgstr ""
 "Planta de Fabricació juntes donen una bonificació de producció del 150%, i "
 "eliminen totalment la contaminació generada per la producció de la ciutat."
 
-#: data/classic/buildings.ruleset:1092 data/experimental/buildings.ruleset:1151
+#: data/classic/buildings.ruleset:1092
+#: data/experimental/buildings.ruleset:1151
 #: data/multiplayer/buildings.ruleset:1067
 msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
@@ -25720,7 +25768,8 @@ msgstr ""
 "efecte. Tenint Misticisme i l'Oracle, es fan contents quatre ciutadans. No "
 "afecta els ciutadans fets descontents per activitats militars."
 
-#: data/classic/buildings.ruleset:1118 data/experimental/buildings.ruleset:1179
+#: data/classic/buildings.ruleset:1118
+#: data/experimental/buildings.ruleset:1179
 #: data/multiplayer/buildings.ruleset:1093
 #, no-c-format
 msgid ""
@@ -25730,7 +25779,8 @@ msgstr ""
 "Juntament amb una Biblioteca, una Universitat augmenta la producció "
 "científica d'una ciutat en un 250%."
 
-#: data/classic/buildings.ruleset:1165 data/experimental/buildings.ruleset:1227
+#: data/classic/buildings.ruleset:1165
+#: data/experimental/buildings.ruleset:1227
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -25738,7 +25788,8 @@ msgstr ""
 "Fa que les millores de les ciutats que normalment tenen un cost de "
 "manteniment d'1 or, no requereixin cap manteniment, per a totes les ciutats."
 
-#: data/classic/buildings.ruleset:1282 data/experimental/buildings.ruleset:1344
+#: data/classic/buildings.ruleset:1282
+#: data/experimental/buildings.ruleset:1344
 #, no-c-format
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
@@ -25746,7 +25797,8 @@ msgstr ""
 "La teva reputació i bona voluntat entre les altres nacions es recupera el "
 "doble de ràpid que no ho faria normalment."
 
-#: data/classic/buildings.ruleset:1403 data/experimental/buildings.ruleset:1465
+#: data/classic/buildings.ruleset:1403
+#: data/experimental/buildings.ruleset:1465
 #, no-c-format
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
@@ -25755,7 +25807,8 @@ msgstr ""
 "Augmenta en un 100% la producció de ciència a cada ciutat que controles que "
 "tingui una Universitat."
 
-#: data/classic/buildings.ruleset:1494 data/experimental/buildings.ruleset:1556
+#: data/classic/buildings.ruleset:1494
+#: data/experimental/buildings.ruleset:1556
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
@@ -25764,12 +25817,14 @@ msgstr ""
 "que totes les teves unitats marítimes noves siguin veteranes (per totes les "
 "teves ciutats)."
 
-#: data/classic/buildings.ruleset:1517 data/experimental/buildings.ruleset:1579
+#: data/classic/buildings.ruleset:1517
+#: data/experimental/buildings.ruleset:1579
 msgid "Gives all your sea units 2 additional movement points."
 msgstr ""
 "Dóna a totes les teves unitats marítimes 2 punts de moviment addicionals."
 
-#: data/classic/buildings.ruleset:1608 data/experimental/buildings.ruleset:1670
+#: data/classic/buildings.ruleset:1608
+#: data/experimental/buildings.ruleset:1670
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
@@ -25777,7 +25832,8 @@ msgstr ""
 "Fa contents dos ciutadans descontents més a totes les ciutats que tinguin "
 "Temple. No afecta els ciutadans descontents per activitats militars."
 
-#: data/classic/buildings.ruleset:1632 data/experimental/buildings.ruleset:1694
+#: data/classic/buildings.ruleset:1632
+#: data/experimental/buildings.ruleset:1694
 #, no-c-format
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
@@ -25789,14 +25845,16 @@ msgstr ""
 "créixer més ràpid i aguantar més fàcilment èpoques de fam. S'acumula amb "
 "l'efecte del Graner."
 
-#: data/classic/buildings.ruleset:1656 data/experimental/buildings.ruleset:1718
+#: data/classic/buildings.ruleset:1656
+#: data/experimental/buildings.ruleset:1718
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
 msgstr ""
 "Augmenta en un 100% la producció de ciència a cada ciutat que tingui un "
 "Laboratori de Recerca."
 
-#: data/classic/buildings.ruleset:1724 data/experimental/buildings.ruleset:1786
+#: data/classic/buildings.ruleset:1724
+#: data/experimental/buildings.ruleset:1786
 msgid ""
 "All your new military land units start with an additional veteran level "
 "(this is cumulative with any Barracks building in a city; with both, units "
@@ -25809,15 +25867,17 @@ msgstr ""
 "unitat terrestre aconsegueixi el següent nivell de veterania després d'una "
 "batalla augmenta en un 50%."
 
-#: data/classic/buildings.ruleset:1790 data/experimental/buildings.ruleset:1852
-#: data/civ2civ3/buildings.ruleset:2059 data/multiplayer/buildings.ruleset:1775
-#: data/sandbox/buildings.ruleset:2059
+#: data/classic/buildings.ruleset:1790
+#: data/experimental/buildings.ruleset:1852
+#: data/civ2civ3/buildings.ruleset:2059
+#: data/multiplayer/buildings.ruleset:1775 data/sandbox/buildings.ruleset:2059
 msgid "Coinage"
 msgstr "Encunyament"
 
-#: data/classic/buildings.ruleset:1813 data/experimental/buildings.ruleset:1875
-#: data/civ2civ3/buildings.ruleset:2082 data/multiplayer/buildings.ruleset:1790
-#: data/sandbox/buildings.ruleset:2082
+#: data/classic/buildings.ruleset:1813
+#: data/experimental/buildings.ruleset:1875
+#: data/civ2civ3/buildings.ruleset:2082
+#: data/multiplayer/buildings.ruleset:1790 data/sandbox/buildings.ruleset:2082
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
@@ -26778,7 +26838,8 @@ msgstr ""
 "Permet a Colons, Treballadors i Enginyers de millorar els ferrocarrils a "
 "maglev."
 
-#: data/experimental/terrain.ruleset:1323 data/multiplayer/terrain.ruleset:1322
+#: data/experimental/terrain.ruleset:1323
+#: data/multiplayer/terrain.ruleset:1322
 msgid ""
 "Nuclear fallout can appear on land tiles when a Nuclear unit is detonated. "
 "It halves all output from its tile."
@@ -28045,19 +28106,6 @@ msgstr "La teva nació ha aconseguit 10000 punts de cultura!"
 
 #: data/civ2civ3/governments.ruleset:73 data/sandbox/governments.ruleset:73
 #, no-c-format
-#| msgid ""
-#| "* Buildings and technologies do not require any upkeep.\n"
-#| "* Each city can support up to 2 units for free; further units each cost 1 "
-#| "shield per turn.\n"
-#| "* Military units do not cause unhappiness even when deployed "
-#| "aggressively.\n"
-#| "* You have no control over tax rates. Half of the trade income is simply "
-#| "lost to your economy (less if you have luxury-promoting buildings), and "
-#| "the remainder all goes to luxuries. Conventional corruption increases "
-#| "with distance from the capital (half as fast with knowledge of The "
-#| "Corporation).\n"
-#| "* Base production waste is 30%. This increases with distance from the "
-#| "capital (half as fast with knowledge of Trade)."
 msgid ""
 "* Buildings and technologies do not require any upkeep.\n"
 "* Each worked tile that gives more than 2 Food, Shield, or Trade will suffer "
@@ -28076,16 +28124,16 @@ msgid ""
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
 "* Els edificis i les tecnologies no requereixen manteniment.\n"
-"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o"
-" Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa"
-" està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
+"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o "
+"Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa "
+"està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
 "* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats "
 "addicionals costen 1 escut per torn cadascuna.\n"
 "* Les unitats militars no provoquen infelicitat ni que estiguin desplegades "
 "de forma agressiva.\n"
-"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars"
-" dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a"
-" content.\n"
+"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars "
+"dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a "
+"content.\n"
 "* No tens cap control sobre la taxa d'impostos. La meitat dels ingressos per "
 "comerç es perden del tot per a la teva economia (menys si tens edificis que "
 "promouen el luxe), i la resta va tot a luxes. La corrupció convencional "
@@ -28107,9 +28155,6 @@ msgstr ""
 "sobre els ciutadans es manté principalment pel consell espiritual."
 
 #: data/civ2civ3/governments.ruleset:107 data/sandbox/governments.ruleset:107
-#| msgid ""
-#| "Compared to Despotism, a Tribal economy is more shield-oriented. Its "
-#| "bonuses to veterancy can be an advantage in wartime."
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy can be an advantage in wartime, but it lacks the martial law of "
@@ -28117,24 +28162,11 @@ msgid ""
 msgstr ""
 "En comparació amb el Despotisme, una economia Tribal està més orientada als "
 "escuts. Les bonificacions en veterania poden ser un avantatge en temps de "
-"guerra, però li manca la llei marcial que sí que tenen altres governs"
-" primerencs."
+"guerra, però li manca la llei marcial que sí que tenen altres governs "
+"primerencs."
 
 #: data/civ2civ3/governments.ruleset:113 data/sandbox/governments.ruleset:113
 #, no-c-format
-#| msgid ""
-#| "* Increases by half the chance of land units getting the next veteran "
-#| "level after a battle.\n"
-#| "* Each city gets 1 extra content citizen.\n"
-#| "* Each city can support up to 2 units for free; further units each cost 1 "
-#| "shield per turn.\n"
-#| "* Unlike later governments, military units do not cause unhappiness even "
-#| "when deployed aggressively.\n"
-#| "* Base corruption is 30% (the highest under any government). This "
-#| "increases with distance from the capital (half as fast with knowledge of "
-#| "The Corporation).\n"
-#| "* There is no base level of production waste, but an increasing amount "
-#| "with distance from the capital (half as fast with knowledge of Trade)."
 msgid ""
 "* Increases by half the chance of land units getting the next veteran level "
 "after a battle.\n"
@@ -28154,9 +28186,9 @@ msgid ""
 msgstr ""
 "* Augmenta en un 50% la probabilitat que les unitats terrestres passin al "
 "següent nivell de veterania després d'una batalla.\n"
-"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o"
-" Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa"
-" està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
+"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o "
+"Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa "
+"està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
 "* Cada ciutat obté un ciutadà content addicional.\n"
 "* Cada ciutat pot mantenir fins a 2 unitats de franc; les unitats "
 "addicionals costen cadascuna 1 escut per torn.\n"
@@ -28177,18 +28209,6 @@ msgstr ""
 
 #: data/civ2civ3/governments.ruleset:150 data/sandbox/governments.ruleset:150
 #, no-c-format
-#| msgid ""
-#| "* Your capital city gets a +50% bonus to gold production.\n"
-#| "* Celebrating cities produce one extra trade point for every tile which "
-#| "is already producing trade. (Cities below size 3 will not celebrate.)\n"
-#| "* Each city can support up to 3 units for free (the maximum possible); "
-#| "further units each cost 1 gold per turn.\n"
-#| "* Each city tolerates up to 3 aggressively deployed military units; each "
-#| "further unit causes 1 unhappy citizen.\n"
-#| "* Base corruption is 10%. This increases with distance from the capital "
-#| "(half as fast with knowledge of The Corporation).\n"
-#| "* Base production waste is 20%. This increases with distance from the "
-#| "capital (half as fast with knowledge of Trade)."
 msgid ""
 "* Your centers of government (cities with Palace and Ecclesiastical Palace) "
 "get a +75% bonus to gold production.\n"
@@ -28206,18 +28226,18 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Els teus centres de govern (ciutats amb Palau i Palau Eclesiàstic) obtenen"
-" una bonificació de +75% en la producció d'or.\n"
-"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o"
-" Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa"
-" està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
-"* Cada ciutat pot suportar fins a 2 unitats de franc; "
-"les unitats addicionals costen cadascuna 1 peça d'or per torn.\n"
-"* Al contrari que en governs posteriors, les unitats militars no provoquen"
-" descontentament ni tan sols quan es despleguen de forma agressiva.\n"
-"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars"
-" dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a"
-" content.\n"
+"* Els teus centres de govern (ciutats amb Palau i Palau Eclesiàstic) obtenen "
+"una bonificació de +75% en la producció d'or.\n"
+"* Cada casella treballada que dona més de 2 unitats de Menjar, Escuts o "
+"Comerç rebrà una penalització de -1, si no és que la ciutat que la treballa "
+"està en celebració. (Les ciutats de mida menor que 3 no fan celebracions).\n"
+"* Cada ciutat pot suportar fins a 2 unitats de franc; les unitats "
+"addicionals costen cadascuna 1 peça d'or per torn.\n"
+"* Al contrari que en governs posteriors, les unitats militars no provoquen "
+"descontentament ni tan sols quan es despleguen de forma agressiva.\n"
+"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars "
+"dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a "
+"content.\n"
 "* La corrupció base és del 20%. Això augmenta amb la distància des de la "
 "capital (la meitat de ràpid amb coneixement de La Corporació).\n"
 "* El malbaratament de producció base és del 10%. Això augmenta amb la "
@@ -28229,18 +28249,6 @@ msgstr "La Monarquia dóna costos baixos de manteniment d'unitats."
 
 #: data/civ2civ3/governments.ruleset:188 data/sandbox/governments.ruleset:188
 #, no-c-format
-#| msgid ""
-#| "* Your capital city gets a +50% bonus to gold production.\n"
-#| "* Celebrating cities produce one extra trade point for every tile which "
-#| "is already producing trade. (Cities below size 3 will not celebrate.)\n"
-#| "* Each city can support up to 3 units for free (the maximum possible); "
-#| "further units each cost 1 gold per turn.\n"
-#| "* Each city tolerates up to 3 aggressively deployed military units; each "
-#| "further unit causes 1 unhappy citizen.\n"
-#| "* Base corruption is 10%. This increases with distance from the capital "
-#| "(half as fast with knowledge of The Corporation).\n"
-#| "* Base production waste is 20%. This increases with distance from the "
-#| "capital (half as fast with knowledge of Trade)."
 msgid ""
 "* Your centers of government (cities with Palace and Ecclesiastical Palace) "
 "get a +50% bonus to gold production.\n"
@@ -28257,8 +28265,8 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Els teus centres de govern (ciutats amb Palau i Palau Eclesiàstic) obtenen"
-" una bonificació de +50% en la producció d'or.\n"
+"* Els teus centres de govern (ciutats amb Palau i Palau Eclesiàstic) obtenen "
+"una bonificació de +50% en la producció d'or.\n"
 "* Les ciutats en celebració produeixen un punt addicional de comerç per cada "
 "casella que ja estigui produint comerç. (Les ciutats de menys de mida 3 no "
 "fan celebracions).\n"
@@ -28266,9 +28274,9 @@ msgstr ""
 "les unitats addicionals costen cadascuna 1 peça d'or per torn.\n"
 "* Cada ciutat tolera fins a 3 unitats militars desplegades de forma "
 "agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
-"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars"
-" dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a"
-" content.\n"
+"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars "
+"dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a "
+"content.\n"
 "* La corrupció base és del 10%. Això augmenta amb la distància des de la "
 "capital (la meitat de ràpid amb coneixement de La Corporació).\n"
 "* El malbaratament de producció base és del 20%. Això augmenta amb la "
@@ -28284,16 +28292,6 @@ msgstr ""
 
 #: data/civ2civ3/governments.ruleset:228 data/sandbox/governments.ruleset:228
 #, no-c-format
-#| msgid ""
-#| "* City improvements which would normally have an upkeep of 1 gold are "
-#| "free of upkeep.\n"
-#| "* Each city can support up to 3 units for free (the maximum possible); "
-#| "further units each cost 1 shield per turn.\n"
-#| "* Each city tolerates up to 3 aggressively deployed military units; each "
-#| "further unit causes 1 unhappy citizen.\n"
-#| "* Base corruption is 30%, but is not affected by distance to the "
-#| "capital.\n"
-#| "* There is no production waste."
 msgid ""
 "* City improvements which would normally have an upkeep of 1 gold are free "
 "of upkeep.\n"
@@ -28313,9 +28311,9 @@ msgstr ""
 "les unitats addicionals costen cadascuna 1 escut per torn.\n"
 "* Cada ciutat tolera fins a 3 unitats militars desplegades de forma "
 "agressiva; cada unitat addicional provoca 1 ciutadà descontent.\n"
-"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars"
-" dins d'una ciutat forçaran cadascuna que 2 ciutadans descontents passin a"
-" contents (el màxim possible).\n"
+"* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars "
+"dins d'una ciutat forçaran cadascuna que 2 ciutadans descontents passin a "
+"contents (el màxim possible).\n"
 "* La corrupció base és del 30%, però no li afecta la distància des de la "
 "capital.\n"
 "* No hi ha malbaratament de producció."
@@ -28374,19 +28372,6 @@ msgstr ""
 
 #: data/civ2civ3/governments.ruleset:308 data/sandbox/governments.ruleset:308
 #, no-c-format
-#| msgid ""
-#| "* Each city gets 2 extra luxury points.\n"
-#| "* Celebrating cities produce one extra trade point for every tile which "
-#| "is already producing trade. (Cities below size 3 will not celebrate.)\n"
-#| "* Each city can support up to 2 units for free; further units each cost 2 "
-#| "gold per turn.\n"
-#| "* Each city tolerates up to 2 aggressively deployed military units; each "
-#| "further unit causes 1 unhappy citizen.\n"
-#| "* There is no base level of corruption, but an increasing amount with "
-#| "distance from the capital (half as much as with most other governments). "
-#| "Knowledge of The Corporation eliminates this corruption.\n"
-#| "* Base production waste is 30%, but is not affected by distance to the "
-#| "capital."
 msgid ""
 "* Each city gets 2 extra luxury points.\n"
 "* Celebrating cities produce one extra trade point for every tile which is "
@@ -28414,8 +28399,8 @@ msgstr ""
 "des de la capital (la meitat que amb la majoria de tipus de govern). El "
 "coneixement de La Corporació elimina aquesta corrupció.\n"
 "* El malbaratament de producció base és del 30%, però no li afecta la "
-"distància des de la capital. "
-"* Té un senat que pot aturar una declaració de guerra."
+"distància des de la capital. * Té un senat que pot aturar una declaració de "
+"guerra."
 
 #: data/civ2civ3/governments.ruleset:346 data/sandbox/governments.ruleset:346
 #, no-c-format
@@ -28461,20 +28446,6 @@ msgstr ""
 
 #: data/civ2civ3/governments.ruleset:382 data/sandbox/governments.ruleset:382
 #, no-c-format
-#| msgid ""
-#| "* Cities produce an extra trade point for every worked land tile that is "
-#| "already producing trade.\n"
-#| "* Celebrating cities produce a further trade point for every worked tile "
-#| "(land or water) which is already producing trade. (Cities below size 3 "
-#| "will not celebrate.)\n"
-#| "* Each city can support one unit for free; further units each cost 2 gold "
-#| "per turn.\n"
-#| "* Each city tolerates a single aggressively deployed military unit; each "
-#| "further unit causes 2 unhappy citizens.\n"
-#| "* Base corruption is 5%. This increases with distance from the capital "
-#| "(half as fast with knowledge of The Corporation).\n"
-#| "* Base production waste is 25%. This increases with distance from the "
-#| "capital (half as fast with knowledge of Trade)."
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
 "already producing trade.\n"
@@ -28749,16 +28720,13 @@ msgstr ""
 "ciutats estiguessin sempre en celebració)."
 
 #: data/civ2civ3/techs.ruleset:719 data/sandbox/techs.ruleset:721
-#| msgid ""
-#| "Allows Settlers, Migrants, Workers and Engineers to upgrade mines to oil "
-#| "wells on Desert and Glacier."
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade mines to oil "
 "wells on Desert and Glacier tiles, for an extra production point."
 msgstr ""
 "Permet a Colons, Emigrants, Treballadors i Enginyers de millorar les mines a "
-"pous petroliers sobre caselles de Desert i Glacera, per obtenir un punt de"
-" producció addicional."
+"pous petroliers sobre caselles de Desert i Glacera, per obtenir un punt de "
+"producció addicional."
 
 #: data/civ2civ3/techs.ruleset:733 data/sandbox/techs.ruleset:735
 msgid ""
@@ -29041,12 +29009,6 @@ msgid "Airstrip"
 msgstr "Camp d'Aviació"
 
 #: data/civ2civ3/terrain.ruleset:1514 data/sandbox/terrain.ruleset:1514
-#| msgid ""
-#| "Airstrips are rapidly-built runways allowing air units to land, refuel, "
-#| "and recover outside cities; an aircraft remaining on an airstrip for a "
-#| "whole turn without moving recovers a tenth of its hit points (that is, "
-#| "the amount it loses each turn while airborne). However, air units on an "
-#| "airstrip are vulnerable to attack by land units."
 msgid ""
 "Airstrips are rapidly-built runways allowing air units to land, refuel, and "
 "recover outside cities; an aircraft remaining on an airstrip for a whole "
@@ -29058,10 +29020,9 @@ msgstr ""
 "permeten que les unitats aèries aterrin, carreguin combustible i es "
 "recuperin fora de les ciutats; un avió que es quedi dins d'un camp d'aviació "
 "durant un torn sencer sense moure's recupera una desena part dels seus punts "
-"de vida (és a dir, la mateixa quantitat que perd a cada torn mentre està"
-" volant). No "
-"obstant, les unitats aèries d'un camp d'aviació poden ser atacades per "
-"unitats terrestres."
+"de vida (és a dir, la mateixa quantitat que perd a cada torn mentre està "
+"volant). No obstant, les unitats aèries d'un camp d'aviació poden ser "
+"atacades per unitats terrestres."
 
 #: data/civ2civ3/terrain.ruleset:1522 data/sandbox/terrain.ruleset:1522
 #, no-c-format
@@ -29087,12 +29048,6 @@ msgstr ""
 
 #: data/civ2civ3/terrain.ruleset:1561 data/sandbox/terrain.ruleset:1561
 #, no-c-format
-#| msgid ""
-#| "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
-#| "against all units (in total, their defense against air units and missiles "
-#| "is doubled), and do not count as aggressive if near a friendly city. "
-#| "Also, air units recover more hit points (a third per turn, the same as in "
-#| "a city without an Airport)."
 msgid ""
 "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
 "against all units (in total, their defense against air units and missiles is "
@@ -29103,10 +29058,9 @@ msgstr ""
 "En comparació amb un camp d'aviació, les unitats d'una base aèria reben una "
 "defensa addicional (+50%) contra totes les unitats (globalment, la seva "
 "defensa contra unitats aèries i míssils queda duplicada), no compten com a "
-"agressives si són a prop d'una ciutat amistosa, i poden veure-hi més enllà. A"
-" més, les unitats aèries "
-"recuperen més punts de vida (un terç per torn, igual que en una ciutat sense "
-"Aeroport)."
+"agressives si són a prop d'una ciutat amistosa, i poden veure-hi més enllà. "
+"A més, les unitats aèries recuperen més punts de vida (un terç per torn, "
+"igual que en una ciutat sense Aeroport)."
 
 #: data/civ2civ3/terrain.ruleset:1645
 msgid ""
@@ -29243,8 +29197,8 @@ msgid ""
 "TIP: Migrants can be a good alternative to Workers in overpopulated cities, "
 "as they benefit from free food upkeep."
 msgstr ""
-"CONSELL: els Emigrants poden ser una bona alternativa als Treballadors en"
-" ciutats superpoblades, perquè el manteniment en menjar és gratuït."
+"CONSELL: els Emigrants poden ser una bona alternativa als Treballadors en "
+"ciutats superpoblades, perquè el manteniment en menjar és gratuït."
 
 #: data/civ2civ3/units.ruleset:541 data/sandbox/units.ruleset:543
 msgid ""
@@ -30648,10 +30602,6 @@ msgstr ""
 "per més detalls."
 
 #: data/helpdata.txt:295
-#| msgid ""
-#| "Terrain affects combat very simply: when a land unit is attacked, its "
-#| "defense strength is multiplied by the defense factor (\"bonus\") of the "
-#| "terrain beneath it. See the help section on Combat for further details."
 msgid ""
 "Terrain affects combat very simply: when a unit is attacked, its defense "
 "strength is multiplied by the defense factor (\"bonus\") of the terrain "
@@ -30659,12 +30609,12 @@ msgid ""
 "classic ruleset, only land units do.) See the help section on Combat for "
 "further details."
 msgstr ""
-"El terreny afecta el combat d'una manera molt simple: quan una unitat  és"
-" atacada, la seva força defensiva es multiplica pel factor "
-"defensiu (\"bonificació\") del terreny on es troba. (No obstant, alguns tipus"
-" d'unitats no gaudeixen d'aquesta bonificació; en el joc de regles clàssic,"
-" només en gaudeixen les unitats terrestres). Vegeu la secció d'ajuda "
-"sobre el Combat per detalls addicionals."
+"El terreny afecta el combat d'una manera molt simple: quan una unitat  és "
+"atacada, la seva força defensiva es multiplica pel factor defensiu "
+"(\"bonificació\") del terreny on es troba. (No obstant, alguns tipus "
+"d'unitats no gaudeixen d'aquesta bonificació; en el joc de regles clàssic, "
+"només en gaudeixen les unitats terrestres). Vegeu la secció d'ajuda sobre el "
+"Combat per detalls addicionals."
 
 #: data/helpdata.txt:301
 msgid ""
@@ -30673,11 +30623,11 @@ msgid ""
 "more than flat terrain like Plains, although sea and air units always expend "
 "one movement point to move one tile."
 msgstr ""
-"El terreny pot complicar el moviment de les unitats. Per exemple, en el joc"
-" de regles clàssic, moure's cap un terreny abrupte com les Muntanyes pot"
-" costar a les unitats terrestres més que un terreny pla com les Planes,"
-" encara que les unitats aèries i marítimes sempre gasten un punt de moviment"
-" per moure's una casella."
+"El terreny pot complicar el moviment de les unitats. Per exemple, en el joc "
+"de regles clàssic, moure's cap un terreny abrupte com les Muntanyes pot "
+"costar a les unitats terrestres més que un terreny pla com les Planes, "
+"encara que les unitats aèries i marítimes sempre gasten un punt de moviment "
+"per moure's una casella."
 
 #: data/helpdata.txt:306
 msgid ""
@@ -31005,15 +30955,6 @@ msgid " Production"
 msgstr " Producció"
 
 #: data/helpdata.txt:477
-#| msgid ""
-#| "Production points (also known as \"shields\") represent manufacturing "
-#| "output. Most units require production points as upkeep, and demand them "
-#| "from their home city, although under autocratic regimes each city "
-#| "supports a few units for free. If city production drops too low, the "
-#| "units that cannot be supported are automatically disbanded. Most types of "
-#| "unit can also be disbanded at any time. If a unit is disbanded while in a "
-#| "city, half of its production cost will usually be put towards that city's "
-#| "surplus."
 msgid ""
 "Production points (also known as \"shields\") represent manufacturing "
 "output. In the classic ruleset, most units require production points as "
@@ -31025,15 +30966,14 @@ msgid ""
 "that city's surplus."
 msgstr ""
 "Els punts de producció (també coneguts com a \"escuts\") representen la "
-"producció de manufactures. En el joc de regles clàssic, la majoria d'unitats"
-" requereixen punts de "
-"producció en concepte de manteniment, i els gasten de la seva ciutat origen, "
-"encara que sota règims autocràtics, cada ciutat manté algunes unitats de "
-"franc. Si la producció de la ciutat cau massa, les unitats que no es poden "
-"mantenir es desmobilitzen automàticament. La majoria de tipus d'unitats "
-"també es poden desmobilitzar voluntàriament en qualsevol moment. Si una "
-"unitat es desmobilitza mentre és dins d'una ciutat, la meitat del seu cost "
-"de producció anirà a parar a l'excedent d'aquesta ciutat."
+"producció de manufactures. En el joc de regles clàssic, la majoria d'unitats "
+"requereixen punts de producció en concepte de manteniment, i els gasten de "
+"la seva ciutat origen, encara que sota règims autocràtics, cada ciutat manté "
+"algunes unitats de franc. Si la producció de la ciutat cau massa, les "
+"unitats que no es poden mantenir es desmobilitzen automàticament. La majoria "
+"de tipus d'unitats també es poden desmobilitzar voluntàriament en qualsevol "
+"moment. Si una unitat es desmobilitza mentre és dins d'una ciutat, la meitat "
+"del seu cost de producció anirà a parar a l'excedent d'aquesta ciutat."
 
 #: data/helpdata.txt:486
 msgid ""
