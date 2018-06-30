@@ -9,6 +9,7 @@ options = "+Freeciv-2.6-spec"
 artists = "
     Tatu Rissanen <tatu.rissanen@hut.fi>
     Jeff Mallatt <jjm@codewell.com> (miscellaneous)
+    GriffonSpade [GS]
 "
 
 [file]
@@ -24,25 +25,41 @@ dy = 32
 tiles = { "row", "column", "tag"
 ; Unit activity letters:  (note unit icons have just "u.")
 
-  0, 18, "unit.auto_attack",
-         "unit.auto_settler"
+; [GS]
+  0, 11, "unit.road"
+  0, 12, "unit.rail"
+  0, 13, "unit.maglev"
+  0, 14, "unit.outpost"
+  0, 15, "unit.fortress"
+  0, 16, "unit.airstrip"
+  0, 17, "unit.airbase"
+
+  0, 18, "unit.auto_attack"
+  0, 18, "unit.auto_settler"
   0, 19, "unit.stack"
+
+; [GS]
+  1, 11, "unit.irrigation"
+  1, 12, "unit.farmland"
+  1, 13, "unit.mine"
+  1, 14, "unit.oil_mine"
+  1, 15, "unit.oil_rig"
+  1, 16, "unit.buoy"
+  
   1, 17, "unit.loaded"
   1, 18, "unit.connect"
   1, 19, "unit.auto_explore"
+
   2, 12, "unit.transform"
   2, 13, "unit.sentry"
   2, 14, "unit.goto"
   2, 15, "unit.plant"
   2, 16, "unit.pollution"
-  2, 17, "unit.road"
+;  2, 17, "unit.road"
   2, 18, "unit.irrigate"
-  2, 19, "unit.fortifying",
-         "unit.fortress",
-         "unit.outpost"
+  2, 19, "unit.fortifying"
+
   3, 15, "unit.convert"
-  3, 16, "unit.airbase",
-         "unit.airstrip"
   3, 17, "unit.pillage"
   3, 18, "unit.fortified"
   3, 19, "unit.fallout"
@@ -140,18 +157,5 @@ tiles = { "row", "column", "tag"
   7, 17, "upkeep.unhappy"
   7, 18, "upkeep.unhappy2"
   7, 19, "upkeep.shield"
-
-; Nuclear explosion: this could maybe now be handled as one 
-; big graphic (?), but for now is done old way as 3 by 3:
-
-  0,  0, "explode.nuke_00"
-  0,  1, "explode.nuke_01"
-  0,  2, "explode.nuke_02"
-  1,  0, "explode.nuke_10"
-  1,  1, "explode.nuke_11"
-  1,  2, "explode.nuke_12"
-  2,  0, "explode.nuke_20"
-  2,  1, "explode.nuke_21"
-  2,  2, "explode.nuke_22"
 
 }
