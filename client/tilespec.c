@@ -2580,7 +2580,12 @@ static struct sprite *create_plr_sprite(struct color *pcolor)
 
   fc_assert_ret_val(pcolor != NULL, NULL);
 
-  sprite = create_sprite(128, 64, pcolor);
+  if (tileset->scale == 1.0f) {
+    sprite = create_sprite(128, 64, pcolor);
+  } else {
+    sprite = create_sprite(tileset->full_tile_width,
+                           tileset->full_tile_height, pcolor);
+  }
 
   return sprite;
 }
