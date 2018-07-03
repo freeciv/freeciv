@@ -94,7 +94,7 @@ private slots:
 /**************************************************************************
  * Dialog used to change policies
  *************************************************************************/
-class multipler_rates_dialog: public qfc_dialog
+class multipler_rates_dialog: public QDialog
 {
   Q_OBJECT
 
