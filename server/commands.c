@@ -596,8 +596,8 @@ static struct command commands[] = {
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"default",	ALLOW_CTRL,
-   /* no translatable parameters */
-   SYN_ORIG_("default <option name>"),
+   /* TRANS: translate text between <> only */
+   N_("default <option name>"),
    N_("Set option to its default value"),
    N_("Reset the option to its default value. If the default ever changes "
       "in a future version, the option's value will follow that change."),
