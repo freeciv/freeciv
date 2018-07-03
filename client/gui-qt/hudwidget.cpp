@@ -722,13 +722,7 @@ void hud_units::update_actions(unit_list *punits)
   img = tile_pixmap->map_pixmap.toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
-  if (cropped_img.height() > height() - 5 ||
-      cropped_img.height() < height() / 3) {
-    img = cropped_img.scaledToHeight(height() - 5,
-                                     Qt::SmoothTransformation);
-  } else {
-    img = cropped_img;
-  }
+  img = cropped_img.scaledToHeight(height() - 5, Qt::SmoothTransformation);
   pix = QPixmap::fromImage(img);
   tile_label.setPixmap(pix);
   unit_label.setToolTip(popup_info_text(punit->tile));
