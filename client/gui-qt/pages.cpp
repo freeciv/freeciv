@@ -2050,8 +2050,7 @@ void fc_client::reload_sidebar_icons()
   sw_science->set_pixmap(fc_icons::instance()->get_pixmap("research"));
   sw_economy->set_pixmap(fc_icons::instance()->get_pixmap("economy"));
   sw_endturn->set_pixmap(fc_icons::instance()->get_pixmap("endturn"));
-  sidebar_wdg->resize_me(game_tab_widget->width(),
-                         game_tab_widget->height(), true);
+  sidebar_wdg->resize_me(game_tab_widget->height(), true);
 }
 /***************************************************************************
   Updates sidebar tooltips
