@@ -126,10 +126,11 @@ void tax_rates_dialog::slot_apply_button_pressed()
 
 /**************************************************************************
   Multipler rates dialog constructor
+  Inheriting from qfc_dialog will cause crash in Qt5.2
 **************************************************************************/
 multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
                                                Qt::WindowFlags f)
-  : qfc_dialog(parent)
+  : QDialog(parent)
 {
   QGroupBox *group_box;
   QHBoxLayout *some_layout;
