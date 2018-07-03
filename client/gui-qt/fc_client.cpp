@@ -985,7 +985,7 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
   QSize size;
   size = event->size();
   if (C_S_RUNNING <= client_state()) {
-    gui()->sidebar_wdg->resize_me(size.width(), size.height());
+    gui()->sidebar_wdg->resize_me(size.height());
     map_canvas_resized(size.width(), size.height());
     gui()->infotab->resize(qRound((size.width()
                              * gui()->qt_settings.chat_fwidth)),

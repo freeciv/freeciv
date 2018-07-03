@@ -103,7 +103,7 @@ public:
   ~fc_sidebar();
   void add_widget(fc_sidewidget *fsw);
   void paint(QPainter *painter, QPaintEvent *event);
-  void resize_me(int width, int height, bool force = false);
+  void resize_me(int height, bool force = false);
   QList<fc_sidewidget*> objects;
 protected:
   void paintEvent(QPaintEvent *event);

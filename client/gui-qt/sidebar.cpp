@@ -17,6 +17,8 @@
 
 // Qt
 #include <QAction>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QPainter>
@@ -529,16 +531,21 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
   painter->drawRect(event->rect());
 }
 
-/***********************************************************************//**
-  Resize sidebar to take 100 pixels or 10% of given width, and all
-  widgets inside sidebar
-***************************************************************************/
-void fc_sidebar::resize_me(int wdth, int hght, bool force)
+/**************************************************************************
+  Resize sidebar to take at least 80 pixels width and 100 pixels for FullHD
+  desktop and scaled accordingly for bigger resolutions eg 200 pixels for 4k
+  desktop.
+**************************************************************************/
+void fc_sidebar::resize_me(int hght, bool force)
 {
-  int w, h, non_std, non_std_count;
-  w = wdth / 10;
+  int w, h, non_std, non_std_count, screen_hres;
+  QDesktopWidget *qdp;
+
   h = hght;
-  w = qMin(100, w);
+  qdp = QApplication::desktop();
+  screen_hres = qdp->availableGeometry(gui()->central_wdg).width();
+  w = (100 * screen_hres) / 1920;
+  w = qMax(w, 80);
 
   if (force == false && w == width() && h == height()) {
     return;
