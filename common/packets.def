@@ -1230,8 +1230,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 transport_capacity;
   UINT8 hp;
   UINT8 firepower;
-  SINT8 obsoleted_by;
-  SINT8 converted_to;
+  UINT8 obsoleted_by;
+  UINT8 converted_to;
   UINT8 convert_time;
   UINT8 fuel;
 
