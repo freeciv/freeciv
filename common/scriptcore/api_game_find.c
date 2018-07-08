@@ -86,26 +86,30 @@ Unit *api_find_transport_unit(lua_State *L, Player *pplayer, Unit_Type *ptype,
 }
 
 /*****************************************************************************
-  Return a unit type for given role.
+  Return a unit type for given role or flag.
+  (Prior to 2.6.0, this worked only for roles.)
 *****************************************************************************/
 Unit_Type *api_find_role_unit_type(lua_State *L, const char *role_name,
                                    Player *pplayer)
 {
-  enum unit_role_id role;
+  int role_or_flag;
 
   LUASCRIPT_CHECK_STATE(L, NULL);
   LUASCRIPT_CHECK_ARG_NIL(L, role_name, 2, string, NULL);
 
-  role = unit_role_id_by_name(role_name, fc_strcasecmp);
+  role_or_flag = unit_role_id_by_name(role_name, fc_strcasecmp);
 
-  if (!unit_role_id_is_valid(role)) {
-    return NULL;
+  if (!unit_role_id_is_valid(role_or_flag)) {
+    role_or_flag = unit_type_flag_id_by_name(role_name, fc_strcasecmp);
+    if (!unit_type_flag_id_is_valid(role_or_flag)) {
+      return NULL;
+    }
   }
 
   if (pplayer) {
-    return best_role_unit_for_player(pplayer, role);
-  } else if (num_role_units(role) > 0) {
-    return get_role_unit(role, 0);
+    return best_role_unit_for_player(pplayer, role_or_flag);
+  } else if (num_role_units(role_or_flag) > 0) {
+    return get_role_unit(role_or_flag, 0);
   } else {
     return NULL;
   }
