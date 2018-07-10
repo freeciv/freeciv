@@ -313,6 +313,9 @@ bool utype_may_act_at_all(const struct unit_type *putype)
 bool utype_can_do_action(const struct unit_type *putype,
                          const int act_id)
 {
+  fc_assert_ret_val(putype, FALSE);
+  fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
+
   return BV_ISSET(unit_can_act_cache[act_id], utype_index(putype));
 }
 
@@ -673,6 +676,9 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
                                   const enum ustate_prop prop,
                                   const bool is_there)
 {
+  fc_assert_ret_val(punit_type, FALSE);
+  fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
+
   return BV_ISSET(ustate_act_cache[utype_index(punit_type)][act_id],
       requirement_unit_state_ereq(prop, is_there));
 }
@@ -687,6 +693,9 @@ bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
                                       const enum citytile_type prop,
                                       const bool is_there)
 {
+  fc_assert_ret_val(punit_type, FALSE);
+  fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
+
   return BV_ISSET(ctile_tgt_act_cache[utype_index(punit_type)][act_id],
       requirement_citytile_ereq(prop, is_there));
 }
@@ -705,9 +714,10 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int prop,
                                      const bool is_there)
 {
-  int utype_id = utype_index(punit_type);
+  fc_assert_ret_val(punit_type, FALSE);
+  fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
 
-  return BV_ISSET(dipl_rel_action_cache[utype_id][act_id],
+  return BV_ISSET(dipl_rel_action_cache[utype_index(punit_type)][act_id],
       requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
 }
 
