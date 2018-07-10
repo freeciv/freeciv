@@ -1053,4 +1053,5 @@ void close_all_diplomacy_dialogs(void)
   w = gui()->game_tab_widget->widget(i);
   dd = qobject_cast<diplo_dlg *>(w);
   dd->close();
+  delete dd;
 }
