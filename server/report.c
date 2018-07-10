@@ -1452,7 +1452,7 @@ void make_history_report(void)
   game.server.scoreturn = (game.info.turn + GAME_DEFAULT_SCORETURN
                            + fc_rand(GAME_DEFAULT_SCORETURN));
 
-  historian_generic(game.server.scoreturn % HISTORIAN_LAST);
+  historian_generic(game.server.scoreturn % (HISTORIAN_LAST + 1));
 }
 
 /**************************************************************************
