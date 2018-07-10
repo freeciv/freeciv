@@ -943,6 +943,7 @@ void help_widget::set_topic_building(const help_item *topic,
                                      const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
+  int type, value;
   struct sprite *spr;
   struct impr_type *itype = improvement_by_translated_name(title);
   char req_buf[512];
@@ -973,8 +974,17 @@ void help_widget::set_topic_building(const help_item *topic,
       if (!preq->present) {
         continue;
       }
-      s1 = link_me(universal_name_translation(&preq->source, req_buf,
+      universal_extraction(&preq->source, &type, &value);
+      if (type == VUT_ADVANCE) {
+        s1 = link_me(universal_name_translation(&preq->source, req_buf,
                                        sizeof(req_buf)), HELP_TECH);
+      } else if (type == VUT_GOVERNMENT) {
+        s1 = link_me(universal_name_translation(&preq->source, req_buf,
+                                       sizeof(req_buf)), HELP_GOVERNMENT);
+      } else if (type == VUT_TERRAIN) {
+        s1 = link_me(universal_name_translation(&preq->source, req_buf,
+                                       sizeof(req_buf)), HELP_TERRAIN);
+      }
       break;
     } requirement_vector_iterate_end;
 
