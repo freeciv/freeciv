@@ -20,6 +20,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QRubberBand>
 #include <QTableWidget>
 
 // common
@@ -287,16 +288,18 @@ public:
   hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                   int attacker_hp, int defender_hp,
                   bool make_att_veteran, bool make_def_veteran,
-                  QWidget *parent);
+                  float scale, QWidget *parent);
   ~hud_unit_combat();
   bool get_focus();
   void set_fading(float fade);
+  void set_scale(float scale);
 protected:
   void paintEvent(QPaintEvent *event);
   void mousePressEvent(QMouseEvent *e);
   void leaveEvent(QEvent *event);
   void enterEvent(QEvent *event);
 private:
+  void init_images(bool redraw = false);
   int att_hp;
   int def_hp;
   int att_hp_loss;
@@ -305,11 +308,33 @@ private:
   bool def_veteran;
   struct unit *attacker;
   struct unit *defender;
+  const struct unit_type *type_attacker;
+  const struct unit_type *type_defender;
   struct tile *center_tile;
   bool focus;
   float fading;
+  float hud_scale;
   QImage dimg, aimg;
 };
+
+/****************************************************************************
+  Widget for resizing other widgets
+****************************************************************************/
+class scale_widget : public QRubberBand
+{
+  Q_OBJECT
+public:
+  scale_widget(Shape s, QWidget *p = 0);
+  float scale;
+protected:
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+private:
+  int size;
+  QPixmap plus;
+  QPixmap minus;
+};
+
 
 /****************************************************************************
   Widget showing combat log
@@ -323,12 +348,16 @@ public:
   hud_battle_log(QWidget *parent);
   ~hud_battle_log();
   void add_combat_info(hud_unit_combat* huc);
+  void set_scale(float s);
+  float scale;
 protected:
   void paintEvent(QPaintEvent *event);
   void moveEvent(QMoveEvent *event);
   void timerEvent(QTimerEvent *event);
   void showEvent(QShowEvent *event);
 private:
+  void update_size();
+  scale_widget *sw;
   move_widget *mw;
   QElapsedTimer m_timer;
 };
