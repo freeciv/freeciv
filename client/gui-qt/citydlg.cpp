@@ -1542,9 +1542,9 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   supp_units = new QLabel();
   curr_units = new QLabel();
   curr_impr = new QLabel();
-  curr_units->setAlignment(Qt::AlignCenter);
-  curr_impr->setAlignment(Qt::AlignCenter);
-  supp_units->setAlignment(Qt::AlignCenter);
+  curr_units->setAlignment(Qt::AlignLeft);
+  curr_impr->setAlignment(Qt::AlignLeft);
+  supp_units->setAlignment(Qt::AlignLeft);
   supported_units = new unit_info(true);
   scroll = new QScrollArea;
   scroll->setWidgetResizable(true);
