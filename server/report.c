@@ -1524,7 +1524,8 @@ void make_history_report(void)
   game.server.scoreturn = (game.info.turn + GAME_DEFAULT_SCORETURN
                            + fc_rand(GAME_DEFAULT_SCORETURN));
 
-  historian_generic(&latest_history_report, game.server.scoreturn % HISTORIAN_LAST);
+  historian_generic(&latest_history_report, game.server.scoreturn
+                    % (HISTORIAN_LAST + 1));
   send_current_history_report(game.est_connections);
 }
 
