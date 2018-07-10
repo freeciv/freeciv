@@ -2091,7 +2091,7 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   /* Cost now contains the basic bribe cost.  We now reduce it by:
    *    bribecost = cost/2 + cost/2 * damage/hp
    *              = cost/2 * (1 + damage/hp) */
-  return ((float)cost / 2 * (1.0 + punit->hp / default_hp));
+  return ((float)cost / 2 * (1.0 + (float)punit->hp / default_hp));
 }
 
 /**********************************************************************//**
