@@ -639,6 +639,11 @@ void fc_client::read_settings()
   } else {
     qt_settings.minimap_height = 0.2;
   }
+  if (s.contains("battlelog_scale")) {
+    qt_settings.battlelog_scale = s.value("battlelog_scale").toFloat();
+  } else {
+    qt_settings.battlelog_scale = 1;
+  }
 
   if (s.contains("City-dialog")) {
     qt_settings.city_geometry = s.value("City-dialog").toByteArray();
@@ -693,6 +698,9 @@ void fc_client::read_settings()
   if (qt_settings.battlelog_y < 0.0) {
     qt_settings.battlelog_y = 0.0;
   }
+  if (qt_settings.battlelog_scale > 5.0) {
+    qt_settings.battlelog_y = 5.0;
+  }
   if (qt_settings.minimap_x < 0 || qt_settings.minimap_x > 1) {
     qt_settings.chat_fx_pos = 0.84;
   }
@@ -723,6 +731,7 @@ void fc_client::write_settings()
   s.setValue("minimap_y", qt_settings.minimap_y);
   s.setValue("minimap_width", qt_settings.minimap_width);
   s.setValue("minimap_height", qt_settings.minimap_height);
+  s.setValue("battlelog_scale", qt_settings.battlelog_scale);
   s.setValue("battlelog_x", qt_settings.battlelog_x);
   s.setValue("battlelog_y", qt_settings.battlelog_y);
   s.setValue("new_turn_text", qt_settings.show_new_turn_text);
@@ -1004,6 +1013,7 @@ void fc_game_tab_widget::resizeEvent(QResizeEvent *event)
                                    * mapview.width),
                                    qRound(gui()->qt_settings.minimap_height
                                    * mapview.height));
+    gui()->battlelog_wdg->set_scale(gui()->qt_settings.battlelog_scale);
     gui()->battlelog_wdg->move(qRound(gui()->qt_settings.battlelog_x
                                * mapview.width),
                                qRound(gui()->qt_settings.battlelog_y

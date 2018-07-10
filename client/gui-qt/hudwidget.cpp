@@ -1665,21 +1665,16 @@ void show_new_turn_info()
 hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                                  int attacker_hp, int defender_hp,
                                  bool make_att_veteran, bool make_def_veteran,
-                                 QWidget *parent) : QWidget(parent)
+                                 float scale, QWidget *parent) : QWidget(parent)
 {
-  QImage crdimg, acrimg, at, dt;
-  QRect dr, ar;
-  QPainter p;
-  struct canvas *defender_pixmap;
-  struct canvas *attacker_pixmap;
-  int w;
-
-  w = 3 * tileset_unit_height(tileset) / 2;
+  hud_scale = scale;
   att_hp = attacker_hp;
   def_hp = defender_hp;
 
   attacker = game_unit_by_number(attacker_unit_id);
   defender = game_unit_by_number(defender_unit_id);
+  type_attacker = attacker->utype;
+  type_defender = defender->utype;
   att_veteran = make_att_veteran;
   def_veteran = make_def_veteran;
   att_hp_loss = attacker->hp - att_hp;
@@ -1689,15 +1684,34 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
   } else {
     center_tile = defender->tile;
   }
+  init_images();
+}
+
+/****************************************************************************
+  Draws images of units to pixmaps for later use
+****************************************************************************/
+void hud_unit_combat::init_images(bool redraw)
+{
+  QImage crdimg, acrimg, at, dt;
+  QRect dr, ar;
+  QPainter p;
+  struct canvas *defender_pixmap;
+  struct canvas *attacker_pixmap;
+  int w;
+
+  focus = false;
+  w = 3 * hud_scale * tileset_unit_height(tileset) / 2;
   setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
   setFixedSize(2 * w, w);
-  focus = false;
-
   defender_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
                                       tileset_unit_height(tileset));
   defender_pixmap->map_pixmap.fill(Qt::transparent);
   if (defender != nullptr) {
-    put_unit(defender, defender_pixmap,  1.0, 0, 0);
+    if (redraw == false) {
+      put_unit(defender, defender_pixmap,  1.0, 0, 0);
+    } else {
+      put_unittype(type_defender, defender_pixmap, 1.0,  0, 0);
+    }
     dimg = defender_pixmap->map_pixmap.toImage();
     dr = zealous_crop_rect(dimg);
     crdimg = dimg.copy(dr);
@@ -1717,7 +1731,11 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
                                       tileset_unit_height(tileset));
   attacker_pixmap->map_pixmap.fill(Qt::transparent);
   if (attacker != nullptr) {
-    put_unit(attacker, attacker_pixmap, 1,  0, 0);
+    if (redraw == false) {
+      put_unit(attacker, attacker_pixmap, 1,  0, 0);
+    } else {
+      put_unittype(type_attacker, attacker_pixmap, 1,  0, 0);
+    }
     aimg = attacker_pixmap->map_pixmap.toImage();
     ar = zealous_crop_rect(aimg);
     acrimg = aimg.copy(ar);
@@ -1731,8 +1749,18 @@ hud_unit_combat::hud_unit_combat(int attacker_unit_id, int defender_unit_id,
     p.end();
     aimg = at;
   }
-  aimg = aimg.scaled(w, w, Qt::IgnoreAspectRatio,
-                     Qt::SmoothTransformation);
+  aimg = aimg.scaled(w, w, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+  delete defender_pixmap;
+  delete attacker_pixmap;
+}
+
+/****************************************************************************
+  Sets scale for images
+****************************************************************************/
+void hud_unit_combat::set_scale(float scale)
+{
+  hud_scale = scale;
+  init_images(true);
 }
 
 /************************************************************************//**
@@ -1790,7 +1818,7 @@ void hud_unit_combat::paintEvent(QPaintEvent *event)
     c1 = QColor(125, 25, 25, 175);
     c2 = QColor(25, 125, 25, 175);
   }
-  int w = 3 * tileset_unit_height(tileset) / 2;
+  int w = 3 * tileset_unit_height(tileset) / 2 * hud_scale;
 
   left = QRect(0 , 0, w , w);
   right = QRect(w, 0, w , w);
@@ -1852,6 +1880,50 @@ void hud_unit_combat::enterEvent(QEvent *event)
   update();
 }
 
+
+/****************************************************************************
+  Scale widget allowing scaling other widgets, shown in right top corner
+****************************************************************************/
+scale_widget::scale_widget(QRubberBand::Shape s,
+                           QWidget* p) : QRubberBand(s, p)
+{
+  size = 12;
+  plus = (*fc_icons::instance()->get_pixmap("plus")).scaledToWidth(size);
+  minus = (*fc_icons::instance()->get_pixmap("minus")).scaledToWidth(size);
+  setFixedSize(2 * size, size);
+  scale = 1.0f;
+  setAttribute(Qt::WA_TransparentForMouseEvents, false);
+}
+
+/****************************************************************************
+  Draws 2 icons for resizing
+****************************************************************************/
+void scale_widget::paintEvent(QPaintEvent *event)
+{
+  QRubberBand::paintEvent(event);
+  QPainter p;
+  p.begin(this);
+  p.drawPixmap(0, 0, minus);
+  p.drawPixmap(size, 0, plus);
+  p.end();
+}
+
+/****************************************************************************
+  Mouse press event for scale widget
+****************************************************************************/
+void scale_widget::mousePressEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton) {
+    if (event->localPos().x() <= size) {
+      scale = scale / 1.2;
+    } else {
+      scale = scale * 1.2;
+    }
+    parentWidget()->update();
+  }
+}
+
+
 /************************************************************************//**
   Hud battle log contructor
 ****************************************************************************/
@@ -1862,6 +1934,8 @@ hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
   mw = new move_widget(this);
   setContentsMargins(0, 0, 0, 0);
   main_layout->setContentsMargins(0, 0, 0, 0);
+  sw = new scale_widget(QRubberBand::Rectangle, this);
+  sw->show();
 }
 
 /************************************************************************//**
@@ -1869,6 +1943,43 @@ hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
 ****************************************************************************/
 hud_battle_log::~hud_battle_log()
 {
+  delete sw;
+  delete mw;
+}
+
+/****************************************************************************
+  Updates size when scale has changed
+****************************************************************************/
+void hud_battle_log::update_size()
+{
+  hud_unit_combat *hudc;
+  int w = 3 * tileset_unit_height(tileset) / 2 * scale;
+
+  gui()->qt_settings.battlelog_scale = scale;
+  delete layout();
+  main_layout = new QVBoxLayout;
+  foreach (hudc, lhuc) {
+    hudc->set_scale(scale);
+    main_layout->addWidget(hudc);
+    hudc->set_fading(1.0);
+  }
+  setFixedSize(2 * w + 10, lhuc.count() * w + 10);
+  setLayout(main_layout);
+
+  update();
+  show();
+  m_timer.restart();
+  startTimer(50);
+}
+
+
+/****************************************************************************
+  Set scale
+****************************************************************************/
+void hud_battle_log::set_scale(float s)
+{
+  scale = s;
+  sw->scale = s;
 }
 
 /************************************************************************//**
@@ -1877,7 +1988,7 @@ hud_battle_log::~hud_battle_log()
 void hud_battle_log::add_combat_info(hud_unit_combat *huc)
 {
   hud_unit_combat *hudc;
-  int w = 3 * tileset_unit_height(tileset) / 2;
+  int w = 3 * tileset_unit_height(tileset) / 2 * scale;
 
   delete layout();
   main_layout = new QVBoxLayout;
@@ -1904,7 +2015,12 @@ void hud_battle_log::add_combat_info(hud_unit_combat *huc)
 ****************************************************************************/
 void hud_battle_log::paintEvent(QPaintEvent *event)
 {
+  if (scale != sw->scale) {
+    scale = sw->scale;
+    update_size();
+  }
   mw->put_to_corner();
+  sw->move(width() - sw->width(), 0);
 }
 
 /************************************************************************//**
@@ -1918,6 +2034,7 @@ void hud_battle_log::moveEvent(QMoveEvent *event)
   gui()->qt_settings.battlelog_x = static_cast<float>(p.x()) / mapview.width;
   gui()->qt_settings.battlelog_y = static_cast<float>(p.y())
                                    / mapview.height;
+  m_timer.restart();
 }
 
 /************************************************************************//**

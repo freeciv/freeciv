@@ -139,6 +139,7 @@ struct fc_settings
   float minimap_y;
   float minimap_width;
   float minimap_height;
+  float battlelog_scale;
   float battlelog_x;
   float battlelog_y;
 };
