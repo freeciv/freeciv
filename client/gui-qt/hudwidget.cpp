@@ -50,6 +50,7 @@
 
 extern "C" {
   const char *calendar_text(void);
+  bool goto_is_active(void);
 }
 static QString popup_terrain_info(struct tile *ptile);
 
@@ -930,6 +931,11 @@ int unit_actions::update_actions()
     clear_layout();
     hide();
     return 0;
+  }
+  /* HACK prevent crash with active goto when leaving widget,
+   * just skip update because with active goto actions shouldn't change */
+  if (goto_is_active() ) {
+    return actions.count();
   }
   hide();
   clear_layout();
