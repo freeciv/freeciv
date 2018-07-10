@@ -1546,7 +1546,7 @@ static void add_resources(int prob)
   whole_map_iterate(ptile)  {
     const struct terrain *pterrain = tile_terrain(ptile);
 
-    if (is_resource_close (ptile) || fc_rand (1000) > prob) {
+    if (is_resource_close (ptile) || fc_rand (1000) >= prob) {
       continue;
     }
     if (!is_ocean(pterrain) || near_safe_tiles (ptile)
@@ -2933,7 +2933,7 @@ static void fair_map_make_resources(struct fair_tile *pmap)
     pftile = pmap + i;
     if (pftile->flags == FTF_NONE
         || pftile->flags & FTF_NO_RESOURCE
-        || fc_rand (1000) > game.map.server.riches) {
+        || fc_rand (1000) >= game.map.server.riches) {
       continue;
     }
 
