@@ -4201,25 +4201,32 @@ static bool load_ruleset_nations(struct section_file *file)
       }
       fc_strlcat(tmp, sec_name, 200);
       fc_strlcat(tmp, ".init_government", 200);
-      pnation->init_government = lookup_government(file, tmp, filename,
-                                                   default_government);
-      /* init_government has to be in this specific ruleset, not just
-       * allowed_govs */
-      if (pnation->init_government == NULL) {
-        ok = FALSE;
-        break;
-      }
-      /* ...but if a list of govs has been specified, enforce that this
-       * nation's init_government is on the list. */
-      if (allowed_govs
-          && !is_on_allowed_list(government_rule_name(pnation->init_government),
-                                 allowed_govs, agcount)) {
-        ruleset_error(LOG_ERROR,
-                      "Nation %s: init_government \"%s\" not allowed.",
-                      nation_rule_name(pnation),
-                      government_rule_name(pnation->init_government));
-        ok = FALSE;
-        break;
+      sval = secfile_lookup_str_default(file, NULL, "%s", tmp);
+      if (!sval) {
+        /* Nation doesn't specify a government, use ruleset default
+         * (which has already been validated) */
+        pnation->init_government = default_government;
+      } else {
+        pnation->init_government = government_by_rule_name(sval);
+        if (!pnation->init_government) {
+          /* init_government has to be in this specific ruleset, not just
+           * allowed_govs. Lookup failure implies it was not. */
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" %s: couldn't match \"%s\".",
+                        filename, tmp, sval);
+          ok = FALSE;
+          break;
+        } else if (allowed_govs
+                   && !is_on_allowed_list(sval, allowed_govs, agcount)) {
+          /* ...but if a list of govs has been specified, enforce that this
+           * nation's init_government is on that list too. */
+          ruleset_error(LOG_ERROR,
+                        "Nation %s: init_government \"%s\" not allowed.",
+                        nation_rule_name(pnation),
+                        government_rule_name(pnation->init_government));
+          ok = FALSE;
+          break;
+        }
       }
 
       /* Read default city names. */
