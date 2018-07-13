@@ -729,7 +729,7 @@ static void update_environmental_upset(enum environment_upset_type type,
     *accum = 0;
   } else {
     *accum -= *level;
-    if (fc_rand((map_num_tiles() + 19) / 20) <= *accum) {
+    if (fc_rand((map_num_tiles() + 19) / 20) < *accum) {
       upset_action_fn((wld.map.xsize / 10) + (wld.map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level += (map_num_tiles() + 999) / 1000;
