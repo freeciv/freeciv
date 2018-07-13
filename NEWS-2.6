@@ -1,10 +1,97 @@
 ============================
-Welcome to Freeciv 2.6.0-RC1
+Welcome to Freeciv 2.6.0-RC2
 ============================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.0-RC1 to 2.6.0-RC2
+-----------------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.0-RC2>)
+
+   RC2 is mainly a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Bribe cost for damaged units has increased. Previously (due to a
+       bug) it was halved if the unit had lost any hitpoints at all. Now
+       it depends on how damaged they are (up to at most a discount of
+       half, as before). HRM#763896
+     * Huts were never yielding settler-type units. HRM#700906
+     * Global warming and nuclear winter had a small chance of occurring
+       even when the client displayed the chance as 0%. HRM#763882
+     * A few resources could be added to the map even when none were
+       requested. HRM#763879
+     * Historians were never reporting on the "LARGEST Civilizations"
+       (with the most citizens), by mistake. HRM#763883
+
+Changes affecting other rulesets / modders
+
+     * Fix longstanding bug in rulesets with 129 or more unit types; if
+       any of the later units was an upgrade or conversion target, the
+       client would not allow the action. HRM#763984
+     * The Lua function find.role_unit_type() can now find a unit with a
+       given flag, as well as a given role. (This compensates for the
+       property "Cities" having changed from a role to a flag in 2.6.)
+       HRM#700906
+
+Clients
+
+     * The number of turns for a path displayed in Goto mode was one too
+       few. HRM#763943
+     * (Gtk2, Qt) Borders are now displayed correctly when zoomed in.
+       HRM#756115
+     * Various fixes and improvements to the Qt client:
+          + Fix a client crash in goto mode. HRM#761748
+          + Fix a client crash when observing a player with diplomacy
+            dialogs open. HRM#764026
+          + Opening the Policies dialog caused a client crash on some
+            systems. HRM#759242
+          + Fix non-working terrain and government links in help.
+            HRM#763708
+          + The Shift-E keyboard shortcut was used for both Airbase-type
+            orders and for the Patrol order. Patrol is now Q, as in the
+            Gtk clients. HRM#764407
+          + The unit display now shows the extra turns left for fuel
+            units. HRM#764524
+          + The city dialog now shows help tooltips for buildings and
+            units that are in the build queue, and buildings that are
+            already built. HRM#735308
+          + The battle log can now be resized. HRM#764025
+          + The help dialog position and size are now remembered.
+            HRM#764218
+          + Change scaling of sidebar. HRM#760162
+          + Other cosmetic issues and optimizations. HRM#735301 HRM#759976
+            HRM#764525
+
+Tilesets / Art
+
+     * Amplio2, Cimpletoon, Isotrident, and Isophex tilesets now have
+       icons for showing units' activity building specific extras.
+       HRM#762838 HRM#762839
+
+Help / Documentation
+
+     * Invisible change to assist localization. HRM#763068
+
+Translations
+
+     * Updated (complete) translations: Catalan, Russian, Polish.
+
+Known issues
+
+     * Turn change in AI games has got slower; we suspect this is a result
+       of action generalization.
+     * There's some evidence that autosettlers have got less effective.
+     * There are still problems in the new way tilesets are selected.
+       HRM#685235
+     * The Gtk3 clients currently don't have animation for moving the map
+       view. HRM#735217
 
 
 CHANGES FROM 2.6.0-beta3 to 2.6.0-RC1

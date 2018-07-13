@@ -50,6 +50,10 @@ Changes affecting players (supplied rulesets)
        the worst. (This makes target-specific strength factors work to the
        attacker's advantage rather than the defender's, but does make it
        easier to lure out strong attacking units.) GNAPATCH#7942
+     * (as of RC2) Bribe cost for damaged units has increased. Previously
+       (due to a bug) it was halved if the unit had lost any hitpoints at
+       all. Now it depends on how damaged they are (up to at most a
+       discount of half, as before). HRM#763896
      * "Industrial Accident" disaster, where a Mfg. Plant can cause
        population loss and pollution. GNAPATCH#5014
      * When a Spy sabotages another diplomatic unit, there is no longer a
@@ -768,6 +772,8 @@ Changes affecting other rulesets / modders
             is_capital(). GNAPATCH#6804
           + Methods to navigate unit transport stacks:
             (Unit):transporter(), (Unit):cargo_iterate(). GNAPATCH#6845
+          + (as of RC2) find.role_unit_type() can now find a unit with a
+            given flag, as well as a given role. HRM#700906
 
    Sound has had some major changes.
      * Musicsets are now separate from soundsets, which now just cover
@@ -1231,10 +1237,6 @@ Known issues
      * The SDL clients have no UI for manipulating policies. HRM#657404
      * We suspect there are still some bugs lurking in the music
        soundtrack system.
-     * The documentation has not yet been fully reviewed. There are likely
-       to be missing parts and inaccuracies. Do consider reporting any you
-       find, but look through hostedredmine first in case there's already
-       an open ticket about it.
      * Not many translations have been fully updated yet.
 
 
