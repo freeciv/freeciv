@@ -1285,9 +1285,9 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
           *state = GTS_EXHAUSTED_MP;
         }
       } else {
-        if (turns_for_map + 1 > *turns) {
+        if (turns_for_map > *turns) {
           *state = GTS_TURN_STEP;
-          *turns = turns_for_map + 1;
+          *turns = turns_for_map;
         }
       }
     } goto_map_list_iterate_end;
