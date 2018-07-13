@@ -62,8 +62,9 @@ class QImage;
 
 QString get_tooltip(QVariant qvar);
 QString get_tooltip_improvement(impr_type *building,
-                                struct city *pcity = nullptr);
-QString get_tooltip_unit(struct unit_type *unit);
+                                struct city *pcity = nullptr,
+                                bool ext = false);
+QString get_tooltip_unit(struct unit_type *unit, bool ext = false);
 QString bold(QString text);
 
 class fc_tooltip : public QObject
