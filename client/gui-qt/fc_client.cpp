@@ -657,6 +657,12 @@ void fc_client::read_settings()
   if (s.contains("splitter3")) {
     qt_settings.city_splitter3 = s.value("splitter3").toByteArray();
   }
+  if (s.contains("help-dialog")) {
+    qt_settings.help_geometry = s.value("help-dialog").toByteArray();
+  }
+  if (s.contains("help_splitter1")) {
+    qt_settings.help_splitter1 = s.value("help_splitter1").toByteArray();
+  }
   if (s.contains("new_turn_text")) {
     qt_settings.show_new_turn_text = s.value("new_turn_text").toBool();
   } else {
@@ -725,6 +731,8 @@ void fc_client::write_settings()
   s.setValue("splitter1", qt_settings.city_splitter1);
   s.setValue("splitter2", qt_settings.city_splitter2);
   s.setValue("splitter3", qt_settings.city_splitter3);
+  s.setValue("help-dialog", qt_settings.help_geometry);
+  s.setValue("help_splitter1", qt_settings.help_splitter1);
   s.setValue("unit_fx", qt_settings.unit_info_pos_fx);
   s.setValue("unit_fy", qt_settings.unit_info_pos_fy);
   s.setValue("minimap_x", qt_settings.minimap_x);
