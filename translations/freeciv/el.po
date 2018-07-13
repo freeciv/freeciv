@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-06-29 00:32+0100\n"
+"POT-Creation-Date: 2018-07-13 18:17+0100\n"
 "PO-Revision-Date: 2013-09-09 09:57+0300\n"
 "Last-Translator: Prekates Alexandros <aprekates@gmail.gr>\n"
 "Language-Team: Greek translation team <gr@li.org>\n"
@@ -550,8 +550,8 @@ msgstr "ποτέ"
 #: client/gui-gtk-3.0/helpdlg.c:1249 client/gui-gtk-3.22/citydlg.c:1804
 #: client/gui-gtk-3.22/helpdlg.c:1223 client/gui-gtk-3.22/helpdlg.c:1235
 #: client/gui-gtk-3.22/helpdlg.c:1246 client/gui-qt/citydlg.cpp:2972
-#: client/gui-qt/helpdlg.cpp:1274 client/gui-qt/helpdlg.cpp:1299
-#: client/gui-qt/helpdlg.cpp:1323 client/gui-xaw/citydlg.c:257
+#: client/gui-qt/helpdlg.cpp:1316 client/gui-qt/helpdlg.cpp:1341
+#: client/gui-qt/helpdlg.cpp:1365 client/gui-xaw/citydlg.c:257
 #: client/helpdata.c:5196 client/text.c:898 client/text.c:1364
 #, c-format
 msgid "%d turn"
@@ -2436,7 +2436,7 @@ msgstr "Πολίτες"
 
 #: client/gui-gtk-2.0/citydlg.c:684 client/gui-gtk-3.0/citydlg.c:731
 #: client/gui-gtk-3.22/citydlg.c:733 client/gui-qt/citydlg.cpp:1481
-#: client/gui-qt/helpdlg.cpp:1248
+#: client/gui-qt/helpdlg.cpp:1290
 msgid "Food:"
 msgstr "Φαγητό:"
 
@@ -2447,7 +2447,7 @@ msgstr "Παραγωγή:"
 
 #: client/gui-gtk-2.0/citydlg.c:686 client/gui-gtk-3.0/citydlg.c:733
 #: client/gui-gtk-3.22/citydlg.c:735 client/gui-qt/citydlg.cpp:1481
-#: client/gui-qt/helpdlg.cpp:1252
+#: client/gui-qt/helpdlg.cpp:1294
 msgid "Trade:"
 msgstr "Εμπόριο:"
 
@@ -2543,7 +2543,7 @@ msgstr "Πάτησε ENTER ή διπλό-κλικ για να πουλήσεις
 #: client/gui-gtk-2.0/citydlg.c:1706 client/gui-gtk-3.0/citydlg.c:926
 #: client/gui-gtk-3.0/citydlg.c:1219 client/gui-gtk-3.0/citydlg.c:1909
 #: client/gui-gtk-3.22/citydlg.c:928 client/gui-gtk-3.22/citydlg.c:1221
-#: client/gui-gtk-3.22/citydlg.c:1956 client/gui-qt/helpdlg.cpp:1250
+#: client/gui-gtk-3.22/citydlg.c:1956 client/gui-qt/helpdlg.cpp:1292
 msgid "Production:"
 msgstr "Παραγωγή:"
 
@@ -4166,7 +4166,7 @@ msgid "?multiplier:Cur"
 msgstr ""
 
 #: client/gui-gtk-2.0/gamedlgs.c:320 client/gui-gtk-3.0/gamedlgs.c:314
-#: client/gui-gtk-3.22/gamedlgs.c:314 client/gui-qt/ratesdlg.cpp:143
+#: client/gui-gtk-3.22/gamedlgs.c:314 client/gui-qt/ratesdlg.cpp:144
 #, fuzzy
 msgid "Change policies"
 msgstr "Επανονόμασε λιστα εργασιών"
@@ -4445,8 +4445,8 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:100
 #: client/gui-gtk-3.0/helpdlg.c:103 client/gui-gtk-3.0/helpdlg.c:107
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
-#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3787
-#: client/gui-qt/helpdlg.cpp:861 client/gui-qt/helpdlg.cpp:961
+#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3802
+#: client/gui-qt/helpdlg.cpp:893 client/gui-qt/helpdlg.cpp:994
 #: client/gui-sdl/helpdlg.c:378 client/gui-sdl/helpdlg.c:794
 #: client/gui-sdl2/helpdlg.c:381 client/gui-sdl2/helpdlg.c:797
 #: data/Freeciv.in:654 data/Freeciv.in:796
@@ -4454,7 +4454,7 @@ msgid "Cost:"
 msgstr "Κόστος:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-gtk-3.0/helpdlg.c:100
-#: client/gui-gtk-3.22/helpdlg.c:99 client/gui-qt/helpdlg.cpp:966
+#: client/gui-gtk-3.22/helpdlg.c:99 client/gui-qt/helpdlg.cpp:999
 #: client/gui-sdl/helpdlg.c:386 client/gui-sdl/helpdlg.c:803
 #: client/gui-sdl2/helpdlg.c:389 client/gui-sdl2/helpdlg.c:806
 #: data/Freeciv.in:671
@@ -4465,7 +4465,7 @@ msgstr "Συντήρηση:"
 #: client/gui-gtk-2.0/helpdlg.c:109 client/gui-gtk-3.0/helpdlg.c:100
 #: client/gui-gtk-3.0/helpdlg.c:103 client/gui-gtk-3.0/helpdlg.c:111
 #: client/gui-gtk-3.22/helpdlg.c:99 client/gui-gtk-3.22/helpdlg.c:102
-#: client/gui-gtk-3.22/helpdlg.c:110 client/gui-qt/helpdlg.cpp:983
+#: client/gui-gtk-3.22/helpdlg.c:110 client/gui-qt/helpdlg.cpp:1025
 #: client/gui-sdl/helpdlg.c:397 client/gui-sdl/helpdlg.c:843
 #: client/gui-sdl2/helpdlg.c:400 client/gui-sdl2/helpdlg.c:846
 #: data/Freeciv.in:712
@@ -4475,7 +4475,7 @@ msgstr "Απαιτήσεις:"
 #: client/gui-gtk-2.0/helpdlg.c:101 client/gui-gtk-2.0/helpdlg.c:109
 #: client/gui-gtk-3.0/helpdlg.c:103 client/gui-gtk-3.0/helpdlg.c:111
 #: client/gui-gtk-3.22/helpdlg.c:102 client/gui-gtk-3.22/helpdlg.c:110
-#: client/gui-qt/citydlg.cpp:3740 client/gui-qt/helpdlg.cpp:1002
+#: client/gui-qt/citydlg.cpp:3743 client/gui-qt/helpdlg.cpp:1044
 #: client/gui-sdl/helpdlg.c:436 client/gui-sdl/helpdlg.c:870
 #: client/gui-sdl2/helpdlg.c:439 client/gui-sdl2/helpdlg.c:873
 #: data/Freeciv.in:750
@@ -4483,47 +4483,47 @@ msgid "Obsolete by:"
 msgstr "Απαρχαιώθηκε από:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 client/gui-gtk-3.0/helpdlg.c:107
-#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3780
-#: client/gui-qt/helpdlg.cpp:851 client/gui-sdl/helpdlg.c:827
+#: client/gui-gtk-3.22/helpdlg.c:106 client/gui-qt/citydlg.cpp:3795
+#: client/gui-qt/helpdlg.cpp:883 client/gui-sdl/helpdlg.c:827
 #: client/gui-sdl2/helpdlg.c:830 data/Freeciv.in:813
 msgid "Attack:"
 msgstr "Επίθεση"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3782
-#: client/gui-qt/helpdlg.cpp:853 client/gui-sdl/helpdlg.c:828
+#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3797
+#: client/gui-qt/helpdlg.cpp:885 client/gui-sdl/helpdlg.c:828
 #: client/gui-sdl2/helpdlg.c:831 data/Freeciv.in:831
 msgid "Defense:"
 msgstr "Άμυνα"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-gtk-3.0/helpdlg.c:108
-#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3784
+#: client/gui-gtk-3.22/helpdlg.c:107 client/gui-qt/citydlg.cpp:3799
 #: client/gui-sdl/helpdlg.c:829 client/gui-sdl2/helpdlg.c:832
 #: data/Freeciv.in:849
 msgid "Move:"
 msgstr "Κινήσεις:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:109
-#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3795
+#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3810
 #: client/gui-sdl/helpdlg.c:831 client/gui-sdl2/helpdlg.c:834
 msgid "FirePower:"
 msgstr "ΔύναμηΠυρός"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-gtk-3.0/helpdlg.c:109
-#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3793
-#: client/gui-qt/helpdlg.cpp:860 client/gui-sdl/helpdlg.c:832
+#: client/gui-gtk-3.22/helpdlg.c:108 client/gui-qt/citydlg.cpp:3808
+#: client/gui-qt/helpdlg.cpp:892 client/gui-sdl/helpdlg.c:832
 #: client/gui-sdl2/helpdlg.c:835 data/Freeciv.in:894
 msgid "Hitpoints:"
 msgstr "ΜονάδεςΑντοχής"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:110
-#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3790
+#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3805
 #: data/Freeciv.in:930
 msgid "Basic Upkeep:"
 msgstr "Βασική συντήρηση:"
 
 #: client/gui-gtk-2.0/helpdlg.c:108 client/gui-gtk-3.0/helpdlg.c:110
-#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3797
+#: client/gui-gtk-3.22/helpdlg.c:109 client/gui-qt/citydlg.cpp:3812
 #: client/gui-sdl/helpdlg.c:830 client/gui-sdl2/helpdlg.c:833
 #: data/Freeciv.in:912
 msgid "Vision:"
@@ -4568,8 +4568,8 @@ msgstr ""
 
 #. TRANS: "None" tech
 #: client/gui-gtk-2.0/helpdlg.c:129 client/gui-gtk-3.0/helpdlg.c:131
-#: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3726
-#: client/gui-qt/helpdlg.cpp:53 client/gui-qt/plrdlg.cpp:547
+#: client/gui-gtk-3.22/helpdlg.c:130 client/gui-qt/citydlg.cpp:3729
+#: client/gui-qt/helpdlg.cpp:54 client/gui-qt/plrdlg.cpp:547
 #: client/gui-qt/plrdlg.cpp:553 client/gui-qt/repodlgs.cpp:1060
 #: client/gui-sdl/gui_tilespec.c:374 client/gui-sdl/helpdlg.c:852
 #: client/gui-sdl/mapview.c:335 client/gui-sdl2/gui_tilespec.c:381
@@ -4581,7 +4581,7 @@ msgid "?tech:None"
 msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:130 client/gui-gtk-3.0/helpdlg.c:132
-#: client/gui-gtk-3.22/helpdlg.c:131 client/gui-qt/helpdlg.cpp:52
+#: client/gui-gtk-3.22/helpdlg.c:131 client/gui-qt/helpdlg.cpp:53
 #: client/gui-xaw/helpdlg.c:774 client/gui-xaw/helpdlg.c:828
 #: client/gui-xaw/helpdlg.c:836 client/gui-xaw/helpdlg.c:874
 #: client/gui-xaw/helpdlg.c:900
@@ -4594,7 +4594,7 @@ msgid "Removed"
 msgstr "Αποκακρύνθηκε"
 
 #: client/gui-gtk-2.0/helpdlg.c:450 client/gui-gtk-3.0/helpdlg.c:455
-#: client/gui-gtk-3.22/helpdlg.c:454 client/gui-qt/helpdlg.cpp:127
+#: client/gui-gtk-3.22/helpdlg.c:454 client/gui-qt/helpdlg.cpp:126
 #: data/Freeciv.in:594
 msgid "Freeciv Help Browser"
 msgstr "Πλοηγός βοηθείας Freeciv"
@@ -4618,14 +4618,14 @@ msgstr "Σύμπτυξη όλων"
 #: client/gui-gtk-3.22/helpdlg.c:1018 client/gui-gtk-3.22/helpdlg.c:1034
 #: client/gui-gtk-3.22/helpdlg.c:1067 client/gui-gtk-3.22/helpdlg.c:1079
 #: client/gui-gtk-3.22/helpdlg.c:1087 client/gui-gtk-3.22/helpdlg.c:1104
-#: client/gui-qt/helpdlg.cpp:1050 client/gui-qt/helpdlg.cpp:1065
-#: client/gui-qt/helpdlg.cpp:1105 client/gui-sdl/helpdlg.c:1050
+#: client/gui-qt/helpdlg.cpp:1092 client/gui-qt/helpdlg.cpp:1107
+#: client/gui-qt/helpdlg.cpp:1147 client/gui-sdl/helpdlg.c:1050
 #: client/gui-sdl2/helpdlg.c:1055
 msgid "Allows"
 msgstr "Επιτρέπει"
 
 #: client/gui-gtk-2.0/helpdlg.c:1022 client/gui-gtk-3.0/helpdlg.c:1052
-#: client/gui-gtk-3.22/helpdlg.c:1049 client/gui-qt/helpdlg.cpp:1084
+#: client/gui-gtk-3.22/helpdlg.c:1049 client/gui-qt/helpdlg.cpp:1126
 msgid "Obsoletes"
 msgstr "Απαρχαιώνει"
 
@@ -4686,25 +4686,25 @@ msgid "Trans. Rslt/Time"
 msgstr "Μετασχηματισμός Αποτέλεσμα/Χρόνος"
 
 #: client/gui-gtk-2.0/helpdlg.c:1229 client/gui-gtk-3.0/helpdlg.c:1259
-#: client/gui-gtk-3.22/helpdlg.c:1256 client/gui-qt/helpdlg.cpp:1343
+#: client/gui-gtk-3.22/helpdlg.c:1256 client/gui-qt/helpdlg.cpp:1385
 #, fuzzy
 msgid "Build as irrigation"
 msgstr "Χτίσε ύδρευση"
 
 #: client/gui-gtk-2.0/helpdlg.c:1234 client/gui-gtk-3.0/helpdlg.c:1264
-#: client/gui-gtk-3.22/helpdlg.c:1261 client/gui-qt/helpdlg.cpp:1348
+#: client/gui-gtk-3.22/helpdlg.c:1261 client/gui-qt/helpdlg.cpp:1390
 #, fuzzy
 msgid "Build as mine"
 msgstr "Χτίσε Ορυχείο"
 
 #: client/gui-gtk-2.0/helpdlg.c:1237 client/gui-gtk-3.0/helpdlg.c:1267
-#: client/gui-gtk-3.22/helpdlg.c:1264 client/gui-qt/helpdlg.cpp:1351
+#: client/gui-gtk-3.22/helpdlg.c:1264 client/gui-qt/helpdlg.cpp:1393
 #, fuzzy
 msgid "Build as road"
 msgstr "Χτίσε Δρόμο"
 
 #: client/gui-gtk-2.0/helpdlg.c:1240 client/gui-gtk-3.0/helpdlg.c:1270
-#: client/gui-gtk-3.22/helpdlg.c:1267 client/gui-qt/helpdlg.cpp:1354
+#: client/gui-gtk-3.22/helpdlg.c:1267 client/gui-qt/helpdlg.cpp:1396
 #, fuzzy
 msgid "Build as base"
 msgstr "Χτίσε _Αερ.Βάση"
@@ -4839,7 +4839,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:116 client/gui-gtk-2.0/pages.c:139
 #: client/gui-gtk-3.0/menu.c:120 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:557 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:789 client/gui-qt/menu.cpp:805
+#: client/gui-qt/fc_client.cpp:806 client/gui-qt/menu.cpp:805
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Θέσε τοπικές επιλογές"
@@ -6005,7 +6005,7 @@ msgstr "<Εύκολη ΤΝ>"
 
 #: client/gui-gtk-2.0/pages.c:2306 client/gui-gtk-3.0/pages.c:2377
 #: client/gui-gtk-3.22/pages.c:2377 client/gui-qt/dialogs.cpp:384
-#: client/gui-qt/fc_client.cpp:1165 client/gui-qt/pages.cpp:1647
+#: client/gui-qt/fc_client.cpp:1187 client/gui-qt/pages.cpp:1647
 #: client/gui-xaw/pages.c:254
 msgid "Random"
 msgstr "Τυχαίο"
@@ -6312,7 +6312,7 @@ msgid "U Total"
 msgstr "U Συνολικό"
 
 #: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:900
-#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2096
+#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2095
 #: client/gui-qt/repodlgs.cpp:1360
 #, c-format
 msgid "Income: %d    Total Costs: %d"
@@ -6823,7 +6823,7 @@ msgstr "Μονάδα:"
 
 #: client/gui-gtk-3.0/action_dialog.c:1013
 #: client/gui-gtk-3.22/action_dialog.c:1007 client/gui-gtk-3.22/menu.c:438
-#: client/gui-qt/cityrep.cpp:541 client/gui-qt/hudwidget.cpp:1373
+#: client/gui-qt/cityrep.cpp:541 client/gui-qt/hudwidget.cpp:1389
 #: client/gui-qt/menu.cpp:955
 #, fuzzy
 msgid "Select"
@@ -7012,7 +7012,7 @@ msgstr "νεά"
 #: client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/unitselextradlg.c:129
 #: client/gui-gtk-3.22/unitselunitdlg.c:93 client/gui-gtk-3.22/wldlg.c:228
-#: client/gui-gtk-3.22/wldlg.c:404 client/gui-qt/helpdlg.cpp:171
+#: client/gui-gtk-3.22/wldlg.c:404 client/gui-qt/helpdlg.cpp:166
 #: client/gui-xaw/connectdlg.c:680 data/Freeciv.in:180 data/Freeciv.in:230
 #: data/Freeciv.in:255 data/Freeciv.in:559 data/Freeciv.in:578
 #: data/Freeciv.in:623 data/Freeciv.in:1467 data/Freeciv.in:1485
@@ -7035,12 +7035,12 @@ msgstr ""
 #: client/gui-gtk-3.22/optiondlg.c:360 client/gui-gtk-3.22/pages.c:453
 #: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
 #: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
-#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3899
-#: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1374
+#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3925
+#: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1390
 #: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
 #: client/gui-qt/pages.cpp:393 client/gui-qt/pages.cpp:528
 #: client/gui-qt/pages.cpp:596 client/gui-qt/ratesdlg.cpp:78
-#: client/gui-qt/ratesdlg.cpp:167 client/gui-qt/shortcuts.cpp:581
+#: client/gui-qt/ratesdlg.cpp:168 client/gui-qt/shortcuts.cpp:581
 #: client/gui-sdl/action_dialog.c:1062 client/gui-sdl/citydlg.c:527
 #: client/gui-sdl/citydlg.c:1419 client/gui-sdl/connectdlg.c:319
 #: client/gui-sdl/connectdlg.c:636 client/gui-sdl/connectdlg.c:829
@@ -7141,7 +7141,7 @@ msgstr "Διέγραψε"
 
 #: client/gui-gtk-3.22/dialogs.c:867 client/gui-qt/dialogs.cpp:388
 #: client/gui-qt/messagedlg.cpp:69 client/gui-qt/optiondlg.cpp:169
-#: client/gui-qt/ratesdlg.cpp:79 client/gui-qt/ratesdlg.cpp:168
+#: client/gui-qt/ratesdlg.cpp:79 client/gui-qt/ratesdlg.cpp:169
 #: client/gui-qt/shortcuts.cpp:605 client/gui-xaw/inputdlg.c:103
 #: data/Freeciv.in:1263 data/Freeciv.in:1296 data/Freeciv.in:1373
 #: data/Freeciv.in:1568 data/Freeciv.in:3444
@@ -7962,63 +7962,63 @@ msgid_plural "Buy %s for %d gold?"
 msgstr[0] "Πούλησε %s για %d χρυσά;"
 msgstr[1] "Πούλησε %s για %d χρυσά;"
 
-#: client/gui-qt/citydlg.cpp:3367
+#: client/gui-qt/citydlg.cpp:3368
 #, fuzzy
 #| msgid "Improvements"
 msgid "Improvements - upkeep %1"
 msgstr "Υποδομές"
 
-#: client/gui-qt/citydlg.cpp:3508
+#: client/gui-qt/citydlg.cpp:3509
 #, fuzzy
 msgid "What should we name new worklist?"
 msgstr "Πώς θα θέλατε να ονομάσετε τον νέο κυβερνητικό στόχο"
 
-#: client/gui-qt/citydlg.cpp:3509
+#: client/gui-qt/citydlg.cpp:3510
 #, fuzzy
 msgid "Save current worklist"
 msgstr "ΛίστεςΕργασιών"
 
-#: client/gui-qt/citydlg.cpp:3510
+#: client/gui-qt/citydlg.cpp:3511
 #, fuzzy
 msgid "New worklist"
 msgstr "λίστα εργασιών"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3532
+#: client/gui-qt/citydlg.cpp:3533
 #, fuzzy
 msgid "%1 - %2 citizens - DISORDER"
 msgstr "<b>%s</b> - %s πολίτες"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3536
+#: client/gui-qt/citydlg.cpp:3537
 #, fuzzy
 msgid "%1 - %2 citizens - celebrating"
 msgstr "<b>%s</b> - %s πολίτες"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3540
+#: client/gui-qt/citydlg.cpp:3541
 #, fuzzy
 msgid "%1 - %2 citizens - happy"
 msgstr "<b>%s</b> - %s πολίτες"
 
 #. TRANS: city dialog title
-#: client/gui-qt/citydlg.cpp:3544
+#: client/gui-qt/citydlg.cpp:3545
 #, fuzzy
 msgid "%1 - %2 citizens"
 msgstr "πολίτης"
 
-#: client/gui-qt/citydlg.cpp:3745
+#: client/gui-qt/citydlg.cpp:3748
 msgid "Cost: %1, Upkeep: %2\n"
 msgstr ""
 
-#: client/gui-qt/citydlg.cpp:3771
+#: client/gui-qt/citydlg.cpp:3786
 #, fuzzy
 #| msgid "Obsolete by"
 msgid "Obsoleted by %1 (%2)."
 msgstr "Απαρχαιώθηκε από"
 
 #. TRANS: Current unit obsoleted by other unit
-#: client/gui-qt/citydlg.cpp:3775 client/gui-qt/helpdlg.cpp:924
+#: client/gui-qt/citydlg.cpp:3790 client/gui-qt/helpdlg.cpp:956
 #, fuzzy
 #| msgid "Obsolete by"
 msgid "Obsoleted by %1."
@@ -8225,7 +8225,7 @@ msgstr ""
 msgid "%1 HP:%2/%3"
 msgstr ""
 
-#: client/gui-qt/dialogs.cpp:3133 client/gui-qt/hudwidget.cpp:1460
+#: client/gui-qt/dialogs.cpp:3133 client/gui-qt/hudwidget.cpp:1476
 #, fuzzy
 #| msgid "%d unit"
 #| msgid_plural "%d units"
@@ -8289,36 +8289,36 @@ msgstr "_Μην παρακολουθείς"
 msgid "Observe"
 msgstr "_Παρακολoύθησε"
 
-#: client/gui-qt/fc_client.cpp:1066
+#: client/gui-qt/fc_client.cpp:1088
 #, fuzzy
 #| msgid "City Options"
 msgid "Client Options"
 msgstr "Επιλογές πόλης"
 
-#: client/gui-qt/fc_client.cpp:1094
+#: client/gui-qt/fc_client.cpp:1116
 #, fuzzy
 msgid "More Game Options"
 msgstr "Περισσότερες επι_λογές παιχνιδίου..."
 
-#: client/gui-qt/fc_client.cpp:1100
+#: client/gui-qt/fc_client.cpp:1122
 #, fuzzy
 #| msgid "Nation"
 msgid "Nation:"
 msgstr "Έθνος"
 
-#: client/gui-qt/fc_client.cpp:1101
+#: client/gui-qt/fc_client.cpp:1123
 #, fuzzy
 #| msgid "Ruler:"
 msgid "Rules:"
 msgstr "Ηγέτης:"
 
-#: client/gui-qt/fc_client.cpp:1106
+#: client/gui-qt/fc_client.cpp:1128
 #, fuzzy
 #| msgid "Players"
 msgid "Players:"
 msgstr "Παίχτες"
 
-#: client/gui-qt/fc_client.cpp:1215
+#: client/gui-qt/fc_client.cpp:1237
 #, fuzzy
 msgid "Set server options"
 msgstr "Θέτει επιλογή εξυπηρετητή."
@@ -8362,101 +8362,101 @@ msgstr ""
 msgid "Quit?"
 msgstr "Έξοδος"
 
-#: client/gui-qt/helpdlg.cpp:167
+#: client/gui-qt/helpdlg.cpp:162
 #, fuzzy
 msgid "About Qt"
 msgstr "Σχετικά"
 
-#: client/gui-qt/helpdlg.cpp:855
+#: client/gui-qt/helpdlg.cpp:887
 #, fuzzy
 #| msgid "Moves"
 msgid "Moves:"
 msgstr "Κινήσεις"
 
-#: client/gui-qt/helpdlg.cpp:863 data/Freeciv.in:877
+#: client/gui-qt/helpdlg.cpp:895 data/Freeciv.in:877
 msgid "Firepower:"
 msgstr ""
 
-#: client/gui-qt/helpdlg.cpp:875
+#: client/gui-qt/helpdlg.cpp:907
 #, fuzzy
 #| msgid "Basic Upkeep:"
 msgid "Basic upkeep:"
 msgstr "Βασική συντήρηση:"
 
-#: client/gui-qt/helpdlg.cpp:886
+#: client/gui-qt/helpdlg.cpp:918
 #, fuzzy
 msgid "Requires"
 msgstr ""
 "Απαιτεί το έδαφος %s .\n"
 "\n"
 
-#: client/gui-qt/helpdlg.cpp:898
+#: client/gui-qt/helpdlg.cpp:930
 #, fuzzy
 msgid "No technology required."
 msgstr "%3d χρυσά ανά γύρο"
 
-#: client/gui-qt/helpdlg.cpp:909
+#: client/gui-qt/helpdlg.cpp:941
 #, fuzzy
 #| msgid "Obsolete by"
 msgid "Obsoleted by"
 msgstr "Απαρχαιώθηκε από"
 
-#: client/gui-qt/helpdlg.cpp:928
+#: client/gui-qt/helpdlg.cpp:960
 #, fuzzy
 #| msgid "Made Obsolete"
 msgid "Never obsolete."
 msgstr "Απαρχαιώθηκε:"
 
-#: client/gui-qt/helpdlg.cpp:1257
+#: client/gui-qt/helpdlg.cpp:1299
 #, fuzzy
 #| msgid "Moves"
 msgid "Move cost:"
 msgstr "Κινήσεις"
 
-#: client/gui-qt/helpdlg.cpp:1259
+#: client/gui-qt/helpdlg.cpp:1301
 #, fuzzy
 #| msgid "Defense:"
 msgid "Defense bonus:"
 msgstr "Άμυνα"
 
 #. TRANS: Display a percentage, eg "50%".
-#: client/gui-qt/helpdlg.cpp:1262
+#: client/gui-qt/helpdlg.cpp:1304
 msgid "%1%"
 msgstr ""
 
-#: client/gui-qt/helpdlg.cpp:1277
+#: client/gui-qt/helpdlg.cpp:1319
 msgid "Irrig. Rslt/Time:"
 msgstr "Ύδρευση Άποτελεσμα/Χρόνος:"
 
-#: client/gui-qt/helpdlg.cpp:1302
+#: client/gui-qt/helpdlg.cpp:1344
 msgid "Mine Rslt/Time:"
 msgstr "Ορυχείο Αποτέλεσμα/Χρόνος"
 
-#: client/gui-qt/helpdlg.cpp:1326
+#: client/gui-qt/helpdlg.cpp:1368
 msgid "Trans. Rslt/Time:"
 msgstr "Μετασχηματισμός Αποτέλεσμα/Χρόνος"
 
 #. TRANS: %1 food, %2 shields, %3 trade
-#: client/gui-qt/helpdlg.cpp:1371
+#: client/gui-qt/helpdlg.cpp:1413
 msgid "Tile output becomes %1, %2, %3."
 msgstr ""
 
 #. TRANS: Tooltip decorating strings like "1, 2, 3".
-#: client/gui-qt/helpdlg.cpp:1376
+#: client/gui-qt/helpdlg.cpp:1418
 msgid "Output (Food, Shields, Trade) of a tile where the resource is present."
 msgstr ""
 
 #. TRANS: MP = Movement points
-#: client/gui-qt/hudwidget.cpp:625
+#: client/gui-qt/hudwidget.cpp:626
 msgid "MP: "
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:627
+#: client/gui-qt/hudwidget.cpp:628
 msgid "HP:%1/%2"
 msgstr ""
 
 #. TRANS: preserve leading space; always at least 2
-#: client/gui-qt/hudwidget.cpp:635
+#: client/gui-qt/hudwidget.cpp:636
 #, fuzzy
 #| msgid "Selected New Goal"
 msgid " (Selected %1 unit)"
@@ -8464,7 +8464,7 @@ msgid_plural " (Selected %1 units)"
 msgstr[0] "Επιλέχτηκε νεος στόχος"
 msgstr[1] "Επιλέχτηκε νεος στόχος"
 
-#: client/gui-qt/hudwidget.cpp:639
+#: client/gui-qt/hudwidget.cpp:640
 #, fuzzy
 #| msgid "%d unit"
 #| msgid_plural "%d units"
@@ -8473,143 +8473,143 @@ msgid_plural " +%1 units"
 msgstr[0] "%d μονάδα"
 msgstr[1] "%d μονάδα"
 
-#: client/gui-qt/hudwidget.cpp:1218
+#: client/gui-qt/hudwidget.cpp:1234
 msgid "MP"
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:1292
+#: client/gui-qt/hudwidget.cpp:1308
 #, fuzzy
 #| msgid "Unit Type"
 msgid "Unit type"
 msgstr "Τύπος μονάδας"
 
-#: client/gui-qt/hudwidget.cpp:1293
+#: client/gui-qt/hudwidget.cpp:1309
 #, fuzzy
 #| msgid "Selected New Goal"
 msgid "Selected type"
 msgstr "Επιλέχτηκε νεος στόχος"
 
-#: client/gui-qt/hudwidget.cpp:1295
+#: client/gui-qt/hudwidget.cpp:1311
 #, fuzzy
 #| msgid "All Cities"
 msgid "All types"
 msgstr "Όλες οι πόλεις"
 
-#: client/gui-qt/hudwidget.cpp:1309
+#: client/gui-qt/hudwidget.cpp:1325
 #, fuzzy
 msgid "Unit activity"
 msgstr "Εργασία"
 
-#: client/gui-qt/hudwidget.cpp:1310
+#: client/gui-qt/hudwidget.cpp:1326
 #, fuzzy
 msgid "Any activity"
 msgstr "Εργασία"
 
-#: client/gui-qt/hudwidget.cpp:1312 common/unit.c:626
+#: client/gui-qt/hudwidget.cpp:1328 common/unit.c:626
 msgid "Fortified"
 msgstr "Οχυρομένο"
 
-#: client/gui-qt/hudwidget.cpp:1313 common/unit.c:615
+#: client/gui-qt/hudwidget.cpp:1329 common/unit.c:615
 msgid "Idle"
 msgstr "Αδρανής"
 
-#: client/gui-qt/hudwidget.cpp:1314
+#: client/gui-qt/hudwidget.cpp:1330
 #, fuzzy
 #| msgid "Sentry idle"
 msgid "Sentried"
 msgstr "Φρουρός ανενεργός"
 
-#: client/gui-qt/hudwidget.cpp:1329
+#: client/gui-qt/hudwidget.cpp:1345
 msgid "Unit HP and MP"
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:1330
+#: client/gui-qt/hudwidget.cpp:1346
 #, fuzzy
 #| msgid "Sentry unit"
 msgid "Any unit"
 msgstr "Θέσε Μονάδα φρουρό"
 
-#: client/gui-qt/hudwidget.cpp:1331
+#: client/gui-qt/hudwidget.cpp:1347
 msgid "Full HP"
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:1332
+#: client/gui-qt/hudwidget.cpp:1348
 msgid "Full MP"
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:1333
+#: client/gui-qt/hudwidget.cpp:1349
 msgid "Full HP and MP"
 msgstr ""
 
-#: client/gui-qt/hudwidget.cpp:1349
+#: client/gui-qt/hudwidget.cpp:1365
 #, fuzzy
 msgid "Location"
 msgstr "Πήγαινε σε περιοχή"
 
-#: client/gui-qt/hudwidget.cpp:1350
+#: client/gui-qt/hudwidget.cpp:1366
 #, fuzzy
 msgid "Anywhere"
 msgstr "Επέλεξε ίδιο τύπο"
 
-#: client/gui-qt/hudwidget.cpp:1351
+#: client/gui-qt/hudwidget.cpp:1367
 #, fuzzy
 #| msgid "Keep current tileset"
 msgid "Current tile"
 msgstr "Κράτα το τρέχων σύνολο-πλακιδίων."
 
-#: client/gui-qt/hudwidget.cpp:1352
+#: client/gui-qt/hudwidget.cpp:1368
 #, fuzzy
 msgid "Current continent"
 msgstr "Σύνδεση "
 
-#: client/gui-qt/hudwidget.cpp:1353
+#: client/gui-qt/hudwidget.cpp:1369
 #, fuzzy
 msgid "Main continent"
 msgstr "Σύνδεση "
 
-#: client/gui-qt/hudwidget.cpp:1583
+#: client/gui-qt/hudwidget.cpp:1599
 #, fuzzy
 #| msgid "Terrain: %s"
 msgid "Terrain: %1\n"
 msgstr "Έδαφος: %s"
 
-#: client/gui-qt/hudwidget.cpp:1584
+#: client/gui-qt/hudwidget.cpp:1600
 #, fuzzy
 #| msgid "Food/Prod/Trade: %s"
 msgid "Food/Prod/Trade: %1\n"
 msgstr "Φαγ/Παρ/Εμπρ: %s"
 
-#: client/gui-qt/hudwidget.cpp:1588
+#: client/gui-qt/hudwidget.cpp:1604
 #, fuzzy
 #| msgid "Infrastructure: %s"
 msgid "Infrastructure: %1\n"
 msgstr "Υποδομές: %s"
 
-#: client/gui-qt/hudwidget.cpp:1590
+#: client/gui-qt/hudwidget.cpp:1606
 #, fuzzy
 #| msgid "Defense:"
 msgid "Defense bonus: %1%\n"
 msgstr "Άμυνα"
 
-#: client/gui-qt/hudwidget.cpp:1606 client/gui-qt/hudwidget.cpp:1608
+#: client/gui-qt/hudwidget.cpp:1622 client/gui-qt/hudwidget.cpp:1624
 #, fuzzy
 #| msgid "Moves"
 msgid "Movement cost: %1"
 msgstr "Κινήσεις"
 
-#: client/gui-qt/hudwidget.cpp:1635
+#: client/gui-qt/hudwidget.cpp:1651
 #, fuzzy
 #| msgid "Turn: %d"
 msgid "Year: %1 (Turn: %2)"
 msgstr "Γύρος: %d"
 
-#: client/gui-qt/hudwidget.cpp:1638
+#: client/gui-qt/hudwidget.cpp:1654
 #, fuzzy
 #| msgid "Population: %s"
 msgid "Population: %1"
 msgstr "Πληθυσμός: %s"
 
-#: client/gui-qt/hudwidget.cpp:1649
+#: client/gui-qt/hudwidget.cpp:1665
 #, fuzzy
 #| msgid "Gold: %d (%+d)"
 msgid "Gold: %1 (+%2)"
@@ -9121,11 +9121,11 @@ msgstr ""
 msgid "Put on team"
 msgstr "Βάλε σε %s"
 
-#: client/gui-qt/pages.cpp:2084
+#: client/gui-qt/pages.cpp:2083
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr ""
 
-#: client/gui-qt/pages.cpp:2089 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2088 client/gui-qt/ratesdlg.cpp:66
 #, fuzzy
 #| msgid "%s max rate: %d%%"
 msgid "%1 - max rate: %2%"
@@ -9438,12 +9438,12 @@ msgstr "το %s έθνος χρησιμοποιείται ήδη."
 msgid "Shortcuts options"
 msgstr "Επιλογές ήχου"
 
-#: client/gui-qt/sidebar.cpp:664
+#: client/gui-qt/sidebar.cpp:671
 #, fuzzy
 msgid "Observe %1"
 msgstr "Παρατηρητής: %s"
 
-#: client/gui-qt/sidebar.cpp:675
+#: client/gui-qt/sidebar.cpp:682
 #, fuzzy
 #| msgid "Observe this player"
 msgid "Observe globally"
@@ -17672,112 +17672,112 @@ msgstr "Δεν μπόρεσα να ανοίξω αρχείο ημερολογι�
 msgid "Sprite '%s' in file \"%s\" isn't within the image!"
 msgstr ""
 
-#: client/tilespec.c:2540 client/tilespec.c:2548 client/tilespec.c:2556
+#: client/tilespec.c:2545 client/tilespec.c:2553 client/tilespec.c:2561
 #, c-format
 msgid "Sprite for tag '%s' missing."
 msgstr ""
 
-#: client/tilespec.c:2568 client/tilespec.c:3490
+#: client/tilespec.c:2573 client/tilespec.c:3495
 #, c-format
 msgid "Sprite for tags '%s' and alternate '%s' are both missing."
 msgstr ""
 
-#: client/tilespec.c:2620
+#: client/tilespec.c:2625
 #, fuzzy, c-format
 msgid "No graphics for specialist \"%s\"."
 msgstr "Κενό όρισμα για  \"%s\".\n"
 
-#: client/tilespec.c:2645
+#: client/tilespec.c:2650
 #, fuzzy, c-format
 msgid "No graphics for citizen \"%s\"."
 msgstr "Κενό όρισμα για  \"%s\".\n"
 
-#: client/tilespec.c:2937
+#: client/tilespec.c:2942
 msgid "Missing necessary citybar.occupancy_N sprites."
 msgstr ""
 
-#: client/tilespec.c:3057
+#: client/tilespec.c:3062
 msgid "Missing overlay-color sprite colors.overlay_0."
 msgstr ""
 
-#: client/tilespec.c:3130
+#: client/tilespec.c:3135
 msgid "Sprite tx.darkness missing."
 msgstr ""
 
-#: client/tilespec.c:3277
+#: client/tilespec.c:3282
 #, c-format
 msgid "Don't have graphics tags \"%s\" or \"%s\" for %s \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:3358
+#: client/tilespec.c:3363
 #, c-format
 msgid "Missing %s unit sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:3430
+#: client/tilespec.c:3435
 #, fuzzy, c-format
 msgid "No extrastyle for \"%s\" or \"%s\"."
 msgstr "Κενό όρισμα για  \"%s\".\n"
 
-#: client/tilespec.c:3516
+#: client/tilespec.c:3521
 #, c-format
 msgid ""
 "Missing %s building activity sprite for tags \"%s\" and alternatives \"%s\" "
 "and \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:3531
+#: client/tilespec.c:3536
 #, c-format
 msgid ""
 "Missing %s removal activity sprite for tags \"%s\" and alternative \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:3632
+#: client/tilespec.c:3637
 #, c-format
 msgid "Cannot load river \"%s\" or \"%s\""
 msgstr ""
 
-#: client/tilespec.c:3716
+#: client/tilespec.c:3721
 #, c-format
 msgid "No graphics for extra \"%s\" at all!"
 msgstr ""
 
-#: client/tilespec.c:3736
+#: client/tilespec.c:3741
 #, c-format
 msgid "Terrain \"%s\": no graphic tile \"%s\" or \"%s\"."
 msgstr ""
 
 #. TRANS: 'base' means 'base of terrain gfx', not 'military base'
-#: client/tilespec.c:3771
+#: client/tilespec.c:3776
 #, fuzzy, c-format
 msgid "Missing base sprite for tag \"%s\"."
 msgstr "Λείπει όρισμα για \"%s\".\n"
 
-#: client/tilespec.c:4024
+#: client/tilespec.c:4029
 #, c-format
 msgid "Nation %s: no national flag."
 msgstr ""
 
-#: client/tilespec.c:5238
+#: client/tilespec.c:5243
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support long goto paths, such as %d. Path not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:5773
+#: client/tilespec.c:5778
 #, c-format
 msgid ""
 "Tileset \"%s\" doesn't support big cities size, such as %d. Size not "
 "displayed as expected."
 msgstr ""
 
-#: client/tilespec.c:5915
+#: client/tilespec.c:5920
 #, c-format
 msgid "City style \"%s\": no city graphics."
 msgstr ""
 
-#: client/tilespec.c:5919
+#: client/tilespec.c:5924
 #, c-format
 msgid "City style \"%s\": no occupied graphics."
 msgstr ""
@@ -38267,6 +38267,13 @@ msgid ""
 "  default  - using default values\n"
 msgstr ""
 
+#. TRANS: translate text between <> only
+#: server/commands.c:600
+#, fuzzy
+#| msgid "cut <connection-name>"
+msgid "default <option name>"
+msgstr "cut <όνομα σύνδεσης>"
+
 #: server/commands.c:601
 msgid "Set option to its default value"
 msgstr ""
@@ -40042,12 +40049,12 @@ msgstr "Πόλη: %s (%s)"
 msgid "Achievements List:"
 msgstr "?Scientist:Ε"
 
-#: server/report.c:1542
+#: server/report.c:1543
 msgid "Population\n"
 msgstr "Πληθυσμός\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1544
+#: server/report.c:1545
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -40056,7 +40063,7 @@ msgstr ""
 "(Εκατ. αγαθά)"
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1546
+#: server/report.c:1547
 msgid ""
 "Production\n"
 "(M tons)"
@@ -40064,15 +40071,15 @@ msgstr ""
 "Παραγωγή\n"
 "(Μετρ. τόνοι)"
 
-#: server/report.c:1547
+#: server/report.c:1548
 msgid "Cities\n"
 msgstr "Πόλεις\n"
 
-#: server/report.c:1548
+#: server/report.c:1549
 msgid "Technologies\n"
 msgstr "Τεχνολογίες\n"
 
-#: server/report.c:1549
+#: server/report.c:1550
 msgid ""
 "Military Service\n"
 "(months)"
@@ -40080,11 +40087,11 @@ msgstr ""
 "Στρατιωτική Θητεία\n"
 "(μήνες)"
 
-#: server/report.c:1550
+#: server/report.c:1551
 msgid "Wonders\n"
 msgstr "Θαύματα\n"
 
-#: server/report.c:1551
+#: server/report.c:1552
 #, fuzzy
 #| msgid ""
 #| "Research Speed\n"
@@ -40097,7 +40104,7 @@ msgstr ""
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1553
+#: server/report.c:1554
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -40106,7 +40113,7 @@ msgstr ""
 "(τετρ. μίλια.)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1555
+#: server/report.c:1556
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -40114,7 +40121,7 @@ msgstr ""
 "Κατοικιμένη έκταση\n"
 "(τετρ. μίλια.)"
 
-#: server/report.c:1556
+#: server/report.c:1557
 #, fuzzy
 msgid ""
 "Literacy\n"
@@ -40123,25 +40130,25 @@ msgstr ""
 "Βασική μόρφωση\n"
 "(%)"
 
-#: server/report.c:1557
+#: server/report.c:1558
 msgid "Culture\n"
 msgstr ""
 
-#: server/report.c:1558
+#: server/report.c:1559
 msgid "Spaceship\n"
 msgstr "Διαστημόπλοιο\n"
 
-#: server/report.c:1559
+#: server/report.c:1560
 #, fuzzy
 msgid "Built Units\n"
 msgstr "Μονάδες υπό παραγωγή"
 
-#: server/report.c:1560
+#: server/report.c:1561
 #, fuzzy
 msgid "Killed Units\n"
 msgstr "Διαθέσιμες μονάδες"
 
-#: server/report.c:1561
+#: server/report.c:1562
 #, fuzzy
 msgid "Unit Losses\n"
 msgstr "ασπίδα"
