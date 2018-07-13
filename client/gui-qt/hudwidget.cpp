@@ -683,7 +683,23 @@ void hud_units::update_actions(unit_list *punits)
   p.begin(&pix);
   p.setFont(font);
   p.setPen(Qt::white);
-  p.drawText(crop, Qt::AlignLeft | Qt::AlignBottom, move_pt_text);
+  p.drawText(crop, Qt::AlignLeft | Qt::AlignBottom, move_pt_text,
+             &bounding_rect);
+
+  bounding_rect.adjust(bounding_rect.width(), 0 ,
+                       bounding_rect.width() * 2, 0);
+  if (punit->fuel > 1) {
+    QString s;
+    int fuel;
+
+    font.setPointSize(pix.height() / 4);
+    p.setFont(font);
+    fuel = punit->fuel - 1;
+    fuel = fuel * punit->utype->move_rate / SINGLE_MOVE;
+    p.drawText(bounding_rect, Qt::AlignCenter,
+               QString("+") + QString::number(fuel));
+  }
+
   if (move_pt_text.isEmpty()) {
     move_pt_text = " ";
   }
