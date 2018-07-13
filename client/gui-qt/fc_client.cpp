@@ -967,6 +967,9 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
   QString str;
 
   pm = new QPixmap;
+  if (pixmap_cache.find(id, pm)) {
+    return pm;
+  }
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   status = pm->load(fileinfoname(get_data_dirs(),
                                  QString(str + current_theme
@@ -978,6 +981,7 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
     pm->load(fileinfoname(get_data_dirs(), QString(str
                           + id + ".png").toLocal8Bit().data()));
   }
+  pixmap_cache.insert(id);
   return pm;
 }
 
