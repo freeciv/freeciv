@@ -50,6 +50,7 @@ class help_dialog : public qfc_dialog
   QPushButton *next_butt;
   QTreeWidget *tree_wdg;
   help_widget *help_wdg;
+  QSplitter *splitter;
   QList<QTreeWidgetItem *> item_history;
   QHash<QTreeWidgetItem *, const help_item *> topics_map;
   int history_pos;
@@ -63,6 +64,11 @@ public slots:
   void set_topic(const help_item *item);
   void history_forward();
   void history_back();
+
+protected:
+  void showEvent(QShowEvent *event);
+  void hideEvent(QHideEvent *event);
+  void closeEvent(QCloseEvent *event);
 
 private slots:
   void item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev);
