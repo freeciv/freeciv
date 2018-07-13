@@ -24,6 +24,7 @@
 
 // Qt
 #include <QMainWindow>
+#include <QPixmapCache>
 #include <QStackedWidget>
 
 // common
@@ -94,6 +95,7 @@ private:
 public:
   static fc_icons* instance();
   static void drop();
+  QPixmapCache pixmap_cache;
   QIcon get_icon(const QString& id);
   QPixmap *get_pixmap(const QString& id);
   QString get_path(const QString& id);

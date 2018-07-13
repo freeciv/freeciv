@@ -91,6 +91,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   }
 
   current_theme = theme_name;
+  fc_icons::instance()->pixmap_cache.clear();
   current_app()->setStyleSheet(stylestring);
   if (gui()) {
     gui()->reload_sidebar_icons();
