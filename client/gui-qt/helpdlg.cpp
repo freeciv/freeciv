@@ -17,6 +17,7 @@
 
 // Qt
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QGraphicsDropShadowEffect>
 #include <QGroupBox>
 #include <QProgressBar>
@@ -117,15 +118,12 @@ void update_help_fonts()
 help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
 {
   QHBoxLayout *hbox;
-  QList<int> sizes;
   QPushButton *but;
-  QSplitter *splitter;
   QTreeWidgetItem *first;
   QVBoxLayout *layout;
   QWidget *buttons;
 
   setWindowTitle(_("Freeciv Help Browser"));
-  resize(750, 450);
   history_pos = -1;
   update_history = true;
   layout = new QVBoxLayout(this);
@@ -146,9 +144,6 @@ help_dialog::help_dialog(QWidget *parent) : qfc_dialog(parent)
   );
   help_wdg->layout()->setContentsMargins(0, 0, 0, 0);
   splitter->addWidget(help_wdg);
-
-  sizes << 150 << 600;
-  splitter->setSizes(sizes);
 
   buttons = new QWidget;
   hbox = new QHBoxLayout;
@@ -188,6 +183,43 @@ void help_dialog::update_fonts()
 {
   help_wdg->update_fonts();
 }
+
+/****************************************************************************
+  Hide event
+****************************************************************************/
+void help_dialog::hideEvent(QHideEvent *event)
+{
+  gui()->qt_settings.help_geometry = saveGeometry();
+  gui()->qt_settings.help_splitter1 = splitter->saveState();
+}
+
+/****************************************************************************
+  Show event
+****************************************************************************/
+void help_dialog::showEvent(QShowEvent *event)
+{
+  QList<int> sizes;
+
+  if (gui()->qt_settings.help_geometry.isNull() == false) {
+    restoreGeometry(gui()->qt_settings.help_geometry);
+    splitter->restoreState(gui()->qt_settings.help_splitter1);
+  } else {
+    QRect rect = QApplication::desktop()->screenGeometry();
+    resize((rect.width() * 3) / 5, (rect.height() * 3) / 6);
+    sizes << rect.width() / 10 << rect.width() / 3;
+    splitter->setSizes(sizes);
+  }
+}
+
+/****************************************************************************
+  Close event
+****************************************************************************/
+void help_dialog::closeEvent(QCloseEvent *event)
+{
+  gui()->qt_settings.help_geometry = saveGeometry();
+  gui()->qt_settings.help_splitter1 = splitter->saveState();
+}
+
 
 /**************************************************************************
   Create the help tree.
