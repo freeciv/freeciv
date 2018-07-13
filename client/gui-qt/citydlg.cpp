@@ -374,7 +374,7 @@ impr_item::impr_item(QWidget *parent, impr_type *building,
 
   setFixedWidth(impr_pixmap->map_pixmap.width() + 4);
   setFixedHeight(impr_pixmap->map_pixmap.height());
-  setToolTip(get_tooltip_improvement(building, city).trimmed());
+  setToolTip(get_tooltip_improvement(building, city, true).trimmed());
 }
 
 /****************************************************************************
@@ -3303,13 +3303,14 @@ void city_dialog::update_improvements()
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
       cost = utype_build_shield_cost(target.value.utype);
-      tooltip = get_tooltip_unit(target.value.utype).trimmed();
+      tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(tileset, target.value.utype,
                                    direction8_invalid());
     } else {
       str = city_improvement_name_translation(pcity, target.value.building);
       sprite = get_building_sprite(tileset, target.value.building);
-      tooltip = get_tooltip_improvement(target.value.building).trimmed();
+      tooltip = get_tooltip_improvement(target.value.building,
+                                        nullptr, true).trimmed();
 
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
@@ -3715,8 +3716,10 @@ QString bold(QString text)
 
 /***************************************************************************
   Returns improvement properties to append in tooltip
+  ext is used to get extra info from help
 ***************************************************************************/
-QString get_tooltip_improvement(impr_type *building, struct city *pcity)
+QString get_tooltip_improvement(impr_type *building, struct city *pcity,
+                                bool ext)
 {
   QString def_str;
   QString upkeep;
@@ -3747,16 +3750,27 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity)
     def_str = def_str + str + "\n";
   }
   def_str = def_str + "\n";
+  if (ext) {
+    char buffer[8192];
+
+    str = helptext_building(buffer, sizeof(buffer), client.conn.playing,
+                            NULL, building);
+    str = cut_helptext(str);
+    str = split_text(str, true);
+    str = str.trimmed();
+    def_str = def_str + str;
+  }
   return def_str;
 }
 
 /***************************************************************************
   Returns unit properties to append in tooltip
 ***************************************************************************/
-QString get_tooltip_unit(struct unit_type *unit)
+QString get_tooltip_unit(struct unit_type *unit, bool ext)
 {
   QString def_str;
   QString obsolete_str;
+  QString str;
   struct unit_type *obsolete;
   struct advance *tech;
 
@@ -3796,6 +3810,17 @@ QString get_tooltip_unit(struct unit_type *unit)
              + QString::number((int) sqrt((double) unit->vision_radius_sq))
              + obsolete_str
              + QString("</td></tr></table><p style='white-space:pre'>");
+  if (ext) {
+    char buffer[8192];
+    char buf2[1];
+
+    str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
+                        buf2, unit);
+    str = cut_helptext(str);
+    str = split_text(str, true);
+    str = str.trimmed();
+    def_str = def_str + str;
+  }
   return def_str;
 };
 
