@@ -437,8 +437,8 @@ static void city_global_turn_notify(struct conn_list *dest)
 
     if (VUT_IMPROVEMENT == pcity->production.kind
         && is_great_wonder(pimprove)
-        && great_wonder_is_available(pimprove)
-        && (1 >= city_production_turns_to_build(pcity, TRUE))) {
+        && (1 >= city_production_turns_to_build(pcity, TRUE)
+        && can_city_build_improvement_now(pcity, pimprove))) {
       notify_conn(dest, city_tile(pcity),
                   E_WONDER_WILL_BE_BUILT, ftc_server,
                   _("Notice: Wonder %s in %s will be finished next turn."),
