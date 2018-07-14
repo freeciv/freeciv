@@ -787,6 +787,45 @@ static void update_environmental_upset(enum environment_upset_type type,
             "level=%-2d accum=%-2d", type, *current, *level, *accum);
 }
 
+/**********************************************************************//**
+  Notify about units at risk of disband due to armistice.
+**************************************************************************/
+static void notify_illegal_armistice_units(struct player *phost,
+                                           struct player *pguest,
+                                           int turns_left)
+{
+  int nunits = 0;
+  struct unit *a_unit = NULL;
+
+  unit_list_iterate(pguest->units, punit) {
+    if (tile_owner(unit_tile(punit)) == phost && is_military_unit(punit)) {
+      nunits++;
+      a_unit = punit;
+    }
+  } unit_list_iterate_end;
+  if (nunits > 0) {
+    struct astring unitstr = ASTRING_INIT;
+
+    astr_set(&unitstr,
+             /* TRANS: "... 2 military units in Norwegian territory." */
+             PL_("Warning: you still have %d military unit in %s territory.",
+                 "Warning: you still have %d military units in %s territory.",
+                 nunits),
+             nunits, nation_adjective_for_player(phost));
+    /* If there's one lousy unit left, we may as well include a link for it */
+    notify_player(pguest, nunits == 1 ? unit_tile(a_unit) : NULL,
+                  E_DIPLOMACY, ftc_server,
+                  /* TRANS: %s is another, separately translated sentence,
+                   * ending in a full stop. */
+                  PL_("%s Any such units will be disbanded in %d turn, "
+                      "in accordance with peace treaty.",
+                      "%s Any such units will be disbanded in %d turns, "
+                      "in accordance with peace treaty.", turns_left),
+                  astr_str(&unitstr), turns_left);
+    astr_free(&unitstr);
+  }
+}
+
 /**************************************************************************
   Remove illegal units when armistice turns into peace treaty.
 **************************************************************************/
@@ -849,6 +888,8 @@ static void update_diplomatics(void)
             state->turns_left = 0;
             state2->turns_left = 0;
             remove_illegal_armistice_units(plr1, plr2);
+          } else {
+            notify_illegal_armistice_units(plr1, plr2, state->turns_left);
           }
         }
 
