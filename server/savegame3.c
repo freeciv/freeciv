@@ -4529,6 +4529,8 @@ static void sg_load_player_cities(struct loaddata *loading,
 
         sg_failure_ret(ptask->tgt != NULL,
                        "Unknown workertask target %s", str);
+      } else {
+        ptask->tgt = NULL;
       }
 
       ptask->want = secfile_lookup_int_default(loading->file, 1,
