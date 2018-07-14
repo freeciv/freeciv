@@ -25,8 +25,10 @@ struct conn_list;
 
 void spaceship_calc_derived(struct player_spaceship *ship);
 void send_spaceship_info(struct player *src, struct conn_list *dest);
+void spaceship_arrived(struct player *pplayer);
 void spaceship_lost(struct player *pplayer);
-struct player *check_spaceship_arrival(void);
+double spaceship_arrival(const struct player *pplayer);
+int rank_spaceship_arrival(struct player **result);
 
 bool do_spaceship_place(struct player *pplayer, bool user_initiated,
                         enum spaceship_place_type type, int num);

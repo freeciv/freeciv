@@ -414,6 +414,17 @@ bool do_spaceship_place(struct player *pplayer, bool user_initiated,
   return FALSE;
 }
 
+/**********************************************************************//**
+  Handle spaceship arrival.
+**************************************************************************/
+void spaceship_arrived(struct player *pplayer)
+{
+  notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
+                _("The %s spaceship has arrived at Alpha Centauri."),
+                nation_adjective_for_player(pplayer));
+  pplayer->spaceship.state = SSHIP_ARRIVED;
+}
+
 /**************************************************************************
   Handle spaceship loss.
 **************************************************************************/
@@ -427,30 +438,51 @@ void spaceship_lost(struct player *pplayer)
   send_spaceship_info(pplayer, NULL);
 }
 
-/**************************************************************************
-Use shuffled order to randomly resolve ties.
+/**********************************************************************//**
+  Return arrival year of player's spaceship (fractional, as one spaceship
+  may arrive before another in a given year).
+  Only meaningful if spaceship has been launched.
 **************************************************************************/
-struct player *check_spaceship_arrival(void)
+double spaceship_arrival(const struct player *pplayer)
 {
-  double arrival, best_arrival = 0.0;
-  struct player *best_pplayer = NULL;
+  const struct player_spaceship *ship = &pplayer->spaceship;
+
+  return ship->launch_year + ship->travel_time;
+}
+
+/**********************************************************************//**
+  Rank launched player spaceships in order of arrival.
+  'result' is an array big enough to hold all the players.
+  Returns number of launched spaceships, having filled the start of
+  'result' with that many players in order of predicted arrival.
+  Uses shuffled player order in case of a tie.
+**************************************************************************/
+int rank_spaceship_arrival(struct player **result)
+{
+  int n = 0, i;
 
   shuffled_players_iterate(pplayer) {
     struct player_spaceship *ship = &pplayer->spaceship;
     
     if (ship->state == SSHIP_LAUNCHED) {
-      arrival = ship->launch_year + ship->travel_time;
-      if (game.info.year >= (int)arrival
-	  && (!best_pplayer || arrival < best_arrival)) {
-	best_arrival = arrival;
-	best_pplayer = pplayer;
-      }
+      result[n++] = pplayer;
     }
   } shuffled_players_iterate_end;
 
-  if (best_pplayer) {
-    best_pplayer->spaceship.state = SSHIP_ARRIVED;
+  /* An insertion sort will do; n is probably small, and we need a
+   * stable sort to preserve the shuffled order for tie-breaking, so can't
+   * use qsort() */
+  for (i = 1; i < n; i++) {
+    int j;
+    for (j = i;
+         j > 0
+         && spaceship_arrival(result[j-1]) > spaceship_arrival(result[j]);
+         j--) {
+      struct player *tmp = result[j];
+      result[j] = result[j-1];
+      result[j-1] = tmp;
+    }
   }
 
-  return best_pplayer;
+  return n;
 }
