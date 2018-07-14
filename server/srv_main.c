@@ -337,6 +337,8 @@ bool game_was_started(void)
   This function will notify players but will not set the server_state(). The
   caller must set the server state to S_S_OVER if the function
   returns TRUE.
+
+  Also send notifications about impending, predictable game end conditions.
 **************************************************************************/
 bool check_for_game_over(void)
 {
@@ -553,55 +555,100 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended as the turn limit was exceeded."));
     return TRUE;
+  } else if (game.info.turn == game.server.end_turn) {
+    /* Give them a chance to decide to extend the game */
+    notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                _("Notice: game will end at the end of this turn due "
+                  "to 'endturn' server setting."));
   }
 
-  /* Check for a spacerace win. */
-  while ((victor = check_spaceship_arrival())) {
-    const struct player_list *members;
-    bool win;
+  /* Check for a spacerace win (and notify of imminent arrivals).
+   * Check this after checking turn limit, because we are checking for
+   * the spaceship arriving in the year corresponding to the turn
+   * that's about to start. */
+  {
+    int n, i;
+    struct player *arrivals[MAX_NUM_PLAYER_SLOTS];
 
-    notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
-                  _("The %s spaceship has arrived at Alpha Centauri."),
-                  nation_adjective_for_player(victor));
+    n = rank_spaceship_arrival(arrivals);
 
-    if (!game.server.endspaceship) {
-      /* Games does not end on spaceship arrival. At least print all the
-       * arrival messages. */
-      continue;
-    }
+    for (i = 0; i < n; i++) {
+      struct player *pplayer = arrivals[i];
+      const struct player_list *members;
+      bool win;
 
-    /* This guy has won, now check if anybody else wins with him. */
-    members = team_members(victor->team);
-    win = FALSE;
-    player_list_iterate(members, pplayer) {
-      if (pplayer->is_alive
-          && !player_status_check((pplayer), PSTATUS_SURRENDER)) {
-        /* We need at least one player to be a winner candidate in the
-         * team. */
-        win = TRUE;
+      if (game.info.year < (int)spaceship_arrival(pplayer)) {
+        /* We are into the future arrivals */
         break;
       }
-    } player_list_iterate_end;
 
-    if (!win) {
-      /* Let's try next arrival. */
-      continue;
-    }
+      /* Mark as arrived and notify everyone. */
+      spaceship_arrived(pplayer);
 
-    if (1 < player_list_size(members)) {
-      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Team victory to %s."),
-                  team_name_translation(victor->team));
-      /* All players of the team win, even dead and surrended ones. */
-      player_list_iterate(members, pplayer) {
-        pplayer->is_winner = TRUE;
+      if (!game.server.endspaceship) {
+        /* Games does not end on spaceship arrival. At least print all the
+         * arrival messages. */
+        continue;
+      }
+
+      /* This player has won, now check if anybody else wins with them. */
+      members = team_members(pplayer->team);
+      win = FALSE;
+      player_list_iterate(members, pteammate) {
+        if (pplayer->is_alive
+            && !player_status_check((pteammate), PSTATUS_SURRENDER)) {
+          /* We need at least one player to be a winner candidate in the
+           * team. */
+          win = TRUE;
+          break;
+        }
       } player_list_iterate_end;
-    } else {
-      notify_conn(NULL, NULL, E_GAME_END, ftc_server,
-                  _("Game ended in victory for %s."), player_name(victor));
-      victor->is_winner = TRUE;
+
+      if (!win) {
+        /* Let's try next arrival. */
+        continue;
+      }
+
+      if (1 < player_list_size(members)) {
+        notify_conn(NULL, NULL, E_GAME_END, ftc_server,
+                    _("Team victory to %s."),
+                    team_name_translation(pplayer->team));
+        /* All players of the team win, even dead and surrendered ones. */
+        player_list_iterate(members, pteammate) {
+          pteammate->is_winner = TRUE;
+        } player_list_iterate_end;
+      } else {
+        notify_conn(NULL, NULL, E_GAME_END, ftc_server,
+                    _("Game ended in victory for %s."), player_name(pplayer));
+        pplayer->is_winner = TRUE;
+      }
+      return TRUE;
     }
-    return TRUE;
+
+    /* Print notice(s) of imminent arrival. These are not infallible
+     * (quite apart from risk of enemy action) because arrival is
+     * year-based, and some effect may change the timeline between
+     * now and the end of the next turn.
+     * (Also the order of messages will not always indicate tie-breaks,
+     * if the shuffled order is changed every turn, as it is for
+     * PMT_CONCURRENT games.) */
+    for (; i < n; i++) {
+      const struct player *pplayer = arrivals[i];
+      struct packet_game_info next_info = game.info; /* struct copy */
+
+      /* Advance the calendar in a throwaway copy of game.info. */
+      game_next_year(&next_info);
+
+      if (next_info.year < (int)spaceship_arrival(pplayer)) {
+        /* Even further in the future */
+        break;
+      }
+
+      notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
+                    _("Notice: the %s spaceship will likely arrive at "
+                      "Alpha Centauri next turn."),
+                    nation_adjective_for_player(pplayer));
+    }
   }
 
   return FALSE;
@@ -2722,8 +2769,7 @@ static void srv_running(void)
 	/* game ended for victory conditions - rank users based on survival */
 	rank_users(FALSE);
       }
-    } else if ((check_for_game_over() && game.info.turn > game.server.end_turn)
-	       || S_S_OVER == server_state()) {
+    } else if (S_S_OVER == server_state()) {
       /* game terminated by /endgame command - calculate team scores */
       rank_users(TRUE);
     }
