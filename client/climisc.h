@@ -147,6 +147,8 @@ bool mapimg_client_createmap(const char *filename);
 struct nation_set *client_current_nation_set(void);
 bool client_nation_is_in_current_set(const struct nation_type *pnation);
 
+enum ai_level server_ai_level(void);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1586,3 +1586,25 @@ bool client_nation_is_in_current_set(const struct nation_type *pnation)
 {
   return nation_is_in_set(pnation, client_current_nation_set());
 }
+
+/**********************************************************************//**
+  Returns the current AI skill level on the server, if the same level is
+  currently used for all current AI players and will be for new ones;
+  else return ai_level_invalid() to indicate inconsistency.
+**************************************************************************/
+enum ai_level server_ai_level(void)
+{
+  enum ai_level lvl = game.info.skill_level;
+
+  players_iterate(pplayer) {
+    if (pplayer->ai_controlled && pplayer->ai_common.skill_level != lvl) {
+      return ai_level_invalid();
+    }
+  } players_iterate_end;
+
+  if (!is_settable_ai_level(lvl)) {
+    return ai_level_invalid();
+  }
+
+  return lvl;
+}

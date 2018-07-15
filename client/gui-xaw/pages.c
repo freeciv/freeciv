@@ -224,8 +224,9 @@ void create_start_page(void)
 
 /**************************************************************************
   Update start page players list.
+  (Separate from update_start_page() to avoid recursion.)
 **************************************************************************/
-void update_start_page(void)
+void real_update_start_page(void)
 {
   if (!start_page_shell) {
     return;
@@ -301,6 +302,14 @@ void update_start_page(void)
     }
     XtVaSetValues(start_page_viewport, XtNheight, height, NULL); 
   }
+}
+
+/**************************************************************************
+  Entry point to update start page.
+**************************************************************************/
+void update_start_page(void)
+{
+  real_update_start_page();
 }
 
 /**************************************************************************

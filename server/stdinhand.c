@@ -1974,6 +1974,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
       }
     } players_iterate_end;
     game.info.skill_level = level;
+    send_game_info(NULL);
     cmd_reply(cmd_of_level(level), caller, C_OK,
               _("Default AI skill level set to '%s'."),
               ai_level_translated_name(level));

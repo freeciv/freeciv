@@ -814,8 +814,7 @@ void main_show_info_popup(XEvent *event)
 **************************************************************************/
 void real_conn_list_dialog_update(void)
 {
-  /* PORTME */
-  update_start_page();
+  real_update_start_page();
 }
 
 /**************************************************************************
