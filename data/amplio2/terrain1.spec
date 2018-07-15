@@ -12,6 +12,7 @@ artists = "
     Yautja
     CapTVK
     GriffonSpade
+    Gyubal Wahazar
 "
 
 [file]
