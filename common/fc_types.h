@@ -268,8 +268,6 @@ typedef int Unit_Class_id;
 #define SPECENUM_COUNT AI_LEVEL_COUNT
 #include "specenum_gen.h"
 
-#define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
-
 /* pplayer->ai.barbarian_type and nations use this enum. */
 #define SPECENUM_NAME barbarian_type
 #define SPECENUM_VALUE0 NOT_A_BARBARIAN
