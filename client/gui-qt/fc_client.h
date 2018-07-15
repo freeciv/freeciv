@@ -373,6 +373,7 @@ public:
 
   void set_rulesets(int num_rulesets, char **rulesets);
   void set_aifill(int aifill);
+  void update_ai_level();
   void update_buttons();
 private slots:
   void max_players_change(int i);

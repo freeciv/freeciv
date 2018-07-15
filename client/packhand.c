@@ -2033,10 +2033,13 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 void handle_game_info(const struct packet_game_info *pinfo)
 {
   bool boot_help;
-  bool update_aifill_button = FALSE;
+  bool update_aifill_button = FALSE, update_ai_skill_level = FALSE;
 
   if (game.info.aifill != pinfo->aifill) {
     update_aifill_button = TRUE;
+  }
+  if (game.info.skill_level != pinfo->skill_level) {
+    update_ai_skill_level = TRUE;
   }
 
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
@@ -2082,7 +2085,7 @@ void handle_game_info(const struct packet_game_info *pinfo)
   unit_focus_update();
   menus_update();
   players_dialog_update();
-  if (update_aifill_button) {
+  if (update_aifill_button || update_ai_skill_level) {
     update_start_page();
   }
   
@@ -2389,7 +2392,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
   upgrade_canvas_clipboard();
 
   players_dialog_update();
-  conn_list_dialog_update();
+  update_start_page();
 
   if (is_new_nation) {
     races_toggles_set_sensitive();

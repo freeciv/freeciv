@@ -1355,6 +1355,7 @@ static GtkWidget *observe_button, *ready_button, *nation_button;
 static GtkTreeStore *connection_list_store;
 static GtkTreeView *connection_list_view;
 static GtkWidget *start_aifill_spin = NULL;
+static GtkWidget *ai_lvl_combobox = NULL;
 
 
 /* NB: Must match creation arguments in connection_list_store_new(). */
@@ -1481,22 +1482,21 @@ static void game_options_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void ai_skill_callback(GtkWidget *w, gpointer data)
 {
-  enum ai_level level;
   enum ai_level *levels = (enum ai_level *)data;
   const char *name;
   int i;
 
   i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
 
-  if (i == -1) {
-    level = AI_LEVEL_DEFAULT;
-  } else {
-    level = levels[i];
+  if (i != -1) {
+    enum ai_level level = levels[i];
+
+    /* Suppress changes provoked by server rather than local user */
+    if (server_ai_level() != level) {
+      name = ai_level_cmd(level);
+      send_chat_printf("/%s", name);
+    }
   }
-
-  name = ai_level_cmd(level);
-
-  send_chat_printf("/%s", name);
 }
 
 /* HACK: sometimes when creating the ruleset combo the value is set without
@@ -2270,6 +2270,26 @@ void real_conn_list_dialog_update(void)
     enum cmdlevel access_level;
     int conn_id;
 
+    /* Refresh the AI skill level control */
+    if (ai_lvl_combobox) {
+      enum ai_level new_level = server_ai_level(), level;
+      int i = 0;
+
+      for (level = 0; level < AI_LEVEL_COUNT; level++) {
+        if (is_settable_ai_level(level)) {
+          if (level == new_level) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(ai_lvl_combobox), i);
+            break;
+          }
+          i++;
+        }
+      }
+      if (level == AI_LEVEL_COUNT) {
+        /* Probably ai_level_invalid() */
+        gtk_combo_box_set_active(GTK_COMBO_BOX(ai_lvl_combobox), -1);
+      }
+    }
+
     /* Save the selected connection. */
     (void) conn_list_selection(&pselected_player, &pselected_conn);
 
@@ -2512,7 +2532,7 @@ static void add_tree_col(GtkWidget *treeview, GType gtype,
 GtkWidget *create_start_page(void)
 {
   GtkWidget *box, *sbox, *table, *align, *vbox;
-  GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *ai_lvl_combobox;
+  GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin;
   GtkWidget *label;
   GtkWidget *rs_entry;
   GtkTreeSelection *selection;
@@ -2580,6 +2600,7 @@ GtkWidget *create_start_page(void)
       i++;
     }
   }
+  gtk_combo_box_set_active(GTK_COMBO_BOX(ai_lvl_combobox), -1);
   g_signal_connect(ai_lvl_combobox, "changed",
                    G_CALLBACK(ai_skill_callback), levels);
 
