@@ -1514,18 +1514,19 @@ void military_advisor_choose_build(struct ai_type *ait,
               uchoice.want = MIN(25, danger);
             }
           } else {
-            choice->want = danger;
+            uchoice.want = danger;
           }
 
           uchoice.want += martial_value;
 
-          CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants %s with desire " ADV_WANT_PRINTF,
-                   utype_rule_name(choice->value.utype),
-                   choice->want);
-
           if (!build_walls || uchoice.want > choice->want) {
             *choice = uchoice;
           }
+
+          CITY_LOG(LOG_DEBUG, pcity,
+                   "m_a_c_d wants %s with desire " ADV_WANT_PRINTF,
+                   utype_rule_name(choice->value.utype),
+                   choice->want);
         } else {
           CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d cannot select defender");
         }
