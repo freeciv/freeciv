@@ -327,6 +327,7 @@ public:
   void init();
   QComboBox *cruleset;
   QSpinBox *max_players;
+  void update_ai_level();
 private slots:
   void max_players_change(int i);
   void ailevel_change(int i);

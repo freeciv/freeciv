@@ -428,5 +428,5 @@ enum client_pages get_current_client_page(void)
 **************************************************************************/
 void update_start_page(void)
 {
-  /* PORTME*/    
+  conn_list_dialog_update();
 }

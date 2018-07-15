@@ -239,8 +239,6 @@ enum ai_level {
   AI_LEVEL_LAST
 };
 
-#define AI_LEVEL_DEFAULT AI_LEVEL_NOVICE
-
 /*
  * pplayer->ai.barbarian_type and nations use this enum. Note that the values
  * have to stay since they are used in savegames.

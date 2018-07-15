@@ -923,6 +923,22 @@ void pregame_options::init()
   setLayout(layout);
 }
 
+/************************************************************************//**
+  Updates the AI skill level control
+****************************************************************************/
+void pregame_options::update_ai_level()
+{
+  enum ai_level level = server_ai_level();
+
+  if (level != AI_LEVEL_LAST) {
+    int i = ailevel->findData(level);
+
+    ailevel->setCurrentIndex(i);
+  } else {
+    ailevel->setCurrentIndex(-1);
+  }
+}
+
 /****************************************************************************
   Slot for changing aifill value
 ****************************************************************************/
@@ -936,13 +952,18 @@ void pregame_options::max_players_change(int i)
 ****************************************************************************/
 void pregame_options::ailevel_change(int i)
 {
-  int k;
-  const char *name;
+  QVariant v = ailevel->currentData();
 
-  k = ailevel->currentData().toInt();
-  name = ai_level_cmd(static_cast<ai_level>(k));
-  send_chat_printf("/%s", name);
+  if (v.isValid()) {
+    enum ai_level k = static_cast<ai_level>(v.toInt());
 
+    /* Suppress changes provoked by server rather than local user */
+    if (server_ai_level() != k) {
+      const char *name = ai_level_cmd(k);
+
+      send_chat_printf("/%s", name);
+    }
+  }
 }
 
 /****************************************************************************

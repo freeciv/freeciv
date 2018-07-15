@@ -20,7 +20,7 @@
 void popup_start_page(void);
 void popdown_start_page(void);
 void create_start_page(void);
-void update_start_page(void);
+void real_update_start_page(void);
 void start_page_msg_close(Widget w);
 
 #endif  /* FC__PAGES_H */
