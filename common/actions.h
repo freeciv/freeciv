@@ -141,10 +141,10 @@ extern "C" {
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
-/* Used in searches to signal that any action at all is OK. */
+/* Fake action id used in searches to signal "any action at all". */
 #define ACTION_ANY ACTION_COUNT
 
-/* Used to signal the absence of any actions. */
+/* Fake action id used to signal the absence of any actions. */
 #define ACTION_NONE ACTION_COUNT
 
 /* Used in the network protocol. */
