@@ -259,7 +259,7 @@ bool is_military_unit(const struct unit *punit)
   defined) action enabler controlled action.
 **************************************************************************/
 bool unit_can_do_action(const struct unit *punit,
-                        const int act_id)
+                        const action_id act_id)
 {
   return utype_can_do_action(unit_type_get(punit), act_id);
 }
