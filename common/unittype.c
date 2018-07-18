@@ -311,7 +311,7 @@ bool utype_may_act_at_all(const struct unit_type *putype)
   perform the specified action.
 **************************************************************************/
 bool utype_can_do_action(const struct unit_type *putype,
-                         const int act_id)
+                         const action_id act_id)
 {
   fc_assert_ret_val(putype, FALSE);
   fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
@@ -672,7 +672,7 @@ bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
   is_there.
 **************************************************************************/
 bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
-                                  const int act_id,
+                                  const action_id act_id,
                                   const enum ustate_prop prop,
                                   const bool is_there)
 {
@@ -689,7 +689,7 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
   value is_there.
 **************************************************************************/
 bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
-                                      const int act_id,
+                                      const action_id act_id,
                                       const enum citytile_type prop,
                                       const bool is_there)
 {
@@ -710,7 +710,7 @@ bool utype_can_do_act_if_tgt_citytile(const struct unit_type *punit_type,
   ranges are stored in dipl_rel_action_cache.
 **************************************************************************/
 bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
-                                     const int act_id,
+                                     const action_id act_id,
                                      const int prop,
                                      const bool is_there)
 {
@@ -731,7 +731,7 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
   where a unit of the given type can perform the specified action.
 **************************************************************************/
 bool utype_may_act_move_frags(struct unit_type *punit_type,
-                              const int act_id,
+                              const action_id act_id,
                               const int move_fragments)
 {
   struct range *ml_range;
@@ -797,7 +797,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
   would be a good idea to cache the result.
 **************************************************************************/
 bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
-                                 const int act_id,
+                                 const action_id act_id,
                                  const enum citytile_type prop,
                                  const bool is_there)
 {
