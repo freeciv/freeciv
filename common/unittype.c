@@ -245,7 +245,7 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
-/* Fake action representing any hostile action. */
+/* Fake action id representing any hostile action. */
 #define ACTION_HOSTILE ACTION_COUNT + 1
 
 /* Number of real and fake actions. */
@@ -253,7 +253,7 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 
 /* Cache of what generalized (ruleset defined) action enabler controlled
  * actions units of each type can perform. Checking if any action can be
- * done at all is done via the fake action ACTION_ANY. If any hostile
+ * done at all is done via the fake action id ACTION_ANY. If any hostile
  * action can be performed is done via ACTION_HOSTILE. */
 static bv_unit_types unit_can_act_cache[ACTION_AND_FAKES];
 
