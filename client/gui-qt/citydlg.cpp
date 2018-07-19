@@ -3903,7 +3903,7 @@ void city_production_delegate::paint(QPainter *painter,
 
   qvar = index.data();
 
-  if (qvar.isNull()) {
+  if (qvar.isValid() == false) {
     return;
   }
 
@@ -4334,7 +4334,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
   }
   index = indexes.at(0);
   qvar = index.data(Qt::UserRole);
-  if (qvar.isNull()) {
+  if (qvar.isValid() == false) {
     return;
   }
   target = reinterpret_cast<universal *>(qvar.value<void *>());
