@@ -2281,8 +2281,8 @@ pf_fuel_finalize_position_base(const struct pf_parameter *param,
 
   pos->turn = pf_turns(param, cost);
   if (move_rate > 0) {
-    pos->fuel_left = (moves_left - 1) / move_rate + 1;
-    pos->moves_left = (moves_left - 1) % move_rate + 1;
+    pos->fuel_left = moves_left / move_rate;
+    pos->moves_left = moves_left % move_rate;
   } else {
     pos->fuel_left = param->fuel_left_initially;
     pos->moves_left = moves_left;
