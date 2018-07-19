@@ -3814,6 +3814,7 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
     char buffer[8192];
     char buf2[1];
 
+    buf2[0] = '\0';
     str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
                         buf2, unit);
     str = cut_helptext(str);
