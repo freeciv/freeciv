@@ -1364,6 +1364,7 @@ restart:
               && A_NEVER == b->require[AR_ROOT]
               && (a == b->require[AR_ONE] || a == b->require[AR_TWO])) {
             b->require[AR_ROOT] = a->require[AR_ROOT];
+            b->inherited_root_req = TRUE;
             if (b < a) {
               out_of_order = TRUE;
             }
