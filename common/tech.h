@@ -129,6 +129,7 @@ struct advance {
   struct tech_class *tclass;
 
   struct advance *require[AR_SIZE];
+  bool inherited_root_req;
 
   /* Required to start researching this tech. For shared research it must
    * be fulfilled for at least one player that shares the research. */
