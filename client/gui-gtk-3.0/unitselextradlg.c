@@ -56,7 +56,7 @@ static const char *tgt_extra_descr(const struct extra_type *tgt_extra,
     if (extra_owner(tgt_tile)) {
       /* TRANS: nation adjective for extra owner used below if the target
        * tile has the target extra and it has an owner. */
-      fc_snprintf(buf2, sizeof(buf2), _("%s"),
+      fc_snprintf(buf2, sizeof(buf2), Q_("?eowner:%s"),
                   nation_adjective_for_player(extra_owner(tgt_tile)));
     } else {
       /* TRANS: used below if the target tile has the target extra but it
