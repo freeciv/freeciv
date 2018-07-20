@@ -246,7 +246,7 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
   return 0; on failure, put an error message in ERRBUF and return -1.
 **************************************************************************/
 int connect_to_server(const char *username, const char *hostname, int port,
-		      char *errbuf, int errbufsize)
+                      char *errbuf, int errbufsize)
 {
   if (errbufsize > 0 && errbuf != NULL) {
     errbuf[0] = '\0';
@@ -260,7 +260,6 @@ int connect_to_server(const char *username, const char *hostname, int port,
     return -1;
   }
 
-  forced_tileset_name[0] = '\0';
   if (gui_options.use_prev_server) {
     sz_strlcpy(gui_options.default_server_host, hostname);
     gui_options.default_server_port = port;
