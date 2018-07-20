@@ -385,6 +385,7 @@ void techs_init(void)
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
     advances[i].item_number = i;
     advances[i].cost = -1;
+    advances[i].inherited_root_req = FALSE;
   }
 
   /* Initialize dummy tech A_NONE */

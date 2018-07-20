@@ -120,6 +120,7 @@ struct advance {
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
 
   struct advance *require[AR_SIZE];
+  bool inherited_root_req;
   bv_tech_flags flags;
   struct strvec *helptext;
 
