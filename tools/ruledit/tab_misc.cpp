@@ -175,14 +175,14 @@ void tab_misc::save_now()
 
   ui->flush_widgets();
 
-  strncpy(nameUTF8, name->text().toUtf8().data(), sizeof(nameUTF8));
+  strncpy(nameUTF8, name->text().toUtf8().data(), sizeof(nameUTF8) - 1);
 
   if (nameUTF8[0] != '\0') {
     strncpy(game.control.name, nameUTF8, sizeof(game.control.name));
   }
 
   strncpy(game.control.version, version->text().toUtf8().data(),
-          sizeof(game.control.version));
+          sizeof(game.control.version) - 1);
 
   if (!sanity_check_ruleset_data()) {
     QMessageBox *box = new QMessageBox();
