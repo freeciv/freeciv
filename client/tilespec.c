@@ -1422,7 +1422,10 @@ void tilespec_reread_callback(struct option *poption)
 }
 
 /**************************************************************************
-  
+  Read a new tilespec in from scratch. Keep UI frozen while tileset is
+  partially loaded; in inconsistent state.
+
+  See tilespec_reread() for details.
 **************************************************************************/
 void tilespec_reread_frozen_refresh(const char *tname)
 {
