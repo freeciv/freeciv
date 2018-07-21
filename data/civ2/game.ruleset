@@ -829,8 +829,9 @@ migration_pml = 50
 ; Year 1 instead of 0.
 skip_year_0 = TRUE
 
-; How many fragments each year has. Value 0 disables year advancement by fragment
-; accumulation.
+; How many fragments each year has. In addition to this, "Turn_Fragments" effects are
+; needed to control fragment accumulation.
+; Value 0 here disables year advancement by fragment accumulation.
 fragments = 0
 
 ; Calendar fragment names. If name is missing, only a fragment number +1 (so human readable
