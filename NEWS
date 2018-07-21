@@ -67,8 +67,7 @@ Changes affecting players (supplied rulesets)
        GNA#20898
 
    Rule changes to specific rulesets:
-     * civ2civ3 has had many changes. (There may be further rule changes
-       during the beta phase.)
+     * civ2civ3 has had many changes.
           + Units and combat
                o 'Tired attack' is enabled: units that attack with less
                  than one movement point have reduced attack strength.
@@ -101,7 +100,7 @@ Changes affecting players (supplied rulesets)
                o Explorers can establish embassies and investigate cities,
                  like Diplomats. They are slightly more expensive, but do
                  not become obsolete.
-               o Establish Embassy and Investigate City actions can be
+               o The actions Establish Embassy and Investigate City can be
                  done directly from a boat.
                o Diplomat and Spy can fortify (this provides no defensive
                  bonus, but means they don't wake up as they would when
@@ -154,8 +153,8 @@ Changes affecting players (supplied rulesets)
                  Railroads and give infinite movement to certain units.
                o Forest, Jungle, and Swamp tiles now give the advertised
                  defense bonus of 25% (in 2.5 it was rounded down to 20%).
-               o Forest and Jungle tiles can now get pollution and
-                 fallout. HRM#681860
+               o Forest and Jungle tiles can now suffer pollution and
+                 fallout, like most other tiles. HRM#681860
                o Adjusted terrain transformations (that can be done once
                  Fusion Power is known). Designed so that all useful
                  alterations can be finished in 1 or 2 steps, and all
@@ -186,7 +185,7 @@ Changes affecting players (supplied rulesets)
                o Construction now requires Iron Working, rather than
                  Currency (so that Iron Working is a prerequisite for
                  Frigates and Ironclads). GNAPATCH#5999
-               o Population pollution still occurs even without knowledge
+               o Population pollution can now occur even without knowledge
                  of Industrialization. (This was a corner case that would
                  likely never have been encountered.) GNAPATCH#5015
           + Government
@@ -236,7 +235,7 @@ Changes affecting players (supplied rulesets)
                       ('revolentype').
                     # Halved the chance of building destruction when a
                       city is conquered ('razechance').
-     * multiplayer:
+     * multiplayer ruleset:
           + 'Tired attack' is enabled: units that attack with less than
             one movement point have reduced attack strength. GNA#22395
           + Darwin's Voyage now only gives one free tech, not two.
@@ -247,7 +246,7 @@ Changes affecting players (supplied rulesets)
             has been set so that you can't deduce enemy movements through
             their border changes; you can always see your own territory.
             GNA#17304
-     * experimental:
+     * experimental ruleset:
           + One player policy, 'Personal Freedom', which allows trading
             off science against military unhappiness.
           + Culture sources (fewer than civ2civ3: Palace, Colosseum,
@@ -265,7 +264,7 @@ Changes affecting players (supplied rulesets)
           + AI traits are somewhat randomized. GNAPATCH#5226
           + The fourth city radius on square topologies is slightly
             larger. GNAPATCH#5983
-     * civ1 and civ2 (to improve their fidelity):
+     * civ1 and civ2 rulesets (to improve their fidelity):
           + A tile with both a river and a fortress now has a higher
             defensive bonus, as the bonuses are now multiplied rather than
             added (restoring the 2.4 behavior). GNA#23143
@@ -345,6 +344,7 @@ Changes affecting other rulesets / modders
    supplied ruleset files give some documentation and usage examples of
    new features; you can also browse the forum thread where most features
    were announced as they were added.
+   <http://forum.freeciv.org/f/viewtopic.php?f=11&t=122>
 
    Existing rulesets need changes to work with 2.6; see
    <http://www.freeciv.org/wiki/How_to_update_a_ruleset_from_2.5_to_2.6>
@@ -706,7 +706,8 @@ Changes affecting other rulesets / modders
                  this one has a trade route has a particular property.
                  GNAPATCH#4459
           + The maximum number of requirements has increased from 10 to 20
-            (to compensate for the deprecation of nreqs).
+            (to allow room for nreqs to be converted to present="FALSE"
+            reqs; nreqs are now deprecated).
           + Effect changes not listed elsewhere:
                o The new 'Victory' effect allows the ruleset to add any
                  win conditions that can be expressed with the
@@ -1014,7 +1015,8 @@ Clients
    Other client changes:
      * The Gtk3 client is now the default. Some new features have not been
        backported to the Gtk2 client.
-     * New clients to keep up with new library versions (not promoted for
+     * New versions of clients with no user-visible differences, just to
+       keep up with new library versions (these are not promoted for
        Windows for now):
           + There is a new "Gtk3.22" client. This has feature parity with
             the regular Gtk3 client (which supports Gtk as old as 3.8),
@@ -1041,8 +1043,9 @@ Clients
        topology. Different preferred tilesets can be set for each
        topology. It should now be much harder to end up with a mismatched
        tileset and map topology by accident. GNA#16668
-     * It's now possible to specify work for autosettlers to do from the
-       city dialog map. Only supported in Gtk3 and Qt clients.
+     * It's now possible to specify work for autosettlers to do ('worker
+       tasks') by right-clicking on the city dialog map. Only supported in
+       Gtk3 and Qt clients.
      * Units that pop up a menu of actions (such as diplomats and
        caravans) now only do so when focus reaches them, and the menu can
        be temporarily dismissed and will return.
@@ -1188,8 +1191,8 @@ Tilesets, Art, etc
 
 Translations
 
-     * Updated Polish, French, Catalan, Finnish, Russian, and British
-       English localizations.
+     * Updated Polish, French, Catalan, Finnish, Russian, Spanish,
+       Japanese, and British English localizations.
 
 Build/portability
 
@@ -1219,13 +1222,16 @@ Build/portability
 Known issues
 
    Here are some of the notable outstanding issues that we already know
-   exist in this beta version:
+   exist as of 2.6.0:
      * As noted above, the AI currently doesn't build Fighter-type units
        in classic rulesets. This is not currently expected to be fixed in
        2.6.
      * Turn change in AI games has got slower; we suspect this is a result
        of action generalization.
      * There's some evidence that autosettlers have got less effective.
+     * Some bugs in the goto UI, particularly with fueled units like
+       airplanes. Sometimes it is necessary to move units manually with
+       the direction keys. e.g. HRM#765380, HRM#765079
      * The new tileset selection arrangements can still be a little
        confused/confusing. HRM#685235
      * The Gtk3 clients' theming has bugs with recent versions of Gtk3.
@@ -1237,7 +1243,6 @@ Known issues
      * The SDL clients have no UI for manipulating policies. HRM#657404
      * We suspect there are still some bugs lurking in the music
        soundtrack system.
-     * Not many translations have been fully updated yet.
 
 
 MAJOR CHANGES FROM 2.4.x to 2.5.0
