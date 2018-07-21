@@ -42,7 +42,8 @@ real_package_name ()
 # solve a real name of suitable package 
 # first argument : package name (executable)
 # second argument : source download url
-# rest of arguments : major, minor, micro version
+# third-fifth argument : major, minor, micro version
+# sixth argumen : "2" - silent
 {
   RPACKAGE=$1
   RURL=$2
@@ -52,25 +53,31 @@ real_package_name ()
 
   new_pkg=$RPACKAGE
 
+  if test "x$6" = "x" ; then
+    RPN_COMPLAIN=1
+  else
+    RPN_COMPLAIN=$6
+  fi
+
   # check if given package is suitable
   if version_check 2 $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO; then
-    version_check 1 $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
+    version_check $RPN_COMPLAIN $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
   else
     # given package was too old or not available
     # search for the newest one
     if version_search $RPACKAGE; then
       if version_check 2 $RPACKAGE $new_pkg $RURL $RMAJOR $RMINOR $RMICRO; then
         # suitable package found
-        version_check 1 $RPACKAGE $new_pkg $RURL $RMAJOR $RMINOR $RMICRO
+        version_check $RPN_COMPLAIN $RPACKAGE $new_pkg $RURL $RMAJOR $RMINOR $RMICRO
       else
         # the newest package is not new enough or it is broken
-        version_check 1 $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
+        version_check $RPN_COMPLAIN $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
         return 1
       fi
     else 
       # no version of given package with version information 
       # in its name available
-      version_check 1 $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
+      version_check $RPN_COMPLAIN $RPACKAGE $RPACKAGE $RURL $RMAJOR $RMINOR $RMICRO
       return 1
     fi
   fi
@@ -168,11 +175,13 @@ version_check ()
   
   ($PACKAGE --version) < /dev/null > /dev/null 2>&1 || 
   {
-    if [ "$COMPLAIN" -ne "2" ]; then
+    if [ "$COMPLAIN" -eq "1" ]; then
       echo
       echo "You must have $PACKAGEMSG installed to compile $package."
       echo "Download the appropriate package for your distribution,"
       echo "or get the source tarball at $URL"
+    elif [ "$COMPLAIN" -ne "2" ]; then
+      echo
     fi
     return 1
   }
@@ -245,7 +254,8 @@ real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 2 || DIE
 AUTOMAKE=$REALPKGNAME
 real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 2 || DIE=1
 ACLOCAL=$REALPKGNAME
-real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 || DIE=1
+real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 ||
+real_package_name "glibtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 "" "0" || DIE=1
 LIBTOOLIZE=$REALPKGNAME
 real_package_name "python" "https://www.python.org/" || DIE=1
 
