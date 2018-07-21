@@ -1142,15 +1142,28 @@ void handle_edit_player(struct connection *pc,
     goal = research->tech_goal;
 
     if (current != A_UNSET) {
-      known = research_invention_state(research, current);
-      if (known != TECH_PREREQS_KNOWN) {
-        research->researching = A_UNSET;
+      if (current != A_FUTURE) {
+        known = research_invention_state(research, current);
+        if (known != TECH_PREREQS_KNOWN) {
+          research->researching = A_UNSET;
+        }
+      } else {
+        /* Future Tech is legal only if all techs are known */
+        advance_index_iterate(A_FIRST, tech_i) {
+          known = research_invention_state(research, tech_i);
+          if (known != TECH_KNOWN) {
+            research->researching = A_UNSET;
+            break;
+          }
+        } advance_index_iterate_end;
       }
     }
     if (goal != A_UNSET) {
-      known = research_invention_state(research, goal);
-      if (known == TECH_KNOWN) {
-        research->tech_goal = A_UNSET;
+      if (goal != A_FUTURE) {
+        known = research_invention_state(research, goal);
+        if (known == TECH_KNOWN) {
+          research->tech_goal = A_UNSET;
+        }
       }
     }
     changed = TRUE;
