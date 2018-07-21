@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-07-13 18:17+0100\n"
+"POT-Creation-Date: 2018-07-20 00:34+0100\n"
 "PO-Revision-Date: 2013-09-12 07:21+0300\n"
 "Last-Translator: Per I. Mathisen <per@freeciv.org>\n"
 "Language-Team: Norwegian <andrearo@stud.ntnu.no>\n"
@@ -7150,7 +7150,7 @@ msgstr "Lukk"
 #: client/gui-gtk-3.22/optiondlg.c:360 client/gui-gtk-3.22/pages.c:453
 #: client/gui-gtk-3.22/pages.c:583 client/gui-gtk-3.22/pages.c:1420
 #: client/gui-gtk-3.22/pages.c:2772 client/gui-gtk-3.22/pages.c:2929
-#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3925
+#: client/gui-gtk-3.22/pages.c:3263 client/gui-qt/citydlg.cpp:3926
 #: client/gui-qt/dialogs.cpp:380 client/gui-qt/hudwidget.cpp:1390
 #: client/gui-qt/messagedlg.cpp:65 client/gui-qt/optiondlg.cpp:140
 #: client/gui-qt/pages.cpp:393 client/gui-qt/pages.cpp:528
@@ -39935,19 +39935,19 @@ msgstr "%s ble lagt til som en AI-styrt spiller."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s hadde ugyldig nasjon; endrer til %s."
 
-#: server/savegame2.c:7465 server/savegame.c:4099
+#: server/savegame2.c:7467 server/savegame.c:4099
 #, fuzzy, c-format
 #| msgid "You cannot research this technology."
 msgid "%s had invalid researching technology."
 msgstr "Du kan ikke forske på denne teknologien."
 
-#: server/savegame2.c:7475 server/savegame.c:4110
+#: server/savegame2.c:7477 server/savegame.c:4110
 #, fuzzy, c-format
 #| msgid "%s had invalid nation; changing to %s."
 msgid "%s had invalid technology goal."
 msgstr "%s hadde ugyldig nasjon; endrer til %s."
 
-#: server/savegame2.c:7500
+#: server/savegame2.c:7502
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
