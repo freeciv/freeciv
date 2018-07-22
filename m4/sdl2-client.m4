@@ -30,7 +30,10 @@ AC_DEFUN([FC_SDL2_CLIENT],
         missing_2_project="SDL2_ttf"
       fi
       if test "x$sdl2_h_found" = "xyes" ; then
-        PKG_CHECK_MODULES([FT2], [freetype2 >= 2.1.3], [freetype_found="yes"], [freetype_found="no"])
+        dnl Version number here is as specified by libtool, not the main
+        dnl freetype version number.
+        dnl See http://git.savannah.gnu.org/cgit/freetype/freetype2.git/tree/docs/VERSIONS.TXT
+        PKG_CHECK_MODULES([FT2], [freetype2 >= 7.0.1], [freetype_found="yes"], [freetype_found="no"])
         if test "$freetype_found" = yes; then
           gui_sdl2_cflags="$gui_sdl2_cflags $FT2_CFLAGS"
           gui_sdl2_libs="$gui_sdl2_libs $FT2_LIBS"
