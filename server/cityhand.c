@@ -260,7 +260,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
                     "You sell %s in %s for %d gold.", price),
                 improvement_name_translation(pimprove),
                 city_link(pcity), price);
-  do_sell_building(pplayer, pcity, pimprove);
+  do_sell_building(pplayer, pcity, pimprove, "sold");
 
   city_refresh(pcity);
 

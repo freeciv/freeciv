@@ -1188,7 +1188,10 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
               improvement_rule_name(ptarget));
 
     /* Do it. */
-    building_lost(pcity, ptarget);
+    building_lost(pcity, ptarget, "sabotaged", pdiplomat);
+
+    /* FIXME: Lua script might have destroyed the diplomat, the city, or even the player.
+     *        Avoid dangling pointers below in that case. */
   }
 
   /* Update clients. */

@@ -234,10 +234,10 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
 
   city_built_iterate(pcity, pimprove) {
     if (improvement_obsolete(pplayer, pimprove, pcity)
-     && can_city_sell_building(pcity, pimprove)) {
+        && can_city_sell_building(pcity, pimprove)) {
       int sgold;
 
-      do_sell_building(pplayer, pcity, pimprove);
+      do_sell_building(pplayer, pcity, pimprove, "obsolete");
       sgold = impr_sell_gold(pimprove);
       notify_player(pplayer, city_tile(pcity), E_IMP_SOLD, ftc_server,
                     PL_("%s is selling %s (obsolete) for %d.",
@@ -2629,7 +2629,7 @@ static bool sell_random_building(struct player *pplayer,
   log_debug("%s: sold building (%s)", player_name(pplayer),
             improvement_name_translation(pcityimpr->pimprove));
 
-  do_sell_building(pplayer, pcityimpr->pcity, pcityimpr->pimprove);
+  do_sell_building(pplayer, pcityimpr->pcity, pcityimpr->pimprove, "cant_maintain");
 
   cityimpr_list_remove(imprs, pcityimpr);
 
@@ -3864,7 +3864,7 @@ static void apply_disaster(struct city *pcity, struct disaster_type *pdis)
     if (total > 0) {
       int num = fc_rand(total);
 
-      building_lost(pcity, imprs[num]);
+      building_lost(pcity, imprs[num], "disaster", NULL);
 
       notify_player(pplayer, ptile, E_DISASTER, ftc_server,
                     /* TRANS: second %s is the name of a city improvement */
