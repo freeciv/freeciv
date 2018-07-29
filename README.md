@@ -12,8 +12,6 @@ Links
 =====
 Freeciv website: [Freeciv.org](http://www.freeciv.org/) 
 
-Freeciv-web online version: [play.freeciv.org](https://play.freeciv.org/) 
-
 Submit patches: [Hostedredmine](http://www.hostedredmine.com/projects/freeciv/) 
 
 Community forum: [forum.freeciv.org](http://forum.freeciv.org/) 
