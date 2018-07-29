@@ -565,6 +565,14 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */
+#define SPECENUM_NAME caravan_bonus_style
+#define SPECENUM_VALUE0 CBS_CLASSIC
+#define SPECENUM_VALUE0NAME "Classic"
+#define SPECENUM_VALUE1 CBS_LOGARITHMIC
+#define SPECENUM_VALUE1NAME "Logarithmic"
+#include "specenum_gen.h"
+
+/* Used in the network protocol. */
 #define SPECENUM_NAME persistent_ready
 #define SPECENUM_VALUE0  PERSISTENTR_DISABLED
 #define SPECENUM_VALUE0NAME "Disabled"
@@ -609,6 +617,14 @@ BV_DEFINE(bv_startpos_nations, MAX_NUM_STARTPOS_NATIONS);
 /* Tech upkeep multiplied by number of cities */
 #define SPECENUM_VALUE2 TECH_UPKEEP_PER_CITY
 #define SPECENUM_VALUE2NAME "Cities"
+#include "specenum_gen.h"
+
+/* Used in the network protocol. */
+#define SPECENUM_NAME trade_revenue_style
+#define SPECENUM_VALUE0 TRS_CLASSIC
+#define SPECENUM_VALUE0NAME "Classic"
+#define SPECENUM_VALUE1 TRS_SIMPLE
+#define SPECENUM_VALUE1NAME "Simple"
 #include "specenum_gen.h"
 
 /* Used in the network protocol. */

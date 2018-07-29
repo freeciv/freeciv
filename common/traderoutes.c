@@ -323,20 +323,31 @@ int trade_base_between_cities(const struct city *pc1, const struct city *pc2)
 {
   int bonus = 0;
 
-  if (NULL != pc1 && NULL != pc1->tile
-      && NULL != pc2 && NULL != pc2->tile) {
+  if (NULL == pc1 || NULL == pc1->tile || NULL == pc2 || NULL == pc2->tile) {
+    return 0;
+  }
+
+  if (game.info.trade_revenue_style == TRS_CLASSIC) {
+    /* Classic Freeciv */
     int real_dist = real_map_distance(pc1->tile, pc2->tile);
     int weighted_distance
       = ((100 - game.info.trade_world_rel_pct) * real_dist
-         + game.info.trade_world_rel_pct * (real_dist * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
+         + game.info.trade_world_rel_pct
+         * (real_dist * 40 / MAX(wld.map.xsize, wld.map.ysize))) / 100;
 
     bonus = weighted_distance
             + city_size_get(pc1) + city_size_get(pc2);
-
-    bonus = bonus * trade_route_type_trade_pct(cities_trade_route_type(pc1, pc2)) / 100;
-
-    bonus /= 12;
+  } else if (game.info.trade_revenue_style == TRS_SIMPLE) {
+    /* Simple revenue style */
+    bonus = (pc1->citizen_base[O_TRADE] + pc2->citizen_base[O_TRADE] + 4)
+	    * 3;
   }
+
+  bonus = bonus
+          * trade_route_type_trade_pct(cities_trade_route_type(pc1, pc2))
+          / 100;
+
+  bonus /= 12;
 
   return bonus;
 }
@@ -363,6 +374,74 @@ int city_num_trade_routes(const struct city *pcity)
 }
 
 /*********************************************************************//**
+  Comparator used in max_tile_trade.
+**************************************************************************/
+static int best_value(const void *a, const void *b)
+{
+  return *(int *)a < *(int *)b;
+}
+
+/*********************************************************************//**
+  Returns the maximum trade production of the tiles of the city.
+**************************************************************************/
+static int max_tile_trade(const struct city *pcity)
+{
+  int i, total = 0;
+  int radius_sq = city_map_radius_sq_get(pcity);
+  int tile_trade[city_map_tiles(radius_sq)];
+  size_t size = 0;
+  bool is_celebrating = base_city_celebrating(pcity);
+
+  if (pcity->tile == NULL) {
+    return 0;
+  }
+
+  city_map_iterate(radius_sq, cindex, cx, cy) {
+    struct tile *ptile = city_map_to_tile(pcity->tile, radius_sq, cx, cy);
+
+    if (ptile == NULL) {
+      continue;
+    }
+
+    if (is_free_worked_index(cindex)) {
+      total += city_tile_output(pcity, ptile, is_celebrating, O_TRADE);
+      continue;
+    }
+
+    if (!city_can_work_tile(pcity, ptile)) {
+      continue;
+    }
+
+    tile_trade[size++] = city_tile_output(pcity, ptile, is_celebrating,
+                                          O_TRADE);
+  } city_map_iterate_end;
+
+  qsort(tile_trade, size, sizeof(*tile_trade), best_value);
+
+  for (i = 0; i < pcity->size && i < size; i++) {
+    total += tile_trade[i];
+  }
+
+  return total;
+}
+
+/*********************************************************************//**
+  Returns the maximum trade production of a city.
+**************************************************************************/
+static int max_trade_prod(const struct city *pcity)
+{
+  /* Trade tile base */
+  int trade_prod = max_tile_trade(pcity);
+
+  /* Add trade routes values */
+  trade_partners_iterate(pcity, partner) {
+    trade_prod += trade_base_between_cities(pcity, partner);
+  } trade_partners_iterate_end;
+
+  return trade_prod;
+}
+
+/*********************************************************************//**
   Returns the revenue trade bonus - you get this when establishing a
   trade route and also when you simply sell your trade goods at the
   new city.
@@ -377,11 +456,19 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        struct goods_type *pgood,
                                        const bool establish_trade)
 {
-  int tb, bonus;
+  int tb = 0, bonus = 0;
 
-  /* Should this be real_map_distance? */
-  tb = map_distance(pc1->tile, pc2->tile) + 10;
-  tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
+  if (game.info.caravan_bonus_style == CBS_CLASSIC) {
+    /* Should this be real_map_distance? */
+    tb = map_distance(pc1->tile, pc2->tile) + 10;
+    tb = (tb * (pc1->surplus[O_TRADE] + pc2->surplus[O_TRADE])) / 24;
+  } else if (game.info.caravan_bonus_style == CBS_LOGARITHMIC) {
+    /* Logarithmic bonus */
+    bonus = pow(log(real_map_distance(pc1->tile, pc2->tile) + 20
+                + max_trade_prod(pc1) + max_trade_prod(pc2)) * 2, 2);
+    tb = (int)bonus;
+  }
+
   if (pgood != NULL) {
     tb = tb * pgood->onetime_pct / 100;
   }
