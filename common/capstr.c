@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ const char * const our_capability = our_capability_internal;
  * code, and look for places where people are using has_capability.
  * If you're taking a capability out of the string, because now every
  * client and server supports it, then you should take out the
- * if(has_capability()) code so that this code is always executed.
+ * if (has_capability()) code so that this code is always executed.
  *
  * (The savefile and ruleset files have strings which are used similarly,
  * and checked by the same has_capability function, but the strings there
