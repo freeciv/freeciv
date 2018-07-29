@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -67,27 +67,18 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 
   Graphic is taken from pVert_theme surface and blit to new created image.
 
-  hight depend of 'High' parametr.
-
-  Type of image depend of "state" parametr.
-    state = 0 - normal
-    state = 1 - selected
-    state = 2 - pressed
-    state = 3 - disabled
+  height depend of 'High' parameter.
 **************************************************************************/
-static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
-					    Uint8 state, Uint16 High)
+static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
+                                            enum widget_state state, Uint16 High)
 {
   SDL_Surface *pVerSurf = NULL;
   SDL_Rect src, des;
-
   Uint16 i;
   Uint16 start_y;
-
   Uint16 tile_count_midd;
   Uint8 tile_len_end;
   Uint8 tile_len_midd;
-
 
   tile_len_end = pVert_theme->h / 16;
 
