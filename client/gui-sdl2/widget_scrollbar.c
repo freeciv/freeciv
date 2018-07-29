@@ -72,15 +72,9 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   Graphic is taken from pVert_theme surface and blit to new created image.
 
   height depend of 'High' parameter.
-
-  Type of image depend of "state" parameter.
-    state = 0 - normal
-    state = 1 - selected
-    state = 2 - pressed
-    state = 3 - disabled
 **************************************************************************/
 static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
-                                            Uint8 state, Uint16 High)
+                                            enum widget_state state, Uint16 High)
 {
   SDL_Surface *pVerSurf = NULL;
   SDL_Rect src, des;
