@@ -262,6 +262,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.angrycitizen     = GAME_DEFAULT_ANGRYCITIZEN;
   game.info.borders          = GAME_DEFAULT_BORDERS;
   game.calendar.calendar_skip_0 = FALSE;
+  game.info.caravan_bonus_style = GAME_DEFAULT_CARAVAN_BONUS_STYLE;
   game.info.celebratesize    = GAME_DEFAULT_CELEBRATESIZE;
   game.info.citymindist      = GAME_DEFAULT_CITYMINDIST;
   game.info.cooling          = 0;
@@ -308,6 +309,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.tech             = GAME_DEFAULT_TECHLEVEL;
   game.info.timeout          = GAME_DEFAULT_TIMEOUT;
   game.info.trademindist     = GAME_DEFAULT_TRADEMINDIST;
+  game.info.trade_revenue_style = GAME_DEFAULT_TRADE_REVENUE_STYLE;
   game.info.trading_city     = GAME_DEFAULT_TRADING_CITY;
   game.info.trading_gold     = GAME_DEFAULT_TRADING_GOLD;
   game.info.trading_tech     = GAME_DEFAULT_TRADING_TECH;

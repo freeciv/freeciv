@@ -211,6 +211,8 @@ type ESTRING            = estring(char)
 type ACHIEVEMENT_TYPE   = uint8(enum achievement_type)
 type ACTIVITY           = uint8(enum unit_activity)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
+type CARAVAN_BONUS_STYLE = uint8(enum caravan_bonus_style)
+type TRADE_REVENUE_STYLE = uint8(enum trade_revenue_style)
 type PERSISTENT_READY   = uint8(enum persistent_ready)
 type VICTORY_CONDITIONS = uint8(enum victory_condition_type)
 type TECH_UPKEEP_STYLE  = uint8(enum tech_upkeep_style)
@@ -461,6 +463,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   SINT16 border_city_permanent_radius_sq;
   BORDERS_MODE borders;
   UINT32 base_bribe_cost;
+  CARAVAN_BONUS_STYLE caravan_bonus_style;
   UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pml;
@@ -552,6 +555,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 first_timeout;
   BOOL tired_attack;
   UINT16 trademindist;
+  TRADE_REVENUE_STYLE trade_revenue_style;
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;
