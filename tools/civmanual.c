@@ -36,6 +36,7 @@
 #include "support.h"
 
 /* common */
+#include "capstr.h"
 #include "connection.h"
 #include "events.h"
 #include "fc_cmdhelp.h"
@@ -730,6 +731,8 @@ int main(int argc, char **argv)
     }
     inx++;
   }
+
+  init_our_capability();
 
   /* must be before con_log_init() */
   init_connections();
