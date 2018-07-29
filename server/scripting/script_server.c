@@ -444,6 +444,15 @@ static void script_server_signals_create(void)
                           API_TYPE_BUILDING_TYPE, API_TYPE_CITY,
                           API_TYPE_STRING);
 
+  /* Third argument gives a reason; "landlocked", "cant_maintain", "obsolete",
+   * "sold", "disaster", "sabotaged", "razed", "city_destroyed",
+   * "conquered" (applicable for small wonders only)
+   * Fourth argument gives unit that caused that, applicable for "sabotaged"
+   */
+  luascript_signal_create(fcl_main, "building_lost", 4,
+                          API_TYPE_CITY, API_TYPE_BUILDING_TYPE,
+                          API_TYPE_STRING, API_TYPE_UNIT);
+
   /* The third argument contains the source: "researched", "traded",
    * "stolen", "hut". */
   luascript_signal_create(fcl_main, "tech_researched", 3,

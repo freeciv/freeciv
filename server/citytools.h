@@ -73,8 +73,11 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
                                        bool announce, bool source_gone);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
-		      struct impr_type *pimprove);
-void building_lost(struct city *pcity, const struct impr_type *pimprove);
+                      struct impr_type *pimprove, const char *reason);
+bool building_removed(struct city *pcity, const struct impr_type *pimprove,
+                      const char *reason, struct unit *destroyer);
+void building_lost(struct city *pcity, const struct impr_type *pimprove,
+                   const char *reason, struct unit *destroyer);
 void city_units_upkeep(const struct city *pcity);
 
 bool is_production_equal(const struct universal *one,

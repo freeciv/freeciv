@@ -927,22 +927,30 @@ struct city *find_closest_city(const struct tile *ptile,
 static void raze_city(struct city *pcity)
 {
   int razechance = game.server.razechance;
+  bool city_remains = TRUE;
 
   /* land barbarians are more likely to destroy city improvements */
-  if (is_land_barbarian(city_owner(pcity)))
+  if (is_land_barbarian(city_owner(pcity))) {
     razechance += 30;
+  }
 
   city_built_iterate(pcity, pimprove) {
     /* Small wonders should have already been removed by
      * transfer_city() (with 100% probability). */
     fc_assert(!is_small_wonder(pimprove));
     if (is_improvement(pimprove) && (fc_rand(100) < razechance)) {
-      city_remove_improvement(pcity, pimprove);
+      /* FIXME: Should maybe have conquering unit instead of NULL as destoryer */
+      city_remains = building_removed(pcity, pimprove, "razed", NULL);
+      if (!city_remains) {
+        break;
+      }
     }
   } city_built_iterate_end;
 
-  nullify_prechange_production(pcity);
-  pcity->shield_stock = 0;
+  if (city_remains) {
+    nullify_prechange_production(pcity);
+    pcity->shield_stock = 0;
+  }
 }
 
 /************************************************************************//**
@@ -1129,11 +1137,12 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
      global effects for the new city owner) */
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {
-    city_remove_improvement(pcity, pimprove);
-
     if (is_small_wonder(pimprove)) {
+      /* Small wonders are really removed (not restored later). */
+      building_removed(pcity, pimprove, "conquered", NULL);
       BV_SET(had_small_wonders, improvement_index(pimprove));
     } else {
+      city_remove_improvement(pcity, pimprove);
       if (is_great_wonder(pimprove)) {
         had_great_wonders = TRUE;
       }
@@ -1631,7 +1640,7 @@ void remove_city(struct city *pcity)
 
   BV_CLR_ALL(had_small_wonders);
   city_built_iterate(pcity, pimprove) {
-    city_remove_improvement(pcity, pimprove);
+    building_removed(pcity, pimprove, "city_destroyed", NULL);
 
     if (is_small_wonder(pimprove)) {
       BV_SET(had_small_wonders, improvement_index(pimprove));
@@ -2769,25 +2778,47 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   I guess the player should always be the city owner?
 ****************************************************************************/
 void do_sell_building(struct player *pplayer, struct city *pcity,
-		      struct impr_type *pimprove)
+                      struct impr_type *pimprove, const char *reason)
 {
   if (can_city_sell_building(pcity, pimprove)) {
     pplayer->economic.gold += impr_sell_gold(pimprove);
-    building_lost(pcity, pimprove);
+    building_lost(pcity, pimprove, reason, NULL);
   }
+}
+
+/************************************************************************//**
+  Remove building from the city. Emits lua signal.
+****************************************************************************/
+bool building_removed(struct city *pcity, const struct impr_type *pimprove,
+                      const char *reason, struct unit *destroyer)
+{
+  int backup = pcity->id;
+
+  city_remove_improvement(pcity, pimprove);
+
+  script_server_signal_emit("building_lost", 4,
+                            API_TYPE_CITY, pcity,
+                            API_TYPE_BUILDING_TYPE, pimprove,
+                            API_TYPE_STRING, reason,
+                            API_TYPE_UNIT, destroyer);
+
+  return city_exist(backup);
 }
 
 /************************************************************************//**
   Destroy the improvement in the city straight-out.  Note that this is
   different from selling a building.
 ****************************************************************************/
-void building_lost(struct city *pcity, const struct impr_type *pimprove)
+void building_lost(struct city *pcity, const struct impr_type *pimprove,
+                   const char *reason, struct unit *destroyer)
 {
   struct player *owner = city_owner(pcity);
   bool was_capital = is_capital(pcity);
+  bool city_remains;
+ 
+  city_remains = building_removed(pcity, pimprove, reason, destroyer);
 
-  city_remove_improvement(pcity, pimprove);
-  if ((was_capital && !is_capital(pcity))
+  if ((was_capital && (!city_remains || !is_capital(pcity)))
       && (owner->spaceship.state == SSHIP_STARTED
 	  || owner->spaceship.state == SSHIP_LAUNCHED)) {
     /* If the capital was lost (by destruction of the palace) production on
@@ -2795,14 +2826,16 @@ void building_lost(struct city *pcity, const struct impr_type *pimprove)
     spaceship_lost(owner);
   }
 
-  /* update city; influence of effects (buildings, ...) on unit upkeep */
-  if (city_refresh(pcity)) {
-    auto_arrange_workers(pcity);
-  }
+  if (city_remains) {
+    /* update city; influence of effects (buildings, ...) on unit upkeep */
+    if (city_refresh(pcity)) {
+      auto_arrange_workers(pcity);
+    }
 
-  /* Re-update the city's visible area.  This updates fog if the vision
-   * range increases or decreases. */
-  city_refresh_vision(pcity);
+    /* Re-update the city's visible area.  This updates fog if the vision
+     * range increases or decreases. */
+    city_refresh_vision(pcity);
+  }
 }
 
 /************************************************************************//**
@@ -3111,7 +3144,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 				preq, TRUE)) {
             int price = impr_sell_gold(pimprove);
 
-            do_sell_building(pplayer, pcity, pimprove);
+            do_sell_building(pplayer, pcity, pimprove, "landlocked");
             notify_player(pplayer, tile1, E_IMP_SOLD, ftc_server,
                           PL_("You sell %s in %s (now landlocked)"
                               " for %d gold.",

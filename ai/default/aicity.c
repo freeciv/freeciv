@@ -968,13 +968,14 @@ static void dai_city_sell_noncritical(struct city *pcity,
         && (!redundant_only || is_improvement_redundant(pcity, pimprove))) {
       int gain = impr_sell_gold(pimprove);
 
-      do_sell_building(pplayer, pcity, pimprove);
       notify_player(pplayer, pcity->tile, E_IMP_SOLD, ftc_server,
                     PL_("%s is selling %s for %d.",
                         "%s is selling %s for %d.", gain),
                     city_link(pcity),
                     improvement_name_translation(pimprove),
                     gain);
+      do_sell_building(pplayer, pcity, pimprove, "sold");
+
       return; /* max 1 building each turn */
     }
   } city_built_iterate_end;
