@@ -896,7 +896,7 @@ free_tech_method = "Cheapest"
 
 [culture]
 ; Minimum culture points for cultural domination victory
-victory_min_points = 10000
+victory_min_points = 18000
 
 ; How big lead relative to second best player is needed for victory
 victory_lead_pct   = 200
