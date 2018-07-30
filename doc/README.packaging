@@ -67,6 +67,7 @@ Updating from 2.5 to 2.6
   game. You may want to symlink to these from /usr/share/doc/ or
   equivalent so that users can continue to easily find the
   documentation outside the game.
+* GGZ support has been dropped completely.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
