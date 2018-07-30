@@ -10,15 +10,15 @@
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
+# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-07-17 09:22+0100\n"
-"PO-Revision-Date: 2016-07-19 12:09+0200\n"
+"POT-Creation-Date: 2018-06-30 10:50+0100\n"
+"PO-Revision-Date: 2018-07-29 13:00+0200\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
-"Language-Team: Spanish <>\n"
+"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -679,26 +679,14 @@ msgid "?female:Vizier %s"
 msgstr "Vizier %s"
 
 #: data/nation/alander.ruleset:3
-#, fuzzy
-#| msgid "Alander"
 msgid "Ålander"
-msgstr "Åland"
+msgstr "Alandés"
 
 #: data/nation/alander.ruleset:6
-#, fuzzy
-#| msgid "?plural:Alanders"
 msgid "?plural:Ålanders"
-msgstr "Alaneses"
+msgstr "Alandeses"
 
 #: data/nation/alander.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Aland is an archipelago in the Baltic Sea, located between Sweden and "
-#| "Finland. The islands' inhabitants are Swedish speaking, but Aland is an "
-#| "autonomous province in Finland, a status that was reached in 1921 after a "
-#| "long period in which the islands were contested between Sweden and "
-#| "Finland. Aland's special and demilitarized status is protected by "
-#| "international law."
 msgid ""
 "Åland is an archipelago in the Baltic Sea, located between Sweden and "
 "Finland. The islands' inhabitants are Swedish speaking, but Åland is an "
@@ -708,7 +696,7 @@ msgid ""
 msgstr ""
 "Åland es un archipiélago en el Mar Báltico, situado entre Suecia y "
 "Finlandia. Los habitantes de las islas son de habla sueca, pero Aland es una "
-"provincia autónoma de Finlandia, un estado al que se llegó en 1921 después "
+"provincia autónoma de Finlandia, un estatus al que se llegó en 1921 después "
 "de un largo período en que las islas fueron objeto de controversia entre "
 "Suecia y Finlandia. El régimen especial y desmilitarizado de Åland está "
 "protegido por el derecho internacional."
@@ -746,14 +734,6 @@ msgid "?plural:Albanians"
 msgstr "Albaneses"
 
 #: data/nation/albanian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians "
-#| "are uncertain, though it has been suggested they descend from the "
-#| "Illyrians of Classical Antiquity. Albania changed hands several times "
-#| "during its  history. It has been an independent state again since 1912. "
-#| "For much of the 20th century Albania was ruled by communist dictator "
-#| "Enver Hoxha."
 msgid ""
 "Inhabitants of the Balkan peninsula, the ethnic origins of the Albanians are "
 "uncertain, though it has been suggested they descend from the Illyrians of "
@@ -1397,13 +1377,6 @@ msgid "?plural:Argentines"
 msgstr "Argentinos"
 
 #: data/nation/argentine.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Argentina is located on the south-eastern coast of South America. Since "
-#| "independence from Spain in 1816, it has been plagued by several internal "
-#| "and external conflicts. In the decades after World War II, the country's "
-#| "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita"
-#| "\" Peron."
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
@@ -1414,7 +1387,7 @@ msgstr ""
 "Argentina se encuentra en la costa sureste de América del Sur. Desde la "
 "independencia de España en 1816, varios conflictos internos y externos han "
 "plagado el país. En las décadas posteriores a la Segunda Guerra Mundial, la "
-"política del país ha sido dominada por Juan Perón y su carismática esposa "
+"política del país se ha sido dominada por Juan Perón y su carismática esposa "
 "Eva \"Evita\" Perón."
 
 #: data/nation/argentine.ruleset:25 data/nation/bolivian.ruleset:36
@@ -2616,16 +2589,6 @@ msgid "?plural:Bolivians"
 msgstr "Bolivianos"
 
 #: data/nation/bolivian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Bolivia is a landlocked country in South America with a large indigenous "
-#| "heritage. The country is named after Simon Bolivar. Independent since "
-#| "1825, the country was wrecked by instability and lost its Pacific coast "
-#| "to Chile. The 1932-1936 Chaco war against Paraguay led to another "
-#| "humiliating defeat. Discontent with Bolivia's oligarchic regime led to a "
-#| "revolution in 1952. After a series of military coups in the 1970s the "
-#| "country returned to democratic rule in the 1980s. In 2006 Evo Morales "
-#| "became the country's first indigenous president."
 msgid ""
 "Bolivia is a landlocked country in South America with a large indigenous "
 "heritage. The country is named after Simón Bolivar. Independent since 1825, "
@@ -3078,14 +3041,10 @@ msgstr ""
 "a la Nación Romanche y a la región de Borgoña."
 
 #: data/nation/burkinabe.ruleset:3
-#, fuzzy
-#| msgid "Burkinabe"
 msgid "Burkinabé"
 msgstr "Burkinés"
 
 #: data/nation/burkinabe.ruleset:6
-#, fuzzy
-#| msgid "?plural:Burkinabes"
 msgid "?plural:Burkinabés"
 msgstr "Burkineses"
 
@@ -3264,27 +3223,13 @@ msgstr ""
 
 #: data/nation/canari.ruleset:3
 msgid "Cañari"
-msgstr ""
+msgstr "Cañari"
 
 #: data/nation/canari.ruleset:6
-#, fuzzy
-#| msgid "?plural:Canaris"
 msgid "?plural:Cañaris"
 msgstr "Cañaris"
 
 #: data/nation/canari.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Canaris were a Pre-Columbian civilization in what is now Ecuador, "
-#| "whose existence can be traced from the 6th century onwards. They were one "
-#| "of the few Andean cultures not to worship the sun. The Canari language "
-#| "was probably related to the Mochica language of Peru, but by the time of "
-#| "the Spanish conquest the Canaris had mostly switched to Quechua. The "
-#| "Canaris formed a loose confederation with their main political center in "
-#| "Guapdondelig, currently the city of Cuenca, capital of the province of "
-#| "Azuay. They were subjugated by the Incas in the late 15th century, though "
-#| "they put up a fierce resistance. They rebelled during the Incan civil war "
-#| "and sided with the Spanish during their conquest of the Inca empire."
 msgid ""
 "The Cañaris were a pre-Columbian civilization in what is now Ecuador, whose "
 "existence can be traced from the 6th century onwards. They were one of the "
@@ -3536,24 +3481,6 @@ msgid "?plural:Central Lithuanians"
 msgstr "Central-Lituanos"
 
 #: data/nation/centrallithuanian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
-#| "Aukshtota region. They are a remnant of the Polish-Lithuanian "
-#| "Commonwealth - the Commonwealth of Two Nations, which was founded with "
-#| "the Union of Lublin in 1569. This state united the Kingdom of Poland with "
-#| "the Grand Duchy of Lithuania and was founded by the Lithuanian grand duke "
-#| "Jogaila, who was baptized with the name Wladyslaw. The presence of the "
-#| "first Polish community in Lithuania dates back to duke Mindaugas of "
-#| "Lithuania. The first Poles came to Lithuania as prisoners of war taken "
-#| "during raids on the frontier lands (mainly to Mazovia). After uniting the "
-#| "two countries there was a very strong Polonization of the Lithuanian "
-#| "nobility. The Polish-speaking community in Lithuania survived the "
-#| "collapse and partition of the Polish state, co-existing with Lithuanian-"
-#| "speaking people. In 1920, the rebellious general Zeligowski announced the "
-#| "creation of a Republic of Central Lithuania, which was then incorporated "
-#| "into Poland. After World War II most of the Lithuanian Poles were "
-#| "displaced to Poland's new western territories."
 msgid ""
 "Lithuanian Poles are an ethnic minority in Lithuania, mainly in the "
 "Aukshtota region. They are a remnant of the Polish-Lithuanian Commonwealth - "
@@ -3609,22 +3536,17 @@ msgid "?plural:Chadians"
 msgstr "Chadianos"
 
 #: data/nation/chadian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
-#| "Empire, Chad was colonized by France in 1900. Independent since 1960, "
-#| "Chad remains one of the poorest countries of the world. From 1982 to 1990 "
-#| "Hissene Habre led a notoriously brutal dictatorship."
 msgid ""
 "Chad is a landlocked country in Africa. Once the site of the Kanem-Bornu "
 "Empire, Chad was colonized by France in 1900. Independent since 1960, Chad "
 "remains one of the poorest countries of the world. From 1982 to 1990 Hissene "
 "Habré led a notoriously brutal dictatorship."
 msgstr ""
-"Chad es un país sin salida al mar en África. Antaño el área fue el Imperio "
-"Kanem-Bornu, el Chad fue colonizado por Francia en 1900. Independiente desde "
-"1960, el Chad sigue siendo uno de los países más pobres del mundo. De 1982 a "
-"1990 Hissene Habre encabezó una dictadura notoriamente brutal."
+"El Chad es un país sin salida al mar en África. Antaño el área fue el "
+"Imperio Kanem-Bornu, el Chad fue colonizado por Francia en 1900. "
+"Independiente desde 1960, el Chad sigue siendo uno de los países más pobres "
+"del mundo. De 1982 a 1990 Hissene Habre encabezó una dictadura notoriamente "
+"brutal."
 
 #: data/nation/cham.ruleset:3
 msgid "Cham"
@@ -4232,18 +4154,6 @@ msgid "?plural:Congolese"
 msgstr "Congoleños"
 
 #: data/nation/congolese.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The Democratic Republic of the Congo is a big country in Central Africa. "
-#| "Despite (or because of) its wealth of natural resources it has been in "
-#| "ruins for most of its modern history. In 1885 Congo was awarded to "
-#| "Leopold II of Belgium as his personal possession, the Congo Free State, "
-#| "which turned the country into a slaughterhouse. At least twenty per cent "
-#| "of the population perished and after an international outcry it became a "
-#| "Belgian colony in 1906. It achieved independence in 1960. The Mobutu "
-#| "dictatorship started a new round of pillaging. When Mobutu was toppled "
-#| "the country sank into a civil war, causing five million deaths, the "
-#| "bloodiest event since World War II."
 msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
@@ -4537,17 +4447,12 @@ msgid "?plural:Cuyavians"
 msgstr "Cuyavianos"
 
 #: data/nation/cuyavian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Cuyavia is a historical region in Northern-Central Poland, bordered to "
-#| "the West by Masovia, on the East by Greater Poland and on the North by "
-#| "Pomerania."
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 "Cuyavia es una región histórica en el norte de a Polonia Central, limita al "
-"oeste con Masovia, por el Este con la Gran Polonia y en el Norte de "
+"oeste con Masovia, por el Este con la Gran Polonia y por el Norte con "
 "Pomerania."
 
 #: data/nation/cypriot.ruleset:3
@@ -4884,16 +4789,6 @@ msgid "?plural:Ecuadorians"
 msgstr "Ecuatorianos"
 
 #: data/nation/ecuadorian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ecuador is a country in western South America. It is divided into three "
-#| "very distinct geographic regions: the coastal lowlands, the mountains of "
-#| "the Andes and the jungles of the Oriente. The Galapagos islands are also "
-#| "part of Ecuador. The country gained independence from Spain in 1821 and "
-#| "from Colombia in 1830. Ecuador's history has been marked by rivalry "
-#| "between the coast (Guayaquil) and the mountains (Quito). It also fought "
-#| "numerous border wars with both Colombia and Peru. Nowadays Ecuador is one "
-#| "of the main oil producing countries of South America."
 msgid ""
 "Ecuador is a country in western South America. It is divided into three very "
 "distinct geographic regions: the coastal lowlands, the mountains of the "
@@ -5943,22 +5838,13 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
-msgstr ""
+msgstr "Göktürk"
 
 #: data/nation/gokturk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Gokturks"
 msgid "?plural:Göktürks"
 msgstr "Göktürks"
 
 #: data/nation/gokturk.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Gokturk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
-#| "derived its legendary origins from the red she-wolf. The Gokturks were "
-#| "ancestors of the modern Turkic nations in Asia and Eastern Europe. They "
-#| "were the creators of a vast military empire, which covered the steppe "
-#| "areas from the Kuban river in the West to Korea in the East."
 msgid ""
 "The Göktürk or Old Turkic Khaganate was ruled by the Ashina dynasty which "
 "derived its legendary origins from the red she-wolf. The Göktürks were "
@@ -5966,9 +5852,9 @@ msgid ""
 "the creators of a vast military empire, which covered the steppe areas from "
 "the Kuban river in the West to Korea in the East."
 msgstr ""
-"El Göktürk o Khaganate viejo turco fue gobernado por la dinastía Ashina que "
-"deriva su origen legendario de la loba roja. Los köktürks fueron antepasados "
-"de los pueblos modernos turcos en Asia y Europa del Este. Ellos fueron los "
+"El Göktürk o Khaganate Viejo Turco fue gobernado por la dinastía Ashina que "
+"deriva su origen legendario de la loba roja. Los Göktürks fueron antepasados "
+"de los modernos pueblos turcos en Asia y Europa del Este. Ellos fueron los "
 "creadores de un vasto imperio militar, que abarcaba desde el oeste las "
 "estepas del río Kuban hasta Corea en el este."
 
@@ -6151,11 +6037,6 @@ msgid "?plural:Guinean"
 msgstr "Guineanos"
 
 #: data/nation/guinean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Guinea declared independence from France in 1958. Its first president "
-#| "Ahmed Sekou Toure continued to rule the country until his death in 1984. "
-#| "Guinea is not to be confused with neighboring Guinea-Bissau."
 msgid ""
 "Guinea declared independence from France in 1958. Its first president Ahmed "
 "Sékou Touré continued to rule the country until his death in 1984. Guinea is "
@@ -6440,16 +6321,6 @@ msgid "?plural:Hephthalites"
 msgstr "Heftalitas"
 
 #: data/nation/hephthalite.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Hephthalites were a Central Asian nomadic confederation of the 5th "
-#| "and 6th centuries CE. Their precise origins and composition remain "
-#| "obscure. They may have been of mixed Iranic, Tocharian and Turkic origin, "
-#| "but their main language is unknown. Although they were also known as the "
-#| "White Huns, a connection with the Huns is considered unlikely. The "
-#| "Hephthalites were crushed by the Gokturks and Sassanids in the 6th "
-#| "century, but on the Indian subcontinent some Hephthalite successor "
-#| "kingdoms survived until the late 7th century."
 msgid ""
 "The Hephthalites were a Central Asian nomadic confederation of the 5th and "
 "6th centuries CE. Their precise origins and composition remain obscure. They "
@@ -6465,9 +6336,9 @@ msgstr ""
 "Es posible que hayan sido una mezcla de pueblos iránicos, tocarios y turcos, "
 "pero su lengua principal es desconocida. A pesar de que también eran "
 "conocidos como los hunos blancos, esta conexión con los hunos se considera "
-"improbable. Los Heftalitas fueron aplastados por los Göktürks y sasánidas en "
+"improbable. Los Heftalitas fueron aplastados por los Göktürks y Sasánidas en "
 "el siglo sexto, pero en el subcontinente indio algunos reinos sucesores "
-"heftalitas sobrevivió hasta finales del siglo 7."
+"heftalitas sobrevivieron hasta finales del siglo 7."
 
 #: data/nation/hessian.ruleset:3
 msgid "Hessian"
@@ -6956,19 +6827,14 @@ msgid "?plural:Ivoirian"
 msgstr "Marfileños"
 
 #: data/nation/ivoirian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Ivory Coast or Cote d'Ivoire achieved independence in 1960. It has been "
-#| "relatively stable compared to other West African countries, but in the "
-#| "2000s it lived through a civil war."
 msgid ""
 "Ivory Coast or Côte d'Ivoire achieved independence in 1960. It has been "
 "relatively stable compared to other West African countries, but in the 2000s "
 "it lived through a civil war."
 msgstr ""
-"Costa de Marfil se independizó en 1960. Se ha mantenido relativamente "
-"estable en comparación con otros países de África occidental, pero en la "
-"década de 2000 vivió una guerra civil."
+"Costa de Marfil o Côte d'Ivoire se independizó en 1960. Se ha mantenido "
+"relativamente estable en comparación con otros países de África occidental, "
+"pero en la década de 2000 vivió una guerra civil."
 
 #: data/nation/jaffna.ruleset:3
 msgid "Jaffna"
@@ -7263,11 +7129,11 @@ msgstr ""
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
-msgstr "kazako"
+msgstr "Kazako"
 
 #: data/nation/kazakh.ruleset:4
 msgid "?plural:Kazakhs"
-msgstr "kazakos"
+msgstr "Kazakos"
 
 #: data/nation/kazakh.ruleset:6
 msgid ""
@@ -7554,11 +7420,11 @@ msgstr ""
 
 #: data/nation/kushan.ruleset:3
 msgid "Kushan"
-msgstr "kushán"
+msgstr "Kushán"
 
 #: data/nation/kushan.ruleset:4
 msgid "?plural:Kushans"
-msgstr "kushán"
+msgstr "Kusháns"
 
 #: data/nation/kushan.ruleset:6
 msgid ""
@@ -7571,7 +7437,7 @@ msgid ""
 "the Persian Sassanids and replaced by a Persian vassal kingdom. The last "
 "remnants of the Kushans eventually succumbed to the Hephthalites."
 msgstr ""
-"Los Kushans eran un antiguo pueblo indoeuropeo, tal vez de origen tocario, "
+"Los Kusháns eran un antiguo pueblo indoeuropeo, tal vez de origen tocario, "
 "originalmente llevaban una vida nómada en Asia Central. Bajo la presión de "
 "pueblos turcos dejaron sus antiguas tierras y emigraron a la India. En la "
 "India fundaron un vasto imperio cuyos gobernantes se convirtió al budismo. "
@@ -8692,23 +8558,13 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr ""
+msgstr "Méti"
 
 #: data/nation/metis.ruleset:6
-#, fuzzy
-#| msgid "?plural:Metis"
 msgid "?plural:Métis"
 msgstr "Métis"
 
 #: data/nation/metis.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Metis are a people of mixed First Nations (Native American) and "
-#| "European (mostly French) descendance living mainly in the Canadian "
-#| "prairie provinces. Together with the First Nations and the Inuit they "
-#| "form one of the three indigenous groups of Canada. In the 19th century "
-#| "the Metis repeatedly rebelled against the British and Canadian "
-#| "authorities."
 msgid ""
 "The Métis are a people of mixed First Nations (Native American) and European "
 "(mostly French) descent living mainly in the Canadian prairie provinces. "
@@ -8732,21 +8588,6 @@ msgid "?plural:Mexicans"
 msgstr "Mejicanos"
 
 #: data/nation/mexican.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Mexico borrows its name from the Mexica people, another name for the "
-#| "Aztecs. It achieved independence from Spain in 1821. For most of the 19th "
-#| "century the country was wrecked by rebellions and foreign invasions "
-#| "losing more than half of its territory to the United States. A liberal "
-#| "constitution was proclaimed in 1857, leading to ten years of civil war "
-#| "between liberals and conservatives, in which the latter crowned "
-#| "Maximilian of Austria as emperor under French occupation. The French and "
-#| "conservatives were ultimately defeated by the liberals of Benito Juarez "
-#| "in 1867. Mexico entered the modern era under Porifirio Diaz (1876-1911) "
-#| "but social inequality and political repression led to the Mexican "
-#| "Revolution of 1910 which left more than a million dead. The Revolution "
-#| "led to the establishment of a corporatist one party state in 1929. Only "
-#| "in 2000 did Mexico see its first democratic transfer of power."
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs. "
 "It achieved independence from Spain in 1821. For most of the 19th century "
@@ -8762,19 +8603,20 @@ msgid ""
 "party state in 1929. Only in 2000 did Mexico see its first democratic "
 "transfer of power."
 msgstr ""
-"México toma su nombre del pueblo mexica, otro nombre para los aztecas. Logró "
-"la independencia de España en 1821. Durante la mayor parte del siglo 19 el "
-"país fue destruido por las rebeliones e invasiones extranjeras perdiendo más "
-"de la mitad de su territorio a los Estados Unidos. Una constitución liberal "
-"fue proclamada en 1857, llevando a diez años de guerra civil entre liberales "
-"y conservadores, que finalizó con la coronación de Maximiliano de Austria "
-"como emperador bajo la ocupación francesa. Los franceses y los conservadores "
-"fueron derrotados finalmente por los liberales de Benito Juárez en 1867. "
-"México entró en la era moderna de la mano de Porfirio Díaz (1876-1911), pero "
-"la desigualdad social y la represión política llevaron a la Revolución "
-"Mexicana de 1910 que dejó más de un millón de muertos. La Revolución dio "
-"lugar al establecimiento de un partido único corporativo en 1929. Sólo en el "
-"año 2000 México vió su primera transferencia democrática del poder."
+"México toma su nombre del Pueblo Mexicas, otro nombre para los Aztecas. "
+"Logró la independencia de España en 1821. Durante la mayor parte del siglo "
+"19 el país fue destruido por las rebeliones e invasiones extranjeras "
+"perdiendo y entregando más de la mitad de su territorio a los Estados "
+"Unidos. Se proclamó una constitución liberal en 1857, llevando a diez años "
+"de guerra civil entre liberales y conservadores, que finalizó con la "
+"coronación de Maximiliano de Austria como emperador bajo la ocupación "
+"francesa. Los franceses y los conservadores fueron derrotados finalmente por "
+"los liberales de Benito Juárez en 1867. México entró en la era moderna de la "
+"mano de Porfirio Díaz (1876-1911), pero la desigualdad social y la represión "
+"política llevaron a la Revolución Mexicana de 1910 que dejó más de un millón "
+"de muertos. La Revolución dio lugar al surgimiento de un partido único "
+"corporativo en 1929. Sólo en el año 2000 México vió su primera transferencia "
+"democrática del poder."
 
 #: data/nation/miao.ruleset:3
 msgid "Miao"
@@ -8915,16 +8757,6 @@ msgid "?plural:Mixtecs"
 msgstr "Mixtecos"
 
 #: data/nation/mixtec.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Mixtecs or Nuu Savi were one of the major Mesoamerican civilizations. "
-#| "The Mixtec territory was formed by a large number of city states. The "
-#| "Mixtec ruler Eight Deer 'Jaguar Claw', who ruled Tilantongo around 1100 "
-#| "CE, was famous in all of ancient Mexico. In the late 15th century most of "
-#| "the Mixtec territory was occupied by the Aztecs, though parts remained "
-#| "independent until the arrival of the Spanish. Nowadays there are about "
-#| "700,000 Mixtecs living in the Mexican states of Oaxaca, Guerrero and "
-#| "Puebla, as well as in emigrant communities in Northern Mexico and the US."
 msgid ""
 "The Mixtecs or Ñuu Savi were one of the major Mesoamerican civilizations. "
 "The Mixtec territory was formed by a large number of city states. The Mixtec "
@@ -8935,16 +8767,15 @@ msgid ""
 "living in the Mexican states of Oaxaca, Guerrero and Puebla, as well as in "
 "emigrant communities in Northern Mexico and the US."
 msgstr ""
-"Los mixtecos o Nuu Savi fue una de las grandes civilizaciones "
+"Los mixtecos o Ñuu Savi fue una de las grandes civilizaciones "
 "mesoamericanas. El territorio mixteco se componía de un gran número de "
 "ciudades-estado. El gobernante mixteco Ocho Venados 'Garra de Jaguar', que "
 "gobernó Tilantongo alrededor del año 1100 EC, se hizo famoso en todo el "
-"México antiguo. A finales  del siglo 15 la mayoría del territorio mixteco "
-"fue ocupada por los aztecas, aunque algunas partes se mantuvieron "
-"independientes hasta la llegada de los españoles. Hoy en día hay cerca de "
-"700.000 mixtecos que viven en los estados mexicanos de Oaxaca, Guerrero y "
-"Puebla, así como en comunidades de emigrantes en el norte de México y los EE."
-"UU."
+"México antiguo. A finales del siglo 15 la mayoría del territorio mixteco fue "
+"ocupado por los aztecas, aunque algunas partes se mantuvieron independientes "
+"hasta la llegada de los españoles. Hoy en día hay cerca de 700.000 mixtecos "
+"que viven en los estados mexicanos de Oaxaca, Guerrero y Puebla, así como en "
+"comunidades de emigrantes en el norte de México y los EE.UU."
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
@@ -9315,17 +9146,12 @@ msgid "?plural:Navajo"
 msgstr "Navajos"
 
 #: data/nation/navajo.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Navajo or Dine are the most populous Native American nation of the "
-#| "United States. They are closely related to the Apache. Their language is "
-#| "famous for being one of the world's most complex."
 msgid ""
 "The Navajo or Diné are the most populous Native American nation of the "
 "United States. They are closely related to the Apache. Their language is "
 "famous for being one of the world's most complex."
 msgstr ""
-"Los navajos o Dine son la nación de Nativos Americanos con más población de "
+"Los Navajos o Diné son la nación de Nativos Americanos con más población de "
 "los Estados Unidos. Están estrechamente relacionados con los Apaches. Su "
 "lenguaje es famoso por ser uno de los más complejos del mundo."
 
@@ -9528,27 +9354,14 @@ msgstr ""
 "infantil más alta del mundo. Níger no debe ser confundido con Nigeria."
 
 #: data/nation/nimiipuu.ruleset:3
-#, fuzzy
-#| msgid "Nimiipuu"
 msgid "Nimíipuu"
 msgstr "Nez percé"
 
 #: data/nation/nimiipuu.ruleset:6
-#, fuzzy
-#| msgid "?plural:Nimiipuu"
 msgid "?plural:Nimíipuu"
 msgstr "Nez percé"
 
 #: data/nation/nimiipuu.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Nimiipuu, or the 'Real People', in their own language, are better "
-#| "known as the 'Nez Perce'. This Native American nation covered parts of "
-#| "Washington, Oregon, Montana and Idaho and consisted of more than 70 "
-#| "permanent villages in 1800. At this time the population numbered about "
-#| "6,000. After a defeat by the American cavalry on October 5, 1877, the "
-#| "Nimiipuu were moved to reservations. The elected Nez Perce Tribal "
-#| "Executive Committee now governs tribal affairs."
 msgid ""
 "The Nimíipuu, or the 'Real People', in their own language, are better known "
 "as the 'Nez Percé'. This Native American nation covered parts of Washington, "
@@ -9563,8 +9376,8 @@ msgstr ""
 "Oregón, Montana y Idaho y constaba de más de 70 aldeas permanentes en 1800. "
 "En este momento la población era de unas 6.000 personas. Después de una "
 "derrota por la caballería americana el 5 de octubre de 1877, los Nimíipuu "
-"fueron trasladados a las reservas. El Comité Ejecutivo Tribal Nez Perce "
-"elegido ahora gobierna los asuntos tribales."
+"fueron trasladados a las reservas. El Comité Ejecutivo Tribal Nez Percé "
+"electo ahora gobierna los asuntos tribales."
 
 #: data/nation/norman.ruleset:3
 msgid "Norman"
@@ -9990,27 +9803,14 @@ msgstr ""
 "gran parte de Italia."
 
 #: data/nation/otomi.ruleset:3
-#, fuzzy
-#| msgid "Otomi"
 msgid "Otomí"
 msgstr "Otomí"
 
 #: data/nation/otomi.ruleset:6
-#, fuzzy
-#| msgid "?plural:Otomies"
 msgid "?plural:Otomíes"
 msgstr "Otomíes"
 
 #: data/nation/otomi.ruleset:9
-#, fuzzy
-#| msgid ""
-#| "The Otomi are one of the most ancient peoples of Mexico. They have lived "
-#| "in Central Mexico ever since the development of agriculture or even "
-#| "longer. A warlike people, they served as mercenaries in the armies of "
-#| "many Mesoamerican civilizations and got their name from the otmitl, the "
-#| "crack military order of the Aztecs, in which many of them served. In "
-#| "their own language they are called Hnahnu. With more than half a million "
-#| "people the Otomi are still one of the biggest indigenous groups of Mexico."
 msgid ""
 "The Otomí are one of the most ancient peoples of Mexico. They have lived in "
 "Central Mexico ever since the development of agriculture or even longer. A "
@@ -10020,12 +9820,12 @@ msgid ""
 "language they are called Hñähñu. With more than half a million people the "
 "Otomí are still one of the biggest indigenous groups of Mexico."
 msgstr ""
-"Los otomíes son uno de los pueblos más antiguos de México. Ellos han vivido "
-"en el centro de México desde el desarrollo de la agricultura o incluso más. "
-"Un pueblo guerrero, servían como mercenarios en los ejércitos de muchas "
-"civilizaciones de Mesoamérica y lleva el nombre de la otmitl, el orden "
+"Los Otomíes son uno de los pueblos más antiguos de México. Ellos han vivido "
+"en el centro de México desde como mínimo el desarrollo de la agricultura. "
+"Eran un pueblo guerrero, servían como mercenarios en los ejércitos de muchas "
+"civilizaciones de Mesoamérica y llevan el nombre de la otmitl, el orden "
 "militar de ataque de los aztecas, en los que muchos de ellos sirvieron. En "
-"su propia lengua se llaman hñahñú. Con más de medio millón de personas, los "
+"su propia lengua se llaman Hñähñu. Con más de medio millón de personas, los "
 "otomíes siguen siendo uno de los mayores grupos indígenas de México."
 
 #: data/nation/ottoman.ruleset:3
@@ -10629,20 +10429,6 @@ msgid "?plural:P'urhepecha"
 msgstr "Purépechas"
 
 #: data/nation/purhepecha.ruleset:7
-#, fuzzy
-#| msgid ""
-#| "The P'urhepecha or Tarascans are a people native to the modern Mexican "
-#| "state of Michoacan, the heart of a former empire known to them as "
-#| "Irechikua Ts'intsuntsani, meaning the \"lands of Tzintzuntzan,\" their "
-#| "capital city. Their kings were the perennial enemy of the Aztec empire, "
-#| "who attempted an unsuccessful invasion of the P'urhepecha lands. When the "
-#| "Spanish arrived and began their conquest of Mexico in 1519, the Aztecs "
-#| "sent an embassy seeking the support of the P'urhepecha, but were "
-#| "rebuffed. The conquistadores' reputation preceded them and the "
-#| "P'urhepecha offered to become a subject state of the King of Spain rather "
-#| "than meet the same fate as their former enemies, the Aztecs. "
-#| "Nevertheless, the transition to Spanish rule was not smooth and devolved "
-#| "into violence. The empire, founded around 1450 CE, collapsed in 1530."
 msgid ""
 "The P'urhepecha or Tarascans are a people native to the modern Mexican state "
 "of Michoacán, the heart of a former empire known to them as Irechikua "
@@ -10727,25 +10513,14 @@ msgstr ""
 "por Chile. Su alfabeto Rongorongo nunca ha sido descifrado."
 
 #: data/nation/raramuri.ruleset:3
-#, fuzzy
-#| msgid "Raramuri"
 msgid "Rarámuri"
-msgstr "Tarahumara"
+msgstr "Rarámuri"
 
 #: data/nation/raramuri.ruleset:6
-#, fuzzy
-#| msgid "?plural:Raramuris"
 msgid "?plural:Rarámuris"
-msgstr "Tarahumaras"
+msgstr "Rarámuris"
 
 #: data/nation/raramuri.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "The Raramuri or Tarahumara live in the canyons of the Sierra Madre "
-#| "Occidental in the north of Mexico. They are well known for their "
-#| "endurance; their traditions include running long distances while kicking "
-#| "wooden balls in races that last up to several days. In 1891 a Raramuri "
-#| "uprising in Tomochi was brutally repressed by the Mexican authorities."
 msgid ""
 "The Rarámuri or Tarahumara live in the canyons of the Sierra Madre "
 "Occidental in the north of Mexico. They are well known for their endurance; "
@@ -10753,9 +10528,9 @@ msgid ""
 "in races that last up to several days. In 1891 a Rarámuri uprising in "
 "Tomochi was brutally repressed by the Mexican authorities."
 msgstr ""
-"Los rarámuri o tarahumaras viven en los cañones de la Sierra Madre "
+"Los Rarámuris o Tarahumaras viven en los cañones de la Sierra Madre "
 "Occidental en el norte de México. Ellos son bien conocidos por su "
-"resistencia, sus tradiciones incluyen correr largas distancias, mientras que "
+"resistencia; sus tradiciones incluyen correr largas distancias, mientras que "
 "patean bolas de madera en las carreras que duran hasta varios días. En 1891 "
 "un levantamiento Rarámuri en Tomóchic fue brutalmente reprimido por las "
 "autoridades mexicanas."
@@ -11093,18 +10868,6 @@ msgid "?plural:Salvadorans"
 msgstr "Salvadoreños"
 
 #: data/nation/salvadoran.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Originally inhabited by Pipil Indians, in the 16th century El Salvador "
-#| "was conquered by the Spanish. It joined the Central American federation "
-#| "upon independence and became a fully independent republic in 1840. "
-#| "Although formally El Salvador has been a democracy for most of its "
-#| "independence, in reality the country's government is highly oligarchic, "
-#| "the 'fourteen families' having dominated the country's political and "
-#| "economic life since independence. In the 1930s general Hernandez Martinez "
-#| "established a dictatorship. A nonviolent revolution overthrew Hernandez "
-#| "in 1944 but the country remained unstable and from 1979-1992 the country "
-#| "lived through another bloody civil war."
 msgid ""
 "Originally inhabited by Pipil Indians, in the 16th century El Salvador was "
 "conquered by the Spanish. It joined the Central American federation upon "
@@ -11121,12 +10884,12 @@ msgstr ""
 "fue conquistado por los españoles. Se unió a la federación de Centroamérica "
 "después de la independencia y se convirtió en una república totalmente "
 "independiente, en 1840. Aunque oficialmente El Salvador ha sido una "
-"democracia para la mayoría de su independencia, en realidad, el gobierno del "
-"país es muy oligárquico, la 'catorce familias' han dominado la vida política "
-"y económica del país desde la independencia. En la década de 1930 el general "
-"Hernández Martínez estableció una dictadura. Una revolución no violenta "
-"derrocó Hernández en 1944, pero el país sigue siendo inestable y de 1979 a "
-"1992 el país vivió otra sangrienta guerra civil."
+"democracia durante gran parte de su independencia, en realidad, el gobierno "
+"del país es muy oligárquico, la 'catorce familias' han dominado la vida "
+"política y económica del país desde la independencia. En la década de 1930 "
+"el general Hernández Martínez estableció una dictadura. Una revolución no "
+"violenta derrocó Hernández en 1944, pero el país sigue siendo inestable y de "
+"1979 a 1992 el país vivió otra sangrienta guerra civil."
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
@@ -11254,15 +11017,6 @@ msgid "?plural:Santomeans"
 msgstr "Santotomenses"
 
 #: data/nation/santomean.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Sao Tome and Principe are two islands in the Atlantic Ocean off the coast "
-#| "of Africa. The main island was named after Saint Thomas by the Portuguese "
-#| "sailors who first discovered the island on the saint's feast day around "
-#| "1470. The islands turned into the first major European plantation colony. "
-#| "Slavery was abolished in the 19th century and the country became "
-#| "independent in 1975. The islands' economy remains dependent on the export "
-#| "of cocoa."
 msgid ""
 "São Tomé and Príncipe are two islands in the Atlantic Ocean off the coast of "
 "Africa. The main island was named after Saint Thomas by the Portuguese "
@@ -11571,7 +11325,7 @@ msgstr "Selyúcida"
 
 #: data/nation/seljuk.ruleset:4
 msgid "?plural:Seljuks"
-msgstr "selyúcidas"
+msgstr "Selyúcidas"
 
 #: data/nation/seljuk.ruleset:6
 msgid ""
@@ -12289,19 +12043,6 @@ msgid "?plural:Suebians"
 msgstr "Suabos"
 
 #: data/nation/suebian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Suebians were an ancient West Germanic tribal confederation, which "
-#| "may have been formed by Ariovistus for his expedition to Gaul. The "
-#| "Suebians included the Germanic tribes from the the Elbe river basin "
-#| "belonging to the Herminonic language group, such as the Marcomanni and "
-#| "Quadi. Between the first and fourth centuries CE they were a threat to "
-#| "Rome, often encroaching on the Danube provinces of the empire. In 405-406 "
-#| "CE the Suebians were forced to leave their lands by the Huns and during "
-#| "New Year's night in 405 CE they crossed the frozen Rhine together with "
-#| "the Vandals and the Alans. They settled in the northwest of the Iberian "
-#| "Peninsula, where they established their own kingdom, which was conquered "
-#| "by the Visigoths in 585 CE."
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
@@ -12318,12 +12059,12 @@ msgstr ""
 "Los Suebos eran una antigua confederación tribal germánico occidental, que "
 "pudo haber sido formada por Ariovisto para su expedición a la Galia. Los "
 "Suebios incluyan las tribus germánicas de la cuenca del río Elba "
-"pertenecientes al grupo lingüístico hermiónico, como los marcómanos y los "
-"cuados. Entre los siglos I y IV EC eran una amenaza para Roma, a menudo "
+"pertenecientes al grupo lingüístico hermiónico, como los Marcómanos y los "
+"Cuados. Entre los siglos I y IV EC eran una amenaza para Roma, a menudo "
 "invadiendo las provincias del imperio en el Danubio. En el 405-406 EC los "
 "Suebios se vieron obligados a abandonar sus tierras por los hunos y durante "
 "la noche de Año Nuevo en el 405 EC cruzaron el Rin congelado junto con los "
-"vándalos y los alanos. Se instalaron en el noroeste de la Península Ibérica, "
+"Vándalos y los Alanos. Se instalaron en el noroeste de la Península Ibérica, "
 "donde establecieron su propio reino, que fue conquistado por los visigodos "
 "en el año 585 EC."
 
@@ -13534,15 +13275,6 @@ msgid "?plural:Venezuelans"
 msgstr "Venezolanos"
 
 #: data/nation/venezuelan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Venezuela is the northernmost country in South America. Having been a "
-#| "Spanish colony since the 16th century, the country gained independence on "
-#| "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
-#| "Liberator. Venezuela has one of the largest proven oil and gas reserves "
-#| "of the world; during the oil boom of the 1970s it was the wealthiest "
-#| "country of Latin America. The country is known for its varied landscapes "
-#| "and high biodiversity."
 msgid ""
 "Venezuela is the northernmost country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -13680,26 +13412,14 @@ msgstr ""
 "Poloneses, que formaron el primer estado polaco en el siglo 10."
 
 #: data/nation/volapuk.ruleset:3
-#, fuzzy
-#| msgid "Volapukan"
 msgid "Volapükan"
 msgstr "Volapük"
 
 #: data/nation/volapuk.ruleset:6
-#, fuzzy
-#| msgid "?plural:Volapukans"
 msgid "?plural:Volapükans"
 msgstr "Volapüks"
 
 #: data/nation/volapuk.ruleset:8
-#, fuzzy
-#| msgid ""
-#| "Volapuk is an international auxiliary language constructed by the German "
-#| "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in "
-#| "the late 19th century. The language is often considered unnecessarily "
-#| "complex when compared with alternatives like Esperanto, which had almost "
-#| "completely displaced Volapuk by the turn of the century. Today only a few "
-#| "dozen Volapuk speakers remain."
 msgid ""
 "Volapük is an international auxiliary language constructed by the German "
 "priest Johann Martin Schleyer in 1879. It enjoyed a brief popularity in the "
@@ -13713,7 +13433,7 @@ msgstr ""
 "popularidad en el siglo 19. El lenguaje es a menudo considerado "
 "innecesariamente complejo en comparación con alternativas como el esperanto, "
 "que ya había desplazado casi por completo el Volapük a finales del siglo. "
-"Hoy en día sólo permanecen unas pocas docenas de oradores en volapük."
+"Hoy en día sólo permanecen unas pocas docenas de hablantes en volapük."
 
 #: data/nation/volgabulgar.ruleset:3
 msgid "Volga Bulgar"
@@ -13949,13 +13669,6 @@ msgid "?plural:amaXhosa"
 msgstr "Xhosa"
 
 #: data/nation/xhosa.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Xhosa are Bantu people in South Africa, having arrived there from the "
-#| "Great Lakes region by the 17th century. During the apartheid era there "
-#| "were two Xhosa Bantustans, Transkei and Ciskei. Many of the leading anti-"
-#| "apartheid activists, including Nelson Mandela and Desmond Tutu, where "
-#| "Xhosa."
 msgid ""
 "The Xhosa are Bantu people in South Africa, having arrived there from the "
 "Great Lakes region by the 17th century. During the apartheid era there were "
@@ -13964,9 +13677,9 @@ msgid ""
 msgstr ""
 "Los Xhosa son un pueblo bantú de África del Sur, al cual llegaron desde la "
 "región de los Grandes Lagos en el siglo 17. Durante la época del apartheid "
-"había dos bantustanes xhosa, Transkei y Ciskei. Muchos de los líderes "
+"había dos Bantustanes Xhosa, Transkei y Ciskei. Muchos de los líderes "
 "activistas anti-apartheid, entre ellos Nelson Mandela y Desmond Tutu, eran "
-"xhosa."
+"Xhosa."
 
 #: data/nation/xiongnu.ruleset:3
 msgid "Xiongnu"
@@ -14054,13 +13767,6 @@ msgid "?plural:Yucatecans"
 msgstr "Yucatecos"
 
 #: data/nation/yucatecan.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Yucatan is a peninsula of Mexico, famous for its Maya heritage and its "
-#| "white beaches. Its name is often claimed to mean \"we don't understand you"
-#| "\" in Yucatec Maya. On two occasions in the 19th century Yucatan declared "
-#| "independence from Mexico. Currently it is divided into three states: "
-#| "Yucatan, Campeche and Quintana Roo."
 msgid ""
 "Yucatán is a peninsula of Mexico, famous for its Maya heritage and its white "
 "beaches. Its name is often claimed to mean \"we don't understand you\" in "
@@ -14071,7 +13777,7 @@ msgstr ""
 "Yucatán es una península de México, famosa por su herencia maya y sus playas "
 "de arena blanca. Su nombre se afirma a menudo que significa \"no te entiendo"
 "\" en maya yucateco. El Yucatán declaró su independencia de México dos veces "
-"en el siglo 19 . En la actualidad se divide en tres estados: Yucatán, "
+"en el siglo 19. En la actualidad se divide en tres estados: Yucatán, "
 "Campeche y Quintana Roo."
 
 #: data/nation/yugoslav.ruleset:3
@@ -14153,19 +13859,13 @@ msgid "?plural:Zapotecs"
 msgstr "Zapotecos"
 
 #: data/nation/zapotec.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "The Zapotecs or Binniza live in the Mexican state of Oaxaca. They formed "
-#| "one of the oldest and most resilient Mesoamerican civilizations. The most "
-#| "notable Zapotec center, Monte Alban, was built on a razed mountain top. "
-#| "Benito Juarez, Mexico's first indigenous president, was a Zapotec."
 msgid ""
 "The Zapotecs or Binnizá live in the Mexican state of Oaxaca. They formed one "
 "of the oldest and most resilient Mesoamerican civilizations. The most "
 "notable Zapotec center, Monte Albán, was built on a razed mountain top. "
 "Benito Juárez, Mexico's first indigenous president, was a Zapotec."
 msgstr ""
-"Los zapotecas o Binni záa viven en el estado mexicano de Oaxaca. Ellos "
+"Los Zapotecas o Binni záa viven en el estado mexicano de Oaxaca. Ellos "
 "formaron una de las civilizaciones mesoamericanas más antiguas y más "
 "resistentes. El centro zapoteca más notable, Monte Albán, fue construido en "
 "la cima de unas montañas arrasadas. Benito Juárez, el primer presidente "
