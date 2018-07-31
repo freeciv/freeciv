@@ -173,7 +173,7 @@ static void msg_dl_thread(const char *msg)
 
   data->msg = msg;
 
-  gdk_threads_add_idle(msg_main_thread, data);
+  g_idle_add(msg_main_thread, data);
 }
 
 struct pbar_data {
@@ -205,7 +205,7 @@ static void pbar_dl_thread(int current, int max)
   data->current = current;
   data->max = max;
 
-  gdk_threads_add_idle(pbar_main_thread, data);
+  g_idle_add(pbar_main_thread, data);
 }
 
 /**************************************************************************
@@ -250,7 +250,7 @@ static gboolean versionlist_update_main_thread(gpointer user_data)
 **************************************************************************/
 static void versionlist_update_dl_thread(void)
 {
-  gdk_threads_add_idle(versionlist_update_main_thread, NULL);
+  g_idle_add(versionlist_update_main_thread, NULL);
 }
 
 /**************************************************************************
