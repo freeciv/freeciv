@@ -142,9 +142,21 @@ void kill_player(struct player *pplayer)
 
   /* Show entire map for players who are *not* in a team if revealmap is set
    * to REVEAL_MAP_DEAD. */
-  if (game.server.revealmap & REVEAL_MAP_DEAD
-      && player_list_size(team_members(pplayer->team)) == 1) {
-    map_know_and_see_all(pplayer);
+  if (game.server.revealmap & REVEAL_MAP_DEAD) {
+    bool someone_alive = FALSE;
+
+    player_list_iterate(team_members(pplayer->team), pteam_member) {
+      if (pteam_member->is_alive) {
+        someone_alive = TRUE;
+        break;
+      }
+    } player_list_iterate_end;
+
+    if (!someone_alive) {
+      player_list_iterate(team_members(pplayer->team), pteam_member) {
+        map_know_and_see_all(pteam_member);
+      } player_list_iterate_end;
+    }
   }
 
   if (!is_barbarian(pplayer)) {

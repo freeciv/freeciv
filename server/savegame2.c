@@ -4474,14 +4474,21 @@ static void sg_load_player_vision(struct loaddata *loading,
       secfile_lookup_int_default(loading->file, -1,
                                  "player%d.dc_total", plrno);
   int i;
+  bool someone_alive = FALSE;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (!plr->is_alive) {
-    if (game.server.revealmap & REVEAL_MAP_DEAD
-        && player_list_size(team_members(plr->team)) == 1) {
-      /* Reveal all for dead players. */
+  if (game.server.revealmap & REVEAL_MAP_DEAD) {
+    player_list_iterate(team_members(plr->team), pteam_member) {
+      if (pteam_member->is_alive) {
+        someone_alive = TRUE;
+        break;
+      }
+    } player_list_iterate_end;
+
+    if (!someone_alive) {
+      /* Reveal all for completely dead teams. */
       map_know_and_see_all(plr);
     }
   }
