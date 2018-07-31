@@ -988,7 +988,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
 [
   fcmp_gtk3=yes
   fcmp_list="$fcmp_list gtk3"
-  mp_gtk3_cflags="$GTK3_CFLAGS $GHTREAD_CFLAGS"
+  mp_gtk3_cflags="$GTK3_CFLAGS $GTHREAD_CFLAGS"
   mp_gtk3_libs="$GTK3_LIBS $GTHREAD_LIBS"
   if test "x$MINGW32" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
