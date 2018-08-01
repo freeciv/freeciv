@@ -139,7 +139,8 @@ void configure_fonts()
   const QScreen *screen = screens.at(0);
   qreal logical_dpi = screen->logicalDotsPerInchX();
   qreal physical_dpi = screen->physicalDotsPerInchX();
-  qreal scale = (physical_dpi / logical_dpi)
+  qreal screen_size = screen->geometry().width() / physical_dpi + 5;
+  qreal scale = (physical_dpi * screen_size / (logical_dpi * 27))
                 / screen->devicePixelRatio();
 
   max = qRound(scale * 16);
