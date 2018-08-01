@@ -449,7 +449,9 @@ void map_view::shortcut_released(Qt::MouseButton bt)
       menu_click = false;
       return;
     }
-    if (keyboardless_goto_active == false || goto_is_active() == true) {
+    if ((keyboardless_goto_active == false || goto_is_active() == true)
+        && (gui()->trade_gen.hover_city == true
+            || gui()->rallies.hover_city == true)) {
       action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
       gui_options.auto_center_on_unit = stored_autocenter;
     }
