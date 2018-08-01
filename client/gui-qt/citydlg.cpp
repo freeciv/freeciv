@@ -1747,6 +1747,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   vbox_layout->addWidget(production_combo_p);
   vbox_layout->addLayout(work_but_layout);
   vbox_layout->addWidget(p_table_p);
+  qgbprod->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   qgbprod->setLayout(vbox_layout);
 
   but_menu_worklist->setText(_("Worklist menu"));
@@ -1918,14 +1919,14 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   split_widget2->setLayout(units_layout);
   prod_unit_splitter->addWidget(split_widget1);
   prod_unit_splitter->addWidget(split_widget2);
-  prod_unit_splitter->setStretchFactor(0, 40);
-  prod_unit_splitter->setStretchFactor(1, 60);
+  prod_unit_splitter->setStretchFactor(0, 3);
+  prod_unit_splitter->setStretchFactor(1, 97);
   prod_unit_splitter->setOrientation(Qt::Horizontal);
   leftbot_layout->addWidget(prod_unit_splitter);
   top_widget = new QWidget;
   top_widget->setLayout(lefttop_layout);
-  top_widget->setSizePolicy(QSizePolicy::MinimumExpanding,
-                            QSizePolicy::Fixed);
+  top_widget->setSizePolicy(QSizePolicy::Preferred,
+                            QSizePolicy::Preferred);
   scroll_info = new QScrollArea();
   scroll_info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   scroll_unit = new QScrollArea();
@@ -1939,7 +1940,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   scroll_unit->setWidgetResizable(true);
   central_left_splitter->addWidget(scroll_info);
   central_left_splitter->addWidget(scroll_unit);
-  central_left_splitter->setStretchFactor(0, 60);
+  central_left_splitter->setStretchFactor(0, 40);
   central_left_splitter->setStretchFactor(1, 60);
   central_left_splitter->setOrientation(Qt::Vertical);
   left_layout->addWidget(central_left_splitter);
@@ -1950,8 +1951,8 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   split_widget2->setLayout(right_layout);
   central_splitter->addWidget(split_widget1);
   central_splitter->addWidget(split_widget2);
-  central_splitter->setStretchFactor(0, 80);
-  central_splitter->setStretchFactor(1, 20);
+  central_splitter->setStretchFactor(0, 99);
+  central_splitter->setStretchFactor(1, 1);
   central_splitter->setOrientation(Qt::Horizontal);
   single_page_layout->addWidget(central_splitter);
   setSizeGripEnabled(true);
