@@ -536,7 +536,6 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_TILE_WORKABLE:
   case EFT_UNUSED4:
   case EFT_COMBAT_ROUNDS:
-  case EFT_UNUSED3:
   case EFT_UNUSED1:
   case EFT_UNUSED2:
   case EFT_PERFORMANCE:
@@ -557,6 +556,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
+    break;
+  case EFT_IMPR_BUY_COST_PCT:
+    v -= amount * 25;
     break;
   case EFT_CITY_RADIUS_SQ:
     v += amount * 10; /* AI wants bigger city radii */
