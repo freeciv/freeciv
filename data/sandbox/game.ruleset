@@ -535,6 +535,7 @@ start_year = -4000
 ; Year 1 instead of 0.
 skip_year_0 = TRUE
 
+; How many fragments each year has. In addition to this, "Turn_Fragments" effects are
 ; needed to control fragment accumulation.
 ; Value 0 here disables year advancement by fragment accumulation.
 fragments = 0
