@@ -2598,3 +2598,13 @@ reqs    =
     { "type", "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
+
+; Double (+100%) buy cost for Small Wonders except Palace
+[effect_small_wonder_buy_cost]
+type    = "Building_Buy_Cost_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range", "present"
+      "BuildingGenus", "SmallWonder", "Local", TRUE
+      "Building", "Palace", "Local", FALSE
+    }
