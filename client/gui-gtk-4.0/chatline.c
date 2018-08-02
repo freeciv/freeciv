@@ -1502,5 +1502,5 @@ void version_message(const char *vertext)
 
   strncpy(persistent, vertext, len);
 
-  gdk_threads_add_idle(version_message_main_thread, persistent);
+  g_idle_add(version_message_main_thread, persistent);
 }
