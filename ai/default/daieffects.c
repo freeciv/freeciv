@@ -538,10 +538,6 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_COMBAT_ROUNDS:
   case EFT_UNUSED1:
   case EFT_UNUSED2:
-  case EFT_PERFORMANCE:
-  case EFT_HISTORY:
-  case EFT_NATION_PERFORMANCE:
-  case EFT_NATION_HISTORY:
   case EFT_ILLEGAL_ACTION_MOVE_COST:
   case EFT_CASUS_BELLI_CAUGHT:
   case EFT_CASUS_BELLI_SUCCESS:
@@ -553,6 +549,16 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_VISIBLE_WALLS:
   case EFT_CITY_IMAGE:
   case EFT_SHIELD2GOLD_FACTOR:
+    break;
+  case EFT_PERFORMANCE:
+  case EFT_NATION_PERFORMANCE:
+    /* Consider each culture point worth 1/10 point, minimum of 1 point... */
+    v += amount / 10 + 1;
+    break;
+  case EFT_HISTORY:
+  case EFT_NATION_HISTORY:
+    /* ...and history effect to accumulate those points for 50 turns. */
+    v += amount * 5;
     break;
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
