@@ -1000,7 +1000,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
 [
   fcmp_gtk3=yes
   fcmp_list="$fcmp_list gtk3"
-  mp_gtk3_cflags="$GTK3MP_CFLAGS $GHTREAD_GTK3_CFLAGS"
+  mp_gtk3_cflags="$GTK3MP_CFLAGS $GTHREAD_GTK3_CFLAGS"
   mp_gtk3_libs="$GTK3MP_LIBS $GTHREAD_GTK3_LIBS"
   if test "x$MINGW" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
