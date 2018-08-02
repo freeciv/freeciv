@@ -392,9 +392,9 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
   shields_at_arrival = dest->shield_stock
     + arrival_time * dest->surplus[O_SHIELD];
 
-  costwithout = impr_buy_gold_cost(dest->production.value.building,
+  costwithout = impr_buy_gold_cost(dest, dest->production.value.building,
       shields_at_arrival);
-  costwith = impr_buy_gold_cost(dest->production.value.building,
+  costwith = impr_buy_gold_cost(dest, dest->production.value.building,
       shields_at_arrival + unit_build_shield_cost(caravan));
 
   fc_assert_ret_val(costwithout >= costwith, -1.0);

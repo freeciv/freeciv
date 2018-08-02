@@ -1477,6 +1477,12 @@ void rscompat_postprocess(struct rscompat_info *info)
      /* Conquering a city now steals tech only when there's an effect
       * enabling it. */
      peffect = effect_new(EFT_CONQUEST_TECH_PCT, 100, NULL);
+
+     /* Building Buy Cost modifications are unhardcoded. */
+     peffect = effect_new(EFT_IMPR_BUY_COST_PCT, 100, NULL);
+     effect_req_append(peffect,
+                       req_from_str("BuildingGenus", "Local", FALSE,
+                                    TRUE, FALSE, "GreatWonder"));
   }
 
   if (info->ver_terrain < 10) {

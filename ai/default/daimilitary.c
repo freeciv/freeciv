@@ -1500,7 +1500,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           && can_city_build_improvement_now(pcity, pimprove)
           && (danger < 101 || num_defenders > 1
               || (city_data->grave_danger == 0 
-                  && pplayer->economic.gold > impr_buy_gold_cost(pimprove, pcity->shield_stock)))
+                  && pplayer->economic.gold
+                     > impr_buy_gold_cost(pcity, pimprove, pcity->shield_stock)))
           && ai_fuzzy(pplayer, TRUE)) {
         if (pcity->server.adv->building_want[wall_id] > 0) {
           /* NB: great wall is under domestic */
