@@ -531,6 +531,7 @@ void game_ruleset_init(void)
   tech_classes_init();
   user_tech_flags_init();
   multipliers_init();
+  clause_infos_init();
 
   if (is_server()) {
     game.server.luadata = NULL;
@@ -590,6 +591,7 @@ void game_ruleset_free(void)
   ruleset_cache_free();
   nation_sets_groups_free();
   multipliers_free();
+  clause_infos_free();
 
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);

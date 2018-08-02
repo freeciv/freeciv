@@ -1820,6 +1820,11 @@ PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
   STRVEC helptext[MAX_LEN_PACKET];
 end
 
+PACKET_RULESET_CLAUSE = 512; sc, lsend
+  CLAUSE type;
+  BOOL   enabled;
+end
+
 /**************************************************************************
   Ruleset control values: single values, all of which are needed before
   sending other ruleset data.  After sending this packet, resend every

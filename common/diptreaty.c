@@ -25,6 +25,8 @@
 
 #include "diptreaty.h"
 
+static struct clause_info clause_infos[CLAUSE_COUNT];
+
 /**********************************************************************//**
   Returns TRUE iff pplayer could do diplomancy in the game at all.
 **************************************************************************/
@@ -177,6 +179,10 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
+  if (!clause_infos[type].enabled) {
+    return FALSE;
+  }
+
   if (!game.info.trading_gold && type == CLAUSE_GOLD) {
     return FALSE;
   }
@@ -202,8 +208,8 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
       old_clause->type = type;
       return TRUE;
     }
-    if (type == CLAUSE_GOLD && old_clause->type == CLAUSE_GOLD &&
-        old_clause->from == pfrom) {
+    if (type == CLAUSE_GOLD && old_clause->type == CLAUSE_GOLD
+        && old_clause->from == pfrom) {
       /* gold clause there, different value */
       ptreaty->accept0 = FALSE;
       ptreaty->accept1 = FALSE;
@@ -214,9 +220,9 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
 
   pclause = fc_malloc(sizeof(*pclause));
 
-  pclause->type=type;
-  pclause->from=pfrom;
-  pclause->value=val;
+  pclause->type  = type;
+  pclause->from  = pfrom;
+  pclause->value = val;
   
   clause_list_append(ptreaty->clauses, pclause);
 
@@ -225,3 +231,34 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
 
   return TRUE;
 }
+
+/**********************************************************************//**
+  Initialize clause info structures.
+**************************************************************************/
+void clause_infos_init(void)
+{
+  int i;
+
+  for (i = 0; i < CLAUSE_COUNT; i++) {
+    clause_infos[i].type = i;
+    clause_infos[i].enabled = FALSE;
+  }
+}
+
+/**********************************************************************//**
+  Free memory associated with clause infos.
+**************************************************************************/
+void clause_infos_free(void)
+{
+}
+
+/**********************************************************************//**
+  Free memory associated with clause infos.
+**************************************************************************/
+struct clause_info *clause_info_get(enum clause_type type)
+{
+  fc_assert(type >= 0 && type < CLAUSE_COUNT);
+
+  return &clause_infos[type];
+}
+

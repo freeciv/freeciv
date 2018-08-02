@@ -645,6 +645,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
          * within radius of our own city. */
         worker_refresh_required = TRUE;
 	break;
+      case CLAUSE_COUNT:
+        fc_assert(pclause->type != CLAUSE_COUNT);
+        break;
       }
 
     } clause_list_iterate_end;

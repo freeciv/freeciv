@@ -567,6 +567,9 @@ static int dai_goldequiv_clause(struct ai_type *ait,
     DIPLO_LOG(ait, LOG_DIPL, pplayer, aplayer, "embassy clause worth %d",
               worth);
     break;
+  case CLAUSE_COUNT:
+    fc_assert(pclause->type != CLAUSE_COUNT);
+    break;
   } /* end of switch */
 
   if (close_here) {

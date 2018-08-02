@@ -494,6 +494,19 @@ goods_selection = "Leaving"
 [goods_good]
 name = _("Goods")
 
+
+; /* <-- avoid gettext warnings
+;
+; Clause types
+;
+; Clause types that are not listed here, are not enabled at all.
+;
+; type                   = Type of the clause, one of "Advance", "Gold", "Map", "Seamap",
+;                          "City", "Ceasefire", "Peace", "Alliance", "Vision", "Embassy"
+;
+; */ <-- avoid gettext warnings
+
+
 [playercolors]
 background.r = 86
 background.g = 86

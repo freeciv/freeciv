@@ -1128,6 +1128,49 @@ goods_selection = "Arrival"
 [goods_good]
 name = _("Goods")
 
+
+; /* <-- avoid gettext warnings
+;
+; Clause types
+;
+; Clause types that are not listed here, are not enabled at all.
+;
+; type                   = Type of the clause, one of "Advance", "Gold", "Map", "Seamap",
+;                          "City", "Ceasefire", "Peace", "Alliance", "Vision", "Embassy"
+;
+; */ <-- avoid gettext warnings
+
+[clause_advance]
+type = "Advance"
+
+[clause_gold]
+type = "Gold"
+
+[clause_map]
+type = "Map"
+
+[clause_seamap]
+type = "Seamap"
+
+[clause_city]
+type = "City"
+
+[clause_ceasefire]
+type = "Ceasefire"
+
+[clause_peace]
+type = "Peace"
+
+[clause_alliance]
+type = "Alliance"
+
+[clause_vision]
+type = "Vision"
+
+[clause_embassy]
+type = "Embassy"
+
+
 [playercolors]
 background.r = 86
 background.g = 86

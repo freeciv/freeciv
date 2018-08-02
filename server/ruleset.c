@@ -93,6 +93,7 @@
 #define NATION_GROUP_SECTION_PREFIX "ngroup" /* without underscore? */
 #define NATION_SECTION_PREFIX "nation" /* without underscore? */
 #define STYLE_SECTION_PREFIX "style_"
+#define CLAUSE_SECTION_PREFIX "clause_"
 #define EXTRA_SECTION_PREFIX "extra_"
 #define BASE_SECTION_PREFIX "base_"
 #define ROAD_SECTION_PREFIX "road_"
@@ -184,6 +185,7 @@ static void send_ruleset_roads(struct conn_list *dest);
 static void send_ruleset_goods(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_styles(struct conn_list *dest);
+static void send_ruleset_clauses(struct conn_list *dest);
 static void send_ruleset_musics(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
@@ -6751,6 +6753,40 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     section_list_destroy(sec);
   }
 
+  if (ok) {
+    sec = secfile_sections_by_name_prefix(file, CLAUSE_SECTION_PREFIX);
+
+    if (sec != NULL) {
+      int num = section_list_size(sec);
+
+      for (i = 0; i < num; i++) {
+        const char *sec_name = section_name(section_list_get(sec, i));
+        const char *clause_name = secfile_lookup_str_default(file, NULL,
+                                                             "%s.type", sec_name);
+        enum clause_type type = clause_type_by_name(clause_name, fc_strcasecmp);
+        struct clause_info *info;
+
+        if (!clause_type_is_valid(type)) {
+          ruleset_error(LOG_ERROR, "\"%s\" unknown clause type \"%s\".",
+                        filename, clause_name);
+          ok = FALSE;
+          break;
+        }
+
+        info = clause_info_get(type);
+
+        if (info->enabled) {
+          ruleset_error(LOG_ERROR, "\"%s\" dublicate clause type \"%s\" definition.",
+                        filename, clause_name);
+          ok = FALSE;
+          break;
+        }
+
+        info->enabled = TRUE;
+      }
+    }
+  }
+
   /* secfile_check_unused() is not here, but only after also settings section
    * has been loaded. */
 
@@ -7776,6 +7812,24 @@ static void send_ruleset_styles(struct conn_list *dest)
 }
 
 /**********************************************************************//**
+  Send the clause type ruleset information to the specified connections.
+**************************************************************************/
+static void send_ruleset_clauses(struct conn_list *dest)
+{
+  struct packet_ruleset_clause packet;
+  int i;
+
+  for (i = 0; i < CLAUSE_COUNT; i++) {
+    struct clause_info *info = clause_info_get(i);
+
+    packet.type = i;
+    packet.enabled = info->enabled;
+
+    lsend_packet_ruleset_clause(dest, &packet);
+  }
+}
+
+/**********************************************************************//**
   Send the multiplier ruleset information to the specified
   connections.
 **************************************************************************/
@@ -8303,6 +8357,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
   send_ruleset_styles(dest);
+  send_ruleset_clauses(dest);
   send_ruleset_cities(dest);
   send_ruleset_multipliers(dest);
   send_ruleset_musics(dest);

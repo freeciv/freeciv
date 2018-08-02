@@ -339,6 +339,17 @@ void rscompat_postprocess(struct rscompat_info *info)
         action_enabler_obligatory_reqs_add(ae);
       }
     } action_enablers_iterate_end;
+
+    /* Enable all clause types */
+    {
+      int i;
+
+      for (i = 0; i < CLAUSE_COUNT; i++) {
+        struct clause_info *cinfo = clause_info_get(i);
+
+        cinfo->enabled = TRUE;
+      }
+    }
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

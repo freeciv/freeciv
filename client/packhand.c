@@ -4358,6 +4358,18 @@ void handle_ruleset_style(const struct packet_ruleset_style *p)
 }
 
 /************************************************************************//**
+  Handle a packet about a particular clause.
+****************************************************************************/
+void handle_ruleset_clause(const struct packet_ruleset_clause *p)
+{
+  struct clause_info *info = clause_info_get(p->type);
+
+  fc_assert_ret_msg(NULL != info, "Bad clause %d.", p->type);
+
+  info->enabled = p->enabled;
+}
+
+/************************************************************************//**
   Handle city style packet.
 ****************************************************************************/
 void handle_ruleset_city(const struct packet_ruleset_city *packet)
