@@ -870,6 +870,7 @@ int research_total_bulbs_required(const struct research *presearch,
   enum tech_cost_style tech_cost_style = game.info.tech_cost_style;
   int members;
   double base_cost, total_cost;
+  double leak = 0.0;
 
   if (!loss_value
       && NULL != presearch
@@ -957,8 +958,8 @@ int research_total_bulbs_required(const struct research *presearch,
 
       fc_assert_ret_val(0 < players, base_cost);
       fc_assert(players >= players_with_tech_and_embassy);
-      base_cost *= (double) (players - players_with_tech_and_embassy);
-      base_cost /= (double) players;
+      leak = base_cost * players_with_tech_and_embassy
+             * game.info.tech_leak_pct / players / 100;
     }
     break;
 
@@ -978,8 +979,8 @@ int research_total_bulbs_required(const struct research *presearch,
 
       fc_assert_ret_val(0 < players, base_cost);
       fc_assert(players >= players_with_tech);
-      base_cost *= (double) (players - players_with_tech);
-      base_cost /= (double) players;
+      leak = base_cost * players_with_tech * game.info.tech_leak_pct
+             / players / 100;
     }
     break;
 
@@ -1002,10 +1003,16 @@ int research_total_bulbs_required(const struct research *presearch,
 
       fc_assert_ret_val(0 < players, base_cost);
       fc_assert(players >= players_with_tech);
-      base_cost *= (double) (players - players_with_tech);
-      base_cost /= (double) players;
+      leak = base_cost * players_with_tech * game.info.tech_leak_pct
+             / players / 100;
     }
     break;
+  }
+
+  if (leak > base_cost) {
+    base_cost = 0.0;
+  } else {
+    base_cost -= leak;
   }
 
   /* Assign a science penalty to the AI at easier skill levels. This code
