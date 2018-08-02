@@ -417,6 +417,10 @@ extern struct world wld;
 #define GAME_MIN_TECHLOSSREST        -1
 #define GAME_MAX_TECHLOSSREST        100
 
+#define GAME_DEFAULT_TECHLEAK        100
+#define GAME_MIN_TECHLEAK            0
+#define GAME_MAX_TECHLEAK            300
+
 #define GAME_DEFAULT_CITYMINDIST     2
 #define GAME_MIN_CITYMINDIST         1
 #define GAME_MAX_CITYMINDIST         11
