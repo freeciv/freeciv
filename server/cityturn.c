@@ -468,7 +468,7 @@ static void city_turn_notify(const struct city *pcity,
                                               RPT_CERTAIN)
         && 0 < pcity->surplus[O_SHIELD]) {
       /* From the check above, the surplus must always be positive. */
-      turns_granary = (impr_build_shield_cost(pimprove)
+      turns_granary = (impr_build_shield_cost(pcity, pimprove)
                        - pcity->shield_stock) / pcity->surplus[O_SHIELD];
       /* If growth and granary completion occur simultaneously, granary
        * preserves food.  -AJS. */
@@ -2322,7 +2322,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
                               API_TYPE_STRING, "unavailable");
     return TRUE;
   }
-  if (pcity->shield_stock >= impr_build_shield_cost(pimprove)) {
+  if (pcity->shield_stock >= impr_build_shield_cost(pcity, pimprove)) {
+    int cost;
+
     if (is_small_wonder(pimprove)) {
       city_list_iterate(pplayer->cities, wcity) {
 	if (city_has_building(wcity, pimprove)) {
@@ -2346,8 +2348,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       space_part = FALSE;
       city_add_improvement(pcity, pimprove);
     }
-    pcity->before_change_shields -= impr_build_shield_cost(pimprove);
-    pcity->shield_stock -= impr_build_shield_cost(pimprove);
+    cost = impr_build_shield_cost(pcity, pimprove);
+    pcity->before_change_shields -= cost;
+    pcity->shield_stock -= cost;
     pcity->turn_last_built = game.info.turn;
     /* to eliminate micromanagement */
     if (is_great_wonder(pimprove)) {
@@ -3033,7 +3036,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
 
   /* Buildings */
   city_built_iterate(pcity, pimprove) {
-    cost += impr_build_shield_cost(pimprove)
+    cost += impr_build_shield_cost(pcity, pimprove)
             * game.server.incite_improvement_factor;
   } city_built_iterate_end;
 
@@ -3439,7 +3442,7 @@ static float city_migration_score(struct city *pcity)
 
   /* calculate shield build cost for all buildings */
   city_built_iterate(pcity, pimprove) {
-    build_shield_cost += impr_build_shield_cost(pimprove);
+    build_shield_cost += impr_build_shield_cost(pcity, pimprove);
     if (is_wonder(pimprove)) {
       /* this city has a wonder */
       has_wonder = TRUE;

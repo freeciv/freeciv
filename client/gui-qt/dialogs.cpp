@@ -1852,7 +1852,8 @@ static QString city_prod_remaining(struct city *target_city)
   }
 
   return QString(_("%1 remaining")).arg(
-        impr_build_shield_cost(target_city->production.value.building)
+        impr_build_shield_cost(target_city,
+                               target_city->production.value.building)
         - target_city->shield_stock);
 }
 

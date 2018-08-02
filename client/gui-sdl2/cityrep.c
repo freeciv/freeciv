@@ -542,7 +542,7 @@ static void real_info_city_report_dialog_update(void)
       pLogo = ResizeSurfaceBox(get_building_surface(pCity->production.value.building),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
-      togrow = impr_build_shield_cost(pImprove);
+      togrow = impr_build_shield_cost(pCity, pImprove);
       pName = improvement_name_translation(pImprove);
     }
 
@@ -1075,7 +1075,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
 
     pLogo = ResizeSurface(get_building_surface(pCity->production.value.building),
                           adj_size(36), adj_size(24), 1);
-    togrow = impr_build_shield_cost(pImprove);
+    togrow = impr_build_shield_cost(pCity, pImprove);
     pName = improvement_name_translation(pImprove);
   }
 

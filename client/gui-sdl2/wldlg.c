@@ -864,7 +864,8 @@ static const char *get_production_name(struct city *pCity,
 {
   fc_assert_ret_val(cost != NULL, NULL);
 
-  *cost = universal_build_shield_cost(&prod);
+  *cost = universal_build_shield_cost(pCity, &prod);
+
   if (VUT_UTYPE == prod.kind) {
     return utype_name_translation(prod.value.utype);
   } else {
@@ -1425,36 +1426,31 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       if (pCity) {
         if (!improvement_has_flag(pImprove, IF_GOLD)) {
           struct universal univ = cid_production(cid_encode_building(pImprove));
+          int cost = impr_build_shield_cost(pCity, pImprove);
 
           turns = city_turns_to_build(pCity, &univ, TRUE);
 
           if (turns == FC_INFINITY) {
             if (state) {
               fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d/%d %s\n%s"),
-                          state, pCity->shield_stock,
-                          impr_build_shield_cost(pImprove),
-                          PL_("shield", "shields",
-                              impr_build_shield_cost(pImprove)),
+                          state, pCity->shield_stock, cost,
+                          PL_("shield", "shields", cost),
                           _("never"));
             } else {
               fc_snprintf(cbuf, sizeof(cbuf), _("%d/%d %s\n%s"),
-                          pCity->shield_stock, impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
-                              impr_build_shield_cost(pImprove)), _("never"));
-            }	  
+                          pCity->shield_stock, cost,
+                          PL_("shield", "shields", cost), _("never"));
+            }
           } else {
             if (state) {
               fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d/%d %s\n%d %s"),
-                          state, pCity->shield_stock,
-                          impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
-                              impr_build_shield_cost(pImprove)),
+                          state, pCity->shield_stock, cost,
+                          PL_("shield", "shields", cost),
                           turns, PL_("turn", "turns", turns));
             } else {
               fc_snprintf(cbuf, sizeof(cbuf), _("%d/%d %s\n%d %s"),
-                          pCity->shield_stock, impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
-                              impr_build_shield_cost(pImprove)),
+                          pCity->shield_stock, cost,
+                          PL_("shield", "shields", cost),
                           turns, PL_("turn", "turns", turns));
             }
           }
@@ -1469,16 +1465,16 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       } else {
         /* non city mode */
         if (!improvement_has_flag(pImprove, IF_GOLD)) {
+          int cost = impr_build_shield_cost(NULL, pImprove);
+
           if (state) {
             fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d %s"),
-                        state, impr_build_shield_cost(pImprove),
-                        PL_("shield","shields",
-                            impr_build_shield_cost(pImprove)));
+                        state, cost,
+                        PL_("shield", "shields", cost));
           } else {
             fc_snprintf(cbuf, sizeof(cbuf), _("%d %s"),
-                        impr_build_shield_cost(pImprove),
-                        PL_("shield","shields",
-                            impr_build_shield_cost(pImprove)));
+                        cost,
+                        PL_("shield", "shields", cost));
           }
         } else {
           fc_snprintf(cbuf, sizeof(cbuf), _("shields into gold"));

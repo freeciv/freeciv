@@ -3311,7 +3311,7 @@ void city_dialog::update_improvements()
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
       } else {
-        cost = impr_build_shield_cost(target.value.building);
+        cost = impr_build_shield_cost(pcity, target.value.building);
       }
     }
 
@@ -3739,7 +3739,7 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
             + QString(improvement_name_translation(building))
             + "</b>\n";
   def_str += QString(_("Cost: %1, Upkeep: %2\n"))
-             .arg(impr_build_shield_cost(building))
+             .arg(impr_build_shield_cost(pcity,building))
              .arg(upkeep);
   if (s1.compare(s2) != 0) {
     def_str = def_str + str + "\n";

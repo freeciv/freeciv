@@ -1558,7 +1558,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
   if (!is_coinage) {
     /* Adjust by building cost */
     /* FIXME: ought to reduce by upkeep cost and amortise by building cost */
-    v -= (impr_build_shield_cost(pimprove)
+    v -= (impr_build_shield_cost(pcity, pimprove)
          / (pcity->surplus[O_SHIELD] * 10 + 1));
   }
 

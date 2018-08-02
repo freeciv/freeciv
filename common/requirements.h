@@ -144,22 +144,23 @@ bool is_req_in_vec(const struct requirement *req,
 int universal_number(const struct universal *source);
 
 struct universal universal_by_number(const enum universals_n kind,
-				     const int value);
+                                     const int value);
 struct universal universal_by_rule_name(const char *kind,
-					const char *value);
+                                        const char *value);
 void universal_value_from_str(struct universal *source, const char *value);
 void universal_extraction(const struct universal *source,
-			  int *kind, int *value);
+                          int *kind, int *value);
 
 bool are_universals_equal(const struct universal *psource1,
-			  const struct universal *psource2);
+                          const struct universal *psource2);
 
 const char *universal_rule_name(const struct universal *psource);
 const char *universal_name_translation(const struct universal *psource,
 				       char *buf, size_t bufsz);
 const char *universal_type_rule_name(const struct universal *psource);
 
-int universal_build_shield_cost(const struct universal *target);
+int universal_build_shield_cost(const struct city *pcity,
+                                const struct universal *target);
 
 /* An item contradicts, fulfills or is irrelevant to the requirement */
 enum req_item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};

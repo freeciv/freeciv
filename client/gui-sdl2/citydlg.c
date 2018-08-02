@@ -3217,7 +3217,7 @@ static void redraw_city_dialog(struct city *pCity)
         widget_redraw(pCityDlg->pBuy_Button);
       }
 
-      cost = impr_build_shield_cost(pImprove);
+      cost = impr_build_shield_cost(pCity, pImprove);
       count = cost / 10;
     }
 

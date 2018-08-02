@@ -560,7 +560,7 @@ const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 ****************************************************************************/
 int build_points_left(struct city *pcity)
 {
-  int cost = impr_build_shield_cost(pcity->production.value.building);
+  int cost = impr_build_shield_cost(pcity, pcity->production.value.building);
 
   return cost - pcity->shield_stock;
 }

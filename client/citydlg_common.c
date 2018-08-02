@@ -309,7 +309,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
                                      struct city *pcity)
 {
   int turns = city_turns_to_build(pcity, target, TRUE);
-  int cost = universal_build_shield_cost(target);
+  int cost = universal_build_shield_cost(pcity, target);
 
   switch (target->kind) {
   case VUT_IMPROVEMENT:
@@ -404,7 +404,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
       }
 
       fc_snprintf(buf[2], column_size, "%d",
-                  impr_build_shield_cost(pimprove));
+                  impr_build_shield_cost(pcity, pimprove));
     }
     break;
   }

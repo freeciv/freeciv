@@ -995,7 +995,7 @@ void help_widget::set_topic_building(const help_item *topic,
     }
     str = _("Cost:");
     str = "<b>" + str + "</b>" + " "
-          + QString::number(impr_build_shield_cost(itype));
+          + QString::number(impr_build_shield_cost(NULL, itype));
     add_info_label(str);
     if (!is_great_wonder(itype)) {
       str = _("Upkeep:");

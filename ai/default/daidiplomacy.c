@@ -778,14 +778,16 @@ static int dai_war_desire(struct ai_type *ait, struct player *pplayer,
     fear += get_city_bonus(pcity, EFT_DEFEND_BONUS);
 
     city_built_iterate(pcity, pimprove) {
-      want += impr_build_shield_cost(pimprove);
+      int cost = impr_build_shield_cost(pcity, pimprove);
+
+      want += cost;
       if (improvement_obsolete(pplayer, pimprove, pcity)) {
         continue;
       }
       if (is_great_wonder(pimprove)) {
-        want += impr_build_shield_cost(pimprove) * 2;
+        want += cost * 2;
       } else if (is_small_wonder(pimprove)) {
-        want += impr_build_shield_cost(pimprove);
+        want += cost;
       }
     } city_built_iterate_end;
   } city_list_iterate_end;

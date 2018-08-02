@@ -112,8 +112,10 @@ bool improvement_has_flag(const struct impr_type *pimprove,
                           enum impr_flag_id flag);
 
 /* Ancillary routines */
-int impr_build_shield_cost(const struct impr_type *pimprove);
-int impr_buy_gold_cost(const struct city *pcity, const struct impr_type *pimprove, int shields_in_stock);
+int impr_build_shield_cost(const struct city *pcity,
+                           const struct impr_type *pimprove);
+int impr_buy_gold_cost(const struct city *pcity, const struct impr_type *pimprove,
+                       int shields_in_stock);
 int impr_sell_gold(const struct impr_type *pimprove);
 
 bool is_improvement_visible(const struct impr_type *pimprove);

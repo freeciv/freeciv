@@ -611,8 +611,8 @@ static const gchar *city_prod_remaining(struct city* destcity)
   }
 
   return g_strdup_printf(_("%d remaining"),
-                         impr_build_shield_cost(
-                           destcity->production.value.building)
+                         impr_build_shield_cost(destcity,
+                                                destcity->production.value.building)
                          - destcity->shield_stock);
 }
 

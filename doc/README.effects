@@ -515,6 +515,9 @@ Visible_Wall
 Tech_Cost_Factor
     Factor for research costs.
 
+Building_Build_Cost_Pct
+    Percentage added to building building cost.
+
 Building_Buy_Cost_Pct
     Percentage added to building buy cost.
 

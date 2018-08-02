@@ -717,7 +717,7 @@ bool city_production_has_flag(const struct city *pcity,
 **************************************************************************/
 int city_production_build_shield_cost(const struct city *pcity)
 {
-  return universal_build_shield_cost(&pcity->production);
+  return universal_build_shield_cost(pcity, &pcity->production);
 }
 
 /**********************************************************************//**
@@ -1880,8 +1880,8 @@ int city_change_production_penalty(const struct city *pcity,
 }
 
 /**********************************************************************//**
- Calculates the turns which are needed to build the requested
- improvement in the city. GUI Independent.
+  Calculates the turns which are needed to build the requested
+  improvement in the city. GUI Independent.
 **************************************************************************/
 int city_turns_to_build(const struct city *pcity,
                         const struct universal *target,
@@ -1890,7 +1890,7 @@ int city_turns_to_build(const struct city *pcity,
   int city_shield_surplus = pcity->surplus[O_SHIELD];
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, target) : 0;
-  int cost = universal_build_shield_cost(target);
+  int cost = universal_build_shield_cost(pcity, target);
 
   if (target->kind == VUT_IMPROVEMENT
       && is_great_wonder(target->value.building)
@@ -1908,11 +1908,11 @@ int city_turns_to_build(const struct city *pcity,
 }
 
 /**********************************************************************//**
- Calculates the turns which are needed for the city to grow.  A value
- of FC_INFINITY means the city will never grow.  A value of 0 means
- city growth is blocked.  A negative value of -x means the city will
- shrink in x turns.  A positive value of x means the city will grow in
- x turns.
+  Calculates the turns which are needed for the city to grow.  A value
+  of FC_INFINITY means the city will never grow.  A value of 0 means
+  city growth is blocked.  A negative value of -x means the city will
+  shrink in x turns.  A positive value of x means the city will grow in
+  x turns.
 **************************************************************************/
 int city_turns_to_grow(const struct city *pcity)
 {

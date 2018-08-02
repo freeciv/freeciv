@@ -3719,11 +3719,12 @@ const char *universal_type_rule_name(const struct universal *psource)
 /**********************************************************************//**
   Return the number of shields it takes to build this universal.
 **************************************************************************/
-int universal_build_shield_cost(const struct universal *target)
+int universal_build_shield_cost(const struct city *pcity,
+                                const struct universal *target)
 {
   switch (target->kind) {
   case VUT_IMPROVEMENT:
-    return impr_build_shield_cost(target->value.building);
+    return impr_build_shield_cost(pcity, target->value.building);
   case VUT_UTYPE:
     return utype_build_shield_cost(target->value.utype);
   default:

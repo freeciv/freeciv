@@ -629,8 +629,8 @@ static int fc_cmp(const void *p1, const void *p2)
   section 5: great wonders
 **************************************************************************/
 void name_and_sort_items(struct universal *targets, int num_targets,
-			 struct item *items,
-			 bool show_cost, struct city *pcity)
+                         struct item *items,
+                         bool show_cost, struct city *pcity)
 {
   int i;
 
@@ -648,9 +648,9 @@ void name_and_sort_items(struct universal *targets, int num_targets,
     } else {
       name = city_improvement_name_translation(pcity, target.value.building);
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
-	cost = -1;
+        cost = -1;
       } else {
-	cost = impr_build_shield_cost(target.value.building);
+        cost = impr_build_shield_cost(pcity, target.value.building);
       }
     }
 
