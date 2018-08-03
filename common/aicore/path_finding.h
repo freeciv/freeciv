@@ -347,7 +347,6 @@ struct pf_parameter {
   const struct civ_map *map;
   struct tile *start_tile;      /* Initial position */
 
-  bool no_moves_initially;      /* No moves initially */
   int moves_left_initially;
   int fuel_left_initially;      /* Ignored for non-air units. */
   /* Set if the unit is transported. */

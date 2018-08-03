@@ -784,13 +784,7 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   pft_fill_default_parameter(parameter, ptype);
 
   parameter->start_tile = unit_tile(punit);
-  if (punit->moves_left == 0) {
-    parameter->no_moves_initially = true;
-    parameter->moves_left_initially = unit_move_rate(punit);
-  } else {
-    parameter->moves_left_initially = punit->moves_left;
-    parameter->no_moves_initially = false;
-  }
+  parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
   if (utype_fuel(ptype)) {
     parameter->fuel_left_initially = punit->fuel;
