@@ -247,8 +247,9 @@ static void historian_generic(enum historian_type which_news)
 	break;
       case HISTORIAN_HAPPIEST: 
 	size[j].value =
-	    (((pplayer->score.happy - pplayer->score.unhappy) * 1000) /
-	     (1 + total_player_citizens(pplayer)));
+            (((pplayer->score.happy - pplayer->score.unhappy
+               - 2 * pplayer->score.angry) * 1000) /
+             (1 + total_player_citizens(pplayer)));
 	break;
       case HISTORIAN_LARGEST:
 	size[j].value = total_player_citizens(pplayer);
