@@ -2238,7 +2238,7 @@ static bool place_pollution(struct city *pcity, enum tile_special_type type)
 **************************************************************************/
 static void check_pollution(struct city *pcity)
 {
-  if (pcity->pollution != 0 && fc_rand(100) <= pcity->pollution) {
+  if (fc_rand(100) < pcity->pollution) {
     if (place_pollution(pcity, S_POLLUTION)) {
       notify_player(city_owner(pcity), city_tile(pcity), E_POLLUTION, ftc_server,
                     _("Pollution near %s."), city_link(pcity));
