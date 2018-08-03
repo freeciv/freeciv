@@ -221,22 +221,21 @@ void map_view::shortcut_pressed(int key)
   }
 
   /* Trade Generator - skip */
-  if (bt == Qt::LeftButton
+  sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
+  if (bt == sc->mouse && md == sc->mod
       && gui()->trade_gen.hover_city == true) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    gui()->trade_gen.hover_city = false;
     gui()->trade_gen.add_tile(ptile);
     gui()->mapview_wdg->repaint();
     return;
   }
 
   /* Rally point - select city - skip */
-  if (bt == Qt::LeftButton
+  if (bt == sc->mouse && md == sc->mod
       && gui()->rallies.hover_city == true) {
     char text[1024];
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
-      gui()->rallies.hover_city = false;
       gui()->rallies.hover_tile = true;
       gui()->rallies.rally_city = tile_city(ptile);
 
@@ -445,6 +444,12 @@ void map_view::shortcut_released(Qt::MouseButton bt)
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod) {
+    if (gui()->trade_gen.hover_city == true
+        || gui()->rallies.hover_city == true) {
+      gui()->trade_gen.hover_city = false;
+      gui()->rallies.hover_city = false;
+      return;
+    }
     if (menu_click == true) {
       menu_click = false;
       return;
