@@ -403,7 +403,11 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
   int tindex = tile_index(ptile);
   struct pf_normal_node *node = pfnm->lattice + tindex;
   const struct pf_parameter *params = pf_map_parameter(PF_MAP(pfnm));
+  int no_moves_offset = 0;
 
+  if (params->no_moves_initially) {
+    no_moves_offset = 1;
+  }
 #ifdef PF_DEBUG
   fc_assert_ret_msg(NS_PROCESSED == node->status,
                     "Unreached destination (%d, %d).", TILE_XY(ptile));
@@ -413,7 +417,7 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
   pos->total_EC = node->extra_cost;
   pos->total_MC = (node->cost - pf_move_rate(params)
                    + pf_moves_left_initially(params));
-  pos->turn = pf_turns(params, node->cost);
+  pos->turn = pf_turns(params, node->cost) + no_moves_offset;
   pos->moves_left = pf_moves_left(params, node->cost);
 #ifdef PF_DEBUG
   fc_assert(params->fuel == 1);
