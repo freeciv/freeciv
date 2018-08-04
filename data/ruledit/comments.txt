@@ -338,7 +338,8 @@ utypes = "\
 ; vision_radius_sq = base vision of unit: unit can see tile up to the square\n\
 ;                 root of this value away\n\
 ; convert_to    = can be converted to another type of unit by name\n\
-; convert_time  = time it takes to convert to another unit type\n\
+; convert_time  = number of movement points it takes to convert to\n\
+;                 another unit type\n\
 ; class         = One of the classes listed above\n\
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)\n\
 ; fuel          = Number of turns unit can spend outside refuel points.\n\
