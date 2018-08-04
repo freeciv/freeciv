@@ -233,7 +233,8 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; vision_radius_sq = base vision of unit: unit can see tile up to the square
 ;                 root of this value away
 ; convert_to    = can be converted to another type of unit by name
-; convert_time  = time it takes to convert to another unit type
+; convert_time  = number of movement points it takes to convert to
+;                 another unit type
 ; class         = One of the classes listed above
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = Number of turns unit can spend outside refuel points.
