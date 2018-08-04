@@ -21,7 +21,8 @@
 void happiness_dialog_init(void);
 void happiness_dialog_done(void);
 GtkWidget *get_top_happiness_display(struct city *pcity,
-                                     bool low_dlg);
+                                     bool low_dlg,
+                                     GtkWidget *win);
 void close_happiness_dialog(struct city *pcity);
 void refresh_happiness_dialog(struct city *pcity);
 
