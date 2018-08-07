@@ -904,6 +904,13 @@ science_report::science_report(): QWidget()
 ****************************************************************************/
 science_report::~science_report()
 {
+  if (curr_list) {
+    delete curr_list;
+  }
+
+  if (goal_list) {
+    delete goal_list;
+  }
   gui()->remove_repo_dlg("SCI");
 }
 

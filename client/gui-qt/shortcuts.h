@@ -116,6 +116,7 @@ class fc_shortcuts
   static fc_shortcuts* m_instance;
 
 public:
+  ~fc_shortcuts();
   static fc_shortcuts* sc();
   static void drop();
   static QMap<shortcut_id, fc_shortcut*> hash;
