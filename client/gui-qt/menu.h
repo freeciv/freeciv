@@ -271,9 +271,11 @@ public slots:
 class mr_menu : public QMenuBar
 {
   Q_OBJECT
-  QMenu *menu;
   QMenu *airlift_menu;
+  QMenu *bases_menu;
+  QMenu *menu;
   QMenu *multiplayer_menu;
+  QMenu *roads_menu;
   QActionGroup *airlift_type;
   QActionGroup *action_vs_city;
   QActionGroup *action_vs_unit;
@@ -286,6 +288,8 @@ public:
   void setup_menus();
   void menus_sensitive();
   void update_airlift_menu();
+  void update_roads_menu();
+  void update_bases_menu();
   void set_tile_for_order(struct tile *ptile);
   void execute_shortcut(int sid);
   QString shortcut_exist(fc_shortcut *fcs);
@@ -318,6 +322,8 @@ private slots:
   void slot_help(const QString &topic);
 
   /*used by work menu*/
+  void slot_build_path(int id);
+  void slot_build_base(int id);
   void slot_build_city();
   void slot_auto_settler();
   void slot_build_road();
@@ -420,6 +426,8 @@ private slots:
 private:
   struct tile* find_last_unit_pos(struct unit* punit, int pos);
   QSignalMapper *signal_help_mapper;
+  QSignalMapper *build_bases_mapper;
+  QSignalMapper *build_roads_mapper;
 };
 
 #endif /* FC__MENU_H */
