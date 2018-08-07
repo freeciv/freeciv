@@ -24,6 +24,13 @@ end
 
 signal.connect("city_destroyed", "city_destroyed_callback")
 
+-- Build road on city center river if bridge tech is not known.
+function city_built_callback(city)
+  city.tile:create_extra("Road", NIL)
+end
+
+signal.connect("city_built", "city_built_callback")
+
 
 -- Grant tech when the wonder Darwin`s Voyage is built.
 function building_built_handler(btype, city)
@@ -83,7 +90,7 @@ function tech_researched_handler(tech, player, how)
     gained = player:give_tech(nil, -1, false, "researched")
 
     -- Notify all.
-    notify.all(_("Great philosophers from all the world join the %s: you get an immediate."),
+    notify.all(_("Great philosophers from all the world join the %s: they get an immediate advance."),
                player.nation:plural_translation())
   end
 end 
