@@ -202,6 +202,16 @@ fc_shortcuts::fc_shortcuts()
 }
 
 /**********************************************************************//**
+  fc_shortcuts destructor
+**************************************************************************/
+fc_shortcuts::~fc_shortcuts()
+{
+  qDeleteAll(hash.begin(), hash.end());
+  hash.clear();
+}
+
+
+/**********************************************************************//**
   Returns description for given shortcut
 **************************************************************************/
 QString fc_shortcuts::get_desc(shortcut_id id)

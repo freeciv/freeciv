@@ -1638,7 +1638,6 @@ void fc_client::update_start_page()
   players_iterate(pplayer) {
     host = "";
     if (!player_has_flag(pplayer, PLRF_SCENARIO_RESERVED)) {
-      item = new QTreeWidgetItem();
       conn_id = -1;
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->playing == pplayer && !pconn->observer) {
@@ -1675,6 +1674,7 @@ void fc_client::update_start_page()
         team = "";
       }
 
+      item = new QTreeWidgetItem();
       for (int col = 0; col < 8; col++) {
         switch (col) {
         case 0:

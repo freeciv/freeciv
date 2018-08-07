@@ -151,6 +151,19 @@ mr_idle::mr_idle()
 }
 
 /**********************************************************************//**
+  Destructor for idle callbacks
+**************************************************************************/
+mr_idle::~mr_idle()
+{
+  call_me_back* cb;
+
+  while (!callback_list.isEmpty()) {
+    cb = callback_list.dequeue();
+    delete cb;
+  }
+}
+
+/**********************************************************************//**
   Slot used to execute 1 callback from callabcks stored in idle list
 **************************************************************************/
 void mr_idle::idling()
@@ -367,9 +380,13 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
 **************************************************************************/
 move_widget::move_widget(QWidget *parent) : QLabel()
 {
+  QPixmap *pix;
+
   setParent(parent);
   setCursor(Qt::SizeAllCursor);
-  setPixmap(*fc_icons::instance()->get_pixmap("move"));
+  pix = fc_icons::instance()->get_pixmap("move");
+  setPixmap(*pix);
+  delete pix;
   setFixedSize(16, 16);
 }
 
@@ -407,9 +424,13 @@ void move_widget::mousePressEvent(QMouseEvent* event)
 **************************************************************************/
 resize_widget::resize_widget(QWidget *parent) : QLabel()
 {
+  QPixmap *pix;
+
   setParent(parent);
   setCursor(Qt::SizeFDiagCursor);
-  setPixmap(*fc_icons::instance()->get_pixmap("resize"));
+  pix = fc_icons::instance()->get_pixmap("resize");
+  setPixmap(*pix);
+  delete pix;
 }
 
 /**********************************************************************//**
@@ -460,9 +481,13 @@ void resize_widget::mousePressEvent(QMouseEvent* event)
 **************************************************************************/
 close_widget::close_widget(QWidget *parent) : QLabel()
 {
+  QPixmap *pix;
+
   setParent(parent);
   setCursor(Qt::ArrowCursor);
-  setPixmap(*fc_icons::instance()->get_pixmap("close"));
+  pix = fc_icons::instance()->get_pixmap("close");
+  setPixmap(*pix);
+  delete pix;
 }
 
 /**********************************************************************//**

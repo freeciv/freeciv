@@ -1903,9 +1903,15 @@ void hud_unit_combat::enterEvent(QEvent *event)
 scale_widget::scale_widget(QRubberBand::Shape s,
                            QWidget* p) : QRubberBand(s, p)
 {
+  QPixmap *pix;
+
   size = 12;
-  plus = (*fc_icons::instance()->get_pixmap("plus")).scaledToWidth(size);
-  minus = (*fc_icons::instance()->get_pixmap("minus")).scaledToWidth(size);
+  pix = fc_icons::instance()->get_pixmap("plus");
+  plus = pix->scaledToWidth(size);
+  delete pix;
+  pix = fc_icons::instance()->get_pixmap("minus");
+  minus = plus = pix->scaledToWidth(size);
+  delete pix;
   setFixedSize(2 * size, size);
   scale = 1.0f;
   setAttribute(Qt::WA_TransparentForMouseEvents, false);
@@ -1946,7 +1952,7 @@ void scale_widget::mousePressEvent(QMouseEvent *event)
 hud_battle_log::hud_battle_log(QWidget *parent) : QWidget(parent)
 {
   setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-  main_layout = new QVBoxLayout;
+  main_layout = new QVBoxLayout(this);
   mw = new move_widget(this);
   setContentsMargins(0, 0, 0, 0);
   main_layout->setContentsMargins(0, 0, 0, 0);
