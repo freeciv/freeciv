@@ -1831,7 +1831,7 @@ uk_food       = 0
 uk_gold       = 0
 bonuses       =
    { "flag", "type", "value"
-     "AirAttacker", "DefenseMultiplier", 4
+     "AirAttacker", "DefenseMultiplier", 2
    }
 flags         = "BadCityDefender"
 roles         = "DefendGood", "DefendGoodStartUnit"

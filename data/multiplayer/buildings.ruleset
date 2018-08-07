@@ -1101,7 +1101,7 @@ Together with a Library, a University increases the science\
 
 [building_apollo_program]
 name		= _("Apollo Program")
-genus		= "SmallWonder"
+genus		= "GreatWonder"
 reqs	=
     { "type",     "name",           "range",  "present", "quiet"
       "Tech",     "Space Flight",   "Player", TRUE,      FALSE
@@ -1221,7 +1221,7 @@ This stunning technological achievement makes two content citizens\
 
 [building_darwins_voyage]
 name		= _("Darwin's Voyage")
-genus		= "SmallWonder"
+genus		= "GreatWonder"
 reqs	=
     { "type",     "name",            "range",  "present", "quiet"
       "Tech",     "Railroad",        "Player", TRUE,      FALSE
@@ -1238,8 +1238,7 @@ sabotage	= 0
 sound		= "w_darwins_voyage"
 sound_alt	= "w_generic"
 helptext	= _("\
-Gives immediate technology advance the first time it is\
- built by each player.\
+Gives immediate technology advance to its builder.
 ")
 
 [building_eiffel_tower]
@@ -1362,30 +1361,6 @@ helptext	= _("\
 Works as if you had a Hydro Plant in every city on the same\
  continent. (This reduces pollution and increases the effects\
  of Factories and Mfg. Plants.)\
-")
-
-[building_isaac_newtons_college]
-name		= _("Isaac Newton's College")
-genus		= "SmallWonder"
-reqs	=
-    { "type",     "name",                   "range",  "present", "quiet"
-      "Tech",     "Theory of Gravity",      "Player", TRUE,      FALSE
-      "Building", "Isaac Newton's College", "Player", FALSE,     TRUE
-    }
-graphic	= "b.isaac_newtons_college"
-graphic_alt	= "-"
-obsolete_by	=
-    { "type", "name", "range"
-    }
-build_cost	= 400
-upkeep		= 0
-sabotage	= 0
-sound		= "w_isaac_newtons_college"
-sound_alt	= "w_generic"
-; /* xgettext:no-c-format */
-helptext	= _("\
-Boosts science production by 100% in every city on the same\
- continent that has a University.\
 ")
 
 [building_js_bachs_cathedral]
@@ -1527,30 +1502,6 @@ sound_alt	= "w_generic"
 ;helptext is set in client/helpdata.c:helptext_wonder()
 ;helptext	=
 
-[building_marco_polos_embassy]
-name		= _("Marco Polo's Embassy")
-genus		= "SmallWonder"
-reqs	=
-    { "type",     "name",                 "range",  "present", "quiet"
-      "Tech",     "Trade",                "Player", TRUE,      FALSE
-      "Building", "Marco Polo's Embassy", "Player", FALSE,     TRUE
-    }
-graphic	= "b.marco_polos_embassy"
-graphic_alt	= "-"
-obsolete_by	=
-    { "type", "name", "range"
-    }
-build_cost	= 400
-upkeep		= 0
-sabotage	= 0
-sound		= "w_marco_polos_embassy"
-sound_alt	= "w_generic"
-; /* xgettext:no-c-format */
-helptext	= _("\
-Increases trade output by 40% in all cities on the same\
- continent.\
-")
-
 [building_michelangelos_chapel]
 name		= _("Michelangelo's Chapel")
 genus		= "SmallWonder"
@@ -1628,30 +1579,6 @@ The city where this wonder is built will experience\
  rapture growth when celebrating.\
 ")
 
-[building_internet]
-name		= _("The Internet")
-genus		= "SmallWonder"
- reqs	=
-     { "type",     "name",         "range",  "present", "quiet"
-       "Tech",     "Computers",    "Player", TRUE,      FALSE
-       "Building", "The Internet", "Player", FALSE,     TRUE
-     }
-graphic	= "b.internet"
-graphic_alt	= "b.seti_program"
-obsolete_by	=
-    { "type", "name", "range"
-    }
-build_cost	= 600
-upkeep		= 0
-sabotage	= 0
-sound		= "w_internet"
-sound_alt	= "w_generic"
-; /* xgettext:no-c-format */
-helptext	= _("\
-Boosts science production in each city on the\
- same continent with a Research Lab by 100%.\
-")
-
 [building_shakespeares_theatre]
 name            = _("Shakespeare's Theater")
 rule_name       = "Shakespeare's Theatre"       ; en_GB used originally
@@ -1674,30 +1601,6 @@ sound_alt	= "w_generic"
 helptext	= _("\
 Makes all angry and unhappy citizens content in the city where it\
  is located, including citizens unhappy about military activity.\
-")
-
-[building_statue_of_liberty]
-name		= _("Statue of Liberty")
-genus		= "SmallWonder"
-reqs	=
-    { "type",     "name",              "range",  "present", "quiet"
-      "Tech",     "Democracy",         "Player", TRUE,      FALSE
-      "Building", "Statue of Liberty", "Player", FALSE,     TRUE
-    }
-graphic	= "b.statue_of_liberty"
-graphic_alt	= "-"
-obsolete_by	=
-    { "type", "name", "range"
-    }
-build_cost	= 400
-upkeep		= 0
-sabotage	= 0
-sound		= "w_statue_of_liberty"
-sound_alt	= "w_generic"
-helptext	= _("\
-Allows you to choose any government, including those that have not yet\
- been researched by your civilization, and without the transition\
- period of Anarchy.\
 ")
 
 [building_sun_tzus_war_academy]
