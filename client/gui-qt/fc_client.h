@@ -334,6 +334,7 @@ private:
   bool check_server_scan(server_scan *scan_data);
   void update_load_page(void);
   void create_cursors(void);
+  void delete_cursors(void);
   void update_scenarios_page(void);
   void set_connection_state(enum connection_state state);
   void update_buttons();

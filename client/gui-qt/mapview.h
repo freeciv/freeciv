@@ -63,6 +63,7 @@ class mr_idle : public QObject
   Q_OBJECT
 public:
   mr_idle();
+  ~mr_idle();
   void add_callback(call_me_back* cb);
   QQueue<call_me_back*> callback_list;
 private slots:
