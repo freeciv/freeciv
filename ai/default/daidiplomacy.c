@@ -560,6 +560,8 @@ static int dai_goldequiv_clause(struct ai_type *ait,
                     + pplayer->ai_common.love[player_index(aplayer)], 
                     -5 * game.info.turn);
       }
+    } else if (game.info.tech_leakage == TECH_LEAKAGE_EMBASSIES) {
+      worth = 10;
     } else {
       worth = 0; /* We don't need no stinkin' embassy, do we? */
     }
