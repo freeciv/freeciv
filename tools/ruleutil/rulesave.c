@@ -1295,6 +1295,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_strvec(sfile, pgood->helptext, path, "helptext");
   } goods_active_type_iterate_end;
 
+  /* Clauses */
+  comment_clauses(sfile);
+
   sect_idx = 0;
   for (i = 0; i < CLAUSE_COUNT; i++) {
     struct clause_info *info = clause_info_get(i);

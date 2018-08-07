@@ -1147,3 +1147,17 @@ nationsets = "\
 ;                 default.\n\
 ; description   = Optional short user description of this set.\n\
 "
+
+clauses = "\
+\n\
+; /* <-- avoid gettext warnings\n\
+;\n\
+; Clause types\n\
+;\n\
+; Clause types that are not listed here, are not enabled at all.\n\
+;\n\
+; type                   = Type of the clause, one of \"Advance\", \"Gold\", \"Map\", \"Seamap\",\n\
+;                          \"City\", \"Ceasefire\", \"Peace\", \"Alliance\", \"Vision\", \"Embassy\"\n\
+;\n\
+; */ <-- avoid gettext warnings\n\
+"

@@ -48,6 +48,7 @@ static struct {
   char *nations;
   char *nationgroups;
   char *nationsets;
+  char *clauses;
 } comments_storage;
 
 /**********************************************************************//**
@@ -96,6 +97,7 @@ bool comments_load(void)
   comments_storage.nationgroups = fc_strdup(secfile_lookup_str(comment_file,
                                                                "typedoc.nationgroups"));
   comments_storage.nationsets = fc_strdup(secfile_lookup_str(comment_file, "typedoc.nationsets"));
+  comments_storage.clauses = fc_strdup(secfile_lookup_str(comment_file, "typedoc.clauses"));
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -323,4 +325,12 @@ void comment_nationgroups(struct section_file *sfile)
 void comment_nationsets(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.nationsets, "Nationsets");
+}
+
+/**********************************************************************//**
+  Write clauses header.
+**************************************************************************/
+void comment_clauses(struct section_file *sfile)
+{
+  comment_write(sfile, comments_storage.clauses, "Clauses");
 }
