@@ -90,7 +90,7 @@ void draw_calculated_trade_routes(QPainter *painter)
   }
   pcolor = get_color(tileset, COLOR_MAPVIEW_TRADE_ROUTES_NO_BUILT);
   /* Draw calculated trade routes */
-  if (!gui_options.draw_city_trade_routes) {
+  if (gui_options.draw_city_trade_routes) {
 
     foreach (qgilles, gui()->trade_gen.lines) {
       base_map_distance_vector(&dx, &dy, TILE_XY(qgilles.t1),
