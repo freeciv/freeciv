@@ -1124,9 +1124,6 @@ type = "Ceasefire"
 [clause_peace]
 type = "Peace"
 
-[clause_alliance]
-type = "Alliance"
-
 [clause_vision]
 type = "Vision"
 
