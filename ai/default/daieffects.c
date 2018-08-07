@@ -536,7 +536,6 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_TILE_WORKABLE:
   case EFT_COMBAT_ROUNDS:
   case EFT_UNUSED1:
-  case EFT_UNUSED2:
   case EFT_ILLEGAL_ACTION_MOVE_COST:
   case EFT_CASUS_BELLI_CAUGHT:
   case EFT_CASUS_BELLI_SUCCESS:
@@ -566,6 +565,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     v -= amount * 30;
     break;
   case EFT_IMPR_BUY_COST_PCT:
+  case EFT_UNIT_BUY_COST_PCT:
     v -= amount * 25;
     break;
   case EFT_CITY_RADIUS_SQ:

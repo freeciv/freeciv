@@ -521,6 +521,9 @@ Building_Build_Cost_Pct
 Building_Buy_Cost_Pct
     Percentage added to building buy cost.
 
+Unit_Buy_Cost_Pct
+    Percentage added to unit buy cost.
+
 Shield2Gold_Factor
     Factor in percent for the conversion of unit shield upkeep to gold upkeep.
     A value of 200 would transfer 1 shield upkeep to 2 gold upkeep. The range

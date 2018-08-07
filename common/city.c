@@ -789,10 +789,10 @@ int city_production_buy_gold_cost(const struct city *pcity)
   switch (pcity->production.kind) {
   case VUT_IMPROVEMENT:
     return impr_buy_gold_cost(pcity, pcity->production.value.building,
-			      build);
+                              build);
   case VUT_UTYPE:
-    return utype_buy_gold_cost(pcity->production.value.utype,
-			       build);
+    return utype_buy_gold_cost(pcity, pcity->production.value.utype,
+                               build);
   default:
     break;
   };
