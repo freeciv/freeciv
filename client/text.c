@@ -1747,6 +1747,7 @@ const char *text_happiness_wonders(const struct city *pcity)
 
   /* Add line breaks after 80 characters. */
   astr_break_lines(&str, 80);
+  effect_list_destroy(plist);
 
   return astr_str(&str);
 }
