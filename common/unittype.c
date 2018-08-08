@@ -898,18 +898,35 @@ int unit_build_shield_cost(const struct unit *punit)
 /****************************************************************************
   Returns the amount of gold it takes to rush this unit.
 ****************************************************************************/
-int utype_buy_gold_cost(const struct unit_type *punittype,
-			int shields_in_stock)
+int utype_buy_gold_cost(const struct city *pcity,
+                        const struct unit_type *punittype,
+                        int shields_in_stock)
 {
   int cost = 0;
   const int missing = utype_build_shield_cost(punittype) - shields_in_stock;
+  struct player *owner;
+  struct tile *ptile;
 
   if (missing > 0) {
     cost = 2 * missing + (missing * missing) / 20;
   }
+
   if (shields_in_stock == 0) {
     cost *= 2;
   }
+
+  if (pcity != NULL) {
+    owner = city_owner(pcity);
+    ptile = city_tile(pcity);
+  } else {
+    owner = NULL;
+    ptile = NULL;
+  }
+
+  cost = cost
+    * (100 + get_unittype_bonus(owner, ptile, punittype, EFT_UNIT_BUY_COST_PCT))
+    / 100;
+
   return cost;
 }
 
@@ -1112,10 +1129,11 @@ struct unit_type *can_upgrade_unittype(const struct player *pplayer,
   belongs to.
 **************************************************************************/
 int unit_upgrade_price(const struct player *pplayer,
-		       const struct unit_type *from,
-		       const struct unit_type *to)
+                       const struct unit_type *from,
+                       const struct unit_type *to)
 {
-  int base_cost = utype_buy_gold_cost(to, utype_disband_shields(from));
+  int missing = utype_build_shield_cost(to) - utype_disband_shields(from);
+  int base_cost = 2 * missing + (missing * missing) / 20;
 
   return base_cost
     * (100 + get_player_bonus(pplayer, EFT_UPGRADE_PRICE_PCT))
