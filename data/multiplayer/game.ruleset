@@ -580,6 +580,20 @@ target_reqs    =
       "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
+[actionenabler_traderoute]
+action = "Establish Trade Route"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+
+[actionenabler_marketplace]
+action = "Enter Marketplace"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+
 [actionenabler_help_build_wonder]
 action = "Help Wonder"
 actor_reqs    =
@@ -1079,16 +1093,16 @@ negative_label = _("BCE")
 [trade]
 settings =
   { "type",       "pct", "cancelling", "bonus"
-    "National",   0,     "Cancel",     "Both"
-    "NationalIC", 0,     "Cancel",     "Both"
-    "IN",         0,     "Cancel",     "Both"
-    "INIC",       0,     "Cancel",     "Both"
-    "Ally",       0,     "Cancel",     "Both"
-    "AllyIC",     0,     "Cancel",     "Both"
-    "Enemy",      0,     "Cancel",     "Both"
-    "EnemyIC",    0,     "Cancel",     "Both"
-    "Team",       0,     "Cancel",     "Both"
-    "TeamIC",     0,     "Cancel",     "Both"
+    "National",   100,     "Cancel",     "Both"
+    "NationalIC", 100,     "Cancel",     "Both"
+    "IN",         100,     "Cancel",     "Both"
+    "INIC",       100,     "Cancel",     "Both"
+    "Ally",       100,     "Cancel",     "Both"
+    "AllyIC",     100,     "Cancel",     "Both"
+    "Enemy",      100,     "Cancel",     "Both"
+    "EnemyIC",    100,     "Cancel",     "Both"
+    "Team",       100,     "Cancel",     "Both"
+    "TeamIC",     100,     "Cancel",     "Both"
   }
 
 ; When are goods for the trade route chosen.
@@ -1310,4 +1324,8 @@ set =
       "specials", 350, FALSE
       "borders", "SEE_INSIDE", FALSE
       "foggedborders", TRUE, FALSE
+      "caravan_bonus_style", 1, FALSE
+      "trade_revenue_style", 1, FALSE
+      "airlifting_style", "AIRLIFTING_UNLIMITED_DEST", FALSE
+      "trademindist", 8, FALSE
     }

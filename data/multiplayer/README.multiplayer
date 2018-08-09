@@ -23,8 +23,7 @@ Gameplay
 Unit movement rates are twice that of the classic ruleset, to
 make this ruleset usable for LongTurn games.
 
-Trade routes are disabled. (The Marco Polo's Embassy wonder provides
-an alternative way to increase trade; see below.)
+Trade routes are enabled.
 
 The cost of inciting a city to change hands has been greatly
 increased.
@@ -58,9 +57,7 @@ King Richard's Crusade, Oracle, Shakespeare's Theater, Statue of
 Liberty, and Sun Tzu's War Academy, these are the only changes. Other
 now-small wonders have been adjusted or completely changed:
 
-- Apollo Program: Does not reveal the map.
 - A.Smith's Trading Co.: Costs 300 (was 400).
-- Darwin's Voyage: Costs 400 (was 300). Gives only one advance.
 - Eiffel Tower: You get one unit free of shield upkeep per city,
   instead of "AI love".
 - Great Library: Reduces city corruption by 50%, instead of the
@@ -68,24 +65,22 @@ now-small wonders have been adjusted or completely changed:
   to be "Electricity").
 - Hanging Gardens: Just makes two citizens happy in each city on the
   same continent. Costs 150 (was 200).
-- Isaac Newton's College: Costs 400 (was 300).
 - J.S. Bach's Cathedral: Costs 300 (was 400).
 - Leonardo's Workshop: Costs 300 (was 400). Upgrades two units per
   turn (was one).
 - Lighthouse: No longer makes sea units veteran (justs add +1 movement).
 - Magellan's Expedition: Instead of the +2 move rate, it just makes
   new sea units built on the same continent veteran.
-- Marco Polo's Embassy: Costs 400 (was 200). Instead of giving
-  embassies, it increases trade output by 40% on the continent.
 - Michelangelo's Chapel: Costs 300 (was 400).
 - Pyramids: Instead of giving the granary effect, it allows the city
   where it is built to rapture grow.
-- SETI Program: Renamed to "The Internet".
 - Women's Suffrage: Costs 300 (was 600). Affects 2 and 4 citizens
   under republic and democracy respectively (was 1 and 2).
 
 As for the remaining great wonders:
 
+- Apollo Program: Does not reveal the map.
+- Darwin's Voyage: Costs 400. Gives only one advance.
 - Cure For Cancer: Costs 400 (was 600), and makes two citizens happy
   in every city owned by _any_ player who knows "Genetic Engineering".
 - Manhattan Project: No change.
@@ -112,8 +107,7 @@ the civ2 ruleset, with following exceptions:
 Technology changes
 ------------------
 
-- Philosophy gives a free tech to each player when they research it
-  (not just the first player).
+- Philosophy gives a free tech only to the first player to research it.
 - Discovery of Environmentalism additionally knocks 50% off cities'
   pollution from production.
 - Added Fundamentalism from the civ2 ruleset.
@@ -121,7 +115,6 @@ Technology changes
 Unit changes
 ------------
 - Unit movement rates are twice the values in the classic ruleset.
-- Caravans and Freight cannot create trade routes.
 - Caravans cost 30 production (was 50); Freight remain at 50.
 - Elephants, Crusaders, and Fanatics added from the civ2 ruleset.
 

@@ -36,6 +36,10 @@ format_version=20
 type    = "City_Unhappy_Size"
 value   = 4
 
+[effect_trade_routes]
+type    = "Max_Trade_Routes"
+value   = 4
+
 ; Barbarian effects
 
 [effect_barb1]
@@ -171,18 +175,9 @@ reqs	=
       "Gov", "Republic", "Player"
     }
 
-[effect_corruption_anarchy0]
-type    = "Output_Waste"
-value	= 25
-reqs	=
-    { "type", "name", "range"
-      "Gov", "Anarchy", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
-[effect_corruption_anarchy1]
+[effect_corruption_anarchy]
 type    = "Output_Waste_By_Distance"
-value	= 200
+value	= 250
 reqs	=
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
@@ -191,7 +186,7 @@ reqs	=
 
 [effect_corruption_despotism0]
 type    = "Output_Waste"
-value	= 37
+value	= 11
 reqs	=
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
@@ -200,52 +195,34 @@ reqs	=
 
 [effect_corruption_despotism1]
 type    = "Output_Waste_By_Distance"
-value	= 400
+value	= 740
 reqs	=
     { "type", "name", "range"
       "Gov", "Despotism", "Player"
       "OutputType", "Trade", "Local"
     }
 
-[effect_corruption_monarchy0]
-type    = "Output_Waste"
-value	= 15
-reqs	=
-    { "type", "name", "range"
-      "Gov", "Monarchy", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
-[effect_corruption_monarchy1]
+[effect_corruption_monarchy]
 type    = "Output_Waste_By_Distance"
-value	= 200
+value	= 150
 reqs	=
     { "type", "name", "range"
       "Gov", "Monarchy", "Player"
       "OutputType", "Trade", "Local"
     }
 
-[effect_corruption_communism0]
+[effect_corruption_communism]
 type    = "Output_Waste"
-value	= 20
+value	= 6
 reqs	=
     { "type", "name", "range"
       "Gov", "Communism", "Player"
       "OutputType", "Trade", "Local"
     }
 
-[effect_corruption_republic0]
-type    = "Output_Waste"
-value	= 15
-reqs	=
-    { "type", "name", "range"
-      "Gov", "Republic", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
-[effect_corruption_republic1]
+[effect_corruption_republic]
 type    = "Output_Waste_By_Distance"
-value	= 200
+value	= 150
 reqs	=
     { "type", "name", "range"
       "Gov", "Republic", "Player"
@@ -1319,16 +1296,6 @@ reqs	=
       "Building", "Palace", "City"
     }
 
-[effect_palace_5]
-type = "Output_Bonus"
-value  = 75
-reqs =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "Building", "Palace", "City"
-      "OutputType", "Shield", "Local"
-    }
-
 [effect_palace_6]
 type = "Output_Bonus"
 value  = 50
@@ -1694,8 +1661,6 @@ reqs	=
       "CityTile", "Center", "Local", TRUE
       "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
     }
 
 [effect_supermarket]
@@ -1921,16 +1886,6 @@ reqs	=
       "Building", "Solar Plant", "City", FALSE
     }
 
-[effect_isaac_newtons_college]
-type    = "Output_Bonus"
-value	= 100
-reqs	=
-    { "type", "name", "range"
-      "Building", "University", "City"
-      "Building", "Isaac Newton's College", "Continent"
-      "OutputType", "Science", "Local"
-    }
-
 [effect_js_bachs_cathedral]
 type    = "Force_Content"
 value	= 2
@@ -2001,15 +1956,6 @@ reqs	=
       "Building", "Manhattan Project", "World", TRUE
     }
 
-[effect_marco_polos_embassy]
-type    = "Output_Bonus"
-value	= 40
-reqs	=
-    { "type", "name", "range"
-      "Building", "Marco Polo's Embassy", "Continent"
-      "OutputType", "Trade", "Local"
-    }
-
 [effect_michelangelos_chapel]
 type    = "Make_Content"
 value	= 3
@@ -2053,38 +1999,12 @@ reqs	=
       "Building", "Pyramids", "City"
     }
 
-[effect_internet]
-type    = "Output_Bonus"
-value	= 100
-reqs	=
-    { "type", "name", "range"
-      "Building", "Research Lab", "City"
-      "Building", "The Internet", "Continent"
-      "OutputType", "Science", "Local"
-    }
-
 [effect_shakespeares_theatre]
 type    = "No_Unhappy"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Shakespeare's Theatre", "City"
-    }
-
-[effect_statue_of_liberty]
-type    = "Any_Government"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Statue of Liberty", "Player"
-    }
-
-[effect_statue_of_liberty_1]
-type    = "No_Anarchy"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Statue of Liberty", "Player"
     }
 
 [effect_sun_tzus_war_academy]
@@ -2143,36 +2063,18 @@ reqs    =
       "Gov", "Fundamentalism", "Player"
     }
 
-[effect_corruption_fundamentalism0]
+[effect_corruption_fundamentalism]
 type    = "Output_Waste"
-value   = 2
+value   = 1
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
       "OutputType", "Trade", "Local"
     }
 
-[effect_corruption_fundamentalism1]
-type    = "Output_Waste_By_Distance"
-value   = 200
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Trade", "Local"
-    }
-
-[effect_waste_fundamentalism0]
+[effect_waste_fundamentalism]
 type    = "Output_Waste"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Gov", "Fundamentalism", "Player"
-      "OutputType", "Shield", "Local"
-    }
-
-[effect_waste_fundamentalism1]
-type    = "Output_Waste_By_Distance"
-value   = 100
+value   = 1
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"

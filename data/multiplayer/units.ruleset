@@ -34,6 +34,7 @@ flags =
     _("Helicopter"), _("Defends very badly against Fighters.")
     _("Unbribable")
     _("HelpWonder")
+    _("TradeRoute")
     _("Cities")
     _("AddToCity")
     _("Nuclear")
@@ -1831,7 +1832,7 @@ uk_food       = 0
 uk_gold       = 0
 bonuses       =
    { "flag", "type", "value"
-     "AirAttacker", "DefenseMultiplier", 4
+     "AirAttacker", "DefenseMultiplier", 2
    }
 flags         = "BadCityDefender"
 roles         = "DefendGood", "DefendGoodStartUnit"
@@ -2257,7 +2258,7 @@ sound_move    = "m_caravan"
 sound_move_alt = "m_generic"
 sound_fight   = "f_caravan"
 sound_fight_alt = "f_generic"
-build_cost    = 30
+build_cost    = 50
 pop_cost      = 0
 attack        = 0
 defense       = 1
@@ -2271,7 +2272,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
+flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 A Caravan carries goods or material to help build wonders in your\
@@ -2310,7 +2311,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "HelpWonder", "IgZOC", "NonMil", "HasNoZOC"
+flags         = "HelpWonder", "TradeRoute", "IgZOC", "NonMil", "HasNoZOC"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
