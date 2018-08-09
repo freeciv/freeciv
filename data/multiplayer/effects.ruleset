@@ -1671,8 +1671,6 @@ reqs	=
       "CityTile", "Center", "Local", TRUE
       "Extra", "Irrigation", "Local", FALSE
       "TerrainAlter", "CanIrrigate", "Local", TRUE
-      "Extra", "Mine", "Local", FALSE
-      "Extra", "Oil Well", "Local", FALSE
     }
 
 [effect_supermarket]
