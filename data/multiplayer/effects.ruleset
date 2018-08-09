@@ -1296,16 +1296,6 @@ reqs	=
       "Building", "Palace", "City"
     }
 
-[effect_palace_5]
-type = "Output_Bonus"
-value  = 75
-reqs =
-    { "type", "name", "range"
-      "Gov", "Despotism", "Player"
-      "Building", "Palace", "City"
-      "OutputType", "Shield", "Local"
-    }
-
 [effect_palace_6]
 type = "Output_Bonus"
 value  = 50
