@@ -580,6 +580,20 @@ target_reqs    =
       "MaxUnitsOnTile", "1", "Local", TRUE
     }
 
+[actionenabler_traderoute]
+action = "Establish Trade Route"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+
+[actionenabler_marketplace]
+action = "Enter Marketplace"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "TradeRoute", "Local", TRUE
+    }
+
 [actionenabler_help_build_wonder]
 action = "Help Wonder"
 actor_reqs    =
@@ -1312,5 +1326,6 @@ set =
       "foggedborders", TRUE, FALSE
       "caravan_bonus_style", 1, FALSE
       "trade_revenue_style", 1, FALSE
-      "airlifting_style", "AIRLIFTING_UNLIMITED_DEST, FALSE
+      "airlifting_style", "AIRLIFTING_UNLIMITED_DEST", FALSE
+      "trademindist", 8, FALSE
     }
