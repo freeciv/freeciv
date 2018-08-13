@@ -341,6 +341,7 @@ void map_view::shortcut_pressed(int key)
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_TILESET);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
+      QPixmapCache::clear();
       tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
       return;
     }
