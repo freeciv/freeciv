@@ -197,8 +197,6 @@ private:
 
 /***************************************************************************
  Transparent widget for selecting units
- TODO Add some simple scrollbars (just paint it during paint event,
- if 'more' is true->scroll visible and would depend on show_line
 ***************************************************************************/
 class units_select: public fcwidget
 {
