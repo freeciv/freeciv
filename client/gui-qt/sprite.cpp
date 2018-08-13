@@ -65,8 +65,15 @@ const char **gfx_fileextensions(void)
 struct sprite *qtg_load_gfxfile(const char *filename)
 {
   sprite *entire = new sprite;
+  QPixmap *pm = new QPixmap;
 
-  entire->pm = new QPixmap(filename);
+  if (QPixmapCache::find(QString(filename), pm)) {
+    entire->pm = pm;
+    return entire;
+  }
+  pm->load(QString(filename));
+  entire->pm = pm;
+  QPixmapCache::insert(QString(filename), *pm);
 
   return entire;
 }
