@@ -118,7 +118,7 @@ void progress_bar::set_pixmap(struct universal *target)
   QRect crop;
 
   if (VUT_UTYPE == target->kind) {
-    sprite = get_unittype_sprite(tileset, target->value.utype,
+    sprite = get_unittype_sprite(get_tileset(), target->value.utype,
                                  direction8_invalid());
   } else {
     sprite = get_building_sprite(tileset, target->value.building);
@@ -636,17 +636,24 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   QRect crop;
   qunit = punit;
   struct canvas *unit_pixmap;
+  struct tileset *tmp;
 
   setParent(parent);
   supported = supp;
 
+  tmp = nullptr;
+  if (unscaled_tileset) {
+    tmp = tileset;
+    tileset = unscaled_tileset;
+  }
+
   if (punit) {
     if (supported) {
-      unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
-                                      tileset_unit_with_upkeep_height(tileset));
+      unit_pixmap = qtg_canvas_create(tileset_unit_width(get_tileset()),
+                             tileset_unit_with_upkeep_height(get_tileset()));
     } else {
-      unit_pixmap = qtg_canvas_create(tileset_unit_width(tileset),
-                                      tileset_unit_height(tileset));
+      unit_pixmap = qtg_canvas_create(tileset_unit_width(get_tileset()),
+                                      tileset_unit_height(get_tileset()));
     }
 
     unit_pixmap->map_pixmap.fill(Qt::transparent);
@@ -654,7 +661,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
 
     if (supported) {
       put_unit_city_overlays(punit, unit_pixmap, 0,
-                             tileset_unit_layout_offset_y(tileset),
+                             tileset_unit_layout_offset_y(get_tileset()),
                              punit->upkeep, happy_cost);
     }
   } else {
@@ -666,13 +673,17 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
   if (tileset_is_isometric(tileset) == true) {
-    unit_img = cropped_img.scaledToHeight(tileset_unit_width(tileset)
+    unit_img = cropped_img.scaledToHeight(tileset_unit_width(get_tileset())
                                           * 0.6, Qt::SmoothTransformation);
   } else {
-    unit_img = cropped_img.scaledToHeight(tileset_unit_width(tileset),
+    unit_img = cropped_img.scaledToHeight(tileset_unit_width(get_tileset()),
                                           Qt::SmoothTransformation);
   }
   canvas_free(unit_pixmap);
+  if (tmp != nullptr) {
+    tileset = tmp;
+  }
+
   create_actions();
   setFixedWidth(unit_img.width() + 4);
   setFixedHeight(unit_img.height());
@@ -1065,9 +1076,9 @@ void unit_info::update_units()
   }
 
   if (tileset_is_isometric(tileset)) {
-    h = tileset_unit_width(tileset) * 0.7 + 6;
+    h = tileset_unit_width(get_tileset()) * 0.7 + 6;
   } else {
-    h = tileset_unit_width(tileset) + 6;
+    h = tileset_unit_width(get_tileset()) + 6;
   }
   if (unit_list.count() > 0) {
     parentWidget()->parentWidget()->setFixedHeight(city_dlg->scroll_height
@@ -1549,14 +1560,14 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   supported_units = new unit_info(true);
   scroll = new QScrollArea;
   scroll->setWidgetResizable(true);
-  scroll->setMaximumHeight(tileset_unit_with_upkeep_height(tileset) + 6
+  scroll->setMaximumHeight(tileset_unit_with_upkeep_height(get_tileset()) + 6
                            + scroll->horizontalScrollBar()->height());
   scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   scroll->setWidget(supported_units);
   current_units = new unit_info(false);
   scroll2 = new QScrollArea;
   scroll2->setWidgetResizable(true);
-  scroll2->setMaximumHeight(tileset_unit_height(tileset) + 6
+  scroll2->setMaximumHeight(tileset_unit_height(get_tileset()) + 6
                             + scroll2->horizontalScrollBar()->height());
   scroll2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   scroll2->setWidget(current_units);
@@ -3305,7 +3316,7 @@ void city_dialog::update_improvements()
       str = utype_values_translation(target.value.utype);
       cost = utype_build_shield_cost(target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
-      sprite = get_unittype_sprite(tileset, target.value.utype,
+      sprite = get_unittype_sprite(get_tileset(), target.value.utype,
                                    direction8_invalid());
     } else {
       str = city_improvement_name_translation(pcity, target.value.building);
@@ -3945,7 +3956,7 @@ void city_production_delegate::paint(QPainter *painter,
       is_flying = true;
     }
 
-    sprite = get_unittype_sprite(tileset, target->value.utype,
+    sprite = get_unittype_sprite(get_tileset(), target->value.utype,
                                  direction8_invalid());
   } else {
     is_unit = false;
