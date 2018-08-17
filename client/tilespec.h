@@ -205,6 +205,7 @@ enum arrow_type {
 struct tileset;
 
 extern struct tileset *tileset;
+extern struct tileset *unscaled_tileset;
 
 struct strvec;
 const struct strvec *get_tileset_list(const struct option *poption);
@@ -416,6 +417,7 @@ struct color_system;
 struct color_system *get_color_system(const struct tileset *t);
 
 /* Tileset accessor functions. */
+struct tileset* get_tileset(void);
 const char *tileset_basename(const struct tileset *t);
 bool tileset_is_isometric(const struct tileset *t);
 int tileset_hex_width(const struct tileset *t);
