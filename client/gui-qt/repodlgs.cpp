@@ -191,7 +191,7 @@ void unittype_item::init_img()
 {
   struct sprite *sp;
 
-  sp = get_unittype_sprite(tileset, utype, direction8_invalid());
+  sp = get_unittype_sprite(get_tileset(), utype, direction8_invalid());
   label_pix.setPixmap(*sp->pm);
 }
 
