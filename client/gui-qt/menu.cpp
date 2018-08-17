@@ -1077,6 +1077,11 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(shortcut_to_string(
                           fc_shortcuts::sc()->get_shortcut(SC_ZOOM_OUT))));
   connect(act, &QAction::triggered, this, &mr_menu::zoom_out);
+  scale_fonts_status = menu->addAction(_("Scale fonts"));
+  connect(scale_fonts_status, &QAction::triggered, this,
+          &mr_menu::zoom_scale_fonts);
+  scale_fonts_status->setCheckable(true);
+  scale_fonts_status->setChecked(true);
   menu->addSeparator();
   act = menu->addAction(_("City Outlines"));
   act->setCheckable(true);
@@ -3057,6 +3062,26 @@ void mr_menu::zoom_reset()
   qf->setPointSize(fc_font::instance()->prod_fontsize);
   tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
 }
+
+/**********************************************************************//**
+  Action "SCALE FONTS WHEN SCALING MAP"
+***************************************************************************/
+void mr_menu::zoom_scale_fonts()
+{
+  QFont *qf;
+
+  if (scale_fonts_status->isChecked()) {
+    gui()->map_font_scale = true;
+  } else {
+    qf = fc_font::instance()->get_font(fonts::city_names);
+    qf->setPointSize(fc_font::instance()->city_fontsize);
+    qf = fc_font::instance()->get_font(fonts::city_productions);
+    qf->setPointSize(fc_font::instance()->prod_fontsize);
+    gui()->map_font_scale = false;
+  }
+  update_city_descriptions();
+}
+
 
 /**********************************************************************//**
   Action "RELOAD ZOOMED OUT TILESET"

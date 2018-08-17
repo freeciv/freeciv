@@ -276,6 +276,7 @@ public:
   fc_sidewidget *sw_indicators;
   fc_sidewidget *sw_diplo;
   float map_scale;
+  bool map_font_scale;
   void gimme_place(QWidget* widget, QString str);
   int gimme_index_of(QString str);
   void remove_repo_dlg(QString str);
