@@ -295,6 +295,7 @@ public:
   QString shortcut_exist(fc_shortcut *fcs);
   QString shortcut_2_menustring(int sid);
   QAction *minimap_status;
+  QAction *scale_fonts_status;
   QAction *lock_status;
   QAction *osd_status;
   QAction *btlog_status;
@@ -378,6 +379,7 @@ private slots:
   void slot_city_traderoutes();
   void slot_city_names();
   void zoom_in();
+  void zoom_scale_fonts();
   void zoom_reset();
   void zoom_out();
 
