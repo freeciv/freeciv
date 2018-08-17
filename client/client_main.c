@@ -719,6 +719,9 @@ void client_exit(void)
   }
 
   overview_free();
+  if (unscaled_tileset != NULL) {
+    tileset_free(unscaled_tileset);
+  }
   tileset_free(tileset);
 
   ui_exit();

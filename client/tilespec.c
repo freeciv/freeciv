@@ -534,6 +534,7 @@ struct tileset {
 };
 
 struct tileset *tileset;
+struct tileset *unscaled_tileset;
 
 int focus_unit_state = 0;
 
@@ -632,6 +633,18 @@ static void drawing_data_destroy(struct drawing_data *draw)
     free(draw->layer[i].cells);
   }
   free(draw);
+}
+
+/****************************************************************************
+  Return unscaled tileset if it exists, or default otherwise
+****************************************************************************/
+struct tileset* get_tileset(void)
+{
+  if (unscaled_tileset != NULL) {
+    return unscaled_tileset;
+  } else {
+    return tileset;
+  }
 }
 
 /****************************************************************************
@@ -1282,9 +1295,19 @@ bool tilespec_reread(const char *new_tileset_name,
 
   /* Step 1:  Cleanup.
    *
-   * We free all old data in preparation for re-reading it.
+   * Free old tileset or keep it in memeory if we are loading the same
+   * tileset with scaling and old one was not scaled.
    */
-  tileset_free(tileset);
+
+  if (strcmp(tileset_name, old_name) == 0 && tileset->scale == 1.0f
+      && scale != 1.0f) {
+    if (unscaled_tileset) {
+      tileset_free(unscaled_tileset);
+    }
+    unscaled_tileset = tileset;
+  } else {
+    tileset_free(tileset);
+  }
 
   /* Step 2:  Read.
    *
