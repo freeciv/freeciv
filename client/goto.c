@@ -1219,11 +1219,13 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       }
     } goto_map_list_iterate_end;
   } else {
+    bool mark_on_map = FALSE;
     /* In other modes, we want to know the turn number to reach the tile. */
     goto_map_list_iterate(goto_maps, goto_map) {
       const struct tile *destination;
       const struct pf_path *path;
       const struct pf_position *pos = NULL; /* Keep compiler happy! */
+      const struct pf_position *last_pos = NULL;
       int map_turns = 0;
       int turns_for_map = -2;
       int i, j;
@@ -1237,9 +1239,18 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         if (path == NULL) {
           continue;
         }
-
+        last_pos = path->positions;
         for (j = 0; j < path->length; j++) {
           pos = path->positions + j;
+          /* turn to reach was increased in that step */
+          if (pos->turn != last_pos->turn
+              && pos->tile == ptile) {
+            mark_on_map = TRUE;
+          }
+          if (pos->moves_left == 0 && last_pos->moves_left != 0
+              && pos->tile == ptile) {
+            mark_on_map = TRUE;
+          }
           if (pos->tile == ptile
               /* End turn case. */
               && (pos->moves_left == 0
@@ -1248,6 +1259,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
               && map_turns + pos->turn > turns_for_map) {
             turns_for_map = map_turns + pos->turn;
           }
+          last_pos = pos;
         }
         map_turns += pos->turn;
       }
@@ -1275,6 +1287,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       if (ptile == destination) {
         fc_assert_ret_val(pos != NULL, FALSE);
         if (map_turns > *turns) {
+          mark_on_map = TRUE;
           *state = (pos->moves_left == 0 ? GTS_EXHAUSTED_MP : GTS_MP_LEFT);
           *turns = map_turns;
         } else if (map_turns == *turns
@@ -1289,6 +1302,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         }
       }
     } goto_map_list_iterate_end;
+    return mark_on_map;
   }
 
   return (*turns != -1 || *waypoint);
