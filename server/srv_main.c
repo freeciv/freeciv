@@ -1164,6 +1164,24 @@ static void begin_phase(bool is_new_phase)
   } phase_players_iterate_end;
 
   if (is_new_phase) {
+    /* Try to avoid hiding events under a diplomacy dialog */
+    phase_players_iterate(pplayer) {
+      if (pplayer->ai_controlled) {
+        CALL_PLR_AI_FUNC(diplomacy_actions, pplayer, pplayer);
+      }
+    } phase_players_iterate_end;
+
+    log_debug("Aistartturn");
+    ai_start_phase();
+  } else {
+    phase_players_iterate(pplayer) {
+      if (pplayer->ai_controlled) {
+        CALL_PLR_AI_FUNC(restart_phase, pplayer, pplayer);
+      }
+    } phase_players_iterate_end;
+  }
+
+  if (is_new_phase) {
     /* Unit "end of turn" activities - of course these actually go at
      * the start of the turn! */
     phase_players_iterate(pplayer) {
@@ -1200,24 +1218,6 @@ static void begin_phase(bool is_new_phase)
   alive_phase_players_iterate(pplayer) {
     update_revolution(pplayer);
   } alive_phase_players_iterate_end;
-
-  if (is_new_phase) {
-    /* Try to avoid hiding events under a diplomacy dialog */
-    phase_players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
-        CALL_PLR_AI_FUNC(diplomacy_actions, pplayer, pplayer);
-      }
-    } phase_players_iterate_end;
-
-    log_debug("Aistartturn");
-    ai_start_phase();
-  } else {
-    phase_players_iterate(pplayer) {
-      if (pplayer->ai_controlled) {
-        CALL_PLR_AI_FUNC(restart_phase, pplayer, pplayer);
-      }
-    } phase_players_iterate_end;
-  }
 
   sanity_check();
 
