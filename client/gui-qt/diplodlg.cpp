@@ -270,7 +270,9 @@ void diplo_wdg::dbl_click(QTableWidgetItem *item)
 ****************************************************************************/
 void diplo_wdg::closeEvent(QCloseEvent *event)
 {
-  response_cancel();
+  if (C_S_RUNNING == client_state()) {
+    response_cancel();
+  }
   event->accept();
 }
 
