@@ -2228,6 +2228,10 @@ void city_dialog::city_rename()
 {
   hud_input_box ask(gui()->central_wdg);
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   ask.set_text_title_definput(_("What should we rename the city to?"),
                               _("Rename City"), city_name_get(pcity));
   if (ask.exec() == QDialog::Accepted) {
@@ -2333,6 +2337,9 @@ void city_dialog::cma_double_clicked(int row, int column)
 {
   const struct cm_parameter *param;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
   param = cmafec_preset_get_parameter(row);
   if (cma_is_city_under_agent(pcity, NULL)) {
     cma_release_city(pcity);
