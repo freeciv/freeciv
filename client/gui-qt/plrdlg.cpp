@@ -410,6 +410,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   char tbuf[256];
   QString res;
   QString sp = " ";
+  QString etax, esci, elux, egold, egov;
   QString nl = "<br>";
   QStringList sorted_list_a;
   QStringList sorted_list_b;
@@ -438,6 +439,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     plr->update_report(false);
     return;
   }
+  me = client_player();
   pcity = player_capital(pplayer);
   research = research_get(pplayer);
 
@@ -446,7 +448,11 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     res = _("(Unknown)");
     break;
   case A_UNSET:
-    res = _("(none)");
+      if (player_has_embassy(me, pplayer)) {
+        res = _("(none)");
+      } else {
+        res = _("(Unknown)");
+      }
     break;
   default:
     res = QString(research_advance_name_translation(research,
@@ -455,6 +461,22 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           + QString::number(research->client.researching_cost) + ")";
     break;
   }
+  if (player_has_embassy(me, pplayer)) {
+    etax = QString::number(pplayer->economic.tax) + "%";
+    esci = QString::number(pplayer->economic.science) + "%";
+    elux = QString::number(pplayer->economic.science) + "%";
+  } else {
+    etax = _("(Unknown)");
+    esci = _("(Unknown)");
+    elux = _("(Unknown)");
+  }
+  if (could_intel_with_player(me, pplayer)) {
+    egold = QString::number(pplayer->economic.gold);
+    egov = QString(government_name_for_player(pplayer));
+  } else {
+    egold = _("(Unknown)");
+    egov = _("(Unknown)");
+  }
   /** Formatting rich text */
   intel_str =
     QString("<table><tr><td><b>") + _("Nation") + QString("</b></td><td>")
@@ -462,19 +484,19 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     + QString("</td><tr><td><b>") + _("Ruler:") + QString("</b></td><td>")
     + QString(ruler_title_for_player(pplayer, tbuf, sizeof(tbuf)))
     + QString("</td></tr><tr><td><b>") + _("Government:")
-    + QString("</b></td><td>") + QString(government_name_for_player(pplayer))
+    + QString("</b></td><td>") + egov
     + QString("</td></tr><tr><td><b>") + _("Capital:")
     + QString("</b></td><td>")
-    + QString(((!pcity) ? _("(unknown)") : city_name_get(pcity)))
+    + QString(((!pcity) ? _("(Unknown)") : city_name_get(pcity)))
     + QString("</td></tr><tr><td><b>") + _("Gold:")
-    + QString("</b></td><td>") + QString::number(pplayer->economic.gold)
+    + QString("</b></td><td>") + egold
     + QString("</td></tr><tr><td><b>") + _("Tax:")
-    + QString("</b></td><td>") + QString::number(pplayer->economic.tax)
-    + QString("%</td></tr><tr><td><b>") + _("Science:")
-    + QString("</b></td><td>") + QString::number(pplayer->economic.science)
-    + QString("%</td></tr><tr><td><b>") + _("Luxury:")
-    + QString("</b></td><td>") + QString::number(pplayer->economic.luxury)
-    + QString("%</td></tr><tr><td><b>") + _("Researching:")
+    + QString("</b></td><td>") + etax
+    + QString("</td></tr><tr><td><b>") + _("Science:")
+    + QString("</b></td><td>") + esci
+    + QString("</td></tr><tr><td><b>") + _("Luxury:")
+    + QString("</b></td><td>") + elux
+    + QString("</td></tr><tr><td><b>") + _("Researching:")
     + QString("</b></td><td>") + res + QString("</td></table>");
 
   for (int i = 0; i < static_cast<int>(DS_LAST); i++) {
@@ -488,7 +510,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
         continue;
       }
       state = player_diplstate_get(pplayer, other);
-      if (static_cast<int>(state->type) == i) {
+      if (static_cast<int>(state->type) == i
+          && could_intel_with_player(me, pplayer)) {
         if (added == false) {
           ally_str = ally_str  + QString("<b>")
                      + QString(diplstate_type_translated_name(
@@ -507,7 +530,6 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       ally_str.replace(ally_str.lastIndexOf(","), 1, ".");
     }
   }
-  me = client_player();
   my_research = research_get(me);
   if (!client_is_global_observer()) {
     if (player_has_embassy(me, pplayer) && me != pplayer) {
