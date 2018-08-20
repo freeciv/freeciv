@@ -145,7 +145,7 @@ static inline int pf_turns(const struct pf_parameter *param, int cost)
   } else if (param->move_rate <= 0) {
     return FC_INFINITY; /* This unit cannot move by itself. */
   } else {
-    return (cost - 1) / param->move_rate;
+    return cost / param->move_rate;
   }
 }
 
@@ -3197,7 +3197,6 @@ struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
     const struct pf_position *pos = &path->positions[0];
 
     fc_assert(path->length >= 1);
-    fc_assert(pos->turn == 0);
     fc_assert(pos->tile == param->start_tile);
     fc_assert(pos->moves_left == param->moves_left_initially);
     fc_assert(pos->fuel_left == param->fuel_left_initially);
