@@ -1685,8 +1685,9 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 
   /* Layout with city view and buttons */
   lefttop_layout->addWidget(citizens_label, Qt::AlignHCenter);
+  lefttop_layout->addStretch(0);
   lefttop_layout->addLayout(hbox_layout);
-  lefttop_layout->addStretch(1);
+  lefttop_layout->addStretch(50);
 
   /* Layout for units/buildings */
   curr_unit_wdg = new QWidget();
@@ -1874,9 +1875,11 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   str_list << _("Food") << _("Shield") << _("Trade") << _("Gold")
            << _("Luxury") << _("Science") << _("Celebrate");
   some_label = new QLabel(_("Minimal Surplus"));
-  some_label->setAlignment(Qt::AlignCenter);
-  slider_grid->addWidget(some_label, 0, 1, 1, 2);
+  some_label->setFont(*fc_font::instance()->get_font(fonts::city_label));
+  some_label->setAlignment(Qt::AlignRight);
+  slider_grid->addWidget(some_label, 0, 0, 1, 3);
   some_label = new QLabel(_("Priority"));
+  some_label->setFont(*fc_font::instance()->get_font(fonts::city_label));
   some_label->setAlignment(Qt::AlignCenter);
   slider_grid->addWidget(some_label, 0, 3, 1, 2);
 
@@ -1920,7 +1923,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   cma_enable_but = new QPushButton();
   cma_enable_but->setFocusPolicy(Qt::TabFocus);
   connect(cma_enable_but, &QAbstractButton::pressed, this, &city_dialog::cma_enable);
-  slider_grid->addWidget(cma_enable_but, O_LAST + 4, 1, 1, 2);
+  slider_grid->addWidget(cma_enable_but, O_LAST + 4, 0, 1, 3);
   slider_grid->addWidget(qpush2, O_LAST + 4, 3, 1, 2);
 
   qsliderbox->setLayout(slider_grid);
@@ -1947,8 +1950,8 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   leftbot_layout->addWidget(prod_unit_splitter);
   top_widget = new QWidget;
   top_widget->setLayout(lefttop_layout);
-  top_widget->setSizePolicy(QSizePolicy::Preferred,
-                            QSizePolicy::Preferred);
+  top_widget->setSizePolicy(QSizePolicy::Minimum,
+                            QSizePolicy::Minimum);
   scroll_info = new QScrollArea();
   scroll_info->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
   scroll_unit = new QScrollArea();
