@@ -2937,11 +2937,16 @@ void units_select::create_pixmap()
   QString str;
   struct canvas *unit_pixmap;
   struct unit *punit;
+  float isosize;
 
   if (pix != NULL) {
     delete pix;
     pix = NULL;
   };
+  isosize = 0.7;
+  if (tileset_hex_height(tileset) > 0 || tileset_hex_width(tileset) > 0) {
+    isosize = 0.5;
+  }
 
   update_units();
   if (unit_list.count() > 0) {
@@ -2949,8 +2954,8 @@ void units_select::create_pixmap()
     item_size.setWidth(tileset_unit_width(tileset));
     item_size.setHeight(tileset_unit_width(tileset));
   } else {
-    item_size.setWidth(tileset_unit_width(tileset) * 0.7);
-    item_size.setHeight(tileset_unit_width(tileset) * 0.7);
+    item_size.setWidth(tileset_unit_width(tileset) * isosize);
+    item_size.setHeight(tileset_unit_width(tileset) * isosize);
   }
   more = false;
   if (h_pix != nullptr) {
@@ -2987,8 +2992,8 @@ void units_select::create_pixmap()
                                Qt::KeepAspectRatio,
                                Qt::SmoothTransformation);
     } else {
-      img = cropped_img.scaled(tileset_unit_width(tileset) * 0.7,
-                               tileset_unit_width(tileset) * 0.7,
+      img = cropped_img.scaled(tileset_unit_width(tileset) * isosize,
+                               tileset_unit_width(tileset) * isosize,
                                Qt::KeepAspectRatio,
                                Qt::SmoothTransformation);
     }
