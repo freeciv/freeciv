@@ -636,6 +636,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   qunit = punit;
   struct canvas *unit_pixmap;
   struct tileset *tmp;
+  float isosize;
 
   setParent(parent);
   supported = supp;
@@ -644,6 +645,10 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   if (unscaled_tileset) {
     tmp = tileset;
     tileset = unscaled_tileset;
+  }
+  isosize = 0.6;
+  if (tileset_hex_height(tileset) > 0 || tileset_hex_width(tileset) > 0) {
+    isosize = 0.45;
   }
 
   if (punit) {
@@ -673,7 +678,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   cropped_img = img.copy(crop);
   if (tileset_is_isometric(tileset) == true) {
     unit_img = cropped_img.scaledToHeight(tileset_unit_width(get_tileset())
-                                          * 0.6, Qt::SmoothTransformation);
+                                          * isosize, Qt::SmoothTransformation);
   } else {
     unit_img = cropped_img.scaledToHeight(tileset_unit_width(get_tileset()),
                                           Qt::SmoothTransformation);
@@ -1064,6 +1069,7 @@ void unit_info::update_units()
   int i = unit_list.count();
   int j;
   int h;
+  float hexfix;
   unit_item *ui;
 
   setUpdatesEnabled(false);
@@ -1074,8 +1080,13 @@ void unit_info::update_units()
     layout->addWidget(ui, 0, Qt::AlignVCenter);
   }
 
+  hexfix = 1.0;
+  if (tileset_hex_height(tileset) > 0 || tileset_hex_width(tileset) > 0) {
+    hexfix = 0.75;
+  }
+
   if (tileset_is_isometric(tileset)) {
-    h = tileset_unit_width(get_tileset()) * 0.7 + 6;
+    h = tileset_unit_width(get_tileset()) * 0.7 * hexfix + 6;
   } else {
     h = tileset_unit_width(get_tileset()) + 6;
   }
