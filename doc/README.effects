@@ -288,7 +288,9 @@ Action_Odds_Pct
     actions "Incite City", "Incite City Escape", "Steal Gold",
     "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
     "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
-    "Targeted Sabotage City" and "Targeted Sabotage City Escape".
+    "Targeted Sabotage City", "Targeted Sabotage City Escape",
+    "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech" and
+    "Targeted Steal Tech Escape Expected".
 
 Size_Adj
     Increase maximum size of a city by amount.
