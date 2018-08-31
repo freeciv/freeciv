@@ -2458,11 +2458,11 @@ static void spy_steal_something(QVariant data1, QVariant data2)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == A_UNSET) {
       /* This is the untargeted version. */
-      request_do_action((gen_action)get_non_targeted_action_id(act_id),
+      request_do_action(get_non_targeted_action_id(act_id),
                         diplomat_id, diplomat_target_id, data2.toInt(), "");
     } else {
       /* This is the targeted version. */
-      request_do_action((gen_action)act_id, diplomat_id,
+      request_do_action(act_id, diplomat_id,
                         diplomat_target_id, data2.toInt(), "");
     }
   }
@@ -2959,12 +2959,12 @@ static void spy_sabotage(QVariant data1, QVariant data2)
       && NULL != game_city_by_number(diplomat_target_id)) {
     if (data2.toInt() == B_LAST) {
       /* This is the untargeted version. */
-      request_do_action((gen_action)get_non_targeted_action_id(act_id),
+      request_do_action(get_non_targeted_action_id(act_id),
                         diplomat_id, diplomat_target_id, data2.toInt() + 1,
                         "");
     } else {
       /* This is the targeted version. */
-      request_do_action((gen_action)act_id, diplomat_id,
+      request_do_action(act_id, diplomat_id,
                         diplomat_target_id, data2.toInt() + 1, "");
     }
   }
