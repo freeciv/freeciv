@@ -56,15 +56,15 @@ class qdef_act
 private:
   explicit qdef_act();
   static qdef_act* m_instance;
-  int vs_city;
-  int vs_unit;
+  action_id vs_city;
+  action_id vs_unit;
 public:
   static qdef_act* action();
   static void drop();
   void vs_city_set(int i);
   void vs_unit_set(int i);
-  int vs_city_get();
-  int vs_unit_get();
+  action_id vs_city_get();
+  action_id vs_unit_get();
 };
 
 /***************************************************************************
