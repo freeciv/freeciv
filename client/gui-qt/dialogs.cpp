@@ -137,7 +137,7 @@ static void heal_unit(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
-                         gen_action act,
+                         action_id act,
                          const struct act_prob *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2);
@@ -163,9 +163,9 @@ qdef_act* qdef_act::m_instance = 0;
   Initialize a mapping between an action and the function to call if
   the action's button is pushed.
 ***************************************************************************/
-static const QHash<enum gen_action, pfcn_void> af_map_init(void)
+static const QHash<action_id, pfcn_void> af_map_init(void)
 {
-  QHash<enum gen_action, pfcn_void> action_function;
+  QHash<action_id, pfcn_void> action_function;
 
   /* Unit acting against a city target. */
   action_function[ACTION_ESTABLISH_EMBASSY] = spy_embassy;
@@ -238,7 +238,7 @@ static const QHash<enum gen_action, pfcn_void> af_map_init(void)
 
 /* Mapping from an action to the function to call when its button is
  * pushed. */
-static const QHash<enum gen_action, pfcn_void> af_map = af_map_init();
+static const QHash<action_id, pfcn_void> af_map = af_map_init();
 
 /***********************************************************************//**
   Constructor for custom dialog with themed titlebar
@@ -972,7 +972,7 @@ void qdef_act::vs_unit_set(int i)
 /***********************************************************************//**
   Returns default action vs city
 ***************************************************************************/
-int qdef_act::vs_city_get()
+action_id qdef_act::vs_city_get()
 {
   return vs_city;
 }
@@ -980,7 +980,7 @@ int qdef_act::vs_city_get()
 /***********************************************************************//**
   Returns default action vs unit
 ***************************************************************************/
-int qdef_act::vs_unit_get()
+action_id qdef_act::vs_unit_get()
 {
   return vs_unit;
 }
@@ -1433,14 +1433,14 @@ Choice_dialog_button *choice_dialog::get_identified_button(const int id)
 ***************************************************************************/
 bool try_default_unit_action(QVariant q1, QVariant q2)
 {
-  int action;
+  action_id action;
   pfcn_void func;
 
   action = qdef_act::action()->vs_unit_get();
   if (action == -1) {
     return false;
   }
-  func = af_map[static_cast<gen_action>(action)];
+  func = af_map[action];
 
   func(q1, q2);
   return true;
@@ -1451,14 +1451,14 @@ bool try_default_unit_action(QVariant q1, QVariant q2)
 ***************************************************************************/
 bool try_default_city_action(QVariant q1, QVariant q2)
 {
-  int action;
+  action_id action;
   pfcn_void func;
 
   action = qdef_act::action()->vs_city_get();
   if (action == -1) {
     return false;
   }
-  func = af_map[static_cast<gen_action>(action)];
+  func = af_map[action];
   func(q1, q2);
   return true;
 }
@@ -1875,8 +1875,8 @@ void popup_action_selection(struct unit *actor_unit,
   QVariant qv1, qv2;
   pfcn_void func;
   struct city *actor_homecity;
-  int unit_act;
-  int city_act;
+  action_id unit_act;
+  action_id city_act;
 
   unit_act = qdef_act::action()->vs_unit_get();
   city_act = qdef_act::action()->vs_city_get();
@@ -1898,14 +1898,14 @@ void popup_action_selection(struct unit *actor_unit,
   }
   if (target_city
       && try_default_city_action(actor_unit->id, target_city->id)
-      && action_prob_possible(act_probs[static_cast<gen_action>(unit_act)])) {
+      && action_prob_possible(act_probs[unit_act])) {
     diplomat_queue_handle_primary(actor_unit->id);
     return;
   }
 
   if (target_unit
       && try_default_unit_action(actor_unit->id, target_unit->id)
-      && action_prob_possible(act_probs[static_cast<gen_action>(city_act)])) {
+      && action_prob_possible(act_probs[city_act])) {
     diplomat_queue_handle_primary(actor_unit->id);
     return;
   }
@@ -2004,9 +2004,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
-      action_entry(cd,
-                   (enum gen_action)act,
-                   act_probs,
+      action_entry(cd, act, act_probs,
                    act == ACTION_HELP_WONDER ?
                      city_prod_remaining(target_city) : "",
                    qv1, qv2);
@@ -2021,11 +2019,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
-      action_entry(cd,
-                   (enum gen_action)act,
-                   act_probs,
-                   "",
-                   qv1, qv2);
+      action_entry(cd, act, act_probs, "", qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2037,11 +2031,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNITS) {
-      action_entry(cd,
-                   (enum gen_action)act,
-                   act_probs,
-                   "",
-                   qv1, qv2);
+      action_entry(cd, act, act_probs, "", qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2053,11 +2043,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
-      action_entry(cd,
-                   (enum gen_action)act,
-                   act_probs,
-                   "",
-                   qv1, qv2);
+      action_entry(cd, act, act_probs, "", qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2069,11 +2055,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
-      action_entry(cd,
-                   (enum gen_action)act,
-                   act_probs,
-                   "",
-                   qv1, qv2);
+      action_entry(cd, act, act_probs, "", qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2111,7 +2093,7 @@ void popup_action_selection(struct unit *actor_unit,
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
 ***************************************************************************/
-static int get_non_targeted_action_id(int tgt_action_id)
+static action_id get_non_targeted_action_id(action_id tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
@@ -2157,7 +2139,7 @@ static int get_targeted_action_id(int non_tgt_action_id)
   Show the user the action if it is enabled.
 ***************************************************************************/
 static void action_entry(choice_dialog *cd,
-                         gen_action act,
+                         action_id act,
                          const struct act_prob *act_probs,
                          QString custom,
                          QVariant data1, QVariant data2)
@@ -2198,7 +2180,7 @@ static void action_entry(choice_dialog *cd,
   Update an existing button.
 ***************************************************************************/
 static void action_entry_update(Choice_dialog_button *button,
-                                gen_action act,
+                                action_id act,
                                 const struct act_prob *act_probs,
                                 QString custom,
                                 QVariant data1, QVariant data2)
@@ -2579,7 +2561,8 @@ static void join_city(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Action steal tech with spy for choice dialog
 ***************************************************************************/
-static void spy_steal_shared(QVariant data1, QVariant data2, int act_id)
+static void spy_steal_shared(QVariant data1, QVariant data2,
+                             action_id act_id)
 {
   QString str;
   QVariant qv1;
@@ -2667,7 +2650,7 @@ static void spy_steal_something(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
-  int act_id = data1.toList().at(2).toInt();
+  action_id act_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
@@ -3168,7 +3151,7 @@ static void spy_sabotage(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toList().at(0).toInt();
   int diplomat_target_id = data1.toList().at(1).toInt();
-  int act_id = data1.toList().at(2).toInt();
+  action_id act_id = data1.toList().at(2).toInt();
 
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != game_city_by_number(diplomat_target_id)) {
@@ -3664,11 +3647,11 @@ void action_selection_refresh(struct unit *actor_unit,
     if (asd->get_identified_button(act)) {
       /* Update the existing button. */
       action_entry_update(asd->get_identified_button(act),
-                          (enum gen_action)act, act_probs, custom,
+                          act, act_probs, custom,
                           qv1, qv2);
     } else {
       /* Add the button (unless its probability is 0). */
-      action_entry(asd, (enum gen_action)act, act_probs, custom,
+      action_entry(asd, act, act_probs, custom,
                    qv1, qv2);
     }
   } action_iterate_end;
