@@ -1339,6 +1339,7 @@ static void end_phase(void)
   /* Refresh cities */
   phase_players_iterate(pplayer) {
     research_get(pplayer)->got_tech = FALSE;
+    research_get(pplayer)->got_tech_multi = FALSE;
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {

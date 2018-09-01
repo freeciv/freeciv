@@ -65,6 +65,8 @@ struct research {
   /* If the player completed a research this turn, this value is turned on
    * and changing targets may be done without penalty. */
   bool got_tech;
+  /* The same as got_tech but flipped back in choose_tech() */
+  bool got_tech_multi;
 
   struct research_invention {
     /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_PREREQS_KNOWN. */
@@ -75,7 +77,7 @@ struct research {
     bool reachable;
     bool root_reqs_known;
     bv_techs required_techs;
-    int num_required_techs, bulbs_required;
+    int num_required_techs, bulbs_required, bulbs_researched_saved;
   } inventions[A_LAST];
 
   /* Tech goal (similar to worklists; when one tech is researched the next

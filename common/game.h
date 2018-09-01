@@ -156,6 +156,7 @@ struct civ_game {
       int mgr_nationchance;
       int mgr_turninterval;
       int mgr_worldchance;
+      bool multiresearch;
       bool migration;
       enum trait_dist_mode trait_dist;
       int min_players;
@@ -501,6 +502,7 @@ extern struct world wld;
 #define GAME_MAX_TECHLOST_DONOR      100
 
 #define GAME_DEFAULT_TEAM_POOLED_RESEARCH TRUE
+#define GAME_DEFAULT_MULTIRESEARCH   FALSE
 
 #define GAME_DEFAULT_RAZECHANCE      20
 #define GAME_MIN_RAZECHANCE          0

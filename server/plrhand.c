@@ -2558,6 +2558,8 @@ static struct player *split_player(struct player *pplayer)
   advance_index_iterate(A_NONE, i) {
     if (TECH_KNOWN == research_invention_state(old_research, i)) {
       research_invention_set(new_research, i, TECH_KNOWN);
+      new_research->inventions[i].bulbs_researched_saved
+        = old_research->inventions[i].bulbs_researched_saved;
     }
   } advance_index_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
