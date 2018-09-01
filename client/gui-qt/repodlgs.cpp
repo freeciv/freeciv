@@ -961,6 +961,7 @@ void science_report::update_report()
   double not_used;
   QString str;
   qlist_item item;
+  struct sprite *sp;
 
   fc_assert_ret(NULL != research);
 
@@ -1034,13 +1035,25 @@ void science_report::update_report()
   researching_combo->clear();
   goal_combo->clear();
   for (int i = 0; i < curr_list->count(); i++) {
+    QIcon ic;
+
+    sp = get_tech_sprite(tileset, curr_list->at(i).id);
+    if (sp) {
+      ic = QIcon(*sp->pm);
+    }
     qvar = curr_list->at(i).id;
-    researching_combo->insertItem(i, curr_list->at(i).tech_str, qvar);
+    researching_combo->insertItem(i, ic, curr_list->at(i).tech_str, qvar);
   }
 
   for (int i = 0; i < goal_list->count(); i++) {
+    QIcon ic;
+
+    sp = get_tech_sprite(tileset, goal_list->at(i).id);
+    if (sp) {
+      ic = QIcon(*sp->pm);
+    }
     qvar = goal_list->at(i).id;
-    goal_combo->insertItem(i, goal_list->at(i).tech_str, qvar);
+    goal_combo->insertItem(i, ic, goal_list->at(i).tech_str, qvar);
   }
 
   /** set current tech and goal */
