@@ -163,6 +163,9 @@ void progress_bar::set_pixmap(int n)
   pix->fill(Qt::transparent);
   pixmap_copy(pix, sprite->pm, 0 , 0, 0, 0,
               sprite->pm->width(), sprite->pm->height());
+  if (isVisible()) {
+    update();
+  }
 }
 
 /************************************************************************//**

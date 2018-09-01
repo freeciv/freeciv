@@ -723,8 +723,15 @@ void side_right_click_science(void)
     std::sort(curr_list.begin(), curr_list.end(), comp_less_than);
     menu = new QMenu(gui()->central_wdg);
     for (int i = 0; i < curr_list.count(); i++) {
+      QIcon ic;
+      struct sprite *sp;
+
       qvar = curr_list.at(i).id;
-      act = new QAction(curr_list.at(i).tech_str, gui()->mapview_wdg);
+      sp = get_tech_sprite(tileset, curr_list.at(i).id);
+      if (sp) {
+        ic = QIcon(*sp->pm);
+      }
+      act = new QAction(ic, curr_list.at(i).tech_str, gui()->mapview_wdg);
       act->setData(qvar);
       act->setProperty("scimenu", true);
       menu->addAction(act);
