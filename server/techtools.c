@@ -67,6 +67,9 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 void research_apply_penalty(struct research *presearch, Tech_type_id tech,
                             int penalty_percent)
 {
+  if (game.server.multiresearch) {
+    return;
+  }
   presearch->bulbs_researched -=
       (research_total_bulbs_required(presearch, tech, FALSE)
        * penalty_percent) / 100;
@@ -124,6 +127,13 @@ static void tech_researched(struct research *research)
   /* Deduct tech cost. */
   research->bulbs_researched -= research_total_bulbs_required(research, tech,
                                                               FALSE);
+  advance_index_iterate(A_FIRST, j) {
+    if (j == research->researching) {
+      research->inventions[j].bulbs_researched_saved
+                  = research_total_bulbs_required(research, tech, FALSE);
+    }
+  } advance_index_iterate_end;
+
 
   /* Do all the updates needed after finding new tech. */
   found_new_tech(research, tech, TRUE, TRUE);
@@ -386,6 +396,7 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
    * (without losing bulbs) */
   if (tech_found == presearch->researching) {
     presearch->got_tech = TRUE;
+    presearch->got_tech_multi = TRUE;
   }
   presearch->researching_saved = A_UNKNOWN;
   presearch->techs_researched++;
@@ -616,6 +627,12 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
   /* count our research contribution this turn */
   pplayer->server.bulbs_last_turn += bulbs;
   research->bulbs_researched += bulbs;
+  advance_index_iterate(A_FIRST, j) {
+    if (j == research->researching) {
+      research->inventions[j].bulbs_researched_saved = research->bulbs_researched;
+    }
+  } advance_index_iterate_end;
+
 
   do {
     /* If we have a negative number of bulbs we do try to:
@@ -944,6 +961,8 @@ void choose_random_tech(struct research *research)
 ****************************************************************************/
 void choose_tech(struct research *research, Tech_type_id tech)
 {
+  int bulbs_res = 0;
+
   if (is_future_tech(tech)) {
     if (is_future_tech(research->researching)
         && (research->bulbs_researched
@@ -959,6 +978,31 @@ void choose_tech(struct research *research, Tech_type_id tech)
       return;
     }
   }
+
+  if (game.server.multiresearch) {
+    advance_index_iterate(A_FIRST, j) {
+      /* Save old tech research */
+      if (j == research->researching) {
+        research->inventions[j].bulbs_researched_saved = research->bulbs_researched;
+      }
+      /* New tech*/
+      if (j == tech) {
+        bulbs_res = research->inventions[j].bulbs_researched_saved;
+      }
+    } advance_index_iterate_end;
+    research->researching = tech;
+    if (research->got_tech_multi == FALSE) {
+      research->bulbs_researched = 0;
+    }
+    research->bulbs_researched = research->bulbs_researched + bulbs_res;
+    research->got_tech_multi = FALSE;
+    if (research->bulbs_researched
+        >= research_total_bulbs_required(research, tech, FALSE)) {
+      tech_researched(research);
+    }
+    return;
+  }
+
   if (!research->got_tech && research->researching_saved == A_UNKNOWN) {
     research->bulbs_researching_saved = research->bulbs_researched;
     research->researching_saved = research->researching;

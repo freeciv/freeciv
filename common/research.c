@@ -74,6 +74,9 @@ void researches_init(void)
     research_array[i].researching_saved = A_UNKNOWN;
     research_array[i].future_tech = 0;
     research_array[i].inventions[A_NONE].state = TECH_KNOWN;
+    advance_index_iterate(A_FIRST, j) {
+      research_array[i].inventions[j].bulbs_researched_saved = 0;
+    } advance_index_iterate_end;
   }
 
   game.info.global_advances[A_NONE] = TRUE;

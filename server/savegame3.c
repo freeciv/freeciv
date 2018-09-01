@@ -6604,9 +6604,12 @@ static void sg_load_researches(struct loaddata *loading)
   int number;
   const char *str;
   int i, j;
+  int *vlist_research;
+  size_t count_res;
 
+  vlist_research = NULL;
   /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
+   sg_check_ret();
 
   /* Initialize all researches. */
   researches_iterate(pinitres) {
@@ -6672,6 +6675,18 @@ static void sg_load_researches(struct loaddata *loading)
         }
       }
     }
+
+    if (game.server.multiresearch) {
+      vlist_research = fc_calloc(game.control.num_tech_types, sizeof(int));
+      vlist_research = secfile_lookup_int_vec(loading->file, &count_res,
+                                              "research.r%d.vbs", i);
+      advance_index_iterate(A_FIRST, o) {
+        presearch->inventions[o].bulbs_researched_saved = vlist_research[o];
+      } advance_index_iterate_end;
+      if (vlist_research) {
+        free(vlist_research);
+      }
+    }
   }
 
   /* In case of tech_leakage, we can update research only after all the
@@ -6688,7 +6703,9 @@ static void sg_save_researches(struct savedata *saving)
 {
   char invs[A_LAST];
   int i = 0;
+  int *vlist_research;
 
+  vlist_research = NULL;
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -6704,6 +6721,18 @@ static void sg_save_researches(struct savedata *saving)
                          "research.r%d.futuretech", i);
       secfile_insert_int(saving->file, presearch->bulbs_researching_saved,
                          "research.r%d.bulbs_before", i);
+      if (game.server.multiresearch) {
+        vlist_research = fc_calloc(game.control.num_tech_types, sizeof(int));
+        advance_index_iterate(A_FIRST, j) {
+          vlist_research[j] = presearch->inventions[j].bulbs_researched_saved;
+        } advance_index_iterate_end;
+        secfile_insert_int_vec(saving->file, vlist_research,
+                               game.control.num_tech_types,
+                               "research.r%d.vbs", i);
+        if (vlist_research) {
+          free(vlist_research);
+        }
+      }
       technology_save(saving->file, "research.r%d.saved",
                       i, presearch->researching_saved);
       secfile_insert_int(saving->file, presearch->bulbs_researched,
