@@ -4583,9 +4583,9 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
   Returns a possibly legal attack action iff it is the only interesting
   action that currently is legal.
 **************************************************************************/
-static enum gen_action auto_attack_act(const struct act_prob *act_probs)
+static action_id auto_attack_act(const struct act_prob *act_probs)
 {
-  enum gen_action attack_action = ACTION_NONE;
+  action_id attack_action = ACTION_NONE;
 
   action_iterate(act) {
     if (action_prob_possible(act_probs[act])) {
@@ -4691,7 +4691,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
   if (valid && disturb_player) {
     /* The player can select an action and should be informed. */
 
-    enum gen_action auto_action;
+    action_id auto_action;
 
     if (gui_options.popup_attack_actions) {
       /* Pop up the action selection dialog no matter what. */

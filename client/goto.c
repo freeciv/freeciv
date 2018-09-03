@@ -1666,7 +1666,7 @@ void send_connect_route(enum unit_activity activity,
   This function doesn't care if a direction is required or just possible.
   Use order_demands_direction() for that.
 **************************************************************************/
-static bool order_wants_direction(enum unit_orders order, int act_id,
+static bool order_wants_direction(enum unit_orders order, action_id act_id,
                                   struct tile *tgt_tile)
 {
   switch (order) {
@@ -1705,7 +1705,7 @@ static bool order_wants_direction(enum unit_orders order, int act_id,
   Returns TRUE if it is certain that the order must be performed from an
   adjacent tile.
 **************************************************************************/
-static bool order_demands_direction(enum unit_orders order, int act_id)
+static bool order_demands_direction(enum unit_orders order, action_id act_id)
 {
   switch (order) {
   case ORDER_MOVE:
