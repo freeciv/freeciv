@@ -90,7 +90,7 @@ enum cursor_hover_state hover_state = HOVER_NONE;
 enum unit_activity connect_activity;
 struct extra_type *connect_tgt;
 
-int goto_last_action;
+action_id goto_last_action;
 int goto_last_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
@@ -285,7 +285,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
                      struct extra_type *tgt,
                      int last_tgt,
-                     int action,
+                     action_id action,
                      enum unit_orders order)
 {
   fc_assert_ret((punits && unit_list_size(punits) > 0)
@@ -1090,7 +1090,7 @@ void action_decision_request(struct unit *actor_unit)
   Do a goto with an order at the end (or ORDER_LAST).
 **************************************************************************/
 void request_unit_goto(enum unit_orders last_order,
-                       int act_id, int tgt_id)
+                       action_id act_id, int tgt_id)
 {
   struct unit_list *punits = get_units_in_focus();
 
@@ -1673,7 +1673,7 @@ void request_do_action(action_id action, int actor_id,
   - actor_id : The unit ID of the acting unit.
   - target_id : The ID of the target unit or city.
 **************************************************************************/
-void request_action_details(enum gen_action action, int actor_id,
+void request_action_details(action_id action, int actor_id,
                             int target_id)
 {
   dsend_packet_unit_action_query(&client.conn,
@@ -2048,8 +2048,7 @@ void request_unit_unload(struct unit *pcargo)
   Send request to do caravan action - establishing traderoute or
   helping in wonder building - to server.
 **************************************************************************/
-void request_unit_caravan_action(struct unit *punit,
-                                 enum gen_action action)
+void request_unit_caravan_action(struct unit *punit, action_id action)
 {
   struct city *target_city;
 
