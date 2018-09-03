@@ -2198,7 +2198,7 @@ static void unit_query_impossible(struct connection *pc,
 void handle_unit_action_query(struct connection *pc,
                               const int actor_id,
                               const int target_id,
-                              const enum gen_action action_type,
+                              const action_id action_type,
                               bool disturb_player)
 {
   struct player *pplayer = pc->playing;
@@ -2223,7 +2223,7 @@ void handle_unit_action_query(struct connection *pc,
     return;
   }
 
-  switch (action_type) {
+  switch ((enum gen_action)action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit
         && is_action_enabled_unit_on_unit(action_type,

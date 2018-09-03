@@ -4530,7 +4530,7 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
   ACTION_NONE indicates that performing the action is impossible.
 ****************************************************************************/
 void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
-                               enum gen_action action_type,
+                               action_id action_type,
                                bool disturb_player)
 {
   struct city *pcity = game_city_by_number(target_id);
@@ -4565,7 +4565,7 @@ void handle_unit_action_answer(int diplomat_id, int target_id, int cost,
     return;
   }
 
-  switch (action_type) {
+  switch ((enum gen_action)action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     if (punit && client.conn.playing
         && is_human(client.conn.playing)) {
@@ -4846,7 +4846,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 ****************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
                                bv_imprs improvements,
-                               enum gen_action act_id,
+                               action_id act_id,
                                bool disturb_player)
 {
   struct city *pcity = game_city_by_number(city_id);

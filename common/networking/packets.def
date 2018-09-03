@@ -245,7 +245,6 @@ type CBONUS_TYPE        = uint8(enum combat_bonus_type)
 type TRI                = uint8(enum traderoute_illegal_cancelling)
 type RDIR               = uint8(enum route_direction)
 type MOVE_MODE          = uint8(enum road_move_mode)
-type GEN_ACTION         = uint8(enum gen_action)
 type ACTION_AUTO_CAUSE  = uint8(enum action_auto_perf_cause)
 type ACTION_DECISION    = uint8(enum action_decision)
 type ACTOR_KIND         = uint8(enum action_actor_kind)
@@ -290,6 +289,7 @@ type BV_SPACESHIP_STRUCT = bitvector(bv_spaceship_structure)
 
 # typedefs for IDs
 type EXTRA              = SINT8
+type ACTION_ID          = uint8(action_id)
 type ACTION_TGT         = SINT16
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
@@ -807,7 +807,7 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UNIT diplomat_id;
   CITY city_id;
   BV_IMPRS improvements;
-  GEN_ACTION act_id;
+  ACTION_ID act_id;
 
   BOOL disturb_player;
 end
@@ -981,7 +981,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
   ACTION_TGT orders_targets[MAX_LEN_ROUTE:orders_length];
   EXTRA orders_extras[MAX_LEN_ROUTE:orders_length];
-  GEN_ACTION orders_actions[MAX_LEN_ROUTE:orders_length];
+  ACTION_ID orders_actions[MAX_LEN_ROUTE:orders_length];
 
   ACTION_DECISION action_decision_want;
   TILE action_decision_tile;
@@ -1034,7 +1034,7 @@ PACKET_UNIT_ORDERS = 73; cs
   ACTIVITY activity[MAX_LEN_ROUTE:length];
   ACTION_TGT target[MAX_LEN_ROUTE:length];
   EXTRA extra[MAX_LEN_ROUTE:length];
-  GEN_ACTION action[MAX_LEN_ROUTE:length];
+  ACTION_ID action[MAX_LEN_ROUTE:length];
   TILE dest_tile;
 end
 
@@ -1058,7 +1058,7 @@ end
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
-  GEN_ACTION action_type;
+  ACTION_ID action_type;
 
   BOOL disturb_player;
 end
@@ -1073,14 +1073,14 @@ PACKET_UNIT_DO_ACTION = 84; cs, dsend
   EXTRA extra_id;
   ACTION_TGT value;
   ESTRING name[MAX_LEN_NAME];
-  GEN_ACTION action_type;
+  ACTION_ID action_type;
 end
 
 PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
   GOLD cost;
-  GEN_ACTION action_type;
+  ACTION_ID action_type;
 
   BOOL disturb_player;
 end
@@ -1765,7 +1765,7 @@ PACKET_RULESET_TRADE = 227; sc, lsend
 end
 
 PACKET_RULESET_ACTION = 246; sc, lsend
-  GEN_ACTION id;
+  ACTION_ID id;
 
   STRING ui_name[MAX_LEN_NAME];
   BOOL   quiet;
@@ -1779,7 +1779,7 @@ PACKET_RULESET_ACTION = 246; sc, lsend
 end
 
 PACKET_RULESET_ACTION_ENABLER = 235; sc, lsend
-  GEN_ACTION enabled_action;
+  ACTION_ID enabled_action;
   UINT8 actor_reqs_count;
   REQUIREMENT actor_reqs[MAX_NUM_REQS:actor_reqs_count];
   UINT8 target_reqs_count;
@@ -1794,7 +1794,7 @@ PACKET_RULESET_ACTION_AUTO = 252; sc, lsend
   REQUIREMENT       reqs[MAX_NUM_REQS:reqs_count];
 
   UINT8             alternatives_count;
-  GEN_ACTION        alternatives[MAX_NUM_ACTIONS:alternatives_count];
+  ACTION_ID         alternatives[MAX_NUM_ACTIONS:alternatives_count];
 end
 
 PACKET_RULESET_MUSIC = 240; sc, lsend
