@@ -2328,7 +2328,7 @@ void unit_do_action(struct player *pplayer,
                     const int extra_id,
                     const int value,
                     const char *name,
-                    const enum gen_action action_type)
+                    const action_id action_type)
 {
   unit_perform_action(pplayer, actor_id, target_id, extra_id,
                       value, name, action_type, ACT_REQ_PLAYER);
@@ -2349,7 +2349,7 @@ bool unit_perform_action(struct player *pplayer,
                          const int extra_id,
                          const int value,
                          const char *name,
-                         const enum gen_action action_type,
+                         const action_id action_type,
                          const enum action_requester requester)
 {
   struct action *paction;
