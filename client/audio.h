@@ -61,6 +61,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag,
                       enum music_usage usage);
 void audio_play_track(const char *const tag, char *const alt_tag);
+bool audio_play_from_path(const char *path, audio_finished_callback cb);
 
 double audio_get_volume(void);
 void audio_set_volume(double volume);

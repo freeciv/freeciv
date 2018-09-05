@@ -86,6 +86,42 @@ bool api_play_music(lua_State *L, Player *pplayer, const char *tag)
 }
 
 /*****************************************************************************
+  Show image with music for player
+*****************************************************************************/
+bool api_showimg_playsnd(lua_State *L, Player *pplayer,
+                         const char *img_filename, const char *snd_filename,
+                         const char *desc, bool fullsize)
+{
+  struct packet_show_img_play_sound p;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, img_filename, 2, API_TYPE_STRING, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, img_filename, 3, API_TYPE_STRING, FALSE);
+
+  if (img_filename != NULL) {
+    sz_strlcpy(p.img_path, img_filename);
+  } else {
+    sz_strlcpy(p.img_path, "");
+  }
+  if (snd_filename != NULL) {
+    sz_strlcpy(p.snd_path, snd_filename);
+  } else {
+    sz_strlcpy(p.snd_path, "");
+  }
+  if (snd_filename != NULL) {
+    sz_strlcpy(p.desc, desc);
+  } else {
+    sz_strlcpy(p.desc, "");
+  }
+  p.fullsize = fullsize;
+
+  lsend_packet_show_img_play_sound(pplayer->connections, &p);
+
+  return TRUE;
+}
+
+/*****************************************************************************
   Return the formated value of the setting or NULL if no such setting exists,
 *****************************************************************************/
 const char *api_server_setting_get(lua_State *L, const char *sett_name)

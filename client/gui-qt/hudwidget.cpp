@@ -20,6 +20,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QDialogButtonBox>
+#include <QDir>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -39,6 +40,7 @@
 #include "unitlist.h"
 
 // client
+#include "audio.h"
 #include "client_main.h"
 #include "text.h"
 
@@ -53,7 +55,7 @@ extern "C" {
   bool goto_is_active(void);
 }
 static QString popup_terrain_info(struct tile *ptile);
-
+static void snd_finished(void);
 /***************************************************************************
   Returns true if player has any unit of unit_type
 ***************************************************************************/
@@ -2099,3 +2101,109 @@ void hud_battle_log::showEvent(QShowEvent *event)
   setVisible(true);
 }
 
+/****************************************************************************
+  Constructor for widget showing picture with text and sound
+****************************************************************************/
+hud_img::hud_img(QPixmap *pix, QString snd, QString txt, bool fullsize,
+         QWidget *parent) : QWidget(parent)
+{
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+
+  text = txt;
+  pixmap = pix;
+  full_size = fullsize;
+  sound = snd;
+  f_text = *fc_font::instance()->get_font(fonts::default_font);
+  f_text.setBold(true);
+  f_text.setItalic(true);
+  f_text.setPointSize(20);
+}
+
+
+/****************************************************************************
+  Sets size of hud_img and shows it
+****************************************************************************/
+void hud_img::init()
+{
+  int width, height;
+  int move_x, move_y;
+
+  if (full_size) {
+    width = gui()->mapview_wdg->width();
+    height = gui()->mapview_wdg->height();
+  } else {
+    width = pixmap->width();
+    height = pixmap->height();
+  }
+  setFixedHeight(height);
+  setFixedWidth(width);
+
+  move_x = (gui()->mapview_wdg->width() - width) / 2;
+  move_y = (gui()->mapview_wdg->height() - height) / 2;
+  move(move_x, move_y);
+  audio_stop();
+  snd_playing = audio_play_from_path(sound.toLocal8Bit().data(),
+                                     snd_finished);
+  show();
+}
+
+/****************************************************************************
+  Destructor for hud)img
+****************************************************************************/
+hud_img::~hud_img()
+{
+  delete pixmap;
+}
+
+/****************************************************************************
+  Paint event for hud_img
+****************************************************************************/
+void hud_img::paintEvent(QPaintEvent *event)
+{
+  QPainter p;
+  QRect rf;
+  QPen pen;
+  pen.setStyle(Qt::SolidLine);
+  pen.setWidthF(4);
+  pen.setBrush(Qt::white);
+  pen.setCapStyle(Qt::RoundCap);
+  pen.setJoinStyle(Qt::RoundJoin);
+
+  rf = QRect(0 , height() / 3, width(), height());
+
+  p.begin(this);
+  p.setFont(f_text);
+  p.setPen(pen);
+  p.drawPixmap(this->rect(), *pixmap);
+  p.drawText(rf, Qt::AlignCenter, text, &bound_rect);
+  p.end();
+  event->accept();
+}
+
+/****************************************************************************
+  Mouse event for hud_img
+****************************************************************************/
+void hud_img::mousePressEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton
+      || event->button() == Qt::RightButton) {
+    if (snd_playing) {
+      audio_stop();
+    }
+    close();
+  }
+}
+
+/****************************************************************************
+  Callback for finished audio playing in hud_img
+****************************************************************************/
+void snd_finished()
+{
+  QList<hud_img *> h;
+
+  h = gui()->mapview_wdg->findChildren<hud_img *>();
+
+  for (int i = 0; i < h.size(); ++i) {
+    h.at(i)->snd_playing = false;
+  }
+}
