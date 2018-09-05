@@ -42,6 +42,22 @@ end
 
 signal.connect("hut_enter", "hermit_nest")
 
+-- Horseback riding researched
+function horseback_callback(tech_type, player, source)
+  local img = string.format("%s%s%s", game.rulesetdir(),
+                            "/", "resources/horseman.jpg")
+  local snd = string.format("%s%s%s", game.rulesetdir(),
+                            "/", "resources/horse.ogg")
+  if (tech_type == find.tech_type("Horseback Riding"))
+    then
+    server.showimg_playsnd(player, img, snd,
+                           "Better to run than curse the road", true)
+  end
+  return false
+end
+
+signal.connect('tech_researched', 'horseback_callback')
+
 -- Check if there is certain terrain in ANY CAdjacent tile.
 function adjacent_to(tile, terrain_name)
   for adj_tile in tile:circle_iterate(1) do

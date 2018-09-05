@@ -2262,6 +2262,15 @@ PACKET_PLAY_MUSIC = 245; sc, lsend
   STRING tag[MAX_LEN_NAME];
 end
 
+PACKET_SHOW_IMG_PLAY_SOUND = 192; sc, lsend
+  STRING img_path[MAX_LEN_NAME];
+  STRING snd_path[MAX_LEN_NAME];
+  STRING desc[MAX_LEN_NAME];
+  BOOL fullsize;
+end
+
+
+
 /*************** Webclient specific packets ****************/
 /* Use range 256:511 for these                             */
 
