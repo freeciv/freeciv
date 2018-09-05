@@ -49,6 +49,10 @@ module server {
     @ civilization_score (lua_State *L, Player *pplayer);
   bool api_play_music
     @ play_music (lua_State *L, Player *pplayer, const char *tag);
+  bool api_showimg_playsnd
+    @ showimg_playsnd (lua_State *L, Player *pplayer,
+                       const char *img_filename, const char *snd_filename,
+                       const char *desc, bool fullsize);
 
   module setting {
     const char *api_server_setting_get

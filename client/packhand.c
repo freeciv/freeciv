@@ -5200,6 +5200,15 @@ void handle_vote_resolve(int vote_no, bool passed)
 }
 
 /************************************************************************//**
+  Shows image with text and play music
+****************************************************************************/
+void handle_show_img_play_sound(const char *img_path, const char *snd_path,
+                                const char *desc, bool fullsize)
+{
+  show_img_play_snd(img_path, snd_path, desc, fullsize);
+}
+
+/************************************************************************//**
   Play suitable music
 ****************************************************************************/
 void handle_play_music(const char *tag)
