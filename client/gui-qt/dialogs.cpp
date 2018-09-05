@@ -18,6 +18,7 @@
 // Qt
 #include <QApplication>
 #include <QComboBox>
+#include <QDir>
 #include <QGroupBox>
 #include <QHeaderView>
 #include <QImage>
@@ -4022,4 +4023,30 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
     gui()->battlelog_wdg->add_combat_info(huc);
     gui()->battlelog_wdg->show();
   }
+}
+
+/***************************************************************************
+  Popup dialog showing given image and text,
+  start playing given sound, stop playing sound when popup is closed.
+  Take all space available to show image if fullsize is set.
+  If there are other the same popups show them in queue.
+***************************************************************************/
+void qtg_show_img_play_snd(const char *img_path, const char *snd_path,
+                           const char *desc, bool fullsize)
+{
+  QPixmap *pix = new QPixmap;
+  QString img, snd;
+  hud_img *hi;
+  QDir dir;
+
+  img = dir.absolutePath() + QString("/data/") + QString(img_path);
+  pix->load(img);
+  if (pix->isNull()) {
+    delete pix;
+    return;
+  }
+  snd = dir.absolutePath() + QString("/data/") + QString(snd_path);
+  hi = new hud_img(pix, snd, desc, fullsize,  gui()->mapview_wdg);
+  hi->init();
+
 }

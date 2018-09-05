@@ -362,5 +362,30 @@ private:
   QElapsedTimer m_timer;
 };
 
+/****************************************************************************
+  Widget showing image with text and sound
+****************************************************************************/
+class hud_img : public QWidget
+{
+  Q_OBJECT
+public:
+  hud_img(QPixmap *pix, QString snd, QString txt, bool fullsize,
+          QWidget *parent);
+  ~hud_img();
+  void init();
+  bool snd_playing;
+protected:
+  void paintEvent(QPaintEvent *event);
+  void mousePressEvent(QMouseEvent *event);
+private:
+  bool full_size;
+  QString text;
+  QString sound;
+  QPixmap *pixmap;
+  QRect bound_rect;
+  QFontMetrics *fm_text;
+  QFont f_text;
+};
+
 #endif /* FC__HUDWIDGET_H */
 
