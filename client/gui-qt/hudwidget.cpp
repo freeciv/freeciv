@@ -2128,7 +2128,6 @@ hud_img::hud_img(QPixmap *pix, QString snd, QString txt, bool fullsize,
   f_text.setPointSize(20);
 }
 
-
 /****************************************************************************
   Sets size of hud_img and shows it
 ****************************************************************************/
