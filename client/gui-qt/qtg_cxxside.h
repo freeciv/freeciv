@@ -109,8 +109,6 @@ enum client_pages qtg_get_current_client_page();
 void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
                            int attacker_hp, int defender_hp,
                            bool make_att_veteran, bool make_def_veteran);
-void qtg_show_img_play_snd(const char *img_path, const char *snd_path,
-                           const char *desc, bool fullsize);
 void qtg_set_unit_icon(int idx, struct unit *punit);
 void qtg_set_unit_icons_more_arrow(bool onoff);
 void qtg_real_focus_units_changed(void);

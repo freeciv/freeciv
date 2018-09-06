@@ -511,16 +511,6 @@ void popup_combat_info(int attacker_unit_id, int defender_unit_id,
 }
 
 /**********************************************************************//**
-  Call show_img_play_snd callback
-**************************************************************************/
-void show_img_play_snd(const char *img_path, const char *snd_path,
-                       const char *desc, bool fullsize)
-{
-  funcs.show_img_play_snd(img_path, snd_path, desc, fullsize);
-}
-
-
-/**********************************************************************//**
   Call update_timeout_label callback
 **************************************************************************/
 void update_timeout_label(void)
