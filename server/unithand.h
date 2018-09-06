@@ -125,13 +125,13 @@ bool unit_perform_action(struct player *pplayer,
 void illegal_action_msg(struct player *pplayer,
                         const enum event_type event,
                         struct unit *actor,
-                        const int stopped_action,
+                        const action_id stopped_action,
                         const struct tile *target_tile,
                         const struct city *target_city,
                         const struct unit *target_unit);
 
 enum ane_kind action_not_enabled_reason(struct unit *punit,
-                                        enum gen_action act_id,
+                                        action_id act_id,
                                         const struct tile *target_tile,
                                         const struct city *target_city,
                                         const struct unit *target_unit);
