@@ -2918,6 +2918,8 @@ static void update_city_activity(struct city *pcity)
 {
   struct player *pplayer;
   struct government *gov;
+  bool is_happy;
+  bool is_celebrating;
 
   if (!pcity) {
     return;
@@ -2925,6 +2927,8 @@ static void update_city_activity(struct city *pcity)
 
   pplayer = city_owner(pcity);
   gov = government_of_city(pcity);
+  is_happy = city_happy(pcity);
+  is_celebrating = city_celebrating(pcity);
 
   if (city_refresh(pcity)) {
     auto_arrange_workers(pcity);
@@ -2941,7 +2945,13 @@ static void update_city_activity(struct city *pcity)
     /* History can decrease, but never go below zero */
     pcity->history = MAX(pcity->history, 0);
 
-    if (city_celebrating(pcity)) {
+    /* Keep old behaviour when building new improvement could keep
+       city celebrating */
+    if (is_happy == FALSE) {
+      is_happy = city_happy(pcity);
+    }
+
+    if (city_celebrating(pcity) || is_celebrating) {
       pcity->rapture++;
       if (pcity->rapture == 1) {
         notify_player(pplayer, city_tile(pcity), E_CITY_LOVE, ftc_server,
@@ -2956,7 +2966,7 @@ static void update_city_activity(struct city *pcity)
       }
       pcity->rapture = 0;
     }
-    pcity->was_happy = city_happy(pcity);
+    pcity->was_happy = is_happy;
 
     /* Handle the illness. */
     if (game.info.illness_on) {
