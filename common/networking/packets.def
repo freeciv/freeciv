@@ -2250,8 +2250,6 @@ PACKET_SHOW_IMG_PLAY_SOUND = 192; sc, lsend
   BOOL fullsize;
 end
 
-
-
 /*************** Webclient specific packets ****************/
 /* Use range 256:511 for these                             */
 
