@@ -28,6 +28,7 @@ leaders = {
  "Alan Kay",            "Male"
  "Bjarne Stroustrup",   "Male"
  "Niklaus Wirth",       "Male"
+ "Terry Davis",         "Male"
 }
 
 ruler_titles = {
