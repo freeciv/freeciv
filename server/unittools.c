@@ -4418,7 +4418,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
-      if (action_id_has_result(order.action, ACTION_FOUND_CITY)) {
+      if (action_id_has_result_safe(order.action, ACTION_FOUND_CITY)) {
         /* This action needs a name. */
         name = city_name_suggestion(pplayer, unit_tile(punit));
       } else {

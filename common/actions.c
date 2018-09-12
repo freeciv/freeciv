@@ -818,6 +818,9 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
 bool action_has_result(const struct action *paction,
                        enum gen_action result)
 {
+  fc_assert_ret_val(paction, FALSE);
+  fc_assert_ret_val(gen_action_is_valid(result), FALSE);
+
   /* The action result is currently used as the action id. */
   return paction->id == result;
 }
@@ -3426,8 +3429,8 @@ struct act_prob action_prob_vs_units(const struct unit* actor_unit,
     }
   }
 
-  if ((action_id_has_result(act_id, ACTION_ATTACK)
-       || action_id_has_result(act_id, ACTION_BOMBARD))
+  if ((action_id_has_result_safe(act_id, ACTION_ATTACK)
+       || action_id_has_result_safe(act_id, ACTION_BOMBARD))
       && tile_city(target_tile) != NULL
       && !pplayers_at_war(city_owner(tile_city(target_tile)),
                           unit_owner(actor_unit))) {
