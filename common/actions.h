@@ -436,8 +436,11 @@ int action_number(const struct action *action);
 
 bool action_has_result(const struct action *paction,
                        enum gen_action result);
-#define action_id_has_result(act_id, result)                              \
-  action_has_result(action_by_number(act_id), result)
+#define action_has_result_safe(paction, result)                           \
+  (paction && action_has_result(paction, result))
+#define action_id_has_result_safe(act_id, result)                         \
+  (action_by_number(act_id)                                               \
+   && action_has_result(action_by_number(act_id), result))
 
 bool action_is_hostile(action_id act_id);
 
