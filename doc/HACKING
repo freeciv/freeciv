@@ -840,6 +840,58 @@ limited information about non-neighbouring and unseen enemies, is available
 at http://freecivac.sf.net/.
 
 ===========================================================================
+Generalized actions
+===========================================================================
+An action is something a player can do to achieve something in the game.
+Not all actions are enabler controlled yet.
+
+===========================================================================
+Generalized action meaning
+===========================================================================
+A design goal for the action sub system is to keep the meaning of action
+game rules clear. To achieve this actions should keep having clear
+semantics. There should not be a bunch of exceptions to how for example an
+action enabler is interpreted based on what action it enables. This keeps
+action related rules easy to understand for ruleset authors and easy to
+automatically reason about - both for parts of Freeciv like menus, help
+text generation and agents and for third party tools.
+
+Please don't make non actions actions because they are similar to actions
+or because some of the things Freeciv automatically does for actions would
+be nice to have. Abstract out the stuff you want in stead. Make it apply to
+both actions and to the thing you wanted.
+
+An action is something a player can order a game entity, the actor, to do.
+An action does something in the game it self as defined by the game rules.
+It should not matter if those game rules run on the Freeciv server or on a
+human umpire. An action can be controlled by game rules. That control can
+not be broken by a patched client or by a quick player. An action is at the
+level where the rules apply. A sequence of actions isn't an action. Parts
+of an action isn't an action.
+
+Putting a unit in a group so the quickly can select it with the rest of the
+units in the group and the server can save what group a unit belongs to
+is server side client state, not an action. The rules don't care what group
+a unit belongs to. Adding a unit to an army where the game rules treat
+units in armies different from units outside an army - say by having them
+attack as one unit - would be an action.
+
+Putting a unit under the control of the autosettlers server side agent
+isn't an action. The player could modify his client to automatically give
+the same orders as autosettlers would have given or even give those orders
+by hand.
+
+Leaving a destroyed transport isn't an action. The player can't order a
+unit to perform this action. Having a unit destroy his transport and then
+leave it is an action. Leaving a transport "mid flight" (no matter if it
+was destroyed or not) and having a certain probability of surviving to
+show up somewhere else is an action.
+
+Please don't add action (result) specific interpretations of requirements
+in action enablers. If you need a custom interpretation define a new actor
+kind or target kind.
+
+===========================================================================
 Misc - The idea trashcan
 ===========================================================================
 [Currently all of the major entities - units, cities, players, contains
