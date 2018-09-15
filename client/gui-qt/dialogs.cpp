@@ -4031,8 +4031,8 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
   Take all space available to show image if fullsize is set.
   If there are other the same popups show them in queue.
 ***************************************************************************/
-void show_img_play_snd(const char *img_path, const char *snd_path,
-                       const char *desc, bool fullsize)
+void qtg_show_img_play_snd(const char *img_path, const char *snd_path,
+                           const char *desc, bool fullsize)
 {
   QPixmap *pix = new QPixmap;
   QString img, snd;
