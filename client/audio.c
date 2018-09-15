@@ -566,6 +566,7 @@ bool audio_play_from_path(const char *path, audio_finished_callback cb)
   return plugins[selected_plugin].play("", path, FALSE, cb);
 }
 
+
 /**************************************************************************
   Stop sound. Music should die down in a few seconds.
 **************************************************************************/
