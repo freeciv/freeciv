@@ -29,8 +29,5 @@ bool api_server_save(lua_State *L, const char *filename);
 const char *api_server_setting_get(lua_State *L, const char *sett_name);
 
 bool api_play_music(lua_State *L, Player *pplayer, const char *tag);
-bool api_showimg_playsnd(lua_State *L, Player *pplayer,
-                         const char *img_filename, const char *snd_filename,
-                         const char *desc, bool fullsize);
 
 #endif /* FC__API_SERVER_BASE_H */

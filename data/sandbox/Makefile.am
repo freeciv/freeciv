@@ -18,4 +18,3 @@ pkgdata_DATA =          \
 	README.sandbox
 
 EXTRA_DIST = $(pkgdata_DATA)
-SUBDIRS = resources

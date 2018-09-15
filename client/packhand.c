@@ -5122,13 +5122,6 @@ void handle_vote_resolve(int vote_no, bool passed)
   voteinfo_gui_update();
 }
 
-void handle_show_img_play_sound(const char *img_path, const char *snd_path,
-                                const char *desc, bool fullsize)
-{
-  show_img_play_snd(img_path, snd_path, desc, fullsize);
-}
-
-
 /**************************************************************************
   Play suitable music
 **************************************************************************/

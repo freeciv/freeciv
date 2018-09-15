@@ -1620,7 +1620,6 @@ AC_CONFIG_FILES([Makefile
 	  data/classic/Makefile
 	  data/multiplayer/Makefile
 	  data/sandbox/Makefile
-	  data/sandbox/resources/Makefile
 	  data/experimental/Makefile
           data/alien/Makefile
           data/civ2civ3/Makefile
