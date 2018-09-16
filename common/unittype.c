@@ -284,7 +284,8 @@ static void unit_can_act_cache_set(struct unit_type *putype)
         && requirement_fulfilled_by_unit_type(putype,
                                               &(enabler->actor_reqs))) {
       log_debug("act_cache: %s can %s",
-                utype_rule_name(putype), gen_action_name(enabler->action));
+                utype_rule_name(putype),
+                action_id_rule_name(enabler->action));
       BV_SET(unit_can_act_cache[enabler->action], utype_index(putype));
       BV_SET(unit_can_act_cache[ACTION_ANY], utype_index(putype));
       if (action_is_hostile(enabler->action)) {
