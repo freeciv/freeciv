@@ -1174,7 +1174,7 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
    * action_target_neg_util(Add to population) = -50
    * action_target_neg_util(Subtract from population) = 50
 **************************************************************************/
-static int action_target_neg_util(int act_id,
+static int action_target_neg_util(action_id act_id,
                                   const struct city *pcity)
 {
   switch ((enum gen_action)act_id) {
