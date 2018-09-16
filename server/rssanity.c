@@ -1324,8 +1324,8 @@ bool autoadjust_ruleset_data(void)
   /* Hard coded action blocking. */
   {
     const struct {
-      const enum gen_action blocked;
-      const enum gen_action blocker;
+      const enum action_result blocked;
+      const enum action_result blocker;
     } must_block[] = {
       /* Hard code that Help Wonder blocks Recycle Unit. This must be done
        * because caravan_shields makes it possible to avoid the
@@ -1346,38 +1346,39 @@ bool autoadjust_ruleset_data(void)
        * therefore get 100% of them by changing its production. This trick
        * makes the ability to select Recycle Unit when Help Wonder is legal
        * pointless. */
-      { ACTION_RECYCLE_UNIT, ACTION_HELP_WONDER },
+      { ACTRES_RECYCLE_UNIT, ACTRES_HELP_WONDER },
 
       /* Allowing regular disband when ACTION_HELP_WONDER or
        * ACTION_RECYCLE_UNIT is legal while ACTION_HELP_WONDER always
        * blocks ACTION_RECYCLE_UNIT doesn't work well with the force_*
        * semantics. Should move to the ruleset once it has blocked_by
        * semantics. */
-      { ACTION_DISBAND_UNIT, ACTION_HELP_WONDER },
-      { ACTION_DISBAND_UNIT, ACTION_RECYCLE_UNIT },
+      { ACTRES_DISBAND_UNIT, ACTRES_HELP_WONDER },
+      { ACTRES_DISBAND_UNIT, ACTRES_RECYCLE_UNIT },
 
       /* Hard code that the ability to perform a regular attack blocks city
        * conquest. Is redundant as long as the requirement that the target
        * tile has no units remains hard coded. Kept "just in case" that
        * changes. */
-      { ACTION_CONQUER_CITY, ACTION_ATTACK },
-      { ACTION_CONQUER_CITY2, ACTION_ATTACK },
-      { ACTION_CONQUER_CITY, ACTION_SUICIDE_ATTACK },
-      { ACTION_CONQUER_CITY2, ACTION_SUICIDE_ATTACK },
+      { ACTRES_CONQUER_CITY, ACTRES_ATTACK },
     };
 
     int i;
 
     for (i = 0; i < ARRAY_SIZE(must_block); i++) {
-      enum gen_action blocked = must_block[i].blocked;
-      enum gen_action blocker = must_block[i].blocker;
+      enum action_result blocked_result = must_block[i].blocked;
+      enum action_result blocker_result = must_block[i].blocker;
 
-      if (!action_id_would_be_blocked_by(blocked, blocker)) {
-        log_verbose("Autoblocking %s with %s",
-                    action_id_rule_name(blocked),
-                    action_id_rule_name(blocker));
-        BV_SET(action_by_number(blocked)->blocked_by, blocker);
-      }
+      action_by_result_iterate (blocked, blocker_id, blocked_result) {
+        action_by_result_iterate (blocker, blocked_id, blocker_result) {
+          if (!action_would_be_blocked_by(blocked, blocker)) {
+            log_verbose("Autoblocking %s with %s",
+                        action_rule_name(blocked),
+                        action_rule_name(blocker));
+            BV_SET(blocked->blocked_by, blocker->id);
+          }
+        } action_by_result_iterate_end;
+      } action_by_result_iterate_end;
     }
   }
 
