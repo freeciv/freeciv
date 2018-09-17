@@ -794,8 +794,8 @@ void popup_unit_info(Unit_type_id type_id)
     char buf[2048];
 
     fc_snprintf(buf, sizeof(buf), "%s %d %s",
-                _("Cost:"), utype_build_shield_cost(pUnitType),
-                PL_("shield", "shields", utype_build_shield_cost(pUnitType)));
+                _("Cost:"), utype_build_shield_cost_base(pUnitType),
+                PL_("shield", "shields", utype_build_shield_cost_base(pUnitType)));
 
     if (pUnitType->pop_cost) {
       cat_snprintf(buf, sizeof(buf), " %d %s",

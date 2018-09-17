@@ -3329,11 +3329,12 @@ void city_dialog::update_improvements()
 
   for (int i = 0; i < worklist_length(&queue); i++) {
     struct universal target = queue.entries[i];
+
     tooltip = "";
 
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
-      cost = utype_build_shield_cost(target.value.utype);
+      cost = utype_build_shield_cost(pcity, target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(get_tileset(), target.value.utype,
                                    direction8_invalid());
@@ -3828,7 +3829,7 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
              + QString(move_points_text(unit->move_rate, TRUE))
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Cost:"))) + " "
-             + QString::number(utype_build_shield_cost(unit))
+             + QString::number(utype_build_shield_cost_base(unit))
              + QString("</td><td colspan=\"2\">")
              + bold(QString(_("Basic Upkeep:")))
              + " " + QString(helptext_unit_upkeep_str(unit))
@@ -3865,9 +3866,9 @@ QString get_tooltip(QVariant qvar)
   QStringList sl;
   char buffer[8192];
   char buf2[1];
+  struct universal *target;
 
   buf2[0] = '\0';
-  struct universal *target;
   target = reinterpret_cast<universal *>(qvar.value<void *>());
 
   if (target == NULL) {

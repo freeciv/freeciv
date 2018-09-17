@@ -529,21 +529,21 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     if (VUT_UTYPE == pCity->production.kind) {
-      struct unit_type *pUnitType = pCity->production.value.utype;
+      struct unit_type *punittype = pCity->production.value.utype;
 
-      pLogo = ResizeSurfaceBox(get_unittype_surface(pUnitType, direction8_invalid()),
+      pLogo = ResizeSurfaceBox(get_unittype_surface(punittype, direction8_invalid()),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
-      togrow = utype_build_shield_cost(pUnitType);
-      pName = utype_name_translation(pUnitType);
+      togrow = utype_build_shield_cost(pCity, punittype);
+      pName = utype_name_translation(punittype);
     } else {
-      struct impr_type *pImprove = pCity->production.value.building;
+      struct impr_type *pimprove = pCity->production.value.building;
 
       pLogo = ResizeSurfaceBox(get_building_surface(pCity->production.value.building),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
-      togrow = impr_build_shield_cost(pCity, pImprove);
-      pName = improvement_name_translation(pImprove);
+      togrow = impr_build_shield_cost(pCity, pimprove);
+      pName = improvement_name_translation(pimprove);
     }
 
     if (!worklist_is_empty(&(pCity->worklist))) {
@@ -1064,19 +1064,19 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
 
   /* change production */
   if (VUT_UTYPE == pCity->production.kind) {
-    struct unit_type *pUnitType = pCity->production.value.utype;
+    struct unit_type *punittype = pCity->production.value.utype;
 
-    pLogo = ResizeSurface(get_unittype_surface(pUnitType, direction8_invalid()),
+    pLogo = ResizeSurface(get_unittype_surface(punittype, direction8_invalid()),
                           adj_size(36), adj_size(24), 1);
-    togrow = utype_build_shield_cost(pUnitType);
-    pName = utype_name_translation(pUnitType);
+    togrow = utype_build_shield_cost(pCity, punittype);
+    pName = utype_name_translation(punittype);
   } else {
-    struct impr_type *pImprove = pCity->production.value.building;
+    struct impr_type *pimprove = pCity->production.value.building;
 
     pLogo = ResizeSurface(get_building_surface(pCity->production.value.building),
                           adj_size(36), adj_size(24), 1);
-    togrow = impr_build_shield_cost(pCity, pImprove);
-    pName = improvement_name_translation(pImprove);
+    togrow = impr_build_shield_cost(pCity, pimprove);
+    pName = improvement_name_translation(pimprove);
   }
 
   if (!worklist_is_empty(&(pCity->worklist))) {

@@ -644,7 +644,7 @@ void name_and_sort_items(struct universal *targets, int num_targets,
 
     if (VUT_UTYPE == target.kind) {
       name = utype_values_translation(target.value.utype);
-      cost = utype_build_shield_cost(target.value.utype);
+      cost = utype_build_shield_cost(pcity, target.value.utype);
     } else {
       name = city_improvement_name_translation(pcity, target.value.building);
       if (improvement_has_flag(target.value.building, IF_GOLD)) {

@@ -2455,7 +2455,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   }
 
   utype = pcity->production.value.utype;
-  unit_shield_cost = utype_build_shield_cost(utype);
+  unit_shield_cost = utype_build_shield_cost(pcity, utype);
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -3030,7 +3030,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost = city_owner(pcity)->economic.gold + game.server.base_incite_cost;
 
   unit_list_iterate(pcity->tile->units, punit) {
-    cost += (unit_build_shield_cost(punit)
+    cost += (unit_build_shield_cost(pcity, punit)
 	     * game.server.incite_unit_factor);
   } unit_list_iterate_end;
 

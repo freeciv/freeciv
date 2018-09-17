@@ -590,8 +590,8 @@ static bool manual_command(void)
         fprintf(doc,
                 PL_("Cost: %d shield",
                     "Cost: %d shields",
-                    utype_build_shield_cost(putype)),
-                utype_build_shield_cost(putype));
+                    utype_build_shield_cost_base(putype)),
+                utype_build_shield_cost_base(putype));
         fprintf(doc, SUBITEM_END);
         fprintf(doc, SUBITEM_BEGIN, "upkeep");
         fprintf(doc, _("Upkeep: %s"),

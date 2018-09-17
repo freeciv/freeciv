@@ -3726,7 +3726,7 @@ int universal_build_shield_cost(const struct city *pcity,
   case VUT_IMPROVEMENT:
     return impr_build_shield_cost(pcity, target->value.building);
   case VUT_UTYPE:
-    return utype_build_shield_cost(target->value.utype);
+    return utype_build_shield_cost(pcity, target->value.utype);
   default:
     break;
   }

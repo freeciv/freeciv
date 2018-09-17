@@ -883,7 +883,31 @@ bool utype_is_consumed_by_action(const struct action *paction,
 /**********************************************************************//**
   Returns the number of shields it takes to build this unit type.
 **************************************************************************/
-int utype_build_shield_cost(const struct unit_type *punittype)
+int utype_build_shield_cost(const struct city *pcity,
+                            const struct unit_type *punittype)
+{
+  int base;
+  struct player *owner;
+  struct tile *ptile;
+
+  if (pcity != NULL) {
+    owner = city_owner(pcity);
+    ptile = city_tile(pcity);
+  } else {
+    owner = NULL;
+    ptile = NULL;
+  }
+
+  base = punittype->build_cost
+    * (100 + get_unittype_bonus(owner, ptile, punittype, EFT_UNIT_BUILD_COST_PCT)) / 100;
+
+  return MAX(base * game.info.shieldbox / 100, 1);
+}
+
+/**********************************************************************//**
+  Returns the number of shields this unit type represents.
+**************************************************************************/
+int utype_build_shield_cost_base(const struct unit_type *punittype)
 {
   return MAX(punittype->build_cost * game.info.shieldbox / 100, 1);
 }
@@ -891,9 +915,17 @@ int utype_build_shield_cost(const struct unit_type *punittype)
 /**********************************************************************//**
   Returns the number of shields it takes to build this unit.
 **************************************************************************/
-int unit_build_shield_cost(const struct unit *punit)
+int unit_build_shield_cost(const struct city *pcity, const struct unit *punit)
 {
-  return utype_build_shield_cost(unit_type_get(punit));
+  return utype_build_shield_cost(pcity, unit_type_get(punit));
+}
+
+/**********************************************************************//**
+  Returns the number of shields this unit represents
+**************************************************************************/
+int unit_build_shield_cost_base(const struct unit *punit)
+{
+  return utype_build_shield_cost_base(unit_type_get(punit));
 }
 
 /**********************************************************************//**
@@ -904,7 +936,7 @@ int utype_buy_gold_cost(const struct city *pcity,
                         int shields_in_stock)
 {
   int cost = 0;
-  const int missing = utype_build_shield_cost(punittype) - shields_in_stock;
+  const int missing = utype_build_shield_cost(pcity, punittype) - shields_in_stock;
   struct player *owner;
   struct tile *ptile;
 
@@ -936,7 +968,7 @@ int utype_buy_gold_cost(const struct city *pcity,
 **************************************************************************/
 int utype_disband_shields(const struct unit_type *punittype)
 {
-  return utype_build_shield_cost(punittype) / 2;
+  return utype_build_shield_cost_base(punittype) / 2;
 }
 
 /**********************************************************************//**
@@ -1133,7 +1165,7 @@ int unit_upgrade_price(const struct player *pplayer,
                        const struct unit_type *from,
                        const struct unit_type *to)
 {
-  int missing = utype_build_shield_cost(to) - utype_disband_shields(from);
+  int missing = utype_build_shield_cost_base(to) - utype_disband_shields(from);
   int base_cost = 2 * missing + (missing * missing) / 20;
 
   return base_cost

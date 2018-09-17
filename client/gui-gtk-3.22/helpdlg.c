@@ -904,7 +904,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   create_help_page(HELP_UNIT);
 
   if (utype) {
-    sprintf(buf, "%d", utype_build_shield_cost(utype));
+    sprintf(buf, "%d", utype_build_shield_cost_base(utype));
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), buf);
     sprintf(buf, "%d", utype->attack_strength);
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][4]), buf);

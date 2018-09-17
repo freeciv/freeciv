@@ -321,7 +321,7 @@ static int stack_value(const struct tile *ptile,
   if (is_stack_vulnerable(ptile)) {
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer) {
-	cost += unit_build_shield_cost(punit);
+	cost += unit_build_shield_cost_base(punit);
       }
     } unit_list_iterate_end;
   }
@@ -423,7 +423,7 @@ static int prefer_short_stacks(const struct tile *ptile,
 }
 
 /**********************************************************************//**
-  Set PF call-backs to favour paths that do not create tall stacks
+  Set PF callbacks to favour paths that do not create tall stacks
   or cross dangerous tiles.
 **************************************************************************/
 void adv_avoid_risks(struct pf_parameter *parameter,
@@ -438,7 +438,7 @@ void adv_avoid_risks(struct pf_parameter *parameter,
 
   parameter->data = risk_cost;
   parameter->get_EC = prefer_short_stacks;
-  risk_cost->base_value = unit_build_shield_cost(punit);
+  risk_cost->base_value = unit_build_shield_cost_base(punit);
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
   risk_cost->enemy_zoc_cost = PF_TURN_FACTOR * 20;

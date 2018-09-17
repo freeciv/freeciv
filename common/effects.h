@@ -31,7 +31,6 @@ extern "C" {
  * SPECENUM_VALUE%dNAME at the end of the list.
  * Used in the network protocol.
  *
- * Value 89 are currently unused
  */
 #define SPECENUM_NAME effect_type
 #define SPECENUM_VALUE0 EFT_TECH_PARASITE
@@ -239,8 +238,8 @@ extern "C" {
 #define SPECENUM_VALUE87NAME "Combat_Rounds"
 #define SPECENUM_VALUE88 EFT_IMPR_BUY_COST_PCT
 #define SPECENUM_VALUE88NAME "Building_Buy_Cost_Pct"
-#define SPECENUM_VALUE89 EFT_UNUSED1
-#define SPECENUM_VALUE89NAME "Unused#1"
+#define SPECENUM_VALUE89 EFT_UNIT_BUILD_COST_PCT
+#define SPECENUM_VALUE89NAME "Unit_Build_Cost_Pct"
 #define SPECENUM_VALUE90 EFT_UNIT_BUY_COST_PCT
 #define SPECENUM_VALUE90NAME "Unit_Buy_Cost_Pct"
 #define SPECENUM_VALUE91 EFT_NOT_TECH_SOURCE

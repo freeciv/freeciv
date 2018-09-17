@@ -523,6 +523,9 @@ Building_Build_Cost_Pct
 Building_Buy_Cost_Pct
     Percentage added to building buy cost.
 
+Unit_Build_Cost_Pct
+    Percentage added to unit building cost.
+
 Unit_Buy_Cost_Pct
     Percentage added to unit buy cost.
 

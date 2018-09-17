@@ -892,8 +892,8 @@ void help_widget::set_topic_unit(const help_item *topic,
     add_info_separator();
 
     add_info_progress(_("Hitpoints:"), utype->hp, 0, max_utype->hp);
-    add_info_progress(_("Cost:"), utype_build_shield_cost(utype),
-                      0, utype_build_shield_cost(max_utype));
+    add_info_progress(_("Cost:"), utype_build_shield_cost_base(utype),
+                      0, utype_build_shield_cost_base(max_utype));
     add_info_progress(_("Firepower:"), utype->firepower, 0,
                       max_utype->firepower);
 

@@ -2502,7 +2502,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: the %d is the number of shields the unit can
                       * contribute. */
                      _("  * adds %d production.\n"),
-                     utype_build_shield_cost(utype));
+                     utype_build_shield_cost_base(utype));
         break;
       case ACTION_FOUND_CITY:
         if (game.scenario.prevent_new_cities) {

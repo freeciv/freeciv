@@ -4019,8 +4019,8 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity_dest, FALSE);
 
-  pcity_dest->shield_stock += unit_build_shield_cost(punit);
-  pcity_dest->caravan_shields += unit_build_shield_cost(punit);
+  pcity_dest->shield_stock += unit_build_shield_cost_base(punit);
+  pcity_dest->caravan_shields += unit_build_shield_cost_base(punit);
 
   conn_list_do_buffer(pplayer->connections);
 

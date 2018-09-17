@@ -246,7 +246,7 @@ static bool has_defense(struct city *pcity)
 **************************************************************************/
 int build_cost_balanced(const struct unit_type *punittype)
 {
-  return 2 * utype_build_shield_cost(punittype) * punittype->attack_strength /
+  return 2 * utype_build_shield_cost_base(punittype) * punittype->attack_strength /
       (punittype->attack_strength + punittype->defense_strength);
 }
 
@@ -381,7 +381,7 @@ static void reinforcements_cost_and_value(struct unit *punit,
 
         if (val != 0) {
           *value += val;
-          *cost += unit_build_shield_cost(aunit);
+          *cost += unit_build_shield_cost_base(aunit);
         }
       }
     } unit_list_iterate_end;
@@ -455,7 +455,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
-    int loss = unit_build_shield_cost(punit);
+    int loss = unit_build_shield_cost_base(punit);
 
     attack *= attack;
 
@@ -1205,7 +1205,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
           struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
           city_data->attack += adv_unit_att_rating(aunit);
-          city_data->bcost += unit_build_shield_cost(aunit);
+          city_data->bcost += unit_build_shield_cost_base(aunit);
         } 
       }
       invasion_funct(ait, aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
@@ -1237,7 +1237,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
     unhap = dai_assess_military_unhappiness(pcity);
   }
 
-  bcost = unit_build_shield_cost(punit);
+  bcost = unit_build_shield_cost_base(punit);
   bcost_bal = build_cost_balanced(punit_type);
 
   pft_fill_unit_attack_param(&parameter, punit);
@@ -1344,7 +1344,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       if (can_unit_attack_tile(punit, city_tile(acity))
           && (pdefender = get_defender(punit, city_tile(acity)))) {
         vulnerability = unit_def_rating_squared(punit, pdefender);
-        benefit = unit_build_shield_cost(pdefender);
+        benefit = unit_build_shield_cost_base(pdefender);
       } else {
         pdefender = NULL;
         vulnerability = 0;
@@ -1362,7 +1362,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
           if (v > vulnerability) {
             /* They can build a better defender! */
             vulnerability = v;
-            benefit = utype_build_shield_cost(def_type);
+            benefit = utype_build_shield_cost(acity, def_type);
           }
         }
       }
@@ -1408,7 +1408,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            : SHIELD_WEIGHTING);
       /* Build_cost of ferry. */
       needferry = (go_by_boat && NULL == ferryboat
-                   ? utype_build_shield_cost(boattype) : 0);
+                   ? utype_build_shield_cost(acity, boattype) : 0);
       /* FIXME: add time to build the ferry? */
       want = military_amortize(pplayer, game_city_by_number(punit->homecity),
                                want, MAX(1, move_time),
@@ -1516,7 +1516,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
 
       vulnerability = unit_def_rating_squared(punit, aunit);
-      benefit = unit_build_shield_cost(aunit);
+      benefit = unit_build_shield_cost_base(aunit);
 
       move_time = pos.turn;
       if (10 < move_time) {

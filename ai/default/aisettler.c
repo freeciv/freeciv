@@ -821,7 +821,7 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
      * weeds out very small wants. ie we create a threshold here. */
     /* We also penalise here for using a boat (either virtual or real)
      * it's crude but what isn't? */
-    cr->result -= unit_build_shield_cost(punit) + boat_cost;
+    cr->result -= unit_build_shield_cost_base(punit) + boat_cost;
 
     /* Find best spot */
     if ((!best && cr->result > 0)
@@ -949,7 +949,7 @@ static struct cityresult *find_best_city_placement(struct ai_type *ait,
      * Building a new boat is like a war against a weaker enemy -- 
      * good for the economy. (c) Bush family */
     cr2 = settler_map_iterate(ait, &parameter, punit,
-                              unit_build_shield_cost(ferry));
+                              unit_build_shield_cost_base(ferry));
     if (cr2) {
       cr2->overseas = TRUE;
       cr2->virt_boat = (ferry->id == 0);

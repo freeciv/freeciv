@@ -1377,7 +1377,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   improvement_iterate(pImprove) {
     can_build = can_player_build_improvement_now(client.conn.playing, pImprove);
     can_eventually_build =
-	can_player_build_improvement_later(client.conn.playing, pImprove);
+        can_player_build_improvement_later(client.conn.playing, pImprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pCity) {
@@ -1531,7 +1531,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   unit_type_iterate(un) {
     can_build = can_player_build_unit_now(client.conn.playing, un);
     can_eventually_build =
-	can_player_build_unit_later(client.conn.playing, un);
+        can_player_build_unit_later(client.conn.playing, un);
 
     /* If there's a city, can the city build the unit? */
     if (pCity) {
@@ -1555,6 +1555,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
       if (pCity) {
         struct universal univ = cid_production(cid_encode_unit(un));
+        int cost = utype_build_shield_cost(pCity, un);
 
         turns = city_turns_to_build(pCity, &univ, TRUE);
 
@@ -1564,26 +1565,28 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                       pUnit->attack_strength,
                       pUnit->defense_strength,
                       move_points_text(pUnit->move_rate, TRUE),
-                      pCity->shield_stock, utype_build_shield_cost(un),
-                      PL_("shield","shields", utype_build_shield_cost(un)));
+                      pCity->shield_stock, cost,
+                      PL_("shield", "shields", cost));
         } else {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
                       pUnit->attack_strength,
                       pUnit->defense_strength,
                       move_points_text(pUnit->move_rate, TRUE),
-                      pCity->shield_stock, utype_build_shield_cost(un), 
-                      PL_("shield","shields", utype_build_shield_cost(un)),
+                      pCity->shield_stock, cost,
+                      PL_("shield", "shields", cost),
                       turns, PL_("turn", "turns", turns));
         }
       } else {
+        int cost = utype_build_shield_cost_base(un);
+
         fc_snprintf(cbuf, sizeof(cbuf),
                     _("(%d/%d/%s)\n%d %s"),
                     pUnit->attack_strength,
                     pUnit->defense_strength,
                     move_points_text(pUnit->move_rate, TRUE),
-                    utype_build_shield_cost(un),
-                    PL_("shield","shields", utype_build_shield_cost(un)));
+                    cost,
+                    PL_("shield", "shields", cost));
       }
 
       copy_chars_to_utf8_str(pstr, cbuf);

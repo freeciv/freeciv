@@ -87,7 +87,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
   simple_ai_unit_type_iterate(punittype) {
     if (can_city_build_unit_now(pcity, punittype)) {
       int fpatt, fpdef, defense, attack;
-      double want, loss, cost = utype_build_shield_cost(punittype);
+      double want, loss, cost = utype_build_shield_cost(pcity, punittype);
       struct unit *defender;
       int veteran = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
                                        EFT_VETERAN_BUILD);
@@ -161,8 +161,8 @@ static struct unit_type *dai_choose_attacker(struct ai_type *ait, struct city *p
       if (can_city_build_unit_now(pcity, putype)
           && (cur > best
               || (cur == best
-                  && utype_build_shield_cost(putype)
-                     <= utype_build_shield_cost(bestid)))) {
+                  && utype_build_shield_cost(pcity, putype)
+                    <= utype_build_shield_cost(pcity, bestid)))) {
         best = cur;
         bestid = putype;
       }
@@ -214,8 +214,8 @@ static struct unit_type *dai_choose_bodyguard(struct ai_type *ait,
       const int desire = dai_unit_defence_desirability(ait, putype);
 
       if (desire > best
-	  || (desire == best && utype_build_shield_cost(putype) <=
-	      utype_build_shield_cost(bestid))) {
+	  || (desire == best && utype_build_shield_cost(pcity, putype) <=
+	      utype_build_shield_cost(pcity, bestid))) {
         best = desire;
         bestid = putype;
       }
@@ -813,7 +813,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
     if (can_city_build_unit_now(pcity, punittype)) {
       /* We can build the unit now... */
 
-      int build_cost = utype_build_shield_cost(punittype);
+      int build_cost = utype_build_shield_cost(pcity, punittype);
       int limit_cost = pcity->shield_stock + 40;
 
       if (walls && !utype_has_flag(punittype, UTYF_BADCITYDEFENDER)) {
@@ -853,7 +853,7 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
       /* Yes, there's some similarity with kill_desire(). */
       /* TODO: Explain what shield cost has to do with tech want. */
       tech_desire[utype_index(punittype)] =
-        (desire * danger / (utype_build_shield_cost(punittype) + tech_cost));
+        (desire * danger / (utype_build_shield_cost(pcity, punittype) + tech_cost));
     }
   } simple_ai_unit_type_iterate_end;
 
@@ -952,7 +952,7 @@ static void process_attacker_want(struct ai_type *ait,
   if (utype_class(orig_utype)->adv.sea_move == MOVE_NONE
       && !boat && boattype) {
     /* cost of ferry */
-    needferry = utype_build_shield_cost(boattype);
+    needferry = utype_build_shield_cost(pcity, boattype);
   }
   
   if (!is_stack_vulnerable(ptile)) {
@@ -988,7 +988,7 @@ static void process_attacker_want(struct ai_type *ait,
                       / city_list_size(pplayer->cities);
       int bcost_balanced = build_cost_balanced(punittype);
       /* See description of kill_desire() for info about this variables. */
-      int bcost = utype_build_shield_cost(punittype);
+      int bcost = utype_build_shield_cost(pcity, punittype);
       int attack = adv_unittype_att_rating(punittype, veteran_level,
                                            SINGLE_MOVE,
                                            punittype->hp);
@@ -1248,7 +1248,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       vulnerability = unittype_def_rating_squared(unit_type_get(myunit), def_type,
                                                   city_owner(acity), ptile,
                                                   FALSE, def_vet);
-      benefit = utype_build_shield_cost(def_type);
+      benefit = utype_build_shield_cost_base(def_type);
     } else {
       vulnerability = 0;
       benefit = 0;
@@ -1262,7 +1262,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
                                           pdef->veteran);
       if (vulnerability < m) {
         vulnerability = m;
-        benefit = unit_build_shield_cost(pdef);
+        benefit = unit_build_shield_cost_base(pdef);
         def_vet = pdef->veteran;
         def_type = unit_type_get(pdef);
         def_owner = unit_owner(pdef);
@@ -1287,7 +1287,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       goto cleanup;
     }
 
-    benefit = unit_build_shield_cost(pdef);
+    benefit = unit_build_shield_cost_base(pdef);
 
     def_type = unit_type_get(pdef);
     def_vet = pdef->veteran;

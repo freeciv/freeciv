@@ -369,7 +369,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     struct unit_type *ptype = target->value.utype;
 
     fc_strlcpy(buf[1], utype_values_string(ptype), column_size);
-    fc_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(ptype));
+    fc_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(pcity, ptype));
     break;
   }
   case VUT_IMPROVEMENT:

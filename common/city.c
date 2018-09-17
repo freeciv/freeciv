@@ -754,7 +754,7 @@ bool city_production_build_units(const struct city *pcity,
     shields_left += pcity->prod[O_SHIELD];
   }
 
-  unit_shield_cost = utype_build_shield_cost(utype);
+  unit_shield_cost = utype_build_shield_cost(pcity, utype);
 
   for (i = 0; i < build_slots; i++) {
     if (shields_left < unit_shield_cost) {

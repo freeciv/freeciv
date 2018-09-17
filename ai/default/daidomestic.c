@@ -135,7 +135,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
 
   /* Check if wonder needs a little help. */
   if (build_points_left(wonder_city)
-      > utype_build_shield_cost(unit_type) * caravans) {
+      > utype_build_shield_cost_base(unit_type) * caravans) {
     struct impr_type *wonder = wonder_city->production.value.building;
     adv_want want = wonder_city->server.adv->building_want[improvement_index(wonder)];
     int dist = city_data->distance_to_wonder_city /
@@ -410,7 +410,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     want += trader_trait / 4;
   }
 
-  want -= utype_build_shield_cost(unit_type) * SHIELD_WEIGHTING / 150;
+  want -= utype_build_shield_cost(pcity, unit_type) * SHIELD_WEIGHTING / 150;
 
   /* Don't pile too many of them */
   if (unassigned_caravans * 10 > want && want > 0.0) {

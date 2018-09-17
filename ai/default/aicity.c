@@ -611,8 +611,8 @@ static void dai_spend_gold(struct ai_type *ait, struct player *pplayer)
                 || (pplayer->economic.gold - buycost < limit);
 
     if (bestchoice.type == CT_ATTACKER
-	&& buycost 
-           > utype_build_shield_cost(bestchoice.value.utype) * 2
+	&& buycost
+           > utype_build_shield_cost(pcity, bestchoice.value.utype) * 2
         && !war_footing) {
        /* Too expensive for an offensive unit */
        continue;

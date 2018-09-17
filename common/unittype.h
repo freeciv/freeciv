@@ -694,8 +694,11 @@ void set_user_unit_class_flag_name(enum unit_class_flag_id id,
 const char *unit_class_flag_helptxt(enum unit_class_flag_id id);
 
 /* Ancillary routines */
-int unit_build_shield_cost(const struct unit *punit);
-int utype_build_shield_cost(const struct unit_type *punittype);
+int unit_build_shield_cost(const struct city *pcity, const struct unit *punit);
+int utype_build_shield_cost(const struct city *pcity,
+                            const struct unit_type *punittype);
+int utype_build_shield_cost_base(const struct unit_type *punittype);
+int unit_build_shield_cost_base(const struct unit *punit);
 
 int utype_buy_gold_cost(const struct city *pcity,
                         const struct unit_type *punittype,
