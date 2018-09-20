@@ -102,7 +102,7 @@ struct loaddata {
   } ds_t;
   /* loaded in sg_load_savefile(); needed in sg_load_player_unit(), ... */
   struct {
-    enum gen_action *order;
+    action_id *order;
     size_t size;
   } action;
   /* loaded in sg_load_savefile(); needed in sg_load_player_unit(), ... */
