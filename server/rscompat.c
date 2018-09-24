@@ -189,7 +189,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 /**********************************************************************//**
   Turn old effect to an action enabler.
 **************************************************************************/
-static void effect_to_enabler(enum gen_action action, struct section_file *file,
+static void effect_to_enabler(action_id action, struct section_file *file,
                               const char *sec_name, struct rscompat_info *compat,
                               const char *type)
 {
