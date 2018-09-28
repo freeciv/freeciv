@@ -370,6 +370,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.fogofwar_old      = game.info.fogofwar;
     game.server.last_updated_year = FALSE;
     game.server.freecost          = GAME_DEFAULT_FREECOST;
+    game.server.global_warming_percent = GAME_DEFAULT_GLOBAL_WARMING_PERCENT;
     game.server.homecaughtunits   = GAME_DEFAULT_HOMECAUGHTUNITS;
     game.server.kick_time         = GAME_DEFAULT_KICK_TIME;
     game.server.killunhomed       = GAME_DEFAULT_KILLUNHOMED;
@@ -388,6 +389,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.trait_dist        = GAME_DEFAULT_TRAIT_DIST_MODE;
     game.server.min_players       = GAME_DEFAULT_MIN_PLAYERS;
     game.server.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
+    game.server.nuclear_winter_percent = GAME_DEFAULT_NUCLEAR_WINTER_PERCENT;
     game.server.plrcolormode      = GAME_DEFAULT_PLRCOLORMODE;
     game.server.netwait           = GAME_DEFAULT_NETWAIT;
     game.server.occupychance      = GAME_DEFAULT_OCCUPYCHANCE;

@@ -220,7 +220,9 @@ struct civ_game {
       int seed;
 
       bool global_warming;
+      int global_warming_percent;
       bool nuclear_winter;
+      int nuclear_winter_percent;
 
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
@@ -392,7 +394,16 @@ extern struct world wld;
 #define GAME_DEFAULT_FOGGEDBORDERS   FALSE
 
 #define GAME_DEFAULT_GLOBAL_WARMING  TRUE
+
+#define GAME_DEFAULT_GLOBAL_WARMING_PERCENT 100
+#define GAME_MIN_GLOBAL_WARMING_PERCENT 1
+#define GAME_MAX_GLOBAL_WARMING_PERCENT 10000
+
 #define GAME_DEFAULT_NUCLEAR_WINTER  TRUE
+
+#define GAME_DEFAULT_NUCLEAR_WINTER_PERCENT 100
+#define GAME_MIN_NUCLEAR_WINTER_PERCENT 1
+#define GAME_MAX_NUCLEAR_WINTER_PERCENT 10000
 
 #define GAME_DEFAULT_BORDERS         BORDERS_ENABLED
 

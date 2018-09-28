@@ -755,8 +755,9 @@ static void do_border_vision_effect(void)
   Handle environmental upsets, meaning currently pollution or fallout.
 **************************************************************************/
 static void update_environmental_upset(enum environment_upset_type type,
-				       int *current, int *accum, int *level,
-				       void (*upset_action_fn)(int))
+                                       int *current, int *accum, int *level,
+                                       int percent,
+                                       void (*upset_action_fn)(int))
 {
   int count;
 
@@ -771,7 +772,7 @@ static void update_environmental_upset(enum environment_upset_type type,
     }
   } extra_type_iterate_end;
 
-  *current = count;
+  *current = (count * percent) / 100;
   *accum += count;
   if (*accum < *level) {
     *accum = 0;
@@ -1506,13 +1507,17 @@ static void end_turn(void)
   if (game.info.global_warming) {
     update_environmental_upset(EUT_GLOBAL_WARMING, &game.info.heating,
                                &game.info.globalwarming,
-                               &game.info.warminglevel, global_warming);
+                               &game.info.warminglevel,
+                               game.server.global_warming_percent,
+                               global_warming);
   }
 
   if (game.info.nuclear_winter) {
     update_environmental_upset(EUT_NUCLEAR_WINTER, &game.info.cooling,
                                &game.info.nuclearwinter,
-                               &game.info.coolinglevel, nuclear_winter);
+                               &game.info.coolinglevel,
+                               game.server.nuclear_winter_percent,
+                               nuclear_winter);
   }
 
   /* Handle disappearing extras before appearing extras ->
