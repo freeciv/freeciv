@@ -1638,12 +1638,30 @@ static struct setting settings[] = {
               "affect pollution."), NULL, NULL,
            GAME_DEFAULT_GLOBAL_WARMING)
 
+  GEN_INT("globalwarming_percent", game.server.global_warming_percent,
+           SSET_RULES, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
+           N_("Global warming percent"),
+           N_("This is a multiplier for the rate of accumulation of global "
+              "warming."), NULL, NULL, NULL,
+           GAME_MIN_GLOBAL_WARMING_PERCENT,
+           GAME_MAX_GLOBAL_WARMING_PERCENT,
+           GAME_DEFAULT_GLOBAL_WARMING_PERCENT)
+
   GEN_BOOL("nuclearwinter", game.info.nuclear_winter,
            SSET_RULES, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
            N_("Nuclear winter"),
            N_("If turned off, nuclear winter will not occur "
               "as a result of nuclear war."), NULL, NULL,
            GAME_DEFAULT_NUCLEAR_WINTER)
+
+  GEN_INT("nuclearwinter_percent", game.server.nuclear_winter_percent,
+           SSET_RULES, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
+           N_("Nuclear winter percent"),
+           N_("This is a multiplier for the rate of accumulation of nuclear "
+              "winter."), NULL, NULL, NULL,
+           GAME_MIN_NUCLEAR_WINTER_PERCENT,
+           GAME_MAX_NUCLEAR_WINTER_PERCENT,
+           GAME_DEFAULT_NUCLEAR_WINTER_PERCENT)
 
   GEN_INT("mapseed", wld.map.server.seed_setting,
           SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE,
