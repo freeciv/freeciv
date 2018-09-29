@@ -21,6 +21,5 @@ EXTRA_DIST =	check_macros.sh			\
 		copyright.sh			\
 		fcintl.sh			\
 		header_guard.sh			\
-		rulesets_not_broken.sh.in	\
 		ruleset_is.lua			\
 		va_list.sh
