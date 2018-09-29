@@ -743,6 +743,8 @@ extras = "\
 ; buildable               = Can extra be built? Defaults to TRUE if extra has\n\
 ;                           any causes indicating it can result from worker\n\
 ;                           activity.\n\
+; generated               = Can map generator place the extra? Applicable\n\
+;                           for Hut, Resource, and River extras.\n\
 ; build_time              = how long it takes a unit to build this extra.\n\
 ;                           Value of 0 (default) means that terrain- and\n\
 ;                           build activity specific time is used instead.\n\

@@ -2240,6 +2240,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (!pextra->buildable) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
     }
+    if (!pextra->generated) {
+      secfile_insert_bool(sfile, pextra->generated, "%s.generated", path);
+    }
     secfile_insert_int(sfile, pextra->build_time, "%s.build_time", path);
     secfile_insert_int(sfile, pextra->removal_time, "%s.removal_time", path);
     if (pextra->build_time_factor != 1) {

@@ -2985,7 +2985,7 @@ static bool place_pollution(struct city *pcity, enum extra_cause cause)
       continue;
     }
 
-    pextra = rand_extra_for_tile(ptile, cause);
+    pextra = rand_extra_for_tile(ptile, cause, FALSE);
 
     if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
       tile_add_extra(ptile, pextra);

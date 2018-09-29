@@ -270,7 +270,8 @@ struct extra_type_list *extra_type_list_of_unit_hiders(void)
 /************************************************************************//**
   Return random extra type for given cause that is native to the tile.
 ****************************************************************************/
-struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause)
+struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause,
+                                       bool generated)
 {
   struct extra_type_list *full_list = extra_type_list_by_cause(cause);
   struct extra_type_list *potential = extra_type_list_new();
@@ -278,7 +279,8 @@ struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause caus
   struct extra_type *selected = NULL;
 
   extra_type_list_iterate(full_list, pextra) {
-    if (is_native_tile_to_extra(pextra, ptile)) {
+    if ((!generated || pextra->generated)
+        && is_native_tile_to_extra(pextra, ptile)) {
       extra_type_list_append(potential, pextra);
     }
   } extra_type_list_iterate_end;

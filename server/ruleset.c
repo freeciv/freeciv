@@ -3192,6 +3192,8 @@ static bool load_ruleset_terrain(struct section_file *file,
         pextra->buildable = secfile_lookup_bool_default(file,
                                                         is_extra_caused_by_worker_action(pextra),
                                                         "%s.buildable", section);
+        pextra->generated = secfile_lookup_bool_default(file, TRUE,
+                                                        "%s.generated", section);
 
         pextra->build_time = 0; /* default */
         lookup_time(file, &pextra->build_time, section, "build_time",
@@ -7368,6 +7370,7 @@ static void send_ruleset_extras(struct conn_list *dest)
 
     packet.visibility_req = e->visibility_req;
     packet.buildable = e->buildable;
+    packet.generated = e->generated;
     packet.build_time = e->build_time;
     packet.build_time_factor = e->build_time_factor;
     packet.removal_time = e->removal_time;
