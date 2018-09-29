@@ -115,10 +115,12 @@ fi
 
 SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
-if test -d ../../.git || test -f ../../.git ; then
-  VERREV="$(../../fc_version)-$(cd ../.. && git rev-parse --short HEAD)"
-else
-  VERREV="$(../../fc_version)"
+VERREV="$(../../fc_version)"
+
+if test "x$INST_CROSS_MODE" != "xrelease" ; then
+  if test -d ../../.git || test -f ../../.git ; then
+    VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
+  fi
 fi
 
 INSTDIR="freeciv-$SETUP-${VERREV}-${GUI}"

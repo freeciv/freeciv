@@ -35,10 +35,11 @@ if ! test -f "$DLLSPATH/crosser.txt" ; then
   exit 1
 fi
 
-if test -d ../../.git || test -f ../../.git ; then
-  VERREV="$(../../fc_version)-$(cd ../.. && git rev-parse --short HEAD)"
-else
-  VERREV="$(../../fc_version)"
+VERREV="$(../../fc_version)"
+if test "x$INST_CROSS_MODE" != "xrelease" ; then
+  if test -d ../../.git || test -f ../../.git ; then
+    VERREV="$VERREV-$(cd ../.. && git rev-parse --short HEAD)"
+  fi
 fi
 
 FLVL=$(grep "FeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/FeatureLevel="//' -e 's/"//')
@@ -130,7 +131,13 @@ INSTALL_DIR="$(pwd)/freeciv-${VERREV}${GUIP}"
 if ! (
 cd build-$SETUP$GUIP
 
-if ! ../../../configure FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT
+if test "x$INST_CROSS_MODE" = "xsnapshot" ; then
+  GITREVP="--enable-gitrev"
+else
+  GITREVP=""
+fi
+
+if ! ../../../configure FREECIV_LABEL_FORCE="<base>-crs" CPPFLAGS="-I${DLLSPATH}/include -D_WIN32_WINNT=${MIN_WINVER}" CFLAGS="-Wno-error" PKG_CONFIG_LIBDIR="${DLLSPATH}/lib/pkgconfig" --enable-sys-tolua-cmd --with-magickwand="${DLLSPATH}/bin" --prefix="/" $GITREVP --enable-client=$CLIENTS --enable-fcmp=$FCMP --enable-debug --host=$TARGET --build=$(../../../bootstrap/config.guess) --with-libiconv-prefix=${DLLSPATH} --with-sqlite3-prefix=${DLLSPATH} --with-followtag="crosser" --enable-crosser ${AIS} --disable-freeciv-manual --enable-sdl-mixer=sdl2 --with-qt5-includes=${DLLSPATH}/include --with-qt5-libs=${DLLSPATH}/lib --with-tinycthread --enable-server=$SERVER --enable-ruledit=$RULEDIT
 then
   echo "Configure failed" >&2
   exit 1
