@@ -447,7 +447,7 @@ bool meswin_dialog_is_open(void)
 /****************************************************************************
   Update the message window dialog.
 ****************************************************************************/
-void real_meswin_dialog_update(void)
+void real_meswin_dialog_update(void *unused)
 {
   if (NULL != meswin.shell) {
     meswin_dialog_refresh(&meswin);

@@ -291,7 +291,7 @@ static void multiplier_dialog_update_values(bool set_positions)
 /**************************************************************************
   Callback when server indicates multiplier values have changed
 **************************************************************************/
-void real_multipliers_dialog_update(void)
+void real_multipliers_dialog_update(void *unused)
 {
   if (!multiplier_dialog_shell) {
     return;

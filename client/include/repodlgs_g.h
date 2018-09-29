@@ -33,9 +33,9 @@ GUI_FUNC_PROTO(void, endgame_report_dialog_start,
 GUI_FUNC_PROTO(void, endgame_report_dialog_player,
                const struct packet_endgame_player *packet)
 
-GUI_FUNC_PROTO(void, real_science_report_dialog_update, void)
-GUI_FUNC_PROTO(void, real_economy_report_dialog_update, void)
-GUI_FUNC_PROTO(void, real_units_report_dialog_update, void)
+GUI_FUNC_PROTO(void, real_science_report_dialog_update, void *unused)
+GUI_FUNC_PROTO(void, real_economy_report_dialog_update, void *unused)
+GUI_FUNC_PROTO(void, real_units_report_dialog_update, void *unused)
 
 /* Actually defined in update_queue.c */
 void science_report_dialog_update(void);

@@ -269,7 +269,7 @@ void popup_rates_dialog(void)
 /**************************************************************************
   Update multipliers (policies) dialog.
 **************************************************************************/
-void real_multipliers_dialog_update(void)
+void real_multipliers_dialog_update(void *unused)
 {
   /* PORTME */
 }

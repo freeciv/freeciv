@@ -21,6 +21,6 @@
 
 GUI_FUNC_PROTO(void, meswin_dialog_popup, bool raise)
 GUI_FUNC_PROTO(bool, meswin_dialog_is_open, void)
-GUI_FUNC_PROTO(void, real_meswin_dialog_update, void)
+GUI_FUNC_PROTO(void, real_meswin_dialog_update, void *unused)
 
 #endif  /* FC__MESSAGEWIN_G_H */

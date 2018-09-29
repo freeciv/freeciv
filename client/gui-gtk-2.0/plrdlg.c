@@ -310,7 +310,7 @@ static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
 {
   gui_options.player_dlg_show_dead_players = 
     gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
-  real_players_dialog_update();
+  real_players_dialog_update(NULL);
 }
 
 /**************************************************************************
@@ -562,7 +562,7 @@ void create_players_dialog(void)
 
   gui_dialog_show_all(players_dialog_shell);
 
-  real_players_dialog_update();
+  real_players_dialog_update(NULL);
 
   gui_dialog_set_default_response(players_dialog_shell,
     GTK_RESPONSE_CLOSE);
@@ -698,7 +698,7 @@ static bool player_should_be_shown(const struct player *pplayer)
 /**************************************************************************
   Clear and refill the entire player list.
 **************************************************************************/
-void real_players_dialog_update(void)
+void real_players_dialog_update(void *unused)
 {
   GtkTreeModel *model;
   GtkTreeIter iter;

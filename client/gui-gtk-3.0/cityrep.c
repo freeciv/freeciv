@@ -1450,7 +1450,7 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 /****************************************************************************
   Update the city report dialog
 ****************************************************************************/
-void real_city_report_dialog_update(void)
+void real_city_report_dialog_update(void *unused)
 {
   GHashTable *selected;
   ITree iter;
