@@ -106,6 +106,7 @@ struct extra_type
    * for example for the editor to list non-buildable but editor-placeable
    * extras. */
   bool buildable;
+  bool generated;
   int build_time;
   int build_time_factor;
   int removal_time;
@@ -177,7 +178,8 @@ struct extra_type *extra_type_by_translated_name(const char *name);
 
 void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause);
 struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause);
-struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause);
+struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause,
+                                       bool generated);
 
 struct extra_type_list *extra_type_list_of_unit_hiders(void);
 

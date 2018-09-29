@@ -363,6 +363,8 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ; buildable               = Can extra be built? Defaults to TRUE if extra has
 ;                           any causes indicating it can result from worker
 ;                           activity.
+; generated               = Can map generator place the extra? Applicable
+;                           for Hut, Resource, and River extras.
 ; build_time              = how long it takes a unit to build this extra.
 ;                           Value of 0 (default) means that terrain- and
 ;                           build activity specific time is used instead.

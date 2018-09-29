@@ -1523,7 +1523,7 @@ static void make_huts(int number)
 
     /* Add a hut.  But not on a polar area, or too close to another hut. */
     if ((ptile = rand_map_pos_characteristic(WC_ALL, TT_NFROZEN, MC_NONE))) {
-      struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT);
+      struct extra_type *phut = rand_extra_for_tile(ptile, EC_HUT, TRUE);
 
       number--;
       if (phut != NULL) {
@@ -1558,7 +1558,7 @@ static void add_resources(int prob)
   whole_map_iterate(ptile)  {
     const struct terrain *pterrain = tile_terrain(ptile);
 
-    if (is_resource_close (ptile) || fc_rand (1000) >= prob) {
+    if (is_resource_close(ptile) || fc_rand (1000) >= prob) {
       continue;
     }
     if (!is_ocean(pterrain) || near_safe_tiles(ptile)
@@ -1571,8 +1571,10 @@ static void add_resources(int prob)
          * pterrain->resources list, without computing its length in
          * advance. Note that if *(pterrain->resources) == NULL, then
          * this loop is a no-op. */
-        if (0 == fc_rand(++i)) {
-          tile_set_resource(ptile, *r);
+        if ((*r)->generated) {
+          if (0 == fc_rand(++i)) {
+            tile_set_resource(ptile, *r);
+          }
         }
       }
     }
@@ -2479,7 +2481,8 @@ static void river_types_init(void)
   river_type_count = 0;
 
   extra_type_by_cause_iterate(EC_ROAD, priver) {
-    if (road_has_flag(extra_road_get(priver), RF_RIVER)) {
+    if (road_has_flag(extra_road_get(priver), RF_RIVER)
+        && priver->generated) {
       river_types[river_type_count++] = priver;
     }
   } extra_type_by_cause_iterate_end;
@@ -3025,7 +3028,7 @@ static void fair_map_make_huts(struct fair_tile *pmap)
     tile_set_resource(pvtile, pftile->presource);
     pvtile->extras = pftile->extras;
 
-    phut = rand_extra_for_tile(pvtile, EC_HUT);
+    phut = rand_extra_for_tile(pvtile, EC_HUT, TRUE);
     if (phut != NULL) {
       tile_add_extra(pvtile, phut);
       pftile->extras = pvtile->extras;

@@ -1671,6 +1671,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   REQUIREMENT disappearance_reqs[MAX_NUM_REQS:disappearance_reqs_count];
   TECH visibility_req;
   BOOL buildable;
+  BOOL generated;
   UINT8 build_time;
   UINT8 build_time_factor;
   UINT8 removal_time;

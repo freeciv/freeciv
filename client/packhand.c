@@ -3873,6 +3873,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
 
   pextra->visibility_req = p->visibility_req;
   pextra->buildable = p->buildable;
+  pextra->generated = p->generated;
   pextra->build_time = p->build_time;
   pextra->build_time_factor = p->build_time_factor;
   pextra->removal_time = p->removal_time;

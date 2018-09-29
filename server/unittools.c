@@ -2712,7 +2712,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   if (fc_rand(2) == 1) {
     struct extra_type *pextra;
 
-    pextra = rand_extra_for_tile(ptile, EC_FALLOUT);
+    pextra = rand_extra_for_tile(ptile, EC_FALLOUT, FALSE);
     if (pextra != NULL && !tile_has_extra(ptile, pextra)) {
       tile_add_extra(ptile, pextra);
       update_tile_knowledge(ptile);
