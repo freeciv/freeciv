@@ -1143,7 +1143,7 @@ void science_report::goal_tech_changed(int changed_index)
 /************************************************************************//**
   Update the science report.
 ****************************************************************************/
-void real_science_report_dialog_update(void)
+void real_science_report_dialog_update(void *unused)
 {
   int i;
   int percent;
@@ -1663,7 +1663,7 @@ void science_report_dialog_popup(bool raise)
 /************************************************************************//**
   Update the economy report.
 ****************************************************************************/
-void real_economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void *unused)
 {
   int i;
   eco_report *eco_rep;
@@ -1710,7 +1710,7 @@ void economy_report_dialog_popup(bool raise)
 /************************************************************************//**
   Update the units report.
 ****************************************************************************/
-void real_units_report_dialog_update(void)
+void real_units_report_dialog_update(void *unused)
 {
   if (units_reports::instance()->isVisible()) {
     units_reports::instance()->update_units();

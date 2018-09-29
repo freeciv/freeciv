@@ -57,7 +57,7 @@
 #include "qtg_cxxside.h"
 
 extern "C" {
-  void real_science_report_dialog_update();
+  void real_science_report_dialog_update(void*);
 }
 extern void restart_notify_dialogs();
 extern void city_font_update();
@@ -239,7 +239,7 @@ void qtg_ui_exit()
 /**********************************************************************//**
   Update the connected users list at pregame state.
 **************************************************************************/
-void qtg_real_conn_list_dialog_update()
+void qtg_real_conn_list_dialog_update(void *unused)
 {
   if (qtg_get_current_client_page() == PAGE_NETWORK) {
     qtg_real_set_client_page(PAGE_START);
@@ -390,7 +390,7 @@ static void apply_font(struct option *poption)
     update_city_descriptions();
     gui()->infotab->chtwdg->update_font();
     QApplication::setFont(*fc_font::instance()->get_font(fonts::default_font));
-    real_science_report_dialog_update();
+    real_science_report_dialog_update(nullptr);
     fc_font::instance()->get_mapfont_size();
   }
 }

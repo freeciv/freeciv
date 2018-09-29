@@ -18,7 +18,6 @@ extern "C" {
 #endif /* __cplusplus */
 
 typedef void (*uq_callback_t) (void *data);
-#define UQ_CALLBACK(fn) ((uq_callback_t) fn)
 typedef void (*uq_free_fn_t) (void *data);
 #define UQ_FREEDATA(fn) ((uq_free_fn_t) fn)
 

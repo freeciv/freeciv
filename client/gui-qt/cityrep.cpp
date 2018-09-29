@@ -1271,7 +1271,7 @@ void city_report_dialog_popup(bool raise)
 /***********************************************************************//**
   Update (refresh) the entire city report dialog.
 ***************************************************************************/
-void real_city_report_dialog_update(void)
+void real_city_report_dialog_update(void *unused)
 {
   int i;
   city_report *cr;

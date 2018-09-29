@@ -31,7 +31,7 @@ void popup_players_dialog(bool raise)
 /**********************************************************************//**
   Update all information in the player list dialog.
 **************************************************************************/
-void real_players_dialog_update(void)
+void real_players_dialog_update(void *unused)
 {
   /* PORTME */
 }

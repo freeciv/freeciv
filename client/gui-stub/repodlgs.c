@@ -30,7 +30,7 @@
 /**********************************************************************//**
   Update the science report.
 **************************************************************************/
-void real_science_report_dialog_update(void)
+void real_science_report_dialog_update(void *unused)
 {
   /* PORTME */
 }
@@ -47,7 +47,7 @@ void science_report_dialog_popup(bool raise)
 /**********************************************************************//**
   Update the economy report.
 **************************************************************************/
-void real_economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void *unused)
 {
   /* PORTME */
 }
@@ -64,7 +64,7 @@ void economy_report_dialog_popup(bool raise)
 /**********************************************************************//**
   Update the units report.
 **************************************************************************/
-void real_units_report_dialog_update(void)
+void real_units_report_dialog_update(void *unused)
 {
   /* PORTME */
 }

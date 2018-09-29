@@ -570,7 +570,7 @@ void menus_update(void)
 ****************************************************************************/
 void multipliers_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_multipliers_dialog_update), NULL);
+  update_queue_add(real_multipliers_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -648,7 +648,7 @@ void city_report_dialog_update_city(struct city *pcity)
 ****************************************************************************/
 void conn_list_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_conn_list_dialog_update), NULL);
+  update_queue_add(real_conn_list_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -656,7 +656,7 @@ void conn_list_dialog_update(void)
 ****************************************************************************/
 void players_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_players_dialog_update), NULL);
+  update_queue_add(real_players_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -664,7 +664,7 @@ void players_dialog_update(void)
 ****************************************************************************/
 void city_report_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_city_report_dialog_update), NULL);
+  update_queue_add(real_city_report_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -672,7 +672,7 @@ void city_report_dialog_update(void)
 ****************************************************************************/
 void science_report_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_science_report_dialog_update), NULL);
+  update_queue_add(real_science_report_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -680,7 +680,7 @@ void science_report_dialog_update(void)
 ****************************************************************************/
 void economy_report_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_economy_report_dialog_update), NULL);
+  update_queue_add(real_economy_report_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -688,7 +688,7 @@ void economy_report_dialog_update(void)
 ****************************************************************************/
 void units_report_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(real_units_report_dialog_update), NULL);
+  update_queue_add(real_units_report_dialog_update, NULL);
 }
 
 /************************************************************************//**
@@ -696,5 +696,5 @@ void units_report_dialog_update(void)
 ****************************************************************************/
 void unit_select_dialog_update(void)
 {
-  update_queue_add(UQ_CALLBACK(unit_select_dialog_update_real), NULL);
+  update_queue_add(unit_select_dialog_update_real, NULL);
 }

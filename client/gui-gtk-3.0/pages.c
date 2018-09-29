@@ -2321,7 +2321,7 @@ static bool model_get_conn_iter(GtkTreeModel *model, GtkTreeIter *iter,
 /**********************************************************************//**
   Update the connected users list at pregame state.
 **************************************************************************/
-void real_conn_list_dialog_update(void)
+void real_conn_list_dialog_update(void *unused)
 {
   if (client_state() == C_S_PREPARING
       && get_client_page() == PAGE_START

@@ -237,7 +237,7 @@ static bool have_diplomat_info_about(struct player *pPlayer)
 /**********************************************************************//**
   Update all information in the player list dialog.
 **************************************************************************/
-void real_players_dialog_update(void)
+void real_players_dialog_update(void *unused)
 {
   if (pPlayers_Dlg) {
     struct widget *pPlayer0, *pPlayer1;

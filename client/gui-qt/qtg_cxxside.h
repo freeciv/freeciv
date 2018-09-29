@@ -98,7 +98,7 @@ void qtg_options_extra_init();
 void qtg_server_connect();
 void qtg_add_net_input(int sock);
 void qtg_remove_net_input();
-void qtg_real_conn_list_dialog_update();
+void qtg_real_conn_list_dialog_update(void *unused);
 void qtg_close_connection_dialog();
 void qtg_add_idle_callback(void (callback)(void *), void *data);
 void qtg_sound_bell();

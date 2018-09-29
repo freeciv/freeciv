@@ -388,7 +388,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   Update unit selection dialog. It is a wrapper for the main function; see
   unitselect.c:unit_select_dialog_popup_main().
 **************************************************************************/
-void unit_select_dialog_update_real(void)
+void unit_select_dialog_update_real(void *unused)
 {
   unit_select_dialog_popup_main(NULL, FALSE);
 }

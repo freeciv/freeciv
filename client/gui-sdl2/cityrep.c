@@ -1134,7 +1134,7 @@ void city_report_dialog_popup(bool make_modal)
 /**********************************************************************//**
   Update (refresh) the entire city report dialog.
 **************************************************************************/
-void real_city_report_dialog_update(void)
+void real_city_report_dialog_update(void *unused)
 {
   if (pCityRep) {
     struct widget *pWidget;

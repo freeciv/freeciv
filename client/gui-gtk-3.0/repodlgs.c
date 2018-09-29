@@ -711,7 +711,7 @@ void science_report_dialog_popdown(void)
 /************************************************************************//**
   Update the science report dialog.
 ****************************************************************************/
-void real_science_report_dialog_update(void)
+void real_science_report_dialog_update(void *unused)
 {
   if (NULL != science_report.shell) {
     science_report_update(&science_report);
@@ -1219,7 +1219,7 @@ void economy_report_dialog_popdown(void)
 /************************************************************************//**
   Update the economy report dialog.
 ****************************************************************************/
-void real_economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void *unused)
 {
   if (NULL != economy_report.shell) {
     economy_report_update(&economy_report);
@@ -1736,7 +1736,7 @@ void units_report_dialog_popdown(void)
 /************************************************************************//**
   Update the units report dialog.
 ****************************************************************************/
-void real_units_report_dialog_update(void)
+void real_units_report_dialog_update(void *unused)
 {
   if (NULL != units_report.shell) {
     units_report_update(&units_report);

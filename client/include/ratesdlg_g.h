@@ -17,7 +17,7 @@
 
 GUI_FUNC_PROTO(void, popup_rates_dialog, void)
 
-GUI_FUNC_PROTO(void, real_multipliers_dialog_update, void)
+GUI_FUNC_PROTO(void, real_multipliers_dialog_update, void *unused)
 
 /* Actually defined in update_queue.c */
 void multipliers_dialog_update(void);
