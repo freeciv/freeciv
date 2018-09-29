@@ -607,17 +607,10 @@ static struct command commands[] = {
   {"lua", ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
    N_("lua cmd <script line>\n"
-      "lua unsafe-cmd <script line>\n"
       "lua file <script file>\n"
-      "lua unsafe-file <script file>\n"
       "lua <script line> (deprecated)"),
    N_("Evaluate a line of Freeciv script or a Freeciv script file in the "
-      "current game."),
-   N_("The unsafe prefix runs the script in an instance separate from the "
-      "ruleset. This instance doesn't restrict access to Lua functions "
-      "that can be used to hack the computer running the Freeciv server. "
-      "Access to it is therefore limited to the console and connections "
-      "with cmdlevel 'hack'"), NULL,
+      "current game."), NULL, NULL,
    CMD_ECHO_ADMINS, VCF_NONE, 0
   },
   {"kick", ALLOW_CTRL,

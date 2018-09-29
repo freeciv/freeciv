@@ -4656,10 +4656,6 @@ static bool default_command(struct connection *caller, char *arg, bool check)
 #define SPECENUM_VALUE0NAME "cmd"
 #define SPECENUM_VALUE1     LUA_FILE
 #define SPECENUM_VALUE1NAME "file"
-#define SPECENUM_VALUE2     LUA_UNSAFE_CMD
-#define SPECENUM_VALUE2NAME "unsafe-cmd"
-#define SPECENUM_VALUE3     LUA_UNSAFE_FILE
-#define SPECENUM_VALUE3NAME "unsafe-file"
 #include "specenum_gen.h"
 
 /*****************************************************************************
@@ -4727,22 +4723,6 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
   case LUA_CMD:
     /* Nothing to check. */
     break;
-  case LUA_UNSAFE_CMD:
-    if (is_restricted(caller)) {
-      cmd_reply(CMD_LUA, caller, C_FAIL,
-                _("You aren't allowed to run unsafe Lua code."));
-      ret = FALSE;
-      goto cleanup;
-    }
-    break;
-  case LUA_UNSAFE_FILE:
-    if (is_restricted(caller)) {
-      cmd_reply(CMD_LUA, caller, C_FAIL,
-                _("You aren't allowed to run unsafe Lua code."));
-      ret = FALSE;
-      goto cleanup;
-    }
-    /* Fall through. */
   case LUA_FILE:
     /* Abuse real_filename to find if we already have a .lua extension. */
     real_filename = luaarg + strlen(luaarg) - MIN(strlen(extension),
@@ -4790,9 +4770,6 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
   case LUA_CMD:
     ret = script_server_do_string(caller, luaarg);
     break;
-  case LUA_UNSAFE_CMD:
-    ret = script_server_unsafe_do_string(caller, luaarg);
-    break;
   case LUA_FILE:
     cmd_reply(CMD_LUA, caller, C_COMMENT,
               _("Loading Freeciv script file '%s'."), real_filename);
@@ -4807,22 +4784,6 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
       ret = FALSE;
       goto cleanup;
     }
-    break;
-  case LUA_UNSAFE_FILE:
-    cmd_reply(CMD_LUA, caller, C_COMMENT,
-              _("Loading Freeciv script file '%s'."), real_filename);
-
-    if (is_reg_file_for_access(real_filename, FALSE)
-        && (script_file = fc_fopen(real_filename, "r"))) {
-      ret = script_server_unsafe_do_file(caller, real_filename);
-      goto cleanup;
-    } else {
-      cmd_reply(CMD_LUA, caller, C_FAIL,
-                _("Cannot read Freeciv script '%s'."), real_filename);
-      ret = FALSE;
-      goto cleanup;
-    }
-    break;
   }
 
  cleanup:

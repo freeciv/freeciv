@@ -28,15 +28,9 @@ void script_server_remove_exported_object(void *object);
 /* Script functions. */
 bool script_server_init(void);
 void script_server_free(void);
-
 bool script_server_do_string(struct connection *caller, const char *str);
 bool script_server_do_file(struct connection *caller, const char *filename);
 bool script_server_load_file(const char *filename, char **buf);
-
-bool script_server_unsafe_do_string(struct connection *caller,
-                                    const char *str);
-bool script_server_unsafe_do_file(struct connection *caller,
-                                  const char *filename);
 
 /* Script state i/o. */
 void script_server_state_load(struct section_file *file);
