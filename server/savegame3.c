@@ -3652,6 +3652,9 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(secfile_lookup_bool(loading->file, &plr->unassigned_user,
                                      "player%d.unassigned_user", plrno),
                  "%s", secfile_error());
+  sz_strlcpy(plr->server.orig_username,
+             secfile_lookup_str_default(loading->file, "",
+                                        "player%d.orig_username", plrno));
   sz_strlcpy(plr->ranked_username,
              secfile_lookup_str_default(loading->file, "",
                                         "player%d.ranked_username",
@@ -4135,6 +4138,8 @@ static void sg_save_player_main(struct savedata *saving,
                      "player%d.ranked_username", plrno);
   secfile_insert_bool(saving->file, plr->unassigned_ranked,
                       "player%d.unassigned_ranked", plrno);
+  secfile_insert_str(saving->file, plr->server.orig_username,
+                     "player%d.orig_username", plrno);
   secfile_insert_str(saving->file,
                      player_delegation_get(plr) ? player_delegation_get(plr)
                                                 : "",
