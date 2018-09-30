@@ -1024,11 +1024,11 @@ static int ts_topology_index(int actual_topology)
       && (actual_topology & TF_ISO)) {
     idx = TS_TOPO_ISOHEX;
   } else if (actual_topology & TF_ISO) {
-    idx = TS_TOPO_ISO;
+    idx = TS_TOPO_SQUARE;
   } else if (actual_topology & TF_HEX) {
     idx = TS_TOPO_HEX;
   } else {
-    idx = TS_TOPO_OVERHEAD;
+    idx = TS_TOPO_SQUARE;
   }
 
   return idx;
@@ -1040,7 +1040,7 @@ static int ts_topology_index(int actual_topology)
 ***********************************************************************/
 const struct strvec *get_tileset_list(const struct option *poption)
 {
-  static struct strvec *tilesets[4] = { NULL, NULL, NULL, NULL };
+  static struct strvec *tilesets[3] = { NULL, NULL, NULL };
   int topo = option_get_cb_data(poption);
   int idx;
 
@@ -1905,9 +1905,12 @@ static struct tileset *tileset_read_toplevel(const char *tileset_name,
     t->type = TS_ISOMETRIC;
   }
 
-  if (topology_id >= 0 && topo != (topology_id & (TF_ISO | TF_HEX))) {
-    /* Not of requested topology */
-    goto ON_ERROR;
+  if (topology_id >= 0) {
+    if (((topology_id & TF_HEX) && topology_id != (topo & (TF_ISO | TF_HEX)))
+        || (!(topology_id & TF_HEX) && (topo & TF_HEX))) {
+      /* Not of requested topology */
+      goto ON_ERROR;
+    }
   }
 
   t->ts_topo_idx = ts_topology_index(topo);

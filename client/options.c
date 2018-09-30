@@ -75,8 +75,7 @@ struct client_options gui_options = {
   .default_server_host = "localhost",
   .default_server_port = DEFAULT_SOCK_PORT,
   .default_metaserver = DEFAULT_METASERVER_OPTION,
-  .default_tileset_overhead_name = "\0",
-  .default_tileset_iso_name = "\0",
+  .default_tileset_square_name = "\0",
   .default_tileset_hex_name = "\0",
   .default_tileset_isohex_name = "\0",
   .default_sound_set_name = "stdsounds",
@@ -92,6 +91,8 @@ struct client_options gui_options = {
 /** Migrations **/
   .first_boot = FALSE,
   .default_tileset_name = "\0",
+  .default_tileset_overhead_name = "\0",
+  .default_tileset_iso_name = "\0",
   .gui_gtk3_migrated_from_gtk2 = FALSE,
   .gui_gtk3_22_migrated_from_gtk3 = FALSE,
   .gui_sdl2_migrated_from_sdl = FALSE,
@@ -1921,22 +1922,14 @@ static struct client_option client_options[] = {
    * from the tileset list returned by get_tileset_list() as default
    * tileset. We don't want default tileset assigned at all here, but
    * leave it to tilespec code that can handle tileset priority. */
-  GEN_STR_LIST_OPTION(default_tileset_overhead_name, N_("Tileset (Overhead)"),
-                      N_("Select the tileset used with Overhead maps. "
+  GEN_STR_LIST_OPTION(default_tileset_square_name, N_("Tileset (Square)"),
+                      N_("Select the tileset used with Square based maps. "
                          "This may change currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, 0),
-  GEN_STR_LIST_OPTION(default_tileset_iso_name, N_("Tileset (Isometric)"),
-                      N_("Select the tileset used with Isometric maps. "
-                         "This may change currently active tileset, if "
-                         "you are playing on such a map, in which "
-                         "case this is the same as using the -t "
-                         "command-line parameter."),
-                      COC_GRAPHICS, GUI_STUB, "",
-                      get_tileset_list, tilespec_reread_callback, TF_ISO),
   GEN_STR_LIST_OPTION(default_tileset_hex_name, N_("Tileset (Hex)"),
                       N_("Select the tileset used with Hex maps. "
                          "This may change currently active tileset, if "
@@ -5817,6 +5810,14 @@ void options_load(void)
   if (str != NULL) {
     sz_strlcpy(gui_options.default_tileset_name, str);
   }
+  str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_overhead_name");
+  if (str != NULL) {
+    sz_strlcpy(gui_options.default_tileset_overhead_name, str);
+  }
+  str = secfile_lookup_str_default(sf, NULL, "client.default_tileset_iso_name");
+  if (str != NULL) {
+    sz_strlcpy(gui_options.default_tileset_iso_name, str);
+  }
 
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
@@ -6285,10 +6286,8 @@ const char *tileset_name_for_topology(int topology_id)
   
   switch (topology_id & (TF_ISO | TF_HEX)) {
   case 0:
-    tsn = gui_options.default_tileset_overhead_name;
-    break;
   case TF_ISO:
-    tsn = gui_options.default_tileset_iso_name;
+    tsn = gui_options.default_tileset_square_name;
     break;
   case TF_HEX:
     tsn = gui_options.default_tileset_hex_name;
@@ -6314,13 +6313,9 @@ void option_set_default_ts(struct tileset *t)
   struct option *opt;
 
   switch (tileset_topo_index(t)) {
-  case TS_TOPO_OVERHEAD:
+  case TS_TOPO_SQUARE:
     /* Overhead */
-    optname = "default_tileset_overhead_name";
-    break;
-  case TS_TOPO_ISO:
-    /* Iso */
-    optname = "default_tileset_iso_name";
+    optname = "default_tileset_square_name";
     break;
   case TS_TOPO_HEX:
     /* Hex */
@@ -6373,13 +6368,19 @@ static bool is_ts_option_unset(const char *optname)
 ****************************************************************************/
 void fill_topo_ts_default(void)
 {
-  if (is_ts_option_unset("default_tileset_overhead_name")) {
-    log_debug("Setting tileset for overhead topology.");
-    tilespec_try_read(NULL, FALSE, 0, FALSE);
-  }
-  if (is_ts_option_unset("default_tileset_iso_name")) {
-    log_debug("Setting tileset for iso topology.");
-    tilespec_try_read(NULL, FALSE, TF_ISO, FALSE);
+  if (is_ts_option_unset("default_tileset_square_name")) {
+    if (gui_options.default_tileset_iso_name[0] != '\0') {
+      strncpy(gui_options.default_tileset_square_name,
+              gui_options.default_tileset_iso_name,
+              sizeof(gui_options.default_tileset_square_name));
+    } else if (gui_options.default_tileset_overhead_name[0] != '\0') {
+      strncpy(gui_options.default_tileset_square_name,
+              gui_options.default_tileset_overhead_name,
+              sizeof(gui_options.default_tileset_square_name));
+    } else {
+      log_debug("Setting tileset for square topologies.");
+      tilespec_try_read(NULL, FALSE, 0, FALSE);
+    }
   }
   if (is_ts_option_unset("default_tileset_hex_name")) {
     log_debug("Setting tileset for hex topology.");
