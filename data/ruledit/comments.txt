@@ -94,7 +94,7 @@ techs = "\
 ; /* <-- avoid gettext warnings\n\
 ;\n\
 ; Below: The individual advances, one per section.\n\
-; The number can be variable, up to 196.\n\
+; The number can be variable, up to 199.\n\
 ;\n\
 ; The actual tag used (the * in [advance_*]) does not matter, except\n\
 ; it must be unique within this file, and it may be used in debug\n\
