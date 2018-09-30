@@ -101,7 +101,7 @@ struct gui_funcs {
   void (*server_connect)(void);
   void (*add_net_input)(int sock);
   void (*remove_net_input)(void);
-  void (*real_conn_list_dialog_update)(void);
+  void (*real_conn_list_dialog_update)(void *unused);
   void (*close_connection_dialog)(void);
   void (*add_idle_callback)(void (callback)(void *), void *data);
   void (*sound_bell)(void);

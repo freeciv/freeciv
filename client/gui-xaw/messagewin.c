@@ -90,7 +90,7 @@ void meswin_dialog_popup(bool raise)
   xaw_set_relative_position(toplevel, meswin_dialog_shell, 25, 25);
   XtPopup(meswin_dialog_shell, XtGrabNone);
   if (!updated) {
-    real_meswin_dialog_update();
+    real_meswin_dialog_update(NULL);
   }
 
   /* Is this necessary here? 
@@ -190,7 +190,7 @@ static void create_meswin_dialog(bool raise)
   XtAddCallback(meswin_popcity_command, XtNcallback, meswin_popcity_callback, 
 		NULL);
 
-  real_meswin_dialog_update();
+  real_meswin_dialog_update(NULL);
 
   XtRealizeWidget(meswin_dialog_shell);
   
@@ -232,7 +232,7 @@ static void meswin_scroll_down(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void real_meswin_dialog_update(void)
+void real_meswin_dialog_update(void *unused)
 {
   Dimension height, iheight, width, oldheight, newheight;
   int i, num = meswin_get_num_messages();

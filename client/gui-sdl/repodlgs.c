@@ -860,7 +860,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 /**************************************************************************
   update the units report.
 **************************************************************************/
-void real_units_report_dialog_update(void)
+void real_units_report_dialog_update(void *unused)
 {
   if (pUnitsDlg) {
     struct units_entry units[U_LAST];
@@ -1668,7 +1668,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
 /**************************************************************************
   Update the economy report.
 **************************************************************************/
-void real_economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void *unused)
 {
   if (pEconomyDlg) {
     struct widget *pBuf = pEconomyDlg->pEndWidgetList;
@@ -2531,7 +2531,7 @@ static void disable_science_dialog(void)
 /**************************************************************************
   Update the science report.
 **************************************************************************/
-void real_science_report_dialog_update(void)
+void real_science_report_dialog_update(void *unused)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
 
@@ -3024,7 +3024,7 @@ static int change_research_goal_callback(struct widget *pWidget)
     
    /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
-    real_science_report_dialog_update();
+    real_science_report_dialog_update(NULL);
   } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   } 
@@ -3216,7 +3216,7 @@ static int science_dialog_callback(struct widget *pWindow)
         widget_flush(pWindow);
       }
       if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-        real_science_report_dialog_update();
+        real_science_report_dialog_update(NULL);
       }
     }
   }  
@@ -3364,7 +3364,7 @@ void science_report_dialog_popup(bool raise)
   /* ======================== */
   pScienceDlg->pBeginWidgetList = pExitButton;
 
-  real_science_report_dialog_update();
+  real_science_report_dialog_update(NULL);
 }
 
 /**************************************************************************

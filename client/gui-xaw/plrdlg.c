@@ -207,7 +207,7 @@ void create_players_dialog(bool raise)
 
   FIXME: use plrdlg_common.c
 **************************************************************************/
-void real_players_dialog_update(void)
+void real_players_dialog_update(void *unused)
 {
   if (players_dialog_shell) {
     int j = 0;

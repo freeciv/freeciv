@@ -93,7 +93,7 @@ static int move_msg_window_callback(struct widget *pWindow)
 /**************************************************************************
  ...
 **************************************************************************/
-void real_meswin_dialog_update(void)
+void real_meswin_dialog_update(void *unused)
 {
   int msg_count;
   int current_count;
@@ -293,7 +293,7 @@ void meswin_dialog_popup(bool raise)
 
   widget_redraw(pWindow);
 
-  real_meswin_dialog_update();
+  real_meswin_dialog_update(NULL);
 }
 
 /****************************************************************************

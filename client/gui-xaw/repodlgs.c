@@ -379,7 +379,7 @@ void create_science_dialog(bool make_modal)
     XtVaSetValues(science_label, XtNwidth, &width, NULL);
 
     toggle_callback(science_help_toggle, NULL, NULL);
-    real_science_report_dialog_update();
+    real_science_report_dialog_update(NULL);
   }
 }
 
@@ -463,7 +463,7 @@ void science_help_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void real_science_report_dialog_update(void)
+void real_science_report_dialog_update(void *unused)
 {
   if(science_dialog_shell) {
     char text[512];
@@ -702,7 +702,7 @@ void create_economy_report_dialog(bool make_modal)
       XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-economy-report()"));
   }
 
-  real_economy_report_dialog_update();
+  real_economy_report_dialog_update(NULL);
 }
 
 
@@ -768,7 +768,7 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void real_economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void *unused)
 {
   if(economy_dialog_shell) {
     int i, entries_used, tax, total;
@@ -947,7 +947,7 @@ void create_activeunits_report_dialog(bool make_modal)
       XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-units-report()"));
   }
 
-  real_units_report_dialog_update();
+  real_units_report_dialog_update(NULL);
 }
 
 /****************************************************************
@@ -1046,7 +1046,7 @@ void activeunits_close_callback(Widget w, XtPointer client_data,
 void activeunits_refresh_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data)
 {
-  real_units_report_dialog_update();
+  real_units_report_dialog_update(NULL);
 }
 
 /****************************************************************
@@ -1060,7 +1060,7 @@ void activeunits_msg_close(Widget w)
 /****************************************************************
 ...
 *****************************************************************/
-void real_units_report_dialog_update(void)
+void real_units_report_dialog_update(void *unused)
 {
   struct repoinfo {
     int active_count;

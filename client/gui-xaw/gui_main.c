@@ -812,7 +812,7 @@ void main_show_info_popup(XEvent *event)
 /**************************************************************************
  Update the connected users list at pregame state.
 **************************************************************************/
-void real_conn_list_dialog_update(void)
+void real_conn_list_dialog_update(void *unused)
 {
   real_update_start_page();
 }

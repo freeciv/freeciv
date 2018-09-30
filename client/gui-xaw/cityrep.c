@@ -310,7 +310,7 @@ void create_city_report_dialog(bool make_modal)
 	 XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-city-report()"));
   }
 
-  real_city_report_dialog_update();
+  real_city_report_dialog_update(NULL);
 }
 
 /****************************************************************
@@ -506,7 +506,7 @@ void city_config_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void real_city_report_dialog_update(void)
+void real_city_report_dialog_update(void *unused)
 {
   if (!client_has_player()) {
     return;
@@ -631,7 +631,7 @@ void real_city_report_update_city(struct city *pcity)
       return;
     }
   }
-  real_city_report_dialog_update();
+  real_city_report_dialog_update(NULL);
 }
 
 /****************************************************************
@@ -761,7 +761,7 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
     spec->show = (bool) b;
   }
   config_shell=0;
-  real_city_report_dialog_update();
+  real_city_report_dialog_update(NULL);
 }
 
 /**************************************************************************

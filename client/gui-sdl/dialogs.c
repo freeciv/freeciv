@@ -1213,7 +1213,7 @@ void unit_select_dialog_popup(struct tile *ptile)
 /**************************************************************************
   Update the dialog window to select units on a particular tile.
 **************************************************************************/
-void unit_select_dialog_update_real(void)
+void unit_select_dialog_update_real(void *unused)
 {
   /* PORTME */
 }
@@ -3757,7 +3757,7 @@ bool handmade_scenario_warning(void)
 /****************************************************************
   Update multipliers (policies) dialog.
 *****************************************************************/
-void real_multipliers_dialog_update(void)
+void real_multipliers_dialog_update(void *unused)
 { 
   /* PORTME */
 }

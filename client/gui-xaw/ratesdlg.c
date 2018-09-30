@@ -398,7 +398,7 @@ void rates_scroll_scroll_callback(Widget w, XtPointer client_data,
 /**************************************************************************
   Update multipliers (policies) dialog.
 **************************************************************************/
-void real_multipliers_dialog_update(void)
+void real_multipliers_dialog_update(void *unused)
 { 
   /* FIXME */
 }

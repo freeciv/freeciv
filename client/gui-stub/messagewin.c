@@ -41,7 +41,7 @@ bool meswin_dialog_is_open(void)
 /**************************************************************************
   Do the work of updating (populating) the message dialog.
 **************************************************************************/
-void real_meswin_dialog_update(void)
+void real_meswin_dialog_update(void *unused)
 {
   /* PORTME */
 }

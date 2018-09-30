@@ -365,9 +365,9 @@ void remove_net_input(void)
 /**************************************************************************
   Call real_conn_list_dialog_update callback
 **************************************************************************/
-void real_conn_list_dialog_update(void)
+void real_conn_list_dialog_update(void *unused)
 {
-  funcs.real_conn_list_dialog_update();
+  funcs.real_conn_list_dialog_update(NULL);
 }
 
 /**************************************************************************

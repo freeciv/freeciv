@@ -55,7 +55,7 @@ fc_icons* fc_icons::m_instance = 0;
 fc_font* fc_font::m_instance = 0;
 extern "C" {
   bool get_turn_done_button_state();
-  void real_science_report_dialog_update(void);
+  void real_science_report_dialog_update(void*);
 }
 extern void write_shortcuts();
 
@@ -376,7 +376,7 @@ void fc_client::switch_page(int new_pg)
     minimapview_wdg->reset();
     overview_size_changed();
     update_sidebar_tooltips();
-    real_science_report_dialog_update();
+    real_science_report_dialog_update(nullptr);
     show_new_turn_info();
     break;
   case PAGE_SCENARIO:
