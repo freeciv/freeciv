@@ -14,11 +14,20 @@
 #***********************************************************************/
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
-  echo "Usage: $0 <crosser dir>"
+  USAGE_NEEDED=yes
+fi
+
+if test "x$2" != "xsnapshot" && test "x$2" != "xrelease" ; then
+  USAGE_NEEDED=yes
+fi
+
+if test "x$USAGE_NEEDED" = "xyes" ; then
+  echo "Usage: $0 <crosser dir> <snapshot|release>"
   exit 1
 fi
 
 DLLSPATH="$1"
+export INST_CROSS_MODE="$2"
 
 if ! test -d "$DLLSPATH" ; then
   echo "Dllstack directory \"$DLLSPATH\" not found!" >&2
