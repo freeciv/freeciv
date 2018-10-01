@@ -444,10 +444,9 @@ bool tileset_use_hard_coded_fog(const struct tileset *t);
 
 /* These are used as array index -> can't be changed freely to values
    bigger than size of those arrays. */
-#define TS_TOPO_OVERHEAD 0
-#define TS_TOPO_ISO      1
-#define TS_TOPO_HEX      (1 << 1)
-#define TS_TOPO_ISOHEX   (TS_TOPO_ISO + TS_TOPO_HEX)
+#define TS_TOPO_SQUARE   0
+#define TS_TOPO_HEX      1
+#define TS_TOPO_ISOHEX   2
 
 const char *tileset_name_get(struct tileset *t);
 const char *tileset_version(struct tileset *t);

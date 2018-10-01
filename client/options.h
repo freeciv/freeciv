@@ -96,8 +96,7 @@ struct client_options
   bool use_prev_server;
   bool heartbeat_enabled;
   char default_metaserver[512];
-  char default_tileset_overhead_name[512];
-  char default_tileset_iso_name[512];
+  char default_tileset_square_name[512];
   char default_tileset_hex_name[512];
   char default_tileset_isohex_name[512];
   char default_sound_set_name[512];
@@ -111,6 +110,8 @@ struct client_options
   bool first_boot; /* There was no earlier options saved.
                     * This affects some migrations, but not all. */
   char default_tileset_name[512]; /* pre-2.6 had just this one tileset name */
+  char default_tileset_overhead_name[512]; /* 2.6 had separate tilesets for ... */
+  char default_tileset_iso_name[512];      /* ...overhead and iso topologies. */
   bool gui_gtk3_migrated_from_gtk2;
   bool gui_gtk3_22_migrated_from_gtk3;
   bool gui_gtk4_migrated_from_gtk3_22;
