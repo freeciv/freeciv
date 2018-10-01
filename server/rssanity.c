@@ -796,7 +796,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
 
     /* Check national initial buildings */
     if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN
-        && pnation->init_buildings[0] != A_LAST) {
+        && pnation->init_buildings[0] != B_LAST) {
       ruleset_error(LOG_ERROR,
                     "Barbarian nation %s has init_buildings set but will "
                     "never see them", nation_rule_name(pnation));
