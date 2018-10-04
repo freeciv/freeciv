@@ -1352,7 +1352,6 @@ void chatline_init(void)
   /* First line: toolbar */
   toolbar = gtk_toolbar_new();
   gtk_container_add(GTK_CONTAINER(vbox), toolbar);
-  gtk_toolbar_set_icon_size(GTK_TOOLBAR(toolbar), GTK_ICON_SIZE_MENU);
   gtk_toolbar_set_show_arrow(GTK_TOOLBAR(toolbar), FALSE);
   gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(toolbar),
