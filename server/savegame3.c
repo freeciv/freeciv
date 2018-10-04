@@ -4913,7 +4913,7 @@ static void sg_save_player_cities(struct savedata *saving,
 
   city_list_iterate(plr->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
-    char impr_buf[MAX_NUM_ITEMS + 1];
+    char impr_buf[B_LAST + 1];
     char buf[32];
     int j, nat_x, nat_y;
 
@@ -6546,7 +6546,7 @@ static void sg_save_player_vision(struct savedata *saving,
   i = 0;
   whole_map_iterate(&(wld.map), ptile) {
     struct vision_site *pdcity = map_get_player_city(ptile, plr);
-    char impr_buf[MAX_NUM_ITEMS + 1];
+    char impr_buf[B_LAST + 1];
     char buf[32];
 
     fc_snprintf(buf, sizeof(buf), "player%d.dc%d", plrno, i);
