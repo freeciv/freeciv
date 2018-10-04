@@ -2217,7 +2217,7 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   UINT16 future_tech;
   TECH researching;
   UINT32 bulbs_researched;
-  BOOL inventions[A_LAST+1]; diff
+  BOOL inventions[A_LAST + 1]; diff
 
   BOOL ai;
   BOOL scenario_reserved;
