@@ -3363,6 +3363,7 @@ void srv_main(void)
 
     /* Reset server */
     server_game_free();
+    fc_rand_uninit();
     server_game_init(FALSE);
     mapimg_reset();
     load_rulesets(NULL, FALSE, NULL, TRUE, FALSE);

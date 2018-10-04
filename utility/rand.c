@@ -164,6 +164,14 @@ void fc_srand(RANDOM_TYPE seed)
 }
 
 /*********************************************************************//**
+  Mark fc_rand state uninitialized.
+*************************************************************************/
+void fc_rand_uninit(void)
+{
+  rand_state.is_init = FALSE;
+}
+
+/*********************************************************************//**
   Return whether the current state has been initialized.
 *************************************************************************/
 bool fc_rand_is_init(void)
