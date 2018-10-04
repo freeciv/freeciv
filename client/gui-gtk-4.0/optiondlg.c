@@ -180,13 +180,21 @@ static void option_apply_callback(GtkMenuItem *menuitem, gpointer data)
   Called when a button is pressed on a option.
 ****************************************************************************/
 static gboolean option_button_press_callback(GtkWidget *widget,
-                                             GdkEventButton *event,
+                                             GdkEvent *ev,
                                              gpointer data)
 {
   struct option *poption = (struct option *) data;
   GtkWidget *menu, *item;
+  GdkEventType type;
+  guint button;
 
-  if (3 != event->button || !option_is_changeable(poption)) {
+  type = gdk_event_get_event_type(ev);
+  if (type != GDK_BUTTON_PRESS) {
+    return FALSE;
+  }
+
+  gdk_event_get_button(ev, &button);
+  if (3 != button || !option_is_changeable(poption)) {
     /* Only right button please! */
     return FALSE;
   }

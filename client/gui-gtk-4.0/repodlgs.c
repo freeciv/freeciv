@@ -87,7 +87,7 @@ static bool science_report_combo_get_active(GtkComboBox *combo,
 static void science_report_combo_set_active(GtkComboBox *combo,
                                             Tech_type_id tech);
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
-    GdkEventButton *event, gpointer data);
+                                                        GdkEvent *ev, gpointer data);
 static gboolean science_diagram_update(GtkWidget *widget,
                                        cairo_t *cr,
                                        gpointer data);
@@ -195,23 +195,36 @@ static void science_report_combo_set_active(GtkComboBox *combo,
   Change tech goal, research or open help dialog.
 ****************************************************************************/
 static gboolean science_diagram_button_release_callback(GtkWidget *widget,
-    GdkEventButton *event, gpointer data)
+                                                        GdkEvent *ev, gpointer data)
 {
   const struct research *presearch = research_get(client_player());
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
-  Tech_type_id tech = get_tech_on_reqtree(reqtree, event->x, event->y);
+  Tech_type_id tech;
+  GdkEventType type;
+  gdouble x, y;
+  guint button;
+
+  type = gdk_event_get_event_type(ev);
+  if (type != GDK_BUTTON_RELEASE) {
+    return TRUE;
+  }
+
+  gdk_event_get_coords(ev, &x, &y);
+  gdk_event_get_button(ev, &button);
+
+  tech = get_tech_on_reqtree(reqtree, x, y);
 
   if (tech == A_NONE) {
     return TRUE;
   }
 
-  if (event->button == 3) {
+  if (button == 3) {
     /* RMB: get help */
     popup_help_dialog_typed(research_advance_name_translation(presearch,
                                                               tech),
                             HELP_TECH);
   } else {
-    if (event->button == 1 && can_client_issue_orders()) {
+    if (button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
       switch (research_invention_state(research_get(client_player()),
                                        tech)) {

@@ -404,13 +404,24 @@ static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
 /**********************************************************************//**
   Allow the user to close a dialog using Escape or CTRL+W.
 **************************************************************************/
-static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEventKey *ev,
+static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEvent *ev,
                                              gpointer data)
 {
+  GdkEventType type;
   struct gui_dialog *dlg = data;
+  guint keyval;
+  GdkModifierType state;
 
-  if (ev->keyval == GDK_KEY_Escape
-      || ((ev->state & GDK_CONTROL_MASK) && ev->keyval == GDK_KEY_w)) {
+  type = gdk_event_get_event_type(ev);
+  if (type != GDK_KEY_PRESS) {
+    return FALSE;
+  }
+
+  gdk_event_get_keyval(ev, &keyval);
+  gdk_event_get_state(ev, &state);
+
+  if (keyval == GDK_KEY_Escape
+      || ((state & GDK_CONTROL_MASK) && keyval == GDK_KEY_w)) {
     /* emit response signal. */
     gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
   }
@@ -483,17 +494,25 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 /**********************************************************************//**
   Someone has clicked on a label in a notebook
 **************************************************************************/
-static gboolean click_on_tab_callback(GtkWidget* w,
-                                      GdkEventButton* button,
+static gboolean click_on_tab_callback(GtkWidget *w,
+                                      GdkEvent *button,
                                       gpointer data)
 {
-  if (button->type != GDK_2BUTTON_PRESS) {
+  GdkEventType type;
+  guint button_number;
+
+  type = gdk_event_get_event_type(button);
+  if (type != GDK_BUTTON_PRESS) {
     return FALSE;
   }
-  if (button->button != 1) {
+
+  gdk_event_get_button(button, &button_number);
+
+  if (button_number != 1) {
     return FALSE;
   }
   gui_dialog_detach((struct gui_dialog*) data);
+
   return TRUE;
 }
 

@@ -154,14 +154,20 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev,
 
     type = gdk_event_get_event_type(ev);
     if (type == GDK_BUTTON_PRESS) {
-      cma_activate_preset_callback(view, path, column, data);
-    } else if (type == GDK_2BUTTON_PRESS) {
-      struct cma_dialog *pdialog = (struct cma_dialog *) data;
-      struct cm_parameter param;
+      guint click_count;
 
-      cmafec_get_fe_parameter(pdialog->pcity, &param);
-      cma_put_city_under_agent(pdialog->pcity, &param);
-      refresh_city_dialog(pdialog->pcity);
+      gdk_event_get_click_count(ev, &click_count);
+
+      if (click_count == 1) {
+        cma_activate_preset_callback(view, path, column, data);
+      } else if (click_count == 2) {
+        struct cma_dialog *pdialog = (struct cma_dialog *) data;
+        struct cm_parameter param;
+
+        cmafec_get_fe_parameter(pdialog->pcity, &param);
+        cma_put_city_under_agent(pdialog->pcity, &param);
+        refresh_city_dialog(pdialog->pcity);
+      }
     }
   }
   gtk_tree_path_free(path);

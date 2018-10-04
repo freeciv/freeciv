@@ -1975,29 +1975,36 @@ static gboolean delayed_unselect_path(gpointer data)
   Called on a button event on the pregame player list.
 **************************************************************************/
 static gboolean connection_list_event(GtkWidget *widget,
-                                      GdkEventButton *event,
+                                      GdkEvent *ev,
                                       gpointer data)
 {
   GtkTreeView *tree = GTK_TREE_VIEW(widget);
   GtkTreePath *path = NULL;
   GtkTreeSelection *selection = gtk_tree_view_get_selection(tree);
   gboolean ret = FALSE;
+  GdkEventType type;
+  guint button;
+  gdouble x, y;
 
-  if ((1 != event->button && 3 != event->button)
-      || GDK_BUTTON_PRESS != event->type
+  type = gdk_event_get_event_type(ev);
+  gdk_event_get_button(ev, &button);
+  gdk_event_get_coords(ev, &x, &y);
+
+  if ((1 != button && 3 != button)
+      || GDK_BUTTON_PRESS != type
       || !gtk_tree_view_get_path_at_pos(tree,
-                                        event->x, event->y,
+                                        x, y,
                                         &path, NULL, NULL, NULL)) {
     return FALSE;
   }
 
-  if (1 == event->button) {
+  if (1 == button) {
     if (gtk_tree_selection_path_is_selected(selection, path)) {
       /* Need to delay to avoid problem with the expander. */
       g_idle_add(delayed_unselect_path, path);
       return FALSE;     /* Return now, don't free the path. */
     }
-  } else if (3 == event->button) {
+  } else if (3 == button) {
     GtkTreeModel *model = gtk_tree_view_get_model(tree);
     GtkTreeIter iter;
     GtkWidget *menu;
