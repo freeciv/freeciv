@@ -162,7 +162,11 @@ struct player *achievement_plr(struct achievement *ach,
     credited = player_list_get(achievers, fc_rand(player_list_size(achievers)));
 
     ach->first = credited;
-    credited->culture += ach->culture;
+
+    if (ach->unique) {
+      /* For !ach->unique achievements culture was already added above. */
+      credited->culture += ach->culture;
+    }
 
     /* Mark the selected player as the only one having the achievement */
     BV_SET(ach->achievers, player_index(credited));
