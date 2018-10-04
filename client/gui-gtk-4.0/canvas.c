@@ -328,12 +328,12 @@ static struct {
   may be NULL in which case those values simply shouldn't be filled out.
 ****************************************************************************/
 void get_text_size(int *width, int *height,
-		   enum client_font font, const char *text)
+                   enum client_font font, const char *text)
 {
   PangoRectangle rect;
 
   if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get_for_screen(gdk_screen_get_default()));
+    layout = pango_layout_new(gtk_widget_get_pango_context(toplevel));
   }
 
   pango_layout_set_font_description(layout, FONT(font));
@@ -362,7 +362,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   cairo_t *cr;
 
   if (!layout) {
-    layout = pango_layout_new(gdk_pango_context_get_for_screen(gdk_screen_get_default()));
+    layout = pango_layout_new(gtk_widget_get_pango_context(toplevel));
   }
 
   if (!pcanvas->drawable) {
