@@ -1130,9 +1130,10 @@ Internationalization (I18N)
 ===========================================================================
 
 Messages and text in general which are shown in the GUI should be
-translated by using the "_()" macro. In addition log_normal() messages
-should be translated. In most cases, the other log levels (log_fatal(),
-log_error(), log_verbose(), log_debug()) should NOT be localised.
+translated by using the "_()" macro. In addition log_normal() and
+some log_warn() messages should be translated. In most cases, the other
+log levels (log_fatal(), log_error(), log_verbose(), log_debug()) should
+NOT be localised.
 
 See utility/fciconv.h for details of how Freeciv handles character sets
 and encodings. Briefly:
