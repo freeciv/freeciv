@@ -53,7 +53,7 @@ SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
 if test "x$2" = "xruledit" ; then
   SINGLE_GUI=true
-  GUIP="-ruledit"  
+  GUIP="-ruledit"
   RULEDIT="yes"
   CLIENTS="no"
   FCMP="no"
@@ -84,8 +84,12 @@ else
   RULEDIT="yes"
 fi
 
-if ! mkdir -p build-$SETUP$GUIP ; then
-  echo "Can't create build directory \"build-$SETUP$GUIP\"!" >&2
+if test "x$NAMEP" = "x" ; then
+  NAMEP="$GUIP"
+fi
+
+if ! mkdir -p build-${SETUP}${NAMEP} ; then
+  echo "Can't create build directory \"build-${SETUP}${NAMEP}\"!" >&2
   exit 1
 fi
 
@@ -127,10 +131,10 @@ if ! ../../autogen.sh --no-configure-run ; then
   exit 1
 fi
 
-INSTALL_DIR="$(pwd)/freeciv-${VERREV}${GUIP}"
+INSTALL_DIR="$(pwd)/freeciv-${VERREV}${NAMEP}"
 
 if ! (
-cd build-$SETUP$GUIP
+cd build-${SETUP}${NAMEP}
 
 if test "x$INST_CROSS_MODE" = "xsnapshot" ; then
   GITREVP="--enable-gitrev"
@@ -173,7 +177,7 @@ if ! mkdir -p Output ; then
   exit 1
 fi
 
-if ! 7z a -r Output/freeciv-${VERREV}${GUIP}.7z freeciv-${VERREV}${GUIP}
+if ! 7z a -r Output/freeciv-${VERREV}${NAMEP}.7z freeciv-${VERREV}${NAMEP}
 then
   echo "7z failed" >&2
   exit 1
