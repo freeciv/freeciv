@@ -48,14 +48,11 @@ DEFAULT_FOLLOW_TAG=S3_1
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
-# +Freeciv.Devel.YYYY.MMM.DD is the base capability string.
+# +Freeciv.Devel-V.V-YYYY.MMM.DD is the base capability string.
 #
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-#   - Avoid adding a new mandatory capability to the development branch for
-#     as long as possible.  We want to maintain network compatibility with
-#     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel-3.1-2018.Sep.30"
 NETWORK_CAPSTRING_OPTIONAL=""
 
