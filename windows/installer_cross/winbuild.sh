@@ -73,6 +73,7 @@ elif test "x$2" != "x" ; then
     gtk3) FCMP="gtk3" ;;
     sdl2) FCMP="gtk3" ;;
     gtk3.22) FCMP="gtk3" ;;
+    gtk3x) FCMP="gtk3" ;;
     qt) FCMP="qt" ;;
     *) echo "Unknown gui \"$2\"!" >&2
        exit 1 ;;

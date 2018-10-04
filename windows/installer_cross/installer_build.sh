@@ -39,6 +39,10 @@ add_gtk3_env() {
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
 }
 
+add_gtk4_env() {
+  echo "gtk4 environment setup not implemented"
+}
+
 add_sdl2_mixer_env() {
   cp $1/bin/SDL2.dll $2/ &&
   cp $1/bin/SDL2_mixer.dll $2/ &&
@@ -97,6 +101,9 @@ case $GUI in
     FCMP="qt" ;;
   sdl2)
     GUINAME="SDL2"
+    FCMP="gtk3" ;;
+  gtk3x)
+    GUINAME="GTK3x"
     FCMP="gtk3" ;;
   ruledit) ;;
   *)
@@ -185,6 +192,11 @@ else
     qt)
       if ! add_qt_env $DLLSPATH $INSTDIR ; then
         echo "Copying Qt environment failed!" >&2
+        exit 1
+      fi ;;
+    gtk3x)
+      if ! add_gtk4_env $DLLSPATH $INSTDIR ; then
+        echo "Copying gtk4 environment failed!" >&2
         exit 1
       fi ;;
   esac
