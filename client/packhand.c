@@ -1984,7 +1984,7 @@ void handle_set_topology(int topology_id)
   wld.map.topology_id = topology_id;
 
   if (forced_tileset_name[0] == '\0'
-      && (tileset_map_topo_compatible(topology_id, tileset) != TOPO_COMPATIBLE
+      && (tileset_map_topo_compatible(topology_id, tileset) == TOPO_INCOMP_HARD
           || strcmp(tileset_basename(tileset), game.control.preferred_tileset))) {
     const char *ts_to_load;
 
