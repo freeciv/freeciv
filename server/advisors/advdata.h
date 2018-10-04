@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -50,8 +50,8 @@ struct adv_data {
   int wonder_city;
 
   /* Precalculated info about city improvements */
-  enum adv_improvement_status impr_calc[MAX_NUM_ITEMS];
-  enum req_range impr_range[MAX_NUM_ITEMS];
+  enum adv_improvement_status impr_calc[B_LAST];
+  enum req_range impr_range[B_LAST];
 
   /* Long-term threats, not to be confused with short-term danger */
   struct {

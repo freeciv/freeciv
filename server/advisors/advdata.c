@@ -72,7 +72,7 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
   improvement and record it for later use.
 **************************************************************************/
 static void adv_data_city_impr_calc(struct player *pplayer,
-				    struct adv_data *adv)
+                                    struct adv_data *adv)
 {
   int count[ADV_IMPR_LAST];
 
