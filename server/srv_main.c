@@ -1297,8 +1297,14 @@ static void end_phase(void)
    * change into account. */
   phase_players_iterate(pplayer) {
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)] =
-        pplayer->multipliers_target[multiplier_index(pmul)];
+      int idx = multiplier_index(pmul);
+
+      if (!multiplier_can_be_changed(pmul, pplayer)) {
+        pplayer->multipliers[idx] = pmul->def;
+      } else {
+        pplayer->multipliers[idx] =
+          pplayer->multipliers_target[idx];
+      }
     } multipliers_iterate_end;
   } phase_players_iterate_end;
 
