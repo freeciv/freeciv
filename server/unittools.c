@@ -2497,6 +2497,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
                        ? tile_index(punit->goto_tile) : -1);
   packet->paradropped = punit->paradropped;
   packet->done_moving = punit->done_moving;
+  packet->stay        = punit->stay;
   if (!unit_transported(punit)) {
     packet->transported = FALSE;
     packet->transported_by = 0;

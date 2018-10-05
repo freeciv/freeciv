@@ -957,6 +957,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UINT8 veteran;
   BOOL ai, paradropped;
   BOOL occupied, transported, done_moving;
+  BOOL stay;
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
@@ -2141,6 +2142,7 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   BOOL paradropped;
   BOOL done_moving;
   UNIT transported_by;
+  BOOL stay;
 end
 
 PACKET_EDIT_CITY_CREATE = 211; cs, handle-per-conn, dsend

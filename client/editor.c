@@ -479,6 +479,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
     apno = player_number(city_owner(tile_city(ptile)));
   } else if (unit_list_size(ptile->units) > 0) {
     struct unit *punit = unit_list_get(ptile->units, 0);
+
     apno = player_number(unit_owner(punit));
   } else if (tile_owner(ptile) != NULL) {
     apno = player_number(tile_owner(ptile));

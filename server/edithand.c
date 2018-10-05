@@ -612,6 +612,11 @@ void handle_edit_unit(struct connection *pc,
     }
   }
 
+  if (packet->stay != punit->stay) {
+    punit->stay = packet->stay;
+    changed = TRUE;
+  }
+
   /* TODO: Handle more property edits. */
 
 

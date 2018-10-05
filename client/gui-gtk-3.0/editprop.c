@@ -339,6 +339,7 @@ enum object_property_ids {
   OPID_UNIT_DONE_MOVING,
   OPID_UNIT_HP,
   OPID_UNIT_VETERAN,
+  OPID_UNIT_STAY,
 
   OPID_CITY_IMAGE,
   OPID_CITY_NAME,
@@ -1673,6 +1674,9 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       case OPID_UNIT_VETERAN:
         pv->data.v_int = punit->veteran;
         break;
+      case OPID_UNIT_STAY:
+        pv->data.v_bool = punit->stay;
+        break;
       default:
         log_error("%s(): Unhandled request for value of property %d "
                   "(%s) from object of type \"%s\".", __FUNCTION__,
@@ -2269,6 +2273,7 @@ static void objbind_pack_current_values(struct objbind *ob,
       packet->done_moving = punit->done_moving;
       packet->hp = punit->hp;
       packet->veteran = punit->veteran;
+      packet->stay = punit->stay;
       /* TODO: Set more packet fields. */
     }
     return;
@@ -2477,6 +2482,9 @@ static void objbind_pack_modified_value(struct objbind *ob,
         return;
       case OPID_UNIT_VETERAN:
         packet->veteran = pv->data.v_int;
+        return;
+      case OPID_UNIT_STAY:
+        packet->stay = pv->data.v_bool;
         return;
       default:
         break;
@@ -3067,6 +3075,7 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_STARTPOS_EXCLUDE:
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
+  case OPID_UNIT_STAY:
   case OPID_GAME_SCENARIO:
   case OPID_GAME_SCENARIO_RANDSTATE:
   case OPID_GAME_SCENARIO_PLAYERS:
@@ -3285,6 +3294,7 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_STARTPOS_EXCLUDE:
   case OPID_UNIT_MOVED:
   case OPID_UNIT_DONE_MOVING:
+  case OPID_UNIT_STAY:
   case OPID_GAME_SCENARIO:
   case OPID_GAME_SCENARIO_RANDSTATE:
   case OPID_GAME_SCENARIO_PLAYERS:
@@ -4483,6 +4493,8 @@ static void property_page_setup_objprops(struct property_page *pp)
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
     ADDPROP(OPID_UNIT_VETERAN, _("Veteran"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_INT);
+    ADDPROP(OPID_UNIT_STAY, _("Stay put"), NULL,
+            OPF_HAS_WIDGET | OPF_EDITABLE, VALTYPE_BOOL);
     return;
 
   case OBJTYPE_CITY:
