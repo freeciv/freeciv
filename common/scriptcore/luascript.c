@@ -444,6 +444,65 @@ void luascript_log_vargs(struct fc_lua *fcl, enum log_level level,
 }
 
 /*************************************************************************//**
+  Pop return values from the Lua stack.
+*****************************************************************************/
+void luascript_pop_returns(struct fc_lua *fcl, const char *func_name,
+                           int nreturns, enum api_types *preturn_types,
+                           va_list args)
+{
+  int i;
+  lua_State *L;
+
+  fc_assert_ret(fcl);
+  fc_assert_ret(fcl->state);
+  L = fcl->state;
+
+  for (i = 0; i < nreturns; i++) {
+    enum api_types type = preturn_types[i];
+
+    fc_assert_ret(api_types_is_valid(type));
+
+    switch (type) {
+      case API_TYPE_INT:
+        {
+          int isnum;
+          int *pres = va_arg(args, int*);
+
+          *pres = lua_tointegerx(L, -1, &isnum);
+          if (!isnum) {
+            log_error("Return value from lua function %s is a %s, want int",
+                      func_name, lua_typename(L, lua_type(L, -1)));
+          }
+        }
+        break;
+      case API_TYPE_BOOL:
+        {
+          bool *pres = va_arg(args, bool*);
+          *pres = lua_toboolean(L, -1);
+        }
+        break;
+      case API_TYPE_STRING:
+        {
+          char **pres = va_arg(args, char**);
+
+          if (lua_isstring(L, -1)) {
+            *pres = fc_strdup(lua_tostring(L, -1));
+          }
+        }
+        break;
+      default:
+        {
+          void **pres = va_arg(args, void**);
+
+          *pres = tolua_tousertype(fcl->state, -1, NULL);
+        }
+        break;
+    }
+    lua_pop(L, 1);
+  }
+}
+
+/*************************************************************************//**
   Push arguments into the Lua stack.
 *****************************************************************************/
 void luascript_push_args(struct fc_lua *fcl, int nargs,
@@ -455,35 +514,27 @@ void luascript_push_args(struct fc_lua *fcl, int nargs,
   fc_assert_ret(fcl->state);
 
   for (i = 0; i < nargs; i++) {
-    int type;
+    enum api_types type = parg_types[i];
 
-    type = va_arg(args, int);
     fc_assert_ret(api_types_is_valid(type));
-    fc_assert_ret(type == *(parg_types + i));
 
     switch (type) {
       case API_TYPE_INT:
         {
-          int arg;
-
-          arg = va_arg(args, int);
-          tolua_pushnumber(fcl->state, (lua_Number)arg);
+          lua_Integer arg = va_arg(args, lua_Integer);
+          lua_pushinteger(fcl->state, arg);
         }
         break;
       case API_TYPE_BOOL:
         {
-          int arg;
-
-          arg = va_arg(args, int);
-          tolua_pushboolean(fcl->state, (bool)arg);
+          int arg = va_arg(args, int);
+          lua_pushboolean(fcl->state, arg);
         }
         break;
       case API_TYPE_STRING:
         {
-          const char *arg;
-
-          arg = va_arg(args, const char*);
-          tolua_pushstring(fcl->state, arg);
+          const char *arg = va_arg(args, const char*);
+          lua_pushstring(fcl->state, arg);
         }
         break;
       default:

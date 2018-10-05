@@ -20,19 +20,9 @@
 /* server */
 #include "fcdb.h"
 
-/* Return values of the freeciv database functions via luasql: */
-#define SPECENUM_NAME fcdb_status
-/* - sql error */
-#define SPECENUM_VALUE0 FCDB_ERROR
-/* - sql querry was successful and with a positive result */
-#define SPECENUM_VALUE1 FCDB_SUCCESS_TRUE
-/* - sql querry was successful but there is a negative result */
-#define SPECENUM_VALUE2 FCDB_SUCCESS_FALSE
-#include "specenum_gen.h"
-
 /* fcdb script functions. */
 bool script_fcdb_init(const char *fcdb_luafile);
-enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...);
+bool script_fcdb_call(const char *func_name, ...);
 void script_fcdb_free(void);
 
 bool script_fcdb_do_string(struct connection *caller, const char *str);

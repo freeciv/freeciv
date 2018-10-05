@@ -308,12 +308,12 @@ void script_client_state_save(struct section_file *file)
 /*************************************************************************//**
   Invoke all the callback functions attached to a given signal.
 *****************************************************************************/
-void script_client_signal_emit(const char *signal_name, int nargs, ...)
+void script_client_signal_emit(const char *signal_name, ...)
 {
   va_list args;
 
-  va_start(args, nargs);
-  luascript_signal_emit_valist(main_fcl, signal_name, nargs, args);
+  va_start(args, signal_name);
+  luascript_signal_emit_valist(main_fcl, signal_name, args);
   va_end(args);
 }
 

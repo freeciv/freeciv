@@ -100,11 +100,12 @@ bool auth_user(struct connection *pconn, char *username)
     /* we are not a guest, we need an extra check as to whether a 
      * connection can be established: the client must authenticate itself */
     char buffer[MAX_LEN_MSG];
+    char *password = NULL;
+    bool ret = FALSE;
 
     sz_strlcpy(pconn->username, username);
 
-    switch(script_fcdb_call("user_load", 1, API_TYPE_CONNECTION, pconn)) {
-    case FCDB_ERROR:
+    if (!script_fcdb_call("user_load", pconn, &password)) {
       if (srvarg.auth_allow_guests) {
         sz_strlcpy(tmpname, pconn->username);
         get_unique_guest_name(tmpname); /* don't pass pconn->username here */
@@ -116,24 +117,24 @@ bool auth_user(struct connection *pconn, char *username)
                             "database, logging in as guest connection '%s'."),
                           pconn->username);
         establish_new_connection(pconn);
+	ret = TRUE;
       } else {
         reject_new_connection(_("There was an error reading the user database "
                                 "and guest logins are not allowed. Sorry"),
                               pconn);
         log_normal(_("%s was rejected: Database error and guests not "
                      "allowed."), pconn->username);
-        return FALSE;
       }
-      break;
-    case FCDB_SUCCESS_TRUE:
+    } else if (password != NULL && strcmp(password, "")) {
+      sz_strlcpy(pconn->server.password, password);
       /* we found a user */
       fc_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
                   pconn->username);
       dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
       pconn->server.auth_settime = time(NULL);
       pconn->server.status = AS_REQUESTING_OLD_PASS;
-      break;
-    case FCDB_SUCCESS_FALSE:
+      ret = TRUE;
+    } else {
       /* we couldn't find the user, he is new */
       if (srvarg.auth_allow_newusers) {
         /* TRANS: Try not to make the translation much longer than the original. */
@@ -141,22 +142,20 @@ bool auth_user(struct connection *pconn, char *username)
         dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
         pconn->server.auth_settime = time(NULL);
         pconn->server.status = AS_REQUESTING_NEW_PASS;
+        ret = TRUE;
       } else {
         reject_new_connection(_("This server allows only preregistered "
                                 "users. Sorry."), pconn);
         log_normal(_("%s was rejected: Only preregistered users allowed."),
                    pconn->username);
 
-        return FALSE;
       }
-      break;
-    default:
-      fc_assert(FALSE);
-      break;
     }
-    return TRUE;
+    if (password) {
+      free(password);
+    }
+    return ret;
   }
-
   return TRUE;
 }
 
@@ -188,8 +187,7 @@ bool auth_handle_reply(struct connection *pconn, char *password)
     create_md5sum((unsigned char *)password, strlen(password),
                   pconn->server.password);
 
-    if (script_fcdb_call("user_save", 1, API_TYPE_CONNECTION, pconn)
-        != FCDB_SUCCESS_TRUE) {
+    if (!script_fcdb_call("user_save", pconn, pconn->server.password)) {
       notify_conn(pconn->self, NULL, E_CONNECTION, ftc_warning,
                   _("Warning: There was an error in saving to the database. "
                     "Continuing, but your stats will not be saved."));
@@ -279,8 +277,7 @@ static bool auth_check_password(struct connection *pconn,
   ok = (strncmp(checksum, pconn->server.password, MD5_HEX_BYTES) == 0)
                                                               ? TRUE : FALSE;
 
-  script_fcdb_call("user_log", 2, API_TYPE_CONNECTION, pconn, API_TYPE_BOOL,
-                   ok);
+  script_fcdb_call("user_log", pconn, ok);
 
   return ok;
 }
@@ -394,27 +391,4 @@ const char *auth_get_ipaddr(struct connection *pconn)
   fc_assert_ret_val(pconn != NULL, NULL);
 
   return pconn->server.ipaddr;
-}
-
-/************************************************************************//**
-  Set password for connection
-****************************************************************************/
-bool auth_set_password(struct connection *pconn, const char *password)
-{
-  fc_assert_ret_val(pconn != NULL, FALSE);
-  fc_assert_ret_val(password != NULL, FALSE);
-
-  sz_strlcpy(pconn->server.password, password);
-
-  return TRUE;
-}
-
-/************************************************************************//**
-  Get connection password
-****************************************************************************/
-const char *auth_get_password(struct connection *pconn)
-{
-  fc_assert_ret_val(pconn != NULL, NULL);
-
-  return pconn->server.password;
 }

@@ -387,12 +387,12 @@ void script_server_state_save(struct section_file *file)
 /***********************************************************************//**
   Invoke all the callback functions attached to a given signal.
 ***************************************************************************/
-void script_server_signal_emit(const char *signal_name, int nargs, ...)
+void script_server_signal_emit(const char *signal_name, ...)
 {
   va_list args;
 
-  va_start(args, nargs);
-  luascript_signal_emit_valist(fcl_main, signal_name, nargs, args);
+  va_start(args, signal_name);
+  luascript_signal_emit_valist(fcl_main, signal_name, args);
   va_end(args);
 }
 
@@ -530,32 +530,23 @@ static void script_server_signals_create(void)
 ***************************************************************************/
 static void script_server_functions_define(void)
 {
-  luascript_func_add(fcl_main, "respawn_callback", FALSE, 1,
+  luascript_func_add(fcl_main, "respawn_callback", FALSE, 1, 0,
                      API_TYPE_PLAYER);
 }
 
 /***********************************************************************//**
   Call a lua function.
 ***************************************************************************/
-bool script_server_call(const char *func_name, int nargs, ...)
+bool script_server_call(const char *func_name, ...)
 {
   bool success;
-  int ret;
 
   va_list args;
-  va_start(args, nargs);
-  success = luascript_func_call_valist(fcl_main, func_name, &ret, nargs, args);
+  va_start(args, func_name);
+  success = luascript_func_call_valist(fcl_main, func_name, args);
   va_end(args);
 
-  if (!success) {
-    log_error("Lua function '%s' not defined.", func_name);
-    return FALSE;
-  } else if (!ret) {
-    log_error("Error executing lua function '%s'.", func_name);
-    return FALSE;
-  }
-
-  return TRUE;
+  return success;
 }
 
 /***********************************************************************//**

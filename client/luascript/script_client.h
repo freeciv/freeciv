@@ -42,7 +42,7 @@ void script_client_state_save(struct section_file *file);
 /* Signals. */
 void script_client_signal_connect(const char *signal_name,
                                   const char *callback_name);
-void script_client_signal_emit(const char *signal_name, int nargs, ...);
+void script_client_signal_emit(const char *signal_name, ...);
 const char *script_client_signal_list(void);
 
 #ifdef __cplusplus

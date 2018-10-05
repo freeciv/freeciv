@@ -87,26 +87,25 @@ static struct fc_lua *fcl = NULL;
 
   user_load(Connection pconn):
     - check if the user data was successful loaded from the database.
-  user_save(Connection pconn):
+  user_save(Connection pconn, String password):
     - check if the user data was successful saved in the database.
   user_log(Connection pconn, Bool success):
     - check if the login attempt was successful logged.
 
-  If a database error did occur, the functions return FCDB_SUCCESS_ERROR.
-  If the request was successful, FCDB_SUCCESS_TRUE is returned.
-  If the request was not successful, FCDB_SUCCESS_FALSE is returned.
+  If an error occurred, the functions return a non-NULL string error message
+  as the last return value.
 *****************************************************************************/
 static void script_fcdb_functions_define(void)
 {
-  luascript_func_add(fcl, "database_init", TRUE, 0);
-  luascript_func_add(fcl, "database_free", TRUE, 0);
+  luascript_func_add(fcl, "database_init", TRUE, 0, 0);
+  luascript_func_add(fcl, "database_free", TRUE, 0, 0);
 
-  luascript_func_add(fcl, "user_load", TRUE, 1,
-                     API_TYPE_CONNECTION);
-  luascript_func_add(fcl, "user_save", TRUE, 1,
-                     API_TYPE_CONNECTION);
-  luascript_func_add(fcl, "user_log", TRUE, 2,
-                     API_TYPE_CONNECTION, API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_load", TRUE, 1, 1, API_TYPE_CONNECTION,
+                     API_TYPE_STRING);
+  luascript_func_add(fcl, "user_save", TRUE, 2, 0, API_TYPE_CONNECTION,
+                     API_TYPE_STRING);
+  luascript_func_add(fcl, "user_log", TRUE, 2, 0, API_TYPE_CONNECTION,
+                     API_TYPE_BOOL);
 }
 
 /*************************************************************************//**
@@ -228,7 +227,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
     return FALSE;
   }
 
-  if (script_fcdb_call("database_init", 0) != FCDB_SUCCESS_TRUE) {
+  if (!script_fcdb_call("database_init")) {
     log_error("Error connecting to the database");
     script_fcdb_free();
     return FALSE;
@@ -242,28 +241,21 @@ bool script_fcdb_init(const char *fcdb_luafile)
   Call a lua function.
 
   Example call to the lua function 'user_load()':
-    script_fcdb_call("user_load", 1, API_TYPE_CONNECTION, pconn);
+    success = script_fcdb_call("user_load", pconn);
 *****************************************************************************/
-enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
+bool script_fcdb_call(const char *func_name, ...)
 {
+  bool success = TRUE;
 #ifdef HAVE_FCDB
-  enum fcdb_status status = FCDB_ERROR; /* Default return value. */
-  bool success;
-  int ret;
 
   va_list args;
-  va_start(args, nargs);
-  success = luascript_func_call_valist(fcl, func_name, &ret, nargs, args);
+  va_start(args, func_name);
+
+  success = luascript_func_call_valist(fcl, func_name, args);
   va_end(args);
-
-  if (success && fcdb_status_is_valid(ret)) {
-    status = (enum fcdb_status) ret;
-  }
-
-  return status;
-#else
-  return FCDB_SUCCESS_TRUE;
 #endif /* HAVE_FCDB */
+
+  return success;
 }
 
 /*************************************************************************//**
@@ -272,8 +264,8 @@ enum fcdb_status script_fcdb_call(const char *func_name, int nargs, ...)
 void script_fcdb_free(void)
 {
 #ifdef HAVE_FCDB
-  if (script_fcdb_call("database_free", 0) != FCDB_SUCCESS_TRUE) {
-    log_error("Error closing the database connection. Continuing anyway ...");
+  if (!script_fcdb_call("database_free", 0)) {
+    log_error("Error closing the database connection. Continuing anyway...");
   }
 
   if (fcl) {

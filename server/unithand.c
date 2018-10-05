@@ -2393,10 +2393,8 @@ bool unit_perform_action(struct player *pplayer,
       && is_action_enabled_unit_on_city(action_type,                      \
                                        actor_unit, pcity)) {              \
     bool success;                                                         \
-    script_server_signal_emit("action_started_unit_city", 3,              \
-                              API_TYPE_ACTION, action_by_number(action),  \
-                              API_TYPE_UNIT, actor,                       \
-                              API_TYPE_CITY, target);                     \
+    script_server_signal_emit("action_started_unit_city",                 \
+                              action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
@@ -2420,9 +2418,8 @@ bool unit_perform_action(struct player *pplayer,
   if (actor_unit                                                          \
       && is_action_enabled_unit_on_self(action_type, actor_unit)) {       \
     bool success;                                                         \
-    script_server_signal_emit("action_started_unit_self", 2,              \
-                              API_TYPE_ACTION, action_by_number(action),  \
-                              API_TYPE_UNIT, actor);                      \
+    script_server_signal_emit("action_started_unit_self",                 \
+                              action_by_number(action), actor);           \
     if (!actor || !unit_is_alive(actor_id)) {                             \
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
@@ -2442,10 +2439,8 @@ bool unit_perform_action(struct player *pplayer,
   if (punit                                                               \
       && is_action_enabled_unit_on_unit(action_type, actor_unit, punit)) {\
     bool success;                                                         \
-    script_server_signal_emit("action_started_unit_unit", 3,              \
-                              API_TYPE_ACTION, action_by_number(action),  \
-                              API_TYPE_UNIT, actor,                       \
-                              API_TYPE_UNIT, target);                     \
+    script_server_signal_emit("action_started_unit_unit",                 \
+                              action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
@@ -2470,10 +2465,8 @@ bool unit_perform_action(struct player *pplayer,
       && is_action_enabled_unit_on_units(action_type,                     \
                                          actor_unit, target_tile)) {      \
     bool success;                                                         \
-    script_server_signal_emit("action_started_unit_units", 3,             \
-                              API_TYPE_ACTION, action_by_number(action),  \
-                              API_TYPE_UNIT, actor,                       \
-                              API_TYPE_TILE, target);                     \
+    script_server_signal_emit("action_started_unit_units",                \
+                              action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
@@ -2495,10 +2488,8 @@ bool unit_perform_action(struct player *pplayer,
                                         actor_unit, target_tile,          \
                                         target_extra)) {                  \
     bool success;                                                         \
-    script_server_signal_emit("action_started_unit_tile", 3,              \
-                              API_TYPE_ACTION, action_by_number(action),  \
-                              API_TYPE_UNIT, actor,                       \
-                              API_TYPE_TILE, target);                     \
+    script_server_signal_emit("action_started_unit_tile",                 \
+                              action_by_number(action), actor, target);   \
     if (!actor || !unit_is_alive(actor_id)) {                             \
       /* Actor unit was destroyed during pre action Lua. */               \
       return FALSE;                                                       \
@@ -2992,10 +2983,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 
   send_city_info(NULL, pcity);
 
-  script_server_signal_emit("city_size_change", 3,
-                            API_TYPE_CITY, pcity,
-                            API_TYPE_INT, amount,
-                            API_TYPE_STRING, "unit_added");
+  script_server_signal_emit("city_size_change", pcity, amount, "unit_added");
 
   return TRUE;
 }
@@ -3517,10 +3505,8 @@ static bool unit_do_destroy_city(struct player *act_player,
                              city_link(tgt_city));
 
   /* Run post city destruction Lua script. */
-  script_server_signal_emit("city_destroyed", 3,
-                            API_TYPE_CITY, tgt_city,
-                            API_TYPE_PLAYER, tgt_player,
-                            API_TYPE_PLAYER, act_player);
+  script_server_signal_emit("city_destroyed", tgt_city, tgt_player,
+                            act_player);
 
   /* Can't be sure of city existence after running script. */
   if (city_exist(tgt_city_id)) {

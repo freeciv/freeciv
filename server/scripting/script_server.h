@@ -43,10 +43,10 @@ void script_server_state_load(struct section_file *file);
 void script_server_state_save(struct section_file *file);
 
 /* Signals. */
-void script_server_signal_emit(const char *signal_name, int nargs, ...);
+void script_server_signal_emit(const char *signal_name, ...);
 
 /* Functions */
-bool script_server_call(const char *func_name, int nargs, ...);
+bool script_server_call(const char *func_name, ...);
 
 #endif /* FC__SCRIPT_SERVER_H */
 

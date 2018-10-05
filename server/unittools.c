@@ -1769,10 +1769,8 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
     player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
-  script_server_signal_emit("unit_lost", 3,
-                            API_TYPE_UNIT, punit,
-                            API_TYPE_PLAYER, unit_owner(punit),
-                            API_TYPE_STRING, unit_loss_reason_name(reason));
+  script_server_signal_emit("unit_lost", punit, unit_owner(punit),
+                            unit_loss_reason_name(reason));
 
   script_server_remove_exported_object(punit);
   game_remove_unit(&wld, punit);
@@ -2998,8 +2996,7 @@ static void unit_enter_hut(struct unit *punit)
       }
 
       /* FIXME: Should have parameter for hut extra type */
-      script_server_signal_emit("hut_enter", 1,
-                                API_TYPE_UNIT, punit);
+      script_server_signal_emit("hut_enter", punit);
     }
   } extra_type_by_category_iterate_end;
 
@@ -3964,10 +3961,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   if (unit_lives) {
     /* Let the scripts run ... */
-    script_server_signal_emit("unit_moved", 3,
-                              API_TYPE_UNIT, punit,
-                              API_TYPE_TILE, psrctile,
-                              API_TYPE_TILE, pdesttile);
+    script_server_signal_emit("unit_moved", punit, psrctile, pdesttile);
     unit_lives = unit_is_alive(saved_id);
   }
 
