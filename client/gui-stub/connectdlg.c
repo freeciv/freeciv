@@ -33,13 +33,6 @@
 #include "connectdlg.h"
 #include "packhand_gen.h"
 
-/**********************************************************************//**
-  Really close and destroy the dialog.
-**************************************************************************/
-void really_close_connection_dialog(void)
-{
-  /* PORTME */
-}
 
 /**********************************************************************//**
   Close and destroy the dialog. But only if we don't have a local

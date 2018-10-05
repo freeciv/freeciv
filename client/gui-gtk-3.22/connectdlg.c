@@ -47,21 +47,10 @@
 
 
 /**********************************************************************//**
-  Really close and destroy the dialog.
-**************************************************************************/
-void really_close_connection_dialog(void)
-{
-}
-
-/**********************************************************************//**
-  Close and destroy the dialog but only if we don't have a local
-  server running (that we started).
+  Close and destroy the dialog.
 **************************************************************************/
 void close_connection_dialog() 
-{   
-  if (!is_server_running()) {
-    really_close_connection_dialog();
-  }
+{
 }
 
 /**********************************************************************//**

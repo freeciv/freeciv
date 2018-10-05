@@ -76,14 +76,6 @@ static void popup_new_user_passwd_dialog(const char *pMessage);
 */
 
 /**********************************************************************//**
-  Really close and destroy the dialog.
-**************************************************************************/
-void really_close_connection_dialog(void)
-{
-  /* PORTME */
-}
-
-/**********************************************************************//**
   Provide a packet handler for packet_game_load
 **************************************************************************/
 void handle_game_load(bool load_successful, const char *filename)
