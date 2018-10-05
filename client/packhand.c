@@ -223,6 +223,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   punit->goto_tile = index_to_tile(packet->goto_tile);
   punit->paradropped = packet->paradropped;
   punit->done_moving = packet->done_moving;
+  punit->stay = packet->stay;
 
   /* Transporter / transporting information. */
   punit->client.occupied = packet->occupied;
@@ -1782,6 +1783,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit->fuel = packet_unit->fuel;
     punit->goto_tile = packet_unit->goto_tile;
     punit->paradropped = packet_unit->paradropped;
+    punit->stay = packet_unit->stay;
     if (punit->done_moving != packet_unit->done_moving) {
       punit->done_moving = packet_unit->done_moving;
       check_focus = TRUE;
