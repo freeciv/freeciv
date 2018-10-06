@@ -36,22 +36,10 @@ module auth {
     @ get_username(lua_State *L, Connection *pconn);
   const char *api_auth_get_ipaddr
     @ get_ipaddr(lua_State *L, Connection *pconn);
-  bool api_auth_set_password
-    @ set_password(lua_State *L, Connection *pconn, const char *password);
-  const char *api_auth_get_password
-    @ get_password(lua_State *L, Connection *pconn);
 }
 
 /* Freeciv database (fcdb) module. */
 module fcdb {
-  module status {
-    enum fcdb_status {
-      FCDB_ERROR @ ERROR,
-      FCDB_SUCCESS_TRUE @ TRUE,
-      FCDB_SUCCESS_FALSE @ FALSE
-    };
-  }
-
   const char *api_fcdb_option
     @ option(lua_State *L, const char *name);
 }

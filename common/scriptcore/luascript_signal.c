@@ -163,7 +163,7 @@ static void signal_destroy(struct signal *psignal)
   Invoke all the callback functions attached to a given signal.
 *****************************************************************************/
 void luascript_signal_emit_valist(struct fc_lua *fcl, const char *signal_name,
-                                  int nargs, va_list args)
+                                  va_list args)
 {
   struct signal *psignal;
 
@@ -171,23 +171,17 @@ void luascript_signal_emit_valist(struct fc_lua *fcl, const char *signal_name,
   fc_assert_ret(fcl->signals);
 
   if (luascript_signal_hash_lookup(fcl->signals, signal_name, &psignal)) {
-    if (psignal->nargs != nargs) {
-      luascript_log(fcl, LOG_ERROR, "Signal \"%s\" requires %d args but was "
-                                    "passed %d on invoke.", signal_name,
-                    psignal->nargs, nargs);
-    } else {
-      signal_callback_list_iterate(psignal->callbacks, pcallback) {
-        va_list args_cb;
+    signal_callback_list_iterate(psignal->callbacks, pcallback) {
+      va_list args_cb;
 
-        va_copy(args_cb, args);
-        if (luascript_callback_invoke(fcl, pcallback->name, nargs,
-                                      psignal->arg_types, args_cb)) {
-          va_end(args_cb);
-          break;
-        }
+      va_copy(args_cb, args);
+      if (luascript_callback_invoke(fcl, pcallback->name, psignal->nargs,
+                                    psignal->arg_types, args_cb)) {
         va_end(args_cb);
-      } signal_callback_list_iterate_end;
-    }
+        break;
+      }
+      va_end(args_cb);
+    } signal_callback_list_iterate_end;
   } else {
     luascript_log(fcl, LOG_ERROR, "Signal \"%s\" does not exist, so cannot "
                                   "be invoked.", signal_name);
@@ -197,13 +191,12 @@ void luascript_signal_emit_valist(struct fc_lua *fcl, const char *signal_name,
 /*****************************************************************************
   Invoke all the callback functions attached to a given signal.
 *****************************************************************************/
-void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name,
-                           int nargs, ...)
+void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name, ...)
 {
   va_list args;
 
-  va_start(args, nargs);
-  luascript_signal_emit_valist(fcl, signal_name, nargs, args);
+  va_start(args, signal_name);
+  luascript_signal_emit_valist(fcl, signal_name, args);
   va_end(args);
 }
 

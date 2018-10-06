@@ -652,7 +652,7 @@ enum server_events server_sniff_all_input(void)
     /* Don't wait if timeout == -1 (i.e. on auto games) */
     if (S_S_RUNNING == server_state() && game.info.timeout == -1) {
       call_ai_refresh();
-      script_server_signal_emit("pulse", 0);
+      script_server_signal_emit("pulse");
       (void) send_server_info_to_metaserver(META_REFRESH);
       return S_E_END_OF_TURN_TIMEOUT;
     }
@@ -698,7 +698,7 @@ enum server_events server_sniff_all_input(void)
     if (fc_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
       /* timeout */
       call_ai_refresh();
-      script_server_signal_emit("pulse", 0);
+      script_server_signal_emit("pulse");
       (void) send_server_info_to_metaserver(META_REFRESH);
       if (current_turn_timeout() > 0
 	  && S_S_RUNNING == server_state()
@@ -888,7 +888,7 @@ enum server_events server_sniff_all_input(void)
   con_prompt_off();
 
   call_ai_refresh();
-  script_server_signal_emit("pulse", 0);
+  script_server_signal_emit("pulse");
 
   if (current_turn_timeout() > 0
       && S_S_RUNNING == server_state()

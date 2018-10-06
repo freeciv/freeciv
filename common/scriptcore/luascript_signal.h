@@ -27,11 +27,11 @@ typedef char * signal_deprecator;
 void luascript_signal_init(struct fc_lua *fcl);
 void luascript_signal_free(struct fc_lua *fcl);
 
-void luascript_signal_emit_valist(struct fc_lua *fcl, const char *signal_name,
-                                  int nargs, va_list args);
-void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name,
-                           int nargs, ...);
-signal_deprecator *luascript_signal_create(struct fc_lua *fcl, const char *signal_name,
+void luascript_signal_emit_valist(struct fc_lua *fcl,
+                                  const char *signal_name, va_list args);
+void luascript_signal_emit(struct fc_lua *fcl, const char *signal_name, ...);
+signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
+                                           const char *signal_name,
                                            int nargs, ...);
 void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
                       char *replacement, char *deprecated_since);

@@ -913,11 +913,8 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
      are within one square of the city) to the new owner. */
   if (transfer_city(pplayer, pcity, 1, TRUE, TRUE, FALSE,
                     !is_barbarian(pplayer))) {
-    script_server_signal_emit("city_transferred", 4,
-                              API_TYPE_CITY, pcity,
-                              API_TYPE_PLAYER, cplayer,
-                              API_TYPE_PLAYER, pplayer,
-                              API_TYPE_STRING, "incited");
+    script_server_signal_emit("city_transferred", pcity, cplayer, pplayer,
+                              "incited");
   }
 
   /* Check if a spy survives her mission.
