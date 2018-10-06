@@ -372,7 +372,7 @@ set={"name","value","gamestart"
 "mapsize","FULLSIZE","FULLSIZE"
 "revolentype","RANDOM","RANDOM"
 "size",1,1
-"topology","WRAPX|ISO","WRAPX|ISO"
+"topology","WRAPX|ISO|HEX","WRAPX|ISO|HEX"
 "victories","",""
 }
 set_count=6
