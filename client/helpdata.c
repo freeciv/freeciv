@@ -66,8 +66,6 @@ static const char * const help_type_names[] = {
   "Ruleset", "Tileset", "Nations", "Multipliers", NULL
 };
 
-/*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
-
 #define SPECLIST_TAG help
 #define SPECLIST_TYPE struct help_item
 #include "speclist.h"
