@@ -1433,7 +1433,7 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
     return;
   }
 
-  win = gdk_get_default_root_window();
+  win = gtk_widget_get_window(GTK_WIDGET(view));
   seat = gdk_display_get_default_seat(gdk_window_get_display(win));
 
   gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
