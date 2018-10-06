@@ -248,7 +248,6 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   get_spaceship_dimensions(&w, &h);
   gtk_widget_set_size_request(pdialog->image_canvas, w, h);
 
-  gtk_widget_set_events(pdialog->image_canvas, GDK_EXPOSURE_MASK);
   gtk_container_add(GTK_CONTAINER(frame), pdialog->image_canvas);
   gtk_widget_realize(pdialog->image_canvas);
 

@@ -428,7 +428,6 @@ static void city_dialog_map_create(struct city_dialog *pdialog,
   gtk_container_add(GTK_CONTAINER(sw), ebox);
 
   darea = gtk_drawing_area_new();
-  gtk_widget_add_events(darea, GDK_BUTTON_PRESS_MASK);
   gtk_widget_set_size_request(darea, CITYMAP_WIDTH, CITYMAP_HEIGHT);
   g_signal_connect(ebox, "button-press-event",
                    G_CALLBACK(button_down_citymap), pdialog);
@@ -1592,7 +1591,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
                                                         citizen_bar_width, citizen_bar_height);
   pdialog->citizen_images = gtk_image_new_from_surface(pdialog->citizen_surface);
 
-  gtk_widget_add_events(pdialog->citizen_images, GDK_BUTTON_PRESS_MASK);
   gtk_widget_set_margin_start(pdialog->citizen_images, 2);
   gtk_widget_set_margin_end(pdialog->citizen_images, 2);
   gtk_widget_set_margin_top(pdialog->citizen_images, 2);
@@ -2149,8 +2147,6 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       node.cmd = cmd;
 
       gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
-      gtk_widget_add_events(cmd,
-	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
       pix = gtk_image_new();
       node.pix = pix;
@@ -2254,8 +2250,6 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       node.cmd = cmd;
 
       gtk_button_set_relief(GTK_BUTTON(cmd), GTK_RELIEF_NONE);
-      gtk_widget_add_events(cmd,
-	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
       pix = gtk_image_new();
       node.pix = pix;

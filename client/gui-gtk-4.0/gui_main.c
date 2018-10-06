@@ -920,7 +920,6 @@ static void populate_unit_image_table(void)
   /* Note, we ref this and other widgets here so that we can unref them
    * in reset_unit_table. */
   unit_image = gtk_image_new();
-  gtk_widget_add_events(unit_image, GDK_BUTTON_PRESS_MASK);
   g_object_ref(unit_image);
   unit_image_button = gtk_event_box_new();
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_image_button), FALSE);
@@ -936,7 +935,6 @@ static void populate_unit_image_table(void)
     for (i = 0; i < num_units_below; i++) {
       unit_below_image[i] = gtk_image_new();
       g_object_ref(unit_below_image[i]);
-      gtk_widget_add_events(unit_below_image[i], GDK_BUTTON_PRESS_MASK);
       unit_below_image_button[i] = gtk_event_box_new();
       g_object_ref(unit_below_image_button[i]);
       gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_below_image_button[i]), FALSE);
@@ -1227,9 +1225,6 @@ static void setup_widgets(void)
   gtk_widget_set_hexpand(overview_canvas, TRUE);
   gtk_widget_set_vexpand(overview_canvas, TRUE);
 
-  gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
-        			        |GDK_BUTTON_PRESS_MASK
-				        |GDK_POINTER_MOTION_MASK);
   gtk_container_add(GTK_CONTAINER(avbox), overview_scrolled_window);
 
   gtk_container_add(GTK_CONTAINER(overview_scrolled_window), 
@@ -1262,7 +1257,6 @@ static void setup_widgets(void)
   gtk_widget_set_hexpand(vgrid, TRUE);
 
   ebox = gtk_event_box_new();
-  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
   g_signal_connect(ebox, "button_press_event",
                    G_CALLBACK(show_info_popup), NULL);
@@ -1296,7 +1290,6 @@ static void setup_widgets(void)
   for (i = 0; i < 10; i++) {
     ebox = gtk_event_box_new();
     gtk_event_box_set_visible_window(GTK_EVENT_BOX(ebox), FALSE);
-    gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
 
     gtk_grid_attach(GTK_GRID(table2), ebox, i, 0, 1, 1);
 
@@ -1492,13 +1485,6 @@ static void setup_widgets(void)
   setup_canvas_color_for_state(GTK_STATE_FLAG_FOCUSED);
   setup_canvas_color_for_state(GTK_STATE_FLAG_BACKDROP);
 #endif /* 0 */
-
-  gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
-                                   |GDK_BUTTON_PRESS_MASK
-                                   |GDK_BUTTON_RELEASE_MASK
-                                   |GDK_KEY_PRESS_MASK
-                                   |GDK_POINTER_MOTION_MASK
-                                   |GDK_SCROLL_MASK);
 
   gtk_container_add(GTK_CONTAINER(frame), map_canvas);
 

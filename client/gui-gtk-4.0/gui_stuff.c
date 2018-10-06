@@ -651,8 +651,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
-      
-      gtk_widget_add_events(event_box, GDK_BUTTON2_MOTION_MASK);
+
       g_signal_connect(event_box, "button-press-event",
                        G_CALLBACK(click_on_tab_callback), dlg);
     }
@@ -663,13 +662,13 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   dlg->action_area = action_area;
 
   dlg->response_callback = gui_dialog_destroyed;
-  
+
   dlg->id = dialog_id_counter;
   dialog_id_counter++;
   dlg->return_dialog_id = -1;
 
   g_signal_connect(vbox, "destroy",
-      G_CALLBACK(gui_dialog_destroy_handler), dlg);
+                   G_CALLBACK(gui_dialog_destroy_handler), dlg);
   g_signal_connect(vbox, "key_press_event",
       G_CALLBACK(gui_dialog_key_press_handler), dlg);
 

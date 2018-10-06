@@ -285,9 +285,6 @@ static GtkWidget *science_diagram_new(void)
   GtkWidget *diagram;
 
   diagram = gtk_layout_new(NULL, NULL);
-  gtk_widget_add_events(diagram,
-                        GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
-                        | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
   g_signal_connect(diagram, "draw",
                    G_CALLBACK(science_diagram_update), NULL);
   g_signal_connect(diagram, "button-release-event",
