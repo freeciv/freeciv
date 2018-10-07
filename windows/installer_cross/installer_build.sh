@@ -40,7 +40,10 @@ add_gtk3_env() {
 }
 
 add_gtk4_env() {
-  echo "gtk4 environment setup not implemented"
+  mkdir -p $2/etc &&
+  cp -R $1/etc/gtk-4.0 $2/etc/ &&
+  cp $1/bin/libgtk-4-0.dll $2/ &&
+  cp $1/bin/libgraphene-1.0-0.dll $2/
 }
 
 add_sdl2_mixer_env() {
