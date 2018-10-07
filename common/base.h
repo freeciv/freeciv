@@ -83,8 +83,6 @@ bool base_flag_is_retired(enum base_flag_id flag);
 bool base_has_flag_for_utype(const struct base_type *pbase,
                              enum base_flag_id flag,
                              const struct unit_type *punittype);
-bool is_native_tile_to_base(const struct base_type *pbase,
-                            const struct tile *ptile);
 
 /* Ancillary functions */
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,
