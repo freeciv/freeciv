@@ -429,6 +429,7 @@ struct city {
       bool unhappy;
       int  city_image;
       int  culture;
+      int  buy_cost;
 
       /* The color is an index into the city_colors array in mapview_common */
       bool colored;

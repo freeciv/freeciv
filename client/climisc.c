@@ -1136,7 +1136,7 @@ void cityrep_buy(struct city *pcity)
                  city_link(pcity));
     return;
   }
-  value = city_production_buy_gold_cost(pcity);
+  value = pcity->client.buy_cost;
 
   if (city_owner(pcity)->economic.gold >= value) {
     city_buy_production(pcity);
@@ -1260,10 +1260,11 @@ enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
 static int city_buy_cost_compare(const void *a, const void *b)
 {
   const struct city *ca, *cb;
+
   ca = *((const struct city **) a);
   cb = *((const struct city **) b);
-  return (city_production_buy_gold_cost(ca)
-          - city_production_buy_gold_cost(cb));
+
+  return ca->client.buy_cost - cb->client.buy_cost;
 }
 
 /****************************************************************************
@@ -1273,6 +1274,8 @@ static int city_buy_cost_compare(const void *a, const void *b)
 void buy_production_in_selected_cities(void)
 {
   const struct player *pplayer = client_player();
+  struct connection *pconn;
+
   if (!pplayer || !pplayer->cities
       || city_list_size(pplayer->cities) < 1) {
     return;
@@ -1300,11 +1303,11 @@ void buy_production_in_selected_cities(void)
 
   qsort(cities, count, sizeof(*cities), city_buy_cost_compare);
 
-  struct connection *pconn = &client.conn;
+  pconn = &client.conn;
   connection_do_buffer(pconn);
 
   for (i = 0; i < count && gold > 0; i++) {
-    gold -= city_production_buy_gold_cost(cities[i]);
+    gold -= cities[i]->client.buy_cost;
     city_buy_production(cities[i]);
   }
 

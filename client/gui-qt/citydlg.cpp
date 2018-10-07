@@ -2733,7 +2733,7 @@ void city_dialog::update_buy_button()
   buy_button->setDisabled(true);
 
   if (!client_is_observer() && client.conn.playing != NULL) {
-    value = city_production_buy_gold_cost(pcity);
+    value = pcity->client.buy_cost;
     str = QString(PL_("Buy (%1 gold)", "Buy (%1 gold)",
                       value)).arg(QString::number(value));
 
@@ -3257,7 +3257,7 @@ void city_dialog::buy()
   char buf[1024], buf2[1024];
   int ret;
   const char *name = city_production_name_translation(pcity);
-  int value = city_production_buy_gold_cost(pcity);
+  int value = pcity->client.buy_cost;
   hud_message_box ask(city_dlg);
 
   if (!can_client_issue_orders()) {

@@ -712,6 +712,7 @@ void handle_city_info(const struct packet_city_info *packet)
 
   pcity->history = packet->history;
   pcity->client.culture = packet->culture;
+  pcity->client.buy_cost = packet->buy_cost;
 
   pcity->city_radius_sq = packet->city_radius_sq;
 

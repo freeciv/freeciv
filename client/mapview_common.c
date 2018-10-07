@@ -2856,8 +2856,7 @@ static void append_city_buycost_string(const struct city *pcity,
     return;
   }
 
-  cat_snprintf(buffer, buffer_len, "/%d",
-               city_production_buy_gold_cost(pcity));
+  cat_snprintf(buffer, buffer_len, "/%d", pcity->client.buy_cost);
 }
 
 /**************************************************************************

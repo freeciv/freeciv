@@ -1981,7 +1981,7 @@ static void update_total_buy_cost(void)
     path = p->data;
     if (gtk_tree_model_get_iter(model, &iter, path)) {
       if ((pcity = city_model_get(model, &iter))) {
-        total += city_production_buy_gold_cost(pcity);
+        total += pcity->client.buy_cost;
       }
     }
     gtk_tree_path_free(path);
@@ -1990,6 +1990,7 @@ static void update_total_buy_cost(void)
 
   if (total > 0) {
     gchar *buf = g_strdup_printf(_("Total Buy Cost: %d"), total);
+
     gtk_label_set_text(GTK_LABEL(label), buf);
     g_free(buf);
   } else {

@@ -595,7 +595,7 @@ static const char *cr_entry_build_cost(const struct city *pcity,
     fc_snprintf(buf, sizeof(buf), "*");
     return buf;
   }
-  price = city_production_buy_gold_cost(pcity);
+  price = pcity->client.buy_cost;
   turns = city_production_turns_to_build(pcity, TRUE);
 
   if (price > 99999) {
