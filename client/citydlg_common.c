@@ -1117,7 +1117,7 @@ bool city_can_buy(const struct city *pcity)
               || !improvement_has_flag(pcity->production.value.building, IF_GOLD))
           && !(VUT_UTYPE == pcity->production.kind
                && pcity->anarchy != 0)
-          && city_production_buy_gold_cost(pcity) > 0);
+          && pcity->client.buy_cost > 0);
 }
 
 /**********************************************************************//**

@@ -1137,7 +1137,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   int window_x = 0, window_y = 0;
   SDL_Rect area;
   const char *name = city_production_name_translation(pCity);
-  int value = city_production_buy_gold_cost(pCity);
+  int value = pCity->client.buy_cost;
 
   if (pHurry_Prod_Dlg) {
     return;

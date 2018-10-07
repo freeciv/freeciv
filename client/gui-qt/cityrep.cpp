@@ -490,9 +490,10 @@ void city_widget::display_list_menu(const QPoint &)
     select_only = true;
   }
   foreach (pcity, selected_cities) {
-    sell_gold = sell_gold + city_production_buy_gold_cost(pcity);
+    sell_gold = sell_gold + pcity->client.buy_cost;
   }
   fc_snprintf(buf, sizeof(buf), _("Buy ( Cost: %d )"), sell_gold);
+
   QAction cty_buy(QString(buf), 0);
   QAction cty_center(style()->standardIcon(QStyle::SP_ArrowRight),
                      _("Center"), 0);

@@ -2398,6 +2398,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->history = pcity->history;
   packet->culture = city_culture(pcity);
+  packet->buy_cost = city_production_buy_gold_cost(pcity);
 
   if (packet->size != ppl) {
     static bool recursion = FALSE;
