@@ -53,7 +53,7 @@ DEFAULT_FOLLOW_TAG=S3_1
 #   - No new mandatory capabilities can be added to the release branch; doing
 #     so would break network capability of supposedly "compatible" releases.
 #
-NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel-3.1-2018.Oct.07"
+NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel-3.1-2018.Oct.07b"
 NETWORK_CAPSTRING_OPTIONAL=""
 
 FREECIV_DISTRIBUTOR=""

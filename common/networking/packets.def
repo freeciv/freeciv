@@ -2281,7 +2281,6 @@ PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACK
 
   UINT16 granary_size;
   TURN granary_turns;
-  UINT16 buy_gold_cost;
 end
 
 PACKET_WEB_PLAYER_INFO_ADDITION = 257; sc, is-info
