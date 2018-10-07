@@ -3340,3 +3340,24 @@ void package_and_send_worker_tasks(struct city *pcity)
     lsend_packet_worker_task(game.glob_observers, &packet);
   } worker_task_list_iterate_end;
 }
+
+/**************************************************************************
+  Return the cost (gold) to buy the current city production.
+**************************************************************************/
+int city_production_buy_gold_cost(const struct city *pcity)
+{
+  int build = pcity->shield_stock;
+
+  switch (pcity->production.kind) {
+  case VUT_IMPROVEMENT:
+    return impr_buy_gold_cost(pcity, pcity->production.value.building,
+                              build);
+  case VUT_UTYPE:
+    return utype_buy_gold_cost(pcity, pcity->production.value.utype,
+                               build);
+  default:
+    break;
+  };
+
+  return FC_INFINITY;
+}
