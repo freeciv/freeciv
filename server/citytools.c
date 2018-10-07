@@ -2505,7 +2505,6 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   web_packet->granary_size = city_granary_size(city_size_get(pcity));
   web_packet->granary_turns = city_turns_to_grow(pcity);
-  web_packet->buy_gold_cost = city_production_buy_gold_cost(pcity);
 #endif /* FREECIV_WEB */
 }
 
