@@ -1010,19 +1010,14 @@ FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 AC_ARG_ENABLE([freeciv-manual],
-  AS_HELP_STRING([--enable-freeciv-manual=no/yes/wiki/html], [build freeciv-manual [wiki]]),
+  AS_HELP_STRING([--enable-freeciv-manual], [build freeciv-manual]),
 [case "${enableval}" in
-  yes|wiki) fcmanual=wiki ;;
-  no)       fcmanual=no ;;
-  html)     fcmanual=html ;;
+  yes) fcmanual=yes ;;
+  no)  fcmanual=no ;;
   *) AC_MSG_ERROR([bad value ${enableval} for --enable-freeciv-manual]) ;;
-esac], [fcmanual=wiki])
+esac], [fcmanual=yes])
 
 AM_CONDITIONAL([FCMANUAL], [test "x$fcmanual" != "xno"])
-
-if test x$fcmanual = xhtml ; then
-  AC_DEFINE([MANUAL_USE_HTML], [1], [Build freeciv-manual with html formatting])
-fi
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
