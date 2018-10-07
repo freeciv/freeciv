@@ -83,21 +83,6 @@ bool base_flag_is_retired(enum base_flag_id flag)
 }
 
 /****************************************************************************
-  Is tile native to base?
-****************************************************************************/
-bool is_native_tile_to_base(const struct base_type *pbase,
-                            const struct tile *ptile)
-{
-  struct extra_type *pextra;
-
-  pextra = base_extra_get(pbase);
-
-  return are_reqs_active(NULL, NULL, NULL, NULL, ptile,
-                         NULL, NULL, NULL, NULL, NULL,
-                         &pextra->reqs, RPT_POSSIBLE);
-}
-
-/****************************************************************************
   Base provides base flag for unit? Checks if base provides flag and if
   base is native to unit.
 ****************************************************************************/
