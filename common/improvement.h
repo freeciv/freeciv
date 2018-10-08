@@ -39,7 +39,7 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
  *
  * Used in the network protocol.
  */
-#define B_LAST MAX_NUM_ITEMS
+#define B_LAST MAX_NUM_BUILDINGS
 
 #define B_NEVER (NULL)
 
