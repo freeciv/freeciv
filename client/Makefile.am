@@ -194,10 +194,9 @@ libfcgui_gtk3_la_LIBADD = gui-gtk-3.0/libgui-gtk3.la $(clientlibs)
 freeciv_gtk3_SOURCES = dummy.c
 freeciv_gtk3_LDFLAGS = $(gui_gtk3_ldflags)
 freeciv_gtk3_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-gtk3.la \
+ libfcgui-gtk3.la $(SOUND_LIBS) gui-gtk-3.0/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_gtk3_libs)
 endif
@@ -210,10 +209,9 @@ libfcgui_gtk3_22_la_LIBADD = gui-gtk-3.22/libgui-gtk3_22.la $(clientlibs)
 freeciv_gtk3_22_SOURCES = dummy.c
 freeciv_gtk3_22_LDFLAGS = $(gui_gtk3_22_ldflags)
 freeciv_gtk3_22_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-gtk3_22.la \
+ libfcgui-gtk3_22.la $(SOUND_LIBS) gui-gtk-3.22/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_3d_libs) \
  $(gui_gtk3_22_libs)
@@ -227,10 +225,9 @@ libfcgui_gtk3x_la_LIBADD = gui-gtk-4.0/libgui-gtk3x.la $(clientlibs)
 freeciv_gtk3x_SOURCES = dummy.c
 freeciv_gtk3x_LDFLAGS = $(gui_gtk3x_ldflags)
 freeciv_gtk3x_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-gtk3x.la \
+ libfcgui-gtk3x.la $(SOUND_LIBS) gui-gtk-4.0/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_3d_libs) \
  $(gui_gtk3x_libs)
@@ -245,9 +242,9 @@ freeciv_sdl2_SOURCES = dummy.c
 freeciv_sdl2_LDFLAGS = $(gui_sdl2_ldflags)
 freeciv_sdl2_LDADD = \
  $(gui_sdl2_libs) \
- libfcgui-sdl2.la \
+ libfcgui-sdl2.la $(SOUND_LIBS) gui-sdl2/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_sdl2_libs)
 endif
@@ -260,10 +257,9 @@ libfcgui_qt_la_LIBADD = gui-qt/libgui-qt.la $(clientlibs)
 freeciv_qt_SOURCES = dummycxx.cpp $(gui_interface_src)
 freeciv_qt_LDFLAGS = $(gui_qt_ldflags)
 freeciv_qt_LDADD = \
- $(SOUND_LIBS) \
- libfcgui-qt.la \
+ libfcgui-qt.la $(SOUND_LIBS) gui-qt/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_qt_libs)
 endif
@@ -276,9 +272,9 @@ libfcgui_stub_la_LIBADD = gui-stub/libgui-stub.la $(clientlibs)
 freeciv_stub_SOURCES = $(gui_interface_src) $(gui_cbs_src)
 freeciv_stub_LDFLAGS = $(gui_stub_ldflags)
 freeciv_stub_LDADD = \
- libfcgui-stub.la \
+ libfcgui-stub.la $(SOUND_LIBS) gui-stub/gui_main.lo \
  $(top_builddir)/common/libfreeciv.la \
- $(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(CLIENTICON) \
+ $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
  $(gui_stub_libs)
 endif
