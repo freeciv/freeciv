@@ -2061,7 +2061,7 @@ static action_id get_non_targeted_action_id(action_id tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (tgt_action_id) {
+  switch ((enum gen_action)tgt_action_id) {
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     return ACTION_SPY_SABOTAGE_CITY;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
@@ -2070,21 +2070,21 @@ static action_id get_non_targeted_action_id(action_id tgt_action_id)
     return ACTION_SPY_STEAL_TECH;
   case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
     return ACTION_SPY_STEAL_TECH_ESC;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No non targeted version found. */
-  return ACTION_NONE;
 }
 
 /***************************************************************************
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 ***************************************************************************/
-static int get_targeted_action_id(int non_tgt_action_id)
+static action_id get_targeted_action_id(action_id non_tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (non_tgt_action_id) {
+  switch ((enum gen_action)non_tgt_action_id) {
   case ACTION_SPY_SABOTAGE_CITY:
     return ACTION_SPY_TARGETED_SABOTAGE_CITY;
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -2093,10 +2093,10 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_STEAL_TECH;
   case ACTION_SPY_STEAL_TECH_ESC:
     return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  default:
+    /* No targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No targeted version found. */
-  return ACTION_NONE;
 }
 
 /**********************************************************************
