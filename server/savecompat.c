@@ -1224,11 +1224,10 @@ static void compat_load_030000(struct loaddata *loading)
 
   log_debug("Upgrading data from savegame to version 3.0.0");
 
-  /* Rename "random.save" as "random.saved" */
+  /* Rename "random.save" as "random.saved"
+   * Note that it's not an error if a scenario does not have [random] at all. */
   if (secfile_lookup_bool(loading->file, &randsaved, "random.save")) {
     secfile_insert_bool(loading->file, randsaved, "random.saved");
-  } else {
-    log_sg("random.save: %s", secfile_error());
   }
 
   /* Already started games should have their turn counts increased by 1 */
