@@ -1887,7 +1887,7 @@ static struct setting settings[] = {
           GAME_DEFAULT_SCIENCEBOX)
 
   GEN_BOOL("multiresearch", game.server.multiresearch,
-          SSET_RULES_FLEXIBLE, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Allow researching multiple technologies"),
           N_("Allows switching to any technology without wasting old "
              "research. Bulbs are never transfered to new technology. "
