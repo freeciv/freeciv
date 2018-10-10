@@ -53,14 +53,14 @@ struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
   int target_extra_id;
-  int act_id;
+  action_id act_id;
   struct ADVANCED_DLG *pdialog;
 };
 
 struct small_diplomat_dialog {
   int actor_unit_id;
   int target_id;
-  int act_id;
+  action_id act_id;
   struct SMALL_DLG *pdialog;
 };
  
@@ -140,11 +140,11 @@ void action_selection_no_longer_in_progress_gui_specific(int actor_id)
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
 **************************************************************************/
-static int get_non_targeted_action_id(int tgt_action_id)
+static action_id get_non_targeted_action_id(action_id tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (tgt_action_id) {
+  switch ((enum gen_action)tgt_action_id) {
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     return ACTION_SPY_SABOTAGE_CITY;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
@@ -153,21 +153,21 @@ static int get_non_targeted_action_id(int tgt_action_id)
     return ACTION_SPY_STEAL_TECH;
   case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
     return ACTION_SPY_STEAL_TECH_ESC;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No non targeted version found. */
-  return ACTION_NONE;
 }
 
 /**********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 **************************************************************************/
-static int get_targeted_action_id(int non_tgt_action_id)
+static action_id get_targeted_action_id(action_id non_tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (non_tgt_action_id) {
+  switch ((enum gen_action)non_tgt_action_id) {
   case ACTION_SPY_SABOTAGE_CITY:
     return ACTION_SPY_TARGETED_SABOTAGE_CITY;
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -176,10 +176,10 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_STEAL_TECH;
   case ACTION_SPY_STEAL_TECH_ESC:
     return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  default:
+    /* No targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No targeted version found. */
-  return ACTION_NONE;
 }
 
 /* ====================================================================== */
@@ -726,7 +726,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
   SDL_Rect area;
 
   struct unit *actor_unit = game_unit_by_number(id);
-  int act_id = pDiplomat_Dlg->act_id;
+  action_id act_id = pDiplomat_Dlg->act_id;
 
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
@@ -1688,7 +1688,7 @@ static const act_func af_map[ACTION_COUNT] = {
 /**********************************************************************//**
   Add an entry for an action in the action choice dialog.
 **************************************************************************/
-static void action_entry(const enum gen_action act,
+static void action_entry(const action_id act,
                          const struct act_prob *act_probs,
                          const char *custom,
                          struct unit *act_unit,
@@ -1756,7 +1756,7 @@ static void action_entry(const enum gen_action act,
   Return custom text for the specified action (given that the aciton is
   possible).
 **************************************************************************/
-static const char *action_custom_text(const int act_id,
+static const char *action_custom_text(const action_id act_id,
                                       const struct act_prob prob,
                                       const struct unit *actor_unit,
                                       const struct city *actor_homecity,
@@ -1769,7 +1769,7 @@ static const char *action_custom_text(const int act_id,
     return NULL;
   }
 
-  switch (act_id) {
+  switch ((enum gen_action)act_id) {
   case ACTION_TRADE_ROUTE:
     {
       int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
@@ -2137,7 +2137,7 @@ static int sabotage_impr_callback(struct widget *pWidget)
     int sabotage_improvement = MAX_ID - pWidget->ID;
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
-    int act_id = pWidget->data.cont->value;
+    action_id act_id = pWidget->data.cont->value;
 
     fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
