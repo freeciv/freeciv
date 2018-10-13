@@ -1603,6 +1603,36 @@ static void compat_load_dev(struct loaddata *loading)
 
     free(modname);
   }
+
+  /* Old unit order tgt_vec refers to order sub targets */
+  player_slots_iterate(pslot) {
+    int unit;
+    int units_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of units the player has. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+
+    for (unit = 0; unit < units_num; unit++) {
+      size_t old_tgt_size;
+      int *old_tgt_vec;
+
+      if ((old_tgt_vec = secfile_lookup_int_vec(loading->file, &old_tgt_size,
+                                                "player%d.u%d.tgt_vec",
+                                                plrno, unit))) {
+        secfile_insert_int_vec(loading->file, old_tgt_vec, old_tgt_size,
+                               "player%d.u%d.sub_tgt_vec", plrno, unit);
+        free(old_tgt_vec);
+      }
+    }
+  } player_slots_iterate_end;
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
