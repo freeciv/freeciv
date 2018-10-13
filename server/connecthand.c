@@ -389,6 +389,23 @@ bool handle_login_request(struct connection *pconn,
     return FALSE;
   }
 
+  {
+    /* Client is compatible. That includes ability to receive server info.
+     * Send it. */
+    struct packet_server_info info;
+
+    info.major_version = MAJOR_VERSION;
+    info.minor_version = MINOR_VERSION;
+    info.patch_version = PATCH_VERSION;
+#ifdef EMERGENCY_VERSION
+    info.emerg_version = EMERGENCY_VERSION;
+#else
+    info.emerg_version = 0;
+#endif
+    sz_strlcpy(info.version_label, VERSION_LABEL);
+    send_packet_server_info(pconn, &info);
+  }
+
   remove_leading_trailing_spaces(req->username);
 
   /* Name-sanity check: could add more checks? */

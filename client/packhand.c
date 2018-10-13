@@ -1431,6 +1431,23 @@ void handle_connect_msg(const char *message)
   popup_connect_msg(_("Welcome"), message);
 }
 
+/**************************************************************************
+  Handle server info packet. Server sends info packet as soon as it knows
+  client to be compatible.
+**************************************************************************/
+void handle_server_info(const char *version_label, int major_version,
+                        int minor_version, int patch_version, int emerg_version)
+{
+  if (emerg_version > 0) {
+    log_verbose("Server has version %d.%d.%d.%d%s",
+                major_version, minor_version, patch_version, emerg_version,
+                version_label);
+  } else {
+    log_verbose("Server has version %d.%d.%d%s",
+                major_version, minor_version, patch_version, version_label);
+  }
+}
+
 /****************************************************************************
   Page_msg header handler.
 ****************************************************************************/
