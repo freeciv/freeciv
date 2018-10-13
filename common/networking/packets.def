@@ -378,6 +378,12 @@ end
 # ... and the server replies.
 # For compatibility with older versions, this number cannot be changed.
 # Used in initial protocol.
+# This packet cannot be changed for the case where server replies with
+# rejection because of incompatible version. If we really want, we can
+# start sending another kind of package for the case where server accepts
+# the connection, as that one comes when we already know that server and
+# client are compatible, including the fact that acceptance package looks like
+# it does.
 PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta, post-send, post-recv
   BOOL you_can_join;
   STRING message[1536];        /* MAX_LEN_MSG */
@@ -639,6 +645,11 @@ end
 # Used in initial protocol.
 PACKET_CONNECT_MSG = 27; sc, dsend
   STRING message[MAX_LEN_MSG];
+end
+
+PACKET_SERVER_INFO = 29; sc, dsend
+  STRING version_label[48];
+  UINT32 major_version, minor_version, patch_version, emerg_version;
 end
 
 /************** City packets **********************/
