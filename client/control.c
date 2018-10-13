@@ -91,7 +91,7 @@ enum unit_activity connect_activity;
 struct extra_type *connect_tgt;
 
 action_id goto_last_action;
-int goto_last_tgt;
+int goto_last_sub_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
 static struct tile *hover_tile = NULL;
@@ -284,7 +284,7 @@ void unit_register_battlegroup(struct unit *punit)
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
                      struct extra_type *tgt,
-                     int last_tgt,
+                     int last_sub_tgt,
                      action_id action,
                      enum unit_orders order)
 {
@@ -303,7 +303,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   }
   goto_last_order = order;
   goto_last_action = action;
-  goto_last_tgt = last_tgt;
+  goto_last_sub_tgt = last_sub_tgt;
 }
 
 /**********************************************************************//**
@@ -1089,7 +1089,7 @@ void action_decision_request(struct unit *actor_unit)
   Do a goto with an order at the end (or ORDER_LAST).
 **************************************************************************/
 void request_unit_goto(enum unit_orders last_order,
-                       action_id act_id, int tgt_id)
+                       action_id act_id, int sub_tgt_id)
 {
   struct unit_list *punits = get_units_in_focus();
 
@@ -1145,7 +1145,7 @@ void request_unit_goto(enum unit_orders last_order,
 
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
-                    tgt_id, act_id, last_order);
+                    sub_tgt_id, act_id, last_order);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -1499,7 +1499,7 @@ void request_unit_return(struct unit *punit)
       order.order = ORDER_ACTIVITY;
       order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_SENTRY;
-      order.target = -1;
+      order.sub_target = -1;
       order.extra = EXTRA_NONE;
       order.action = ACTION_NONE;
       send_goto_path(punit, path, &order);
@@ -1630,7 +1630,7 @@ void request_unit_select(struct unit_list *punits,
   - action    : The action to be requested.
   - actor_id  : The unit ID of the actor unit.
   - target_id : The ID of the target unit, city or tile.
-  - value     : For ACTION_SPY_TARGETED_STEAL_TECH,
+  - sub_tgt   : For ACTION_SPY_TARGETED_STEAL_TECH,
                 ACTION_SPY_TARGETED_STEAL_TECH_ESC,
                 ACTION_SPY_TARGETED_SABOTAGE_CITY or
                 ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC, the technology or
@@ -1638,10 +1638,10 @@ void request_unit_select(struct unit_list *punits,
   - name      : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
 void request_do_action(action_id action, int actor_id,
-                       int target_id, int value, const char *name)
+                       int target_id, int sub_tgt, const char *name)
 {
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, value, name,
+                              actor_id, target_id, sub_tgt, name,
                               action);
 }
 
@@ -1716,7 +1716,7 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0] = ORDER_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = -1;
+  p.sub_target[0] = -1;
   p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
@@ -1769,7 +1769,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.orders[0] = ORDER_ACTION_MOVE;
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
-  p.target[0] = -1;
+  p.sub_target[0] = -1;
   p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 

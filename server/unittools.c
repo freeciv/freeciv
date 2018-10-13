@@ -2519,7 +2519,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders[i] = punit->orders.list[i].order;
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
-      packet->orders_targets[i] = punit->orders.list[i].target;
+      packet->orders_sub_targets[i] = punit->orders.list[i].sub_target;
       packet->orders_extras[i] = punit->orders.list[i].extra;
       packet->orders_actions[i] = punit->orders.list[i].action;
     }
@@ -4424,7 +4424,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      order.target,
+                                      order.sub_target,
                                       name,
                                       order.action,
                                       ACT_REQ_PLAYER);
