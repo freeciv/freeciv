@@ -2313,7 +2313,7 @@ void handle_unit_do_action(struct player *pplayer,
 {
   (void) unit_perform_action(pplayer, packet->actor_id, packet->target_id,
                              packet->extra_id,
-                             packet->value, packet->name,
+                             packet->sub_tgt_id, packet->name,
                              packet->action_type, ACT_REQ_PLAYER);
 }
 
@@ -2326,12 +2326,12 @@ void unit_do_action(struct player *pplayer,
                     const int actor_id,
                     const int target_id,
                     const int extra_id,
-                    const int value,
+                    const int sub_tgt_id,
                     const char *name,
                     const action_id action_type)
 {
   unit_perform_action(pplayer, actor_id, target_id, extra_id,
-                      value, name, action_type, ACT_REQ_PLAYER);
+                      sub_tgt_id, name, action_type, ACT_REQ_PLAYER);
 }
 
 /**********************************************************************//**
@@ -2347,7 +2347,7 @@ bool unit_perform_action(struct player *pplayer,
                          const int actor_id,
                          const int target_id,
                          const int extra_id,
-                         const int value,
+                         const int sub_tgt_id,
                          const char *name,
                          const action_id action_type,
                          const enum action_requester requester)
@@ -2556,7 +2556,7 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
-                                               value - 1, paction));
+                                               sub_tgt_id - 1, paction));
     break;
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -2599,7 +2599,7 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_get_tech(pplayer, actor_unit, pcity,
-                                               value, paction));
+                                               sub_tgt_id, paction));
     break;
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
@@ -4936,8 +4936,8 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
       case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
         /* Sabotage target is production (-1) or a building. */
-        if (!(packet->target[i] - 1 == -1
-              || improvement_by_number(packet->target[i] - 1))) {
+        if (!(packet->sub_target[i] - 1 == -1
+              || improvement_by_number(packet->sub_target[i] - 1))) {
           /* Sabotage target is invalid. */
 
           log_error("handle_unit_orders() can't do %s without a target. "
@@ -4950,9 +4950,9 @@ void handle_unit_orders(struct player *pplayer,
         break;
       case ACTION_SPY_TARGETED_STEAL_TECH:
       case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-        if (packet->target[i] == A_NONE
-            || (!valid_advance_by_number(packet->target[i])
-                && packet->target[i] != A_FUTURE)) {
+        if (packet->sub_target[i] == A_NONE
+            || (!valid_advance_by_number(packet->sub_target[i])
+                && packet->sub_target[i] != A_FUTURE)) {
           /* Target tech is invalid. */
 
           log_error("handle_unit_orders() can't do %s without a target. "
@@ -5087,7 +5087,7 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].order = packet->orders[i];
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
-    punit->orders.list[i].target = packet->target[i];
+    punit->orders.list[i].sub_target = packet->sub_target[i];
     punit->orders.list[i].extra = packet->extra[i];
     punit->orders.list[i].action = packet->action[i];
   }
@@ -5109,7 +5109,7 @@ void handle_unit_orders(struct player *pplayer,
                 packet->orders[i] == ORDER_ACTIVITY ?
                   unit_activity_name(packet->activity[i]) :
                   "no action/activity required",
-              packet->target[i], packet->extra[i]);
+              packet->sub_target[i], packet->extra[i]);
   }
 #endif /* FREECIV_DEBUG */
 
