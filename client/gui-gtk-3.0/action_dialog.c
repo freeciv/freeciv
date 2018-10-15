@@ -76,7 +76,7 @@ static GtkWidget  *spy_sabotage_shell;
 /* A structure to hold parameters for actions inside the GUI in stead of
  * storing the needed data in a global variable. */
 struct action_data {
-  int act_id;
+  action_id act_id;
   int actor_unit_id;
   int target_city_id;
   int target_unit_id;
@@ -88,7 +88,7 @@ struct action_data {
   Create a new action data structure that can be stored in the
   dialogs.
 *****************************************************************/
-static struct action_data *act_data(int act_id,
+static struct action_data *act_data(action_id act_id,
                                     int actor_id,
                                     int target_city_id,
                                     int target_unit_id,
@@ -181,11 +181,11 @@ void action_selection_no_longer_in_progress_gui_specific(int actor_id)
   Get the non targeted version of an action so it, if enabled, can appear
   in the target selection dialog.
 ***************************************************************************/
-static int get_non_targeted_action_id(int tgt_action_id)
+static action_id get_non_targeted_action_id(action_id tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (tgt_action_id) {
+  switch ((enum gen_action)tgt_action_id) {
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
     return ACTION_SPY_SABOTAGE_CITY;
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
@@ -194,21 +194,21 @@ static int get_non_targeted_action_id(int tgt_action_id)
     return ACTION_SPY_STEAL_TECH;
   case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
     return ACTION_SPY_STEAL_TECH_ESC;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No non targeted version found. */
-  return ACTION_NONE;
 }
 
 /***************************************************************************
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 ***************************************************************************/
-static int get_targeted_action_id(int non_tgt_action_id)
+static action_id get_targeted_action_id(action_id non_tgt_action_id)
 {
   /* Don't add an action mapping here unless the non targeted version is
    * selectable in the targeted version's target selection dialog. */
-  switch (non_tgt_action_id) {
+  switch ((enum gen_action)non_tgt_action_id) {
   case ACTION_SPY_SABOTAGE_CITY:
     return ACTION_SPY_TARGETED_SABOTAGE_CITY;
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -217,10 +217,10 @@ static int get_targeted_action_id(int non_tgt_action_id)
     return ACTION_SPY_TARGETED_STEAL_TECH;
   case ACTION_SPY_STEAL_TECH_ESC:
     return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  default:
+    /* No targeted version found. */
+    return ACTION_NONE;
   }
-
-  /* No targeted version found. */
-  return ACTION_NONE;
 }
 
 /****************************************************************
@@ -1513,10 +1513,10 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 **************************************************************************/
 static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
 {
-  int act_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg), "actor"));
+  int au_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg), "actor"));
 
   if (arg == GTK_RESPONSE_YES) {
-    struct unit *actor = game_unit_by_number(act_id);
+    struct unit *actor = game_unit_by_number(au_id);
 
     if (actor != NULL) {
       int tgt_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
@@ -1543,7 +1543,7 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
     }
   } else {
     /* Dialog canceled. This ends the action selection process. */
-    action_selection_no_longer_in_progress(act_id);
+    action_selection_no_longer_in_progress(au_id);
   }
 
   gtk_widget_destroy(dlg);
@@ -1722,7 +1722,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   Show the user the action if it is enabled.
 *******************************************************************/
 static void action_entry(GtkWidget *shl,
-                         int act_id,
+                         action_id act_id,
                          const struct act_prob *act_probs,
                          const gchar *custom,
                          struct action_data *handler_args)
@@ -1765,7 +1765,7 @@ static void action_entry(GtkWidget *shl,
   Update an existing button.
 *******************************************************************/
 static void action_entry_update(GtkWidget *shl,
-                                int act_id,
+                                action_id act_id,
                                 const struct act_prob *act_probs,
                                 const gchar *custom,
                                 struct action_data *handler_args)
@@ -1888,9 +1888,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
-      action_entry(shl,
-                   (enum gen_action)act,
-                   act_probs,
+      action_entry(shl, act, act_probs,
                    act == ACTION_HELP_WONDER ?
                      city_prod_remaining(target_city) : NULL,
                    data);
@@ -1902,11 +1900,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
-      action_entry(shl,
-                   (enum gen_action)act,
-                   act_probs,
-                   NULL,
-                   data);
+      action_entry(shl, act, act_probs, NULL, data);
     }
   } action_iterate_end;
 
@@ -1915,11 +1909,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNITS) {
-      action_entry(shl,
-                   (enum gen_action)act,
-                   act_probs,
-                   NULL,
-                   data);
+      action_entry(shl, act, act_probs, NULL, data);
     }
   } action_iterate_end;
 
@@ -1928,11 +1918,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
-      action_entry(shl,
-                   (enum gen_action)act,
-                   act_probs,
-                   NULL,
-                   data);
+      action_entry(shl, act, act_probs, NULL, data);
     }
   } action_iterate_end;
 
@@ -1941,11 +1927,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
-      action_entry(shl,
-                   (enum gen_action)act,
-                   act_probs,
-                   NULL,
-                   data);
+      action_entry(shl, act, act_probs, NULL, data);
     }
   } action_iterate_end;
 
