@@ -2931,7 +2931,7 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
-  GtkWidget *ebox, *hbox, *hbox2, *label, *image, *entry, *spin, *button;
+  GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin, *button;
   struct extviewer *ev = NULL;
   enum object_property_ids propid;
 
@@ -2943,13 +2943,10 @@ static void objprop_setup_widget(struct objprop *op)
     return;
   }
 
-  ebox = gtk_event_box_new();
-  op->widget = ebox;
-
   hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
+  op->widget = hbox;
 
-  gtk_container_add(GTK_CONTAINER(ebox), hbox);
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
 
   label = gtk_label_new(objprop_get_name(op));
   gtk_widget_set_halign(label, GTK_ALIGN_START);

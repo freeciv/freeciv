@@ -1188,7 +1188,7 @@ static void editinfobox_tool_applied_player_changed(GtkComboBox *combo,
 ****************************************************************************/
 static struct editinfobox *editinfobox_create(void)
 {
-  GtkWidget *label, *vbox, *frame, *hbox, *vbox2, *image, *evbox;
+  GtkWidget *label, *vbox, *frame, *hbox, *vbox2, *image;
   GtkWidget *spin, *combo;
   GtkListStore *store;
   GtkCellRenderer *cell;
@@ -1219,14 +1219,11 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
-  evbox = gtk_event_box_new();
-  gtk_widget_set_tooltip_text(evbox, _("Click to change value if applicable."));
-  g_signal_connect(evbox, "button_press_event",
-      G_CALLBACK(editinfobox_handle_tool_image_button_press), NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), evbox);
-
   image = gtk_image_new();
-  gtk_container_add(GTK_CONTAINER(evbox), image);
+  gtk_widget_set_tooltip_text(image, _("Click to change value if applicable."));
+  g_signal_connect(image, "button_press_event",
+      G_CALLBACK(editinfobox_handle_tool_image_button_press), NULL);
+  gtk_container_add(GTK_CONTAINER(hbox), image);
   ei->tool_image = image;
 
   vbox2 = gtk_grid_new();
@@ -1252,14 +1249,11 @@ static struct editinfobox *editinfobox_create(void)
   gtk_grid_set_column_spacing(GTK_GRID(hbox), 8);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
-  evbox = gtk_event_box_new();
-  gtk_widget_set_tooltip_text(evbox, _("Click to change tool mode."));
-  g_signal_connect(evbox, "button_press_event",
-      G_CALLBACK(editinfobox_handle_mode_image_button_press), NULL);
-  gtk_container_add(GTK_CONTAINER(hbox), evbox);
-
   image = gtk_image_new();
-  gtk_container_add(GTK_CONTAINER(evbox), image);
+  gtk_widget_set_tooltip_text(image, _("Click to change tool mode."));
+  g_signal_connect(image, "button_press_event",
+      G_CALLBACK(editinfobox_handle_mode_image_button_press), NULL);
+  gtk_container_add(GTK_CONTAINER(hbox), image);
   ei->mode_image = image;
 
   vbox2 = gtk_grid_new();

@@ -604,7 +604,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   case GUI_DIALOG_TAB:
     {
-      GtkWidget *hbox, *label, *button, *event_box;
+      GtkWidget *hbox, *label, *button;
       gint w, h;
       gchar *buf;
 
@@ -636,11 +636,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_widget_show(hbox);
 
-      event_box = gtk_event_box_new();
-      gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-      gtk_container_add(GTK_CONTAINER(event_box), hbox);
-
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, event_box);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, hbox);
       dlg->v.tab.handler_id =
 	g_signal_connect(notebook, "switch-page",
 	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
@@ -652,7 +648,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
 
-      g_signal_connect(event_box, "button-press-event",
+      g_signal_connect(hbox, "button-press-event",
                        G_CALLBACK(click_on_tab_callback), dlg);
     }
     break;
