@@ -16,9 +16,6 @@
 # The maximum number of enumerators.
 max_enum_values=150
 
-# The target file.
-target="utility/specenum_gen.h"
-
 # Here are push all defined macros.
 macros=[]
 
@@ -616,9 +613,7 @@ def make_undef(file):
 
 # Main function.
 def main():
-    src_dir=os.path.dirname(sys.argv[0])
-    src_root=src_dir+"/.."
-    target_name=src_root+'/'+target
+    target_name=sys.argv[1]
 
     output=open(target_name,"w")
 

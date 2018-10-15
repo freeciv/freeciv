@@ -26,6 +26,9 @@ c_compiler = meson.get_compiler('c')
 
 inc = include_directories('utility', 'common', 'common/networking')
 
+custom_target('specenum_gen.h', output: 'specenum_gen.h',
+              command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
+
 library('freeciv',
   'utility/astring.c',
   'utility/bitvector.c',
