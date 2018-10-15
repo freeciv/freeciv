@@ -1161,7 +1161,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
 
   chooser = gtk_color_chooser_widget_new();
   gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
-                     chooser, FALSE, FALSE);
+                     chooser);
   g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
   if (current_color) {
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);

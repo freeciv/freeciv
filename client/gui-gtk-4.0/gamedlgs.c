@@ -334,7 +334,7 @@ static GtkWidget *create_multiplier_dialog(void)
 
   if (can_client_issue_orders()) {
     label = gtk_label_new(_("Changes will not take effect until next turn."));
-    gtk_box_pack_start(GTK_BOX(content), label, FALSE, FALSE);
+    gtk_box_pack_start(GTK_BOX(content), label);
   }
 
   multipliers_iterate(pmul) {
@@ -355,8 +355,8 @@ static GtkWidget *create_multiplier_dialog(void)
     g_signal_connect(multipliers_scale[multiplier], "destroy",
                      G_CALLBACK(gtk_widget_destroyed),
                      &multipliers_scale[multiplier]);
-    gtk_box_pack_start(GTK_BOX(content), label, TRUE, TRUE);
-    gtk_box_pack_start(GTK_BOX(content), scale, TRUE, TRUE);
+    gtk_box_pack_start(GTK_BOX(content), label);
+    gtk_box_pack_start(GTK_BOX(content), scale);
     gtk_widget_set_sensitive(multipliers_scale[multiplier],
                              can_client_issue_orders()
                              && multiplier_can_be_changed(pmul, client_player()));
@@ -418,10 +418,10 @@ static GtkWidget *create_rates_dialog(void)
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
   rates_gov_label = gtk_label_new("");
-  gtk_box_pack_start(GTK_BOX(content), rates_gov_label, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(content), rates_gov_label);
 
   frame = gtk_frame_new( _("Tax") );
-  gtk_box_pack_start(GTK_BOX(content), frame, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(content), frame);
 
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
@@ -446,7 +446,7 @@ static GtkWidget *create_rates_dialog(void)
   gtk_container_add(GTK_CONTAINER(hgrid), rates_tax_toggle);
 
   frame = gtk_frame_new( _("Luxury") );
-  gtk_box_pack_start(GTK_BOX(content), frame, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(content), frame);
 
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);
@@ -471,7 +471,7 @@ static GtkWidget *create_rates_dialog(void)
   gtk_container_add(GTK_CONTAINER(hgrid), rates_lux_toggle);
 
   frame = gtk_frame_new( _("Science") );
-  gtk_box_pack_start(GTK_BOX(content), frame, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(content), frame);
 
   hgrid = gtk_grid_new();
   gtk_grid_set_column_spacing(GTK_GRID(hgrid), 10);

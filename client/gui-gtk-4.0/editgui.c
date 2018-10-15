@@ -1048,7 +1048,7 @@ create_tool_value_selector(struct editbar *eb,
                                  GTK_POLICY_AUTOMATIC);
   gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW(scrollwin),
                                              10 * tileset_tile_height(tileset));
-  gtk_box_pack_start(GTK_BOX(vbox), scrollwin, TRUE, TRUE);
+  gtk_box_pack_start(GTK_BOX(vbox), scrollwin);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(tvs->store));
   gtk_widget_set_size_request(view, -1, 10 * tileset_tile_height(tileset));
