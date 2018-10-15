@@ -2509,7 +2509,7 @@ void real_menus_update(void)
 /************************************************************************//**
   Add an accelerator to an item in the "Go to and..." menu.
 ****************************************************************************/
-static void menu_unit_goto_and_add_accel(GtkWidget *item, int act_id,
+static void menu_unit_goto_and_add_accel(GtkWidget *item, action_id act_id,
                                          const guint accel_key,
                                          const GdkModifierType accel_mods)
 {

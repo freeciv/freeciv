@@ -314,9 +314,9 @@ static void pillage_callback(GtkWidget *dlg, gint arg)
   is_showing_pillage_dialog = FALSE;
 
   if (arg == GTK_RESPONSE_YES) {
-    int act_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
-                                                   "actor"));
-    struct unit *actor = game_unit_by_number(act_id);
+    int au_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
+                                                  "actor"));
+    struct unit *actor = game_unit_by_number(au_id);
 
     int tgt_id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dlg),
                                                    "target"));
