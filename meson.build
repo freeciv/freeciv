@@ -24,10 +24,56 @@ add_global_arguments('-DHAVE_CONFIG_H',
 
 c_compiler = meson.get_compiler('c')
 
-inc = include_directories('utility', 'common', 'common/networking')
+inc = include_directories('dependencies/lua-5.3/src',
+  'utility', 'common', 'common/networking')
 
 custom_target('specenum_gen.h', output: 'specenum_gen.h',
               command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
+
+fc_deps = static_library('fc_dependencies',
+  'dependencies/cvercmp/cvercmp.c',
+  'dependencies/lua-5.3/src/lapi.c',
+  'dependencies/lua-5.3/src/lauxlib.c',
+  'dependencies/lua-5.3/src/lbaselib.c',
+  'dependencies/lua-5.3/src/lbitlib.c',
+  'dependencies/lua-5.3/src/lcode.c',
+  'dependencies/lua-5.3/src/lcorolib.c',
+  'dependencies/lua-5.3/src/lctype.c',
+  'dependencies/lua-5.3/src/ldblib.c',
+  'dependencies/lua-5.3/src/ldebug.c',
+  'dependencies/lua-5.3/src/ldo.c',
+  'dependencies/lua-5.3/src/ldump.c',
+  'dependencies/lua-5.3/src/lfunc.c',
+  'dependencies/lua-5.3/src/lgc.c',
+  'dependencies/lua-5.3/src/linit.c',
+  'dependencies/lua-5.3/src/liolib.c',
+  'dependencies/lua-5.3/src/llex.c',
+  'dependencies/lua-5.3/src/lmathlib.c',
+  'dependencies/lua-5.3/src/lmem.c',
+  'dependencies/lua-5.3/src/loadlib.c',
+  'dependencies/lua-5.3/src/lobject.c',
+  'dependencies/lua-5.3/src/lopcodes.c',
+  'dependencies/lua-5.3/src/loslib.c',
+  'dependencies/lua-5.3/src/lparser.c',
+  'dependencies/lua-5.3/src/lstate.c',
+  'dependencies/lua-5.3/src/lstring.c',
+  'dependencies/lua-5.3/src/lstrlib.c',
+  'dependencies/lua-5.3/src/ltable.c',
+  'dependencies/lua-5.3/src/ltablib.c',
+  'dependencies/lua-5.3/src/ltm.c',
+  'dependencies/lua-5.3/src/lundump.c',
+  'dependencies/lua-5.3/src/lutf8lib.c',
+  'dependencies/lua-5.3/src/lvm.c',
+  'dependencies/lua-5.3/src/lzio.c',
+  'dependencies/tolua-5.2/src/lib/tolua_event.c',
+  'dependencies/tolua-5.2/src/lib/tolua_is.c',
+  'dependencies/tolua-5.2/src/lib/tolua_map.c',
+  'dependencies/tolua-5.2/src/lib/tolua_push.c',
+  'dependencies/tolua-5.2/src/lib/tolua_to.c',
+  'dependencies/luasql/src/luasql.c',
+  'dependencies/luasql/src/ls_sqlite3.c',
+  include_directories : inc
+  )
 
 library('freeciv',
   'utility/astring.c',
@@ -63,8 +109,10 @@ library('freeciv',
   'utility/support.c',
   'utility/timing.c',
   include_directories : inc,
+  link_whole: fc_deps,
   dependencies: [c_compiler.find_library('libicuuc'),
                  c_compiler.find_library('m'),
                  c_compiler.find_library('libcurl'),
+                 c_compiler.find_library('libsqlite3'),
                  dependency('threads')]
   )
