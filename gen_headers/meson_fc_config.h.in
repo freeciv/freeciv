@@ -1,0 +1,16 @@
+
+#include "freeciv_config.h"
+
+#define VERSION_STRING "@VERSION_STRING@"
+
+#define LOCALEDIR "@LOCALEDIR@"
+
+#define BUG_URL "https://www.hostedredmine.com/projects/freeciv"
+
+#define DATASUBDIR "@DATASUBDIR@"
+
+#define HAVE_ARPA_INET_H
+
+#define HAVE_NETDB_H
+
+#define HAVE_LIBGEN_H
