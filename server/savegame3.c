@@ -5514,7 +5514,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    "%s.sub_tgt_vec,%d",
                                                    unitstr, j);
         order_extra = secfile_lookup_int_default(loading->file, -1,
-                                                 "%s.extra_vec,%d",
+                                                 "%s.sub_tgt_vec,%d",
                                                  unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
@@ -5532,6 +5532,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
             } else {
               order->sub_target = order_sub_tgt;
             }
+            /* Reset building loaded to extra. */
+            order_extra = EXTRA_NONE;
             break;
           case ACTION_SPY_TARGETED_STEAL_TECH:
           case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
@@ -5545,6 +5547,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
             } else {
               order->sub_target = order_sub_tgt;
             }
+            /* Reset tech loaded to extra. */
+            order_extra = EXTRA_NONE;
             break;
           case ACTION_ESTABLISH_EMBASSY:
           case ACTION_ESTABLISH_EMBASSY_STAY:
@@ -5588,6 +5592,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_HEAL_UNIT:
           case ACTION_COUNT:
             /* Sub target in order unsupported. */
+
+            /* None of these can take an extra. */
+            fc_assert_msg(order_extra == EXTRA_NONE,
+                          "Specified extra for action %d unsupported.",
+                          order->action);
+            order_extra = EXTRA_NONE;
 
             /* Sub target shouldn't be specified yet. */
             fc_assert_msg(order_sub_tgt == -1,
@@ -5824,7 +5834,6 @@ static void sg_save_player_units(struct savedata *saving,
       char act_buf[len + 1];
       char action_buf[len + 1];
       int sub_tgt_vec[len];
-      int extra_vec[len];
 
       last_order = len;
 
@@ -5841,7 +5850,6 @@ static void sg_save_player_units(struct savedata *saving,
         dir_buf[j] = '?';
         act_buf[j] = '?';
         sub_tgt_vec[j] = -1;
-        extra_vec[j] = -1;
         action_buf[j] = '?';
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
@@ -5849,8 +5857,7 @@ static void sg_save_player_units(struct savedata *saving,
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
-          sub_tgt_vec[j] = -1;
-          extra_vec[j] = punit->orders.list[j].extra;
+          sub_tgt_vec[j] = punit->orders.list[j].extra;
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
         case ORDER_PERFORM_ACTION:
@@ -5864,7 +5871,6 @@ static void sg_save_player_units(struct savedata *saving,
                                   can_not_encode_all_actions);
 
           sub_tgt_vec[j] = punit->orders.list[j].sub_target;
-          extra_vec[j] = -1;
           if (direction8_is_valid(punit->orders.list[j].dir)) {
             /* The action target is on another tile. */
             dir_buf[j] = dir2char(punit->orders.list[j].dir);
@@ -5890,12 +5896,6 @@ static void sg_save_player_units(struct savedata *saving,
       for (j = last_order; j < longest_order; j++) {
         secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec,%d", buf, j);
       }
-
-      secfile_insert_int_vec(saving->file, extra_vec, len,
-                             "%s.extra_vec", buf);
-      for (j = last_order; j < longest_order; j++) {
-        secfile_insert_int(saving->file, -1, "%s.extra_vec,%d", buf, j);
-      }
     } else {
 
       /* Put all the same fields into the savegame - otherwise the
@@ -5917,11 +5917,6 @@ static void sg_save_player_units(struct savedata *saving,
        * the unit table in a tabular format. */
       for (j = 1; j < longest_order; j++) {
         secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec,%d", buf, j);
-      }
-
-      secfile_insert_int(saving->file, -1, "%s.extra_vec", buf);
-      for (j = 1; j < longest_order; j++) {
-        secfile_insert_int(saving->file, -1, "%s.extra_vec,%d", buf, j);
       }
     }
 
