@@ -1857,12 +1857,6 @@ def main():
     src_dir=os.path.dirname(sys.argv[0])
     src_root=src_dir+"/.."
     input_name=src_dir+"/networking/packets.def"
-    ### We call this variable target_root instead of build_root
-    ### to avoid confusion as we are not building to builddir in
-    ### automake sense.
-    ### We build to src dir. Building to builddir causes a lot
-    ### of problems we have been unable to solve.
-    target_root=src_root
 
     content=open(input_name).read()
     content=strip_c_comment(content)
@@ -1888,7 +1882,7 @@ def main():
     ### parsing finished
 
     ### writing packets_gen.h
-    output_h_name=target_root+"/common/packets_gen.h"
+    output_h_name=sys.argv[1]
 
     if lazy_overwrite:
         output_h=fc_open(output_h_name+".tmp")
@@ -1926,7 +1920,7 @@ void delta_stats_reset(void);
     output_h.close()
 
     ### writing packets_gen.c
-    output_c_name=target_root+"/common/packets_gen.c"
+    output_c_name=sys.argv[2]
     if lazy_overwrite:
         output_c=fc_open(output_c_name+".tmp")
     else:
@@ -2010,7 +2004,7 @@ static int stats_total_sent;
                 open(i,"w").write(new)
             os.remove(i+".tmp")
 
-    f=fc_open(target_root+"/server/hand_gen.h")
+    f=fc_open(sys.argv[5])
     f.write('''
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
@@ -2054,7 +2048,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
     f.close()
 
-    f=fc_open(target_root+"/client/packhand_gen.h")
+    f=fc_open(sys.argv[3])
     f.write('''
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
@@ -2096,7 +2090,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 ''')
     f.close()
 
-    f=fc_open(target_root+"/server/hand_gen.c")
+    f=fc_open(sys.argv[6])
     f.write('''
 
 #ifdef HAVE_CONFIG_H
@@ -2152,7 +2146,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 ''')
     f.close()
 
-    f=fc_open(target_root+"/client/packhand_gen.c")
+    f=fc_open(sys.argv[4])
     f.write('''
 
 #ifdef HAVE_CONFIG_H

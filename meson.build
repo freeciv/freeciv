@@ -30,6 +30,14 @@ inc = include_directories('dependencies/lua-5.3/src',
 custom_target('specenum_gen.h', output: 'specenum_gen.h',
               command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
 
+custom_target('packets_gen', output: ['packets_gen.h', 'packets_gen.c',
+                                      'packhand_gen.h', 'packhand_gen.c',
+                                      'hand_gen.h', 'hand_gen.c'],
+              command: [files('common/generate_packets.py'), '@OUTPUT0@',
+                       '@OUTPUT1@', '@OUTPUT2@', '@OUTPUT3@', '@OUTPUT4@',
+                       '@OUTPUT5@'],
+              depend_files: files('common/networking/packets.def'))
+
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
   'dependencies/lua-5.3/src/lapi.c',
