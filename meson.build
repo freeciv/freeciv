@@ -27,16 +27,25 @@ c_compiler = meson.get_compiler('c')
 inc = include_directories('dependencies/lua-5.3/src',
   'utility', 'common', 'common/networking')
 
-custom_target('specenum_gen.h', output: 'specenum_gen.h',
-              command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
+specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
+                         command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
 
-custom_target('packets_gen', output: ['packets_gen.h', 'packets_gen.c',
-                                      'packhand_gen.h', 'packhand_gen.c',
-                                      'hand_gen.h', 'hand_gen.c'],
-              command: [files('common/generate_packets.py'), '@OUTPUT0@',
-                       '@OUTPUT1@', '@OUTPUT2@', '@OUTPUT3@', '@OUTPUT4@',
-                       '@OUTPUT5@'],
-              depend_files: files('common/networking/packets.def'))
+pack_common = custom_target('packets_common', output: ['packets_gen.h',
+                                                       'packets_gen.c'],
+                            command: [files('common/generate_packets.py'),
+                                      '@OUTPUT0@', '@OUTPUT1@', '', '', '', ''],
+                            depend_files: files('common/networking/packets.def'))
+
+pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c'],
+                            command: [files('common/generate_packets.py'),
+                                      '', '', '', '', '@OUTPUT0@', '@OUTPUT1@'],
+                            depend_files: files('common/networking/packets.def'))
+
+pack_client = custom_target('packets_client', output: ['packhand_gen',
+                                                       'packhand_gen.c'],
+                            command: [files('common/generate_packets.py'),
+                                      '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
+                            depend_files: files('common/networking/packets.def'))
 
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
@@ -117,6 +126,7 @@ library('freeciv',
   'utility/support.c',
   'utility/timing.c',
   include_directories : inc,
+  sources: [specenum],
   link_whole: fc_deps,
   dependencies: [c_compiler.find_library('libicuuc'),
                  c_compiler.find_library('m'),
