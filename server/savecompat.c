@@ -1633,6 +1633,51 @@ static void compat_load_dev(struct loaddata *loading)
       }
     }
   } player_slots_iterate_end;
+
+  /* Unit order extra sub targets was for a while stored separate from tech
+   * and building sub targets. */
+  player_slots_iterate(pslot) {
+    int unit;
+    int units_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of units the player has. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+
+    for (unit = 0; unit < units_num; unit++) {
+      size_t extra_vec_size;
+      int *extra_vec;
+
+      if ((extra_vec = secfile_lookup_int_vec(loading->file,
+                                              &extra_vec_size,
+                                              "player%d.u%d.extra_vec",
+                                              plrno, unit))) {
+        int order_num;
+
+        for (order_num = 0; order_num < extra_vec_size; order_num++) {
+          if (extra_vec[order_num] != -1) {
+            if (order_num) {
+              secfile_replace_int(loading->file, extra_vec[order_num],
+                                  "player%d.u%d.sub_tgt_vec,%d",
+                                  plrno, unit, order_num);
+            } else {
+              secfile_replace_int(loading->file, extra_vec[order_num],
+                                  "player%d.u%d.sub_tgt_vec",
+                                  plrno, unit);
+            }
+          }
+        }
+        free(extra_vec);
+      }
+    }
+  } player_slots_iterate_end;
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
