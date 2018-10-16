@@ -49,6 +49,13 @@ if test "x$FLVL" != "x$CROSSER_FEATURE_LEVEL" ; then
   exit 1
 fi
 
+CSET=$(grep "Set=" $DLLSPATH/crosser.txt | sed -e 's/Set="//' -e 's/"//')
+
+if test "x$CSET" != "xcurrent" ; then
+  echo "Crosser set is \"$CSET\", only \"current\" is supported!"
+  exit 1
+fi
+
 SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
 
 if test "x$2" = "xruledit" ; then
