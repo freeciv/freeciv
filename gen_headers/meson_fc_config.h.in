@@ -13,6 +13,8 @@
 
 #define AI_MOD_DEFAULT "classic"
 
+#define AI_MOD_STATIC_CLASSIC
+
 #define DEFAULT_SOCK_PORT 5556
 
 #define INIT_BRACE_BEGIN {

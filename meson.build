@@ -319,6 +319,30 @@ common_lib = library('freeciv',
                  dependency('threads')]
   )
 
+ais = static_library('fc_ai',
+  'ai/classic/classicai.c',
+  'ai/default/aiair.c',
+  'ai/default/aicity.c',
+  'ai/default/aidata.c',
+  'ai/default/aidiplomat.c',
+  'ai/default/aiferry.c',
+  'ai/default/aiguard.c',
+  'ai/default/aihand.c',
+  'ai/default/aihunt.c',
+  'ai/default/ailog.c',
+  'ai/default/aiparatrooper.c',
+  'ai/default/aiplayer.c',
+  'ai/default/aisettler.c',
+  'ai/default/aitech.c',
+  'ai/default/aitools.c',
+  'ai/default/aiunit.c',
+  'ai/default/daidiplomacy.c',
+  'ai/default/daidomestic.c',
+  'ai/default/daieffects.c',
+  'ai/default/daimilitary.c',
+  include_directories: [server_inc, include_directories('ai/default')]
+  )
+
 executable('freeciv-server',
   'ai/aitraits.c',
   'ai/difficulty.c',
@@ -398,6 +422,6 @@ executable('freeciv-server',
   sources: [ pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
                            'server/scripting/tolua_server.pkg')],
-  link_with: common_lib,
+  link_with: [common_lib, ais],
   dependencies: [c_compiler.find_library('m')]
   )
