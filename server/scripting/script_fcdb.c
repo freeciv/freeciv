@@ -91,6 +91,8 @@ static struct fc_lua *fcl = NULL;
     - check if the user data was successful saved in the database.
   user_log(Connection pconn, Bool success):
     - check if the login attempt was successful logged.
+  user_delegate_to(Connection pconn, Player pplayer, String delegate):
+    - returns Bool, whether pconn is allowed to delegate player to delegate.
 
   If an error occurred, the functions return a non-NULL string error message
   as the last return value.
@@ -105,6 +107,9 @@ static void script_fcdb_functions_define(void)
   luascript_func_add(fcl, "user_save", TRUE, 2, 0, API_TYPE_CONNECTION,
                      API_TYPE_STRING);
   luascript_func_add(fcl, "user_log", TRUE, 2, 0, API_TYPE_CONNECTION,
+                     API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_delegate_to", FALSE, 3, 1,
+                     API_TYPE_CONNECTION, API_TYPE_PLAYER, API_TYPE_STRING,
                      API_TYPE_BOOL);
 }
 
