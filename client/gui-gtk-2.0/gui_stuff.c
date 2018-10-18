@@ -608,7 +608,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       button = gtk_button_new();
       gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
       g_signal_connect_swapped(button, "clicked",
-	  G_CALLBACK(gui_dialog_delete_tab_handler), dlg);
+                               G_CALLBACK(gui_dialog_delete_tab_handler), dlg);
 
       buf = g_strdup_printf(_("Close Tab:\n%s"), _("Ctrl+W"));
       gtk_widget_set_tooltip_text(button, buf);
@@ -627,8 +627,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, event_box);
       dlg->v.tab.handler_id =
-	g_signal_connect(notebook, "switch-page",
-	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
+        g_signal_connect(notebook, "switch-page",
+                         G_CALLBACK(gui_dialog_switch_page_handler), dlg);
       dlg->v.tab.child = vbox;
 
       dlg->v.tab.label = label;
