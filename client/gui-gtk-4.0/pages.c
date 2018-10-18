@@ -1215,7 +1215,7 @@ GtkWidget *create_network_page(void)
   lan_selection = selection;
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
   g_signal_connect(view, "focus",
-      		   G_CALLBACK(gtk_true), NULL);
+                   G_CALLBACK(terminate_signal_processing), NULL);
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",
@@ -1263,7 +1263,7 @@ GtkWidget *create_network_page(void)
   meta_selection = selection;
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
   g_signal_connect(view, "focus",
-      		   G_CALLBACK(gtk_true), NULL);
+                   G_CALLBACK(terminate_signal_processing), NULL);
   g_signal_connect(view, "row-activated",
                    G_CALLBACK(network_activate_callback), NULL);
   g_signal_connect(selection, "changed",

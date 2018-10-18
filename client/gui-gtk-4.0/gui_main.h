@@ -81,4 +81,6 @@ struct video_mode *resolution_request_get(void);
 
 bool is_gui_up(void);
 
+bool terminate_signal_processing(void);
+
 #endif  /* FC__GUI_MAIN_H */

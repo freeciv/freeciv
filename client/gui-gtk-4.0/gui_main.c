@@ -1078,6 +1078,14 @@ static void setup_canvas_color_for_state(GtkStateFlags state)
 #endif
 
 /**********************************************************************//**
+  Callback that just returns TRUE.
+**************************************************************************/
+bool terminate_signal_processing(void)
+{
+  return TRUE;
+}
+
+/**********************************************************************//**
   Do the heavy lifting for the widget setup.
 **************************************************************************/
 static void setup_widgets(void)
@@ -1097,7 +1105,7 @@ static void setup_widgets(void)
 
   /* stop mouse wheel notebook page switching. */
   g_signal_connect(notebook, "scroll_event",
-		   G_CALLBACK(gtk_true), NULL);
+                   G_CALLBACK(terminate_signal_processing), NULL);
 
   toplevel_tabs = notebook;
   gtk_notebook_set_show_tabs(GTK_NOTEBOOK(notebook), FALSE);
