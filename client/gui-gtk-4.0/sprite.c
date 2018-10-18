@@ -510,3 +510,36 @@ GdkPixbuf *create_extra_pixbuf(const struct extra_type *pextra)
 
   return pixbuf;
 }
+
+/************************************************************************//**
+  Create a GtkImage from cairo surface.
+****************************************************************************/
+GtkWidget *image_new_from_surface(cairo_surface_t *surf)
+{
+  GdkPixbuf *pb;
+  GtkWidget *image;
+
+  pb = surface_get_pixbuf(surf,
+                          cairo_image_surface_get_width(surf),
+                          cairo_image_surface_get_height(surf));
+
+  image = gtk_image_new_from_pixbuf(pb);
+  g_object_unref(pb);
+
+  return image;
+}
+
+/************************************************************************//**
+  Set a GtkImage from cairo surface.
+****************************************************************************/
+void image_set_from_surface(GtkImage *image, cairo_surface_t *surf)
+{
+  GdkPixbuf *pb;
+
+  pb = surface_get_pixbuf(surf,
+                          cairo_image_surface_get_width(surf),
+                          cairo_image_surface_get_height(surf));
+
+  gtk_image_set_from_pixbuf(image, pb);
+  g_object_unref(pb);
+}

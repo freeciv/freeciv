@@ -54,6 +54,7 @@ struct happiness_dialog {
   GtkWidget *win;
   GtkWidget *shell;
   GtkWidget *cityname_label;
+  GtkWidget *feeling_images[NUM_HAPPINESS_MODIFIERS];
   cairo_surface_t *feeling_surfaces[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *happiness_label[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *close;
@@ -253,7 +254,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
     /* list of citizens */
     pdialog->feeling_surfaces[i] = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
                                                               FEELING_WIDTH, FEELING_HEIGHT);
-    img = gtk_image_new_from_surface(pdialog->feeling_surfaces[i]);
+    img = gtk_image_new();
+    pdialog->feeling_images[i] = img;
     gtk_widget_set_margin_start(img, 5);
     g_object_set_data(G_OBJECT(img), "pdialog", pdialog);
     g_signal_connect(img, "button_press_event",
@@ -287,7 +289,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
 /**********************************************************************//**
   Refresh citizens surface
 **************************************************************************/
-static void refresh_feeling_surface(cairo_surface_t *dst, struct city *pcity,
+static void refresh_feeling_surface(GtkWidget *image,
+                                    cairo_surface_t *dst, struct city *pcity,
                                     enum citizen_feeling index)
 {
   enum citizen_category categories[MAX_CITY_SIZE];
@@ -306,6 +309,8 @@ static void refresh_feeling_surface(cairo_surface_t *dst, struct city *pcity,
     cairo_fill(cr);
   }
 
+  image_set_from_surface(GTK_IMAGE(image), dst);
+
   cairo_destroy(cr);
 }
 
@@ -318,7 +323,8 @@ void refresh_happiness_dialog(struct city *pcity)
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
 
   for (i = 0; i < FEELING_LAST; i++) {
-    refresh_feeling_surface(pdialog->feeling_surfaces[i], pdialog->pcity, i);
+    refresh_feeling_surface(pdialog->feeling_images[i],
+                            pdialog->feeling_surfaces[i], pdialog->pcity, i);
   }
 }
 

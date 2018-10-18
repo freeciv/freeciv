@@ -1256,7 +1256,7 @@ static void setup_widgets(void)
 
   for (i = 0; i < 10; i++) {
     spr = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-    econ_label[i] = gtk_image_new_from_surface(spr->surface);
+    econ_label[i] = image_new_from_surface(spr->surface);
     g_signal_connect(econ_label[i], "button_press_event",
                      G_CALLBACK(taxrates_callback), GINT_TO_POINTER(i));
     gtk_grid_attach(GTK_GRID(table2), econ_label[i], i, 0, 1, 1);
@@ -1265,28 +1265,28 @@ static void setup_widgets(void)
   /* science, environmental, govt, timeout */
   spr = client_research_sprite();
   if (spr != NULL) {
-    bulb_label = gtk_image_new_from_surface(spr->surface);
+    bulb_label = image_new_from_surface(spr->surface);
   } else {
     bulb_label = gtk_image_new();
   }
 
   spr = client_warming_sprite();
   if (spr != NULL) {
-    sun_label = gtk_image_new_from_surface(spr->surface);
+    sun_label = image_new_from_surface(spr->surface);
   } else {
     sun_label = gtk_image_new();
   }
 
   spr = client_cooling_sprite();
   if (spr != NULL) {
-    flake_label = gtk_image_new_from_surface(spr->surface);
+    flake_label = image_new_from_surface(spr->surface);
   } else {
     flake_label = gtk_image_new();
   }
 
   spr = client_government_sprite();
   if (spr != NULL) {
-    government_label = gtk_image_new_from_surface(spr->surface);
+    government_label = image_new_from_surface(spr->surface);
   } else {
     government_label = gtk_image_new();
   }

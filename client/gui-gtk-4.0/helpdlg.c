@@ -752,7 +752,7 @@ static void set_help_tile_from_sprite(struct sprite *spr)
     return;
   }
 
-  gtk_image_set_from_surface(GTK_IMAGE(help_tile), spr->surface);
+  image_set_from_surface(GTK_IMAGE(help_tile), spr->surface);
   gtk_widget_show(help_tile);
 }
 
@@ -782,7 +782,7 @@ static void set_help_tile_from_terrain(struct terrain *pterr)
     put_drawn_sprites(&canvas, 1.0, 0, 0, count, sprs, FALSE);
   }
 
-  gtk_image_set_from_surface(GTK_IMAGE(help_tile), canvas.surface);
+  image_set_from_surface(GTK_IMAGE(help_tile), canvas.surface);
   gtk_widget_show(help_tile);
   cairo_surface_destroy(canvas.surface);
 }

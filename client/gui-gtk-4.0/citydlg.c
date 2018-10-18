@@ -1562,7 +1562,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->citizen_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
                                                         citizen_bar_width, citizen_bar_height);
-  pdialog->citizen_images = gtk_image_new_from_surface(pdialog->citizen_surface);
+  pdialog->citizen_images = gtk_image_new();
 
   gtk_widget_set_margin_start(pdialog->citizen_images, 2);
   gtk_widget_set_margin_end(pdialog->citizen_images, 2);
@@ -1745,6 +1745,8 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   }
 
   cairo_destroy(cr);
+
+  image_set_from_surface(GTK_IMAGE(pdialog->citizen_images), pdialog->citizen_surface);
 
   gtk_widget_queue_draw(pdialog->citizen_images);
 }

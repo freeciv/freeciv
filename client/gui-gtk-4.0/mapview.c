@@ -179,20 +179,20 @@ void update_info_label(void)
     for (; d < client.conn.playing->economic.luxury /10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_LUXURY);
 
-      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
 
     for (; d < (client.conn.playing->economic.science
 		+ client.conn.playing->economic.luxury) / 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_SCIENCE);
 
-      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
 
     for (; d < 10; d++) {
       struct sprite *spr = get_tax_sprite(tileset, O_GOLD);
 
-      gtk_image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
+      image_set_from_surface(GTK_IMAGE(econ_label[d]), spr->surface);
     }
   }
 
@@ -286,10 +286,10 @@ GdkPixbuf *get_thumb_pixbuf(int onoff)
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                          struct sprite *flake, struct sprite *gov)
 {
-  gtk_image_set_from_surface(GTK_IMAGE(bulb_label), bulb->surface);
-  gtk_image_set_from_surface(GTK_IMAGE(sun_label), sol->surface);
-  gtk_image_set_from_surface(GTK_IMAGE(flake_label), flake->surface);
-  gtk_image_set_from_surface(GTK_IMAGE(government_label), gov->surface);
+  image_set_from_surface(GTK_IMAGE(bulb_label), bulb->surface);
+  image_set_from_surface(GTK_IMAGE(sun_label), sol->surface);
+  image_set_from_surface(GTK_IMAGE(flake_label), flake->surface);
+  image_set_from_surface(GTK_IMAGE(government_label), gov->surface);
 }
 
 /**********************************************************************//**
@@ -489,7 +489,7 @@ void put_unit_image(struct unit *punit, GtkImage *p, int height)
 
   put_unit(punit, &store, 1.0, 0, 0);
 
-  gtk_image_set_from_surface(p, store.surface);
+  image_set_from_surface(p, store.surface);
   cairo_surface_destroy(store.surface);
 }
 
@@ -514,7 +514,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
   put_unit_city_overlays(punit, &store, 0, tileset_unit_layout_offset_y(tileset),
                          upkeep_cost, happy_cost);
 
-  gtk_image_set_from_surface(p, store.surface);
+  image_set_from_surface(p, store.surface);
   cairo_surface_destroy(store.surface);
 }
 

@@ -712,7 +712,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Our flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr0));
 
-  image = gtk_image_new_from_surface(flag_spr->surface);
+  image = image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Our name. */
@@ -797,7 +797,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   /* Their flag */
   flag_spr = get_nation_flag_sprite(tileset, nation_of_player(plr1));
 
-  image = gtk_image_new_from_surface(flag_spr->surface);
+  image = image_new_from_surface(flag_spr->surface);
   gtk_container_add(GTK_CONTAINER(hbox), image);
 
   /* Their name. */
