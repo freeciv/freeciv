@@ -212,7 +212,16 @@ bool script_client_init(void)
   api_specenum_open(main_fcl->state);
   tolua_game_open(main_fcl->state);
   tolua_signal_open(main_fcl->state);
+
+#ifdef MESON_BUILD
+  /* Tolua adds 'tolua_' prefix to _open() function names,
+   * and we can't pass it a basename where the original
+   * 'tolua_' has been stripped when generating from meson. */
+  tolua_tolua_client_open(main_fcl->state);
+#else  /* MESON_BUILD */
   tolua_client_open(main_fcl->state);
+#endif /* MESON_BUILD */
+
   tolua_common_z_open(main_fcl->state);
 
   script_client_code_init();

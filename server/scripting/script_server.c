@@ -309,7 +309,16 @@ bool script_server_init(void)
   api_specenum_open(fcl_main->state);
   tolua_game_open(fcl_main->state);
   tolua_signal_open(fcl_main->state);
+
+#ifdef MESON_BUILD
+  /* Tolua adds 'tolua_' prefix to _open() function names,
+   * and we can't pass it a basename where the original
+   * 'tolua_' has been stripped when generating from meson. */
+  tolua_tolua_server_open(fcl_main->state);
+#else  /* MESON_BUILD */
   tolua_server_open(fcl_main->state);
+#endif /* MESON_BUILD */
+
   tolua_common_z_open(fcl_main->state);
 
   script_server_code_init();
@@ -333,7 +342,16 @@ bool script_server_init(void)
   tolua_common_a_open(fcl_unsafe->state);
   api_specenum_open(fcl_unsafe->state);
   tolua_game_open(fcl_unsafe->state);
+
+#ifdef MESON_BUILD
+  /* Tolua adds 'tolua_' prefix to _open() function names,
+   * and we can't pass it a basename where the original
+   * 'tolua_' has been stripped when generating from meson. */
+  tolua_tolua_server_open(fcl_unsafe->state);
+#else  /* MESON_BUILD */
   tolua_server_open(fcl_unsafe->state);
+#endif /* MESON_BUILD */
+
   tolua_common_z_open(fcl_unsafe->state);
 
   luascript_signal_init(fcl_unsafe);

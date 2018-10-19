@@ -2,6 +2,8 @@
 #include "freeciv_config.h"
 #include "version_gen.h"
 
+#define MESON_BUILD
+
 #define LOCALEDIR "@LOCALEDIR@"
 
 #define BUG_URL "https://www.hostedredmine.com/projects/freeciv"
