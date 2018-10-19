@@ -24,7 +24,7 @@ add_global_arguments('-DHAVE_CONFIG_H',
 
 c_compiler = meson.get_compiler('c')
 
-inc = include_directories('dependencies/lua-5.3/src',
+inc = include_directories('dependencies/lua-5.3/src', 'dependencies/tolua-5.2/include',
   'utility', 'common', 'common/networking')
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
