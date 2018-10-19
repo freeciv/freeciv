@@ -1,5 +1,5 @@
 
-project('freeciv', 'c')
+project('freeciv', 'c', meson_version: '>= 0.36.0')
 
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
