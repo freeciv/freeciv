@@ -93,6 +93,9 @@ static struct fc_lua *fcl = NULL;
     - check if the login attempt was successful logged.
   user_delegate_to(Connection pconn, Player pplayer, String delegate):
     - returns Bool, whether pconn is allowed to delegate player to delegate.
+  user_take(Connection requester, Connection taker, Player pplayer,
+            Bool observer):
+    - returns Bool, whether requester is allowed to attach taker to pplayer.
 
   If an error occurred, the functions return a non-NULL string error message
   as the last return value.
@@ -110,6 +113,9 @@ static void script_fcdb_functions_define(void)
                      API_TYPE_BOOL);
   luascript_func_add(fcl, "user_delegate_to", FALSE, 3, 1,
                      API_TYPE_CONNECTION, API_TYPE_PLAYER, API_TYPE_STRING,
+                     API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_take", FALSE, 4, 1, API_TYPE_CONNECTION,
+                     API_TYPE_CONNECTION, API_TYPE_PLAYER, API_TYPE_BOOL,
                      API_TYPE_BOOL);
 }
 
