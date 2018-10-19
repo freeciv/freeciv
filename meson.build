@@ -52,12 +52,46 @@ pack_client = custom_target('packets_client', output: ['packhand_gen',
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
                             depend_files: files('common/networking/packets.def'))
 
-tolua = generator(find_program('tolua'),
+tolua_cmd = find_program('tolua')
+
+tolua = generator(tolua_cmd,
                   arguments: ['-n', '@BASENAME@',
                               '-o', '@BUILD_DIR@/@BASENAME@_gen.c',
                               '-H', '@BUILD_DIR@/@BASENAME@_gen.h',
                               '@INPUT@'],
                   output: [ '@BASENAME@_gen.c', '@BASENAME@_gen.h'])
+
+tolua_com_a = custom_target('tolua_custom_a',
+                            output: ['tolua_common_a_gen.c',
+                                     'tolua_common_a_gen.h'],
+                            command: [tolua_cmd, '-n', 'common_a',
+                                      '-o', '@OUTPUT0@',
+                                      '-H', '@OUTPUT1@',
+                                      files('common/scriptcore/tolua_common_a.pkg')])
+
+tolua_com_z = custom_target('tolua_custom_z',
+                            output: ['tolua_common_z_gen.c',
+                                     'tolua_common_z_gen.h'],
+                            command: [tolua_cmd, '-n', 'common_z',
+                                      '-o', '@OUTPUT0@',
+                                      '-H', '@OUTPUT1@',
+                                      files('common/scriptcore/tolua_common_z.pkg')])
+
+tolua_game = custom_target('tolua_game',
+                           output: ['tolua_game_gen.c',
+                                    'tolua_game_gen.h'],
+                           command: [tolua_cmd, '-n', 'game',
+                                     '-o', '@OUTPUT0@',
+                                     '-H', '@OUTPUT1@',
+                                     files('common/scriptcore/tolua_game.pkg')])
+
+tolua_signal = custom_target('tolua_signal',
+                             output: ['tolua_signal_gen.c',
+                                      'tolua_signal_gen.h'],
+                             command: [tolua_cmd, '-n', 'signal',
+                                       '-o', '@OUTPUT0@',
+                                       '-H', '@OUTPUT1@',
+                                       files('common/scriptcore/tolua_signal.pkg')])
 
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
@@ -214,10 +248,7 @@ library('freeciv',
   'common/worklist.c',
   include_directories : inc,
   sources: [specenum, pack_common,
-            tolua.process('common/scriptcore/tolua_common_a.pkg',
-                          'common/scriptcore/tolua_common_z.pkg',
-                          'common/scriptcore/tolua_game.pkg',
-                          'common/scriptcore/tolua_signal.pkg')],
+            tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
   dependencies: [c_compiler.find_library('libicuuc'),
                  c_compiler.find_library('m'),
