@@ -7,11 +7,21 @@
 #define LOCALEDIR "@LOCALEDIR@"
 
 #define BUG_URL "https://www.hostedredmine.com/projects/freeciv"
+#define WIKI_URL "http://www.freeciv.org/"
 
 #define DATASUBDIR "@DATASUBDIR@"
+
+#define AI_MOD_DEFAULT "classic"
+
+#define DEFAULT_SOCK_PORT 5556
+
+#define INIT_BRACE_BEGIN {
+#define INIT_BRACE_END   }
 
 #define HAVE_ARPA_INET_H
 
 #define HAVE_NETDB_H
 
 #define HAVE_LIBGEN_H
+
+#define HAVE_SIGNAL_H

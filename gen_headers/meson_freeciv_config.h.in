@@ -41,6 +41,8 @@
 /* Location for freeciv to store its information */
 #define FREECIV_STORAGE_DIR "@FREECIV_STORAGE_DIR@"
 
+#define FREECIV_META_URL "http://meta.freeciv.org/metaserver.php"
+
 /* unistd.h available */
 #define FREECIV_HAVE_UNISTD_H
 
