@@ -5631,8 +5631,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       (void) secfile_entry_lookup(loading->file, "%s.orders_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.dir_list", unitstr);
       (void) secfile_entry_lookup(loading->file, "%s.activity_list", unitstr);
-      (void) secfile_entry_lookup(loading->file, "%s.tgt_list", unitstr);
-      (void) secfile_entry_lookup(loading->file, "%s.extra_list", unitstr);
+      (void) secfile_entry_lookup(loading->file, "%s.sub_tgt_vec", unitstr);
     }
   }
 
