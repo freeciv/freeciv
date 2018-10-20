@@ -24,7 +24,7 @@ add_global_arguments('-DHAVE_CONFIG_H',
 c_compiler = meson.get_compiler('c')
 
 inc = include_directories('dependencies/lua-5.3/src', 'dependencies/tolua-5.2/include',
-  'utility', 'common', 'common/networking')
+  'utility', 'common', 'common/networking', 'common/scriptcore')
 
 verhdr = custom_target('verhdr', output: 'version_gen.h',
               command: [files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
@@ -49,6 +49,13 @@ pack_client = custom_target('packets_client', output: ['packhand_gen',
                             command: [files('common/generate_packets.py'),
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
                             depend_files: files('common/networking/packets.def'))
+
+tolua = generator(find_program('tolua'),
+                  arguments: ['-n', '@BASENAME@',
+                              '-o', '@BUILD_DIR@/@BASENAME@_gen.c',
+                              '-H', '@BUILD_DIR@/@BASENAME@_gen.h',
+                              '@INPUT@'],
+                  output: [ '@BASENAME@_gen.c', '@BASENAME@_gen.h'])
 
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
