@@ -4251,12 +4251,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
             if (extra_id < 0 || extra_id >= loading->extra.size) {
               log_sg("Cannot find extra %d for %s to build",
                      extra_id, unit_rule_name(punit));
-              order->extra = EXTRA_NONE;
+              order->sub_target = EXTRA_NONE;
             } else {
-              order->extra = extra_id;
+              order->sub_target = extra_id;
             }
           } else {
-            order->extra = EXTRA_NONE;
+            order->sub_target = EXTRA_NONE;
           }
         } else {
           /* In pre-2.6 savegames, base_list and road_list were only saved
@@ -4272,7 +4272,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                          NULL, NULL));
             }
 
-            order->extra
+            order->sub_target
               = extra_number(base_extra_get(base_by_number(base_id)));
           } else if (road_unitstr && road_unitstr[j] != '?'
                      && order->activity == ACTIVITY_GEN_ROAD) {
@@ -4284,19 +4284,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
               road_id = 0;
             }
 
-            order->extra
+            order->sub_target
               = extra_number(road_extra_get(road_by_number(road_id)));
           } else {
-            order->extra = EXTRA_NONE;
+            order->sub_target = EXTRA_NONE;
           }
 
           if (order->activity == ACTIVITY_OLD_ROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->extra
+            order->sub_target
               = extra_number(road_extra_get(road_by_number(road_idx)));
           } else if (order->activity == ACTIVITY_OLD_RAILROAD) {
             order->activity = ACTIVITY_GEN_ROAD;
-            order->extra
+            order->sub_target
               = extra_number(road_extra_get(road_by_number(rail_idx)));
           }
         }

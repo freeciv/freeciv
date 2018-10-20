@@ -4706,20 +4706,20 @@ void handle_unit_orders(struct player *pplayer,
         }
         break;
       case ACTIVITY_BASE:
-        if (!is_extra_caused_by(extra_by_number(packet->extra[i]), EC_BASE)) {
+        if (!is_extra_caused_by(extra_by_number(packet->sub_target[i]), EC_BASE)) {
           log_error("handle_unit_orders() %s isn't a base. "
                     "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->extra[i])), i,
+                    extra_rule_name(extra_by_number(packet->sub_target[i])), i,
                     player_name(pplayer), packet->unit_id);
 
           return;
         }
         break;
       case ACTIVITY_GEN_ROAD:
-        if (!is_extra_caused_by(extra_by_number(packet->extra[i]), EC_ROAD)) {
+        if (!is_extra_caused_by(extra_by_number(packet->sub_target[i]), EC_ROAD)) {
           log_error("handle_unit_orders() %s isn't a road. "
                     "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->extra[i])), i,
+                    extra_rule_name(extra_by_number(packet->sub_target[i])), i,
                     player_name(pplayer), packet->unit_id);
 
           return;
@@ -4748,7 +4748,7 @@ void handle_unit_orders(struct player *pplayer,
         return;
       }
 
-      if (packet->extra[i] == EXTRA_NONE
+      if (packet->sub_target[i] == EXTRA_NONE
           && unit_activity_needs_target_from_client(packet->activity[i])) {
         /* The orders system can't do server side target assignment for
          * this activity. */
@@ -4943,7 +4943,6 @@ void handle_unit_orders(struct player *pplayer,
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
     punit->orders.list[i].sub_target = packet->sub_target[i];
-    punit->orders.list[i].extra = packet->extra[i];
     punit->orders.list[i].action = packet->action[i];
   }
 
@@ -4957,14 +4956,14 @@ void handle_unit_orders(struct player *pplayer,
 #ifdef FREECIV_DEBUG
   log_debug("Orders for unit %d: length:%d", packet->unit_id, length);
   for (i = 0; i < length; i++) {
-    log_debug("  %d,%s,%s,%d,%d",
+    log_debug("  %d,%s,%s,%d",
               packet->orders[i], dir_get_name(packet->dir[i]),
               packet->orders[i] == ORDER_PERFORM_ACTION ?
                 action_id_rule_name(packet->action[i]) :
                 packet->orders[i] == ORDER_ACTIVITY ?
                   unit_activity_name(packet->activity[i]) :
                   "no action/activity required",
-              packet->sub_target[i], packet->extra[i]);
+              packet->sub_target[i]);
   }
 #endif /* FREECIV_DEBUG */
 

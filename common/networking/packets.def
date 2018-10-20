@@ -990,7 +990,6 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
   ACTION_SUB_TGT orders_sub_targets[MAX_LEN_ROUTE:orders_length];
-  EXTRA orders_extras[MAX_LEN_ROUTE:orders_length];
   ACTION_ID orders_actions[MAX_LEN_ROUTE:orders_length];
 
   ACTION_DECISION action_decision_want;
@@ -1043,7 +1042,6 @@ PACKET_UNIT_ORDERS = 73; cs
   DIRECTION dir[MAX_LEN_ROUTE:length];
   ACTIVITY activity[MAX_LEN_ROUTE:length];
   ACTION_SUB_TGT sub_target[MAX_LEN_ROUTE:length];
-  EXTRA extra[MAX_LEN_ROUTE:length];
   ACTION_ID action[MAX_LEN_ROUTE:length];
   TILE dest_tile;
 end

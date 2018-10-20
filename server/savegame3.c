@@ -5467,7 +5467,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       for (j = 0; j < len; j++) {
         struct unit_order *order = &punit->orders.list[j];
         int order_sub_tgt;
-        int order_extra;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
             || action_unitstr[j] == '\0'
@@ -5513,12 +5512,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order_sub_tgt = secfile_lookup_int_default(loading->file, -1,
                                                    "%s.sub_tgt_vec,%d",
                                                    unitstr, j);
-        order_extra = secfile_lookup_int_default(loading->file, -1,
-                                                 "%s.sub_tgt_vec,%d",
-                                                 unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
-          order->extra = EXTRA_NONE;
           switch ((enum gen_action)order->action) {
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
@@ -5532,8 +5527,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
             } else {
               order->sub_target = order_sub_tgt;
             }
-            /* Reset building loaded to extra. */
-            order_extra = EXTRA_NONE;
             break;
           case ACTION_SPY_TARGETED_STEAL_TECH:
           case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
@@ -5547,8 +5540,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
             } else {
               order->sub_target = order_sub_tgt;
             }
-            /* Reset tech loaded to extra. */
-            order_extra = EXTRA_NONE;
             break;
           case ACTION_ESTABLISH_EMBASSY:
           case ACTION_ESTABLISH_EMBASSY_STAY:
@@ -5593,12 +5584,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_COUNT:
             /* Sub target in order unsupported. */
 
-            /* None of these can take an extra. */
-            fc_assert_msg(order_extra == EXTRA_NONE,
-                          "Specified extra for action %d unsupported.",
-                          order->action);
-            order_extra = EXTRA_NONE;
-
             /* Sub target shouldn't be specified yet. */
             fc_assert_msg(order_sub_tgt == -1,
                           "Specified sub target for action %d unsupported.",
@@ -5609,15 +5594,15 @@ static bool sg_load_player_unit(struct loaddata *loading,
             break;
           }
         } else {
-          if (order_extra < 0 || order_extra >= loading->extra.size) {
-            if (order_extra != EXTRA_NONE) {
+          if (order_sub_tgt < 0 || order_sub_tgt >= loading->extra.size) {
+            if (order_sub_tgt != EXTRA_NONE) {
               log_sg("Cannot find extra %d for %s to build",
-                     order_extra, unit_rule_name(punit));
+                     order_sub_tgt, unit_rule_name(punit));
             }
 
-            order->extra = EXTRA_NONE;
+            order->sub_target = EXTRA_NONE;
           } else {
-            order->extra = order_extra;
+            order->sub_target = order_sub_tgt;
           }
         }
       }
@@ -5856,7 +5841,7 @@ static void sg_save_player_units(struct savedata *saving,
           dir_buf[j] = dir2char(punit->orders.list[j].dir);
           break;
         case ORDER_ACTIVITY:
-          sub_tgt_vec[j] = punit->orders.list[j].extra;
+          sub_tgt_vec[j] = punit->orders.list[j].sub_target;
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
         case ORDER_PERFORM_ACTION:

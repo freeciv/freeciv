@@ -2520,7 +2520,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
       packet->orders_sub_targets[i] = punit->orders.list[i].sub_target;
-      packet->orders_extras[i] = punit->orders.list[i].extra;
       packet->orders_actions[i] = punit->orders.list[i].action;
     }
   } else {
@@ -4163,9 +4162,9 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_ACTIVITY:
       activity = order.activity;
       {
-        struct extra_type *pextra = (order.extra == EXTRA_NONE ?
+        struct extra_type *pextra = (order.sub_target == EXTRA_NONE ?
                                        NULL :
-                                       extra_by_number(order.extra));
+                                       extra_by_number(order.sub_target));
 
         if (pextra == NULL && activity_requires_target(order.activity)) {
           /* Try to find a target extra before giving up this order or, if
