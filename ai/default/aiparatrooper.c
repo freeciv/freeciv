@@ -220,8 +220,7 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 
     if (ptile_dest) {
       if (unit_perform_action(unit_owner(punit),
-                              punit->id, tile_index(ptile_dest),
-                              EXTRA_NONE, 0, "",
+                              punit->id, tile_index(ptile_dest), 0, "",
                               ACTION_PARADROP, ACT_REQ_PLAYER)) {
 	/* successfull! */
         if (NULL == game_unit_by_number(sanity)) {

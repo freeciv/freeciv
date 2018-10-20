@@ -249,10 +249,8 @@ static void pillage_callback(GtkWidget *w, gpointer data)
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                args->actor_unit_id,
-                                args->target_tile_id, args->value,
-                                0, "", ACTION_PILLAGE);
+    request_do_action(ACTION_PILLAGE, args->actor_unit_id,
+                      args->target_tile_id, args->value, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -269,10 +267,8 @@ static void road_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
       && NULL != extra_by_number(args->value)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                args->actor_unit_id,
-                                args->target_tile_id, args->value,
-                                0, "", ACTION_ROAD);
+    request_do_action(ACTION_ROAD, args->actor_unit_id,
+                      args->target_tile_id, args->value, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -289,10 +285,8 @@ static void base_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
       && NULL != extra_by_number(args->value)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                args->actor_unit_id,
-                                args->target_tile_id, args->value,
-                                0, "", ACTION_BASE);
+    request_do_action(ACTION_BASE, args->actor_unit_id,
+                      args->target_tile_id, args->value, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -309,10 +303,8 @@ static void mine_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
       && NULL != extra_by_number(args->value)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                args->actor_unit_id,
-                                args->target_tile_id, args->value,
-                                0, "", ACTION_MINE);
+    request_do_action(ACTION_MINE, args->actor_unit_id,
+                      args->target_tile_id, args->value, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);
@@ -329,10 +321,8 @@ static void irrigate_callback(GtkWidget *w, gpointer data)
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
       && NULL != extra_by_number(args->value)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                args->actor_unit_id,
-                                args->target_tile_id, args->value,
-                                0, "", ACTION_IRRIGATE);
+    request_do_action(ACTION_IRRIGATE, args->actor_unit_id,
+                      args->target_tile_id, args->value, "");
   }
 
   gtk_widget_destroy(act_sel_dialog);

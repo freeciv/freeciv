@@ -389,7 +389,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
              nation_rule_name(nation_of_unit(punit)),                      \
              unit_rule_name(punit), punit->id, city_name_get(ctarget));    \
     unit_do_action(pplayer, punit->id,                                     \
-                   ctarget->id, EXTRA_NONE, my_val, "", my_act);           \
+                   ctarget->id, my_val, "", my_act);                       \
     return;                                                                \
   }
 
@@ -780,7 +780,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
                                  ACTION_SPY_BRIBE_UNIT,
                                  pvictim))) {
       unit_do_action(pplayer, punit->id,
-                     pvictim->id, EXTRA_NONE, -1, "",
+                     pvictim->id, -1, "",
                      ACTION_SPY_BRIBE_UNIT);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {
@@ -794,7 +794,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
                && threat) {
       /* don't stand around waiting for the final blow */
       unit_do_action(pplayer, punit->id,
-                     pvictim->id, EXTRA_NONE, -1, "",
+                     pvictim->id, -1, "",
                      ACTION_SPY_SABOTAGE_UNIT_ESC);
       /* autoattack might kill us as we move in */
       if (game_unit_by_number(sanity) && punit->moves_left > 0) {

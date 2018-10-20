@@ -2399,14 +2399,13 @@ static void pillage(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id,
-                                /* FIXME: will cause problems if more than
-                                 * one action selection dialog at a time
-                                 * becomes supported. */
-                                action_selection_target_extra(),
-                                0, "", ACTION_PILLAGE);
+    request_do_action(ACTION_PILLAGE,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
   }
 }
 
@@ -2421,14 +2420,13 @@ static void road(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)
       && NULL != extra_by_number(action_selection_target_extra())) {
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id,
-                                /* FIXME: will cause problems if more than
-                                 * one action selection dialog at a time
-                                 * becomes supported. */
-                                action_selection_target_extra(),
-                                0, "", ACTION_ROAD);
+    request_do_action(ACTION_ROAD,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
   }
 }
 
@@ -2443,14 +2441,13 @@ static void base(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)
       && NULL != extra_by_number(action_selection_target_extra())) {
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id,
-                                /* FIXME: will cause problems if more than
-                                 * one action selection dialog at a time
-                                 * becomes supported. */
-                                action_selection_target_extra(),
-                                0, "", ACTION_BASE);
+    request_do_action(ACTION_BASE,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
   }
 }
 
@@ -2465,14 +2462,13 @@ static void mine(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)
       && NULL != extra_by_number(action_selection_target_extra())) {
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id,
-                                /* FIXME: will cause problems if more than
-                                 * one action selection dialog at a time
-                                 * becomes supported. */
-                                action_selection_target_extra(),
-                                0, "", ACTION_MINE);
+    request_do_action(ACTION_MINE,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
   }
 }
 
@@ -2487,14 +2483,13 @@ static void irrigate(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)
       && NULL != extra_by_number(action_selection_target_extra())) {
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id,
-                                /* FIXME: will cause problems if more than
-                                 * one action selection dialog at a time
-                                 * becomes supported. */
-                                action_selection_target_extra(),
-                                0, "", ACTION_IRRIGATE);
+    request_do_action(ACTION_IRRIGATE,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
   }
 }
 

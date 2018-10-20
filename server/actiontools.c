@@ -944,7 +944,7 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 #define perform_action_to(act, actor, tgtid, tgt_extra)                   \
   if (unit_perform_action(unit_owner(actor),                              \
                           actor->id, tgtid, tgt_extra,                    \
-                          0, NULL, act, ACT_REQ_RULES)) {                 \
+                          NULL, act, ACT_REQ_RULES)) {                    \
     return action_by_number(act);                                         \
   }
 

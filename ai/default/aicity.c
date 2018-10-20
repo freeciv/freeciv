@@ -408,7 +408,7 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
                    cost,
                    military ? "military" : "civilian");
           unit_do_action(city_owner(pcity), punit->id,
-                         pcity->id, EXTRA_NONE, 0, "",
+                         pcity->id, 0, "",
                          ACTION_UPGRADE_UNIT);
         } else {
           increase_maxbuycost(pplayer, cost);
@@ -442,7 +442,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     if (tgt_city
         && is_action_enabled_unit_on_city(ACTION_HELP_WONDER,
                                           punit, tgt_city)) {
-      if (unit_perform_action(owner, punit->id, tgt_city->id, EXTRA_NONE,
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
                               0, NULL, ACTION_HELP_WONDER, requester)) {
         /* No shields wasted. The unit did Help Wonder. */
         return;
@@ -466,7 +466,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
     if (tgt_city
         && is_action_enabled_unit_on_city(ACTION_RECYCLE_UNIT,
                                           punit, tgt_city)) {
-      if (unit_perform_action(owner, punit->id, tgt_city->id, EXTRA_NONE,
+      if (unit_perform_action(owner, punit->id, tgt_city->id,
                               0, NULL, ACTION_RECYCLE_UNIT, requester)) {
         /* The unit did Recycle Unit. 50% of the shields wasted. */
         return;
@@ -482,7 +482,7 @@ static void unit_do_disband_trad(struct player *owner, struct unit *punit,
   /* Try to disband even if all shields will be wasted. */
   if (unit_can_do_action(punit, ACTION_DISBAND_UNIT)) {
     if (is_action_enabled_unit_on_self(ACTION_DISBAND_UNIT, punit)) {
-      if (unit_perform_action(owner, punit->id, punit->id, EXTRA_NONE,
+      if (unit_perform_action(owner, punit->id, punit->id,
                               0, NULL, ACTION_DISBAND_UNIT, requester)) {
         /* All shields wasted. The unit did Disband Unit. */
         return;

@@ -90,11 +90,9 @@ struct unit_adv {
 struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
-  /* Only valid for ORDER_PERFORM_ACTION. Validity and meaning depends on
-   * 'action' (building, tech, ...) */
+  /* Valid for ORDER_ACTIVITY and ORDER_PERFORM_ACTION. Validity and meaning
+   * depends on 'action' (building, extra, tech, ...) */
   int sub_target;
-  /* Valid for ORDER_ACTIVITY and ORDER_PERFORM_ACTION */
-  int extra;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
   /* Valid for ORDER_MOVE, ORDER_ACTION_MOVE and ORDER_PERFORM_ACTION. */

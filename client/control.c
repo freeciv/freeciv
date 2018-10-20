@@ -1521,7 +1521,6 @@ void request_unit_return(struct unit *punit)
       order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_SENTRY;
       order.sub_target = -1;
-      order.extra = EXTRA_NONE;
       order.action = ACTION_NONE;
       send_goto_path(punit, path, &order);
     } else {
@@ -1651,18 +1650,17 @@ void request_unit_select(struct unit_list *punits,
   - action    : The action to be requested.
   - actor_id  : The unit ID of the actor unit.
   - target_id : The ID of the target unit, city or tile.
-  - sub_tgt   : For ACTION_SPY_TARGETED_STEAL_TECH,
-                ACTION_SPY_TARGETED_STEAL_TECH_ESC,
-                ACTION_SPY_TARGETED_SABOTAGE_CITY or
-                ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC, the technology or
-                building to aim for.
+  - sub_tgt   : The sub target. Only some actions take a sub target. The
+                sub target kind depends on the action. Example sub targets
+                are the technology to steal from a city, the extra to
+                pillage at a tile and the building to sabotage in a city.
   - name      : Used by ACTION_FOUND_CITY to specify city name.
 **************************************************************************/
 void request_do_action(action_id action, int actor_id,
                        int target_id, int sub_tgt, const char *name)
 {
   dsend_packet_unit_do_action(&client.conn,
-                              actor_id, target_id, EXTRA_NONE, sub_tgt, name,
+                              actor_id, target_id, sub_tgt, name,
                               action);
 }
 
@@ -1738,7 +1736,6 @@ void request_unit_non_action_move(struct unit *punit,
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
   p.sub_target[0] = -1;
-  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
@@ -1791,7 +1788,6 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.dir[0] = dir;
   p.activity[0] = ACTIVITY_LAST;
   p.sub_target[0] = -1;
-  p.extra[0] = EXTRA_NONE;
   p.action[0] = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);

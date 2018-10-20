@@ -2525,7 +2525,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
       packet->orders_dirs[i] = punit->orders.list[i].dir;
       packet->orders_activities[i] = punit->orders.list[i].activity;
       packet->orders_sub_targets[i] = punit->orders.list[i].sub_target;
-      packet->orders_extras[i] = punit->orders.list[i].extra;
       packet->orders_actions[i] = punit->orders.list[i].action;
     }
   } else {
@@ -4123,9 +4122,9 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       || action_id_exists(order.action)),
                      continue);
 
-    pextra = (order.extra == EXTRA_NONE ?
+    pextra = (order.sub_target == EXTRA_NONE ?
                 NULL :
-                extra_by_number(order.extra));
+                extra_by_number(order.sub_target));
 
     switch (order.order) {
     case ORDER_MOVE:
@@ -4436,7 +4435,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      order.extra,
                                       order.sub_target,
                                       name,
                                       order.action,

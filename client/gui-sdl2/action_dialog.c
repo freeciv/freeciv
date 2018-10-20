@@ -1312,10 +1312,8 @@ static int pillage_callback(struct widget *pWidget)
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
     popdown_diplomat_dialog();
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id, sub_target_id,
-                                0, "", ACTION_PILLAGE);
+    request_do_action(ACTION_PILLAGE, actor_id,
+                      target_id, sub_target_id, "");
   }
 
   return -1;
@@ -1332,10 +1330,8 @@ static int road_callback(struct widget *pWidget)
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
     popdown_diplomat_dialog();
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id, sub_target_id,
-                                0, "", ACTION_ROAD);
+    request_do_action(ACTION_ROAD, actor_id,
+                      target_id, sub_target_id, "");
   }
 
   return -1;
@@ -1352,10 +1348,8 @@ static int base_callback(struct widget *pWidget)
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
     popdown_diplomat_dialog();
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id, sub_target_id,
-                                0, "", ACTION_BASE);
+    request_do_action(ACTION_BASE, actor_id,
+                      target_id, sub_target_id, "");
   }
 
   return -1;
@@ -1372,10 +1366,8 @@ static int mine_callback(struct widget *pWidget)
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
     popdown_diplomat_dialog();
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id, sub_target_id,
-                                0, "", ACTION_MINE);
+    request_do_action(ACTION_MINE, actor_id,
+                      target_id, sub_target_id, "");
   }
 
   return -1;
@@ -1392,10 +1384,8 @@ static int irrigate_callback(struct widget *pWidget)
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
     popdown_diplomat_dialog();
-    dsend_packet_unit_do_action(&client.conn,
-                                actor_id,
-                                target_id, sub_target_id,
-                                0, "", ACTION_IRRIGATE);
+    request_do_action(ACTION_IRRIGATE, actor_id,
+                      target_id, sub_target_id, "");
   }
 
   return -1;

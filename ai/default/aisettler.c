@@ -1251,7 +1251,7 @@ static bool dai_do_build_city(struct ai_type *ait, struct player *pplayer,
               player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
-  unit_do_action(pplayer, punit->id, ptile->index, EXTRA_NONE,
+  unit_do_action(pplayer, punit->id, ptile->index,
                  0, city_name_suggestion(pplayer, ptile),
                  ACTION_FOUND_CITY);
   pcity = tile_city(ptile);
