@@ -7,9 +7,9 @@
 
 MAJOR_VERSION="2"
 MINOR_VERSION="94"
-PATCH_VERSION="91"
+PATCH_VERSION="92"
 EMERGENCY_VERSION=""
-VERSION_LABEL="-alpha1+"
+VERSION_LABEL="-alpha2"
 
 # 1) Development until MAJOR and MINOR version numbers are
 #    set to new release series:
