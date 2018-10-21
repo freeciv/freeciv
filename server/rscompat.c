@@ -406,14 +406,6 @@ void rscompat_postprocess(struct rscompat_info *info)
 
   if (info->ver_units < 10) {
     unit_type_iterate(ptype) {
-      if (utype_has_flag(ptype, UTYF_SETTLERS)) {
-        int flag;
-
-        flag = unit_type_flag_id_by_name("Infra", fc_strcasecmp);
-        fc_assert(unit_type_flag_id_is_valid(flag));
-        BV_SET(ptype->flags, flag);
-      }
-
       if (utype_can_do_action(ptype, ACTION_SPY_INVESTIGATE_CITY)
           || utype_can_do_action(ptype, ACTION_INV_CITY_SPEND)
           || utype_can_do_action(ptype, ACTION_SPY_POISON)
