@@ -3353,12 +3353,16 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *extra_name = secfile_lookup_str(file, "%s.extra", section);
       struct extra_type *pextra = extra_type_by_rule_name(extra_name);
 
-      if (!is_extra_caused_by(pextra, EC_RESOURCE)) {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" resource section [%s]: extra \"%s\" does not "
-                      "have \"Resource\" in its causes",
-                      filename, section, extra_name);
-        ok = FALSE;
+      if (pextra != NULL) {
+        if (!is_extra_caused_by(pextra, EC_RESOURCE)) {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" resource section [%s]: extra \"%s\" does not "
+                        "have \"Resource\" in its causes",
+                        filename, section, extra_name);
+          ok = FALSE;
+        }
+      } else {
+        fc_assert(compat->compat_mode);
       }
     }
   }
