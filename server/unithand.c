@@ -2373,9 +2373,19 @@ bool unit_perform_action(struct player *pplayer,
   } else {
     target_extra = NULL;
   }
-  /* FIXME: Validate that an extra target is there when expected. */
 
   paction = action_by_number(action_type);
+
+  if (action_get_activity(paction) != ACTIVITY_LAST
+      && unit_activity_needs_target_from_client(
+           action_get_activity(paction))
+      && target_extra == NULL) {
+    /* Missing required action extra target. */
+    log_verbose("unit_perform_action() action %d requires action "
+                "but extra id %d is invalid.",
+                action_type, sub_tgt_id);
+    return FALSE;
+  }
 
   if (NULL == actor_unit) {
     /* Probably died or bribed. */
