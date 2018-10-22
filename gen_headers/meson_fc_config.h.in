@@ -1,7 +1,6 @@
 
 #include "freeciv_config.h"
-
-#define VERSION_STRING "@VERSION_STRING@"
+#include "version_gen.h"
 
 #define LOCALEDIR "@LOCALEDIR@"
 

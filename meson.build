@@ -4,7 +4,6 @@ project('freeciv', 'c', meson_version: '>= 0.36.0')
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
 
-priv_conf_data.set('VERSION_STRING', '3.0.91-dev')
 pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('LOCALEDIR',
                    join_paths(get_option('prefix'),
@@ -26,6 +25,10 @@ c_compiler = meson.get_compiler('c')
 
 inc = include_directories('dependencies/lua-5.3/src', 'dependencies/tolua-5.2/include',
   'utility', 'common', 'common/networking')
+
+verhdr = custom_target('verhdr', output: 'version_gen.h',
+              command: [files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
+              depend_files: files('fc_version'))
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
@@ -89,6 +92,7 @@ fc_deps = static_library('fc_dependencies',
   'dependencies/tolua-5.2/src/lib/tolua_to.c',
   'dependencies/luasql/src/luasql.c',
   'dependencies/luasql/src/ls_sqlite3.c',
+  sources: verhdr,
   include_directories : inc
   )
 
