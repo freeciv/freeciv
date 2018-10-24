@@ -28,26 +28,27 @@ inc = include_directories('dependencies/lua-5.3/src', 'dependencies/tolua-5.2/in
   'common/aicore')
 
 verhdr = custom_target('verhdr', output: 'version_gen.h',
-              command: [files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
+              command: ['sh', files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
               depend_files: files('fc_version'))
 
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
-                         command: [files('utility/generate_specenum.py'), '@OUTPUT@'])
+                         command: ['python', files('utility/generate_specenum.py'),
+                                   '@OUTPUT@'])
 
 pack_common = custom_target('packets_common', output: ['packets_gen.h',
                                                        'packets_gen.c'],
-                            command: [files('common/generate_packets.py'),
+                            command: ['python', files('common/generate_packets.py'),
                                       '@OUTPUT0@', '@OUTPUT1@', '', '', '', ''],
                             depend_files: files('common/networking/packets.def'))
 
 pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c'],
-                            command: [files('common/generate_packets.py'),
+                            command: ['python', files('common/generate_packets.py'),
                                       '', '', '', '', '@OUTPUT0@', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
 pack_client = custom_target('packets_client', output: ['packhand_gen',
                                                        'packhand_gen.c'],
-                            command: [files('common/generate_packets.py'),
+                            command: ['python', files('common/generate_packets.py'),
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
                             depend_files: files('common/networking/packets.def'))
 
