@@ -1,6 +1,12 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3|qt> <GTK+2|GTK+3|Qt> <win32|win64|win>
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk2|gtk3|gtk3.22|qt> <GTK+2|GTK+3|Qt> <win32|win64|win> [mp gui]
+
+if test "x$6" != "x" ; then
+  MPGUI_ID="$6"
+else
+  MPGUI_ID="$3"
+fi
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -11,6 +17,7 @@ SetCompressor /SOLID lzma
 !define APPNAME "Freeciv"
 !define VERSION $2
 !define GUI_ID $3
+!define MPGUI_ID $MPGUI_ID
 !define GUI_NAME $4
 !define WIN_ARCH $5
 !define APPID "\${APPNAME}-\${VERSION}-\${GUI_ID}"
@@ -107,7 +114,7 @@ cat <<EOF
   CreateDirectory "\$SMPROGRAMS\\\$STARTMENU_FOLDER"
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv.lnk" "\$INSTDIR\freeciv-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
   CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Server.lnk" "\$INSTDIR\freeciv-server.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-server.exe" 0 SW_SHOWMINIMIZED
-  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${GUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${GUI_ID}.exe" 0 SW_SHOWMINIMIZED
+  CreateShortCut "\$SMPROGRAMS\\\$STARTMENU_FOLDER\Freeciv Modpack Installer.lnk" "\$INSTDIR\freeciv-mp-\${MPGUI_ID}.cmd" "\$DefaultLanguageCode" "\$INSTDIR\freeciv-mp-\${MPGUI_ID}.exe" 0 SW_SHOWMINIMIZED
 EOF
 
 if test "x$3" = "xqt" ; then
