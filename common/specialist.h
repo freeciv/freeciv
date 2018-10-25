@@ -30,7 +30,7 @@ struct specialist {
   int item_number;
   struct name_translation name;
   struct name_translation abbreviation;
-  bool disabled;
+  bool ruledit_disabled;
 
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -80,12 +80,12 @@ void specialists_free(void);
   }                                                                         \
 }
 
-#define specialist_active_type_iterate(_p)                                  \
+#define specialist_type_re_active_iterate(_p)                               \
   specialist_type_iterate(_p##_) {                                          \
     struct specialist *_p = specialist_by_number(_p##_);                    \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define specialist_active_type_iterate_end                                  \
+#define specialist_type_re_active_iterate_end                               \
     }                                                                       \
   } specialist_type_iterate_end;
 

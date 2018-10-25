@@ -848,12 +848,12 @@ struct extra_type *action_tgt_tile_extra(const struct unit *actor,
                                          const struct tile *target_tile,
                                          bool accept_all_actions)
 {
-  extra_active_type_iterate(target) {
+  extra_type_re_active_iterate(target) {
     if (may_unit_act_vs_tile_extra(actor, target_tile, target,
                                    accept_all_actions)) {
       return target;
     }
-  } extra_active_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
   return NULL;
 }

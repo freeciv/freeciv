@@ -114,7 +114,7 @@ void tab_extras::refresh()
   extra_list->clear();
 
   extra_type_iterate(pextra) {
-    if (!pextra->disabled) {
+    if (!pextra->ruledit_disabled) {
       QListWidgetItem *item =
         new QListWidgetItem(QString::fromUtf8(extra_rule_name(pextra)));
 
@@ -170,7 +170,7 @@ void tab_extras::name_given()
 {
   if (selected != nullptr) {
     extra_type_iterate(pextra) {
-      if (pextra != selected && !pextra->disabled) {
+      if (pextra != selected && !pextra->ruledit_disabled) {
         if (!strcmp(extra_rule_name(pextra), rname->text().toUtf8().data())) {
           ui->display_msg(R__("An extra with that rule name already exists!"));
           return;
@@ -202,7 +202,7 @@ void tab_extras::delete_now()
       return;
     }
 
-    selected->disabled = true;
+    selected->ruledit_disabled = true;
 
     refresh();
     update_extra_info(nullptr);
@@ -232,9 +232,9 @@ void tab_extras::add_now()
 
   // Try to reuse freed extra slot
   extra_type_iterate(pextra) {
-    if (pextra->disabled) {
+    if (pextra->ruledit_disabled) {
       if (initialize_new_extra(pextra)) {
-        pextra->disabled = false;
+        pextra->ruledit_disabled = false;
         update_extra_info(pextra);
         refresh();
       }

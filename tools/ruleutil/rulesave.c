@@ -387,8 +387,8 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
   comment_buildings(sfile);
 
   sect_idx = 0;
-  improvement_active_iterate(pb) {
-    if (!pb->disabled) {
+  improvement_re_active_iterate(pb) {
+    if (!pb->ruledit_disabled) {
       char path[512];
       const char *flag_names[IF_COUNT];
       int set_count;
@@ -435,7 +435,7 @@ static bool save_buildings_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, pb->helptext, path, "helptext");
     }
-  } improvement_active_iterate_end;
+  } improvement_re_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -456,13 +456,13 @@ static bool save_styles_ruleset(const char *filename, const char *name)
   comment_styles(sfile);
 
   sect_idx = 0;
-  styles_active_iterate(pstyle) {
+  styles_re_active_iterate(pstyle) {
     char path[512];
 
     fc_snprintf(path, sizeof(path), "style_%d", sect_idx++);
 
     save_name_translation(sfile, &(pstyle->name), path);
-  } styles_active_iterate_end;
+  } styles_re_active_iterate_end;
 
   comment_citystyles(sfile);
 
@@ -1265,7 +1265,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   comment_goods(sfile);
 
   sect_idx = 0;
-  goods_active_type_iterate(pgood) {
+  goods_type_re_active_iterate(pgood) {
     char path[512];
     const char *flag_names[GF_COUNT];
     int flagi;
@@ -1293,7 +1293,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
     }
 
     save_strvec(sfile, pgood->helptext, path, "helptext");
-  } goods_active_type_iterate_end;
+  } goods_type_re_active_iterate_end;
 
   /* Clauses */
   comment_clauses(sfile);
@@ -1385,7 +1385,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
   comment_govs(sfile);
 
   sect_idx = 0;
-  governments_active_iterate(pg) {
+  governments_re_active_iterate(pg) {
     char path[512];
     struct ruler_title *prtitle;
 
@@ -1423,13 +1423,13 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, pg->helptext, path, "helptext");
 
-  } governments_active_iterate_end;
+  } governments_re_active_iterate_end;
 
   comment_policies(sfile);
 
   sect_idx = 0;
   multipliers_iterate(pmul) {
-    if (!pmul->disabled) {
+    if (!pmul->ruledit_disabled) {
       char path[512];
 
       fc_snprintf(path, sizeof(path), "multiplier_%d", sect_idx++);
@@ -1845,7 +1845,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
   comment_techs(sfile);
 
   sect_idx = 0;
-  advance_active_iterate(pa) {
+  advance_re_active_iterate(pa) {
     if (pa->require[AR_ONE] != A_NEVER) {
       char path[512];
       const char *flag_names[TF_COUNT];
@@ -1898,7 +1898,7 @@ static bool save_techs_ruleset(const char *filename, const char *name)
       save_strvec(sfile, pa->helptext, path, "helptext");
     }
 
-  } advance_active_iterate_end;
+  } advance_re_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }
@@ -2139,7 +2139,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_RESOURCE, pres) {
-    if (!pres->disabled) {
+    if (!pres->ruledit_disabled) {
       char path[512];
       char identifier[2];
 
@@ -2169,7 +2169,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
   comment_extras(sfile);
 
   sect_idx = 0;
-  extra_active_type_iterate(pextra) {
+  extra_type_re_active_iterate(pextra) {
     char path[512];
     const char *flag_names[EF_COUNT];
     const char *cause_names[EC_COUNT];
@@ -2330,13 +2330,13 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, pextra->helptext, path, "helptext");
 
-  } extra_active_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
   comment_bases(sfile);
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_BASE, pextra) {
-    if (!pextra->disabled) {
+    if (!pextra->ruledit_disabled) {
       char path[512];
       struct base_type *pbase = extra_base_get(pextra);
       const char *flag_names[BF_COUNT];
@@ -2382,7 +2382,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
 
   sect_idx = 0;
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
-    if (!pextra->disabled) {
+    if (!pextra->ruledit_disabled) {
       struct road_type *proad = extra_road_get(pextra);
       char path[512];
       const char *flag_names[RF_COUNT];
@@ -2567,7 +2567,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
   comment_uclasses(sfile);
 
   sect_idx = 0;
-  unit_active_class_iterate(puc) {
+  unit_class_re_active_iterate(puc) {
     char path[512];
     char *hut_str = NULL;
     const char *flag_names[UCF_COUNT];
@@ -2615,13 +2615,13 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
     save_strvec(sfile, puc->helptext, path, "helptext");
 
-  } unit_active_class_iterate_end;
+  } unit_class_re_active_iterate_end;
 
   comment_utypes(sfile);
 
   sect_idx = 0;
-  unit_active_type_iterate(put) {
-    if (!put->disabled) {
+  unit_type_re_active_iterate(put) {
+    if (!put->ruledit_disabled) {
       char path[512];
       const char *flag_names[UTYF_LAST_USER_FLAG + 1];
       int flagi;
@@ -2759,7 +2759,7 @@ static bool save_units_ruleset(const char *filename, const char *name)
 
       save_strvec(sfile, put->helptext, path, "helptext");
     }
-  } unit_active_type_iterate_end;
+  } unit_type_re_active_iterate_end;
 
   return save_ruleset_file(sfile, filename);
 }

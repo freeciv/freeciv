@@ -52,7 +52,7 @@ struct ruler_title;     /* Opaque type. */
 struct government {
   Government_type_id item_number;
   struct name_translation name;
-  bool disabled;
+  bool ruledit_disabled;
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
@@ -120,11 +120,11 @@ struct iterator *government_iter_init(struct government_iter *it);
                   NAME_pgov, government_iter_sizeof, government_iter_init)
 #define governments_iterate_end generic_iterate_end
 
-#define governments_active_iterate(_p)                                  \
+#define governments_re_active_iterate(_p)                               \
   governments_iterate(_p) {                                             \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define governments_active_iterate_end                                  \
+#define governments_re_active_iterate_end                               \
     }                                                                   \
   } governments_iterate_end;
 

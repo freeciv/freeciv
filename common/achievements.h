@@ -26,7 +26,7 @@ struct achievement
 {
   int id;
   struct name_translation name;
-  bool disabled;
+  bool ruledit_disabled;
   enum achievement_type type;
   int value;
   bool unique;
@@ -71,11 +71,11 @@ bool achievement_claimed(const struct achievement *pach);
   }                                                          \
 }
 
-#define achievements_active_iterate(_p)                      \
+#define achievements_re_active_iterate(_p)                   \
   achievements_iterate(_p) {                                 \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define achievements_active_iterate_end                      \
+#define achievements_re_active_iterate_end                   \
     }                                                        \
   } achievements_iterate_end;
 

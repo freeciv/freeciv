@@ -1804,7 +1804,7 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
     /* Start with the extras at the tile */
     potential_targets = *tile_extras(tgt_tile);
 
-    extra_active_type_iterate(pextra) {
+    extra_type_re_active_iterate(pextra) {
       if (BV_ISSET(potential_targets, extra_number(pextra))) {
         /* This extra is at the tile. Can anything be done to it? */
         if (!(is_extra_removed_by(pextra, ERM_PILLAGE)
@@ -1826,7 +1826,7 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
           BV_SET(potential_targets, extra_number(pextra));
         }
       }
-    } extra_active_type_iterate_end;
+    } extra_type_re_active_iterate_end;
 
     select_tgt_extra(act_unit, tgt_tile, potential_targets, tgt_extra,
                      /* TRANS: GTK action selection dialog extra target

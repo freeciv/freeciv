@@ -169,7 +169,7 @@ struct goods_type
 {
   int id;
   struct name_translation name;
-  bool disabled; /* Does not really exist - hole in goods array */
+  bool ruledit_disabled; /* Does not really exist - hole in goods array */
 
   struct requirement_vector reqs;
 
@@ -213,11 +213,11 @@ bool city_receives_goods(const struct city *pcity,
   }                                                  \
 }
 
-#define goods_active_type_iterate(_p)                         \
+#define goods_type_re_active_iterate(_p)                      \
   goods_type_iterate(_p) {                                    \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define goods_active_type_iterate_end                         \
+#define goods_type_re_active_iterate_end                      \
     }                                                         \
   } goods_type_iterate_end;
 

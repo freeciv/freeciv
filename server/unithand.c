@@ -2369,7 +2369,7 @@ bool unit_perform_action(struct player *pplayer,
   if (sub_tgt_id >= 0 && sub_tgt_id < MAX_EXTRA_TYPES
       && sub_tgt_id != EXTRA_NONE) {
     target_extra = extra_by_number(sub_tgt_id);
-    fc_assert(!(target_extra->disabled));
+    fc_assert(!(target_extra->ruledit_disabled));
   } else {
     target_extra = NULL;
   }
@@ -4974,7 +4974,7 @@ void handle_unit_orders(struct player *pplayer,
         if (packet->sub_target[i] == EXTRA_NONE
             || (packet->sub_target[i] < 0
                 || packet->sub_target[i] >= game.control.num_extra_types)
-            || extra_by_number(packet->sub_target[i])->disabled) {
+            || extra_by_number(packet->sub_target[i])->ruledit_disabled) {
           /* Target extra is invalid. */
 
           log_error("handle_unit_orders() can't do %s without a target. "

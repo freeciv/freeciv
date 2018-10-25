@@ -68,7 +68,7 @@ BV_DEFINE(bv_imprs, B_LAST);
 struct impr_type {
   Impr_type_id item_number;
   struct name_translation name;
-  bool disabled;                        /* Does not really exist - hole in improvements array */
+  bool ruledit_disabled;                /* Does not really exist - hole in improvements array */
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;
@@ -205,11 +205,11 @@ const struct impr_type *improvement_array_last(void);
   }									\
 }
 
-#define improvement_active_iterate(_p)                                  \
+#define improvement_re_active_iterate(_p)                               \
   improvement_iterate(_p) {                                             \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define improvement_active_iterate_end                                  \
+#define improvement_re_active_iterate_end                               \
     }                                                                   \
   } improvement_iterate_end;
 

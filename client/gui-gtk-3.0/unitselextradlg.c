@@ -165,7 +165,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   box = gtk_grid_new();
 
   tcount = 0;
-  extra_active_type_iterate(ptgt) {
+  extra_type_re_active_iterate(ptgt) {
     GdkPixbuf *tubuf;
 
     if (!BV_ISSET(potential_tgt_extras, extra_number(ptgt))) {
@@ -214,7 +214,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
     gtk_grid_attach(GTK_GRID(box), lbl, 2, tcount, 1, 1);
 
     tcount++;
-  } extra_active_type_iterate_end;
+  } extra_type_re_active_iterate_end;
   gtk_container_add(GTK_CONTAINER(main_box), box);
 
   fc_assert_ret_val(default_option, FALSE);

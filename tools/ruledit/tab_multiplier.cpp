@@ -110,7 +110,7 @@ void tab_multiplier::refresh()
   mpr_list->clear();
 
   multipliers_iterate(pmul) {
-    if (!pmul->disabled) {
+    if (!pmul->ruledit_disabled) {
       QListWidgetItem *item =
         new QListWidgetItem(QString::fromUtf8(multiplier_rule_name(pmul)));
 
@@ -166,7 +166,7 @@ void tab_multiplier::name_given()
 {
   if (selected != nullptr) {
     multipliers_iterate(pmul) {
-      if (pmul != selected && !pmul->disabled) {
+      if (pmul != selected && !pmul->ruledit_disabled) {
         if (!strcmp(multiplier_rule_name(pmul), rname->text().toUtf8().data())) {
           ui->display_msg(R__("A multiplier with that rule name already exists!"));
           return;
@@ -198,7 +198,7 @@ void tab_multiplier::delete_now()
       return;
     }
 
-    selected->disabled = true;
+    selected->ruledit_disabled = true;
 
     refresh();
     update_multiplier_info(nullptr);
@@ -228,9 +228,9 @@ void tab_multiplier::add_now()
 
   // Try to reuse freed multiplier slot
   multipliers_iterate(pmul) {
-    if (pmul->disabled) {
+    if (pmul->ruledit_disabled) {
       if (initialize_new_multiplier(pmul)) {
-        pmul->disabled = false;
+        pmul->ruledit_disabled = false;
         update_multiplier_info(pmul);
         refresh();
       }

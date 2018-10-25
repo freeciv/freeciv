@@ -254,63 +254,63 @@ void tab_misc::refresh_stats()
   int road_count;
 
   count = 0;
-  terrain_active_iterate(pterr) {
+  terrain_re_active_iterate(pterr) {
     count++;
-  } terrain_active_iterate_end;
+  } terrain_re_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   stats->item(row++, 1)->setText(QString::number(game.control.num_resource_types));
 
   count = 0;
-  tech_class_active_iterate(ptclass) {
+  tech_class_re_active_iterate(ptclass) {
     count++;
-  } tech_class_active_iterate_end;
+  } tech_class_re_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   count = 0;
-  advance_active_iterate(padv) {
+  advance_re_active_iterate(padv) {
     count++;
-  } advance_active_iterate_end;
+  } advance_re_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   count = 0;
-  unit_active_class_iterate(pclass) {
+  unit_class_re_active_iterate(pclass) {
     count++;
-  } unit_active_class_iterate_end;
+  } unit_class_re_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   count = 0;
-  unit_active_type_iterate(ptype) {
+  unit_type_re_active_iterate(ptype) {
     count++;
-  } unit_active_type_iterate_end;
+  } unit_type_re_active_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   // Second column
   row = 0;
   count = 0;
-  improvement_active_iterate(pimpr) {
+  improvement_re_active_iterate(pimpr) {
     count++;
-  } improvement_active_iterate_end;
+  } improvement_re_active_iterate_end;
   stats->item(row++, 4)->setText(QString::number(count));
 
   stats->item(row++, 4)->setText(QString::number(game.control.nation_count));
 
   count = 0;
-  styles_active_iterate(pstyle) {
+  styles_re_active_iterate(pstyle) {
     count++;
-  } styles_active_iterate_end;
+  } styles_re_active_iterate_end;
   stats->item(row++, 4)->setText(QString::number(count));
 
   count = 0;
-  specialist_active_type_iterate(pspe) {
+  specialist_type_re_active_iterate(pspe) {
     count++;
-  } specialist_active_type_iterate_end;
+  } specialist_type_re_active_iterate_end;
   stats->item(row++, 4)->setText(QString::number(count));
 
   count = 0;
-  governments_active_iterate(pgov) {
+  governments_re_active_iterate(pgov) {
     count++;
-  } governments_active_iterate_end;
+  } governments_re_active_iterate_end;
   stats->item(row++, 4)->setText(QString::number(count));
 
   stats->item(row++, 4)->setText(QString::number(game.control.num_disaster_types));
@@ -319,15 +319,15 @@ void tab_misc::refresh_stats()
   row = 0;
 
   count = 0;
-  achievements_active_iterate(pach) {
+  achievements_re_active_iterate(pach) {
     count++;
-  } achievements_active_iterate_end;
+  } achievements_re_active_iterate_end;
   stats->item(row++, 7)->setText(QString::number(count));
 
   count = 0;
   base_count = 0;
   road_count = 0;
-  extra_active_type_iterate(pextra) {
+  extra_type_re_active_iterate(pextra) {
     count++;
     if (is_extra_caused_by(pextra, EC_BASE)) {
       base_count++;
@@ -335,21 +335,21 @@ void tab_misc::refresh_stats()
     if (is_extra_caused_by(pextra, EC_ROAD)) {
       road_count++;
     }
-  } extra_active_type_iterate_end;
+  } extra_type_re_active_iterate_end;
   stats->item(row++, 7)->setText(QString::number(count));
   stats->item(row++, 7)->setText(QString::number(base_count));
   stats->item(row++, 7)->setText(QString::number(road_count));
 
   count = 0;
-  goods_active_type_iterate(pg) {
+  goods_type_re_active_iterate(pg) {
     count++;
-  } goods_active_type_iterate_end;
+  } goods_type_re_active_iterate_end;
   stats->item(row++, 7)->setText(QString::number(count));
 
   count = 0;
-  multipliers_active_iterate(pmul) {
+  multipliers_re_active_iterate(pmul) {
     count++;
-  } multipliers_active_iterate_end;
+  } multipliers_re_active_iterate_end;
   stats->item(row++, 7)->setText(QString::number(count));
 
   stats->resizeColumnsToContents();

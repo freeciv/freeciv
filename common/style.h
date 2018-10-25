@@ -22,7 +22,7 @@ struct nation_style
 {
   int id;
   struct name_translation name;
-  bool disabled;
+  bool ruledit_disabled;
 };
 
 struct music_style
@@ -53,11 +53,11 @@ struct nation_style *style_by_rule_name(const char *name);
   }                                                      \
 }
 
-#define styles_active_iterate(_p)                         \
+#define styles_re_active_iterate(_p)                      \
   styles_iterate(_p) {                                    \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define styles_active_iterate_end                         \
+#define styles_re_active_iterate_end                      \
     }                                                     \
   } styles_iterate_end;
 

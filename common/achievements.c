@@ -43,7 +43,7 @@ void achievements_init(void)
 
   for (i = 0; i < ARRAY_SIZE(achievements); i++) {
     achievements[i].id = i;
-    achievements[i].disabled = FALSE;
+    achievements[i].ruledit_disabled = FALSE;
     achievements[i].first = NULL;
     achievements[i].value = 0;
     achievements[i].culture = 0;

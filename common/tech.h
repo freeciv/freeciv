@@ -117,7 +117,7 @@ enum tech_req {
 struct tech_class {
   int idx;
   struct name_translation name;
-  bool disabled;
+  bool ruledit_disabled;
   int cost_pct;
 };
 
@@ -190,11 +190,11 @@ struct tech_class *tech_class_by_rule_name(const char *name);
   }                                               \
 }
 
-#define tech_class_active_iterate(_p)                                  \
+#define tech_class_re_active_iterate(_p)                               \
   tech_class_iterate(_p) {                                             \
-    if (!_p->disabled) {
+    if (!_p->ruledit_disabled) {
 
-#define tech_class_active_iterate_end                                  \
+#define tech_class_re_active_iterate_end                               \
     }                                                                  \
   } tech_class_iterate_end;
 
@@ -248,11 +248,11 @@ const struct advance *advance_array_last(void);
   }									\
 }
 
-#define advance_active_iterate(_p)                                      \
+#define advance_re_active_iterate(_p)                                    \
   advance_iterate(A_FIRST, _p) {                                         \
     if (_p->require[AR_ONE] != A_NEVER) {
 
-#define advance_active_iterate_end                                      \
+#define advance_re_active_iterate_end                                   \
     }                                                                   \
   } advance_iterate_end;
 

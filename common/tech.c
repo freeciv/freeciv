@@ -303,7 +303,7 @@ void tech_classes_init(void)
 
   for (i = 0; i < MAX_NUM_TECH_CLASSES; i++) {
     tech_classes[i].idx = i;
-    tech_classes[i].disabled = FALSE;
+    tech_classes[i].ruledit_disabled = FALSE;
   }
 }
 
