@@ -91,7 +91,8 @@ struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
   /* Valid for ORDER_ACTIVITY and ORDER_PERFORM_ACTION. Validity and meaning
-   * depends on 'action' (building, extra, tech, ...) */
+   * depends on 'action' or 'activity'. The meaning can be building, extra,
+   * tech, ... */
   int sub_target;
   /* Only valid for ORDER_PERFORM_ACTION */
   int action;
