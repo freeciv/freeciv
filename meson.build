@@ -11,6 +11,65 @@ priv_conf_data.set('LOCALEDIR',
 pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 priv_conf_data.set('DATASUBDIR', 'dev')
 
+c_compiler = meson.get_compiler('c')
+
+pub_headers = [
+  'locale.h',
+  'libintl.h',
+  'inttypes.h',
+  'stdint.h',
+  'ws2tcpip.h',
+  'sys/types.h',
+  'unistd.h',
+  'sys/time.h',
+  'sys/socket.h',
+  'sys/select.h',
+  'netinet/in.h',
+  'dirent.h',
+  'stdbool.h'
+  ]
+
+priv_headers = [
+  'arpa/inet.h',
+  'bzlib.h',
+  'direct.h',
+  'dlfcn.h',
+  'execinfo.h',
+  'fcntl.h',
+  'libcharset.h',
+  'libgen.h',
+  'lzma.h',
+  'memory.h',
+  'netdb.h',
+  'pwd.h',
+  'signal.h',
+  'stdlib.h',
+  'strings.h',
+  'string.h',
+  'sys/file.h',
+  'sys/ioctl.h',
+  'sys/signal.h',
+  'sys/stat.h',
+  'sys/termio.h',
+  'sys/uio.h',
+  'sys/utsname.h',
+  'sys/wait.h',
+  'termios.h',
+  'vfork.h'
+  ]
+
+foreach hdr : pub_headers
+  if c_compiler.has_header(hdr)
+    pub_conf_data.set('FREECIV_HAVE_' + hdr.underscorify().to_upper(), 1)
+  endif
+endforeach
+
+foreach hdr : priv_headers
+  if c_compiler.has_header(hdr)
+    priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
+  endif
+endforeach
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
@@ -20,8 +79,6 @@ configure_file(input : 'gen_headers/meson_freeciv_config.h.in',
 
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
-
-c_compiler = meson.get_compiler('c')
 
 common_inc = include_directories('dependencies/lua-5.3/src',
   'dependencies/tolua-5.2/include',

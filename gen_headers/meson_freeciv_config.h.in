@@ -26,39 +26,57 @@
 /* Has thread condition variable implementation */
 #define FREECIV_HAVE_THREAD_COND
 
-/* sys/socket.h available */
-#define FREECIV_HAVE_SYS_SOCKET_H
-
 /* Max number of AI modules */
 #define FREECIV_AI_MOD_LAST @FREECIV_AI_MOD_LAST@
 
 /* Have socklen_t type defined */
 #define FREECIV_HAVE_SOCKLEN_T
 
-/* netinet/in.h available */
-#define FREECIV_HAVE_NETINET_IN_H
-
 /* Location for freeciv to store its information */
 #define FREECIV_STORAGE_DIR "@FREECIV_STORAGE_DIR@"
 
 #define FREECIV_META_URL "http://meta.freeciv.org/metaserver.php"
 
-/* unistd.h available */
-#define FREECIV_HAVE_UNISTD_H
-
-/* dirent.h available */
-#define FREECIV_HAVE_DIRENT_H
-
-/* sys/types.h available */
-#define FREECIV_HAVE_SYS_TYPES_H
-
-/* sys/select.h available */
-#define FREECIV_HAVE_SYS_SELECT_H
-
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT
 
+/* locale.h available */
+#mesondefine FREECIV_HAVE_LOCALE_H
+
+/* libintl.h available */
+#mesondefine FREECIV_HAVE_LIBINTL_H
+
 /* inttypes.h available */
-#define FREECIV_HAVE_INTTYPES_H
+#mesondefine FREECIV_HAVE_INTTYPES_H
+
+/* stdint.h available */
+#mesondefine FREECIV_HAVE_STDINT_H
+
+/* ws2tcpip.h available */
+#mesondefine FREECIV_HAVE_WS2TCPIP_H
+
+/* sys/types.h available */
+#mesondefine FREECIV_HAVE_SYS_TYPES_H
+
+/* unistd.h available */
+#mesondefine FREECIV_HAVE_UNISTD_H
+
+/* sys/time.h available */
+#mesondefine FREECIV_HAVE_SYS_TIME_H
+
+/* sys/socket.h available */
+#mesondefine FREECIV_HAVE_SYS_SOCKET_H
+
+/* sys/select.h available */
+#mesondefine FREECIV_HAVE_SYS_SELECT_H
+
+/* netinet/in.h available */
+#mesondefine FREECIV_HAVE_NETINET_IN_H
+
+/* dirent.h available */
+#mesondefine FREECIV_HAVE_DIRENT_H
+
+/* stdbool.h available */
+#mesondefine FREECIV_HAVE_STDBOOL_H
 
 #endif /* FC__FREECIV_CONFIG_H */
