@@ -30,6 +30,7 @@
 #include "climap.h"
 #include "control.h"
 #include "mapctrl.h"
+#include "themes_common.h"
 #include "tile.h"
 #include "unit.h"
 
@@ -334,8 +335,7 @@ void map_view::shortcut_pressed(int key)
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_THEME);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
-      qtg_gui_load_theme(QString().toLocal8Bit().data(),
-                         gui_options.gui_qt_default_theme_name);
+      load_theme(gui_options.gui_qt_default_theme_name);
       return;
     }
 
