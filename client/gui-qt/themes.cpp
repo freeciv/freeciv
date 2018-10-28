@@ -107,11 +107,12 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void qtg_gui_clear_theme()
 {
-  QString name, str;
-
-  str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
-  name = fileinfoname(get_data_dirs(), str.toLocal8Bit().data());
-  qtg_gui_load_theme(name.toLocal8Bit().data(), FC_QT_DEFAULT_THEME_NAME);
+  if (!load_theme(gui_options.gui_qt_default_theme_name)) {
+    /* TRANS: No full stop after the URL, could cause confusion. */
+    log_fatal(_("No Qt-client theme was found. For instructions on how to "
+                "get one, please visit %s"), WIKI_URL);
+    exit(EXIT_FAILURE);
+  }
 }
 
 /*************************************************************************//**
@@ -122,22 +123,21 @@ void qtg_gui_clear_theme()
 *****************************************************************************/
 char **qtg_get_gui_specific_themes_directories(int *count)
 {
-  char **array;
-  char *persistent;
-  const char *data_dir;
-  size_t ddname_len;
+  const struct strvec *data_dirs = get_data_dirs();
+  char **directories = (char **)fc_malloc(strvec_size(data_dirs)
+                                          * sizeof(char *));
+  int i = 0;
 
-  *count = 1;
-  /* array is deleted in C client code and shouln't
-     be allocated with new[] */
-  array = static_cast<char **>(fc_malloc((*count) * sizeof(char *)));
-  data_dir = fileinfoname(get_data_dirs(),
-                          "themes" DIR_SEPARATOR "gui-qt");
-  ddname_len = strlen(data_dir) + 1;
-  persistent = static_cast<char*>(fc_malloc(ddname_len));
-  strncpy(persistent, data_dir, ddname_len);
-  array[0] = persistent;
-  return array;
+  *count = strvec_size(data_dirs);
+  strvec_iterate(data_dirs, data_dir) {
+    char buf[strlen(data_dir) + strlen("/themes/gui-qt") + 1];
+
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-qt", data_dir);
+
+    directories[i++] = fc_strdup(buf);
+  } strvec_iterate_end;
+
+  return directories;
 }
 
 /*************************************************************************//**
