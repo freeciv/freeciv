@@ -500,3 +500,12 @@ executable('freeciv-ruleup',
   include_directories: tool_inc,
   dependencies: [c_compiler.find_library('m')]
   )
+
+executable('freeciv-manual',
+  'tools/civmanual.c',
+  'client/helpdata.c',
+  link_with: [common_lib, server_lib, tool_lib, ais],
+  include_directories: [tool_inc,
+                        include_directories('client', 'client/include')],
+  dependencies: [c_compiler.find_library('m')]
+  )
