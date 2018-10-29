@@ -79,6 +79,8 @@ using MSYS2 from http://msys2.github.io
 
 2.1.2.1.2) Arch-specific optional packages for building common parts
  - mingw-w64-i686-drmingw / mingw-w64-x86_64-drmingw
+ - mingw-w64-i686-meson / mingw-w64-x86_64-meson
+ - mingw-w64-i686-tolua / mingw-w64-x86_64-tolua
 
 2.1.2.2) Arch-specific packages for building gtk3-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
@@ -111,9 +113,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-180624.7z, based on
+msys2-freeciv-win64-181027.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20180531.exe
-with packages updated to 24-Jun-2018 level.
+with packages updated to 27-Oct-2018 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
@@ -147,6 +149,8 @@ Following packages have been installed:
 - mingw-w64-<arch>-imagemagick
 - mingw-w64-<arch>-qt5
 - mingw-w64-<arch>-drmingw
+- mingw-w64-<arch>-meson
+- mingw-w64-<arch>-tolua
 
 
  Build
