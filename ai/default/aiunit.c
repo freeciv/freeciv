@@ -3006,7 +3006,8 @@ static void update_simple_ai_types(void)
 
     if (A_NEVER != punittype->require_advance
         && !utype_has_flag(punittype, UTYF_CIVILIAN)
-        && !uclass_has_flag(pclass, UCF_MISSILE)
+        && !utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                        punittype)
         && !(pclass->adv.land_move == MOVE_NONE
              && !can_attack_non_native(punittype))
         && !utype_fuel(punittype)
@@ -3061,21 +3062,21 @@ void dai_units_ruleset_init(struct ai_type *ait)
     if (punittype->transport_capacity > 0) {
       struct unit_type_ai *utai = utype_ai_data(punittype, ait);
 
-      unit_class_iterate(pcargo) {
+      unit_type_iterate(pctype) {
+        struct unit_class *pcargo = utype_class(pctype);
+
         if (can_unit_type_transport(punittype, pcargo)) {
-          if (uclass_has_flag(pcargo, UCF_MISSILE)) {
+          if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                          pctype)) {
             utai->missile_platform = TRUE;
           } else if (pclass->adv.sea_move != MOVE_NONE
               && pcargo->adv.land_move != MOVE_NONE) {
             if (pcargo->adv.sea_move != MOVE_FULL) {
               utai->ferry = TRUE;
             } else {
-              unit_type_iterate(pctype) {
-                if (utype_class(pctype) == pcargo
-                    && 0 != utype_fuel(pctype)) {
-                  utai->ferry = TRUE;
-                }
-              } unit_type_iterate_end;
+              if (0 != utype_fuel(pctype)) {
+                utai->ferry = TRUE;
+              }
             }
           }
 
@@ -3083,7 +3084,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
             utai->carries_occupiers = TRUE;
           }
         }
-      } unit_class_iterate_end;
+      } unit_type_iterate_end;
     }
 
     /* Consider potential charges */
