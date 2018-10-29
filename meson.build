@@ -107,7 +107,7 @@ pack_server = custom_target('packets_server', output: ['hand_gen.h', 'hand_gen.c
                                       '', '', '', '', '@OUTPUT0@', '@OUTPUT1@'],
                             depend_files: files('common/networking/packets.def'))
 
-pack_client = custom_target('packets_client', output: ['packhand_gen',
+pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                                                        'packhand_gen.c'],
                             command: ['python', files('common/generate_packets.py'),
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
