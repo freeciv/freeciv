@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,10 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define NETWORK_CAPSTRING (NETWORK_CAPSTRING_MANDATORY " "	\
-			   NETWORK_CAPSTRING_OPTIONAL)
-
-extern const char * const our_capability;
+extern const char *const our_capability;
 
 void init_our_capability(void);
 
