@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#include <signal.h>
+
 #ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
@@ -43,6 +45,7 @@
 
 static char *rs_selected = NULL;
 static char *od_selected = NULL;
+static int fatal_assertions = -1;
 
 /**********************************************************************//**
   Parse freeciv-ruleup commandline parameters.
@@ -59,6 +62,12 @@ static void rup_parse_cmdline(int argc, char *argv[])
 
       cmdhelp_add(help, "h", "help",
                   _("Print a summary of the options"));
+#ifndef FREECIV_NDEBUG
+      cmdhelp_add(help, "F",
+                  /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                  _("Fatal [SIGNAL]"),
+                  _("Raise a signal on failed assertion"));
+#endif /* FREECIV_NDEBUG */
       cmdhelp_add(help, "r",
                   /* TRANS: "ruleset" is exactly what user must type, do not translate. */
                   _("ruleset RULESET"),
@@ -90,6 +99,19 @@ static void rup_parse_cmdline(int argc, char *argv[])
       } else {
 	od_selected = option;
       }
+#ifndef FREECIV_NDEBUG
+    } else if (is_option("--Fatal", argv[i])) {
+      if (i + 1 >= argc || '-' == argv[i + 1][0]) {
+        fatal_assertions = SIGABRT;
+      } else if (str_to_int(argv[i + 1], &fatal_assertions)) {
+        i++;
+      } else {
+        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+                   argv[i + 1]);
+        fc_fprintf(stderr, _("Try using --help.\n"));
+        exit(EXIT_FAILURE);
+      }
+#endif /* FREECIV_NDEBUG */
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       cmdline_option_values_free();
@@ -131,7 +153,9 @@ int main(int argc, char **argv)
   registry_module_init();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
 
-  log_init(NULL, loglevel, NULL, NULL, -1);
+  rup_parse_cmdline(argc, argv);
+  
+  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
   init_connections();
 
@@ -142,8 +166,6 @@ int main(int argc, char **argv)
 
   /* Initialize the fc_interface functions needed to understand rules. */
   fc_interface_init_tool();
-
-  rup_parse_cmdline(argc, argv);
 
   /* Set ruleset user requested to use */
   if (rs_selected == NULL) {
