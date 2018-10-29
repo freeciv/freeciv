@@ -215,7 +215,8 @@ static void count_my_units(struct player *pplayer)
     if (unit_has_type_flag(punit, UTYF_COAST_STRICT)) {
       adv->stats.units.coast_strict++;
     }
-    if (uclass_has_flag(pclass, UCF_MISSILE)) {
+    if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                    unit_type_get(punit))) {
       adv->stats.units.missiles++;
     }
     if (unit_can_do_action(punit, ACTION_PARADROP)) {
@@ -342,7 +343,8 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If our enemy builds missiles, worry about missile defence. */
-      if (uclass_has_flag(unit_class_get(punit), UCF_MISSILE)
+      if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                      unit_type_get(punit))
           && unit_type_get(punit)->attack_strength > 1) {
         adv->threats.missile = TRUE;
       }

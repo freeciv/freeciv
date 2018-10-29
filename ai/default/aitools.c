@@ -742,7 +742,8 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
           && def_ai_unit_data(missile, ait)->task != AIUNIT_ESCORT
           && !unit_transported(missile)
           && unit_owner(missile) == unit_owner(punit)
-          && uclass_has_flag(unit_class_get(missile), UCF_MISSILE)
+          && utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                         unit_type_get(missile))
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
         dai_unit_new_task(ait, missile, AIUNIT_ESCORT, unit_tile(target));
