@@ -91,6 +91,8 @@ server_inc = [common_inc, include_directories('server', 'server/advisors',
 client_inc = [common_inc, include_directories('client', 'client/include',
               'client/luascript', 'client/agents')]
 
+tool_inc = [server_inc, include_directories('tools/ruleutil', 'tools/shared')]
+
 verhdr = custom_target('verhdr', output: 'version_gen.h',
               command: ['sh', files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
               depend_files: files('fc_version'))
@@ -346,7 +348,7 @@ ais = static_library('fc_ai',
   include_directories: [server_inc, include_directories('ai/default')]
   )
 
-executable('freeciv-server',
+server_lib = static_library('libfc_server',
   'ai/aitraits.c',
   'ai/difficulty.c',
   'ai/handicaps.c',
@@ -386,7 +388,6 @@ executable('freeciv-server',
   'server/cityhand.c',
   'server/citytools.c',
   'server/cityturn.c',
-  'server/civserver.c',
   'server/commands.c',
   'server/connecthand.c',
   'server/console.c',
@@ -424,8 +425,13 @@ executable('freeciv-server',
   include_directories: server_inc,
   sources: [ pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
-                           'server/scripting/tolua_server.pkg')],
-  link_with: [common_lib, ais],
+                           'server/scripting/tolua_server.pkg')]
+  )
+
+executable('freeciv-server',
+  'server/civserver.c',
+  include_directories: server_inc,
+  link_with: [server_lib, common_lib, ais],
   dependencies: [c_compiler.find_library('m')]
   )
 
@@ -479,4 +485,18 @@ client_common = static_library('fc_client_common',
   link_with: [common_lib],
   dependencies: [c_compiler.find_library('m'),
                  c_compiler.find_library('libSDL2_mixer')]
+  )
+
+tool_lib = static_library('libfc_toolutil',
+  'tools/ruleutil/comments.c',
+  'tools/ruleutil/rulesave.c',
+  'tools/shared/tools_fc_interface.c',
+  include_directories: server_inc
+  )
+
+executable('freeciv-ruleup',
+  'tools/ruleup.c',
+  link_with: [common_lib, server_lib, tool_lib, ais],
+  include_directories: tool_inc,
+  dependencies: [c_compiler.find_library('m')]
   )
