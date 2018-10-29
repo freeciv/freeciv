@@ -14,10 +14,12 @@ ifeq ($(WINARCH),win64)
 ARCHDIR=mingw64
 LIBGCCDLL=libgcc_s_seh-1.dll
 GCCDLL=gcc_s-seh-1.dll
+CRYPTOLIB_SUFFIX=-x64
 else
 ARCHDIR=mingw32
 LIBGCCDLL=libgcc_s_dw2-1.dll
 GCCDLL=gcc_s-1.dll
+CRYPTOLIB_SUFFIX=
 endif
 
 ifeq ($(MIN_WIN_VER),)
@@ -151,7 +153,7 @@ SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
 	libFLAC-8.dll \
-	libfluidsynth-1.dll \
+	libfluidsynth-2.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
 	libvorbisenc-2.dll \
@@ -164,8 +166,9 @@ SOUND_DLLS := \
 
 COMMON_DLLS := \
 	libstdc++-6.dll \
-	libeay32.dll \
-	ssleay32.dll \
+	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libpsl-5.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libssh2-1.dll \
@@ -199,8 +202,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc61.dll \
-	libicudt61.dll \
+	libicuuc62.dll \
+	libicudt62.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -220,6 +223,8 @@ DEFAULT_FCMP_DLLS := \
 	libepoxy-0.dll \
 	libgraphite2.dll \
 	libpangoft2-1.0-0.dll \
+	libthai-0.dll \
+	libdatrie-1.dll \
 	libpcre-1.dll \
 	libunistring-2.dll \
 	librsvg-2-2.dll \
@@ -275,9 +280,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin61.dll \
-	libicuuc61.dll \
-	libicudt61.dll \
+	libicuin62.dll \
+	libicuuc62.dll \
+	libicudt62.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
@@ -301,8 +306,9 @@ install-env-qt: install-env-common
 
 RULEDIT_DLLS := \
         libstdc++-6.dll \
-	libeay32.dll \
-	ssleay32.dll \
+	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libpsl-5.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
 	libidn2-0.dll \
 	libnghttp2-14.dll \
 	libssh2-1.dll \
