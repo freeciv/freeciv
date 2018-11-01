@@ -3966,10 +3966,15 @@ void city_production_delegate::paint(QPainter *painter,
 
     if ((utype_fuel(target->value.utype)
          && !uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)
-        && !uclass_has_flag(pclass, UCF_CAN_PILLAGE)
-        && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
-        && !uclass_has_flag(pclass, UCF_ZOC))
-        || uclass_has_flag(pclass, UCF_MISSILE)) {
+         && !uclass_has_flag(pclass, UCF_CAN_PILLAGE)
+         && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
+         && !uclass_has_flag(pclass, UCF_ZOC))
+        /* FIXME: Assumed to be flying since only missiles can do suicide
+         * attacks in classic-like rulesets. This isn't true for all
+         * rulesets. Not a high priority to fix since all is_flying and
+         * is_sea is used for is to set a color. */
+        || utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                       target->value.utype)) {
       if (is_sea == true) {
         is_sea = false;
       }
