@@ -4680,6 +4680,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_BOMBARD:
       case ACTION_NUKE:
       case ACTION_ATTACK:
+      case ACTION_SUICIDE_ATTACK:
       case ACTION_CONQUER_CITY:
         /* An attack. */
         if (attack_action == ACTION_NONE) {

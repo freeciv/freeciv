@@ -742,8 +742,8 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
           && def_ai_unit_data(missile, ait)->task != AIUNIT_ESCORT
           && !unit_transported(missile)
           && unit_owner(missile) == unit_owner(punit)
-          && utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                         unit_type_get(missile))
+          && utype_can_do_action(unit_type_get(missile),
+                                 ACTION_SUICIDE_ATTACK)
           && can_unit_load(missile, punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
         dai_unit_new_task(ait, missile, AIUNIT_ESCORT, unit_tile(target));
@@ -867,6 +867,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose regular attack. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_ATTACK);
+  } else if (is_action_enabled_unit_on_units(ACTION_SUICIDE_ATTACK,
+                                             punit, ptile)) {
+    /* Choose suicide attack (explode missile). */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_SUICIDE_ATTACK);
   } else if ((tcity = tile_city(ptile))
              && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
                                                punit, tcity)) {

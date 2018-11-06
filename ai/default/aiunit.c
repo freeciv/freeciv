@@ -3006,8 +3006,7 @@ static void update_simple_ai_types(void)
 
     if (A_NEVER != punittype->require_advance
         && !utype_has_flag(punittype, UTYF_CIVILIAN)
-        && !utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                        punittype)
+        && !utype_can_do_action(punittype, ACTION_SUICIDE_ATTACK)
         && !(pclass->adv.land_move == MOVE_NONE
              && !can_attack_non_native(punittype))
         && !utype_fuel(punittype)
@@ -3066,8 +3065,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
         struct unit_class *pcargo = utype_class(pctype);
 
         if (can_unit_type_transport(punittype, pcargo)) {
-          if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                          pctype)) {
+          if (utype_can_do_action(pctype, ACTION_SUICIDE_ATTACK)) {
             utai->missile_platform = TRUE;
           } else if (pclass->adv.sea_move != MOVE_NONE
               && pcargo->adv.land_move != MOVE_NONE) {

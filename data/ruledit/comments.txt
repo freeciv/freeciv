@@ -480,7 +480,7 @@ utypes = "\
 ;                 setting is enabled.\n\
 ;\n\
 ; Following actions require extra fields:\n\
-;  \"Attack\"\n\
+;  \"Attack\" and \"Suicide Attack\"\n\
 ;   attack = base attack strength\n\
 ;  \"Bombard\"\n\
 ;   attack       = base attack strength\n\

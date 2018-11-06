@@ -1426,6 +1426,23 @@ static int attack_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Suicide Attack"
+**************************************************************************/
+static int suicide_attack_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_SUICIDE_ATTACK,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Paradrop Unit"
 **************************************************************************/
 static int paradrop_callback(struct widget *pWidget)
@@ -1660,6 +1677,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = nuke_callback,
   [ACTION_PARADROP] = paradrop_callback,
   [ACTION_ATTACK] = attack_callback,
+  [ACTION_SUICIDE_ATTACK] = suicide_attack_callback,
   [ACTION_TRANSFORM_TERRAIN] = transform_callback,
   [ACTION_IRRIGATE_TF] = irrig_tf_callback,
   [ACTION_MINE_TF] = mine_tf_callback,

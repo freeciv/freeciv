@@ -1275,6 +1275,7 @@ bool autoadjust_ruleset_data(void)
        * tile has no units remains hard coded. Kept "just in case" that
        * changes. */
       { ACTION_CONQUER_CITY, ACTION_ATTACK },
+      { ACTION_CONQUER_CITY, ACTION_SUICIDE_ATTACK },
     };
 
     int i;

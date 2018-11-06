@@ -323,6 +323,9 @@ ui_name_airlift_unit = _("%sAirlift to City%s")
 ; /* TRANS: _Attack (100% chance of success). */
 ui_name_attack = _("%sAttack%s")
 
+; /* TRANS: _Explode Missile (100% chance of success). */
+ui_name_suicide_attack = _("%sExplode Missile%s")
+
 ; /* TRANS: _Conquer City (100% chance of success). */
 ui_name_conquer_city = _("%sConquer City%s")
 
@@ -669,21 +672,23 @@ actor_reqs    =
 [actionenabler_attack_native]
 action = "Attack"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "NonMil",       "Local", FALSE
-      "MinMoveFrags", "1",            "Local", TRUE
-      "UnitState",    "OnNativeTile", "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
     }
 
 [actionenabler_attack_marines]
 action = "Attack"
 actor_reqs    =
-    { "type",         "name",    "range", "present"
-      "UnitFlag",     "NonMil",  "Local", FALSE
-      "MinMoveFrags", "1",       "Local", TRUE
-      "UnitFlag",     "Marines", "Local", TRUE
-      "DiplRel",      "War",     "Local", TRUE
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", FALSE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "UnitFlag",      "Marines", "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
     }
 
 [actionenabler_attack_att_from_non_native]
@@ -691,9 +696,20 @@ action = "Attack"
 actor_reqs    =
     { "type",          "name",             "range", "present"
       "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
       "MinMoveFrags",  "1",                "Local", TRUE
       "UnitClassFlag", "AttFromNonNative", "Local", TRUE
       "DiplRel",       "War",              "Local", TRUE
+    }
+
+[actionenabler_explode_missile]
+action = "Suicide Attack"
+actor_reqs    =
+    { "type",          "name",    "range", "present"
+      "UnitFlag",      "NonMil",  "Local", FALSE
+      "UnitClassFlag", "Missile", "Local", TRUE
+      "MinMoveFrags",  "1",       "Local", TRUE
+      "DiplRel",       "War",     "Local", TRUE
     }
 
 [actionenabler_conquer_city_native]

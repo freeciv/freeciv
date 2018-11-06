@@ -864,20 +864,7 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
 bool utype_is_consumed_by_action(const struct action *paction,
                                  const struct unit_type *utype)
 {
-  if (paction->actor_consuming_always) {
-    /* This action will always consume the unit no matter who it is. */
-    return TRUE;
-  }
-
-  /* FIXME: Since the actions listed below can be predicted to always
-   * consume the actor unit based on unit type alone they should probably
-   * be split in an actor consuming and a non actor consuming version. */
-  switch (paction->id) {
-  case ACTION_ATTACK:
-    return uclass_has_flag(utype->uclass, UCF_MISSILE);
-  default:
-    return FALSE;
-  }
+  return paction->actor_consuming_always;
 }
 
 /**********************************************************************//**
@@ -1681,7 +1668,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   for (j = n_with_role[role] - 1; j >= 0; j--) {
     u = with_role[role][j];
     if ((1 != utype_fuel(u)
-         || utype_is_consumed_by_action(action_by_number(ACTION_ATTACK), u))
+         || utype_can_do_action(u, ACTION_SUICIDE_ATTACK))
         && can_city_build_unit_now(pcity, u)) {
       /* Allow fuel == 1 units when pathfinding can handle them. */
       return u;

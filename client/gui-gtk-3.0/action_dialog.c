@@ -432,6 +432,23 @@ static void attack_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Suicide Attack" from the choice dialog
+**************************************************************************/
+static void suicide_attack_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
+    request_do_action(ACTION_SUICIDE_ATTACK, args->actor_unit_id,
+                      args->target_tile_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected join city from caravan dialog
 **************************************************************************/
 static void join_city_callback(GtkWidget *w, gpointer data)
@@ -1990,6 +2007,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_NUKE] = (GCallback)nuke_callback,
   [ACTION_PARADROP] = (GCallback)paradrop_callback,
   [ACTION_ATTACK] = (GCallback)attack_callback,
+  [ACTION_SUICIDE_ATTACK] = (GCallback)suicide_attack_callback,
   [ACTION_TRANSFORM_TERRAIN] = (GCallback)transform_callback,
   [ACTION_IRRIGATE_TF] = (GCallback)irrig_tf_callback,
   [ACTION_MINE_TF] = (GCallback)mine_tf_callback,

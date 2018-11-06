@@ -594,6 +594,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_BOMBARD:
   case ACTION_NUKE:
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     /* Target is tile or unit stack but a city (or unit) can block it. */
     if ((!action_id_has_result_safe(act, ACTION_NUKE)
          || unit_tile(actor) != target_tile)
@@ -975,6 +976,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     }
     break;
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     action_custom = unit_attack_units_at_tile_result(punit, target_tile);
     break;
   case ACTION_CONQUER_CITY:
@@ -1173,6 +1175,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
   } else if ((action_id_has_result_safe(act_id, ACTION_NUKE)
+              || action_id_has_result_safe(act_id, ACTION_SUICIDE_ATTACK)
               || action_id_has_result_safe(act_id, ACTION_ATTACK))
              && action_custom != ATT_OK) {
     switch (action_custom) {
@@ -2694,6 +2697,8 @@ bool unit_perform_action(struct player *pplayer,
                                            paction));
     break;
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
+    /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
     break;
@@ -5031,6 +5036,7 @@ void handle_unit_orders(struct player *pplayer,
       case ACTION_HOME_CITY:
       case ACTION_UPGRADE_UNIT:
       case ACTION_ATTACK:
+      case ACTION_SUICIDE_ATTACK:
       case ACTION_CONQUER_CITY:
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:

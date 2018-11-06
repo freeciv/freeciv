@@ -124,6 +124,7 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
 {
   /* 1. Can we attack _anything_ ? */
   if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
+        || utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)
         /* Needed because ACTION_NUKE uses this when evaluating its hard
          * requirements. */
         || utype_can_do_action(unit_type_get(punit), ACTION_NUKE))) {
@@ -138,6 +139,9 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
   /* 3. Can't attack with ground unit from ocean, except for marines */
   if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
       && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_ATTACK,
+                                       USP_NATIVE_TILE, FALSE)
+      && !utype_can_do_act_when_ustate(unit_type_get(punit),
+                                       ACTION_SUICIDE_ATTACK,
                                        USP_NATIVE_TILE, FALSE)) {
     return ATT_NONNATIVE_SRC;
   }

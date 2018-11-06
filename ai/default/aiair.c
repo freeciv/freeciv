@@ -149,8 +149,9 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   }
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
-  if (utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                  unit_type_get(punit))) {
+  if (utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)) {
+    /* Assume that the attack will be a suicide attack even if a regular
+     * attack may be legal. */
     victim_cost -= unit_build_shield_cost_base(punit);
   }
 
@@ -466,8 +467,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                     punittype)
+    if (!utype_can_do_action(punittype, ACTION_SUICIDE_ATTACK)
         && 1 == utype_fuel(punittype)) {
       continue;
     }

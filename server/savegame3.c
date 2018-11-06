@@ -5658,6 +5658,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_PARADROP:
           case ACTION_AIRLIFT:
           case ACTION_ATTACK:
+          case ACTION_SUICIDE_ATTACK:
           case ACTION_CONQUER_CITY:
           case ACTION_HEAL_UNIT:
           case ACTION_TRANSFORM_TERRAIN:

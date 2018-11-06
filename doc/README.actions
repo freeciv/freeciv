@@ -475,6 +475,30 @@ Actions done by a unit against all units at a tile
  * the actor must be on the tile next to the target.
  * the actor's attack must be above 0
  * the actor can't have the "NonMil" unit type flag (!)
+ * the actor can't have the "Missile" unit class flag (!)
+ * the actor must be native to the target tile unless it has the
+   "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
+   type flag.
+ * the target tile has no non enemy units. (!)
+ * the target tile has no non enemy city.
+ * one or all (unreachableprotects) non transported units at the target
+   tile must be reachable. A unit is reachable if any of the following is
+   true:
+   - it doesn't have the "Unreachable" unit class flag
+   - it is listed in the actor unit's targets
+   - it is in a city
+   - it is on a tile with a native Extra
+
+"Suicide Attack"
+ * UI name can be set using ui_name_suicide_attack
+ * spends the actor unit
+ * if force_capture_units is true "Capture Units" must be impossible
+ * if force_bombard is true "Bombard" must be impossible
+ * if force_explode_nuclear is true "Explode Nuclear" must be impossible
+ * the actor must be on the tile next to the target.
+ * the actor's attack must be above 0
+ * the actor can't have the "NonMil" unit type flag (!)
+ * the actor must have the "Missile" unit class flag (!)
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.

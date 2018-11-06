@@ -3973,8 +3973,8 @@ void city_production_delegate::paint(QPainter *painter,
          * attacks in classic-like rulesets. This isn't true for all
          * rulesets. Not a high priority to fix since all is_flying and
          * is_sea is used for is to set a color. */
-        || utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                       target->value.utype)) {
+        || utype_can_do_action(target->value.utype,
+                               ACTION_SUICIDE_ATTACK)) {
       if (is_sea == true) {
         is_sea = false;
       }

@@ -208,7 +208,8 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require a "
                           "target the actor is at war with.",
-                          ACTION_BOMBARD, ACTION_ATTACK, ACTION_NONE);
+                          ACTION_BOMBARD, ACTION_ATTACK,
+                          ACTION_SUICIDE_ATTACK, ACTION_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
    * out corner cases. */
@@ -272,7 +273,26 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require that "
                           "the actor doesn't have the NonMil utype flag.",
-                          ACTION_ATTACK, ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_ATTACK, ACTION_SUICIDE_ATTACK,
+                          ACTION_CONQUER_CITY, ACTION_NONE);
+
+  /* Why this is a hard requirement: Need to work out path finding corner
+   * case where a unit type can perform both "Attack" and "Suicide Attack".
+   * Preserve semantics of Missile unit class flag. */
+  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          UCF_MISSILE),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has the Missile uclass flag.",
+                          ACTION_SUICIDE_ATTACK, ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          UCF_MISSILE),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor doesn't have the Missile uclass flag.",
+                          ACTION_ATTACK, ACTION_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of
    * CanOccupyCity unit class flag. */
@@ -570,6 +590,15 @@ static void hard_code_actions(void)
                  ATK_UNITS,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                  1, 1, FALSE);
+  actions[ACTION_SUICIDE_ATTACK] =
+      action_new(ACTION_SUICIDE_ATTACK,
+                 /* FIXME: Target is actually City, each unit at the target
+                  * tile (Units) and, depending on the unreachable_protects
+                  * setting, each or any *non transported* unit at the
+                  * target tile. */
+                 ATK_UNITS,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 1, 1, TRUE);
   actions[ACTION_CONQUER_CITY] =
       action_new(ACTION_CONQUER_CITY, ATK_CITY,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
@@ -859,6 +888,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
 {
   switch (pact->id) {
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     return ABK_STANDARD;
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -1762,6 +1792,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
     break;
 
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     if (actor_unittype->attack_strength <= 0) {
       /* Reason: Can't attack without strength. */
       return FALSE;
@@ -1978,6 +2009,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
@@ -2457,6 +2489,7 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     /* Reason: Keep the old rules. */
     if (!can_unit_attack_tile(actor_unit, target_tile)) {
       return TRI_NO;
@@ -3637,6 +3670,7 @@ action_prob(const action_id wanted_action,
     /* TODO */
     break;
   case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
     {
       struct unit *defender_unit = get_defender(actor_unit, target_tile);
 
@@ -3955,12 +3989,13 @@ action_prob_vs_units_full(const struct unit* actor_unit,
   }
 
   if ((action_id_has_result_safe(act_id, ACTION_ATTACK)
+       || action_id_has_result_safe(act_id, ACTION_SUICIDE_ATTACK)
        || action_id_has_result_safe(act_id, ACTION_BOMBARD))
       && tile_city(target_tile) != NULL
       && !pplayers_at_war(city_owner(tile_city(target_tile)),
                           unit_owner(actor_unit))) {
-    /* Hard coded rule: can't "Bombard" or "Attack" units in non enemy
-       cities. */
+    /* Hard coded rule: can't "Bombard", "Suicide Attack", or "Attack"
+     * units in non enemy cities. */
     return ACTPROB_IMPOSSIBLE;
   }
 
@@ -4892,6 +4927,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_airlift_unit";
   case ACTION_ATTACK:
     return "ui_name_attack";
+  case ACTION_SUICIDE_ATTACK:
+    return "ui_name_suicide_attack";
   case ACTION_CONQUER_CITY:
     return "ui_name_conquer_city";
   case ACTION_HEAL_UNIT:
@@ -5057,6 +5094,9 @@ const char *action_ui_name_default(int act)
   case ACTION_ATTACK:
     /* TRANS: _Attack (100% chance of success). */
     return N_("%sAttack%s");
+  case ACTION_SUICIDE_ATTACK:
+    /* TRANS: _Suicide Attack (100% chance of success). */
+    return N_("%sSuicide Attack%s");
   case ACTION_CONQUER_CITY:
     /* TRANS: _Conquer City (100% chance of success). */
     return N_("%sConquer City%s");

@@ -98,7 +98,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK), ut)
+    if (!utype_can_do_action(ut, ACTION_SUICIDE_ATTACK)
         && 1 == utype_fuel(ut)) {
       continue;
     }
@@ -163,8 +163,7 @@ static void dai_hunter_missile_want(struct player *pplayer,
       unit_type_iterate(pcargo) {
         if (can_unit_type_transport(unit_type_get(punit),
                                     utype_class(pcargo))
-            && utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                           pcargo)) {
+            && utype_can_do_action(pcargo, ACTION_SUICIDE_ATTACK)) {
           hunter = punit;
           break;
         }
@@ -182,8 +181,8 @@ static void dai_hunter_missile_want(struct player *pplayer,
   unit_type_iterate(ut) {
     int desire;
 
-    if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK), ut)
-     || !can_city_build_unit_now(pcity, ut)) {
+    if (!utype_can_do_action(ut, ACTION_SUICIDE_ATTACK)
+        || !can_city_build_unit_now(pcity, ut)) {
       continue;
     }
 
@@ -319,8 +318,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
     struct unit *sucker = NULL;
 
     if (unit_owner(missile) == pplayer
-        && utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
-                                       unit_type_get(missile))) {
+        && utype_can_do_action(unit_type_get(missile),
+                               ACTION_SUICIDE_ATTACK)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       parameter.omniscience = !has_handicap(pplayer, H_MAP);

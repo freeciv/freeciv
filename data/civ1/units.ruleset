@@ -269,7 +269,7 @@ flags         = "Missile", "Unreachable", "DoesntOccupyTile"
 ;
 ;
 ; Following actions require extra fields:
-;  "Attack"
+;  "Attack" and "Suicide Attack"
 ;   attack = base attack strength
 ;  "Bombard" (do not appear in Civ1)
 ;   attack       = base attack strength

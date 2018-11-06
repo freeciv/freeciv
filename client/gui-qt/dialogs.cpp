@@ -124,6 +124,7 @@ static void mine(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
+static void suicide_attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
@@ -219,6 +220,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_NUKE] = nuke;
   action_function[ACTION_PARADROP] = paradrop;
   action_function[ACTION_ATTACK] = attack;
+  action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
   action_function[ACTION_IRRIGATE_TF] = irrigate_tf;
   action_function[ACTION_MINE_TF] = mine_tf;
@@ -2519,6 +2521,21 @@ static void attack(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(diplomat_id)
       && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
     request_do_action(ACTION_ATTACK,
+                      diplomat_id, diplomat_target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Suicide Attack" for choice dialog
+***************************************************************************/
+static void suicide_attack(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
+    request_do_action(ACTION_SUICIDE_ATTACK,
                       diplomat_id, diplomat_target_id, 0, "");
   }
 }
