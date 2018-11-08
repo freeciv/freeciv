@@ -134,7 +134,8 @@ static bool effect_list_fill_cb(struct effect *peffect, void *data)
       fc_assert(cbdata->efmc == EFMC_ALL);
       cbdata->edit->add_effect_to_list(peffect, cbdata);
     }
-  } else if (universal_in_req_vec(cbdata->filter, &peffect->reqs)) {
+  } else if (universal_is_mentioned_by_requirements(&peffect->reqs,
+                                                    cbdata->filter)) {
     cbdata->edit->add_effect_to_list(peffect, cbdata);
   }
 

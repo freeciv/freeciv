@@ -30,21 +30,6 @@
 
 #include "validity.h"
 
-/**********************************************************************//**
-  Check if universal is mentioned in the requirement vector.
-**************************************************************************/
-bool universal_in_req_vec(const struct universal *uni,
-                          const struct requirement_vector *preqs)
-{
-  requirement_vector_iterate(preqs, preq) {
-    if (are_universals_equal(uni, &preq->source)) {
-      return TRUE;
-    }
-  } requirement_vector_iterate_end;
-
-  return FALSE;
-}
-
 struct effect_list_cb_data
 {
   bool needed;
@@ -61,7 +46,7 @@ static bool effect_list_universal_needed_cb(struct effect *peffect,
 {
   struct effect_list_cb_data *cbdata = (struct effect_list_cb_data *)data;
 
-  if (universal_in_req_vec(cbdata->uni, &peffect->reqs)) {
+  if (universal_is_mentioned_by_requirements(&peffect->reqs, cbdata->uni)) {
     cbdata->cb(R__("Effect"), cbdata->requirers_data);
     cbdata->needed = TRUE;
   }
@@ -82,22 +67,23 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
   struct effect_list_cb_data cb_data;
 
   disaster_type_iterate(pdis) {
-    if (universal_in_req_vec(uni, &pdis->reqs)) {
+    if (universal_is_mentioned_by_requirements(&pdis->reqs, uni)) {
       cb(disaster_rule_name(pdis), data);
       needed = TRUE;
     }
   } disaster_type_iterate_end;
 
   improvement_iterate(pimprove) {
-    if (universal_in_req_vec(uni, &pimprove->reqs)
-        || universal_in_req_vec(uni, &pimprove->obsolete_by)) {
+    if (universal_is_mentioned_by_requirements(&pimprove->reqs, uni)
+        || universal_is_mentioned_by_requirements(&pimprove->obsolete_by,
+                                                  uni)) {
       cb(improvement_rule_name(pimprove), data);
       needed = TRUE;
     }
   } improvement_iterate_end;
 
   governments_iterate(pgov) {
-    if (universal_in_req_vec(uni, &pgov->reqs)) {
+    if (universal_is_mentioned_by_requirements(&pgov->reqs, uni)) {
       cb(government_rule_name(pgov), data);
       needed = TRUE;
     }
@@ -106,22 +92,22 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
   specialist_type_iterate(sp) {
     struct specialist *psp = specialist_by_number(sp);
 
-    if (universal_in_req_vec(uni, &psp->reqs)) {
+    if (universal_is_mentioned_by_requirements(&psp->reqs, uni)) {
       cb(specialist_rule_name(psp), data);
       needed = TRUE;
     }
   } specialist_type_iterate_end;
 
   extra_type_iterate(pextra) {
-    if (universal_in_req_vec(uni, &pextra->reqs)
-        || universal_in_req_vec(uni, &pextra->rmreqs)) {
+    if (universal_is_mentioned_by_requirements(&pextra->reqs, uni)
+        || universal_is_mentioned_by_requirements(&pextra->rmreqs, uni)) {
       cb(extra_rule_name(pextra), data);
       needed = TRUE;
     }
   } extra_type_iterate_end;
 
   goods_type_iterate(pgood) {
-    if (universal_in_req_vec(uni, &pgood->reqs)) {
+    if (universal_is_mentioned_by_requirements(&pgood->reqs, uni)) {
       cb(goods_rule_name(pgood), data);
       needed = TRUE;
     }
@@ -129,8 +115,10 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
 
   action_iterate(act) {
     action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
-      if (universal_in_req_vec(uni, &(enabler->actor_reqs))
-          || universal_in_req_vec(uni, &(enabler->target_reqs))) {
+      if (universal_is_mentioned_by_requirements(&(enabler->actor_reqs),
+                                                 uni)
+          || universal_is_mentioned_by_requirements(&(enabler->target_reqs),
+                                                    uni)) {
         cb(R__("Action Enabler"), data);
         needed = TRUE;
       }
@@ -138,14 +126,14 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
   } action_iterate_end;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    if (universal_in_req_vec(uni, &city_styles[i].reqs)) {
+    if (universal_is_mentioned_by_requirements(&city_styles[i].reqs, uni)) {
       cb(city_style_rule_name(i), data);
       needed = TRUE;
     }
   }
 
   music_styles_iterate(pmus) {
-    if (universal_in_req_vec(uni, &pmus->reqs)) {
+    if (universal_is_mentioned_by_requirements(&pmus->reqs, uni)) {
       needed_by_music_style = TRUE;
     }
   } music_styles_iterate_end;
