@@ -3732,6 +3732,23 @@ int universal_build_shield_cost(const struct universal *target)
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the universal 'psource' is directly mentioned by any of
+  the requirements in 'reqs'.
+**************************************************************************/
+bool universal_is_mentioned_by_requirements(
+    const struct requirement_vector *reqs,
+    const struct universal *psource)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (universal_is_mentioned_by_requirement(preq, psource)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Will the universal 'source' fulfill this requirement?
 **************************************************************************/
 enum req_item_found

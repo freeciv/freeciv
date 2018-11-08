@@ -161,6 +161,12 @@ const char *universal_type_rule_name(const struct universal *psource);
 
 int universal_build_shield_cost(const struct universal *target);
 
+#define universal_is_mentioned_by_requirement(preq, psource)               \
+  are_universals_equal(&preq->source, psource)
+bool universal_is_mentioned_by_requirements(
+    const struct requirement_vector *reqs,
+    const struct universal *psource);
+
 /* An item contradicts, fulfills or is irrelevant to the requirement */
 enum req_item_found {ITF_NO, ITF_YES, ITF_NOT_APPLICABLE};
 
