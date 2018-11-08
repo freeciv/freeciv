@@ -2230,11 +2230,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
             _("* Won't lose all movement when moving from non-native "
               "terrain to native terrain.\n"));
   }
-  if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK), utype)
-      && utype_has_flag(utype, UTYF_ONEATTACK)) {
-    CATLSTR(buf, bufsz,
-	    _("* Making an attack ends this unit's turn.\n"));
-  }
   if (utype_has_flag(utype, UTYF_CITYBUSTER)) {
     CATLSTR(buf, bufsz,
 	    _("* Gets double firepower when attacking cities.\n"));
@@ -2554,6 +2549,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("  * weaker when tired. If performed with less "
                          "than a single move point left the attack power "
                          "is reduced accordingly.\n"));
+        }
+        if (!utype_is_consumed_by_action(action_by_number(ACTION_ATTACK),
+                                         utype)
+            && utype_has_flag(utype, UTYF_ONEATTACK)) {
+          cat_snprintf(buf, bufsz,
+                       _("  * ends this unit's turn.\n"));
         }
         break;
       case ACTION_CONVERT:
