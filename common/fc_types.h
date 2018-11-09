@@ -698,7 +698,6 @@ typedef int server_setting_id;
 #define SPECENUM_COUNT ECAT_COUNT
 #include "specenum_gen.h"
 #define ECAT_NONE ECAT_COUNT
-#define ECAT_LAST ECAT_COUNT
 
 /* Used in the network protocol. */
 #define SPECENUM_NAME extra_cause

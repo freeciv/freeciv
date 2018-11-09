@@ -3875,8 +3875,6 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     }
   }
 
-  extra_to_category_list(pextra, pextra->category);
-
   if (pextra->causes == 0) {
     extra_to_caused_by_list(pextra, EC_NONE);
   } else {
