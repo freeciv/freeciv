@@ -3734,6 +3734,27 @@ int universal_build_shield_cost(const struct city *pcity,
 }
 
 /**********************************************************************//**
+  Replaces all instances of the universal to_replace with replacement in
+  the requirement vector reqs and returns TRUE iff any requirements were
+  replaced.
+**************************************************************************/
+bool universal_replace_in_req_vec(struct requirement_vector *reqs,
+                                  const struct universal *to_replace,
+                                  const struct universal *replacement)
+{
+  bool changed = FALSE;
+
+  requirement_vector_iterate(reqs, preq) {
+    if (universal_is_mentioned_by_requirement(preq, to_replace)) {
+      preq->source = *replacement;
+      changed = TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  return changed;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the universal 'psource' is directly mentioned by any of
   the requirements in 'reqs'.
 **************************************************************************/
