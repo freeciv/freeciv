@@ -183,9 +183,6 @@ struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause caus
 
 struct extra_type_list *extra_type_list_of_unit_hiders(void);
 
-void extra_to_category_list(struct extra_type *pextra, enum extra_category cat);
-struct extra_type_list *extra_type_list_for_category(enum extra_category cat);
-
 #define is_extra_caused_by(e, c) (e->causes & (1 << c))
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra);
 bool is_extra_caused_by_action(const struct extra_type *pextra,
@@ -309,17 +306,6 @@ bool player_knows_extra_exist(const struct player *pplayer,
 
 #define extra_type_by_rmcause_iterate_end                \
   } extra_type_list_iterate_rev_end                      \
-}
-
-#define extra_type_by_category_iterate(_cat, _extra)                \
-{                                                                   \
-  struct extra_type_list *_etl_##_extra = extra_type_list_for_category(_cat); \
-  if (_etl_##_extra != NULL) {                                              \
-    extra_type_list_iterate(_etl_##_extra, _extra) {
-
-#define extra_type_by_category_iterate_end                 \
-    } extra_type_list_iterate_end                          \
-  }                                                        \
 }
 
 #define extra_deps_iterate(_reqs, _dep)                 \
