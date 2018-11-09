@@ -2869,7 +2869,7 @@ static void unit_enter_hut(struct unit *punit)
     return;
   }
 
-  extra_type_by_category_iterate(ECAT_BONUS, pextra) {
+  extra_type_by_cause_iterate(EC_HUT, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       pplayer->server.huts++;
 
@@ -2893,7 +2893,7 @@ static void unit_enter_hut(struct unit *punit)
       script_server_signal_emit("hut_enter", 1,
                                 API_TYPE_UNIT, punit);
     }
-  } extra_type_by_category_iterate_end;
+  } extra_type_by_cause_iterate_end;
 
   send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
   return;

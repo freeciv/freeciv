@@ -2859,8 +2859,6 @@ static bool load_ruleset_terrain(struct section_file *file)
         }
       }
 
-      extra_to_category_list(pextra, pextra->category);
-
       if (pextra->causes == 0) {
         /* Extras that do not have any causes added to EC_NONE list */
         extra_to_caused_by_list(pextra, EC_NONE);

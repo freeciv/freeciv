@@ -29,7 +29,6 @@
 
 static struct extra_type extras[MAX_EXTRA_TYPES];
 
-static struct extra_type_list *category_extra[ECAT_COUNT];
 static struct extra_type_list *caused_by[EC_LAST];
 static struct extra_type_list *removed_by[ERM_COUNT];
 
@@ -45,9 +44,6 @@ void extras_init(void)
   }
   for (i = 0; i < ERM_COUNT; i++) {
     removed_by[i] = extra_type_list_new();
-  }
-  for (i = 0; i < ECAT_COUNT; i++) {
-    category_extra[i] = extra_type_list_new();
   }
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
@@ -93,11 +89,6 @@ void extras_free(void)
   for (i = 0; i < ERM_COUNT; i++) {
     extra_type_list_destroy(removed_by[i]);
     removed_by[i] = NULL;
-  }
-
-  for (i = 0; i < ECAT_COUNT; i++) {
-    extra_type_list_destroy(category_extra[i]);
-    category_extra[i] = NULL;
   }
 
   for (i = 0; i < MAX_EXTRA_TYPES; i++) {
@@ -239,16 +230,6 @@ struct extra_type_list *extra_type_list_by_cause(enum extra_cause cause)
 }
 
 /**************************************************************************
-  Returns extra types of the category.
-**************************************************************************/
-struct extra_type_list *extra_type_list_for_category(enum extra_category cat)
-{
-  fc_assert(cat < ECAT_LAST);
-
-  return category_extra[cat];
-}
-
-/**************************************************************************
   Return random extra type for given cause that is native to the tile.
 **************************************************************************/
 struct extra_type *rand_extra_for_tile(struct tile *ptile, enum extra_cause cause)
@@ -283,16 +264,6 @@ void extra_to_caused_by_list(struct extra_type *pextra, enum extra_cause cause)
   fc_assert(cause < EC_LAST);
 
   extra_type_list_append(caused_by[cause], pextra);
-}
-
-/**************************************************************************
-  Add extra type to list of extras of a category
-**************************************************************************/
-void extra_to_category_list(struct extra_type *pextra, enum extra_category cat)
-{
-  fc_assert(cat < ECAT_LAST);
-
-  extra_type_list_append(category_extra[cat], pextra);
 }
 
 /**************************************************************************
