@@ -118,6 +118,11 @@ library support and for development support (for compiling programs
 which use those libraries).  To compile Freeciv on such systems you 
 will need to have the appropriate "development" packages installed.
 
+Sound support is built in by default if "SDL2_mixer" library development
+files are found from the system.
+
+     https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.tar.gz
+
 
 1a. Prerequisites for the Gtk+ 2.0 client:
 ==========================================
