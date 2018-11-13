@@ -69,33 +69,52 @@ bool comments_load(void)
     return FALSE;
   }
 
-  comments_storage.file_header = fc_strdup(secfile_lookup_str(comment_file, "common.header"));
-  comments_storage.buildings = fc_strdup(secfile_lookup_str(comment_file, "typedoc.buildings"));
-  comments_storage.tech_classes = fc_strdup(secfile_lookup_str(comment_file, "typedoc.tech_classes"));
-  comments_storage.techs = fc_strdup(secfile_lookup_str(comment_file, "typedoc.techs"));
-  comments_storage.govs = fc_strdup(secfile_lookup_str(comment_file, "typedoc.governments"));
-  comments_storage.policies = fc_strdup(secfile_lookup_str(comment_file, "typedoc.policies"));
-  comments_storage.uclasses = fc_strdup(secfile_lookup_str(comment_file, "typedoc.uclasses"));
-  comments_storage.utypes = fc_strdup(secfile_lookup_str(comment_file, "typedoc.utypes"));
-  comments_storage.terrains = fc_strdup(secfile_lookup_str(comment_file, "typedoc.terrains"));
-  comments_storage.resources = fc_strdup(secfile_lookup_str(comment_file, "typedoc.resources"));
-  comments_storage.extras = fc_strdup(secfile_lookup_str(comment_file, "typedoc.extras"));
-  comments_storage.bases = fc_strdup(secfile_lookup_str(comment_file, "typedoc.bases"));
-  comments_storage.roads = fc_strdup(secfile_lookup_str(comment_file, "typedoc.roads"));
-  comments_storage.styles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.styles"));
-  comments_storage.citystyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.citystyles"));
-  comments_storage.musicstyles = fc_strdup(secfile_lookup_str(comment_file, "typedoc.musicstyles"));
-  comments_storage.effects = fc_strdup(secfile_lookup_str(comment_file, "typedoc.effects"));
-  comments_storage.disasters = fc_strdup(secfile_lookup_str(comment_file, "typedoc.disasters"));
-  comments_storage.achievements = fc_strdup(secfile_lookup_str(comment_file,
-                                                               "typedoc.achievements"));
-  comments_storage.goods = fc_strdup(secfile_lookup_str(comment_file, "typedoc.goods"));
-  comments_storage.enablers = fc_strdup(secfile_lookup_str(comment_file, "typedoc.enablers"));
-  comments_storage.specialists = fc_strdup(secfile_lookup_str(comment_file, "typedoc.specialists"));
-  comments_storage.nations = fc_strdup(secfile_lookup_str(comment_file, "typedoc.nations"));
-  comments_storage.nationgroups = fc_strdup(secfile_lookup_str(comment_file,
-                                                               "typedoc.nationgroups"));
-  comments_storage.nationsets = fc_strdup(secfile_lookup_str(comment_file, "typedoc.nationsets"));
+#define comment_load(target, comment_file, comment_path)                  \
+{                                                                         \
+  const char *comment;                                                    \
+                                                                          \
+  if ((comment = secfile_lookup_str(comment_file, comment_path))) {       \
+    target = fc_strdup(comment);                                          \
+  } else {                                                                \
+    return FALSE;                                                         \
+  }                                                                       \
+}
+
+  comment_load(comments_storage.file_header, comment_file, "common.header");
+  comment_load(comments_storage.buildings,
+               comment_file, "typedoc.buildings");
+  comment_load(comments_storage.tech_classes,
+               comment_file, "typedoc.tech_classes");
+  comment_load(comments_storage.techs, comment_file, "typedoc.techs");
+  comment_load(comments_storage.govs, comment_file, "typedoc.governments");
+  comment_load(comments_storage.policies, comment_file, "typedoc.policies");
+  comment_load(comments_storage.uclasses, comment_file, "typedoc.uclasses");
+  comment_load(comments_storage.utypes, comment_file, "typedoc.utypes");
+  comment_load(comments_storage.terrains, comment_file, "typedoc.terrains");
+  comment_load(comments_storage.resources,
+               comment_file, "typedoc.resources");
+  comment_load(comments_storage.extras, comment_file, "typedoc.extras");
+  comment_load(comments_storage.bases, comment_file, "typedoc.bases");
+  comment_load(comments_storage.roads, comment_file, "typedoc.roads");
+  comment_load(comments_storage.styles, comment_file, "typedoc.styles");
+  comment_load(comments_storage.citystyles,
+               comment_file, "typedoc.citystyles");
+  comment_load(comments_storage.musicstyles,
+               comment_file, "typedoc.musicstyles");
+  comment_load(comments_storage.effects, comment_file, "typedoc.effects");
+  comment_load(comments_storage.disasters,
+               comment_file, "typedoc.disasters");
+  comment_load(comments_storage.achievements,
+               comment_file, "typedoc.achievements");
+  comment_load(comments_storage.goods, comment_file, "typedoc.goods");
+  comment_load(comments_storage.enablers, comment_file, "typedoc.enablers");
+  comment_load(comments_storage.specialists,
+               comment_file, "typedoc.specialists");
+  comment_load(comments_storage.nations, comment_file, "typedoc.nations");
+  comment_load(comments_storage.nationgroups,
+               comment_file, "typedoc.nationgroups");
+  comment_load(comments_storage.nationsets,
+               comment_file, "typedoc.nationsets");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
