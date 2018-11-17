@@ -62,41 +62,39 @@ struct ai_type;
 /* Can occupy enemy cities */
 #define SPECENUM_VALUE3 UCF_CAN_OCCUPY_CITY
 #define SPECENUM_VALUE3NAME N_("?uclassflag:CanOccupyCity")
-#define SPECENUM_VALUE4 UCF_MISSILE
-#define SPECENUM_VALUE4NAME N_("?uclassflag:Missile")
-#define SPECENUM_VALUE5 UCF_BUILD_ANYWHERE
-#define SPECENUM_VALUE5NAME N_("?uclassflag:BuildAnywhere")
-#define SPECENUM_VALUE6 UCF_UNREACHABLE
-#define SPECENUM_VALUE6NAME N_("?uclassflag:Unreachable")
+#define SPECENUM_VALUE4 UCF_BUILD_ANYWHERE
+#define SPECENUM_VALUE4NAME N_("?uclassflag:BuildAnywhere")
+#define SPECENUM_VALUE5 UCF_UNREACHABLE
+#define SPECENUM_VALUE5NAME N_("?uclassflag:Unreachable")
 /* Can collect ransom from barbarian leader */
-#define SPECENUM_VALUE7 UCF_COLLECT_RANSOM
-#define SPECENUM_VALUE7NAME N_("?uclassflag:CollectRansom")
+#define SPECENUM_VALUE6 UCF_COLLECT_RANSOM
+#define SPECENUM_VALUE6NAME N_("?uclassflag:CollectRansom")
 /* Is subject to ZOC */
-#define SPECENUM_VALUE8 UCF_ZOC
-#define SPECENUM_VALUE8NAME N_("?uclassflag:ZOC")
+#define SPECENUM_VALUE7 UCF_ZOC
+#define SPECENUM_VALUE7NAME N_("?uclassflag:ZOC")
 /* Can fortify on land squares */
-#define SPECENUM_VALUE9 UCF_CAN_FORTIFY
-#define SPECENUM_VALUE9NAME N_("?uclassflag:CanFortify")
-#define SPECENUM_VALUE10 UCF_CAN_PILLAGE
-#define SPECENUM_VALUE10NAME N_("?uclassflag:CanPillage")
+#define SPECENUM_VALUE8 UCF_CAN_FORTIFY
+#define SPECENUM_VALUE8NAME N_("?uclassflag:CanFortify")
+#define SPECENUM_VALUE9 UCF_CAN_PILLAGE
+#define SPECENUM_VALUE9NAME N_("?uclassflag:CanPillage")
 /* Cities can still work tile when enemy unit on it */
-#define SPECENUM_VALUE11 UCF_DOESNT_OCCUPY_TILE
-#define SPECENUM_VALUE11NAME N_("?uclassflag:DoesntOccupyTile")
+#define SPECENUM_VALUE10 UCF_DOESNT_OCCUPY_TILE
+#define SPECENUM_VALUE10NAME N_("?uclassflag:DoesntOccupyTile")
 /* Can attack against units on non-native tiles */
-#define SPECENUM_VALUE12 UCF_ATTACK_NON_NATIVE
-#define SPECENUM_VALUE12NAME N_("?uclassflag:AttackNonNative")
+#define SPECENUM_VALUE11 UCF_ATTACK_NON_NATIVE
+#define SPECENUM_VALUE11NAME N_("?uclassflag:AttackNonNative")
 /* Kills citizens upon successful attack against a city */
-#define SPECENUM_VALUE13 UCF_KILLCITIZEN
-#define SPECENUM_VALUE13NAME N_("?uclassflag:KillCitizen")
+#define SPECENUM_VALUE12 UCF_KILLCITIZEN
+#define SPECENUM_VALUE12NAME N_("?uclassflag:KillCitizen")
 
-#define SPECENUM_VALUE14 UCF_USER_FLAG_1
-#define SPECENUM_VALUE15 UCF_USER_FLAG_2
-#define SPECENUM_VALUE16 UCF_USER_FLAG_3
-#define SPECENUM_VALUE17 UCF_USER_FLAG_4
-#define SPECENUM_VALUE18 UCF_USER_FLAG_5
-#define SPECENUM_VALUE19 UCF_USER_FLAG_6
-#define SPECENUM_VALUE20 UCF_USER_FLAG_7
-#define SPECENUM_VALUE21 UCF_USER_FLAG_8
+#define SPECENUM_VALUE13 UCF_USER_FLAG_1
+#define SPECENUM_VALUE14 UCF_USER_FLAG_2
+#define SPECENUM_VALUE15 UCF_USER_FLAG_3
+#define SPECENUM_VALUE16 UCF_USER_FLAG_4
+#define SPECENUM_VALUE17 UCF_USER_FLAG_5
+#define SPECENUM_VALUE18 UCF_USER_FLAG_6
+#define SPECENUM_VALUE19 UCF_USER_FLAG_7
+#define SPECENUM_VALUE20 UCF_USER_FLAG_8
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT

@@ -52,6 +52,7 @@ flags =
 class_flags =
   { "name", "helptxt"
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
+    _("Missile")
   }
 
 [veteran_system]
@@ -113,7 +114,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "TerrainDefense"    = Units gain defense bonus from terrain
 ; "DamageSlows"       = Damaged units are slowed down
 ; "CanOccupyCity"     = Military units of this class can occupy enemy cities
-; "Missile"           = Unit is destroyed when it attacks
 ; "BuildAnywhere"     = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"       = Unit can be attacked only by units explicitly listing this
 ;                       class in its 'targets', unless on a city or native base.

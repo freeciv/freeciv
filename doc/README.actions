@@ -476,7 +476,6 @@ Actions done by a unit against all units at a tile
  * the actor must be on the tile next to the target.
  * the actor's attack must be above 0
  * the actor can't have the "NonMil" unit type flag (!)
- * the actor can't have the "Missile" unit class flag (!)
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.
@@ -499,7 +498,6 @@ Actions done by a unit against all units at a tile
  * the actor must be on the tile next to the target.
  * the actor's attack must be above 0
  * the actor can't have the "NonMil" unit type flag (!)
- * the actor must have the "Missile" unit class flag (!)
  * the actor must be native to the target tile unless it has the
    "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
    type flag.

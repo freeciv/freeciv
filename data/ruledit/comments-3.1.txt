@@ -274,7 +274,6 @@ uclasses = "\
 ; \"TerrainDefense\"    = Units gain defense bonus from terrain\n\
 ; \"DamageSlows\"       = Damaged units are slowed down\n\
 ; \"CanOccupyCity\"     = Military units of this class can occupy enemy cities\n\
-; \"Missile\"           = Unit is destroyed when it attacks\n\
 ; \"BuildAnywhere\"     = Unit can be built even in the middle of non-native terrain\n\
 ; \"Unreachable\"       = Unit can be attacked only by units explicitly listing this\n\
 ;                       class in its \'targets\', unless on a city or native base.\n\

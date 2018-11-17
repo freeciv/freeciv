@@ -42,9 +42,10 @@ flags =
 ;                 and sensible.
 ; helptxt       = displayed in the help for unit types belonging to a class
 ;                 with this flag (optional)
-;class_flags =
-;  { "name", "helptxt"
-;  }
+class_flags =
+  { "name", "helptxt"
+    _("Missile")
+  }
 
 [veteran_system]
 ; What are the names of the levels?
@@ -105,7 +106,6 @@ veteran_move_bonus = 0, 0
 ; "TerrainDefense"    = Units gain defense bonus from terrain
 ; "DamageSlows"       = Damaged units are slowed down
 ; "CanOccupyCity"     = Military units of this class can occupy enemy cities
-; "Missile"           = Unit is destroyed when it attacks
 ; "BuildAnywhere"     = Unit can be built even in the middle of non-native terrain
 ; "Unreachable"       = Unit can be attacked only by units explicitly listing this
 ;                       class in its 'targets', unless on a city or native base.

@@ -276,24 +276,6 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_ATTACK, ACTION_SUICIDE_ATTACK,
                           ACTION_CONQUER_CITY, ACTION_NONE);
 
-  /* Why this is a hard requirement: Need to work out path finding corner
-   * case where a unit type can perform both "Attack" and "Suicide Attack".
-   * Preserve semantics of Missile unit class flag. */
-  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE,
-                                          UCF_MISSILE),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has the Missile uclass flag.",
-                          ACTION_SUICIDE_ATTACK, ACTION_NONE);
-  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE,
-                                          UCF_MISSILE),
-                          FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the Missile uclass flag.",
-                          ACTION_ATTACK, ACTION_NONE);
-
   /* Why this is a hard requirement: Preserve semantics of
    * CanOccupyCity unit class flag. */
   oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
