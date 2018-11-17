@@ -10,6 +10,7 @@
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
 #   Konstantin Vedeneev <konved@gmail.com>, 2011-2018.
+#   Kovalev Vsevolod <sevauserg.com@gmail.com>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
@@ -73,7 +74,7 @@ msgstr "Аборигены"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr "Аборигены"
+msgstr "Австралийские аборигены"
 
 #: data/nation/aborigines.ruleset:7
 msgid ""
