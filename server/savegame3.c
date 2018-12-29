@@ -275,9 +275,6 @@ static const char savefile_options_default[] =
  *  - nothing at current version
  * See also calls to sg_save_savefile_options(). */
 
-static const char num_chars[] =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
-
 static void savegame3_save_real(struct section_file *file,
                                 const char *save_reason,
                                 bool scenario);
@@ -308,8 +305,6 @@ static void unit_ordering_apply(void);
 static void sg_extras_set(bv_extras *extras, char ch, struct extra_type **idx);
 static char sg_extras_get(bv_extras extras, struct extra_type *presource,
                           const int *idx);
-static char num2char(unsigned int num);
-static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
 static char terrain2char(const struct terrain *pterrain);
 static Tech_type_id technology_load(struct section_file *file,
@@ -1149,33 +1144,6 @@ static char sg_extras_get(bv_extras extras, struct extra_type *presource,
   }
 
   return hex_chars[bin];
-}
-
-/************************************************************************//**
-  Converts number in to single character. This works to values up to ~70.
-****************************************************************************/
-static char num2char(unsigned int num)
-{
-  if (num >= strlen(num_chars)) {
-    return '?';
-  }
-
-  return num_chars[num];
-}
-
-/************************************************************************//**
-  Converts single character into numerical value. This is not hex conversion.
-****************************************************************************/
-static int char2num(char ch)
-{
-  const char *pch;
-
-  pch = strchr(num_chars, ch);
-
-  sg_failure_ret_val(NULL != pch, 0,
-                     "Unknown ascii value for num: '%c' %d", ch, ch);
-
-  return pch - num_chars;
 }
 
 /************************************************************************//**
@@ -5946,14 +5914,6 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         case ORDER_PERFORM_ACTION:
           action_buf[j] = num2char(punit->orders.list[j].action);
-          /* Encoding with num2char() limits the number of actions. */
-          /* Note: <= is the correct operator. MAX_NUM_ACTIONS is number of
-           * actions (the last action id + 1). strlen(num_chars) is the
-           * number of chars (the last char position + 1). The assert is
-           * supposed to be true. */
-          FC_STATIC_STRLEN_ASSERT(MAX_NUM_ACTIONS <= strlen(num_chars),
-                                  can_not_encode_all_actions);
-
           sub_tgt_vec[j] = punit->orders.list[j].sub_target;
           if (direction8_is_valid(punit->orders.list[j].dir)) {
             /* The action target is on another tile. */

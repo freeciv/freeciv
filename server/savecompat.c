@@ -217,6 +217,49 @@ int ascii_hex2bin(char ch, int halfbyte)
   return (pch - hex_chars) << (halfbyte * 4);
 }
 
+static const char num_chars[] =
+  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
+
+/************************************************************************//**
+  Converts number in to single character. This works to values up to ~70.
+****************************************************************************/
+char num2char(unsigned int num)
+{
+  if (num >= strlen(num_chars)) {
+    return '?';
+  }
+
+  return num_chars[num];
+}
+
+/************************************************************************//**
+  Converts single character into numerical value. This is not hex conversion.
+****************************************************************************/
+int char2num(char ch)
+{
+  const char *pch;
+
+  pch = strchr(num_chars, ch);
+
+  sg_failure_ret_val(NULL != pch, 0,
+                     "Unknown ascii value for num: '%c' %d", ch, ch);
+
+  return pch - num_chars;
+}
+
+/* Assert that num2char() can encode the values it is being used to encode.
+ * Done here rather than in the save game writing code since static
+ * assertions needs a constant expression. */
+
+/* Encoding actions in savegames with num2char() limits the number of
+ * actions.
+ * Note: <= is the correct operator. MAX_NUM_ACTIONS is number of
+ * actions (the last action id + 1). strlen(num_chars) is the
+ * number of chars (the last char position + 1). The assert is
+ * supposed to be true. */
+FC_STATIC_STRLEN_ASSERT(MAX_NUM_ACTIONS <= strlen(num_chars),
+                        can_not_encode_all_actions);
+
 /************************************************************************//**
   Return the special with the given name, or S_LAST.
 ****************************************************************************/

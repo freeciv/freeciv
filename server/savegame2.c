@@ -277,9 +277,6 @@ extern bool sg_success;
 
 #define TOKEN_SIZE 10
 
-static const char num_chars[] =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
-
 static struct loaddata *loaddata_new(struct section_file *file);
 static void loaddata_destroy(struct loaddata *loading);
 
@@ -299,7 +296,6 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
 static void sg_bases_set(bv_extras *extras, char ch, struct base_type **idx);
 static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx);
 static struct extra_type *char2resource(char c);
-static int char2num(char ch);
 static struct terrain *char2terrain(char ch);
 static Tech_type_id technology_load(struct section_file *file,
                                     const char* path, int plrno);
@@ -1016,21 +1012,6 @@ static struct extra_type *char2resource(char c)
   }
 
   return resource_by_identifier(c);
-}
-
-/************************************************************************//**
-  Converts single character into numerical value. This is not hex conversion.
-****************************************************************************/
-static int char2num(char ch)
-{
-  const char *pch;
-
-  pch = strchr(num_chars, ch);
-
-  sg_failure_ret_val(NULL != pch, 0,
-                     "Unknown ascii value for num: '%c' %d", ch, ch);
-
-  return pch - num_chars;
 }
 
 /************************************************************************//**
