@@ -44,6 +44,10 @@ echo "Freeciv distribution build successful!"
 echo "Checking rulesets"
 sudo -u travis ./tests/rulesets_not_broken.sh
 
+# Check ruleset saving
+echo "Checking ruleset saving"
+sudo -u travis ./tests/rulesets_save.sh
+
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/bin/
 sudo -u travis ./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# rulesets_save.sh [ruleset]...
+# Exits with 0 when each specified ruleset or, if no rulesets are specified,
+# each ruleset that is developed with Freeciv, can be saved using ruleup.
+# Exits with 1 if not.
+
+if test x$1 = x ; then
+  # Try to save all rulesets that are developed with Freeciv
+  rulesets=`cat @abs_top_srcdir@/tests/rs_test_res/ruleset_list.txt`
+else
+  # Try to save the specified ruleset(s)
+  rulesets=$@
+fi
+
+# Put upgrade results in a temporary folder.
+tmpdir=`mktemp -d`
+if [ -d "${tmpdir}" ] ; then
+  cp -R @abs_top_srcdir@/data/ruledit/ "${tmpdir}" || exit 1
+  cp -R @abs_top_srcdir@/data/default/ "${tmpdir}" || exit 1
+else
+  echo "Unable to create folder for temporary files: \"${tmpdir}\""
+  exit 1
+fi
+
+for ruleset in $rulesets; do
+  resaved="rs_${ruleset}_resaved"
+  resaved_path="${tmpdir}/${resaved}"
+
+  echo "Loading $ruleset and saving it as $resaved"
+  @abs_top_builddir@/fcruleup -F -r $ruleset \
+      --output "$resaved_path" \
+    || exit 1
+
+  echo "Trying to load $ruleset resaved as $resaved"
+  FREECIV_DATA_PATH=$tmpdir \
+      @abs_top_builddir@/tests/rs_test_res/ruleset_loads.sh "$resaved" \
+    || exit 1
+done
+
+rm -rf "${tmpdir}"
+
+echo "No resaving problems detected."
+exit 0
