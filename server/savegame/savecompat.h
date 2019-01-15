@@ -168,6 +168,8 @@ struct loaddata {
   }
 
 void sg_load_compat(struct loaddata *loading, enum sgf_version format_class);
+void sg_load_post_load_compat(struct loaddata *loading,
+                              enum sgf_version format_class);
 int current_compat_ver(void);
 
 #define hex_chars "0123456789abcdef"

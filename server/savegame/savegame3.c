@@ -483,6 +483,8 @@ void savegame3_load(struct section_file *file)
   sg_load_mapimg(loading);
   /* [script] -- must come last as may reference game objects */
   sg_load_script(loading);
+  /* [post_load_compat]; needs the game loaded by [savefile] */
+  sg_load_post_load_compat(loading, SAVEGAME_3);
 
   /* Sanity checks for the loaded game. */
   sg_load_sanitycheck(loading);

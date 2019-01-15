@@ -73,9 +73,12 @@ static void compat_load_020500(struct loaddata *loading, enum sgf_version format
 static void compat_load_020600(struct loaddata *loading, enum sgf_version format_class);
 static void compat_load_030000(struct loaddata *loading, enum sgf_version format_class);
 static void compat_load_030100(struct loaddata *loading, enum sgf_version format_class);
+static void compat_post_load_030100(struct loaddata *loading,
+                                    enum sgf_version format_class);
 
 #ifdef FREECIV_DEV_SAVE_COMPAT
 static void compat_load_dev(struct loaddata *loading);
+static void compat_post_load_dev(struct loaddata *loading);
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
 typedef void (*load_version_func_t) (struct loaddata *loading, enum sgf_version format_class);
@@ -83,6 +86,7 @@ typedef void (*load_version_func_t) (struct loaddata *loading, enum sgf_version 
 struct compatibility {
   int version;
   const load_version_func_t load;
+  const load_version_func_t post_load;
 };
 
 /* The struct below contains the information about the savegame versions. It
@@ -99,21 +103,21 @@ struct compatibility {
  * - compat_load_030100 to load old savegame. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
-  { 0, NULL },
+  { 0, NULL, NULL },
   /* version 1 and 2 is not used */
   /* version 3: first savegame2 format, so no compat functions for translation
    * from previous format */
-  { 3, NULL },
+  { 3, NULL, NULL },
   /* version 4 to 9 are reserved for possible changes in 2.3.x */
-  { 10, compat_load_020400 },
+  { 10, compat_load_020400, NULL },
   /* version 11 to 19 are reserved for possible changes in 2.4.x */
-  { 20, compat_load_020500 },
+  { 20, compat_load_020500, NULL },
   /* version 21 to 29 are reserved for possible changes in 2.5.x */
-  { 30, compat_load_020600 },
+  { 30, compat_load_020600, NULL },
   /* version 31 to 39 are reserved for possible changes in 2.6.x */
-  { 40, compat_load_030000 },
+  { 40, compat_load_030000, NULL },
   /* version 41 to 49 are reserved for possible changes in 3.0.x */
-  { 50, compat_load_030100 },
+  { 50, compat_load_030100, compat_post_load_030100 },
   /* Current savefile version is listed above this line; it corresponds to
      the definitions in this file. */
 };
@@ -165,6 +169,41 @@ void sg_load_compat(struct loaddata *loading, enum sgf_version format_class)
 #ifdef FREECIV_DEV_SAVE_COMPAT
   if (loading->version == compat[compat_current].version) {
     compat_load_dev(loading);
+  }
+#endif /* FREECIV_DEV_SAVE_COMPAT */
+}
+
+/************************************************************************//**
+  Compatibility functions for loaded game that needs game state.
+
+  Some compatibility needs access to game state not available in
+  sg_load_compat(). Do those here.
+
+  This function is called after a savegame has loaded the game state. The
+  data should be changed in the game state since the game already is done
+  loading. Prefer using sg_load_compat() when possible.
+****************************************************************************/
+void sg_load_post_load_compat(struct loaddata *loading,
+                              enum sgf_version format_class)
+{
+  int i;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  for (i = 0; i < compat_num; i++) {
+    if (loading->version < compat[i].version
+        && compat[i].post_load != NULL) {
+      log_normal(_("Run post load compatibility function for version: <%d "
+                   "(save file: %d; server: %d)."), compat[i].version,
+                 loading->version, compat[compat_current].version);
+      compat[i].post_load(loading, format_class);
+    }
+  }
+
+#ifdef FREECIV_DEV_SAVE_COMPAT
+  if (loading->version == compat[compat_current].version) {
+    compat_post_load_dev(loading);
   }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 }
@@ -1421,6 +1460,16 @@ static void compat_load_030100(struct loaddata *loading,
 }
 
 /************************************************************************//**
+  Update loaded game data from 3.0.x to something usable by 3.1.0.
+****************************************************************************/
+static void compat_post_load_030100(struct loaddata *loading,
+                                    enum sgf_version format_class)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+}
+
+/************************************************************************//**
   Translate savegame secfile data from earlier development version format
   to current one.
 ****************************************************************************/
@@ -1711,6 +1760,16 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.0.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
+}
+
+/************************************************************************//**
+  Update loaded game data from earlier development version to something
+  usable by current Freeciv.
+****************************************************************************/
+static void compat_post_load_dev(struct loaddata *loading)
+{
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
