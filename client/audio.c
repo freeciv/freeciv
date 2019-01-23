@@ -291,11 +291,11 @@ static bool audio_play_tag(const char *tag, bool repeat)
   if (tagfile) {
     soundfile = secfile_lookup_str(tagfile, "files.%s", tag);
     if (NULL == soundfile) {
-      log_verbose("No sound file for tag %s (file %s)", tag, soundfile);
+      log_verbose("No sound file for tag %s", tag);
     } else {
       fullpath = fileinfoname(get_data_dirs(), soundfile);
       if (!fullpath) {
-        log_error("Cannot find audio file %s", soundfile);
+        log_error("Cannot find audio file %s for tag %s", soundfile, tag);
       }
     }
   }
