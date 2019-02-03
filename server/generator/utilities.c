@@ -775,16 +775,13 @@ struct terrain *pick_terrain(enum mapgen_terrain_property target,
               mapgen_terrain_property_name(avoid));
     return pick_terrain(target, MG_UNUSED, avoid);
   } else if (avoid != MG_UNUSED) {
-    log_debug("pick_terrain(target: %s, prefer: %s, [dropping avoid: %s])",
+    log_debug("pick_terrain(target: %s, prefer: MG_UNUSED, [dropping avoid: %s])",
               mapgen_terrain_property_name(target),
-              mapgen_terrain_property_name(prefer),
               mapgen_terrain_property_name(avoid));
     return pick_terrain(target, prefer, MG_UNUSED);
   } else {
-    log_debug("pick_terrain([dropping target: %s], prefer: %s, avoid: %s)",
-              mapgen_terrain_property_name(target),
-              mapgen_terrain_property_name(prefer),
-              mapgen_terrain_property_name(avoid));
+    log_debug("pick_terrain([dropping target: %s], prefer: MG_UNUSED, avoid: MG_UNUSED)",
+              mapgen_terrain_property_name(target));
     return pick_terrain(MG_UNUSED, prefer, avoid);
   }
 }
