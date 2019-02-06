@@ -115,8 +115,8 @@ void spaceship_calc_derived(struct player_spaceship *ship)
      Actually, the Civ1 manual suggests travel time is relevant. --dwp
   */
 
-  ship->travel_time = ship->mass
-    / (200.0 * MIN(propulsion,fuel) + 20.0);
+  ship->travel_time = ship->mass * game.server.spaceship_travel_time
+    / 100 / (200.0 * MIN(propulsion,fuel) + 20.0);
 
 }
 

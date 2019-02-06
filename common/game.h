@@ -171,6 +171,7 @@ struct civ_game {
       int razechance;
       unsigned revealmap;
       int revolution_length;
+      int spaceship_travel_time;
       bool threaded_save;
       int save_compress_level;
       enum fz_method save_compress_type;
@@ -534,6 +535,10 @@ extern struct world wld;
 
 #define GAME_DEFAULT_VICTORY_CONDITIONS (1 << VC_SPACERACE | 1 << VC_ALLIED)
 #define GAME_DEFAULT_END_SPACESHIP   TRUE
+
+#define GAME_DEFAULT_SPACESHIP_TRAVEL_TIME 100
+#define GAME_MIN_SPACESHIP_TRAVEL_TIME     50
+#define GAME_MAX_SPACESHIP_TRAVEL_TIME     1000
 
 #define GAME_DEFAULT_TURNBLOCK       TRUE
 
