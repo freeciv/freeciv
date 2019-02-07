@@ -33,6 +33,21 @@ real rulesets, not playable ruleset in itself.\
 global_init_techs=""
 global_init_buildings=""
 
+[tileset]
+; If preferred tileset is set, clients that support the feature will suggest
+; using that tileset with the ruleset.
+; preferred = ""
+
+[soundset]
+; If preferred soundset is set, clients that support the feature will suggest
+; using that soundset with the ruleset.
+; preferred = ""
+
+[musicset]
+; If preferred musicset is set, clients that support the feature will suggest
+; using that musicset with the ruleset.
+; preferred = ""
+
 [civstyle]
 ; Value added to city pollution
 base_pollution   = -20

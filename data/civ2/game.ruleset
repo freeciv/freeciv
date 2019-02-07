@@ -41,6 +41,21 @@ You are playing with civ2 style rules. These are\
 global_init_techs=""
 global_init_buildings="Palace"
 
+[tileset]
+; If preferred tileset is set, clients that support the feature will suggest
+; using that tileset with the ruleset.
+; preferred = ""
+
+[soundset]
+; If preferred soundset is set, clients that support the feature will suggest
+; using that soundset with the ruleset.
+; preferred = ""
+
+[musicset]
+; If preferred musicset is set, clients that support the feature will suggest
+; using that musicset with the ruleset.
+; preferred = ""
+
 [civstyle]
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
