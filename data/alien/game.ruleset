@@ -54,7 +54,19 @@ global_init_buildings="Headquarters", "Basic Infrastructure"
 popup_tech_help = TRUE
 
 [tileset]
+; Clients that support the feature will suggest
+; using Alio tileset with this ruleset.
 preferred = "alio"
+
+[soundset]
+; If preferred soundset is set, clients that support the feature will suggest
+; using that soundset with the ruleset.
+; preferred = ""
+
+[musicset]
+; If preferred musicset is set, clients that support the feature will suggest
+; using that musicset with the ruleset.
+; preferred = ""
 
 [civstyle]
 ; Value added to city pollution
