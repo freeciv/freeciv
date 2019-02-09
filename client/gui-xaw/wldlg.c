@@ -143,8 +143,8 @@ static void worklist_insert_common_callback(struct worklist_dialog *pdialog,
 					    int where);
 static void worklist_delete_callback(Widget w, XtPointer client_data, 
 				     XtPointer call_data);
-static void worklist_swap_entries(int i, int j, 
-				  struct worklist_dialog *pdialog);
+static void worklist_swap_entries(int i, int j,
+                                  struct worklist_dialog *pdialog);
 static void worklist_up_callback(Widget w, XtPointer client_data, 
 				 XtPointer call_data);
 static void worklist_down_callback(Widget w, XtPointer client_data, 
@@ -996,7 +996,7 @@ void worklist_delete_callback(Widget w, XtPointer client_data,
 
 
 /****************************************************************
-
+  Swap entries at indices i and j with each other
 *****************************************************************/
 void worklist_swap_entries(int i, int j, struct worklist_dialog *pdialog)
 {
@@ -1004,16 +1004,16 @@ void worklist_swap_entries(int i, int j, struct worklist_dialog *pdialog)
   char name[200];
 
   id = pdialog->worklist_ids[i];
-  strcpy(name, pdialog->worklist_names[i]);
+  fc_strlcpy(name, pdialog->worklist_names[i], 200);
 
   pdialog->worklist_ids[i] = pdialog->worklist_ids[j];
-  strcpy(pdialog->worklist_names[i], pdialog->worklist_names[j]);
+  fc_strlcpy(pdialog->worklist_names[i], pdialog->worklist_names[j], 200);
   pdialog->worklist_names_ptrs[i] = pdialog->worklist_names[i];
 
   pdialog->worklist_ids[j] = id;
-  strcpy(pdialog->worklist_names[j], name);
+  fc_strlcpy(pdialog->worklist_names[j], name, 200);
   pdialog->worklist_names_ptrs[j] = pdialog->worklist_names[j];
-}  
+}
 
 /****************************************************************
   Swap the selected element with its upward neighbor
