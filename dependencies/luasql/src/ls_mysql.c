@@ -17,6 +17,7 @@
 #endif
 
 #include "mysql.h"
+#include "errmsg.h"
 
 #include "lua.h"
 #include "lauxlib.h"
@@ -369,6 +370,27 @@ static int conn_close (lua_State *L) {
 	return 1;
 }
 
+/*
+** Ping connection.
+*/
+static int conn_ping (lua_State *L) {
+	conn_data *conn=(conn_data *)luaL_checkudata(L, 1, LUASQL_CONNECTION_MYSQL);
+	luaL_argcheck (L, conn != NULL, 1, LUASQL_PREFIX"connection expected");
+	if (conn->closed) {
+		lua_pushboolean (L, 0);
+		return 1;
+	}
+	if (mysql_ping (conn->my_conn) == 0) {
+		lua_pushboolean (L, 1);
+		return 1;
+	} else if (mysql_errno (conn->my_conn) == CR_SERVER_GONE_ERROR) {
+		lua_pushboolean (L, 0);
+		return 1;
+	}
+	luaL_error(L, mysql_error(conn->my_conn));
+	return 0;
+}
+
 
 static int escape_string (lua_State *L) {
   size_t size, new_size;
@@ -492,6 +514,8 @@ static int env_connect (lua_State *L) {
 	const char *password = luaL_optstring(L, 4, NULL);
 	const char *host = luaL_optstring(L, 5, NULL);
 	const int port = luaL_optinteger(L, 6, 0);
+	const char *unix_socket = luaL_optstring(L, 7, NULL);
+	const long client_flag = (long)luaL_optinteger(L, 8, 0);
 	MYSQL *conn;
 	getenvironment(L); /* validade environment */
 
@@ -501,7 +525,7 @@ static int env_connect (lua_State *L) {
 		return luasql_faildirect(L, "error connecting: Out of memory.");
 
 	if (!mysql_real_connect(conn, host, username, password, 
-		sourcename, port, NULL, 0))
+		sourcename, port, unix_socket, client_flag))
 	{
 		char error_msg[100];
 		strncpy (error_msg,  mysql_error(conn), 99);
@@ -552,6 +576,7 @@ static void create_metatables (lua_State *L) {
     struct luaL_Reg connection_methods[] = {
         {"__gc", conn_gc},
         {"close", conn_close},
+        {"ping", conn_ping},
         {"escape", escape_string},
         {"execute", conn_execute},
         {"commit", conn_commit},
@@ -603,7 +628,12 @@ LUASQL_API int luaopen_luasql_mysql (lua_State *L) {
 	luaL_setfuncs(L, driver, 0);
 	luasql_set_info (L);
     lua_pushliteral (L, "_CLIENTVERSION");
-    lua_pushliteral (L, MYSQL_SERVER_VERSION);
+#ifdef MARIADB_CLIENT_VERSION_STR
+lua_pushliteral (L, MARIADB_CLIENT_VERSION_STR);
+#else
+lua_pushliteral (L, MYSQL_SERVER_VERSION);
+#endif
+    /*lua_pushliteral (L, MYSQL_SERVER_VERSION);*/
     lua_settable (L, -3);
 	return 1;
 }

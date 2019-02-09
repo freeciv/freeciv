@@ -1,5 +1,5 @@
-Sources here are fron luasql git tag v2.3.5
-(https://github.com/keplerproject/luasql/tree/v2.3.5)
+Sources here are fron luasql git tag v2.4.0
+(https://github.com/keplerproject/luasql/tree/v2.4.0)
 
 Only the files needed by freeciv are included here, not entire luasql
 source directory hierarchy.
