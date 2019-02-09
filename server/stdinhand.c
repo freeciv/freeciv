@@ -4851,10 +4851,13 @@ static bool delegate_command(struct connection *caller, char *arg,
     for (valid_args = delegate_args_begin();
          valid_args != delegate_args_end();
          valid_args = delegate_args_next(valid_args)) {
-      cat_snprintf(buf, sizeof(buf), "'%s'",
-                   delegate_args_name(valid_args));
-      if (valid_args != delegate_args_max()) {
-        cat_snprintf(buf, sizeof(buf), ", ");
+      const char *name = delegate_args_name(valid_args);
+
+      if (name != NULL) {
+        cat_snprintf(buf, sizeof(buf), "'%s'", name);
+        if (valid_args != delegate_args_max()) {
+          cat_snprintf(buf, sizeof(buf), ", ");
+        }
       }
     }
 
