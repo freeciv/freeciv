@@ -2305,7 +2305,7 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
     } players_iterate_end;
   }
 
-  if (is_extra_caused_by(pextra, EC_BASE)) {
+  if (!virtual && is_extra_caused_by(pextra, EC_BASE)) {
     struct base_type *pbase = extra_base_get(pextra);
     struct player *owner = extra_owner(ptile);
 
