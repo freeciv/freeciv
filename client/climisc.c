@@ -1374,8 +1374,6 @@ bool mapimg_client_define(void)
   for (layer = mapimg_layer_begin(); layer != mapimg_layer_end();
        layer = mapimg_layer_next(layer)) {
     if (mapimg_layer[layer]) {
-      cat_snprintf(map, sizeof(map), "%s",
-                   mapimg_layer_name(layer));
       map[map_pos++] = mapimg_layer_name(layer)[0];
     }
   }
