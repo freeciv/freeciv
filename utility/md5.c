@@ -55,8 +55,9 @@
  *  - Don't expose the init/update/final interface to the rest of Freeciv
  *    in md5.h; just expose a single high-level function which calculates
  *    the checksum on a buffer (with the result as an ASCII string).
+ *  - Optimized version of SET() has been dropped.
  *
- * Upstream version is revision 1.13 from:
+ * Upstream version is revision 1.15 from:
  * http://cvsweb.openwall.com/cgi/cvsweb.cgi/Owl/packages/popa3d/popa3d/md5/md5.c
  */
 
@@ -101,8 +102,8 @@ typedef struct {
         (a) += (b);
 
 /*
- * SET reads 4 input bytes in little-endian byte order and stores them
- * in a properly aligned word in host byte order.
+ * SET reads 4 input bytes in little-endian byte order and stores them in a
+ * properly aligned word in host byte order.
  */
 #define SET(n) \
         (ctx->block[(n)] = \
@@ -114,8 +115,8 @@ typedef struct {
         (ctx->block[(n)])
 
 /*
- * This processes one or more 64-byte data blocks, but does NOT update
- * the bit counters.  There are no alignment requirements.
+ * This processes one or more 64-byte data blocks, but does NOT update the bit
+ * counters.  There are no alignment requirements.
  */
 static const void *body(MD5_CTX *ctx, const void *data, unsigned long size)
 {
@@ -269,6 +270,12 @@ static void MD5_Update(MD5_CTX *ctx, const void *data, unsigned long size)
   memcpy(ctx->buffer, data, size);
 }
 
+#define OUT(dst, src) \
+	(dst)[0] = (unsigned char)(src); \
+	(dst)[1] = (unsigned char)((src) >> 8); \
+	(dst)[2] = (unsigned char)((src) >> 16); \
+	(dst)[3] = (unsigned char)((src) >> 24);
+
 static void MD5_Final(unsigned char *result, MD5_CTX *ctx)
 {
   unsigned long used, available;
@@ -289,34 +296,15 @@ static void MD5_Final(unsigned char *result, MD5_CTX *ctx)
   memset(&ctx->buffer[used], 0, available - 8);
 
   ctx->lo <<= 3;
-  ctx->buffer[56] = ctx->lo;
-  ctx->buffer[57] = ctx->lo >> 8;
-  ctx->buffer[58] = ctx->lo >> 16;
-  ctx->buffer[59] = ctx->lo >> 24;
-  ctx->buffer[60] = ctx->hi;
-  ctx->buffer[61] = ctx->hi >> 8;
-  ctx->buffer[62] = ctx->hi >> 16;
-  ctx->buffer[63] = ctx->hi >> 24;
+  OUT(&ctx->buffer[56], ctx->lo);
+  OUT(&ctx->buffer[60], ctx->hi);
 
   body(ctx, ctx->buffer, 64);
 
-  result[0] = ctx->a;
-  result[1] = ctx->a >> 8;
-  result[2] = ctx->a >> 16;
-  result[3] = ctx->a >> 24;
-  result[4] = ctx->b;
-  result[5] = ctx->b >> 8;
-  result[6] = ctx->b >> 16;
-  result[7] = ctx->b >> 24;
-  result[8] = ctx->c;
-  result[9] = ctx->c >> 8;
-  result[10] = ctx->c >> 16;
-  result[11] = ctx->c >> 24;
-  result[12] = ctx->d;
-  result[13] = ctx->d >> 8;
-  result[14] = ctx->d >> 16;
-  result[15] = ctx->d >> 24;
-
+  OUT(&result[0], ctx->a);
+  OUT(&result[4], ctx->b);
+  OUT(&result[8], ctx->c);
+  OUT(&result[12], ctx->d);
   memset(ctx, 0, sizeof(*ctx));
 }
 
