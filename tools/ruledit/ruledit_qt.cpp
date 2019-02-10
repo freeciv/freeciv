@@ -39,6 +39,7 @@
 #include "ruleset.h"
 
 // ruledit
+#include "conversion_log.h"
 #include "requirers_dlg.h"
 #include "req_edit.h"
 #include "ruledit.h"
@@ -57,6 +58,7 @@
 
 static ruledit_gui *gui;
 static QApplication *qapp;
+static conversion_log *convlog;
 
 /**************************************************************************
   Run ruledit-qt gui.
@@ -193,13 +195,23 @@ void ruledit_gui::setup(QWidget *central_in)
 }
 
 /**************************************************************************
+  Ruleset conversion log callback
+**************************************************************************/
+static void conversion_log_cb(const char *msg)
+{
+  convlog->add(msg);
+}
+
+/**************************************************************************
   User entered savedir
 **************************************************************************/
 void ruledit_gui::launch_now()
 {
+  convlog = new conversion_log();
+
   sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
 
-  if (load_rulesets(NULL, TRUE, NULL, FALSE, TRUE)) {
+  if (load_rulesets(NULL, TRUE, conversion_log_cb, FALSE, TRUE)) {
     display_msg(R__("Ruleset loaded"));
 
     /* Make freeable copy */
