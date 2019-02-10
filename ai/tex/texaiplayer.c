@@ -233,6 +233,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       texai_unit_destruction_recv(msg->data);
       break;
     case TEXAI_MSG_CITY_CREATED:
+    case TEXAI_MSG_CITY_CHANGED:
       texai_city_info_recv(msg->data, msg->type);
       break;
     case TEXAI_MSG_CITY_DESTROYED:

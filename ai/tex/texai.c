@@ -656,6 +656,7 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->funcs.refresh = texwai_refresh;
 
   ai->funcs.tile_info = texai_tile_info;
-  
+  ai->funcs.city_info = texai_city_changed;
+
   return TRUE;
 }

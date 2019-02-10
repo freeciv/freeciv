@@ -143,14 +143,16 @@ void texai_tile_info_recv(void *data)
 **************************************************************************/
 static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
 {
-  struct texai_city_info_msg *info
-    = fc_malloc(sizeof(struct texai_city_info_msg));
+  if (texai_thread_running()) {
+    struct texai_city_info_msg *info
+      = fc_malloc(sizeof(struct texai_city_info_msg));
 
-  info->id = pcity->id;
-  info->owner = player_number(city_owner(pcity));
-  info->tindex = tile_index(city_tile(pcity));
+    info->id = pcity->id;
+    info->owner = player_number(city_owner(pcity));
+    info->tindex = tile_index(city_tile(pcity));
 
-  texai_send_msg(msgtype, NULL, info);
+    texai_send_msg(msgtype, NULL, info);
+  }
 }
 
 /**********************************************************************//**
@@ -158,9 +160,15 @@ static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
 **************************************************************************/
 void texai_city_created(struct city *pcity)
 {
-  if (texai_thread_running()) {
-    texai_city_update(pcity, TEXAI_MSG_CITY_CREATED);
-  }
+  texai_city_update(pcity, TEXAI_MSG_CITY_CREATED);
+}
+
+/**********************************************************************//**
+  City on main map has (potentially) changed.
+**************************************************************************/
+void texai_city_changed(struct city *pcity)
+{
+  texai_city_update(pcity, TEXAI_MSG_CITY_CHANGED);
 }
 
 /**********************************************************************//**
@@ -183,6 +191,7 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     tile_set_worked(ptile, pcity);
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
+    pcity->owner = pplayer;
   }
 }
 

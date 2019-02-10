@@ -26,6 +26,7 @@ void texai_tile_info(struct tile *ptile);
 void texai_tile_info_recv(void *data);
 
 void texai_city_created(struct city *pcity);
+void texai_city_changed(struct city *pcity);
 void texai_city_info_recv(void *data, enum texaimsgtype msgtype);
 void texai_city_destroyed(struct city *pcity);
 void texai_city_destruction_recv(void *data);
