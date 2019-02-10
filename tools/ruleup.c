@@ -123,6 +123,14 @@ static void rup_parse_cmdline(int argc, char *argv[])
 }
 
 /**************************************************************************
+  Conversion log callback
+**************************************************************************/
+static void conv_log(const char *msg)
+{
+  log_normal("%s", msg);
+}
+
+/**************************************************************************
   Main entry point for freeciv-ruleup
 **************************************************************************/
 int main(int argc, char **argv)
@@ -168,7 +176,7 @@ int main(int argc, char **argv)
   /* Reset aifill to zero */
   game.info.aifill = 0;
 
-  if (load_rulesets(NULL, TRUE, FALSE, TRUE)) {
+  if (load_rulesets(NULL, TRUE, conv_log, FALSE, TRUE)) {
     struct rule_data data;
     char tgt_dir[2048];
 

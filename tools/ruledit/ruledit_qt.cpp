@@ -199,7 +199,7 @@ void ruledit_gui::launch_now()
 {
   sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
 
-  if (load_rulesets(NULL, TRUE, FALSE, TRUE)) {
+  if (load_rulesets(NULL, TRUE, NULL, FALSE, TRUE)) {
     display_msg(R__("Ruleset loaded"));
 
     /* Make freeable copy */

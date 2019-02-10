@@ -3240,7 +3240,7 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* load rulesets */
-  if (!load_rulesets(NULL, FALSE, TRUE, FALSE)) {
+  if (!load_rulesets(NULL, FALSE, NULL, TRUE, FALSE)) {
     /* Failed to load correct ruleset */
     exit(EXIT_FAILURE);
   }
