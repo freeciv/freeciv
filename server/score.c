@@ -350,7 +350,7 @@ static int get_units_score(const struct player *pplayer)
 int get_civ_score(const struct player *pplayer)
 {
   /* We used to count pplayer->score.happy here too, but this is too easily
-   * manipulated by players at the endrturn. */
+   * manipulated by players at the endturn. */
   return (total_player_citizens(pplayer)
           + pplayer->score.techs * 2
           + pplayer->score.wonders * 5
