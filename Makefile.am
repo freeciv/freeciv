@@ -37,6 +37,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/debug.m4			\
 		m4/expanddir.m4			\
 		m4/fcdb-mysql.m4		\
+		m4/fcdb-odbc.m4			\
 		m4/fcdb-postgres.m4		\
 		m4/fcdb-sqlite3.m4		\
 		m4/features.m4			\

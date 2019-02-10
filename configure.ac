@@ -103,16 +103,18 @@ FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
 dnl set default values
 fcdb_all=no
 fcdb_mysql=no
+fcdb_odbc=no
 fcdb_postgres=no
 fcdb_sqlite3=no
 
 dnl checks for databases
 dnl all:                  Autodetect as many as possible [default].
 dnl mysql:                use mysql database
+dnl odbc:                 use odbc database
 dnl postgres:             use postgres database
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([fcdb],
-  AS_HELP_STRING([--enable-fcdb[=no/all/mysql/postgres/sqlite3]],
+  AS_HELP_STRING([--enable-fcdb[=no/all/mysql/odbc/postgres/sqlite3]],
                  [database backends [sqlite3](no, or list)]),
 [databases=${enableval}],
 [databases=sqlite3])
@@ -124,6 +126,8 @@ for db in $(echo $databases | $SED 's/,/ /g') ; do
     fcdb_all=no
   elif test "x$db" = "xmysql" ; then
     fcdb_mysql=yes
+  elif test "x$db" = "xodbc" ; then
+    fcdb_odbc=yes
   elif test "x$db" = "xpostgres" ; then
     fcdb_postgres=yes
   elif test "x$db" = "xsqlite3" ; then
@@ -137,6 +141,10 @@ dnl checks for database mysql
 dnl sets FCDB_MYSQL(conditional), FCDB_MYSQL_CFLAGS
 FC_FCDB_MYSQL
 
+dnl checks for database odbc
+dnl sets FCDB_ODBC(conditional), FCDB_ODBC_CFLAGS
+FC_FCDB_ODBC
+
 dnl checks for database postgres
 dnl sets FCDB_POSTGRES(conditional), FCDB_POSTGRES_CFLAGS
 FC_FCDB_POSTGRES
@@ -146,8 +154,8 @@ dnl sets FCDB_SQLITE3(conditional), FCDB_SQLITE3_CFLAGS
 FC_FCDB_SQLITE3
 
 dnl check if a database backend is available
-if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_postgres" = "xyes" \
-   || test "x$fcdb_sqlite3" = "xyes"; then
+if test "x$fcdb_mysql" = "xyes" || test "x$fcdb_odbc" = "xyes" \
+   || test "x$fcdb_postgres" = "xyes" || test "x$fcdb_sqlite3" = "xyes"; then
   enable_fcdb=yes
   AC_DEFINE([HAVE_FCDB], [1], [Database backend available])
 else
@@ -1476,6 +1484,9 @@ if test x$enable_fcdb = xyes ; then
   if test x$fcdb_mysql = xyes ; then
     LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_mysql.la"
   fi
+  if test x$fcdb_odbc = xyes ; then
+    LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_odbc.la"
+  fi
   if test x$fcdb_postgres = xyes ; then
     LUASQL_LIBS="$LUASQL_LIBS \$(top_builddir)/dependencies/luasql/src/libluasql_postgres.la"
   fi
@@ -1788,6 +1799,7 @@ AC_MSG_NOTICE([
     AI modules support:    $enable_aimodules
     Database support:      $enable_fcdb
       mysql:                 $fcdb_mysql
+      odbc:                  $fcdb_odbc
       postgres:              $fcdb_postgres
       sqlite3:               $fcdb_sqlite3
 

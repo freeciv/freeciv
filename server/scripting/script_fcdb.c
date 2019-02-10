@@ -30,6 +30,9 @@
 #ifdef HAVE_FCDB_MYSQL
 #include "ls_mysql.h"
 #endif
+#ifdef HAVE_FCDB_ODBC
+#include "ls_odbc.h"
+#endif
 #ifdef HAVE_FCDB_POSTGRES
 #include "ls_postgres.h"
 #endif
@@ -213,6 +216,10 @@ bool script_fcdb_init(const char *fcdb_luafile)
   tolua_fcdb_open(fcl->state);
 #ifdef HAVE_FCDB_MYSQL
   luaL_requiref(fcl->state, "ls_mysql", luaopen_luasql_mysql, 1);
+  lua_pop(fcl->state, 1);
+#endif
+#ifdef HAVE_FCDB_ODBC
+  luaL_requiref(fcl->state, "ls_odbc", luaopen_luasql_odbc, 1);
   lua_pop(fcl->state, 1);
 #endif
 #ifdef HAVE_FCDB_POSTGRES
