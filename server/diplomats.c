@@ -648,6 +648,13 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                       "again. Your %s was caught and executed."),
                     city_link(pcity),
                     unit_tile_link(pdiplomat));
+      notify_player(cplayer, city_tile(pcity),
+                    E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                    _("The %s %s failed to steal technology again from %s. "
+                      "We were prepared for the attempt."),
+                    nation_adjective_for_player(pplayer),
+                    unit_tile_link(pdiplomat),
+                    city_link(pcity));
     } else {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
@@ -655,14 +662,15 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                       " stealing technology from %s."),
                     unit_tile_link(pdiplomat),
                     city_link(pcity));
+      notify_player(cplayer, city_tile(pcity),
+                    E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                    _("The %s %s failed to steal technology from %s."),
+                    nation_adjective_for_player(pplayer),
+                    unit_tile_link(pdiplomat),
+                    city_link(pcity));
     }
-    notify_player(cplayer, city_tile(pcity),
-                  E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                  _("The %s %s failed to steal technology from %s."),
-                  nation_adjective_for_player(pplayer),
-                  unit_tile_link(pdiplomat),
-                  city_link(pcity));
-    /* this may cause a diplomatic incident */
+
+    /* This may cause a diplomatic incident */
     action_consequence_caught(act_id, pplayer, cplayer,
                               city_tile(pcity), city_link(pcity));
     wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
