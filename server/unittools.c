@@ -2982,10 +2982,11 @@ static void unit_enter_hut(struct unit *punit)
       destroy_extra(ptile, pextra);
       update_tile_knowledge(unit_tile(punit));
 
+      /* FIXME: enable different classes
+       * to behave differently with different huts */
       if (behavior == HUT_FRIGHTEN) {
-        notify_player(pplayer, unit_tile(punit), E_HUT_BARB, ftc_server,
-                      _("Your overflight frightens the tribe;"
-                        " they scatter in terror."));
+        script_server_signal_emit("hut_frighten", punit,
+                                  extra_rule_name(pextra));
         return;
       }
   
@@ -2996,7 +2997,7 @@ static void unit_enter_hut(struct unit *punit)
       }
 
       /* FIXME: Should have parameter for hut extra type */
-      script_server_signal_emit("hut_enter", punit);
+      script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
     }
   } extra_type_by_cause_iterate_end;
 

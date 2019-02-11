@@ -492,8 +492,10 @@ static void script_server_signals_create(void)
                                  API_TYPE_CITY, API_TYPE_PLAYER, API_TYPE_PLAYER);
   deprecate_signal(depr, "city_lost", "city_transferred", "2.6");
 
-  luascript_signal_create(fcl_main, "hut_enter", 1,
-                          API_TYPE_UNIT);
+  luascript_signal_create(fcl_main, "hut_enter", 2,
+                          API_TYPE_UNIT, API_TYPE_STRING);
+  luascript_signal_create(fcl_main, "hut_frighten", 2,
+                          API_TYPE_UNIT, API_TYPE_STRING);
 
   luascript_signal_create(fcl_main, "unit_lost", 3,
                           API_TYPE_UNIT, API_TYPE_PLAYER, API_TYPE_STRING);

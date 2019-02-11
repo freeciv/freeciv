@@ -229,6 +229,9 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 bool extra_conflicting_on_tile(const struct extra_type *pextra,
                                const struct tile *ptile);
+/* This macro defines when there is an extra which is removed by entering.
+ * FIXME: invent a rmcause for this purpose and use it instead. */
+#define hut_on_tile(ptile) tile_has_cause_extra((ptile), EC_HUT)
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
 bool is_extra_flag_card_near(const struct tile *ptile,

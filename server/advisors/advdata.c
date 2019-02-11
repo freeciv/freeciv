@@ -395,7 +395,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       /* we don't need more explaining, we got the point */
       continue;
     }
-    if (tile_has_cause_extra(ptile, EC_HUT) 
+    if (hut_on_tile(ptile) 
         && (!has_handicap(pplayer, H_HUTS)
              || map_is_known(ptile, pplayer))) {
       adv->explore.land_done = FALSE;
