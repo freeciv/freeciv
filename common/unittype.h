@@ -159,7 +159,7 @@ struct unit_class {
  * for bits, though unit_type.flags is still a bitfield, and code
  * which uses unit_has_type_flag() without twiddling bits is unchanged.
  * (It is easier to go from i to (1<<i) than the reverse.)
- * See data/default/units.ruleset for documentation of their effects.
+ * See data/classic/units.ruleset for documentation of their effects.
  * Change the array *flag_names[] in unittype.c accordingly.
  * Used in the network protocol.
  */
