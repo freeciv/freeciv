@@ -192,7 +192,9 @@ comment below.
  * tiles fully surrounded by different terrain. */
 #define OWN_CITY_SCORE         (BEST_NORMAL_TILE + 1)
 
-/* And we value exploring huts even more than our own cities. */
+/* And we value exploring huts even more than our own cities.
+ * FIXME: different desirability of entering different huts
+ * in different circumstates must be specifiable by a ruleset. */
 #define HUT_SCORE              (OWN_CITY_SCORE + 1) 
 
 #define BEST_POSSIBLE_SCORE    (HUT_SCORE + BEST_NORMAL_TILE)
@@ -206,7 +208,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   /* First do some checks that would make a tile completely non-desirable.
    * If we're a barbarian and the tile has a hut, don't go there. */
-  if (is_barbarian(pplayer) && tile_has_cause_extra(ptile, EC_HUT)) {
+  if (is_barbarian(pplayer) && hut_on_tile(ptile)) {
     return 0;
   }
 
@@ -247,7 +249,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   if ((!is_ai(pplayer) || !has_handicap(pplayer, H_HUTS))
       && map_is_known(ptile, pplayer)
-      && tile_has_cause_extra(ptile, EC_HUT)) {
+      && hut_on_tile(ptile)) {
     /* we want to explore huts whenever we can,
      * even if doing so will not uncover any tiles. */
     desirable += HUT_SCORE;

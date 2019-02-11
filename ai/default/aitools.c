@@ -934,7 +934,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* barbarians shouldn't enter huts */
-  if (is_barbarian(pplayer) && tile_has_cause_extra(ptile, EC_HUT)) {
+  if (is_barbarian(pplayer) && hut_on_tile(ptile)) {
     return FALSE;
   }
 
