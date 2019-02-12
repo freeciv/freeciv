@@ -1709,6 +1709,7 @@ AC_CONFIG_FILES([Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
           tools/Makefile
+          tools/fcmp/Makefile
           tools/ruledit/Makefile
           tools/ruleutil/Makefile
           tools/shared/Makefile
@@ -1738,16 +1739,16 @@ AC_CONFIG_FILES([Makefile
           client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
           client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
 	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
-	  tools/freeciv-mp-gtk3.desktop:bootstrap/freeciv-mp-gtk3.desktop.in
-	  tools/freeciv-mp-qt.desktop:bootstrap/freeciv-mp-qt.desktop.in
+	  tools/fcmp/freeciv-mp-gtk3.desktop:bootstrap/freeciv-mp-gtk3.desktop.in
+	  tools/fcmp/freeciv-mp-qt.desktop:bootstrap/freeciv-mp-qt.desktop.in
 	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
           client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in
           client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
-          tools/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
-          tools/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
+          tools/fcmp/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
+          tools/fcmp/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
           tools/ruledit/freeciv-ruledit.appdata.xml:bootstrap/freeciv-ruledit.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])
 AC_CONFIG_FILES([fcser:bootstrap/fcser.in], [chmod +x fcser])
