@@ -28,9 +28,6 @@
 
 #include "capstr.h"
 
-#define NETWORK_CAPSTRING (NETWORK_CAPSTRING_MANDATORY " "	\
-                           NETWORK_CAPSTRING_OPTIONAL)
-
 static char our_capability_internal[MAX_LEN_CAPSTR];
 const char *const our_capability = our_capability_internal;
 

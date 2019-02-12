@@ -16,8 +16,7 @@ fi
 echo "#define VERSION_LABEL \"$VERSION_LABEL\""     >> $1
 echo "#define VERSION_STRING \"$VERSION_STRING\""   >> $1
 echo ""                                             >> $1
-echo "#define NETWORK_CAPSTRING_MANDATORY \"$NETWORK_CAPSTRING_MANDATORY\"" >> $1
-echo "#define NETWORK_CAPSTRING_OPTIONAL \"$NETWORK_CAPSTRING_OPTIONAL\""   >> $1
+echo "#define NETWORK_CAPSTRING \"$NETWORK_CAPSTRING\"" >> $1
 echo ""                                             >> $1
 echo "#define FOLLOWTAG \"$DEFAULT_FOLLOW_TAG\""    >> $1
 echo "#define FREECIV_DISTRIBUTOR \"$FREECIV_DISTRIBUTOR\"" >> $1

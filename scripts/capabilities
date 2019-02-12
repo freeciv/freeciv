@@ -128,8 +128,8 @@ case $capability in
     file=`find $basedir -name "fc_version"`
 
     old=`cat $file \
-         | grep "NETWORK_CAPSTRING_MANDATORY=" \
-         | sed 's/NETWORK_CAPSTRING_MANDATORY="\(.*\)".*/\1/'`
+         | grep "NETWORK_CAPSTRING=" \
+         | sed 's/NETWORK_CAPSTRING="\(.*\)".*/\1/'`
 
     echo "* Replacing \"${old}\" with \"${string}\" in:"
     cat $file \
