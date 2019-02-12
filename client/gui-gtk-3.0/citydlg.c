@@ -111,7 +111,7 @@ enum { OVERVIEW_PAGE, MAP_PAGE, BUILDINGS_PAGE, WORKLIST_PAGE,
 };
 
 #define NUM_CITIZENS_SHOWN 30
-#define NUM_INFO_FIELDS 13      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 14      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
@@ -242,7 +242,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity);
 static void city_dialog_update_title(struct city_dialog *pdialog);
 static void city_dialog_update_citizens(struct city_dialog *pdialog);
 static void city_dialog_update_information(GtkWidget **info_ebox,
-					   GtkWidget **info_label,
+                                           GtkWidget **info_label,
                                            struct city_dialog *pdialog);
 static void city_dialog_update_map(struct city_dialog *pdialog);
 static void city_dialog_update_building(struct city_dialog *pdialog);
@@ -490,7 +490,7 @@ void real_city_dialog_refresh(struct city *pcity)
   city_dialog_update_title(pdialog);
   city_dialog_update_citizens(pdialog);
   city_dialog_update_information(pdialog->overview.info_ebox,
-				 pdialog->overview.info_label, pdialog);
+                                 pdialog->overview.info_label, pdialog);
   city_dialog_update_map(pdialog);
   city_dialog_update_building(pdialog);
   city_dialog_update_improvement_list(pdialog);
@@ -648,7 +648,7 @@ enum { FIELD_FOOD, FIELD_SHIELD, FIELD_TRADE, FIELD_GOLD, FIELD_LUXURY,
   Popup info dialog
 **************************************************************************/
 static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
-    				gpointer data)
+                                gpointer data)
 {
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
 
@@ -725,7 +725,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
   **info_label points to the info_label in the respective struct
 **************************************************************************/
 static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
-    					 GtkWidget **info_ebox,
+                                         GtkWidget **info_ebox,
                                          GtkWidget **info_label)
 {
   int i;
@@ -743,7 +743,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Waste:"),
     N_("Culture:"),
     N_("Pollution:"),
-    N_("Plague Risk:")
+    N_("Plague Risk:"),
+    N_("Tech Stolen:")
   };
   static bool output_label_done;
 
@@ -1763,7 +1764,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
-         POLLUTION, ILLNESS
+         POLLUTION, ILLNESS, STEAL
   };
 
   /* fill the buffers with the necessary info */
@@ -1814,6 +1815,11 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
     /* illness is in tenth of percent */
     fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
                 (float)illness / 10.0);
+  }
+  if (pcity->steal) {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("%d times"), pcity->steal);
+  } else {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("Not stolen"));
   }
 
   /* stick 'em in the labels */

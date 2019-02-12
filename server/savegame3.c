@@ -4623,7 +4623,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                   FALSE, "%s", secfile_error());
   pcity->rapture =
     secfile_lookup_int_default(loading->file, 0, "%s.rapture", citystr);
-  pcity->server.steal =
+  pcity->steal =
     secfile_lookup_int_default(loading->file, 0, "%s.steal", citystr);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &pcity->turn_founded,
@@ -4940,7 +4940,7 @@ static void sg_save_player_cities(struct savedata *saving,
 
     secfile_insert_int(saving->file, pcity->anarchy, "%s.anarchy", buf);
     secfile_insert_int(saving->file, pcity->rapture, "%s.rapture", buf);
-    secfile_insert_int(saving->file, pcity->server.steal, "%s.steal", buf);
+    secfile_insert_int(saving->file, pcity->steal, "%s.steal", buf);
     secfile_insert_int(saving->file, pcity->turn_founded, "%s.turn_founded",
                        buf);
     secfile_insert_bool(saving->file, pcity->did_buy, "%s.did_buy", buf);

@@ -593,7 +593,7 @@ int diplomats_unignored_tech_stealings(struct unit *pdiplomat,
     /* Negative effect value means infinite bonus */
     times = 0;
   } else {
-    times = pcity->server.steal - bonus;
+    times = pcity->steal - bonus;
     if (times < 0) {
       times = 0;
     }
@@ -786,7 +786,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   send_player_all_c(pplayer, NULL);
 
   /* Record the theft. */
-  (pcity->server.steal)++;
+  (pcity->steal)++;
 
   /* this may cause a diplomatic incident */
   action_consequence_success(paction, pplayer, cplayer,

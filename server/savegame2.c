@@ -3423,7 +3423,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                   FALSE, "%s", secfile_error());
   pcity->rapture =
     secfile_lookup_int_default(loading->file, 0, "%s.rapture", citystr);
-  pcity->server.steal =
+  pcity->steal =
     secfile_lookup_int_default(loading->file, 0, "%s.steal", citystr);
 
   /* before did_buy for undocumented hack */

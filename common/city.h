@@ -388,6 +388,8 @@ struct city {
 
   struct worker_task_list *task_reqs;
 
+  int steal; /* diplomats steal once; for spies, gets harder */
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */
@@ -396,8 +398,6 @@ struct city {
       int mgr_score_calc_turn; /* turn the migration score was calculated */
 
       int illness;
-
-      int steal; /* diplomats steal once; for spies, gets harder */
 
       /* If > 0, workers will not be rearranged until they are unfrozen. */
       int workers_frozen;

@@ -111,7 +111,7 @@ enum { OVERVIEW_PAGE, MAP_PAGE, BUILDINGS_PAGE, WORKLIST_PAGE,
 };
 
 #define NUM_CITIZENS_SHOWN 30
-#define NUM_INFO_FIELDS 13      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 14      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
@@ -741,7 +741,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Waste:"),
     N_("Culture:"),
     N_("Pollution:"),
-    N_("Plague Risk:")
+    N_("Plague Risk:"),
+    N_("Tech Stolen:")
   };
   static bool output_label_done;
 
@@ -1765,7 +1766,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
-         POLLUTION, ILLNESS
+         POLLUTION, ILLNESS, STEAL
   };
 
   /* fill the buffers with the necessary info */
@@ -1816,6 +1817,11 @@ static void city_dialog_update_information(GtkWidget **info_label,
     /* illness is in tenth of percent */
     fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
                 (float)illness / 10.0);
+  }
+  if (pcity->steal) {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("%d times"), pcity->steal);
+  } else {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("Not stolen"));
   }
 
   /* stick 'em in the labels */

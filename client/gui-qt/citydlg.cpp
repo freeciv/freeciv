@@ -1505,7 +1505,8 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
             << _("Luxury:") << _("Science:") << _("Granary:")
             << _("Change in:") << _("Corruption:") << _("Waste:")
-            << _("Culture:") << _("Pollution:") << _("Plague Risk:");
+            << _("Culture:") << _("Pollution:") << _("Plague Risk:")
+            << _("Tech Stolen:");
   info_nr = info_list.count();
   info_wdg->setFont(*small_font);
   info_grid_layout->setSpacing(0);
@@ -2948,7 +2949,7 @@ void city_dialog::update_info_label()
 
   enum { FOOD = 0, SHIELD = 2, TRADE = 4, GOLD = 6, LUXURY = 8, SCIENCE = 10,
          GRANARY = 12, GROWTH = 14, CORRUPTION = 16, WASTE = 18,
-         CULTURE = 20, POLLUTION = 22, ILLNESS = 24
+         CULTURE = 20, POLLUTION = 22, ILLNESS = 24, STEAL = 26
        };
 
   /* fill the buffers with the necessary info */
@@ -3020,6 +3021,11 @@ void city_dialog::update_info_label()
     /* illness is in tenth of percent */
     fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
                 (float) illness / 10.0);
+  }
+  if (pcity->steal) {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("%d times"), pcity->steal);
+  } else {
+    fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("Not stolen"));
   }
 
   get_city_dialog_output_text(pcity, O_FOOD, buffer, sizeof(buffer));
