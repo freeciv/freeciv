@@ -26,6 +26,10 @@ ifeq ($(MIN_WIN_VER),)
 MIN_WIN_VER=0x0601
 endif
 
+ifeq ($(MAKE_PARAMS),)
+MAKE_PARAMS="-j2"
+endif
+
 INSTSUB=${ARCHDIR}
 
 # msys2 has dlls in...
