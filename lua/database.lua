@@ -183,8 +183,30 @@ end
 -- freeciv user auth functions
 -- **************************************************************************
 
--- load user data
-function user_load(conn)
+-- Check if user exists.
+function user_exists(conn)
+  local res     -- result handle
+
+  local table_user = get_option("table_user")
+
+  if not dbh then
+    error("Missing database connection...")
+  end
+
+  local username = dbh:escape(auth.get_username(conn))
+
+  query = string.format([[SELECT count(*) FROM %s WHERE name = '%s']],
+                        table_user, username)
+  res = assert(dbh:execute(query))
+
+  local count = res:fetch()
+  res:close()
+
+  return count == 1
+end
+
+-- Check user password.
+function user_verify(conn, plaintext)
   local res     -- result handle
   local row     -- one row of the sql result
   local query   -- sql query
@@ -218,11 +240,9 @@ function user_load(conn)
                         numrows, username))
   end
 
-  local hash = row.password
-
   res:close()
 
-  return hash
+  return row.password == md5sum(plaintext)
 end
 
 -- save a user to the database
@@ -240,7 +260,7 @@ function user_save(conn, password)
   --local now = os.time()
   local query = string.format([[INSERT INTO %s VALUES (NULL, '%s', '%s',
                                 NULL, %s, %s, '%s', '%s', 0)]],
-                              table_user, username, password,
+                              table_user, username, md5sum(password),
                               sql_time(), sql_time(),
                               ipaddr, ipaddr)
   assert(dbh:execute(query))

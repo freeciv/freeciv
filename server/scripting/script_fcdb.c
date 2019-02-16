@@ -85,10 +85,12 @@ static struct fc_lua *fcl = NULL;
   database_free:
     - free the database.
 
-  user_load(Connection pconn):
-    - check if the user data was successful loaded from the database.
+  user_exists(Connection pconn):
+    - Check if the user exists.
   user_save(Connection pconn, String password):
-    - check if the user data was successful saved in the database.
+    - Save a new user.
+  user_verify(Connection pconn):
+    - Check the credentials of the user.
   user_log(Connection pconn, Bool success):
     - check if the login attempt was successful logged.
   user_delegate_to(Connection pconn, Player pplayer, String delegate):
@@ -105,9 +107,11 @@ static void script_fcdb_functions_define(void)
   luascript_func_add(fcl, "database_init", TRUE, 0, 0);
   luascript_func_add(fcl, "database_free", TRUE, 0, 0);
 
-  luascript_func_add(fcl, "user_load", TRUE, 1, 1, API_TYPE_CONNECTION,
-                     API_TYPE_STRING);
-  luascript_func_add(fcl, "user_save", TRUE, 2, 0, API_TYPE_CONNECTION,
+  luascript_func_add(fcl, "user_exists", TRUE, 1, 1, API_TYPE_CONNECTION,
+                     API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_verify", TRUE, 2, 1, API_TYPE_CONNECTION,
+                     API_TYPE_STRING, API_TYPE_BOOL);
+  luascript_func_add(fcl, "user_save", FALSE, 2, 0, API_TYPE_CONNECTION,
                      API_TYPE_STRING);
   luascript_func_add(fcl, "user_log", TRUE, 2, 0, API_TYPE_CONNECTION,
                      API_TYPE_BOOL);
@@ -182,6 +186,28 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
 
   cmd_reply(CMD_FCDB, lfcl->caller, rfc_status, "%s", buf);
 }
+
+/*************************************************************************//**
+  MD5 checksum function for lua environment.
+*****************************************************************************/
+static int md5sum(lua_State *L)
+{
+   int n = lua_gettop(L);
+   char sum[MD5_HEX_BYTES + 1];
+   const char* plaintext;
+   size_t len;
+
+   if (n != 1 || lua_type(L, -1) != LUA_TSTRING) {
+     lua_pushliteral(L, "invalid argument");
+     lua_error(L);
+   }
+
+  plaintext = lua_tolstring(L, -1, &len);
+  create_md5sum((unsigned char*)plaintext, len, sum);
+
+  lua_pushstring(L, sum);
+  return 1;
+}
 #endif /* HAVE_FCDB */
 
 /*****************************************************************************
@@ -210,6 +236,7 @@ bool script_fcdb_init(const char *fcdb_luafile)
 
   tolua_common_a_open(fcl->state);
   tolua_fcdb_open(fcl->state);
+  lua_register(fcl->state, "md5sum", md5sum);
 #ifdef HAVE_FCDB_MYSQL
   luaL_requiref(fcl->state, "ls_mysql", luaopen_luasql_mysql, 1);
   lua_pop(fcl->state, 1);
