@@ -975,7 +975,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_INVESTIGATE_CITY) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Investigate City". */
         requirement_vector_append(&ae->actor_reqs,
@@ -995,7 +994,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* Establish Embassy is split in a unit consuming and a non unit
@@ -1003,7 +1006,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_ESTABLISH_EMBASSY) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Establish Embassy". */
         requirement_vector_append(&ae->actor_reqs,
@@ -1022,7 +1024,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* Incite City is split in a unit consuming and a "try to escape"
@@ -1030,7 +1036,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_INCITE_CITY) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Incite City Escape". */
         ae->action = ACTION_SPY_INCITE_CITY_ESC;
@@ -1049,7 +1054,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* Steal Gold is split in a unit consuming and a "try to escape"
@@ -1057,7 +1066,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_STEAL_GOLD) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Steal Gold Escape". */
         ae->action = ACTION_SPY_STEAL_GOLD_ESC;
@@ -1076,7 +1084,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Sabotage City" is split in a unit consuming and a "try to escape"
@@ -1084,7 +1096,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_SABOTAGE_CITY) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Sabotage City Escape". */
         ae->action = ACTION_SPY_SABOTAGE_CITY_ESC;
@@ -1103,7 +1114,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Targeted Sabotage City" is split in a unit consuming and a "try to
@@ -1111,7 +1126,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_TARGETED_SABOTAGE_CITY) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Targeted Sabotage City Escape". */
         ae->action = ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
@@ -1130,7 +1144,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Steal Tech" is split in a unit consuming and a "try to escape"
@@ -1138,7 +1156,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_STEAL_TECH) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Steal Tech Escape Expected". */
         ae->action = ACTION_SPY_STEAL_TECH_ESC;
@@ -1157,7 +1174,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Targeted Steal Tech" is split in a unit consuming and a "try to
@@ -1165,7 +1186,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_TARGETED_STEAL_TECH) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Targeted Steal Tech Escape Expected". */
         ae->action = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
@@ -1184,7 +1204,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Sabotage Unit" is split in a unit consuming and a "try to
@@ -1192,7 +1216,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_SABOTAGE_UNIT) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Sabotage Unit Escape". */
         ae->action = ACTION_SPY_SABOTAGE_UNIT_ESC;
@@ -1211,7 +1234,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       /* "Poison City" is split in a unit consuming and a "try to
@@ -1219,7 +1246,6 @@ void rscompat_postprocess(struct rscompat_info *info)
       if (ae->action == ACTION_SPY_POISON) {
         /* The old rule is represented with two action enablers. */
         enabler = action_enabler_copy(ae);
-        action_enabler_add(enabler);
 
         /* One allows spies to do "Poison City Escape". */
         ae->action = ACTION_SPY_POISON_ESC;
@@ -1238,7 +1264,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add previously implicit obligatory hard requirement(s) to the
          * newly created copy. (Not done below.) */
-        action_enabler_obligatory_reqs_add(enabler);
+        if (!action_enabler_obligatory_reqs_add(enabler)) {
+          action_enabler_add(enabler);
+        } else {
+          action_enabler_close(enabler);
+        }
       }
 
       if (action_enabler_obligatory_reqs_missing(ae)) {

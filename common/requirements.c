@@ -1199,13 +1199,17 @@ static int first_contradiction(const struct requirement_vector *vec)
   This allows requirement adjustment code to append the new requirement(s)
   and leave the contradiction clean up to this function.
 **************************************************************************/
-void requirement_vector_contradiction_clean(struct requirement_vector *vec)
+bool requirement_vector_contradiction_clean(struct requirement_vector *vec)
 {
   int conflict;
+  bool had_contradiction = FALSE;
 
   while (NO_CONTRADICTIONS != (conflict = first_contradiction(vec))) {
     requirement_vector_remove(vec, conflict);
+    had_contradiction = TRUE;
   }
+
+  return had_contradiction;
 }
 
 /****************************************************************************

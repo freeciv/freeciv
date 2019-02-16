@@ -1136,6 +1136,14 @@ struct action_enabler *action_enabler_new(void)
 }
 
 /**************************************************************************
+  Free resources allocated for the action enabler.
+**************************************************************************/
+void action_enabler_close(struct action_enabler *enabler)
+{
+  free(enabler);
+}
+
+/**************************************************************************
   Create a new copy of an existing action enabler.
 **************************************************************************/
 struct action_enabler *
@@ -1246,15 +1254,17 @@ action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
 
   See action_enabler_obligatory_reqs_missing()
 **************************************************************************/
-void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
+bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
 {
+  bool had_contradiction = FALSE;
+
   /* Sanity check: a non existing action enabler is missing but it doesn't
    * miss any obligatory hard requirements. */
-  fc_assert_ret(enabler);
+  fc_assert_ret_val(enabler, FALSE);
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret(action_id_exists(enabler->action));
+  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
 
   obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
                                 obreq) {
@@ -1281,12 +1291,18 @@ void action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
   } obligatory_req_vector_iterate_end;
 
   /* Remove anything that conflicts with the newly added reqs. */
-  requirement_vector_contradiction_clean(&enabler->actor_reqs);
-  requirement_vector_contradiction_clean(&enabler->target_reqs);
+  if (requirement_vector_contradiction_clean(&enabler->actor_reqs)) {
+    had_contradiction = TRUE;
+  }
+  if (requirement_vector_contradiction_clean(&enabler->target_reqs)) {
+    had_contradiction = TRUE;
+  }
 
   /* Sanity check: obligatory requirement insertion should have fixed the
    * action enabler. */
   fc_assert(action_enabler_obligatory_reqs_missing(enabler) == NULL);
+
+  return had_contradiction;
 }
 
 /**************************************************************************
