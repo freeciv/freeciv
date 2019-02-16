@@ -657,6 +657,7 @@ bool fc_ai_tex_setup(struct ai_type *ai)
 
   ai->funcs.tile_info = texai_tile_info;
   ai->funcs.city_info = texai_city_changed;
+  ai->funcs.unit_info = texai_unit_changed;
 
   return TRUE;
 }

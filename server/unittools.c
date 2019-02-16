@@ -1553,6 +1553,7 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   unit_refresh_vision(punit);
 
   CALL_PLR_AI_FUNC(unit_transformed, pplayer, punit, old_type);
+  CALL_FUNC_EACH_AI(unit_info, punit);
 
   send_unit_info(NULL, punit);
   conn_list_do_unbuffer(pplayer->connections);

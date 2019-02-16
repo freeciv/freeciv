@@ -121,6 +121,8 @@ New in Freeciv 3.1:
 - Added 'tile_info', called when tile has changed
 - Added 'city_info', called when city has changed (calls still happen for few
   specific changes only)
+- Added 'unit_info', called when unit has changed (calls still happen for few
+  specific changes only)
 - Added 'map_alloc' and 'map_free', called when map tiles are allocated or freed
 - Added 'map_ready', called when map has been generated or, in case of scenario, loaded
 - Added 'unit_move_seen', called for all AI types when unit moves

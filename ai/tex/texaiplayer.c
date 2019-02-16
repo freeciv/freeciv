@@ -227,6 +227,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       texai_unit_moved_recv(msg->data);
       break;
     case TEXAI_MSG_UNIT_CREATED:
+    case TEXAI_MSG_UNIT_CHANGED:
       texai_unit_info_recv(msg->data, msg->type);
       break;
     case TEXAI_MSG_UNIT_DESTROYED:

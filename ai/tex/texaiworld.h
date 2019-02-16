@@ -33,6 +33,7 @@ void texai_city_destruction_recv(void *data);
 struct city *texai_map_city(int city_id);
 
 void texai_unit_created(struct unit *punit);
+void texai_unit_changed(struct unit *punit);
 void texai_unit_info_recv(void *data, enum texaimsgtype msgtype);
 void texai_unit_destroyed(struct unit *punit);
 void texai_unit_destruction_recv(void *data);
