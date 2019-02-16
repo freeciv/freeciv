@@ -503,6 +503,7 @@ struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
 struct action_enabler *action_enabler_new(void);
+void action_enabler_close(struct action_enabler *enabler);
 struct action_enabler *
 action_enabler_copy(const struct action_enabler *original);
 void action_enabler_add(struct action_enabler *enabler);
@@ -510,7 +511,7 @@ bool action_enabler_remove(struct action_enabler *enabler);
 
 const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
-void action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
+bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
 bool univs_have_action_enabler(action_id action,
                                struct universal *actor_uni,

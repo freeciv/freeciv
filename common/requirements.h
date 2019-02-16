@@ -108,7 +108,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
 bool does_req_contradicts_reqs(const struct requirement *req,
                                const struct requirement_vector *vec);
 
-void requirement_vector_contradiction_clean(struct requirement_vector *vec);
+bool requirement_vector_contradiction_clean(struct requirement_vector *vec);
 
 bool is_req_active(const struct player *target_player,
 		   const struct player *other_player,
