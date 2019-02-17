@@ -39,7 +39,7 @@
 /* ai/default */
 #include "aidata.h"
 
-/* ai/threxpr */
+/* ai/tex */
 #include "texaimsg.h"
 
 #include "texaicity.h"
@@ -517,7 +517,7 @@ void texai_req_worker_task_rcv(struct texai_req *req)
 }
 
 /**************************************************************************
-  Initialize city for use with threxp AI.
+  Initialize city for use with tex AI.
 **************************************************************************/
 void texai_city_alloc(struct ai_type *ait, struct city *pcity)
 {
@@ -530,7 +530,7 @@ void texai_city_alloc(struct ai_type *ait, struct city *pcity)
 }
 
 /**************************************************************************
-  Free city from use with threxp AI.
+  Free city from use with tex AI.
 **************************************************************************/
 void texai_city_free(struct ai_type *ait, struct city *pcity)
 {

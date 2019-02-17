@@ -22,7 +22,7 @@
 /* ai/default */
 #include "aidata.h"
 
-/* ai/threxpt */
+/* ai/tex */
 #include "texaimsg.h"
 
 struct player;

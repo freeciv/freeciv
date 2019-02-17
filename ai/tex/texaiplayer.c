@@ -30,7 +30,7 @@
 /* ai/default */
 #include "aiplayer.h"
 
-/* ai/threxpr */
+/* ai/tex */
 #include "texaicity.h"
 
 #include "texaiplayer.h"
@@ -163,7 +163,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 }
 
 /**************************************************************************
-  Initialize player for use with threxpr AI.
+  Initialize player for use with tex AI.
 **************************************************************************/
 void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
 {
@@ -176,7 +176,7 @@ void texai_player_alloc(struct ai_type *ait, struct player *pplayer)
 }
 
 /**************************************************************************
-  Free player from use with threxpr AI.
+  Free player from use with tex AI.
 **************************************************************************/
 void texai_player_free(struct ai_type *ait, struct player *pplayer)
 {
@@ -198,7 +198,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
 {
   exthrai.num_players++;
 
-  log_debug("%s now under threxp AI (%d)", pplayer->name,
+  log_debug("%s now under tex AI (%d)", pplayer->name,
             exthrai.num_players);
 
   if (!exthrai.thread_running) {
