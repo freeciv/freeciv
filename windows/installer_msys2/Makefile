@@ -160,7 +160,9 @@ SOUND_DLLS := \
 	libportaudio-2.dll \
 	libsndfile-1.dll \
 	libspeex-1.dll \
-	libmpg123-0.dll
+	libmpg123-0.dll \
+	libopusfile-0.dll \
+	libopus-0.dll
 
 COMMON_DLLS := \
 	libstdc++-6.dll \
@@ -207,6 +209,8 @@ COMMON_DLLS := \
 	mgwhelp.dll \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
+	libreadline7.dll \
+	libtermcap-0.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -252,7 +256,8 @@ SDL2_DLLS := \
 	SDL2_ttf.dll \
 	libjpeg-8.dll \
 	libtiff-5.dll \
-	libwebp-7.dll
+	libwebp-7.dll \
+	libzstd.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
