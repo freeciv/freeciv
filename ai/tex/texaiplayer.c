@@ -322,6 +322,15 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
     fc_thread_cond_init(&exthrai.msgs_to.thr_cond);
     fc_init_mutex(&exthrai.msgs_to.mutex);
     fc_thread_start(&exthrai.ait, texai_thread_start, ait);
+
+    players_iterate(oplayer) {
+      city_list_iterate(oplayer->cities, pcity) {
+        texai_city_created(pcity);
+      } city_list_iterate_end;
+      unit_list_iterate(oplayer->units, punit) {
+        texai_unit_created(punit);
+      } unit_list_iterate_end;
+    } players_iterate_end;
   }
 }
 
