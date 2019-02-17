@@ -1062,16 +1062,16 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 reqs           =
-    { "type", "name", "range"
-      "Tech", "Railroad", "Player"
-      "Extra", "Road", "Local"
-      "UnitFlag", "Settlers", "Local"
-      "TerrainClass", "Land", "Local"
+    { "type", "name", "range", "present"
+      "Tech", "Railroad", "Player", TRUE
+      "Extra", "Road", "Local", TRUE
+      "UnitFlag", "Settlers", "Local", TRUE
+      "TerrainClass", "Land", "Local", TRUE
+      "CityTile", "Center", "Local", FALSE
     }
 build_time     = 3
 removal_time   = 0
 native_to      = "Land"
-flags          = "AutoOnCityCenter"
 helptext       = _("\
 Once you learn the Railroad technology, you may upgrade your roads\
  to railroads. Units expend no movement points when moving along a\
@@ -1080,9 +1080,6 @@ Once you learn the Railroad technology, you may upgrade your roads\
 A railroad also increases by half (rounding down) all resources produced\
  by a tile. A tile whose road is upgraded to a railroad retains any trade\
  bonus from the road as well.\
-"), _("\
-City center tiles with roads are automatically upgraded to railroads\
- when you learn the Railroad technology.\
 ")
 
 [extra_river]
