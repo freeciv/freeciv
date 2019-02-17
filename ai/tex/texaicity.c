@@ -39,7 +39,7 @@
 /* ai/default */
 #include "aidata.h"
 
-/* ai/threxpr */
+/* ai/tex */
 #include "texaimsg.h"
 
 #include "texaicity.h"

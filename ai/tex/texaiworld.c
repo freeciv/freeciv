@@ -23,7 +23,7 @@
 /* server/advisors */
 #include "infracache.h"
 
-/* threxpr */
+/* ai/tex */
 #include "texaiplayer.h"
 
 #include "texaiworld.h"

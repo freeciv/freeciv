@@ -15,7 +15,7 @@
 #include <fc_config.h>
 #endif
 
-/* ai/threxpr */
+/* ai/tex */
 #include "texaiplayer.h"
 
 #include "texaimsg.h"

@@ -33,7 +33,7 @@
 #include "aiplayer.h"
 #include "daimilitary.h"
 
-/* ai/threxpr */
+/* ai/tex */
 #include "texaicity.h"
 #include "texaiworld.h"
 
@@ -310,7 +310,7 @@ void texai_control_gained(struct ai_type *ait, struct player *pplayer)
 {
   exthrai.num_players++;
 
-  log_debug("%s now under threxp AI (%d)", pplayer->name,
+  log_debug("%s now under tex AI (%d)", pplayer->name,
             exthrai.num_players);
 
   if (!exthrai.thread_running) {
