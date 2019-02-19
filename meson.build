@@ -348,7 +348,7 @@ ais = static_library('fc_ai',
   include_directories: [server_inc, include_directories('ai/default')]
   )
 
-server_lib = static_library('libfc_server',
+server_lib = static_library('fc_server',
   'ai/aitraits.c',
   'ai/difficulty.c',
   'ai/handicaps.c',
