@@ -26,7 +26,7 @@ echo "apt-get install dependencies"
 apt-get -y install ${dependencies}
 
 # Configure and build Freeciv
-./autogen.sh CFLAGS="-O3" --enable-client=gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual --enable-ai-static=classic,threaded,tex --enable-fcdb=sqlite3,mysql --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
+./autogen.sh CFLAGS="-O3" --enable-client=gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual --enable-ai-static=classic,threaded,tex,stub --enable-fcdb=sqlite3,mysql --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 sudo -u travis make install
 echo "Freeciv build successful!"
 
