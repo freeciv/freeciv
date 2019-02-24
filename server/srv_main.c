@@ -1310,8 +1310,15 @@ static void end_phase(void)
           pplayer->multipliers[idx] = pmul->def;
         }
       } else {
-        pplayer->multipliers[idx] =
-          pplayer->multipliers_target[idx];
+        if (pplayer->multipliers[idx] != pplayer->multipliers_target[idx]) {
+          notify_player(pplayer, NULL, E_MULTIPLIER, ftc_server,
+                        _("%s now at value %d"),
+                        multiplier_name_translation(pmul),
+                        pplayer->multipliers_target[idx]);
+
+          pplayer->multipliers[idx] =
+            pplayer->multipliers_target[idx];
+        }
       }
     } multipliers_iterate_end;
   } phase_players_iterate_end;
