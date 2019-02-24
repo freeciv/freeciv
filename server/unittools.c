@@ -2680,8 +2680,16 @@ void send_all_known_units(struct conn_list *dest)
 static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 {
   struct city *pcity = NULL;
+  int pop_loss;
+
+  pcity = tile_city(ptile);
 
   unit_list_iterate_safe(ptile->units, punit) {
+
+    /* unit in a city may survive */
+    if (pcity && fc_rand(100) < game.server.nuke_defender_survival_chance_pct) {
+      continue;
+    }
     notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was nuked by %s."),
                   unit_tile_link(punit),
@@ -2697,7 +2705,6 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     wipe_unit(punit, ULR_NUKE, pplayer);
   } unit_list_iterate_safe_end;
 
-  pcity = tile_city(ptile);
 
   if (pcity) {
     notify_player(city_owner(pcity), ptile, E_CITY_NUKED, ftc_server,
@@ -2713,7 +2720,8 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     city_link(pcity));
     }
 
-    city_reduce_size(pcity, city_size_get(pcity) / 2, pplayer, "nuke");
+    pop_loss = (game.server.nuke_pop_loss_pct * city_size_get(pcity)) / 100;
+    city_reduce_size(pcity, pop_loss, pplayer, "nuke");
   }
 
   if (fc_rand(2) == 1) {

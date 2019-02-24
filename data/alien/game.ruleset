@@ -211,6 +211,17 @@ tired_attack = TRUE
 ; Set this to TRUE if unit should never gain veterancy from such a combat.
 only_killing_makes_veteran = FALSE
 
+; Percentage of population lost by a city after nuclear attak. If set to
+; 100 city is destroyed along with all the units. If set to 0 city does not
+; loose population. Any value below 100 means the city can never be
+; destroyed completely using nuclear
+nuke_pop_loss_pct = 50
+
+; Percentage chance of a city defender surviving nuclear attack. When set
+; to 50 roughly half of defenders will survive nuclear attack. When set to
+; 0 no defenders will survive. When set to 100 all defenders will survive.
+nuke_defender_survival_chance_pct = 0
+
 [auto_attack]
 ; An auto attack may be triggered when another unit moves to an adjacent
 ; tile and the autoattack server setting is enabled. The following details
