@@ -50,48 +50,50 @@ field has no effect on the game rules.
 Requirement types and supported ranges
 ======================================
 
-Tech:          World, Alliance, Team, Player
-TechFlag:      World, Alliance, Team, Player
-MinTechs:      World, Player
-Achievement:   World, Alliance, Team, Player
-Gov:           Player
-Building:      World, Alliance, Team, Player, Continent, Traderoute, City, Local
-BuildingGenus: Local
-Extra:         Local, Adjacent, CAdjacent, Traderoute, City
-BaseFlag:      Local, Adjacent, CAdjacent, Traderoute, City
-RoadFlag:      Local, Adjacent, CAdjacent, Traderoute, City
-ExtraFlag:     Local, Adjacent, CAdjacent, Traderoute, City
-Terrain:       Local, Adjacent, CAdjacent, Traderoute, City
-Good:                                                  City
-UnitType:      Local
-UnitFlag:      Local
-UnitClass:     Local
-UnitClassFlag: Local
-Nation:        World, Alliance, Team, Player
-NationGroup:   World, Alliance, Team, Player
-Nationality:   Traderoute, City
-DiplRel:       World, Alliance, Team, Player, Local
-Action:        Local
-OutputType:    Local
-Specialist:    Local
-MinYear:       World
-MinCalFrag:    World
-Topology:      World
-ServerSetting: World
-Age:           Local, City
-MinSize:       Traderoute, City
-MinCulture:    World, Alliance, Team, Player, Traderoute, City
-AI:            Player
-MaxUnitsOnTile:Local, Adjacent, CAdjacent
-TerrainClass:  Local, Adjacent, CAdjacent, Traderoute, City
-TerrainFlag:   Local, Adjacent, CAdjacent, Traderoute, City
-TerrainAlter:  Local
-CityTile:      Local, Adjacent, CAdjacent
-Style:         Player
-UnitState:     Local
-MinMoveFrags:  Local
-MinVeteran:    Local
-MinHitPoints:  Local
+Tech:            World, Alliance, Team, Player
+TechFlag:        World, Alliance, Team, Player
+MinTechs:        World, Player
+Achievement:     World, Alliance, Team, Player
+Gov:             Player
+Building:        World, Alliance, Team, Player, Continent, Traderoute, City, Local
+BuildingGenus:   Local
+Extra:           Local, Adjacent, CAdjacent, Traderoute, City
+BaseFlag:        Local, Adjacent, CAdjacent, Traderoute, City
+RoadFlag:        Local, Adjacent, CAdjacent, Traderoute, City
+ExtraFlag:       Local, Adjacent, CAdjacent, Traderoute, City
+Terrain:         Local, Adjacent, CAdjacent, Traderoute, City
+Good:            City
+UnitType:        Local
+UnitFlag:        Local
+UnitClass:       Local
+UnitClassFlag:   Local
+Nation:          World, Alliance, Team, Player
+NationGroup:     World, Alliance, Team, Player
+Nationality:     Traderoute, City
+DiplRel:         World, Alliance, Team, Player, Local
+Action:          Local
+OutputType:      Local
+Specialist:      Local
+MinYear:         World
+MinCalFrag:      World
+Topology:        World
+ServerSetting:   World
+Age (of unit):   Local
+Age (of city):   City
+Age (of player): Player
+MinSize:         Traderoute, City
+MinCulture:      World, Alliance, Team, Player, Traderoute, City
+AI:              Player
+MaxUnitsOnTile:  Local, Adjacent, CAdjacent
+TerrainClass:    Local, Adjacent, CAdjacent, Traderoute, City
+TerrainFlag:     Local, Adjacent, CAdjacent, Traderoute, City
+TerrainAlter:    Local
+CityTile:        Local, Adjacent, CAdjacent
+Style:           Player
+UnitState:       Local
+MinMoveFrags:    Local
+MinVeteran:      Local
+MinHitPoints:    Local
 
 
 MinSize is the minimum size of a city required.
