@@ -221,7 +221,9 @@ will pop up.\
 vision, advances, cities, or gold), embassies, or binding pacts \
 such as a cease-fire or peace.  There is no need to trade like for \
 like; you can trade, say, an advance or city for gold - you can \
-consider this buying and selling.\
+consider this buying and selling.  Each player builds a list of offered \
+items.  To remove an item from the list, double-click on it.  \
+When both players indicate satisfaction, the pact is concluded.\
 "), _("\
     Pacts affect where your units can go and what they can do, \
 and a pact with one nation can affect your relations with others.  \
@@ -1652,6 +1654,7 @@ Unit Movement:\n\
 "), _("\
 Main Map (Keys):\n\
 ================\n\
+  Some clients support zooming/scaling the map graphics with the + and - keys.\n\
   c: (c)enter view on active unit\n\
     Shift-home: center view on capital\n\
   Shift-arrows: scroll map\n\
