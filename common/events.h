@@ -176,7 +176,7 @@ extern "C" {
 /* The sound system also generates "e_game_quit", although there's no
  * corresponding identifier E_GAME_QUIT. */
 #include "specenum_gen.h"
-/* the maximum number of enumerators is set in generate_specnum.py */
+/* the maximum number of enumerators is set in generate_specenum.py */
 
 extern enum event_type sorted_events[]; /* [E_COUNT], sorted by the
                                            translated message text */
