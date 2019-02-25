@@ -428,6 +428,15 @@ static void texwai_first_activities(struct player *pplayer)
 }
 
 /**************************************************************************
+  Start working on the thread again.
+**************************************************************************/
+static void texwai_restart_phase(struct player *pplayer)
+{
+  TEXAI_AIT;
+  TEXAI_TFUNC(texai_first_activities, pplayer);
+}
+
+/**************************************************************************
   Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_diplomacy_actions(struct player *pplayer)
@@ -624,9 +633,7 @@ bool fc_ai_tex_setup(struct ai_type *ai)
   ai->funcs.want_to_explore = texwai_switch_to_explore;
 
   ai->funcs.first_activities = texwai_first_activities;
-  /* Do complete run after savegame loaded - we don't know what has been
-     done before. */
-  ai->funcs.restart_phase = texwai_first_activities;
+  ai->funcs.restart_phase = texwai_restart_phase;
   ai->funcs.diplomacy_actions = texwai_diplomacy_actions;
   ai->funcs.last_activities = texwai_last_activities;
 
