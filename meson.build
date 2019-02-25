@@ -439,7 +439,8 @@ executable('freeciv-server',
   'server/civserver.c',
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
-  dependencies: [c_compiler.find_library('m')]
+  dependencies: [c_compiler.find_library('m')],
+  install: true
   )
 
 client_common = static_library('fc_client_common',
@@ -505,7 +506,8 @@ executable('freeciv-ruleup',
   'tools/ruleup.c',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
-  dependencies: [c_compiler.find_library('m')]
+  dependencies: [c_compiler.find_library('m')],
+  install: true
   )
 
 executable('freeciv-manual',
@@ -514,5 +516,6 @@ executable('freeciv-manual',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
-  dependencies: [c_compiler.find_library('m')]
+  dependencies: [c_compiler.find_library('m')],
+  install: true
   )
