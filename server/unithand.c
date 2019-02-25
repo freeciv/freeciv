@@ -2154,6 +2154,22 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
 
       unit_versus_unit(punit, pdefender, TRUE, &att_hp, &def_hp);
 
+      notify_player(pplayer, ptile,
+                    E_UNIT_WIN_ATT, ftc_server,
+                    /* TRANS: Your Bomber bombards the English Rifleman.*/
+                    _("Your %s bombards the %s %s."),
+                    unit_name_translation(punit),
+                    nation_adjective_for_player(unit_owner(pdefender)),
+                    unit_name_translation(pdefender));
+
+      notify_player(unit_owner(pdefender), ptile,
+                    E_UNIT_WIN, ftc_server,
+                    /* TRANS: Your Rifleman is bombarded by the French Bomber.*/
+                    _("Your %s is bombarded by the %s %s."),
+                    unit_name_translation(pdefender),
+                    nation_adjective_for_player(pplayer),
+                    unit_name_translation(punit));
+
       see_combat(punit, pdefender);
 
       punit->hp = att_hp;
