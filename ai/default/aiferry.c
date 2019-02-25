@@ -170,12 +170,19 @@ bool dai_is_ferry(struct unit *pferry, struct ai_type *ait)
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
 {
   if (dai_is_ferry(ferry, ait)) {
+    bool caller_closes;
+    struct player *pplayer = unit_owner(ferry);
     struct unit_ai *unit_data = def_ai_unit_data(ferry, ait);
-    struct ai_plr *ai = dai_plr_data_get(ait, unit_owner(ferry), NULL);
+    struct ai_plr *ai = dai_plr_data_get(ait, pplayer,
+                                         &caller_closes);
 
     unit_data->passenger = FERRY_AVAILABLE;
     ai->stats.boats++;
     ai->stats.available_boats++;
+
+    if (caller_closes) {
+      dai_data_phase_finished(ait, pplayer);
+    }
   }
 }
 
