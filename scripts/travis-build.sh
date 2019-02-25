@@ -30,6 +30,9 @@ apt-get -y install ${dependencies}
 sudo -u travis make install
 echo "Freeciv build successful!"
 
+make -s -j$(nproc) dist
+echo "Freeciv distribution build successful!"
+
 # Check that each ruleset loads
 echo "Checking rulesets"
 sudo -u travis ./tests/rulesets_not_broken.sh
