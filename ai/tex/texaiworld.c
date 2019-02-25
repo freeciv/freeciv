@@ -191,7 +191,13 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
     tile_set_worked(ptile, pcity);
   } else {
     pcity = idex_lookup_city(&texai_world, info->id);
-    pcity->owner = pplayer;
+
+    if (pcity != NULL) {
+      pcity->owner = pplayer;
+    } else {
+      log_error("Tex: requested change on city id %d that's not known.",
+                info->id);
+    }
   }
 }
 
@@ -225,10 +231,15 @@ void texai_city_destruction_recv(void *data)
   struct texai_id_msg *info = (struct texai_id_msg *)data;
   struct city *pcity = idex_lookup_city(&texai_world, info->id);
 
-  adv_city_free(pcity);
-  tile_set_worked(city_tile(pcity), NULL);
-  idex_unregister_city(&texai_world, pcity);
-  destroy_city_virtual(pcity);
+  if (pcity != NULL) {
+    adv_city_free(pcity);
+    tile_set_worked(city_tile(pcity), NULL);
+    idex_unregister_city(&texai_world, pcity);
+    destroy_city_virtual(pcity);
+  } else {
+    log_error("Tex: requested removal of city id %d that's not known.",
+              info->id);
+  }
 }
 
 /**********************************************************************//**
