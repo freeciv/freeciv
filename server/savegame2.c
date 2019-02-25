@@ -499,6 +499,12 @@ void savegame2_load(struct section_file *file)
     savegame2_load_real(file);
   }
 
+  players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
 #ifdef DEBUG_TIMERS
   timer_stop(loadtimer);
   log_debug("Loading secfile in %.3f seconds.", timer_read_seconds(loadtimer));
