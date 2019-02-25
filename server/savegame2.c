@@ -503,6 +503,10 @@ void savegame2_load(struct section_file *file)
     unit_list_iterate(pplayer->units, punit) {
       CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
     } unit_list_iterate_end;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
+    } city_list_iterate_end;
   } players_iterate_end;
 
 #ifdef DEBUG_TIMERS
