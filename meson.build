@@ -494,7 +494,7 @@ client_common = static_library('fc_client_common',
                  c_compiler.find_library('libSDL2_mixer')]
   )
 
-tool_lib = static_library('libfc_toolutil',
+tool_lib = static_library('fc_toolutil',
   'tools/ruleutil/comments.c',
   'tools/ruleutil/rulesave.c',
   'tools/shared/tools_fc_interface.c',
