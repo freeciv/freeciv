@@ -1098,6 +1098,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.tired_attack,
                     RS_DEFAULT_TIRED_ATTACK,
                     "combat_rules.tired_attack", NULL);
+  save_default_bool(sfile, game.info.only_killing_makes_veteran,
+                    RS_DEFAULT_ONLY_KILLING_VETERAN,
+                    "combat_rules.only_killing_makes_veteran", NULL);
   save_default_int(sfile, game.info.border_city_radius_sq,
                    RS_DEFAULT_BORDER_RADIUS_SQ_CITY,
                    "borders.radius_sq_city", NULL);
