@@ -21,6 +21,7 @@
 #include "registry.h"
 
 /* common */
+#include "ai.h"
 #include "capability.h"
 #include "game.h"
 
@@ -69,6 +70,13 @@ void savegame_load(struct section_file *sfile)
     log_error("Too old savegame format not supported any more.");
     return;
   }
+
+  players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      CALL_FUNC_EACH_AI(unit_created, punit);
+      CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
+    } unit_list_iterate_end;
+  } players_iterate_end;
 
 #ifdef DEBUG_TIMERS
   timer_stop(loadtimer);
