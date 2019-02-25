@@ -51,7 +51,7 @@ flags =
 veteran_names = _("green"), _("veteran")
 
 ; The percentage chance of increasing level through combat
-veteran_raise_chance = 50, 0
+veteran_base_raise_chance = 50, 0
 
 ; Power factors are as a percentage.
 ; +50% is represented by 150
@@ -254,7 +254,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
 ;                 same length!
-; veteran_raise_chance =
+; veteran_base_raise_chance =
 ; veteran_work_raise_chance =
 ; veteran_power_fact =
 ; veteran_move_bonus =
@@ -1943,7 +1943,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "NoVeteran", "Provoking"
 veteran_names = _("green"), _("veteran")
-veteran_raise_chance = 0, 0
+veteran_base_raise_chance = 0, 0
 veteran_work_raise_chance = 0, 0
 veteran_power_fact = 100, 110
 veteran_move_bonus = 0, 0
@@ -2038,7 +2038,7 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "Spy", "Provoking"
 veteran_names = _("green"), _("veteran")
-veteran_raise_chance = 50, 0
+veteran_base_raise_chance = 50, 0
 veteran_work_raise_chance = 0, 0
 veteran_power_fact = 100, 110
 veteran_move_bonus = 0, 0

@@ -249,7 +249,7 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
-    chance = vlevel->raise_chance * mod / 100;
+    chance = vlevel->base_raise_chance * mod / 100;
   } else if (settler && unit_has_type_flag(punit, UTYF_SETTLERS)) {
     chance = vlevel->work_raise_chance;
   } else {

@@ -31,7 +31,7 @@ format_version=20
 veteran_names = _("green")
 
 ; The percentage chance of increasing level through combat
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 
 ; Power factors are as a percentage.
 ; +50% is represented by 150
@@ -265,7 +265,7 @@ flags         = ""
 ;		  therefore will not revolt along with its city of origin should
 ;		  it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
-;                 (as if both raise_chance and work_raise_chance were zero);
+;                 (as if both base_raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built

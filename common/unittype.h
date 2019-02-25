@@ -461,7 +461,7 @@ struct veteran_level {
   struct name_translation name; /* level/rank name */
   int power_fact; /* combat/work speed/diplomatic power factor (in %) */
   int move_bonus;
-  int raise_chance; /* server only */
+  int base_raise_chance; /* server only */
   int work_raise_chance; /* server only */
 };
 

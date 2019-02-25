@@ -66,7 +66,7 @@ class_flags =
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 
 ; The percentage chance of increasing level through combat
-veteran_raise_chance = 50, 33, 20, 0
+veteran_base_raise_chance = 50, 33, 20, 0
 
 ; The percentage chance of a settler/engineer increasing level through
 ; performing useful work (per turn)
@@ -272,7 +272,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
 ;                 same length!
-; veteran_raise_chance =
+; veteran_base_raise_chance =
 ; veteran_work_raise_chance =
 ; veteran_power_fact =
 ; veteran_move_bonus =
@@ -344,7 +344,7 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;		  therefore will not revolt along with its city of origin should
 ;		  it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
-;                 (as if both raise_chance and work_raise_chance were zero);
+;                 (as if both base_raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
@@ -459,7 +459,7 @@ flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "AddToCity", "Cities", "Expellable", "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
@@ -505,7 +505,7 @@ flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "Airbase", "Expellable", "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
@@ -547,7 +547,7 @@ flags         = "Settlers", "Infra", "Cant_Fortify", "NonMil", "HasNoZOC",
                 "Transform", "Airbase", "Expellable", "MediumWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
@@ -1964,7 +1964,7 @@ flags         = "FieldUnit", "OneAttack", "Nuclear", "HasNoZOC",
                 "MediumWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
@@ -2029,7 +2029,7 @@ veteran_names =
   _("?diplomatic_rank:envoy"),
 ; /* TRANS: diplomatic rank */
   _("?diplomatic_rank:ambassador")
-veteran_raise_chance = 50, 33, 20, 0
+veteran_base_raise_chance = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
 veteran_power_fact = 100, 105, 110, 115
 veteran_move_bonus = 0, 0, 0, 0
@@ -2137,7 +2137,7 @@ veteran_names =
   _("?spy_level:agent"),
 ; /* TRANS: Spy veteran level */
   _("?spy_level:spymaster")
-veteran_raise_chance = 50, 33, 20, 0
+veteran_base_raise_chance = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
 veteran_power_fact = 100, 105, 110, 115
 veteran_move_bonus = 0, 0, 0, 0
@@ -2320,7 +2320,7 @@ flags         = "IgZOC", "NonMil", "HasNoZOC", "NoBuild", "NoHome", "SuperSpy",
                 "Provoking", "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
@@ -2412,7 +2412,7 @@ flags         = "IgZOC", "NonMil", "HasNoZOC", "Unbribable",
                 "LightWeight"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
-veteran_raise_chance = 0
+veteran_base_raise_chance = 0
 veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0

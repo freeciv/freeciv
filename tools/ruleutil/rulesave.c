@@ -2473,7 +2473,7 @@ static bool save_veteran_system(struct section_file *sfile, const char *path,
   for (i = 0; i < vsystem->levels; i++) {
     vlist_name[i] = rule_name_get(&(vsystem->definitions[i].name));
     vlist_power[i] = vsystem->definitions[i].power_fact;
-    vlist_raise[i] = vsystem->definitions[i].raise_chance;
+    vlist_raise[i] = vsystem->definitions[i].base_raise_chance;
     vlist_wraise[i] = vsystem->definitions[i].work_raise_chance;
     vlist_move[i] = vsystem->definitions[i].move_bonus;
   }
@@ -2483,7 +2483,7 @@ static bool save_veteran_system(struct section_file *sfile, const char *path,
   secfile_insert_int_vec(sfile, vlist_power, vsystem->levels,
                          "%s.veteran_power_fact", path);
   secfile_insert_int_vec(sfile, vlist_raise, vsystem->levels,
-                         "%s.veteran_raise_chance", path);
+                         "%s.veteran_base_raise_chance", path);
   secfile_insert_int_vec(sfile, vlist_wraise, vsystem->levels,
                          "%s.veteran_work_raise_chance", path);
   secfile_insert_int_vec(sfile, vlist_move, vsystem->levels,

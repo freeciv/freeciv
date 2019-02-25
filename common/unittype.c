@@ -2059,7 +2059,7 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
   names_set(&vlevel->name, NULL, vlist_name, NULL);
   vlevel->power_fact = vlist_power;
   vlevel->move_bonus = vlist_move;
-  vlevel->raise_chance = vlist_raise;
+  vlevel->base_raise_chance = vlist_raise;
   vlevel->work_raise_chance = vlist_wraise;
 }
 

@@ -51,7 +51,7 @@ class_flags =
 veteran_names = _("Regular"), _("Elite"), _("Superb")
 
 ; The percentage chance of increasing level through combat
-veteran_raise_chance = 10, 0, 0
+veteran_base_raise_chance = 10, 0, 0
 
 ; The percentage chance of a settler/engineer increasing level through
 ; performing useful work (per turn)
@@ -262,7 +262,7 @@ flags         = "Missile", "DoesntOccupyTile"
 ; veteran_names = Special veteran level for this unit. See the definitions in
 ;                 game.ruleset. All of the veteran_* entries have to have the
 ;                 same length!
-; veteran_raise_chance =
+; veteran_base_raise_chance =
 ; veteran_work_raise_chance =
 ; veteran_power_fact =
 ; veteran_move_bonus =
@@ -335,7 +335,7 @@ flags         = "Missile", "DoesntOccupyTile"
 ;		  therefore will not revolt along with its city of origin should
 ;		  it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
-;                 (as if both raise_chance and work_raise_chance were zero);
+;                 (as if both base_raise_chance and work_raise_chance were zero);
 ;                 it can still gain veterancy through Veteran_Build, etc
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
@@ -1399,7 +1399,7 @@ uk_gold       = 0
 vision_layer  = "Stealth"
 flags         = "Diplomat", "IgZOC", "NonMil", "Provoking"
 veteran_names = _("Regular"), _("Elite"), _("Superb")
-veteran_raise_chance = 10, 0, 0
+veteran_base_raise_chance = 10, 0, 0
 veteran_work_raise_chance = 0, 0, 0
 veteran_power_fact = 100, 110, 125
 veteran_move_bonus = 0, 0, 0
