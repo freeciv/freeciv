@@ -61,6 +61,7 @@ priv_headers = [
 foreach hdr : pub_headers
   if c_compiler.has_header(hdr)
     pub_conf_data.set('FREECIV_HAVE_' + hdr.underscorify().to_upper(), 1)
+    priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
   endif
 endforeach
 

@@ -98,3 +98,42 @@
 
 /* vfork.h available */
 #mesondefine HAVE_VFORK_H
+
+/* locale.h available */
+#mesondefine HAVE_LOCALE_H
+
+/* libintl.h available */
+#mesondefine HAVE_LIBINTL_H
+
+/* inttypes.h available */
+#mesondefine HAVE_INTTYPES_H
+
+/* stdint.h available */
+#mesondefine HAVE_STDINT_H
+
+/* ws2tcpip.h available */
+#mesondefine HAVE_WS2TCPIP_H
+
+/* sys/types.h available */
+#mesondefine HAVE_SYS_TYPES_H
+
+/* unistd.h available */
+#mesondefine HAVE_UNISTD_H
+
+/* sys/time.h available */
+#mesondefine HAVE_SYS_TIME_H
+
+/* sys/socket.h available */
+#mesondefine HAVE_SYS_SOCKET_H
+
+/* sys/select.h available */
+#mesondefine HAVE_SYS_SELECT_H
+
+/* netinet/in.h available */
+#mesondefine HAVE_NETINET_IN_H
+
+/* dirent.h available */
+#mesondefine HAVE_DIRENT_H
+
+/* stdbool.h available */
+#mesondefine HAVE_STDBOOL_H
