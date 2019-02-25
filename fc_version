@@ -31,8 +31,10 @@ VERSION_LABEL="-alpha2+"
 #   - IS_DEVEL_VERSION=0
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=0
-# (and update DEFAULT_FOLLOW_TAG to "stable", and also
-# windows/installer_msys2/Makefile --with-followtag to "windows")
+#
+# 5) Final.
+# Update DEFAULT_FOLLOW_TAG to "stable", and also
+# windows/installer_msys2/Makefile --with-followtag to "windows"
 
 IS_DEVEL_VERSION=1
 IS_FREEZE_VERSION=0
