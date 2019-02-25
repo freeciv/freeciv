@@ -13,8 +13,12 @@ echo "#define PATCH_VERSION $PATCH_VERSION"         >> $1
 if test "x$EMERGENCY_VERSION" != "x" ; then
   echo "#define EMERGENCY_VERSION $EMERGENCY_VERSION" >> $1
 fi
+echo "#ifndef VERSION_LABEL"                        >> $1
 echo "#define VERSION_LABEL \"$VERSION_LABEL\""     >> $1
+echo "#endif"                                       >> $1
+echo "#ifndef VERSION_STRING"                       >> $1
 echo "#define VERSION_STRING \"$VERSION_STRING\""   >> $1
+echo "#endif"                                       >> $1
 echo ""                                             >> $1
 echo "#define NETWORK_CAPSTRING \"$NETWORK_CAPSTRING\"" >> $1
 echo ""                                             >> $1
