@@ -1707,6 +1707,7 @@ AC_CONFIG_FILES([Makefile
 	  server/Makefile
           server/advisors/Makefile
 	  server/generator/Makefile
+          server/savegame/Makefile
 	  server/scripting/Makefile
           tools/Makefile
           tools/fcmp/Makefile

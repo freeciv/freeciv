@@ -19,10 +19,12 @@
 #include "luascript.h"
 
 /* server */
-#include "savegame.h"
 #include "score.h"
 #include "settings.h"
 #include "srv_main.h"
+
+/* server/sqavegame */
+#include "savemain.h"
 
 /* server/scripting */
 #include "script_server.h"

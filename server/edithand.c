@@ -46,13 +46,15 @@
 #include "plrhand.h"
 #include "notify.h"
 #include "sanitycheck.h"
-#include "savegame.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unittools.h"
 
 /* server/generator */
 #include "mapgen_utils.h"
+
+/* server/savegame */
+#include "savemain.h"
 
 #include "edithand.h"
 

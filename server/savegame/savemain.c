@@ -27,10 +27,12 @@
 /* server */
 #include "console.h"
 #include "notify.h"
+
+/* server/savegame */
 #include "savegame2.h"
 #include "savegame3.h"
 
-#include "savegame.h"
+#include "savemain.h"
 
 static fc_thread *save_thread = NULL;
 

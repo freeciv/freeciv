@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__SAVEGAME_H
-#define FC__SAVEGAME_H
+#ifndef FC__SAVEMAIN_H
+#define FC__SAVEMAIN_H
 
 /* utility */
 #include "support.h"
@@ -27,4 +27,4 @@ void save_game(const char *orig_filename, const char *save_reason,
 
 void save_system_close(void);
 
-#endif /* FC__SAVEGAME_H */
+#endif /* FC__SAVEMAIN_H */

@@ -105,7 +105,6 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
-#include "savegame.h"
 #include "score.h"
 #include "sernet.h"
 #include "settings.h"
@@ -123,6 +122,9 @@
 #include "advbuilding.h"
 #include "advspace.h"
 #include "infracache.h"
+
+/* server/savegame */
+#include "savemain.h"
 
 /* server/scripting */
 #include "script_server.h"

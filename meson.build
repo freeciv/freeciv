@@ -87,7 +87,8 @@ common_inc = include_directories('dependencies/lua-5.3/src',
   'common/aicore')
 
 server_inc = [common_inc, include_directories('server', 'server/advisors',
-              'server/scripting', 'server/generator', 'ai', 'ai/classic')]
+              'server/scripting', 'server/generator', 'server/savegame',
+              'ai', 'ai/classic')]
 
 client_inc = [common_inc, include_directories('client', 'client/include',
               'client/luascript', 'client/agents')]
@@ -376,6 +377,10 @@ server_lib = static_library('fc_server',
   'server/generator/mapgen_utils.c',
   'server/generator/startpos.c',
   'server/generator/temperature_map.c',
+  'server/savegame/savecompat.c',
+  'server/savegame/savegame2.c',
+  'server/savegame/savegame3.c',
+  'server/savegame/savemain.c',
   'server/scripting/api_fcdb_auth.c',
   'server/scripting/api_fcdb_base.c',
   'server/scripting/api_server_base.c',
@@ -413,10 +418,6 @@ server_lib = static_library('fc_server',
   'server/rssanity.c',
   'server/ruleset.c',
   'server/sanitycheck.c',
-  'server/savecompat.c',
-  'server/savegame2.c',
-  'server/savegame3.c',
-  'server/savegame.c',
   'server/score.c',
   'server/sernet.c',
   'server/settings.c',
