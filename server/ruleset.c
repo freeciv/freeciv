@@ -6340,6 +6340,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_TIRED_ATTACK,
                                     "combat_rules.tired_attack");
 
+    game.info.only_killing_makes_veteran
+      = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_KILLING_VETERAN,
+                                    "combat_rules.only_killing_makes_veteran");
+
     /* section: borders */
     game.info.border_city_radius_sq
       = secfile_lookup_int_default_min_max(file,

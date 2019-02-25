@@ -527,6 +527,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL is_new_game;
   BOOL killcitizen;
   BOOL killstack;
+  BOOL only_killing_makes_veteran;
   UINT8 min_city_center_output[O_LAST];
   BOOL muuk_food_wipe;
   BOOL muuk_gold_wipe;

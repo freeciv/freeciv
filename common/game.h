@@ -797,6 +797,7 @@ extern struct world wld;
 #define RS_DEFAULT_SLOW_INVASIONS                TRUE
 
 #define RS_DEFAULT_TIRED_ATTACK                  FALSE
+#define RS_DEFAULT_ONLY_KILLING_VETERAN          FALSE
 
 #define RS_DEFAULT_BASE_BRIBE_COST               750
 #define RS_MIN_BASE_BRIBE_COST                   0
