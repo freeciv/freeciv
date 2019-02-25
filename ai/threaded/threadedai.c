@@ -410,6 +410,15 @@ static void twai_first_activities(struct player *pplayer)
 }
 
 /**************************************************************************
+  Start working on the thread again.
+**************************************************************************/
+static void twai_restart_phase(struct player *pplayer)
+{
+  TAI_AIT;
+  TAI_TFUNC(tai_first_activities, pplayer);
+}
+
+/**************************************************************************
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
 static void twai_diplomacy_actions(struct player *pplayer)
@@ -593,9 +602,7 @@ bool fc_ai_threaded_setup(struct ai_type *ai)
   ai->funcs.want_to_explore = twai_switch_to_explore;
 
   ai->funcs.first_activities = twai_first_activities;
-  /* Do complete run after savegame loaded - we don't know what has been
-     done before. */
-  ai->funcs.restart_phase = twai_first_activities;
+  ai->funcs.restart_phase = twai_restart_phase;
   ai->funcs.diplomacy_actions = twai_diplomacy_actions;
   ai->funcs.last_activities = twai_last_activities;
 
