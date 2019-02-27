@@ -323,7 +323,8 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z'),
                  c_compiler.find_library('libcurl'),
                  c_compiler.find_library('libsqlite3'),
-                 dependency('threads')]
+                 dependency('threads')],
+  install : true
   )
 
 ais = static_library('fc_ai',
