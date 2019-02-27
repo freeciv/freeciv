@@ -80,8 +80,8 @@
 /*
  * Tilespec capabilities acceptable to this program:
  *
- * +Freeciv-2.4-tilespec
- *    - basic format for Freeciv versions 2.4.x; required
+ * +Freeciv-2.6-tilespec
+ *    - basic format for Freeciv versions 2.6.x; required
  *
  * +Freeciv-tilespec-Devel-YYYY.MMM.DD
  *    - tilespec of the development version at the given data
@@ -96,8 +96,8 @@
 /*
  * Individual spec file capabilities acceptable to this program:
  *
- * +Freeciv-2.3-spec
- *    - basic format for Freeciv versions 2.3.x; required
+ * +Freeciv-2.6-spec
+ *    - basic format for Freeciv versions 2.6.x; required
  */
 
 #define TILESPEC_SUFFIX ".tilespec"
