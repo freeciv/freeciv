@@ -27,7 +27,8 @@
 **************************************************************************/
 enum mood_type player_mood(struct player *pplayer)
 {
-  if (pplayer->last_war_action >= 0 && pplayer->last_war_action + 10 >= game.info.turn) {
+  if (pplayer->last_war_action >= 0
+      && pplayer->last_war_action + WAR_MOOD_LASTS >= game.info.turn) {
     players_iterate(other) {
       struct player_diplstate *us, *them;
 

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -12,6 +12,9 @@
 ***********************************************************************/
 #ifndef FC__MOOD_H
 #define FC__MOOD_H
+
+/* How many turns after latest combat war mood lasts */
+#define WAR_MOOD_LASTS 10
 
 enum mood_type player_mood(struct player *pplayer);
 
