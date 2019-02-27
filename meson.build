@@ -519,3 +519,27 @@ executable('freeciv-manual',
   dependencies: [c_compiler.find_library('m')],
   install: true
   )
+
+install_data(
+  'data/default/default.lua',
+  'data/default/nationlist.ruleset',
+  'data/default/ai_effects.ruleset',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/default')
+  )
+
+install_data(
+  'data/civ2civ3/buildings.ruleset',
+  'data/civ2civ3/cities.ruleset',
+  'data/civ2civ3/effects.ruleset',
+  'data/civ2civ3/game.ruleset',
+  'data/civ2civ3/governments.ruleset',
+  'data/civ2civ3/nations.ruleset',
+  'data/civ2civ3/parser.lua',
+  'data/civ2civ3/README.civ2civ3',
+  'data/civ2civ3/script.lua',
+  'data/civ2civ3/styles.ruleset',
+  'data/civ2civ3/techs.ruleset',
+  'data/civ2civ3/terrain.ruleset',
+  'data/civ2civ3/units.ruleset',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/civ2civ3')
+  )
