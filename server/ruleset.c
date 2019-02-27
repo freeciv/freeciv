@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -76,10 +76,10 @@
 /*
  * Ruleset capabilities acceptable to this program:
  *
- * +Freeciv-2.3-ruleset
- *    - basic ruleset format for Freeciv versions 2.3.x; required
+ * +Freeciv-2.5-ruleset
+ *    - basic ruleset format for Freeciv versions 2.5.x; required
  *
- * +Freeciv-tilespec-Devel-YYYY.MMM.DD
+ * +Freeciv-ruleset-Devel-YYYY.MMM.DD
  *    - ruleset of the development version at the given data
  */
 
