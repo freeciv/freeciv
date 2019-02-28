@@ -33,7 +33,7 @@ function hermit_nest(unit, extra)
                  _("You found Hermit's Place."))
 
     if chance <= 3 then
-      local tech = unit.owner:give_technology(nil, 20, "hut")
+      local tech = unit.owner:give_tech(nil, 20, false, "hut")
       notify.event(unit.owner, unit.tile, E.HUT_TECH,
                  _("Secluded studies have led the Hermit to "
                    .. "the discovery of %s!"),
