@@ -51,8 +51,8 @@
 /*
  * Themespec capabilities acceptable to this program:
  *
- * +Freeciv-2.3-themespec  -  basic format for Freeciv versions 2.3.x;
- *                            required
+ * +Freeciv-2.6-sdl2-themespec  -  basic format for Freeciv versions 2.6.x;
+ *                                 required
  *
  * duplicates_ok  -  we can handle existence of duplicate tags
  *                   (lattermost tag which appears is used; themes which
@@ -62,7 +62,8 @@
 #define SPEC_SDL2_CAPSTR "+Freeciv-2.6-sdl2-spec"
 /*
  * Individual spec file capabilities acceptable to this program:
- * +Freeciv-2.3-spec  -  basic format for Freeciv versions 2.3.x; required
+ *
+ * +Freeciv-2.6-sdl2-spec  -  basic format for Freeciv versions 2.6.x; required
  */
 
 #define THEMESPEC_SUFFIX ".themespec"
