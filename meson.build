@@ -528,19 +528,61 @@ install_data(
   install_dir : join_paths(get_option('datadir'), 'freeciv/default')
   )
 
+rulesets = [
+  'civ2civ3',
+  'classic',
+  'multiplayer',
+  'alien',
+  'sandbox',
+  'civ1',
+  'civ2'
+  ]
+
+ruleset_files = [
+  'buildings.ruleset',
+  'cities.ruleset',
+  'effects.ruleset',
+  'game.ruleset',
+  'governments.ruleset',
+  'nations.ruleset',
+  'parser.lua',
+  'script.lua',
+  'styles.ruleset',
+  'techs.ruleset',
+  'terrain.ruleset',
+  'units.ruleset',
+  ]
+
+foreach rs : rulesets
+  foreach rsf : ruleset_files
+    install_data(
+      join_paths('data', rs, rsf),
+      install_dir : join_paths(get_option('datadir'), 'freeciv', rs)
+      )
+  endforeach
+endforeach
+
 install_data(
-  'data/civ2civ3/buildings.ruleset',
-  'data/civ2civ3/cities.ruleset',
-  'data/civ2civ3/effects.ruleset',
-  'data/civ2civ3/game.ruleset',
-  'data/civ2civ3/governments.ruleset',
-  'data/civ2civ3/nations.ruleset',
-  'data/civ2civ3/parser.lua',
   'data/civ2civ3/README.civ2civ3',
-  'data/civ2civ3/script.lua',
-  'data/civ2civ3/styles.ruleset',
-  'data/civ2civ3/techs.ruleset',
-  'data/civ2civ3/terrain.ruleset',
-  'data/civ2civ3/units.ruleset',
   install_dir : join_paths(get_option('datadir'), 'freeciv/civ2civ3')
+  )
+
+install_data(
+  'data/classic/README.classic',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/classic')
+  )
+
+install_data(
+  'data/multiplayer/README.multiplayer',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/multiplayer')
+  )
+
+install_data(
+  'data/alien/README.alien',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/alien')
+  )
+
+install_data(
+  'data/sandbox/README.sandbox',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/sandbox')
   )
