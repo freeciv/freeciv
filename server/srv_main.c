@@ -1302,7 +1302,13 @@ static void end_phase(void)
       int idx = multiplier_index(pmul);
 
       if (!multiplier_can_be_changed(pmul, pplayer)) {
-        pplayer->multipliers[idx] = pmul->def;
+        if (pplayer->multipliers[idx] != pmul->def) {
+          notify_player(pplayer, NULL, E_MULTIPLIER, ftc_server,
+                        _("%s restored to the default value %d"),
+                        multiplier_name_translation(pmul),
+                        pmul->def);
+          pplayer->multipliers[idx] = pmul->def;
+        }
       } else {
         pplayer->multipliers[idx] =
           pplayer->multipliers_target[idx];

@@ -1,6 +1,6 @@
 [soundspec]
 ; Format and options of this spec file:
-options = "+Freeciv-soundset-Devel-2018-02-27"
+options = "+Freeciv-soundset-Devel-2019-02-28"
 
 [info]
 artists = "\
@@ -317,6 +317,7 @@ e_log_fatal = "stdsounds/LrgExpl.ogg" ; [warzone]
 ;e_uprising = ""
 ;e_disaster = ""
 ;e_achievement = ""
+;e_multiplier = ""
 ;e_vote_new = ""
 ;e_vote_resolved = ""
 ;e_vote_aborted = ""

@@ -166,6 +166,7 @@ extern "C" {
 #define SPECENUM_VALUE127 E_BEGINNER_HELP
 #define SPECENUM_VALUE128 E_MY_UNIT_DID_HEAL
 #define SPECENUM_VALUE129 E_MY_UNIT_WAS_HEALED
+#define SPECENUM_VALUE130 E_MULTIPLIER
 /*
  * Note: If you add a new event, make sure you make a similar change
  * to the events array in "common/events.c" using GEN_EV, to
