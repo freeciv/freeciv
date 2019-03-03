@@ -218,6 +218,7 @@ static struct {
   GEN_EV(E_BEGINNER_HELP,       E_S_XYZZY,      N_("Help for beginners")),
   GEN_EV(E_MY_UNIT_DID_HEAL,    E_S_UNIT,       N_("Unit did heal")),
   GEN_EV(E_MY_UNIT_WAS_HEALED,  E_S_UNIT,       N_("Unit was healed")),
+  GEN_EV(E_MULTIPLIER,          E_S_NATION,     N_("Multiplier changed")),
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };

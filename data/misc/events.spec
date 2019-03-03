@@ -140,6 +140,7 @@ tiles = { "row", "column", "tag"
   6,  4, "e_setting"
   6,  4, "e_message_wall"
   6,  4, "e_connection"
+  6,  4, "e_multiplier"
   6,  5, "e_destroyed"
   6,  6, "e_low_on_funds"
   6,  7, "e_pollution" ; copy from small.png
