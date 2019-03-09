@@ -92,12 +92,12 @@
  *      "duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-spec-Devel-2015-Mar-25"
+#define SPEC_CAPSTR "+Freeciv-spec-Devel-2019-Mar-09"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
- * +Freeciv-2.3-spec
- *    - basic format for Freeciv versions 2.3.x; required
+ * +Freeciv-3.0-spec
+ *    - basic format for Freeciv versions 3.0.x; required
  */
 
 #define TILESPEC_SUFFIX ".tilespec"
