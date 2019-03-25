@@ -435,6 +435,8 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 #define SPECENUM_VALUE1NAME "DefenseDivider"
 #define SPECENUM_VALUE2 CBONUS_FIREPOWER1
 #define SPECENUM_VALUE2NAME "Firepower1"
+#define SPECENUM_VALUE3 CBONUS_DEFENSE_MULTIPLIER_PCT
+#define SPECENUM_VALUE3NAME "DefenseMultiplierPct"
 #include "specenum_gen.h"
 
 struct combat_bonus {
@@ -549,10 +551,10 @@ struct unit_type {
   } adv;
 
   struct {
-    int max_defense_mp; /* Value 0 here does not guarantee that unit never
-                         * has CBONUS_DEFENSE_MULTIPLIER, it merely means
-                         * that there's no POSITIVE one */
-    int defense_mp_bonuses[U_LAST];
+    int max_defense_mp_pct; /* Value 0 here does not guarantee that unit
+                             * never has CBONUS_DEFENSE_MULTIPLIER, it
+                             * merely means that there's no POSITIVE one */
+    int defense_mp_bonuses_pct[U_LAST];
   } cache;
 
   void *ais[FREECIV_AI_MOD_LAST];

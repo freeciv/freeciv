@@ -2136,15 +2136,20 @@ void set_unit_class_caches(struct unit_class *pclass)
 **************************************************************************/
 void set_unit_type_caches(struct unit_type *ptype)
 {
-  ptype->cache.max_defense_mp = -FC_INFINITY;
+  ptype->cache.max_defense_mp_pct = -FC_INFINITY;
 
   unit_type_iterate(utype) {
     int idx = utype_index(utype);
 
-    ptype->cache.defense_mp_bonuses[idx] = combat_bonus_against(ptype->bonuses, utype,
-                                                                CBONUS_DEFENSE_MULTIPLIER);
-    if (ptype->cache.defense_mp_bonuses[idx] > ptype->cache.max_defense_mp) {
-      ptype->cache.max_defense_mp = ptype->cache.defense_mp_bonuses[idx];
+    ptype->cache.defense_mp_bonuses_pct[idx] = combat_bonus_against(
+        ptype->bonuses, utype, CBONUS_DEFENSE_MULTIPLIER_PCT)
+        + 100 * combat_bonus_against(ptype->bonuses, utype,
+                                    CBONUS_DEFENSE_MULTIPLIER);
+
+    if (ptype->cache.defense_mp_bonuses_pct[idx]
+        > ptype->cache.max_defense_mp_pct) {
+      ptype->cache.max_defense_mp_pct =
+         ptype->cache.defense_mp_bonuses_pct[idx];
     }
   } unit_type_iterate_end;
 }

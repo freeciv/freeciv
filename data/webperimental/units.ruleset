@@ -290,14 +290,19 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;
 ; ** Bonuses **
 ;
-; "DefenseMultiplier" = Multiply defense value (1 + 'value') times.
-;                       Value of 1 means multiplication by 2, value 2 by 3...
-;                       Bonus is defined in defenders entry.
-; "DefenseDivider"    = Divide defense value with (1 + 'value').
-;                       Bonus is defined in attackers entry.
-; "FirePower1"        = Defender firepower is reduced to value 1 when
-;                       ever this has non-zero value.
-;                       Bonus is defined in attackers entry.
+; "DefenseMultiplier"    = See "DefenseMultiplierPct" below. This is
+;                          equivalent to that multiplied by 100.
+;                          Bonus is defined in defenders entry.
+; "DefenseMultiplierPct" = Multiply defense by 1 + (value / 100).
+;                          Value of 100 means multiplication by 2,
+;                          value of 50 means multiplication by 1.5, etc.
+;                          Effectively increases defense by value percent.
+;                          Bonus is defined in defenders entry.
+; "DefenseDivider"       = Divide defense value with (1 + 'value').
+;                          Bonus is defined in attackers entry.
+; "FirePower1"           = Defender firepower is reduced to value 1 when
+;                          ever this has non-zero value.
+;                          Bonus is defined in attackers entry.
 ;
 ;
 ; ** Flags **

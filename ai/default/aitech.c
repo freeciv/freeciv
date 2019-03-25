@@ -382,9 +382,9 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
   int att_idx = utype_index(att);
 
   unit_type_iterate(deftype) {
-    int mp = deftype->cache.defense_mp_bonuses[att_idx] + 1;
+    int mp_pct = deftype->cache.defense_mp_bonuses_pct[att_idx] + 100;
     int div_bonus = combat_bonus_against(att->bonuses, deftype, CBONUS_DEFENSE_DIVIDER) + 1;
-    int def = deftype->defense_strength * mp / div_bonus;
+    int def = deftype->defense_strength * mp_pct / (div_bonus * 100);
 
     def_values[utype_index(deftype)] = def;
 

@@ -531,9 +531,10 @@ static int defense_multiplication(const struct unit_type *att_type,
 
   if (NULL != att_type) {
     int defense_divider;
-    int defense_multiplier = 1 + def_type->cache.defense_mp_bonuses[utype_index(att_type)];
+    int defense_multiplier_pct = 100
+        + def_type->cache.defense_mp_bonuses_pct[utype_index(att_type)];
 
-    defensepower *= defense_multiplier;
+    defensepower = defensepower * defense_multiplier_pct / 100;
 
     /* This applies even if pcity is NULL. */
     mod = 100 + get_unittype_bonus(def_player, ptile,
