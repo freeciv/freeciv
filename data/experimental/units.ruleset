@@ -306,7 +306,14 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                          value of 50 means multiplication by 1.5, etc.
 ;                          Effectively increases defense by value percent.
 ;                          Bonus is defined in defenders entry.
-; "DefenseDivider"       = Divide defense value with (1 + 'value').
+; "DefenseDivider"       = See "DefenseDividerPct" below. This is equivalent
+;                          to that multiplied by 100.
+;                          Bonus is defined in attackers entry.
+; "DefenseDividerPct"    = Divide defense value by 1 + (value / 100).
+;                          Value of 100 means division by 2,
+;                          value of 50 means division by 1.5, i.e.
+;                          multiplication with 2/3, etc.
+;                          Effectively increases *attack* by value percent.
 ;                          Bonus is defined in attackers entry.
 ; "FirePower1"           = Defender firepower is reduced to value 1 when
 ;                          ever this has non-zero value.

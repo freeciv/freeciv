@@ -437,6 +437,8 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 #define SPECENUM_VALUE2NAME "Firepower1"
 #define SPECENUM_VALUE3 CBONUS_DEFENSE_MULTIPLIER_PCT
 #define SPECENUM_VALUE3NAME "DefenseMultiplierPct"
+#define SPECENUM_VALUE4 CBONUS_DEFENSE_DIVIDER_PCT
+#define SPECENUM_VALUE4NAME "DefenseDividerPct"
 #include "specenum_gen.h"
 
 struct combat_bonus {
