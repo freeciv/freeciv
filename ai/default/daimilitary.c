@@ -722,7 +722,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   if (maxbonus_pct > 100) {
     maxbonus_pct = (maxbonus_pct + 100) / 2;
   }
-  desire += desire * maxbonus_pct;
+  desire += desire * maxbonus_pct / 100;
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }
