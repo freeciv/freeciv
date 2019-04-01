@@ -159,11 +159,13 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
 /*******************************************************************//**
   When unreachable_protects setting is TRUE:
   To attack a stack, unit must be able to attack every unit there (not
-  including transported units).
+  including transported units and UTYF_NEVER_PROTECTS units).
 ************************************************************************/
 static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit *punit,
                                                               const struct tile *ptile)
 {
+  bool any_reachable_unit = FALSE;
+
   unit_list_iterate(ptile->units, aunit) {
     /* HACK: we don't count transported units here.  This prevents some
      * bugs like a submarine carrying a cruise missile being invulnerable
@@ -174,13 +176,20 @@ static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit 
         enum unit_attack_result result;
 
         result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
-        if (result != ATT_OK) {
+        if (result == ATT_UNREACHABLE && unit_has_type_flag(aunit,
+                                                  UTYF_NEVER_PROTECTS)) {
+          /* Doesn't prevent us from attacking other units on the tile */
+          continue;
+        } else if (result != ATT_OK) {
           return result;
         }
+        any_reachable_unit = TRUE;
       }
   } unit_list_iterate_end;
 
-  return ATT_OK;
+  /* If there are only unreachable, UTYF_NEVER_PROTECTS units, we still have
+   * to return ATT_UNREACHABLE. */
+  return any_reachable_unit ? ATT_OK : ATT_UNREACHABLE;
 }
 
 /*******************************************************************//**

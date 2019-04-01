@@ -188,9 +188,9 @@ struct unit_class {
  * against it has better odds. */
 #define SPECENUM_VALUE7 UTYF_PROVOKING
 #define SPECENUM_VALUE7NAME N_("?unitflag:Provoking")
-/* Invisible except when adjacent (Submarine) */
-#define SPECENUM_VALUE8 UTYF_RESERVED_1
-#define SPECENUM_VALUE8NAME "RESERVED"
+/* Overrides unreachable_protects server setting */
+#define SPECENUM_VALUE8 UTYF_NEVER_PROTECTS
+#define SPECENUM_VALUE8NAME N_("?unitflag:NeverProtects")
 /* Does not include ability to found cities */
 #define SPECENUM_VALUE9 UTYF_SETTLERS
 #define SPECENUM_VALUE9NAME N_("?unitflag:Settlers")
