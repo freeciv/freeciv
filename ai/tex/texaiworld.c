@@ -141,7 +141,7 @@ void texai_tile_info_recv(void *data)
 /**********************************************************************//**
   Send city information to the thread.
 **************************************************************************/
-static void texai_city_update(struct city *pcity, enum texaireqtype msgtype)
+static void texai_city_update(struct city *pcity, enum texaimsgtype msgtype)
 {
   if (texai_thread_running()) {
     struct texai_city_info_msg *info
@@ -245,7 +245,7 @@ void texai_city_destruction_recv(void *data)
 /**********************************************************************//**
   Send unit information to the thread.
 **************************************************************************/
-static void texai_unit_update(struct unit *punit, enum texaireqtype msgtype)
+static void texai_unit_update(struct unit *punit, enum texaimsgtype msgtype)
 {
   if (texai_thread_running()) {
     struct texai_unit_info_msg *info
