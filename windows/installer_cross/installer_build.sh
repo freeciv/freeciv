@@ -136,20 +136,32 @@ fi
 INSTDIR="freeciv-$SETUP-${VERREV}-${GUI}"
 
 if test "x$GUI" = "xruledit" ; then
-  make -C build-${SETUP}-${GUI}/translations/ruledit update-po
-  make -C build-${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
+  if ! make -C build-${SETUP}-${GUI}/translations/ruledit update-po ||
+     ! make -C build-${SETUP}-${GUI}/bootstrap langstat_ruledit.txt
+  then
+    echo "Langstat creation failed!" >&2
+    exit 1
+  fi
 else
-  make -C build-${SETUP}-${GUI}/translations/core update-po
-  make -C build-${SETUP}-${GUI}/bootstrap langstat_core.txt
+  if ! make -C build-${SETUP}-${GUI}/translations/core update-po ||
+     ! make -C build-${SETUP}-${GUI}/bootstrap langstat_core.txt
+  then
+    echo "Langstat creation failed!" >&2
+    exit 1
+  fi
 fi
 
-mv $INSTDIR/bin/* $INSTDIR/
-mv $INSTDIR/share/freeciv $INSTDIR/data
-mv $INSTDIR/share/doc $INSTDIR/
-mkdir -p $INSTDIR/doc/freeciv/installer
-cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/
-rm -Rf $INSTDIR/lib
-cp Freeciv.url $INSTDIR/
+if ! mv $INSTDIR/bin/* $INSTDIR/ ||
+   ! mv $INSTDIR/share/freeciv $INSTDIR/data ||
+   ! mv $INSTDIR/share/doc $INSTDIR/ ||
+   ! mkdir -p $INSTDIR/doc/freeciv/installer ||
+   ! cp licenses/COPYING.installer $INSTDIR/doc/freeciv/installer/ ||
+   ! rm -Rf $INSTDIR/lib ||
+   ! cp Freeciv.url $INSTDIR/
+then
+  echo "Rearranging install directory failed!" >&2
+  exit 1
+fi
 
 if ! add_common_env $DLLSPATH $INSTDIR ; then
   echo "Copying common environment failed!" >&2
@@ -157,7 +169,11 @@ if ! add_common_env $DLLSPATH $INSTDIR ; then
 fi
 
 if test "x$GUI" = "xruledit" ; then
-  cp freeciv-ruledit.cmd $INSTDIR/
+  if ! cp freeciv-ruledit.cmd $INSTDIR/
+  then
+    echo "Adding cmd-file failed!" >&2
+    exit 1
+  fi
 
   if ! add_qt_env $DLLSPATH $INSTDIR ; then
     echo "Copying Qt environment failed!" >&2
@@ -170,9 +186,17 @@ if test "x$GUI" = "xruledit" ; then
   fi
 
   mkdir -p Output
-  makensis Freeciv-ruledit-$SETUP-$VERREV.nsi
+  if ! makensis Freeciv-ruledit-$SETUP-$VERREV.nsi
+  then
+    echo "Creating installer failed!" >&2
+    exit 1
+  fi
 else
-  cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd $INSTDIR/
+  if ! cp freeciv-server.cmd freeciv-$GUI.cmd freeciv-mp-$FCMP.cmd $INSTDIR/
+  then
+    echo "Adding cmd-files failed!" >&2
+    exit 1
+  fi
 
   if ! add_sdl2_mixer_env $DLLSPATH $INSTDIR ; then
     echo "Copying SDL2_mixer environment failed!" >&2
@@ -215,5 +239,9 @@ else
   fi
 
   mkdir -p Output
-  makensis Freeciv-$SETUP-$VERREV-$GUI.nsi
+  if ! makensis Freeciv-$SETUP-$VERREV-$GUI.nsi
+  then
+    echo "Creating installer failed!" >&2
+    exit 1
+  fi
 fi
