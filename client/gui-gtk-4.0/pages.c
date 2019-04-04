@@ -2875,7 +2875,7 @@ static void load_callback(void)
 }
 
 /**********************************************************************//**
-  Call the default GTK+ requester for saved game loading.
+  Call the default GTK requester for saved game loading.
 **************************************************************************/
 static void load_browse_callback(GtkWidget *w, gpointer data)
 {
@@ -3050,7 +3050,7 @@ static void scenario_callback(void)
 }
 
 /**********************************************************************//**
-  call the default GTK+ requester for scenario loading.
+  Call the default GTK requester for scenario loading.
 **************************************************************************/
 static void scenario_browse_callback(GtkWidget *w, gpointer data)
 {

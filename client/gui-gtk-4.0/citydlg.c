@@ -2029,7 +2029,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     }
   }
 
-  /* work around GTK+ refresh bug. */
+  /* work around GTK refresh bug. */
   if (pdialog->overview.production_bar != NULL) {
     gtk_widget_queue_resize(pdialog->overview.production_bar);
   }

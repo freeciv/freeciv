@@ -414,7 +414,7 @@ static void science_report_update(struct science_report *preport)
   text = get_science_target_text(&pct);
   gtk_progress_bar_set_text(preport->progress_bar, text);
   gtk_progress_bar_set_fraction(preport->progress_bar, pct);
-  /* Work around GTK+ refresh bug? */
+  /* Work around GTK refresh bug? */
   gtk_widget_queue_resize(GTK_WIDGET(preport->progress_bar));
 
   /* Update reachable techs. */

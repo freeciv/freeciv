@@ -301,7 +301,7 @@ static void parse_options(int argc, char **argv)
       free(option);
     }
     /* Can't check against unknown options, as those might be gtk options */
-    /* TODO: gtk+ is about to drop its commandline options anyway,
+    /* TODO: gtk is about to drop its commandline options anyway,
      *       so we can stop supporting them and have error checking
      *       added here. */
 
@@ -365,7 +365,7 @@ gboolean map_canvas_focus(void)
 }
 
 /**********************************************************************//**
-  In GTK+ keyboard events are recursively propagated from the hierarchy
+  In GTK keyboard events are recursively propagated from the hierarchy
   parent down to its children. Sometimes this is not what we want.
   E.g. The inputline is active, the user presses the 's' key, we want it
   to be sent to the inputline, but because the main menu is further up
@@ -1711,7 +1711,7 @@ void ui_main(int argc, char **argv)
   g_signal_connect(toplevel, "delete_event",
                    G_CALLBACK(quit_dialog_callback), NULL);
 
-  /* Disable GTK+ cursor key focus movement */
+  /* Disable GTK cursor key focus movement */
   sig = g_signal_lookup("focus", GTK_TYPE_WIDGET);
   g_signal_handlers_disconnect_matched(toplevel, G_SIGNAL_MATCH_ID, sig,
                                        0, 0, 0, 0);
@@ -2278,7 +2278,7 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 **************************************************************************/
 void insert_client_build_info(char *outbuf, size_t outlen)
 {
-  cat_snprintf(outbuf, outlen, _("\nBuilt against gtk+ %d.%d.%d, using %d.%d.%d"
+  cat_snprintf(outbuf, outlen, _("\nBuilt against gtk %d.%d.%d, using %d.%d.%d"
                                  "\nBuilt against glib %d.%d.%d, using %d.%d.%d"),
                GTK_MAJOR_VERSION, GTK_MINOR_VERSION, GTK_MICRO_VERSION,
                gtk_get_major_version(), gtk_get_minor_version(), gtk_get_micro_version(),
