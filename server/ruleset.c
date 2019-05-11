@@ -1817,6 +1817,12 @@ static bool load_ruleset_units(struct section_file *file,
         ok = FALSE;
         break;
       }
+      if (u->require_advance == A_NEVER) {
+        ruleset_error(LOG_ERROR, "%s lacks valid tech_req.",
+                      rule_name_get(&u->name));
+        ok = FALSE;
+        break;
+      }
       if (NULL != section_entry_by_name(psection, "gov_req")) {
         char tmp[200] = "\0";
         fc_strlcat(tmp, section_name(psection), sizeof(tmp));
