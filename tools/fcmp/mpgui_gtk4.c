@@ -313,7 +313,8 @@ static void gui_download_modpack(const char *URL)
 static void install_clicked(GtkWidget *w, gpointer data)
 {
   GtkEntry *URL_in = data;
-  const char *URL = gtk_entry_get_text(URL_in);
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(URL_in);
+  const char *URL = gtk_entry_buffer_get_text(buffer);
 
   gui_download_modpack(URL);
 }
@@ -324,8 +325,9 @@ static void install_clicked(GtkWidget *w, gpointer data)
 static void URL_return(GtkEntry *w, gpointer data)
 {
   const char *URL;
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(w);
 
-  URL = gtk_entry_get_text(w);
+  URL = gtk_entry_buffer_get_text(buffer);
   gui_download_modpack(URL);
 }
 
@@ -416,6 +418,7 @@ static void select_from_list(GtkTreeSelection *select, gpointer data)
   GtkTreeModel *model;
   GtkTreeIter it;
   const char *URL;
+  GtkEntryBuffer *buffer;
 
   if (!gtk_tree_selection_get_selected(select, &model, &it)) {
     return;
@@ -423,7 +426,8 @@ static void select_from_list(GtkTreeSelection *select, gpointer data)
 
   gtk_tree_model_get(model, &it, ML_COL_URL, &URL, -1);
 
-  gtk_entry_set_text(GTK_ENTRY(URL_input), URL);
+  buffer = gtk_entry_get_buffer(GTK_ENTRY(URL_input));
+  gtk_entry_buffer_set_text(buffer, URL, -1);
 }
 
 /**********************************************************************//**
@@ -511,9 +515,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   URL_label = gtk_label_new_with_mnemonic(_("Modpack URL"));
 
   URL_input = gtk_entry_new();
-  gtk_entry_set_width_chars(GTK_ENTRY(URL_input),
-                            strlen(EXAMPLE_URL));
-  gtk_entry_set_text(GTK_ENTRY(URL_input), DEFAULT_URL_START);
+  gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(URL_input)),
+                            DEFAULT_URL_START, -1);
   g_signal_connect(URL_input, "activate",
 		   G_CALLBACK(URL_return), NULL);
 
@@ -600,6 +603,7 @@ int main(int argc, char *argv[])
     gtk_window_set_title(GTK_WINDOW(toplevel),
                          _("Freeciv modpack installer (gtk3x)"));
 
+#if 0
     /* Keep the icon of the executable on Windows */
 #ifndef FREECIV_MSWINDOWS
     {
@@ -611,6 +615,7 @@ int main(int argc, char *argv[])
                                            &err);
     }
 #endif /* FREECIV_MSWINDOWS */
+#endif /* 0 */
 
     g_signal_connect(toplevel, "delete_event",
                      G_CALLBACK(quit_dialog_callback), NULL);
