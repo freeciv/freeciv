@@ -1070,7 +1070,7 @@ fi
 
 if test "x$req_fcmp_gtk3x" = "xyes" ||
    test "x$modinst" = "xall" || test "x$modinst" = "xauto" ; then
-  PKG_CHECK_MODULES([GTK3X_MP], [gtk+-4.0 >= 3.94.0],
+  PKG_CHECK_MODULES([GTK3X_MP], [gtk4 >= 3.96.0],
 [
   GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_94"
   GTK3X_MP_CFLAGS="$GTK3X_MP_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_52"
@@ -1081,7 +1081,7 @@ if test "x$req_fcmp_gtk3x" = "xyes" ||
   mp_gtk3x_cflags="$GTK3X_MP_CFLAGS $GTHREAD_GTK3X_CFLAGS"
   mp_gtk3x_libs="$GTK3X_MP_LIBS $GTHREAD_GTK3X_LIBS"
   if test "x$MINGW32" = "xyes"; then
-    dnl Required to compile gtk3 on Windows platform
+    dnl Required to compile gtk4 on Windows platform
     mp_gtk3x_cflags="$mp_gtk3x_cflags -mms-bitfields"
     mp_gtk3x_ldflags="$mp_gtk3x_ldflags -mwindows"
   fi
