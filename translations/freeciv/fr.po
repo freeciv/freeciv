@@ -8,14 +8,14 @@
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
 # Pepeto <pepeto69 gmail.com>, 2007-2010
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2016
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2018
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-03-07 15:39+0100\n"
+"POT-Creation-Date: 2019-05-12 21:26+0200\n"
 "PO-Revision-Date: 2019-03-08 15:01+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -20341,7 +20341,7 @@ msgstr "%sCorrompre l'unité ennemie%s"
 #: data/civ1/game.ruleset:198 data/civ2/game.ruleset:220
 #: data/classic/game.ruleset:226 data/experimental/game.ruleset:230
 #: data/civ2civ3/game.ruleset:232 data/multiplayer/game.ruleset:230
-#: data/sandbox/game.ruleset:230 server/ruleset.c:5446
+#: data/sandbox/game.ruleset:230 server/ruleset.c:5452
 #, c-format
 msgid "%sSabotage City%s"
 msgstr "%sSaboter la ville%s"
@@ -20359,7 +20359,7 @@ msgstr "%sInciter à la révolte%s"
 #: data/civ1/game.ruleset:204 data/civ2/game.ruleset:229
 #: data/classic/game.ruleset:235 data/experimental/game.ruleset:239
 #: data/civ2civ3/game.ruleset:241 data/multiplayer/game.ruleset:239
-#: data/sandbox/game.ruleset:239 server/ruleset.c:5468
+#: data/sandbox/game.ruleset:239 server/ruleset.c:5474
 #, c-format
 msgid "Establish %sEmbassy%s"
 msgstr "%sÉtablir une ambassade%s"
@@ -20368,7 +20368,7 @@ msgstr "%sÉtablir une ambassade%s"
 #: data/civ1/game.ruleset:207 data/civ2/game.ruleset:232
 #: data/classic/game.ruleset:238 data/experimental/game.ruleset:242
 #: data/civ2civ3/game.ruleset:244 data/multiplayer/game.ruleset:242
-#: data/sandbox/game.ruleset:242 server/ruleset.c:5475
+#: data/sandbox/game.ruleset:242 server/ruleset.c:5481
 #, c-format
 msgid "Steal %sTechnology%s"
 msgstr "%sVoler une technologie%s"
@@ -20377,7 +20377,7 @@ msgstr "%sVoler une technologie%s"
 #: data/civ1/game.ruleset:210 data/civ2/game.ruleset:238
 #: data/classic/game.ruleset:244 data/experimental/game.ruleset:248
 #: data/civ2civ3/game.ruleset:250 data/multiplayer/game.ruleset:248
-#: data/sandbox/game.ruleset:248 server/ruleset.c:5489
+#: data/sandbox/game.ruleset:248 server/ruleset.c:5495
 #, c-format
 msgid "%sInvestigate City%s"
 msgstr "%sÉtudier la ville%s"
@@ -20386,7 +20386,7 @@ msgstr "%sÉtudier la ville%s"
 #: data/civ1/game.ruleset:213 data/civ2/game.ruleset:241
 #: data/classic/game.ruleset:247 data/experimental/game.ruleset:251
 #: data/civ2civ3/game.ruleset:253 data/sandbox/game.ruleset:251
-#: server/ruleset.c:5503
+#: server/ruleset.c:5509
 #, c-format
 msgid "Establish Trade %sRoute%s"
 msgstr "Établir une %sroute commerciale%s"
@@ -20394,7 +20394,7 @@ msgstr "Établir une %sroute commerciale%s"
 #. TRANS: Enter _Marketplace (100% chance of success).
 #: data/civ1/game.ruleset:216 data/civ2/game.ruleset:244
 #: data/civ2civ3/game.ruleset:256 data/sandbox/game.ruleset:254
-#: server/ruleset.c:5510
+#: server/ruleset.c:5516
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "Mettre sur le %sMarché%s"
@@ -20403,7 +20403,7 @@ msgstr "Mettre sur le %sMarché%s"
 #: data/civ1/game.ruleset:219 data/civ2/game.ruleset:247
 #: data/classic/game.ruleset:253 data/experimental/game.ruleset:257
 #: data/civ2civ3/game.ruleset:259 data/multiplayer/game.ruleset:251
-#: data/sandbox/game.ruleset:257 server/ruleset.c:5517
+#: data/sandbox/game.ruleset:257 server/ruleset.c:5523
 #, c-format
 msgid "Help %sbuild Wonder%s"
 msgstr "Aider à la %sconstruction de la merveille%s"
@@ -24135,7 +24135,7 @@ msgstr ""
 #: data/civ2/game.ruleset:211 data/classic/game.ruleset:217
 #: data/experimental/game.ruleset:221 data/civ2civ3/game.ruleset:223
 #: data/multiplayer/game.ruleset:221 data/sandbox/game.ruleset:221
-#: server/ruleset.c:5425
+#: server/ruleset.c:5431
 #, c-format
 msgid "%sPoison City%s"
 msgstr "%sEmpoisonner la ville%s"
@@ -30625,7 +30625,15 @@ msgid ""
 "player builds a list of offered items.  To remove an item from the list, "
 "double-click on it.  When both players indicate satisfaction, the pact is "
 "concluded."
-msgstr "    Dans cette fenêtre, vous pouvez négocier des échanges de biens (cartes, vue, avancées technologiques, ville ou or), d'ambassades, ou engager des pactes comme un cessez-le-feu ou la paix. Il n'y a pas besoin d'équilibrer les biens échangés ; vous pouvez échanger, disons, une avancée technologique ou une ville pour de l'or - vous pouvez considérer ceci comme acheter et vendre. Chaque joueur construit une liste d'articles offerts. Pour supprimer un article de la liste, doublie-cliquez dessus. Quand les deux joueurs indiquent qu'ils sont satisfaits, le pacte est conclu."
+msgstr ""
+"    Dans cette fenêtre, vous pouvez négocier des échanges de biens (cartes, "
+"vue, avancées technologiques, ville ou or), d'ambassades, ou engager des "
+"pactes comme un cessez-le-feu ou la paix. Il n'y a pas besoin d'équilibrer "
+"les biens échangés ; vous pouvez échanger, disons, une avancée technologique "
+"ou une ville pour de l'or - vous pouvez considérer ceci comme acheter et "
+"vendre. Chaque joueur construit une liste d'articles offerts. Pour supprimer "
+"un article de la liste, doublie-cliquez dessus. Quand les deux joueurs "
+"indiquent qu'ils sont satisfaits, le pacte est conclu."
 
 #: data/helpdata.txt:227
 msgid ""
@@ -33468,7 +33476,8 @@ msgid ""
 msgstr ""
 "Carte principale (contrôles clavier) :\n"
 "======================================\n"
-"  Certains clients supportent le zoom/mise à l'échelle des graphismes de la carte avec les touches + et -.\n"
+"  Certains clients supportent le zoom/mise à l'échelle des graphismes de la "
+"carte avec les touches + et -.\n"
 "             c: (c)entrer la vue sur l'unité active\n"
 "     Maj-début: centrer sur la capitale\n"
 "   Maj-flèches: faire défiler la carte\n"
@@ -40507,7 +40516,9 @@ msgstr ""
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
 "attempt."
-msgstr "Le %2$s %1$s a échoué à nouveau à voler une technologie à %3$s. Nous étions préparés à cette tentative."
+msgstr ""
+"Le %2$s %1$s a échoué à nouveau à voler une technologie à %3$s. Nous étions "
+"préparés à cette tentative."
 
 #: server/diplomats.c:661
 #, c-format
@@ -41966,15 +41977,15 @@ msgstr ""
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Impossible de trouver un fichier de règles lisible \"%s.%s\"."
 
-#: server/ruleset.c:2509
+#: server/ruleset.c:2515
 msgid "?gui_type:Build Type A Base"
 msgstr "Construire une base de type A"
 
-#: server/ruleset.c:2514
+#: server/ruleset.c:2520
 msgid "?gui_type:Build Type B Base"
 msgstr "Construire une base de type B"
 
-#: server/ruleset.c:4913
+#: server/ruleset.c:4919
 msgid ""
 "Effects should have \"type\", not the same field with old name \"name\"."
 msgstr ""
@@ -41982,52 +41993,52 @@ msgstr ""
 "nom \"nom\"."
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: server/ruleset.c:5432
+#: server/ruleset.c:5438
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "%sSaboter l'unité ennemie%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: server/ruleset.c:5439
+#: server/ruleset.c:5445
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "%sCorrompre l'unité ennemie%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: server/ruleset.c:5453
+#: server/ruleset.c:5459
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "%sSabotage industriel%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: server/ruleset.c:5461
+#: server/ruleset.c:5467
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "%sInciter à la révolte%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: server/ruleset.c:5482
+#: server/ruleset.c:5488
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "%sEspionnage industriel%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: server/ruleset.c:5496
+#: server/ruleset.c:5502
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "%sVoler de l'or%s"
 
-#: server/ruleset.c:6931
+#: server/ruleset.c:6937
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Les règles du jeu n'ont pas pu être chargée. On garde les précédentes."
 
-#: server/ruleset.c:6949
+#: server/ruleset.c:6955
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On bascule sur celles par "
 "défaut."
 
-#: server/ruleset.c:6956
+#: server/ruleset.c:6962
 msgid ""
 "Cannot load any ruleset. Freeciv-web ruleset is available from https://"
 "github.com/freeciv/freeciv-web"
@@ -42035,7 +42046,7 @@ msgstr ""
 "Aucune règle du jeu n'a pu être chargée. Les règles du jeu Freeciv-web sont "
 "disponibles sur https://github.com/freeciv/freeciv-web"
 
-#: server/ruleset.c:6994
+#: server/ruleset.c:7000
 msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
