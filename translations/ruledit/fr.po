@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014.
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014-2019
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
-"Report-Msgid-Bugs-To: http://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-03-11 20:33+0100\n"
-"PO-Revision-Date: 2016-12-29 15:08+0100\n"
+"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
+"POT-Creation-Date: 2018-11-12 15:03+0100\n"
+"PO-Revision-Date: 2019-05-15 08:00+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -17,9 +17,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:131
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:100
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
 msgid "Close"
 msgstr "Fermer"
+
+#: tools/ruledit/conversion_log.cpp:46
+msgid "Old ruleset to a new format"
+msgstr "Anciennes règles du jeu vers un nouveau format"
+
+#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:63
+msgid "Type:"
+msgstr "Type :"
+
+#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:81
+msgid "Value:"
+msgstr "Valeur :"
+
+#: tools/ruledit/effect_edit.cpp:96 tools/ruledit/tab_building.cpp:84
+#: tools/ruledit/tab_good.cpp:85 tools/ruledit/tab_multiplier.cpp:84
+msgid "Requirements"
+msgstr "Prérequis"
+
+#: tools/ruledit/effect_edit.cpp:173
+#, c-format
+msgid "Effect #%d: %s"
+msgstr "Effet #%d : %s"
+
+#: tools/ruledit/effect_edit.cpp:266
+#, c-format
+msgid "%s effect #%d"
+msgstr "%s effet #%d"
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -33,37 +61,37 @@ msgstr "Suppression de %s"
 msgid "Needed by %s"
 msgstr "Nécessaire pour %s"
 
-#: tools/ruledit/ruledit.cpp:108
+#: tools/ruledit/ruledit.cpp:114
 msgid "Failed to load comments.txt"
 msgstr "Impossible de charger comments.txt"
 
-#: tools/ruledit/ruledit.cpp:142
+#: tools/ruledit/ruledit.cpp:148
 msgid "Print a summary of the options"
 msgstr "Imprimer un résumé des options"
 
-#: tools/ruledit/ruledit.cpp:144
+#: tools/ruledit/ruledit.cpp:150
 msgid "Print the version number"
 msgstr "Imprimer le numéro de version"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:147
+#: tools/ruledit/ruledit.cpp:153
 msgid "ruleset RULESET"
 msgstr "ruleset REGLES-DU-JEU"
 
-#: tools/ruledit/ruledit.cpp:148
+#: tools/ruledit/ruledit.cpp:154
 msgid "Ruleset to use as the starting point."
 msgstr "Les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit.cpp:161
+#: tools/ruledit/ruledit.cpp:167
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Ne peut éditer qu'une règle du jeu à la fois.\n"
 
-#: tools/ruledit/ruledit.cpp:168
+#: tools/ruledit/ruledit.cpp:174
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:121
+#: tools/ruledit/ruledit_qt.cpp:127
 #, c-format
 msgid ""
 "%s%s\n"
@@ -72,203 +100,286 @@ msgstr ""
 "%s%s\n"
 "commit : %s"
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:138
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:150
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Units"
 msgstr "Unités"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Goods"
 msgstr "Biens"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Enablers"
 msgstr "Facilitateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:174
+msgid "Extras"
+msgstr "Extras"
+
+#: tools/ruledit/ruledit_qt.cpp:176
+msgid "Terrains"
+msgstr "Terrains"
+
+#: tools/ruledit/ruledit_qt.cpp:178
+msgid "Multipliers"
+msgstr "Multiplicateurs"
+
+#: tools/ruledit/ruledit_qt.cpp:180
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:189
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:199
+#: tools/ruledit/ruledit_qt.cpp:220
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:218
+#: tools/ruledit/ruledit_qt.cpp:242
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:368
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:284
+#: tools/ruledit/ruledit_qt.cpp:384
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 
-#: tools/ruledit/ruledit_qt.cpp:288
+#: tools/ruledit/ruledit_qt.cpp:388
 msgid "Quit?"
 msgstr "Quitter ?"
 
-#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
+#: tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "Nom dans les règles"
 
-#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
+#: tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:84 tools/ruledit/tab_good.cpp:84
-msgid "Requirements"
-msgstr "Prérequis"
+#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_unit.cpp:89
+msgid "Effects"
+msgstr "Effets"
 
-#: tools/ruledit/tab_building.cpp:89
+#: tools/ruledit/tab_building.cpp:92
 msgid "Add Building"
 msgstr "Ajouter un bâtiment"
 
-#: tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_building.cpp:97
 msgid "Remove this Building"
 msgstr "Supprimer ce bâtiment"
 
-#: tools/ruledit/tab_building.cpp:171
-msgid "Building with that rule name already exist!"
+#: tools/ruledit/tab_building.cpp:174
+msgid "A building with that rule name already exists!"
 msgstr "Un bâtiment avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_enablers.cpp:65
+msgid "Type"
+msgstr "Type"
+
+#: tools/ruledit/tab_enablers.cpp:86
+msgid "Actor Requirements"
+msgstr "Prérequis de l'acteur"
+
+#: tools/ruledit/tab_enablers.cpp:90
+msgid "Target Requirements"
+msgstr "Prérequis de la cible"
+
+#: tools/ruledit/tab_enablers.cpp:94
+msgid "Add Enabler"
+msgstr "Ajouter un facilitateur"
+
+#: tools/ruledit/tab_enablers.cpp:99
+msgid "Remove this Enabler"
+msgstr "Supprimer ce facilitateur"
+
+#: tools/ruledit/tab_enablers.cpp:240
+msgid "Obligatory hard requirements"
+msgstr "Exigences dures obligatoires"
+
+#: tools/ruledit/tab_enablers.cpp:243
+msgid "Changing action to %1 will modify enabler requirements. Continue?"
+msgstr "Changer l'action en %1 modifiera les exigences des facilitateurs. Continuer ?"
+
+#: tools/ruledit/tab_enablers.cpp:277
+msgid "Enabler (target)"
+msgstr "Facilitateur (cible)"
+
+#: tools/ruledit/tab_enablers.cpp:288
+msgid "Enabler (actor)"
+msgstr "Facilitateur (acteur)"
+
+#: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
 msgstr "Ajouter un bien"
 
-#: tools/ruledit/tab_good.cpp:94
+#: tools/ruledit/tab_good.cpp:98
 msgid "Remove this Good"
 msgstr "Supprimer ce bien"
 
-#: tools/ruledit/tab_good.cpp:172
-msgid "Good with that rule name already exist!"
+#: tools/ruledit/tab_good.cpp:176
+msgid "A good with that rule name already exists!"
 msgstr "Un bien avec ce nom existe déjà !"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:69
 msgid "Ruleset name"
 msgstr "Nom des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Ruleset version"
 msgstr "Version des règles du jeu"
 
-#: tools/ruledit/tab_misc.cpp:77
+#: tools/ruledit/tab_misc.cpp:79
 msgid "Save to directory"
 msgstr "Sauver dans le répertoire"
 
-#: tools/ruledit/tab_misc.cpp:84
+#: tools/ruledit/tab_misc.cpp:86
 msgid "Version suffix to directory name"
 msgstr "Suffixe de version au nom de répertoire"
 
-#: tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:91
 msgid "Save now"
 msgstr "Sauver maintenant"
 
-#: tools/ruledit/tab_misc.cpp:96
+#: tools/ruledit/tab_misc.cpp:94
+msgid "Always active Effects"
+msgstr "Effets toujours actifs"
+
+#: tools/ruledit/tab_misc.cpp:97
+msgid "All Effects"
+msgstr "Tous les effets"
+
+#: tools/ruledit/tab_misc.cpp:104
 msgid "?stat:Terrains"
 msgstr "Terrains"
 
-#: tools/ruledit/tab_misc.cpp:100
+#: tools/ruledit/tab_misc.cpp:108
 msgid "?stat:Resources"
 msgstr "Ressources"
 
-#: tools/ruledit/tab_misc.cpp:104
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Tech Classes"
 msgstr "Classes de technologies"
 
-#: tools/ruledit/tab_misc.cpp:108
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Techs"
 msgstr "Technologies"
 
-#: tools/ruledit/tab_misc.cpp:112
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Unit Classes"
 msgstr "Classes d'unités"
 
-#: tools/ruledit/tab_misc.cpp:116
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Unit Types"
 msgstr "Types d'unités"
 
-#: tools/ruledit/tab_misc.cpp:120
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/tab_misc.cpp:124
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Nations"
 msgstr "Nations"
 
-#: tools/ruledit/tab_misc.cpp:128
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Styles"
 msgstr "Styles"
 
-#: tools/ruledit/tab_misc.cpp:132
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Specialists"
 msgstr "Spécialistes"
 
-#: tools/ruledit/tab_misc.cpp:136
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/tab_misc.cpp:140
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Disasters"
 msgstr "Désastres"
 
-#: tools/ruledit/tab_misc.cpp:144
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Achievements"
 msgstr "Réussites"
 
-#: tools/ruledit/tab_misc.cpp:148
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Extras"
 msgstr "Extras"
 
-#: tools/ruledit/tab_misc.cpp:152
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Bases"
 msgstr "Bases"
 
-#: tools/ruledit/tab_misc.cpp:156
+#: tools/ruledit/tab_misc.cpp:164
 msgid "?stat:Roads"
 msgstr "Routes"
 
-#: tools/ruledit/tab_misc.cpp:160
+#: tools/ruledit/tab_misc.cpp:168
 msgid "?stat:Goods"
 msgstr "Biens"
 
-#: tools/ruledit/tab_misc.cpp:168
+#: tools/ruledit/tab_misc.cpp:172
+msgid "?stat:Multipliers"
+msgstr "Multiplicateurs"
+
+#: tools/ruledit/tab_misc.cpp:180
 msgid "Refresh Stats"
 msgstr "Rafraichir les stats"
 
-#: tools/ruledit/tab_misc.cpp:231
+#: tools/ruledit/tab_misc.cpp:243
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
+
+#: tools/ruledit/tab_misc.cpp:363
+msgid "Always active"
+msgstr "Toujours actif"
+
+#: tools/ruledit/tab_misc.cpp:372
+msgid "All effects"
+msgstr "Tous les effets"
+
+#: tools/ruledit/tab_multiplier.cpp:88
+msgid "Add Multiplier"
+msgstr "Ajouter un multiplicateur"
+
+#: tools/ruledit/tab_multiplier.cpp:93
+msgid "Remove this Multiplier"
+msgstr "Supprimer ce multiplicateur"
+
+#: tools/ruledit/tab_multiplier.cpp:171
+msgid "A multiplier with that rule name already exists!"
+msgstr "Un multiplicateur avec ce nom existe déjà dans les règles !"
 
 #: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
@@ -278,63 +389,55 @@ msgstr "Utiliser la liste des nations"
 msgid "Nationlist"
 msgstr "Liste des nations"
 
-#: tools/ruledit/tab_tech.cpp:82
+#: tools/ruledit/tab_tech.cpp:83
 msgid "Req1"
 msgstr "Prérequis1"
 
-#: tools/ruledit/tab_tech.cpp:91
+#: tools/ruledit/tab_tech.cpp:92
 msgid "Req2"
 msgstr "Prérequis2"
 
-#: tools/ruledit/tab_tech.cpp:99
+#: tools/ruledit/tab_tech.cpp:100
 msgid "Root Req"
 msgstr "Prérequis racine"
 
-#: tools/ruledit/tab_tech.cpp:108
+#: tools/ruledit/tab_tech.cpp:114
 msgid "Add tech"
 msgstr "Ajouter une technologie"
 
-#: tools/ruledit/tab_tech.cpp:113
+#: tools/ruledit/tab_tech.cpp:119
 msgid "Remove this tech"
 msgstr "Supprimer cette technologie"
 
-#: tools/ruledit/tab_tech.cpp:194
+#: tools/ruledit/tab_tech.cpp:200
 msgid "Never"
 msgstr "Jamais"
 
-#: tools/ruledit/tab_tech.cpp:330
-msgid "Tech with that rule name already exist!"
+#: tools/ruledit/tab_tech.cpp:336
+msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_unit.cpp:85
 msgid "Edit Unit"
 msgstr "Éditer l'unité"
 
-#: tools/ruledit/tab_unit.cpp:88
+#: tools/ruledit/tab_unit.cpp:93
 msgid "Add Unit"
 msgstr "Ajouter une unité"
 
-#: tools/ruledit/tab_unit.cpp:93
+#: tools/ruledit/tab_unit.cpp:98
 msgid "Remove this Unit"
 msgstr "Supprimer cette unité"
 
-#: tools/ruledit/tab_unit.cpp:170
-msgid "Unit type with that rule name already exist!"
+#: tools/ruledit/tab_unit.cpp:175
+msgid "A unit type with that rule name already exists!"
 msgstr "Une unité avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/req_edit.cpp:62
-msgid "Type:"
-msgstr "Type :"
-
-#: tools/ruledit/req_edit.cpp:80
-msgid "Value:"
-msgstr "Valeur :"
-
-#: tools/ruledit/req_edit.cpp:96
+#: tools/ruledit/req_edit.cpp:97
 msgid "Range:"
 msgstr "Plage :"
 
-#: tools/ruledit/req_edit.cpp:121
+#: tools/ruledit/req_edit.cpp:122
 msgid "Add Requirement"
 msgstr "Ajouter prerequis"
 
@@ -342,20 +445,25 @@ msgstr "Ajouter prerequis"
 msgid "Delete Requirement"
 msgstr "Supprimer prérequis"
 
-#: tools/ruledit/validity.c:65
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:311
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:122
 msgid "Action Enabler"
 msgstr "Activateur d'action"
 
-#: tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:142
 msgid "Music Style"
 msgstr "Style de musique"
 
-#~ msgid "Terrains"
-#~ msgstr "Terrains"
+#: tools/ruledit/validity.c:256
+msgid "Conflicting extra"
+msgstr "Extra en conflit"
+
+#: tools/ruledit/validity.c:259
+msgid "Hidden extra"
+msgstr "Extra masqué"
 
 #~ msgid "Techs"
 #~ msgstr "Technologies"
