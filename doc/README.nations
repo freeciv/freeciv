@@ -145,11 +145,11 @@ Flag Specifics
 
 To add a flag you'll have to edit the following files:
 
-data/flags/<flagname>.svg 
+data/flags/<flagname>.svg
 
-  Here is the SVG flag image. This is not used directly by Freeciv but 
-  is  rendered into PNG files (at various resolutions for different 
-  tilesets). The SVG file is not used in Freeciv 2.0 but all the other 
+  Here is the SVG flag image. This is not used directly by Freeciv but
+  is  rendered into PNG files (at various resolutions for different
+  tilesets). The SVG file is not used in Freeciv 2.0 but all the other
   steps for adding flags are the same.
   - The <flagname> should either be the name of the country that represents
   the flag, or the common name for the actual flag. When in doubt, use the
@@ -157,7 +157,7 @@ data/flags/<flagname>.svg
 
 data/flags/<flagname>.png
 
-data/flags/<flagname>-shield.png 
+data/flags/<flagname>-shield.png
 
   These are the flag images that are used by Freeciv. They are rendered
   from the SVG file. Once this file has been created it can be used with
@@ -166,23 +166,31 @@ data/flags/<flagname>-shield.png
   Once these are installed change to the data/flags directory and run
   ./convert_png <nationname>.svg.
 
-data/misc/flags.spec 
+data/misc/flags.spec
 
   This file has a reference to the flag PNG graphic. The "tag" here must
   match the flag tag you put in the nation ruleset file
   (usually f.<flagname>) and the "file" should point to the PNG image at
   flags/<flagname>.png.
 
-data/misc/shields.spec 
+data/misc/flags-large.spec
+
+  Just like flags.spec, but large version of the graphics.
+
+data/misc/shields.spec
 
   Just like flags.spec, this file must include a reference to the flag
   PNG graphic. The only difference is that the file should point to the
   "shield" graphic, flags/<flagname>-shield.png.
 
-Changes to the .spec files can be submitted as a patch (created using 
-diff -ruN). Even though the *.spec files may need to be changed, please 
-include them in the diff -- this should be easier for you, and it 
-provides a convenient place for us to grab the sprite name. See the 
+data/misc/shields-large.spec
+
+  Just like shields.spec, but large version of the graphics.
+
+Changes to the .spec files can be submitted as a patch (created using
+diff -ruN). Even though the *.spec files may need to be changed, please
+include them in the diff -- this should be easier for you, and it
+provides a convenient place for us to grab the sprite name. See the
 section on How to Contribute in the Freeciv wiki for more instructions.
 
 
