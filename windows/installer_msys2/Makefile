@@ -208,14 +208,14 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc62.dll \
-	libicudt62.dll \
+	libicuuc64.dll \
+	libicudt64.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
 	libbrotlidec.dll \
 	libbrotlicommon.dll \
-	libreadline7.dll \
+	libreadline8.dll \
 	libtermcap-0.dll \
 	$(SOUND_DLLS)
 
@@ -289,9 +289,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin62.dll \
-	libicuuc62.dll \
-	libicudt62.dll \
+	libicuin64.dll \
+	libicuuc64.dll \
+	libicudt64.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
