@@ -37,8 +37,6 @@ during_revolution = "Anarchy"
 ;                otherwise may be "-"
 ; ai_better    = AI will not consider this government for use if the
 ;                government listed here is available
-; ruler_titles = ruler titles by nation, "-" is default, and non-matched
-;                nations are ignored
 ; helptext     = optional help text string; should escape all raw newlines
 ;                so that xgettext parsing works
 ;

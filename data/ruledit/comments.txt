@@ -191,8 +191,6 @@ governments = "\
 ;                otherwise may be \"-\"\n\
 ; ai_better    = AI will not consider this government for use if the\n\
 ;                government listed here is available\n\
-; ruler_titles = ruler titles by nation, \"-\" is default, and non-matched\n\
-;	         nations are ignored\n\
 ; helptext     = optional help text string; should escape all raw newlines\n\
 ;	         so that xgettext parsing works\n\
 ;\n\
