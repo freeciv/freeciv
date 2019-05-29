@@ -1670,7 +1670,7 @@ static struct setting settings[] = {
              nationset_callback, nationset_action, GAME_DEFAULT_NATIONSET)
 
   GEN_INT("ec_turns", game.server.event_cache.turns,
-          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+          SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
           SSET_TO_CLIENT,
           N_("Event cache for this number of turns"),
           N_("Event messages are saved for this number of turns. A value of "
@@ -1679,7 +1679,7 @@ static struct setting settings[] = {
           GAME_DEFAULT_EVENT_CACHE_TURNS)
 
   GEN_INT("ec_max_size", game.server.event_cache.max_size,
-          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+          SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
           SSET_TO_CLIENT,
           N_("Size of the event cache"),
           N_("This defines the maximal number of events in the event cache."),
@@ -1687,14 +1687,14 @@ static struct setting settings[] = {
           GAME_MAX_EVENT_CACHE_MAX_SIZE, GAME_DEFAULT_EVENT_CACHE_MAX_SIZE)
 
   GEN_BOOL("ec_chat", game.server.event_cache.chat,
-           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL,
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL,
            SSET_TO_CLIENT,
            N_("Save chat messages in the event cache"),
            N_("If turned on, chat messages will be saved in the event "
               "cache."), NULL, NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
 
   GEN_BOOL("ec_info", game.server.event_cache.info,
-           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Print turn and time for each cached event"),
            /* TRANS: Don't translate the text between single quotes. */
            N_("If turned on, all cached events will be marked by the turn "
