@@ -2628,7 +2628,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       bool capture_possible = TRUE;
 
       unit_list_iterate(pdesttile->units, to_capture) {
-        if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)) {
+        if (!unit_has_type_flag(to_capture, UTYF_CAPTURABLE)
+            || get_transporter_occupancy(to_capture) > 0) {
           capture_possible = FALSE;
           break;
         }
