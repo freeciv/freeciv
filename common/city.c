@@ -1151,7 +1151,7 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
   }
 
   city_built_iterate(pcity, pimprove) {
-      gold_needed += city_improvement_upkeep(pcity, pimprove);
+    gold_needed += city_improvement_upkeep(pcity, pimprove);
   } city_built_iterate_end;
 
   return gold_needed;
@@ -1181,10 +1181,10 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
   Return TRUE iff the city has this building in it.
 **************************************************************************/
 bool city_has_building(const struct city *pcity,
-		       const struct impr_type *pimprove)
+                       const struct impr_type *pimprove)
 {
   if (NULL == pimprove) {
-    /* callers should ensure that any external data is tested with 
+    /* Callers should ensure that any external data is tested with 
      * valid_improvement_by_number() */
     return FALSE;
   }
@@ -1196,20 +1196,22 @@ bool city_has_building(const struct city *pcity,
   in the given city.
 **************************************************************************/
 int city_improvement_upkeep(const struct city *pcity,
-			    const struct impr_type *b)
+                            const struct impr_type *b)
 {
   int upkeep;
 
-  if (NULL == b)
+  if (NULL == b) {
     return 0;
-  if (is_wonder(b))
+  }
+  if (is_wonder(b)) {
     return 0;
+  }
 
   upkeep = b->upkeep;
   if (upkeep <= get_building_bonus(pcity, b, EFT_UPKEEP_FREE)) {
     return 0;
   }
-  
+
   return upkeep;
 }
 
@@ -1222,7 +1224,7 @@ int city_improvement_upkeep(const struct city *pcity,
   This can be used to calculate the benefits celebration would give.
 **************************************************************************/
 int city_tile_output(const struct city *pcity, const struct tile *ptile,
-		     bool is_celebrating, Output_type_id otype)
+                     bool is_celebrating, Output_type_id otype)
 {
   int prod;
   struct terrain *pterrain = tile_terrain(ptile);
@@ -1315,7 +1317,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   O_SHIELD, or O_TRADE).
 **************************************************************************/
 int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
-			 Output_type_id otype)
+                         Output_type_id otype)
 {
   return city_tile_output(pcity, ptile, city_celebrating(pcity), otype);
 }
