@@ -403,7 +403,7 @@ void move_widget::put_to_corner()
 **************************************************************************/
 void move_widget::mouseMoveEvent(QMouseEvent *event)
 {
-  if(gui()->interface_locked == false) {
+  if (gui()->interface_locked == false) {
     parentWidget()->move(event->globalPos() - point);
   }
 }
