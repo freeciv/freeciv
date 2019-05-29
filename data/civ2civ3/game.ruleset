@@ -663,9 +663,10 @@ actor_reqs    =
       "DiplRel", "Is foreign", "Local", TRUE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Capturable", "Local", TRUE
-      "CityTile", "Center", "Local", FALSE
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Capturable",   "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", FALSE
     }
 
 [actionenabler_bombard]
