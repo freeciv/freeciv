@@ -78,7 +78,7 @@ static void set_socket_errno(void)
 {
   int err = WSAGetLastError();
 
-  switch(err) {
+  switch (err) {
     /* these have mappings to symbolic errno names in netintf.h */ 
     case WSAEINTR:
     case WSAEWOULDBLOCK:

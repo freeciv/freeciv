@@ -849,7 +849,7 @@ void adv_best_government(struct player *pplayer)
             continue;
           }
 
-          switch((enum gen_action)act) {
+          switch ((enum gen_action)act) {
           case ACTION_ATTACK:
           case ACTION_SUICIDE_ATTACK:
           case ACTION_SPY_INCITE_CITY:

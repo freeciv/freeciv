@@ -3683,7 +3683,7 @@ static bool setting_enum_validate_base(const struct setting *pset,
 ****************************************************************************/
 static bool set_enum_value(struct setting *pset, int val)
 {
-  switch(pset->enumerator.store_size) {
+  switch (pset->enumerator.store_size) {
    case sizeof(int):
      {
        int *to_int = pset->enumerator.pvalue;
@@ -3719,7 +3719,7 @@ int read_enum_value(const struct setting *pset)
 {
   int val;
 
-  switch(pset->enumerator.store_size) {
+  switch (pset->enumerator.store_size) {
    case sizeof(int):
      val = *((int *)pset->enumerator.pvalue);
      break;

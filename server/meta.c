@@ -267,7 +267,7 @@ static bool send_to_metaserver(enum meta_flag flag)
   char rs[256];
   struct netfile_post *post;
 
-  switch(server_state()) {
+  switch (server_state()) {
   case S_S_INITIAL:
     sz_strlcpy(state, "Pregame");
     break;

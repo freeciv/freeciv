@@ -789,7 +789,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     } unit_list_iterate_end;
   }
 
-  switch(activity) {
+  switch (activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
     return TRUE;

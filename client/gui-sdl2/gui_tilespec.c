@@ -426,20 +426,20 @@ void free_auxiliary_tech_icons(void)
 *******************************************************************************/
 SDL_Surface *get_tech_icon(Tech_type_id tech)
 {
-  switch(tech) {
-    case A_NONE:
-    case A_UNSET:
-    case A_UNKNOWN:
-    case A_LAST:
-      return adj_surf(pNone_Tech_Icon);
-    case A_FUTURE:
-      return adj_surf(pFuture_Tech_Icon);
-    default:
-      if (get_tech_sprite(tileset, tech)) {
-        return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
-      } else {
-        return adj_surf(pNeutral_Tech_Icon);
-      }
+  switch (tech) {
+  case A_NONE:
+  case A_UNSET:
+  case A_UNKNOWN:
+  case A_LAST:
+    return adj_surf(pNone_Tech_Icon);
+  case A_FUTURE:
+    return adj_surf(pFuture_Tech_Icon);
+  default:
+    if (get_tech_sprite(tileset, tech)) {
+      return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
+    } else {
+      return adj_surf(pNeutral_Tech_Icon);
+    }
   }
 
   return NULL;
@@ -454,14 +454,14 @@ SDL_Color *get_tech_color(Tech_type_id tech_id)
                                   tech_id, TRUE)) {
     switch (research_invention_state(research_get(client_player()),
                                      tech_id)) {
-      case TECH_UNKNOWN:
-        return get_game_color(COLOR_REQTREE_UNKNOWN);
-      case TECH_KNOWN:
-        return get_game_color(COLOR_REQTREE_KNOWN);
-      case TECH_PREREQS_KNOWN:
-        return get_game_color(COLOR_REQTREE_PREREQS_KNOWN);
-      default:
-        return get_game_color(COLOR_REQTREE_BACKGROUND);
+    case TECH_UNKNOWN:
+      return get_game_color(COLOR_REQTREE_UNKNOWN);
+    case TECH_KNOWN:
+      return get_game_color(COLOR_REQTREE_KNOWN);
+    case TECH_PREREQS_KNOWN:
+      return get_game_color(COLOR_REQTREE_PREREQS_KNOWN);
+    default:
+      return get_game_color(COLOR_REQTREE_BACKGROUND);
     }
   }
   return get_game_color(COLOR_REQTREE_UNREACHABLE);

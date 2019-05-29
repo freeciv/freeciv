@@ -681,7 +681,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
 {
   /* FIXME: for irrigate, mine, and transform we always return TRUE
    * even if the activity fails. */
-  switch(act) {
+  switch (act) {
   case ACTIVITY_MINE:
     tile_mine(ptile, tgt);
     return TRUE;

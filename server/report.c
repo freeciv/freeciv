@@ -241,7 +241,7 @@ static void historian_generic(struct history_report *report,
   report->turn = game.info.turn;
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
-      switch(which_news) {
+      switch (which_news) {
       case HISTORIAN_RICHEST:
 	size[j].value = pplayer->economic.gold;
 	break;

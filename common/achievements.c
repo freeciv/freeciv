@@ -187,7 +187,7 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
     return FALSE;
   }
 
-  switch(ach->type) {
+  switch (ach->type) {
   case ACHIEVEMENT_SPACESHIP:
     return pplayer->spaceship.state == SSHIP_LAUNCHED;
   case ACHIEVEMENT_MAP:

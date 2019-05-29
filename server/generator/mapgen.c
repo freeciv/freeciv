@@ -215,7 +215,7 @@ static bool test_wetness(const struct tile *ptile, wetness_c c)
 **************************************************************************/
 static bool test_miscellaneous(const struct tile *ptile, miscellaneous_c c)
 {
-  switch(c) {
+  switch (c) {
   case MC_NONE:
     return TRUE;
   case MC_LOW:
@@ -1411,7 +1411,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       }
       break;
     case MAPGEN_ISLAND:
-      switch(wld.map.server.startpos) {
+      switch (wld.map.server.startpos) {
       case MAPSTARTPOS_DEFAULT:
       case MAPSTARTPOS_VARIABLE:
         log_verbose("Map generator chose startpos=SINGLE");
@@ -1438,7 +1438,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
         break;
       }
 
-      switch(mode) {
+      switch (mode) {
         case MAPSTARTPOS_SINGLE:
           log_verbose("Falling back to startpos=2or3");
           mode = MAPSTARTPOS_2or3;

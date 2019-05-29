@@ -2521,7 +2521,7 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
-  switch(action_type) {
+  switch (action_type) {
   case ACTION_SPY_BRIBE_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              diplomat_bribe(pplayer, actor_unit, punit,

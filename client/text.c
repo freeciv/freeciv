@@ -576,7 +576,7 @@ const char *get_airlift_text(const struct unit_list *punits,
     /* NULL will tell us about the capability of airlifting from source */
     result = test_unit_can_airlift_to(client_player(), punit, pdest);
 
-    switch(result) {
+    switch (result) {
     case AR_NO_MOVES:
     case AR_WRONG_UNITTYPE:
     case AR_OCCUPIED:
@@ -637,7 +637,7 @@ const char *get_airlift_text(const struct unit_list *punits,
     best = MAX(best, this);
   } unit_list_iterate_end;
 
-  switch(best) {
+  switch (best) {
   case AL_IMPOSSIBLE:
     return NULL;
   case AL_UNKNOWN:

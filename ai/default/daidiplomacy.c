@@ -1885,7 +1885,7 @@ bool dai_on_war_footing(struct ai_type *ait, struct player *pplayer)
 void dai_incident(struct ai_type *ait, enum incident_type type,
                   struct player *violator, struct player *victim)
 {
-  switch(type) {
+  switch (type) {
     case INCIDENT_DIPLOMAT:
       dai_incident_diplomat(violator, victim);
       break;

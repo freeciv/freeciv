@@ -77,7 +77,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
     if (is_build_activity(i, ptile)) {
       enum extra_cause cause = EC_NONE;
 
-      switch(i) {
+      switch (i) {
       case ACTIVITY_GEN_ROAD:
         cause = EC_ROAD;
         break;
@@ -118,7 +118,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
     } else if (is_clean_activity(i)) {
       enum extra_rmcause rmcause = ERM_NONE;
 
-      switch(i) {
+      switch (i) {
       case ACTIVITY_PILLAGE:
         rmcause = ERM_PILLAGE;
         break;

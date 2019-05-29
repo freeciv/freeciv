@@ -206,7 +206,7 @@ bool auth_handle_reply(struct connection *pconn, char *password)
 ****************************************************************************/
 void auth_process_status(struct connection *pconn)
 {
-  switch(pconn->server.status) {
+  switch (pconn->server.status) {
   case AS_NOT_ESTABLISHED:
     /* nothing, we're not ready to do anything here yet. */
     break;

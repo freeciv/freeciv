@@ -856,7 +856,7 @@ bool is_extra_removed_by_action(const struct extra_type *pextra,
 ****************************************************************************/
 enum extra_cause activity_to_extra_cause(enum unit_activity act)
 {
-  switch(act) {
+  switch (act) {
   case ACTIVITY_IRRIGATE:
     return EC_IRRIGATION;
   case ACTIVITY_MINE:
@@ -877,7 +877,7 @@ enum extra_cause activity_to_extra_cause(enum unit_activity act)
 ****************************************************************************/
 enum extra_rmcause activity_to_extra_rmcause(enum unit_activity act)
 {
-  switch(act) {
+  switch (act) {
   case ACTIVITY_PILLAGE:
     return ERM_PILLAGE;
   case ACTIVITY_POLLUTION:

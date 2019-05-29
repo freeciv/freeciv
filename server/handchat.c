@@ -103,7 +103,7 @@ static void send_chat_msg(struct connection *pconn,
 static void complain_ambiguous(struct connection *pconn, const char *name,
 			       int player_conn)
 {
-  switch(player_conn) {
+  switch (player_conn) {
   case 0:
     notify_conn(pconn->self, NULL, E_CHAT_ERROR, ftc_server,
                 _("%s is an ambiguous player name-prefix."), name);

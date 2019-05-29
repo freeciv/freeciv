@@ -1734,7 +1734,7 @@ static void action_entry(const action_id act,
   create_active_iconlabel(pBuf, pWindow->dst, pstr,
                           ui_name, af_map[act]);
 
-  switch(action_id_get_target_kind(act)) {
+  switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
     pBuf->data.city = tgt_city;
     break;

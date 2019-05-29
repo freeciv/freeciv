@@ -606,7 +606,7 @@ Uint16 gui_event_loop(void *pData,
     while (SDL_PollEvent(&Main.event) == 1) {
 
       if (Main.event.type == user_event_type) {
-        switch(Main.event.user.code) {
+        switch (Main.event.user.code) {
         case NET:
           input_from_server(net_socket);
           break;
@@ -672,44 +672,44 @@ Uint16 gui_event_loop(void *pData,
           break;
 
         case SDL_KEYDOWN:
-          switch(Main.event.key.keysym.sym) {
+          switch (Main.event.key.keysym.sym) {
 #if 0
-            case SDLK_PRINT:
-              fc_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
-              log_normal(_("Making screenshot %s"), schot);
-              SDL_SaveBMP(Main.screen, schot);
+          case SDLK_PRINT:
+            fc_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
+            log_normal(_("Making screenshot %s"), schot);
+            SDL_SaveBMP(Main.screen, schot);
             break;
 #endif
 
-            case SDLK_RSHIFT:
-              /* Right Shift is Pressed */
-              RSHIFT = TRUE;
+          case SDLK_RSHIFT:
+            /* Right Shift is Pressed */
+            RSHIFT = TRUE;
             break;
 
-            case SDLK_LSHIFT:
-              /* Left Shift is Pressed */
-              LSHIFT = TRUE;
+          case SDLK_LSHIFT:
+            /* Left Shift is Pressed */
+            LSHIFT = TRUE;
             break;
 
-            case SDLK_LCTRL:
-              /* Left CTRL is Pressed */
-              LCTRL = TRUE;
+          case SDLK_LCTRL:
+            /* Left CTRL is Pressed */
+            LCTRL = TRUE;
             break;
 
-            case SDLK_RCTRL:
-              /* Right CTRL is Pressed */
-              RCTRL = TRUE;
+          case SDLK_RCTRL:
+            /* Right CTRL is Pressed */
+            RCTRL = TRUE;
             break;
 
-            case SDLK_LALT:
-              /* Left ALT is Pressed */
-              LALT = TRUE;
+          case SDLK_LALT:
+            /* Left ALT is Pressed */
+            LALT = TRUE;
             break;
 
-            default:
-              if (key_down_handler) {
-                ID = key_down_handler(Main.event.key.keysym, pData);
-              }
+          default:
+            if (key_down_handler) {
+              ID = key_down_handler(Main.event.key.keysym, pData);
+            }
             break;
           }
           break;

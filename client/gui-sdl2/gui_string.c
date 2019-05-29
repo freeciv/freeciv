@@ -69,27 +69,27 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr);
 #ifdef SMALL_SCREEN
 int adj_font(int size)
 {
-  switch(size) {
-    case 24:
-      return 12;
-    case 20:
-      return 12;
-    case 16:
-      return 10;
-    case 14:
-      return 8;
-    case 13:
-      return 8;
-    case 12:
-      return 8;
-    case 11:
-      return 7;
-    case 10:
-      return 7;
-    case 8:
-      return 6;
-    default:
-      return size;
+  switch (size) {
+  case 24:
+    return 12;
+  case 20:
+    return 12;
+  case 16:
+    return 10;
+  case 14:
+    return 8;
+  case 13:
+    return 8;
+  case 12:
+    return 8;
+  case 11:
+    return 7;
+  case 10:
+    return 7;
+  case 8:
+    return 6;
+  default:
+    return size;
   }
 }
 #endif /* SMALL_SCREEN */

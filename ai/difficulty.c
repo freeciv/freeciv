@@ -144,7 +144,7 @@ static int fuzzy_of_skill_level(enum ai_level level)
 {
   fc_assert(ai_level_is_valid(level));
 
-  switch(level) {
+  switch (level) {
   case AI_LEVEL_AWAY:
     return 0;
   case AI_LEVEL_HANDICAPPED:
@@ -178,7 +178,7 @@ static int science_cost_of_skill_level(enum ai_level level)
 {
   fc_assert(ai_level_is_valid(level));
 
-  switch(level) {
+  switch (level) {
   case AI_LEVEL_AWAY:
     return 100;
   case AI_LEVEL_HANDICAPPED:
@@ -209,7 +209,7 @@ static int expansionism_of_skill_level(enum ai_level level)
 {
   fc_assert(ai_level_is_valid(level));
 
-  switch(level) {
+  switch (level) {
   case AI_LEVEL_AWAY:
     return 0;
   case AI_LEVEL_HANDICAPPED:

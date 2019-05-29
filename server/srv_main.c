@@ -899,7 +899,7 @@ static void update_diplomatics(void)
 
         if (state->type == DS_CEASEFIRE) {
           state->turns_left--;
-          switch(state->turns_left) {
+          switch (state->turns_left) {
           case 1:
             notify_player(plr1, NULL, E_DIPLOMACY, ftc_server,
                           _("Concerned citizens point out that the cease-fire "
@@ -1794,7 +1794,7 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     return;
   }
 
-  switch(type) {
+  switch (type) {
   case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
     return;

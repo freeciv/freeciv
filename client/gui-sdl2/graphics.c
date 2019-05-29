@@ -1391,257 +1391,257 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
 
   lock_surf(pSurface);
 
-  switch(pSurface->format->BytesPerPixel) {
-    case 1:
-    {
-      Uint8 *pixel = (Uint8 *)pSurface->pixels;
-      Uint8 *start = pixel;
+  switch (pSurface->format->BytesPerPixel) {
+  case 1:
+  {
+    Uint8 *pixel = (Uint8 *)pSurface->pixels;
+    Uint8 *start = pixel;
+    x = 0;
+    y = 0;
+    w = pSurface->w;
+    h = pSurface->h;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (minY > y) {
+            minY = y;
+          }
+
+          if (minX > x) {
+            minX = x;
+          }
+          break;
+        }
+        pixel++;
+        x++;
+      } while (--w > 0);
+      w = pSurface->w;
       x = 0;
-      y = 0;
-      w = pSurface->w;
-      h = pSurface->h;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (minY > y) {
-              minY = y;
-            }
-
-            if (minX > x) {
-              minX = x;
-            }
-            break;
-          }
-          pixel++;
-          x++;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = 0;
-        y++;
-        pixel = start + pSurface->pitch;
-        start = pixel;
-      }
-
-      w = pSurface->w;
-      h = pSurface->h;
-      x = w - 1;
-      y = h - 1;
-      pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x);
+      y++;
+      pixel = start + pSurface->pitch;
       start = pixel;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (maxY < y) {
-              maxY = y;
-            }
+    }
 
-            if (maxX < x) {
-              maxX = x;
-            }
-            break;
+    w = pSurface->w;
+    h = pSurface->h;
+    x = w - 1;
+    y = h - 1;
+    pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x);
+    start = pixel;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (maxY < y) {
+            maxY = y;
           }
-          pixel--;
-          x--;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = w - 1;
-        y--;
-        pixel = start - pSurface->pitch;
-        start = pixel;
-      }
+
+          if (maxX < x) {
+            maxX = x;
+          }
+          break;
+        }
+        pixel--;
+        x--;
+      } while (--w > 0);
+      w = pSurface->w;
+      x = w - 1;
+      y--;
+      pixel = start - pSurface->pitch;
+      start = pixel;
     }
     break;
-    case 2:
-    {
-      Uint16 *pixel = (Uint16 *)pSurface->pixels;
-      Uint16 *start = pixel;
+  }
+  case 2:
+  {
+    Uint16 *pixel = (Uint16 *)pSurface->pixels;
+    Uint16 *start = pixel;
 
+    x = 0;
+    y = 0;
+    w = pSurface->w;
+    h = pSurface->h;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (minY > y) {
+            minY = y;
+          }
+
+          if (minX > x) {
+            minX = x;
+          }
+          break;
+        }
+        pixel++;
+        x++;
+      } while (--w > 0);
+      w = pSurface->w;
       x = 0;
-      y = 0;
-      w = pSurface->w;
-      h = pSurface->h;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (minY > y) {
-              minY = y;
-            }
-
-            if (minX > x) {
-              minX = x;
-            }
-            break;
-          }
-          pixel++;
-          x++;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = 0;
-        y++;
-        pixel = start + pSurface->pitch / 2;
-        start = pixel;
-     }
-
-      w = pSurface->w;
-      h = pSurface->h;
-      x = w - 1;
-      y = h - 1;
-      pixel = ((Uint16 *)pSurface->pixels + (y * pSurface->pitch / 2) + x);
+      y++;
+      pixel = start + pSurface->pitch / 2;
       start = pixel;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (maxY < y) {
-              maxY = y;
-            }
+    }
 
-            if (maxX < x) {
-              maxX = x;
-            }
-            break;
+    w = pSurface->w;
+    h = pSurface->h;
+    x = w - 1;
+    y = h - 1;
+    pixel = ((Uint16 *)pSurface->pixels + (y * pSurface->pitch / 2) + x);
+    start = pixel;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (maxY < y) {
+            maxY = y;
           }
-          pixel--;
-          x--;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = w - 1;
-        y--;
-        pixel = start - pSurface->pitch / 2;
-        start = pixel;
-      }
+
+          if (maxX < x) {
+            maxX = x;
+          }
+          break;
+        }
+        pixel--;
+        x--;
+      } while (--w > 0);
+      w = pSurface->w;
+      x = w - 1;
+      y--;
+      pixel = start - pSurface->pitch / 2;
+      start = pixel;
     }
     break;
-    case 3:
-    {
-      Uint8 *pixel = (Uint8 *)pSurface->pixels;
-      Uint8 *start = pixel;
-      Uint32 color;
+  }
+  case 3:
+  {
+    Uint8 *pixel = (Uint8 *)pSurface->pixels;
+    Uint8 *start = pixel;
+    Uint32 color;
 
+    x = 0;
+    y = 0;
+    w = pSurface->w;
+    h = pSurface->h;
+    while (h--) {
+      do {
+        if (is_bigendian()) {
+          color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
+        } else {
+          color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
+        }
+        if (color != colorkey) {
+          if (minY > y) {
+            minY = y;
+          }
+
+          if (minX > x) {
+            minX = x;
+          }
+          break;
+        }
+        pixel += 3;
+        x++;
+      } while (--w > 0);
+      w = pSurface->w;
       x = 0;
-      y = 0;
-      w = pSurface->w;
-      h = pSurface->h;
-      while (h--) {
-        do {
-          if (is_bigendian()) {
-            color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
-          } else {
-            color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
-          }
-          if (color != colorkey) {
-            if (minY > y) {
-              minY = y;
-            }
-
-            if (minX > x) {
-              minX = x;
-            }
-            break;
-          }
-          pixel += 3;
-          x++;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = 0;
-        y++;
-        pixel = start + pSurface->pitch / 3;
-        start = pixel;
-      }
-
-      w = pSurface->w;
-      h = pSurface->h;
-      x = w - 1;
-      y = h - 1;
-      pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x * 3);
+      y++;
+      pixel = start + pSurface->pitch / 3;
       start = pixel;
-      while (h--) {
-        do {
-          if (is_bigendian()) {
-            color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
-          } else {
-            color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
-          }
-          if (color != colorkey) {
-            if (maxY < y) {
-              maxY = y;
-            }
+    }
 
-            if (maxX < x) {
-              maxX = x;
-            }
-            break;
+    w = pSurface->w;
+    h = pSurface->h;
+    x = w - 1;
+    y = h - 1;
+    pixel = (Uint8 *)((Uint8 *)pSurface->pixels + (y * pSurface->pitch) + x * 3);
+    start = pixel;
+    while (h--) {
+      do {
+        if (is_bigendian()) {
+          color = (pixel[0] << 16 | pixel[1] << 8 | pixel[2]);
+        } else {
+          color = (pixel[0] | pixel[1] << 8 | pixel[2] << 16);
+        }
+        if (color != colorkey) {
+          if (maxY < y) {
+            maxY = y;
           }
-          pixel -= 3;
-          x--;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = w - 1;
-        y--;
-        pixel = start - pSurface->pitch / 3;
-        start = pixel;
-     }
+
+          if (maxX < x) {
+            maxX = x;
+          }
+          break;
+        }
+        pixel -= 3;
+        x--;
+      } while (--w > 0);
+      w = pSurface->w;
+      x = w - 1;
+      y--;
+      pixel = start - pSurface->pitch / 3;
+      start = pixel;
     }
     break;
-    case 4:
-    {
-      Uint32 *pixel = (Uint32 *)pSurface->pixels;
-      Uint32 *start = pixel;
+  }
+  case 4:
+  {
+    Uint32 *pixel = (Uint32 *)pSurface->pixels;
+    Uint32 *start = pixel;
 
+    x = 0;
+    y = 0;
+    w = pSurface->w;
+    h = pSurface->h;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (minY > y) {
+            minY = y;
+          }
+
+          if (minX > x) {
+            minX = x;
+          }
+          break;
+        }
+        pixel++;
+        x++;
+      } while (--w > 0);
+      w = pSurface->w;
       x = 0;
-      y = 0;
-      w = pSurface->w;
-      h = pSurface->h;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (minY > y) {
-              minY = y;
-            }
-
-            if (minX > x) {
-              minX = x;
-            }
-            break;
-          }
-          pixel++;
-          x++;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = 0;
-        y++;
-        pixel = start + pSurface->pitch / 4;
-        start = pixel;
-      }
-
-      w = pSurface->w;
-      h = pSurface->h;
-      x = w - 1;
-      y = h - 1;
-      pixel = ((Uint32 *)pSurface->pixels + (y * pSurface->pitch / 4) + x);
+      y++;
+      pixel = start + pSurface->pitch / 4;
       start = pixel;
-      while (h--) {
-        do {
-          if (*pixel != colorkey) {
-            if (maxY < y) {
-              maxY = y;
-            }
+    }
 
-            if (maxX < x) {
-              maxX = x;
-            }
-            break;
+    w = pSurface->w;
+    h = pSurface->h;
+    x = w - 1;
+    y = h - 1;
+    pixel = ((Uint32 *)pSurface->pixels + (y * pSurface->pitch / 4) + x);
+    start = pixel;
+    while (h--) {
+      do {
+        if (*pixel != colorkey) {
+          if (maxY < y) {
+            maxY = y;
           }
-          pixel--;
-          x--;
-        } while (--w > 0);
-        w = pSurface->w;
-        x = w - 1;
-        y--;
-        pixel = start - pSurface->pitch / 4;
-        start = pixel;
-      }
+
+          if (maxX < x) {
+            maxX = x;
+          }
+          break;
+        }
+        pixel--;
+        x--;
+      } while (--w > 0);
+      w = pSurface->w;
+      x = w - 1;
+      y--;
+      pixel = start - pSurface->pitch / 4;
+      start = pixel;
     }
     break;
+  }
   }
 
   unlock_surf(pSurface);

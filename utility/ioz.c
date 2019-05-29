@@ -930,7 +930,7 @@ const char *fz_strerror(fz_FILE *fp)
       static char xzerror[50];
       char *cleartext = NULL;
 
-      switch(fp->u.xz.error) {
+      switch (fp->u.xz.error) {
        case LZMA_OK:
          cleartext = "OK";
          break;
@@ -986,7 +986,7 @@ const char *fz_strerror(fz_FILE *fp)
        * - Some of them provide usable information to user
        * - Messages still contain numerical error code for developers
        */
-      switch(fp->u.bz2.error) {
+      switch (fp->u.bz2.error) {
        case BZ_OK:
          cleartext = "OK";
          break;

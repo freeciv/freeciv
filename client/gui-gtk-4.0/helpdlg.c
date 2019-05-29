@@ -1492,7 +1492,7 @@ static void help_update_dialog(const struct help_item *pitem)
   help_box_hide();
   gtk_text_buffer_set_text(help_text, "", -1);
 
-  switch(pitem->type) {
+  switch (pitem->type) {
   case HELP_IMPROVEMENT:
     help_update_improvement(pitem, top);
     break;

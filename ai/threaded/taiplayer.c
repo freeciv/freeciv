@@ -109,7 +109,7 @@ static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait)
 
     log_debug("Plr thr got %s", taimsgtype_name(msg->type));
 
-    switch(msg->type) {
+    switch (msg->type) {
     case TAI_MSG_FIRST_ACTIVITIES:
       fc_allocate_mutex(&game.server.mutexes.city_list);
 
@@ -250,7 +250,7 @@ void tai_refresh(struct ai_type *ait, struct player *pplayer)
 
        log_debug("Plr thr sent %s", taireqtype_name(req->type));
 
-       switch(req->type) {
+       switch (req->type) {
        case TAI_REQ_WORKER_TASK:
          tai_req_worker_task_rcv(req);
          break;

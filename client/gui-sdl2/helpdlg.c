@@ -1845,7 +1845,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       } else {
         h = (pStore->pSub_Targets[0]->size.h + adj_size(6));
         for (i = 0; i < MIN(sub_targets_count, 6); i++) {
-          switch(i) {
+          switch (i) {
           case 0:
             pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
             pStore->pSub_Targets[i]->size.y = pTech->size.y - h * 2;

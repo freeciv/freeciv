@@ -74,26 +74,26 @@ static int player_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
 
-  switch(Main.event.button.button) {
+  switch (Main.event.button.button) {
 #if 0
-      case SDL_BUTTON_LEFT:
+  case SDL_BUTTON_LEFT:
 
-        break;
-      case SDL_BUTTON_MIDDLE:
-
-        break;
-#endif /* 0 */
-    case SDL_BUTTON_RIGHT:
-      if (can_intel_with_player(pPlayer)) {
-	popdown_players_dialog();
-        popup_intel_dialog(pPlayer);
-	return -1;
-      }
     break;
-    default:
+  case SDL_BUTTON_MIDDLE:
+
+    break;
+#endif /* 0 */
+  case SDL_BUTTON_RIGHT:
+    if (can_intel_with_player(pPlayer)) {
       popdown_players_dialog();
-      popup_diplomacy_dialog(pPlayer);
+      popup_intel_dialog(pPlayer);
       return -1;
+    }
+    break;
+  default:
+    popdown_players_dialog();
+    popup_diplomacy_dialog(pPlayer);
+    return -1;
     break;
   }
 
@@ -258,18 +258,18 @@ void real_players_dialog_update(void *unused)
       for (i = 0; i < num_player_dlg_columns; i++) {
         if (player_dlg_columns[i].show) {
           switch (player_dlg_columns[i].type) {
-            case COL_TEXT:
-            case COL_RIGHT_TEXT:
-              astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
-                                             player_dlg_columns[i].func(pPlayer));
-              break;
-            case COL_BOOLEAN:
-              astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
-                            player_dlg_columns[i].bool_func(pPlayer) ?
-                              _("Yes") : _("No"));
-              break;
-            default:
-              break;
+          case COL_TEXT:
+          case COL_RIGHT_TEXT:
+            astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
+                          player_dlg_columns[i].func(pPlayer));
+            break;
+          case COL_BOOLEAN:
+            astr_add_line(&astr, "%s: %s", player_dlg_columns[i].title,
+                          player_dlg_columns[i].bool_func(pPlayer) ?
+                          _("Yes") : _("No"));
+            break;
+          default:
+            break;
           }
         }
       }
@@ -626,7 +626,7 @@ static int player_nation_callback(struct widget *pWidget)
   struct player *pPlayer = pWidget->data.player;
 
   popdown_players_nations_dialog();
-  switch(Main.event.button.button) {
+  switch (Main.event.button.button) {
 #if 0
   case SDL_BUTTON_LEFT:
 

@@ -260,15 +260,15 @@ static int pact_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
 
-    switch(MAX_ID - pWidget->ID) {
-      case 2:
-        clause_type = CLAUSE_CEASEFIRE;
+    switch (MAX_ID - pWidget->ID) {
+    case 2:
+      clause_type = CLAUSE_CEASEFIRE;
+    break;
+    case 1:
+      clause_type = CLAUSE_PEACE;
       break;
-      case 1:
-        clause_type = CLAUSE_PEACE;
-      break;
-      default:
-        clause_type = CLAUSE_ALLIANCE;
+    default:
+      clause_type = CLAUSE_ALLIANCE;
       break;
     }
 
@@ -336,12 +336,12 @@ static int maps_callback(struct widget *pWidget)
       pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
 
-    switch(MAX_ID - pWidget->ID) {
-      case 1:
-        clause_type = CLAUSE_MAP;
+    switch (MAX_ID - pWidget->ID) {
+    case 1:
+      clause_type = CLAUSE_MAP;
       break;
-      default:
-        clause_type = CLAUSE_SEAMAP;
+    default:
+      clause_type = CLAUSE_SEAMAP;
       break;
     }
 

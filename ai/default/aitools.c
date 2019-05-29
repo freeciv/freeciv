@@ -76,7 +76,7 @@
 **************************************************************************/
 const char *dai_unit_task_rule_name(const enum ai_unit_task task)
 {
-  switch(task) {
+  switch (task) {
    case AIUNIT_NONE:
      return "None";
    case AIUNIT_AUTO_SETTLER:
@@ -639,7 +639,7 @@ void dai_unit_new_adv_task(struct ai_type *ait, struct unit *punit,
                            enum adv_unit_task task, struct tile *ptile)
 {
   /* Keep ai_unit_task in sync with adv task */
-  switch(task) {
+  switch (task) {
    case AUT_AUTO_SETTLER:
      dai_unit_new_task(ait, punit, AIUNIT_AUTO_SETTLER, ptile);
      break;
@@ -754,7 +754,7 @@ void dai_unit_new_task(struct ai_type *ait, struct unit *punit,
 
   /* Map ai tasks to advisor tasks. For most ai tasks there is
      no advisor, so AUT_NONE is set. */
-  switch(unit_data->task) {
+  switch (unit_data->task) {
    case AIUNIT_AUTO_SETTLER:
      punit->server.adv->task = AUT_AUTO_SETTLER;
      break;

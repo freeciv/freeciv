@@ -4806,7 +4806,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       fc_assert(!action_requires_details(auto_action));
 
       /* Give the order. */
-      switch(action_id_get_target_kind(auto_action)) {
+      switch (action_id_get_target_kind(auto_action)) {
       case ATK_TILE:
       case ATK_UNITS:
         request_do_action(auto_action,

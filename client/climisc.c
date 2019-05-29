@@ -243,7 +243,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 {
   struct city *pcity;
 
-  switch(pclause->type) {
+  switch (pclause->type) {
   case CLAUSE_ADVANCE:
     fc_snprintf(buf, bufsiz, _("The %s give %s"),
                 nation_plural_for_player(pclause->from),
