@@ -586,3 +586,36 @@ install_data(
   'data/sandbox/README.sandbox',
   install_dir : join_paths(get_option('datadir'), 'freeciv/sandbox')
   )
+
+install_data(
+  'COPYING',
+  'NEWS',
+  'INSTALL',
+  'ChangeLog',
+  'doc/BUGS',
+  'doc/CodingStyle',
+  'doc/FAQ',
+  'doc/HACKING',
+  'doc/HOWTOPLAY',
+  'doc/README',
+  'doc/README.achievements',
+  'doc/README.actions',
+  'doc/README.agents',
+  'doc/README.AI',
+  'doc/README.AI_modules',
+  'doc/README.attributes',
+  'doc/README.delta',
+  'doc/README.effects',
+  'doc/README.fcdb',
+  'doc/README.governor',
+  'doc/README.graphics',
+  'doc/README.msys2',
+  'doc/README.nations',
+  'doc/README.packaging',
+  'doc/README.rulesets',
+  'doc/README.scorelog',
+  'doc/README.sound',
+  'doc/README.tilesets',
+  'doc/TODO',
+  install_dir : join_paths(get_option('datadir'), 'doc/freeciv')
+  )
