@@ -1149,7 +1149,7 @@ void gui_update_font(const char *font_name, const char *font_value)
         action; \
       } \
     } \
-  } while(0)
+  } while (FALSE)
 
   CHECK_FONT(FONT_CITY_NAME, update_city_descriptions());
   CHECK_FONT(FONT_CITY_PROD, update_city_descriptions());
