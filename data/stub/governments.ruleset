@@ -8,6 +8,8 @@ options="+Freeciv-2.6-ruleset"
 [governments]
 during_revolution = "Anarchy"
 
+; /* <-- avoid gettext warnings
+;
 ; Below: The individual government types, one per section.
 ;
 ; The actual tag used (the * in [government_*]) does not matter, except 
@@ -34,10 +36,17 @@ during_revolution = "Anarchy"
 ;                otherwise may be "-"
 ; ai_better    = AI will not consider this government for use if the
 ;                government listed here is available
-; ruler_titles = ruler titles by nation, "-" is default, and non-matched
-;                nations are ignored
+; ruler_male_title   = The default male ruler title for the government type.
+;                      It's a format string where name of the ruler is marked
+;                      by '%s'.
+;                      Individual nations may override this by their
+;                      own title.
+; ruler_female_title = The default female ruler title for the government type.
+;                      See above ruler_male_title.
 ; helptext     = optional help text string; should escape all raw newlines
 ;                so that xgettext parsing works
+;
+; */ <-- avoid gettext warnings
 
 ;------------------------------------------------------------------------
 [government_anarchy]
