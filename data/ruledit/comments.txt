@@ -191,8 +191,13 @@ governments = "\
 ;                otherwise may be \"-\"\n\
 ; ai_better    = AI will not consider this government for use if the\n\
 ;                government listed here is available\n\
-; ruler_titles = ruler titles by nation, \"-\" is default, and non-matched\n\
-;	         nations are ignored\n\
+; ruler_male_title   = The default male ruler title for the government type.\n\
+;                      It\'s a format string where name of the ruler is marked\n\
+;                      by \'%s\'.\n\
+;                      Individual nations may override this by their\n\
+;                      own title.\n\
+; ruler_female_title = The default female ruler title for the government type.\n\
+;                      See above ruler_male_title.\n\
 ; helptext     = optional help text string; should escape all raw newlines\n\
 ;	         so that xgettext parsing works\n\
 ;\n\
