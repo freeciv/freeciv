@@ -17,7 +17,7 @@ leaders = {
 }
 
 flag="myanmar"
-flag_alt = "-"
+flag_alt = "myanmar_old"
 style = "Asian"
 
 init_techs=""
