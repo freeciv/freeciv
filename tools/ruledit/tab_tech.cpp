@@ -419,7 +419,7 @@ void tab_tech::add_now()
   if (initialize_new_tech(new_adv)) {
     update_tech_info(new_adv);
     refresh();
-  } else{
+  } else {
     game.control.num_tech_types--; // Restore
   }
 }
