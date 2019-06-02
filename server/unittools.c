@@ -1167,11 +1167,11 @@ void place_partisans(struct tile *pcenter, struct player *powner,
   (If specified cost is -1, then teleportation costs all movement.)
 **************************************************************************/
 bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
-			  int move_cost, bool verbose)
+                           int move_cost, bool verbose)
 {
   struct tile *src_tile = unit_tile(punit), *dst_tile = pcity->tile;
 
-  if (city_owner(pcity) == unit_owner(punit)){
+  if (city_owner(pcity) == unit_owner(punit)) {
     log_verbose("Teleported %s %s from (%d,%d) to %s",
                 nation_rule_name(nation_of_unit(punit)),
                 unit_rule_name(punit), TILE_XY(src_tile), city_name_get(pcity));

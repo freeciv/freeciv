@@ -1287,10 +1287,10 @@ void eco_report::update_report()
 
     pix = NULL;
     sprite = get_building_sprite(tileset, pimprove);
-    if (sprite != NULL){
+    if (sprite != NULL) {
       pix = sprite->pm;
     }
-    if (pix != NULL){
+    if (pix != NULL) {
       pix_scaled = pix->scaledToHeight(h);
     } else {
       pix_scaled.fill();
@@ -1335,7 +1335,7 @@ void eco_report::update_report()
 
     pix = NULL;
     sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
-    if (sprite != NULL){
+    if (sprite != NULL) {
       pix = sprite->pm;
     }
     id = cid_encode_unit(putype);
@@ -1346,7 +1346,7 @@ void eco_report::update_report()
       item->setTextAlignment(Qt::AlignHCenter);
       switch (j) {
       case 0:
-        if (pix != NULL){
+        if (pix != NULL) {
           pix_scaled = pix->scaledToHeight(h);
           item->setData(Qt::DecorationRole, pix_scaled);
         }
@@ -1613,8 +1613,8 @@ void endgame_report::update_report(const struct packet_endgame_player *packet)
         break;
       case 1:
         pix = get_nation_flag_sprite(tileset, nation_of_player(pplayer))->pm;
-        if (pix != NULL){
-        item->setData(Qt::DecorationRole, *pix);
+        if (pix != NULL) {
+          item->setData(Qt::DecorationRole, *pix);
         }
         break;
       case 2:
@@ -1642,7 +1642,7 @@ void science_report_dialog_popup(bool raise)
   int i;
   QWidget *w;
 
-  if (client_is_global_observer()){
+  if (client_is_global_observer()) {
     return;
   }
   if (!gui()->is_repo_dlg_open("SCI")) {

@@ -434,7 +434,7 @@ void city_widget::buy()
 {
   struct city *pcity;
 
-  foreach(pcity, selected_cities){
+  foreach(pcity, selected_cities) {
     Q_ASSERT(pcity != NULL);
     cityrep_buy(pcity);
   }
@@ -447,10 +447,10 @@ void city_widget::center()
 {
   struct city *pcity;
 
-  if (selected_cities.isEmpty()){
+  if (selected_cities.isEmpty()) {
     return;
   }
-  pcity= selected_cities[0];
+  pcity = selected_cities[0];
   Q_ASSERT(pcity != NULL);
   center_tile_mapcanvas(pcity->tile);
   gui()->game_tab_widget->setCurrentIndex(0);
@@ -948,7 +948,7 @@ void city_widget::gen_select_labels(QMenu *menu)
   connect(act, &QAction::triggered, this, &city_widget::select_coastal);
   act = menu->addAction(_("Same Island"));
   connect(act, &QAction::triggered, this, &city_widget::select_same_island);
-  if (selected_cities.isEmpty()){
+  if (selected_cities.isEmpty()) {
     act->setDisabled(true);
   }
   menu->addSeparator();
@@ -1140,7 +1140,7 @@ void city_widget::hide_columns()
   int col;
 
   for (col = 0; col < list_model->columnCount(); col++) {
-    if (!list_model->hide_data(col).toBool()){
+    if (!list_model->hide_data(col).toBool()) {
       setColumnHidden(col, !isColumnHidden(col));
     }
   }
@@ -1163,7 +1163,7 @@ void city_widget::cities_selected(const QItemSelection &sl,
   if (indexes.isEmpty()) {
     return;
   }
-  foreach(i,indexes){
+  foreach(i,indexes) {
     qvar = i.data(Qt::UserRole);
     if (qvar.isNull()) {
       continue;

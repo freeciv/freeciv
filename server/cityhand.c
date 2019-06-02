@@ -345,8 +345,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  pplayer->economic.gold-=cost;
-  if (pcity->shield_stock < total){
+  pplayer->economic.gold -= cost;
+  if (pcity->shield_stock < total) {
     /* As we never put penalty on disbanded_shields, we can
      * fully well add the missing shields there. */
     pcity->disbanded_shields += total - pcity->shield_stock;

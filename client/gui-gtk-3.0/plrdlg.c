@@ -86,7 +86,7 @@ static void update_views(void);
 **************************************************************************/
 void popup_players_dialog(bool raise)
 {
-  if (!players_dialog_shell){
+  if (!players_dialog_shell) {
     create_players_dialog();
   }
   gui_dialog_present(players_dialog_shell);

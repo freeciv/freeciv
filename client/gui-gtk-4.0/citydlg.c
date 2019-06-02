@@ -3251,7 +3251,7 @@ static void cityopt_callback(GtkWidget *w, gpointer data)
     return;
   }
 
-  if (!pdialog->misc.block_signal){
+  if (!pdialog->misc.block_signal) {
     struct city *pcity = pdialog->pcity;
     bv_city_options new_options;
 

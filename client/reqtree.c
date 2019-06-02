@@ -864,7 +864,7 @@ void get_reqtree_dimensions(struct reqtree *reqtree,
   if (width) {
     *width = reqtree->diagram_width;
   }
-  if (height){
+  if (height) {
     *height = reqtree->diagram_height;
   }
 }

@@ -182,7 +182,7 @@ void save_game(const char *orig_filename, const char *save_reason,
   }
 
   /* If orig_filename is NULL or empty, use a generated default name. */
-  if (filename[0] == '\0'){
+  if (filename[0] == '\0') {
     /* manual save */
     generate_save_name(game.server.save_name, filename,
                        sizeof(stdata->filepath) + stdata->filepath - filename, "manual");

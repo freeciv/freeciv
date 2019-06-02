@@ -3553,7 +3553,7 @@ void set_rulesets(int num_rulesets, char **rulesets)
   int def_idx = -1;
 
   gtk_combo_box_text_remove_all(GTK_COMBO_BOX_TEXT(ruleset_combo));
-  for (i = 0; i < num_rulesets; i++){
+  for (i = 0; i < num_rulesets; i++) {
 
     gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(ruleset_combo), rulesets[i]);
     if (!strcmp("default", rulesets[i])) {

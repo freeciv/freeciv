@@ -334,7 +334,7 @@ void fc_client::switch_page(int new_pg)
     return;
   }
 
-  if (page == PAGE_NETWORK){
+  if (page == PAGE_NETWORK) {
     destroy_server_scans();
   }
   menuBar()->setVisible(false);
@@ -364,7 +364,7 @@ void fc_client::switch_page(int new_pg)
     showMaximized();
     gui()->infotab->chtwdg->update_widgets();
     status_bar->setVisible(false);
-    if (gui_options.gui_qt_fullscreen){
+    if (gui_options.gui_qt_fullscreen) {
       gui()->showFullScreen();
       gui()->game_tab_widget->showFullScreen();
     }
@@ -789,7 +789,7 @@ void fc_client::toggle_unit_sel_widget(struct tile *ptile)
 ****************************************************************************/
 void fc_client::update_unit_sel()
 {
-  if (unit_sel != NULL){
+  if (unit_sel != NULL) {
     unit_sel->update_units();
     unit_sel->create_pixmap();
     unit_sel->update();
@@ -801,7 +801,7 @@ void fc_client::update_unit_sel()
 ****************************************************************************/
 void fc_client::popdown_unit_sel()
 {
-  if (unit_sel != nullptr){
+  if (unit_sel != nullptr) {
     unit_sel->close();
     delete unit_sel;
     unit_sel = nullptr;
@@ -1165,7 +1165,7 @@ void pregame_options::set_rulesets(int num_rulesets, char **rulesets)
 
   cruleset->clear();
   cruleset->blockSignals(true);
-  for (i = 0; i < num_rulesets; i++){
+  for (i = 0; i < num_rulesets; i++) {
     cruleset->addItem(rulesets[i], i);
     if (!strcmp("default", rulesets[i])) {
       def_idx = i;

@@ -670,7 +670,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
   }
 
   index = indexes.at(0);
-  if (indexes.isEmpty()){
+  if (indexes.isEmpty()) {
     return;
   }
   qvar = index.data(Qt::UserRole);
@@ -881,7 +881,7 @@ void notify_dialog::paintEvent(QPaintEvent * paint_event)
 void notify_dialog::mousePressEvent(QMouseEvent *event)
 {
   cursor = event->globalPos() - geometry().topLeft();
-  if (event->button() == Qt::RightButton){
+  if (event->button() == Qt::RightButton) {
     was_destroyed = true;
     close();
   }
@@ -1134,7 +1134,7 @@ void popup_races_dialog(struct player *pplayer)
 ***************************************************************************/
 void popdown_races_dialog(void)
 {
-  if (is_race_dialog_open){
+  if (is_race_dialog_open) {
     race_dialog->close();
     is_race_dialog_open = false;
   }
@@ -1175,7 +1175,7 @@ void update_nationset_combo()
 ***************************************************************************/
 void races_update_pickable(bool nationset_change)
 {
-  if (is_race_dialog_open){
+  if (is_race_dialog_open) {
     race_dialog->refresh();
   }
 }
@@ -3247,7 +3247,7 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
   choice_dialog *cd;
   struct extra_type *tgt;
 
-  if (is_showing_pillage_dialog){
+  if (is_showing_pillage_dialog) {
     return;
   }
   cd = new choice_dialog(_("What To Pillage"), _("Select what to pillage:"),
@@ -3684,7 +3684,7 @@ void action_selection_close(void)
   choice_dialog *cd;
 
   cd = gui()->get_diplo_dialog();
-  if (cd != NULL){
+  if (cd != NULL) {
     did_not_decide = true;
     cd->close();
   }

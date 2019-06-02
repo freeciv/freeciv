@@ -779,7 +779,7 @@ void diplo_dlg::make_active(int party)
   QWidget *w;
 
   w = find_widget(party);
-  if (w == NULL){
+  if (w == NULL) {
     return;
   }
   setCurrentWidget(w);

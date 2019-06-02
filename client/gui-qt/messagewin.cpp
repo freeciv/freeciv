@@ -97,10 +97,10 @@ void info_tab::mousePressEvent(QMouseEvent *event)
       resxy = true;
       return;
     }
-    if (event->y() > 0 && event->y() < 5){
+    if (event->y() > 0 && event->y() < 5) {
       resize_mode = true;
       resy = true;
-    } else if (event->x() > width() - 5 && event->x() < width()){
+    } else if (event->x() > width() - 5 && event->x() < width()) {
       resize_mode = true;
       resx = true;
     }

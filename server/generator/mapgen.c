@@ -2349,12 +2349,12 @@ static void mapgenerator3(void)
 
   landmass = (wld.map.xsize * (wld.map.ysize - 6) * wld.map.server.landpercent)/100;
   /* subtracting the arctics */
-  if (landmass > 3 * wld.map.ysize + player_count() * 3){
+  if (landmass > 3 * wld.map.ysize + player_count() * 3) {
     landmass -= 3 * wld.map.ysize;
   }
 
 
-  islandmass= (landmass)/(3 * bigislands);
+  islandmass = (landmass)/(3 * bigislands);
   if (islandmass < 4 * maxmassdiv6) {
     islandmass = (landmass)/(2 * bigislands);
   }
@@ -2376,14 +2376,14 @@ static void mapgenerator3(void)
     make_island(islandmass, 1, pstate, DMSIS);
   }
 
-  if (j == 500){
+  if (j == 500) {
     log_normal(_("Generator 3 didn't place all big islands."));
   }
-  
-  islandmass= (islandmass * 11)/8;
+
+  islandmass = (islandmass * 11) / 8;
   /*!PS: I'd like to mult by 3/2, but starters might make trouble then */
   if (islandmass < 2) {
-    islandmass= 2;
+    islandmass = 2;
   }
 
   while (checkmass > islandmass && ++j < 1500) {

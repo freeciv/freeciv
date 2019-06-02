@@ -3357,7 +3357,7 @@ static void sg_load_players_basic(struct loaddata *loading)
     } player_slots_iterate_end;
 
     /* Load shuffled player list. */
-    for (i = 0; i < player_count(); i++){
+    for (i = 0; i < player_count(); i++) {
       int shuffle
         = secfile_lookup_int_default(loading->file, -1,
                                      "players.shuffled_player_%d", i);
@@ -3383,7 +3383,8 @@ static void sg_load_players_basic(struct loaddata *loading)
     if (shuffle_loaded) {
       /* Insert missing numbers. */
       int shuffle_index = player_count();
-      for (i = 0; i < player_slot_count(); i++){
+
+      for (i = 0; i < player_slot_count(); i++) {
         if (!shuffled_player_set[i]) {
           shuffled_players[shuffle_index] = i;
           shuffle_index++;
@@ -4121,7 +4122,7 @@ static void sg_save_player_main(struct savedata *saving,
   sg_check_ret();
 
   set_count = 0;
-  for (i = 0; i < PLRF_COUNT; i++){
+  for (i = 0; i < PLRF_COUNT; i++) {
     if (player_has_flag(plr, i)) {
       flag_names[set_count++] = plr_flag_id_name(i);
     }

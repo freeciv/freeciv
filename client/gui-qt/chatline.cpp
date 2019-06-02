@@ -69,9 +69,9 @@ void chat_listener::update_word_list()
     }
   } conn_list_iterate_end;
 
-  players_iterate (pplayer){
+  players_iterate(pplayer) {
     str = pplayer->name;
-    if (!word_list.contains(str)){
+    if (!word_list.contains(str)) {
       word_list << str;
     }
   } players_iterate_end

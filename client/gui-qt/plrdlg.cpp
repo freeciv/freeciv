@@ -111,7 +111,7 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
                - opt.fontMetrics.height() / 2);
     rct.setBottom((rct.top()+rct.bottom()) / 2
                   + opt.fontMetrics.height() / 2);
-    if (index.data().toInt() == -1){
+    if (index.data().toInt() == -1) {
       str = "?";
     } else {
       str = index.data().toString();
@@ -178,7 +178,7 @@ QVariant plr_item::data(int column, int role) const
     break;
   case COL_RIGHT_TEXT:
     str = pdc->func(ipplayer);
-    if (str.toInt() != 0){
+    if (str.toInt() != 0) {
       return str.toInt();
     } else if (str == "?") {
       return -1;
@@ -271,7 +271,7 @@ void plr_model::populate()
   plr_list.clear();
   beginResetModel();
   players_iterate(pplayer) {
-    if ((is_barbarian(pplayer))){
+    if ((is_barbarian(pplayer))) {
       continue;
     }
     pi = new plr_item(pplayer);
@@ -389,7 +389,7 @@ void plr_widget::hide_columns()
   int col;
 
   for (col = 0; col < list_model->columnCount(); col++) {
-    if (!list_model->hide_data(col).toBool()){
+    if (!list_model->hide_data(col).toBool()) {
       setColumnHidden(col, !isColumnHidden(col));
     }
   }
@@ -806,7 +806,7 @@ void plr_report::update_report(bool update_selection)
   }
 
   players_iterate(pplayer) {
-    if ((is_barbarian(pplayer))){
+    if ((is_barbarian(pplayer))) {
       continue;
     }
     player_count++;

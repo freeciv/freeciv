@@ -1517,7 +1517,8 @@ static int ok_sell_impr_callback(struct widget *pWidget)
 
     /* send sell */
     city_list_iterate(client.conn.playing->cities, pCity) {
-      if (!pCity->did_sell && city_has_building(pCity, improvement_by_number(imp))){
+      if (!pCity->did_sell
+          && city_has_building(pCity, improvement_by_number(imp))) {
         count++;
 
         city_sell_improvement(pCity, imp);

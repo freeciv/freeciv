@@ -2049,7 +2049,7 @@ void mr_menu::menus_sensitive()
                       /* TRANS: Transfrom terrain to specific type */
                       arg(QString(get_tile_change_menu_text
                       (unit_tile(punit), ACTIVITY_MINE))));
-          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)){
+          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus
@@ -2089,7 +2089,7 @@ void mr_menu::menus_sensitive()
                       /* TRANS: Transfrom terrain to specific type */
                       arg(QString(get_tile_change_menu_text
                       (unit_tile(punit), ACTIVITY_IRRIGATE))));
-          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)){
+          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus

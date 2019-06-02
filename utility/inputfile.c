@@ -374,12 +374,12 @@ static bool check_include(struct inputfile *inf)
   /* skip any whitespace: */
   inf->cur_line_pos = len;
   c = astr_str(&inf->cur_line) + len;
-  while (*c != '\0' && fc_isspace(*c)){
+  while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
 
   if (*c != '\"') {
-    inf_log(inf, LOG_ERROR, 
+    inf_log(inf, LOG_ERROR,
             "Did not find opening doublequote for '*include' line");
     return FALSE;
   }
