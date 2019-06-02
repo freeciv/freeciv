@@ -1024,8 +1024,8 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   assign a new targeted task to a unit.
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
-				enum unit_activity new_activity,
-				struct extra_type *new_target)
+                                enum unit_activity new_activity,
+                                struct extra_type *new_target)
 {
   fc_assert_ret(activity_requires_target(new_activity)
                 || new_target == NULL);
@@ -1070,7 +1070,7 @@ void set_unit_activity_road(struct unit *punit,
   Return whether any units on the tile are doing this activity.
 **************************************************************************/
 bool is_unit_activity_on_tile(enum unit_activity activity,
-			      const struct tile *ptile)
+                              const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == activity) {
@@ -1104,7 +1104,8 @@ bv_extras get_unit_tile_pillage_set(const struct tile *ptile)
   FIXME: Convert all callers of this function to unit_activity_astr()
   because this function is not re-entrant.
 **************************************************************************/
-const char *unit_activity_text(const struct unit *punit) {
+const char *unit_activity_text(const struct unit *punit)
+{
   static struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
@@ -1218,7 +1219,8 @@ struct player *unit_nationality(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Set the tile location of the unit. Tile can be NULL (for transported units.
+  Set the tile location of the unit.
+  Tile can be NULL (for transported units).
 **************************************************************************/
 void unit_tile_set(struct unit *punit, struct tile *ptile)
 {
@@ -1227,20 +1229,21 @@ void unit_tile_set(struct unit *punit, struct tile *ptile)
 }
 
 /**********************************************************************//**
-Returns true if the tile contains an allied unit and only allied units.
-(ie, if your nation A is allied with B, and B is allied with C, a tile
-containing units from B and C will return false)
+  Returns true if the tile contains an allied unit and only allied units.
+  (ie, if your nation A is allied with B, and B is allied with C, a tile
+  containing units from B and C will return false)
 **************************************************************************/
 struct unit *is_allied_unit_tile(const struct tile *ptile,
-				 const struct player *pplayer)
+                                 const struct player *pplayer)
 {
   struct unit *punit = NULL;
 
   unit_list_iterate(ptile->units, cunit) {
-    if (pplayers_allied(pplayer, unit_owner(cunit)))
+    if (pplayers_allied(pplayer, unit_owner(cunit))) {
       punit = cunit;
-    else
+    } else {
       return NULL;
+    }
   }
   unit_list_iterate_end;
 
@@ -1254,25 +1257,27 @@ struct unit *is_allied_unit_tile(const struct tile *ptile,
   doesn't see all units.  (Maybe it should be moved into the server code.)
 **************************************************************************/
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
-				const struct player *pplayer)
+                                const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (pplayers_at_war(unit_owner(punit), pplayer))
+    if (pplayers_at_war(unit_owner(punit), pplayer)) {
       return punit;
+    }
   } unit_list_iterate_end;
 
   return NULL;
 }
 
 /**********************************************************************//**
- is there an non-allied unit on this tile?
+  Is there an non-allied unit on this tile?
 **************************************************************************/
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+                                     const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (!pplayers_allied(unit_owner(punit), pplayer))
+    if (!pplayers_allied(unit_owner(punit), pplayer)) {
       return punit;
+    }
   }
   unit_list_iterate_end;
 
@@ -1280,7 +1285,7 @@ struct unit *is_non_allied_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
- is there an unit belonging to another player on this tile?
+  Is there an unit belonging to another player on this tile?
 **************************************************************************/
 struct unit *is_other_players_unit_tile(const struct tile *ptile,
                                         const struct player *pplayer)
@@ -1295,14 +1300,15 @@ struct unit *is_other_players_unit_tile(const struct tile *ptile,
 }
 
 /**********************************************************************//**
- is there an unit we have peace or ceasefire with on this tile?
+  Is there an unit we have peace or ceasefire with on this tile?
 **************************************************************************/
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+                                     const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
-    if (pplayers_non_attack(unit_owner(punit), pplayer))
+    if (pplayers_non_attack(unit_owner(punit), pplayer)) {
       return punit;
+    }
   }
   unit_list_iterate_end;
 
@@ -1318,7 +1324,7 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
   called by city_can_work_tile().
 **************************************************************************/
 struct unit *unit_occupies_tile(const struct tile *ptile,
-				const struct player *pplayer)
+                                const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (!is_military_unit(punit)) {
@@ -1394,12 +1400,12 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 }
 
 /**********************************************************************//**
-An "aggressive" unit is a unit which may cause unhappiness
-under a Republic or Democracy.
-A unit is *not* aggressive if one or more of following is true:
-- zero attack strength
-- inside a city
-- ground unit inside a fortress within 3 squares of a friendly city
+  An "aggressive" unit is a unit which may cause unhappiness
+  under a Republic or Democracy.
+  A unit is *not* aggressive if one or more of following is true:
+  - zero attack strength
+  - inside a city
+  - ground unit inside a fortress within 3 squares of a friendly city
 **************************************************************************/
 bool unit_being_aggressive(const struct unit *punit)
 {
