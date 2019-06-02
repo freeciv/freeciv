@@ -112,7 +112,8 @@ void popdown_players_dialog(void)
 **************************************************************************/
 GdkPixbuf *create_player_icon(const struct player *plr)
 {
-  int width, height;
+  int width = 20;
+  int height = 20;
   GdkPixbuf *tmp;
   cairo_surface_t *surface;
   struct color *color;
@@ -122,7 +123,6 @@ GdkPixbuf *create_player_icon(const struct player *plr)
     return NULL;
   }
 
-  gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height);
   surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
 
   cr = cairo_create(surface);
