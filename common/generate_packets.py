@@ -2106,11 +2106,11 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 #include "packets.h"
 
 #include "hand_gen.h"
-    
+
 bool server_handle_packet(enum packet_type type, const void *packet,
                           struct player *pplayer, struct connection *pconn)
 {
-  switch(type) {
+  switch (type) {
 ''')
         for p in packets:
             if "cs" not in p.dirs: continue
@@ -2163,10 +2163,10 @@ bool server_handle_packet(enum packet_type type, const void *packet,
 #include "packets.h"
 
 #include "packhand_gen.h"
-    
+
 bool client_handle_packet(enum packet_type type, const void *packet)
 {
-  switch(type) {
+  switch (type) {
 ''')
         for p in packets:
             if "sc" not in p.dirs: continue

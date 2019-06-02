@@ -90,7 +90,7 @@
 	}								\
 	if ( w > 0 ) {							\
 	    n = ( w + 2 ) / 4;						\
-	    switch( w & 2 ) {						\
+	    switch ( w & 2 ) {						\
 	    case 0: do {	double_pixel_copy_increment;		\
 	    case 2:		double_pixel_copy_increment;		\
 		    } while ( --n > 0 );				\
@@ -113,7 +113,7 @@
 	}								\
 	if ( w > 0 ) {							\
 	    n = ( w + 7 ) / 8;						\
-	    switch( w & 4 ) {						\
+	    switch ( w & 4 ) {						\
 	    case 0: do {	quatro_pixel_copy_increment;		\
 	    case 4:		quatro_pixel_copy_increment;		\
 		    } while ( --n > 0 );				\
@@ -340,7 +340,7 @@ do {					\
 #define putpixel(pSurface, x, y, pixel)					  \
 do {									  \
     Uint8 *buf_ptr = ((Uint8 *)pSurface->pixels + (y * pSurface->pitch)); \
-    switch(pSurface->format->BytesPerPixel) {				  \
+    switch (pSurface->format->BytesPerPixel) {				  \
 		case 1:							  \
 			buf_ptr += x;					  \
 			*(Uint8 *)buf_ptr = pixel;			  \
