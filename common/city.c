@@ -1915,63 +1915,67 @@ int city_turns_to_grow(const struct city *pcity)
 bool city_can_grow_to(const struct city *pcity, int pop_size)
 {
   return (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) > 0
-	  || pop_size <= get_city_bonus(pcity, EFT_SIZE_ADJ));
+          || pop_size <= get_city_bonus(pcity, EFT_SIZE_ADJ));
 }
 
 /**********************************************************************//**
- is there an enemy city on this tile?
+  Is there an enemy city on this tile?
 **************************************************************************/
 struct city *is_enemy_city_tile(const struct tile *ptile,
-				const struct player *pplayer)
+                                const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_at_war(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_at_war(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**********************************************************************//**
- is there an friendly city on this tile?
+  Is there an friendly city on this tile?
 **************************************************************************/
 struct city *is_allied_city_tile(const struct tile *ptile,
-				 const struct player *pplayer)
+                                 const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_allied(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**********************************************************************//**
- is there an enemy city on this tile?
+  Is there an enemy city on this tile?
 **************************************************************************/
 struct city *is_non_attack_city_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+                                     const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && pplayers_non_attack(pplayer, city_owner(pcity)))
+  if (pcity && pplayers_non_attack(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**********************************************************************//**
- is there an non_allied city on this tile?
+  Is there an non_allied city on this tile?
 **************************************************************************/
 struct city *is_non_allied_city_tile(const struct tile *ptile,
-				     const struct player *pplayer)
+                                     const struct player *pplayer)
 {
   struct city *pcity = tile_city(ptile);
 
-  if (pcity && !pplayers_allied(pplayer, city_owner(pcity)))
+  if (pcity && !pplayers_allied(pplayer, city_owner(pcity))) {
     return pcity;
-  else
+  } else {
     return NULL;
+  }
 }
 
 /**********************************************************************//**
@@ -1992,6 +1996,7 @@ bool is_friendly_city_near(const struct player *owner,
 {
   square_iterate(&(wld.map), ptile, 3, ptile1) {
     struct city *pcity = tile_city(ptile1);
+
     if (pcity && pplayers_allied(owner, city_owner(pcity))) {
       return TRUE;
     }
@@ -2001,7 +2006,7 @@ bool is_friendly_city_near(const struct player *owner,
 }
 
 /**********************************************************************//**
-  Return true iff a city exists within a city radius of the given 
+  Return TRUE iff a city exists within a city radius of the given 
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
 bool city_exists_within_max_city_map(const struct tile *ptile,
@@ -2150,7 +2155,7 @@ void add_tax_income(const struct player *pplayer, int trade, int *output)
     rates[LUXURY] = game.info.forced_luxury;
     rates[TAX] = game.info.forced_gold;
   }
-  
+
   /* ANARCHY */
   if (government_of_player(pplayer) == game.government_during_revolution) {
     rates[SCIENCE] = 0;
