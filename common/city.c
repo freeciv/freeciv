@@ -2128,7 +2128,7 @@ static inline void set_city_bonuses(struct city *pcity)
   as workers are moved around, but does change when buildings are built,
   etc.
 
-  TODO: use the cached values elsethere in the code!
+  TODO: use the cached values elsewhere in the code!
 ****************************************************************************/
 static inline void city_tile_cache_update(struct city *pcity)
 {
