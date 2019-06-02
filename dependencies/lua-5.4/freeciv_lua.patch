@@ -1,0 +1,65 @@
+diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
+--- lua-5.4/src/ldo.c	2019-06-03 01:39:43.783391056 +0300
++++ lua-5.4/src/ldo.c	2019-06-03 00:43:05.506220924 +0300
+@@ -60,7 +60,7 @@
+ 	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
+ #define luai_jmpbuf		int  /* dummy variable */
+ 
+-#elif defined(LUA_USE_POSIX)				/* }{ */
++#elif defined(LUA_USE_ULONGJMP)				/* }{ */
+ 
+ /* in POSIX, try _longjmp/_setjmp (more efficient) */
+ #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
+diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
+--- lua-5.4/src/liolib.c	2019-06-03 01:39:48.875376031 +0300
++++ lua-5.4/src/liolib.c	2019-06-03 00:43:05.506220924 +0300
+@@ -54,7 +54,7 @@
+ 
+ #if !defined(l_popen)		/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_POPEN)      /* { */
+ 
+ #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
+ #define l_pclose(L,file)	(pclose(file))
+@@ -103,7 +103,7 @@
+ 
+ #if !defined(l_fseek)		/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_FSEEKO)	/* { */
+ 
+ #include <sys/types.h>
+ 
+diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
+--- lua-5.4/src/loslib.c	2019-06-03 01:42:16.566920512 +0300
++++ lua-5.4/src/loslib.c	2019-06-03 00:43:05.510220908 +0300
+@@ -80,7 +80,7 @@
+ ** where it uses gmtime_r/localtime_r
+ */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_GMTIME_R)   /* { */
+ 
+ #define l_gmtime(t,r)		gmtime_r(t,r)
+ #define l_localtime(t,r)	localtime_r(t,r)
+@@ -107,7 +107,7 @@
+ */
+ #if !defined(lua_tmpnam)	/* { */
+ 
+-#if defined(LUA_USE_POSIX)	/* { */
++#if defined(LUA_USE_MKSTEMP)    /* { */
+ 
+ #include <unistd.h>
+ 
+diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
+--- lua-5.4/src/luaconf.h	2019-06-03 01:38:58.559522248 +0300
++++ lua-5.4/src/luaconf.h	2019-06-03 01:41:15.431113421 +0300
+@@ -11,6 +11,7 @@
+ #include <limits.h>
+ #include <stddef.h>
+ 
++#include "localluaconf.h"
+ 
+ /*
+ ** ===================================================================
