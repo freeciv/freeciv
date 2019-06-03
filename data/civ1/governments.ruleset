@@ -43,10 +43,13 @@ during_revolution="Anarchy"
 ; graphic_alt = alternate graphics tag if preferred is not found;
 ;               should be a standard tag if preferred is not;
 ;		otherwise may be "-"
-
-; ruler_titles = ruler titles by nation, "-" is default, and non-matched 
-;	         nations are ignored 
-
+; ruler_male_title   = The default male ruler title for the government type.
+;                      It's a format string where name of the ruler is marked
+;                      by '%s'.
+;                      Individual nations may override this by their
+;                      own title.
+; ruler_female_title = The default female ruler title for the government type.
+;                      See above ruler_male_title.
 ; helptext = optional help text string; should escape all raw newlines 
 ;	     so that xgettext parsing works
 ;
