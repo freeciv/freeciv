@@ -98,7 +98,6 @@ static void unit_select_dialog_popdown(void);
 static void popdown_terrain_info_dialog(void);
 static void popdown_pillage_dialog(void);
 static void popdown_connect_dialog(void);
-static void popdown_revolution_dialog(void);
 static void popdown_unit_upgrade_dlg(void);
 static void popdown_unit_disband_dlg(void);
 
@@ -159,7 +158,6 @@ void popdown_all_game_dialogs(void)
   popdown_connect_dialog();
   popdown_bribe_dialog();
   popdown_find_dialog();
-  popdown_revolution_dialog();
   science_report_dialogs_popdown_all();
   meswin_dialog_popdown();
   popdown_worklist_editor();
@@ -2318,62 +2316,6 @@ static void popdown_connect_dialog(void)
   }
 }
 
-/**************************************************************************
-                                  Revolutions
-**************************************************************************/
-static struct SMALL_DLG *pRevolutionDlg = NULL;
-  
-/**************************************************************************
-  User confirmed revolution.
-**************************************************************************/
-static int revolution_dlg_ok_callback(struct widget *pButton)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    start_revolution();
-
-    popdown_revolution_dialog();
-
-    flush_dirty();
-  }
-  return (-1);
-}
-
-/**************************************************************************
-  User cancelled revolution.
-**************************************************************************/
-static int revolution_dlg_cancel_callback(struct widget *pCancel_Button)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_revolution_dialog();
-    flush_dirty();
-  }
-  return (-1);
-}
-
-/**************************************************************************
-  User requested move of revolution dialog.
-**************************************************************************/
-static int move_revolution_dlg_callback(struct widget *pWindow)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    move_window_group(pRevolutionDlg->pBeginWidgetList, pWindow);
-  }
-  return -1;
-}
-
-/**************************************************************************
-  Close the revolution dialog.
-**************************************************************************/
-static void popdown_revolution_dialog(void)
-{
-  if (pRevolutionDlg) {
-    popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
-                                pRevolutionDlg->pEndWidgetList);
-    FC_FREE(pRevolutionDlg);
-    enable_and_redraw_revolution_button();
-  }
-}
-
 /* ==================== Public ========================= */
 
 /**************************************************************************
@@ -2424,7 +2366,7 @@ static int move_government_dlg_callback(struct widget *pWindow)
   Popup a dialog asking the player what government to switch to (this
   happens after a revolution completes).
 **************************************************************************/
-static void popup_government_dialog(void)
+void popup_government_dialog(void)
 {
   SDL_Surface *pLogo = NULL;
   struct utf8_str *pstr = NULL;
@@ -2516,109 +2458,6 @@ static void popup_government_dialog(void)
   redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
 
   widget_flush(pWindow);
-}
-
-/**************************************************************************
-  Popup a dialog asking if the player wants to start a revolution.
-**************************************************************************/
-void popup_revolution_dialog(void)
-{
-  SDL_Surface *pLogo;
-  utf8_str *pstr = NULL;
-  struct widget *pLabel = NULL;
-  struct widget *pWindow = NULL;
-  struct widget *pCancel_Button = NULL;
-  struct widget *pOK_Button = NULL;
-  SDL_Rect area;
-
-  if (pRevolutionDlg) {
-    return;
-  }
-
-  if (0 <= client.conn.playing->revolution_finishes) {
-    popup_government_dialog();
-    return;
-  }
-
-  pRevolutionDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-
-  pstr = create_utf8_from_char(_("REVOLUTION!"), adj_font(12));
-  pstr->style |= TTF_STYLE_BOLD;
-
-  pWindow = create_window_skeleton(NULL, pstr, 0);
-  pWindow->action = move_revolution_dlg_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
-  pRevolutionDlg->pEndWidgetList = pWindow;
-
-  area = pWindow->area;
-
-  /* create text label */
-  pstr = create_utf8_from_char(_("You say you wanna revolution?"), adj_font(10));
-  pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pstr->fgcol = *get_theme_color(COLOR_THEME_REVOLUTIONDLG_TEXT);
-  pLabel = create_iconlabel(NULL, pWindow->dst, pstr, 0);
-  add_to_gui_list(ID_REVOLUTION_DLG_LABEL, pLabel);
-
-  /* create cancel button */
-  pCancel_Button =
-      create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
-                                         pWindow->dst, _("Cancel"), adj_font(10), 0);
-  pCancel_Button->action = revolution_dlg_cancel_callback;
-  pCancel_Button->size.w += adj_size(6);
-  set_wstate(pCancel_Button, FC_WS_NORMAL);
-  add_to_gui_list(ID_REVOLUTION_DLG_CANCEL_BUTTON, pCancel_Button);
-
-  /* create ok button */
-  pOK_Button =
-      create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
-                                         pWindow->dst, _("Revolution!"),
-                                         adj_font(10), 0);
-  pOK_Button->action = revolution_dlg_ok_callback;
-  pOK_Button->key = SDLK_RETURN;
-  set_wstate(pOK_Button, FC_WS_NORMAL);
-  add_to_gui_list(ID_REVOLUTION_DLG_OK_BUTTON, pOK_Button);
-
-  pRevolutionDlg->pBeginWidgetList = pOK_Button;
-
-  if ((pOK_Button->size.w + pCancel_Button->size.w + adj_size(30)) >
-      pLabel->size.w + adj_size(20)) {
-    area.w = MAX(area.w, pOK_Button->size.w + pCancel_Button->size.w + adj_size(30));
-  } else {
-    area.w = MAX(area.w, pLabel->size.w + adj_size(20));
-  }
-
-  area.h = MAX(area.h, pOK_Button->size.h + pLabel->size.h + adj_size(24));
-
-  /* create window background */
-  pLogo = theme_get_background(theme, BACKGROUND_REVOLUTIONDLG);
-  if (resize_window(pWindow, pLogo, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
-    FREESURFACE(pLogo);
-  }
-
-  area = pWindow->area;
-
-  /* set start positions */
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
-
-  pOK_Button->size.x = area.x + adj_size(10);
-  pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
-
-  pCancel_Button->size.y = pOK_Button->size.y;
-  pCancel_Button->size.x = area.x + area.w - pCancel_Button->size.w - adj_size(10);
-
-  pLabel->size.x = area.x;
-  pLabel->size.y = area.y + adj_size(4);
-  pLabel->size.w = area.w;
-
-  /* redraw */
-  redraw_group(pOK_Button, pWindow, 0);
-  widget_mark_dirty(pWindow);
-  flush_dirty();
 }
 
 /**************************************************************************

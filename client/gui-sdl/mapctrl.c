@@ -206,7 +206,7 @@ static int revolution_callback(struct widget *pButton)
     set_wstate(pButton, FC_WS_DISABLED);
     widget_redraw(pButton);
     widget_mark_dirty(pButton);
-    popup_revolution_dialog();
+    popup_government_dialog();
   }
   return -1;
 }
