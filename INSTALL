@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 20-Sep-17.
+Last minor update was 04-Jun-19.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -648,12 +648,11 @@ releases.
 10. Windows notes:
 ==================
 
-Windows version of Freeciv can be built either with MinGW or Cygwin.
-Official Windows binaries are built with MinGW, and they are self-contained
+Windows version of Freeciv can be built either with Msys2 or Cygwin.
+Official Windows binaries are built with Msys2, and they are self-contained
 packages. For using Cygwin version, you need Cygwin environment installed.
 
-Build instructions for MinGW versions are documented on top of file
-win32/installer/Makefile
+Build instructions for Msys2 versions are documented on doc/README.msys2
 
 Cygwin specific installation notes can be found in doc/INSTALL.Cygwin.
 
