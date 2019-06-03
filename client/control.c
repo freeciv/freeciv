@@ -2693,7 +2693,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       break;
     case HOVER_PARADROP:
       unit_list_iterate(punits, punit) {
-	do_unit_paradrop_to(punit, ptile);
+        do_unit_paradrop_to(punit, ptile);
       } unit_list_iterate_end;
       break;
     case HOVER_CONNECT:
@@ -2709,38 +2709,34 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
 
     clear_hover_state();
     update_unit_info_label(get_units_in_focus());
-  }
-
-  /* Bypass stack or city popup if quickselect is specified. */
-  else if (qtype != SELECT_POPUP && qtype != SELECT_APPEND) {
+  } else if (qtype != SELECT_POPUP && qtype != SELECT_APPEND) {
+    /* Bypass stack or city popup if quickselect is specified. */
     struct unit *qunit = quickselect(ptile, qtype);
+
     if (qunit) {
       unit_focus_set_and_select(qunit);
       maybe_goto = gui_options.keyboardless_goto;
     }
-  }
-  /* Otherwise use popups. */
-  else if (NULL != pcity
-           && can_player_see_city_internals(client.conn.playing, pcity)) {
+  } else if (NULL != pcity
+             && can_player_see_city_internals(client.conn.playing, pcity)) {
+    /* Otherwise use popups. */
     popup_city_dialog(pcity);
-  }
-  else if (unit_list_size(ptile->units) == 0
-           && NULL == pcity
-           && get_num_units_in_focus() > 0) {
+  } else if (unit_list_size(ptile->units) == 0
+             && NULL == pcity
+             && get_num_units_in_focus() > 0) {
     maybe_goto = gui_options.keyboardless_goto;
-  }
-  else if (unit_list_size(ptile->units) == 1
-           && !get_transporter_occupancy(unit_list_get(ptile->units, 0))) {
+  } else if (unit_list_size(ptile->units) == 1
+             && !get_transporter_occupancy(unit_list_get(ptile->units, 0))) {
     struct unit *punit = unit_list_get(ptile->units, 0);
 
     if (unit_owner(punit) == client.conn.playing) {
       if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = gui_options.keyboardless_goto;
-	if (qtype == SELECT_APPEND) {
-	  unit_focus_add(punit);
-	} else {
-	  unit_focus_set_and_select(punit);
-	}
+        if (qtype == SELECT_APPEND) {
+          unit_focus_add(punit);
+        } else {
+          unit_focus_set_and_select(punit);
+        }
       }
     } else if (pcity) {
       /* Don't hide the unit in the city. */
