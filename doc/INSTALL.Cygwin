@@ -2,8 +2,8 @@
 Cygwin installation notes
 =========================
 
-This is doc/INSTALL-Cygwin, which contains specific Freeciv installation
-information for the Cygwin platform.
+This is doc/INSTALL.Cygwin, which contains Cygwin platform specific
+Freeciv installation information.
 
 A translated version of this file may be in language specific
 subdirectories of doc/.
@@ -11,17 +11,17 @@ subdirectories of doc/.
 See also the generic installation notes in INSTALL.
 
 Cygwin is a free Unix variant for MS Windows operating systems.
-Recent versions come with an X server, Xorg.
+It comes with an X server, Xorg.
 
 To install Freeciv for Cygwin:
 
-a) Install or update your Cygwin using the "Install Cygwin Now!" link
-   on http://www.cygwin.com/;
+a) Install or update your Cygwin by downloading and running installer
+   from http://www.cygwin.com/
 
    In addition to default install, install at least following packages
    to build freeciv
-   (packages to be installed as dependency of another one in the list
-     are not listed):
+   (packages to be installed as dependencies of ones in the list
+    are not listed):
    - gcc-g++ (section Development)
    - pkg-config (Development)
    - make (Development)
@@ -39,19 +39,19 @@ a) Install or update your Cygwin using the "Install Cygwin Now!" link
   To get and build freeciv development version directly from version control,
   you need also
    - git (Development)
-   - automake1.14 (Development)
+   - automake1.15 (Development)
    - libtool (Development)
 
   To run freeciv client, you need to install also
   - xlaunch (X11)
   - fontconfig (X11)
 
-b) Get a Freeciv source tree (the doc/ subdirectory this file is in, is in source
-   tree's top directory).
+b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
+   is a subdirectory of the source tree's root directory).
    Put it in a temporary place like /tmp.
 
       ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
-   where <gui> is "gtk3". If you
+   where <gui> is "gtk3.22". If you
    didn't install gettext-devel, you have to give also configure option
    --disable-nls to disable Native Language Support.
 
