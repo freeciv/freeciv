@@ -75,11 +75,8 @@ static int luaB_auxwrap (lua_State *L) {
   int r = auxresume(L, co, lua_gettop(L));
   if (r < 0) {
     int stat = lua_status(co);
-    if (stat != LUA_OK && stat != LUA_YIELD) {
-      stat = lua_resetthread(co);  /* close variables in case of errors */
-      if (stat != LUA_OK)  /* error closing variables? */
-        lua_xmove(co, L, 1);  /* get new error object */
-    }
+    if (stat != LUA_OK && stat != LUA_YIELD)
+      lua_resetthread(co);  /* close variables in case of errors */
     if (lua_type(L, -1) == LUA_TSTRING) {  /* error object is a string? */
       luaL_where(L, 1);  /* add extra info, if available */
       lua_insert(L, -2);
@@ -165,7 +162,7 @@ static int luaB_corunning (lua_State *L) {
 }
 
 
-static int luaB_kill (lua_State *L) {
+static int luaB_close (lua_State *L) {
   lua_State *co = getco(L);
   int status = auxstatus(L, co);
   switch (status) {
@@ -182,7 +179,7 @@ static int luaB_kill (lua_State *L) {
       }
     }
     default:  /* normal or running coroutine */
-      return luaL_error(L, "cannot kill a %s coroutine", statname[status]);
+      return luaL_error(L, "cannot close a %s coroutine", statname[status]);
   }
 }
 
@@ -195,7 +192,7 @@ static const luaL_Reg co_funcs[] = {
   {"wrap", luaB_cowrap},
   {"yield", luaB_yield},
   {"isyieldable", luaB_yieldable},
-  {"kill", luaB_kill},
+  {"close", luaB_close},
   {NULL, NULL}
 };
 

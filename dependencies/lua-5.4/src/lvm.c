@@ -1151,7 +1151,7 @@ void luaV_execute (lua_State *L, CallInfo *ci) {
         TValue *rc = vRC(i);
         lua_Unsigned n;
         if (ttisinteger(rc)  /* fast track for integers? */
-            ? (n = ivalue(rc), luaV_fastgeti(L, rb, n, slot))
+            ? (cast_void(n = ivalue(rc)), luaV_fastgeti(L, rb, n, slot))
             : luaV_fastget(L, rb, rc, slot, luaH_get)) {
           setobj2s(L, ra, slot);
         }
@@ -1204,7 +1204,7 @@ void luaV_execute (lua_State *L, CallInfo *ci) {
         TValue *rc = RKC(i);  /* value */
         lua_Unsigned n;
         if (ttisinteger(rb)  /* fast track for integers? */
-            ? (n = ivalue(rb), luaV_fastgeti(L, s2v(ra), n, slot))
+            ? (cast_void(n = ivalue(rb)), luaV_fastgeti(L, s2v(ra), n, slot))
             : luaV_fastget(L, s2v(ra), rb, slot, luaH_get)) {
           luaV_finishfastset(L, s2v(ra), slot, rc);
         }
@@ -1593,9 +1593,9 @@ void luaV_execute (lua_State *L, CallInfo *ci) {
         savepc(ci);
         if (TESTARG_k(i)) {
           int nparams1 = GETARG_C(i);
+          luaF_close(L, base, LUA_OK);  /* there may be open upvalues */
           if (nparams1)  /* vararg function? */
             ci->func -= ci->u.l.nextraargs + nparams1;
-          luaF_close(L, base, LUA_OK);  /* there may be open upvalues */
         }
         luaD_poscall(L, ci, n);
         return;
