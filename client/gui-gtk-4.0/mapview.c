@@ -525,6 +525,7 @@ void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
                              int canvas_x, int canvas_y,
                              struct sprite *ssprite)
 {
+#if 0
   cairo_t *cr;
   GdkDrawingContext *ctx;
 
@@ -539,6 +540,7 @@ void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
   cairo_set_source_surface(cr, ssprite->surface, canvas_x, canvas_y);
   cairo_paint(cr);
   gdk_window_end_draw_frame(pixmap, ctx);
+#endif
 }
 
 /**********************************************************************//**
@@ -725,6 +727,7 @@ void scrollbar_jump_callback(GtkAdjustment *adj, gpointer hscrollbar)
 **************************************************************************/
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
+#if 0
   double dashes[2] = {4.0, 4.0};
   struct color *pcolor;
   cairo_t *cr;
@@ -751,6 +754,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   cairo_rectangle(cr, canvas_x, canvas_y, w, h);
   cairo_stroke(cr);
   gdk_window_end_draw_frame(wndw, ctx);
+#endif
 }
 
 /**********************************************************************//**
