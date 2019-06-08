@@ -29,9 +29,10 @@ a) Install or update your Cygwin by downloading and running installer
    - libcurl-devel (Libs)
    - zlib-devel (Libs)
 
-  Install development package for the gui you want to compile, one of
+  Install development packages for the guis you want to compile, one or more of
   - libgtk2.0-devel (Libs)
   - libgtk3-devel (Libs)
+  - libQt5Core-devel (Libs) + libQt5Gui-devel (Libs)
 
   For additional functionality install also:
    - libreadline-devel (Libs)
@@ -52,9 +53,10 @@ b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
    Put it in a temporary place like /tmp.
 
       ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
-   where <gui> is either "gtk2", "gtk3.22", or both as "gtk2,gtk3.22". If you
-   didn't install gettext-devel, you have to give also configure option
-   --disable-nls to disable Native Language Support.
+   where <gui> is either "gtk2", "gtk3.22", "qt", or list like "gtk2,gtk3.22,qt".
+   If you didn't install gettext-devel, you have to give also configure option
+   --disable-nls to disable Native Language Support. If you're building
+   Qt-client, you also need option "MOCCMD=/usr/bin/moc-qt5"
 
    If you are building directly from version control, and not from
    tarball that has some files, including ./configure, pregenerated,
