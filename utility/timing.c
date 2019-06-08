@@ -241,6 +241,7 @@ void timer_start(struct timer *t)
   } else {
 #ifdef HAVE_GETTIMEOFDAY
     int ret = gettimeofday(&t->start.tv, NULL);
+
     if (ret == -1) {
       report_gettimeofday_failed(t);
       return;
@@ -277,6 +278,7 @@ void timer_stop(struct timer *t)
   }
   if (t->type == TIMER_CPU) {
     clock_t now = clock();
+
     if (now == (clock_t) -1) {
       report_clock_failed(t);
       return;
@@ -287,6 +289,7 @@ void timer_stop(struct timer *t)
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval now;
     int ret = gettimeofday(&now, NULL);
+
     if (ret == -1) {
       report_gettimeofday_failed(t);
       return;
@@ -298,6 +301,7 @@ void timer_stop(struct timer *t)
       t->sec -= 1.0;
     } else if (t->usec >= N_USEC_PER_SEC) {
       long sec = t->usec / N_USEC_PER_SEC;
+
       t->sec += sec;
       t->usec -= sec * N_USEC_PER_SEC;
     }
@@ -313,12 +317,14 @@ void timer_stop(struct timer *t)
       t->sec -= 1.0;
     } else if (t->usec >= N_USEC_PER_SEC) {
       long sec = t->usec / N_USEC_PER_SEC;
+
       t->sec += sec;
       t->usec -= sec * N_USEC_PER_SEC;
     }
     t->start.tp = now;
 #else
     time_t now = time(NULL);
+
     if (now == (time_t) -1) {
       report_time_failed(t);
       return;
@@ -367,10 +373,10 @@ void timer_usleep_since_start(struct timer *t, long usec)
 
   ret = gettimeofday(&tv_now, NULL);
 
-  if ((ret == -1) ||
-      (t->type != TIMER_USER) ||
-      (t->use != TIMER_ACTIVE) ||
-      (t->state != TIMER_STARTED)) {
+  if ((ret == -1)
+      || (t->type != TIMER_USER)
+      || (t->use != TIMER_ACTIVE)
+      || (t->state != TIMER_STARTED)) {
     fc_usleep(usec);
     return;
   }

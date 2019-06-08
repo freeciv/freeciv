@@ -492,8 +492,8 @@ void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
     popup_combat_info(packet->attacker_unit_id, packet->defender_unit_id,
                       packet->attacker_hp, packet->defender_hp,
                       packet->make_att_veteran, packet->make_def_veteran);
-    if (tile_visible_mapcanvas(unit_tile(punit0)) &&
-	tile_visible_mapcanvas(unit_tile(punit1))) {
+    if (tile_visible_mapcanvas(unit_tile(punit0))
+        && tile_visible_mapcanvas(unit_tile(punit1))) {
       show_combat = TRUE;
     } else if (gui_options.auto_center_on_combat) {
       if (unit_owner(punit0) == client.conn.playing) {
@@ -508,19 +508,19 @@ void handle_unit_combat_info(const struct packet_unit_combat_info *packet)
       int hp0 = packet->attacker_hp, hp1 = packet->defender_hp;
 
       audio_play_sound(unit_type_get(punit0)->sound_fight,
-		       unit_type_get(punit0)->sound_fight_alt);
+                       unit_type_get(punit0)->sound_fight_alt);
       audio_play_sound(unit_type_get(punit1)->sound_fight,
-		       unit_type_get(punit1)->sound_fight_alt);
+                       unit_type_get(punit1)->sound_fight_alt);
 
       if (gui_options.smooth_combat_step_msec > 0) {
         decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
       } else {
-	punit0->hp = hp0;
-	punit1->hp = hp1;
+        punit0->hp = hp0;
+        punit1->hp = hp1;
 
-	set_units_in_combat(NULL, NULL);
-	refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
-	refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
+        set_units_in_combat(NULL, NULL);
+        refresh_unit_mapcanvas(punit0, unit_tile(punit0), TRUE, FALSE);
+        refresh_unit_mapcanvas(punit1, unit_tile(punit1), TRUE, FALSE);
       }
     }
     if (packet->make_att_veteran && punit0) {
@@ -2234,10 +2234,10 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer = player_new(pslot);
 
   if ((pplayer->rgb == NULL) != !pinfo->color_valid
-      || (pinfo->color_valid &&
-          (pplayer->rgb->r != pinfo->color_red
-           || pplayer->rgb->g != pinfo->color_green
-           || pplayer->rgb->b != pinfo->color_blue))) {
+      || (pinfo->color_valid
+          && (pplayer->rgb->r != pinfo->color_red
+              || pplayer->rgb->g != pinfo->color_green
+              || pplayer->rgb->b != pinfo->color_blue))) {
     struct rgbcolor *prgbcolor;
 
     if (pinfo->color_valid) {

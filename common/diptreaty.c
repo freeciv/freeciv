@@ -200,8 +200,8 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
       /* same clause already there */
       return FALSE;
     }
-    if (is_pact_clause(type) &&
-        is_pact_clause(old_clause->type)) {
+    if (is_pact_clause(type)
+        && is_pact_clause(old_clause->type)) {
       /* pact clause already there */
       ptreaty->accept0 = FALSE;
       ptreaty->accept1 = FALSE;

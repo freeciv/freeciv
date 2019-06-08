@@ -534,8 +534,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   action_area = gtk_grid_new();
   gtk_grid_set_row_spacing(GTK_GRID(action_area), 4);
   gtk_grid_set_column_spacing(GTK_GRID(action_area), 4);
-  if (GUI_GTK_OPTION(enable_tabs) &&
-      (check_top && notebook != GTK_NOTEBOOK(top_notebook))
+  if (GUI_GTK_OPTION(enable_tabs)
+      && (check_top && notebook != GTK_NOTEBOOK(top_notebook))
       && !GUI_GTK_OPTION(small_display_layout)) {
     /* We expect this to be short (as opposed to tall); maximise usable
      * height by putting buttons down the right hand side */

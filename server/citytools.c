@@ -1419,9 +1419,9 @@ void city_build_free_buildings(struct city *pcity)
 
     pimprove = improvement_by_number(n);
     fc_assert_action(!is_great_wonder(pimprove), continue);
-    if (first_city ||
-        (game.server.savepalace
-         && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
+    if (first_city
+        || (game.server.savepalace
+            && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
       city_add_improvement(pcity, pimprove);
       if (is_small_wonder(pimprove)) {
         has_small_wonders = TRUE;
@@ -1439,9 +1439,9 @@ void city_build_free_buildings(struct city *pcity)
     }
 
     pimprove = improvement_by_number(n);
-    if (first_city ||
-        (game.server.savepalace
-         && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
+    if (first_city
+        || (game.server.savepalace
+            && improvement_has_flag(pimprove, IF_SAVE_SMALL_WONDER))) {
       city_add_improvement(pcity, pimprove);
       if (is_small_wonder(pimprove)) {
         has_small_wonders = TRUE;

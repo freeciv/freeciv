@@ -246,8 +246,8 @@ void map_view::timer_event()
 **************************************************************************/
 void map_view::update_font(const QString &name, const QFont &font)
 {
-  if (name == fonts::city_names ||
-      name == fonts::city_productions) {
+  if (name == fonts::city_names
+      || name == fonts::city_productions) {
     update_map_canvas_visible();
   }
 }

@@ -419,8 +419,8 @@ void auto_center_on_focus_unit(void)
 {
   struct tile *ptile = find_a_focus_unit_tile_to_center_on();
 
-  if (ptile && gui_options.auto_center_on_unit &&
-      !tile_visible_and_not_on_border_mapcanvas(ptile)) {
+  if (ptile && gui_options.auto_center_on_unit
+      && !tile_visible_and_not_on_border_mapcanvas(ptile)) {
     center_tile_mapcanvas(ptile);
   }
 }

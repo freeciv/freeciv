@@ -100,8 +100,8 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
   /* Second, we search for undefended enemy cities */
   square_iterate(&(wld.map), unit_tile(punit), range, ptile) {
     acity = tile_city(ptile);
-    if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity)) &&
-        (unit_list_size(ptile->units) == 0)) {
+    if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity))
+        && (unit_list_size(ptile->units) == 0)) {
       if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)
           && has_handicap(pplayer, H_FOG)) {
         continue;

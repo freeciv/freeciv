@@ -311,11 +311,11 @@ static struct my_agent *agent_by_name(const char *agent_name)
 ****************************************************************************/
 static bool is_outstanding_request(struct my_agent *agent)
 {
-  if (agent->first_outstanding_request_id != 0 &&
-      client.conn.client.request_id_of_currently_handled_packet != 0 &&
-      agent->first_outstanding_request_id <=
-      client.conn.client.request_id_of_currently_handled_packet &&
-      agent->last_outstanding_request_id >=
+  if (agent->first_outstanding_request_id != 0
+      && client.conn.client.request_id_of_currently_handled_packet != 0
+      && agent->first_outstanding_request_id <=
+      client.conn.client.request_id_of_currently_handled_packet
+      && agent->last_outstanding_request_id >=
       client.conn.client.request_id_of_currently_handled_packet) {
     log_debug("A:%s: ignoring packet; outstanding [%d..%d] got=%d",
               agent->agent.name, agent->first_outstanding_request_id,

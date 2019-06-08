@@ -1188,8 +1188,8 @@ void remove_player_from_maps(struct player *pplayer)
       aplrtile = map_get_player_tile(ptile, aplayer);
 
       /* Free vision sites (cities) for removed and other players */
-      if (aplrtile && aplrtile->site &&
-          vision_site_owner(aplrtile->site) == pplayer) {
+      if (aplrtile && aplrtile->site
+          && vision_site_owner(aplrtile->site) == pplayer) {
         change_playertile_site(aplrtile, NULL);
         changed = TRUE;
       }

@@ -501,8 +501,8 @@ void real_city_dialog_refresh(struct city *pcity)
     }
 
     gtk_widget_set_sensitive(pdialog->show_units_command,
-			     can_client_issue_orders() &&
-			     have_present_units);
+                             can_client_issue_orders()
+                             && have_present_units);
   } else {
     /* Set the buttons we do not want live while a Diplomat investigates */
     gtk_widget_set_sensitive(pdialog->show_units_command, FALSE);

@@ -416,8 +416,9 @@ static void activated_topic(GtkTreeView *view, gpointer data)
   
   gtk_tree_model_get(model, &it, 1, &pitem, -1);
 
-  if (help_history_pos >= 0 &&
-      g_ptr_array_index(help_history, help_history_pos) == (gpointer) pitem) {
+  if (help_history_pos >= 0
+      && g_ptr_array_index(help_history, help_history_pos)
+      == (gpointer) pitem) {
     return;
   }
 

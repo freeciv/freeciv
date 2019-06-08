@@ -775,8 +775,8 @@ void connection_detach(struct connection *pconn, bool remove_unused_player)
 
     if (was_connected && !pplayer->is_connected) {
       /* Player just lost its controlling connection. */
-      if (remove_unused_player &&
-          !pplayer->was_created && !game_was_started()) {
+      if (remove_unused_player
+          && !pplayer->was_created && !game_was_started()) {
         /* Remove player. */
         conn_list_iterate(pplayer->connections, aconn) {
           /* Detach all. */

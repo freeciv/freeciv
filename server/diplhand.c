@@ -121,8 +121,8 @@ void free_treaties(void)
 struct Treaty *find_treaty(struct player *plr0, struct player *plr1)
 {
   treaty_list_iterate(treaties, ptreaty) {
-    if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1) ||
-	(ptreaty->plr0 == plr1 && ptreaty->plr1 == plr0)) {
+    if ((ptreaty->plr0 == plr0 && ptreaty->plr1 == plr1)
+        || (ptreaty->plr0 == plr1 && ptreaty->plr1 == plr0)) {
       return ptreaty;
     }
   } treaty_list_iterate_end;

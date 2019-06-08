@@ -906,8 +906,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
     # the delta_stats_report() function.
     def get_report_part(self):
         return '''
-  if (stats_%(name)s_sent > 0 &&
-      stats_%(name)s_discarded != stats_%(name)s_sent) {
+  if (stats_%(name)s_sent > 0
+      && stats_%(name)s_discarded != stats_%(name)s_sent) {
     log_test(\"%(name)s %%d out of %%d got discarded\",
       stats_%(name)s_discarded, stats_%(name)s_sent);
     for (i = 0; i < %(bits)d; i++) {

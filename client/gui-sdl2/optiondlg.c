@@ -1182,8 +1182,8 @@ static int add_new_worklist_callback(struct widget *widget)
       widget_redraw(widget);
       widget_mark_dirty(widget);
 
-      if (!new_worklist_widget->gfx &&
-          (get_wflags(new_worklist_widget) & WF_RESTORE_BACKGROUND)) {
+      if (!new_worklist_widget->gfx
+          && (get_wflags(new_worklist_widget) & WF_RESTORE_BACKGROUND)) {
         refresh_widget_background(new_worklist_widget);
       }
       widget_redraw(new_worklist_widget);

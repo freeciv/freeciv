@@ -1234,7 +1234,7 @@ static void write_init_script(char *script_filename)
 {
   char real_filename[1024], buf[256];
   FILE *script_file;
-  
+
   interpret_tilde(real_filename, sizeof(real_filename), script_filename);
 
   if (is_reg_file_for_access(real_filename, TRUE)
@@ -1259,8 +1259,8 @@ static void write_init_script(char *script_filename)
     fprintf(script_file, "%s\n",
             ai_level_cmd(game.info.skill_level));
 
-    if (*srvarg.metaserver_addr != '\0' &&
-	((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)))) {
+    if (*srvarg.metaserver_addr != '\0'
+        && ((0 != strcmp(srvarg.metaserver_addr, DEFAULT_META_SERVER_ADDR)))) {
       fprintf(script_file, "metaserver %s\n", meta_addr_port());
     }
 

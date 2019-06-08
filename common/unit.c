@@ -118,8 +118,8 @@ enum unit_airlift_result
     return AR_BAD_SRC_CITY;
   }
 
-  if (pdest_city &&
-      punit_owner != city_owner(pdest_city)
+  if (pdest_city
+      && punit_owner != city_owner(pdest_city)
       && !(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
            && pplayers_allied(punit_owner, city_owner(pdest_city)))) {
     /* Not allowed to airlift to this destination. */

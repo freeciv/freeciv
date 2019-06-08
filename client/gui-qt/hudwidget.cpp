@@ -987,6 +987,7 @@ int unit_actions::update_actions()
 
   if (can_unit_do_activity(current_unit, ACTIVITY_MINE)) {
     struct terrain *pterrain = tile_terrain(unit_tile(current_unit));
+
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDMINE;
     actions.append(a);
@@ -1007,12 +1008,13 @@ int unit_actions::update_actions()
 
   if (can_unit_do_activity(current_unit, ACTIVITY_IRRIGATE)) {
     struct terrain *pterrain = tile_terrain(unit_tile(current_unit));
+
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDIRRIGATION;
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
-      if ((!strcmp(terrain_rule_name(pterrain), "Forest") ||
-           !strcmp(terrain_rule_name(pterrain), "Jungle"))) {
+      if ((!strcmp(terrain_rule_name(pterrain), "Forest")
+           || !strcmp(terrain_rule_name(pterrain), "Jungle"))) {
         a->set_pixmap(fc_icons::instance()->get_pixmap("chopchop"));
       } else {
         a->set_pixmap(fc_icons::instance()->get_pixmap("transform"));

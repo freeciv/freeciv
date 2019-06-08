@@ -1915,9 +1915,9 @@ static void dai_caravan_goto(struct ai_type *ait, struct player *pplayer,
       } else {
         /* if we are not being transported then ask for a boat again */
         alive = TRUE;
-        if (!unit_transported(punit) &&
-            (tile_continent(unit_tile(punit))
-             != tile_continent(dest_city->tile))) {
+        if (!unit_transported(punit)
+            && (tile_continent(unit_tile(punit))
+                != tile_continent(dest_city->tile))) {
           alive = dai_find_boat_for_unit(ait, punit);
         }
       }

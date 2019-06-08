@@ -225,9 +225,9 @@ void flush_dirty(void)
   }
 
   if (Main.rects_count >= RECT_LIMIT) {
-    
-    if ((C_S_RUNNING == client_state()) &&
-        (get_client_page() == PAGE_GAME)) {
+
+    if ((C_S_RUNNING == client_state())
+        && (get_client_page() == PAGE_GAME)) {
       flush_mapcanvas(0, 0, main_window_width(), main_window_height());
       refresh_overview();
     }

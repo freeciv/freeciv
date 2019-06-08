@@ -684,9 +684,9 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
           last_read = BZ2_bzRead(&fp->u.bz2.error, fp->u.bz2.file,
                                  buffer + i, 1);
         }
-        if (fp->u.bz2.error != BZ_OK &&
-            (fp->u.bz2.error != BZ_STREAM_END ||
-             i == 0)) {
+        if (fp->u.bz2.error != BZ_OK
+            && (fp->u.bz2.error != BZ_STREAM_END
+                || i == 0)) {
           retval = NULL;
         } else {
           retval = buffer;
