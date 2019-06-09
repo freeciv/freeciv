@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 04-Jun-19.
+Last minor update was 09-Jun-19.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -25,8 +25,7 @@ This document contains sections and subsections as follows:
      6. Readline Support:
      7. Reinier's Solaris Installation Notes:
      8. Mac OS X and Darwin notes:
-     9. Debian GNU/Linux notes:
-    10. Windows notes:
+     9. Windows notes:
 
 
 0. Prerequisites:
@@ -563,27 +562,8 @@ Replace <...> with whatever additional arguments you want to give to
 configure.
 
 
-9. Debian GNU/Linux notes:
-===========================
-
-To compile freeciv on a debian system you need the following packages:
-
- Common requirements:
-   gcc
-   libc6-dev
-   libreadline4-dev
-   zlib1g-dev
-   xlib6g-dev
-
-If you need to run aclocal (if you don't know what aclocal is then you
-don't need it) you also need to install imlib-dev to get the
-AM_PATH_GDK_IMLIB macro. It is a bug in debian that this macro isn't
-in gdk-imlib-dev, and it will hopefully be fixed in future debian
-releases.
-
-
-10. Windows notes:
-==================
+9. Windows notes:
+=================
 
 Windows version of Freeciv can be built either with Msys2 or Cygwin.
 Official Windows binaries are built with Msys2, and they are self-contained
