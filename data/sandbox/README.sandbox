@@ -126,3 +126,7 @@ of the conqueror.
 
 Combat Rounds
 Each combat lasts 15 rounds at max, even if neither side dies in that time.
+
+Caravel needs supplies
+Caravel needs to spend at least every third turn change next to a land tile
+to load supplies for the crew. Otherwise the unit is lost.

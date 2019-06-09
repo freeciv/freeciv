@@ -1730,18 +1730,19 @@ firepower     = 1
 move_rate     = 3
 vision_radius_sq = 2
 transport_cap = 3
-fuel          = 0
+fuel          = 3
 uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "Only_Native_Attack", "HasNoZOC",
-                "Provoking"
+                "Provoking", "Coast"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel is a sailing ship that can enter\
- any ocean tile.\
+ any ocean tile, but have to spend at least every third\
+ turn change next to land to load supplies for the crew.\
 ")
 
 [unit_galleon]
