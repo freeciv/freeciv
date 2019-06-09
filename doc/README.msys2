@@ -186,7 +186,7 @@ somehow. Some options are:
 
  It's possible to set number of make jobs used in the build by
  setting suitable make parameter to MAKE_PARAMS variable, e,g,
- MAKE_PARAMS="-j3"
+ MAKE_PARAMS="-j3". The default is "-j2".
 
 
  Problems
