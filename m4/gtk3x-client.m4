@@ -1,7 +1,7 @@
-# Try to configure the GTK+-3.x client (gui-gtk-3.9x)
+# Try to configure the GTK+-3.x client (gui-gtk-4.0)
 
 # FC_GTK3X_CLIENT
-# Test for GTK+-3.92 libraries needed for gui-gtk-3.9x
+# Test for GTK+-3.92 libraries needed for gui-gtk-4.0
 
 AC_DEFUN([FC_GTK3X_CLIENT],
 [
