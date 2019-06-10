@@ -130,3 +130,7 @@ Each combat lasts 15 rounds at max, even if neither side dies in that time.
 Caravel needs supplies
 Caravel needs to spend at least every third turn change next to a land tile
 to load supplies for the crew. Otherwise the unit is lost.
+
+Multiresearch enabled
+When switching research, already accumulated bulbs are not transferred to
+the new technology but are remembered towards previous research.
