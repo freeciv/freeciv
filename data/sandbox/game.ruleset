@@ -1791,4 +1791,5 @@ set =
       "occupychance", 100
       "techlossforgiveness", 0
       "techlossrestore", 50
+      "multiresearch", "ENABLED"
     }
