@@ -28,6 +28,7 @@ a) Install or update your Cygwin by downloading and running installer
    - libiconv-devel (Libs)
    - libcurl-devel (Libs)
    - zlib-devel (Libs)
+   - libicu-devel (Libs)
 
   Install development packages for the guis you want to compile, one or more of
   - libgtk3-devel (Libs)
