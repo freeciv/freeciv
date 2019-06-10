@@ -31,6 +31,12 @@ name = _("Experimental ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
+; This ruleset will be renamed as "goldkeep" in a future version.
+; Set information of the future name so that once someone tries to load
+; savegame saved with this version to that future version, ruleset is
+; found from the directory it`s in.
+alt_dir = "goldkeep"
+
 ; Summary of the ruleset
 ; /* TRANS: In the client, this is displayed alongside the contents of
 ;    README.experimental, which are not localized. */
