@@ -1,0 +1,5 @@
+option('clients',
+       type: 'array',
+       choices: ['gtk3.22'],
+       value: ['gtk3.22'],
+       description: 'Clients to build')

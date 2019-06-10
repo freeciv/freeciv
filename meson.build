@@ -1,5 +1,5 @@
 
-project('freeciv', 'c', meson_version: '>= 0.36.0')
+project('freeciv', 'c', meson_version: '>= 0.44.0')
 
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
@@ -443,6 +443,8 @@ executable('freeciv-server',
   install: true
   )
 
+if get_option('clients') != []
+
 client_common = static_library('fc_client_common',
   'client/agents/agents.c',
   'client/agents/cma_core.c',
@@ -494,6 +496,10 @@ client_common = static_library('fc_client_common',
   dependencies: [c_compiler.find_library('m'),
                  c_compiler.find_library('libSDL2_mixer')]
   )
+
+endif
+
+if get_option('clients').contains('gtk3.22')
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22')
 
@@ -549,6 +555,8 @@ executable('freeciv-gtk3.22',
   link_with: client_common,
   install: true
   )
+
+endif
 
 tool_lib = static_library('fc_toolutil',
   'tools/ruleutil/comments.c',

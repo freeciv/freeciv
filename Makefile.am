@@ -76,6 +76,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/winsock2.m4			\
 		m4/testmatic.m4			\
 		meson.build			\
+		meson_options.txt		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\
