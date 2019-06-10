@@ -1,6 +1,10 @@
 
 project('freeciv', 'c', meson_version: '>= 0.44.0')
 
+if not get_option('ack_experimental')
+  error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.')
+endif
+
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
 
