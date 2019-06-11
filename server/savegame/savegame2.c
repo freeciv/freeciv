@@ -3216,7 +3216,7 @@ static void sg_load_player_main(struct loaddata *loading,
     }
   }
 
-  plr->culture =
+  plr->history =
     secfile_lookup_int_default(loading->file, 0, "player%d.culture", plrno);
   plr->server.huts =
     secfile_lookup_int_default(loading->file, 0, "player%d.hut_count", plrno);

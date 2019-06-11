@@ -43,7 +43,7 @@ int city_history_gain(const struct city *pcity)
 ****************************************************************************/
 int player_culture(const struct player *plr)
 {
-  int culture = plr->culture + get_player_bonus(plr, EFT_NATION_PERFORMANCE);
+  int culture = plr->history + get_player_bonus(plr, EFT_NATION_PERFORMANCE);
 
   city_list_iterate(plr->cities, pcity) {
     culture += city_culture(pcity);

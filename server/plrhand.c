@@ -1256,9 +1256,9 @@ static void package_player_info(struct player *plr,
   }
 
   if (info_level >= INFO_FULL) {
-    packet->culture         = plr->culture;
+    packet->history         = plr->history;
   } else {
-    packet->culture         = 0;
+    packet->history         = 0;
   }
 
 #ifdef FREECIV_WEB
