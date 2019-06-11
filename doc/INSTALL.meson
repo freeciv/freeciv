@@ -1,0 +1,37 @@
+==============================
+Installing Freeciv with Meson:
+==============================
+
+This file describes how to compile and install Freeciv with the experimental
+Meson build system support. Meson support is still work-in-progress. Fully
+supported official way to compile and install Freeciv is still using
+autotools as described in INSTALL.
+
+
+Overview:
+=========
+
+There's two parts in building freeciv. First one needs to configure the
+build, and then execute it.
+
+Build directory is configured with the 'meson' command. This is equivalent
+of running './configure' in autotools based system. Meson does not allow
+configuring the source directory. It always requires separate build directory.
+Just create an empty directory, cd in to it, and run meson with path to
+source directory as parameter. You can also give configure options in this
+phase.
+
+> mkdir build ; cd build
+> meson ../freeciv-3.1.0
+
+You need to configure the build directory just once. As source files get
+updated, you can just execute incremental builds in the build directory.
+You can have multiple build directories configured to use the same source
+directory, typically set up with different configure options. You can
+for example have separate build directories for different kinds of clients.
+
+The build is executed with 'ninja' command. This is equivalent of running
+'make' in autotools based system. It's also used to install freeciv
+
+> ninja
+> ninja install

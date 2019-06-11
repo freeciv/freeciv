@@ -8,6 +8,7 @@ docs =				\
 	FAQ			\
 	HACKING			\
 	INSTALL.Cygwin		\
+	INSTALL.meson		\
 	HOWTOPLAY		\
 	README.achievements     \
 	README.actions		\
