@@ -650,6 +650,7 @@ install_data(
 
 install_data(
   'data/sandbox/README.sandbox',
+  'data/sandbox/luadata.txt',
   install_dir : join_paths(get_option('datadir'), 'freeciv/sandbox')
   )
 
