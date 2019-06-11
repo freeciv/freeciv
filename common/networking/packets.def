@@ -2228,7 +2228,6 @@ end
  * the client, so that the test in server/srv_main.c in
  * the function is_client_edit_packet() is easy to write. */
 PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
-  YEAR year;
   BOOL scenario;
   STRING scenario_name[256];
   STRING scenario_authors[MAX_LEN_PACKET / 3];

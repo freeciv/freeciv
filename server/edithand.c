@@ -1368,22 +1368,6 @@ void handle_edit_game(struct connection *pc,
 {
   bool changed = FALSE;
 
-  if (packet->year != game.info.year) {
-
-    /* 'year' is stored in a signed short. */
-    const short min_year = -30000, max_year = 30000;
-
-    if (!(min_year <= packet->year && packet->year <= max_year)) {
-      notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                  _("Cannot set invalid game year %d. Valid year range "
-                    "is from %d to %d."),
-                  packet->year, min_year, max_year);
-    } else {
-      game.info.year = packet->year;
-      changed = TRUE;
-    }
-  }
-
   if (packet->scenario != game.scenario.is_scenario) {
     game.scenario.is_scenario = packet->scenario;
     changed = TRUE;
