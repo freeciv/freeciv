@@ -54,7 +54,8 @@ static const char *table_text[] = {
   N_("Science:"),
   N_("Luxury:"),
   NULL,
-  N_("Researching:")
+  N_("Researching:"),
+  N_("Culture:")
 };
 
 enum table_label {
@@ -68,6 +69,7 @@ enum table_label {
   LABEL_LUXURY,
   LABEL_SEP2,
   LABEL_RESEARCHING,
+  LABEL_CULTURE,
   LABEL_LAST
 };
 
@@ -427,7 +429,8 @@ void update_intel_dialog(struct player *p)
             }
             break;
           }
-        default:
+        case LABEL_CULTURE:
+          buf = g_strdup_printf("%d", p->client.culture);
           break;
         }
 
