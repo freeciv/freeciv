@@ -501,6 +501,9 @@ client_common = static_library('fc_client_common',
                  c_compiler.find_library('libSDL2_mixer')]
   )
 
+install_data('data/helpdata.txt',
+             install_dir : join_paths(get_option('datadir'), 'freeciv'))
+
 endif
 
 if get_option('clients').contains('gtk3.22')
