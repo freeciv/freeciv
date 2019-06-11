@@ -25,6 +25,7 @@ a) Install or update your Cygwin by downloading and running installer
    - gcc-g++ (section Development)
    - pkg-config (Development)
    - make (Development)
+   - libsqlite3-devel (Devel)
    - libiconv-devel (Libs)
    - libcurl-devel (Libs)
    - zlib-devel (Libs)
