@@ -328,20 +328,22 @@ void update_intel_dialog(struct player *p)
                   _("Ruler: %s  Government: %s\n"
                     "Capital: %s  Gold: %d\n"
                     "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-                    "Researching: unknown"),
+                    "Researching: unknown\n"
+                    "Culture: %d"),
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
                   NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax,
-                  p->economic.science, p->economic.luxury);
+                  p->economic.science, p->economic.luxury, p->client.culture);
       break;
     default:
       fc_snprintf(cBuf, sizeof(cBuf),
                   _("Ruler: %s  Government: %s\n"
                     "Capital: %s  Gold: %d\n"
                     "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-                    "Researching: %s(%d/%d)"),
+                    "Researching: %s(%d/%d)\n"
+                    "Culture: %d"),
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
@@ -351,7 +353,7 @@ void update_intel_dialog(struct player *p)
                   research_advance_name_translation(research,
                                                     research->researching),
                   research->bulbs_researched,
-                  research->client.researching_cost);
+                  research->client.researching_cost, p->client.culture);
       break;
     };
 

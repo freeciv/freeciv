@@ -412,6 +412,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QString res;
   QString sp = " ";
   QString etax, esci, elux, egold, egov;
+  QString cult;
   QString nl = "<br>";
   QStringList sorted_list_a;
   QStringList sorted_list_b;
@@ -466,10 +467,12 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     etax = QString::number(pplayer->economic.tax) + "%";
     esci = QString::number(pplayer->economic.science) + "%";
     elux = QString::number(pplayer->economic.science) + "%";
+    cult = QString::number(pplayer->client.culture);
   } else {
     etax = _("(Unknown)");
     esci = _("(Unknown)");
     elux = _("(Unknown)");
+    cult = _("(Unknown)");
   }
   if (could_intel_with_player(me, pplayer)) {
     egold = QString::number(pplayer->economic.gold);
@@ -498,7 +501,10 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     + QString("</td></tr><tr><td><b>") + _("Luxury:")
     + QString("</b></td><td>") + elux
     + QString("</td></tr><tr><td><b>") + _("Researching:")
-    + QString("</b></td><td>") + res + QString("</td></table>");
+    + QString("</b></td><td>") + res
+    + QString("<td></tr><tr><td><b>") + _("Culture:")
+    + QString("</b></td><td>") + cult
+    + QString("</td></table>");
 
   for (int i = 0; i < static_cast<int>(DS_LAST); i++) {
     added = false;
