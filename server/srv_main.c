@@ -1363,7 +1363,7 @@ static void end_phase(void)
 
     update_city_activities(pplayer);
     city_thaw_workers_queue();
-    pplayer->culture += nation_history_gain(pplayer);
+    pplayer->history += nation_history_gain(pplayer);
     research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
