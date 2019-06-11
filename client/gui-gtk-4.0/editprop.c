@@ -366,7 +366,6 @@ enum object_property_ids {
   OPID_PLAYER_SCIENCE,
   OPID_PLAYER_GOLD,
 
-  OPID_GAME_YEAR,
   OPID_GAME_SCENARIO,
   OPID_GAME_SCENARIO_NAME,
   OPID_GAME_SCENARIO_AUTHORS,
@@ -1810,9 +1809,6 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       }
 
       switch (propid) {
-      case OPID_GAME_YEAR:
-        pv->data.v_int = pgame->info.year;
-        break;
       case OPID_GAME_SCENARIO:
         pv->data.v_bool = pgame->scenario.is_scenario;
         break;
@@ -2028,16 +2024,6 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
     return FALSE;
 
   case OBJTYPE_GAME:
-    switch (propid) {
-    case OPID_GAME_YEAR:
-      *pmin = -30000;
-      *pmax = 30000;
-      *pstep = 1;
-      *pbig_step = 25;
-      return TRUE;
-    default:
-      break;
-    }
     log_error("%s(): Unhandled request for value range of property %d (%s) "
               "from object of type \"%s\".", __FUNCTION__,
               propid, objprop_get_name(op), objtype_get_name(objtype));
@@ -2336,7 +2322,6 @@ static void objbind_pack_current_values(struct objbind *ob,
         return;
       }
 
-      packet->year = pgame->info.year;
       packet->scenario = pgame->scenario.is_scenario;
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
       sz_strlcpy(packet->scenario_authors, pgame->scenario.authors);
@@ -2575,9 +2560,6 @@ static void objbind_pack_modified_value(struct objbind *ob,
       struct packet_edit_game *packet = pd.game.game;
 
       switch (propid) {
-      case OPID_GAME_YEAR:
-        packet->year = pv->data.v_int;
-        return;
       case OPID_GAME_SCENARIO:
         packet->scenario = pv->data.v_bool;
         return;
@@ -3019,7 +3001,6 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
-  case OPID_GAME_YEAR:
     spin = gtk_spin_button_new_with_range(0.0, 100.0, 1.0);
     gtk_widget_set_hexpand(spin, TRUE);
     gtk_widget_set_halign(spin, GTK_ALIGN_END);
@@ -3223,7 +3204,6 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_CITY_SHIELD_STOCK:
   case OPID_PLAYER_SCIENCE:
   case OPID_PLAYER_GOLD:
-  case OPID_GAME_YEAR:
     spin = objprop_get_child_widget(op, "spin");
     if (pv) {
       disable_gobject_callback(G_OBJECT(spin),
@@ -4551,9 +4531,6 @@ static void property_page_setup_objprops(struct property_page *pp)
     return;
 
   case OBJTYPE_GAME:
-    ADDPROP(OPID_GAME_YEAR, _("Year"), NULL,
-            OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
-            VALTYPE_INT);
     ADDPROP(OPID_GAME_SCENARIO, _("Scenario"), NULL,
             OPF_IN_LISTVIEW | OPF_HAS_WIDGET | OPF_EDITABLE,
             VALTYPE_BOOL);
