@@ -279,7 +279,7 @@ struct player {
   /* Values to be used next turn. */
   int multipliers_target[MAX_NUM_MULTIPLIERS];
 
-  int culture; /* National level culture - does not include culture of individual
+  int history; /* National level culture - does not include culture of individual
                 * cities. */
 
   union {

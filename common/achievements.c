@@ -144,7 +144,7 @@ struct player *achievement_plr(struct achievement *ach,
   players_iterate(pplayer) {
     if (achievement_check(ach, pplayer)) {
       if (!ach->unique) {
-        pplayer->culture += ach->culture;
+        pplayer->history += ach->culture;
         BV_SET(ach->achievers, player_index(pplayer));
       }
       player_list_append(achievers, pplayer);
@@ -165,7 +165,7 @@ struct player *achievement_plr(struct achievement *ach,
 
     if (ach->unique) {
       /* For !ach->unique achievements culture was already added above. */
-      credited->culture += ach->culture;
+      credited->history += ach->culture;
     }
 
     /* Mark the selected player as the only one having the achievement */

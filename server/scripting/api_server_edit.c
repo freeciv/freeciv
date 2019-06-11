@@ -550,5 +550,5 @@ void api_edit_player_add_history(lua_State *L, Player *pplayer, int amount)
   LUASCRIPT_CHECK_STATE(L);
   LUASCRIPT_CHECK_SELF(L, pplayer);
 
-  pplayer->culture += amount;
+  pplayer->history += amount;
 }
