@@ -359,6 +359,8 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.diplchance        = GAME_DEFAULT_DIPLCHANCE;
     game.server.diplbulbcost      = GAME_DEFAULT_DIPLBULBCOST;
     game.server.diplgoldcost      = GAME_DEFAULT_DIPLGOLDCOST;
+    game.server.incite_gold_loss_chance = GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE;
+    game.server.incite_gold_capt_chance = GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE;
     game.server.dispersion        = GAME_DEFAULT_DISPERSION;
     game.server.endspaceship      = GAME_DEFAULT_END_SPACESHIP;
     game.server.end_turn          = GAME_DEFAULT_END_TURN;

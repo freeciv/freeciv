@@ -1974,6 +1974,27 @@ static struct setting settings[] = {
           NULL, NULL, NULL,
           GAME_MIN_DIPLGOLDCOST, GAME_MAX_DIPLGOLDCOST, GAME_DEFAULT_DIPLGOLDCOST)
 
+  GEN_INT("incite_gold_loss_chance", game.server.incite_gold_loss_chance,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("Probability of gold loss during inciting revolt"),
+          N_("When unit trying to incite revolt is eliminated, half of the gold "
+             "(or quarter, if unit was caught), prepared to bribe citizens, "
+             "can be lost or captured by enemy."),
+          NULL, NULL, NULL,
+          GAME_MIN_INCITE_GOLD_LOSS_CHANCE, GAME_MAX_INCITE_GOLD_LOSS_CHANCE,
+          GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE)
+
+  GEN_INT("incite_gold_capt_chance", game.server.incite_gold_capt_chance,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("Probability of gold capture during inciting revolt"),
+          N_("When unit trying to incite revolt is eliminated and lose its "
+             "gold, there is chance that this gold would be captured by "
+             "city defender. Transfer tax would be applied, though. "
+             "This setting is irrevelant, if incite_gold_loss_chance is zero."),
+          NULL, NULL, NULL,
+          GAME_MIN_INCITE_GOLD_CAPT_CHANCE, GAME_MAX_INCITE_GOLD_CAPT_CHANCE,
+          GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE)
+
   GEN_INT("conquercost", game.server.conquercost,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
           N_("Penalty when getting tech from conquering"),
