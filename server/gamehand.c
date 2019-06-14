@@ -140,14 +140,21 @@ struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
 
 /****************************************************************************
   Place a starting unit for the player. Returns tile where unit was really
-  placed.
+  placed. By default the ptype is used and crole does not matter, but if
+  former is NULL, crole will be used instead.
 ****************************************************************************/
 static struct tile *place_starting_unit(struct tile *starttile,
                                         struct player *pplayer,
-                                        char crole)
+                                        struct unit_type *ptype, char crole)
 {
   struct tile *ptile = NULL;
-  struct unit_type *utype = crole_to_unit_type(crole, pplayer);
+  struct unit_type *utype;
+
+  if (ptype != NULL) {
+    utype = ptype;
+  } else {
+    utype = crole_to_unit_type(crole, pplayer);
+  }
 
   if (utype != NULL) {
     iterate_outward(starttile, map.xsize + map.ysize, itertile) {
@@ -778,7 +785,7 @@ void init_new_game(void)
     }
 
     /* Place the first unit. */
-    if (place_starting_unit(ptile, pplayer,
+    if (place_starting_unit(ptile, pplayer, NULL,
                             game.server.start_units[0]) != NULL) {
       placed_units[player_index(pplayer)] = 1;
     } else {
@@ -799,7 +806,7 @@ void init_new_game(void)
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
       /* Create the unit of an appropriate type. */
-      if (place_starting_unit(rand_tile, pplayer,
+      if (place_starting_unit(rand_tile, pplayer, NULL,
                               game.server.start_units[i]) != NULL) {
         placed_units[player_index(pplayer)]++;
       }
@@ -810,8 +817,10 @@ void init_new_game(void)
     while (NULL != nation->init_units[i] && MAX_NUM_UNIT_LIST > i) {
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
-      create_unit(pplayer, rand_tile, nation->init_units[i], FALSE, 0, 0);
-      placed_units[player_index(pplayer)]++;
+      if (place_starting_unit(rand_tile, pplayer,
+                              nation->init_units[i], '\0') != NULL) {
+        placed_units[player_index(pplayer)]++;
+      }
       i++;
     }
   } players_iterate_end;
