@@ -94,9 +94,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defense strengths are increased by 50%.  Also, damaged units\
- which stay in town for one full turn without moving are completely\
- restored.\
+ defense strengths are increased by 50%.\
 "), _("\
 Barracks also prevent stored food and goods in coastal cities being\
  lost to piracy.\
@@ -124,9 +122,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defense strengths are increased by 50%.  Also, damaged units\
- which stay in town for one full turn without moving are completely\
- restored.\
+ defense strengths are increased by 50%.\
 "), _("\
 Barracks also prevent stored food and goods in coastal cities being\
  lost to piracy.\
@@ -153,9 +149,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 With a Barracks, each new unit built in a city will\
  automatically have Veteran status, which means that its attack and\
- defense strengths are increased by 50%.  Also, damaged units\
- which stay in town for one full turn without moving are completely\
- restored.\
+ defense strengths are increased by 50%.\
 "), _("\
 Barracks also prevent stored food and goods in coastal cities being\
  lost to piracy.\
