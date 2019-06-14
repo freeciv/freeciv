@@ -49,22 +49,6 @@ end
 
 signal.connect("hut_enter", "hermit_nest")
 
--- Horseback riding researched
-function horseback_callback(tech_type, player, source)
-  local img = string.format("%s%s%s", game.rulesetdir(),
-                            "/", "resources/horseman.jpg")
-  local snd = string.format("%s%s%s", game.rulesetdir(),
-                            "/", "resources/horse.ogg")
-  if (tech_type == find.tech_type("Horseback Riding"))
-    then
-    server.showimg_playsnd(player, img, snd,
-                           "Better to run than curse the road", true)
-  end
-  return false
-end
-
-signal.connect('tech_researched', 'horseback_callback')
-
 function hermit_nest_blown(unit, extra)
   if extra == "Hermit" then
     notify.event(unit.owner, unit.tile, E.HUT_BARB,
