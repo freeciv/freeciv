@@ -1095,6 +1095,7 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
   }
 }
 
+#ifdef GTK3_DRAG_DROP
 /***********************************************************************//**
   Something dragged to worklist dialog.
 ***************************************************************************/
@@ -1131,6 +1132,7 @@ static void target_drag_data_received(GtkWidget *w,
 
   gtk_drag_finish(context, FALSE, FALSE, time);
 }
+#endif /* GTK3_DRAG_DROP */
 
 /***********************************************************************//**
   Create production page header - what tab this actually is,
@@ -1156,8 +1158,10 @@ static void create_production_header(struct city_dialog *pdialog,
 
   add_worklist_dnd_target(bar);
 
+#ifdef GTK3_DRAG_DROP
   g_signal_connect(bar, "drag_data_received",
                    G_CALLBACK(target_drag_data_received), pdialog);
+#endif /* GTK3_DRAG_DROP */
 
   pdialog->production.buy_command
     = icon_label_button_new("system-run", _("_Buy"));

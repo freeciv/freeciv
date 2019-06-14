@@ -324,9 +324,11 @@ enum {
   TARGET_GTK_TREE_MODEL_ROW
 };
 
+#ifdef GTK3_DRAG_DROP
 static GtkTargetEntry wl_dnd_targets[] = {
   { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, TARGET_GTK_TREE_MODEL_ROW },
 };
+#endif /* GTK3_DRAG_DROP */
 
 
 /************************************************************************//**
@@ -334,9 +336,11 @@ static GtkTargetEntry wl_dnd_targets[] = {
 ****************************************************************************/
 void add_worklist_dnd_target(GtkWidget *w)
 {
+#ifdef GTK3_DRAG_DROP
   gtk_drag_dest_set(w, GTK_DEST_DEFAULT_ALL,
                     wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
                     GDK_ACTION_COPY);
+#endif /* GTK3_DRAG_DROP */
 }
 
 /************************************************************************//**
@@ -1297,11 +1301,13 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
   g_object_set(ptr->src_col, "visible", TRUE, NULL);
   g_object_set(ptr->dst_col, "visible", TRUE, NULL);
 
+#ifdef GTK3_DRAG_DROP
   gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(ptr->src_view),
                                          GDK_BUTTON1_MASK,
                                          wl_dnd_targets,
                                          G_N_ELEMENTS(wl_dnd_targets),
                                          GDK_ACTION_COPY);
+#endif /* GTK3_DRAG_DROP */
 }
 
 /************************************************************************//**
