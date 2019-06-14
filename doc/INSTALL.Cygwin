@@ -35,8 +35,9 @@ a) Install or update your Cygwin by downloading and running installer
   - libQt5Core-devel (Libs) + libQt5Gui-devel (Libs)
 
   For additional functionality install also:
-   - libreadline-devel (Libs)
-   - gettext-devel (Development)
+   - libreadline-devel (Libs) (for server command history & completion)
+   - gettext-devel (Development) (for native language support)
+   - libSDL2_mixer-devel (Libs) (for client audio support)
 
   To get and build freeciv development version directly from version control,
   you need also
