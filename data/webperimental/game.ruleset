@@ -28,6 +28,12 @@ name = _("Webperimental")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
+; When about to migrate ruleset under a new name in the future version, set
+; alt_dir to the name of that future directory. Then savegames saved with this
+; version of freeciv can find the ruleset from the correct place when loading
+; the savegame to the future version.
+;alt_dir = ""
+
 ; Description of the ruleset
 summary = _("\
 This ruleset has experimental rules that works with the web-client.\

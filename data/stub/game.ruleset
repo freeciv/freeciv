@@ -20,6 +20,12 @@ name = _("Stub")
 ; Versioning of the ruleset
 ;version = ""
 
+; When about to migrate ruleset under a new name in the future version, set
+; alt_dir to the name of that future directory. Then savegames saved with this
+; version of freeciv can find the ruleset from the correct place when loading
+; the savegame to the future version.
+;alt_dir = ""
+
 ; Summary of the ruleset
 summary = _("\
 This ruleset is meant to be used as starting point for \
