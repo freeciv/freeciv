@@ -765,8 +765,8 @@ static inline void option_dialog_option_bitwise_set(struct option *poption,
 static inline void option_dialog_option_font_set(struct option *poption,
                                                  const char *font)
 {
-  gtk_font_button_set_font_name(GTK_FONT_BUTTON
-                                (option_get_gui_data(poption)), font);
+  gtk_font_chooser_set_font(GTK_FONT_CHOOSER
+                            (option_get_gui_data(poption)), font);
 }
 
 /************************************************************************//**
@@ -934,8 +934,8 @@ static void option_dialog_option_apply(struct option *poption)
     break;
 
   case OT_FONT:
-    (void) option_font_set(poption, gtk_font_button_get_font_name
-                           (GTK_FONT_BUTTON(w)));
+    (void) option_font_set(poption, gtk_font_chooser_get_font
+                           (GTK_FONT_CHOOSER(w)));
     break;
 
   case OT_COLOR:
