@@ -421,6 +421,16 @@ bool player_can_build_extra(const struct extra_type *pextra,
 }
 
 /************************************************************************//**
+  Tells if player can place extra on tile.
+****************************************************************************/
+bool player_can_place_extra(const struct extra_type *pextra,
+                            const struct player *pplayer,
+                            const struct tile *ptile)
+{
+  return player_can_build_extra(pextra, pplayer, ptile);
+}
+
+/************************************************************************//**
   Tells if unit can build extra on tile.
 ****************************************************************************/
 bool can_build_extra(const struct extra_type *pextra,

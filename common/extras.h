@@ -213,6 +213,9 @@ bool can_build_extra_base(const struct extra_type *pextra,
 bool player_can_build_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);
+bool player_can_place_extra(const struct extra_type *pextra,
+                            const struct player *pplayer,
+                            const struct tile *ptile);
 
 bool can_remove_extra(struct extra_type *pextra,
                       const struct unit *punit,

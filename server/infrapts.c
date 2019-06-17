@@ -48,7 +48,7 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
     return;
   }
 
-  if (!player_can_build_extra(pextra, pplayer, ptile)) {
+  if (!player_can_place_extra(pextra, pplayer, ptile)) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS, ftc_server,
                   _("Cannot place unbuildable %s."),
                   extra_name_translation(pextra));

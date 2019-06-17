@@ -132,7 +132,7 @@ void infra_placement_set_tile(struct tile *ptile)
   }
 
   extra_type_iterate(pextra) {
-    if (player_can_build_extra(pextra, client.conn.playing, ptile)) {
+    if (player_can_place_extra(pextra, client.conn.playing, ptile)) {
       GtkWidget *but = gtk_button_new_with_label(extra_name_translation(pextra));
       struct infra_cb_data *cbdata = fc_malloc(sizeof(struct infra_cb_data));
 
