@@ -10,6 +10,8 @@ players=FALSE
 startpos_nations=FALSE
 lake_flooding=TRUE
 handmade=TRUE
+ruleset_locked=FALSE
+ruleset_caps="+std-terrains"
 
 [savefile]
 options=" +version3"
