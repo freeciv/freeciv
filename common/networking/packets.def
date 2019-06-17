@@ -2018,6 +2018,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   handmade;
   BOOL   allow_ai_type_fallback;
   BOOL   ruleset_locked;
+  STRING datafile[MAX_LEN_NAME];
 
   /* Unused at client side. */
   BOOL   have_resources;

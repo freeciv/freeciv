@@ -1260,6 +1260,7 @@ static void sg_load_savefile(struct loaddata *loading)
 {
   int i;
   const char *terr_name;
+  bool ruleset_datafile;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1272,6 +1273,12 @@ static void sg_load_savefile(struct loaddata *loading)
    * warnings about unread secfile entries. */
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
+
+  if (game.scenario.datafile[0] != '\0') {
+    ruleset_datafile = FALSE;
+  } else {
+    ruleset_datafile = TRUE;
+  }
 
   if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
     const char *alt_dir;
@@ -1290,11 +1297,11 @@ static void sg_load_savefile(struct loaddata *loading)
     alt_dir = secfile_lookup_str_default(loading->file, NULL,
                                          "savefile.ruleset_alt_dir");
 
-    if (!load_rulesets(NULL, alt_dir, FALSE, NULL, TRUE, FALSE)) {
+    if (!load_rulesets(NULL, alt_dir, FALSE, NULL, TRUE, FALSE, ruleset_datafile)) {
       sg_failure_ret(FALSE, "Failed to load ruleset");
     }
   } else {
-    if (!load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE)) {
+    if (!load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, ruleset_datafile)) {
       /* Failed to load correct ruleset */
       sg_failure_ret(FALSE, "Failed to load ruleset");
     }
@@ -2294,6 +2301,8 @@ static void sg_load_scenario(struct loaddata *loading)
   sg_failure_ret(29099 <= game_version, "Saved game is too old, at least "
                                         "version 2.90.99 required.");
 
+  game.scenario.datafile[0] = '\0';
+
   sg_failure_ret(secfile_lookup_bool(loading->file, &game.scenario.is_scenario,
                                      "scenario.is_scenario"), "%s", secfile_error());
   if (!game.scenario.is_scenario) {
@@ -2343,6 +2352,12 @@ static void sg_load_scenario(struct loaddata *loading)
   game.scenario.ruleset_locked
     = secfile_lookup_bool_default(loading->file, TRUE,
                                   "scenario.ruleset_locked");
+
+  buf = secfile_lookup_str_default(loading->file, "",
+                                   "scenario.datafile");
+  if (buf[0] != '\0') {
+    sz_strlcpy(game.scenario.datafile, buf);
+  }
 
   sg_failure_ret(loading->server_state == S_S_INITIAL
                  || (loading->server_state == S_S_RUNNING
@@ -2416,6 +2431,11 @@ static void sg_save_scenario(struct savedata *saving)
   if (game.scenario.allow_ai_type_fallback) {
     secfile_insert_bool(saving->file, game.scenario.allow_ai_type_fallback,
                         "scenario.allow_ai_type_fallback");
+  }
+
+  if (game.scenario.datafile[0] != '\0') {
+    secfile_insert_str(saving->file, game.scenario.datafile,
+                       "scenario.datafile");
   }
 }
 
