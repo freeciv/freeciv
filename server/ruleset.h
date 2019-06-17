@@ -38,7 +38,7 @@ struct conn_list;
 typedef void (*rs_conversion_logger)(const char *msg);
 
 /* functions */
-bool load_rulesets(const char *restore, bool compat_mode,
+bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
                    bool act, bool buffer_script);
 bool reload_rulesets_settings(void);

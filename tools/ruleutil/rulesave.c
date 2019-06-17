@@ -863,6 +863,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   secfile_insert_str(sfile, game.control.name, "about.name");
   secfile_insert_str(sfile, game.control.version, "about.version");
 
+  if (game.control.alt_dir[0] != '\0') {
+    secfile_insert_str(sfile, game.control.alt_dir, "about.alt_dir");
+  }
+
   if (game.ruleset_summary != NULL) {
     struct entry *mod_entry;
 

@@ -1274,6 +1274,8 @@ static void sg_load_savefile(struct loaddata *loading)
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
   if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
+    const char *alt_dir;
+
     /* Load ruleset. */
     sz_strlcpy(game.server.rulesetdir,
                secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
@@ -1284,11 +1286,18 @@ static void sg_load_savefile(struct loaddata *loading)
        * are special scenarios. */
       sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
     }
-  }
 
-  if (!load_rulesets(NULL, FALSE, NULL, TRUE, FALSE)) {
-    /* Failed to load correct ruleset */
-    sg_failure_ret(FALSE, "Failed to load ruleset");
+    alt_dir = secfile_lookup_str_default(loading->file, NULL,
+                                         "savefile.ruleset_alt_dir");
+
+    if (!load_rulesets(NULL, alt_dir, FALSE, NULL, TRUE, FALSE)) {
+      sg_failure_ret(FALSE, "Failed to load ruleset");
+    }
+  } else {
+    if (!load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE)) {
+      /* Failed to load correct ruleset */
+      sg_failure_ret(FALSE, "Failed to load ruleset");
+    }
   }
 
   if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
@@ -1572,6 +1581,10 @@ static void sg_save_savefile(struct savedata *saving)
     /* Current ruleset has version information, save it.
      * This is never loaded, but exist in savegame file only for debugging purposes. */
     secfile_insert_str(saving->file, game.control.version, "savefile.rulesetversion");
+  }
+
+  if (game.control.alt_dir[0] != '\0') {
+    secfile_insert_str(saving->file, game.control.alt_dir, "savefile.ruleset_alt_dir");
   }
 
   if (game.server.last_updated_year) {

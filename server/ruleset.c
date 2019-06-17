@@ -5794,6 +5794,15 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.control.version[0] = '\0';
   }
 
+  pref_text = secfile_lookup_str_default(file, "", "about.alt_dir");
+  if (pref_text[0] != '\0') {
+    /* Alt directory definition found. */
+    sz_strlcpy(game.control.alt_dir, pref_text);
+  } else {
+    /* No alt directory information */
+    game.control.alt_dir[0] = '\0';
+  }
+
   pref_text = secfile_lookup_str_default(file, "", "about.summary");
   if (pref_text[0] != '\0') {
     int len;
@@ -8048,13 +8057,21 @@ static void notify_ruleset_fallback(const char *msg)
 /**********************************************************************//**
   Loads the rulesets.
 **************************************************************************/
-bool load_rulesets(const char *restore, bool compat_mode,
+bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
                    bool act, bool buffer_script)
 {
   if (load_rulesetdir(game.server.rulesetdir, compat_mode, logger,
                       act, buffer_script)) {
     return TRUE;
+  }
+
+  if (alt != NULL) {
+    if (load_rulesetdir(alt, compat_mode, logger, act, buffer_script)) {
+      sz_strlcpy(game.server.rulesetdir, alt);
+
+      return TRUE;
+    }
   }
 
   /* Fallback to previous one. */

@@ -1874,6 +1874,7 @@ PACKET_RULESET_CONTROL = 155; sc, lsend
 
   STRING name[MAX_LEN_NAME];
   STRING version[MAX_LEN_NAME];
+  STRING alt_dir[MAX_LEN_NAME];
   UINT16 desc_length;
 end
 
