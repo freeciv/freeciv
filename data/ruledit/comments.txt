@@ -745,6 +745,10 @@ extras = "\
 ; buildable               = Can extra be built? Defaults to TRUE if extra has\n\
 ;                           any causes indicating it can result from worker\n\
 ;                           activity.\n\
+;                           If extra is not buildable, it can appear in game\n\
+;                           only if placed in the editor, it\n\'s placed by\n\
+;                           map generator, or on city tile if the extra\n\
+;                           also has \"AlwaysOnCityCenter\" flag set.\n\
 ; generated               = Can map generator place the extra? Applicable\n\
 ;                           for Hut, Resource, and River extras.\n\
 ; build_time              = how long it takes a unit to build this extra.\n\
