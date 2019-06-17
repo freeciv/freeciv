@@ -1807,9 +1807,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       switch (cbonus->type) {
       case CBONUS_DEFENSE_MULTIPLIER:
         cat_snprintf(buf, bufsz,
-                     /* TRANS: multipied by ... or-list of unit types */
-                     _("* %dx defense bonus if attacked by %s.\n"),
-                     cbonus->value + 1,
+                     /* TRANS: percentage ... or-list of unit types */
+                     _("* %d%% defense bonus if attacked by %s.\n"),
+                     cbonus->value * 100,
                      astr_build_or_list(&list, against, targets));
         break;
       case CBONUS_DEFENSE_DIVIDER:
@@ -1826,6 +1826,21 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("* Reduces target's fire power to 1 when "
                        "attacking %s.\n"),
                      astr_build_and_list(&list, against, targets));
+        break;
+      case CBONUS_DEFENSE_MULTIPLIER_PCT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: percentage ... or-list of unit types */
+                     _("* %d%% defense bonus if attacked by %s.\n"),
+                     cbonus->value,
+                     astr_build_or_list(&list, against, targets));
+        break;
+      case CBONUS_DEFENSE_DIVIDER_PCT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: defense divider ... or-list of unit types */
+                     _("* Reduces target's defense to 1 / %.2f when "
+                       "attacking %s.\n"),
+                     ((float) cbonus->value + 100.0f) / 100.0f,
+                     astr_build_or_list(&list, against, targets));
         break;
       }
 

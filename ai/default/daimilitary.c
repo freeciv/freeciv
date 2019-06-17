@@ -490,7 +490,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   unsigned int urgency = 0;
   int defense;
   int total_danger = 0;
-  int defense_bonuses[U_LAST];
+  int defense_bonuses_pct[U_LAST];
   bool defender_type_handled[U_LAST];
   int assess_turns;
   bool omnimap;
@@ -509,7 +509,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   city_data->has_diplomat = FALSE;
 
   unit_type_iterate(utype) {
-    defense_bonuses[utype_index(utype)] = 0;
+    defense_bonuses_pct[utype_index(utype)] = 0;
     defender_type_handled[utype_index(utype)] = FALSE;
   } unit_type_iterate_end;
 
@@ -526,12 +526,14 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       /* Skip defenders that have no bonuses at all. Acceptable
        * side-effect is that we can't consider negative bonuses at
        * all ("No bonuses" should be better than "negative bonus") */
-      if (def->cache.max_defense_mp > 0) {
+      if (def->cache.max_defense_mp_pct > 0) {
         unit_type_iterate(utype) {
           int idx = utype_index(utype);
 
-          if (def->cache.defense_mp_bonuses[idx] > defense_bonuses[idx]) {
-            defense_bonuses[idx] = def->cache.defense_mp_bonuses[idx];
+          if (def->cache.defense_mp_bonuses_pct[idx]
+              > defense_bonuses_pct[idx]) {
+            defense_bonuses_pct[idx] =
+                def->cache.defense_mp_bonuses_pct[idx];
           }
         } unit_type_iterate_end;
       }
@@ -573,7 +575,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
     unit_list_iterate(units, punit) {
       int move_time;
       unsigned int vulnerability;
-      int defbonus;
+      int defbonus_pct;
       struct unit_type *utype = unit_type_get(punit);
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
@@ -614,11 +616,11 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
         }
       }
 
-      defbonus = defense_bonuses[utype_index(utype)];
-      if (defbonus > 1) {
-        defbonus = (defbonus + 1) / 2;
+      defbonus_pct = defense_bonuses_pct[utype_index(utype)];
+      if (defbonus_pct > 100) {
+        defbonus_pct = (defbonus_pct + 100) / 2;
       }
-      vulnerability /= (defbonus + 1);
+      vulnerability = vulnerability * 100 / (defbonus_pct + 100);
       (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
@@ -702,7 +704,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   int desire = punittype->hp;
   int attack = punittype->attack_strength;
   int defense = punittype->defense_strength;
-  int maxbonus = 0;
+  int maxbonus_pct = 0;
 
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
@@ -716,11 +718,11 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
 
-  maxbonus = punittype->cache.max_defense_mp;
-  if (maxbonus > 1) {
-    maxbonus = (maxbonus + 1) / 2;
+  maxbonus_pct = punittype->cache.max_defense_mp_pct;
+  if (maxbonus_pct > 100) {
+    maxbonus_pct = (maxbonus_pct + 100) / 2;
   }
-  desire += desire * maxbonus; 
+  desire += desire * maxbonus_pct / 100;
   if (utype_has_flag(punittype, UTYF_GAMELOSS)) {
     desire /= 10; /* but might actually be worth it */
   }

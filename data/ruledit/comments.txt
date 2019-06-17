@@ -401,14 +401,26 @@ utypes = "\
 ;\n\
 ; ** Bonuses **\n\
 ;\n\
-; \"DefenseMultiplier\" = Multiply defense value (1 + \'value\') times.\n\
-;                       Value of 1 means multiplication by 2, value 2 by 3...\n\
-;                       Bonus is defined in defenders entry.\n\
-; \"DefenseDivider\"    = Divide defense value with (1 + \'value\').\n\
-;                       Bonus is defined in attackers entry.\n\
-; \"FirePower1\"        = Defender firepower is reduced to value 1 when\n\
-;                       ever this has non-zero value.\n\
-;                       Bonus is defined in attackers entry.\n\
+; \"DefenseMultiplier\"    = See \"DefenseMultiplierPct\" below. This is\n\
+;                          equivalent to that multiplied by 100.\n\
+;                          Bonus is defined in defenders entry.\n\
+; \"DefenseMultiplierPct\" = Multiply defense by 1 + (value / 100).\n\
+;                          Value of 100 means multiplication by 2,\n\
+;                          value of 50 means multiplication by 1.5, etc.\n\
+;                          Effectively increases defense by value percent.\n\
+;                          Bonus is defined in defenders entry.\n\
+; \"DefenseDivider\"       = See \"DefenseDividerPct\" below. This is equivalent\n\
+;                          to that multiplied by 100.\n\
+;                          Bonus is defined in attackers entry.\n\
+; \"DefenseDividerPct\"    = Divide defense value by 1 + (value / 100).\n\
+;                          Value of 100 means division by 2,\n\
+;                          value of 50 means division by 1.5, i.e.\n\
+;                          multiplication with 2/3, etc.\n\
+;                          Effectively increases *attack* by value percent.\n\
+;                          Bonus is defined in attackers entry.\n\
+; \"FirePower1\"           = Defender firepower is reduced to value 1 when\n\
+;                          ever this has non-zero value.\n\
+;                          Bonus is defined in attackers entry.\n\
 ;\n\
 ;\n\
 ; ** Flags **\n\

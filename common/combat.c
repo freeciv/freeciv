@@ -530,19 +530,23 @@ static int defense_multiplication(const struct unit_type *att_type,
   fc_assert_ret_val(NULL != def_type, 0);
 
   if (NULL != att_type) {
-    int defense_divider;
-    int defense_multiplier = 1 + def_type->cache.defense_mp_bonuses[utype_index(att_type)];
+    int defense_divider_pct;
+    int defense_multiplier_pct = 100
+        + def_type->cache.defense_mp_bonuses_pct[utype_index(att_type)];
 
-    defensepower *= defense_multiplier;
+    defensepower = defensepower * defense_multiplier_pct / 100;
 
     /* This applies even if pcity is NULL. */
     mod = 100 + get_unittype_bonus(def_player, ptile,
                                    att_type, EFT_DEFEND_BONUS);
     defensepower = MAX(0, defensepower * mod / 100);
 
-    defense_divider = 1 + combat_bonus_against(att_type->bonuses, def_type,
-                                               CBONUS_DEFENSE_DIVIDER);
-    defensepower /= defense_divider;
+    defense_divider_pct = 100 + combat_bonus_against(att_type->bonuses,
+                                    def_type, CBONUS_DEFENSE_DIVIDER_PCT)
+        + 100 * combat_bonus_against(att_type->bonuses, def_type,
+                                     CBONUS_DEFENSE_DIVIDER);
+
+    defensepower = defensepower * 100 / defense_divider_pct;
   }
 
   defensepower +=
