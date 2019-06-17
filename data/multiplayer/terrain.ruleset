@@ -1023,6 +1023,10 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ; buildable               = Can extra be built? Defaults to TRUE if extra has
 ;                           any causes indicating it can result from worker
 ;                           activity.
+;                           If extra is not buildable, it can appear in game
+;                           only if placed in the editor, it's placed by
+;                           map generator, or on city tile if the extra
+;                           also has "AlwaysOnCityCenter" flag set.
 ; generated               = Can map generator place the extra? Applicable
 ;                           for Hut, Resource, and River extras.
 ; build_time              = how long it takes a unit to build this extra.
