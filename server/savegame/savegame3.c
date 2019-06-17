@@ -1322,6 +1322,41 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
+  /* Time to load scenario specific luadata */
+  if (game.scenario.datafile[0] != '\0') {
+    if (!fc_strcasecmp("none", game.scenario.datafile)) {
+      game.server.luadata = NULL;
+    } else {
+      const struct strvec *pathes[] = { get_scenario_dirs(), NULL };
+      const struct strvec **path;
+      const char *found = NULL;
+      char testfile[MAX_LEN_PATH];
+      struct section_file *secfile;
+
+      for (path = pathes; found == NULL && *path != NULL; path++) {
+        fc_snprintf(testfile, sizeof(testfile), "%s.luadata", game.scenario.datafile);
+
+        found = fileinfoname(*path, testfile);
+      }
+
+      if (found == NULL) {
+        log_error(_("Can't find scenario luadata file %s.luadata."), game.scenario.datafile);
+        sg_success = FALSE;
+        return;
+      }
+
+      secfile = secfile_load(found, FALSE);
+      if (secfile == NULL) {
+        log_error(_("Failed to load scenario luadata file %s.luadata"),
+                  game.scenario.datafile);
+        sg_success = FALSE;
+        return;
+      }
+
+      game.server.luadata = secfile;
+    }
+  }
+
   /* This is in the savegame only if the game has been started before savegame3.c time,
    * and in that case it's TRUE. If it's missing, it's to be considered FALSE. */
   game.server.last_updated_year = secfile_lookup_bool_default(loading->file, FALSE,
