@@ -1721,6 +1721,21 @@ static void compat_load_dev(struct loaddata *loading)
       }
     }
   } player_slots_iterate_end;
+
+  player_slots_iterate(pslot) {
+    int plrno = player_slot_index(pslot);
+    int history;
+
+    history = secfile_lookup_int_default(loading->file, 0,
+                                         "player%d.culture",
+                                         plrno);
+
+    if (history > 0) {
+      /* Savefile had player history value saved to field named 'culture'.
+       * Save it to 'history'. */
+      secfile_insert_int(loading->file, history, "player%d.history", plrno);
+    }
+  } player_slots_iterate_end;
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
