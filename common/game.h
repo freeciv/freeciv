@@ -796,6 +796,9 @@ extern struct world wld;
 #define RS_MIN_FOOD_COST                         0
 #define RS_MAX_FOOD_COST                         100
 
+#define RS_DEFAULT_CIVIL_WAR_CELEB               -5
+#define RS_DEFAULT_CIVIL_WAR_UNHAPPY             5
+
 #define RS_DEFAULT_SLOW_INVASIONS                TRUE
 
 #define RS_DEFAULT_TIRED_ATTACK                  FALSE

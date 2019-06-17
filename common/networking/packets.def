@@ -576,6 +576,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL year_0_hack;
   UINT16 fragment_count;
   BOOL civil_war_enabled;
+  SINT16 civil_war_bonus_celebrating;
+  SINT16 civil_war_bonus_unhappy;
   BOOL paradrop_to_transport;
 end
 

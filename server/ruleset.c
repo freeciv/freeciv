@@ -5912,6 +5912,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.civil_war_enabled
       = secfile_lookup_bool_default(file, TRUE, "civstyle.civil_war_enabled");
 
+    game.info.civil_war_bonus_celebrating
+      = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_CELEB,
+                                   "civstyle.civil_war_bonus_celebrating");
+
+    game.info.civil_war_bonus_unhappy
+      = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
+                                   "civstyle.civil_war_bonus_unhappy");
+
     game.info.paradrop_to_transport
       = secfile_lookup_bool_default(file, FALSE,
                                     "civstyle.paradrop_to_transport");

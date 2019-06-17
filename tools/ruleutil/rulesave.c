@@ -925,6 +925,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.civil_war_enabled,
                     TRUE,
                     "civstyle.civil_war_enabled", NULL);
+  save_default_int(sfile, game.info.civil_war_bonus_celebrating,
+                   RS_DEFAULT_CIVIL_WAR_CELEB,
+                   "civstyle.civil_war_bonus_celebrating", NULL);
+  save_default_int(sfile, game.info.civil_war_bonus_unhappy,
+                   RS_DEFAULT_CIVIL_WAR_UNHAPPY,
+                   "civstyle.civil_war_bonus_unhappy", NULL);
   save_default_bool(sfile, game.info.paradrop_to_transport,
                     FALSE,
                     "civstyle.paradrop_to_transport", NULL);
