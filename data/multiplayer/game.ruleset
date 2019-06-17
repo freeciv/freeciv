@@ -44,8 +44,9 @@ the differences can be found in README.multiplayer.\
 description = *multiplayer/README.multiplayer*
 
 ; What capabilities ruleset provides for the scenarios.
-; mimimum-default-sets - Default units, terrains, buildings, etc
-capabilities = "minimum-default-sets"
+; See doc/README.rulesets for definitions of official capabilities
+; std-terrains         - At least standard set of terrains
+capabilities = "std-terrains"
 
 [options]
 global_init_techs=""

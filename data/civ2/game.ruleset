@@ -40,8 +40,8 @@ You are playing with civ2 style rules. These are\
 ; description = ""
 
 ; What capabilities ruleset provides for the scenarios.
-; mimimum-default-sets - Default units, terrains, buildings, etc
-capabilities = "minimum-default-sets"
+; See doc/README.rulesets for definitions of official capabilities
+capabilities = ""
 
 [options]
 global_init_techs=""

@@ -137,6 +137,24 @@ set =
     }
 
 ----------------------------------------------------------------------
+Scenario capabilities:
+----------------------
+
+Some scenarios can be unlocked from a ruleset, meaning that they are not
+meant to be used with strictly one ruleset only. To control that such
+a scenario file and a ruleset are compatible, capabilities are used.
+Scenario file lists capabilities it requires from the ruleset, and
+ruleset lists capabilities it provides.
+
+Some standard capabilities are:
+
+std-terrains
+  Ruleset provides at least terrain types Inaccessible, Lake, Ocean,
+  Deep Ocean, Glacier, Desert, Forest, Grassland, Hills, Jungle,
+  Mountains, Plains, Swamp, Tundra.
+  Ruleset provides River extra
+
+----------------------------------------------------------------------
 Update information:
 -------------------
 
