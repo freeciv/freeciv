@@ -52,19 +52,19 @@ end
 -- Get a mercenary unit from entering a hut.
 function default_hut_get_mercenaries(unit)
   local owner = unit.owner
-  local type = find.role_unit_type('HutTech', owner)
+  local utype = find.role_unit_type('HutTech', owner)
 
-  if not type or not type:can_exist_at_tile(unit.tile) then
-    type = find.role_unit_type('Hut', nil)
-    if not type or not type:can_exist_at_tile(unit.tile) then
-      type = nil
+  if not utype or not utype:can_exist_at_tile(unit.tile) then
+    utype = find.role_unit_type('Hut', nil)
+    if not utype or not utype:can_exist_at_tile(unit.tile) then
+      utype = nil
     end
   end
 
-  if type then
+  if utype then
     notify.event(owner, unit.tile, E.HUT_MERC,
                  _("A band of friendly mercenaries joins your cause."))
-    owner:create_unit(unit.tile, type, 0, unit:get_homecity(), -1)
+    owner:create_unit(unit.tile, utype, 0, unit:get_homecity(), -1)
     return true
   else
     return false
@@ -98,12 +98,12 @@ end
 -- Unit may die: returns true if unit is alive
 function default_hut_get_barbarians(unit)
   local tile = unit.tile
-  local type = unit.utype
+  local utype = unit.utype
   local owner = unit.owner
 
   if server.setting.get("barbarians") == "DISABLED"
     or unit.tile:city_exists_within_max_city_map(true)
-    or type:has_flag('Gameloss') then
+    or utype:has_flag('Gameloss') then
       notify.event(owner, unit.tile, E.HUT_BARB_CITY_NEAR,
                    _("An abandoned village is here."))
     return true
@@ -116,7 +116,7 @@ function default_hut_get_barbarians(unit)
   else
     notify.event(owner, tile, E.HUT_BARB_KILLED,
                   _("Your %s has been killed by barbarians!"),
-                  type:name_translation());
+                  utype:name_translation());
   end
   return alive
 end
