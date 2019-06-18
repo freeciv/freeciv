@@ -12,7 +12,10 @@ pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('LOCALEDIR',
                    join_paths(get_option('prefix'),
                               get_option('datadir'), 'locale'))
+priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+priv_conf_data.set('DATADIR',
+                   join_paths(get_option('prefix'), get_option('datadir')))
 priv_conf_data.set('DATASUBDIR', 'dev')
 
 c_compiler = meson.get_compiler('c')

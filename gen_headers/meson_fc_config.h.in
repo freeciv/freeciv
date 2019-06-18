@@ -21,6 +21,10 @@
 #define INIT_BRACE_BEGIN {
 #define INIT_BRACE_END   }
 
+#define DEFAULT_DATA_PATH ".:data:@FREECIV_STORAGE_DIR@/" DATASUBDIR ":@DATADIR@/freeciv"
+#define DEFAULT_SAVE_PATH ".:@FREECIV_STORAGE_DIR@/saves"
+#define DEFAULT_SCENARIO_PATH ".:data/scenarios:@FREECIV_STORAGE_DIR@/" DATASUBDIR "/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"
+
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
 
