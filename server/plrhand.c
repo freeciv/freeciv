@@ -28,6 +28,7 @@
 
 /* common */
 #include "citizens.h"
+#include "culture.h"
 #include "diptreaty.h"
 #include "government.h"
 #include "map.h"
@@ -1240,11 +1241,13 @@ static void package_player_info(struct player *plr,
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
     packet->revolution_finishes = plr->revolution_finishes;
+    packet->culture         = player_culture(plr);
   } else {
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
     packet->revolution_finishes = -1;
+    packet->culture         = 0;
   }
 
   if (info_level >= INFO_FULL

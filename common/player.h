@@ -350,6 +350,8 @@ struct player {
       int tech_upkeep;
 
       bool color_changeable;
+
+      int culture;
     } client;
   };
 };

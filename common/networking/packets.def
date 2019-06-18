@@ -878,6 +878,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BARBARIAN_TYPE barbarian_type;
   BV_PLAYER gives_shared_vision;
   UINT16 history;
+  UINT16 culture;
   SINT16 love[MAX_NUM_PLAYER_SLOTS];
 
   BOOL color_valid;
