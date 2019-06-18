@@ -35,3 +35,42 @@ The build is executed with 'ninja' command. This is equivalent of running
 
 > ninja
 > ninja install
+
+
+Configure options:
+==================
+
+Configure options are given as '-D<option>=<value>'.
+For example to set freeciv installation prefix as
+'/home/cazfi/freeciv-install':
+
+> meson ../src -Dprefix=/home/cazfi/freeciv-install
+
+You can give configure options when you first set up the build directory
+(like in example above), or you can change configure options for the
+build directory later by 'meson configure' subcommand like this:
+
+> meson configure -Dprefix=/home/cazfi/freeciv-install
+
+You get full list of configure options by running 'meson configure'
+subcommand without any configure options to set
+
+> meson configure
+
+Some of the configure options are implemented by meson itself for
+all meson-based projects. Some options are implemented in freeciv build
+system, and they are specific to freeciv.
+
+Freeciv specific configure options:
+-----------------------------------
+
+ack_experimental (boolean):
+  As the official build system for freeciv is still autotools, user
+  has to acknowledge that they are using experimental build system when
+  using meson. This configure options must be set to 'true', or build
+  refuses to start
+
+clients (array):
+  List of clients to build. To disable client build completely, give an
+  empty array ('-Dclients=[]'). Currently only gtk3.22-client build is
+  supported ('-Dclients=gtk3.22'). By default builds gtk3.22-client
