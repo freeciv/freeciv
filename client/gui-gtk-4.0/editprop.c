@@ -6153,7 +6153,7 @@ static struct property_editor *property_editor_new(void)
   gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
   gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);
-  gtk_window_set_type_hint(GTK_WINDOW(win), GDK_WINDOW_TYPE_HINT_DIALOG);
+  gtk_window_set_type_hint(GTK_WINDOW(win), GDK_SURFACE_TYPE_HINT_DIALOG);
   gtk_widget_set_margin_start(win, 4);
   gtk_widget_set_margin_end(win, 4);
   gtk_widget_set_margin_top(win, 4);
