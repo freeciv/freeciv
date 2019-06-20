@@ -371,7 +371,7 @@ void create_line_at_mouse_pos(void)
   int x, y;
   GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));
   GdkDevice *pointer = gdk_seat_get_pointer(seat);
-  GdkWindow *window;
+  GdkSurface *window;
 
   if (!pointer) {
     return;
@@ -394,7 +394,7 @@ void create_line_at_mouse_pos(void)
 void update_rect_at_mouse_pos(void)
 {
   int x, y;
-  GdkWindow *window;
+  GdkSurface *window;
   GdkDevice *pointer;
   GdkModifierType mask;
   GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));

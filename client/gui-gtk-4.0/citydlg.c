@@ -3171,7 +3171,7 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  GdkWindow *win;
+  GdkSurface *win;
   GdkSeat *seat;
   GdkModifierType mask;
   struct impr_type *pimprove;

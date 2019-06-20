@@ -1424,7 +1424,7 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 {
   GtkTreeModel *model;
   GtkTreeIter iter;
-  GdkWindow *win;
+  GdkSurface *win;
   GdkSeat *seat;
   GdkModifierType mask;
 

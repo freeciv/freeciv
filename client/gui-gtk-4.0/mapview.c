@@ -521,7 +521,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
 /**********************************************************************//**
   Put overlay tile to pixmap
 **************************************************************************/
-void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
+void pixmap_put_overlay_tile(GdkSurface *pixmap, float zoom,
                              int canvas_x, int canvas_y,
                              struct sprite *ssprite)
 {
@@ -732,7 +732,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   struct color *pcolor;
   cairo_t *cr;
   GdkDrawingContext *ctx;
-  GdkWindow *wndw;
+  GdkSurface *wndw;
 
   if (w == 0 || h == 0) {
     return;
