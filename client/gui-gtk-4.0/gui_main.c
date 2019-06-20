@@ -2067,7 +2067,7 @@ void remove_net_input(void)
 {
   g_source_remove(srv_id);
   g_io_channel_unref(srv_channel);
-  gdk_window_set_cursor(root_window, NULL);
+  gtk_widget_set_cursor(toplevel, NULL);
 }
 
 /**********************************************************************//**

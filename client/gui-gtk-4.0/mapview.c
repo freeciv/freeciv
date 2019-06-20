@@ -224,13 +224,13 @@ static gboolean anim_cursor_cb(gpointer data)
   }
 
   if (cursor_type == CURSOR_DEFAULT) {
-    gdk_window_set_cursor(root_window, NULL);
+    gtk_widget_set_cursor(toplevel, NULL);
     cursor_timer_id = 0;
     return FALSE; 
   }
 
-  gdk_window_set_cursor(root_window,
-                fc_cursors[cursor_type][cursor_frame]);
+  gtk_widget_set_cursor(toplevel,
+                        fc_cursors[cursor_type][cursor_frame]);
   control_mouse_cursor(NULL);
   return TRUE;
 }
