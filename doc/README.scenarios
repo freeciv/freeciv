@@ -1,0 +1,15 @@
+Creating Freeciv scenarios
+==========================
+
+Overview:
+---------
+Freeciv scenario -files are essentially savegames with specific game
+situation. The savegame format allows some things that are useful only
+when the savegame in question is a scenario. There's a [scenario] section
+with some parameters applicable to scenario saves only, and possibility
+to include some lua script for scripting the scenario.
+The deciding difference between regular savegames and scenario savegames
+is that latter have is_scenario set to TRUE in [scenario] section.
+Freeciv saves current game situation as a scenario file, with the full
+[scenario] section, when one saves by the /scensave server command or
+uses "Save Scenario" from the client Edit -menu.

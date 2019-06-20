@@ -26,6 +26,7 @@ docs =				\
 	README.packaging	\
 	README.rulesets		\
 	README.tilesets		\
+	README.scenarios	\
 	README.scorelog		\
 	README.sound		\
 	TODO

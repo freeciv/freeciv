@@ -1351,6 +1351,7 @@ install_data(
   'doc/README.nations',
   'doc/README.packaging',
   'doc/README.rulesets',
+  'doc/README.scenarios',
   'doc/README.scorelog',
   'doc/README.sound',
   'doc/README.tilesets',
