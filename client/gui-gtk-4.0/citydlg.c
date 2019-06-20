@@ -1622,11 +1622,11 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   g_signal_connect(GTK_DIALOG(pdialog->shell), "response",
                    G_CALLBACK(citydlg_response_callback), pdialog);
 
-  pdialog->prev_command = gtk_button_new_from_icon_name("go-previous", 0);
+  pdialog->prev_command = gtk_button_new_from_icon_name("go-previous");
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                GTK_WIDGET(pdialog->prev_command), 1);
 
-  pdialog->next_command = gtk_button_new_from_icon_name("go-next", 0);
+  pdialog->next_command = gtk_button_new_from_icon_name("go-next");
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                GTK_WIDGET(pdialog->next_command), 2);
 
