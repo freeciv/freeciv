@@ -700,12 +700,10 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
 
   /* Initialize the cursors. */
   if (!hand_cursor) {
-    hand_cursor = gdk_cursor_new_for_display(
-        gtk_widget_get_display(GTK_WIDGET(text_view)), GDK_HAND2);
+    hand_cursor = gdk_cursor_new_from_name("pointer", NULL);
   }
   if (!regular_cursor) {
-    regular_cursor = gdk_cursor_new_for_display(
-        gtk_widget_get_display(GTK_WIDGET(text_view)), GDK_XTERM);
+    regular_cursor = gdk_cursor_new_from_name("text", NULL);
   }
 
   gtk_text_view_get_iter_at_location(text_view, &iter, x, y);
@@ -725,13 +723,9 @@ static void set_cursor_if_appropriate(GtkTextView *text_view, gint x, gint y)
     hovering_over_link = hovering;
 
     if (hovering_over_link) {
-      gdk_window_set_cursor(gtk_text_view_get_window(text_view,
-                                                     GTK_TEXT_WINDOW_TEXT),
-                            hand_cursor);
+      gtk_widget_set_cursor(GTK_WIDGET(text_view), hand_cursor);
     } else {
-      gdk_window_set_cursor(gtk_text_view_get_window(text_view,
-                                                     GTK_TEXT_WINDOW_TEXT),
-                            regular_cursor);
+      gtk_widget_set_cursor(GTK_WIDGET(text_view), regular_cursor);
     }
   }
 
