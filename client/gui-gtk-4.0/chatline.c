@@ -1359,7 +1359,7 @@ void chatline_init(void)
   toolkit.toolbar = toolbar;
 
   /* Bold button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-bold", 0),
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-bold"),
                              _("Bold"));
 
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
@@ -1369,7 +1369,7 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Bold (Ctrl-B)"));
 
   /* Italic button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-italic", 0),
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-italic"),
                              _("Italic"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
@@ -1378,7 +1378,7 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Italic (Ctrl-I)"));
 
   /* Strike button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-strikethrough", 0),
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-strikethrough"),
                              _("Strikethrough"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
@@ -1387,7 +1387,7 @@ void chatline_init(void)
   gtk_widget_set_tooltip_text(GTK_WIDGET(item), _("Strikethrough (Ctrl-S)"));
 
   /* Underline button. */
-  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-underline", 0),
+  item = gtk_tool_button_new(gtk_image_new_from_icon_name("format-text-underline"),
                              _("Underline"));
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar), item, -1);
   g_object_set_data(G_OBJECT(item), "text_tag_type",
