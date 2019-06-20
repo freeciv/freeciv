@@ -86,7 +86,6 @@ void tileset_type_set(enum ts_type type)
 void load_cursors(void)
 {
   enum cursor_type cursor;
-  GdkDisplay *display = gdk_display_get_default();
   int frame;
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
@@ -95,9 +94,10 @@ void load_cursors(void)
       struct sprite *sprite
 	= get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
       GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
+      GdkTexture *texture = gdk_texture_new_for_pixbuf(pixbuf);
 
-      fc_cursors[cursor][frame] = gdk_cursor_new_from_pixbuf(display, pixbuf,
-							     hot_x, hot_y);
+      fc_cursors[cursor][frame] = gdk_cursor_new_from_texture(texture, hot_x, hot_y, NULL);
+      g_object_unref(texture);
       g_object_unref(G_OBJECT(pixbuf));
     }
   }
