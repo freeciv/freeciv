@@ -1696,7 +1696,7 @@ void ui_main(int argc, char **argv)
   gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = gtk_widget_get_window(toplevel);
+  root_window = gtk_widget_get_surface(toplevel);
 
   if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
     migrate_options_from_gtk3_22();
@@ -1985,7 +1985,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
     gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_window(p),
+                  gtk_widget_get_surface(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);

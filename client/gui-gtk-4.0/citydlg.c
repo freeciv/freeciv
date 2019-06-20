@@ -707,7 +707,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
     gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_window(p),
+                  gtk_widget_get_surface(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
@@ -3184,7 +3184,7 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 
   gtk_tree_model_get(model, &it, 0, &pimprove, -1);
 
-  win = gtk_widget_get_window(GTK_WIDGET(view));
+  win = gtk_widget_get_surface(GTK_WIDGET(view));
   seat = gdk_display_get_default_seat(gdk_window_get_display(win));
 
   gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
