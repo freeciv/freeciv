@@ -418,8 +418,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
 
   if (gtk_widget_get_realized(map_canvas) && !mapview_is_frozen()) {
-    gdk_window_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle,
-                               FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
   }
 }
 
@@ -433,8 +432,7 @@ void dirty_rect(int canvas_x, int canvas_y,
   GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
 
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_window_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle,
-                               FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
   }
 }
 
@@ -444,8 +442,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 void dirty_all(void)
 {
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_window_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL,
-                               FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL);
   }
 }
 

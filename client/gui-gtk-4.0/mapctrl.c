@@ -88,13 +88,13 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
   if (tile_to_canvas_pos(&x, &y, ptile)) {
     gint minx, miny, maxy;
 
-    gdk_window_get_origin(gtk_widget_get_surface(map_canvas), &minx, &miny);
+    gdk_surface_get_origin(gtk_widget_get_surface(map_canvas), &minx, &miny);
     maxy = miny + gtk_widget_get_allocated_height(map_canvas);
 
-    if (x > mapview.width/2) {
+    if (x > mapview.width / 2) {
       /* right part of the map */
       x += minx;
-      y += miny + (tileset_tile_height(tileset) - alloc->height)/2;
+      y += miny + (tileset_tile_height(tileset) - alloc->height) / 2;
 
       y = CLIP(miny, y, maxy - alloc->height);
 
@@ -102,7 +102,7 @@ static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc,
     } else {
       /* left part of the map */
       x += minx + tileset_tile_width(tileset);
-      y += miny + (tileset_tile_height(tileset) - alloc->height)/2;
+      y += miny + (tileset_tile_height(tileset) - alloc->height) / 2;
 
       y = CLIP(miny, y, maxy - alloc->height);
 
@@ -377,7 +377,7 @@ void create_line_at_mouse_pos(void)
     return;
   }
 
-  window = gdk_device_get_window_at_position(pointer, &x, &y);
+  window = gdk_device_get_surface_at_position(pointer, &x, &y);
   if (window) {
     if (window == gtk_widget_get_surface(map_canvas)) {
       update_line(x, y);
@@ -404,7 +404,7 @@ void update_rect_at_mouse_pos(void)
     return;
   }
 
-  window = gdk_device_get_window_at_position(pointer, &x, &y);
+  window = gdk_device_get_surface_at_position(pointer, &x, &y);
   if (window && window == gtk_widget_get_surface(map_canvas)) {
     gdk_device_get_state(pointer, window, NULL, &mask);
     if (mask & GDK_BUTTON3_MASK) {

@@ -3185,10 +3185,10 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
   gtk_tree_model_get(model, &it, 0, &pimprove, -1);
 
   win = gtk_widget_get_surface(GTK_WIDGET(view));
-  seat = gdk_display_get_default_seat(gdk_window_get_display(win));
+  seat = gdk_display_get_default_seat(gdk_surface_get_display(win));
 
-  gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
-                                 NULL, NULL, &mask);
+  gdk_surface_get_device_position(win, gdk_seat_get_pointer(seat),
+                                  NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {
     sell_callback(pimprove, data);
