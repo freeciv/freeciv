@@ -9,14 +9,10 @@ else
 CSUBDIRS = 
 endif
 
-if SERVER
-SSUBDIRS = ai server
-else
-if RULEDIT
+if SRV_LIB
 SSUBDIRS = ai server
 else
 SSUBDIRS =
-endif
 endif
 
 if MAKE_DATA

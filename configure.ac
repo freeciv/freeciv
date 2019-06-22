@@ -1216,6 +1216,11 @@ if test "x$ruledit" = "xtest" ; then
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
+dnl TODO: Make ruleup optional
+fcruleup=yes
+AM_CONDITIONAL([SRV_LIB],
+  [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
+
 AC_SUBST([gui_gtk2_cflags])
 AC_SUBST([gui_gtk2_libs])
 AC_SUBST([gui_gtk2_ldflags])
