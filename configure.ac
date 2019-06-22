@@ -1730,6 +1730,7 @@ AC_CONFIG_FILES([Makefile
           doc/man/freeciv-manual.6
 	  doc/man/freeciv-modpack.6
 	  doc/man/freeciv-ruledit.6
+          doc/man/freeciv-ruleup.6
 	  doc/ca/Makefile
 	  doc/de/Makefile
 	  doc/fr/Makefile
