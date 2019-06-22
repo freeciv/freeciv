@@ -25,6 +25,11 @@ apt-get -y update
 echo "apt-get install dependencies"
 apt-get -y install ${dependencies}
 
+# Setup python3 to use
+update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+update-alternatives --set python /usr/bin/python3
+
 # Configure and build Freeciv
 mkdir build
 cd build
