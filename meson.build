@@ -452,6 +452,11 @@ executable('freeciv-server',
   )
 
 
+install_data(
+  'data/ruledit/comments.txt',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
+  )
+
 nations = [
   'abkhaz',
   'aborigines',
