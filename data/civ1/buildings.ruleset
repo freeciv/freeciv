@@ -233,9 +233,9 @@ sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
 City Walls make it easier to defend a city.  They triple the defense\
- strength of units within the city against land, sea, and helicopter\
- units.  They are ineffective against non-helicopter airborne units as well\
- as Artillery.  City Walls also prevent the loss of population which\
+ strength of units within the city. They are ineffective against\
+ Artillery and Bombers.\
+ City Walls also prevent the loss of population which\
  occurs when a defending unit is destroyed by a land unit.\
 "), _("\
 For cities near rivers, City Walls also eliminate the risk of population\
