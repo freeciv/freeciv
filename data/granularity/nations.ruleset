@@ -1,8 +1,14 @@
-; This is minimal nations ruleset. Replace <modpack> with your module name in
-; description.
+
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
 
 [datafile]
-description="<modpack> nations data for Freeciv"
+description="Granularity nations data for Freeciv"
 options="+Freeciv-ruleset-Devel-2017.Jan.02"
 format_version=20
 
