@@ -625,20 +625,10 @@ reqs	=
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range", "present"
-      "Building", "City Walls", "City", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "Building", "Great Wall", "Player", FALSE
-      "UnitType", "Artillery", "Local", FALSE
-    }
-
-[effect_city_walls_1]
-type    = "Defend_Bonus"
-value	= 200
-reqs	=
-    { "type", "name", "range", "present"
-      "Building", "City Walls", "City", TRUE
-      "UnitClass", "Sea", "Local", TRUE
+    { "type",     "name",       "range",  "present"
+      "Building", "City Walls", "City",   TRUE
+      "UnitType", "Artillery",  "Local",  FALSE
+      "UnitType", "Bomber",     "Local",  FALSE
       "Building", "Great Wall", "Player", FALSE
     }
 
@@ -1022,21 +1012,11 @@ reqs	=
 type    = "Defend_Bonus"
 value	= 200
 reqs	=
-    { "type", "name", "range", "present"
+    { "type",     "name",       "range", "present"
       "Building", "Great Wall", "Player", TRUE
-      "UnitClass", "Land", "Local", TRUE
-      "CityTile", "Center", "Local", TRUE
-      "UnitType", "Artillery", "Local", FALSE
-    }
-
-[effect_great_wall_1]
-type    = "Defend_Bonus"
-value	= 200
-reqs	=
-    { "type", "name", "range"
-      "Building", "Great Wall", "Player"
-      "UnitClass", "Sea", "Local"
-      "CityTile", "Center", "Local"
+      "CityTile", "Center",     "Local",  TRUE
+      "UnitType", "Artillery",  "Local",  FALSE
+      "UnitType", "Bomber",     "Local",  FALSE
     }
 
 [effect_great_wall_visible]
