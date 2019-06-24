@@ -141,6 +141,7 @@ files =
   "hex2t/unitcost.spec",
   "hex2t/overlays.spec",
   "trident/units.spec",
+  "trident/extra_units.spec",
   "hex2t/select.spec",
   "hex2t/items.spec",
   "hex2t/grid.spec",
