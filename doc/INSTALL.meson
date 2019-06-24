@@ -8,6 +8,18 @@ supported official way to compile and install Freeciv is still using
 autotools as described in INSTALL.
 
 
+Prerequisites:
+==============
+
+Freeciv has mostly the same prerequisites no matter if it's built
+with autotools or meson and ninja. The only difference is the requirement
+of the build system itself. Meson build does not need autotools, nor does
+autotools build need meson. See main (autotools) INSTALL file for the
+common prerequisites.
+
+For the meson based build minimum version of meson is 0.44.0.
+
+
 Overview:
 =========
 
