@@ -146,6 +146,7 @@ files =
   "misc/governments.spec",
   "misc/specialists.spec",
   "trident/units.spec",
+  "trident/extra_units.spec",
   "isotrident/unitextras.spec",
   "isotrident/select.spec",
   "misc/flags.spec",
