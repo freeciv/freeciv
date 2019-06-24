@@ -586,6 +586,8 @@ install_data('data/hexemplio/activities.png',
 
 install_data('data/amplio2/units.png',
              'data/amplio2/units.spec',
+             'data/amplio2/extra_units.png',
+             'data/amplio2/extra_units.spec',
              'data/amplio2/nuke.png',
              'data/amplio2/nuke.spec',
              'data/amplio2/explosions.png',
