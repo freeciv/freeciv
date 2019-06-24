@@ -25,6 +25,8 @@
 #define DEFAULT_SAVE_PATH ".:@FREECIV_STORAGE_DIR@/saves"
 #define DEFAULT_SCENARIO_PATH ".:data/scenarios:@FREECIV_STORAGE_DIR@/" DATASUBDIR "/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"
 
+#define MPICON_PATH "@DATADIR@/freeciv/misc/mpicon.png"
+
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
 
