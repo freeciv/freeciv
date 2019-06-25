@@ -1019,6 +1019,14 @@ reqs	=
       "UnitType", "Bomber",     "Local",  FALSE
     }
 
+[effect_great_wall_protect_pop]
+type    = "Unit_No_Lose_Pop"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Great Wall", "City"
+    }
+
 [effect_great_wall_visible]
 type    = "Visible_Walls"
 value	= 1
