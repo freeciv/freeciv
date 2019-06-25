@@ -312,12 +312,12 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
         if (this_is_known) {
           /* FIXME: This makes the assumption that fogged tiles belonged
            *        to their current continent when they were last seen. */
-          if (ptile->continent > 0 && !seen[ptile->continent]) {
+          if (ptile->continent > 0 && !seen[ptile->continent - 1]) {
             if (++count >= ach->value) {
               free(seen);
               return TRUE;
             }
-            seen[ptile->continent] = TRUE;
+            seen[ptile->continent - 1] = TRUE;
           }
         }
       } whole_map_iterate_end;
