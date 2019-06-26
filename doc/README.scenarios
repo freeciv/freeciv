@@ -13,3 +13,55 @@ is that latter have is_scenario set to TRUE in [scenario] section.
 Freeciv saves current game situation as a scenario file, with the full
 [scenario] section, when one saves by the /scensave server command or
 uses "Save Scenario" from the client Edit -menu.
+
+
+[scenario] section:
+-------------------
+Savegame [scenario] section can have following fields
+
+- is_scenario
+  Always TRUE in a scenario savegame
+
+- name
+  Name of the scenario
+
+- authors
+  Text listing authors of the scenario
+
+- description
+  Description of the scenario
+
+- save_random
+  Whether random number state is saved to the scenario
+
+- players
+  Whether player information is saved to the scenario, or is it map-only
+  scenario
+
+- startpos_nations
+  Whether nations should use start positions defined in the scenario map
+
+- prevent new cities
+  Is founding new cities prevented in the scenario, locking it to cities
+  present on the map
+
+- lake_flooding
+  Should ocean tiles connecting to a lake tile flood the lake tile
+
+- handmade
+  Set to TRUE when savegame file is manually edited. This has no gameplay
+  effect, but it indicates that scenario might have some properties that
+  are not yet supported in the editor. When editing such a scenario in the
+  editor, warning is shown that some properties might get lost
+
+- allow_ai_type_fallback
+  Is it ok to fallback to another player AI type if one defined in the
+  scenario file is not available when scenario is loaded
+
+- ruleset_locked
+  Is the scenario locked to one specific ruleset. Default is TRUE
+
+- ruleset_caps
+  When scenario is not ruleset_locked, this capability string defines
+  required capabilities of compatible rulesets
+
