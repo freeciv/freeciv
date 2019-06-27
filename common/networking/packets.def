@@ -505,6 +505,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 globalwarming;
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
+  UINT32 infrapoints;
   REVOLENTYPE revolentype;
   GOVERNMENT default_government_id;
   GOVERNMENT government_during_revolution_id;
@@ -906,6 +907,11 @@ end
 
 PACKET_PLAYER_CHANGE_GOVERNMENT = 54; cs, dsend
   GOVERNMENT government;
+end
+
+PACKET_PLAYER_PLACE_INFRA = 61; cs, dsend
+  TILE tile;
+  EXTRA extra;
 end
 
 PACKET_PLAYER_ATTRIBUTE_BLOCK = 57; cs

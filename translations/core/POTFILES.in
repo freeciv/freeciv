@@ -76,6 +76,7 @@ client/gui-gtk-3.22/gui_main.c
 client/gui-gtk-3.22/gui_stuff.c
 client/gui-gtk-3.22/happiness.c
 client/gui-gtk-3.22/helpdlg.c
+client/gui-gtk-3.22/infradlg.c
 client/gui-gtk-3.22/inputdlg.c
 client/gui-gtk-3.22/inteldlg.c
 client/gui-gtk-3.22/luaconsole.c
@@ -379,6 +380,7 @@ server/generator/mapgen.c
 server/generator/mapgen_topology.c
 server/generator/startpos.c
 server/handchat.c
+server/infrapts.c
 server/maphand.c
 server/meta.c
 server/plrhand.c

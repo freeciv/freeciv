@@ -343,6 +343,10 @@ extern struct world wld;
 #define GAME_MIN_GOLD            0
 #define GAME_MAX_GOLD            50000
 
+#define GAME_DEFAULT_INFRA       0
+#define GAME_MIN_INFRA           0
+#define GAME_MAX_INFRA           50000
+
 #define GAME_DEFAULT_START_UNITS  "ccwwx"
 #define GAME_DEFAULT_START_CITY  FALSE
 

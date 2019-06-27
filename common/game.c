@@ -283,6 +283,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.globalwarming    = 0;
   game.info.global_warming   = GAME_DEFAULT_GLOBAL_WARMING;
   game.info.gold             = GAME_DEFAULT_GOLD;
+  game.info.infrapoints      = GAME_DEFAULT_INFRA;
   game.info.revolentype      = GAME_DEFAULT_REVOLENTYPE;
   game.info.default_government_id = G_LAST;
   game.info.government_during_revolution_id = G_LAST;
