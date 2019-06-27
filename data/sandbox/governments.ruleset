@@ -12,7 +12,7 @@
 
 [datafile]
 description="Sandbox governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2015.January.14"
+options="+Freeciv-3.0-ruleset"
 format_version=10
 
 [governments]

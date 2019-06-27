@@ -1,6 +1,6 @@
 [spec]
 
-options = "+Freeciv-spec-Devel-2019-Mar-09"
+options = "+Freeciv-3.0-spec"
 
 artists = "
 	 Peter Arbor <peter.arbor@gmail.com> (original terrain)

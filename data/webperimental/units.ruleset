@@ -16,7 +16,7 @@
 
 [datafile]
 description="Experimental web-client unit_type data for Freeciv"
-options="+Freeciv-ruleset-Devel-2015.January.14 web-compatible"
+options="+Freeciv-3.0-ruleset web-compatible"
 format_version=10
 
 [control]
