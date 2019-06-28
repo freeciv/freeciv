@@ -10,7 +10,11 @@ MOCCMD=@MOCCMD@
 
 include $(top_srcdir)/bootstrap/Makerules.mk
 
-bin_PROGRAMS = freeciv-ruleup
+bin_PROGRAMS =
+
+if FCRULEUP
+bin_PROGRAMS += freeciv-ruleup
+endif
 
 if FCMANUAL
 bin_PROGRAMS += freeciv-manual
