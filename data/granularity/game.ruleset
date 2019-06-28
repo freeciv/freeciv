@@ -281,7 +281,8 @@ bombard_max_range = 1
 ; the following character as a mnemonic in its graphical toolkit.
 ; The second %s marks where extra details should be inserted.
 
-; ui_name_xxx = _("%s%s")
+; /* TRANS: _Build City (100% chance of success). */
+ui_name_found_city = _("%sBuild City%s")
 
 ; /* <-- avoid gettext warnings
 ;
@@ -308,6 +309,15 @@ bombard_max_range = 1
 ;
 ; Can make the help text less redundant when you document it your self.
 ;quiet_actions = "Targeted Sabotage City", "Targeted Steal Tech"
+
+[actionenabler_found_city]
+action = "Found City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Cities", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
 
 [borders]
 ; Base border radius from city.

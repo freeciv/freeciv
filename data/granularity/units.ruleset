@@ -25,9 +25,10 @@ format_version=20
 ;                 as part of some sentences, so try to make it descriptive
 ;                 and sensible.
 ; helptxt       = displayed in the help for unit types with this flag (optional)
-; flags =
-;   { "name", "helptxt"
-;   }
+ flags =
+   { "name", "helptxt"
+     _("Cities")
+   }
 
 ; Names for custom unit class flags. There can be up to 8 of these.
 ; name          = rule name; In some circumstances user may see this
@@ -405,9 +406,40 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Settlers"
-roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
+roles         = "ExplorerStartUnit", "Firstbuild"
 helptext      = _("\
   This is the only land unit type you can build.\
+")
+
+[unit_settlers]
+name          = _("Settlers")
+class         = "Generic"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.settlers"
+graphic_alt   = "-"
+sound_move    = "m_settlers"
+sound_move_alt = "m_generic"
+sound_fight   = "f_settlers"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Cities"
+roles         = "CitiesStartUnit"
+helptext      = _("\
+  Settlers can found new cities.\
 ")
 
 [unit_ship]
