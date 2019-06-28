@@ -1006,7 +1006,7 @@ FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
 
 AC_ARG_ENABLE([freeciv-manual],
-  AS_HELP_STRING([--enable-freeciv-manual], [build freeciv-manual]),
+  AS_HELP_STRING([--enable-freeciv-manual], [build freeciv-manual [yes]]),
 [case "${enableval}" in
   yes) fcmanual=yes ;;
   no)  fcmanual=no ;;
@@ -1014,6 +1014,16 @@ AC_ARG_ENABLE([freeciv-manual],
 esac], [fcmanual=yes])
 
 AM_CONDITIONAL([FCMANUAL], [test "x$fcmanual" != "xno"])
+
+AC_ARG_ENABLE([freeciv-ruleup],
+  AS_HELP_STRING([--enable-freeciv-ruleup], [build freeciv-ruleup [yes]]),
+[case "${enableval}" in
+  yes) fcruleup=yes ;;
+  no)  fcruleup=no ;;
+  *) AC_MSG_ERROR([bad value ${enableval} for --enable-freeciv-ruleup]) ;;
+esac], [fcruleup=yes])
+
+AM_CONDITIONAL([FCRULEUP], [test "x$fcruleup" != "xno"])
 
 dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
@@ -1203,8 +1213,6 @@ if test "x$ruledit" = "xtest" ; then
 fi
 AM_CONDITIONAL([RULEDIT], [test "x$ruledit" = "xyes"])
 
-dnl TODO: Make ruleup optional
-fcruleup=yes
 AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
 
@@ -1813,6 +1821,7 @@ AC_MSG_NOTICE([
   == Tools ==
   Modpack installers:   $fcmp_list
   Ruleset editor:        $ruledit
+  Ruleset updater:       $fcruleup
   Manual generator:      $fcmanual
 
   == Gotchas ==
