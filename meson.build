@@ -23,6 +23,9 @@ if get_option('debug')
   pub_conf_data.set('FREECIV_DEBUG', 1)
 endif
 
+priv_conf_data.set('AUDIO_SDL', 1)
+priv_conf_data.set('AUDIO_SDL2', 1)
+
 c_compiler = meson.get_compiler('c')
 
 pub_headers = [
@@ -1075,6 +1078,7 @@ client_common = static_library('fc_client_common',
   include_directories: client_inc,
   link_with: [common_lib],
   dependencies: [c_compiler.find_library('m'),
+                 c_compiler.find_library('libSDL2'),
                  c_compiler.find_library('libSDL2_mixer')]
   )
 

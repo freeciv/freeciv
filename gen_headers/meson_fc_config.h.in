@@ -30,6 +30,12 @@
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
+/* enable audio */
+#mesondefine AUDIO_SDL
+
+/* audio via SDL2_mixer */
+#mesondefine AUDIO_SDL2
+
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
 
