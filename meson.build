@@ -1084,6 +1084,7 @@ client_common = static_library('fc_client_common',
 
 install_data('data/helpdata.txt',
              'data/hexemplio.tilespec',
+             'data/stdmusic.musicspec',
              install_dir : join_paths(get_option('datadir'), 'freeciv'))
 
 install_data('data/misc/colors.tilespec',
@@ -1173,6 +1174,9 @@ install_data('data/amplio2/units.png',
              'data/amplio2/explosions.png',
              'data/amplio2/explosions.spec',
              install_dir : join_paths(get_option('datadir'), 'freeciv/amplio2'))
+
+install_data('data/stdmusic/CullamBruce-Lockhart--Dawning_Fanfare.ogg',
+             install_dir : join_paths(get_option('datadir'), 'freeciv/stdmusic'))
 
 endif
 
