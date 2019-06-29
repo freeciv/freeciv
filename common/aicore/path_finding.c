@@ -2717,10 +2717,18 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
             cost = params->get_MC(tile, scope, tile1, node1->move_scope,
                                   params);
           }
+
+          if (cost == FC_INFINITY) {
+            /* tile_move_cost_ptrs() uses FC_INFINITY to flag that all
+             * movement is spent, e.g., when disembarking from transport. */
+            cost = params->move_rate;
+          }
+
 #ifdef PF_DEBUG
           fc_assert(1 << (8 * sizeof(node1->cost_to_here[dir])) > cost + 2);
           fc_assert(0 < cost + 2);
-#endif
+#endif /* PF_DEBUG */
+
           node1->cost_to_here[dir] = cost + 2;
           if (cost == PF_IMPOSSIBLE_MC) {
             continue;
