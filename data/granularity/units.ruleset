@@ -380,8 +380,40 @@ flags         = ""
 ;
 ; */ <-- avoid gettext warnings
 
-[unit_generic]
-name          = _("Generic")
+[unit_nomad]
+name          = _("Nomad")
+class         = "Generic"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.nomad"
+graphic_alt   = "u.worker"
+sound_move    = "m_nomad"
+sound_move_alt = "m_generic"
+sound_fight   = "f_nomad"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 2
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "Cities"
+roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
+helptext      = _("\
+  Nomads can both fight and found new cities, but unlike specialized\
+  units they cost two population points to build.\
+")
+
+[unit_warriors]
+name          = _("Warriors")
 class         = "Generic"
 tech_req      = "None"
 obsolete_by   = "None"
@@ -405,10 +437,10 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "Settlers"
-roles         = "ExplorerStartUnit", "Firstbuild"
+;flags         =
+roles         = "Firstbuild"
 helptext      = _("\
-  This is the only land unit type you can build.\
+  Warriors are the first unit specialized in war.\
 ")
 
 [unit_settlers]
@@ -423,7 +455,7 @@ sound_move_alt = "m_generic"
 sound_fight   = "f_settlers"
 sound_fight_alt = "f_generic"
 build_cost    = 10
-pop_cost      = 0
+pop_cost      = 1
 attack        = 0
 defense       = 0
 hitpoints     = 10
@@ -437,9 +469,8 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Cities"
-roles         = "CitiesStartUnit"
 helptext      = _("\
-  Settlers can found new cities.\
+  Settlers are specialized in founding new cities.\
 ")
 
 [unit_ship]
