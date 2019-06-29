@@ -3395,12 +3395,19 @@ bool entry_str_get(const struct entry *pentry, const char **value)
 **************************************************************************/
 bool entry_str_set(struct entry *pentry, const char *value)
 {
+  char *old_val;
+
   SECFILE_RETURN_VAL_IF_FAIL(NULL, NULL, NULL != pentry, FALSE);
   SECFILE_RETURN_VAL_IF_FAIL(pentry->psection->secfile, pentry->psection,
                              ENTRY_STR == pentry->type, FALSE);
 
-  free(pentry->string.value);
+  /* We free() old value only after we've placed the new one, to
+   * support secfile_replace_str_vec() calls that want to keep some of
+   * the entries from the old vector in the new one. We don't want
+   * to lose the entry in between. */
+  old_val = pentry->string.value;
   pentry->string.value = fc_strdup(NULL != value ? value : "");
+  free(old_val);
   return TRUE;
 }
 
