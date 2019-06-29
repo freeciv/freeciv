@@ -1960,7 +1960,7 @@ struct pf_fuel_node {
   unsigned char cost_to_here[DIR8_MAGIC_MAX]; /* Step cost[dir to here] */
 
   /* Segment leading across the danger area back to the nearest safe node:
-   * need to remeber costs and stuff. */
+   * need to remember costs and stuff. */
   struct pf_fuel_pos *pos;
   /* Optimal segment to follow to get there (when node is processed). */
   struct pf_fuel_pos *segment;
