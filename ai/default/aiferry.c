@@ -446,7 +446,7 @@ bool is_boat_free(struct ai_type *ait, struct unit *boat,
    *   are eligible.
    * - Only boats with enough remaining capacity are eligible.
    * - Only units that can travel at sea are eligible.
-   * - Units that require fuel are lose hitpoints are not eligible.
+   * - Units that require fuel or lose hitpoints are not eligible.
    */
   struct unit_class *ferry_class = unit_class(boat);
   struct unit_ai *boat_data = def_ai_unit_data(boat, ait);
