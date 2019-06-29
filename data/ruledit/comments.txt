@@ -845,6 +845,7 @@ bases = "\
 ;                           (must have \"Base\" in its causes)\n\
 ; gui_type                = How gui should handle this base.\n\
 ;                           Value can be \"Fortress\", \"Airbase\", or \"Other\"\n\
+;                           See also [extraui] section\n\
 ; border_sq               = Base will claim land ownership up to this radius,\n\
 ;                           -1 to disable. If enabled, base cannot exist in\n\
 ;                           city tile.\n\
