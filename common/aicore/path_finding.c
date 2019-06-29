@@ -2736,7 +2736,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
           if (cost == PF_IMPOSSIBLE_MC) {
             continue;
           }
-        } else if (cost == PF_IMPOSSIBLE_MC - 2) {
+        } else if (cost == PF_IMPOSSIBLE_MC + 2) {
           continue;
         } else {
           cost -= 2;
