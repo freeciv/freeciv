@@ -18,6 +18,8 @@ priv_conf_data.set('DATADIR',
                    join_paths(get_option('prefix'), get_option('datadir')))
 priv_conf_data.set('DATASUBDIR', 'dev')
 
+priv_conf_data.set('IS_DEVEL_VERSION', 1)
+
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)

@@ -27,6 +27,9 @@
 
 #define MPICON_PATH "@DATADIR@/freeciv/misc/mpicon.png"
 
+/* Release cycle information */
+#mesondefine IS_DEVEL_VERSION
+
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
