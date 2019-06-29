@@ -53,7 +53,6 @@
 
 /* ai/default */
 #include "aiair.h"
-#include "aicity.h"
 #include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
@@ -65,6 +64,7 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daicity.h"
 #include "daieffects.h"
 
 #include "daimilitary.h"

@@ -64,7 +64,7 @@
 #include "daimilitary.h"
 #include "daieffects.h"
 
-#include "aicity.h"
+#include "daicity.h"
 
 #define LOG_BUY LOG_DEBUG
 #define LOG_EMERGENCY LOG_VERBOSE

@@ -23,9 +23,9 @@
 /* server/advisors */
 #include "advgoto.h"
 
-/* ai */
-#include "aicity.h"
+/* ai/default */
 #include "aiunit.h"
+#include "daicity.h"
 
 struct pf_path;
 struct pf_parameter;

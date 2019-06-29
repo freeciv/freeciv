@@ -54,13 +54,13 @@
 #include "handicaps.h"
 
 /* ai/default */
-#include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daicity.h"
 #include "daidiplomacy.h"
 #include "daimilitary.h"
 

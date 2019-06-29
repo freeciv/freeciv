@@ -18,8 +18,7 @@
 /* common */
 #include "ai.h"
 
-/* default ai */
-#include "aicity.h"
+/* ai/default */
 #include "aidata.h"
 #include "aiferry.h"
 #include "aihand.h"
@@ -27,6 +26,7 @@
 #include "aiplayer.h"
 #include "aisettler.h"
 #include "aitools.h"
+#include "daicity.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"
