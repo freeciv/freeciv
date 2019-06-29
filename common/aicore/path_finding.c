@@ -1963,7 +1963,7 @@ struct pf_fuel_node {
                                  * FIXME: this is right only for units with
                                  * constant move costs! */
   unsigned short extra_tile;    /* EC */
-  unsigned char cost_to_here[DIR8_MAGIC_MAX]; /* Step cost[dir to here] */
+  unsigned short cost_to_here[DIR8_MAGIC_MAX]; /* Step cost[dir to here] */
 
   /* Segment leading across the danger area back to the nearest safe node:
    * need to remember costs and stuff. */
