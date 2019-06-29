@@ -66,5 +66,19 @@ Savegame [scenario] section can have following fields
   required capabilities of compatible rulesets
 
 - datafile
-  Luadata to load. Ruleset's generic luadata is used when this field
-  is missing.
+  Luadata to load. See chapter 'Luadata' for details
+
+
+Luadata:
+--------
+Some rulesets have a lua script that can parse special luadata file
+to adjust their behavior. Such luadata file can be provided by the
+ruleset itself, or by the scenario using the ruleset. This is controlled
+by 'datafile' field in the scenario savegames [scenario] section.
+- If the field is omitted, ruleset's own luadata is used, if present
+- If field has value 'None' (case insensitive), luadata is not used
+  at all, as if it was not present even in the ruleset
+- Any other value of datafile is considered prefix part of a filename
+  of form <prefix>.luadata to use as the luadata file. The file must
+  be found from the freeciv's savegame path, usually from the same
+  directory where the scenario savegame itself is.
