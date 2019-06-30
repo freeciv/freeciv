@@ -1126,7 +1126,7 @@ buildable      = FALSE
 native_to      = "Land"
 flags          = "NaturalDefense"
 helptext       = _("\
-Any land terrain type may have a River on it.\
+Grassland tile may have a River on it.\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
