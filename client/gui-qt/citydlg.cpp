@@ -1347,7 +1347,7 @@ void city_map::context_menu(QPoint point)
   con_menu.addAction(wid_act);
 
   if (pterr->mining_result != pterr && pterr->mining_result != NULL
-      && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr)) {
+      && univs_have_action_enabler(ACTION_PLANT, NULL, &for_terr)) {
     con_menu.addAction(&con_mine_tf);
   } else if (pterr->mining_result == pterr
              && univs_have_action_enabler(ACTION_MINE, NULL, &for_terr)) {

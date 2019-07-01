@@ -364,15 +364,15 @@ static void irrig_tf_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected "Mine TF" from the choice dialog
+  User selected "Plant" from the choice dialog
 **************************************************************************/
-static void mine_tf_callback(GtkWidget *w, gpointer data)
+static void plant_callback(GtkWidget *w, gpointer data)
 {
   struct action_data *args = (struct action_data *)data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
-    request_do_action(ACTION_MINE_TF, args->actor_unit_id,
+    request_do_action(ACTION_PLANT, args->actor_unit_id,
                       args->target_tile_id, 0, "");
   }
 
@@ -2004,7 +2004,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_SUICIDE_ATTACK] = (GCallback)suicide_attack_callback,
   [ACTION_TRANSFORM_TERRAIN] = (GCallback)transform_callback,
   [ACTION_IRRIGATE_TF] = (GCallback)irrig_tf_callback,
-  [ACTION_MINE_TF] = (GCallback)mine_tf_callback,
+  [ACTION_PLANT] = (GCallback)plant_callback,
   [ACTION_PILLAGE] = (GCallback)pillage_callback,
   [ACTION_ROAD] = (GCallback)road_callback,
   [ACTION_BASE] = (GCallback)base_callback,

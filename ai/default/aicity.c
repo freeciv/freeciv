@@ -1253,7 +1253,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
-  case ACTION_MINE_TF:
+  case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:

@@ -624,8 +624,8 @@ static void hard_code_actions(void)
       action_new(ACTION_IRRIGATE_TF, ATK_TILE,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
-  actions[ACTION_MINE_TF] =
-      action_new(ACTION_MINE_TF, ATK_TILE,
+  actions[ACTION_PLANT] =
+      action_new(ACTION_PLANT, ATK_TILE,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_PILLAGE] =
@@ -1265,7 +1265,7 @@ enum unit_activity action_get_activity(const struct action *paction)
     return ACTIVITY_TRANSFORM;
   } else if (action_has_result(paction, ACTION_CONVERT)) {
     return ACTIVITY_CONVERT;
-  } else if (action_has_result(paction, ACTION_MINE_TF)
+  } else if (action_has_result(paction, ACTION_PLANT)
              || action_has_result(paction, ACTION_MINE)) {
     return ACTIVITY_MINE;
   } else if (action_has_result(paction, ACTION_IRRIGATE_TF)
@@ -1826,7 +1826,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
 
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
-  case ACTION_MINE_TF:
+  case ACTION_PLANT:
   case ACTION_ROAD:
   case ACTION_BASE:
   case ACTION_MINE:
@@ -2039,7 +2039,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
-  case ACTION_MINE_TF:
+  case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
@@ -2564,7 +2564,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_MINE_TF:
+  case ACTION_PLANT:
     pterrain = tile_terrain(target_tile);
     if (pterrain->mining_result == pterrain
         || pterrain->mining_result == T_NONE) {
@@ -3721,7 +3721,7 @@ action_prob(const action_id wanted_action,
     break;
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_IRRIGATE_TF:
-  case ACTION_MINE_TF:
+  case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
@@ -4962,8 +4962,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transform_terrain";
   case ACTION_IRRIGATE_TF:
     return "ui_name_irrigate_tf";
-  case ACTION_MINE_TF:
-    return "ui_name_mine_tf";
+  case ACTION_PLANT:
+    return "ui_name_plant";
   case ACTION_PILLAGE:
     return "ui_name_pillage";
   case ACTION_FORTIFY:
@@ -5134,9 +5134,9 @@ const char *action_ui_name_default(int act)
   case ACTION_IRRIGATE_TF:
     /* TRANS: Transform by _Irrigate (3% chance of success). */
     return N_("Transform by %sIrrigate%s");
-  case ACTION_MINE_TF:
-    /* TRANS: Transform by _Mine (3% chance of success). */
-    return N_("Transform by %sMine%s");
+  case ACTION_PLANT:
+    /* TRANS: Transform by _Planting (3% chance of success). */
+    return N_("Transform by %sPlanting%s");
   case ACTION_PILLAGE:
     /* TRANS: Pilla_ge (100% chance of success). */
     return N_("Pilla%sge%s");

@@ -287,7 +287,7 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Mining_TF_Possible")) {
-      effect_to_enabler(ACTION_MINE_TF, file, sec_name, compat, type);
+      effect_to_enabler(ACTION_PLANT, file, sec_name, compat, type);
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Mining_Possible")) {

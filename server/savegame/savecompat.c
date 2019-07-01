@@ -1736,6 +1736,40 @@ static void compat_load_dev(struct loaddata *loading)
       secfile_insert_int(loading->file, history, "player%d.history", plrno);
     }
   } player_slots_iterate_end;
+
+  {
+    int action_count;
+
+    action_count = secfile_lookup_int_default(loading->file, 0,
+                                              "savefile.action_size");
+    if (action_count > 0) {
+      const char **modname;
+      const char **modname_new;
+      const char *plant_name = "Plant";
+      int j;
+
+      modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                       "savefile.action_vector");
+
+      modname_new = fc_calloc(action_count, sizeof(*modname_new));
+
+      for (j = 0; j < action_count; j++) {
+        const char *aname = modname[j];
+
+        if (!fc_strcasecmp("Mine TF", aname)) {
+          modname_new[j] = plant_name;
+        } else {
+          modname_new[j] = aname;
+        }
+      }
+
+      secfile_replace_str_vec(loading->file, modname_new, NUM_ACTIONS,
+                              "savefile.action_vector");
+
+      free(modname_new);
+    }
+  }
+
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */

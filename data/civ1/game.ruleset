@@ -322,8 +322,8 @@ ui_name_transform_terrain = _("%sTransform Terrain%s")
 ; /* TRANS: Transform by _Irrigate (3% chance of success). */
 ui_name_irrigate_tf = _("Transform by %sIrrigate%s")
 
-; /* TRANS: Transform by _Mine (3% chance of success). */
-ui_name_mine_tf = _("Transform by %sMine%s")
+; /* TRANS: Transform by _Planting (3% chance of success). */
+ui_name_plant = _("Transform by %sPlanting%s")
 
 ; /* TRANS: Pilla_ge (100% chance of success). */
 ui_name_pillage = _("Pilla%sge%s")
@@ -609,8 +609,8 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
-[actionenabler_mine_tf]
-action        = "Mine TF"
+[actionenabler_plant]
+action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE

@@ -1334,7 +1334,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->mining_result != pterrain
         && pterrain->mining_result != T_NONE
         && pterrain->mining_time != 0
-        && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr)) {
+        && univs_have_action_enabler(ACTION_PLANT, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 
