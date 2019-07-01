@@ -2788,7 +2788,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
         /* Step 1: We test if this route is the best to this tile, by a
          * direct way, not taking in account waiting. */
 
-        if (NS_INIT == node1->status || cost_of_path < old_cost_of_path) {
+        if (NS_INIT == node1->status
+            || (node1->status == NS_NEW && cost_of_path < old_cost_of_path)) {
           /* We are reaching this node for the first time, or we found a
            * better route to 'tile1', or we would have more moves lefts
            * at previous position. Let's register 'tindex1' to the
@@ -2898,6 +2899,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
     } else {
 #ifdef PF_DEBUG
       bool success = map_index_pq_remove(pffm->queue, &tindex);
+
       fc_assert(TRUE == success);
 #else
       map_index_pq_remove(pffm->queue, &tindex);
@@ -2907,9 +2909,10 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       tile = index_to_tile(tindex);
       pfm->tile = tile;
       node = pffm->lattice + tindex;
+
 #ifdef PF_DEBUG
       fc_assert(NS_PROCESSED != node->status);
-#endif
+#endif /* PF_DEBUG */
 
       if (NS_WAITING != node->status && !pf_fuel_node_dangerous(node)) {
         /* Node status step C. and D. */
