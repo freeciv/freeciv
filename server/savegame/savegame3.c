@@ -5704,7 +5704,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_CONQUER_CITY:
           case ACTION_HEAL_UNIT:
           case ACTION_TRANSFORM_TERRAIN:
-          case ACTION_IRRIGATE_TF:
+          case ACTION_CULTIVATE:
           case ACTION_PLANT:
           case ACTION_FORTIFY:
           case ACTION_CONVERT:

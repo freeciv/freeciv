@@ -114,7 +114,7 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void transform_terrain(QVariant data1, QVariant data2);
-static void irrigate_tf(QVariant data1, QVariant data2);
+static void cultivate(QVariant data1, QVariant data2);
 static void plant(QVariant data1, QVariant data2);
 static void pillage(QVariant data1, QVariant data2);
 static void road(QVariant data1, QVariant data2);
@@ -221,7 +221,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_ATTACK] = attack;
   action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
-  action_function[ACTION_IRRIGATE_TF] = irrigate_tf;
+  action_function[ACTION_CULTIVATE] = cultivate;
   action_function[ACTION_PLANT] = plant;
   action_function[ACTION_PILLAGE] = pillage;
   action_function[ACTION_ROAD] = road;
@@ -2361,22 +2361,22 @@ static void transform_terrain(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action "Irrigate TF" for choice dialog
+  Action "Cultivate" for choice dialog
 ***************************************************************************/
-static void irrigate_tf(QVariant data1, QVariant data2)
+static void cultivate(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
-    request_do_action(ACTION_IRRIGATE_TF,
+    request_do_action(ACTION_CULTIVATE,
                       actor_id, target_id, 0, "");
   }
 }
 
 /***********************************************************************//**
-  Action "PLANT" for choice dialog
+  Action "Plant" for choice dialog
 ***************************************************************************/
 static void plant(QVariant data1, QVariant data2)
 {

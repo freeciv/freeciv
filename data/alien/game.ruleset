@@ -676,8 +676,8 @@ actor_reqs    =
       "MinMoveFrags",  "1",            "Local", TRUE
     }
 
-[actionenabler_irrigate_tf]
-action        = "Irrigate TF"
+[actionenabler_cultivate]
+action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE

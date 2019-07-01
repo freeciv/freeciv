@@ -1259,7 +1259,7 @@ static void help_update_terrain(const struct help_item *pitem,
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_time != 0
-        && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) {
+        && univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->irrigation_time),
                   pterrain->irrigation_time);

@@ -95,7 +95,7 @@ void advisors_init(void)
 {
   int i = 0;
 
-  as_actions_transform[i++] = ACTION_IRRIGATE_TF;
+  as_actions_transform[i++] = ACTION_CULTIVATE;
   as_actions_transform[i++] = ACTION_PLANT;
   as_actions_transform[i++] = ACTION_TRANSFORM_TERRAIN;
   as_actions_transform[i++] = ACTION_NONE;
@@ -1268,7 +1268,7 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE) {
       return action_prob_possible(action_speculate_unit_on_tile(
-                                    ACTION_IRRIGATE_TF,
+                                    ACTION_CULTIVATE,
                                     punit, unit_home(punit), ptile,
                                     omniscient_cheat,
                                     ptile, target));

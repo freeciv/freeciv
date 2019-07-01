@@ -228,7 +228,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         irrigation_result = 
           (pterrain->irrigation_result == pterrain
            || pterrain->irrigation_result == T_NONE
-           || !univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) ? ""
+           || !univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr)) ? ""
            : terrain_name_translation(pterrain->irrigation_result);
         mining_result =
           (pterrain->mining_result == pterrain
@@ -2173,9 +2173,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         strvec_clear(extras_vec);
       }
     }
-    if (univs_have_action_enabler(ACTION_IRRIGATE_TF, &for_utype, NULL)) {
+    if (univs_have_action_enabler(ACTION_CULTIVATE, &for_utype, NULL)) {
       CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
-                            "irrigation.\n"));
+                            "cultivating.\n"));
     }
     if (univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, &for_utype, NULL)) {
       CATLSTR(buf, bufsz, _("* Can transform terrain to another type.\n"));

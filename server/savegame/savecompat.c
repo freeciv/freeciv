@@ -1746,6 +1746,7 @@ static void compat_load_dev(struct loaddata *loading)
       const char **modname;
       const char **modname_new;
       const char *plant_name = "Plant";
+      const char *cultivate_name = "Cultivate";
       int j;
 
       modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
@@ -1758,6 +1759,8 @@ static void compat_load_dev(struct loaddata *loading)
 
         if (!fc_strcasecmp("Mine TF", aname)) {
           modname_new[j] = plant_name;
+        } else if (!fc_strcasecmp("Irrigate TF", aname)) {
+          modname_new[j] = cultivate_name;
         } else {
           modname_new[j] = aname;
         }

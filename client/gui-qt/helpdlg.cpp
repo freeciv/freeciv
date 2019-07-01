@@ -1309,7 +1309,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_time != 0
-        && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr)) {
+        && univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 

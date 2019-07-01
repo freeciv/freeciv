@@ -904,7 +904,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       /* The call below doesn't support actor tile speculation. */
       fc_assert_msg(unit_tile(punit) == ptile,
                     "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
+      return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
                                             punit, ptile, NULL);
     } else if (pterrain->irrigation_result == pterrain) {
       /* The call below doesn't support actor tile speculation. */

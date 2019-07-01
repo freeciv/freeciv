@@ -1268,16 +1268,16 @@ static int transform_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
-  User clicked "Irrigate TF"
+  User clicked "Cultivate"
 **************************************************************************/
-static int irrig_tf_callback(struct widget *pWidget)
+static int cultivate_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
-    request_do_action(ACTION_IRRIGATE_TF,
+    request_do_action(ACTION_CULTIVATE,
                       actor_id, target_id, 0, "");
   }
 
@@ -1679,7 +1679,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_ATTACK] = attack_callback,
   [ACTION_SUICIDE_ATTACK] = suicide_attack_callback,
   [ACTION_TRANSFORM_TERRAIN] = transform_callback,
-  [ACTION_IRRIGATE_TF] = irrig_tf_callback,
+  [ACTION_CULTIVATE] = cultivate_callback,
   [ACTION_PLANT] = plant_callback,
   [ACTION_PILLAGE] = pillage_callback,
   [ACTION_ROAD] = road_callback,

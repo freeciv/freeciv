@@ -283,7 +283,7 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Irrig_TF_Possible")) {
-      effect_to_enabler(ACTION_IRRIGATE_TF, file, sec_name, compat, type);
+      effect_to_enabler(ACTION_CULTIVATE, file, sec_name, compat, type);
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Mining_TF_Possible")) {
