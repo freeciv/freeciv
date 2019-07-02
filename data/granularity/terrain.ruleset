@@ -209,8 +209,8 @@ identifier	     = "g"
 class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
-food                 = 1
-shield               = 1
+food                 = 100
+shield               = 100
 trade                = 0
 resources            = "Generic Resource"
 road_food_incr_pct   = 0
@@ -253,8 +253,8 @@ identifier	     = " "
 class                = "Oceanic"
 movement_cost        = 1
 defense_bonus        = 0
-food                 = 1
-shield               = 1
+food                 = 100
+shield               = 100
 trade                = 0
 resources            = "Generic Resource"
 road_food_incr_pct   = 0
@@ -312,7 +312,7 @@ This is only possible oceanic terrain.\
 extra       = "Generic Resource"
 food        = 0
 shield      = 0
-trade       = 1
+trade       = 100
 identifier  = "g"
 
 

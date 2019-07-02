@@ -71,10 +71,10 @@ global_init_buildings=""
 base_pollution   = -20
 
 ; Cost in luxuries of making one citizen happier
-happy_cost       = 2
+happy_cost       = 200
 
 ; Cost in food of upkeeping a single citizen
-food_cost        = 2
+food_cost        = 200
 
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
@@ -82,12 +82,12 @@ food_cost        = 2
 ;   if city_size > num_inis;
 ;     city_granary_size = (granary_food_ini[num_inis] +
 ;        granary_food_inc * (city_size - num_inis)) * foodbox / 100
-granary_food_ini	= 20
-granary_food_inc	= 10
+granary_food_ini	= 2000
+granary_food_inc	= 1000
 
 ; City center minimum outputs
-min_city_center_food	= 1
-min_city_center_shield	= 1
+min_city_center_food	= 100
+min_city_center_shield	= 100
 min_city_center_trade	= 0
 
 ; Square of initial city radius
@@ -97,10 +97,10 @@ init_city_radius_sq     = 5
 init_vis_radius_sq	= 5
 
 ; A base bribe cost, modified heavily by other factors
-base_bribe_cost  = 750
+base_bribe_cost  = 75000
 
 ; Barbarian leader ransom in gold
-ransom_gold      = 100
+ransom_gold      = 10000
 
 ; Number of veteran levels lost when upgrading a unit
 upgrade_veteran_loss     = 0
@@ -170,7 +170,7 @@ gold_upkeep_style = "City"
 
 ; How many points of output one basic unit consists of. Typically you
 ; want this to be some 10^n.
-output_granularity = 1
+output_granularity = 100
 
 [illness]
 ; Whether plagues (illness) are possible
@@ -197,7 +197,7 @@ illness_pollution_factor = 50
 ;   (improvements_cost) * improvement_factor) 
 ;  / (distance * 100)
 ; See city_incite_cost() for more details
-base_incite_cost = 1000
+base_incite_cost = 100000
 improvement_factor = 1
 unit_factor = 2
 total_factor = 100
@@ -362,7 +362,7 @@ tech_cost_style = "Classic"
 ; Base research cost. Used in tech cost styles where tech cost is generated.
 ; In other words: used everywhere unless the cost of *all* techs are
 ; specified and the tech cost style is "Experimental+" or "Classic+".
-base_tech_cost   = 20
+base_tech_cost   = 2000
 
 ; Technology leak from other civilizations
 ; "None"           - No reduction of the technology cost.

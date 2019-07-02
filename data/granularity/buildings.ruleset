@@ -73,7 +73,7 @@ graphic_alt	= "-"
 obsolete_by     =
     { "type", "name", "range"
     }
-build_cost	= 100
+build_cost	= 10000
 upkeep		= 0
 sabotage	= 100
 sound		= "b_barracks"
