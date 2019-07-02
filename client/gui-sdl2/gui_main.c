@@ -148,7 +148,7 @@ struct callback {
 #define SPECLIST_TYPE struct callback
 #include "speclist.h"
 
-struct callback_list *callbacks;
+struct callback_list *callbacks = NULL;
 
 /* =========================================================== */
 
@@ -1015,6 +1015,7 @@ void ui_exit()
   intel_dialog_done();
 
   callback_list_destroy(callbacks);
+  callbacks = NULL;
 
   unload_cursors();
 
@@ -1096,12 +1097,14 @@ void remove_net_input(void)
 ****************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
-  struct callback *cb = fc_malloc(sizeof(*cb));
+  if (callbacks != NULL) {
+    struct callback *cb = fc_malloc(sizeof(*cb));
 
-  cb->callback = callback;
-  cb->data = data;
+    cb->callback = callback;
+    cb->data = data;
 
-  callback_list_prepend(callbacks, cb);
+    callback_list_prepend(callbacks, cb);
+  }
 }
 
 /****************************************************************************
