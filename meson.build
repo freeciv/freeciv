@@ -12,6 +12,9 @@ pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('LOCALEDIR',
                    join_paths(get_option('prefix'),
                               get_option('datadir'), 'locale'))
+priv_conf_data.set('BINDIR',
+                   join_paths(get_option('prefix'), get_option('bindir')))
+
 priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 priv_conf_data.set('DATADIR',
@@ -85,6 +88,17 @@ endforeach
 foreach hdr : priv_headers
   if c_compiler.has_header(hdr)
     priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
+  endif
+endforeach
+
+priv_functions = [
+  'fork',
+  'vfork'
+  ]
+
+foreach func : priv_functions
+  if c_compiler.has_function(func)
+    priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
 
