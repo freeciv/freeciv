@@ -1852,7 +1852,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
   } else {
     for (i = 0; i < l; i++) {
       int cx = (xr - xl) * i / l;
-      int cy = yb - (yb - yt) * i / l;
+      int cy = yb - yt - (yb - yt) * i / l;
 
       *((Uint32 *)spr->psurface->pixels + spr->psurface->w * cy + cx)
         |= (pcolor->a << spr->psurface->format->Ashift);
