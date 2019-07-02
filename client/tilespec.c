@@ -4774,9 +4774,9 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       const int ox = t->type == TS_ISOMETRIC ? t->normal_tile_width / 3 : 0;
       const int oy = t->type == TS_ISOMETRIC ? -t->normal_tile_height / 3 : 0;
 
-      food = CLIP(0, food, NUM_TILES_DIGITS - 1);
-      shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
-      trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+      food = CLIP(0, food / game.info.granularity, NUM_TILES_DIGITS - 1);
+      shields = CLIP(0, shields / game.info.granularity, NUM_TILES_DIGITS - 1);
+      trade = CLIP(0, trade / game.info.granularity, NUM_TILES_DIGITS - 1);
 
       ADD_SPRITE(t->sprites.city.tile_foodnum[food], TRUE, ox, oy);
       ADD_SPRITE(t->sprites.city.tile_shieldnum[shields], TRUE, ox, oy);

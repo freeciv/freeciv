@@ -997,6 +997,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                        gold_upkeep_style_name(game.info.gold_upkeep_style),
                        "civstyle.gold_upkeep_style");
   }
+  save_default_int(sfile, game.info.granularity,
+                   1, "civstyle.output_granularity", NULL);
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);

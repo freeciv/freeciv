@@ -182,6 +182,10 @@ paradrop_to_transport    = TRUE
 ;            upkeep are disbanded.
 gold_upkeep_style = "Mixed"
 
+; How many points of output one basic unit consists of. Typically you
+; want this to be some 10^n.
+output_granularity = 1
+
 [illness]
 ; Whether plagues (illness) are possible
 illness_on = TRUE

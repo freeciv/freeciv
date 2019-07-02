@@ -6061,6 +6061,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       ok = FALSE;
     }
 
+    game.info.granularity = secfile_lookup_int_default(file, 1,
+                                                       "civstyle.output_granularity");
+
     /* section: illness */
     game.info.illness_on
       = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,

@@ -580,6 +580,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   SINT16 civil_war_bonus_celebrating;
   SINT16 civil_war_bonus_unhappy;
   BOOL paradrop_to_transport;
+  UINT16 granularity;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet
