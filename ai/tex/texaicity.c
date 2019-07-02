@@ -41,6 +41,7 @@
 
 /* ai/tex */
 #include "texaimsg.h"
+#include "texaiplayer.h"
 
 #include "texaicity.h"
 
@@ -437,7 +438,7 @@ static bool texai_city_worker_task_select(struct ai_type *ait,
 
   switch (limit) {
   case TWTL_CURRENT_UNITS:
-    units = pplayer->units;
+    units = texai_player_units(pplayer);
     state.wants = NULL;
     break;
   case TWTL_BUILDABLE_UNITS:

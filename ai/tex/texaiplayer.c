@@ -153,7 +153,7 @@ static void texai_map_free_recv(void)
 /**********************************************************************//**
   Callback that returns unit list from player tex ai data.
 **************************************************************************/
-static struct unit_list *texai_player_units(struct player *pplayer)
+struct unit_list *texai_player_units(struct player *pplayer)
 {
   struct texai_plr *plr_data = player_ai_data(pplayer, texai_get_self());
 
