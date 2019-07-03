@@ -66,7 +66,11 @@ value   = 1
 type    = "Tile_Workable"
 value   = 1
 
-; each city has at least one slot to build units
+; Each city has at least one slot to build units
 [effect_city_build_slots_basic]
 type    = "City_Build_Slots"
 value   = 1
+
+[effect_unhappysize]
+type    = "City_Unhappy_Size"
+value   = 4
