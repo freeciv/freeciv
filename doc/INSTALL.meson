@@ -73,6 +73,20 @@ Some of the configure options are implemented by meson itself for
 all meson-based projects. Some options are implemented in freeciv build
 system, and they are specific to freeciv.
 
+
+Notable generic configure options:
+----------------------------------
+
+prefix (string):
+  The directory where Freeciv will be installed. You can install multiple
+  versions of Freeciv in parallel by using different prefix for each.
+  It's also a good idea to use prefix to avoid messing your system directories
+
+debug (boolean):
+  Whether debug version of Freeciv should be built. While this is generic
+  option, some functionality in Freeciv depends on this setting.
+
+
 Freeciv specific configure options:
 -----------------------------------
 
