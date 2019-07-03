@@ -24,7 +24,7 @@ end
 
 signal.connect("city_destroyed", "city_destroyed_callback")
 
--- Unit enters Hermit`s Nest
+-- Unit enters Hermit`s Place
 function hermit_nest(unit, extra)
   if extra == "Hermit" then
     local chance = random(0, 5)
@@ -43,7 +43,7 @@ function hermit_nest(unit, extra)
                  _("The Hermit has left nothing useful."))
     end
 
-    return false
+    return true
   end
 end
 
