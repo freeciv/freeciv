@@ -902,7 +902,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Burrowing"
-flags         = "Capturer"
+flags         = "Capturer", "NeverProtects"
 helptext      = _("\
 Burrow through earth. Only some special units can attack against Earth Sub. \
 These can pass ocean tiles only through Burrow Tubes.")
@@ -933,7 +933,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 targets       = "Antigravity", "Burrowing"
-flags         = "Settlers", "Infra", "Capturer"
+flags         = "Settlers", "Infra", "Capturer", "NeverProtects"
 roles         = "Hunter"
 helptext      = _("\
 Burrowing unit that also has capability to attack Antigravity units with \
