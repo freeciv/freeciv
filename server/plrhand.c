@@ -1260,8 +1260,10 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_FULL) {
     packet->history         = plr->history;
+    packet->infrapoints     = plr->economic.infra_points;
   } else {
     packet->history         = 0;
+    packet->infrapoints     = 0;
   }
 
 #ifdef FREECIV_WEB

@@ -52,6 +52,7 @@ libgui_sdl2_la_SOURCES = \
 	gui_tilespec.h  \
 	helpdlg.c	\
 	helpdlg.h	\
+	infradlg.c	\
 	inteldlg.c	\
 	inteldlg.h	\
 	luaconsole.c	\

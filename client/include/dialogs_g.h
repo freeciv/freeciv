@@ -87,4 +87,6 @@ GUI_FUNC_PROTO(void, popdown_all_game_dialogs, void)
 
 GUI_FUNC_PROTO(bool, request_transport, struct unit *pcargo, struct tile *ptile)
 
+GUI_FUNC_PROTO(void, update_infra_dialog, void)
+
 #endif  /* FC__DIALOGS_G_H */

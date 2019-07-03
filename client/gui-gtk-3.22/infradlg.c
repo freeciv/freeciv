@@ -26,6 +26,7 @@
 
 /* client */
 #include "client_main.h"
+#include "dialogs_g.h"
 
 /* client/gui-gtk3.22 */
 #include "gui_main.h"
@@ -35,6 +36,7 @@
 
 static GtkWidget *infra_list_grid = NULL;
 static GtkWidget *instruction_label = NULL;
+static GtkWidget *points_label = NULL;
 static int infra_rows = 0;
 
 struct infra_cb_data {
@@ -43,12 +45,21 @@ struct infra_cb_data {
 };
 
 /************************************************************************//**
+  Is infra dialog currently open?
+****************************************************************************/
+static bool infra_dialog_open(void)
+{
+  return infra_list_grid != NULL;
+}
+
+/************************************************************************//**
   Handle infra dialog closing.
 ****************************************************************************/
 static void infra_response_callback(GtkWidget *dlg, gint arg)
 {
   infra_list_grid = NULL;
   instruction_label = NULL;
+  points_label = NULL;
   infra_rows = 0;
 
   gtk_widget_destroy(dlg);
@@ -74,7 +85,7 @@ void infra_dialog_popup(void)
   GtkWidget *main_box;
   GtkWidget *sep;
 
-  if (infra_list_grid != NULL) {
+  if (infra_dialog_open()) {
     /* One infra dialog already open. */
     return;
   }
@@ -97,6 +108,12 @@ void infra_dialog_popup(void)
   sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
   gtk_container_add(GTK_CONTAINER(main_box), sep);
 
+  points_label = gtk_label_new(_("- infrapoints"));
+  gtk_container_add(GTK_CONTAINER(main_box), points_label);
+
+  sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
+  gtk_container_add(GTK_CONTAINER(main_box), sep);
+
   infra_list_grid = gtk_grid_new();
   gtk_container_add(GTK_CONTAINER(main_box), infra_list_grid);
 
@@ -108,6 +125,23 @@ void infra_dialog_popup(void)
 
   gtk_widget_show_all(gtk_dialog_get_content_area(GTK_DIALOG(dlg)));
   gtk_widget_show(dlg);
+
+  update_infra_dialog();
+}
+
+/************************************************************************//**
+  Refresh infra dialog
+****************************************************************************/
+void update_infra_dialog(void)
+{
+  if (infra_dialog_open()) {
+    char buffer[100];
+
+    fc_snprintf(buffer, sizeof(buffer), _("%d infrapoints"),
+                client.conn.playing->economic.infra_points);
+
+    gtk_label_set_text(GTK_LABEL(points_label), buffer);
+  }
 }
 
 /************************************************************************//**

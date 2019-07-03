@@ -21,6 +21,7 @@
 #include "hand_gen.h"
 #include "maphand.h"
 #include "notify.h"
+#include "plrhand.h"
 
 /************************************************************************//**
   Handle player_place_infra packet
@@ -56,6 +57,7 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
   }
 
   pplayer->economic.infra_points--;
+  send_player_info_c(pplayer, pplayer->connections);
 
   create_extra(ptile, pextra, pplayer);
   update_tile_knowledge(ptile);

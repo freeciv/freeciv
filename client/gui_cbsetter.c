@@ -116,6 +116,8 @@ void setup_gui_funcs()
 
   funcs->request_transport = gui_request_transport;
 
+  funcs->update_infra_dialog = gui_update_infra_dialog;
+
   funcs->gui_load_theme = gui_gui_load_theme;
   funcs->gui_clear_theme = gui_gui_clear_theme;
   funcs->get_gui_specific_themes_directories = gui_get_gui_specific_themes_directories;

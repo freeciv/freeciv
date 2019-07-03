@@ -11,10 +11,16 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__GUI_STUB_H
-#define FC__GUI_STUB_H
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
 
-/* gui-stub is implemented through callback interface */
-#define GUI_CB_MODE 1
+/* client */
+#include "dialogs_g.h"
 
-#endif  /* FC__GUI_STUB_H */
+/************************************************************************//**
+  Refresh infra dialog
+****************************************************************************/
+void update_infra_dialog(void)
+{
+}
