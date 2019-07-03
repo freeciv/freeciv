@@ -2530,7 +2530,9 @@ static struct setting settings[] = {
            N_("This option controls whether tiles with both unreachable "
               "and reachable units can be attacked. If disabled, any "
               "tile with reachable units can be attacked. If enabled, "
-              "tiles with an unreachable unit in them cannot be attacked."),
+              "tiles with an unreachable unit in them cannot be attacked. "
+              "Some units in some rulesets may override this, never "
+              "protecting reachable units on their tile."),
            NULL, NULL, GAME_DEFAULT_UNRPROTECTS)
 
   GEN_INT("contactturns", game.server.contactturns,

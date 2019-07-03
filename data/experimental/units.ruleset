@@ -392,6 +392,9 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ;                 do so even if has better odds when defending against it
 ;                 then when attacking it. Applies when the autoattack server
 ;                 setting is enabled.
+; "NeverProtects" = doesn't protect reachable units on its tile from enemy
+;                 attackers, even if the unreachableprotects server setting
+;                 is enabled and the unit class is unreachable
 ;
 ; Following actions require extra fields:
 ;  "Attack" and "Suicide Attack"

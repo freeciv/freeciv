@@ -495,6 +495,9 @@ utypes = "\
 ;                 do so even if has better odds when defending against it\n\
 ;                 then when attacking it. Applies when the autoattack server\n\
 ;                 setting is enabled.\n\
+; \"NeverProtects\" = doesn\'t protect reachable units on its tile from enemy\n\
+;                 attackers, even if the unreachableprotects server setting\n\
+;                 is enabled and the unit class is unreachable\n\
 ;\n\
 ; Following actions require extra fields:\n\
 ;  \"Attack\" and \"Suicide Attack\"\n\

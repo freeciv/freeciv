@@ -107,11 +107,11 @@ bool is_unit_reachable_at(const struct unit *defender,
 
   Unit can NOT attack if:
   1) its unit type is unable to perform any attack action.
-  2) it is not a fighter and defender is a flying unit (except city/airbase).
-  3) it is a ground unit without marine ability and it attacks from ocean.
-  4) it is a ground unit and it attacks a target on an ocean square or
+  2) it is a ground unit without marine ability and it attacks from ocean.
+  3) it is a ground unit and it attacks a target on an ocean square or
      it is a sailing unit without shore bombardment capability and it
      attempts to attack land.
+  4) it is not a fighter and defender is a flying unit (except city/airbase).
 
   Does NOT check:
   1) Moves left
@@ -131,12 +131,7 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
     return ATT_NON_ATTACK;
   }
 
-  /* 2. Only fighters can attack planes, except in city or airbase attacks */
-  if (!is_unit_reachable_at(pdefender, punit, dest_tile)) {
-    return ATT_UNREACHABLE;
-  }
-
-  /* 3. Can't attack with ground unit from ocean, except for marines */
+  /* 2. Can't attack with ground unit from ocean, except for marines */
   if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
       && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_ATTACK,
                                        USP_NATIVE_TILE, FALSE)
@@ -146,12 +141,20 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
     return ATT_NONNATIVE_SRC;
   }
 
-  /* 4. Most units can not attack non-native terrain.
+  /* 3. Most units can not attack non-native terrain.
    *    Most ships can attack land tiles (shore bombardment) */
   if (!is_native_tile(unit_type_get(punit), dest_tile)
       && !can_attack_non_native(unit_type_get(punit))) {
     return ATT_NONNATIVE_DST;
   }
+
+  /* 4. Only fighters can attack planes, except in city or airbase attacks */
+  if (!is_unit_reachable_at(pdefender, punit, dest_tile)) {
+    return ATT_UNREACHABLE;
+  }
+
+  /* Unreachability check must remain the last check, as callers interpret
+   * ATT_UNREACHABLE as "ATT_OK except that unreachable." */
 
   return ATT_OK;
 }
@@ -159,11 +162,14 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
 /*******************************************************************//**
   When unreachable_protects setting is TRUE:
   To attack a stack, unit must be able to attack every unit there (not
-  including transported units).
+  including transported units and UTYF_NEVER_PROTECTS units).
 ************************************************************************/
 static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit *punit,
                                                               const struct tile *ptile)
 {
+  bool any_reachable_unit = FALSE;
+  bool any_neverprotect_unit = FALSE;
+
   unit_list_iterate(ptile->units, aunit) {
     /* HACK: we don't count transported units here.  This prevents some
      * bugs like a submarine carrying a cruise missile being invulnerable
@@ -171,16 +177,24 @@ static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit 
      * since players can load and unload their units manually to protect
      * their transporters. */
     if (!unit_transported(aunit)) {
-        enum unit_attack_result result;
+      enum unit_attack_result result;
 
-        result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
-        if (result != ATT_OK) {
-          return result;
-        }
+      result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
+      if (result == ATT_UNREACHABLE
+          && unit_has_type_flag(aunit, UTYF_NEVER_PROTECTS)) {
+        /* Doesn't prevent us from attacking other units on the tile */
+        any_neverprotect_unit = TRUE;
+        continue;
+      } else if (result != ATT_OK) {
+        return result;
       }
+      any_reachable_unit = TRUE;
+    }
   } unit_list_iterate_end;
 
-  return ATT_OK;
+  /* If there are only unreachable, UTYF_NEVER_PROTECTS units, we still have
+   * to return ATT_UNREACHABLE. */
+  return (any_reachable_unit || !any_neverprotect_unit) ? ATT_OK : ATT_UNREACHABLE;
 }
 
 /*******************************************************************//**

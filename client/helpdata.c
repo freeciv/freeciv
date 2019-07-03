@@ -1756,6 +1756,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
+    if (utype_has_flag(utype, UTYF_NEVER_PROTECTS)) {
+      CATLSTR(buf, bufsz,
+	      _("    * Doesn't prevent enemy units from attacking other "
+                "units on its tile.\n"));
+    }
   }
   if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
     CATLSTR(buf, bufsz,
