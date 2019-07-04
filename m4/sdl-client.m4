@@ -30,7 +30,8 @@ AC_DEFUN([FC_SDL_CLIENT],
         missing_project="SDL_gfx"
       fi
       if test "x$sdl_h_found" = "xyes" ; then
-        AC_CHECK_FT2([2.1.3], [freetype_found="yes"], [freetype_found="no"])
+        PKG_CHECK_MODULES([FT2], [freetype2 >= 7.0.1], [freetype_found="yes"],
+           [AC_CHECK_FT2([2.1.3], [freetype_found="yes"], [freetype_found="no"])])
         if test "$freetype_found" = yes; then
 	  gui_sdl_cflags="$gui_sdl_cflags $FT2_CFLAGS"
 	  gui_sdl_libs="$gui_sdl_libs $FT2_LIBS"
