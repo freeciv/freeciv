@@ -1321,6 +1321,18 @@ executable('freeciv-mp-gtk3',
 
 endif
 
+if get_option('fcmp').contains('cli')
+
+executable('freeciv-mp-cli',
+  'tools/fcmp/mpcli.c',
+  include_directories: tool_inc,
+  dependencies: [c_compiler.find_library('libsqlite3')],
+  link_with: [common_lib, fcmp_common],
+  install: true
+  )
+
+endif
+
 tool_lib = static_library('fc_toolutil',
   'tools/ruleutil/comments.c',
   'tools/ruleutil/rulesave.c',

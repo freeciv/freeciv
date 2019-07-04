@@ -103,5 +103,5 @@ clients (array):
 
 fcmp (array):
   List of freeciv modpack installer UIs to build. To disable their build
-  completely, give an empty array ('-Dfcmp=[]'). Currently only gtk3 gui
-  build is supported ('-Dfcmp=gtk3'). By default builds gtk3 UI.
+  completely, give an empty array ('-Dfcmp=[]'). Currently gtk3, and cli
+  are supported ('-Dfcmp=gtk3'). By default builds just gtk3 UI.
