@@ -3339,8 +3339,10 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("May randomly appear around nuclear blast.\n"));
   }
 
-  if (is_extra_caused_by(pextra, EC_HUT)
-      || (proad != NULL && road_has_flag(proad, RF_RIVER))) {
+  if (pextra->generated
+      && (is_extra_caused_by(pextra, EC_HUT)
+          || is_extra_caused_by(pextra, EC_RESOURCE)
+          || (proad != NULL && road_has_flag(proad, RF_RIVER)))) {
     CATLSTR(buf, bufsz,
             _("Placed by map generator.\n"));
   }
