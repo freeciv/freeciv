@@ -415,7 +415,7 @@ helptext      = _("\
 [unit_warriors]
 name          = _("Warriors")
 class         = "Generic"
-tech_req      = "None"
+tech_req      = "Cave Painting"
 obsolete_by   = "None"
 graphic       = "u.warriors"
 graphic_alt   = "-"
@@ -446,7 +446,7 @@ helptext      = _("\
 [unit_settlers]
 name          = _("Settlers")
 class         = "Generic"
-tech_req      = "None"
+tech_req      = "Fire"
 obsolete_by   = "None"
 graphic       = "u.settlers"
 graphic_alt   = "-"
@@ -476,7 +476,7 @@ helptext      = _("\
 [unit_ship]
 name          = _("Generic Ship")
 class         = "Generic Ship"
-tech_req      = "None"
+tech_req      = "Carving"
 obsolete_by   = "None"
 graphic       = "u.warriors"
 graphic_alt   = "-"

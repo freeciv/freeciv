@@ -113,11 +113,38 @@ format_version=20
 ;
 ; */ <-- avoid gettext warnings
 
-[advance_generic]
-name        = _("Generic Tech");
+[advance_carving]
+name        = _("Carving");
+req1        = "Tools"
+req2        = "None"
+flags       = ""
+graphic     = "a.carving"
+graphic_alt = "-"
+helptext    = _("Boats can be carved from wood.");
+
+[advance_cave_painting]
+name        = _("Cave Painting");
 req1        = "None"
 req2        = "None"
 flags       = ""
-graphic     = "a.alphabet"
+graphic     = "a.cave_painting"
+graphic_alt = "a.alphabet"
+helptext    = _("Cave Paintings record hunting and fights.");
+
+[advance_fire]
+name        = _("Fire");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.fire"
 graphic_alt = "-"
-helptext    = _("This is the only technology you can research.");
+helptext    = _("With fire, there can be a place to live permanently.");
+
+[advance_tools]
+name        = _("Tools");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.tools"
+graphic_alt = "-"
+helptext    = _("Anything can be done with right tools.");
