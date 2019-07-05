@@ -182,4 +182,16 @@ void adv_choice_log_info(struct adv_choice *choice, const char *loc1, const char
   }
 }
 
+/**********************************************************************//**
+  Return choice use string
+**************************************************************************/
+const char *adv_choice_get_use(const struct adv_choice *choice)
+{
+  if (choice->use == NULL) {
+    return "(unset)";
+  }
+
+  return choice->use;
+}
+
 #endif /* ADV_CHOICE_TRACK */
