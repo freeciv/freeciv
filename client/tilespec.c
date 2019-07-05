@@ -4285,12 +4285,18 @@ static int fill_unit_sprite_array(const struct tileset *t,
         s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       }
       break;
+    case ACTIVITY_PLANT:
+      s = t->sprites.unit.plant;
+      break;
     case ACTIVITY_IRRIGATE:
      if (punit->activity_target == NULL) {
         s = t->sprites.unit.irrigate;
       } else {
         s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       }
+      break;
+    case ACTIVITY_CULTIVATE:
+      s = t->sprites.unit.irrigate;
       break;
     case ACTIVITY_POLLUTION:
     case ACTIVITY_FALLOUT:
@@ -5959,6 +5965,11 @@ int fill_sprite_array(struct tileset *t,
                          FULL_TILE_Y_OFFSET + t->activity_offset_y);
             }
             break;
+          case ACTIVITY_PLANT:
+            ADD_SPRITE(t->sprites.unit.plant,
+                       TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
+            break;
           case ACTIVITY_IRRIGATE:
             if (ptask->tgt == NULL) {
               ADD_SPRITE(t->sprites.unit.irrigate,
@@ -5969,6 +5980,11 @@ int fill_sprite_array(struct tileset *t,
                          TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
                          FULL_TILE_Y_OFFSET + t->activity_offset_y);
             }
+            break;
+          case ACTIVITY_CULTIVATE:
+            ADD_SPRITE(t->sprites.unit.irrigate,
+                       TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;
           case ACTIVITY_GEN_ROAD:
             ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
