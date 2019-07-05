@@ -582,7 +582,11 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UINT16 prod[O_LAST];
   SINT16 citizen_base[O_LAST];
   SINT16 usage[O_LAST];
-  UINT16 food_stock, shield_stock;
+
+  # Food stock can be temporarily negative while server is disbanding
+  # units which drain it by their upkeep.
+  SINT16 food_stock;
+  UINT16 shield_stock;
 
   UINT16 trade[MAX_TRADE_ROUTES];
   UINT8 trade_value[MAX_TRADE_ROUTES];
