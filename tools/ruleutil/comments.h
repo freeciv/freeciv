@@ -17,6 +17,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#define COMMENTS_FILE_NAME "comments-3.1.txt"
+
 struct section_file;
 
 bool comments_load(void);

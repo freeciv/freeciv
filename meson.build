@@ -516,7 +516,7 @@ executable('freeciv-server',
 
 
 install_data(
-  'data/ruledit/comments.txt',
+  'data/ruledit/comments-3.1.txt',
   install_dir : join_paths(get_option('datadir'), 'freeciv/ruledit')
   )
 

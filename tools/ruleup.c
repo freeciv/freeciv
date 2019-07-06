@@ -189,7 +189,9 @@ int main(int argc, char **argv)
     }
 
     if (!comments_load()) {
-      log_error(R__("Failed to load comments.txt"));
+      /* TRANS: 'Failed to load comments-x.y.txt' where x.y is
+       * freeciv version */
+      log_error(R__("Failed to load %s."), COMMENTS_FILE_NAME);
     }
 
     save_ruleset(tgt_dir, game.control.name, &data);
