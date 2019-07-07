@@ -1399,6 +1399,10 @@ value   = 1
 [effect_mining_tf]
 type    = "Mining_TF_Possible"
 value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Extra", "River", "Local", FALSE
+    }
 
 [effect_pollution]
 type	= "Output_Tile_Punish_Pct"
