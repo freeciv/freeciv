@@ -640,11 +640,16 @@ char *mapimg_help(const char *cmdname)
   /* Possible 'show' settings. */
   for (showplr = show_player_begin(); showplr != show_player_end();
        showplr = show_player_next(showplr)) {
-    char name[10];
-    fc_snprintf(name, sizeof(name), "'%s'", show_player_name(showplr));
-    astr_add(&str_showplr, " - %-9s %s", name, showname_help(showplr));
-    if (showplr != show_player_max()) {
-      astr_add(&str_showplr, "\n");
+    const char *nameptr = show_player_name(showplr);
+
+    if (nameptr != NULL) {
+      char name[10];
+
+      fc_snprintf(name, sizeof(name), "'%s'", nameptr);
+      astr_add(&str_showplr, " - %-9s %s", name, showname_help(showplr));
+      if (showplr != show_player_max()) {
+        astr_add(&str_showplr, "\n");
+      }
     }
   }
 
