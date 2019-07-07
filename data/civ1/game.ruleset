@@ -615,6 +615,10 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
+target_reqs   =
+    { "type",          "name",         "range", "present"
+      "Extra",         "River",        "Local", FALSE
+    }
 
 [actionenabler_pillage]
 action        = "Pillage"
