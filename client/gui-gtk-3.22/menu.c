@@ -1825,7 +1825,7 @@ static void menu_entry_init(GtkBuildable *item)
       if (path == NULL) {
         char buf[512];
 
-        fc_snprintf(buf, sizeof(buf), "<MENU>/%s", key + strlen("MENU_"));
+        fc_snprintf(buf, sizeof(buf), "<MENU>/%s", key);
         gtk_menu_item_set_accel_path(GTK_MENU_ITEM(item), buf);
         path = buf; /* Not NULL, but not usable either outside this block */
       }
