@@ -15,6 +15,20 @@ Freeciv saves current game situation as a scenario file, with the full
 uses "Save Scenario" from the client Edit -menu.
 
 
+Compatibility:
+--------------
+Freeciv can load savegames saved by older versions. How far back this
+is supported depends on version. Scenario files are often not updated
+to the latest savegame format version, but can be of such older version.
+When editing such older format savegames, one needs to be consistent
+with the format version. One cannot use features of the newer format
+in older format savegame even though freeciv server can load both
+older format and newer format.
+This document describes the current format of the freeciv version it
+comes with. Some things described here should not be used when
+editing savegames with older format.
+
+
 [scenario] section:
 -------------------
 Savegame [scenario] section can have following fields
